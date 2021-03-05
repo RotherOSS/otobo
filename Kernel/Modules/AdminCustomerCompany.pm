@@ -69,7 +69,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Change' ) {
         my $CustomerID   = $ParamObject->GetParam( Param => 'CustomerID' )   || $ParamObject->GetParam( Param => 'ID' ) || '';
         my $Notification = $ParamObject->GetParam( Param => 'Notification' ) || '';
-        my %Data = $CustomerCompanyObject->CustomerCompanyGet(
+        my %Data         = $CustomerCompanyObject->CustomerCompanyGet(
             CustomerID => $CustomerID,
         );
         $Data{CustomerCompanyID} = $CustomerID;
@@ -226,10 +226,10 @@ sub Run {
                     if ( !$ValueSet ) {
                         $SetDFError
                             .= $LayoutObject->Notify(
-                            Info => $LayoutObject->{LanguageObject}->Translate(
-                                'Unable to set value for dynamic field %s!',
-                                $Entry->[2],
-                            ),
+                                Info => $LayoutObject->{LanguageObject}->Translate(
+                                    'Unable to set value for dynamic field %s!',
+                                    $Entry->[2],
+                                ),
                             );
                         next ENTRY;
                     }
@@ -472,10 +472,10 @@ sub Run {
                     if ( !$ValueSet ) {
                         $Output
                             .= $LayoutObject->Notify(
-                            Info => $LayoutObject->{LanguageObject}->Translate(
-                                'Unable to set value for dynamic field %s!',
-                                $Entry->[2],
-                            ),
+                                Info => $LayoutObject->{LanguageObject}->Translate(
+                                    'Unable to set value for dynamic field %s!',
+                                    $Entry->[2],
+                                ),
                             );
                         next ENTRY;
                     }

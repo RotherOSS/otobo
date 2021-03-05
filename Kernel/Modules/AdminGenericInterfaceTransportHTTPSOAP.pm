@@ -136,10 +136,10 @@ sub Run {
     # Get common settings.
     for my $Param (
         qw(
-        NameSpace
-        SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
-        RequestNameScheme RequestNameFreeText
-        ResponseNameScheme ResponseNameFreeText
+            NameSpace
+            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+            RequestNameScheme RequestNameFreeText
+            ResponseNameScheme ResponseNameFreeText
         )
         )
     {
@@ -336,10 +336,10 @@ sub _ShowEdit {
     # Extract display parameters from transport config.
     for my $ParamName (
         qw(
-        Endpoint NameSpace Encoding MaxLength Timeout
-        RequestNameFreeText ResponseNameFreeText
-        SOAPActionFreeText
-        AdditionalHeaders
+            Endpoint NameSpace Encoding MaxLength Timeout
+            RequestNameFreeText ResponseNameFreeText
+            SOAPActionFreeText
+            AdditionalHeaders
         )
         )
     {
@@ -614,12 +614,12 @@ sub _GetParams {
     # Get parameters from web browser.
     for my $ParamName (
         qw(
-        Endpoint NameSpace Encoding MaxLength Sort Timeout
-        AuthType BasicAuthUser BasicAuthPassword
-        UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
-        UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
-        SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
-        RequestNameFreeText ResponseNameFreeText RequestNameScheme ResponseNameScheme
+            Endpoint NameSpace Encoding MaxLength Sort Timeout
+            AuthType BasicAuthUser BasicAuthPassword
+            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+            RequestNameFreeText ResponseNameFreeText RequestNameScheme ResponseNameScheme
         )
         )
     {

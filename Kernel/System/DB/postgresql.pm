@@ -74,7 +74,11 @@ ORDER BY table_name
 EOF
 
     # how to turn off foreign key checks for the current session
+    # Attention: all triggers will be deactivated
     $Self->{'DB::DeactivateForeignKeyChecks'} = 'set session_replication_role to replica;';
+
+    # how to delete all rows of a table, use with sprintf for inserting the table name
+    $Self->{'DB::PurgeTable'} = 'DELETE FROM %s';
 
     # dbi attributes
     $Self->{'DB::Attribute'} = {};

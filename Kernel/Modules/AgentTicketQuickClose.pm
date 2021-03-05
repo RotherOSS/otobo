@@ -104,12 +104,12 @@ sub Run {
     my $ArticleID = $ArticleBackendObject->ArticleCreate(
         TicketID             => $Self->{TicketID},
         SenderType           => $Config->{SenderType} || 'agent',
-        Subject              => $Config->{Subject} || 'Ticket closed',
-        Body                 => $Config->{Body} || 'Ticket closed',
+        Subject              => $Config->{Subject}    || 'Ticket closed',
+        Body                 => $Config->{Body}       || 'Ticket closed',
         From                 => $LayoutObject->{UserFullname},
-        ContentType          => $Config->{ContentType} || 'text/plain; charset=utf-8',
-        HistoryType          => $Config->{HistoryType} || 'AddNote',
-        HistoryComment       => $Config->{HistoryComment} || 'Ticket was closed',
+        ContentType          => $Config->{ContentType}          || 'text/plain; charset=utf-8',
+        HistoryType          => $Config->{HistoryType}          || 'AddNote',
+        HistoryComment       => $Config->{HistoryComment}       || 'Ticket was closed',
         IsVisibleForCustomer => $Config->{IsVisibleForCustomer} || '0',
         UserID               => $Self->{UserID},
     );

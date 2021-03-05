@@ -836,8 +836,8 @@ sub Run {
                     Data => {
                         %Param,
                         OrderBy              => $OrderBy,
-                        ColumnName           => $Column || '',
-                        CSS                  => $CSS || '',
+                        ColumnName           => $Column         || '',
+                        CSS                  => $CSS            || '',
                         ColumnNameTranslated => $TranslatedWord || $Column,
                         Title                => $Title,
                     },

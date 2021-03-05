@@ -68,7 +68,7 @@ sub Run {
         if ( $Result{Success} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message =>
+                Message  =>
                     "System Registration: User $Self->{UserID} changed Support Data Sending to: $SupportDataSending!",
             );
 

@@ -249,8 +249,8 @@ sub Run {
                         Task           => $PerlTask,
                         UserID         => 1,
                         OTRSData       => $OTRSData // {},
-                        DBData         => $DBData // {},
-                        PackageResolve => $Resolve // {},
+                        DBData         => $DBData   // {},
+                        PackageResolve => $Resolve  // {},
                     );
                 };
                 if ( !$Result || !defined $Result->{$PerlTask}{Successful} ) {

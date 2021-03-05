@@ -127,7 +127,7 @@ sub Run {
             %Param,
             Name        => Translatable('Unlock'),
             Description => Translatable('Unlock to give it back to the queue'),
-            Link =>
+            Link        =>
                 'Action=AgentTicketLock;Subaction=Unlock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
         };
     }
@@ -139,7 +139,7 @@ sub Run {
         %Param,
         Name        => Translatable('Lock'),
         Description => Translatable('Lock it to work on it'),
-        Link =>
+        Link        =>
             'Action=AgentTicketLock;Subaction=Lock;TicketID=[% Data.TicketID | uri %];[% Env("ChallengeTokenParam") | html %]',
     };
 }

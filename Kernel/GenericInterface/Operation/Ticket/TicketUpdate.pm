@@ -581,7 +581,7 @@ sub Run {
         for my $DynamicFieldItem (@DynamicFieldList) {
             if ( !IsHashRefWithData($DynamicFieldItem) ) {
                 return {
-                    ErrorCode => 'TicketUpdate.InvalidParameter',
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
                     ErrorMessage =>
                         "TicketUpdate: Ticket->DynamicField parameter is invalid!",
                 };
@@ -630,7 +630,7 @@ sub Run {
         for my $AttachmentItem (@AttachmentList) {
             if ( !IsHashRefWithData($AttachmentItem) ) {
                 return {
-                    ErrorCode => 'TicketUpdate.InvalidParameter',
+                    ErrorCode    => 'TicketUpdate.InvalidParameter',
                     ErrorMessage =>
                         "TicketUpdate: Ticket->Attachment parameter is invalid!",
                 };
@@ -707,7 +707,7 @@ sub _CheckTicket {
         )
     {
         return {
-            ErrorCode => 'TicketUpdate.InvalidParameter',
+            ErrorCode    => 'TicketUpdate.InvalidParameter',
             ErrorMessage =>
                 "TicketUpdate: Ticket->CustomerUser parameter is invalid!",
         };
@@ -739,7 +739,7 @@ sub _CheckTicket {
     if ( $Ticket->{TypeID} || $Ticket->{Type} ) {
         if ( !$Self->ValidateType( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketUpdate.InvalidParameter',
+                ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
                     "TicketUpdate: Ticket->TypeID or Ticket->Type parameter is invalid!",
             };
@@ -762,7 +762,7 @@ sub _CheckTicket {
             )
         {
             return {
-                ErrorCode => 'TicketUpdate.InvalidParameter',
+                ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
                     "TicketUpdate: Ticket->ServiceID or Ticket->Service parameter is invalid!",
             };
@@ -788,7 +788,7 @@ sub _CheckTicket {
             )
         {
             return {
-                ErrorCode => 'TicketUpdate.InvalidParameter',
+                ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
                     "TicketUpdate: Ticket->SLAID or Ticket->SLA parameter is invalid!",
             };
@@ -821,7 +821,7 @@ sub _CheckTicket {
     if ( $Ticket->{OwnerID} || $Ticket->{Owner} ) {
         if ( !$Self->ValidateOwner( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketUpdate.InvalidParameter',
+                ErrorCode    => 'TicketUpdate.InvalidParameter',
                 ErrorMessage =>
                     "TicketUpdate: Ticket->OwnerID or Ticket->Owner parameter is invalid!",
             };
@@ -1195,7 +1195,7 @@ sub _CheckDynamicField {
         )
     {
         return {
-            ErrorCode => 'TicketUpdate.MissingParameter',
+            ErrorCode    => 'TicketUpdate.MissingParameter',
             ErrorMessage =>
                 "TicketUpdate: To create an article DynamicField an article is required!",
         };
@@ -1567,7 +1567,7 @@ sub _TicketUpdate {
         );
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket title could not be updated, please contact system administrator!',
             };
@@ -1599,7 +1599,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 ErrorMessage =>
                     'Ticket queue could not be updated, please contact system administrator!',
             };
@@ -1631,7 +1631,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket lock could not be updated, please contact system administrator!',
             };
@@ -1664,7 +1664,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket type could not be updated, please contact system administrator!',
             };
@@ -1719,7 +1719,7 @@ sub _TicketUpdate {
 
                 if ( !$Success ) {
                     return {
-                        Success => 0,
+                        Success      => 0,
                         Errormessage =>
                             'Ticket pendig time could not be updated, please contact system'
                             . ' administrator!',
@@ -1758,7 +1758,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket state could not be updated, please contact system administrator!',
             };
@@ -1776,7 +1776,7 @@ sub _TicketUpdate {
             if (
                 !$Self->ValidateSLA(
                     SLAID     => $TicketData{SLAID},
-                    Service   => $Ticket->{Service} || '',
+                    Service   => $Ticket->{Service}   || '',
                     ServiceID => $Ticket->{ServiceID} || '',
                 )
                 )
@@ -1824,7 +1824,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket service could not be updated, please contact system administrator!',
             };
@@ -1866,7 +1866,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket SLA could not be updated, please contact system administrator!',
             };
@@ -1910,7 +1910,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket customer user could not be updated, please contact system administrator!',
             };
@@ -1943,7 +1943,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket priority could not be updated, please contact system administrator!',
             };
@@ -1980,7 +1980,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket owner could not be updated, please contact system administrator!',
             };
@@ -2020,7 +2020,7 @@ sub _TicketUpdate {
 
         if ( !$Success ) {
             return {
-                Success => 0,
+                Success      => 0,
                 Errormessage =>
                     'Ticket responsible could not be updated, please contact system administrator!',
             };
@@ -2110,7 +2110,7 @@ sub _TicketUpdate {
             NoAgentNotify        => $Article->{NoAgentNotify} || 0,
             TicketID             => $TicketID,
             SenderTypeID         => $Article->{SenderTypeID} || '',
-            SenderType           => $Article->{SenderType} || '',
+            SenderType           => $Article->{SenderType}   || '',
             IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
             From                 => $From,
             To                   => $To,
@@ -2118,8 +2118,8 @@ sub _TicketUpdate {
             Bcc                  => $Bcc,
             Subject              => $Article->{Subject},
             Body                 => $Article->{Body},
-            MimeType             => $Article->{MimeType} || '',
-            Charset              => $Article->{Charset} || '',
+            MimeType             => $Article->{MimeType}    || '',
+            Charset              => $Article->{Charset}     || '',
             ContentType          => $Article->{ContentType} || '',
             UserID               => $Param{UserID},
             HistoryType          => $Article->{HistoryType},
@@ -2136,7 +2136,7 @@ sub _TicketUpdate {
 
         if ( !$ArticleID ) {
             return {
-                Success => 0,
+                Success      => 0,
                 ErrorMessage =>
                     'Article could not be created, please contact the system administrator'
             };

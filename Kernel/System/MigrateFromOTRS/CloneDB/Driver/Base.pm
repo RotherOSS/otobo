@@ -588,7 +588,7 @@ sub DataTransfer {
 
             # drop foreign keys in the source
             my $SourceForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                undef, undef, undef,
+                undef, undef,         undef,
                 undef, $SourceSchema, $SourceTable
             );
 
@@ -613,7 +613,7 @@ sub DataTransfer {
             # readd foreign keys in the target
             $TargetAddForeignKeysClauses{$TargetTable} //= [];
             my $TargetForeignKeySth = $TargetDBObject->{dbh}->foreign_key_info(
-                undef, undef, undef,
+                undef, undef,         undef,
                 undef, $TargetSchema, $TargetTable
             );
 
@@ -640,15 +640,20 @@ sub DataTransfer {
         # In the RENAME case the table will eventually be dropped,
         # but until then the truncated table provides info about columns and
         # foreign keys.
-        my $TrunkateSuccess = $TargetDBObject->Do( SQL => "TRUNCATE TABLE $TargetTable" );
+        # The SQL is driver dependent because PostgreSQL 11 does not honor
+        # the deactivation of foreign key check with 'TRUNCATE TABLE'.
+        {
+            my $PurgeSQL = sprintf $TargetDBObject->GetDatabaseFunction('PurgeTable'), $TargetTable;
+            my $Success  = $TargetDBObject->Do( SQL => $PurgeSQL );
 
-        if ( !$TrunkateSuccess ) {
-            $MigrationBaseObject->MigrationLog(
-                String   => "Could not truncate target table '$TargetTable'",
-                Priority => "error",
-            );
+            if ( !$Success ) {
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Could not truncate target table '$TargetTable'",
+                    Priority => 'error',
+                );
 
-            return;    # bail out
+                return;    # bail out
+            }
         }
     }
 

@@ -57,8 +57,8 @@ sub Run {
     my %Filter = (
         CustomerUserID => $Param{UserID},
         StateType      => $Param{Config}{StateType} || '',
-        SortBy         => $Param{Config}{SortBy} || 'Age',
-        OrderBy        => $Param{Config}{OrderBy} || 'Down',
+        SortBy         => $Param{Config}{SortBy}    || 'Age',
+        OrderBy        => $Param{Config}{OrderBy}   || 'Down',
         Permission     => 'ro',
     );
 
@@ -68,7 +68,7 @@ sub Run {
         if ( $ConfigObject->Get('Ticket::Frontend::CustomerDisableCompanyTicketAccess') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     'Company Tickets can not be shown with Ticket::Frontend::CustomerDisableCompanyTicketAccess set!',
             );
             return '';

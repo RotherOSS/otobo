@@ -144,7 +144,7 @@ sub Content {
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Could not load web service configuration for query string '$RequestURI'",
         );
 
@@ -252,7 +252,7 @@ sub Content {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
@@ -377,7 +377,7 @@ sub Content {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 

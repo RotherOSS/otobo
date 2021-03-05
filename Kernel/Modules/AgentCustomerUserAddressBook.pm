@@ -74,12 +74,12 @@ sub Run {
     $Self->{OrderBy} = $ParamObject->GetParam( Param => 'OrderBy' )
         || $Self->{Config}->{SearchParameters}->{ $Self->{RecipientType} }->{'Order::Default'}
         || 'Up';
-    $Self->{Profile}        = $ParamObject->GetParam( Param => 'Profile' )        || '';
-    $Self->{SaveProfile}    = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
-    $Self->{TakeLastSearch} = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
-    $Self->{SelectTemplate} = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
-    $Self->{EraseTemplate}  = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
-    $Self->{RecipientField} = $ParamObject->GetParam( Param => 'RecipientField' );
+    $Self->{Profile}             = $ParamObject->GetParam( Param => 'Profile' )        || '';
+    $Self->{SaveProfile}         = $ParamObject->GetParam( Param => 'SaveProfile' )    || '';
+    $Self->{TakeLastSearch}      = $ParamObject->GetParam( Param => 'TakeLastSearch' ) || '';
+    $Self->{SelectTemplate}      = $ParamObject->GetParam( Param => 'SelectTemplate' ) || '';
+    $Self->{EraseTemplate}       = $ParamObject->GetParam( Param => 'EraseTemplate' )  || '';
+    $Self->{RecipientField}      = $ParamObject->GetParam( Param => 'RecipientField' );
     $Self->{RecipientFieldLabel} = $ParamObject->GetParam( Param => 'RecipientFieldLabel' ) || $Self->{RecipientField};
 
     if ( !$Self->{RecipientField} ) {

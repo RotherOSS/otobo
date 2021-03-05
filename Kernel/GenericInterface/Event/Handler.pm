@@ -147,8 +147,7 @@ sub Run {
                         if ( !$Loaded ) {
                             $LogObject->Log(
                                 Priority => 'error',
-                                Message =>
-                                    "Could not load $ObjectClass, skipping condition checks for event $InvokerEvent->{Event}!",
+                                Message  => "Could not load $ObjectClass, skipping condition checks for event $InvokerEvent->{Event}!",
                             );
                             next INVOKEREVENT;
                         }
@@ -234,7 +233,7 @@ sub Run {
                         my $WebServiceName = $WebserviceData->{Name} // 'N/A';
                         $LogObject->Log(
                             Priority => 'error',
-                            Message =>
+                            Message  =>
                                 "WebService $WebServiceName, Invoker $Invoker returned invalid execution time $ExecutionTime. Falling back to default!",
                         );
                     }
@@ -586,7 +585,7 @@ sub _ConditionCheck {
                 {
                     $LogObject->Log(
                         Priority => 'error',
-                        Message =>
+                        Message  =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a String if Type is set to String!",
                     );
@@ -685,8 +684,8 @@ sub _ConditionCheck {
                 my $CheckValue;
                 my @CheckResults =
                     map {
-                    $CheckValue = $_;
-                    grep { $CheckValue eq $_ } @{ $Param{Data}->{$FieldName} }
+                        $CheckValue = $_;
+                        grep { $CheckValue eq $_ } @{ $Param{Data}->{$FieldName} }
                     }
                     @{ $ActualCondition->{Fields}->{$FieldName}->{Match} };
 
@@ -720,7 +719,7 @@ sub _ConditionCheck {
                 if ( ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne 'HASH' ) {
                     $LogObject->Log(
                         Priority => 'error',
-                        Message =>
+                        Message  =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Hash!",
                     );
@@ -740,7 +739,7 @@ sub _ConditionCheck {
                 # Find all Data Hash values that equal to the Condition Match Values.
                 my @CheckResults =
                     grep {
-                    $Param{Data}->{$FieldName}->{$_} eq
+                        $Param{Data}->{$FieldName}->{$_} eq
                         $ActualCondition->{Fields}->{$FieldName}->{Match}->{$_}
                     }
                     keys %{ $ActualCondition->{Fields}->{$FieldName}->{Match} };
@@ -786,7 +785,7 @@ sub _ConditionCheck {
                 {
                     $LogObject->Log(
                         Priority => 'error',
-                        Message =>
+                        Message  =>
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Regular expression if Type is set to Regexp!",
                     );

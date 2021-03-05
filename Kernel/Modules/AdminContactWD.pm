@@ -201,8 +201,8 @@ sub Run {
         my $Output = $NavBar;
         $Output .= $Note
             ? $LayoutObject->Notify(
-            Priority => 'Error',
-            Info     => $Note,
+                Priority => 'Error',
+                Info     => $Note,
             )
             : '';
 
@@ -336,7 +336,7 @@ sub Run {
             return $LayoutObject->ErrorScreen(
                 Message =>
                     Translatable(
-                    'No sources found, at least one "Contact with data" dynamic field must be added to the system!'
+                        'No sources found, at least one "Contact with data" dynamic field must be added to the system!'
                     ),
                 Comment => Translatable('Please contact the administrator.'),
             );

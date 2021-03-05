@@ -47,7 +47,7 @@ sub Run {
 
     my $CommunicationType = IsStringWithData($Operation) ? 'Provider'  : 'Requester';
     my $ActionType        = IsStringWithData($Operation) ? 'Operation' : 'Invoker';
-    my $Action = $Operation || $Invoker;
+    my $Action            = $Operation || $Invoker;
 
     # Set mapping direction for display.
     my $MappingDirection = $Direction eq 'MappingOutbound'
@@ -531,7 +531,7 @@ sub _GetParams {
     PARAM_NAME:
     for my $ParamName (
         qw(
-        DefaultKeyType DefaultKeyMapTo DefaultValueType DefaultValueMapTo
+            DefaultKeyType DefaultKeyMapTo DefaultValueType DefaultValueMapTo
         )
         )
     {

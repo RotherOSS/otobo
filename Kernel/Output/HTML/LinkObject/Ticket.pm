@@ -301,7 +301,7 @@ sub TableCreateComplex {
         # user has no own settings
         for my $Column ( sort keys %UserColumns ) {
             if ( !$SortOrder{$Column} ) {
-                $SortOrder{$Column} = 0;               # Set 0, it system will hide this item anyways
+                $SortOrder{$Column} = 0;    # Set 0, it system will hide this item anyways
             }
         }
     }
@@ -804,18 +804,18 @@ sub SearchOptionList {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Type') ) {
         push @SearchOptionList,
             {
-            Key  => 'TypeIDs',
-            Name => Translatable('Type'),
-            Type => 'List',
+                Key  => 'TypeIDs',
+                Name => Translatable('Type'),
+                Type => 'List',
             };
     }
 
     if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::ArchiveSystem') ) {
         push @SearchOptionList,
             {
-            Key  => 'ArchiveID',
-            Name => Translatable('Archive search'),
-            Type => 'List',
+                Key  => 'ArchiveID',
+                Name => Translatable('Archive search'),
+                Type => 'List',
             };
     }
 

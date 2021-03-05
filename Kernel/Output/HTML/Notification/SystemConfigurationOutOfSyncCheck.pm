@@ -71,7 +71,7 @@ sub Run {
     if ( $DeploymentDateTimeObject >= $CurrentDateTimeObject ) {
         return $LayoutObject->Notify(
             Priority => 'Warning',
-            Data =>
+            Data     =>
                 $LayoutObject->{LanguageObject}->Translate("The configuration is being updated, please be patient..."),
         );
     }

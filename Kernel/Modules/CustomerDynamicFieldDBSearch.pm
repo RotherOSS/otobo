@@ -51,12 +51,12 @@ sub Run {
     #   customer interface, CustomerIserID and CustomerID are fixed.
     $Param{CustomerUserID} = $Self->{UserLogin};
     $Param{CustomerID}     = $Self->{UserCustomerID};
-    $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' ) || '';
+    $Param{Dest}           = $ParamObject->GetParam( Param => 'Dest' )       || '';
     $Param{PriorityID}     = $ParamObject->GetParam( Param => 'PriorityID' ) || '';
-    $Param{ServiceID}      = $ParamObject->GetParam( Param => 'ServiceID' ) || '';
-    $Param{SLAID}          = $ParamObject->GetParam( Param => 'SLAID' ) || '';
-    $Param{Subject}        = $ParamObject->GetParam( Param => 'Subject' ) || '';
-    $Param{TypeID}         = $ParamObject->GetParam( Param => 'TypeID' ) || '';
+    $Param{ServiceID}      = $ParamObject->GetParam( Param => 'ServiceID' )  || '';
+    $Param{SLAID}          = $ParamObject->GetParam( Param => 'SLAID' )      || '';
+    $Param{Subject}        = $ParamObject->GetParam( Param => 'Subject' )    || '';
+    $Param{TypeID}         = $ParamObject->GetParam( Param => 'TypeID' )     || '';
 
     # State could be selected in followup and also in process management.
     $Param{StateID} = $ParamObject->GetParam( Param => 'StateID' ) || '';

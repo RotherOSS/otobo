@@ -129,8 +129,8 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $Note
             ? $LayoutObject->Notify(
-            Priority => 'Error',
-            Info     => $Note,
+                Priority => 'Error',
+                Info     => $Note,
             )
             : '';
         $Self->_Edit(
@@ -232,8 +232,8 @@ sub Run {
         $Output .= $LayoutObject->NavigationBar();
         $Output .= $Note
             ? $LayoutObject->Notify(
-            Priority => 'Error',
-            Info     => $Note,
+                Priority => 'Error',
+                Info     => $Note,
             )
             : '';
         $Self->_Edit(

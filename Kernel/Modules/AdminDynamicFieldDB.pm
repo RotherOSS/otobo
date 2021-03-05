@@ -169,9 +169,9 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
-        DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-        SID Driver ResultLimit CaseSensitive
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
+            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
+            SID Driver ResultLimit CaseSensitive
         )
         )
     {
@@ -413,9 +413,9 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
-        DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-        SID Driver ResultLimit CaseSensitive
+            ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
+            DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
+            SID Driver ResultLimit CaseSensitive
         )
         )
     {

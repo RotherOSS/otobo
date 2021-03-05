@@ -60,6 +60,9 @@ sub LoadPreferences {
     # how to turn off foreign key checks for the current session
     #$Self->{'DB::DeactivateForeignKeyChecks'} not supported in Oracle
 
+    # how to delete all rows of a table, use with sprintf for inserting the table name
+    $Self->{'DB::PurgeTable'} = 'TRUNCATE TABLE %s';
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,

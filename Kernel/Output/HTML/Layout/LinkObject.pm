@@ -176,7 +176,7 @@ sub LinkObjectTableCreateComplex {
         for my $Item ( @{ $Block->{ItemList} } ) {
             if ( !grep { $_->{Key} } @{$Item} ) {
                 $Item->[0] = {
-                    Type => 'Text',
+                    Type    => 'Text',
                     Content =>
                         'ERROR: Key attribute not found in any column of the item list.',
                 };

@@ -274,7 +274,7 @@ sub new {
     return $Class->SUPER::new(@_);
 }
 
-sub request {                                                                   ## no critic qw(Subroutines::RequireArgUnpacking)
+sub request {    ## no critic qw(Subroutines::RequireArgUnpacking)
     my $Self = shift;
 
     my ( $Request, $Proxy, $Arg, $Size, $Timeout ) = @_;

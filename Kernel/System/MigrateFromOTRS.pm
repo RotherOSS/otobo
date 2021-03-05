@@ -18,13 +18,18 @@ package Kernel::System::MigrateFromOTRS;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
-#use Kernel::System::VariableCheck qw(IsHashRefWithData);
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
-    'Kernel::System::Cache',
     'Kernel::System::Main',
-    'Kernel::System::SysConfig',
     'Kernel::System::MigrateFromOTRS::Base',
     'Kernel::System::Log',
 );
@@ -47,10 +52,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Run()
