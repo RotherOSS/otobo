@@ -362,8 +362,8 @@ JAVASCRIPT
 
         my $TranslatedMessage =
             $LanguageObject->Translate(
-            'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.',
-            $NotifEventRandomID
+                'There where errors adding/updating the following Notifications: %s. Please check the log file for more information.',
+                $NotifEventRandomID
             );
         $TranslatedMessage = substr( $TranslatedMessage, 0, 30 );
         $Selenium->find_element(

@@ -247,16 +247,16 @@ sub _CheckConfigpmAndWriteCache {
             or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
-        while (<$In>) {
+        while ( my $Line = <$In> ) {
 
             # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
-            if ( m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/ ) {
-                for my $Key ( sort keys %COptions ) {
-                    if ( lc($1) eq lc($Key) ) {
-                        $CacheOptions{ $COptions{$Key} } = $2;
+            next CONFIGLINE unless $Line =~ m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/;
 
-                        next CONFIGLINE;
-                    }
+            for my $Key ( sort keys %COptions ) {
+                if ( lc($1) eq lc($Key) ) {
+                    $CacheOptions{ $COptions{$Key} } = $2;
+
+                    next CONFIGLINE;
                 }
             }
         }

@@ -1104,11 +1104,11 @@ sub TicketSearch {
                 $CustomerIDsSQL =
                     $Lower . '(st.customer_id) IN ('
                     . join(
-                    ',',
-                    map {
-                        "$Lower('" . $DBObject->Quote($_) . "')"
+                        ',',
+                        map {
+                            "$Lower('" . $DBObject->Quote($_) . "')"
                         } @{
-                        $Entry->{CustomerIDs}
+                            $Entry->{CustomerIDs}
                         }
                     )
                     . ')';

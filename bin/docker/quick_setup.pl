@@ -76,9 +76,9 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my $HelpFlag;      # print help
-    my $DBPassword;    # required
-    my $HTTPPort = 80; # only used for success message
+    my $HelpFlag;         # print help
+    my $DBPassword;       # required
+    my $HTTPPort = 80;    # only used for success message
 
     Getopt::Long::GetOptions(
         'help'          => \$HelpFlag,
@@ -86,10 +86,10 @@ sub Main {
         'http-port=i'   => \$HTTPPort,
         )
         || pod2usage(
-        {
-            -exitval => 1,
-            -verbose => 1
-        }
+            {
+                -exitval => 1,
+                -verbose => 1
+            }
         );
 
     if ($HelpFlag) {
