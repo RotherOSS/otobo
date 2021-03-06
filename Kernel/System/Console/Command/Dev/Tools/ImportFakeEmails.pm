@@ -105,7 +105,7 @@ test %s';
 
         my ( $Seconds, $MSeconds ) = Time::HiRes::gettimeofday();
         my $Email = sprintf $Self->{Email}, $Seconds, $MSeconds, "$Seconds-$MSeconds";
-        my @Lines = split "\n",             $Email;
+        my @Lines = split "\n", $Email;
 
         return wantarray ? @Lines : \@Lines;
     }
@@ -220,8 +220,8 @@ sub _CreatePMAccounts {
 
         push @Accounts,
             {
-            %Account,
-            ID => $ID,
+                %Account,
+                ID => $ID,
             };
     }
 

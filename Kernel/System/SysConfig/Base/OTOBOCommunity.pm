@@ -601,7 +601,7 @@ sub UserSettingValueDelete {
         if ( !$DeploySuccess ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Not possible to create configuration file for user: $ModifiedSetting->{TargetUserID}!",
             );
             next MODIFIEDSETTING;
@@ -741,7 +741,7 @@ sub UserConfigurationDeploy {
         if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "System was unable to reset IsDirty flag for user specific setting (TargetUserID = $Param{TargetUserID})!"
             );
         }

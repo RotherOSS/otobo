@@ -66,11 +66,11 @@ sub Run {
 
     if ($DefaultPassword) {
         $Self->AddResultProblem(
-            Label => Translatable('Default Admin Password'),
-            Value => '',
+            Label   => Translatable('Default Admin Password'),
+            Value   => '',
             Message =>
                 Translatable(
-                'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.'
+                    'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.'
                 ),
         );
     }

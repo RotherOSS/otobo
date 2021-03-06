@@ -250,7 +250,7 @@ sub CSV2Array {
         {
 
             quote_char          => $Param{Quote} // '"',
-            escape_char         => $Param{Quote} || '"',
+            escape_char         => $Param{Quote}     || '"',
             sep_char            => $Param{Separator} || ";",
             eol                 => '',
             always_quote        => 0,

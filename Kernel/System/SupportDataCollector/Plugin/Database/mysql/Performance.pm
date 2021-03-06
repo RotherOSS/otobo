@@ -54,9 +54,9 @@ sub Run {
                 Identifier => 'QueryCacheSize',
                 Label      => Translatable('Query Cache Size'),
                 Value      => $Row[1],
-                Message =>
+                Message    =>
                     Translatable(
-                    "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."
+                        "The setting 'query_cache_size' should be used (higher than 10 MB but not more than 512 MB)."
                     ),
             );
         }

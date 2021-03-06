@@ -345,11 +345,11 @@ sub AppointmentCreate {
     }
 
     push @Bind, \$Param{CalendarID}, \$Param{UniqueID}, \$Param{Title}, \$Param{Description},
-        \$Param{Location}, \$Param{StartTime},   \$Param{EndTime},   \$Param{AllDay},
-        \$Arrays{TeamID},  \$Arrays{ResourceID}, \$Param{Recurring}, \$Param{RecurrenceType},
-        \$Arrays{RecurrenceFrequency}, \$Param{RecurrenceCount},      \$Param{RecurrenceInterval},
-        \$Param{RecurrenceUntil},      \$Param{RecurrenceID},         \$Arrays{RecurrenceExclude},
-        \$Param{NotificationDate},     \$Param{NotificationTemplate}, \$Param{NotificationCustom},
+        \$Param{Location},                              \$Param{StartTime},            \$Param{EndTime},   \$Param{AllDay},
+        \$Arrays{TeamID},                               \$Arrays{ResourceID},          \$Param{Recurring}, \$Param{RecurrenceType},
+        \$Arrays{RecurrenceFrequency},                  \$Param{RecurrenceCount},      \$Param{RecurrenceInterval},
+        \$Param{RecurrenceUntil},                       \$Param{RecurrenceID},         \$Arrays{RecurrenceExclude},
+        \$Param{NotificationDate},                      \$Param{NotificationTemplate}, \$Param{NotificationCustom},
         \$Param{NotificationCustomRelativeUnitCount},   \$Param{NotificationCustomRelativeUnit},
         \$Param{NotificationCustomRelativePointOfTime}, \$Param{NotificationCustomDateTime},
         \$Param{TicketAppointmentRuleID},               \$Param{UserID}, \$Param{UserID};
@@ -531,13 +531,13 @@ sub AppointmentList {
 
     # cache keys
     my $CacheType        = $Self->{CacheType} . 'List' . $Param{CalendarID};
-    my $CacheKeyTitle    = $Param{Title} || 'any';
+    my $CacheKeyTitle    = $Param{Title}       || 'any';
     my $CacheKeyDesc     = $Param{Description} || 'any';
-    my $CacheKeyLocation = $Param{Location} || 'any';
-    my $CacheKeyStart    = $Param{StartTime} || 'any';
-    my $CacheKeyEnd      = $Param{EndTime} || 'any';
-    my $CacheKeyTeam     = $Param{TeamID} || 'any';
-    my $CacheKeyResource = $Param{ResourceID} || 'any';
+    my $CacheKeyLocation = $Param{Location}    || 'any';
+    my $CacheKeyStart    = $Param{StartTime}   || 'any';
+    my $CacheKeyEnd      = $Param{EndTime}     || 'any';
+    my $CacheKeyTeam     = $Param{TeamID}      || 'any';
+    my $CacheKeyResource = $Param{ResourceID}  || 'any';
 
     if ( defined $Param{Title} && $Param{Title} =~ /^[\*]+$/ ) {
         $CacheKeyTitle = 'any';
@@ -752,7 +752,7 @@ sub AppointmentDays {
     # cache keys
     my $CacheType     = $Self->{CacheType} . 'Days' . $Param{UserID};
     my $CacheKeyStart = $Param{StartTime} || 'any';
-    my $CacheKeyEnd   = $Param{EndTime} || 'any';
+    my $CacheKeyEnd   = $Param{EndTime}   || 'any';
 
     # check time
     if ( $Param{StartTime} ) {
@@ -1356,11 +1356,11 @@ sub AppointmentUpdate {
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => $SQL,
         Bind => [
-            \$Param{CalendarID}, \$Param{Title},   \$Param{Description}, \$Param{Location},
-            \$Param{StartTime},  \$Param{EndTime}, \$Param{AllDay},      \$Arrays{TeamID},
-            \$Arrays{ResourceID},          \$Param{Recurring},       \$Param{RecurrenceType},
-            \$Arrays{RecurrenceFrequency}, \$Param{RecurrenceCount}, \$Param{RecurrenceInterval},
-            \$Param{RecurrenceUntil}, \$RecurrenceExclude, \$Param{NotificationDate},
+            \$Param{CalendarID},                            \$Param{Title},           \$Param{Description}, \$Param{Location},
+            \$Param{StartTime},                             \$Param{EndTime},         \$Param{AllDay},      \$Arrays{TeamID},
+            \$Arrays{ResourceID},                           \$Param{Recurring},       \$Param{RecurrenceType},
+            \$Arrays{RecurrenceFrequency},                  \$Param{RecurrenceCount}, \$Param{RecurrenceInterval},
+            \$Param{RecurrenceUntil},                       \$RecurrenceExclude,      \$Param{NotificationDate},
             \$Param{NotificationTemplate},                  \$Param{NotificationCustom},
             \$Param{NotificationCustomRelativeUnitCount},   \$Param{NotificationCustomRelativeUnit},
             \$Param{NotificationCustomRelativePointOfTime}, \$Param{NotificationCustomDateTime},
@@ -1915,7 +1915,7 @@ sub AppointmentFutureTasksUpdate {
     if ( !$TaskID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Could not schedule future task for AppointmentID $UpcomingAppointments[0]->{AppointmentID}!",
         );
         return;
@@ -1955,8 +1955,8 @@ sub _AppointmentNotificationPrepare {
 
         for my $PossibleParam (
             qw(
-            NotificationDate NotificationTemplate NotificationCustom NotificationCustomRelativeUnitCount
-            NotificationCustomRelativeUnit NotificationCustomRelativePointOfTime NotificationCustomDateTime
+                NotificationDate NotificationTemplate NotificationCustom NotificationCustomRelativeUnitCount
+                NotificationCustomRelativeUnit NotificationCustomRelativePointOfTime NotificationCustomDateTime
             )
             )
         {
@@ -1967,8 +1967,8 @@ sub _AppointmentNotificationPrepare {
     # prepare possible notification params
     for my $PossibleParam (
         qw(
-        NotificationTemplate NotificationCustom NotificationCustomRelativeUnit
-        NotificationCustomRelativePointOfTime
+            NotificationTemplate NotificationCustom NotificationCustomRelativeUnit
+            NotificationCustomRelativePointOfTime
         )
         )
     {

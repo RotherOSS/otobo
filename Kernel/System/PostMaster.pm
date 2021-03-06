@@ -216,7 +216,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Info',
             Key           => 'Kernel::System::PostMaster',
-            Value =>
+            Value         =>
                 "Ignored Email (From: $GetParam->{'From'}, Message-ID: $GetParam->{'Message-ID'}) "
                 . "because the X-OTOBO-Ignore is set (X-OTOBO-Ignore: $GetParam->{'X-OTOBO-Ignore'}).",
         );
@@ -554,7 +554,7 @@ sub CheckFollowUp {
                         ObjectLogType => 'Message',
                         Priority      => 'Debug',
                         Key           => 'Kernel::System::PostMaster',
-                        Value =>
+                        Value         =>
                             "Found follow up ticket with TicketNumber '$Ticket{TicketNumber}' and TicketID '$TicketID'.",
                     );
 

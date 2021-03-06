@@ -434,8 +434,8 @@ sub UserAdd {
             . " VALUES "
             . " (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)",
         Bind => [
-            \$Param{UserTitle}, \$Param{UserFirstname}, \$Param{UserLastname},
-            \$Param{UserLogin}, \$RandomPassword, \$Param{ValidID},
+            \$Param{UserTitle},    \$Param{UserFirstname}, \$Param{UserLastname},
+            \$Param{UserLogin},    \$RandomPassword,       \$Param{ValidID},
             \$Param{ChangeUserID}, \$Param{ChangeUserID},
         ],
     );
@@ -467,7 +467,7 @@ sub UserAdd {
     # log notice
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message =>
+        Message  =>
             "User: '$Param{UserLogin}' ID: '$UserID' created successfully ($Param{ChangeUserID})!",
     );
 
@@ -858,7 +858,7 @@ sub SetPassword {
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('Crypt::Eksblowfish::Bcrypt') ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "User: '$User{UserLogin}' tried to store password with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
             );
             return;
@@ -1099,7 +1099,7 @@ sub UserList {
 
     # check cache
     my $CacheKey = join '::', 'UserList', $Type, $Valid, $FirstnameLastNameOrder, $NoOutOfOffice;
-    my $Cache = $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $Cache    = $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );

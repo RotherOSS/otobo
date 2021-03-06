@@ -196,7 +196,7 @@ sub Fetch {
         my $Error = $@;
         %Connect = (
             Successful => 0,
-            Message =>
+            Message    =>
                 "Something went wrong while trying to connect to 'POP3 => $Param{Login}/$Param{Host}': ${ Error }",
         );
     };
@@ -346,7 +346,7 @@ sub Fetch {
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
                     Key           => 'Kernel::System::MailAccount::POP3',
-                    Value =>
+                    Value         =>
                         "Cannot fetch message '$Messageno/$NOM' with size '$MessageSize' ($MessageSizeKB KB)."
                         . "Maximum allowed message size is '$MaxEmailSize KB'!",
                 );
@@ -433,7 +433,7 @@ sub Fetch {
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::POP3',
-                            Value =>
+                            Value         =>
                                 "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
                         );
 

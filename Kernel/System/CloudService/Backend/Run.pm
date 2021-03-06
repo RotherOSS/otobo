@@ -59,8 +59,8 @@ sub new {
     # set system registration data
     %{ $Self->{RegistrationData} } =
         $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGroupGet(
-        Group  => 'Registration',
-        UserID => 1,
+            Group  => 'Registration',
+            UserID => 1,
         );
 
     # set URL for calling cloud services
@@ -369,7 +369,7 @@ sub Request {
     if ( !$Response{Content} || ref $Response{Content} ne 'SCALAR' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "PublicCloudService - No content received from public cloud service. Please try again later.'",
         );
         return;

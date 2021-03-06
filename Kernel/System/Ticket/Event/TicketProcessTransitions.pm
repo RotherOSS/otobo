@@ -127,7 +127,7 @@ sub Run {
     if ( $Self->{Debug} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Transition for to TicketID: $Param{Data}->{TicketID}"
                 . "  ProcessEntityID: $ProcessEntityID OldActivityEntityID: $ActivityEntityID "
                 . ( $TransitionApplied ? "was applied." : "was not applied." ),

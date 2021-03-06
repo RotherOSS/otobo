@@ -189,9 +189,9 @@ sub Run {
     # dynamic fields
     my $DynamicFieldList =
         $DynamicFieldObject->DynamicFieldList(
-        Valid      => 0,
-        ResultType => 'HASH',
-        ObjectType => 'Article',
+            Valid      => 0,
+            ResultType => 'HASH',
+            ObjectType => 'Article',
         );
 
     # set dynamic fields for Article object type
@@ -229,8 +229,8 @@ sub Run {
     # set free article text
     my %Values =
         (
-        'X-OTOBO-FollowUp-ArticleKey'   => 'ArticleFreeKey',
-        'X-OTOBO-FollowUp-ArticleValue' => 'ArticleFreeText',
+            'X-OTOBO-FollowUp-ArticleKey'   => 'ArticleFreeKey',
+            'X-OTOBO-FollowUp-ArticleValue' => 'ArticleFreeText',
         );
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
@@ -258,7 +258,7 @@ sub Run {
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
                     Key           => 'Kernel::System::PostMaster::Reject',
-                    Value =>
+                    Value         =>
                         "TicketKey$Count: Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }

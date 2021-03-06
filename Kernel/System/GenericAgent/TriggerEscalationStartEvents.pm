@@ -83,7 +83,7 @@ sub Run {
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message =>
+                Message  =>
                     "Send not escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
             );
         }

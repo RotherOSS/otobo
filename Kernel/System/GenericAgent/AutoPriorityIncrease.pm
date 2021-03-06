@@ -101,7 +101,7 @@ sub Run {
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message =>
+                Message  =>
                     "Nothing to do on (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID})!",
             );
         }
@@ -117,7 +117,7 @@ sub Run {
     if ( !$Priority ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID} already set to higest priority! Can't increase priority!",
         );
         return 1;
@@ -126,7 +126,7 @@ sub Run {
     # increase priority
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message =>
+        Message  =>
             "Increase priority of (Ticket=$Ticket{TicketNumber}/TicketID=$Ticket{TicketID}) to $Priority!",
     );
 

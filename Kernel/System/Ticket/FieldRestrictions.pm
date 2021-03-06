@@ -135,8 +135,8 @@ sub GetFieldStates {
     # get the current visibility
     my $CachedVisibility = $Param{ACLPreselection}
         ? $Self->{CacheObject}->Get(
-        Type => 'HiddenFields',
-        Key  => $Param{FormID},
+            Type => 'HiddenFields',
+            Key  => $Param{FormID},
         )
         : undef;
 
@@ -553,7 +553,7 @@ sub Autoselect {
         }
     }
     if ( !$ValidKeys ) {
-        return undef;            ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
+        return undef;    ## no critic qw(Subroutines::ProhibitExplicitReturnUndef)
     }    # else $ValidKeys == 1 => autoselect
 
     # fill the field if and add it to the changed elements

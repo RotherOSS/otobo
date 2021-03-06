@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -56,7 +56,7 @@ sub import { ## no critic qw(OTOBO::RequireCamelCase)
     );
 
     # provide $Self in the test scripts
-    $main::Self = $Kernel::OM->Get( 'Kernel::System::UnitTest::Driver' );
+    $main::Self = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     return;
 }
@@ -70,10 +70,11 @@ sub import { ## no critic qw(OTOBO::RequireCamelCase)
         # Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker, and maybe other modules, is forking processes.
         # But we want no cleanup in the child processes.
         if ( $$ == $OriginalPID ) {
+
             # trigger Kernel::System::UnitTest::Helper::DESTROY()
             # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
             $Kernel::OM->ObjectsDiscard(
-                Objects            => ['Kernel::System::UnitTest::Helper'],
+                Objects => ['Kernel::System::UnitTest::Helper'],
             );
         }
     }

@@ -147,7 +147,7 @@ sub new {
             if ( !$MainObject->Require($ObjectHandlerModule) ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "Can't load dynamic field object handler module for object type $ObjectType!",
                 );
                 return;
@@ -170,7 +170,7 @@ sub new {
             if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "Handler object for object type $ObjectType was not created successfuly!",
                 );
                 return;
@@ -470,7 +470,7 @@ sub ValueSet {
             if ( !$ObjectID ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "Unable to create object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
                 );
                 return;
@@ -963,7 +963,7 @@ sub ValueGet {
         if ( !IsHashRefWithData($ObjectIDs) || !$ObjectIDs->{ $Param{ObjectName} } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message =>
+                Message  =>
                     "Unable to fetch object mapping for object name $Param{ObjectName} and type $Param{DynamicFieldConfig}->{ObjectType}!"
             );
             return;
