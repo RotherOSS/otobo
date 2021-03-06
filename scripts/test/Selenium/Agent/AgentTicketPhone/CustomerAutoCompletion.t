@@ -209,9 +209,9 @@ $Selenium->RunTest(
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
             },
             "$CustomerUser-1" => {
-                Expected     => 1,
-                CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
-                CustomerID   => $CustomerIDs[1],
+                Expected          => 1,
+                CustomerUser      => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                CustomerID        => $CustomerIDs[1],
                 AutocompleteInput =>
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
                 SelectAssigendCustomerID => $CustomerIDs[1],

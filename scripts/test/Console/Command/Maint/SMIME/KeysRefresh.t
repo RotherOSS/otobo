@@ -90,7 +90,7 @@ skip_all('The system with current configuration does not support SMIME, this tes
 
 # get current configuration settings
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin');
-my $CertDir    = $ConfigObject->Get('SMIME::CertPath') || '/etc/ssl/certs';
+my $CertDir    = $ConfigObject->Get('SMIME::CertPath')    || '/etc/ssl/certs';
 my $PrivateDir = $ConfigObject->Get('SMIME::PrivatePath') || '/etc/ssl/private';
 
 # helper function to create a directory

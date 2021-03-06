@@ -43,7 +43,7 @@ use Kernel::System::ObjectManager;
 
 our $ObjectManagerDisabled = 1;
 
-sub import { ## no critic qw(OTOBO::RequireCamelCase)
+sub import {    ## no critic qw(OTOBO::RequireCamelCase)
 
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.

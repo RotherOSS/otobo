@@ -53,7 +53,7 @@ my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
             OTOBO => {
                 DisplayName => 'OTOBO',
                 Files       => [
-                    'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml',
+                    'Calendar.xml',         'CloudServices.xml',     'Daemon.xml', 'Framework.xml',
                     'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml',
                 ],
             },

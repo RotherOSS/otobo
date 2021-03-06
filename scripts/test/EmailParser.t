@@ -136,7 +136,7 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 );
 $Self->Is(
     $EmailParserObject->GetCharset(),
-    'utf-8',                                                                       # automatically converted
+    'utf-8',    # automatically converted
     "#3 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
@@ -234,7 +234,7 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 );
 $Self->Is(
     $EmailParserObject->GetCharset(),
-    'utf-8',                                                                       # automatically converted
+    'utf-8',    # automatically converted
     "#5 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
@@ -343,7 +343,7 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 );
 $Self->Is(
     $EmailParserObject->GetCharset(),
-    'utf-8',                                                                       # automatically converted
+    'utf-8',    # automatically converted
     "#7 GetCharset()",
 );
 @Attachments = $EmailParserObject->GetAttachments();
@@ -544,7 +544,7 @@ $EmailParserObject = Kernel::System::EmailParser->new(
 );
 $Self->Is(
     $EmailParserObject->GetCharset(),
-    'utf-8',                                                                        # automatically converted
+    'utf-8',    # automatically converted
     "#12 GetCharset() - iso-8859-1 charset should be found",
 );
 $Self->Is(

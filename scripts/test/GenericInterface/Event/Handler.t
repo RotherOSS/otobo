@@ -574,7 +574,7 @@ for my $Test (@Tests) {
                     @{ $LogData->[0]->{Data} }
                 ) +
                 scalar(
-                grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'TicketID=$TicketID&Event=TicketCreate'/smx }
+                    grep { $_->{Data} =~ m/'ResponseContent' \s+ => \s+ 'TicketID=$TicketID&Event=TicketCreate'/smx }
                     @{ $LogData->[0]->{Data} }
                 ),
             1,

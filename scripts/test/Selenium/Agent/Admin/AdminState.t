@@ -149,11 +149,11 @@ $Selenium->RunTest(
 
         my $IndexNewState =
             $Selenium->execute_script(
-            "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDNew\"]').closest('tr'))"
+                "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDNew\"]').closest('tr'))"
             );
         my $IndexTestState =
             $Selenium->execute_script(
-            "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDTest\"]').closest('tr'))"
+                "return \$('.DataTable tr:visible').index(\$('a[href=\"${StateLink}$StateIDTest\"]').closest('tr'))"
             );
 
         # Check sorting in state overview table..
