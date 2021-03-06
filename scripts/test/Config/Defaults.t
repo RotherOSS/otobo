@@ -48,7 +48,9 @@ my $ChecksumFileArrayRef = $MainObject->FileRead(
     DisableWarnings => 1,
 );
 
-skip_all( 'Default configuration unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create' ) if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
+skip_all(
+    'Default configuration unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
+) if !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef};
 
 # Get list of present config XML files.
 my $Directory   = "$Home/Kernel/Config/Files/XML";

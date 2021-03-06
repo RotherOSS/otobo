@@ -4474,7 +4474,7 @@ my @Tests        = (
                 ForceNotificationToUserID       => [$UserID],
                 ExcludeNotificationToUserID     => [$UserID],
                 ExcludeMuteNotificationToUserID => [$UserID],
-                To =>
+                To                              =>
                     "$TestCustomerUserLogin $TestCustomerUserLogin <${TestCustomerUserLogin}\@localunittest.com>, "
                     . '"another \" recipient" <to_recipient_a@localunittest.com>, '
                     . '<to_recipient_b@localunittest.com>',

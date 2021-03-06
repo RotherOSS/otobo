@@ -170,7 +170,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             ElementExists => q{//button[@value='Submit']}
         );
-        $Selenium->find_element( q{//button[@value='Submit']} )->click();
+        $Selenium->find_element(q{//button[@value='Submit']})->click();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
         );

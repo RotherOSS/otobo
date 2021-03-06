@@ -1693,23 +1693,23 @@ for my $Test ( sort keys %TableCalculate ) {
 
     my %TableCalculateParams;
     $TableCalculateParams{CellData}        = $TableCalculate{$Test}{CellData};
-    $TableCalculateParams{ColumnData}      = $TableCalculate{$Test}{ColumnData} || [];
-    $TableCalculateParams{RowData}         = $TableCalculate{$Test}{RowData} || [];
-    $TableCalculateParams{Type}            = $TableCalculate{$Test}{Type} || 'ReturnLeftOver';
-    $TableCalculateParams{Width}           = $TableCalculate{$Test}{Width} || 500;
-    $TableCalculateParams{Height}          = $TableCalculate{$Test}{Height} || 500;
-    $TableCalculateParams{Font}            = $TableCalculate{$Test}{Font} || 'Testfont1';
-    $TableCalculateParams{FontSize}        = $TableCalculate{$Test}{FontSize} || 10;
-    $TableCalculateParams{FontColor}       = $TableCalculate{$Test}{FontColor} || 'black';
-    $TableCalculateParams{Align}           = $TableCalculate{$Test}{Align} || 'left';
-    $TableCalculateParams{Lead}            = $TableCalculate{$Test}{Lead} || 0;
+    $TableCalculateParams{ColumnData}      = $TableCalculate{$Test}{ColumnData}      || [];
+    $TableCalculateParams{RowData}         = $TableCalculate{$Test}{RowData}         || [];
+    $TableCalculateParams{Type}            = $TableCalculate{$Test}{Type}            || 'ReturnLeftOver';
+    $TableCalculateParams{Width}           = $TableCalculate{$Test}{Width}           || 500;
+    $TableCalculateParams{Height}          = $TableCalculate{$Test}{Height}          || 500;
+    $TableCalculateParams{Font}            = $TableCalculate{$Test}{Font}            || 'Testfont1';
+    $TableCalculateParams{FontSize}        = $TableCalculate{$Test}{FontSize}        || 10;
+    $TableCalculateParams{FontColor}       = $TableCalculate{$Test}{FontColor}       || 'black';
+    $TableCalculateParams{Align}           = $TableCalculate{$Test}{Align}           || 'left';
+    $TableCalculateParams{Lead}            = $TableCalculate{$Test}{Lead}            || 0;
     $TableCalculateParams{BackgroundColor} = $TableCalculate{$Test}{BackgroundColor} || 'NULL';
-    $TableCalculateParams{PaddingLeft}     = $TableCalculate{$Test}{PaddingLeft} || 0;
-    $TableCalculateParams{PaddingRight}    = $TableCalculate{$Test}{PaddingRight} || 0;
-    $TableCalculateParams{PaddingTop}      = $TableCalculate{$Test}{PaddingTop} || 0;
-    $TableCalculateParams{PaddingBottom}   = $TableCalculate{$Test}{PaddingBottom} || 0;
-    $TableCalculateParams{Border}          = $TableCalculate{$Test}{Border} || 0;
-    $TableCalculateParams{BorderColor}     = $TableCalculate{$Test}{BorderColor} || 'black';
+    $TableCalculateParams{PaddingLeft}     = $TableCalculate{$Test}{PaddingLeft}     || 0;
+    $TableCalculateParams{PaddingRight}    = $TableCalculate{$Test}{PaddingRight}    || 0;
+    $TableCalculateParams{PaddingTop}      = $TableCalculate{$Test}{PaddingTop}      || 0;
+    $TableCalculateParams{PaddingBottom}   = $TableCalculate{$Test}{PaddingBottom}   || 0;
+    $TableCalculateParams{Border}          = $TableCalculate{$Test}{Border}          || 0;
+    $TableCalculateParams{BorderColor}     = $TableCalculate{$Test}{BorderColor}     || 'black';
 
     if ( defined( $TableCalculate{$Test}{FontColorOdd} ) ) {
         $TableCalculateParams{FontColorOdd} = $TableCalculate{$Test}{FontColorOdd};
@@ -2552,11 +2552,11 @@ for ( sort keys %TableRowCalculate ) {
 
     my %TableRowCalculateParams;
     $TableRowCalculateParams{CellData}      = $TableRowCalculate{$Test}{CellData};
-    $TableRowCalculateParams{ColumnData}    = $TableRowCalculate{$Test}{ColumnData} || [];
-    $TableRowCalculateParams{RowData}       = $TableRowCalculate{$Test}{RowData} || [];
-    $TableRowCalculateParams{PaddingTop}    = $TableRowCalculate{$Test}{PaddingTop} || 0;
+    $TableRowCalculateParams{ColumnData}    = $TableRowCalculate{$Test}{ColumnData}    || [];
+    $TableRowCalculateParams{RowData}       = $TableRowCalculate{$Test}{RowData}       || [];
+    $TableRowCalculateParams{PaddingTop}    = $TableRowCalculate{$Test}{PaddingTop}    || 0;
     $TableRowCalculateParams{PaddingBottom} = $TableRowCalculate{$Test}{PaddingBottom} || 0;
-    $TableRowCalculateParams{Border}        = $TableRowCalculate{$Test}{Border} || 0;
+    $TableRowCalculateParams{Border}        = $TableRowCalculate{$Test}{Border}        || 0;
 
     my %Return = $PDFObject->_TableRowCalculate(
         Row => 0,

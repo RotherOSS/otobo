@@ -607,7 +607,7 @@ my $OTOBOApp = builder {
             if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
                 push @ObjectManagerArgs,
                     'Kernel::System::Log' => {
-                    LogPrefix => 'GenericInterfaceProvider',
+                        LogPrefix => 'GenericInterfaceProvider',
                     },
                     ;
             }

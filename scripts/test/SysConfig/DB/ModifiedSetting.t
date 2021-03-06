@@ -1247,7 +1247,7 @@ if ( !$DoSuccess ) {
 }
 
 # Delete sysconfig_modified
-$DoSuccess =  $DBObject->Do(
+$DoSuccess = $DBObject->Do(
     SQL => 'DELETE FROM sysconfig_modified',
 );
 if ( !$DoSuccess ) {

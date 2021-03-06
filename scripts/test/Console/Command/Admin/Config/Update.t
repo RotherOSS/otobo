@@ -64,7 +64,7 @@ EOF
 
     # Get SysConfig XML object.
     my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
-my $SysConfigObject        = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 my @DefaultSettingAddParams = $SysConfigXMLObject->SettingListParse(
     XMLInput    => $SettingsXML,

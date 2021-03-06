@@ -93,13 +93,13 @@ my @Tests = (
         ExpectedResult => 'Test: - - - -',
     },
     {
-        Name => 'Test supported tags - <OTOBO_TICKET_*> without TicketID',
+        Name      => 'Test supported tags - <OTOBO_TICKET_*> without TicketID',
         Signature =>
             'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_State>)',
         ExpectedResult => 'Options of the ticket data (e. g. -, -, -)',
     },
     {
-        Name => 'Test supported tags - <OTOBO_TICKET_*>  with TicketID',
+        Name      => 'Test supported tags - <OTOBO_TICKET_*>  with TicketID',
         Signature =>
             'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_State>)',
     },

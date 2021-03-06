@@ -49,8 +49,8 @@ $Self->Is(
 
 # provide minimum options
 $ExitCode = $CommandObject->Execute(
-    '--user-name', $RandomName, '--first-name', 'Test',
-    '--last-name', 'Test', '--email-address', $RandomName . '@test.test',
+    '--user-name',   $RandomName, '--first-name',    'Test',
+    '--last-name',   'Test',      '--email-address', $RandomName . '@test.test',
     '--customer-id', 'Test'
 );
 $Self->Is(
@@ -61,8 +61,8 @@ $Self->Is(
 
 # provide minimum options
 $ExitCode = $CommandObject->Execute(
-    '--user-name', $RandomName, '--first-name', 'Test',
-    '--last-name', 'Test', '--email-address', $RandomName . '@test.test',
+    '--user-name',   $RandomName, '--first-name',    'Test',
+    '--last-name',   'Test',      '--email-address', $RandomName . '@test.test',
     '--customer-id', 'Test'
 );
 $Self->Is(

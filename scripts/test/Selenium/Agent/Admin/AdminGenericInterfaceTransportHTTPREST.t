@@ -187,10 +187,10 @@ $Selenium->RunTest(
         # Verify screen.
         for my $ID (
             qw(
-            Host DefaultCommand Timeout
-            AuthType BasicAuthUser BasicAuthPassword
-            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
-            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+                Host DefaultCommand Timeout
+                AuthType BasicAuthUser BasicAuthPassword
+                UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+                UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
             )
             )
         {

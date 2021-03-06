@@ -274,7 +274,7 @@ for my $Test (@Tests) {
                 },
             },
             'TA3' . $RandomID => {
-                Name => 'Article Create',
+                Name   => 'Article Create',
                 Module =>
                     'Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate',
                 Config => {
@@ -305,7 +305,7 @@ for my $Test (@Tests) {
                 },
             },
             'TA3' . $RandomID => {
-                Name => 'Article Create',
+                Name   => 'Article Create',
                 Module =>
                     'Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate',
                 Config => {
@@ -339,7 +339,7 @@ for my $Test (@Tests) {
                 },
             },
             'TA3' . $RandomID => {
-                Name => 'Article Create',
+                Name   => 'Article Create',
                 Module =>
                     'Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate',
                 Config => {

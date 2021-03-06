@@ -106,46 +106,47 @@ sub Run {
     }
 
     # default values for command line options
-    my $AdminGroup      = 'root';    # default: root
-    my $OtoboUser       =
-    my $Group           =  '';
-    my $Help            = 0;
-    my $SkipArticleDir  = 0;
+    my $AdminGroup = 'root';    # default: root
+    my $OtoboUser =
+        my $Group = '';
+    my $Help           = 0;
+    my $SkipArticleDir = 0;
     my @SkipRegex;
     my $RunsUnderDocker = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? 1 : 0;
 
     # parse the command line parameters
     # for $OtoboUser and $Group the passed args have highest precedence
     GetOptions(
-        'help'                    => \$Help,
-        'otobo-user=s'            => \$OtoboUser,
-        'web-group=s'             => \$Group,
-        'admin-group=s'           => \$AdminGroup,
-        'dry-run'                 => \$DryRun,
-        'skip-article-dir'        => \$SkipArticleDir,
-        'skip-regex=s'            => \@SkipRegex,
-        'runs-under-docker'       => \$RunsUnderDocker,
-    ) || PrintUsageAndExit(\%DefaultGroupNames, 1);
+        'help'              => \$Help,
+        'otobo-user=s'      => \$OtoboUser,
+        'web-group=s'       => \$Group,
+        'admin-group=s'     => \$AdminGroup,
+        'dry-run'           => \$DryRun,
+        'skip-article-dir'  => \$SkipArticleDir,
+        'skip-regex=s'      => \@SkipRegex,
+        'runs-under-docker' => \$RunsUnderDocker,
+    ) || PrintUsageAndExit( \%DefaultGroupNames, 1 );
 
-    if ( $Help ) {
-        PrintUsageAndExit(\%DefaultGroupNames, 0);
+    if ($Help) {
+        PrintUsageAndExit( \%DefaultGroupNames, 0 );
     }
 
     # env vars has precedence under Docker
-    if ( $RunsUnderDocker ) {
+    if ($RunsUnderDocker) {
         $Group     ||= $ENV{OTOBO_GROUP};
         $OtoboUser ||= $ENV{OTOBO_USER};
     }
 
     # for the default group we might have to try some candidates
-    if ( ! $Group ) {
-        my @GroupCandidates = $RunsUnderDocker ?
+    if ( !$Group ) {
+        my @GroupCandidates = $RunsUnderDocker
+            ?
             $DefaultGroupNames{PSGI}->@*
             :
             $DefaultGroupNames{Apache}->@*;
 
         CANDIDATE:
-        for my $Candidate ( @GroupCandidates ) {
+        for my $Candidate (@GroupCandidates) {
             my ($GroupName) = getgrnam $Candidate;
             if ($GroupName) {
                 $Group = $GroupName;

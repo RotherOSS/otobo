@@ -595,7 +595,7 @@ Line3",
         },
         RichText => 1,
         Template => 'Test &lt;OTOBO_AGENT_BODY[7]&gt; - &lt;OTOBO_CUSTOMER_BODY[7]&gt;',
-        Result =>
+        Result   =>
             'Test <div  type="cite" style="border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm 4.0pt">Line1<br/>
 Line2<br/>
 Line3<br/>
