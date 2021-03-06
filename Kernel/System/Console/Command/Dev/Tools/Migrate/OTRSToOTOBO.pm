@@ -49,7 +49,7 @@ Migrate XML configuration files from OTRS 6.0.x to OTOBO 10.0.x.
 END_DESC
 
     $Self->AddOption(
-        Name => 'cleanpath',
+        Name        => 'cleanpath',
         Description =>
             "Should we change the path and filename to OTOBO or otobo, if otrs or OTRS exists?",
         Required   => 0,
@@ -57,7 +57,7 @@ END_DESC
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'cleancontent',
+        Name        => 'cleancontent',
         Description =>
             "Should we clean the file content from OTRS to OTOBO style?",
         Required   => 0,
@@ -65,7 +65,7 @@ END_DESC
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'cleanlicense',
+        Name        => 'cleanlicense',
         Description =>
             "Should we clean the file license information to OTOBO and Rother OSS?",
         Required   => 0,
@@ -73,7 +73,7 @@ END_DESC
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'cleanxmlconfig',
+        Name        => 'cleanxmlconfig',
         Description =>
             "Should we adapt the XML config files?",
         Required   => 0,
@@ -81,7 +81,7 @@ END_DESC
         ValueRegex => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'cleanall',
+        Name        => 'cleanall',
         Description =>
             "Run all clean options together.",
         Required   => 0,
@@ -96,7 +96,7 @@ END_DESC
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddArgument(
-        Name => 'source',
+        Name        => 'source',
         Description =>
             "Specify the directory containing the OTRS sources or the path to an OTRS based opm package.",
         Required   => 1,
@@ -134,9 +134,9 @@ sub Run {
 
     # If option cleanall is active, we execute all availible clean modules.
     my $CleanALL           = $Self->GetOption('cleanall');
-    my $CleanPath          = $Self->GetOption('cleanpath') || $CleanALL;
-    my $CleanLicenseHeader = $Self->GetOption('cleanlicense') || $CleanALL;
-    my $CleanContent       = $Self->GetOption('cleancontent') || $CleanALL;
+    my $CleanPath          = $Self->GetOption('cleanpath')      || $CleanALL;
+    my $CleanLicenseHeader = $Self->GetOption('cleanlicense')   || $CleanALL;
+    my $CleanContent       = $Self->GetOption('cleancontent')   || $CleanALL;
     my $CleanXMLConfig     = $Self->GetOption('cleanxmlconfig') || $CleanALL;
     my $TargetDirectory    = $Self->GetOption('target');
     my $SourceIsOPMOrDir   = 'Dir';

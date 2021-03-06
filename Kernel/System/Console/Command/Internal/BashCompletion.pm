@@ -82,7 +82,7 @@ sub Run {
 
         # Try to create the command object to get its options
         my ($CommandName) = split /\s+/, $CompLine;
-        my $CommandPath = 'Kernel::System::Console::Command::' . $CommandName;
+        my $CommandPath   = 'Kernel::System::Console::Command::' . $CommandName;
         if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $CommandPath, Silent => 1 ) ) {
             return $Self->ExitCodeOk();
         }

@@ -157,25 +157,30 @@ sub Run {
         }
     }
 
-    my $Harness = TAP::Harness->new({
-        timer     => 1,
-        verbosity => $Verbosity,
-        # try to color the output when we are in an ANSI terminal
-        color     => $Self->{ANSI},
-        # these libs are additional, $ENV{PERL5LIB} is still honored
-        lib       => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
-    });
+    my $Harness = TAP::Harness->new(
+        {
+            timer     => 1,
+            verbosity => $Verbosity,
 
-    # Register a callback that triggered after a test script has run.
-    # E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
-    # See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
+            # try to color the output when we are in an ANSI terminal
+            color => $Self->{ANSI},
+
+            # these libs are additional, $ENV{PERL5LIB} is still honored
+            lib => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
+        }
+    );
+
+# Register a callback that triggered after a test script has run.
+# E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
+# See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
     if ( $Param{PostTestScripts} && ref $Param{PostTestScripts} eq 'ARRAY' && $Param{PostTestScripts}->@* ) {
         my @PostTestScripts = $Param{PostTestScripts}->@*;
 
-        $Harness->callback( after_test => sub {
-                my ( $TestInfo, $Parser) = @_;
+        $Harness->callback(
+            after_test => sub {
+                my ( $TestInfo, $Parser ) = @_;
 
-                for my $PostTestScript ( @PostTestScripts ) {
+                for my $PostTestScript (@PostTestScripts) {
 
                     # command template as specified on the commant line
                     my $Cmd = $PostTestScript;

@@ -362,7 +362,7 @@ sub SetCookie {
         -name     => $Param{Key},
         -value    => $Param{Value},
         -expires  => $Param{Expires},
-        -secure   => $Param{Secure} || '',
+        -secure   => $Param{Secure}   || '',
         -httponly => $Param{HTTPOnly} || '',
         -path     => '/' . $Param{Path},
     );

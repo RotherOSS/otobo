@@ -936,8 +936,8 @@ sub _SendError {
         Key           => 'Kernel::System::MailQueue',
         Value         => 'Temporary problem returned from server, requeuing message for sending. Message: '
             . sprintf(
-            "SMTPCode: %s, ErrorMessage: $SendResult->{ErrorMessage}",
-            $SendResult->{Code} ? $SendResult->{Code} : '-'
+                "SMTPCode: %s, ErrorMessage: $SendResult->{ErrorMessage}",
+                $SendResult->{Code} ? $SendResult->{Code} : '-'
             ),
     );
 

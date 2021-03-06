@@ -71,7 +71,7 @@ sub Run {
     # get values
     my $Values              = $Self->GetOption('values');
     my @DynamicFields       = @{ $Self->GetOption('dynamicfield') // [] };
-    my @DynamicFieldScreens = @{ $Self->GetOption('screen') // [] };
+    my @DynamicFieldScreens = @{ $Self->GetOption('screen')       // [] };
 
     # get all dynamicFields
     my %DynamicFieldList        = %{ $DynamicFieldObject->DynamicFieldList( ResultType => 'HASH' ) };

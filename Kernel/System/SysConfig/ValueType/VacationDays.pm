@@ -425,7 +425,7 @@ sub SettingRender {
             . "        <span class='InvisibleText'>$AddNewEntry</span>\n"
             . "    </button>\n";
     }
-    $HTML .= "</div>\n";            # Array
+    $HTML .= "</div>\n";    # Array
 
     return $HTML;
 }

@@ -43,7 +43,7 @@ sub Configure {
 
     $Self->Description('Migrate existing tickets, customers and customerusers to Elasticsearch.');
     $Self->AddOption(
-        Name => 'target',
+        Name        => 'target',
         Description =>
             "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; i: ITSMConfigItems; If not specified, 'tuci' (all four) will be handled.",
         Required   => 0,
@@ -463,7 +463,7 @@ sub MigrateTickets {
 
     my $Count     = 0;
     my $Percent10 = ( sort { $a <=> $b } ( 10, int( $#TicketIDs / 10 ) ) )[1];
-    my $Percent1  = ( sort { $a <=> $b } ( 1, int( $#TicketIDs / 100 ) ) )[1];
+    my $Percent1  = ( sort { $a <=> $b } ( 1,  int( $#TicketIDs / 100 ) ) )[1];
 
     if ( $#TicketIDs > 100 ) {
         $Self->Print(

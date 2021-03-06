@@ -41,7 +41,7 @@ sub Configure {
     );
 
     $Self->AddOption(
-        Name => 'values-from-path',
+        Name        => 'values-from-path',
         Description =>
             "Read values for invalid settings from a YAML file instead of user input (takes precedence in non-interactive mode).",
         Required   => 0,

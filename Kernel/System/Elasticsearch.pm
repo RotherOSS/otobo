@@ -123,10 +123,10 @@ sub TicketSearch {
     my ( $Self, %Param ) = @_;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ResultType   = $Param{Result} || 'ARRAY';
-    my $OrderBy      = $Param{OrderBy} || [ 'Down', 'Down' ];
-    my $SortBy       = $Param{SortBy} || [ 'Score', 'Age' ];
-    my $Limit        = $Param{Limit} || 10000;
+    my $ResultType   = $Param{Result}  || 'ARRAY';
+    my $OrderBy      = $Param{OrderBy} || [ 'Down',  'Down' ];
+    my $SortBy       = $Param{SortBy}  || [ 'Score', 'Age' ];
+    my $Limit        = $Param{Limit}   || 10000;
 
     # check required params
     if ( !$Param{UserID} && !$Param{CustomerUserID} ) {
@@ -368,8 +368,8 @@ sub TicketSearch {
                     elsif ( $DynamicField->{ObjectType} eq 'Article' ) {
                         push @SearchFields,
                             (
-                            "ArticlesExternal.DynamicField_$DynamicFieldName",
-                            "ArticlesInternal.DynamicField_$DynamicFieldName"
+                                "ArticlesExternal.DynamicField_$DynamicFieldName",
+                                "ArticlesInternal.DynamicField_$DynamicFieldName"
                             );
                     }
                 }
@@ -444,7 +444,11 @@ sub TicketSearch {
 
     # convert the Elasticsearch return to the needed OTRS structure and return
     if ( $ResultType eq 'HASH' ) {
-        return ( map { { $_->{TicketID} => $_->{TicketNumber} } } @{ $Result->{Data} } );
+        return (
+            map {
+                { $_->{TicketID} => $_->{TicketNumber} }
+            } @{ $Result->{Data} }
+        );
     }
 
     elsif ( $ResultType eq 'ARRAY' ) {
@@ -461,7 +465,11 @@ sub TicketSearch {
         for my $Data ( @{ $Result->{Data} } ) {
             $Data->{Age} = $Now - $Data->{Created};
         }
-        return ( map { { $_->{TicketID} => $_ } } @{ $Result->{Data} } );
+        return (
+            map {
+                { $_->{TicketID} => $_ }
+            } @{ $Result->{Data} }
+        );
     }
 
     elsif ( $ResultType eq 'COUNT' ) {
@@ -474,7 +482,7 @@ sub CustomerCompanySearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit} || 10000;
+    my $Limit        = $Param{Limit}  || 10000;
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
@@ -518,7 +526,7 @@ sub CustomerUserSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit} || 10000;
+    my $Limit        = $Param{Limit}  || 10000;
 
     my ( @Musts, @Filters );
     if ( defined $Param{Fulltext} ) {
@@ -549,7 +557,11 @@ sub CustomerUserSearch {
         }
     );
     if ( $ResultType eq 'HASH' ) {
-        return ( map { { $_->{CustomerKey} => $_->{UserFullname} } } @{ $Result->{Data} } );
+        return (
+            map {
+                { $_->{CustomerKey} => $_->{UserFullname} }
+            } @{ $Result->{Data} }
+        );
     }
     elsif ( $ResultType eq 'ARRAY' ) {
         return ( map { $_->{CustomerKey} } @{ $Result->{Data} } );
@@ -576,7 +588,7 @@ sub ConfigItemSearch {
     my ( $Self, %Param ) = @_;
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $ResultType   = $Param{Result} || 'ARRAY';
-    my $Limit        = $Param{Limit} || 10000;
+    my $Limit        = $Param{Limit}  || 10000;
 
     # check required params
     for my $Needed (qw/UserID Fulltext/) {
@@ -664,7 +676,11 @@ sub ConfigItemSearch {
     );
 
     if ( $ResultType eq 'FULL' ) {
-        return ( map { { $_->{ConfigItemID} => $_ } } @{ $Result->{Data} } );
+        return (
+            map {
+                { $_->{ConfigItemID} => $_ }
+            } @{ $Result->{Data} }
+        );
     }
     else {
         return ( map { $_->{ConfigItemID} } @{ $Result->{Data} } );

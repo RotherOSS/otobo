@@ -345,10 +345,10 @@ sub TableCreate {
         for ( 0 .. $#Array ) {
             push @{ $Self->{Post} },
                 $Self->ForeignKeyCreate(
-                LocalTableName   => $TableName,
-                Local            => $Array[$_]->{Local},
-                ForeignTableName => $ForeignKey,
-                Foreign          => $Array[$_]->{Foreign},
+                    LocalTableName   => $TableName,
+                    Local            => $Array[$_]->{Local},
+                    ForeignTableName => $ForeignKey,
+                    Foreign          => $Array[$_]->{Foreign},
                 );
         }
     }

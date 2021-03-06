@@ -57,7 +57,7 @@ sub Configure {
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
-        Name => 'generate-po',
+        Name        => 'generate-po',
         Description =>
             "Generate PO (translation content) files. This is only needed if a module is not yet available in Weblate to force initial creation of the gettext files.",
         Required => 0,
@@ -802,7 +802,7 @@ sub WritePOTFile {
     );
 
     push @POTEntries, Locale::PO->new(
-        -msgid => '',
+        -msgid  => '',
         -msgstr =>
             "Project-Id-Version: $Package\n" .
             "POT-Creation-Date: $CreationDate\n" .
@@ -832,7 +832,7 @@ sub WritePOTFile {
     if ( -e $Param{TargetPOTFile} ) {
         my %PreviousPOTEntries = $Self->LoadPOFile( TargetPOFile => $Param{TargetPOTFile} );
         my @PreviousPOTEntries = sort grep { length $_ } keys %PreviousPOTEntries;
-        my @NewPOTEntries      = sort map { $_->{Source} } @{ $Param{TranslationStrings} };
+        my @NewPOTEntries      = sort map  { $_->{Source} } @{ $Param{TranslationStrings} };
         my $DataIsDifferent    = DataIsDifferent(
             Data1 => \@PreviousPOTEntries,
             Data2 => \@NewPOTEntries

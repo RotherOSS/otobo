@@ -116,7 +116,7 @@ sub CheckSessionID {
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "SessionID ($Param{SessionID}) idle timeout ($Timeout h)! Don't grant access!!!",
         );
 
@@ -241,7 +241,7 @@ sub CreateSessionID {
 
     # get remote address and the http user agent
     my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr      = $ParamObject->RemoteAddr() || 'none';
+    my $RemoteAddr      = $ParamObject->RemoteAddr()       || 'none';
     my $RemoteUserAgent = $ParamObject->HTTP('USER_AGENT') || 'none';
 
     # get main object
