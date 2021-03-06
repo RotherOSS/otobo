@@ -172,8 +172,8 @@ sub DynamicFieldAdd {
             ' config, valid_id, create_time, create_by, change_time, change_by)' .
             ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$InternalField, \$Param{Name}, \$Param{Label}, \$Param{FieldOrder}, \$Param{FieldType},
-            \$Param{ObjectType}, \$Config, \$Param{ValidID}, \$Param{UserID}, \$Param{UserID},
+            \$InternalField,     \$Param{Name}, \$Param{Label},   \$Param{FieldOrder}, \$Param{FieldType},
+            \$Param{ObjectType}, \$Config,      \$Param{ValidID}, \$Param{UserID},     \$Param{UserID},
         ],
     );
 

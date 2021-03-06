@@ -208,7 +208,7 @@ sub _Fetch {
         my $Error = $@;
         %Connect = (
             Successful => 0,
-            Message =>
+            Message    =>
                 "Something went wrong while trying to connect to 'IMAP => $Param{Login}/$Param{Host}': ${ Error }",
         );
     };
@@ -372,7 +372,7 @@ sub _Fetch {
                     ObjectLogType => 'Connection',
                     Priority      => 'Error',
                     Key           => 'Kernel::System::MailAccount::IMAP',
-                    Value =>
+                    Value         =>
                         "Cannot fetch message '$Messageno/$NOM' with size '$MessageSizeReadable' ($MessageSizeKB KB)."
                         . "Maximum allowed message size is '$MaxEmailSize KB'!",
                 );
@@ -462,7 +462,7 @@ sub _Fetch {
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::IMAP',
-                            Value =>
+                            Value         =>
                                 "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
                         );
 

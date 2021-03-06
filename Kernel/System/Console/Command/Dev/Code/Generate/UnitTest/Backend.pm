@@ -36,7 +36,7 @@ sub Configure {
 
     $Self->Description('Generate a test skeleton.');
     $Self->AddOption(
-        Name => 'module-directory',
+        Name        => 'module-directory',
         Description =>
             "Specify the directory containing the module where the new test should be created (otherwise the OTOBO home directory will be used).",
         Required   => 0,

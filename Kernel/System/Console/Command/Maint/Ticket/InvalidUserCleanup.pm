@@ -229,8 +229,8 @@ sub _CleanupFlags {
         while ( my @Row = $DBObject->FetchrowArray() ) {
             push @IDs,
                 {
-                ArticleID => $Row[0],
-                TicketID  => $Row[1],
+                    ArticleID => $Row[0],
+                    TicketID  => $Row[1],
                 };
         }
 

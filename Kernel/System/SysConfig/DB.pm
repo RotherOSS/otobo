@@ -166,11 +166,11 @@ sub DefaultSettingAdd {
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name},       \$Param{Description}, \$Param{Navigation}, \$Param{IsInvisible},
-            \$Param{IsReadonly}, \$Param{IsRequired},  \$Param{IsValid},    \$Param{HasConfigLevel},
+            \$Param{Name},                     \$Param{Description},            \$Param{Navigation}, \$Param{IsInvisible},
+            \$Param{IsReadonly},               \$Param{IsRequired},             \$Param{IsValid},    \$Param{HasConfigLevel},
             \$Param{UserModificationPossible}, \$Param{UserModificationActive}, \$Param{UserPreferencesGroup},
             \$Param{XMLContentRaw},            \$Param{XMLContentParsed},       \$Param{XMLFilename}, \$Param{EffectiveValue},
-            \$Param{IsDirty},                  \$Param{ExclusiveLockGUID},      \$Param{UserID}, \$Param{UserID},
+            \$Param{IsDirty},                  \$Param{ExclusiveLockGUID},      \$Param{UserID},      \$Param{UserID},
         ],
     );
 
@@ -909,8 +909,8 @@ sub DefaultSettingUpdate {
 
     for my $Key (
         qw(
-        DefaultID Name Description Navigation XMLContentRaw XMLContentParsed XMLFilename
-        ExclusiveLockGUID EffectiveValue UserID
+            DefaultID Name Description Navigation XMLContentRaw XMLContentParsed XMLFilename
+            ExclusiveLockGUID EffectiveValue UserID
         )
         )
     {
@@ -962,9 +962,9 @@ sub DefaultSettingUpdate {
     my $IsDifferent = 0;
     for my $Key (
         qw(
-        DefaultID Description Navigation IsInvisible HasConfigLevel XMLContentRaw
-        XMLContentParsed XMLFilename ExclusiveLockGUID EffectiveValue HasConfigLevel IsInvisible
-        IsReadonly IsRequired IsValid UserModificationPossible UserModificationActive UserPreferencesGroup
+            DefaultID Description Navigation IsInvisible HasConfigLevel XMLContentRaw
+            XMLContentParsed XMLFilename ExclusiveLockGUID EffectiveValue HasConfigLevel IsInvisible
+            IsReadonly IsRequired IsValid UserModificationPossible UserModificationActive UserPreferencesGroup
         )
         )
     {
@@ -1002,8 +1002,8 @@ sub DefaultSettingUpdate {
                 is_dirty = ?, change_time = current_timestamp, change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{Description}, \$Param{Navigation}, \$Param{IsInvisible},    \$Param{IsReadonly},
-            \$Param{IsRequired},  \$Param{IsValid},    \$Param{HasConfigLevel}, \$Param{UserModificationPossible},
+            \$Param{Description},            \$Param{Navigation},           \$Param{IsInvisible},    \$Param{IsReadonly},
+            \$Param{IsRequired},             \$Param{IsValid},              \$Param{HasConfigLevel}, \$Param{UserModificationPossible},
             \$Param{UserModificationActive}, \$Param{UserPreferencesGroup}, \$Param{XMLContentRaw},
             \$Param{XMLContentParsed},
             \$Param{XMLFilename}, \$Param{EffectiveValue}, \$Param{IsDirty}, \$Param{UserID}, \$Param{DefaultID},
@@ -2261,11 +2261,11 @@ sub DefaultSettingVersionAdd {
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{DefaultID}, \$Param{Name}, \$Param{Description}, \$Param{Navigation},
-            \$Param{IsInvisible}, \$Param{IsReadonly}, \$Param{IsRequired}, \$Param{IsValid}, \$Param{HasConfigLevel},
+            \$Param{DefaultID},                \$Param{Name},                   \$Param{Description}, \$Param{Navigation},
+            \$Param{IsInvisible},              \$Param{IsReadonly},             \$Param{IsRequired},  \$Param{IsValid}, \$Param{HasConfigLevel},
             \$Param{UserModificationPossible}, \$Param{UserModificationActive}, \$Param{UserPreferencesGroup},
-            \$Param{XMLContentRaw}, \$Param{XMLContentParsed}, \$Param{XMLFilename}, \$Param{EffectiveValue},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{XMLContentRaw},            \$Param{XMLContentParsed},       \$Param{XMLFilename}, \$Param{EffectiveValue},
+            \$Param{UserID},                   \$Param{UserID},
         ],
     );
 
@@ -2897,9 +2897,9 @@ sub ModifiedSettingAdd {
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{DefaultID}, \$Param{Name}, \$Param{TargetUserID}, \$Param{IsValid},
+            \$Param{DefaultID},              \$Param{Name}, \$Param{TargetUserID}, \$Param{IsValid},
             \$Param{UserModificationActive}, \$Param{EffectiveValue},
-            \$IsDirty, \$Param{ResetToDefault}, \$Param{UserID}, \$Param{UserID},
+            \$IsDirty,                       \$Param{ResetToDefault}, \$Param{UserID}, \$Param{UserID},
         ],
     );
 
@@ -3594,9 +3594,9 @@ sub ModifiedSettingUpdate {
                 effective_value = ?, is_dirty = ?, reset_to_default = ?, change_time = current_timestamp, change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{DefaultID}, \$Param{Name}, \$Param{IsValid}, \$Param{UserModificationActive},
+            \$Param{DefaultID},      \$Param{Name},    \$Param{IsValid}, \$Param{UserModificationActive},
             \$Param{EffectiveValue}, \$Param{IsDirty}, \$Param{ResetToDefault},
-            \$Param{UserID}, \$Param{ModifiedID},
+            \$Param{UserID},         \$Param{ModifiedID},
         ],
     );
 
@@ -3787,9 +3787,9 @@ sub ModifiedSettingVersionAdd {
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         Bind => [
-            \$Param{DefaultVersionID}, \$Param{Name}, \$Param{TargetUserID}, \$Param{IsValid},
-            \$Param{ResetToDefault}, \$Param{UserModificationActive},
-            \$Param{EffectiveValue}, \$Param{DeploymentTimeStamp}, \$Param{UserID},
+            \$Param{DefaultVersionID},    \$Param{Name}, \$Param{TargetUserID}, \$Param{IsValid},
+            \$Param{ResetToDefault},      \$Param{UserModificationActive},
+            \$Param{EffectiveValue},      \$Param{DeploymentTimeStamp}, \$Param{UserID},
             \$Param{DeploymentTimeStamp}, \$Param{UserID},
         ],
     );
@@ -5003,7 +5003,7 @@ sub DeploymentLock {
             if ($IsLocked) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "It's not possible to lock a deployment if a setting is currently locked ($Locked->{Name}).",
                 );
                 return;

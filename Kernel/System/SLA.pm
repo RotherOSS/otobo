@@ -496,7 +496,7 @@ sub SLAAdd {
             \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
             \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
             \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{UserID},              \$Param{UserID},
         ],
     );
 
@@ -661,7 +661,7 @@ sub SLAUpdate {
             \$Param{Name},                \$Param{Calendar},       \$Param{FirstResponseTime},
             \$Param{FirstResponseNotify}, \$Param{UpdateTime},     \$Param{UpdateNotify},
             \$Param{SolutionTime},        \$Param{SolutionNotify}, \$Param{ValidID}, \$Param{Comment},
-            \$Param{UserID}, \$Param{SLAID},
+            \$Param{UserID},              \$Param{SLAID},
         ],
     );
 

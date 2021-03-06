@@ -82,7 +82,7 @@ sub Run {
                 Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
-            }
+            };
         }
     }
 

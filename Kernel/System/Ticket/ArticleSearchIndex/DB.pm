@@ -213,8 +213,8 @@ sub ArticleSearchIndexSQLJoinNeeded {
     for my $Field (
         sort keys %SearchableFields,
         qw(
-        ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
-        ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate Fulltext
+            ArticleCreateTimeOlderMinutes ArticleCreateTimeNewerMinutes
+            ArticleCreateTimeOlderDate ArticleCreateTimeNewerDate Fulltext
         )
         )
     {

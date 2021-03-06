@@ -141,9 +141,9 @@ sub Run {
                 Identifier => "ApacheReloadUsed",
                 Label      => Translatable('Apache::Reload Usage'),
                 Value      => 'not active',
-                Message =>
+                Message    =>
                     Translatable(
-                    'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.'
+                        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.'
                     ),
             );
         }
@@ -169,9 +169,9 @@ sub Run {
                 Identifier => "ApacheDBIUsed",
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'not active',
-                Message =>
+                Message    =>
                     Translatable(
-                    'Apache2::DBI should be used to get a better performance  with pre-established database connections.'
+                        'Apache2::DBI should be used to get a better performance  with pre-established database connections.'
                     ),
             );
         }

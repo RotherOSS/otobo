@@ -221,7 +221,7 @@ sub Run {
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         'More than one configuration option points to the same source dynamic field!',
                 );
                 return;

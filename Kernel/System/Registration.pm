@@ -315,7 +315,7 @@ sub Register {
                         APIVersion  => $Self->{APIVersion},
                         State       => 'active',
                         OldUniqueID => $OldRegistration{UniqueID} || '',
-                        OldAPIKey   => $OldRegistration{APIKey} || '',
+                        OldAPIKey   => $OldRegistration{APIKey}   || '',
                         Token       => $Param{Token},
                         OTOBOID     => $Param{OTOBOID},
                         Type        => $Param{Type},
@@ -421,8 +421,8 @@ sub Register {
         APIKey             => $ResponseData->{APIKey},
         LastUpdateID       => $ResponseData->{LastUpdateID},
         LastUpdateTime     => $CurrentTimestamp,
-        Type               => $ResponseData->{Type} || $Param{Type},
-        Description        => $ResponseData->{Description} || $Param{Description},
+        Type               => $ResponseData->{Type}               || $Param{Type},
+        Description        => $ResponseData->{Description}        || $Param{Description},
         SupportDataSending => $ResponseData->{SupportDataSending} || $SupportDataSending,
         NextUpdateTime     => $NextUpdateTime,
     );
@@ -528,8 +528,8 @@ sub RegistrationDataGet {
 
     my %RegistrationData =
         $Kernel::OM->Get('Kernel::System::SystemData')->SystemDataGroupGet(
-        Group  => 'Registration',
-        UserID => 1,
+            Group  => 'Registration',
+            UserID => 1,
         );
 
     # return empty hash if no UniqueID is found
