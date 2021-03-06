@@ -184,7 +184,7 @@ sub Run {
             Message    => $Self->{LanguageObject}->Translate("Migrate configuration settings."),
             Comment    => $Self->{LanguageObject}->Translate("An error occured during SysConfig migration when writing XML to DB."),
             Successful => 0,
-        }
+        };
     }
 
     # Write ZZZAuto.pm
