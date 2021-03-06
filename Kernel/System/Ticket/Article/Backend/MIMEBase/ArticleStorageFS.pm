@@ -80,7 +80,11 @@ sub new {
     return $Self if !$ConfigObject->Get('Cache::ArticleStorageCache');
 
     my $CacheModule = $ConfigObject->Get('Cache::Module') || '';
-    return $Self if $CacheModule ne 'Kernel::System::Cache::Redis';
+    my %CacheModuleIsSupported = (
+        'Kernel::System::Cache::MemcachedFast' => 1,
+        'Kernel::System::Cache::Redis' => 1,
+    );
+    return $Self unless $CacheModuleIsSupported{ $CacheModule };
 
     # Turn on special cache used for speeding up article storage methods in huge systems with many
     #   nodes and slow FS access. It will be used only in environments with configured Memcached
