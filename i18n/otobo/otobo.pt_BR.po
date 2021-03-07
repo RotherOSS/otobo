@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-02-22 10:54+0000\n"
+"PO-Revision-Date: 2021-03-07 23:56+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -10208,6 +10208,8 @@ msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
 msgstr ""
+"A senha deve conter pelo menos 3 das classes de caracteres: caractere "
+"minúsculo, caractere maiúscula, dígito, caractere especial."
 
 #. Template: CustomerTicketList
 msgid "Nr."
@@ -10227,11 +10229,11 @@ msgstr "Nada para exibir."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "Clique aqui para obter uma lista sem filtro de todos os seus tickets."
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "Criar um novo Ticket"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10239,7 +10241,7 @@ msgstr "Acordo de nível de serviço"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "Seus Tickets"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -10247,7 +10249,7 @@ msgstr "Página"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "Ordenar"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10343,7 +10345,7 @@ msgstr "Responder"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
-msgstr ""
+msgstr "Descartar"
 
 #. Template: CustomerTicketZoom
 msgid "Ticket Information"
@@ -10351,11 +10353,11 @@ msgstr "Informação do Chamado"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "Categorias"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "Ações futuras"
 
 #. Template: Chat
 msgid "Expand article"
@@ -10363,7 +10365,7 @@ msgstr "Expandir artigo"
 
 #. Template: MIMEBase
 msgid "Article Information"
-msgstr ""
+msgstr "Informações de artigos"
 
 #. Template: CustomerWarning
 msgid "Warning"
@@ -10371,7 +10373,7 @@ msgstr "Aviso"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "Emitir%sa ticket"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -10471,7 +10473,7 @@ msgstr "Telefone"
 
 #. Template: Installer
 msgid "Switzerland"
-msgstr ""
+msgstr "Suíça"
 
 #. Template: Installer
 msgid "Web site"
@@ -10699,13 +10701,15 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "Tipo de HTTP"
 
 #. Template: InstallerSystem
 msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
 msgstr ""
+"Defina o esquema de solicitação usado para cookies e vários links. Para fins "
+"de produção, sempre use https."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
@@ -10775,13 +10779,15 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr ""
+msgstr "Inicializar Elasticsearch"
 
 #. Template: InstallerSystem
 msgid ""
 "Elasticsearch server was found, and it has been activated automatically for "
 "OTOBO."
 msgstr ""
+"Servidor Elasticsearch foi encontrado, e será automaticamente ativado no "
+"OTOBO."
 
 #. Template: InstallerSystem
 msgid ""
@@ -10843,31 +10849,36 @@ msgstr ""
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "Iniciar migração"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "Resultado da migração de dados"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "Última tarefa bem-sucedida:"
 
 #. Template: Copy
 msgid ""
 "Migration will restart from the last successfully finished task. Please do a "
 "complete rerun if you changed your system in the meantime."
 msgstr ""
+"A migração será reiniciada a partir da última tarefa concluída com êxito. "
+"Por favor, execute uma nova execução completa se você alterou seu sistema "
+"nesse meio tempo."
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "Limpe e termine"
 
 #. Template: Finish
 msgid ""
 "The migration is complete, thank you for trying out OTOBO - we hope you will "
 "like it."
 msgstr ""
+"A migração foi concluída, obrigado por experimentar o OTOBO - esperamos que "
+"goste."
 
 #. Template: Intro
 msgid ""
@@ -10875,28 +10886,38 @@ msgid ""
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
 msgstr ""
+"Este script de migração o conduzirá passo a passo pelo processo de migração "
+"de seu sistema de tíquetes do OTRS ou (((OTRS)) Community Edition versão 6 "
+"para o OTOBO 10."
 
 #. Template: Intro
 msgid ""
 "There is no danger whatsoever for your original system: nothing is changed "
 "there."
-msgstr ""
+msgstr "Não há perigo algum para o seu sistema original: nada é alterado nele."
 
 #. Template: Intro
 msgid ""
 "Instructions and details on migration prerequisites can be found in the "
 "migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"Instruções e detalhes sobre os pré-requisitos de migração podem ser "
+"encontrados no manual de migração. É altamente recomendável lê-lo antes de "
+"iniciar a migração."
 
 #. Template: Intro
 msgid ""
 "In case you have to suspend migration, you can resume it anytime at the same "
 "point as long as the cache has not been deleted."
 msgstr ""
+"Caso seja necessário suspender a migração, você pode retomá-la a qualquer "
+"momento no mesmo ponto, desde que o cache não tenha sido excluído."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
 msgstr ""
+"Todas as senhas inseridas são armazenadas em cache até que a migração seja "
+"concluída."
 
 #. Template: Intro
 msgid ""
@@ -10904,40 +10925,45 @@ msgid ""
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
 msgstr ""
+" Qualquer pessoa com acesso a esta página ou permissão de leitura para o "
+"diretório inicial do OTOBO poderá lê-los. Se você abortar a migração, terá a "
+"opção de limpar o cache visitando esta página novamente."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
-msgstr ""
+msgstr "Se precisar de suporte, pergunte aos nossos especialistas - em"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "Fórum OTOBO"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "ou diretamente por e-mail para"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "Dados armazenados em cache encontrados"
 
 #. Template: Intro
 msgid ""
 "You will continue where you aborted the migration last time. If you do not "
 "want this, please discard your previous progress."
 msgstr ""
+"Você continuará de onde abortou a migração da última vez. Se você não quiser "
+"isso, descarte seu progresso anterior."
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "Um erro ocorreu."
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "Descartar o progresso anterior"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "Conexão HTTP insegura"
 
 #. Template: Intro
 msgid ""
@@ -10949,20 +10975,21 @@ msgstr ""
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "Continue assim mesmo :("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " Continue assim mesmo :("
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
-msgstr ""
+msgstr "Pular migração do Banco de Dados"
 
 #. Template: OTRSDBSettings
 msgid ""
 "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
+"Opção Expert! Só funciona se a migração já tiver sido feita manualmente."
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
@@ -10970,31 +10997,31 @@ msgstr ""
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "Servidor OTRS"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "Usuário SSH"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "Diretório home do OTRS"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "Verifique as configurações"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "Resultado da verificação das configurações"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "Verificação das configurações bem-sucedida."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "Executar verificações prévias de migração"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
@@ -11313,11 +11340,11 @@ msgstr ""
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "Ligado "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "Redefinir para este valor"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
@@ -11544,7 +11571,7 @@ msgstr "Navegação"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "Exclua o valor do usuário."
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -11592,11 +11619,11 @@ msgstr "Carregando, por favor aguarde..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "Mostrar todo"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "Mostrar menos"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
@@ -11604,7 +11631,7 @@ msgstr "Clique para selecionar um arquivo para carregar."
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "Clique para selecionar ou soltar arquivos aqui."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
@@ -11620,23 +11647,23 @@ msgstr "Carregando..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "Tempo necessário"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "Pacote"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "Desinstalar do OTOBO"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "Ignorar"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "Migrar"
 
 #. JS Template: InformationDialog
 msgid "Process state"
@@ -12140,7 +12167,7 @@ msgstr "segundo"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "Nenhum contato é fornecido!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
@@ -30781,7 +30808,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "Este módulo está sendo usado para estender a política de senha."
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
@@ -30851,7 +30878,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Chamado Fechado"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -31216,7 +31243,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "Use o banco de dados lógico Redis especificado."
 
 #. SysConfig
 msgid "User Profile"
