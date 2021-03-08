@@ -1,7 +1,7 @@
 name: 'CodePolicy'
 on: ['pull_request']
 jobs:
-    get_files:
+    CodePolicy:
         runs-on: 'ubuntu-latest'
         steps:
             - id: files
