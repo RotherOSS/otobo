@@ -35,6 +35,9 @@ jobs:
                 Kernel/cpan-lib/Apache2
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
+            - name: show changed files
+              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
+
             # The actual test step
             - name: prove
-              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ${{ steps.files.outputs.added_modified }}
+              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t
