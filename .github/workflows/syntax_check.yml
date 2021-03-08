@@ -35,9 +35,6 @@ jobs:
                 Kernel/cpan-lib/Apache2
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
-            - id: files
-              uses: 'jitterbit/get-changed-files@v1'
-
             # The actual test step
             - name: prove
-              run: prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ${{ steps.files.outputs.added_modified }}
+              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ${{ steps.files.outputs.added_modified }}
