@@ -14,7 +14,10 @@ jobs:
             options: --user root
 
         steps:
+            # checkout with history
             - uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
 
             # some diagnostics
             - name: perl -V
