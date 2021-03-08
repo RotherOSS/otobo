@@ -24,8 +24,12 @@ use utf8;
 use Test2::V0;
 use Test::Compile::Internal;
 
-my $Internal = Test::Compile::Internal->new();
-my @Dirs     = qw(Kernel Custom scripts bin);
+# When there are extra arguments, then limit the checks to the passed files.
+# Is useful for github actions.
+my %FileIsChanged = map { $_ => 1 } @ARGV;
+
+# limit the checks to specific dirs
+my @Dirs = qw(Kernel Custom scripts bin);
 
 # List of files that are know to have compile issues.
 # NOTE: Please create an issue when adding to this list and the reason is not acceptable.
@@ -40,9 +44,17 @@ my %FailureIsAccepted = (
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
 );
 
+# object for doing the actual check
+my $Internal = Test::Compile::Internal->new();
+
 note('check syntax of the Perl modules');
 
+FILE:
 for my $File ( $Internal->all_pm_files(@Dirs) ) {
+
+    # check only files that were passed on the command line
+    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -55,7 +67,12 @@ for my $File ( $Internal->all_pm_files(@Dirs) ) {
 
 note('check syntax of the Perl scripts');
 
+FILE:
 for my $File ( $Internal->all_pl_files(@Dirs) ) {
+
+    # check only files that were passed on the command line
+    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
