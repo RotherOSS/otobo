@@ -26,7 +26,11 @@ use Test::Compile::Internal;
 
 # When there are extra arguments, then limit the checks to the passed files.
 # Is useful for github actions.
-my %FileIsChanged = map { $_ => 1 } @ARGV;
+my $CheckOnlyChangedFiles = @ARGV ? 1 : 0;
+my %FileIsChanged         = map { $_ => 1 } @ARGV;
+
+# make sure that there is at least one test
+pass('checking only the files passed via @ARGV') if $CheckOnlyChangedFiles;
 
 # limit the checks to specific dirs
 my @Dirs = qw(Kernel Custom scripts bin);
@@ -48,38 +52,40 @@ my %FailureIsAccepted = (
 my $Internal = Test::Compile::Internal->new();
 
 note('check syntax of the Perl modules');
+{
+    FILE:
+    for my $File ( $Internal->all_pm_files(@Dirs) ) {
 
-FILE:
-for my $File ( $Internal->all_pm_files(@Dirs) ) {
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-    # check only files that were passed on the command line
-    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+        if ( $FailureIsAccepted{$File} ) {
+            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
-    if ( $FailureIsAccepted{$File} ) {
-        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
-
-        ok( $Internal->pm_file_compiles($File), "$File compiles" );
-    }
-    else {
-        ok( $Internal->pm_file_compiles($File), "$File compiles" );
+            ok( $Internal->pm_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pm_file_compiles($File), "$File compiles" );
+        }
     }
 }
 
 note('check syntax of the Perl scripts');
+{
+    FILE:
+    for my $File ( $Internal->all_pl_files(@Dirs) ) {
 
-FILE:
-for my $File ( $Internal->all_pl_files(@Dirs) ) {
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-    # check only files that were passed on the command line
-    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+        if ( $FailureIsAccepted{$File} ) {
+            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
-    if ( $FailureIsAccepted{$File} ) {
-        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
-
-        ok( $Internal->pl_file_compiles($File), "$File compiles" );
-    }
-    else {
-        ok( $Internal->pl_file_compiles($File), "$File compiles" );
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
     }
 }
 
@@ -88,7 +94,13 @@ note('look at Perl code with an unusual extension');
     my @Files = (
         'bin/psgi-bin/otobo.psgi',
     );
+
+    FILE:
     for my $File (@Files) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+
         if ( $FailureIsAccepted{$File} ) {
             my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -108,7 +120,12 @@ note('check syntax of some shell scripts');
         push @ShellScripts, 'bin/Cron.sh';
     }
 
+    FILE:
     for my $File (@ShellScripts) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
     }
@@ -119,7 +136,12 @@ note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 SKIP: {
     skip 'no hooks dir' if !-d 'hooks';
 
+    FILE:
     for my $File ( glob 'hooks/*' ) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
     }
