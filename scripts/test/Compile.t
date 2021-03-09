@@ -71,7 +71,7 @@ FILE:
 for my $File ( $Internal->all_pl_files(@Dirs) ) {
 
     # check only files that were passed on the command line
-    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+    next FILE if %FileIsChanged && !$FileIsChanged{$File};
 
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
