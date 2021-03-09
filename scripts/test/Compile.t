@@ -52,38 +52,40 @@ my %FailureIsAccepted = (
 my $Internal = Test::Compile::Internal->new();
 
 note('check syntax of the Perl modules');
+{
+    FILE:
+    for my $File ( $Internal->all_pm_files(@Dirs) ) {
 
-FILE:
-for my $File ( $Internal->all_pm_files(@Dirs) ) {
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-    # check only files that were passed via the command line
-    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+        if ( $FailureIsAccepted{$File} ) {
+            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
-    if ( $FailureIsAccepted{$File} ) {
-        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
-
-        ok( $Internal->pm_file_compiles($File), "$File compiles" );
-    }
-    else {
-        ok( $Internal->pm_file_compiles($File), "$File compiles" );
+            ok( $Internal->pm_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pm_file_compiles($File), "$File compiles" );
+        }
     }
 }
 
 note('check syntax of the Perl scripts');
+{
+    FILE:
+    for my $File ( $Internal->all_pl_files(@Dirs) ) {
 
-FILE:
-for my $File ( $Internal->all_pl_files(@Dirs) ) {
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-    # check only files that were passed via the command line
-    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+        if ( $FailureIsAccepted{$File} ) {
+            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
-    if ( $FailureIsAccepted{$File} ) {
-        my $ToDo = todo "$File: $FailureIsAccepted{$File}";
-
-        ok( $Internal->pl_file_compiles($File), "$File compiles" );
-    }
-    else {
-        ok( $Internal->pl_file_compiles($File), "$File compiles" );
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
+        else {
+            ok( $Internal->pl_file_compiles($File), "$File compiles" );
+        }
     }
 }
 
@@ -92,6 +94,8 @@ note('look at Perl code with an unusual extension');
     my @Files = (
         'bin/psgi-bin/otobo.psgi',
     );
+
+    FILE:
     for my $File (@Files) {
 
         # check only files that were passed via the command line
@@ -116,6 +120,7 @@ note('check syntax of some shell scripts');
         push @ShellScripts, 'bin/Cron.sh';
     }
 
+    FILE:
     for my $File (@ShellScripts) {
 
         # check only files that were passed via the command line
@@ -131,6 +136,7 @@ note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 SKIP: {
     skip 'no hooks dir' if !-d 'hooks';
 
+    FILE:
     for my $File ( glob 'hooks/*' ) {
 
         # check only files that were passed via the command line
