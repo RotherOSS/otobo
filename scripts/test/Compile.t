@@ -57,7 +57,7 @@ FILE:
 for my $File ( $Internal->all_pm_files(@Dirs) ) {
 
     # check only files that were passed via the command line
-    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
+    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
@@ -95,7 +95,7 @@ note('look at Perl code with an unusual extension');
     for my $File (@Files) {
 
         # check only files that were passed via the command line
-        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
         if ( $FailureIsAccepted{$File} ) {
             my $ToDo = todo "$File: $FailureIsAccepted{$File}";
@@ -112,14 +112,15 @@ note('check syntax of some shell scripts');
 {
     my @ShellScripts = glob 'bin/docker/*.sh';
 
-    # check only files that were passed via the command line
-    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
-
     if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
         push @ShellScripts, 'bin/Cron.sh';
     }
 
     for my $File (@ShellScripts) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
     }
@@ -130,10 +131,11 @@ note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 SKIP: {
     skip 'no hooks dir' if !-d 'hooks';
 
-    # check only files that were passed via the command line
-    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
-
     for my $File ( glob 'hooks/*' ) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
+
         my $CompileErrors = `bash -n "$File" 2>&1`;
         is( $CompileErrors, '', "$File compiles" );
     }
