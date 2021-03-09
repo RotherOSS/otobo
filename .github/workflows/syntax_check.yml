@@ -41,6 +41,8 @@ jobs:
             - name: show changed files
               run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
 
-            # The actual test step
+            # The actual test step.
+            # xargs adds the changed files to the prove command
+            # :: tells prove that whatever follows should be passed to the test script
             - name: prove
-              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t
+              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ::
