@@ -26,7 +26,11 @@ use Test::Compile::Internal;
 
 # When there are extra arguments, then limit the checks to the passed files.
 # Is useful for github actions.
-my %FileIsChanged = map { $_ => 1 } @ARGV;
+my $CheckOnlyChangedFiles = @ARGV ? 1 : 0;
+my %FileIsChanged         = map { $_ => 1 } @ARGV;
+
+# make sure that there is at least one test
+pass('checking only the files passed via @ARGV') if $CheckOnlyChangedFiles;
 
 # limit the checks to specific dirs
 my @Dirs = qw(Kernel Custom scripts bin);
@@ -52,8 +56,8 @@ note('check syntax of the Perl modules');
 FILE:
 for my $File ( $Internal->all_pm_files(@Dirs) ) {
 
-    # check only files that were passed on the command line
-    next FILE if %FileIsChanged && !$FileIsChanged{$_};
+    # check only files that were passed via the command line
+    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
 
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
@@ -70,8 +74,8 @@ note('check syntax of the Perl scripts');
 FILE:
 for my $File ( $Internal->all_pl_files(@Dirs) ) {
 
-    # check only files that were passed on the command line
-    next FILE if %FileIsChanged && !$FileIsChanged{$File};
+    # check only files that were passed via the command line
+    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
     if ( $FailureIsAccepted{$File} ) {
         my $ToDo = todo "$File: $FailureIsAccepted{$File}";
@@ -89,6 +93,10 @@ note('look at Perl code with an unusual extension');
         'bin/psgi-bin/otobo.psgi',
     );
     for my $File (@Files) {
+
+        # check only files that were passed via the command line
+        next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
+
         if ( $FailureIsAccepted{$File} ) {
             my $ToDo = todo "$File: $FailureIsAccepted{$File}";
 
@@ -104,6 +112,9 @@ note('check syntax of some shell scripts');
 {
     my @ShellScripts = glob 'bin/docker/*.sh';
 
+    # check only files that were passed via the command line
+    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
+
     if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
         push @ShellScripts, 'bin/Cron.sh';
     }
@@ -118,6 +129,9 @@ note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 
 SKIP: {
     skip 'no hooks dir' if !-d 'hooks';
+
+    # check only files that were passed via the command line
+    next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$_};
 
     for my $File ( glob 'hooks/*' ) {
         my $CompileErrors = `bash -n "$File" 2>&1`;
