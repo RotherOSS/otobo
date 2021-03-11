@@ -57,7 +57,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-07 23:56+0000\n"
+"PO-Revision-Date: 2021-03-11 02:17+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -10775,7 +10775,7 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
-msgstr ""
+msgstr "Elasticsearch"
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
@@ -12171,23 +12171,23 @@ msgstr "Nenhum contato é fornecido!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "Nenhum dado encontrado para determinado contato em determinada fonte!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "Contato atualizado!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "Nenhum dado encontrado no campo!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "Contato criado!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "Erro ao criar contato!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid ""
@@ -12197,7 +12197,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "Nenhum dado encontrado para a fonte fornecida!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -12361,7 +12361,7 @@ msgstr "Marcado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "Esta chave de campo está duplicada."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
@@ -12377,11 +12377,11 @@ msgstr "Prevenir entrada de datas no passado"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "As configurações foram salvas."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "O sistema não conseguiu salvar a configuração!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
@@ -12393,7 +12393,7 @@ msgstr "O sistema não conseguiu redefinir a definição!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "As configurações foram redefinidas."
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
@@ -13038,7 +13038,7 @@ msgstr "Pacote possui arquivos locais modificados."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "Pacote não verificado pela equipe OTOBO!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -13687,15 +13687,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "Versão modificada"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "Restaurar ao padrão"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "Versão Padrão"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
