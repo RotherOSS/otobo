@@ -328,6 +328,7 @@ EOF
                 Name    => "UT Test Service $Count $RandomID",
                 ValidID => 1,
                 UserID  => 1,
+                Comment => "test script: $0",
             );
             push @ServiceIDs, $ServiceID;
 

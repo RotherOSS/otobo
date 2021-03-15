@@ -1,0 +1,17 @@
+name: 'CodePolicy'
+on: ['pull_request']
+jobs:
+    CodePolicy:
+        runs-on: 'ubuntu-latest'
+        steps:
+            - id: files
+              uses: jitterbit/get-changed-files@v1
+
+            - name: 'get CodePolicy'
+              run: git clone --depth 1 --branch rel-10_0_3 https://github.com/RotherOSS/CodePolicy.git codepolicy
+
+            - name: 'install TidyAll'
+              run: sudo apt install -y libcode-tidyall-perl
+
+            - name: 'run CodePolicy'
+              run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.files.outputs.added_modified }}
