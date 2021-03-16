@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-15 17:39+0000\n"
+"PO-Revision-Date: 2021-03-16 16:02+0000\n"
 "Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
@@ -665,7 +665,7 @@ msgstr "通知方法"
 msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
-msgstr ""
+msgstr "宛先毎に通知方法を選択できます。いずれかの方法を選択してください。"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -1793,7 +1793,7 @@ msgstr "ダイナミック・フィールドのエクスポート"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr "ダイナミック・フィールドの画面表示"
+msgstr "ダイナミックフィールド画面表示"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
@@ -11432,17 +11432,17 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (コピー)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "通知作成中にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTOBO logs for more information"
-msgstr ""
+msgstr "未知のエラーのため通知をインポートできませんでした。OTOBOのログを確認してください"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
@@ -11456,11 +11456,11 @@ msgstr "次の通知が正常に更新されました：%s"
 msgid ""
 "There where errors adding/updating the following Notifications: %s. Please "
 "check the log file for more information."
-msgstr ""
+msgstr "通知 %s の追加/更新に失敗しました。ログを確認してください。"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
-msgstr ""
+msgstr "通知が更新されました!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Agent (resources), who are selected within the appointment"
@@ -11469,7 +11469,7 @@ msgstr "予定内で選択された担当者（リソース）"
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "All agents with (at least) read permission for the appointment (calendar)"
-msgstr ""
+msgstr "すべての担当者はカレンダーの読み取り許可が必要です"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "All agents with write permission for the appointment (calendar)"
@@ -11485,7 +11485,7 @@ msgstr "自動応答が追加されました！"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "コミュニケーションIDが不正です!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
@@ -11521,7 +11521,7 @@ msgstr "先月"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
-msgstr ""
+msgstr "開始時刻 %s が不正です!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
@@ -11635,7 +11635,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
-msgstr ""
+msgstr "ダイナミック・フィールド %s に値が設定できませんでした!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
@@ -11647,15 +11647,15 @@ msgstr "顧客企業を追加しました。"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
-msgstr ""
+msgstr "設定 'CustomerGroupPermissionContext'が存在しません!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Please check system configuration."
-msgstr ""
+msgstr "システム設定を確認してください。"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Invalid permission context configuration:"
-msgstr ""
+msgstr "設定の権限が不正です:"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer updated!"
@@ -11691,11 +11691,11 @@ msgstr "間接"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Customer User Relations for Group"
-msgstr ""
+msgstr "顧客ユーザーとグループの関係性の変更"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Group Relations for Customer User"
-msgstr ""
+msgstr "顧客ユーザーとグループの関係性の変更"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Customer Users to Service"
@@ -11703,15 +11703,15 @@ msgstr "顧客ユーザーをサービスに割り当てる"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Services to Customer User"
-msgstr ""
+msgstr "顧客ユーザーにサービスを割り当て"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
-msgstr ""
+msgstr "フィールドの設定が不正です"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Objects configuration is not valid"
-msgstr ""
+msgstr "オブジェクトの設定が不正です"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
@@ -11731,19 +11731,19 @@ msgstr "%s の入力が必要です。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "%s を追加します"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
-msgstr ""
+msgstr "このフィールドはASCII文字と数字のみ入力可能です。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "There is another field with the same name."
-msgstr ""
+msgstr "同じ名前の他のフィールドが存在します。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field must be numeric."
-msgstr ""
+msgstr "このフィールドは数字のみ入力可能です。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ValidID"
@@ -11763,15 +11763,15 @@ msgstr "ダイナミック・フィールド %s の値を取得できません�
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "%s の変更"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
-msgstr ""
+msgstr "フィールド名は変更できません。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not update the field %s"
-msgstr ""
+msgstr "フィールド %s を更新できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
@@ -11787,11 +11787,11 @@ msgstr "選択済み"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "キーが重複しています。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
-msgstr ""
+msgstr "値が重複しています。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
@@ -11803,7 +11803,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "設定を保存しました。"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
@@ -13297,7 +13297,7 @@ msgstr "顧客履歴"
 
 #. Perl Module: Kernel/Modules/AgentCustomerUserAddressBook.pm
 msgid "No RecipientField is given!"
-msgstr ""
+msgstr "宛先を入力してください!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
@@ -13309,11 +13309,11 @@ msgstr "レポート"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No preferences for %s!"
-msgstr ""
+msgstr "%s 向けのプリファレンスがありません!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get element data of %s!"
-msgstr ""
+msgstr "%sのデータが取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get filter content data of %s!"
@@ -13367,7 +13367,7 @@ msgstr "パラメータ Groupが必要です！"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "この機能は存在していないか有効になっていません。"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
@@ -13375,7 +13375,7 @@ msgstr "ユーザー設定を更新しました"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
-msgstr ""
+msgstr "変更が反映できませんでいｓた。"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
@@ -13383,7 +13383,7 @@ msgstr "設定が見つかりません！"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
-msgstr ""
+msgstr "設定をリセットできませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
@@ -13467,7 +13467,7 @@ msgstr "FormDraft名%sは既に使用中です！"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
-msgstr ""
+msgstr "フィールド%sを検証できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
@@ -13529,13 +13529,13 @@ msgstr "チケット(%s)はアンロックされていません！"
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
-msgstr ""
+msgstr "チケット%sは他の担当者がロックしているか権限がないため無視されます。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
-msgstr ""
+msgstr "チケット%sは他の担当者がロックしているか権限がないため無視されます。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
@@ -13561,16 +13561,16 @@ msgstr ""
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
-msgstr ""
+msgstr "チケット%sは他の担当者がロックしているか権限がないため無視されます。"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "チケット%sはロックされています。"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr ""
+msgstr "自動採番を除くとサブジェクトが空白です!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
@@ -13700,7 +13700,7 @@ msgstr "これは電子メールの記事ではありません。"
 msgid ""
 "Can't read plain article! Maybe there is no plain email in backend! Read "
 "backend message."
-msgstr ""
+msgstr "元の記事が参照できませんでした! システム設定を確認してください。"
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
@@ -13708,7 +13708,7 @@ msgstr "チケットID の入力してください！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "ActivityDialogEntityID \"%s\"が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No Process configured!"
@@ -13728,7 +13728,7 @@ msgstr "サブアクションが不正です！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Parameter %s is missing in %s."
-msgstr ""
+msgstr "パラメータ %s が設定 %sに存在しません。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
@@ -13738,11 +13738,11 @@ msgstr ""
 msgid ""
 "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: "
 "%s in _GetParam!"
-msgstr ""
+msgstr "プロセス %s : 開始ActivityEntityID もしくはActivityDialogEntityID が存在しません!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
-msgstr ""
+msgstr "チケットID %s のチケット情報が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -13754,38 +13754,38 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
-msgstr ""
+msgstr "Process::Default%s の設定値がそんざいしません!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Got no ProcessEntityID or TicketID and ActivityDialogEntityID!"
-msgstr ""
+msgstr "ProcessEntityID,TicketID, ActivityDialogEntityIDが存在しません!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "ProcessEntityID \"%s\"の開始アクティビティダイアログが取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
-msgstr ""
+msgstr "チケット%sが取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
-msgstr ""
+msgstr "チケット\"%s\"のProcessEntityID もしくはActivityEntityID が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
-msgstr ""
+msgstr "アクティビティ\"%s\"の設定が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "ActivityDialogEntityID \"%s\"のアクティビティダイアログ設定が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get data for Field \"%s\" of ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "フィールド\"%s\"のデータが取得できませんでした(アクティビティダイアログ\"%s\")!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -13807,7 +13807,7 @@ msgstr "ActivityDialogEntityID が入力されていません！"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "アクティビティダイアログ \"%s\"の設定が取得できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
@@ -13815,16 +13815,16 @@ msgstr "非表示フィールドとして顧客IDを使用できませんでし�
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
-msgstr ""
+msgstr "ProcessEntityIDが存在しません。 ActivityDialogHeader.ttを確認してください!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "No StartActivityDialog or StartActivityDialog for Process \"%s\" configured!"
-msgstr ""
+msgstr "プロセス%sの開始アクティビティダイアログが構成されていません!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "プロセス”%s\"のチケットが作成できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
@@ -13836,11 +13836,11 @@ msgstr "ActivityEntityID \"%s\" を TicketID \"%s\" に設定できませんで�
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
-msgstr ""
+msgstr "チケットID %sは不正です。アクティビティダイアログを保存できませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
-msgstr ""
+msgstr "チケットID %sは不正です!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
@@ -13852,6 +13852,7 @@ msgid ""
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
 "close this window and reload the ticket."
 msgstr ""
+"チケット '%s%s%s'でこのアクティビティは存在しません。他のユーザーが変更した可能性があります。このウィンドウを閉じてリロードしてください。"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
@@ -13877,11 +13878,11 @@ msgid ""
 "Wrong ActivityDialog Field config: %s can't be Display => 1 / Show field "
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
-msgstr ""
+msgstr "アクティビティダイアログ%sの設定が不正です。正しい値は1:表示しない / 0:表示する / 2:必須で表示する です!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "%s をチケットID %sに設定できませんでした(アクティビティダイアログ%s)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
@@ -13917,7 +13918,7 @@ msgstr "最終検索"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "タイトルなし"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket Number"
@@ -13961,7 +13962,7 @@ msgstr "以後"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr ""
+msgstr "機能が有効にされていません!"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Service View"
@@ -13977,7 +13978,7 @@ msgstr "担当の監視チケット"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
-msgstr ""
+msgstr "機能が有効になっていません"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Deleted"
@@ -13997,7 +13998,7 @@ msgstr "ダイナミック・フィールドを更新しました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
-msgstr ""
+msgstr "送信メール(内部向け)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
@@ -14163,7 +14164,7 @@ msgstr ""
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
-msgstr ""
+msgstr "このチケットは存在しないか、アクセスする権限がありません。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
@@ -14179,7 +14180,7 @@ msgstr "記事フィルタの設定が保存されました。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Event type filter settings were saved."
-msgstr ""
+msgstr "イベントフィルター設定が保存されました。"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
@@ -14203,19 +14204,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invisible only"
-msgstr ""
+msgstr "常に非表示"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible only"
-msgstr ""
+msgstr "常に表示"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Visible and invisible"
-msgstr ""
+msgstr "表示/非表示"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "記事が開けませんでした!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show one article"
@@ -14227,25 +14228,25 @@ msgstr "全ての記事を閲覧"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "チケットタイムライン・ビューを表示"
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid "Got no FormID."
-msgstr ""
+msgstr "FormIDが存在しません。"
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid ""
 "Error: the file could not be deleted properly. Please contact your "
 "administrator (missing FileID)."
-msgstr ""
+msgstr "エラー: このファイルは削除できません。管理者に連絡してください(FileIDが存在しません)。"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
-msgstr ""
+msgstr "ArticleIDが必要です!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "No TicketID for ArticleID (%s)!"
-msgstr ""
+msgstr "記事ID(%s)に対応するチケットIDが存在しません!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "HTML body attachment is missing!"
@@ -14270,7 +14271,7 @@ msgstr "%s::TicketTypeDefault の設定値をご確認ください。"
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
-msgstr ""
+msgstr "キューにチケットを作成する十分な権限がありません。"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
@@ -14303,7 +14304,7 @@ msgstr "以前に作成された"
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
-msgstr ""
+msgstr "検索で使用できない次の語を削除してください:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
@@ -14320,7 +14321,7 @@ msgstr "SecureModeが有効です！"
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "もしインストーラを再実行する必要がある場合、システム設定SecureModeを無効(いいえ)にしてください。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
@@ -14419,12 +14420,14 @@ msgid "Contact your Admin!"
 msgstr "管理者に連絡してください！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
+#, fuzzy
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -14470,6 +14473,8 @@ msgid ""
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
+"エラー: DB側で%s MB以上のパケットを受け付けるように設定してください(現在 %s "
+"MBです)。DB側のmax_allowed_packet設定を確認してください。"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -14484,11 +14489,11 @@ msgstr ""
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
 "the SysConfig."
-msgstr ""
+msgstr "マイグレーションツールを再実行するには、システム設定SecureModeを無効(いいえ)にしてください。"
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "OTRSからOTOBOへの移行"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -14572,7 +14577,7 @@ msgstr "この記事を印刷"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "連絡先: hello@otobo.de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -17975,7 +17980,7 @@ msgstr "このウィジットに対するアクティブ・フィルターを除
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "ダイナミック・フィールドのDB参照値は選択済みです。"
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
@@ -17989,7 +17994,7 @@ msgstr ""
 
 #. JS File: Core.Agent.LinkObject
 msgid "Do you really want to delete this link?"
-msgstr ""
+msgstr "このリンクを本当に削除しますか?"
 
 #. JS File: Core.Agent.Login
 msgid ""
@@ -18020,7 +18025,7 @@ msgstr "申し訳ありません。この通知を無効化することはでき
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
-msgstr ""
+msgstr "設定を変更した場合ページのリロードが必要です。クリックするとリロードします。"
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
@@ -18034,11 +18039,11 @@ msgstr "デスクトップモードへ"
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "検索できない語が存在します。削除してください :"
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "生成"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
@@ -18114,15 +18119,15 @@ msgstr "ページの再読み込み"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "ページのリロード(%s秒)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
-msgstr ""
+msgstr "Namespace %s could not be initialized, because %s could not be found."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
-msgstr ""
+msgstr "エラーが発生しました! ブラウザのエラーログを確認してください!"
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
@@ -18142,7 +18147,7 @@ msgstr "新規ウィンドウで注釈を開く"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
-msgstr ""
+msgstr "保存する前にすべてのキーに対応する値を指定してください。"
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
@@ -18150,11 +18155,11 @@ msgstr "キーは必須です"
 
 #. JS File: Core.SystemConfiguration
 msgid "A key with this name ('%s') already exists."
-msgstr ""
+msgstr "同名の(%s)が既に存在します。"
 
 #. JS File: Core.SystemConfiguration
 msgid "Do you really want to revert this setting to its historical value?"
-msgstr ""
+msgstr "本当に過去の値に戻しますか?"
 
 #. JS File: Core.UI.Datepicker
 msgid "Open date selection"
@@ -18166,11 +18171,11 @@ msgstr "無効な日付です。 (未来の日付が必要)"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "日付が不正です(過去の日付を指定してください)!"
 
 #. JS File: Core.UI.InputFields
 msgid "Not available"
-msgstr ""
+msgstr "無効"
 
 #. JS File: Core.UI.InputFields
 msgid "and %s more..."
@@ -18178,11 +18183,11 @@ msgstr "他%sつ"
 
 #. JS File: Core.UI.InputFields
 msgid "Show current selection"
-msgstr ""
+msgstr "現在の選択を表示"
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr ""
+msgstr "現在の選択"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
@@ -18220,31 +18225,31 @@ msgstr ""
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
-msgstr ""
+msgstr "昇順ソートが適用されました, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "Descending sort applied, "
-msgstr ""
+msgstr "降順ソートが適用されました, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "No sort applied, "
-msgstr ""
+msgstr "ソートされていません, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "sorting is disabled"
-msgstr ""
+msgstr "ソートは無効です"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply an ascending sort"
-msgstr ""
+msgstr "昇順ソートを有効化"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply a descending sort"
-msgstr ""
+msgstr "降順ソートを有効化"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to remove the sort"
-msgstr ""
+msgstr "ソートを解除"
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
@@ -18256,15 +18261,15 @@ msgstr "現在選択可能な要素はありません。"
 
 #. JS File: Core.UI
 msgid "Please only select one file for upload."
-msgstr ""
+msgstr "1ファイルのみが選択可能です。"
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload one file here."
-msgstr ""
+msgstr "1ファイルのみがアップロード可能です。"
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload %s files."
-msgstr ""
+msgstr "%sファイルのみアップロード可能です。"
 
 #. JS File: Core.UI
 msgid "Please only select at most %s files for upload."
@@ -18272,37 +18277,37 @@ msgstr ""
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
-msgstr ""
+msgstr "次のファイルはアップロードが許可されていません: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
 "not uploaded: %s"
-msgstr ""
+msgstr "次のファイルはファイルサイズ %sを超えているためアップロードできません: %s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files were already uploaded and have not been uploaded again: "
 "%s"
-msgstr ""
+msgstr "次のファイルは既にアップロードされています: %s"
 
 #. JS File: Core.UI
 msgid "No space left for the following files: %s"
-msgstr ""
+msgstr "ディスク容量がありません: %s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr ""
+msgstr "有効な容量は %s / %sです。"
 
 #. JS File: Core.UI
 msgid "Upload information"
-msgstr ""
+msgstr "アップロード情報"
 
 #. JS File: Core.UI
 msgid ""
 "An unknown error occurred when deleting the attachment. Please try again. If "
 "the error persists, please contact your system administrator."
-msgstr ""
+msgstr "添付ファイル削除時にエラーが発生しました。再度試みてください。解決しないようでしたら管理者に連絡してください。"
 
 #. JS File: Core.Language.UnitTest
 msgid "yes"
@@ -18322,7 +18327,7 @@ msgstr ""
 
 #. JS File: OTOBOLineChart
 msgid "No Data Available."
-msgstr ""
+msgstr "データが存在しません。"
 
 #. JS File: OTOBOMultiBarChart
 msgid "Grouped"
@@ -18382,7 +18387,7 @@ msgstr " 7 分"
 
 #. SysConfig
 msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
+msgstr "\"Slim\"スキンは画面を有効活用したいパワーユーザー向けです。"
 
 #. SysConfig
 msgid "%s"
@@ -18394,7 +18399,7 @@ msgstr "(ユーザー名) 姓 名 "
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(ログインID) 姓名"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
@@ -18438,7 +18443,7 @@ msgstr "2 - 有効さらにデフォルトで表示"
 
 #. SysConfig
 msgid "2 - Enabled by default"
-msgstr ""
+msgstr "2 - デフォルトで有効"
 
 #. SysConfig
 msgid "2 Minutes"
@@ -18500,7 +18505,7 @@ msgstr "作業時間"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "Elasticsearchを有効化。"
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
@@ -18521,7 +18526,7 @@ msgstr "顧客に関する、パスワード忘れ機能を有効にします。
 
 #. SysConfig
 msgid "Activates support for customer and customer user groups."
-msgstr ""
+msgstr "顧客企業と顧客ユーザーのグループを有効化します。"
 
 #. SysConfig
 msgid ""
@@ -18577,7 +18582,7 @@ msgstr "架電の記録を追加します。"
 
 #. SysConfig
 msgid "Added %s time unit(s), for a total of %s time unit(s)."
-msgstr ""
+msgstr "対応時間に%sを追加(合計%s)。"
 
 #. SysConfig
 msgid "Added email. %s"
@@ -18585,7 +18590,7 @@ msgstr "Added email. %s"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
-msgstr ""
+msgstr "フォローアップ[%s]。 %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
@@ -18593,15 +18598,15 @@ msgstr "Added link to ticket \"%s\"."
 
 #. SysConfig
 msgid "Added note (%s)."
-msgstr ""
+msgstr "メモを追加(%s)。"
 
 #. SysConfig
 msgid "Added phone call from customer."
-msgstr ""
+msgstr "顧客からの電話着信。"
 
 #. SysConfig
 msgid "Added phone call to customer."
-msgstr ""
+msgstr "顧客への電話発信。"
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
@@ -18609,11 +18614,11 @@ msgstr "Added subscription for user \"%s\"."
 
 #. SysConfig
 msgid "Added system request (%s)."
-msgstr ""
+msgstr "システム要求を追加(%s)。"
 
 #. SysConfig
 msgid "Added web request from customer."
-msgstr ""
+msgstr "顧客からのWebからの要求。"
 
 #. SysConfig
 msgid ""
@@ -18628,23 +18633,23 @@ msgid ""
 "Adds customers email addresses to recipients in the ticket compose screen of "
 "the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
-msgstr ""
+msgstr "チケット作成画面に顧客メールアドレスを追加します。顧客メールアドレスは記事がメール-内部の場合には追加されません。"
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
-msgstr ""
+msgstr "カレンダー中に1度限りの祝日を追加します。"
 
 #. SysConfig
 msgid "Adds the one time vacation days."
-msgstr ""
+msgstr "1度限りの祝日を追加します。"
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar."
-msgstr ""
+msgstr "カレンダーに毎年定まった祝日を追加します。"
 
 #. SysConfig
 msgid "Adds the permanent vacation days."
-msgstr ""
+msgstr "カレンダーに毎年定まった祝日を追加します。"
 
 #. SysConfig
 msgid "Admin"
@@ -18652,7 +18657,7 @@ msgstr "管理"
 
 #. SysConfig
 msgid "Admin Area."
-msgstr ""
+msgstr "管理エリア。"
 
 #. SysConfig
 msgid "Admin Contact With Data"
@@ -18712,11 +18717,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "担当者名 + 区切り子 + システムアドレス表示名"
 
 #. SysConfig
 msgid "Agent Preferences."
-msgstr ""
+msgstr "担当者のプリファレンス。"
 
 #. SysConfig
 msgid "Agent Statistics."
