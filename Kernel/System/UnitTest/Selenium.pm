@@ -222,6 +222,7 @@ around BUILDARGS => sub {
         _TestStartSystemTime => $TestStartSystemTime,
         base_url             => $BaseURL,
         webelement_class     => 'Kernel::System::UnitTest::Selenium::WebElement',
+        javascript           => 1,                                                  # must be explicitly set, as the default is 0 in Test::Selenium::Remove::Driver
         error_handler        => sub {
             my $Self = shift;
 
@@ -259,7 +260,7 @@ Therefore override that subroutine.
 
 =cut
 
-sub button_up {    ## no critic qw(OTOBO::RequireCamelCase)
+sub button_up {
 
     my ($Self) = @_;
 
