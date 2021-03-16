@@ -3,7 +3,7 @@
 # Udo Bretz, 2018
 # Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2018
 # Tomy1984, 2018
-# Kozo Sakurai <sakurai@io-architect.com>, 2018
+# Kozo Sakurai <sakurai@io-architect.com>, 2018, 2021.
 # Tomohisa Hirami <hirami@io-architect.com>, 2018
 # nao_j3ster_koha <sdvr.nao@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
 "PO-Revision-Date: 2021-03-16 16:02+0000\n"
-"Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
+"Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
 "Language: ja\n"
@@ -1290,7 +1290,7 @@ msgstr "リストから項目を選択して下さい。"
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "データ管理との連絡"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1734,7 +1734,7 @@ msgstr ""
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
-msgstr ""
+msgstr "この機能を使用すると、データを含む（複数の）連絡先をチケットに追加できます。"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -2764,23 +2764,23 @@ msgstr "保留期限切れがこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr "エスカレーション時間"
+msgstr "対応期限"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "エスカレーション時間を指定しない"
+msgstr "対応期限を指定しない"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr "エスカレーション時間到達が"
+msgstr "対応期限の到達"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr "エスカレーション時間がこの期間内"
+msgstr "対応期限の期間内"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr "エスカレーション - 初回応答期限"
+msgstr "対応期限 - 初回応答期限"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
@@ -2792,7 +2792,7 @@ msgstr "チケット初回応答期限がこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr "エスカレーション - 更新期限"
+msgstr "対応期限 - 更新期限"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
@@ -2804,7 +2804,7 @@ msgstr "チケット更新期限がこの期間内"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr "エスカレーション - 解決期限"
+msgstr "対応期限 - 解決期限"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
@@ -3113,7 +3113,7 @@ msgstr "API実行元をフィルター"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
-msgstr "選択したAPI実行元に対してのみ、エラー処理モジュールを実行します。"
+msgstr "選択したInvokers(API実行元)に対してのみ、エラー処理モジュールを実行します。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
@@ -4322,7 +4322,7 @@ msgstr "Ready2Adopt Webサービス"
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices "
 "that are a part of %s."
-msgstr ""
+msgstr "ここで、％s の一部であるベストプラクティスを紹介するReady2Adopt Webサービスを有効に出来ます。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4395,6 +4395,8 @@ msgid ""
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
 msgstr ""
+"エラー処理モジュールは、通信中にエラーが発生した場合に対応するために使用されます。これらのモジュールは特定の順序で実行され、ドラッグアンドドロップで変更で"
+"きます。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
@@ -4407,13 +4409,13 @@ msgstr "エラー処理モジュールの追加"
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
-msgstr ""
+msgstr "操作は、リモートシステムが要求できる個々のシステム機能です。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its "
 "response data."
-msgstr ""
+msgstr "Invokers(API実行元)は、リモートWebサービスへの要求のデータを準備し、その応答データを処理します。"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
@@ -4577,7 +4579,7 @@ msgid ""
 "If your account is marked as trusted, the X-OTOBO headers already existing "
 "at arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
-msgstr "PostMasterフィルター等により信頼できるX-OTOBOヘッダ(優先度等)が付与されている場合、その値が使用されます。"
+msgstr "ポストマスターフィルター等により信頼できるX-OTOBOヘッダ(優先度等)が付与されている場合、その値が使用されます。"
 
 #. Template: AdminMailAccount
 msgid "Outgoing email can be configured via the Sendmail* settings in %s."
@@ -4960,7 +4962,7 @@ msgstr ""
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTOBO issues."
-msgstr ""
+msgstr "他全て関連するOTOBOの問題の更新を受け取ります。"
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
@@ -5386,7 +5388,7 @@ msgstr ""
 msgid ""
 "Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
-msgstr ""
+msgstr "Ready2Adoptプロセスを有効にすることで、ベストプラクティスを紹介できます。 追加の設定が必要になる場合があることに注意して下さい。"
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
@@ -5937,7 +5939,7 @@ msgstr "通知する時間"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
-msgstr "0 = エスカレーションしない"
+msgstr "0 = 対応期限を指定しない"
 
 #. Template: AdminQueue
 msgid ""
@@ -5955,9 +5957,8 @@ msgid ""
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
 msgstr ""
-"メールでのフォローアップやカスタマーポータルに追加された記事があれば、エスカ"
-"レーション更新期限はリセットされます。ここで定義された時間内に顧客からの外部"
-"メールや電話の記録が追加されない場合、チケットがエスカレーションされます。"
+"メールでのフォローアップやカスタマーポータルに追加された記事があれば、対応期限はリセットされます。ここで定義された時間内に顧客からの外部メールや電話の記録"
+"が追加されない場合、チケットが対応期限がセットされます。"
 
 #. Template: AdminQueue
 msgid ""
@@ -6156,7 +6157,7 @@ msgstr "OTOBO-ID"
 msgid ""
 "System registration is a service of OTOBO Team, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "システム登録はOTOBOチームのサービスであり、多くのメリットがあります！"
 
 #. Template: AdminRegistration
 msgid "Read more"
@@ -6225,7 +6226,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr ""
+msgstr "登録されたシステムは、次のデータをOTOBOチームに送信します。"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6249,7 +6250,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "How often does my OTOBO system send updates?"
-msgstr ""
+msgstr "OTOBOシステムはどのくらいの頻度でアップデートを送信しますか？"
 
 #. Template: AdminRegistration
 msgid ""
@@ -6297,7 +6298,7 @@ msgstr "次へ"
 msgid ""
 "This data will be frequently transferred to OTOBO Team when you register "
 "this system."
-msgstr ""
+msgstr "このシステムを登録すると、このデータは頻繁にOTOBOチームに転送されます。"
 
 #. Template: AdminRegistration
 msgid "Attribute"
@@ -6327,7 +6328,7 @@ msgstr ""
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTOBO Team."
-msgstr ""
+msgstr "これにより、システムは追加のサポートデータ情報をOTOBOチームに送信できるようになります。"
 
 #. Template: AdminRegistration
 msgid "Register"
@@ -6335,7 +6336,7 @@ msgstr "登録"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
-msgstr ""
+msgstr "この手順を続行すると、システムがOTOBOチームから登録解除されます。"
 
 #. Template: AdminRegistration
 msgid "Deregister"
@@ -6910,7 +6911,7 @@ msgstr "クラウドサービスを有効にする"
 msgid ""
 "This data is sent to OTOBO Team on a regular basis. To stop sending this "
 "data please update your system registration."
-msgstr ""
+msgstr "このデータは定期的にOTOBOチームに送信されます。 このデータの送信を停止するには、システム登録を更新してください。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6930,7 +6931,7 @@ msgstr "このデータは現在このシステム上で表示されています
 msgid ""
 "It is highly recommended to send this data to OTOBO Team in order to get "
 "better support."
-msgstr ""
+msgstr "より良いサポートを得るために、このデータをOTOBOチームに送信することを強くお勧めします。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6938,6 +6939,8 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"データ送信を有効にするには、システムをOTOBOチームに登録するか、システム登録情報を更新してください（必ず「サポートデータの送信」オプションをアクティブ"
+"にしてください）。"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6984,7 +6987,7 @@ msgstr "送信者"
 
 #. Template: AdminSupportDataCollector
 msgid "The support bundle will be sent to OTOBO Team via email automatically."
-msgstr ""
+msgstr "サポートバンドルは、電子メールでOTOBOチームに自動的に送信されます。"
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
@@ -6996,6 +6999,7 @@ msgid ""
 "Please save the file and send it to the OTOBO Team, using an alternate "
 "method."
 msgstr ""
+"サポートバンドルを含むファイルがローカルシステムにダウンロードされます。 別の方法を使用して、ファイルを保存し、OTOBOチームに送信してください。"
 
 #. Template: AdminSupportDataCollector
 msgid "Error: Support data could not be collected (%s)."
@@ -9264,7 +9268,7 @@ msgstr "チケットのクローズ日時 (期間指定)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr "チケットエスカレーション時間 (以前/以後)"
+msgstr "チケットの対応期限 (以前/以後)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
@@ -10169,7 +10173,7 @@ msgstr "スタートページ"
 
 #. Template: InstallerFinish
 msgid "Your OTOBO Team"
-msgstr "Your OTOBO Team"
+msgstr "OTOBOチーム"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
@@ -10359,7 +10363,7 @@ msgstr ""
 msgid ""
 "The migration is complete, thank you for trying out OTOBO - we hope you will "
 "like it."
-msgstr ""
+msgstr "移行が完了しました。OTOBOをお試しいただきありがとうございます。気に入っていただければ幸いです。"
 
 #. Template: Intro
 msgid ""
@@ -10367,6 +10371,8 @@ msgid ""
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
 msgstr ""
+"この移行スクリプトは、チケットシステムをOTRSまたは((OTRS))CommunityEditionバージョン6からOTOBO10に移行するプロセスを段"
+"階的に説明します。"
 
 #. Template: Intro
 msgid ""
@@ -10396,6 +10402,8 @@ msgid ""
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
 msgstr ""
+" このページへのアクセス権、またはOTOBOホームディレクトリの読み取り権限を持っている人は誰でもそれらを読むことができます。 "
+"移行を中止した場合は、このページに再度アクセスしてキャッシュをクリアするオプションが表示されます。"
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
@@ -10438,6 +10446,8 @@ msgid ""
 "unencrypted. Anyone between you and the OTOBO server will be able to read "
 "them! Please consider setting up https instead."
 msgstr ""
+"http経由で移行スクリプトを使用しています。プロセス中にさまざまなパスワードが必要になるため、これは非常に安全ではなく、暗号化されずに転送されます。 "
+"あなたとOTOBOサーバーの間の誰もがそれらを読むことができます！ 代わりにhttpsの設定を検討してください。"
 
 #. Template: Intro
 msgid "Continue anyways :("
@@ -10498,6 +10508,8 @@ msgid ""
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
+"申し訳ありませんが、OTOBOのこの機能は現在モバイルデバイスでは利用できません。 "
+"使用する場合は、デスクトップモードに切り替えるか、通常のデスクトップデバイスを使用できます。"
 
 #. Template: Motd
 msgid "Message of the Day"
@@ -10583,7 +10595,7 @@ msgstr "ようこそ"
 msgid ""
 "This is the default public interface of OTOBO! There was no action parameter "
 "given."
-msgstr ""
+msgstr "これはOTOBOのデフォルトのパブリックインターフェイスです！アクションパラメータが指定されていません。"
 
 #. Template: PublicDefault
 msgid ""
@@ -10722,7 +10734,7 @@ msgstr "相対値"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "過去の ％s　と現在以降の ％s ％s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
@@ -10776,7 +10788,7 @@ msgstr ""
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
-msgstr ""
+msgstr "選択した期間を指定された時間単位でレポート出力します。"
 
 #. Template: YAxisWidget
 msgid ""
@@ -11095,7 +11107,7 @@ msgstr ""
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "OTOBOからアンインストール"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
@@ -11252,7 +11264,7 @@ msgstr ""
 msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
-msgstr ""
+msgstr "不明なエラーのためにACLをインポートできませんでした。詳細については、OTOBOログを確認してください"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
@@ -12287,7 +12299,7 @@ msgstr "インポートするファイルを指定してください！"
 msgid ""
 "The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
-msgstr ""
+msgstr "インポートされたファイルには有効なYAMLコンテンツがありません！ 詳しくはOTOBOログをご確認ください"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
@@ -12307,7 +12319,7 @@ msgstr "リクエスターとしてのOTOBO"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr "API実行元"
+msgstr "Invokers(API実行元)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -12413,6 +12425,9 @@ msgid ""
 "config file. See also scripts/apache2-httpd.include.conf. Alternatively, you "
 "can use the command line tool bin/otobo.Console.pl to install packages!"
 msgstr ""
+"申し訳ありませんが、Apache :: ReloadはApache設定ファイルのPerlModuleおよびPerlInitHandlerとして必要です。"
+"scripts/apache2-httpd.include.conf も参照してください。 または、コマンドラインツール bin/"
+"otobo.Console.pl を使用してパッケージをインストールすることもできます！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
@@ -12440,7 +12455,7 @@ msgstr "パッケージにはローカルに変更されたファイルがあり
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "パッケージはOTOBOチームによって検証されていません！"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
@@ -12985,7 +13000,7 @@ msgstr "インポートは許可されていません!"
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTOBO logs for more information."
-msgstr ""
+msgstr "不明なエラーのため、システム設定をインポートできませんでした。詳細については、OTOBOログを確認してください。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
@@ -12996,7 +13011,7 @@ msgid ""
 "Some imported settings are not present in the current state of the "
 "configuration or it was not possible to update them. Please check the OTOBO "
 "log for more information."
-msgstr ""
+msgstr "一部のインポートされた設定は、現在の状態に存在しないか、更新できませんでした。 詳細については、OTOBOログを確認してください。"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
@@ -13606,7 +13621,7 @@ msgstr "翌週"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Ticket Escalation View"
-msgstr "チケット・エスカレーション・ビュー"
+msgstr "チケット・対応期限・ビュー"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Article %s could not be found!"
@@ -14010,15 +14025,15 @@ msgstr "タイプが更新されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time In Effect"
-msgstr ""
+msgstr "有効な更新期限"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time Stopped"
-msgstr "エスカレーション更新期限タイマーが停止されました"
+msgstr "更新期限タイマーが停止されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation First Response Time Stopped"
-msgstr "エスカレーション初回応答期限タイマーが停止されました"
+msgstr "初回応答期限タイマーが停止されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Customer Updated"
@@ -14130,19 +14145,19 @@ msgstr "自動拒否送信済み"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
-msgstr "エスカレーションソリューションの有効期間"
+msgstr "有効な解決期限"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time Stopped"
-msgstr "エスカレーション解決期限タイマーが停止されました"
+msgstr "解決期限のタイマーが停止されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time In Effect"
-msgstr ""
+msgstr "有効な初回応答期限"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time Stopped"
-msgstr "エスカレーション応答期限タイマーが停止されました"
+msgstr "初回応答期限のタイマーが停止されました"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
@@ -15413,7 +15428,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "OTOBOキャッシュのクリーンアップ"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
@@ -15433,7 +15448,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "OTOBOのバージョンが正しいか確認してください。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
@@ -15461,7 +15476,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "OTOBOとOTRSの接続が可能かどうかを確認してください。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
@@ -15469,7 +15484,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "OTOBOとOTRSのバージョンが正しいか確認してください。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
@@ -15477,11 +15492,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "OTOBO RELEASEファイルを読み取れません：%s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "OTOBOシステムが見つかりません！"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
@@ -15489,7 +15504,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "OTOBOバージョンは正しいです：%s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
@@ -15550,11 +15565,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
+msgstr "Kernel/Config.pmがOTOBOホームに存在するかどうかを確認します。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
+msgstr "Kernel/Config.pmはOTOBOホームに存在します"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
@@ -15594,6 +15609,8 @@ msgid ""
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
 "\\@otobo.org. We will find a solution."
 msgstr ""
+"移行する前に、パッケージをインストール（またはアンインストール）してください。これまでにOTOBOのパッケージが存在しない場合は、バグを "
+"OTOBOチームに連絡してください。 解決策を見つけます。"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
@@ -15798,15 +15815,15 @@ msgstr "エスカレーション"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - First Response Time"
-msgstr "エスカレーション - 第1の応答時間"
+msgstr "対応期限 - 初回応答期限"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Update Time"
-msgstr "エスカレーション - 更新期限"
+msgstr "対応期限 - 更新期限"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Escalation - Solution Time"
-msgstr "エスカレーション - 解決時間"
+msgstr "対応期限 - 解決期限"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Agent/Owner"
@@ -15922,56 +15939,56 @@ msgstr "最大解決時間"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均解決時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小解決時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小解決時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "解決に要した平均作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "解決に要した最小作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "解決に要した最大作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
-msgstr ""
+msgstr "平均初回応答時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最小初回応答時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Time (affected by escalation configuration)"
-msgstr ""
+msgstr "最大初回応答時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid ""
 "First Response Working Time Average (affected by escalation configuration)"
-msgstr ""
+msgstr "初回応答に要した平均作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "初回応答に要した最小作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
-msgstr ""
+msgstr "初回応答に要した最大作業時間（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
-msgstr ""
+msgstr "チケット番号（対応期限の設定に影響します。）"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Days"
@@ -16484,7 +16501,7 @@ msgstr "パッケージの検証結果"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "一部のパッケージは、OTOBOチームによって検証されていません。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
@@ -16542,7 +16559,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "ロックされたチケットを持つ無効なユーザー"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
@@ -17259,7 +17276,7 @@ msgstr "顧客"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
-msgstr "新規作成通知"
+msgstr "チケット通知の作成"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
@@ -17332,11 +17349,11 @@ msgstr "チケットのペンティングリマインダー通知(未ロック)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr "チケットのエスカレーション通知"
+msgstr "チケットの対応期限通知"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr "チケットのエスカレーション警告通知"
+msgstr "チケットの対応期限警告通知"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
@@ -18997,9 +19014,8 @@ msgid ""
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
 msgstr ""
-"チケットに関するサービスおよびSLA（例：email, desktop, network, ...)、および"
-"SLAのエスカレーション属性を定義することを、許可します（チケット・サービス/SLA"
-"機能が有効となっている場合）。"
+"チケットに関するサービスおよびSLA（例：email, desktop, network, "
+"...)、およびSLAの対応期限の属性を定義することを、許可します（チケット・サービス/SLA機能が有効となっている場合）。"
 
 #. SysConfig
 msgid ""
@@ -19373,11 +19389,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "データ更新"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "フリーテキストの更新"
 
 #. SysConfig
 msgid "Change queue!"
@@ -19529,11 +19545,11 @@ msgid ""
 "Choose for which kind of ticket changes you want to receive notifications. "
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
-msgstr ""
+msgstr "通知を受け取りたいチケット通知を選択します。 必須としてチェックされたチケット通知を無効にすることは出来ません。"
 
 #. SysConfig
 msgid "Choose which notifications you'd like to receive."
-msgstr ""
+msgstr "受信する通知を選択します。"
 
 #. SysConfig
 msgid "Christmas Eve"
@@ -19704,7 +19720,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
-msgstr ""
+msgstr "サポートを改善するために、OTOBOチームへのサポートデータを送信します。"
 
 #. SysConfig
 msgid ""
@@ -20229,6 +20245,8 @@ msgid ""
 "to the system as Ticket: \"Date / Time\" and must be activated in ticket "
 "creation screens and/or in any other ticket action screens."
 msgstr ""
+"開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその"
+"他のチケットアクション画面でアクティブにする必要があります。"
 
 #. SysConfig
 msgid ""
@@ -20236,6 +20254,8 @@ msgid ""
 "added to the system as Ticket: \"Date / Time\" and must be activated in "
 "ticket creation screens and/or in any other ticket action screens."
 msgstr ""
+"開始時刻のダイナミックフィールド名を定義します。 このフィールドは、チケット「日付/時刻」としてシステムに手動で追加する必要があり、チケット作成画面やその"
+"他のチケットアクション画面でアクティブにする必要があります。"
 
 #. SysConfig
 msgid "Define the max depth of queues."
@@ -21457,9 +21477,7 @@ msgstr ""
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the escalation "
 "view of the agent interface."
-msgstr ""
-"担当者インタフェースのエスカレーション・ビューで、チケット・ソートのためのデ"
-"フォルトのチケット属性を定義します。"
+msgstr "担当者インタフェースの対応期限・ビューで、チケット・ソートのためのデフォルトのチケット属性を定義します。"
 
 #. SysConfig
 msgid ""
@@ -21536,9 +21554,8 @@ msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
 msgstr ""
-"担当者インタフェースのエスカレーション・ビューで、デフォルトのチケット順番"
-"（優先度ソート後）を定義します。Up:一番古いものをトップに. Down:最新のものを"
-"トップに。"
+"担当者インタフェースの対応期限・ビューで、デフォルトのチケット順番（優先度ソート後）を定義します。Up:一番古いものをトップに. "
+"Down:最新のものをトップに。"
 
 #. SysConfig
 msgid ""
@@ -23615,6 +23632,9 @@ msgid ""
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"共有シークレットを入力して、2要素認証を有効にします。 "
+"警告：ジェネレーターアプリケーションに共有シークレットを追加し、アプリケーションが正常に機能することを確認してください。 "
+"そうしないと、2要素トークンがないとログインできなくなります。"
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -23622,11 +23642,11 @@ msgstr "エスカレーションチケット"
 
 #. SysConfig
 msgid "Escalation view"
-msgstr "エスカレーション・ビュー"
+msgstr "対応期限・ビュー"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "対応期限"
 
 #. SysConfig
 msgid "Estonian"
@@ -24148,11 +24168,11 @@ msgstr "ダッシュボードに移動する"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "正常なPGP署名"
 
 #. SysConfig
 msgid "Google Authenticator"
-msgstr ""
+msgstr "Google認証システム"
 
 #. SysConfig
 msgid "Graph: Bar Chart"
@@ -24647,6 +24667,8 @@ msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
 msgstr ""
+"この設定を有効にすると、OTOBOチームによって検証されていないパッケージをインストールすることができます。これらのパッケージは、システム全体を脅かす可能"
+"性があります。"
 
 #. SysConfig
 msgid ""
@@ -24904,11 +24926,11 @@ msgstr "ロールをグループへ連結"
 
 #. SysConfig
 msgid "Link templates to attachments."
-msgstr ""
+msgstr "テンプレートに添付ファイルをリンクします。"
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr "テンプレートをキューへ連結"
+msgstr "テンプレートをキューへリンク"
 
 #. SysConfig
 msgid "Link this ticket to other objects"
@@ -25010,7 +25032,7 @@ msgstr ""
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "対応期限を一時停止するステータス一覧。"
 
 #. SysConfig
 msgid "List view"
@@ -25120,7 +25142,7 @@ msgstr "マレー語"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "OTOBOチームのクラウドサービスを管理します。"
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -25538,15 +25560,15 @@ msgstr "通知設定"
 
 #. SysConfig
 msgid "Notified about response time escalation."
-msgstr "応答時間のエスカレーションが通知されます。"
+msgstr "初回応答期限に関する通知がされます。"
 
 #. SysConfig
 msgid "Notified about solution time escalation."
-msgstr "解決時間のエスカレーションが通知されます。"
+msgstr "解決期限に関する通知がされます。"
 
 #. SysConfig
 msgid "Notified about update time escalation."
-msgstr "更新時間のエスカレーションが通知されます。"
+msgstr "更新期限に関する通知がされます。"
 
 #. SysConfig
 msgid "Number of displayed tickets"
@@ -25583,7 +25605,7 @@ msgstr "OTOBOニュース"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "OTOBOチームサービス"
 
 #. SysConfig
 msgid ""
@@ -26245,7 +26267,7 @@ msgstr "公開するカレンダー"
 
 #. SysConfig
 msgid "Public calendar."
-msgstr "公開するカレンダー"
+msgstr "公開するカレンダーです。"
 
 #. SysConfig
 msgid "Queue view"
@@ -26257,7 +26279,7 @@ msgstr "キュー ↔ 自動応答"
 
 #. SysConfig
 msgid "Quick Close"
-msgstr ""
+msgstr "即時クローズ"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -26276,7 +26298,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Rebuilds the escalation index."
-msgstr ""
+msgstr "エスカレーション・インデックスを再構築します。"
 
 #. SysConfig
 msgid ""
@@ -28591,15 +28613,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Started response time escalation."
-msgstr "応答時間のエスカレーションを開始しました。"
+msgstr "初回応答期限を開始しました。"
 
 #. SysConfig
 msgid "Started solution time escalation."
-msgstr "解決時間のエスカレーションを開始しました。"
+msgstr "解決期限を開始しました。"
 
 #. SysConfig
 msgid "Started update time escalation."
-msgstr "更新時間のエスカレーションを開始しました。"
+msgstr "更新期限を開始しました。"
 
 #. SysConfig
 msgid ""
@@ -28625,15 +28647,15 @@ msgstr "ステータス・ビュー"
 
 #. SysConfig
 msgid "Stopped response time escalation."
-msgstr "応答時間のエスカレーションを停止しました。"
+msgstr "初回応答期限を停止しました。"
 
 #. SysConfig
 msgid "Stopped solution time escalation."
-msgstr "解決時間のエスカレーションを停止しました。"
+msgstr "解決期限を停止しました。"
 
 #. SysConfig
 msgid "Stopped update time escalation."
-msgstr "更新時間のエスカレーションを停止しました。"
+msgstr "更新期限を停止しました。"
 
 #. SysConfig
 msgid "Stores cookies after the browser has been closed."
@@ -29302,9 +29324,7 @@ msgstr "更新日時"
 #. SysConfig
 msgid ""
 "Updates the ticket escalation index after a ticket attribute got updated."
-msgstr ""
-"チケット属性がアップデートされた後に、チケット・エスカレーション・インデック"
-"スをアップデートします。"
+msgstr "チケット属性がアップデートされた後に、チケット・対応期限・インデックスをアップデートします。"
 
 #. SysConfig
 msgid "Updates the ticket index accelerator."
@@ -29396,7 +29416,7 @@ msgstr "定期メンテナンスを実施中です。"
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Webサービス"
 
 #. SysConfig
 msgid "Web Services"
