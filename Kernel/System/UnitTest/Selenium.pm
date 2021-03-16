@@ -59,7 +59,7 @@ our @ObjectDependencies = (
 
     if ( $SeleniumTestsConfig->%* ) {
 
-        extends 'Selenium::Remote::Driver';
+        extends 'Test::Selenium::Remote::Driver';
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
