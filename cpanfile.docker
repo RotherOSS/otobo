@@ -98,7 +98,7 @@ requires 'Unicode::Collate';
 
 # feature 'devel:test', 'Suppport for devel:test' => sub {
     # used by Kernel::System::UnitTest::Selenium
-    requires 'Selenium::Remote::Driver';
+    requires 'Selenium::Remote::Driver', ">= 1.40";
 
     # a quick compile check
     requires 'Test::Compile';
