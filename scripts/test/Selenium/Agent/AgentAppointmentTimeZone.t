@@ -104,12 +104,16 @@ $Selenium->RunTest(
 
         # Hide indicator line if visible. This was causing issue in some of tests in specific execution time.
         if ( $Selenium->execute_script(q{return $('.fc-now-indicator.fc-now-indicator-line:visible').length;}) ) {
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
             my $Line = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
             ok( $Line, 'now indicator line found' );
             isa_ok( $Line, ['Kernel::System::UnitTest::Selenium::WebElement'], 'now indicator line is a web element' );
-            $Line->is_displayed_ok('now indicator line is displayed');
+
+            #$Line->is_displayed_ok('now indicator line is displayed');
             $Selenium->execute_script(q{$('.fc-now-indicator.fc-now-indicator-line').hide();});
-            ok( !$Line->is_displayed, 'now indicator line is no longer displayed' );
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+            my $HiddenLine = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
+            ok( !$HiddenLine->is_displayed, 'now indicator line is no longer displayed' );
         }
 
         # Click on the timeline view for an appointment dialog.
