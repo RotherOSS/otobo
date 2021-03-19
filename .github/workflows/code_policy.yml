@@ -7,11 +7,19 @@ jobs:
             - id: files
               uses: jitterbit/get-changed-files@v1
 
-            - name: 'get CodePolicy'
-              run: git clone --depth 1 --branch rel-10_0_3 https://github.com/RotherOSS/CodePolicy.git codepolicy
+            - name: 'install cpan dependencies'
+              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl
+              
+            - name: 'checkout otobo'
+              uses: actions/checkout@v2
 
-            - name: 'install TidyAll'
-              run: sudo apt install -y libcode-tidyall-perl
+            - name: 'checkout codepolicy'
+              uses: actions/checkout@v2
+              with:
+                repository: RotherOSS/codepolicy
+                ref: rel-10_0_3
+                path: codepolicy
 
             - name: 'run CodePolicy'
               run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.files.outputs.added_modified }}
+
