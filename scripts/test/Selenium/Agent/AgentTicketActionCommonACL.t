@@ -145,7 +145,7 @@ $Selenium->RunTest(
 
         # Import test ACL.
         $ACLObject->ACLImport(
-            Content => <<"EOF",
+            Content => <<"END_CONTENT",
 - ChangeBy: root\@localhost
   ChangeTime: 2016-02-16 03:08:58
   Comment: ''
@@ -247,7 +247,7 @@ $Selenium->RunTest(
   Name: ThisIsAUnitTestACL-5
   StopAfterMatch: 0
   ValidID: '1'
-EOF
+END_CONTENT
             OverwriteExistingEntities => 1,
             UserID                    => 1,
         );
@@ -281,9 +281,9 @@ EOF
             UserFirstname  => 'Huber',
             UserLastname   => 'Manfred',
             UserCustomerID => 'A124',
-            UserLogin      => 'customeruser_' . $Helper->GetRandomID(),
+            UserLogin      => 'customeruser_' . $RandomID,
             UserPassword   => 'some-pass',
-            UserEmail      => $Helper->GetRandomID() . '@localhost.com',
+            UserEmail      => $RandomID . '@localhost.com',
             ValidID        => 1,
             UserID         => 1,
         );
