@@ -390,8 +390,13 @@ END_CONTENT
         );
         is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
-        # Change the service by clicking, like an user would do
-        $Selenium->find_element( [ "#ServiceID option[value=$ServiceIDs[0]]", 'css' ] )->click();
+        Time::HiRes::sleep(0.5);
+
+        # Set test service and trigger AJAX refresh.
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[0],
+        );
 
         # wait for the updated SLA selection
         $Selenium->WaitFor(
