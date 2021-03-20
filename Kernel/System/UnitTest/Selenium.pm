@@ -73,7 +73,7 @@ our @ObjectDependencies = (
             my $Result = $Self->$Orig( $Res, $Params );
 
             # TODO: maybe write notes instead of skipping altogether
-            return $Result if $Self->_SuppressTestingEvents();
+            return $Result if $Self->_SuppressTestingEvents;
 
             my $TestName = 'Selenium command success: ';
             $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
@@ -241,12 +241,13 @@ sub BUILD {
     my $Height = $Self->_SeleniumTestsConfig()->{window_height} || 1200;
     my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
 
+    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
     $Self->_SuppressTestingEvents(1);
 
     # This works only because we have extended Selenium::Remove::Driver.
     $Self->set_window_size( $Height, $Width );
 
-    $Self->_SuppressTestingEvents(0);
+    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
     return;
 }
@@ -600,9 +601,12 @@ sub WaitFor {
     while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
+
             my $Ret = $Self->execute_script( $Param{JavaScript} );
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
             if ($Ret) {
                 $Success = 1;
@@ -611,9 +615,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{WindowCount} ) {
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
+
             my $NumWindows = scalar $Self->get_window_handles()->@*;
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
             if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
@@ -622,11 +629,14 @@ sub WaitFor {
             }
         }
         elsif ( $Param{AlertPresent} ) {
+
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
 
             # Eval is needed because the method would throw if no alert is present (yet).
             my $Ret = eval { $Self->get_alert_text() };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
             if ($Ret) {
                 $Success = 1;
@@ -635,9 +645,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{Callback} ) {
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
+
             my $Ret = $Param{Callback}->();
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
 
             if ($Ret) {
                 $Success = 1;
@@ -648,9 +661,13 @@ sub WaitFor {
         elsif ( $Param{ElementExists} ) {
             my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
 
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
+
             my $Ret = eval { $Self->find_element(@Arguments) };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+
             if ($Ret) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
 
@@ -662,9 +679,13 @@ sub WaitFor {
         elsif ( $Param{ElementMissing} ) {
             my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
 
+            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
             $Self->_SuppressTestingEvents(1);
+
             my $Ret = eval { $Self->find_element(@Arguments) };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+
             if ( !$Ret ) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
 
@@ -871,7 +892,7 @@ sub HandleError {
     }
 
     # No need to log generation of the screenshot.
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
+    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
     $Self->_SuppressTestingEvents(1);
 
     # the file name of the screenshot is random
