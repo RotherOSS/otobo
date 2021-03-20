@@ -144,6 +144,8 @@ $Selenium->RunTest(
         );
 
         # Import test ACL.
+        # For new tickets only the first test service is allowed.
+        # The names of the ACLs don't have to be unique, as OverwriteExistingEntities is set.
         $ACLObject->ACLImport(
             Content => <<"END_CONTENT",
 - ChangeBy: root\@localhost
@@ -267,13 +269,9 @@ END_CONTENT
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->body_text_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful'
         );
 
         # Add a customer.
@@ -380,7 +378,9 @@ END_CONTENT
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
+        $Selenium->WaitFor(
+            JavaScript => q{return typeof($) === "function" && $('#ServiceID option:not([value=""])').length}
+        );
 
         # Check for entries in the service selection.
         # Three test services have been added. But only "UT Test Service 1 $RandomID" is visible
@@ -388,25 +388,14 @@ END_CONTENT
         my $NumVisibleServices = $Selenium->execute_script(
             q{return $('#ServiceID option:not([value=""])').length;}
         );
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-            is(
-                $NumVisibleServices,
-                1,
-                "There is only one entry in the service selection",
-            );
-        }
-
-        Time::HiRes::sleep(0.5);
+        is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
         # Change the service by clicking, like an user would do
-        $Selenium->execute_script("return \$('#ServiceID option[value=$ServiceIDs[1]]').click();");
+        $Selenium->find_element( [ "#ServiceID option[value=$ServiceIDs[0]]", 'css' ] )->click();
 
         # wait for the updated SLA selection
         $Selenium->WaitFor(
-            JavaScript =>
-                q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
+            JavaScript => q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
         );
 
         # Check for restricted entries in the SLA selection, there should be only one.
@@ -732,4 +721,4 @@ END_CONTENT
     },
 );
 
-$Self->DoneTesting();
+done_testing();
