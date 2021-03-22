@@ -187,7 +187,7 @@ sub Run {
         };
     }
 
-    # Write ZZZAuto.pm
+    # Write ZZZAAuto.pm
     my $Success = $SysConfigObject->ConfigurationDeploy(
         Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
         AllSettings => 1,
