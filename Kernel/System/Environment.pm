@@ -286,9 +286,9 @@ sub PerlInfoGet {
             URI
         );
 
-        # some modules are only expected in a non-Docker environment.
+        # some modules are only expected in a non-PSGI environment.
         # See .dockerignore.
-        if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
+        if ( !$ENV{OTOBO_RUNS_UNDER_PSGI} ) {
             push @ModuleList, qw(
                 Apache::DBI
                 Apache2::Reload
