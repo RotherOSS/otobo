@@ -286,9 +286,10 @@ sub PerlInfoGet {
             URI
         );
 
-        # some modules are only expected in a non-PSGI environment.
+        # Some modules are only needed when not running in a PSGI environment.
+        # Therefore they are not bundled in the Docker image.
         # See .dockerignore.
-        if ( !$ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+        if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
             push @ModuleList, qw(
                 Apache::DBI
                 Apache2::Reload
