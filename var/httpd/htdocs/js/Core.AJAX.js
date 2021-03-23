@@ -569,6 +569,9 @@ Core.AJAX = (function (TargetNS) {
             Data = GetAdditionalDefaultData(),
             QueryString;
 
+        $EventElement.find('input[name="AJAXAction"]').each(function () {
+            Data.Action = $(this).val();
+        });
         Data.Subaction = Subaction;
         Data.ElementChanged = ChangedElement;
         QueryString = TargetNS.SerializeForm($EventElement, Data) + SerializeData(Data);
