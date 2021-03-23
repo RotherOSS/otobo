@@ -308,7 +308,7 @@ my $RefreshZZZAAutoMiddleWare = sub {
 
         if ( $INC{'Kernel/Config/Files/ZZZAAuto.pm'} ) {
 
-            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepara_app();
+            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepare_app();
             Module::Refresh->refresh_module('Kernel/Config/Files/ZZZAAuto.pm');
         }
 
