@@ -14,21 +14,23 @@
 # David Krotil <david.krotil@krotilovi.cz>, 2019
 # Peter Sveter, 2019
 # Pavel Mlčoch <pavkamlc@gmail.com>, 2019
-#
+# David Krotil <david.krotil@hilo.cz>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Pavel Mlčoch <pavkamlc@gmail.com>, 2019\n"
-"Language-Team: Czech (https://translate.otobo.org/projects/otobo10/otobo/"
-"cs/)\n"
+"PO-Revision-Date: 2021-03-23 16:10+0000\n"
+"Last-Translator: David Krotil <david.krotil@hilo.cz>\n"
+"Language-Team: Czech <https://translate.otobo.org/projects/otobo10/otobo/cs/>"
+"\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n "
 "<= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -744,7 +746,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "např."
+msgstr " např."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -879,11 +881,11 @@ msgstr ""
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
-msgstr "pro získáni prvních 20ti znaků z předmětu"
+msgstr "pro získáni prvních 20ti znaků z předmětu."
 
 #. Template: AdminAutoResponse
 msgid "To get the first 5 lines of the email."
-msgstr "pro získáni prvních 5ti řádků z emailu"
+msgstr "Pro získáni prvních 5ti řádků z emailu."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
@@ -1284,7 +1286,7 @@ msgstr "Vyhledat"
 
 #. Template: AdminContactWD
 msgid "Wildcards like '*' are allowed."
-msgstr "Pseudoznaky jako '*' jsou povolené"
+msgstr "Pseudoznaky jako '*' jsou povolené."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
@@ -2275,7 +2277,7 @@ msgstr "Chybová zpráva"
 
 #. Template: AdminDynamicFieldText
 msgid "Add RegEx"
-msgstr "Přidat regulární výraz    "
+msgstr "Přidat regulární výraz"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Template"
@@ -2429,7 +2431,7 @@ msgstr "Naposledy Spuštěno"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Spustit Teď"
+msgstr "Spustit nyní!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
@@ -2477,7 +2479,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr "Aktuálně nebude Úloha Obecného Prostředu spouštěna automaticky"
+msgstr "Aktuálně nebude úloha základního agenta spouštěna automaticky."
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -2641,7 +2643,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr "Žádná nastavení změny Času"
+msgstr "Žádné nastavení změny času."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
@@ -2673,7 +2675,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "Čas Uzavření - bez nastavení"
+msgstr "Čas ukončení - bez nastavení."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -2689,7 +2691,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "Nevyřešené Časy - bez nastavení"
+msgstr "Čas nevyřešení - bez nastavení."
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
@@ -2705,7 +2707,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr "Časy Eskalace - bez nastavení"
+msgstr "Čas eskalace - bez nastavení."
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
@@ -2847,7 +2849,7 @@ msgstr "Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu"
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu"
+msgstr "Příkaz bude proveden. ARG[0] bude číslo tiketu. ARG[1] ID tiketu."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
@@ -2963,7 +2965,7 @@ msgstr "Filtrovat podle vzdálené IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Limit"
-msgstr "Limit"
+msgstr "Omezení"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Refresh"
@@ -4618,28 +4620,28 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
-msgstr "Oznámení jsou odeslána agentovi nebo zákazníkovi"
+msgstr "Oznámení jsou odeslána agentovi nebo zákazníkovi."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
 msgstr ""
-"pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku Řešitele)"
+"Pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku řešitele)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr "pro získáni prvních 5ti řádků z těla (z nejnovějšího článku Řešitele)"
+msgstr "Pro získáni prvních 5ti řádků z těla (z nejnovějšího článku řešitele)."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
 msgstr ""
-"pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku Zákazníka)"
+"Pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku zákazníka)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr "pro získáni prvních 5ti řádků z těla (z nejnovějšího článku Zákazníka)"
+msgstr "Pro získáni prvních 5ti řádků z těla (z nejnovějšího článku zákazníka)."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
@@ -4722,7 +4724,7 @@ msgstr ""
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
-"V tomto způsobu můžete Keyring, konfigurovaný v SysConfigu, editovat přímo"
+"V tomto případě můžete keyring, konfigurovaný v SysConfigu, editovat napřímo."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
@@ -5008,7 +5010,7 @@ msgstr "Tato Funkce je Aktivována!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr "Pro logování všech Požadavků stačí zapnout tuto Funkci"
+msgstr "Pro logování všech požadavků stačí zapnout tuto funkci."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
@@ -5020,7 +5022,7 @@ msgstr "Deaktivujte ji Zde!"
 
 #. Template: AdminPerformanceLog
 msgid "Logfile too large!"
-msgstr "Příliš velký logfile"
+msgstr "Příliš velký log soubor!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
@@ -5455,7 +5457,7 @@ msgstr "Aktivity"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
-msgstr "Filtr Aktivit"
+msgstr "Filtr aktivit..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Activity"
@@ -5463,7 +5465,7 @@ msgstr "Vytvoř novou Aktivitu"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr "Dialog filtr Aktivit"
+msgstr "Dialog filtru aktivit..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
@@ -5471,7 +5473,7 @@ msgstr "Přechody"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr "Filtrovat přechody"
+msgstr "Filtrovat změny stavu..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
@@ -5746,7 +5748,7 @@ msgstr "hodin(y)"
 
 #. Template: AdminQueue
 msgid "Only business hours are counted."
-msgstr "Počítají se pouze úřední hodiny"
+msgstr "Počítají se pouze úřední hodiny."
 
 #. Template: AdminQueue
 msgid ""
@@ -6119,7 +6121,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "OTOBO Version"
-msgstr "Verze OTOBO "
+msgstr "Verze OTOBO"
 
 #. Template: AdminRegistration
 msgid "Operating System"
@@ -6239,7 +6241,7 @@ msgstr "přesunout do"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr "Práva přesunout tikety do této skupiny/fronty"
+msgstr "Práva přesunout tikety do této skupiny/fronty."
 
 #. Template: AdminRoleGroup
 msgid "create"
@@ -6247,7 +6249,7 @@ msgstr "vytvořit"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Práva vytvořit tikety v této skupině/frontě"
+msgstr "Práva vytvořit tikety v této skupině/frontě."
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -6271,7 +6273,7 @@ msgstr "priorita"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Práva změnit prioritu tiketu v této skupině/frontě"
+msgstr "Práva změnit prioritu tiketu v této skupině/frontě."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -7473,7 +7475,7 @@ msgstr "Datum/čas"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
-msgstr "Neplatné datum"
+msgstr "Neplatné datum!"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
@@ -7939,7 +7941,7 @@ msgstr "%s %s je dostupný!"
 
 #. Template: AgentDashboardProductNotify
 msgid "Please update now."
-msgstr "Aktualizujte prosím nyní"
+msgstr "Aktualizujte prosím nyní."
 
 #. Template: AgentDashboardProductNotify
 msgid "Release Note"
@@ -7951,7 +7953,7 @@ msgstr "Úroveň"
 
 #. Template: AgentDashboardRSSOverview
 msgid "Posted %s ago."
-msgstr "Odesláno před %s"
+msgstr "Publikováno před %s."
 
 #. Template: AgentDashboardStats
 msgid ""
@@ -8495,7 +8497,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr "Pro všechny stavy čekající na vyřízení*"
+msgstr "Pro všechny stavy čekající na vyřízení."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -8533,7 +8535,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
-msgstr "Neplatný čas"
+msgstr "Neplatný čas!"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
@@ -8561,7 +8563,7 @@ msgstr "Informovat odesílatele"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
-msgstr "Poslat mail!"
+msgstr "Poslat mail"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
@@ -8761,7 +8763,7 @@ msgstr ""
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr "Notno použít číslo Tiketu"
+msgstr "Nutno použít číslo tiketu!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
@@ -8797,7 +8799,7 @@ msgstr "Přesunout"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
-msgstr "žádné"
+msgstr "Nenalezena žádná data."
 
 #. Template: AgentTicketOverviewMedium
 msgid "Open / Close ticket action menu"
@@ -9165,7 +9167,7 @@ msgid ""
 msgstr ""
 "Pro otevření odkazů z následujícího textu možná bude zapotřebí stisknout "
 "klávesu Ctrl, Cmd, nebo Shift současně s kliknutím na odkaz (závisí na vašem "
-"přohlížeči a operačním systému)"
+"přohlížeči a operačním systému)."
 
 #. Template: MIMEBase
 msgid "Close this message"
@@ -9251,7 +9253,7 @@ msgstr ""
 
 #. Template: CloudServicesDisabled
 msgid "You can"
-msgstr "Můžeš "
+msgstr "Můžeš"
 
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
@@ -9259,35 +9261,39 @@ msgstr ""
 
 #. Template: CustomerAccept
 msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr ""
+msgstr "Kliknutím uděluji souhlas se zpracováním osobních údajů."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "The customer ID is not changeable, no other customer ID can be assigned to "
 "this ticket."
 msgstr ""
+"ID zákazníka není možné změnit, žádné další zákaznické ID není možno tiketu "
+"přiřadit."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "First select a customer user, then you can select a customer ID to assign to "
 "this ticket."
 msgstr ""
+"Nejdříve vyberte uživatele zákazníka, poté bude možno přiřadit zákaznické ID "
+"tomuto tiketu."
 
 #. Template: TicketCustomerIDSelection
 msgid "Select a customer ID to assign to this ticket."
-msgstr ""
+msgstr "Vyberte ID zákazníka pro přiřazení k tomuto tiketu."
 
 #. Template: TicketCustomerIDSelection
 msgid "From all Customer IDs"
-msgstr ""
+msgstr "Ze všech zákaznických ID"
 
 #. Template: TicketCustomerIDSelection
 msgid "From assigned Customer IDs"
-msgstr ""
+msgstr "Z přiřazených zákaznických ID"
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "Prohledávání tiketů"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
@@ -9295,7 +9301,7 @@ msgstr "Nový Tiket"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr "Pozor chyba"
+msgstr "Nastala chyba"
 
 #. Template: CustomerError
 msgid "Error Details"
@@ -9307,7 +9313,7 @@ msgstr "Jít zpět"
 
 #. Template: CustomerFooter
 msgid "Powered by %s"
-msgstr ""
+msgstr "Používáme %s"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9315,6 +9321,8 @@ msgid ""
 "page manually or wait until your browser has re-established the connection "
 "on its own."
 msgstr ""
+"%s nalezl možný síťový problém. Můžete se pokud znovu načíst stránku ručně "
+"nebo počkejte až prohlížeč naváže spojení sám."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -9333,10 +9341,12 @@ msgid ""
 "In order to experience this software, you'll need to enable JavaScript in "
 "your browser."
 msgstr ""
+"Aby jste mohli využívat tento software musíte povolit JavaScript ve Vašem "
+"prohlížeči."
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
-msgstr ""
+msgstr "Upozornění prohlížeče"
 
 #. Template: CustomerLogin
 msgid "The browser you are using is too old."
@@ -9347,21 +9357,27 @@ msgid ""
 "This software runs with a huge lists of browsers, please upgrade to one of "
 "these."
 msgstr ""
+"Tento software je podporovaný v mnoha prohlížečích, modernizujte svůj a "
+"nainstalujte jeho aktuální verzi."
 
 #. Template: CustomerLogin
 msgid "Please see the documentation or ask your admin for further information."
 msgstr ""
+"Prosím přečtěte si dokumentaci nebo se zeptejte svého administrátora na "
+"další informace."
 
 #. Template: CustomerLogin
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
-msgstr ""
+msgstr "Prohlížeč, který používáte nepodporuje CSS. Je zřejmě velmi starý."
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
 msgstr ""
+"Internet Explorer je funkční , ale ne všechny vlastnosti jsou podporovány. "
+"Doporučujeme instalaci moderního prohlížeče."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
@@ -9907,7 +9923,7 @@ msgstr "Restartujte Váš webserver"
 
 #. Template: InstallerFinish
 msgid "After doing so your OTOBO is up and running."
-msgstr "Po dokončení následujících operací je Váš OTOBO spuštěn a poběží"
+msgstr "Po dokončení následujících operací je Váš OTOBO spuštěn a běžící."
 
 #. Template: InstallerFinish
 msgid "Start page"
@@ -10475,7 +10491,7 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr "Nebyl vybrán prvek"
+msgstr "Nebyl vybrán prvek."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
@@ -10996,7 +11012,7 @@ msgid ""
 "log file for more information."
 msgstr ""
 "Během přidávání/aktualizace následujících ACL se objevily chyby: %s. Pro "
-"více informací prosím zkontrolujte log"
+"více informací prosím zkontrolujte log."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
@@ -11569,7 +11585,7 @@ msgstr "během posledních ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "within the next ..."
-msgstr "během příštího"
+msgstr "během příštího ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "more than ... ago"
@@ -12605,7 +12621,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSLA.pm
 msgid "Please activate %s first!"
-msgstr "Prosím aktivujte nejdříve %s "
+msgstr "Prosím aktivujte nejdříve %s !"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
@@ -13296,11 +13312,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
-msgstr "Adresa %snahrazena registrovanou adresou zákazníka"
+msgstr "Adresa %snahrazena registrovanou adresou zákazníka."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Customer user automatically added in Cc."
-msgstr "Zákazník automaticky přidán do kopie"
+msgstr "Zákazník automaticky přidán do kopie."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
@@ -13438,7 +13454,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "The selected process is invalid!"
-msgstr "Vybraný proces je chybný."
+msgstr "Vybraný proces je chybný!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process %s is invalid!"
@@ -13677,7 +13693,7 @@ msgstr "za více než ..."
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr "Vlastnost není povolena"
+msgstr "Vlastnost není nastavena!"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Service View"
@@ -14174,7 +14190,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database already contains data - it should be empty!"
-msgstr "Databáze obsahuje data - měla by být prázdná."
+msgstr "Databáze obsahuje data - měla by být prázdná!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -14650,7 +14666,7 @@ msgstr "Online Řešitel: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
 msgid "There are more escalated tickets!"
-msgstr "Je zde více Eskalovaných Tiketů"
+msgstr "Je zde více eskalovaných tiketů!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
 msgid ""
@@ -14804,7 +14820,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr "Vybrané datum není platné"
+msgstr "Vybrané datum není platné."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
@@ -15372,7 +15388,7 @@ msgstr "instalováno"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Unable to parse repository index document."
-msgstr "Nebylo možno načíst dokument indexu repozitáře"
+msgstr "Nebylo možno načíst dokument indexu repozitáře."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -15886,7 +15902,7 @@ msgstr "Využití diskového prostoru"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
-msgstr "Linuxová distribuce "
+msgstr "Linuxová distribuce"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Could not determine distribution."
@@ -15916,7 +15932,7 @@ msgstr "Moduly Perlu"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Not all required Perl modules are correctly installed."
-msgstr "Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány"
+msgstr "Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
@@ -15949,11 +15965,11 @@ msgstr "Využitý prostor swap (MB)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be more than 60% free swap space."
-msgstr "Mělo by být více jak 60 % volného prostoru swapu"
+msgstr "Mělo by být více jak 60 % volného prostoru swapu."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be no more than 200 MB swap space used."
-msgstr "Nemělo by být využito více jak 200 MB swapu"
+msgstr "Nemělo by být využito více jak 200 MB swapu."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "OTOBO"
@@ -16231,7 +16247,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr "Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému"
+msgstr "Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "Ticket Search Index Module"
@@ -16335,7 +16351,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr "Použijte FastCGI nebo mod_perl pro zvýšení výkonu"
+msgstr "Použijte FastCGI nebo mod_perl pro zvýšení výkonu."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_deflate Usage"
@@ -16553,7 +16569,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
-msgstr "Neplatný Token"
+msgstr "Neplatný token!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
@@ -17801,7 +17817,7 @@ msgstr "Otevři kalendář"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr "Nesprávne datum (musí být v budoucnosti)"
+msgstr "Nesprávne datum (musí být v budoucnosti)!"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a past date)!"
@@ -18287,7 +18303,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Admin."
-msgstr "Administrátor"
+msgstr "Administrátor."
 
 #. SysConfig
 msgid "Administration"
@@ -19389,7 +19405,7 @@ msgstr "Vytvořit a spravovat skupiny."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr "Vytvořit a spravovat fronty"
+msgstr "Vytvořit a spravovat fronty."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
@@ -19405,7 +19421,7 @@ msgstr "Vytvořit a spravovat pozdravy."
 
 #. SysConfig
 msgid "Create and manage services."
-msgstr "Vytvořit a spravovat služby"
+msgstr "Vytvořit a spravovat služby."
 
 #. SysConfig
 msgid "Create and manage signatures."
@@ -24015,7 +24031,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Look into a ticket!"
-msgstr "Náhled Tiketu"
+msgstr "Zkontrolujte tiket!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
@@ -24116,7 +24132,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "Označit jako SPAM"
+msgstr "Označit jako SPAM!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
@@ -24615,7 +24631,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Přehled všech otevřených tiketů"
+msgstr "Přehled všech otevřených tiketů."
 
 #. SysConfig
 msgid "Overview of all open tickets."
@@ -25018,7 +25034,7 @@ msgstr "Odchozí telefonní hovor"
 
 #. SysConfig
 msgid "Phone Call."
-msgstr "Telefoní hovor"
+msgstr "Telefoní hovor."
 
 #. SysConfig
 msgid "Phone call"
@@ -27973,7 +27989,7 @@ msgstr "Zobrazené tikety"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr "Sledované tikety"
+msgstr "Sledované tikety."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
@@ -28078,8 +28094,8 @@ msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is merged to "
 "\"<OTOBO_MERGE_TO_TICKET>\"."
 msgstr ""
-"Váš email s číslem Tiketu \"<OTOBO_TICKET>\" je svázán s "
-"\"<OTOBO_MERGE_TO_TICKET>\""
+"Váš email s číslem tiketu \"<OTOBO_TICKET>\" je svázán s \""
+"<OTOBO_MERGE_TO_TICKET>\"."
 
 #. SysConfig
 msgid ""
