@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-23 16:10+0000\n"
+"PO-Revision-Date: 2021-03-24 09:49+0000\n"
 "Last-Translator: David Krotil <david.krotil@hilo.cz>\n"
 "Language-Team: Czech <https://translate.otobo.org/projects/otobo10/otobo/cs/>"
 "\n"
@@ -195,6 +195,8 @@ msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
 msgstr ""
+"Nastavte, co chcete změnit, pokud se kritéria shodují. Myslete na to, že "
+"\"možné\" je \"white list\" a \"nemožné\" je \"black list\"."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
@@ -286,10 +288,12 @@ msgid ""
 "system. The file needs to be in .yml format as exported by calendar "
 "management module."
 msgstr ""
+"Zde můžete nahrát konfigurační soubor pro import kalendáře do systému. "
+"Soubor musí být v .yml fomátu, exportovaný z modulu správy kalendářů."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "Přepište existující entity"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
@@ -312,24 +316,29 @@ msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
 msgstr ""
+"V závislosti na skupinovém poli, systém umožní uživateli přístup do "
+"kalendáře v závislosti na úrovni oprávnění."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
+"Jen pro čtení: uživatel může vidět a exportovat všechny schůzky v kalendáři."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
+"Přesunout do: uživatel může upravit schůzky v kalendáři, ale beze změny "
+"výběru kalendáře."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "Vytvořit: uživatelé mohou vytvořit a smazat schůzky v kalendáři."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Číst/Zapisovat: uživatelé mohou spravovat kalendář."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -361,7 +370,7 @@ msgstr "Stáhnout kalendář"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Kopíruj veřejnou URL kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -373,7 +382,7 @@ msgstr "Jméno kalendáře"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Kalendář se stejným jménem již existuje."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
@@ -412,6 +421,8 @@ msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
 msgstr ""
+"Použijte nastavení níže pro zúžení výběru pro které tikety budou automaticky "
+"vytvořené schůzky."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -438,6 +449,8 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
+"Definujte pravidla pro automatické vytvoření schůzky v tomto kalendáři na "
+"základě dat z tiketu."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
@@ -457,13 +470,15 @@ msgstr "Návrat zpět"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Nahrávaný soubor musí být v platném iCAL formátu (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
+"Pokud požadovaný kalendář tu není uvedený, ujistěte se, že máte alespoň "
+"práva na jeho vytvoření."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -478,6 +493,8 @@ msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
 msgstr ""
+"Všechny existující schůzky v tomto kalendáři se stejným UniqueID budou "
+"přepsány."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -489,7 +506,7 @@ msgstr "Import událostí"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Správa notifikací schůzek"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -517,6 +534,9 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Zde můžete nahrát konfigurační soubor pro import notifikací schůzek do "
+"Vašeho systému. Soubor musí být v .yml formátu exportovaný z modulu "
+"notifikací schůzek."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -524,11 +544,11 @@ msgstr "Přepsat existující oznámení?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Nahrát konfiguraci notifikací"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Import konfigurace notifikací"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -544,17 +564,19 @@ msgstr "Smazat toto oznámení"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Zobrazit v nastavení agenta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Tipy nápovědy pro nastavení agenta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
 msgstr ""
+"Tato zpráva bude zobrazena na obrazovce nastavení preferencí agenta jako "
+"plovoucí nápověda pro tuto notifikaci."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Toggle this widget"
@@ -574,6 +596,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Zde můžete vybrat, které události budou aktivovat tuto notifikaci. Další "
+"filtr schůzek je možno nastavit níže, aby se posílaly notifikace pouze pro "
+"schůzky s určitými kritérii."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -609,23 +634,23 @@ msgstr "Odeslat"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "Poslat těmto agentům"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Odeslat všem členům skupiny (pouze agenti)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
-msgstr ""
+msgstr "Poslat všem členům role"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Poslat Nepřítomnost v kanceláři"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Poslat i v případě pokud je uživatel Mimo kancelář."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -636,6 +661,7 @@ msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"Zaslat notifikaci jen jednou denně o konkrétní schůzce pomocí vybrané metody."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -646,6 +672,8 @@ msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
 msgstr ""
+"Toto jsou dostupné metody, kterými lze zasílat notifikace každému z "
+"adresátů. Prosím vyberte alespoň jednu."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
@@ -657,11 +685,11 @@ msgstr "Transportovat"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Pro notifikace je nutná alespoň jedna metoda."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Standardně aktivní v nastavení agenta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
