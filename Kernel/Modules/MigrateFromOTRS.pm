@@ -161,7 +161,7 @@ sub Run {
             $GetParam{DBDSN} =
                 $GetParam{DBType} eq 'mysql'      ? "DBI:mysql:database=;host=$GetParam{DBHost};" :
                 $GetParam{DBType} eq 'postgresql' ? "DBI:Pg:host=$GetParam{DBHost};" :
-                $GetParam{DBType} eq 'oracle'     ?  $GetParam{DBDSN} :
+                $GetParam{DBType} eq 'oracle'     ? $GetParam{DBDSN} :
                 '';
 
             $CacheObject->Set(

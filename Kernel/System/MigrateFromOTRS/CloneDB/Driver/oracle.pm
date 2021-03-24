@@ -19,6 +19,7 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 use strict;
 use warnings;
 use v5.24;
+use utf8;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
@@ -56,7 +57,7 @@ sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
     # check OTRSDBSettings
-    for my $Needed ( qw(DBDSN DBUser DBPassword DBType) ) {
+    for my $Needed (qw(DBDSN DBUser DBPassword DBType)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
