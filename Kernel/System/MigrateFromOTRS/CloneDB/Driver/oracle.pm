@@ -139,22 +139,11 @@ sub ResetAutoIncrementField {
         }
     }
 
-    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT id
-            FROM $QuotedTable
-            ORDER BY id DESC",
-        Limit => 1,
+        SQL => "SELECT max(id)+1 FROM $Param{Table}"
     ) || return;
 
-    my $LastID;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $LastID = $Row[0];
-    }
-
-    # add one more to the last ID
-    $LastID++;
+    my ($NextID) = $Param{DBObject}->FetchrowArray();
 
     # assume that sequences do not have to be quoted
     my $SequenceName = 'SE_' . uc $Param{Table};
@@ -183,7 +172,7 @@ sub ResetAutoIncrementField {
     if ($SequenceCount) {
 
         # set increment as last number on the id field, plus one
-        my $SQL = "ALTER SEQUENCE $SequenceName INCREMENT BY $LastID";
+        my $SQL = "ALTER SEQUENCE $SequenceName INCREMENT BY $NextID";
 
         $Param{DBObject}->Do(
             SQL => $SQL,
@@ -357,8 +346,7 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $QuotedTable = $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
-    my $SQL         = "ALTER TABLE $QuotedTable ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
