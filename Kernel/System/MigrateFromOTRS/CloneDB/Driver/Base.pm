@@ -529,9 +529,7 @@ sub DataTransfer {
         }
 
         # Truncate the target table in all cases.
-        # In the RENAME case the table will eventually be dropped,
-        # but until then the truncated table provides info about columns and
-        # foreign keys.
+        # The truncated table provides info about columns and foreign keys.
         # The SQL is driver dependent because PostgreSQL 11 does not honor
         # the deactivation of foreign key check with 'TRUNCATE TABLE'.
         {
