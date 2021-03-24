@@ -104,21 +104,16 @@ sub ColumnsList {
         }
     }
 
-    $Param{DBObject}->Prepare(
-        SQL => "SELECT column_name
-                FROM all_tab_columns
-                WHERE table_name = ?",
-        Bind => [
-            \$Param{Table},
-        ],
+    # Internally OTOBO is using lower case table names.
+    # But Oracle has upper case names.
+    my $UcTable = uc $Param{Table};
+    my $Rows    = $Param{DBObject}->SelectAll(
+        SQL  => 'SELECT column_name FROM all_tab_columns WHERE table_name = ?',
+        Bind => [ \$UcTable ],
     ) || return [];
 
-    my @Result;
-    while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        push @Result, $Row[0];
-    }
-
-    return \@Result;
+    # only the first element of each row is needed
+    return [ map { $_->[0] } $Rows->@* ];
 }
 
 #
