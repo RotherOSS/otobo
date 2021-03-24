@@ -34,11 +34,11 @@
                     </div>
                     <div class="Clear"></div>
 
-                    <label for="DBHost">[% Translate("Host") | html %]:</label>
-                    <div class="Field">
+                    <label for="DBHost" class="oooSQL Hidden">[% Translate("Host") | html %]:</label>
+                    <div class="Field oooSQL Hidden">
                         <input type="text" id="DBHost" name="DBHost" class="W50pc" value="[% Data.DBHost %]" />
                     </div>
-                    <div class="Clear"></div>
+                    <div class="Clear oooSQL Hidden"></div>
 
                     <label for="DBUser">[% Translate("User") | html %]:</label>
                     <div class="Field">
@@ -56,26 +56,20 @@
                     <div class="Field oooSQL Hidden">
                         <input type="text" id="DBName" name="DBName" class="W50pc" value="[% Data.DBName %]" />
                     </div>
-                    <div class="Clear" class="oooSQL Hidden"></div>
+                    <div class="Clear oooSQL Hidden"></div>
 
-                    <label for="DBSID" class="oooOracle Hidden">[% Translate("SID") | html %]:</label>
+                    <label for="DBDSN" class="oooOracle Hidden">[% Translate("DSN") | html %]:</label>
                     <div class="Field oooOracle Hidden">
-                        <input type="text" id="DBSID" name="DBSID" class="W50pc" value="[% Data.DBSID %]" />
+                        <input type="text" id="DBDSN" name="DBDSN" class="W50pc" value="[% Data.DBDSN %]" />
                     </div>
-                    <div class="Clear" class="oooOracle Hidden"></div>
-
-                    <label for="DBPort" class="oooOracle Hidden">[% Translate("Port") | html %]:</label>
-                    <div class="Field oooOracle Hidden">
-                        <input type="text" id="DBPort" name="DBPort" class="W50pc" value="[% Data.DBPort %]" />
-                    </div>
-                    <div class="Clear" class="oooOracle Hidden"></div>
+                    <div class="Clear oooOracle Hidden"></div>
 
                     <label for="SkipDBMigration">[% Translate("Skip DB migration") | html %]:</label>
                     <div class="Field">
                         <input type="checkbox" id="SkipDBMigration" name="SkipDBMigration" value="" />
                         <p>[% Translate("Expert option! Only works if the migration has already been done by hand.") | html %]</p>
                     </div>
-                    <div class="Clear" class="oooSQL Hidden"></div>
+                    <div class="Clear"></div>
 
                     <div class="Field">
                         <button class="Primary CallForAction" type="button" id="ButtonDefTask"><span>[% Translate("Check database settings") | html %]</span></button>

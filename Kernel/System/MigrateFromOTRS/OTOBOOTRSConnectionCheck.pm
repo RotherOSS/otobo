@@ -273,7 +273,18 @@ sub _CheckConfigpmAndWriteCache {
     }
     elsif ( $DBType =~ /Oracle/ ) {
         $CacheOptions{DBType} = 'oracle';
-        $CacheOptions{DBPort} = ( $CacheOptions{DBDSN} =~ m/^DBI:.*:(\d+)/ );
+
+        # This utterly depends on the conventions used in the OTRS Config.pm.
+        # But the sane approach is to simply use the DSN from Config.pm.
+        # Avoid a string eval, but try to support the common cases.
+        # e.g. $Self->{'DatabaseDSN'} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
+        # TODO: q{DatabaseHost} is not supported
+        if ( $CacheOptions{DBHost} ) {
+            $CacheOptions{DBDSN} =~ s/\$Self->\{\s*['"]?DatabaseHost['"]?\s*\}/$CacheOptions{DBHost}/;
+         }
+        if ( $CacheOptions{DBName} ) {
+            $CacheOptions{DBDSN} =~ s/\$Self->\{\s*['"]?Database['"]?\s*\}/$CacheOptions{DBName}/;
+        }
     }
 
     $CacheObject->Set(
@@ -286,8 +297,6 @@ sub _CheckConfigpmAndWriteCache {
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},
             DBDSN      => $CacheOptions{DBDSN},
-            DBSID      => $CacheOptions{DBSID}  || '',
-            DBPort     => $CacheOptions{DBPort} || '',
         },
     );
 

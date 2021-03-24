@@ -51,15 +51,12 @@ Please look there for a detailed reference of the functions.
 
 =cut
 
-# create external db connection.
+# create external db connection. For oracle the connection is based on the DSN.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
     # check OTRSDBSettings
-    for my $Needed (
-        qw(DBHost DBName DBUser DBPassword DBType)
-        )
-    {
+    for my $Needed ( qw(DBDSN DBUser DBPassword DBType) ) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -70,23 +67,9 @@ sub CreateOTRSDBConnection {
         }
     }
 
-    # set default sid
-    if ( !defined $Param{DBSID} ) {
-        $Param{DBSID} = 'XE';
-    }
-
-    # set default sid
-    if ( !defined $Param{DBPort} ) {
-        $Param{DBPort} = '1521';
-    }
-
-    # include DSN for target DB
-    $Param{OTRSDatabaseDSN} =
-        "DBI:Oracle:sid=$Param{DBSID};host=$Param{DBHost};port=$Param{DBPort};";
-
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
-        DatabaseDSN  => $Param{OTRSDatabaseDSN},
+        DatabaseDSN  => $Param{DBDSN},
         DatabaseUser => $Param{DBUser},
         DatabasePw   => $Param{DBPassword},
         Type         => $Param{DBType},

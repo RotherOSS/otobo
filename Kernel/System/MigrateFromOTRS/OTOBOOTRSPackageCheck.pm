@@ -130,21 +130,6 @@ sub Run {
         },
     );
 
-    if ( $Param{DBData}->{DBType} =~ /oracle/ ) {
-        for my $Key (qw(DBSID DBPort)) {
-            if ( !$Param{DBData}->{$Key} ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Need DBData->$Key!"
-                );
-                $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-                $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key );
-                $Result{Successful} = 0;
-                return \%Result;
-            }
-        }
-    }
-
     # Set cache object with taskinfo and starttime to show current state in frontend
     $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     $Epoch          = $DateTimeObject->ToEpoch();
