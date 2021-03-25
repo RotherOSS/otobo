@@ -719,12 +719,12 @@ Long options:
  [--compress]                 - same as -c
  [--remove-old-backups DAYS]  - same as -r
  [--backup-type]              - same as -t
- [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump
- [--db-host]                  - default taken from the current OTOBO config
- [--db-name]                  - default taken from the current OTOBO config
- [--db-user]                  - default taken from the current OTOBO config
- [--db-password]              - default taken from the current OTOBO config
- [--db-type]                  - default taken from the current OTOBO config
+ [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump. The default setting is 64M.
+ [--db-host]                  - default is the setting 'DatabaseHost' in the OTOBO config
+ [--db-name]                  - default is the setting 'Database' in the OTOBO config
+ [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
+ [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
+ [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
@@ -732,18 +732,20 @@ Using -t nofullbackup saves only the database, /Kernel/Config* and /var director
 With -t dbonly only the database will be saved.
 With -t migratefromotrs only the OTRS database will be saved and prepared for migration
 
-Override the max allowed packet size:
-When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
-The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
-This setting will be passed on to the command mysqldump.
-
 Output:
  Config.tar.gz          - Backup of /Kernel/Config* configuration files.
  Application.tar.gz     - Backup of application file system (in case of full backup).
  VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
  DataDir.tar.gz         - Backup of article files.
  DatabaseBackup.sql.gz  - Database dump.
+
+Troubleshooting:
+
+Override the max allowed packet size:
+When backing up a MySQL one might run into very large database fields. In this case the backup fails.
+For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
+The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
+This setting will be passed on to the command mysqldump. The default setting is 64M.
 
 END_HELP
 
