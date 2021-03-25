@@ -150,7 +150,7 @@ elsif ( $DatabaseType eq 'postgresql' ) {
     }
 }
 else {
-    say STDERR "ERROR: Can't backup, no database dump support!";
+    say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
 
     exit(1);
 }
@@ -164,7 +164,7 @@ else {
 
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd";    ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -409,6 +409,11 @@ if ( defined $RemoveDays ) {
 }
 
 # a special MySQL dump for migrating from OTRS 6 to OTOBO 10
+# - skip tables that don't have to be migrated
+# - change the character set to utf8mb4
+# - remove COLLATE
+# - shorten columns to 191 characters
+# - rename tables
 sub BackupForMigrateFromOTRS {
     my %Param = @_;
 
@@ -425,10 +430,11 @@ sub BackupForMigrateFromOTRS {
     # add more mysqldump options
     {
         # skipping tables
-        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
+        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables->%*;
         push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
 
         # print a time stamp at the end of the dump
+        # TODO: this only works for mysql
         push @DBDumpOptions, qq{--dump-date};
     }
 
@@ -474,7 +480,7 @@ END_MESSAGE
     {
         # find the changed columns per table
         my %IsShortened;
-        for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
+        for my $Short ( $MigrationBaseObject->DBShortenedColumns ) {
             $IsShortened{ $Short->{Table} } //= {};
             $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
         }
@@ -486,7 +492,7 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
@@ -495,14 +501,14 @@ END_MESSAGE
         for my $Line (@Lines) {
 
             # substitutions for changing the character set
-            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;      # for CREATE TABLE
-            $Line =~ s/utf8mb4mb4/utf8mb4/;                                # in case it already was utf8mb4
-            $Line =~ s/utf8mb3mb4/utf8mb4/;                                # in case of some mixup
-            $Line =~ s/utf8mb4mb3/utf8mb4/;                                # in case of some mixup
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
 
             # substitutions for removing COLLATE directives
-            $Line =~ s/COLLATE\s+\w+/ /;                                   # for CREATE TABLE, remove customer specific collation
-            $Line =~ s/COLLATE\s*=\s*\w+/ /;                               # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s+\w+/ /;                                 # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /;                             # for CREATE TABLE, remove customer specific collation
 
             # leaving a Table Create Block
             # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
@@ -582,7 +588,7 @@ END_SQL
         # rename tables
         # foreign key relationsships are handled automatically
         # RENAME TABLE IF EXISTS is not available in all MySQL versions
-        my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
+        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
         my @RenameSQLs;
         my $Cnt = 0;
         for my $SourceTable ( sort keys %RenameTables ) {
