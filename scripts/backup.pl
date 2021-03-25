@@ -362,7 +362,7 @@ Troubleshooting:
 
 Override the max allowed packet size:
 When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
+For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE>.
 The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
 This setting will be passed on to the command mysqldump. The default setting is 64M.
 
@@ -663,38 +663,49 @@ if ( $DatabaseType eq 'mysql' ) {
             }
             RemoveIncompleteBackup($Directory);
 
-            die "Backup failed";
+            die 'Backup failed';
         }
     }
 }
 else {
-    print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
 
-    # set password via environment variable if there is one
-    if ($DatabasePw) {
-        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-    }
-
-    if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost";
-    }
-
-    if (
-        !system(
-            "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
-        )
-        && !-f $ErrorIndicationFileName
-        )
-    {
-        say "done";
+    if ($MigrateFromOTRSBackup) {
+        say "Sorry, dumping for database migration is not yet supported for $DatabaseType";
     }
     else {
-        say "failed";
-        if ( -f $ErrorIndicationFileName ) {
-            unlink $ErrorIndicationFileName;
+        # set password via environment variable if there is one
+        if ($DatabasePw) {
+            $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
-        RemoveIncompleteBackup($Directory);
-        die "Backup failed";
+
+        if ($DatabaseHost) {
+            $DatabaseHost = "-h $DatabaseHost";
+        }
+
+        my $Command
+            = qq{( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+
+        # only print out the dump commands in a dry run
+        if ($DryRun) {
+            say $Command;
+
+            exit 0;
+        }
+
+        print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
+
+        if ( !system($Command) && !-f $ErrorIndicationFileName ) {
+            say 'done';
+        }
+        else {
+            say 'failed';
+            if ( -f $ErrorIndicationFileName ) {
+                unlink $ErrorIndicationFileName;
+            }
+            RemoveIncompleteBackup($Directory);
+
+            die 'Backup failed';
+        }
     }
 }
 
