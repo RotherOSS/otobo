@@ -323,6 +323,9 @@ Usage:
     otobo> cd /opt/otobo
     otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
+    # in some special case extra parameters can be passed, note the required quotes
+    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
+
 Short options:
  [-h]                   - Display help for this command.
  [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
@@ -366,6 +369,10 @@ For making the backup succeed one can explicitly add the parameter --max-allowed
 The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
 This setting will be passed on to the command mysqldump. The default setting is 64M.
 
+Error when the table information_schema.COLUMN_STATISTICS is missing:
+This error occures with some versions of mysqldump 8.0.x. The problem can be evaded
+by passing the option --extra-dump-options="--column-statistics=0"
+
 END_HELP
 
     exit 1;
@@ -382,6 +389,7 @@ my (
     $DatabasePw,
     $DatabaseType,
     $DryRun,
+    $ExtraDumpOptions,
 );
 my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
 my $BackupDir        = getcwd();
@@ -413,6 +421,7 @@ GetOptions(
     'remove-old-backups|r=i' => \$RemoveDays,
     'backup-type|t=s'        => \$BackupType,
     'max-allowed-packet=s'   => $MaxAllowedPacketOptionChecker,    # check the units, set $MaxAllowedPacket
+    'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
     'dry-run'                => \$DryRun,                          # only print the database dump commands
     'db-host=s'              => \$DatabaseHost,
     'db-name=s'              => \$DatabaseName,
@@ -499,26 +508,32 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
 }
 
-# check db backup support
+# set up DB dump support
 my $DBDumpCmd = '';
 my @DBDumpOptions;
-if ( $DatabaseType eq 'mysql' ) {
-    $DBDumpCmd = 'mysqldump';
-    push @DBDumpOptions, '--no-tablespaces';
-}
-elsif ( $DatabaseType eq 'postgresql' ) {
-    $DBDumpCmd = 'pg_dump';
-    if ( $DatabaseDSN !~ m/host=/i ) {
-        $DatabaseHost = '';
+{
+    if ($ExtraDumpOptions) {
+        push @DBDumpOptions, $ExtraDumpOptions;
+    }
+
+    if ( $DatabaseType eq 'mysql' ) {
+        $DBDumpCmd = 'mysqldump';
+        push @DBDumpOptions, '--no-tablespaces';
+    }
+    elsif ( $DatabaseType eq 'postgresql' ) {
+        $DBDumpCmd = 'pg_dump';
+        if ( $DatabaseDSN !~ m/host=/i ) {
+            $DatabaseHost = '';
+        }
+    }
+    else {
+        say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
+
+        exit(1);
     }
 }
-else {
-    say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
 
-    exit(1);
-}
-
-# check needed system commands
+# check the needed system commands
 {
     my @Cmds = ( 'tar', $DBDumpCmd );
     if ( $BackupType ne 'migratefromotrs' ) {
