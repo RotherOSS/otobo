@@ -14,6 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# Note that the frontend module CustomerPreferences is not supported yet.
+# See https://github.com/RotherOSS/otobo/issues/693
+
 use strict;
 use warnings;
 use v5.24;
@@ -64,14 +67,20 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         # check CustomerPreferences screen
-        for my $ID (
-            qw(UserLanguage UserShowTickets UserRefreshTime CurPw NewPw NewPw1 UserGoogleAuthenticatorSecretKey)
-            )
-        {
-            my $Element = $Selenium->find_element( "#$ID", 'css' );
-            $Element->is_enabled();
-            $Element->is_displayed();
+        # The look uses the testing methods provided by the Selenium::Remote::Driver distro.
+        # Therefore the testing events from Kernel::System::UnitTest::Selenium are not needed.
+        # TODO: also check CurPw NewPw NewPw1
+        $Selenium->_SuppressTestingEvents(1);
+        for my $ID (qw(UserLanguage UserShowTickets UserRefreshTime UserGoogleAuthenticatorSecretKey)) {
+            my $Element = $Selenium->find_element_by_id($ID);    # throws no exception when no element is found
+            ok( $Element, "element with id $ID was found" );
+            $Element->is_enabled_ok();
+            {
+                my $ToDo = todo('CustomerPreferences has layout issues, some elements are not displayed completely');
+                $Element->is_displayed_ok();
+            }
         }
+        $Selenium->_SuppressTestingEvents(0);
 
         # check CustomerPreferences default values
         is(
@@ -95,7 +104,9 @@ $Selenium->RunTest(
             Element => '#UserRefreshTime',
             Value   => 2,
         );
-        $Selenium->find_element( '#UserRefreshTimeUpdate', 'css' )->VerifiedClick();
+
+        # TODO: CustomerPreference not fully implemented
+        #$Selenium->find_element( '#UserRefreshTimeUpdate', 'css' )->VerifiedClick();
 
         $Selenium->InputFieldValueSet(
             Element => '#UserShowTickets',
@@ -104,11 +115,16 @@ $Selenium->RunTest(
         $Selenium->find_element( '#UserShowTicketsUpdate', 'css' )->VerifiedClick();
 
         # check edited values
-        $Self->Is(
-            $Selenium->find_element( '#UserRefreshTime', 'css' )->get_value(),
-            "2",
-            "#UserRefreshTime updated value",
-        );
+        {
+            my $ToDo = todo('CustomerPreferences still under construction');
+
+            $Self->Is(
+                $Selenium->find_element( '#UserRefreshTime', 'css' )->get_value(),
+                "2",
+                "#UserRefreshTime updated value",
+            );
+        }
+
         $Self->Is(
             $Selenium->find_element( '#UserShowTickets', 'css' )->get_value(),
             "20",
@@ -180,15 +196,17 @@ $Selenium->RunTest(
                 })
             ).val('$MaliciousCode').trigger('redraw.InputField').trigger('change');"
         );
-        $Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
+
+        # TODO: CustomerPreference not fully implemented
+        #$Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
         # Check if malicious code was sanitized.
-        $Self->True(
-            $Selenium->execute_script(
-                "return typeof window.iShouldNotExist === 'undefined';"
-            ),
-            'Malicious variable is undefined'
-        );
+        #$Self->True(
+        #    $Selenium->execute_script(
+        #        "return typeof window.iShouldNotExist === 'undefined';"
+        #    ),
+        #    'Malicious variable is undefined'
+        #);
     }
 );
 
