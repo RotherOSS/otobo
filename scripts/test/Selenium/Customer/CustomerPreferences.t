@@ -156,16 +156,16 @@ $Selenium->RunTest(
             );
 
             # check for correct translation
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('Interface language') ) > -1,
+            $Selenium->content_contains(
+                $LanguageObject->Translate('Interface language'),
                 "Test widget 'Interface language' found on screen"
             );
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('Number of displayed tickets') ) > -1,
+            $Selenium->content_contains(
+                $LanguageObject->Translate('Number of displayed tickets'),
                 "Test widget 'Number of displayed tickets' found on screen"
             );
-            $Self->True(
-                index( $Selenium->get_page_source(), $LanguageObject->Translate('Ticket overview') ) > -1,
+            $Selenium->content_contains(
+                $LanguageObject->Translate('Ticket overview'),
                 "Test widget 'Ticket overview' found on screen"
             );
         }
@@ -173,16 +173,16 @@ $Selenium->RunTest(
         # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)
         $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey",       'css' )->send_keys('Invalid Key');
         $Selenium->find_element( '#UserGoogleAuthenticatorSecretKeyUpdate', 'css' )->VerifiedClick();
-        $Self->True(
-            index( $Selenium->get_page_source(), $SharedSecretConfig->{'ValidateRegexMessage'} ) > -1,
+        $Selenium->content_contains(
+            $SharedSecretConfig->{'ValidateRegexMessage'},
             "Error message for invalid shared secret found on screen"
         );
 
         # now use a valid secret
         $Selenium->find_element( "#UserGoogleAuthenticatorSecretKey",       'css' )->send_keys('ABCABCABCABCABC2');
         $Selenium->find_element( '#UserGoogleAuthenticatorSecretKeyUpdate', 'css' )->VerifiedClick();
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Preferences updated successfully!' ) > -1,
+        $Selenium->content_contains(
+            'Preferences updated successfully!',
             "Success message found on screen"
         );
 
