@@ -248,7 +248,10 @@ sub PerlInfoGet {
 
     if ( $Param{BundledModules} ) {
 
-        my @ModuleList = qw(
+        # add bundled modules and their version
+        my %ModuleToVersion =
+            map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
+            qw(
             Algorithm::Diff
             CGI
             Class::Inspector
@@ -284,14 +287,7 @@ sub PerlInfoGet {
             Types::TypeTiny
             YAML
             URI
-        );
-
-        # add module and version
-        my %ModuleToVersion;
-        for my $Module (@ModuleList) {
-            $ModuleToVersion{$Module} = $Self->ModuleVersionGet( Module => $Module );
-        }
-
+            );
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
 
