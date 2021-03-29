@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -227,9 +227,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#oooMainBox .oooTicketList a').length;" );
 
         # search for both tickets on Company Tickets screen (default filter is Open)
         for my $Count ( 0 .. 1 ) {
@@ -273,7 +271,7 @@ $Selenium->RunTest(
         }
 
         # CustomerCompanyFilter resets on next page. See bug#14852.
-        # Create test tickets.
+        # Create many test tickets that don't fit on a single page.
         for ( 1 .. 35 ) {
             my $TicketNumber = $TicketObject->TicketCreateNumber();
             my $TicketID     = $TicketObject->TicketCreate(
@@ -292,6 +290,7 @@ $Selenium->RunTest(
                 $TicketID,
                 "Created test ticket $CustomerCompanyID ($TicketID)",
             );
+
             push @TicketIDs, $TicketID;
         }
 
@@ -299,10 +298,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length && \$('#CustomerIDs').length;"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#oooMainBox .oooTicketList a').length" );
 
         $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
 
