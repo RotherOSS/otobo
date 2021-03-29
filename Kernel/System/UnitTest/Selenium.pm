@@ -118,7 +118,7 @@ has _TestException => (
 # suppress testing events
 has LogExecuteCommandActive => (
     is      => 'rw',
-    default => 0,
+    default => 1,
 );
 
 =head1 NAME
