@@ -240,7 +240,10 @@ $Selenium->RunTest(
         }
 
         # check customer filter selection on Company Tickets screen
-        for my $Count ( 0 .. 1 ) {
+        # Looks like in the new customer interface there is no selection by customer
+        #for my $Count ( 0 .. 1 ) {
+        if (0) {
+            my $Count = 0;
 
             $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
 
@@ -303,24 +306,23 @@ $Selenium->RunTest(
         $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
 
         # Select Company.
-        $Selenium->InputFieldValueSet(
-            Element => '#CustomerIDs',
-            Value   => $CustomerCompanyID,
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->InputFieldValueSet(
+        #    Element => '#CustomerIDs',
+        #    Value   => $CustomerCompanyID,
+        #);
 
-        $Selenium->WaitFor(
-            Time => 20,
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        );
+        #$Selenium->WaitFor(
+        #    Time => 20,
+        #    JavaScript =>
+        #        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        #);
 
+        # go to the second page
         $Selenium->find_element( '#CustomerTicketOverviewPage2', 'css' )->VerifiedClick();
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2.Selected').length && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2.Selected').length" );
 
         # Check if on second page.
         $Self->Is(
@@ -330,31 +332,30 @@ $Selenium->RunTest(
         );
 
         # Check if company filter preserve previously selected company.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
-            $CustomerCompanyID,
-            "Correct CustomerCompanyID is selected in filter."
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Self->Is(
+        #    $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
+        #    $CustomerCompanyID,
+        #    "Correct CustomerCompanyID is selected in filter."
+        #);
 
-        $Selenium->WaitFor(
-            JavaScript => "return \$('#BottomActionRow a[href*=\"Filter=All\"]').length;"
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->WaitFor( JavaScript => "return \$('#BottomActionRow a[href*=\"Filter=All\"]').length;" );
 
         # Set filter to All ticket by company.
-        $Selenium->find_element("//div[contains(\@id, \'BottomActionRow')]//ul//li//a[contains(\@href, 'Filter=All' )]")
-            ->VerifiedClick();
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->find_element("//div[contains(\@id, \'BottomActionRow')]//ul//li//a[contains(\@href, 'Filter=All' )]")->VerifiedClick();
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function';" );
 
         # Check if company filter preserve previously selected company.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
-            $CustomerCompanyID,
-            "Correct CustomerCompanyID is selected in filter."
-        );
+        #$Self->Is(
+        #    $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
+        #    $CustomerCompanyID,
+        #    "Correct CustomerCompanyID is selected in filter."
+        #);
 
         # clean up test data from the DB
         for my $TicketID (@TicketIDs) {
