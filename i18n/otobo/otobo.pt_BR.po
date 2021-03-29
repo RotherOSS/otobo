@@ -22,7 +22,7 @@
 # Gustavo Antonio Lutz de Matos <gustavo.almatos@gmail.com>, 2018
 # Felipe Rozelio <feliperozelio@gmail.com>, 2018
 # eder.brito <ederbritoo@gmail.com>, 2018
-# Jefferson Campos <foguinho.peruca@gmail.com>, 2018
+# Jefferson Campos <foguinho.peruca@gmail.com>, 2018, 2021.
 # Marcos Aurélio Silvério <marcos.aurelio@infracerta.com.br>, 2018
 # Otonwallace Moreira Silva <otonwallace@outlook.com>, 2018
 # Alexandre Costa <alexandrecostacps@gmail.com>, 2018
@@ -57,8 +57,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-11 02:17+0000\n"
-"Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
+"PO-Revision-Date: 2021-03-29 19:49+0000\n"
+"Last-Translator: Jefferson Campos <foguinho.peruca@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -10993,7 +10993,7 @@ msgstr ""
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
-msgstr ""
+msgstr "Ignorado."
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
@@ -13640,7 +13640,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "DeploymentID não recebido!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
@@ -13703,7 +13703,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "Não foi possível reverter para o valor histórico!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
@@ -13712,6 +13712,7 @@ msgstr ""
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
 msgstr ""
+"O sistema não foi capaz de apagar os valores da configuração do usuário!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
@@ -15014,7 +15015,7 @@ msgstr "Arquivo \"%s /Kernel/Config.pm não encontrado!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
-msgstr "Diretõrio \"%s\" não encontrado."
+msgstr "Diretório \"%s\" não encontrado!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO"
