@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -227,9 +227,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length;"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#oooMainBox .oooTicketList a').length;" );
 
         # search for both tickets on Company Tickets screen (default filter is Open)
         for my $Count ( 0 .. 1 ) {
@@ -242,7 +240,10 @@ $Selenium->RunTest(
         }
 
         # check customer filter selection on Company Tickets screen
-        for my $Count ( 0 .. 1 ) {
+        # Looks like in the new customer interface there is no selection by customer
+        #for my $Count ( 0 .. 1 ) {
+        if (0) {
+            my $Count = 0;
 
             $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
 
@@ -273,7 +274,7 @@ $Selenium->RunTest(
         }
 
         # CustomerCompanyFilter resets on next page. See bug#14852.
-        # Create test tickets.
+        # Create many test tickets that don't fit on a single page.
         for ( 1 .. 35 ) {
             my $TicketNumber = $TicketObject->TicketCreateNumber();
             my $TicketID     = $TicketObject->TicketCreate(
@@ -292,6 +293,7 @@ $Selenium->RunTest(
                 $TicketID,
                 "Created test ticket $CustomerCompanyID ($TicketID)",
             );
+
             push @TicketIDs, $TicketID;
         }
 
@@ -299,32 +301,28 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=CompanyTickets");
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('.Overview .MasterAction a').length && \$('#CustomerIDs').length;"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#oooMainBox .oooTicketList a').length" );
 
         $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
 
         # Select Company.
-        $Selenium->InputFieldValueSet(
-            Element => '#CustomerIDs',
-            Value   => $CustomerCompanyID,
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->InputFieldValueSet(
+        #    Element => '#CustomerIDs',
+        #    Value   => $CustomerCompanyID,
+        #);
 
-        $Selenium->WaitFor(
-            Time => 20,
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        );
+        #$Selenium->WaitFor(
+        #    Time => 20,
+        #    JavaScript =>
+        #        'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        #);
 
+        # go to the second page
         $Selenium->find_element( '#CustomerTicketOverviewPage2', 'css' )->VerifiedClick();
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2.Selected').length && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
-        );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#CustomerTicketOverviewPage2.Selected').length" );
 
         # Check if on second page.
         $Self->Is(
@@ -334,31 +332,30 @@ $Selenium->RunTest(
         );
 
         # Check if company filter preserve previously selected company.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
-            $CustomerCompanyID,
-            "Correct CustomerCompanyID is selected in filter."
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Self->Is(
+        #    $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
+        #    $CustomerCompanyID,
+        #    "Correct CustomerCompanyID is selected in filter."
+        #);
 
-        $Selenium->WaitFor(
-            JavaScript => "return \$('#BottomActionRow a[href*=\"Filter=All\"]').length;"
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->WaitFor( JavaScript => "return \$('#BottomActionRow a[href*=\"Filter=All\"]').length;" );
 
         # Set filter to All ticket by company.
-        $Selenium->find_element("//div[contains(\@id, \'BottomActionRow')]//ul//li//a[contains(\@href, 'Filter=All' )]")
-            ->VerifiedClick();
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->find_element("//div[contains(\@id, \'BottomActionRow')]//ul//li//a[contains(\@href, 'Filter=All' )]")->VerifiedClick();
 
         # Wait until new screen has loaded.
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('#CustomerIDs').val()[0] == '$CustomerCompanyID';"
-        );
+        # Looks like in the new customer interface there is no selection by customer
+        #$Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function';" );
 
         # Check if company filter preserve previously selected company.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
-            $CustomerCompanyID,
-            "Correct CustomerCompanyID is selected in filter."
-        );
+        #$Self->Is(
+        #    $Selenium->execute_script("return \$('#CustomerIDs').val()[0];"),
+        #    $CustomerCompanyID,
+        #    "Correct CustomerCompanyID is selected in filter."
+        #);
 
         # clean up test data from the DB
         for my $TicketID (@TicketIDs) {
