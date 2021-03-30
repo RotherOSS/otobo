@@ -164,7 +164,7 @@ else {
 
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd";    ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -425,8 +425,9 @@ sub BackupForMigrateFromOTRS {
     # add more mysqldump options
     {
         # skipping tables
-        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
-        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
+        push @DBDumpOptions,
+            map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) }
+            $MigrationBaseObject->DBSkipTables;
 
         # print a time stamp at the end of the dump
         push @DBDumpOptions, qq{--dump-date};
@@ -486,7 +487,7 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';
@@ -495,14 +496,14 @@ END_MESSAGE
         for my $Line (@Lines) {
 
             # substitutions for changing the character set
-            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;      # for CREATE TABLE
-            $Line =~ s/utf8mb4mb4/utf8mb4/;                                # in case it already was utf8mb4
-            $Line =~ s/utf8mb3mb4/utf8mb4/;                                # in case of some mixup
-            $Line =~ s/utf8mb4mb3/utf8mb4/;                                # in case of some mixup
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
 
             # substitutions for removing COLLATE directives
-            $Line =~ s/COLLATE\s+\w+/ /;                                   # for CREATE TABLE, remove customer specific collation
-            $Line =~ s/COLLATE\s*=\s*\w+/ /;                               # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s+\w+/ /;                                 # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /;                             # for CREATE TABLE, remove customer specific collation
 
             # leaving a Table Create Block
             # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
