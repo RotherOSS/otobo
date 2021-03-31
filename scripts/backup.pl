@@ -126,8 +126,9 @@ $DatabaseName //= $Kernel::OM->Get('Kernel::Config')->Get('Database');
 $DatabaseUser //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
 $DatabasePw   //= $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 $DatabaseType //=
-    $DatabaseDSN =~ m/:mysql/i ? 'mysql' :
-    $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
+    $DatabaseDSN =~ m/:mysql/i  ? 'mysql' :
+    $DatabaseDSN =~ m/:pg/i     ? 'postgresql' :
+    $DatabaseDSN =~ m/:oracle/i ? 'oracle' :
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
@@ -144,10 +145,24 @@ if ( $DatabaseType eq 'mysql' ) {
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
+    if ( $MigrateFromOTRSBackup ) {
+        say STDERR "ERROR: '--backup-type migratefromotrs' is not yet supported for 'postgresql'.";
+
+        exit(1);
+    }
+
     $DBDumpCmd = 'pg_dump';
     if ( $DatabaseDSN !~ m/host=/i ) {
         $DatabaseHost = '';
     }
+}
+elsif ( $DatabaseType eq 'oracle' ) {
+    if ( ! $MigrateFromOTRSBackup ) {
+        say STDERR "ERROR: Can't backup an Oracle database. Only '--backup-type migratefromotrs' is supported.";
+
+        exit(1);
+    }
+    # $DBDumpCmd is not supported yet for 'oracle'
 }
 else {
     say STDERR "ERROR: Can't backup, no database dump support!";
@@ -157,10 +172,8 @@ else {
 
 # check needed system commands
 {
-    my @Cmds = ( 'tar', $DBDumpCmd );
-    if ( $BackupType ne 'migratefromotrs' ) {
-        push @Cmds, $CompressCMD;
-    }
+    my @Cmds = grep { $_ } ( 'tar', $DBDumpCmd );
+    push @Cmds, $CompressCMD unless $BackupType eq 'migratefromotrs';
 
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
@@ -270,8 +283,7 @@ if ( $DatabaseType eq 'mysql' ) {
     }
 
     if ($MigrateFromOTRSBackup) {
-
-        BackupForMigrateFromOTRS(
+        MySQLBackupForMigrateFromOTRS(
             Directory     => $Directory,
             DBDumpCmd     => $DBDumpCmd,
             DBDumpOptions => \@DBDumpOptions,
@@ -300,7 +312,12 @@ if ( $DatabaseType eq 'mysql' ) {
         }
     }
 }
-else {
+elsif ( $DatabaseType eq 'oracle' ) {
+    if ( $MigrateFromOTRSBackup ) {
+        OracleBackupForMigrateFromOTRS();
+    }
+}
+elsif ( $DatabaseType eq 'postgresql' ) {
     print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
 
     # set password via environment variable if there is one
@@ -329,6 +346,11 @@ else {
         RemoveIncompleteBackup($Directory);
         die "Backup failed";
     }
+}
+else {
+    say STDERR "ERROR: the database type '$DatabaseType' is not supported.";
+
+    exit 1;
 }
 
 # remove old backups only after everything worked well
@@ -409,7 +431,7 @@ if ( defined $RemoveDays ) {
 }
 
 # a special MySQL dump for migrating from OTRS 6 to OTOBO 10
-sub BackupForMigrateFromOTRS {
+sub MySQLBackupForMigrateFromOTRS {
     my %Param = @_;
 
     # extract named params
@@ -625,6 +647,85 @@ SET FOREIGN_KEY_CHECKS = 0;
 @RenameSQLs
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+END_SQL
+
+        $MainObject->FileWrite(
+            Location => $PostprocessFile,
+            Content  => \$SQLScript,
+        );
+    }
+
+    return;
+}
+
+# a special MySQL dump for migrating from OTRS 6 to OTOBO 10
+sub OracleBackupForMigrateFromOTRS {
+    my %Param = @_;
+
+    # extract named params
+    #my $Directory     = $Param{Directory};
+    #my $DBDumpCmd     = $Param{DBDumpCmd};
+    #my @DBDumpOptions = $Param{DBDumpOptions}->@*;
+    #my $DatabaseName  = $Param{DatabaseName};
+
+    # for getting skipped and renamed tables
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
+
+    # output files
+    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
+
+    say << "END_MESSAGE";
+These instruction are preliminary.
+
+Clear the user 'otobo':
+  - DROP USER otobo CASCADE
+
+Clone the schema 'otrs' into the schema 'otobo'. This can be done with DBA tools. Alternatively do:
+  - mkdir /tmp/otrs_dump_dir     # on the database server
+  - CREATE DIRECTORY OTRS_DUMP_DIR AS '/tmp/orts_dump_dir';   # sys as sysdba
+  - GRANT READ, WRITE ON DIRECTORY OTRS_DUMP_DIR TO sys;      # sys as sysdba
+  - expdp \"sys/SYS_PASSWORD@//127.0.0.1/SID as sysdba\"  schemas=otrs directory=OTRS_DUMP_DIR dumpfile=otrs.dmp logfile=expdp_otrs.log
+  - impdp \"sys/SYS_PASSWORD@//127.0.0.1/SID as sysdba\" directory=OTRS_DUMP_DIR dumpfile=otrs.dmp logfile=impdpotobo.log  remap_schema=otrs:otobo
+  - ALTER USER otobo IDENTIFIED BY [OTOBO_PASSWORD];
+
+Adapt the schema otobo as the user otobo.
+    - run $PostprocessFile
+END_MESSAGE
+
+
+    # create a SQL script for postprocessing the migrated database
+    {
+        # rename tables
+        # foreign key relationsships are handled automatically
+        # RENAME TABLE IF EXISTS is not available in all MySQL versions
+        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
+        my @RenameSQLs;
+        for my $SourceTable ( sort keys %RenameTables ) {
+            push @RenameSQLs, <<"END_SQL";
+-- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
+RENAME $SourceTable TO $RenameTables{$SourceTable};
+
+END_SQL
+        }
+
+        # truncate the tables that should not be migrated
+        my @TruncateSQLs;
+        for my $Table ( $MigrationBaseObject->DBSkipTables ) {
+            push @TruncateSQLs, <<"END_SQL";
+-- truncate  $Table
+TRUNCATE TABLE $Table;
+
+END_SQL
+        }
+
+        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
+        my $SQLScript = <<"END_SQL";
+-- SQL script generated by $0 at $Now.
+
+@RenameSQLs
+@TruncateSQLs
 
 END_SQL
 
