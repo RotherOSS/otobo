@@ -145,7 +145,7 @@ if ( $DatabaseType eq 'mysql' ) {
     push @DBDumpOptions, '--no-tablespaces';
 }
 elsif ( $DatabaseType eq 'postgresql' ) {
-    if ( $MigrateFromOTRSBackup ) {
+    if ($MigrateFromOTRSBackup) {
         say STDERR "ERROR: '--backup-type migratefromotrs' is not yet supported for 'postgresql'.";
 
         exit(1);
@@ -157,11 +157,12 @@ elsif ( $DatabaseType eq 'postgresql' ) {
     }
 }
 elsif ( $DatabaseType eq 'oracle' ) {
-    if ( ! $MigrateFromOTRSBackup ) {
+    if ( !$MigrateFromOTRSBackup ) {
         say STDERR "ERROR: Can't backup an Oracle database. Only '--backup-type migratefromotrs' is supported.";
 
         exit(1);
     }
+
     # $DBDumpCmd is not supported yet for 'oracle'
 }
 else {
@@ -172,7 +173,7 @@ else {
 
 # check needed system commands
 {
-    my @Cmds = grep { $_ } ( 'tar', $DBDumpCmd );
+    my @Cmds = grep {$_} ( 'tar', $DBDumpCmd );
     push @Cmds, $CompressCMD unless $BackupType eq 'migratefromotrs';
 
     for my $Cmd (@Cmds) {
@@ -292,12 +293,8 @@ if ( $DatabaseType eq 'mysql' ) {
     }
     else {
         say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
-        if (
-            !system(
-                "( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
-            )
-            && !-f $ErrorIndicationFileName
-            )
+        my $Command = "( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT";
+        if ( !system($Command) && !-f $ErrorIndicationFileName )
         {
             say 'done';
         }
@@ -313,7 +310,7 @@ if ( $DatabaseType eq 'mysql' ) {
     }
 }
 elsif ( $DatabaseType eq 'oracle' ) {
-    if ( $MigrateFromOTRSBackup ) {
+    if ($MigrateFromOTRSBackup) {
         OracleBackupForMigrateFromOTRS();
     }
 }
@@ -329,12 +326,9 @@ elsif ( $DatabaseType eq 'postgresql' ) {
         $DatabaseHost = "-h $DatabaseHost";
     }
 
-    if (
-        !system(
-            "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT"
-        )
-        && !-f $ErrorIndicationFileName
-        )
+    my $Command
+        = "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT";
+    if ( !system($Command) && !-f $ErrorIndicationFileName )
     {
         say "done";
     }
@@ -440,20 +434,16 @@ sub MySQLBackupForMigrateFromOTRS {
     my @DBDumpOptions = $Param{DBDumpOptions}->@*;
     my $DatabaseName  = $Param{DatabaseName};
 
+    # print a time stamp at the end of the dump
+    push @DBDumpOptions, qq{--dump-date};
+
     # for getting skipped and renamed tables
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
 
-    # add more mysqldump options
-    {
-        # skipping tables
-        push @DBDumpOptions,
-            map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) }
-            $MigrationBaseObject->DBSkipTables;
-
-        # print a time stamp at the end of the dump
-        push @DBDumpOptions, qq{--dump-date};
-    }
+    # add more mysqldump options for skipping tables that should not be migrated
+    push @DBDumpOptions,
+        map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) }
+        $MigrationBaseObject->DBSkipTables;
 
     # output files
     my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
@@ -490,6 +480,8 @@ END_MESSAGE
             die "Backup failed";
         }
     }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Shorten columns because of utf8mb4 and innodb max key length.
     # Change the character set to utf8mb4.
@@ -605,7 +597,7 @@ END_SQL
         # rename tables
         # foreign key relationsships are handled automatically
         # RENAME TABLE IF EXISTS is not available in all MySQL versions
-        my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
+        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
         my @RenameSQLs;
         my $Cnt = 0;
         for my $SourceTable ( sort keys %RenameTables ) {
@@ -674,7 +666,7 @@ sub OracleBackupForMigrateFromOTRS {
     my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
 
     # output files
-    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
+    my $PostprocessFile = qq{$Directory/${DatabaseName}_post.sql};
 
     say << "END_MESSAGE";
 These instruction are preliminary.
@@ -693,7 +685,6 @@ Clone the schema 'otrs' into the schema 'otobo'. This can be done with DBA tools
 Adapt the schema otobo as the user otobo.
     - run $PostprocessFile
 END_MESSAGE
-
 
     # create a SQL script for postprocessing the migrated database
     {
