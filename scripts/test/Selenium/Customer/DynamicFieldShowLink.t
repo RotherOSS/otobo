@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -52,10 +57,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "TicketID $TicketID is created",
-        );
+        ok( $TicketID, "TicketID $TicketID is created" );
 
         # Create dynamic field.
         my $RandomNumber     = $Helper->GetRandomNumber();
@@ -74,10 +76,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $DynamicFieldID,
-            "DynamicFieldID $DynamicFieldID is created",
-        );
+        ok( $DynamicFieldID, "DynamicFieldID $DynamicFieldID is created" );
 
         # Set dynamic field value.
         my $ValueText = 'Click on Link' . $RandomNumber;
@@ -92,18 +91,13 @@ $Selenium->RunTest(
             ],
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldID $DynamicFieldID is set to '$ValueText' successfully",
-        );
+        ok( $Success, "DynamicFieldID $DynamicFieldID is set to '$ValueText' successfully" );
 
         # Set SysConfig to show dynamic field in CustomerTicketZoom screen.
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Ticket::Frontend::CustomerTicketZoom###DynamicField',
-            Value => {
-                $DynamicFieldName => 1,
-            },
+            Value => { $DynamicFieldName => 1 },
         );
 
         # Login as test created customer.
@@ -156,7 +150,7 @@ $Selenium->RunTest(
         );
 
         # Check if a floater is visible now.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('div.MetaFloater:visible').length"),
             1,
             'Floater is visible',
@@ -176,24 +170,18 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "TicketID $TicketID is deleted"
-        );
+        ok( $Success, "TicketID $TicketID is deleted" );
 
         # Delete test created dynamic field.
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldID $DynamicFieldID is deleted",
-        );
+        ok( $Success, "DynamicFieldID $DynamicFieldID is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     }
 );
 
-$Self->DoneTesting();
+done_testing();
