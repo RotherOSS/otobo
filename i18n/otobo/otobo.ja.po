@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-01 06:32+0000\n"
+"PO-Revision-Date: 2021-04-01 12:18+0000\n"
 "Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
@@ -1322,7 +1322,7 @@ msgstr "ワイルドカード（*）が使用できます。"
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "検索語を入力してください。"
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1884,19 +1884,19 @@ msgstr "これはこの領域に対するデフォルト値です。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "追加連絡先の追加もしくは編集"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
-msgstr ""
+msgstr "追加連絡先を追加するには必要な項目を入力し、保存してください。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
-msgstr ""
+msgstr "編集するにはフィールド名をクリックしてください。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
@@ -2213,7 +2213,7 @@ msgstr "一覧"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "デフォルトの一覧画面"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
@@ -2384,13 +2384,13 @@ msgstr "実行可能なWebサービス。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "呼び出し元"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
-msgstr ""
+msgstr "呼び出し元('Generic::PassThrough'型である必要があります)。"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
@@ -3062,7 +3062,7 @@ msgstr "一般的なオプション"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "The name can be used to distinguish different error handling configurations."
-msgstr ""
+msgstr "名前はエラーハンドリングの設定の識別に使用されます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
@@ -3084,13 +3084,13 @@ msgstr "処理中オプション"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
-msgstr ""
+msgstr "エラーハンドリングモジュールのフィルターの設定。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
-msgstr ""
+msgstr "フィルターの項目すべてにマッチしたリクエストだけがモジュールで処理されます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
@@ -23455,11 +23455,11 @@ msgstr "予約の編集"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "追加連絡先を編集"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "追加連絡先を編集。"
 
 #. SysConfig
 msgid "Edit customer company"
