@@ -426,7 +426,7 @@ sub DataTransfer {
         # For destructive table copying drop the table but keep Track of foreign keys first.
 
         # In the target database schema some varchar columns have been shortened
-        # to 191 characters.
+        # to int( 767 / 4 ) = 191 characters
         # The reason was that in MySQL 5.6 or earlier the max key size was limited per default
         # to 767 characters. This max key size is relevant for the columns that make up the PRIMARY key
         # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
@@ -455,8 +455,8 @@ sub DataTransfer {
             return;    # bail out
         }
 
-        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-
+        # Columns might be shortened for any database type.
+        {
             my @MaybeShortenedColumns;
             my $DoShorten;    # flag used for assembly of $SourceColumnsString
             SOURCE_COLUMN:
@@ -511,11 +511,6 @@ sub DataTransfer {
 
             # This string might contain some MySQL SUBSTRING() calls
             $SourceColumnsString{$SourceTable} = join ', ', @MaybeShortenedColumns;
-        }
-        else {
-
-            # There is no shortening. This means that source and target columns are identical.
-            $SourceColumnsString{$SourceTable} = join ', ', $SourceColumnsRef->@*;
         }
 
         # get a list of blob columns from OTRS DB
@@ -636,7 +631,8 @@ sub DataTransfer {
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $BindString = join ', ', map {'?'} @SourceColumns;
+                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
+                my $BindString        = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
 
                 # This is a workaround for a very special case.
