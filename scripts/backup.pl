@@ -493,14 +493,14 @@ END_MESSAGE
         for my $Line (@Lines) {
 
             # substitutions for changing the character set
-            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;      # for CREATE TABLE
-            $Line =~ s/utf8mb4mb4/utf8mb4/;                                # in case it already was utf8mb4
-            $Line =~ s/utf8mb3mb4/utf8mb4/;                                # in case of some mixup
-            $Line =~ s/utf8mb4mb3/utf8mb4/;                                # in case of some mixup
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
 
             # substitutions for removing COLLATE directives
-            $Line =~ s/COLLATE\s+\w+/ /;                                   # for CREATE TABLE, remove customer specific collation
-            $Line =~ s/COLLATE\s*=\s*\w+/ /;                               # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s+\w+/ /;                                 # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /;                             # for CREATE TABLE, remove customer specific collation
 
             # leaving a Table Create Block
             # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
@@ -580,7 +580,7 @@ END_SQL
         # rename tables
         # foreign key relationsships are handled automatically
         # RENAME TABLE IF EXISTS is not available in all MySQL versions
-        my %RenameTables = $MigrationBaseObject->DBRenameTables()->%*;
+        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
         my @RenameSQLs;
         my $Cnt = 0;
         for my $SourceTable ( sort keys %RenameTables ) {
