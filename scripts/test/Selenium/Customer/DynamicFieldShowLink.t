@@ -110,30 +110,33 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
-        # Check existence of test dynamic field in 'Information' sidebar.
-        $Self->Is(
+        # Check existence of test dynamic field in 'Information' popup.
+        $Selenium->LogExecuteCommandActive(0);
+        $Selenium->find_element_ok(qq{//div[\@class="oooSection"]/p[\@class="ooo12"]/span[\@class="ooo12g"][contains(text(), "$DynamicFieldName")]});
+        $Selenium->LogExecuteCommandActive(1);
+        is(
             $Selenium->execute_script(
-                "return \$('#ZoomSidebar li span.Key:contains($DynamicFieldName)').siblings('span').find('a.DynamicFieldLink').length;"
+                "return \$('div.oooSection p.ooo12 span.ooo12g:contains($DynamicFieldName)').siblings('a.DynamicFieldLink').length;"
             ),
             1,
-            "DynamicFieldID $DynamicFieldID is found in 'Information' sidebar",
+            "Link for DynamicFieldName $DynamicFieldName is found in 'Information' popup",
         );
 
         # Check dynamic field text.
         my $ValueTextShortened = substr $ValueText, 0, 20;
         $ValueTextShortened .= '[...]';
-        $Self->Is(
+        is(
             $Selenium->execute_script(
-                "return \$('#ZoomSidebar li span.Key:contains($DynamicFieldName)').siblings('span').find('a.DynamicFieldLink').text();"
+                "return \$('div.oooSection p.ooo12 span.ooo12g:contains($DynamicFieldName)').siblings('a.DynamicFieldLink').text();"
             ),
             $ValueTextShortened,
             "Dynamic field text '$ValueTextShortened' is correct",
         );
 
         # Check dynamic field link.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
-                "return \$('#ZoomSidebar li span.Key:contains($DynamicFieldName)').siblings('span').find('a.DynamicFieldLink').attr('href');"
+                "return \$('div.oooSection p.ooo12 span.ooo12g:contains($DynamicFieldName)').siblings('a.DynamicFieldLink').attr('href');"
             ),
             $DynamicFieldLink,
             "Dynamic field link '$DynamicFieldLink' is correct",
@@ -141,7 +144,7 @@ $Selenium->RunTest(
 
         # Hover dynamic field link.
         $Selenium->execute_script(
-            "\$('#ZoomSidebar li span.Key:contains($DynamicFieldName)').siblings('span').find('a.DynamicFieldLink').mouseenter();"
+            "\$('div.oooSection p.ooo12 span.ooo12g:contains($DynamicFieldName)').siblings('a.DynamicFieldLink').mouseenter();"
         );
 
         # Wait for the floater to be fully visible.
