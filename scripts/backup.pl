@@ -164,7 +164,7 @@ else {
 
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
-        open my $In, '-|', "which $Cmd";    ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $In, '-|', "which $Cmd";    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         while (<$In>) {
             $IsInstalled = 1;
         }
@@ -270,7 +270,6 @@ if ( $DatabaseType eq 'mysql' ) {
     }
 
     if ($MigrateFromOTRSBackup) {
-
         BackupForMigrateFromOTRS(
             Directory     => $Directory,
             DBDumpCmd     => $DBDumpCmd,
@@ -418,19 +417,16 @@ sub BackupForMigrateFromOTRS {
     my @DBDumpOptions = $Param{DBDumpOptions}->@*;
     my $DatabaseName  = $Param{DatabaseName};
 
+    # print a time stamp at the end of the dump
+    push @DBDumpOptions, qq{--dump-date};
+
     # for getting skipped and renamed tables
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
 
-    # add more mysqldump options
-    {
-        # skipping tables
-        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables()->%*;
-        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
-
-        # print a time stamp at the end of the dump
-        push @DBDumpOptions, qq{--dump-date};
-    }
+    # add more mysqldump options for skipping tables that should not be migrated
+    push @DBDumpOptions,
+        map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) }
+        $MigrationBaseObject->DBSkipTables;
 
     # output files
     my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
@@ -468,6 +464,8 @@ END_MESSAGE
         }
     }
 
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
     # Shorten columns because of utf8mb4 and innodb max key length.
     # Change the character set to utf8mb4.
     # Remove COLLATE directives.
@@ -486,7 +484,7 @@ END_MESSAGE
 
         # now adapt the relevant lines
         # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         say $Adapted "-- adapted by $0";
         say $Adapted '';

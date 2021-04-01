@@ -212,7 +212,9 @@ sub SanityChecks {
     }
 
     # some table should not be migrated
-    my %TableIsSkipped = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables()->%*;
+    my %TableIsSkipped =
+        map { $_ => 1 }
+        $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables;
 
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
@@ -330,8 +332,10 @@ sub DataTransfer {
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
     # get setup
-    my %TableIsSkipped = $MigrationBaseObject->DBSkipTables->%*;
-    my %RenameTables   = $MigrationBaseObject->DBRenameTables->%*;
+    my %TableIsSkipped =
+        map { $_ => 1 }
+        $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables;
+    my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
 
     # Conversion of BLOBs is only relevant when DirectBlob settings are different.
     my %BlobConversionNeeded;
@@ -404,7 +408,7 @@ sub DataTransfer {
     SOURCE_TABLE:
     for my $SourceTable (@SourceTables) {
 
-        if ( $TableIsSkipped{ lc $SourceTable } ) {
+        if ( $TableIsSkipped{$SourceTable} ) {
 
             # Log info to apache error log and OTOBO log (syslog or file)
             $MigrationBaseObject->MigrationLog(
