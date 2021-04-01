@@ -98,9 +98,7 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    ## no critic qw(InputOutput::RequireBriefOpen)
-    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;
-
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
@@ -339,8 +337,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
-
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
