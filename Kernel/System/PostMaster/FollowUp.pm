@@ -253,7 +253,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::PostMaster::FollowUp',
-                Value =>
+                Value         =>
                     "Pending time update via 'X-OTOBO-FollowUp-State-PendingTime'! State-PendingTime: $GetParam{'X-OTOBO-FollowUp-State-PendingTime'}.",
             );
         }
@@ -272,7 +272,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "Priority update via 'X-OTOBO-FollowUp-Priority'! Priority: $GetParam{'X-OTOBO-FollowUp-Priority'}.",
         );
     }
@@ -290,7 +290,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "Queue update via 'X-OTOBO-FollowUp-Queue'! Queue: $GetParam{'X-OTOBO-FollowUp-Queue'}.",
         );
     }
@@ -308,7 +308,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "Lock update via 'X-OTOBO-FollowUp-Lock'! Lock: $GetParam{'X-OTOBO-FollowUp-Lock'}.",
         );
     }
@@ -326,7 +326,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "Type update via 'X-OTOBO-FollowUp-Type'! Type: $GetParam{'X-OTOBO-FollowUp-Type'}.",
         );
     }
@@ -344,7 +344,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "Services update via 'X-OTOBO-FollowUp-Service'! Service: $GetParam{'X-OTOBO-FollowUp-Service'}.",
         );
     }
@@ -362,7 +362,7 @@ sub Run {
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::FollowUp',
-            Value =>
+            Value         =>
                 "SLA update via 'X-OTOBO-FollowUp-SLA'! SLA: $GetParam{'X-OTOBO-FollowUp-SLA'}.",
         );
     }
@@ -374,9 +374,9 @@ sub Run {
     # dynamic fields
     my $DynamicFieldList =
         $DynamicFieldObject->DynamicFieldList(
-        Valid      => 1,
-        ResultType => 'HASH',
-        ObjectType => 'Ticket',
+            Valid      => 1,
+            ResultType => 'HASH',
+            ObjectType => 'Ticket',
         );
 
     # set dynamic fields for Ticket object type
@@ -403,7 +403,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::PostMaster::FollowUp',
-                Value =>
+                Value         =>
                     "DynamicField update via '$Key'! Value: $GetParam{$Key}.",
             );
         }
@@ -415,8 +415,8 @@ sub Run {
     # set ticket free text
     my %Values =
         (
-        'X-OTOBO-FollowUp-TicketKey'   => 'TicketFreeKey',
-        'X-OTOBO-FollowUp-TicketValue' => 'TicketFreeText',
+            'X-OTOBO-FollowUp-TicketKey'   => 'TicketFreeKey',
+            'X-OTOBO-FollowUp-TicketValue' => 'TicketFreeText',
         );
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
@@ -444,7 +444,7 @@ sub Run {
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
                     Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value =>
+                    Value         =>
                         "DynamicField (TicketKey$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }
@@ -486,7 +486,7 @@ sub Run {
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
                     Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value =>
+                    Value         =>
                         "DynamicField (TicketTime$Count) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }
@@ -602,9 +602,9 @@ sub Run {
     # dynamic fields
     $DynamicFieldList =
         $DynamicFieldObject->DynamicFieldList(
-        Valid      => 1,
-        ResultType => 'HASH',
-        ObjectType => 'Article'
+            Valid      => 1,
+            ResultType => 'HASH',
+            ObjectType => 'Article'
         );
 
     # set dynamic fields for Article object type
@@ -642,8 +642,8 @@ sub Run {
     # set free article text
     %Values =
         (
-        'X-OTOBO-FollowUp-ArticleKey'   => 'ArticleFreeKey',
-        'X-OTOBO-FollowUp-ArticleValue' => 'ArticleFreeText',
+            'X-OTOBO-FollowUp-ArticleKey'   => 'ArticleFreeKey',
+            'X-OTOBO-FollowUp-ArticleValue' => 'ArticleFreeText',
         );
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
@@ -671,7 +671,7 @@ sub Run {
                     ObjectLogType => 'Message',
                     Priority      => 'Debug',
                     Key           => 'Kernel::System::PostMaster::FollowUp',
-                    Value =>
+                    Value         =>
                         "Article DynamicField (ArticleKey) update via '$Key'! Value: $GetParam{$Key}.",
                 );
             }

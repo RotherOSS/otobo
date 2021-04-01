@@ -48,8 +48,8 @@ sub Run {
 
     my $SortConfiguration = $Kernel::OM->Get('Kernel::Config')->Get('TicketOverviewMenuSort')->{SortAttributes}
         || {
-        Age   => 1,
-        Title => 1,
+            Age   => 1,
+            Title => 1,
         };
 
     if ( !IsHashRefWithData($SortConfiguration) ) {

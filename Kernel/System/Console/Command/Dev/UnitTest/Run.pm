@@ -33,7 +33,7 @@ sub Configure {
 
     $Self->Description('Execute unit tests using TAP::Harness.');
     $Self->AddOption(
-        Name => 'test',
+        Name        => 'test',
         Description =>
             "Run individual test files, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
         Required   => 0,
@@ -55,7 +55,7 @@ sub Configure {
         HasValue    => 0,
     );
     $Self->AddOption(
-        Name => 'post-test-script',
+        Name        => 'post-test-script',
         Description =>
             'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
         Required   => 0,

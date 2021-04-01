@@ -516,7 +516,7 @@ sub Run {
         for my $DynamicFieldItem (@DynamicFieldList) {
             if ( !IsHashRefWithData($DynamicFieldItem) ) {
                 return {
-                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorCode    => 'TicketCreate.InvalidParameter',
                     ErrorMessage =>
                         "TicketCreate: Ticket->DynamicField parameter is invalid!",
                 };
@@ -563,7 +563,7 @@ sub Run {
         for my $AttachmentItem (@AttachmentList) {
             if ( !IsHashRefWithData($AttachmentItem) ) {
                 return {
-                    ErrorCode => 'TicketCreate.InvalidParameter',
+                    ErrorCode    => 'TicketCreate.InvalidParameter',
                     ErrorMessage =>
                         "TicketCreate: Ticket->Attachment parameter is invalid!",
                 };
@@ -640,7 +640,7 @@ sub _CheckTicket {
     # check Ticket->CustomerUser
     if ( !$Self->ValidateCustomer( %{$Ticket} ) ) {
         return {
-            ErrorCode => 'TicketCreate.InvalidParameter',
+            ErrorCode    => 'TicketCreate.InvalidParameter',
             ErrorMessage =>
                 "TicketCreate: Ticket->CustomerUser parameter is invalid!",
         };
@@ -688,7 +688,7 @@ sub _CheckTicket {
     if ( $Ticket->{TypeID} || $Ticket->{Type} ) {
         if ( !$Self->ValidateType( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->TypeID or Ticket->Type parameter is invalid!",
             };
@@ -699,7 +699,7 @@ sub _CheckTicket {
     if ( $Ticket->{ServiceID} || $Ticket->{Service} ) {
         if ( !$Self->ValidateService( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->ServiceID or Ticket->Service parameter is invalid!",
             };
@@ -710,7 +710,7 @@ sub _CheckTicket {
     if ( $Ticket->{SLAID} || $Ticket->{SLA} ) {
         if ( !$Self->ValidateSLA( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->SLAID or Ticket->SLA parameter is invalid!",
             };
@@ -751,7 +751,7 @@ sub _CheckTicket {
     if ( $Ticket->{OwnerID} || $Ticket->{Owner} ) {
         if ( !$Self->ValidateOwner( %{$Ticket} ) ) {
             return {
-                ErrorCode => 'TicketCreate.InvalidParameter',
+                ErrorCode    => 'TicketCreate.InvalidParameter',
                 ErrorMessage =>
                     "TicketCreate: Ticket->OwnerID or Ticket->Owner parameter is invalid!",
             };
@@ -1311,18 +1311,18 @@ sub _TicketCreate {
     my $TicketID = $TicketObject->TicketCreate(
         Title        => $Ticket->{Title},
         QueueID      => $Ticket->{QueueID} || '',
-        Queue        => $Ticket->{Queue} || '',
+        Queue        => $Ticket->{Queue}   || '',
         Lock         => 'unlock',
-        TypeID       => $Ticket->{TypeID} || '',
-        Type         => $Ticket->{Type} || '',
-        ServiceID    => $Ticket->{ServiceID} || '',
-        Service      => $Ticket->{Service} || '',
-        SLAID        => $Ticket->{SLAID} || '',
-        SLA          => $Ticket->{SLA} || '',
-        StateID      => $Ticket->{StateID} || '',
-        State        => $Ticket->{State} || '',
+        TypeID       => $Ticket->{TypeID}     || '',
+        Type         => $Ticket->{Type}       || '',
+        ServiceID    => $Ticket->{ServiceID}  || '',
+        Service      => $Ticket->{Service}    || '',
+        SLAID        => $Ticket->{SLAID}      || '',
+        SLA          => $Ticket->{SLA}        || '',
+        StateID      => $Ticket->{StateID}    || '',
+        State        => $Ticket->{State}      || '',
         PriorityID   => $Ticket->{PriorityID} || '',
-        Priority     => $Ticket->{Priority} || '',
+        Priority     => $Ticket->{Priority}   || '',
         OwnerID      => 1,
         CustomerNo   => $CustomerID,
         CustomerUser => $CustomerUser || '',
@@ -1341,7 +1341,7 @@ sub _TicketCreate {
         $TicketObject->TicketLockSet(
             TicketID => $TicketID,
             LockID   => $Ticket->{LockID} || '',
-            Lock     => $Ticket->{Lock} || '',
+            Lock     => $Ticket->{Lock}   || '',
             UserID   => $Param{UserID},
         );
     }
@@ -1469,7 +1469,7 @@ sub _TicketCreate {
 
     # Convert article body to plain text, if HTML content was supplied. This is necessary since auto response code
     #   expects plain text content. Please see bug#13397 for more information.
-    if ( $Article->{ContentType} =~ /text\/html/i || $Article->{MimeType} =~ /text\/html/i ) {
+    if ( ( $Article->{ContentType} && $Article->{ContentType} =~ /text\/html/i ) || ( $Article->{MimeType} && $Article->{MimeType} =~ /text\/html/i ) ) {
         $PlainBody = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
             String => $Article->{Body},
         );
@@ -1480,14 +1480,14 @@ sub _TicketCreate {
         NoAgentNotify        => $Article->{NoAgentNotify} || 0,
         TicketID             => $TicketID,
         SenderTypeID         => $Article->{SenderTypeID} || '',
-        SenderType           => $Article->{SenderType} || '',
+        SenderType           => $Article->{SenderType}   || '',
         IsVisibleForCustomer => $Article->{IsVisibleForCustomer},
         From                 => $From,
         To                   => $To,
         Subject              => $Article->{Subject},
         Body                 => $Article->{Body},
-        MimeType             => $Article->{MimeType} || '',
-        Charset              => $Article->{Charset} || '',
+        MimeType             => $Article->{MimeType}    || '',
+        Charset              => $Article->{Charset}     || '',
         ContentType          => $Article->{ContentType} || '',
         UserID               => $Param{UserID},
         HistoryType          => $Article->{HistoryType},

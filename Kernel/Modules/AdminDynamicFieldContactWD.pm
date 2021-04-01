@@ -175,8 +175,8 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName
-        TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
+            ObjectType ObjectTypeName FieldType FieldTypeName
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
         )
         )
     {
@@ -452,8 +452,8 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName
-        TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
+            ObjectType ObjectTypeName FieldType FieldTypeName
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
         )
         )
     {

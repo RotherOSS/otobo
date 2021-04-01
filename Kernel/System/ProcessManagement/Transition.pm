@@ -336,7 +336,7 @@ sub TransitionCheck {
 
             $Self->DebugLog(
                 MessageType => 'Custom',
-                Message =>
+                Message     =>
                     "Transition:'$Transitions->{$TransitionEntityID}->{Name}' No Condition Linking"
                     . " as Condition->Type or Condition->ConditionLinking was found, using 'and' as"
                     . " default!",
@@ -386,7 +386,7 @@ sub TransitionCheck {
             if ( !$ActualCondition->{Type} ) {
                 $Self->DebugLog(
                     MessageType => 'Custom',
-                    Message =>
+                    Message     =>
                         "Transition:'$Transitions->{$TransitionEntityID}->{Name}' Condition:'$ConditionName'"
                         . " No Condition Type found, using 'and' as default",
                 );
@@ -430,7 +430,7 @@ sub TransitionCheck {
                 if ( !$ActualCondition->{Fields}->{$FieldName}->{Type} ) {
                     $Self->DebugLog(
                         MessageType => 'Custom',
-                        Message =>
+                        Message     =>
                             "Transition:'$Transitions->{$TransitionEntityID}->{Name}'"
                             . " Condition:'$ConditionName' Field:'$FieldName'"
                             . " No Field Type found, using 'String' as default",
@@ -468,7 +468,7 @@ sub TransitionCheck {
                     {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
-                            Message =>
+                            Message  =>
                                 "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
                                 . " be a String if Type is set to String!",
                         );
@@ -636,7 +636,7 @@ sub TransitionCheck {
                     if ( ref $ActualCondition->{Fields}->{$FieldName}->{Match} ne 'HASH' ) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
-                            Message =>
+                            Message  =>
                                 "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
                                 . " be a Hash!",
                         );
@@ -727,7 +727,7 @@ sub TransitionCheck {
                     {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'error',
-                            Message =>
+                            Message  =>
                                 "$TransitionEntityID->Condition->$ConditionName->Fields->$FieldName Match must"
                                 . " be a Regular expression if Type is set to Regexp!",
                         );

@@ -295,7 +295,7 @@ sub Auth {
             # failed login note
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message =>
+                Message  =>
                     "CustomerUser: $Param{User} authentication failed, no LDAP group entry found"
                     . "GroupDN='$Self->{GroupDN}', Filter='$Filter2'! (REMOTE_ADDR: $RemoteAddr).",
             );
@@ -330,7 +330,7 @@ sub Auth {
     # login note
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'notice',
-        Message =>
+        Message  =>
             "CustomerUser: $Param{User} ($UserDN) authentication ok (REMOTE_ADDR: $RemoteAddr).",
     );
 

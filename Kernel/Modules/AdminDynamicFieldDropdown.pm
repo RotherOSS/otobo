@@ -178,8 +178,8 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID Link LinkPreview
+            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+            TranslatableValues ValidID Link LinkPreview
         )
         )
     {
@@ -455,8 +455,8 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-        TranslatableValues ValidID Link LinkPreview
+            ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
+            TranslatableValues ValidID Link LinkPreview
         )
         )
     {

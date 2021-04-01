@@ -59,7 +59,7 @@ our @ObjectDependencies = (
 
     if ( $SeleniumTestsConfig->%* ) {
 
-        extends 'Selenium::Remote::Driver';
+        extends 'Test::Selenium::Remote::Driver';
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
@@ -72,20 +72,21 @@ our @ObjectDependencies = (
             # an exception is thrown in case of an error
             my $Result = $Self->$Orig( $Res, $Params );
 
-            # TODO: maybe write notes instead of skipping altogether
-            return $Result if $Self->_SuppressTestingEvents();
+            # decide whether to emit extra testing events for logging calls of _execute_command()
+            return $Result unless $Self->LogExecuteCommandActive;
 
-            my $TestName = 'Selenium command success: ';
-            $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
-                {
-                    Res    => $Res,
-                    Params => $Params,
-                }
-            );
+            # do emit extra testing events for logging calls of _execute_command()
+            my $Description = 'Selenium command success: ' .
+                $Kernel::OM->Get('Kernel::System::Main')->Dump(
+                    {
+                        Res    => $Res,
+                        Params => $Params,
+                    }
+                );
 
             my $Context = context();
 
-            $Context->pass_and_release($TestName);
+            $Context->pass_and_release($Description);
 
             return $Result;
         };
@@ -115,8 +116,9 @@ has _TestException => (
 );
 
 # suppress testing events
-has _SuppressTestingEvents => (
-    is => 'rw',
+has LogExecuteCommandActive => (
+    is      => 'rw',
+    default => 1,
 );
 
 =head1 NAME
@@ -222,6 +224,7 @@ around BUILDARGS => sub {
         _TestStartSystemTime => $TestStartSystemTime,
         base_url             => $BaseURL,
         webelement_class     => 'Kernel::System::UnitTest::Selenium::WebElement',
+        javascript           => 1,                                                  # must be explicitly set, as the default is 0 in Test::Selenium::Remove::Driver
         error_handler        => sub {
             my $Self = shift;
 
@@ -240,12 +243,13 @@ sub BUILD {
     my $Height = $Self->_SeleniumTestsConfig()->{window_height} || 1200;
     my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
 
-    $Self->_SuppressTestingEvents(1);
+    my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+    $Self->LogExecuteCommandActive(0);
 
     # This works only because we have extended Selenium::Remove::Driver.
     $Self->set_window_size( $Height, $Width );
 
-    $Self->_SuppressTestingEvents(0);
+    $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
     return;
 }
@@ -259,7 +263,7 @@ Therefore override that subroutine.
 
 =cut
 
-sub button_up {    ## no critic qw(OTOBO::RequireCamelCase)
+sub button_up {
 
     my ($Self) = @_;
 
@@ -599,9 +603,12 @@ sub WaitFor {
     while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
+
             my $Ret = $Self->execute_script( $Param{JavaScript} );
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -610,9 +617,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{WindowCount} ) {
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
+
             my $NumWindows = scalar $Self->get_window_handles()->@*;
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
@@ -621,11 +631,14 @@ sub WaitFor {
             }
         }
         elsif ( $Param{AlertPresent} ) {
-            $Self->_SuppressTestingEvents(1);
+
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             # Eval is needed because the method would throw if no alert is present (yet).
             my $Ret = eval { $Self->get_alert_text() };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -634,9 +647,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{Callback} ) {
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
+
             my $Ret = $Param{Callback}->();
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -647,9 +663,13 @@ sub WaitFor {
         elsif ( $Param{ElementExists} ) {
             my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
 
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
+
             my $Ret = eval { $Self->find_element(@Arguments) };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
+
             if ($Ret) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
 
@@ -661,9 +681,13 @@ sub WaitFor {
         elsif ( $Param{ElementMissing} ) {
             my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
 
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
+
             my $Ret = eval { $Self->find_element(@Arguments) };
-            $Self->_SuppressTestingEvents(0);
+
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
+
             if ( !$Ret ) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
 
@@ -870,8 +894,8 @@ sub HandleError {
     }
 
     # No need to log generation of the screenshot.
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents();
-    $Self->_SuppressTestingEvents(1);
+    my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+    $Self->LogExecuteCommandActive(0);
 
     # the file name of the screenshot is random
     my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber();
@@ -932,7 +956,7 @@ sub HandleError {
         $WindowCount++;
     }
 
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+    $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
     $Context->release();
 
@@ -950,7 +974,7 @@ and performs some clean-ups.
 sub DEMOLISH {
     my $Self = shift;
 
-    $Self->_SuppressTestingEvents(1);
+    $Self->LogExecuteCommandActive(0);
 
     if ( $Self->_TestException() ) {
         $Self->HandleError( $Self->_TestException() );

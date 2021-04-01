@@ -144,8 +144,10 @@ $Selenium->RunTest(
         );
 
         # Import test ACL.
+        # For new tickets only the first test service is allowed.
+        # The names of the ACLs don't have to be unique, as OverwriteExistingEntities is set.
         $ACLObject->ACLImport(
-            Content => <<"EOF",
+            Content => <<"END_CONTENT",
 - ChangeBy: root\@localhost
   ChangeTime: 2016-02-16 03:08:58
   Comment: ''
@@ -247,7 +249,7 @@ $Selenium->RunTest(
   Name: ThisIsAUnitTestACL-5
   StopAfterMatch: 0
   ValidID: '1'
-EOF
+END_CONTENT
             OverwriteExistingEntities => 1,
             UserID                    => 1,
         );
@@ -267,13 +269,9 @@ EOF
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->body_text_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful'
         );
 
         # Add a customer.
@@ -281,9 +279,9 @@ EOF
             UserFirstname  => 'Huber',
             UserLastname   => 'Manfred',
             UserCustomerID => 'A124',
-            UserLogin      => 'customeruser_' . $Helper->GetRandomID(),
+            UserLogin      => 'customeruser_' . $RandomID,
             UserPassword   => 'some-pass',
-            UserEmail      => $Helper->GetRandomID() . '@localhost.com',
+            UserEmail      => $RandomID . '@localhost.com',
             ValidID        => 1,
             UserID         => 1,
         );
@@ -328,6 +326,7 @@ EOF
                 Name    => "UT Test Service $Count $RandomID",
                 ValidID => 1,
                 UserID  => 1,
+                Comment => "test script: $0",
             );
             push @ServiceIDs, $ServiceID;
 
@@ -379,7 +378,9 @@ EOF
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
+        $Selenium->WaitFor(
+            JavaScript => q{return typeof($) === "function" && $('#ServiceID option:not([value=""])').length}
+        );
 
         # Check for entries in the service selection.
         # Three test services have been added. But only "UT Test Service 1 $RandomID" is visible
@@ -387,25 +388,19 @@ EOF
         my $NumVisibleServices = $Selenium->execute_script(
             q{return $('#ServiceID option:not([value=""])').length;}
         );
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-            is(
-                $NumVisibleServices,
-                1,
-                "There is only one entry in the service selection",
-            );
-        }
+        is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
         Time::HiRes::sleep(0.5);
 
-        # Change the service by clicking, like an user would do
-        $Selenium->execute_script("return \$('#ServiceID option[value=$ServiceIDs[1]]').click();");
+        # Set test service and trigger AJAX refresh.
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[0],
+        );
 
         # wait for the updated SLA selection
         $Selenium->WaitFor(
-            JavaScript =>
-                q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
+            JavaScript => q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
         );
 
         # Check for restricted entries in the SLA selection, there should be only one.
@@ -731,4 +726,4 @@ EOF
     },
 );
 
-$Self->DoneTesting();
+done_testing();

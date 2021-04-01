@@ -7,51 +7,23 @@ jobs:
     syntax_check:
         runs-on: 'ubuntu-latest'
 
-#        strategy:
-#            fail-fast: true
-#            matrix:
-#                perl-version:
-#                    - '5.32'
-#                    - '5.30'
-#                    - '5.28'
-#                    - '5.26'
-#                    - '5.24'
 
         container:
-#            image: 'perldocker/perl-tester:${{ matrix.perl-version }}'
             # using a working OTOBO images avoids the need to install dependencies
             image: 'rotheross/otobo:devel-rel-10_0'
             options: --user root
 
         steps:
+            # checkout with history
             - uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
 
             # some diagnostics
             - name: perl -V
               run: perl -V
             - name: env
               run: env | sort
-#            - name: Install Dependencies
-#              run: > # a block scalar, lines are folded with a space
-#                cpanm
-#                --with-feature=db:mysql \
-#                --with-feature=db:odbc \
-#                --with-feature=db:postgresql \
-#                --with-feature=db:sqlite \
-#                --with-feature=devel:dbviewer \
-#                --with-feature=devel:test \
-#                --with-feature=div:bcrypt \
-#                --with-feature=div:ldap \
-#                --with-feature=div:readonly \
-#                --with-feature=div:xslt \
-#                --with-feature=mail:imap \
-#                --with-feature=mail:ntlm \
-#                --with-feature=mail:sasl \
-#                --with-feature=performance:csv \
-#                --with-feature=performance:json \
-#                --with-feature=performance:redis \
-#                --with-feature=plack \
-#                --installdeps .
 
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up Kernel/Config.pm
@@ -66,6 +38,11 @@ jobs:
                 Kernel/cpan-lib/Apache2
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
-            # The actual test step
+            - name: show changed files
+              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
+
+            # The actual test step.
+            # xargs adds the changed files to the prove command
+            # :: tells prove that whatever follows should be passed to the test script
             - name: prove
-              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t'
+              run: 'git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ::'

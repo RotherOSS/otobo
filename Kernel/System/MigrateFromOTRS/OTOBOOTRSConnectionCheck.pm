@@ -243,20 +243,20 @@ sub _CheckConfigpmAndWriteCache {
     my %CacheOptions;
 
     {
-        open my $In, '<', $ConfigFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+        open my $In, '<', $ConfigFile                  ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         CONFIGLINE:
-        while (<$In>) {
+        while ( my $Line = <$In> ) {
 
             # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
-            if ( m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/ ) {
-                for my $Key ( sort keys %COptions ) {
-                    if ( lc($1) eq lc($Key) ) {
-                        $CacheOptions{ $COptions{$Key} } = $2;
+            next CONFIGLINE unless $Line =~ m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/;
 
-                        next CONFIGLINE;
-                    }
+            for my $Key ( sort keys %COptions ) {
+                if ( lc($1) eq lc($Key) ) {
+                    $CacheOptions{ $COptions{$Key} } = $2;
+
+                    next CONFIGLINE;
                 }
             }
         }
@@ -281,12 +281,12 @@ sub _CheckConfigpmAndWriteCache {
         Key   => 'OTRSDBSettings',
         Value => {
             DBType     => $CacheOptions{DBType},
-            DBHost     => $CacheOptions{DBHost},         # usually needs to be adapted when running under Docker
+            DBHost     => $CacheOptions{DBHost},       # usually needs to be adapted when running under Docker
             DBUser     => $CacheOptions{DBUser},
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},
             DBDSN      => $CacheOptions{DBDSN},
-            DBSID      => $CacheOptions{DBSID} || '',
+            DBSID      => $CacheOptions{DBSID}  || '',
             DBPort     => $CacheOptions{DBPort} || '',
         },
     );

@@ -907,7 +907,7 @@ sub BuildSelectionDataGet {
                         push @Values, {
                             Key      => $Key,
                             Value    => $ConfigPossibleValues->{$Key} || '-',
-                            Selected => defined $Param{Value} || !$Param{Value} ? 1 : 0,
+                            Selected => defined $Param{Value}         || !$Param{Value} ? 1 : 0,
                         };
                     }
                 }

@@ -168,8 +168,8 @@ sub Run {
     my %GetParam;
     for (
         qw(
-        From To Cc Bcc Subject Body InReplyTo References ArticleID
-        IsVisibleForCustomerPresent IsVisibleForCustomer TimeUnits FormID
+            From To Cc Bcc Subject Body InReplyTo References ArticleID
+            IsVisibleForCustomerPresent IsVisibleForCustomer TimeUnits FormID
         )
         )
     {

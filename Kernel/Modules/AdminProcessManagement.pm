@@ -485,7 +485,7 @@ sub Run {
                                                 $LayoutObject->Block(
                                                     Name => 'ConditionRowSubSubValue',
                                                     Data => {
-                                                        Key => $SubSubKey,
+                                                        Key   => $SubSubKey,
                                                         Value =>
                                                             $Values{$Key}->{$SubKey}->{$SubSubKey},
                                                     },
@@ -684,7 +684,7 @@ sub Run {
                         ActivityStart     => $Activity,
                         Transition        => $Transition,
                         TransitionActions => $TransitionActionString,
-                        ActivityEnd =>
+                        ActivityEnd       =>
                             $ProcessData->{Process}->{Config}->{Path}->{$Activity}->{$Transition}
                             ->{ActivityEntityID},
                     },
@@ -936,8 +936,8 @@ sub Run {
         # set screens path in session
         my @ScreensPath = (
             {
-                Action    => $Self->{Action}    || '',
-                Subaction => $Self->{Subaction} || '',
+                Action     => $Self->{Action}    || '',
+                Subaction  => $Self->{Subaction} || '',
                 Parameters => 'ID=' . $ProcessID . ';EntityID=' . $EntityID
             }
         );

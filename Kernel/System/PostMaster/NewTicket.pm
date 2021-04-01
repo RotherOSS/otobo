@@ -69,7 +69,7 @@ sub Run {
         }
     }
     my %GetParam         = %{ $Param{GetParam} };
-    my $Comment          = $Param{Comment} || '';
+    my $Comment          = $Param{Comment}          || '';
     my $AutoResponseType = $Param{AutoResponseType} || '';
 
     # get queue id and name
@@ -299,7 +299,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Debug',
                 Key           => 'Kernel::System::PostMaster::NewTicket',
-                Value =>
+                Value         =>
                     "Service $GetParam{'X-OTOBO-Service'} does not exists or is invalid or is a child of invalid service.",
             );
             $GetParam{'X-OTOBO-Service'} = '';
@@ -317,7 +317,7 @@ sub Run {
         State        => $State,
         TypeID       => $TypeID,
         Service      => $GetParam{'X-OTOBO-Service'} || '',
-        SLA          => $GetParam{'X-OTOBO-SLA'} || '',
+        SLA          => $GetParam{'X-OTOBO-SLA'}     || '',
         CustomerID   => $GetParam{'X-OTOBO-CustomerNo'},
         CustomerUser => $GetParam{'X-OTOBO-CustomerUser'},
         OwnerID      => $OwnerID,
@@ -404,7 +404,7 @@ Message
             ObjectLogType => 'Message',
             Priority      => 'Debug',
             Key           => 'Kernel::System::PostMaster::NewTicket',
-            Value =>
+            Value         =>
                 "Pending time update via 'X-OTOBO-State-PendingTime'! State-PendingTime: $GetParam{'X-OTOBO-State-PendingTime'}.",
         );
     }
@@ -416,9 +416,9 @@ Message
     # dynamic fields
     my $DynamicFieldList =
         $DynamicFieldObject->DynamicFieldList(
-        Valid      => 1,
-        ResultType => 'HASH',
-        ObjectType => 'Ticket',
+            Valid      => 1,
+            ResultType => 'HASH',
+            ObjectType => 'Ticket',
         );
 
     # set dynamic fields for Ticket object type
@@ -458,8 +458,8 @@ Message
     # for backward compatibility (should be removed in a future version)
     my %Values =
         (
-        'X-OTOBO-TicketKey'   => 'TicketFreeKey',
-        'X-OTOBO-TicketValue' => 'TicketFreeText',
+            'X-OTOBO-TicketKey'   => 'TicketFreeKey',
+            'X-OTOBO-TicketValue' => 'TicketFreeText',
         );
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {
@@ -659,9 +659,9 @@ Message
     # dynamic fields
     $DynamicFieldList =
         $DynamicFieldObject->DynamicFieldList(
-        Valid      => 1,
-        ResultType => 'HASH',
-        ObjectType => 'Article',
+            Valid      => 1,
+            ResultType => 'HASH',
+            ObjectType => 'Article',
         );
 
     # set dynamic fields for Article object type
@@ -700,8 +700,8 @@ Message
     # for backward compatibility (should be removed in a future version)
     %Values =
         (
-        'X-OTOBO-ArticleKey'   => 'ArticleFreeKey',
-        'X-OTOBO-ArticleValue' => 'ArticleFreeText',
+            'X-OTOBO-ArticleKey'   => 'ArticleFreeKey',
+            'X-OTOBO-ArticleValue' => 'ArticleFreeText',
         );
     for my $Item ( sort keys %Values ) {
         for my $Count ( 1 .. 16 ) {

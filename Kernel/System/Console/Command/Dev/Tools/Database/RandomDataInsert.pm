@@ -182,15 +182,15 @@ sub Run {
         my $TicketUserID =
 
             my $TicketID = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCreate(
-            Title        => RandomSubject(),
-            QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
-            Lock         => 'unlock',
-            Priority     => PriorityGet(),
-            State        => 'new',
-            CustomerNo   => int( rand(1000) ),
-            CustomerUser => RandomAddress(),
-            OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
-            UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
+                Title        => RandomSubject(),
+                QueueID      => $QueueIDs[ int( rand($#QueueIDs) ) ],
+                Lock         => 'unlock',
+                Priority     => PriorityGet(),
+                State        => 'new',
+                CustomerNo   => int( rand(1000) ),
+                CustomerUser => RandomAddress(),
+                OwnerID      => $UserIDs[ int( rand($#UserIDs) ) ],
+                UserID       => $UserIDs[ int( rand($#UserIDs) ) ],
             );
 
         if ( $Self->GetOption('mark-tickets-as-seen') ) {

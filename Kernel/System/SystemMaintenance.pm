@@ -113,9 +113,9 @@ sub SystemMaintenanceAdd {
                 show_login_message, notify_message, valid_id, create_time, create_by, change_time, change_by )
             VALUES (?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{StartDate}, \$Param{StopDate}, \$Param{Comment}, \$Param{LoginMessage},
+            \$Param{StartDate},        \$Param{StopDate},      \$Param{Comment}, \$Param{LoginMessage},
             \$Param{ShowLoginMessage}, \$Param{NotifyMessage}, \$Param{ValidID},
-            \$Param{UserID}, \$Param{UserID},
+            \$Param{UserID},           \$Param{UserID},
         ],
     );
 
@@ -320,9 +320,9 @@ sub SystemMaintenanceUpdate {
                 notify_message = ?, valid_id = ?, change_time = current_timestamp,  change_by = ?
             WHERE id = ?',
         Bind => [
-            \$Param{StartDate}, \$Param{StopDate}, \$Param{Comment}, \$Param{LoginMessage},
+            \$Param{StartDate},        \$Param{StopDate}, \$Param{Comment}, \$Param{LoginMessage},
             \$Param{ShowLoginMessage}, \$Param{NotifyMessage},
-            \$Param{ValidID}, \$Param{UserID}, \$Param{ID},
+            \$Param{ValidID},          \$Param{UserID}, \$Param{ID},
         ],
     );
 

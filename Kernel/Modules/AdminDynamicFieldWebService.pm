@@ -231,8 +231,8 @@ sub _AddAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
-        ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview
+            ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
+            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview
         )
         )
     {
@@ -480,8 +480,8 @@ sub _ChangeAction {
 
     for my $ConfigParam (
         qw(
-        ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
-        PossibleNone TranslatableValues ValidID Link LinkPreview
+            ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
+            PossibleNone TranslatableValues ValidID Link LinkPreview
         )
         )
     {

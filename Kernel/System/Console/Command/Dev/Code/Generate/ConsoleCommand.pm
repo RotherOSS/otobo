@@ -36,7 +36,7 @@ sub Configure {
 
     $Self->Description('Generate a console command skeleton.');
     $Self->AddOption(
-        Name => 'module-directory',
+        Name        => 'module-directory',
         Description =>
             "Specify the directory containing the module where the new command should be created (otherwise the OTOBO home directory will be used).",
         Required   => 0,

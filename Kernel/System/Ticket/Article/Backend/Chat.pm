@@ -216,7 +216,7 @@ sub ArticleCreate {
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message =>
+                Message  =>
                     "Ticket [$OldTicketData{TicketNumber}] unlocked, current owner is out of office!",
             );
         }
@@ -486,7 +486,7 @@ sub ArticleUpdate {
         if ( !$Success ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "System was unable to remove data from article_data_otobo_chat table (ArticleID = $Param{ArticleID})!",
             );
             return;
@@ -516,7 +516,7 @@ sub ArticleUpdate {
             if ( !$Success ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "System was unable to store data in article_data_otobo_chat table (ArticleID = $Param{ArticleID})!",
                 );
                 return;
@@ -720,7 +720,7 @@ sub ArticleSearchableContentGet {
         $ArticleSearchData{$FieldKey} = {
             String     => $IndexString,
             Key        => $BackendSearchableFields{$FieldKey}->{Key},
-            Type       => $BackendSearchableFields{$FieldKey}->{Type} // 'Text',
+            Type       => $BackendSearchableFields{$FieldKey}->{Type}       // 'Text',
             Filterable => $BackendSearchableFields{$FieldKey}->{Filterable} // 0,
         };
     }

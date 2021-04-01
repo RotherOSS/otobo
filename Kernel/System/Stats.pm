@@ -359,9 +359,9 @@ sub StatsGet {
 
                     next REF
                         if !(
-                        $Element
-                        && $Ref->{Element}
-                        && $Element eq $Ref->{Element}
+                            $Element
+                            && $Ref->{Element}
+                            && $Element eq $Ref->{Element}
                         );
 
                     # if selected elements exit, add the information to the StatAttributes
@@ -457,7 +457,7 @@ sub StatsUpdate {
     if ( !$StatOld ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Can't get stats, perhaps you have an invalid stats id! (StatsID => $Param{StatID})"
         );
         return;
@@ -2709,8 +2709,8 @@ sub _GenerateDynamicStats {
                     @HeaderLine,
                     sprintf( "$TranslateWeek %02d-%04d - ", $WeekNum{Week}, $WeekNum{Year} ) .
                         sprintf(
-                        "%02d.%02d.%04d - %02d.%02d.%04d",
-                        $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
+                            "%02d.%02d.%04d - %02d.%02d.%04d",
+                            $Day, $Month, $Year, $ToDay, $ToMonth, $ToYear
                         )
                 );
             }
@@ -3063,8 +3063,8 @@ sub _GenerateDynamicStats {
                         . sprintf( "%02d", $VSMonth ) . ' '
                         . $TranslateMonth
                     } = {
-                    $Ref1->{Values}{TimeStop}  => $TimeStop,
-                    $Ref1->{Values}{TimeStart} => $TimeStart
+                        $Ref1->{Values}{TimeStop}  => $TimeStop,
+                        $Ref1->{Values}{TimeStart} => $TimeStart
                     };
 
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = $Self->_AddDeltaDHMS(
@@ -3099,8 +3099,8 @@ sub _GenerateDynamicStats {
                     sprintf( "%04d-%02d-%02d", @Monday ) . ' - '
                         . sprintf( "%04d-%02d-%02d", $ToYear, $ToMonth, $ToDay )
                     } = {
-                    $Ref1->{Values}{TimeStop}  => $TimeStop,
-                    $Ref1->{Values}{TimeStart} => $TimeStart
+                        $Ref1->{Values}{TimeStop}  => $TimeStop,
+                        $Ref1->{Values}{TimeStart} => $TimeStart
                     };
 
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = $Self->_AddDeltaDHMS(
@@ -3160,8 +3160,8 @@ sub _GenerateDynamicStats {
                         $VSYear, $VSMonth, $VSDay, $VSHour, $ToHour
                     )
                     } = {
-                    $Ref1->{Values}{TimeStop}  => $TimeStop,
-                    $Ref1->{Values}{TimeStart} => $TimeStart
+                        $Ref1->{Values}{TimeStop}  => $TimeStop,
+                        $Ref1->{Values}{TimeStart} => $TimeStart
                     };
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = $Self->_AddDeltaDHMS(
                     $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
@@ -3196,8 +3196,8 @@ sub _GenerateDynamicStats {
                         $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $ToHour, $ToMinute
                     )
                     } = {
-                    $Ref1->{Values}{TimeStop}  => $TimeStop,
-                    $Ref1->{Values}{TimeStart} => $TimeStart
+                        $Ref1->{Values}{TimeStop}  => $TimeStop,
+                        $Ref1->{Values}{TimeStart} => $TimeStart
                     };
                 ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond ) = $Self->_AddDeltaDHMS(
                     $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond, 0,
@@ -3236,8 +3236,8 @@ sub _GenerateDynamicStats {
                     $ArraySelected[0]{Values}{$Key} . ' - '
                         . $ArraySelected[1]{Values}{$SubKey}
                     } = {
-                    $ArraySelected[0]{Element} => $Value0,
-                    $ArraySelected[1]{Element} => $Value1
+                        $ArraySelected[0]{Element} => $Value0,
+                        $ArraySelected[1]{Element} => $Value1
                     };
             }
         }

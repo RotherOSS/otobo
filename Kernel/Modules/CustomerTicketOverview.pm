@@ -328,7 +328,7 @@ sub Run {
         my $TicketListObject = $Kernel::OM->Get('Kernel::Output::HTML::TicketOverview::CustomerList');
         $TicketListHTML = $TicketListObject->Run(
             TicketIDs   => [],
-            NoAllTotal  => $Self->{Subaction} eq 'Search' ? 0 : 1,
+            NoAllTotal  => $Self->{Subaction} eq 'Search' ? 0            : 1,
             CustomTexts => ( ref $CustomTexts eq 'HASH' ) ? $CustomTexts : 0,
         );
 

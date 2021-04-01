@@ -589,7 +589,7 @@ sub Verify {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
-            Message =>
+            Message        =>
                 'OpenSSL: self signed certificate, to use it send the \'Certificate\' parameter : '
                 . $Message,
             MessageLong =>
@@ -605,7 +605,7 @@ sub Verify {
         %Return = (
             SignatureFound => 1,
             Successful     => 0,
-            Message =>
+            Message        =>
                 'OpenSSL: The signature does not match the message content : ' . $Message,
             MessageLong =>
                 'OpenSSL: The signature does not match the message content : ' . $MessageLong,
@@ -891,7 +891,7 @@ sub ConvertCertFormat {
             Convert => "pkcs7 -in $TmpCertificate -print_certs -out $CertFile",
         },
         PFX => {
-            Read => "pkcs12 -in $TmpCertificate -noout -nomacver -passin pass:'$PassPhrase'",
+            Read    => "pkcs12 -in $TmpCertificate -noout -nomacver -passin pass:'$PassPhrase'",
             Convert =>
                 "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
         },
@@ -1699,7 +1699,7 @@ sub PrivateRemove {
     if ( !$SecretDelete ) {
         %Return = (
             Successful => 0,
-            Message =>
+            Message    =>
                 "Delete private aborted, not possible to delete Secret: $Self->{PrivatePath}/$Param{Filename}.P, $!!",
         );
         return %Return;

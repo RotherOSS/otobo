@@ -16,14 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use Time::HiRes qw(sleep);
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -168,18 +172,11 @@ $Selenium->RunTest(
         # Open AgentTicketPhone screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
 
-        # First test that the additional CustomerID select button is visible but disabled, because the field
-        #   is readonly as default.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
-            1,
-            "Button to select a other CustomerID is disabled",
-        );
-        $Self->Is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('title');"),
-            'The customer ID is not changeable, no other customer ID can be assigned to this ticket.',
-            'Button text for the not changeable CustomerID is found on screen',
-        );
+        # First test that the CustomerID is present as a hidden input field.
+        # is readonly per default.
+        my $CustomerIDInput = $Selenium->find_element(q{//input[@id='CustomerID']});
+        ok( $CustomerIDInput, 'CustomerID field was found' );
+        is( $CustomerIDInput->get_property('type'), 'hidden' );
 
         $Helper->ConfigSettingChange(
             Key   => 'Ticket::Frontend::AgentTicketPhone::CustomerIDReadOnly',
@@ -209,9 +206,9 @@ $Selenium->RunTest(
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
             },
             "$CustomerUser-1" => {
-                Expected     => 1,
-                CustomerUser => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
-                CustomerID   => $CustomerIDs[1],
+                Expected          => 1,
+                CustomerUser      => "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com>",
+                CustomerID        => $CustomerIDs[1],
                 AutocompleteInput =>
                     "\"$CustomerUser-1 $CustomerUser-1\" <$CustomerUser-1\@localunittest.com> ($TestCustomerUser1)",
                 SelectAssigendCustomerID => $CustomerIDs[1],

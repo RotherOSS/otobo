@@ -101,8 +101,8 @@ sub Run {
             if ( !( grep { $_->{Value} eq $CustomerID } @Result ) ) {
                 push @Result,
                     {
-                    Label => $CustomerCompanyList{$CustomerID},
-                    Value => $CustomerID
+                        Label => $CustomerCompanyList{$CustomerID},
+                        Value => $CustomerID
                     };
             }
             last CUSTOMERID if scalar @Result >= $MaxResults;
@@ -147,8 +147,8 @@ sub Run {
 
             push @Result,
                 {
-                Label => $CustomerList{$CustomerLogin},
-                Value => $CustomerData{UserCustomerID}
+                    Label => $CustomerList{$CustomerLogin},
+                    Value => $CustomerData{UserCustomerID}
                 };
             last CUSTOMERLOGIN if scalar @Result >= $MaxResults;
 

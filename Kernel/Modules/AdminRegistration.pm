@@ -141,14 +141,14 @@ sub Run {
         my %Result = (
             Success => $Response{Success} ? 'OK' : 'False',
             Message => $Response{Reason} || '',
-            Token   => $Response{Token} || '',
+            Token   => $Response{Token}  || '',
         );
 
         my $Output = $LayoutObject->Header();
         $Output .= $Response{Reason}
             ? $LayoutObject->Notify(
-            Priority => 'Error',
-            Info     => $Response{Reason},
+                Priority => 'Error',
+                Info     => $Response{Reason},
             )
             : '';
         $Output .= $LayoutObject->NavigationBar();
@@ -469,7 +469,7 @@ sub Run {
         if ( $Result{Success} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'notice',
-                Message =>
+                Message  =>
                     "System Registration: User $Self->{UserID} changed Description: '$Description', Type: '$RegistrationType'.",
             );
 

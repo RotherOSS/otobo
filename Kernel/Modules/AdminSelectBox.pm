@@ -230,7 +230,7 @@ sub Run {
                         Format => 'Excel',
                     );
                     return $LayoutObject->Attachment(
-                        Filename => "$FileName" . ".xlsx",
+                        Filename    => "$FileName" . ".xlsx",
                         ContentType =>
                             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                         Content => $Excel,

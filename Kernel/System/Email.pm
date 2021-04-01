@@ -681,11 +681,11 @@ sub Send {
         Key           => 'Kernel::System::Email',
         Value         => 'Successfully queued message for delivery '
             . sprintf(
-            "(%sTo: '%s', From: '%s', Subject: '%s').",
-            ( $Param{'Message-ID'} ? "MessageID: $Param{'Message-ID'}, " : '' ),
-            $To,
-            $RealFrom,
-            $Param{Subject},
+                "(%sTo: '%s', From: '%s', Subject: '%s').",
+                ( $Param{'Message-ID'} ? "MessageID: $Param{'Message-ID'}, " : '' ),
+                $To,
+                $RealFrom,
+                $Param{Subject},
             ),
     );
 
@@ -966,11 +966,11 @@ sub Bounce {
         Key           => 'Kernel::System::Email',
         Value         => 'Successfully bounced message '
             . sprintf(
-            "(%sTo: '%s', From: '%s', Subject: '%s').",
-            ("MessageID: ${ OldMessageID }"),
-            $Param{To},
-            $RealFrom,
-            $Subject,
+                "(%sTo: '%s', From: '%s', Subject: '%s').",
+                ("MessageID: ${ OldMessageID }"),
+                $Param{To},
+                $RealFrom,
+                $Subject,
             ),
     );
 
@@ -1240,7 +1240,7 @@ sub _CreateMimeEntity {
                 Type        => $Upload->{ContentType},
                 Id          => $ContentID,
                 Disposition => $Upload->{Disposition} || 'inline',
-                Encoding    => $Upload->{Encoding} || '-SUGGEST',
+                Encoding    => $Upload->{Encoding}    || '-SUGGEST',
             );
         }
 

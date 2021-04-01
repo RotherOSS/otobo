@@ -583,7 +583,7 @@ for my $Test (@Tests) {
             $Test->{ExpectedResults}->{EditFieldRender}->{$Type},
             "EditFieldRender() for type $Type: Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
                 . (
-                $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
+                    $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
                 ),
         );
     }
@@ -608,7 +608,7 @@ for my $Test (@Tests) {
         $Test->{ExpectedResults}->{EditFieldValueGet},
         "EditFieldValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
             . (
-            $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
+                $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
             ),
     );
 
@@ -627,7 +627,7 @@ for my $Test (@Tests) {
         $Test->{ExpectedResults}->{ValueSetGet},
         "ValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
             . (
-            $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
+                $Test->{Config}->{UserTimeZone} ? "user time zone $Test->{Config}->{UserTimeZone}" : 'no user time zone'
             ),
     );
 }

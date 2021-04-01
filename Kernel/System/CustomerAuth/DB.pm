@@ -202,7 +202,7 @@ sub Auth {
             {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         "User: '$User' tried to authenticate with bcrypt but 'Crypt::Eksblowfish::Bcrypt' is not installed!",
                 );
                 return;
@@ -281,7 +281,7 @@ sub Auth {
     if ( !$Pw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "CustomerUser: $User authentication without Pw!!! (REMOTE_ADDR: $RemoteAddr)",
         );
         return;
@@ -300,7 +300,7 @@ sub Auth {
     elsif ( $UserID && $GetPw ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "CustomerUser: $User Authentication with wrong Pw!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;
@@ -310,7 +310,7 @@ sub Auth {
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "CustomerUser: $User doesn't exist or is invalid!!! (REMOTE_ADDR: $RemoteAddr)"
         );
         return;

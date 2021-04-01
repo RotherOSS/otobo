@@ -2638,9 +2638,9 @@ for ( my $Index = 0; $Index < scalar @Appointments; $Index++ ) {
             next KEY if $Key eq
 
                 $Self->Is(
-                $Appointments[$Index]->{$Key},
-                $Result[$Index]->{$Key},
-                "Check if $Key value is OK.",
+                    $Appointments[$Index]->{$Key},
+                    $Result[$Index]->{$Key},
+                    "Check if $Key value is OK.",
                 );
         }
     }

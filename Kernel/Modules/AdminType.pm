@@ -54,7 +54,7 @@ sub Run {
         $TypeNotActive = $LayoutObject->Notify(
             Priority => 'Error',
             Data     => $LayoutObject->{LanguageObject}->Translate( "Please activate %s first!", "Type" ),
-            Link =>
+            Link     =>
                 $LayoutObject->{Baselink}
                 . 'Action=AdminSystemConfiguration;Subaction=View;Setting=Ticket%3A%3AType',
         );

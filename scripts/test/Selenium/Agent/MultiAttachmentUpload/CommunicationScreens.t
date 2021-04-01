@@ -97,10 +97,10 @@ $Selenium->RunTest(
         # Check screens.
         for my $Action (
             qw(
-            AgentTicketNote
-            AgentTicketPhoneOutbound
-            AgentTicketEmailOutbound
-            AgentTicketPhoneInbound
+                AgentTicketNote
+                AgentTicketPhoneOutbound
+                AgentTicketEmailOutbound
+                AgentTicketPhoneInbound
             )
             )
         {

@@ -78,7 +78,7 @@ sub Run {
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message =>
+                Message  =>
                     "Send no escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because currently no working hours!",
             );
         }
@@ -111,7 +111,7 @@ sub Run {
         if ( $Self->{Debug} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
-                Message =>
+                Message  =>
                     "Can't send escalation for Ticket $Ticket{TicketNumber}/$Ticket{TicketID} because ticket is not escalated!",
             );
         }

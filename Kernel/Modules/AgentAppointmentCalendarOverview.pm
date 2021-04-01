@@ -170,7 +170,7 @@ sub Run {
             $Param{NotifyLine} = {
                 Priority => 'Warning',
                 Data     => $LayoutObject->{LanguageObject}->Translate('Showing only appointments assigned to you! Change settings'),
-                Link =>
+                Link     =>
                     $LayoutObject->{Baselink}
                     . 'Action=AgentAppointmentCalendarOverview;Subaction=CalendarSettingsShow',
             };

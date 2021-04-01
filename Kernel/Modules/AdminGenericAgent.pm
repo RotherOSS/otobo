@@ -143,20 +143,20 @@ sub Run {
         }
         for my $Type (
             qw(
-            TicketCreate           TicketChange
-            TicketClose            TicketLastChange
-            TicketLastClose
-            TicketPending
-            TicketEscalation       TicketEscalationResponse
-            TicketEscalationUpdate TicketEscalationSolution
+                TicketCreate           TicketChange
+                TicketClose            TicketLastChange
+                TicketLastClose
+                TicketPending
+                TicketEscalation       TicketEscalationResponse
+                TicketEscalationUpdate TicketEscalationSolution
             )
             )
         {
             for my $Attribute (
                 qw(
-                TimePoint TimePointFormat TimePointStart
-                TimeStart TimeStartDay TimeStartMonth TimeStopMonth
-                TimeStop TimeStopDay TimeStopYear TimeStartYear
+                    TimePoint TimePointFormat TimePointStart
+                    TimeStart TimeStartDay TimeStartMonth TimeStopMonth
+                    TimeStop TimeStopDay TimeStopYear TimeStartYear
                 )
                 )
             {
@@ -769,12 +769,12 @@ sub _MaskUpdate {
     );
     for my $Type (
         qw(
-        TicketCreate           TicketClose
-        TicketChange           TicketLastChange
-        TicketLastClose
-        TicketPending
-        TicketEscalation       TicketEscalationResponse
-        TicketEscalationUpdate TicketEscalationSolution
+            TicketCreate           TicketClose
+            TicketChange           TicketLastChange
+            TicketLastClose
+            TicketPending
+            TicketEscalation       TicketEscalationResponse
+            TicketEscalationUpdate TicketEscalationSolution
         )
         )
     {
@@ -1167,7 +1167,7 @@ sub _MaskUpdate {
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->SearchFieldRender(
                     DynamicFieldConfig => $DynamicFieldConfig,
                     Profile            => \%JobData,
-                    DefaultValue =>
+                    DefaultValue       =>
                         $Self->{Config}->{Defaults}->{DynamicField}->{ $DynamicFieldConfig->{Name} },
                     LayoutObject           => $LayoutObject,
                     ConfirmationCheckboxes => 1,

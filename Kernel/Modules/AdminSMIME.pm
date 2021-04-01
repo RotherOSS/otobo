@@ -173,7 +173,7 @@ sub Run {
                         if ( !$Success ) {
                             $Kernel::OM->Get('Kernel::System::Log')->Log(
                                 Priority => 'error',
-                                Message =>
+                                Message  =>
                                     "Could not reset preference $PreferenceKey for customer $UserID",
                             );
                         }
@@ -611,8 +611,8 @@ sub _MaskAdd {
     my $Output = $LayoutObject->Header();
     $Output .= $Param{Message}
         ? $LayoutObject->Notify(
-        Priority => 'Error',
-        Info     => $Param{Message},
+            Priority => 'Error',
+            Info     => $Param{Message},
         )
         : '';
     $Output .= $LayoutObject->NavigationBar();
@@ -844,8 +844,8 @@ sub _CertificateRead {
 
     $Output
         .= $LayoutObject->Output(
-        TemplateFile => 'AdminSMIMECertRead',
-        Data         => \%Param
+            TemplateFile => 'AdminSMIMECertRead',
+            Data         => \%Param
         );
 
     $Output .= $LayoutObject->Footer(

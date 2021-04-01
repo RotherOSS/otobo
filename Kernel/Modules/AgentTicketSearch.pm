@@ -100,9 +100,9 @@ sub Run {
     if ( $Self->{Subaction} eq 'AJAXAutocomplete' ) {
         $LayoutObject->ChallengeTokenCheck();
 
-        my $Skip   = $ParamObject->GetParam( Param => 'Skip' )   || '';
-        my $Search = $ParamObject->GetParam( Param => 'Term' )   || '';
-        my $Filter = $ParamObject->GetParam( Param => 'Filter' ) || '{}';
+        my $Skip       = $ParamObject->GetParam( Param => 'Skip' )   || '';
+        my $Search     = $ParamObject->GetParam( Param => 'Term' )   || '';
+        my $Filter     = $ParamObject->GetParam( Param => 'Filter' ) || '{}';
         my $MaxResults = int( $ParamObject->GetParam( Param => 'MaxResults' ) || 20 );
 
         # Remove leading and trailing spaces from search term.
@@ -232,52 +232,52 @@ sub Run {
         for my $Key (
             sort keys %ArticleSearchableFields,
             qw(
-            TicketNumber Title CustomerID CustomerIDRaw CustomerUserLogin CustomerUserLoginRaw
-            CustomerUserID StateType Agent ResultForm TimeSearchType ChangeTimeSearchType
-            CloseTimeSearchType LastChangeTimeSearchType EscalationTimeSearchType PendingTimeSearchType
-            UseSubQueues ArticleTimeSearchType SearchInArchive Fulltext ShownAttributes
-            ArticleCreateTimePointFormat ArticleCreateTimePoint ArticleCreateTimePointStart
-            ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
-            ArticleCreateTimeStartYear ArticleCreateTimeStop ArticleCreateTimeStopDay
-            ArticleCreateTimeStopMonth ArticleCreateTimeStopYear
-            TicketCreateTimePointFormat TicketCreateTimePoint
-            TicketCreateTimePointStart
-            TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
-            TicketCreateTimeStartYear
-            TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
-            TicketCreateTimeStopYear
-            TicketChangeTimePointFormat TicketChangeTimePoint
-            TicketChangeTimePointStart
-            TicketChangeTimeStart TicketChangeTimeStartDay TicketChangeTimeStartMonth
-            TicketChangeTimeStartYear
-            TicketChangeTimeStop TicketChangeTimeStopDay TicketChangeTimeStopMonth
-            TicketChangeTimeStopYear
-            TicketLastChangeTimePointFormat TicketLastChangeTimePoint
-            TicketLastChangeTimePointStart
-            TicketLastChangeTimeStart TicketLastChangeTimeStartDay TicketLastChangeTimeStartMonth
-            TicketLastChangeTimeStartYear
-            TicketLastChangeTimeStop TicketLastChangeTimeStopDay TicketLastChangeTimeStopMonth
-            TicketLastChangeTimeStopYear
-            TicketCloseTimePointFormat TicketCloseTimePoint
-            TicketCloseTimePointStart
-            TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
-            TicketCloseTimeStartYear
-            TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
-            TicketCloseTimeStopYear
-            TicketPendingTimePointFormat TicketPendingTimePoint
-            TicketPendingTimePointStart
-            TicketPendingTimeStart TicketPendingTimeStartDay TicketPendingTimeStartMonth
-            TicketPendingTimeStartYear
-            TicketPendingTimeStop TicketPendingTimeStopDay TicketPendingTimeStopMonth
-            TicketPendingTimeStopYear
-            TicketEscalationTimePointFormat TicketEscalationTimePoint
-            TicketEscalationTimePointStart
-            TicketEscalationTimeStart TicketEscalationTimeStartDay TicketEscalationTimeStartMonth
-            TicketEscalationTimeStartYear
-            TicketEscalationTimeStop TicketEscalationTimeStopDay TicketEscalationTimeStopMonth
-            TicketEscalationTimeStopYear
-            TicketCloseTimeNewerDate TicketCloseTimeOlderDate
-            FulltextES
+                TicketNumber Title CustomerID CustomerIDRaw CustomerUserLogin CustomerUserLoginRaw
+                CustomerUserID StateType Agent ResultForm TimeSearchType ChangeTimeSearchType
+                CloseTimeSearchType LastChangeTimeSearchType EscalationTimeSearchType PendingTimeSearchType
+                UseSubQueues ArticleTimeSearchType SearchInArchive Fulltext ShownAttributes
+                ArticleCreateTimePointFormat ArticleCreateTimePoint ArticleCreateTimePointStart
+                ArticleCreateTimeStart ArticleCreateTimeStartDay ArticleCreateTimeStartMonth
+                ArticleCreateTimeStartYear ArticleCreateTimeStop ArticleCreateTimeStopDay
+                ArticleCreateTimeStopMonth ArticleCreateTimeStopYear
+                TicketCreateTimePointFormat TicketCreateTimePoint
+                TicketCreateTimePointStart
+                TicketCreateTimeStart TicketCreateTimeStartDay TicketCreateTimeStartMonth
+                TicketCreateTimeStartYear
+                TicketCreateTimeStop TicketCreateTimeStopDay TicketCreateTimeStopMonth
+                TicketCreateTimeStopYear
+                TicketChangeTimePointFormat TicketChangeTimePoint
+                TicketChangeTimePointStart
+                TicketChangeTimeStart TicketChangeTimeStartDay TicketChangeTimeStartMonth
+                TicketChangeTimeStartYear
+                TicketChangeTimeStop TicketChangeTimeStopDay TicketChangeTimeStopMonth
+                TicketChangeTimeStopYear
+                TicketLastChangeTimePointFormat TicketLastChangeTimePoint
+                TicketLastChangeTimePointStart
+                TicketLastChangeTimeStart TicketLastChangeTimeStartDay TicketLastChangeTimeStartMonth
+                TicketLastChangeTimeStartYear
+                TicketLastChangeTimeStop TicketLastChangeTimeStopDay TicketLastChangeTimeStopMonth
+                TicketLastChangeTimeStopYear
+                TicketCloseTimePointFormat TicketCloseTimePoint
+                TicketCloseTimePointStart
+                TicketCloseTimeStart TicketCloseTimeStartDay TicketCloseTimeStartMonth
+                TicketCloseTimeStartYear
+                TicketCloseTimeStop TicketCloseTimeStopDay TicketCloseTimeStopMonth
+                TicketCloseTimeStopYear
+                TicketPendingTimePointFormat TicketPendingTimePoint
+                TicketPendingTimePointStart
+                TicketPendingTimeStart TicketPendingTimeStartDay TicketPendingTimeStartMonth
+                TicketPendingTimeStartYear
+                TicketPendingTimeStop TicketPendingTimeStopDay TicketPendingTimeStopMonth
+                TicketPendingTimeStopYear
+                TicketEscalationTimePointFormat TicketEscalationTimePoint
+                TicketEscalationTimePointStart
+                TicketEscalationTimeStart TicketEscalationTimeStartDay TicketEscalationTimeStartMonth
+                TicketEscalationTimeStartYear
+                TicketEscalationTimeStop TicketEscalationTimeStopDay TicketEscalationTimeStopMonth
+                TicketEscalationTimeStopYear
+                TicketCloseTimeNewerDate TicketCloseTimeOlderDate
+                FulltextES
             )
             )
         {
@@ -1067,7 +1067,7 @@ sub Run {
 
                 # return Excel to download
                 return $LayoutObject->Attachment(
-                    Filename => $FileName . '.xlsx',
+                    Filename    => $FileName . '.xlsx',
                     ContentType =>
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     Content => $Excel,
@@ -1861,7 +1861,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     Profile              => \%GetParam,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    DefaultValue =>
+                    DefaultValue         =>
                         $Config->{Defaults}->{DynamicField}
                         ->{ $DynamicFieldConfig->{Name} },
                     LayoutObject => $LayoutObject,

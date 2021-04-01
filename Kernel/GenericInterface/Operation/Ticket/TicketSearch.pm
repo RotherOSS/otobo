@@ -381,9 +381,9 @@ sub _GetParams {
     for my $Item (
         sort keys %SearchableFields,
         qw(
-        Agent ResultForm TimeSearchType ChangeTimeSearchType LastChangeTimeSearchType CloseTimeSearchType UseSubQueues
-        ArticleTimeSearchType SearchInArchive
-        Fulltext ContentSearch ShownAttributes
+            Agent ResultForm TimeSearchType ChangeTimeSearchType LastChangeTimeSearchType CloseTimeSearchType UseSubQueues
+            ArticleTimeSearchType SearchInArchive
+            Fulltext ContentSearch ShownAttributes
         )
         )
     {

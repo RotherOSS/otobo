@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
@@ -98,12 +103,17 @@ $Selenium->RunTest(
         );
 
         # Hide indicator line if visible. This was causing issue in some of tests in specific execution time.
-        if ( $Selenium->execute_script("return \$('.fc-now-indicator.fc-now-indicator-line:visible').length;") ) {
-            $Selenium->execute_script("\$('.fc-now-indicator.fc-now-indicator-line').hide();");
-            $Selenium->WaitFor(
-                JavaScript =>
-                    'return typeof($) === "function" &&  $(".fc-now-indicator.fc-now-indicator-line:visible").length === 0;'
-            );
+        if ( $Selenium->execute_script(q{return $('.fc-now-indicator.fc-now-indicator-line:visible').length;}) ) {
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+            my $Line = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
+            ok( $Line, 'now indicator line found' );
+            isa_ok( $Line, ['Kernel::System::UnitTest::Selenium::WebElement'], 'now indicator line is a web element' );
+
+            #$Line->is_displayed_ok('now indicator line is displayed');
+            $Selenium->execute_script(q{$('.fc-now-indicator.fc-now-indicator-line').hide();});
+            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+            my $HiddenLine = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
+            ok( !$HiddenLine->is_displayed, 'now indicator line is no longer displayed' );
         }
 
         # Click on the timeline view for an appointment dialog.

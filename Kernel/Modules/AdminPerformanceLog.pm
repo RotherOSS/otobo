@@ -338,8 +338,8 @@ sub Run {
                     Data => {
                         Age =>
                             $LayoutObject->CustomerAge(
-                            Age   => $Minute * 60,
-                            Space => ' '
+                                Age   => $Minute * 60,
+                                Space => ' '
                             ),
                     },
                 );
@@ -375,9 +375,9 @@ sub Run {
                                     Average   => $Average,
                                     Minute    => $Minute,
                                     Count     => $Action{$Module}->{Count}->{$Interface} || '0',
-                                    Sum       => $Action{$Module}->{Sum}->{$Interface} || '0',
-                                    Max       => $Action{$Module}->{Max}->{$Interface} || '0',
-                                    Min       => $Action{$Module}->{Min}->{$Interface} || '0',
+                                    Sum       => $Action{$Module}->{Sum}->{$Interface}   || '0',
+                                    Max       => $Action{$Module}->{Max}->{$Interface}   || '0',
+                                    Min       => $Action{$Module}->{Min}->{$Interface}   || '0',
                                 },
                             );
                         }

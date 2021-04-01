@@ -82,7 +82,7 @@ sub Run {
                 Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
-            }
+            };
         }
     }
 
@@ -92,7 +92,7 @@ sub Run {
             Successful => 1,
             Message    => $Self->{LanguageObject}->Translate("Copy database."),
             Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
-        }
+        };
     }
 
     # check needed stuff
@@ -107,7 +107,7 @@ sub Run {
                 Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
-            }
+            };
         }
     }
 
@@ -124,7 +124,7 @@ sub Run {
                     Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
                     Comment    => $Self->{LanguageObject}->Translate( 'Need %s for Oracle db!', $Key ),
                     Successful => 0,
-                }
+                };
             }
         }
     }
@@ -180,7 +180,7 @@ sub Run {
         Message    => $Self->{LanguageObject}->Translate("Copy database."),
         Comment    => $Self->{LanguageObject}->Translate("Data transfer completed."),
         Successful => 1,
-    }
+    };
 }
 
 1;

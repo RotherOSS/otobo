@@ -114,8 +114,8 @@ sub Run {
         $Output = $LayoutObject->CustomerHeader();
         $Output
             .= $LayoutObject->Output(
-            TemplateFile => $Self->{InfoFile},
-            Data         => \%Param
+                TemplateFile => $Self->{InfoFile},
+                Data         => \%Param
             );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;

@@ -42,11 +42,11 @@ sub Run {
 
     if ( $SOAPUser eq 'some_user' && ( $SOAPPassword eq 'some_pass' || $SOAPPassword eq '' ) ) {
         $Self->AddResultProblem(
-            Label => Translatable('Default SOAP Username And Password'),
-            Value => '',
+            Label   => Translatable('Default SOAP Username And Password'),
+            Value   => '',
             Message =>
                 Translatable(
-                'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.'
+                    'Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it.'
                 ),
         );
     }

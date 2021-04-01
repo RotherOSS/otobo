@@ -360,7 +360,7 @@ sub NotificationAdd {
                 (name, valid_id, comments, create_time, create_by, change_time, change_by)
             VALUES (?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Param{ValidID}, \$Param{Comment},
+            \$Param{Name},   \$Param{ValidID}, \$Param{Comment},
             \$Param{UserID}, \$Param{UserID},
         ],
     );
@@ -852,9 +852,9 @@ sub NotificationImport {
 
     return {
         Success              => 1,
-        AddedNotifications   => join( ', ', @AddedNotifications ) || '',
+        AddedNotifications   => join( ', ', @AddedNotifications )   || '',
         UpdatedNotifications => join( ', ', @UpdatedNotifications ) || '',
-        NotificationErrors   => join( ', ', @NotificationErrors ) || '',
+        NotificationErrors   => join( ', ', @NotificationErrors )   || '',
     };
 }
 
