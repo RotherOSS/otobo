@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-16 16:02+0000\n"
-"Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
+"PO-Revision-Date: 2021-04-01 06:32+0000\n"
+"Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
 "Language: ja\n"
@@ -1298,11 +1298,11 @@ msgstr "データと接続"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "データと接続を追加"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "データと接続を編集"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1900,11 +1900,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "代表値フィールド名"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "有効フラグフィールド名"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
@@ -1932,7 +1932,7 @@ msgstr "値を追加"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "追加フィールドを複数定義できます。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
@@ -1952,7 +1952,7 @@ msgstr "ソートするフィールド"
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
-msgstr ""
+msgstr "ソート順。複数存在する場合にはカンマで区切ってください(任意)。"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
@@ -2003,7 +2003,7 @@ msgstr "検索フィールド"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "リスト"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2068,7 +2068,7 @@ msgstr "テーブル/ビューで一意な列が必須です。"
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
-msgstr "Multiselect"
+msgstr "複数選択"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
@@ -3135,7 +3135,7 @@ msgstr ""
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
-msgstr ""
+msgstr "例: '^.*401 Unauthorized.*\\\\$' と入力すると、認証エラーのみを処理します。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
@@ -5392,7 +5392,7 @@ msgstr "Ready2Adoptプロセスを有効にすることで、ベストプラク�
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "Ready2Adoptプロセスのインポート"
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5535,7 +5535,7 @@ msgstr "ロックをする"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr ""
+msgstr "選択されたロックは存在しません。"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
@@ -6184,21 +6184,21 @@ msgstr "システムを登録することのメリット"
 
 #. Template: AdminRegistration
 msgid "You will receive updates about relevant security releases."
-msgstr ""
+msgstr "セキュリティ関連のリリース通知を受け取ることができます。"
 
 #. Template: AdminRegistration
 msgid ""
 "With your system registration we can improve our services for you, because "
 "we have all relevant information available."
-msgstr ""
+msgstr "システム登録によりサービスの向上を図っていきます。"
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
-msgstr ""
+msgstr "さあはじめましょう!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
-msgstr ""
+msgstr "新しいサービスの通知を行います。"
 
 #. Template: AdminRegistration
 msgid "Can I use OTOBO without being registered?"
@@ -6218,7 +6218,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
-msgstr ""
+msgstr "いつでも登録を解除することができます。"
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
@@ -6232,7 +6232,7 @@ msgstr "登録されたシステムは、次のデータをOTOBOチームに送�
 msgid ""
 "Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating "
 "System and Perl version."
-msgstr ""
+msgstr "FQDN、OTOBOバージョン、データベース、OSとPerlのバージョン。"
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
@@ -7384,7 +7384,7 @@ msgstr ""
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr ""
+msgstr "メンテナンス開始前に利用者はメンテナンス通知を受け取ります。"
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
@@ -7712,11 +7712,11 @@ msgstr "無効な日付です。"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
-msgstr ""
+msgstr "終了日の設定の前にこの値を設定してください。"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value after Start date."
-msgstr ""
+msgstr "開始日の設定後にこの値を設定してください。"
 
 #. Template: AgentAppointmentEdit
 msgid "This an occurrence of a repeating appointment."
@@ -7912,7 +7912,7 @@ msgstr "12月"
 
 #. Template: AgentAppointmentEdit
 msgid "Relative point of time"
-msgstr ""
+msgstr "相対的な時間"
 
 #. Template: AgentAppointmentEdit
 msgid "Link"
@@ -8289,7 +8289,7 @@ msgstr "検索詳細"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Add an additional attribute"
-msgstr ""
+msgstr "属性の追加"
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
@@ -8411,7 +8411,7 @@ msgstr "個人設定"
 
 #. Template: AgentPreferences
 msgid "Please note: you're currently editing the preferences of %s."
-msgstr ""
+msgstr "注意: 現在プリファレンス %s を編集しています。"
 
 #. Template: AgentPreferences
 msgid "Go back to editing this agent"
@@ -8936,7 +8936,7 @@ msgstr "チケットには少なくとも1名の顧客を含めてください�
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
-msgstr ""
+msgstr "選択した顧客をメインの顧客にします。"
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
@@ -8964,7 +8964,7 @@ msgstr "チケット %s : 初回応答期限を超過しました(%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "チケット %s: 初回応答期限を超過しました %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
@@ -8972,7 +8972,7 @@ msgstr "チケット %s : 更新期限を超過しました(%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "チケット %s: 更新期限を超過しました %s/%s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
@@ -8980,7 +8980,7 @@ msgstr "チケット %s: 解決期限を超過しました(%s/%s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "チケット%s: 解決期限を超過しました %s/%s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
@@ -9028,7 +9028,7 @@ msgstr "検索のためチケット番号かタイトルを入力してくださ
 
 #. Template: AgentTicketMerge
 msgid "Limit the search to tickets with same Customer ID (%s)."
-msgstr ""
+msgstr "顧客ID(%s)での検索を制限します。"
 
 #. Template: AgentTicketMerge
 msgid "Inform Sender"
@@ -9388,7 +9388,7 @@ msgstr "全ての記事テキスト"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
-msgstr ""
+msgstr "イベントが存在しません。フィルター設定を変更してください。"
 
 #. Template: Chat
 msgid "#%s"
@@ -9518,7 +9518,7 @@ msgstr "ワンクリックで同意します。"
 msgid ""
 "The customer ID is not changeable, no other customer ID can be assigned to "
 "this ticket."
-msgstr ""
+msgstr "チケットに紐付いている顧客IDは変更できません。"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -9600,7 +9600,7 @@ msgstr "ご利用のブラウザは古すぎます。"
 msgid ""
 "This software runs with a huge lists of browsers, please upgrade to one of "
 "these."
-msgstr ""
+msgstr "このソフトウェアは多数のブラウザに対応しています。それらを使用してください。"
 
 #. Template: CustomerLogin
 msgid "Please see the documentation or ask your admin for further information."
@@ -11111,11 +11111,11 @@ msgstr "OTOBOからアンインストール"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "無視"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "マイグレーション"
 
 #. JS Template: InformationDialog
 msgid "Process state"
@@ -11147,7 +11147,7 @@ msgstr "デプロイ・コメント..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "250文字以内にしてください。"
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
@@ -11179,7 +11179,7 @@ msgstr ""
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "変更をすべて解除。"
 
 #. JS Template: DialogReset
 msgid "Reset locally"
