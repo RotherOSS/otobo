@@ -378,28 +378,6 @@ sub DataTransfer {
     # get a list of tables on OTOBO DB
     my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
 
-    # TODO: put this into Driver/mysql.pm
-    my ( $SourceSchema, $TargetSchema );
-    {
-        if ( $SourceDBObject->{'DB::Type'} eq 'mysql' ) {
-            $SourceSchema = (
-                $SourceDBObject->SelectAll(
-                    SQL   => 'SELECT DATABASE()',
-                    Limit => 1,
-                ) // [ ['unknown source database'] ]
-            )->[0]->[0];
-        }
-
-        if ( $TargetDBObject->{'DB::Type'} eq 'mysql' ) {
-            $TargetSchema = (
-                $TargetDBObject->SelectAll(
-                    SQL   => 'SELECT DATABASE()',
-                    Limit => 1,
-                ) // [ ['unknown target database'] ]
-            )->[0]->[0];
-        }
-    }
-
     # Collect information about the OTRS tables.
     # Decide whether batch insert, or destructive table renaming, is possible for a table.
     # Trunkate the target OTOBO tables.
