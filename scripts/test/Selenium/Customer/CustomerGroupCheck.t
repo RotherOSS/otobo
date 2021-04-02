@@ -16,12 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 # get selenium object
 my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
@@ -220,20 +226,10 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # check ticket data
-        $Self->True(
-            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Ticket number is $TicketNumber",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Some Ticket Title' ) > -1,
-            "Ticket title is 'Some Ticket Title'",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), $CustomerIDs[1] ) > -1,
-            "Queue is $CustomerIDs[1]",
-        );
+        $Selenium->LogExecuteCommandActive(0);
+        $Selenium->content_contains( $TicketNumber,       "Ticket number is $TicketNumber" );
+        $Selenium->content_contains( 'Some Ticket Title', "Ticket title is 'Some Ticket Title'" );
+        $Selenium->content_contains( $CustomerIDs[1],     "Queue is $CustomerIDs[1] in Ticket Information" );
 
         # check buttons
         $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]");
@@ -313,4 +309,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing();
