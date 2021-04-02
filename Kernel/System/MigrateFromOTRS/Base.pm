@@ -98,9 +98,7 @@ sub CleanLicenseHeader {
     my $NewContent;
 
     # Open file
-    ## no critic qw(InputOutput::RequireBriefOpen)
-    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;
-
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
@@ -339,8 +337,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
     my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );
-
+    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
@@ -1301,25 +1298,26 @@ sub ResetConfigOption {
     };
 }
 
+# These tables will either be not  migrated or in some cases truncated.
+# The table names must be in lower case.
+# The order of the tables is relevant. Truncating must be possible
+# without violating foreign key constraints.
 sub DBSkipTables {
-
-    # These tables will not be migrated.
-    # Note: entries should be in lower case
-    return {
-        cloud_service_config           => 1,
-        communication_log              => 1,
-        communication_log_obj_lookup   => 1,
-        communication_log_object       => 1,
-        communication_log_object_entry => 1,
-        gi_debugger_entry              => 1,
-        gi_debugger_entry_content      => 1,
-        package_repository             => 1,
-        process_id                     => 1,
-        scheduler_recurrent_task       => 1,
-        sessions                       => 1,
-        system_data                    => 1,
-        web_upload_cache               => 1,
-    };
+    return qw(
+        cloud_service_config
+        communication_log_obj_lookup
+        communication_log_object_entry
+        communication_log_object
+        communication_log
+        gi_debugger_entry_content
+        gi_debugger_entry
+        package_repository
+        process_id
+        scheduler_recurrent_task
+        sessions
+        system_data
+        web_upload_cache
+    );
 }
 
 # OTOBO Table Name => OTRS Table Name
