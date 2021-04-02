@@ -26,6 +26,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
@@ -60,7 +61,7 @@ sub Hex2RGB {
     return sprintf( 'rgb(%s, %s, %s)', @Channels );
 }
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {

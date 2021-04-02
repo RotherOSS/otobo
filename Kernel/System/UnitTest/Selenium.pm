@@ -42,13 +42,7 @@ use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::AuthSession',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::UnitTest::Helper',
-);
+our $ObjectManagerDisabled = 1;
 
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
@@ -118,7 +112,7 @@ has _TestException => (
 # suppress testing events
 has LogExecuteCommandActive => (
     is      => 'rw',
-    default => 1,
+    default => 0,
 );
 
 =head1 NAME
@@ -171,7 +165,7 @@ a failing test result including a stack trace and generate a screen shot for ana
 =cut
 
 around BUILDARGS => sub {
-    my ( $Orig, $Class ) = @_;
+    my ( $Orig, $Class, @Args ) = @_;
 
     # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
@@ -231,6 +225,7 @@ around BUILDARGS => sub {
             return $Self->SeleniumErrorHandler(@_);
         },
         $SeleniumTestsConfig->%*,
+        @Args,
     );
 };
 
