@@ -38,7 +38,6 @@ $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->ConfigSettingChange(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
 # prefilled with the correct data. This is because of bug

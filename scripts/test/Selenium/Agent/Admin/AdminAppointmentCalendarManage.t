@@ -33,7 +33,6 @@ $Kernel::OM->ObjectParamAdd(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
         my $Helper      = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');

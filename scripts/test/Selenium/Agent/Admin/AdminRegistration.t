@@ -39,7 +39,6 @@ my $Running = $Kernel::OM->Get('Kernel::System::Cache')->Set(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
