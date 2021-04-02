@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-01 12:18+0000\n"
+"PO-Revision-Date: 2021-04-02 08:20+0000\n"
 "Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
@@ -141,7 +141,7 @@ msgstr "コピー"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr "データがありません"
+msgstr "データがありません。"
 
 #. Template: AdminACL
 msgid "No matches found."
@@ -535,7 +535,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr "存在する通知を上書きしますか。"
+msgstr "存在する通知を上書きしますか?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
@@ -762,7 +762,7 @@ msgstr "次のタグを使用できます"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr "アポイントの表題から最初の20文字を取得"
+msgstr "アポイントの表題から最初の20文字を取得します。"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
@@ -770,7 +770,7 @@ msgstr "予定の属性を取得すること"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "例"
+msgstr " 例:"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -813,8 +813,7 @@ msgstr "メールテンプレート"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
-"完全なメールを生成するためにこのテンプレートを使う。(HTMLメールに対してのみ)"
+msgstr "完全なメールを生成するためにこのテンプレートを使用(HTMLメールに対してのみ)。"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
@@ -906,11 +905,11 @@ msgstr "用例"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
-msgstr "表題の最初の20文字を取得"
+msgstr "表題の最初の20文字を取得します。"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 5 lines of the email."
-msgstr "メールの最初の5行を取得"
+msgstr "メールの最初の5行を取得します。"
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
@@ -1294,15 +1293,15 @@ msgstr "データ管理との連絡"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
-msgstr "データと接続"
+msgstr "追加連絡先"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr "データと接続を追加"
+msgstr "追加連絡先を追加"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr "データと接続を編集"
+msgstr "追加連絡先を編集"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -11933,7 +11932,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
-msgstr ""
+msgstr "エラーハンドラ %s の設定がどれか決定できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing outgoing request data"
@@ -12145,11 +12144,11 @@ msgstr "文字列"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "正規表現"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
-msgstr ""
+msgstr "バリデーション・モジュール"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
@@ -12323,11 +12322,11 @@ msgstr "Invokers(API実行元)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
-msgstr ""
+msgstr "WebserviceHistoryIDが存在しません!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "WebserviceHistoryID %sの履歴データが取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminGroup.pm
 msgid "Group updated!"
@@ -12341,7 +12340,7 @@ msgstr "メールアカウントを追加しました。"
 msgid ""
 "Email account fetch already fetched by another process. Please try again "
 "later!"
-msgstr ""
+msgstr "他のプロセスがメール取得中です。時間をおいて実行してください!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
@@ -12385,7 +12384,7 @@ msgstr "チケットのキュー及びサービスを購読しているすべて
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "チケットの顧客ユーザー"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
@@ -12397,11 +12396,11 @@ msgstr "最後の記事の全ての受信者"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "顧客には非表示"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "顧客に表示"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
@@ -12524,12 +12523,12 @@ msgstr "リポジトリ・リスト"
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
-msgstr ""
+msgstr "選択したリポジトリにはパッケージが存在しません。ログを確認してください!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
-msgstr ""
+msgstr "認証サーバーとの通信ができないためパッケージの正当性が確認できませんでした!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTOBO Feature Add-on list server!"
@@ -12569,15 +12568,15 @@ msgstr "ProcessIDが必要!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "はい(必須)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
-msgstr ""
+msgstr "プロセス %sは存在しません!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
-msgstr ""
+msgstr "EntityID生成時にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
@@ -12585,7 +12584,7 @@ msgstr "非アクティブなステータスのStateEntityIDは存在しませ�
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
+msgstr "プロセス生成時にエラーが発生しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
@@ -12594,31 +12593,31 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
-msgstr ""
+msgstr "ProcessID %sのデータが取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "プロセスの更新に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
-msgstr ""
+msgstr "プロセス %s は削除できません"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr ""
+msgstr "プロセスの同期に失敗しました。"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "%s:%s は使用中です"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "%s:%sはEntityIDが異なります"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "%s:%sは削除できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
@@ -12634,20 +12633,20 @@ msgstr "%s の入力が必要です!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
-msgstr ""
+msgstr "プロセス%sは有効ではありません"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr ""
+msgstr "EntityIDの生成に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr ""
+msgstr "アクティビティの生成に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
-msgstr ""
+msgstr "アクティビティ%sの同期に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
@@ -12655,15 +12654,15 @@ msgstr "ActivityIDが必要!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
-msgstr ""
+msgstr "ActivityID %sのデータの取得に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
-msgstr ""
+msgstr "アクティビティの更新に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
-msgstr ""
+msgstr "パラメータが足りません。アクティビティもしくはアクティビティ・ダイアログが必要です!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
@@ -12677,11 +12676,11 @@ msgstr "ActivityDialogが見つかりません!"
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
-msgstr ""
+msgstr "アクティビティダイアログはすでにアクティビティに割り当てられていてます。複数のアクティビティに割り当てることはできません!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr ""
+msgstr "アクティビティの保存に失敗しました!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
@@ -12693,7 +12692,7 @@ msgstr "アクティビティ \"%s\" を編集"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error generating a new EntityID for this ActivityDialog"
-msgstr ""
+msgstr "新しいEntityIDの生成に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error creating the ActivityDialog"
@@ -12703,7 +12702,7 @@ msgstr "アクティビティ・ダイアログを作成する際にエラーが
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity: "
 "%s"
-msgstr ""
+msgstr "ActivityDiarlog %sの同期似失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
@@ -12719,7 +12718,7 @@ msgstr "アクティビティ・ダイアログの更新時にエラーが発生
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Edit Activity Dialog \"%s\""
-msgstr ""
+msgstr "アクティビティダイアログ%sの編集"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
@@ -12760,7 +12759,7 @@ msgstr "遷移の作成時にエラーが発生しました。"
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
-msgstr ""
+msgstr "遷移%sの同期に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
@@ -12784,7 +12783,7 @@ msgstr "遷移有効化モジュール"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
-msgstr ""
+msgstr "適切な設定が最低1つは必要です。"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
@@ -12798,7 +12797,7 @@ msgstr "遷移動作の作成時にエラーが発生しました。"
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
-msgstr ""
+msgstr "遷移動作%sの同期に失敗しました"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
@@ -12818,7 +12817,7 @@ msgstr "遷移動作 \"%s\" の編集"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
-msgstr ""
+msgstr "エラー: (例)キー項目が未設定など で失敗しました。"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
@@ -13064,19 +13063,19 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "編集済みバージョン"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "デフォルトに戻す"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "デフォルトバージョン"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "設定名か修正バージョンIDが指定されていません!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
@@ -18772,7 +18771,7 @@ msgstr ""
 msgid ""
 "Agent frontend module registration (disable 'Edit contacts with data' link "
 "if if there is no source field configured)."
-msgstr ""
+msgstr "担当者のフロントエンドモジュールを登録します(追加連絡先が構成されている必要があります)。"
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
