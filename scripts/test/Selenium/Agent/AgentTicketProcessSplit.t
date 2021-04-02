@@ -216,9 +216,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Check if customer user input is on create process screen.
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
 
         # Create Process ticket without article.
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys('Huber');
