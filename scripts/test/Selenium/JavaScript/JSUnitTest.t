@@ -33,7 +33,7 @@ our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+my $Selenium     = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {

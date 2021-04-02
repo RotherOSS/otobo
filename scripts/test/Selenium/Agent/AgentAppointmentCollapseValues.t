@@ -29,7 +29,6 @@ use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 # Check if team object is registered.
 if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calendar::Team', Silent => 1 ) ) {
     $Self->True(
