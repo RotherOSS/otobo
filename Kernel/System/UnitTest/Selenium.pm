@@ -42,13 +42,7 @@ use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::AuthSession',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::UnitTest::Helper',
-);
+our $ObjectManagerDisabled = 1;
 
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.

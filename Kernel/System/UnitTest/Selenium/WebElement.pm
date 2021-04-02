@@ -44,6 +44,8 @@ use Test2::API qw/context run_subtest/;
 
 extends 'Test::Selenium::Remote::WebElement';
 
+our $ObjectManagerDisabled = 1;
+
 =head2 VerifiedSubmit()
 
 Submit a form element and wait for the page to be fully loaded.
