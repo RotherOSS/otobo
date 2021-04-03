@@ -27,15 +27,9 @@ use Test2::V0;
 use Path::Class qw(dir file);
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 plan( tests => 4 );
-
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Migrate::OTRSToOTOBO');
 my $Home          = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -43,15 +37,16 @@ my $Home          = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 subtest
     'error with missing parameter --target',
     sub {
-        my ($ExitCode, $Stderr);
+        my ( $ExitCode, $Stderr );
         {
             local *STDERR;
-            open STDERR, '>:encoding(UTF-8)', \$Stderr;
+            open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--source" => "$Home/Kernel/Config/Files/NotExisting/Source",
                 '--cleanxmlconfig',
             );
         }
+
         #note( $Stderr );
 
         # exit code 1 indicates failure
@@ -62,16 +57,17 @@ subtest
 subtest
     'error with extra parameter --source',
     sub {
-        my ($ExitCode, $Stderr);
+        my ( $ExitCode, $Stderr );
         {
             local *STDERR;
-            open STDERR, '>:encoding(UTF-8)', \$Stderr;
+            open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
                 "--source" => "$Home/Kernel/Config/Files/NotExisting/Source",
                 '--cleanxmlconfig',
             );
         }
+
         #note( $Stderr );
 
         # exit code 1 indicates failure
@@ -82,16 +78,17 @@ subtest
 subtest
     'error with non-existing source dir',
     sub {
-        my ($ExitCode, $Stderr);
+        my ( $ExitCode, $Stderr );
         {
             local *STDERR;
-            open STDERR, '>:encoding(UTF-8)', \$Stderr;
+            open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
                 '--cleanxmlconfig',
                 "$Home/Kernel/Config/Files/NotExisting/Source",
             );
         }
+
         #note( $Stderr );
 
         # exit code 1 indicates failure
@@ -103,28 +100,28 @@ subtest
     'actual migration',
     sub {
         # copy a sample file to a testdir
-        my $TestDir = dir($Home)->subdir('tmp/Test/Migrate/OTRSToOTOBO');
-        my $SourceDir = $TestDir->subdir( 'Source' );
+        my $TestDir   = dir($Home)->subdir('tmp/Test/Migrate/OTRSToOTOBO');
+        my $SourceDir = $TestDir->subdir('Source');
         $SourceDir->mkpath();
-        my $TargetDir = $TestDir->subdir( 'Target' );
+        my $TargetDir = $TestDir->subdir('Target');
         $TargetDir->mkpath();
 
         # copy the sample file to the test dir, the workfile will be modified later
-        my $SampleFile  = dir($Home)->file('scripts/test/sample/SysConfig/MigrateOTRSToOTOBO.xml');
-        my $SourceFile  = $SampleFile->copy_to( $SourceDir->file('MigrateOTRSToOTOBO.xml') );
-        my $TargetFile  = $TargetDir->file('MigrateOTRSToOTOBO.xml');
+        my $SampleFile = dir($Home)->file('scripts/test/sample/SysConfig/MigrateOTRSToOTOBO.xml');
+        my $SourceFile = $SampleFile->copy_to( $SourceDir->file('MigrateOTRSToOTOBO.xml') );
+        my $TargetFile = $TargetDir->file('MigrateOTRSToOTOBO.xml');
 
-        my ($ExitCode, $Stderr);
+        my ( $ExitCode, $Stderr );
         {
             local *STDERR;
-            open STDERR, '>:encoding(UTF-8)', \$Stderr;
+            open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 '--cleanxmlconfig',
                 '--target' => $TargetDir->stringify(),
                 $SourceDir->stringify(),
             );
         }
-        note( "stderr: $Stderr" );
+        note("stderr: $Stderr");
 
         # exit code 0 indicates success
         is( $ExitCode, 0, 'success' );
