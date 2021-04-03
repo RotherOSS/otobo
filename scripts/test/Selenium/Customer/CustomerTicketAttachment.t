@@ -107,7 +107,8 @@ $Selenium->RunTest(
         ok( $TicketNumber, 'Ticket was created and found' );
 
         # Click on test created ticket on CustomerTicketOverview screen.
-        $Selenium->find_element( $TicketNumber, 'link_text' )->VerifiedClick();
+        $Selenium->find_element_ok( $TicketNumber, 'partial_link_text' );
+        $Selenium->find_element( $TicketNumber, 'partial_link_text' )->VerifiedClick();
 
         # Click on attachment to open it.
         $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
