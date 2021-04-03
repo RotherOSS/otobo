@@ -48,7 +48,8 @@ our $ObjectManagerDisabled = 1;
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
 # Extending with 'around' is only done when the the class is actually extended.
 {
-    # check whether Selenium testing is activated.
+    # Check whether Selenium testing is activated.
+    # Note that $Kernel::OM must exist before this module is loaded.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
 
     if ( $SeleniumTestsConfig->%* ) {
