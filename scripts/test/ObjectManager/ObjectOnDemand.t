@@ -16,9 +16,14 @@
 
 use strict;
 use warnings;
+use v5.24;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 use vars (qw($Self));
 

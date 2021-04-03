@@ -25,15 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-# because OTOBO modules expect $Kernel::OM
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );

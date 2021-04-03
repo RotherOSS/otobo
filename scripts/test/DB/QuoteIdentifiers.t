@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 my @Tests = (
     {
@@ -60,12 +60,6 @@ my @Tests = (
 );
 
 plan( scalar @Tests );
-
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
 
 # get DB object
 my $DBObject = $Kernel::OM->Get('Kernel::System::DB');

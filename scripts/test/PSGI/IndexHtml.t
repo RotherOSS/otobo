@@ -26,7 +26,7 @@ use Test2::Tools::HTTP;
 use HTTP::Request::Common;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 # This test checks whether the URLs / and /index.html work
 
@@ -35,12 +35,6 @@ use Kernel::System::ObjectManager;
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
 plan(3);
-
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
 
 # get needed singletons
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
