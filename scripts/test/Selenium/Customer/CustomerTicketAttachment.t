@@ -70,8 +70,9 @@ $Selenium->RunTest(
             Password => $TestCustomerUserLogin,
         );
 
-        # Click on 'Create your first ticket'.
-        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
+        # Click on 'Issue a ticket'.
+        $Selenium->find_element_ok( '.oooTile_NewTicket', 'css' );
+        $Selenium->find_element( '.oooTile_NewTicket', 'css' )->VerifiedClick();
 
         # Set up needed variables.
         my $RandomID       = $Helper->GetRandomID();
