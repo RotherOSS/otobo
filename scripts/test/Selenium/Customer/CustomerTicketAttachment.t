@@ -16,21 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM, $Self is not used
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Do not check RichText.
@@ -72,20 +73,16 @@ $Selenium->RunTest(
         # Click on 'Create your first ticket'.
         $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
 
-        # Create needed variables.
-        my $SubjectRandom  = "Subject" . $Helper->GetRandomID();
-        my $TextRandom     = "Text" . $Helper->GetRandomID();
-        my $AttachmentName = "StdAttachment-Test1.txt";
-        my $Location       = $Kernel::OM->Get('Kernel::Config')->Get('Home')
-            . "/scripts/test/sample/StdAttachment/$AttachmentName";
+        # Set up needed variables.
+        my $RandomID       = $Helper->GetRandomID();
+        my $SubjectRandom  = 'Subject' . $RandomID;
+        my $TextRandom     = 'Text' . $RandomID;
+        my $AttachmentName = 'StdAttachment-Test1.txt';
+        my $Location       = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
         # Hide DnDUpload and show input field.
-        $Selenium->execute_script(
-            "\$('.DnDUpload').css('display', 'none')"
-        );
-        $Selenium->execute_script(
-            "\$('#FileUpload').css('display', 'block')"
-        );
+        $Selenium->execute_script(q{$('.DnDUpload').css('display', 'none')});
+        $Selenium->execute_script(q{$('#FileUpload').css('display', 'block')});
 
         # Input fields and create ticket.
         $Selenium->InputFieldValueSet(
@@ -101,18 +98,12 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Get test created ticket ID and number.
-        my %TicketIDs = $TicketObject->TicketSearch(
+        my ( $TicketID, $TicketNumber ) = $TicketObject->TicketSearch(
             Result         => 'HASH',
             Limit          => 1,
             CustomerUserID => $TestCustomerUserLogin,
         );
-        my $TicketID     = (%TicketIDs)[0];
-        my $TicketNumber = (%TicketIDs)[1];
-
-        $Self->True(
-            $TicketNumber,
-            "Ticket was created and found",
-        );
+        ok( $TicketNumber, 'Ticket was created and found' );
 
         # Click on test created ticket on CustomerTicketOverview screen.
         $Selenium->find_element( $TicketNumber, 'link_text' )->VerifiedClick();
@@ -148,14 +139,11 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket number $TicketNumber is deleted"
-        );
+        ok( $Success, "Ticket with ticket number $TicketNumber is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
-$Self->DoneTesting();
+done_testing();
