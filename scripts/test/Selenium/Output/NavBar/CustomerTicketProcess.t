@@ -29,7 +29,10 @@ my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagemen
 my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+
 
 $Selenium->RunTest(
     sub {

@@ -25,19 +25,12 @@ use utf8;
 use Test2::V0 qw(plan is note like);
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
-
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 plan(2);
 
-my $Helper   = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $RandomID = $Helper->GetRandomID();
-
+my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $RandomID      = $Helper->GetRandomID();
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::UnitTest::Run');
 
 my @Tests = (
@@ -79,9 +72,9 @@ for my $Test (@Tests) {
     my ( $ResultStdout, $ResultStderr, $ExitCode );
     {
         local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$ResultStdout;
+        open STDOUT, '>:encoding(UTF-8)', \$ResultStdout;    ## no critic qw(OTOBO::ProhibitOpen)
         local *STDERR;
-        open STDERR, '>:encoding(UTF-8)', \$ResultStderr;
+        open STDERR, '>:encoding(UTF-8)', \$ResultStderr;    ## no critic qw(OTOBO::ProhibitOpen)
 
         $ExitCode = $CommandObject->Execute( '--test', $Test->{Test}, '--quiet' );
     }

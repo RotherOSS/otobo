@@ -31,8 +31,9 @@ It sets up the variables C<$main::Self> and C<$Kernel::OM>.
 
 =cut
 
-use v5.24;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -49,7 +50,7 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     # RegisterDriver is meant for test scripts,
     # meaning that each sript has it's own process.
     # This means that we don't have to localize $Kernel::OM.
-    # This is good, we are in a subroutine that does not eval the test script.
+    # This is good, as we are in a subroutine that does not eval the test script.
     $Kernel::OM = Kernel::System::ObjectManager->new(
 
         # Log to an identifiable logfile.
@@ -65,23 +66,13 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     return;
 }
 
-# this also seems to avoid memory leaks
-{
-    # remember the id of the process that loaded this module.
-    my $OriginalPID = $$;
+END {
 
-    END {
-        # Kernel::System::Daemon::DaemonModules::SchedulerTaskWorker, and maybe other modules, is forking processes.
-        # But we want no cleanup in the child processes.
-        if ( $$ == $OriginalPID ) {
-
-            # trigger Kernel::System::UnitTest::Helper::DESTROY()
-            # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
-            $Kernel::OM->ObjectsDiscard(
-                Objects => ['Kernel::System::UnitTest::Helper'],
-            );
-        }
-    }
+    # trigger Kernel::System::UnitTest::Helper::DESTROY()
+    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::System::UnitTest::Helper'],
+    );
 }
 
 1;

@@ -34,7 +34,9 @@ $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->ConfigSettingChange(
 );
 
 # get selenium object
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
