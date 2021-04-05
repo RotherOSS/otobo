@@ -30,7 +30,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -72,8 +71,8 @@ $Selenium->RunTest(
             "Queue is created - $QueueName"
         );
 
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
+        # click on 'Please click here, to create a new one'
+        $Selenium->find_element( '.oooTicketListMessage', 'css' )->VerifiedClick();
 
         # verify that test queue is available for users group
         $Self->True(
