@@ -16,16 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -115,7 +118,7 @@ $Selenium->RunTest(
             UserID   => $TestUserID,
         );
 
-        $Self->Is(
+        is(
             $Process->{Name},
             'TestProcess',
             "Test process is created"
@@ -131,7 +134,7 @@ $Selenium->RunTest(
         );
 
         # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length' );
+        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
         # input process ticket subject and body
         my $SubjectRand = 'ProcessSubject-' . $Helper->GetRandomID();
@@ -140,13 +143,13 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body. ᾴ - U+01FB4 - GREEK SMALL LETTER ALPHA WITH OXIA AND YPOGEGRAMMENI');
 
         # Check if default value for title is shown.
         # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
         my $TitleValue = 'Test Process Title Default';
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#Title').val();"),
             $TitleValue,
             "Title field Default value is: $TitleValue",
@@ -172,7 +175,7 @@ $Selenium->RunTest(
             UserID   => 1,
         );
 
-        $Self->Is(
+        is(
             $Ticket{CreateBy},
             $TestUserID,
             "Test ticket process is created"
@@ -182,7 +185,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
         # Check ticket title.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('.Headline.NoMargin h1').text().trim().split(\" — \").pop();"),
             $TitleValue,
             "Ticket title is: $TitleValue",
@@ -190,19 +193,21 @@ $Selenium->RunTest(
 
         # verify there is 'Process Information' widget
         my $ParentElement = $Selenium->find_element( ".SidebarColumn", 'css' );
-        $Self->Is(
+        is(
             $Selenium->find_child_element( $ParentElement, '.Header>h2', 'css' )->get_text(),
             'Process Information',
             'Process Information widget is enabled',
         );
 
         # verify there are process informations in 'Process Information' widget
-        $Self->True(
-            $Selenium->find_element("//p[contains(\@title, \'TestProcess' )]"),
+        $Selenium->find_element_ok(
+            "//p[contains(\@title, \'TestProcess' )]",
+            'xpath',
             "Process name found in Process Information widget"
         );
-        $Self->True(
-            $Selenium->find_element("//p[contains(\@title, \'Shipping' )]"),
+        $Selenium->find_element_ok(
+            "//p[contains(\@title, \'Shipping' )]",
+            'xpath',
             "Process activity found in Ticket Information widget"
         );
 
@@ -235,30 +240,28 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # verify there is new activity in 'Process Information' widget
-        $Self->True(
-            $Selenium->find_element("//p[contains(\@title, \'Ordering complete' )]"),
+        $Selenium->find_element_ok(
+            "//p[contains(\@title, \'Ordering complete' )]",
+            'xpath',
             "Process activity found in Process Information widget"
         );
 
         # cleanup test data
         # delete test process ticket
-        my $Success = $TicketObject->TicketDelete(
+        my $TicketDeleteSuccess = $TicketObject->TicketDelete(
             TicketID => $TicketIDs[0],
             UserID   => $TestUserID,
         );
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
+        if ( !$TicketDeleteSuccess ) {
             sleep 3;
-            $Success = $TicketObject->TicketDelete(
+            $TicketDeleteSuccess = $TicketObject->TicketDelete(
                 TicketID => $TicketIDs[0],
                 UserID   => $TestUserID,
             );
         }
-        $Self->True(
-            $Success,
-            "Process ticket ID $TicketIDs[0] is deleted",
-        );
+        ok( $TicketDeleteSuccess, "Process ticket ID $TicketIDs[0] is deleted" );
 
         # get needed objects
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
@@ -280,26 +283,19 @@ $Selenium->RunTest(
                 );
 
                 # delete test activity dialog
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog $ActivityDialog->{Name} is deleted",
-                );
+                ok( $Success, "ActivityDialog $ActivityDialog->{Name} is deleted", );
             }
 
             # delete test activity
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity $Activity->{Name} is deleted",
-            );
+            ok( $Success, "Activity $Activity->{Name} is deleted" );
         }
 
         # get transition actions object
@@ -313,15 +309,11 @@ $Selenium->RunTest(
             );
 
             # delete test transition action
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "TransitionAction $TransitionAction->{Name} is deleted",
-            );
+            ok( $Success, "TransitionAction $TransitionAction->{Name} is deleted" );
         }
 
         # get transition object
@@ -335,27 +327,19 @@ $Selenium->RunTest(
             );
 
             # delete test transition
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition $Transition->{Name} is deleted",
-            );
+            ok( $Success, "Transition $Transition->{Name} is deleted" );
         }
 
         # delete test process
-        $Success = $ProcessObject->ProcessDelete(
+        my $ProcessDeleteSuccess = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-
-        $Self->True(
-            $Success,
-            "Process $Process->{Name} is deleted",
-        );
+        ok( $ProcessDeleteSuccess, "Process $Process->{Name} is deleted" );
 
         # navigate to AdminProcessManagement screen
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
@@ -373,7 +357,6 @@ $Selenium->RunTest(
             );
         }
     }
-
 );
 
-$Self->DoneTesting();
+done_testing();
