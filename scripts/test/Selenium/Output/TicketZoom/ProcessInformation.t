@@ -141,7 +141,7 @@ $Selenium->RunTest(
             Value   => 2,
         );
         $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body. ᾴ - U+01FB4 - GREEK SMALL LETTER ALPHA WITH OXIA AND YPOGEGRAMMENI');
 
         # Check if default value for title is shown.
         # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
