@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
@@ -131,7 +132,7 @@ $Selenium->RunTest(
         );
 
         # wait until page has loaded, if necessary
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length' );
+        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
         # input process ticket subject and body
         my $SubjectRand = 'ProcessSubject-' . $Helper->GetRandomID();
