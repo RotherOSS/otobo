@@ -29,6 +29,8 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (not used) and $
 use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 
+skip_all('Error handling is either changed or broken. See issue #900');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
