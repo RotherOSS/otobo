@@ -130,7 +130,6 @@ sub Run {
         my $Output = $LayoutObject->CustomerHeader(
             Title => Translatable('Preferences'),
         );
-        $Output .= $LayoutObject->CustomerNavigationBar();
 
         # get param
         my $Message  = $ParamObject->GetParam( Param => 'Message' )  || '';
@@ -153,6 +152,7 @@ sub Run {
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $Self->{UserLogin} );
         $Output .= $Self->CustomerPreferencesForm( UserData => \%UserData );
+        $Output .= $LayoutObject->CustomerNavigationBar();
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
