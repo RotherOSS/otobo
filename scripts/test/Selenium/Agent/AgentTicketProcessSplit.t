@@ -348,10 +348,9 @@ $Selenium->RunTest(
             "Customer field is available."
         ) || die;
 
-        my $Success;
         for my $TicketID (@DeleteTicketIDs) {
 
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
@@ -385,7 +384,7 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
@@ -393,7 +392,7 @@ $Selenium->RunTest(
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
@@ -410,7 +409,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
@@ -426,7 +425,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
@@ -435,7 +434,7 @@ $Selenium->RunTest(
 
         # Delete created test customer users.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $Success = $DBObject->Do(
+        my $Success  = $DBObject->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$CustomerUser ],
         );
