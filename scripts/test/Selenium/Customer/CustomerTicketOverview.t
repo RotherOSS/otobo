@@ -284,36 +284,25 @@ $Selenium->RunTest(
             ok( $TitleElement, "Customer Ticket Overview table title element found" );
             $TitleElement->text_like( qr{\QUntitled!\E}, "Customer Ticket Overview table contains 'Untitled!' as ticket title part" );
 
-        # check All filter on CustomerTicketOverview screen
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
-        )->VerifiedClick();
+            # No check whether the table contains article as the customer interface has been changed.
+        }
 
-        # Check if table contains article.
-        my $TicketNumbeProcess = $TicketObject->TicketNumberLookup(
-            TicketID => $TicketIDProcess,
+        # show customer user tickets
+        my $MyTicketsElement = $Selenium->find_element(
+            q{//a[contains(@href, 'Action=CustomerTicketOverview;Subaction=MyTickets')]}
         );
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumbeProcess\"]').closest('tr').find('td:contains($TicketBody)').length === 1"
-            ),
-            '1',
-            'Customer Ticket Overview table contain process with visible article',
-        );
+        ok( $MyTicketsElement, 'Tickets link found' );
+        $MyTicketsElement->VerifiedClick();
 
-        $Self->True(
+        # No check whether the table contains article as the customer interface has been changed.
+
+        # check for ticket
+        ok(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with All filter"
         );
 
-        # check if there is the header of overview table for sorting tickets
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#MainBox').hasClass('Sortable')"
-            ),
-            '1',
-            'There is the header of overview table for sorting tickets.',
-        );
+        # no check for sorting tickets, as the customer interface has changed
 
         # check Close filter on CustomerTicketOverview screen
         # there is only one created ticket, and it should not be on screen with Close filter
@@ -338,14 +327,7 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
         )->VerifiedClick();
 
-        # check if there is not the header of overview table for sorting tickets
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#MainBox').hasClass('Sortable')"
-            ),
-            '0',
-            'There is not the header of overview table for sorting tickets.',
-        );
+        # no check for sorting tickets, as the customer interface has changed
 
         # Clean up.
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
