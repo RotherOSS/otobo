@@ -16,15 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -51,7 +54,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $TicketID,
             "Ticket is created - $TicketID",
         );
@@ -73,7 +76,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
+        ok(
             $ArticleID,
             "ArticleCreate - ID $ArticleID",
         );
@@ -253,14 +256,14 @@ $Selenium->RunTest(
         );
 
         # Search for new created ticket on CustomerTicketOverview screen (default filter is Open)
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with Open filter"
         );
 
         # Make sure the article body is not displayed (internal article).
-        $Self->True(
-            index( $Selenium->get_page_source(), $InvisibleBody ) == -1,
+        $Selenium->content_lacks(
+            $InvisibleBody,
             'Article body is not visible to customer',
         );
 
@@ -328,8 +331,8 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=Close' )]"
         )->VerifiedClick();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "Action=CustomerTicketZoom;TicketNumber=$TicketNumber" ) == -1,
+        $Selenium->content_lacks(
+            "Action=CustomerTicketZoom;TicketNumber=$TicketNumber",
             "Ticket with ticket number $TicketNumber is not found on screen with Close filter"
         );
 
@@ -386,10 +389,7 @@ $Selenium->RunTest(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
@@ -397,11 +397,7 @@ $Selenium->RunTest(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -417,10 +413,7 @@ $Selenium->RunTest(
                 UserID => $TestUserID,
             );
 
-            $Self->True(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -435,11 +428,7 @@ $Selenium->RunTest(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
@@ -447,11 +436,7 @@ $Selenium->RunTest(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-
-        $Self->True(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -466,10 +451,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket number $TicketNumber is deleted"
-        );
+        ok( $Success, "Ticket with ticket number $TicketNumber is deleted" );
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
@@ -509,4 +491,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
