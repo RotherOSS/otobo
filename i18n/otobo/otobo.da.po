@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-02-15 04:19+0000\n"
+"PO-Revision-Date: 2021-04-06 13:00+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -1557,11 +1557,11 @@ msgstr "Syntaksen på denne mail-adresse er forkert."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Dette kundenummer er ugyldigt."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Effektive tilladelser for Kunde Bruger"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1569,7 +1569,7 @@ msgstr "Gruppe-Tilladelser"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Denne kunde har ingen gruppe tilladelser."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1578,10 +1578,14 @@ msgid ""
 "groups). Note: The table does not consider changes made to this form without "
 "submitting it."
 msgstr ""
+"Tabellen ovenfor viser de effektive gruppetilladelser for kunde brugeren. "
+"Matrixen viser alle nedarvede tilladelser (f.eks. via kunde grupper). Bemærk:"
+" Denne tabel tager ikke ændringer med, der er lavet i denne formular, uden "
+"at submitte den."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Kunde adgang"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1589,7 +1593,7 @@ msgstr "Kunde"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Denne kunde har ingen kunde adgang."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1598,10 +1602,14 @@ msgid ""
 "via customer groups). Note: The table does not consider changes made to this "
 "form without submitting it."
 msgstr ""
+"Tabellen ovenfor viser tilladelser for kunde brugeren i tilladelsekontekst. "
+"Matrixen viser alle nedarvede tilladelser (f.eks. via kunde grupper). Bemærk:"
+" Denne tabel tager ikke ændringer med, der er lavet i denne formular, uden "
+"at submitte den."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Administrer Kunde og Kundebruger relationer"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
@@ -1613,11 +1621,11 @@ msgstr "Kundebrugere"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Ændr Kunde relationer for Kundebruger"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Ændr Kundebruger relationer for Kunde"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1633,21 +1641,22 @@ msgstr "Skift aktiv tilstand for %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Administrer Kundebruger/Gruppe-relationer"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
 msgstr ""
+"Brug denne funktion, hvis du vil definere gruppetilladelser for kundebrugere."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Ændr standardgrupper for kundebruger"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "Disse grupper tildeles automatisk til alle kundebrugere."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
@@ -1658,26 +1667,29 @@ msgstr ""
 "\"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
+#, fuzzy
 msgid "Filter for groups"
-msgstr ""
+msgstr "Filtrer grupper"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Vælg kundebruger:gruppe-tilladelser."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the customer user)."
 msgstr ""
+"Hvis intet er velgt, er der ingen tilladelser i denne gruppe (sager vil ikke "
+"være tilgængelige for kundebrugeren)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Kundebruger standardgrupper:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Administrer Kundebruger/Service-relationer"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1688,8 +1700,9 @@ msgid "Filter for Services"
 msgstr "Filter for services"
 
 #. Template: AdminCustomerUserService
+#, fuzzy
 msgid "Filter for services"
-msgstr ""
+msgstr "Filter for services"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
@@ -1705,15 +1718,15 @@ msgstr "Tilføj nyt felt for objekt"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filter for dynamiske felter"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filter for dynamiske felter"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Nye OTOBO felter"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1729,16 +1742,20 @@ msgstr "Database"
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
 msgstr ""
+"Brug eksterne databaser som konfigurerbare data kilder for dette dynamiske "
+"felt."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Web Tjeneste"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
 msgstr ""
+"Eksterne web tjenester kan konfigureres som data kilder til dette dynamiske "
+"felt."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
@@ -1777,7 +1794,7 @@ msgstr "Slet dette felt"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Eksport"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1785,18 +1802,21 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Her kan du uploade en konfigurationsfil til import af dynamiske felter til "
+"dit system. Filen skal være i samme .yml format som dynamiske felt modulet "
+"eksporter."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importer dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Eksporter dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Dynamiske felter overflade"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
@@ -1854,6 +1874,8 @@ msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
 msgstr ""
+"Det er ikke muligt at invalidere denne indgang, før alle "
+"konfigurationsindstillinger er ændret."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1873,7 +1895,7 @@ msgstr "Dette felt er beskyttet og kan ikke slettes."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Dette dynamiske felt bliver brugt i de følgende indstillinger:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1889,13 +1911,15 @@ msgstr "Dette er standardværdien for dette felt."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Tilføj eller rediger kontakter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"For at tilføje kontakter til dette felt, skal alle obligatoriske felter "
+"udfyldes og gemmes først."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
@@ -1905,15 +1929,15 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Navnefelt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "ValidID felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Andre felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1929,7 +1953,7 @@ msgstr "Fjern værdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Tilføj felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1937,21 +1961,23 @@ msgstr "Tilføj værdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Dette er de mulige attributter for kontakter."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Obligatoriske felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Kommasepareret list af obligatoriske nøgler (valgfri). Nøglerne 'Navn' og "
+"'ValidID' er altid obligatoriske, og skal ikke listes her."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Sorterede felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
