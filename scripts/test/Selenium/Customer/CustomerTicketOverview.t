@@ -181,7 +181,7 @@ $Selenium->RunTest(
             Element => '#ProcessEntityID',
             Value   => $ListReverse{$ProcessName},
         );
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('[type=submit]').length;" );
+        $Selenium->WaitFor( ElementExists => q{//button[@value='Submit']} );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerUserLogin)').click();");
