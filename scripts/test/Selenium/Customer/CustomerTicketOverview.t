@@ -278,21 +278,11 @@ $Selenium->RunTest(
             );
             sleep 1;
 
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"Untitled!\")').length"
-                ),
-                '1',
-                "Customer Ticket Overview table contains 'Untitled!' as ticket title part",
+            my $TitleElement = $Selenium->find_element_by_css(
+                qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}
             );
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"This item has no articles yet.\")').length"
-                ),
-                '1',
-                "Customer Ticket Overview table contains 'This item has no articles yet.' as article body part",
-            );
-        }
+            ok( $TitleElement, "Customer Ticket Overview table title element found" );
+            $TitleElement->text_like( qr{\QUntitled!\E}, "Customer Ticket Overview table contains 'Untitled!' as ticket title part" );
 
         # check All filter on CustomerTicketOverview screen
         $Selenium->find_element(
