@@ -7,8 +7,8 @@ jobs:
             - id: files
               uses: jitterbit/get-changed-files@v1
 
-            - name: 'install cpan dependencies'
-              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl
+            - name: 'install dependencies'
+              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl libxml2-utils
               
             - name: 'checkout otobo'
               uses: actions/checkout@v2
