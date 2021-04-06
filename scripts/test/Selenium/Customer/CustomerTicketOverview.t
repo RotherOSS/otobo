@@ -16,15 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -51,7 +54,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
+        ok(
             $TicketID,
             "Ticket is created - $TicketID",
         );
@@ -73,7 +76,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
+        ok(
             $ArticleID,
             "ArticleCreate - ID $ArticleID",
         );
@@ -178,7 +181,7 @@ $Selenium->RunTest(
             Element => '#ProcessEntityID',
             Value   => $ListReverse{$ProcessName},
         );
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('[type=submit]').length;" );
+        $Selenium->WaitFor( ElementExists => q{//button[@value='Submit']} );
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($TestCustomerUserLogin);
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length;' );
         $Selenium->execute_script("\$('li.ui-menu-item:contains($TestCustomerUserLogin)').click();");
@@ -253,14 +256,14 @@ $Selenium->RunTest(
         );
 
         # Search for new created ticket on CustomerTicketOverview screen (default filter is Open)
-        $Self->True(
+        ok(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with Open filter"
         );
 
         # Make sure the article body is not displayed (internal article).
-        $Self->True(
-            index( $Selenium->get_page_source(), $InvisibleBody ) == -1,
+        $Selenium->content_lacks(
+            $InvisibleBody,
             'Article body is not visible to customer',
         );
 
@@ -275,52 +278,31 @@ $Selenium->RunTest(
             );
             sleep 1;
 
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"Untitled!\")').length"
-                ),
-                '1',
-                "Customer Ticket Overview table contains 'Untitled!' as ticket title part",
+            my $TitleElement = $Selenium->find_element_by_css(
+                qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}
             );
-            $Self->Is(
-                $Selenium->execute_script(
-                    "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumber\"]').closest('tr').find('td:contains(\"This item has no articles yet.\")').length"
-                ),
-                '1',
-                "Customer Ticket Overview table contains 'This item has no articles yet.' as article body part",
-            );
+            ok( $TitleElement, "Customer Ticket Overview table title element found" );
+            $TitleElement->text_like( qr{\QUntitled!\E}, "Customer Ticket Overview table contains 'Untitled!' as ticket title part" );
+
+            # No check whether the table contains article as the customer interface has been changed.
         }
 
-        # check All filter on CustomerTicketOverview screen
-        $Selenium->find_element(
-            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
-        )->VerifiedClick();
-
-        # Check if table contains article.
-        my $TicketNumbeProcess = $TicketObject->TicketNumberLookup(
-            TicketID => $TicketIDProcess,
+        # show customer user tickets
+        my $MyTicketsElement = $Selenium->find_element(
+            q{//a[contains(@href, 'Action=CustomerTicketOverview;Subaction=MyTickets')]}
         );
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('table.Overview tbody tr a[href*=\"Action=CustomerTicketZoom;TicketNumber=$TicketNumbeProcess\"]').closest('tr').find('td:contains($TicketBody)').length === 1"
-            ),
-            '1',
-            'Customer Ticket Overview table contain process with visible article',
-        );
+        ok( $MyTicketsElement, 'Tickets link found' );
+        $MyTicketsElement->VerifiedClick();
 
-        $Self->True(
+        # No check whether the table contains article as the customer interface has been changed.
+
+        # check for ticket
+        ok(
             $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
             "Ticket with ticket number $TicketNumber is found on screen with All filter"
         );
 
-        # check if there is the header of overview table for sorting tickets
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#MainBox').hasClass('Sortable')"
-            ),
-            '1',
-            'There is the header of overview table for sorting tickets.',
-        );
+        # no check for sorting tickets, as the customer interface has changed
 
         # check Close filter on CustomerTicketOverview screen
         # there is only one created ticket, and it should not be on screen with Close filter
@@ -328,8 +310,8 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=Close' )]"
         )->VerifiedClick();
 
-        $Self->True(
-            index( $Selenium->get_page_source(), "Action=CustomerTicketZoom;TicketNumber=$TicketNumber" ) == -1,
+        $Selenium->content_lacks(
+            "Action=CustomerTicketZoom;TicketNumber=$TicketNumber",
             "Ticket with ticket number $TicketNumber is not found on screen with Close filter"
         );
 
@@ -345,14 +327,7 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets;Filter=All' )]"
         )->VerifiedClick();
 
-        # check if there is not the header of overview table for sorting tickets
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#MainBox').hasClass('Sortable')"
-            ),
-            '0',
-            'There is not the header of overview table for sorting tickets.',
-        );
+        # no check for sorting tickets, as the customer interface has changed
 
         # Clean up.
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
@@ -366,7 +341,6 @@ $Selenium->RunTest(
         );
 
         # Clean up activities.
-        my $Success;
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
@@ -382,26 +356,19 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -412,15 +379,12 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
 
-            $Self->True(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -431,27 +395,19 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-
-        $Self->True(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
@@ -466,10 +422,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket number $TicketNumber is deleted"
-        );
+        ok( $Success, "Ticket with ticket number $TicketNumber is deleted" );
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
@@ -509,4 +462,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
