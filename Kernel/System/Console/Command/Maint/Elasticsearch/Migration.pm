@@ -27,12 +27,14 @@ use parent qw(Kernel::System::Console::BaseCommand);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
     'Kernel::System::Elasticsearch',
     'Kernel::System::GeneralCatalog',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::ITSMConfigItem',
+    'Kernel::System::JSON',
     'Kernel::System::Package',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -223,14 +225,14 @@ sub MigrateCompanies {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 CustomerID => {
@@ -317,14 +319,14 @@ sub MigrateCustomerUsers {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 UserLogin => {
@@ -416,14 +418,14 @@ sub MigrateTickets {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 GroupID => {
@@ -560,14 +562,14 @@ sub MigrateConfigItems {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 ConfigItemID => {
@@ -642,6 +644,41 @@ sub MigrateConfigItems {
 
     return 1;
 
+}
+
+sub _IndexSettingsGet {
+    my ( $Self, %Param ) = @_;
+
+    my $SettingsJSONDef = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+    if ( !$SettingsJSONDef ) {
+        $Self->Print(
+            "<red>Can't get SysConfig Elasticsearch::IndexDefinition!</red>",
+        );
+        return;
+    }
+
+    my $SettingsJSON = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Output(
+        Template => $SettingsJSONDef,
+        Data => \%Param,
+    );
+    if ( !$SettingsJSON ) {
+        $Self->Print(
+            "<red>SysConfig Elasticsearch::IndexDefinition is invalid value!</red>",
+        );
+        return;
+    }
+
+    my $Settings = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+        Data => $SettingsJSON,
+    );
+    if ( !$Settings ) {
+        $Self->Print(
+            "<red>SysConfig Elasticsearch::IndexDefinition is invalid JSON structure!</red>",
+        );
+        return;
+    }
+
+    return $Settings;
 }
 
 1;
