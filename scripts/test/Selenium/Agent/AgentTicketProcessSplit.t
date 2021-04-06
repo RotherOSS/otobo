@@ -158,9 +158,7 @@ $Selenium->RunTest(
             Element => '#SplitSelection',
             Value   => 'ProcessTicket',
         );
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#ProcessEntityID").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#ProcessEntityID', 'css' ] );
 
         # Change it to Process EntityID.
         $Selenium->InputFieldValueSet(
@@ -180,9 +178,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Check if customer user input is on create process screen.
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
 
         my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
@@ -341,12 +337,7 @@ $Selenium->RunTest(
         );
 
         # Verify form is loaded.
-        $Self->True(
-            $Selenium->execute_script(
-                "return \$('#CustomerAutoComplete').length;"
-            ),
-            "Customer field is available."
-        ) || die;
+        $Selenium->find_element_ok( '#CustomerAutoComplete', 'css', "Customer field is available." ) || die;
 
         for my $TicketID (@DeleteTicketIDs) {
 
