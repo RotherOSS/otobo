@@ -341,7 +341,6 @@ $Selenium->RunTest(
         );
 
         # Clean up activities.
-        my $Success;
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
@@ -357,7 +356,7 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
@@ -365,7 +364,7 @@ $Selenium->RunTest(
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
@@ -380,7 +379,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
@@ -396,7 +395,7 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
@@ -404,7 +403,7 @@ $Selenium->RunTest(
         }
 
         # Delete test process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
