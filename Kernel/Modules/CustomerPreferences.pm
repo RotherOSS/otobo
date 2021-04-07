@@ -136,14 +136,15 @@ sub Run {
         my $Priority = $ParamObject->GetParam( Param => 'Priority' ) || '';
 
         # add notification
+        my $Notification;
         if ( $Message && $Priority eq 'Error' ) {
-            $Output .= $LayoutObject->Notify(
+            $Notification = $LayoutObject->Notify(
                 Priority => $Priority,
                 Info     => $Message,
             );
         }
         elsif ($Message) {
-            $Output .= $LayoutObject->Notify(
+            $Notification = $LayoutObject->Notify(
                 Priority => 'Success',
                 Info     => $Message,
             );
@@ -152,7 +153,7 @@ sub Run {
         # get user data
         my %UserData = $UserObject->CustomerUserDataGet( User => $Self->{UserLogin} );
         $Output .= $Self->CustomerPreferencesForm( UserData => \%UserData );
-        $Output .= $LayoutObject->CustomerNavigationBar();
+        $Output .= $LayoutObject->CustomerNavigationBar( Notification => $Notification );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }
