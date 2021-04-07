@@ -47,43 +47,43 @@
                         <p class="Description">[% Translate(Data.Desc) | html %]</p>
 [% RenderBlockStart("Block") %]
 [% RenderBlockStart("InputKey") %]
-                        <div>
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <div class='Row'>
                             <input title="[% Data.Name | html %]" type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" size="20" />
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div class="ClearLeft"></div>
                         </div>
 [% RenderBlockEnd("InputKey") %]
 [% RenderBlockStart("Input") %]
-                        <div>
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <div class='Row'>
                             <input title="[% Data.Name | html %]" type="text" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="[% Data.SelectedID | html %]" size="20" />
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div class="ClearLeft"></div>
                         </div>
 [% RenderBlockEnd("Input") %]
 [% RenderBlockStart("Option") %]
-                        <div>
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <div class='Row'>
                             [% Data.Option %]
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div class="ClearLeft"></div>
                         </div>
 [% RenderBlockEnd("Option") %]
 [% RenderBlockStart("Upload") %]
-                        <div>
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <div class='Row'>
                             <input title="[% Data.Name | html %]" id="[% Data.Name | html %]" name="[% Data.Name | html %]" type="file" size="20" /><br/>
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div title="[% Data.Filename | html %]">[% Data.Filename | html %]</div>
                             <div class="ClearLeft"></div>
                         </div>
 [% RenderBlockEnd("Upload") %]
 [% RenderBlockStart("Password") %]
-                        <div>
-                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
+                        <div class='Row'>
                             <input title="[% Translate(Data.Key) | html %]" type="password" id="[% Data.Name | html %]" name="[% Data.Name | html %]" value="" size="20" [% IF Data.Autocomplete %]autocomplete="[% Data.Autocomplete | html %]"[% END %] />
+                            <label for="[% Data.Name | html %]">[% Translate(Data.Key) | html %]</label>
                             <div class="ClearLeft"></div>
                         </div>
 [% RenderBlockEnd("Password") %]
 [% RenderBlockEnd("Block") %]
-                        <button type="submit" id="[% Data.PrefKey | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
+                        <button class="oooS" type="submit" id="[% Data.PrefKey | html %]Update" value="[% Translate("Update") | html %]">[% Translate("Update") | html %]</button>
                     </fieldset>
                 </form>
             </div>
