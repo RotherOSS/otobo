@@ -71,8 +71,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
@@ -95,7 +94,8 @@ sub new {
     FILENAME:
     for my $Filename (qw(Framework.pm OTOBOCommunity.pm)) {
         my $BaseFile = $BaseDir . $Filename;
-        next FILENAME if !-e $BaseFile;
+
+        next FILENAME unless -e $BaseFile;
 
         $BaseFile =~ s{\A.*\/(.+?).pm\z}{$1}xms;
         my $BaseClassName = "Kernel::System::SysConfig::Base::$BaseFile";
@@ -104,7 +104,6 @@ sub new {
                 Message => "Could not load class $BaseClassName.",
             );
         }
-
     }
 
     return $Self;
@@ -2536,7 +2535,7 @@ sub ConfigurationXML2DB {
         if ( !defined $SettingsByInit{$InitValue} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Invalid otobo_config Init value ($InitValue)! Allowed values: Framework, Application, Config, Changes.",
             );
 
@@ -2650,12 +2649,12 @@ sub ConfigurationXML2DB {
                     DefaultID                => $DefaultSetting->{DefaultID},
                     Name                     => $Settings{$SettingName}->{XMLContentParsed}->{Name},
                     Description              => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
-                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
-                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
-                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
-                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
-                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
-                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content}  || '',
+                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible}                   || 0,
+                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly}                    || 0,
+                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required}                    || 0,
+                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid}                       || 0,
+                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel}                 || 100,
                     UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
                         || 0,
                     UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
@@ -2671,7 +2670,7 @@ sub ConfigurationXML2DB {
                 if ( !$Success ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message =>
+                        Message  =>
                             "DefaultSettingUpdate failed for Config Item: $SettingName!",
                     );
                 }
@@ -2719,12 +2718,12 @@ sub ConfigurationXML2DB {
                 $DefaultSettingsAdd{ $Settings{$SettingName}->{XMLContentParsed}->{Name} } = {
                     Name                     => $Settings{$SettingName}->{XMLContentParsed}->{Name},
                     Description              => $Settings{$SettingName}->{XMLContentParsed}->{Description}->[0]->{Content} || '',
-                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content} || '',
-                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible} || 0,
-                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly} || 0,
-                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required} || 0,
-                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid} || 0,
-                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel} || 100,
+                    Navigation               => $Settings{$SettingName}->{XMLContentParsed}->{Navigation}->[0]->{Content}  || '',
+                    IsInvisible              => $Settings{$SettingName}->{XMLContentParsed}->{Invisible}                   || 0,
+                    IsReadonly               => $Settings{$SettingName}->{XMLContentParsed}->{ReadOnly}                    || 0,
+                    IsRequired               => $Settings{$SettingName}->{XMLContentParsed}->{Required}                    || 0,
+                    IsValid                  => $Settings{$SettingName}->{XMLContentParsed}->{Valid}                       || 0,
+                    HasConfigLevel           => $Settings{$SettingName}->{XMLContentParsed}->{ConfigLevel}                 || 100,
                     UserModificationPossible => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationPossible}
                         || 0,
                     UserModificationActive => $Settings{$SettingName}->{XMLContentParsed}->{UserModificationActive}
@@ -4501,7 +4500,7 @@ sub ConfigurationCategoriesGet {
         OTOBO => {
             DisplayName => 'OTOBO',
             Files       => [
-                'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml',
+                'Calendar.xml',         'CloudServices.xml',     'Daemon.xml', 'Framework.xml',
                 'GenericInterface.xml', 'ProcessManagement.xml', 'Ticket.xml',
             ],
         },
@@ -5114,7 +5113,7 @@ sub _FileWriteAtomic {
     my $TempFilename = $Param{Filename} . '.' . $$;    # append the processs id
     {
 
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen)
+        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -6050,7 +6049,7 @@ sub _HandleSettingsToDeploy {
         if ( !$ModifiedDelete ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Could not delete the modified setting for $Setting->{Name} on reset action! Rolling back.",
             );
             $Error = 1;

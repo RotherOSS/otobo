@@ -123,7 +123,7 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print join '',
+        print
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
