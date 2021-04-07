@@ -25,15 +25,9 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 plan(1);
-
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
 
 # Temporarily disabled to work around a mod_perl bug that occurs on Ubuntu 15.04 and gentoo atm (2016-01-29).
 #

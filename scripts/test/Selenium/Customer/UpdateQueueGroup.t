@@ -16,17 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # Update 'To' in CustomerTicketMessage on Add/Update Group (Bug#10988).
 
 # get selenium object
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -64,17 +69,15 @@ $Selenium->RunTest(
             UserID          => 1,
             Comment         => 'Selenium test queue',
         );
-        $Self->True(
-            $QueueID,
-            "Queue is created - $QueueName"
-        );
+        ok( $QueueID, "Queue is created - $QueueName" );
 
-        # click on 'Create your first ticket'
-        $Selenium->find_element( ".Button", 'css' )->VerifiedClick();
+        # click on 'Please click here, to create a new one'
+        $Selenium->find_element( '.oooTicketListMessage', 'css' )->VerifiedClick();
 
         # verify that test queue is available for users group
-        $Self->True(
-            $Selenium->find_element( "#Dest option[value='$QueueID||$QueueName']", 'css' ),
+        $Selenium->find_element_ok(
+            "#Dest option[value='$QueueID||$QueueName']",
+            'css',
             "$QueueName is available to select"
         );
 
@@ -86,10 +89,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $GroupID,
-            "Group is created - $GroupName"
-        );
+        ok( $GroupID, "Group is created - $GroupName" );
 
         # add test queue to test group
         my $QueueUpdateID = $QueueObject->QueueUpdate(
@@ -103,19 +103,13 @@ $Selenium->RunTest(
             UserID          => 1,
             ValidID         => 1,
         );
-        $Self->True(
-            $QueueUpdateID,
-            "Queue is updated - $QueueName"
-        );
+        ok( $QueueUpdateID, "Queue is updated - $QueueName" );
 
         # refresh page
         $Selenium->VerifiedRefresh();
 
         # check if test queue is available to select
-        $Self->True(
-            index( $Selenium->get_page_source(), $QueueName ) > -1,
-            "$QueueName is available to select with new group $GroupName",
-        );
+        $Selenium->content_contains( $QueueName, "$QueueName is available to select with new group $GroupName" );
 
         # update group to invalid
         my $GroupUpdate = $GroupObject->GroupUpdate(
@@ -124,56 +118,39 @@ $Selenium->RunTest(
             ValidID => 2,
             UserID  => 1,
         );
-        $Self->True(
-            $GroupUpdate,
-            "$GroupName is updated to invalid status",
-        );
+        ok( $GroupUpdate, "$GroupName is updated to invalid status" );
 
         # refresh page
         $Selenium->VerifiedRefresh();
 
         # check test queue with invalid test group
-        $Self->False(
-            index( $Selenium->get_page_source(), $QueueName ) > -1,
-            "$QueueName is not available to select with invalid group $GroupName",
-        );
+        $Selenium->content_lacks( $QueueName, "$QueueName is not available to select with invalid group $GroupName" );
 
         # get database object
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         # clean up test data
-        my $Success;
         if ($QueueID) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL => "DELETE FROM queue WHERE id = $QueueID",
             );
-            $Self->True(
-                $Success,
-                "Queue is deleted - $QueueName",
-            );
+            ok( $Success, "Queue is deleted - $QueueName" );
         }
 
         if ($GroupID) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL => "DELETE FROM groups_table WHERE id = $GroupID",
             );
-            $Self->True(
-                $Success,
-                "Group is deleted - $GroupName",
-            );
+            ok( $Success, "Group is deleted - $GroupName" );
         }
 
         # make sure the cache is correct
-        for my $Cache (
-            qw (Queue Group)
-            )
-        {
+        for my $Cache (qw (Queue Group)) {
             $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
                 Type => $Cache,
             );
         }
-
     }
 );
 
-$Self->DoneTesting();
+done_testing();

@@ -16,23 +16,28 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (not used) and $Kernel::OM
 use Kernel::Language;
+use Kernel::System::UnitTest::Selenium;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+skip_all('Error handling is either changed or broken. See issue #900');
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
 #   e. g. when the Chat is active.
 
 $Selenium->RunTest(
     sub {
-
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
         my $Language     = 'en';
@@ -71,7 +76,7 @@ $Selenium->RunTest(
         );
 
         # Another alert dialog opens with the detail message.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection p').text().trim();"),
             $LanguageObject->Translate(
                 '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.',
@@ -101,7 +106,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
 
         # There should be no error dialog yet.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length;"),
             0,
             "Error dialog not visible yet"
@@ -131,7 +136,7 @@ JAVASCRIPT
         );
 
         # Now check if we see a connection error popup.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length;"),
             1,
             "Error dialog visible - first try"
@@ -156,7 +161,7 @@ JAVASCRIPT
         );
 
         # The dialog should show the re-established message now.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length;"),
             1,
             "ConnectionReEstablished dialog visible"
@@ -180,7 +185,7 @@ JAVASCRIPT
         );
 
         # Now check if we see a connection error popup.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length;"),
             1,
             "Error dialog visible - second try"
@@ -193,7 +198,7 @@ JAVASCRIPT
         );
 
         # The dialog should be gone.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .NoConnection:visible').length;"),
             0,
             "Error dialog closed"
@@ -211,7 +216,7 @@ JAVASCRIPT
         );
 
         # The dialog should show the re-established message now.
-        $Self->Is(
+        is(
             $Selenium->execute_script("return \$('#AjaxErrorDialogInner .ConnectionReEstablished:visible').length;"),
             1,
             "ConnectionReEstablished dialog visible"
@@ -219,4 +224,4 @@ JAVASCRIPT
     }
 );
 
-$Self->DoneTesting();
+done_testing();

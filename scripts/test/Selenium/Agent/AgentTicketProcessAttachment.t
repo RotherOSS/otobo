@@ -25,7 +25,9 @@ our $Self;
 
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -62,8 +64,8 @@ $Selenium->RunTest(
         for my $Item ( sort keys %{$ACLList} ) {
 
             $ACLObject->ACLUpdate(
-                ID   => $Item,
-                Name => $ACLList->{$Item},
+                ID      => $Item,
+                Name    => $ACLList->{$Item},
                 ValidID => 2,
                 UserID  => 1,
             );
@@ -160,7 +162,7 @@ $Selenium->RunTest(
         );
 
         # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( ElementExists =>  [ '#Subject', 'css' ] );
+        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
         # Hide DnDUpload and show input field.
         $Selenium->execute_script(
