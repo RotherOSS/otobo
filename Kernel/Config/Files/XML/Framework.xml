@@ -6942,6 +6942,7 @@ via the Preferences button after logging in.
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Customer.Search.js</Item>
+                        <Item>Core.Customer.InputFields.js</Item>
                     </Array>
                 </Item>
                 <Item Key="CSS">

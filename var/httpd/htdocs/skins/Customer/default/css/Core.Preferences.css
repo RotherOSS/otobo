@@ -116,6 +116,45 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-top: 24px;
 }
 
+.Row > input {
+    display: inline-block;
+    height: 56px;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    color: #7f809d;
+    color: var(--colTextLight);
+    width: calc( 100% - 32px );
+    border-radius: 10px;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    padding: 0px;
+    padding-left: 32px;
+    border: solid 1px rgba(247, 247, 249, 0);
+    border: solid 1px var(--colBGLight);
+-webkit-transition: border 0.2s ease;
+   -moz-transition: border 0.2s ease;
+     -o-transition: border 0.2s ease;
+        transition: border 0.2s ease;
+}
+
+.Row > input:hover,
+.Row > input.oooFull {
+    border: solid 1px #7f809d;
+    border: solid 1px var(--colTextLight);
+    background-color: #fff;
+}
+
+.Row > input:focus,
+.Row > input.oooFull:focus {
+    border: solid 1px #001bff;
+    border: solid 1px var(--colMainLight);
+    background-color: #fff;
+    color: #001bff;
+    color: var(--colMainLight);
+}
+
 .Row > label {
     left: calc( -100% + 24px );
 }
