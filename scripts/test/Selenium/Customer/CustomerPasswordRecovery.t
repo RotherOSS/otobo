@@ -16,15 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -85,12 +88,9 @@ $Selenium->RunTest(
 
         # Clean up test email.
         my $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Initial cleanup',
-        );
+        ok( $Success, 'Initial cleanup' );
 
-        $Self->IsDeeply(
+        is(
             $TestEmailObject->EmailsGet(),
             [],
             'Test email empty after initial cleanup',
@@ -127,20 +127,17 @@ $Selenium->RunTest(
 
         # Check if password recovery email is sent.
         my $Emails = $TestEmailObject->EmailsGet();
-        $Self->Is(
-            scalar @{$Emails},
+        is(
+            scalar $Emails->@*,
             1,
             "Password recovery email sent for valid customer user $TestCustomerUser",
         );
 
         # Clean up test email again.
         $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Second cleanup',
-        );
+        ok( $Success, 'Second cleanup' );
 
-        $Self->IsDeeply(
+        is(
             $TestEmailObject->EmailsGet(),
             [],
             'Test email empty after second cleanup',
@@ -159,10 +156,7 @@ $Selenium->RunTest(
             ValidID        => 2,
             UserID         => 1,
         );
-        $Self->True(
-            $Success,
-            "$TestCustomerUser set to invalid",
-        );
+        ok( $Success, "$TestCustomerUser set to invalid" );
 
         # Click on 'Forgot password' again.
         $Selenium->find_element( "#ForgotPassword", 'css' )->click();
@@ -185,12 +179,12 @@ $Selenium->RunTest(
 
         # Check if password recovery email is sent to invalid customer user.
         $Emails = $TestEmailObject->EmailsGet();
-        $Self->Is(
-            scalar @{$Emails},
+        is(
+            scalar $Emails->@*,
             0,
             "Password recovery email NOT sent for invalid customer user $TestCustomerUser",
         );
     }
 );
 
-$Self->DoneTesting();
+done_testing();
