@@ -261,7 +261,7 @@ sub Run {
         return $Output;
     }
 
-    # Check different requirements (AJAX).
+    # Check different requirements (AJAX) and return the result as JSON.
     elsif ( $Self->{Subaction} eq 'CheckRequirements' ) {
         my $CheckMode = $ParamObject->GetParam( Param => 'CheckMode' );
         my %Result;
@@ -318,7 +318,7 @@ sub Run {
         if ( $DBType eq 'mysql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $LayoutObject->{LanguageObject}->Translate(
-                'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
+                    'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output = $LayoutObject->Header(
@@ -1244,7 +1244,7 @@ sub Run {
             },
         );
 
-        return join '',
+        return
             $LayoutObject->Header(
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
             ),
@@ -1310,7 +1310,7 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
         or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     close $Out;
@@ -1377,7 +1377,7 @@ sub ConnectToDB {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'DBD::' . $Driver ) ) {
         return (
             Successful => 0,
-            Message =>
+            Message    =>
                 $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
             Comment => "",
             DB      => undef,
@@ -1426,13 +1426,10 @@ sub ConnectToDB {
 sub CheckDBRequirements {
     my ( $Self, %Param ) = @_;
 
-    my %Result = $Self->ConnectToDB(
-        %Param,
-    );
-
+    my %Result       = $Self->ConnectToDB(%Param);
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # If mysql, check some more values.
+    # Check max_allowed_packet for MySQL
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
         # Set max_allowed_packet.
@@ -1451,9 +1448,9 @@ sub CheckDBRequirements {
         }
     }
 
+    # Check innodb_log_file_size.
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
-        # Set innodb_log_file_size.
         my $MySQLInnoDBLogFileSize            = 0;
         my $MySQLInnoDBLogFileSizeMinimum     = 256;
         my $MySQLInnoDBLogFileSizeRecommended = 512;

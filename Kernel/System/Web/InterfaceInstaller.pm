@@ -133,7 +133,7 @@ sub Content {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        return join '',
+        print
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -158,7 +158,7 @@ sub Content {
     }
 
     # print an error screen as the fallback
-    return join '',
+    print
         $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
