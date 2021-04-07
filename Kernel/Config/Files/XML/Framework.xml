@@ -6957,11 +6957,12 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="JavaScript">
                     <Array>
+                        <Item>Core.Customer.Search.js</Item>
                     </Array>
                 </Item>
                 <Item Key="CSS">
                     <Array>
-                        <Item>Core.CustomerPreferences.css</Item>
+                        <Item>Core.Preferences.css</Item>
                     </Array>
                 </Item>
             </Hash>
