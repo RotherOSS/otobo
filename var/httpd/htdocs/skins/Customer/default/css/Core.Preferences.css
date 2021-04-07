@@ -112,7 +112,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .Box button,
-.Box .Row {
+.Box .Row,
+.Box .PWRow {
     margin-top: 24px;
 }
 
@@ -157,6 +158,19 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Row > label {
     left: calc( -100% + 24px );
+}
+
+.PWRow > span {
+    font-size: 16px;
+}
+
+.PWRow > input {
+    border: none;
+    background: none;
+    padding-left: 8px;
+    padding-top: 8px;
+    color: #00023c;
+    color: var(--colTextDark);
 }
 
 /* IE */
