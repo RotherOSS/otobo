@@ -117,10 +117,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
         # Check for password recovery message.
-        $Self->True(
-            $Selenium->find_element( ".SuccessBox span", 'css' ),
-            "Password recovery message found on screen for valid customer",
-        );
+        my $SuccessBoxElement = $Selenium->find_element( q{div.SuccessBox p}, 'css', );
+        ok( $SuccessBoxElement, "Password recovery message found on screen for valid customer" );
+        $SuccessBoxElement->text_like(qr/\QSent password reset instructions.\E/);
 
         # Process mail queue items.
         $MailQueueProcess->();
@@ -169,9 +168,10 @@ $Selenium->RunTest(
 
         # Check for password recovery message for invalid customer user, for security measures it
         # should be visible.
-        $Self->True(
-            $Selenium->find_element( ".SuccessBox span", 'css' ),
-            "Password recovery message found on screen for invalid customer",
+        $Selenium->find_element_ok(
+            q{div.SuccessBox p},
+            'css',
+            'Password recovery message found on screen for invalid customer',
         );
 
         # Process mail queue items.
