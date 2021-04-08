@@ -229,19 +229,17 @@ sub _CheckConfigpmAndWriteCache {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
     my $ConfigFile  = $Param{ConfigpmPath};
 
-    # Build config options to save in cache.
-    # ConfigOption => CacheKeyName
-    my %COptions = (
-        DatabaseHost => 'DBHost',
-        Database     => 'DBName',
-        DatabaseUser => 'DBUser',
-        DatabasePw   => 'DBPassword',
-        DatabaseDSN  => 'DBDSN',
-    );
-
+    # Extract options from Config.pm to save in cache.
     my %CacheOptions;
-
     {
+        my %ConfigKey2CacheKey = (
+            DatabaseHost => 'DBHost',
+            Database     => 'DBName',
+            DatabaseUser => 'DBUser',
+            DatabasePw   => 'DBPassword',
+            DatabaseDSN  => 'DBDSN',
+        );
+
         open my $In, '<', $ConfigFile                  ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
@@ -249,14 +247,17 @@ sub _CheckConfigpmAndWriteCache {
         while ( my $Line = <$In> ) {
 
             # Search config option value and save in %CacheOptions{CacheKey} => ConfigOption
+            # e.g.:  $Self->{'DatabaseUser'} = "otrs";
             next CONFIGLINE unless $Line =~ m/^\s*\$Self->\{['"\s]*(\w+)['"\s]*\}\s*=\s*['"](.+)['"]\s*;/;
 
-            for my $Key ( sort keys %COptions ) {
-                if ( lc($1) eq lc($Key) ) {
-                    $CacheOptions{ $COptions{$Key} } = $2;
+            KEY:
+            for my $Key ( sort keys %ConfigKey2CacheKey ) {
 
-                    next CONFIGLINE;
-                }
+                next KEY unless lc $1 eq lc $Key;
+
+                $CacheOptions{ $ConfigKey2CacheKey{$Key} } = $2;
+
+                next CONFIGLINE;
             }
         }
     }
@@ -272,7 +273,18 @@ sub _CheckConfigpmAndWriteCache {
     }
     elsif ( $DBType =~ /Oracle/ ) {
         $CacheOptions{DBType} = 'oracle';
-        $CacheOptions{DBPort} = ( $CacheOptions{DBDSN} =~ m/^DBI:.*:(\d+)/ );
+
+        # This utterly depends on the conventions used in the OTRS Config.pm.
+        # But the sane approach is to simply use the DSN from Config.pm.
+        # Avoid a string eval, but try to support the common cases.
+        # e.g. $Self->{'DatabaseDSN'} = "DBI:Oracle://$Self->{DatabaseHost}:1521/$Self->{Database}";
+        # TODO: q{DatabaseHost} is not supported
+        if ( $CacheOptions{DBHost} ) {
+            $CacheOptions{DBDSN} =~ s/\$Self->\{\s*['"]?DatabaseHost['"]?\s*\}/$CacheOptions{DBHost}/;
+        }
+        if ( $CacheOptions{DBName} ) {
+            $CacheOptions{DBDSN} =~ s/\$Self->\{\s*['"]?Database['"]?\s*\}/$CacheOptions{DBName}/;
+        }
     }
 
     $CacheObject->Set(
@@ -285,8 +297,6 @@ sub _CheckConfigpmAndWriteCache {
             DBPassword => $CacheOptions{DBPassword},
             DBName     => $CacheOptions{DBName},
             DBDSN      => $CacheOptions{DBDSN},
-            DBSID      => $CacheOptions{DBSID}  || '',
-            DBPort     => $CacheOptions{DBPort} || '',
         },
     );
 

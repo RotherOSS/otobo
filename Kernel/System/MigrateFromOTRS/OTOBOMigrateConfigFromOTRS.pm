@@ -23,7 +23,6 @@ use namespace::autoclean;
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 # core modules
-use File::Copy qw(copy);
 
 # CPAN modules
 
