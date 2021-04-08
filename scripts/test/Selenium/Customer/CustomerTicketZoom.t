@@ -168,13 +168,15 @@ $Selenium->RunTest(
             "//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"
         )->VerifiedClick();
 
-        # Check add page.
-        for my $ID (
-            qw(Messages FollowUp ZoomSidebar)
+        # Check customer ticket zoom page.
+        for my $Selector (
+            q{//div[@class='oooWithSub']/h2[@title]},
+            q{//li[@id='FollowUp']},
+            q{//div[@id='oooNavigation']},
             )
         {
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length" );
-            my $Element = $Selenium->find_element( "#$ID", 'css' );
+            $Selenium->WaitFor( ElementExists => $Selector );
+            my $Element = $Selenium->find_element($Selector);
             $Element->is_enabled();
             $Element->is_displayed();
         }
