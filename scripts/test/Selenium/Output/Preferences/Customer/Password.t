@@ -16,18 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-
 
 $Selenium->RunTest(
     sub {
@@ -49,33 +51,33 @@ $Selenium->RunTest(
         # go to customer preferences
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
-        # change test user password preference, input incorrect current password
-        my $NewPw = "new" . $TestUserLogin;
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+        {
+            my $ToOo = todo('customer preferences not yet supported, see https://github.com/RotherOSS/otobo/issues/693');
 
-        # check for incorrect password update preferences message on screen
-        my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
-        $Self->True(
-            index( $Selenium->get_page_source(), $IncorrectUpdateMessage ) > -1,
-            'Customer incorrect preferences password - update'
-        );
+            eval {
+                # change test user password preference, input incorrect current password
+                my $NewPw = "new" . $TestUserLogin;
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
-        # change test user password preference, correct input
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+                # check for incorrect password update preferences message on screen
+                my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
+                $Selenium->content_contains( $IncorrectUpdateMessage, 'Customer incorrect preferences password - update' );
 
-        # check for correct password update preferences message on screen
-        my $UpdateMessage = "Preferences updated successfully!";
-        $Self->True(
-            index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
-            'Customer preference password - updated'
-        );
+                # change test user password preference, correct input
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+
+                # check for correct password update preferences message on screen
+                my $UpdateMessage = "Preferences updated successfully!";
+                $Selenium->content_contains( $UpdateMessage, 'Customer preference password - updated' );
+            };
+        }
     }
 );
 
-$Self->DoneTesting();
+done_testing();
