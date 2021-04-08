@@ -201,13 +201,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         my $NumberOfExpandedArticles = $Selenium->execute_script(
-            'return $("ul#Messages li.Visible").length'
+            'return $("li.Visible").length'
         );
-        $Self->Is(
-            $NumberOfExpandedArticles,
-            1,
-            'Make sure that only one article is expanded.'
-        );
+        is( $NumberOfExpandedArticles, 1, 'Make sure that only one article is expanded.' );
 
         # Enable expanding.
         $Helper->ConfigSettingChange(
@@ -220,13 +216,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         $NumberOfExpandedArticles = $Selenium->execute_script(
-            'return $("ul#Messages li.Visible").length'
+            'return $("li.Visible").length'
         );
-        $Self->Is(
-            $NumberOfExpandedArticles,
-            2,
-            'Make sure that all articles are expanded.'
-        );
+        is( $NumberOfExpandedArticles, 2, 'Make sure that all articles are expanded.' );
 
         # Accounted time should now be displayed.
         $Selenium->content_contains( q{<span class="ooo12g">Time:</span>}, "Accounted time is displayed", );
