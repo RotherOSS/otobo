@@ -71,7 +71,7 @@ $Selenium->RunTest(
         # The look uses the testing methods provided by the Selenium::Remote::Driver distro.
         # Therefore the testing events from Kernel::System::UnitTest::Selenium are not needed.
         # TODO: also check CurPw NewPw NewPw1
-        $Selenium->LogExecuteCommandIsActive(0);
+        $Selenium->LogExecuteCommandActive(0);
         for my $ID (qw(UserLanguage UserShowTickets UserRefreshTime UserGoogleAuthenticatorSecretKey)) {
             my $Element = $Selenium->find_element_by_id($ID);    # throws no exception when no element is found
             ok( $Element, "element with id $ID was found" );
@@ -81,7 +81,7 @@ $Selenium->RunTest(
                 $Element->is_displayed_ok();
             }
         }
-        $Selenium->LogExecuteCommandIsActive(1);
+        $Selenium->LogExecuteCommandActive(1);
 
         # check CustomerPreferences default values
         is(
