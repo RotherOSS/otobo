@@ -188,10 +188,7 @@ $Selenium->RunTest(
         $Selenium->content_contains( 'Raw',          "Queue is Raw" );
 
         # Accounted time should not be displayed.
-        $Self->False(
-            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
-            "Accounted time is not displayed",
-        );
+        $Selenium->content_lacks( q{<span class="ooo12g">Time:</span>}, "Accounted time is not displayed", );
 
         # Enable displaying accounted time.
         $Helper->ConfigSettingChange(
@@ -232,10 +229,7 @@ $Selenium->RunTest(
         );
 
         # Accounted time should now be displayed.
-        $Self->True(
-            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
-            "Accounted time is displayed",
-        );
+        $Selenium->content_contains( q{<span class="ooo12g">Time:</span>}, "Accounted time is displayed", );
 
         # Check reply button.
         $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
