@@ -16,17 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -88,10 +90,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - $TicketID" );
 
         # Create test article for test ticket.
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
@@ -113,11 +112,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-
-        $Self->True(
-            $ArticleID,
-            "Article #1 is created - $ArticleID",
-        );
+        ok( $ArticleID, "Article #1 is created - $ArticleID" );
 
         my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
             TicketID             => $TicketID,
@@ -131,11 +126,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-
-        $Self->True(
-            $ArticleID2,
-            "Article #2 is created - $ArticleID2",
-        );
+        ok( $ArticleID2, "Article #2 is created - $ArticleID2" );
 
         # Account some time to the ticket.
         my $Success = $TicketObject->TicketAccountTime(
@@ -144,10 +135,7 @@ $Selenium->RunTest(
             TimeUnit  => '7',
             UserID    => 1,
         );
-        $Self->True(
-            $Success,
-            "Time accounted to the ticket",
-        );
+        ok( $Success, "Time accounted to the ticket" );
 
         # Login as test customer user.
         $Selenium->Login(
@@ -160,67 +148,47 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=123123123");
 
-        $Self->True(
-            index( $Selenium->get_page_source(), 'No Permission' ) > -1,
-            "No permission message for tickets the user may not see, even if they don't exist.",
-        );
+        $Selenium->content_contains( 'No Permission', "No permission message for tickets the user may not see, even if they don't exist." );
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=");
 
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Need TicketID' ) > -1,
-            "Error message for missing TicketID/TicketNumber.",
-        );
+        $Selenium->content_contains( 'Need TicketID', "Error message for missing TicketID/TicketNumber." );
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview");
 
         # Search for new created ticket on CustomerTicketOverview screen.
-        $Self->True(
-            $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"),
+        $Selenium->find_element_ok(
+            "//a[contains(\@href, 'Action=CustomerTicketZoom;TicketNumber=$TicketNumber')]",
+            'xpath',
             "Ticket with ticket number $TicketNumber is found on screen"
         );
 
-        # Check customer ticket zoom screen.
-        $Selenium->find_element("//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]")
-            ->VerifiedClick();
+        # click on customer ticket zoom screen.
+        $Selenium->find_element(
+            "//a[contains(\@href, \'Action=CustomerTicketZoom;TicketNumber=$TicketNumber' )]"
+        )->VerifiedClick();
 
-        # Check add page.
-        for my $ID (
-            qw(Messages FollowUp ZoomSidebar)
+        # Check customer ticket zoom page.
+        for my $Selector (
+            q{//div[@class='oooWithSub']/h2[@title]},
+            q{//li[@id='FollowUp']},
+            q{//div[@id='oooNavigation']},
             )
         {
-            $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#$ID').length" );
-            my $Element = $Selenium->find_element( "#$ID", 'css' );
+            $Selenium->WaitFor( ElementExists => $Selector );
+            my $Element = $Selenium->find_element($Selector);
             $Element->is_enabled();
             $Element->is_displayed();
         }
 
         # Check ticket data.
-        $Self->True(
-            index( $Selenium->get_page_source(), $TicketNumber ) > -1,
-            "Ticket number is $TicketNumber",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
-            "Subject is $SubjectRandom",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), $TextRandom ) > -1,
-            "Article body is $TextRandom",
-        );
-
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Raw' ) > -1,
-            "Queue is Raw",
-        );
+        $Selenium->content_contains( $TicketNumber,  "Ticket number is $TicketNumber" );
+        $Selenium->content_contains( $SubjectRandom, "Subject is $SubjectRandom" );
+        $Selenium->content_contains( $TextRandom,    "Article body is $TextRandom" );
+        $Selenium->content_contains( 'Raw',          "Queue is Raw" );
 
         # Accounted time should not be displayed.
-        $Self->False(
-            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
-            "Accounted time is not displayed",
-        );
+        $Selenium->content_lacks( q{<span class="ooo12g">Time:</span>}, "Accounted time is not displayed", );
 
         # Enable displaying accounted time.
         $Helper->ConfigSettingChange(
@@ -233,13 +201,9 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         my $NumberOfExpandedArticles = $Selenium->execute_script(
-            'return $("ul#Messages li.Visible").length'
+            'return $("li.Visible").length'
         );
-        $Self->Is(
-            $NumberOfExpandedArticles,
-            1,
-            'Make sure that only one article is expanded.'
-        );
+        is( $NumberOfExpandedArticles, 1, 'Make sure that only one article is expanded.' );
 
         # Enable expanding.
         $Helper->ConfigSettingChange(
@@ -252,22 +216,15 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         $NumberOfExpandedArticles = $Selenium->execute_script(
-            'return $("ul#Messages li.Visible").length'
+            'return $("li.Visible").length'
         );
-        $Self->Is(
-            $NumberOfExpandedArticles,
-            2,
-            'Make sure that all articles are expanded.'
-        );
+        is( $NumberOfExpandedArticles, 2, 'Make sure that all articles are expanded.' );
 
         # Accounted time should now be displayed.
-        $Self->True(
-            index( $Selenium->get_page_source(), '<span class="Key">Accounted time:</span>' ) > -1,
-            "Accounted time is displayed",
-        );
+        $Selenium->content_contains( q{<span class="ooo12g">Time:</span>}, "Accounted time is displayed", );
 
         # Check reply button.
-        $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
+        $Selenium->find_element(q{//button[@id='ReplyButton']})->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#FollowUp.Visible').length" );
         $Selenium->find_element( '#RichText', 'css' )->send_keys('TestBody');
         $Selenium->find_element("//button[contains(\@value, \'Submit' )]")->VerifiedClick();
@@ -278,23 +235,20 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
-            $Merged,
-            "Ticket state changed to 'merged'",
-        );
+        ok( $Merged, "Ticket state changed to 'merged'" );
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
 
         # Check if reply button is missing in merged ticket (bug#7301).
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("a#ReplyButton").length'),
             0,
             "Reply button not found",
         );
 
         # Check if print button exists on the screen.
-        $Self->Is(
-            $Selenium->execute_script('return $("a[href*=\'Action=CustomerTicketPrint\']").length'),
+        is(
+            $Selenium->execute_script(q{return $("a[href*='Action=CustomerTicketPrint']").length}),
             1,
             "Print button is found",
         );
@@ -319,11 +273,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-
-        $Self->True(
-            $ArticleID2,
-            "Article #2 is created - $ArticleID2",
-        );
+        ok( $ArticleID2, "Article #2 is created - $ArticleID2" );
 
         # Use From field value.
         $Helper->ConfigSettingChange(
@@ -338,15 +288,9 @@ $Selenium->RunTest(
         # Refresh the page.
         $Selenium->VerifiedRefresh();
 
-        # Check From field value.
-        my $FromString = $Selenium->execute_script(
-            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
-        );
-        $Self->Is(
-            $FromString,
-            $TestOriginalFrom,
-            "Test From content",
-        );
+        # Check From field.
+        my $FromString = $Selenium->execute_script(q{return $('li.agent-1 div.MessageHeader h3.oooSender').text().trim();});
+        is( $FromString, $TestOriginalFrom, "Test From content" );
 
         # Use default agent name setting.
         $Helper->ConfigSettingChange(
@@ -371,14 +315,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Check From field value.
-        $FromString = $Selenium->execute_script(
-            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
-        );
-        $Self->Is(
-            $FromString,
-            $TestDefaultAgentName,
-            "Test From content",
-        );
+        $FromString = $Selenium->execute_script(q{return $('li.agent-1 div.MessageHeader h3.oooSender').text().trim();});
+        is( $FromString, $TestDefaultAgentName, "Test From content", );
 
         # Login to Agent interface and verify customer name in answer article.
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -394,7 +332,7 @@ $Selenium->RunTest(
         # Navigate to AgentTicketZoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 'return $("#ArticleTable a:contains(\'FirstName LastName, test (12345)\')").length;'
             ),
@@ -415,14 +353,11 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket is deleted - $TicketID",
-        );
+        ok( $Success, "Ticket is deleted - $TicketID" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
     }
 );
 
-$Self->DoneTesting();
+done_testing();
