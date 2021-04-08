@@ -73,7 +73,7 @@ $Selenium->RunTest(
             },
         );
 
-        # set the expected values
+        # set the expected valuesaa
         TEST:
         for my $Test (@Tests) {
 
