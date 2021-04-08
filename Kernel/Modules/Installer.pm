@@ -1488,18 +1488,14 @@ sub CheckDBRequirements {
     # Check max_allowed_packet for MySQL
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
-        # Set max_allowed_packet.
-        my $MySQLMaxAllowedPacket            = 0;
-        my $MySQLMaxAllowedPacketRecommended = 64;
-
-        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
-        $MySQLMaxAllowedPacket = $Data->[0]->[1] / 1024 / 1024;
-
-        if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
+        # max_allowed_packet should be at least 64 MB
+        my $MaxAllowedPacketRecommendedMB = 64;
+        my ($MaxAllowedPacket) = $Result{DBH}->selectrow_array("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
+        if ( $MaxAllowedPacket < $MaxAllowedPacketRecommendedMB * 1024 * 1024 ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
                 "Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.",
-                $MySQLMaxAllowedPacketRecommended, $MySQLMaxAllowedPacket
+                $MaxAllowedPacketRecommendedMB, $MaxAllowedPacket / ( 1024 * 1024 )
             );
         }
     }
