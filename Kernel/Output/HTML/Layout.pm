@@ -4719,7 +4719,7 @@ sub CustomerNavigationBar {
         $Param{Avatar} = '//www.gravatar.com/avatar/' . md5_hex( lc $Self->{UserEmail} ) . '?s=100&d=' . $DefaultIcon;
     }
     else {
-        $Param{UserInitials} = substr( $User{UserFirstName}, 0, 1 ) . substr( $User{UserLastName}, 0, 1 );
+        $Param{UserInitials} = substr( $User{UserFirstname}, 0, 1 ) . substr( $User{UserLastname}, 0, 1 );
     }
 
     # define (custom) logo
