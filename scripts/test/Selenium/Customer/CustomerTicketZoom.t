@@ -224,7 +224,7 @@ $Selenium->RunTest(
         $Selenium->content_contains( q{<span class="ooo12g">Time:</span>}, "Accounted time is displayed", );
 
         # Check reply button.
-        $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
+        $Selenium->find_element(q{//button[@id='ReplyButton']})->click();
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#FollowUp.Visible').length" );
         $Selenium->find_element( '#RichText', 'css' )->send_keys('TestBody');
         $Selenium->find_element("//button[contains(\@value, \'Submit' )]")->VerifiedClick();
