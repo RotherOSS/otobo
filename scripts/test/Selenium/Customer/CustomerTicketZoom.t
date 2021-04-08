@@ -288,15 +288,9 @@ $Selenium->RunTest(
         # Refresh the page.
         $Selenium->VerifiedRefresh();
 
-        # Check From field value.
-        my $FromString = $Selenium->execute_script(
-            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
-        );
-        $Self->Is(
-            $FromString,
-            $TestOriginalFrom,
-            "Test From content",
-        );
+        # Check From field.
+        my $FromString = $Selenium->execute_script(q{return $('li.agent-1 div.MessageHeader h3.oooSender').text().trim();});
+        is( $FromString, $TestOriginalFrom, "Test From content" );
 
         # Use default agent name setting.
         $Helper->ConfigSettingChange(
@@ -321,14 +315,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Check From field value.
-        $FromString = $Selenium->execute_script(
-            "return \$('.MessageBody:eq(3) span:eq(0)').text().trim();"
-        );
-        $Self->Is(
-            $FromString,
-            $TestDefaultAgentName,
-            "Test From content",
-        );
+        $FromString = $Selenium->execute_script(q{return $('li.agent-1 div.MessageHeader h3.oooSender').text().trim();});
+        is( $FromString, $TestDefaultAgentName, "Test From content", );
 
         # Login to Agent interface and verify customer name in answer article.
         my $TestUserLogin = $Helper->TestUserCreate(
