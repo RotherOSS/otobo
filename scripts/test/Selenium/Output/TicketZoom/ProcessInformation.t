@@ -241,7 +241,7 @@ $Selenium->RunTest(
 
         # verify there is new activity in 'Process Information' widget
         $Selenium->find_element_ok(
-            "//p[contains(\@title, \'Ordering complete' )]",
+            q{//p[contains(@title, 'Ordering complete')]},
             'xpath',
             "Process activity found in Process Information widget"
         );

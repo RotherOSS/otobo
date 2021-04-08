@@ -16,23 +16,28 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
 
+        # get helper object
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
+        # create test user and login
         my $TestUserLogin = $Helper->TestCustomerUserCreate(
             Groups => ['admin'],
         ) || die "Did not get test user";
@@ -55,18 +60,22 @@ $Selenium->RunTest(
             Element => '#UserLanguage',
             Value   => $Language,
         );
-        $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
-        # check for update preference message on screen
-        my $LanguageObject = Kernel::Language->new(
-            UserLanguage => $Language,
-        );
-        my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
-        $Self->True(
-            index( $Selenium->get_page_source(), $UpdateMessage ) > -1,
-            'Customer preference language - updated'
-        );
+        {
+            my $ToOo = todo('customer preferences not yet supported, see https://github.com/RotherOSS/otobo/issues/693');
+
+            eval {
+                $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
+
+                # check for update preference message on screen
+                my $LanguageObject = Kernel::Language->new(
+                    UserLanguage => $Language,
+                );
+                my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
+                $Selenium->content_contains( $UpdateMessage, 'Customer preference language - updated' );
+            };
+        }
     }
 );
 
-$Self->DoneTesting();
+done_testing();
