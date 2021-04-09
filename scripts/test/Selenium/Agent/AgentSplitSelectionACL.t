@@ -192,18 +192,24 @@ EOF
         $Selenium->WaitFor(
             JavaScript => 'return $("#SplitSubmit").length'
         );
+        $Selenium->LogExecuteCommandActive(0);
         $Self->False(
             $Selenium->find_element_by_xpath(q{//option[@value='SnailMailTicket']}),
             "Split option for 'SnailMail Ticket' not available.",
         );
-        $Self->False(
-            $Selenium->find_element_by_xpath(q{//option[@value='PhoneTicket']}),
-            "Split option for 'Phone Ticket' is disabled.",
-        );
+        {
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+
+            $Self->False(
+                $Selenium->find_element_by_xpath(q{//option[@value='PhoneTicket']}),
+                "Split option for 'Phone Ticket' is disabled.",
+            );
+        }
         $Self->True(
             $Selenium->find_element_by_xpath(q{//option[@value='EmailTicket']}),
             "Split option for 'Email Ticket' is disabled.",
         );
+        $Selenium->LogExecuteCommandActive(1);
         $Selenium->find_element( '.Close', 'css' )->click();
 
         # Delete test ACLs rules.
