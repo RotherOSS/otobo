@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -153,7 +151,7 @@ $Selenium->RunTest(
         );
 
         # Verify appointment is visible.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.fc-timeline-event .fc-title').text();"
             ),
@@ -167,10 +165,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # Verify appointment is visible.
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Time Zone Appointment' ) > -1,
-            'Appointment visible (Agenda Overview)'
-        );
+        $Selenium->content_contains( 'Time Zone Appointment', 'Appointment visible (Agenda Overview)' );
 
         # Get appointment ID.
         my $AppointmentID = $Selenium->execute_script(
@@ -183,10 +178,10 @@ $Selenium->RunTest(
         # Check start time.
         $StartDate =~ /(\d{2}:\d{2}:\d{2})$/;
         my $StartTime = $1;
-        $Self->Is(
+        is(
             $StartTime,
             sprintf(
-                "%02d:%02d:00",
+                '%02d:%02d:00',
                 $DateTimeObject->Get()->{Hour},
                 $DateTimeObject->Get()->{Minute}
             ),
@@ -229,10 +224,10 @@ $Selenium->RunTest(
         # Check start time again.
         $StartDateTZ =~ /(\d{2}:\d{2}:\d{2}\s\(.*?\))$/;
         my $StartTimeTZ = $1;
-        $Self->Is(
+        is(
             $StartTimeTZ,
             sprintf(
-                "%02d:%02d:00 (%s)",
+                '%02d:%02d:00 (%s)',
                 $DateTimeObject->Get()->{Hour},
                 $DateTimeObject->Get()->{Minute},
                 $UserTimeZone
@@ -261,7 +256,7 @@ $Selenium->RunTest(
 
         # Check start hour.
         my $StartHourTZ = $Selenium->find_element( 'StartHour', 'name' )->get_value();
-        $Self->Is(
+        is(
             $StartHourTZ,
             $DateTimeObject->Get()->{Hour},
             "Start hour in user's time zone",
@@ -274,10 +269,7 @@ $Selenium->RunTest(
             AppointmentID => $AppointmentID,
             UserID        => $UserID,
         );
-        $Self->True(
-            $Success,
-            "Deleted test appointment - $AppointmentID",
-        );
+        ok( $Success, "Deleted test appointment - $AppointmentID");
 
         # Delete test calendar.
         if ( $Calendar{CalendarID} ) {
@@ -285,10 +277,7 @@ $Selenium->RunTest(
                 SQL  => 'DELETE FROM calendar WHERE id = ?',
                 Bind => [ \$Calendar{CalendarID} ],
             );
-            $Self->True(
-                $Success,
-                "Deleted test calendar - $Calendar{CalendarID}",
-            );
+            ok( $Success, "Deleted test calendar - $Calendar{CalendarID}");
         }
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
@@ -300,4 +289,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing();
