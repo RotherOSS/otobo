@@ -15,6 +15,7 @@
 # --
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -137,13 +138,9 @@ EOF
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+            'ACL deployment successful.'
         );
 
         # Navigate to AgentTicketZoom screen of created test ticket.
@@ -231,13 +228,9 @@ EOF
 
         # Deploy again after we deleted the test ACL.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+            'ACL deployment successful.',
         );
 
         # Delete created test tickets.
