@@ -95,6 +95,8 @@ $Selenium->RunTest(
         # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
+        sleep 1;
+
         # Wait for AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
