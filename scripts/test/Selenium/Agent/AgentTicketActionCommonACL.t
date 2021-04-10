@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 # Note: this UT covers bug #11874 - Restrict service based on state when posting a note
 
@@ -96,10 +94,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $DynamicFieldID,
-            "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
-        );
+        ok( $DynamicFieldID, "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)" );
 
         my $DynamicFieldID2 = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'Field2' . $RandomID,
@@ -122,10 +117,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $DynamicFieldID2,
-            "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
-        );
+        ok( $DynamicFieldID2, "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)" );
 
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -299,10 +291,7 @@ END_CONTENT
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "TicketCreate - ID $TicketID",
-        );
+        ok( $TicketID, "TicketCreate - ID $TicketID" );
 
         # Set test ticket dynamic field to zero-value, please see bug#12273 for more information.
         my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
@@ -338,10 +327,7 @@ END_CONTENT
                 UserID            => 1,
             );
 
-            $Self->True(
-                $ServiceID,
-                "Test service $Count ($ServiceID) created and assigned to customer user $CustomerUserLogin",
-            );
+            ok( $ServiceID, "Test service $Count ($ServiceID) created and assigned to customer user $CustomerUserLogin" );
         }
 
         # Create several test SLAs.
@@ -421,7 +407,7 @@ END_CONTENT
             my %JunkQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
                 Name => 'Junk',
             );
-            $Self->True(
+            ok(
                 $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
                 "Junk queue is available in selection before ACL trigger"
             );
@@ -433,8 +419,8 @@ END_CONTENT
             );
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-            $Self->False(
-                $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
+            ok(
+                !$Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
                 "Junk queue is not available in selection after ACL trigger"
             );
         }
@@ -525,7 +511,7 @@ END_CONTENT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
             ),
@@ -592,7 +578,7 @@ END_CONTENT
                 );
             };
 
-            $Self->True(
+            ok(
                 $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 1;'),
                 "State 'closed successful' available in new state selection after DF update"
             );
@@ -614,10 +600,7 @@ END_CONTENT
 
             # Verify that the ticket was indeed closed successfully.
             my $CloseMsg = 'Changed state from "new" to "closed successful".';
-            $Self->True(
-                index( $Selenium->get_page_source(), $CloseMsg ) > -1,
-                'Ticket closed successfully'
-            );
+            $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
         }
 
         # Cleanup
@@ -633,20 +616,13 @@ END_CONTENT
                 ID     => $ACLData->{ID},
                 UserID => 1,
             );
-            $Self->True(
-                $Success,
-                "ACL with ID $ACLData->{ID} is deleted"
-            );
+            ok( $Success, "ACL with ID $ACLData->{ID} is deleted" );
         }
 
         # Deploy again after we deleted the test acl.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             "ACL deployment successful."
         );
 
@@ -664,10 +640,7 @@ END_CONTENT
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
@@ -679,10 +652,7 @@ END_CONTENT
                 SQL  => "DELETE FROM service_sla WHERE sla_id = ?",
                 Bind => [ \$SLAID ],
             );
-            $Self->True(
-                $Success,
-                "Deleted SLA with ID $SLAID",
-            );
+            ok( $Success, "Deleted SLA with ID $SLAID" );
         }
 
         # Delete services and relations.
@@ -690,48 +660,33 @@ END_CONTENT
             SQL  => "DELETE FROM service_customer_user WHERE customer_user_login = ?",
             Bind => [ \$CustomerUserLogin ],
         );
-        $Self->True(
-            $Success,
-            "Deleted service relations for $CustomerUserLogin",
-        );
+        ok( $Success, "Deleted service relations for $CustomerUserLogin" );
         for my $ServiceID (@ServiceIDs) {
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM service WHERE ID = ?",
                 Bind => [ \$ServiceID ],
             );
-            $Self->True(
-                $Success,
-                "Deleted service with ID $ServiceID",
-            );
+            ok( $Success, "Deleted service with ID $ServiceID" );
         }
 
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$CustomerUserLogin ],
         );
-        $Self->True(
-            $Success,
-            "Deleted Customer $CustomerUserLogin",
-        );
+        ok( $Success, "Deleted Customer $CustomerUserLogin" );
 
         # Delete test dynamic field.
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID",
-        );
+        ok( $Success, "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID" );
 
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID2,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID2",
-        );
+        ok( $Success, "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID2" );
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
