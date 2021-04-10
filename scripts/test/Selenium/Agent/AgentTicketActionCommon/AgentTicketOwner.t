@@ -174,11 +174,8 @@ $Selenium->RunTest(
         # The convoluted way of getting the focus seems to work.
         my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
         ok( $SearchElement, '#NewOwnerID_Search found' );
-        $SearchElement->execute_script("arguments[0].focus();");
-        ok(
-            $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' ),
-            'element with id=NewOwnerID_Search still exists'
-        );
+        $SearchElement->execute_script(q{arguments[0].focus();});
+        $Selenium->find_element_ok( '#NewOwnerID_Search', 'css', 'element with id=NewOwnerID_Search still exists' );
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");
