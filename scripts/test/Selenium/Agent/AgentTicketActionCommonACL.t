@@ -600,7 +600,9 @@ END_CONTENT
 
             # Verify that the ticket was indeed closed successfully.
             my $CloseMsg = 'Changed state from "new" to "closed successful".';
-            $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
+            eval {
+                $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
+            };
         }
 
         # Cleanup
