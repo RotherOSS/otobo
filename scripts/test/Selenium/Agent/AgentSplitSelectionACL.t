@@ -139,7 +139,7 @@ EOF
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
         $Selenium->content_lacks(
-            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             'ACL deployment successful.'
         );
 
@@ -152,8 +152,9 @@ EOF
         $Selenium->WaitFor(
             JavaScript => 'return $("#SplitSubmit").length'
         );
-        $Self->False(
-            $Selenium->find_element_by_xpath(q{//option[@value='SnailMailTicket']}),
+        $Selenium->find_no_element_ok(
+            q{//option[@value='SnailMailTicket']},
+            'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
         $Self->True(
@@ -190,15 +191,17 @@ EOF
             JavaScript => 'return $("#SplitSubmit").length'
         );
         $Selenium->LogExecuteCommandActive(0);
-        $Self->False(
-            $Selenium->find_element_by_xpath(q{//option[@value='SnailMailTicket']}),
+        $Selenium->find_no_element_ok(
+            q{//option[@value='SnailMailTicket']},
+            'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            $Self->False(
-                $Selenium->find_element_by_xpath(q{//option[@value='PhoneTicket']}),
+            $Selenium->find_no_element_ok(
+                q{//option[@value='PhoneTicket']},
+                'xpath',
                 "Split option for 'Phone Ticket' is disabled.",
             );
         }
@@ -229,7 +232,7 @@ EOF
         # Deploy again after we deleted the test ACL.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
         $Selenium->content_lacks(
-            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             'ACL deployment successful.',
         );
 
