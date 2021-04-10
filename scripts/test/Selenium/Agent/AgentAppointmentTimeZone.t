@@ -102,17 +102,24 @@ $Selenium->RunTest(
         );
 
         # Hide indicator line if visible. This was causing issue in some of tests in specific execution time.
-        if ( $Selenium->execute_script(q{return $('.fc-now-indicator.fc-now-indicator-line:visible').length;}) ) {
+        $Selenium->LogExecuteCommandActive(0);
+        my $LineElement = $Selenium->find_element_by_css( '.fc-now-indicator.fc-now-indicator-line', 'css' );
+        $Selenium->LogExecuteCommandActive(1);
+        if ($LineElement) {
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-            my $Line = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
-            ok( $Line, 'now indicator line found' );
-            isa_ok( $Line, ['Kernel::System::UnitTest::Selenium::WebElement'], 'now indicator line is a web element' );
+            ok( $LineElement, 'now indicator line found' );
+            isa_ok( $LineElement, ['Kernel::System::UnitTest::Selenium::WebElement'], 'now indicator line is a web element' );
 
-            #$Line->is_displayed_ok('now indicator line is displayed');
-            $Selenium->execute_script(q{$('.fc-now-indicator.fc-now-indicator-line').hide();});
+            # the red line should be displayed in week view
+            # One might have to scroll right in the browser for actually seeing it,
+            # as only the first days of the week are visible at first.
+            $LineElement->is_displayed_ok('now indicator line is displayed');
+
+            # Note that the red triangle is still visisble.
+            $LineElement->execute_script(q{$(arguments[0]).hide();});
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-            my $HiddenLine = $Selenium->find_element_by_css('.fc-now-indicator.fc-now-indicator-line');
-            ok( !$HiddenLine->is_displayed, 'now indicator line is no longer displayed' );
+            my $HiddenLine = $Selenium->find_element( '.fc-now-indicator.fc-now-indicator-line', 'css' );
+            ok( !$HiddenLine->is_displayed(), 'now indicator line is no longer displayed' );
         }
 
         # Click on the timeline view for an appointment dialog.
@@ -269,7 +276,7 @@ $Selenium->RunTest(
             AppointmentID => $AppointmentID,
             UserID        => $UserID,
         );
-        ok( $Success, "Deleted test appointment - $AppointmentID");
+        ok( $Success, "Deleted test appointment - $AppointmentID" );
 
         # Delete test calendar.
         if ( $Calendar{CalendarID} ) {
@@ -277,7 +284,7 @@ $Selenium->RunTest(
                 SQL  => 'DELETE FROM calendar WHERE id = ?',
                 Bind => [ \$Calendar{CalendarID} ],
             );
-            ok( $Success, "Deleted test calendar - $Calendar{CalendarID}");
+            ok( $Success, "Deleted test calendar - $Calendar{CalendarID}" );
         }
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
