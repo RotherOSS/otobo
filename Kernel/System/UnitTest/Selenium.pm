@@ -58,7 +58,7 @@ our $ObjectManagerDisabled = 1;
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
-        # Errors will cause an exeption. The exception will be passed to SeleniumErrorHandler().
+        # No special error handler is set up.
         around _execute_command => sub {
             my $Orig = shift;
             my $Self = shift;
@@ -220,11 +220,6 @@ around BUILDARGS => sub {
         base_url             => $BaseURL,
         webelement_class     => 'Kernel::System::UnitTest::Selenium::WebElement',
         javascript           => 1,                                                  # must be explicitly set, as the default is 0 in Test::Selenium::Remove::Driver
-        error_handler        => sub {
-            my $Self = shift;
-
-            return $Self->SeleniumErrorHandler(@_);
-        },
         $SeleniumTestsConfig->%*,
         @Args,
     );
@@ -290,22 +285,6 @@ sub button_up {
     }
 
     return $Self->_execute_command( { 'command' => 'buttonUp' } );
-}
-
-=head2 SeleniumErrorHandler()
-
-Selenium::Remove::Driver uses this callback in case of errors.
-Errors should not be discarded, they should be thrown as exceptions.
-Selenium methods like find_element() will catch the exception.
-Most other methods won't.
-
-=cut
-
-sub SeleniumErrorHandler {    ## no critic qw(Subroutines::RequireFinalReturn)
-    my ( $Self, $Error ) = @_;
-
-    my $Context = context();
-    $Context->throw($Error);
 }
 
 =head2 RunTest()
