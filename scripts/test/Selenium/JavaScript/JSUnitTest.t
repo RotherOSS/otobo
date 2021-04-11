@@ -69,9 +69,9 @@ $Selenium->RunTest(
                 ok( $Completed, "$File - JavaScript unit tests completed" );
 
                 $Selenium->LogExecuteCommandActive(0);
-                $Selenium->find_element_ok( "#qunit-testresult span.failed", 'css' );
-                $Selenium->find_element_ok( "#qunit-testresult span.passed", 'css' );
-                $Selenium->find_element_ok( "#qunit-testresult span.total",  'css' );
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.failed");
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.passed");
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.total");
                 $Selenium->LogExecuteCommandActive(1);
 
                 my $Passed = $Selenium->execute_script(

@@ -149,20 +149,26 @@ EOF
             'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             q{//option[@value='PhoneTicket']},
-            'xpath',
             "Split option for 'Phone Ticket' is enabled."
         );
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            $Selenium->find_no_element_ok(
-                q{//option[@value='EmailTicket']},
-                'xpath',
-                "Split option for 'Email Ticket' is disabled."
-            );
+        {
+            my $ToDo = todo('failing find_no_element_ok throws exception, issue #925');
+
+            try_ok {
+                my $ToDo = todo('setup of ACL may be messed up, issue #763');
+
+                $Selenium->find_no_element_ok(
+                    q{//option[@value='EmailTicket']},
+                    'xpath',
+                    "Split option for 'Email Ticket' is disabled."
+                );
+            }
+            'no exception for find_no_element_ok()';
         }
+
         $Selenium->find_element( '.Close', 'css' )->click();
 
         # back in the main window
@@ -198,9 +204,8 @@ EOF
                 "Split option for 'Phone Ticket' is disabled.",
             );
         }
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             q{//option[@value='EmailTicket']},
-            'xpath',
             "Split option for 'Email Ticket' is enabled.",
         );
         $Selenium->LogExecuteCommandActive(1);
