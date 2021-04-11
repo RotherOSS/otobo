@@ -16,16 +16,18 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self %Param));
-
+# core modules
 use Scalar::Util qw();
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::Output::HTML::Layout;
 
 # get needed objects
@@ -122,7 +124,7 @@ my @Tests = (
     {
         Name     => 'Translate() with parameters',
         Template => '[% Translate("Customer %s added", "Testkunde") %]',
-        Result   => 'Kunde Testkunde hinzugefügt',
+        Result   => "Kunde Testkunde hinzugef\x{00FC}gt",
     },
     {
         Name => 'Translate() filter with parameters',
@@ -130,7 +132,7 @@ my @Tests = (
             Text => 'Customer %s added',
         },
         Template => '[% Data.Text | Translate("Testkunde") %]',
-        Result   => 'Kunde Testkunde hinzugefügt',
+        Result   => "Kunde Testkunde hinzugef\x{00FC}gt",
     },
     {
         Name => 'Localize() TimeLong',
@@ -557,15 +559,10 @@ for my $Test (@Tests) {
         Data     => $Test->{Data} // {},
     );
 
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        $Test->{Name},
-    );
+    is( $Result, $Test->{Result}, $Test->{Name} );
 
+    # Reset time to the current timestamp.
     if ( $Test->{FixedTimeSet} ) {
-
-        # Reset time to the current timestamp.
         FixedTimeSet();
     }
 }
@@ -578,9 +575,10 @@ Scalar::Util::weaken($TemplateObject);
 
 undef $LayoutObject;
 
-$Self->False(
-    defined $TemplateObject,
-    "TemplateObject must be correctly destroyed (no ring references)",
+is(
+    $TemplateObject,
+    undef,
+    'TemplateObject must be correctly destroyed (no ring references)',
 );
 
-$Self->DoneTesting();
+done_testing();
