@@ -1139,4 +1139,108 @@ sub InputFieldValueSet {
     return 1;
 }
 
+=head2 find_element_by_xpath_ok
+
+Call call Selenium::Remote::Driver::find_element_by_xpath() and emit testing event accordingly.
+
+=cut
+
+sub find_element_by_xpath_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_element_by_xpath_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_xpath($Selector);
+
+    if ($MaybeElement) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_no_element_by_xpath_ok
+
+Call call Selenium::Remote::Driver::find_element_by_xpath() and emit testing event accordingly.
+
+=cut
+
+sub find_no_element_by_xpath_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_no_element_by_xpath_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_xpath($Selector);
+
+    if ( !$MaybeElement ) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_element_by_css_ok
+
+Call call Selenium::Remote::Driver::find_element_by_css() and emit testing event accordingly.
+
+=cut
+
+sub find_element_by_css_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_element_by_css_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_css($Selector);
+
+    if ($MaybeElement) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_no_element_by_css_ok
+
+Call call Selenium::Remote::Driver::find_element_by_css() and emit testing event accordingly.
+
+=cut
+
+sub find_no_element_by_css_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_no_element_by_css_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_css($Selector);
+
+    if ( !$MaybeElement ) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
 1;

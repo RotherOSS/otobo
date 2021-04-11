@@ -149,9 +149,8 @@ EOF
             'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             q{//option[@value='PhoneTicket']},
-            'xpath',
             "Split option for 'Phone Ticket' is enabled."
         );
 
@@ -205,9 +204,8 @@ EOF
                 "Split option for 'Phone Ticket' is disabled.",
             );
         }
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             q{//option[@value='EmailTicket']},
-            'xpath',
             "Split option for 'Email Ticket' is enabled.",
         );
         $Selenium->LogExecuteCommandActive(1);

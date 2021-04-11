@@ -157,9 +157,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview");
 
         # Search for new created ticket on CustomerTicketOverview screen.
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             "//a[contains(\@href, 'Action=CustomerTicketZoom;TicketNumber=$TicketNumber')]",
-            'xpath',
             "Ticket with ticket number $TicketNumber is found on screen"
         );
 

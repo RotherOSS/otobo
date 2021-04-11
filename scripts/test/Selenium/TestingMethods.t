@@ -64,14 +64,18 @@ $Selenium->RunTest(
         $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
         $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
         $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
+        $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
         $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
+        $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
 
         note('a couple of test cases that are succeeding, logging deactivated');
         $Selenium->LogExecuteCommandActive(0);
         $Selenium->content_contains(q{<h1>Status View: Open tickets</h1>});
         $Selenium->content_lacks(q{<h1>Status View: Closed tickets</h1>});
         $Selenium->find_element_ok(q{//div[@id='OverviewControl']});
+        $Selenium->find_element_by_xpath_ok(q{//div[@id='OverviewControl']});
         $Selenium->find_no_element_ok(q{//div[@id='OverviewOutOfControl']});
+        $Selenium->find_no_element_by_xpath_ok(q{//div[@id='OverviewOutOfControl']});
         $Selenium->LogExecuteCommandActive(1);
 
         # Now the same test cases but with the strings switched around.
@@ -92,19 +96,19 @@ $Selenium->RunTest(
             }
             'no exception for failing content_lacks()';
 
-            try_ok {
+            my $ExceptionFindElement = dies {
                 my $ToDO = todo('find_element_ok() expected to fail');
 
                 $Selenium->find_element_ok(q{//div[@id='OverviewOutOfControl']});
-            }
-            'no exception for failing find_element_ok()';
+            };
+            ok( $ExceptionFindElement, 'exception for failing find_element_ok()' );
 
-            try_ok {
+            my $ExceptionFindNoElement = dies {
                 my $ToDO = todo('find_no_element_ok() expected to fail');
 
                 $Selenium->find_no_element_ok(q{//div[@id='OverviewControl']});
-            }
-            'no exception for failing find_no_element_ok()';
+            };
+            ok( $ExceptionFindNoElement, 'exception for failing find_no_element_ok()' );
         }
 
         # Now the same test cases, with the strings switched around, again.
@@ -127,19 +131,19 @@ $Selenium->RunTest(
             }
             'no exception for failing content_lacks()';
 
-            try_ok {
+            my $ExceptionFindElement = dies {
                 my $ToDO = todo('find_element_ok() expected to fail');
 
                 $Selenium->find_element_ok(q{//div[@id='OverviewOutOfControl']});
-            }
-            'no exception for failing find_element_ok()';
+            };
+            ok( $ExceptionFindElement, 'exception for failing find_element_ok()' );
 
-            try_ok {
+            my $ExceptionFindNoElement = dies {
                 my $ToDO = todo('find_no_element_ok() expected to fail');
 
                 $Selenium->find_no_element_ok(q{//div[@id='OverviewControl']});
-            }
-            'no exception for failing find_no_element_ok()';
+            };
+            ok( $ExceptionFindNoElement, 'exception for failing find_no_element_ok()' );
         }
         $Selenium->LogExecuteCommandActive(1);
     },
