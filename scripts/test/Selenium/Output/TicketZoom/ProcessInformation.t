@@ -201,15 +201,13 @@ $Selenium->RunTest(
         );
 
         # verify there are process informations in 'Process Information' widget
-        $Selenium->find_element_ok(
-            "//p[contains(\@title, \'TestProcess' )]",
-            'xpath',
-            "Process name found in Process Information widget"
+        $Selenium->find_element_by_xpath_ok(
+            q{//p[contains(@title, 'TestProcess')]},
+            'Process name found in Process Information widget'
         );
-        $Selenium->find_element_ok(
-            "//p[contains(\@title, \'Shipping' )]",
-            'xpath',
-            "Process activity found in Ticket Information widget"
+        $Selenium->find_element_by_xpath_ok(
+            q{//p[contains(@title, 'Shipping')]},
+            'Process activity found in Ticket Information widget'
         );
 
         # click on 'Priority' and switch screen
@@ -241,9 +239,8 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # verify there is new activity in 'Process Information' widget
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_xpath_ok(
             q{//p[contains(@title, 'Ordering complete')]},
-            'xpath',
             "Process activity found in Process Information widget"
         );
 

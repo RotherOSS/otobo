@@ -75,9 +75,8 @@ $Selenium->RunTest(
         $Selenium->find_element( '.oooTicketListMessage', 'css' )->VerifiedClick();
 
         # verify that test queue is available for users group
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_css_ok(
             "#Dest option[value='$QueueID||$QueueName']",
-            'css',
             "$QueueName is available to select"
         );
 

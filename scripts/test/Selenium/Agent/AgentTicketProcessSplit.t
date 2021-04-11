@@ -338,7 +338,10 @@ $Selenium->RunTest(
         );
 
         # Verify form is loaded.
-        $Selenium->find_element_ok( '#CustomerAutoComplete', 'css', "Customer field is available." ) || die;
+        $Selenium->find_element_by_css_ok(
+            '#CustomerAutoComplete',
+            "Customer field is available."
+        ) || die;
 
         for my $TicketID (@DeleteTicketIDs) {
 

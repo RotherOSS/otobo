@@ -15,6 +15,7 @@
 # --
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -23,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -98,10 +97,7 @@ EOF
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "TicketCreateID $TicketID is created",
-        );
+        ok( $TicketID, "TicketCreateID $TicketID is created" );
 
         # Create email article.
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
@@ -117,10 +113,7 @@ EOF
             HistoryComment       => 'Customer sent an email',
             UserID               => 1,
         );
-        $Self->True(
-            $TicketID,
-            "ArticleID $ArticleID is created",
-        );
+        ok( $TicketID, "ArticleID $ArticleID is created" );
 
         # create and login test user
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -137,13 +130,9 @@ EOF
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful.'
         );
 
         # Navigate to AgentTicketZoom screen of created test ticket.
@@ -155,20 +144,31 @@ EOF
         $Selenium->WaitFor(
             JavaScript => 'return $("#SplitSubmit").length'
         );
-        $Self->False(
-            $Selenium->find_element_by_xpath(q{//option[@value='SnailMailTicket']}),
+        $Selenium->find_no_element_ok(
+            q{//option[@value='SnailMailTicket']},
+            'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
-        $Self->True(
-            $Selenium->find_element_by_xpath(q{//option[@value='PhoneTicket']}),
-            "Split option for 'Phone Ticket' is enabled.",
+        $Selenium->find_element_by_xpath_ok(
+            q{//option[@value='PhoneTicket']},
+            "Split option for 'Phone Ticket' is enabled."
         );
-        my $OptionEmailElement = $Selenium->find_element_by_xpath(q{//option[@value='EmailTicket']});
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            ok( !$OptionEmailElement, "Split option for 'Email Ticket' is disabled." );
+        {
+            my $ToDo = todo('failing find_no_element_ok throws exception, issue #925');
+
+            try_ok {
+                my $ToDo = todo('setup of ACL may be messed up, issue #763');
+
+                $Selenium->find_no_element_ok(
+                    q{//option[@value='EmailTicket']},
+                    'xpath',
+                    "Split option for 'Email Ticket' is disabled."
+                );
+            }
+            'no exception for find_no_element_ok()';
         }
+
         $Selenium->find_element( '.Close', 'css' )->click();
 
         # back in the main window
@@ -178,10 +178,7 @@ EOF
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
-            $Success,
-            "TicketID $TicketID is set to 'open' state"
-        );
+        ok( $Success, "TicketID $TicketID is set to 'open' state" );
 
         # Refresh screen.
         $Selenium->VerifiedRefresh();
@@ -193,21 +190,23 @@ EOF
             JavaScript => 'return $("#SplitSubmit").length'
         );
         $Selenium->LogExecuteCommandActive(0);
-        $Self->False(
-            $Selenium->find_element_by_xpath(q{//option[@value='SnailMailTicket']}),
+        $Selenium->find_no_element_ok(
+            q{//option[@value='SnailMailTicket']},
+            'xpath',
             "Split option for 'SnailMail Ticket' not available.",
         );
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            $Self->False(
-                $Selenium->find_element_by_xpath(q{//option[@value='PhoneTicket']}),
+            $Selenium->find_no_element_ok(
+                q{//option[@value='PhoneTicket']},
+                'xpath',
                 "Split option for 'Phone Ticket' is disabled.",
             );
         }
-        $Self->True(
-            $Selenium->find_element_by_xpath(q{//option[@value='EmailTicket']}),
-            "Split option for 'Email Ticket' is disabled.",
+        $Selenium->find_element_by_xpath_ok(
+            q{//option[@value='EmailTicket']},
+            "Split option for 'Email Ticket' is enabled.",
         );
         $Selenium->LogExecuteCommandActive(1);
         $Selenium->find_element( '.Close', 'css' )->click();
@@ -219,25 +218,18 @@ EOF
                 UserID => 1,
             );
 
-            $Success = $ACLObject->ACLDelete(
+            my $Success = $ACLObject->ACLDelete(
                 ID     => $ACLData->{ID},
                 UserID => 1,
             );
-            $Self->True(
-                $Success,
-                "ACL with ID $ACLData->{ID} is deleted"
-            );
+            ok( $Success, "ACL with ID $ACLData->{ID} is deleted" );
         }
 
         # Deploy again after we deleted the test ACL.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful.',
         );
 
         # Delete created test tickets.
@@ -254,10 +246,7 @@ EOF
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
     },
 );
 
