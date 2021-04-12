@@ -129,10 +129,7 @@ EOF
             HistoryComment       => 'Customer sent an email',
             UserID               => 1,
         );
-        $Self->True(
-            $TicketID,
-            "ArticleID $ArticleID is created",
-        );
+        ok( $ArticleID, "ArticleID $ArticleID is created" );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
