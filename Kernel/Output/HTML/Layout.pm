@@ -4742,6 +4742,45 @@ sub CustomerNavigationBar {
         }
     }
 
+    # check whether customer preferences should be shown
+    PERMISSION:
+    for my $Permission (qw(GroupRo Group)) {
+
+        # No access restriction.
+        if (
+            ref $FrontendModule->{CustomerPreferences}->{GroupRo} eq 'ARRAY'
+            && !scalar @{ $FrontendModule->{CustomerPreferences}->{GroupRo} }
+            && ref $FrontendModule->{CustomerPreferences}->{Group} eq 'ARRAY'
+            && !scalar @{ $FrontendModule->{CustomerPreferences}->{Group} }
+            )
+        {
+            $Param{ShowPreferences} = 1;
+            last PERMISSION;
+        }
+
+        # Array access restriction.
+        elsif (
+            $FrontendModule->{CustomerPreferences}->{$Permission}
+            && ref $FrontendModule->{CustomerPreferences}->{$Permission} eq 'ARRAY'
+            )
+        {
+            GROUP:
+            for my $Group ( @{ $FrontendModule->{CustomerPreferences}->{$Permission} } ) {
+                next GROUP if !$Group;
+                my $HasPermission = $GroupObject->PermissionCheck(
+                    UserID    => $Self->{UserID},
+                    GroupName => $Group,
+                    Type      => $Permission eq 'GroupRo' ? 'ro' : 'rw',
+
+                );
+                if ($HasPermission) {
+                    $Param{ShowPreferences} = 1;
+                    last PERMISSION;
+                }
+            }
+        }
+    }
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'CustomerNavigationBar',

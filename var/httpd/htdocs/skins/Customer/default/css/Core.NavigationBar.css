@@ -166,9 +166,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 #oooPreferences > svg {
     width: 24px;
     height: 24px;
-}
+} 
 
-#oooPreferences {
+#oooPreferences,
+#oooNoPref {
     display: block;
     position: relative;
     top: 1px;
@@ -177,20 +178,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     height: 24px;
 	fill: #fef235;
     fill: var(--colHighlight);
--webkit-transition: top 0.6s ease, left 1s ease;
-   -moz-transition: top 0.6s ease, left 1s ease;
-     -o-transition: top 0.6s ease, left 1s ease;
-        transition: top 0.6s ease, left 1s ease;
+-webkit-transition: top 1s ease, left 0.6s ease;
+   -moz-transition: top 1s ease, left 0.6s ease;
+     -o-transition: top 1s ease, left 0.6s ease;
+        transition: top 1s ease, left 0.6s ease;
     border-radius: 12px;
 }
 
 #oooUser:hover #oooPreferences {
     top: 22px;
     left: 22px;
-/*-webkit-transition: top 1s ease, left 0.7s ease;
-   -moz-transition: top 1s ease, left 0.7s ease;
-     -o-transition: top 1s ease, left 0.7s ease;
-        transition: top 1s ease, left 0.7s ease;*/
+-webkit-transition: top 0.6s ease, left 1s ease;
+   -moz-transition: top 0.6s ease, left 1s ease;
+     -o-transition: top 0.6s ease, left 1s ease;
+        transition: top 0.6s ease, left 1s ease;
 }
 
 #oooLogoutIcon {
@@ -249,6 +250,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooUser > .oooLogout {
 	width: 0px;
+    max-height: 32px;
 -webkit-transition: width 0.3s ease;
    -moz-transition: width 0.3s ease;
      -o-transition: width 0.3s ease;
@@ -258,19 +260,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 	width: 188px;
 }
 
-#oooUser h3 {
-    display: none;
-    color: #fff;
-    opacity: 0.8;
--webkit-transition: opacity 0.12s ease, color 0.12s ease;
-   -moz-transition: opacity 0.12s ease, color 0.12s ease;
-     -o-transition: opacity 0.12s ease, color 0.12s ease;
-        transition: opacity 0.12s ease, color 0.12s ease;
-}
-#oooUser:hover h3 {
-    opacity: 1;
-	color: #fef235;
-    color: var(--colHighlight);
+#oooPrefDesc {
+    position: relative;
+    left: 8px;
 }
 
 /* Modules */
@@ -324,11 +316,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
      -o-transition: opacity 0.12s ease, fill 0.12s ease;
         transition: opacity 0.12s ease, fill 0.12s ease;
 }
-#oooNavBarModuleIcons > a:hover > .oooIconContainer > svg {
-	opacity: 1;
-    fill: #fef235;
-    fill: var(--colHighlight);
-}
 
 #oooNavBarModuleIcons > a > .oooNavBarDescription {
 	width: 0px;
@@ -343,17 +330,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooNavBarModuleIcons > a > .oooNavBarDescription > h3 {
     display: none;
-    opacity: 0.4;
-	color: #fff;
--webkit-transition: opacity 0.12s ease, color 0.12s ease;
-   -moz-transition: opacity 0.12s ease, color 0.12s ease;
-     -o-transition: opacity 0.12s ease, color 0.12s ease;
-        transition: opacity 0.12s ease, color 0.12s ease;
-}
-#oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3 {
-    opacity: 1;
-	color: #fef235;
-    color: var(--colHighlight);
 }
 
 /* Expand Button */
@@ -398,6 +374,39 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooNavigation + #oooCustomerNotifications {
     display: none;
+}
+
+/* Text and svg colors */
+#oooUser > .oooLogout h3 {
+    opacity: 0.8;
+}
+
+#oooNavBarModuleIcons > a > .oooNavBarDescription > h3,
+#oooUser h3,
+#oooPrefDesc > p {
+    display: none;
+    color: #fff;
+    opacity: 0.4;
+    white-space: nowrap;
+-webkit-transition: opacity 0.12s ease, color 0.12s ease;
+   -moz-transition: opacity 0.12s ease, color 0.12s ease;
+     -o-transition: opacity 0.12s ease, color 0.12s ease;
+        transition: opacity 0.12s ease, color 0.12s ease;
+}
+
+#oooNavBarModuleIcons > a:hover > .oooNavBarDescription > h3,
+#oooUser a:hover > h3,
+#oooUser a:hover > p,
+#oooUser > .oooLogout .Highlight {
+	opacity: 1;
+    color: #fef235;
+    color: var(--colHighlight);
+}
+
+#oooNavBarModuleIcons > a:hover > .oooIconContainer > svg {
+	opacity: 1;
+    fill: #fef235;
+    fill: var(--colHighlight);
 }
 
 /* IE */
