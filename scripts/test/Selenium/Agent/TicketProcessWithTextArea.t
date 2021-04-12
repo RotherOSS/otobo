@@ -172,35 +172,42 @@ $Selenium->RunTest(
         );
 
         # Wait until form has loaded, if necessary.
-        $Selenium->WaitFor(
-            ElementExists => q{//button[@value='Submit']}
-        );
-        $Selenium->find_element(q{//button[@value='Submit']})->click();
-        $Selenium->WaitFor(
-            JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
-        );
+        my $ArticleID;
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
 
-        my $ArticleID = $Selenium->execute_script(
-            "return \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').val();"
-        );
+            try_ok {
+                $Selenium->WaitFor(
+                    ElementExists => q{//button[@value='Submit']}
+                );
+                $Selenium->find_element(q{//button[@value='Submit']})->click();
+                $Selenium->WaitFor(
+                    JavaScript => "return typeof(\$) === 'function' && \$('.ArticleID').length;"
+                );
 
-        my @Ticket   = split( 'TicketID=', $Selenium->get_current_url() );
-        my $TicketID = $Ticket[1];
+                $ArticleID = $Selenium->execute_script(
+                    "return \$('.Subject:contains(\"This is the subject\")').closest('tr').find('.ArticleID').val();"
+                );
+            }
 
-        my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
-            ChannelName => 'Email',
-        );
-        my %Article = $ArticleBackendObject->ArticleGet(
-            TicketID  => $TicketID,
-            ArticleID => $ArticleID,
-        );
+            my @Ticket   = split( 'TicketID=', $Selenium->get_current_url() );
+            my $TicketID = $Ticket[1];
 
-        # Check article body created in transition action of the test ticket.
-        # See bug#14229 for more information.
-        $Self->True(
-            index( $Article{Body}, $DefaultValue ) > -1,
-            "Article body is created well.",
-        );
+            my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForChannel(
+                ChannelName => 'Email',
+            );
+            my %Article = $ArticleBackendObject->ArticleGet(
+                TicketID  => $TicketID,
+                ArticleID => $ArticleID,
+            );
+
+            # Check article body created in transition action of the test ticket.
+            # See bug#14229 for more information.
+            $Self->True(
+                index( $Article{Body}, $DefaultValue ) > -1,
+                "Article body is created well.",
+            );
+        }
 
         # Remember created ticket, to delete the ticket at the end of the test.
         my @DeleteTicketIDs;

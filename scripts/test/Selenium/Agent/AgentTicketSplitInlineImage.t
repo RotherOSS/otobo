@@ -233,10 +233,16 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 
         # Wait until process is selected and all AJAX calls are finished.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
-        );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            try_ok {
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
+                );
+            };
+        }
         $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
         # Wait for the CKE to load.
@@ -444,4 +450,4 @@ $Selenium->RunTest(
     },
 );
 
-done_testing():
+done_testing();
