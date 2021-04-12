@@ -213,11 +213,13 @@ $Selenium->RunTest(
                 );
 
                 # Submit.
-                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $(".TicketZoom").length;'
-                );
+                try_ok {
+                    $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $(".TicketZoom").length;'
+                    );
+                };
             };
         }
 
