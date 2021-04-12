@@ -194,14 +194,11 @@ EOF
             UserID => 1,
         );
 
-        my $Success = $ACLObject->ACLDelete(
+        my $ACLDeleteSuccess = $ACLObject->ACLDelete(
             ID     => $ACLData->{ID},
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "ACL with ID $ACLData->{ID} is deleted"
-        );
+        ok( $ACLDeleteSuccess, "ACL with ID $ACLData->{ID} is deleted" );
 
         # Deploy again after we deleted the test ACL.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
@@ -215,23 +212,20 @@ EOF
         );
 
         # Delete created test tickets.
-        $Success = $TicketObject->TicketDelete(
+        my $TicketDeleteSuccess = $TicketObject->TicketDelete(
             TicketID => $TicketID,
             UserID   => 1,
         );
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-        if ( !$Success ) {
+        if ( !$TicketDeleteSuccess ) {
             sleep 3;
-            $Success = $TicketObject->TicketDelete(
+            $TicketDeleteSuccess = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $TicketDeleteSuccess, "Ticket with ticket ID $TicketID is deleted" );
     },
 );
 
