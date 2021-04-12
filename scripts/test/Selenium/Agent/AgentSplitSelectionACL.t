@@ -144,10 +144,9 @@ EOF
         $Selenium->WaitFor(
             JavaScript => 'return $("#SplitSubmit").length'
         );
-        $Selenium->find_no_element_ok(
+        $Selenium->find_no_element_by_xpath_ok(
             q{//option[@value='SnailMailTicket']},
-            'xpath',
-            "Split option for 'SnailMail Ticket' not available.",
+            q{Split option for 'SnailMail Ticket' not available},
         );
         $Selenium->find_element_by_xpath_ok(
             q{//option[@value='PhoneTicket']},
@@ -155,18 +154,12 @@ EOF
         );
 
         {
-            my $ToDo = todo('failing find_no_element_ok throws exception, issue #925');
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            try_ok {
-                my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-                $Selenium->find_no_element_ok(
-                    q{//option[@value='EmailTicket']},
-                    'xpath',
-                    "Split option for 'Email Ticket' is disabled."
-                );
-            }
-            'no exception for find_no_element_ok()';
+            $Selenium->find_no_element_by_xpath_ok(
+                q{//option[@value='EmailTicket']},
+                q{Split option for 'Email Ticket' is disabled},
+            );
         }
 
         $Selenium->find_element( '.Close', 'css' )->click();
@@ -190,18 +183,16 @@ EOF
             JavaScript => 'return $("#SplitSubmit").length'
         );
         $Selenium->LogExecuteCommandActive(0);
-        $Selenium->find_no_element_ok(
+        $Selenium->find_no_element_by_xpath_ok(
             q{//option[@value='SnailMailTicket']},
-            'xpath',
-            "Split option for 'SnailMail Ticket' not available.",
+            q{Split option for 'SnailMail Ticket' not available},
         );
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            $Selenium->find_no_element_ok(
+            $Selenium->find_no_element_by_xpath_ok(
                 q{//option[@value='PhoneTicket']},
-                'xpath',
-                "Split option for 'Phone Ticket' is disabled.",
+                q{Split option for 'Phone Ticket' is disabled},
             );
         }
         $Selenium->find_element_by_xpath_ok(
