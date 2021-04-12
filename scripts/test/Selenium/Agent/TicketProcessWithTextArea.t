@@ -16,18 +16,21 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Config;
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -206,10 +209,9 @@ $Selenium->RunTest(
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-        my $Success;
         for my $TicketID (@DeleteTicketIDs) {
 
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
@@ -222,22 +224,15 @@ $Selenium->RunTest(
                     UserID   => $TestUserID,
                 );
             }
-            $Self->True(
-                $Success,
-                "TicketID $TicketID is deleted",
-            );
+            ok( $Success, "TicketID $TicketID is deleted" );
         }
 
         # Delete the dynamic field values.
-        $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
+        my $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->AllValuesDelete(
             FieldID => $DynamicFieldID,
             UserID  => 1,
         );
-
-        $Self->True(
-            $Success,
-            "Dynamic field values deleted successfully - $DynamicFieldID.",
-        );
+        ok( $Success, "Dynamic field values deleted successfully - $DynamicFieldID." );
 
         # Delete dynamic field.
         $Success = $DynamicFieldObject->DynamicFieldDelete(
@@ -245,10 +240,7 @@ $Selenium->RunTest(
             UserID  => 1,
             Reorder => 1,
         );
-        $Self->True(
-            $Success,
-            "Dynamic field deleted successfully - $DynamicFieldID.",
-        );
+        ok( $Success, "Dynamic field deleted successfully - $DynamicFieldID." );
 
         # Clean up activities.
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
@@ -360,4 +352,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
