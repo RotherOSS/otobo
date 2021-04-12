@@ -16,18 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+our $Self;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -384,10 +388,14 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         # Check pre-selected process is loaded correctly, see bug#12850 ( https://bugs.otrs.org/show_bug.cgi?id=12850 ).
-        $Self->True(
-            $Selenium->find_element( "#Subject", 'css' ),
-            "Pre-selected process with activity dialog via URL is successful"
-        );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            $Selenium->find_element_by_css_ok(
+                "#Subject",
+                "Pre-selected process with activity dialog via URL is successful"
+            );
+        }
 
         # Navigate to AgentTicketProcess screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketProcess");
@@ -892,4 +900,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing();

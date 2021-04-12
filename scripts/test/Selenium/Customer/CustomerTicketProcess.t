@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -325,7 +326,14 @@ $Selenium->RunTest(
             Element => '#ProcessEntityID',
             Value   => $ListReverse{$ProcessName},
         );
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+
+        {
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+
+            try_ok {
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+            };
+        }
 
         # Check on DynamicField change - ACL restriction on Type field.
         # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
@@ -427,7 +435,8 @@ $Selenium->RunTest(
 
         {
             my $ToDo = todo('layout broken see https://github.com/RotherOSS/otobo/issues/843');
-            eval {
+
+            try_ok {
                 $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length;' );
