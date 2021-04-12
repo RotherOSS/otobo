@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -110,10 +108,7 @@ EOF
             OwnerID      => $UserID,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "TicketCreateID $TicketID is created",
-        );
+        ok( $TicketID, "TicketCreateID $TicketID is created" );
 
         # Create email article.
         my $ArticleID = $ArticleBackendObject->ArticleCreate(
@@ -135,13 +130,9 @@ EOF
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful.'
         );
 
         my @Tests = (
@@ -199,13 +190,9 @@ EOF
 
         # Deploy again after we deleted the test ACL.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful.'
         );
 
         # Delete created test tickets.
