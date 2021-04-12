@@ -426,6 +426,9 @@ $Selenium->RunTest(
             Element => '#DynamicField_TestDropdownACLProcess',
             Value   => 'c',
         );
+
+        sleep(11);
+
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         $Self->False(
