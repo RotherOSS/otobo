@@ -18,15 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+our $Self;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -279,8 +282,7 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Delete this ticket\"]').length;"
         );
 
-        my $ErrorMessage
-            = "This ticket does not exist, or you don't have permissions to access it in its current state.";
+        my $ErrorMessage = q{This ticket does not exist, or you don't have permissions to access it in its current state.};
 
         # Click on 'Delete' and check for ACL error message.
         $Selenium->find_element("//a[contains(\@title, 'Delete this ticket')]")->VerifiedClick();
@@ -394,7 +396,8 @@ $Selenium->RunTest(
             $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL => "DELETE FROM queue WHERE id = $QueueDelete",
             );
-            $Self->True(
+
+            ok(
                 $Success,
                 "DeleteID $QueueDelete is deleted",
             );
@@ -414,10 +417,7 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -428,4 +428,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
