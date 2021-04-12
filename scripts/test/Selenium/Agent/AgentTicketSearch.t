@@ -319,22 +319,21 @@ $Selenium->RunTest(
         {
             my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
 
-            eval {
+            try_ok {
                 $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
+
+                # Verify the alert message.
+                my $ExpectedAlertText = "Fulltext: $MinCharString";
+                like(
+                    $Selenium->get_alert_text(),
+                    $ExpectedAlertText,
+                    'Minimum character string search warning is found',
+                );
+
+                # Accept the alert to continue with the tests.
+                $Selenium->accept_alert();
             };
         }
-
-        sleep 1;
-
-        # Verify the alert message.
-        my $ExpectedAlertText = "Fulltext: $MinCharString";
-        $Self->True(
-            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
-            'Minimum character string search warning is found',
-        );
-
-        # Accept the alert to continue with the tests.
-        $Selenium->accept_alert();
 
         # Try to search fulltext with string more than 30 characters.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
@@ -343,18 +342,24 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
-        sleep 1;
+        {
+            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
 
-        # Verify the alert message.
-        $ExpectedAlertText = "Fulltext: $MaxCharString";
-        $Self->True(
-            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
-            'Maximum character string search warning is found',
-        );
+            try_ok {
+                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
-        # Accept the alert to continue with the tests.
-        $Selenium->accept_alert();
+                # Verify the alert message.
+                my $ExpectedAlertText = "Fulltext: $MaxCharString";
+                like(
+                    $Selenium->get_alert_text(),
+                    $ExpectedAlertText,
+                    'Maximum character string search warning is found',
+                );
+
+                # Accept the alert to continue with the tests.
+                $Selenium->accept_alert();
+            };
+        }
 
         # Try to search fulltext with 'stop word' search.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
@@ -363,17 +368,24 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
+        {
+            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
 
-        # Verify the alert message.
-        $ExpectedAlertText = "\nFulltext: because";
-        $Self->True(
-            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
-            'Stop word search string warning is found',
-        );
+            try_ok {
+                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
-        # Accept the alert to continue with the tests.
-        $Selenium->accept_alert();
+                # Verify the alert message.
+                my $ExpectedAlertText = "\nFulltext: because";
+                like(
+                    $Selenium->get_alert_text(),
+                    $ExpectedAlertText,
+                    'Stop word search string warning is found',
+                );
+
+                # Accept the alert to continue with the tests.
+                $Selenium->accept_alert();
+            };
+        }
 
         # Add Subject field and try searching subject with 'stop word' search.
         $Selenium->InputFieldValueSet(
@@ -389,18 +401,24 @@ $Selenium->RunTest(
         $Selenium->find_element( "MIMEBase_Subject",  'name' )->send_keys('because');
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
+        {
+            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
 
-        # Verify the alert message.
-        $ExpectedAlertText = "\nSubject: because";
+            try_ok {
+                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
-        $Self->True(
-            ( $Selenium->get_alert_text() =~ /$ExpectedAlertText/ ),
-            'Stop word search string warning is found',
-        );
+                # Verify the alert message.
+                my $ExpectedAlertText = "\nSubject: because";
+                like(
+                    $Selenium->get_alert_text(),
+                    $ExpectedAlertText,
+                    'Stop word search string warning is found',
+                );
 
-        # Accept the alert to continue with the tests.
-        $Selenium->accept_alert();
+                # Accept the alert to continue with the tests.
+                $Selenium->accept_alert();
+            };
+        }
 
         # Clear Subject field.
         $Selenium->find_element( "MIMEBase_Subject", 'name' )->clear();
