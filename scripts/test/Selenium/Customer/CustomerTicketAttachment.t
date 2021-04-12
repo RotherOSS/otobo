@@ -71,7 +71,7 @@ $Selenium->RunTest(
         );
 
         # Click on 'Issue a ticket'.
-        $Selenium->find_element_ok( '.oooTile_NewTicket', 'css' );
+        $Selenium->find_element_by_css_ok('.oooTile_NewTicket');
         $Selenium->find_element( '.oooTile_NewTicket', 'css' )->VerifiedClick();
 
         # Set up needed variables.
@@ -107,7 +107,7 @@ $Selenium->RunTest(
         ok( $TicketNumber, 'Ticket was created and found' );
 
         # Click on test created ticket on CustomerTicketOverview screen.
-        $Selenium->find_element_ok( $TicketNumber, 'partial_link_text' );
+        $Selenium->find_element_by_xpath_ok( $TicketNumber, 'partial_link_text' );
         $Selenium->find_element( $TicketNumber, 'partial_link_text' )->VerifiedClick();
 
         {
@@ -115,7 +115,7 @@ $Selenium->RunTest(
 
             # Click on attachment to open it.
             eval {
-                $Selenium->find_element_ok("//*[text()=\"$AttachmentName\"]");
+                $Selenium->find_element_by_xpath_ok("//*[text()=\"$AttachmentName\"]");
                 $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
 
                 # Switch to another window.

@@ -113,7 +113,9 @@ $Selenium->RunTest(
 
         # Check existence of test dynamic field in 'Information' popup.
         $Selenium->LogExecuteCommandActive(0);
-        $Selenium->find_element_ok(qq{//div[\@class="oooSection"]/p[\@class="ooo12"]/span[\@class="ooo12g"][contains(text(), "$DynamicFieldName")]});
+        $Selenium->find_element_by_xpath_ok(
+            qq{//div[\@class="oooSection"]/p[\@class="ooo12"]/span[\@class="ooo12g"][contains(text(), "$DynamicFieldName")]}
+        );
         $Selenium->LogExecuteCommandActive(1);
         is(
             $Selenium->execute_script(

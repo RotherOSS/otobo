@@ -168,9 +168,8 @@ $Selenium->RunTest(
 
         # Check for password recovery message for invalid customer user, for security measures it
         # should be visible.
-        $Selenium->find_element_ok(
+        $Selenium->find_element_by_css_ok(
             q{div.SuccessBox p},
-            'css',
             'Password recovery message found on screen for invalid customer',
         );
 
