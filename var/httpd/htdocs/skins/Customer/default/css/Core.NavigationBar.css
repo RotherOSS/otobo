@@ -66,6 +66,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooUser {
         max-width: 268px;
     }
+
+    #oooUser .oooLogout > a {
+        display: inline-block;
+    }
+
+    #oooUser .oooLogout > #oooPrefDesc {
+        left: 12px;
+    }
+
+    #oooPrefDesc span {
+        margin-right: 12px;
+        color: #fff !important;
+        opacity: 0.4 !important;
+    }
 }
 
 @media only screen and (min-width: 768px) {
@@ -103,10 +117,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         left: 36px;
     }
 
+    #oooPrefDesc span {
+        display: none;
+    }
 }
 
 #oooNavigation {
     position: fixed;
+    overflow: hidden;
     top: 0;
     left: 0;
     height: 100%;

@@ -70,7 +70,7 @@
                 </a>
 [% IF Data.ShowPreferences %]
                 <a id="oooPrefDesc" href="[% Env('Baselink') %]Action=CustomerPreferences" title="[% Translate("Preferences") | html %]">
-                    <p class='ooo12'>[% Translate("Preferences") | html %]</p>
+                    <p class='ooo12'><span>/</span>[% Translate("Preferences") | html %]</p>
                 </a>
 [% END %]
             </div>
