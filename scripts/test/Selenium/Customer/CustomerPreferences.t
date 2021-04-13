@@ -71,17 +71,17 @@ $Selenium->RunTest(
         # The look uses the testing methods provided by the Selenium::Remote::Driver distro.
         # Therefore the testing events from Kernel::System::UnitTest::Selenium are not needed.
         # TODO: also check CurPw NewPw NewPw1
-        $Selenium->LogExecuteCommandIsActive(0);
+        $Selenium->LogExecuteCommandActive(0);
         for my $ID (qw(UserLanguage UserShowTickets UserRefreshTime UserGoogleAuthenticatorSecretKey)) {
             my $Element = $Selenium->find_element_by_id($ID);    # throws no exception when no element is found
             ok( $Element, "element with id $ID was found" );
             $Element->is_enabled_ok();
             {
-                my $ToDo = todo('CustomerPreferences has layout issues, some elements are not displayed completely');
+                my $ToDo = todo('CustomerPreferences has layout issues, some elements are not displayed completely. See https://github.com/RotherOSS/otobo/issues/693');
                 $Element->is_displayed_ok();
             }
         }
-        $Selenium->LogExecuteCommandIsActive(1);
+        $Selenium->LogExecuteCommandActive(1);
 
         # check CustomerPreferences default values
         is(
@@ -117,7 +117,7 @@ $Selenium->RunTest(
 
         # check edited values
         {
-            my $ToDo = todo('CustomerPreferences still under construction');
+            my $ToDo = todo('CustomerPreferences still under construction. See https://github.com/RotherOSS/otobo/issues/693');
 
             $Self->Is(
                 $Selenium->find_element( '#UserRefreshTime', 'css' )->get_value(),
@@ -133,42 +133,45 @@ $Selenium->RunTest(
         );
 
         # test different language scenarios
-        # TODO: CustomerPreference not fully implemented
-        #for my $Language ( qw(de es ru zh_CN sr_Cyrl en) )
-        my $Language;
-        {
+        for my $Language (qw(de es ru zh_CN sr_Cyrl en)) {
+
             # change CustomerPreference language
             $Selenium->InputFieldValueSet(
                 Element => '#UserLanguage',
                 Value   => $Language,
             );
-            $Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
-            # check edited language value
-            $Self->Is(
-                $Selenium->find_element( '#UserLanguage', 'css' )->get_value(),
-                "$Language",
-                "#UserLanguage updated value",
-            );
+            my $ToDo = todo('CustomerPreferences still under construction. See https://github.com/RotherOSS/otobo/issues/693');
 
-            # create language object
-            my $LanguageObject = Kernel::Language->new(
-                UserLanguage => $Language,
-            );
+            eval {
+                $Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
-            # check for correct translation
-            $Selenium->content_contains(
-                $LanguageObject->Translate('Interface language'),
-                "Test widget 'Interface language' found on screen"
-            );
-            $Selenium->content_contains(
-                $LanguageObject->Translate('Number of displayed tickets'),
-                "Test widget 'Number of displayed tickets' found on screen"
-            );
-            $Selenium->content_contains(
-                $LanguageObject->Translate('Ticket overview'),
-                "Test widget 'Ticket overview' found on screen"
-            );
+                # check edited language value
+                $Self->Is(
+                    $Selenium->find_element( '#UserLanguage', 'css' )->get_value(),
+                    "$Language",
+                    "#UserLanguage updated value",
+                );
+
+                # create language object
+                my $LanguageObject = Kernel::Language->new(
+                    UserLanguage => $Language,
+                );
+
+                # check for correct translation
+                $Selenium->content_contains(
+                    $LanguageObject->Translate('Interface language'),
+                    "Test widget 'Interface language' found on screen"
+                );
+                $Selenium->content_contains(
+                    $LanguageObject->Translate('Number of displayed tickets'),
+                    "Test widget 'Number of displayed tickets' found on screen"
+                );
+                $Selenium->content_contains(
+                    $LanguageObject->Translate('Ticket overview'),
+                    "Test widget 'Ticket overview' found on screen"
+                );
+            };
         }
 
         # try updating the UserGoogleAuthenticatorSecret (which has a regex validation configured)

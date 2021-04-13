@@ -69,11 +69,11 @@ $Selenium->RunTest(
             {
                 Key           => 'ModernizeCustomerFormFields',
                 JSKey         => 'InputFieldsActivated',
-                ExpectedValue => '9',
+                ExpectedValue => '1',
             },
         );
 
-        # set the expected values
+        # set the expected valuesaa
         TEST:
         for my $Test (@Tests) {
 

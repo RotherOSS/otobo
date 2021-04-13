@@ -16,17 +16,21 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
-
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -161,56 +165,61 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
-        # Wait until page has loaded, if necessary.
-        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
 
-        # Hide DnDUpload and show input field.
-        $Selenium->execute_script(
-            "\$('.DnDUpload').css('display', 'none');"
-        );
-        $Selenium->execute_script(
-            "\$('#FileUpload').css('display', 'block');"
-        );
+            try_ok {
+                $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
-        # Scroll to attachment element view if necessary.
-        $Selenium->execute_script("\$('#FileUpload')[0].scrollIntoView(true);");
+                # Hide DnDUpload and show input field.
+                $Selenium->execute_script(
+                    "\$('.DnDUpload').css('display', 'none');"
+                );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').css('display', 'block');"
+                );
 
-        # Add an attachment.
-        $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
-        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+                # Scroll to attachment element view if necessary.
+                $Selenium->execute_script("\$('#FileUpload')[0].scrollIntoView(true);");
 
-        # Wait until attachment is uploaded, i.e. until it appears in the attachment list table.
-        #   Additional check for opacity makes sure that animation has been completed.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").filter(function() {
-                    return $(this).css("opacity") == 1;
-                }).length;'
-        );
+                # Add an attachment.
+                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
-        # Check if uploaded.
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
-            ),
-            1,
-            "'Main-Test1.txt' - uploaded"
-        );
+                # Wait until attachment is uploaded, i.e. until it appears in the attachment list table.
+                #   Additional check for opacity makes sure that animation has been completed.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").filter(function() {
+                            return $(this).css("opacity") == 1;
+                        }).length;'
+                );
 
-        $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
-        sleep 1;
-        $Selenium->execute_script(
-            q{
-                return CKEDITOR.instances.RichText.setData('This is a test text');
-            }
-        );
+                # Check if uploaded.
+                $Self->Is(
+                    $Selenium->execute_script(
+                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
+                    ),
+                    1,
+                    "'Main-Test1.txt' - uploaded"
+                );
 
-        # Submit.
-        $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $(".TicketZoom").length;'
-        );
+                $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
+                sleep 1;
+                $Selenium->execute_script(
+                    q{
+                        return CKEDITOR.instances.RichText.setData('This is a test text');
+                    }
+                );
+
+                # Submit.
+                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $(".TicketZoom").length;'
+                );
+            };
+        }
 
         my $Url = $Selenium->get_current_url();
 
@@ -364,4 +373,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();

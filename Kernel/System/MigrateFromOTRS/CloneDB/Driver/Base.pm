@@ -282,8 +282,17 @@ sub RowCount {
         }
     }
 
+    # This is a workaround for a very special case.
+    # There can be OTRS 6 running on MySQL 8, where groups is a reserverd word.
+    # See https://github.com/RotherOSS/otobo/issues/639
+    my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $Param{Table} eq 'groups' )
+        ?
+        q{'groups'}
+        :
+        $Param{Table};
+
     # execute counting statement, only a single row is returned
-    my $RowCountSQL = sprintf q{SELECT COUNT(*) FROM %s}, $Param{DBObject}->QuoteIdentifier( Table => $Param{Table} );
+    my $RowCountSQL = sprintf qq{SELECT COUNT(*) FROM $Table};
 
     return unless $Param{DBObject}->Prepare(
         SQL => $RowCountSQL,
@@ -625,7 +634,16 @@ sub DataTransfer {
                 my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 my $BindString        = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
-                $SelectSQL = "SELECT $SourceColumnsString{$SourceTable} FROM $QuotedSourceTable";
+
+                # This is a workaround for a very special case.
+                # There can be OTRS 6 running on MySQL 8, where groups is a reserverd word.
+                # See https://github.com/RotherOSS/otobo/issues/639
+                my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $SourceTable eq 'groups' )
+                    ?
+                    q{'groups'}
+                    :
+                    $SourceTable;
+                $SelectSQL = "SELECT $SourceColumnsString{$SourceTable} FROM $Table";
             }
 
             # Now fetch all the data and insert it to the target DB.

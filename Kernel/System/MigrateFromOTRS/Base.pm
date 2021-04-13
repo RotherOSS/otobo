@@ -1576,8 +1576,8 @@ sub DBShortenedColumns {
 sub CopyFileListfromOTRSToOTOBO {
     my @Files = (
         '/Kernel/Config.pm',
-        '/Kernel/Config.po',    # what is that ?
-        '/var/httpd/htdocs/index.html',
+        '/Kernel/Config.po',               # what is that ?
+        '/var/httpd/htdocs/index.html',    # why ?
         '/var/article',
         '/var/stats',
     );

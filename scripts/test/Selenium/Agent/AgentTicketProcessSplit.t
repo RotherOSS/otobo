@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -78,10 +76,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         push @DeleteTicketIDs, $TicketID;
 
@@ -101,10 +96,7 @@ $Selenium->RunTest(
             UserID               => 1,
             NoAgentNotify        => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "ArticleCreate - ID $ArticleID",
-        );
+        ok( $ArticleID, "ArticleCreate - ID $ArticleID" );
 
         $Selenium->Login(
             Type     => 'Agent',
@@ -166,9 +158,7 @@ $Selenium->RunTest(
             Element => '#SplitSelection',
             Value   => 'ProcessTicket',
         );
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#ProcessEntityID").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#ProcessEntityID', 'css' ] );
 
         # Change it to Process EntityID.
         $Selenium->InputFieldValueSet(
@@ -188,9 +178,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         # Check if customer user input is on create process screen.
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
 
         my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
@@ -198,11 +186,11 @@ $Selenium->RunTest(
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($RandomCustomerUser);
         $Selenium->find_element( "#CustomerID",           'css' )->send_keys($RandomCustomerUser);
 
-        # Check if select button is enabled.
-        $Self->Is(
+        # Check if select button is not disabled.
+        is(
             $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
             0,
-            "Button to select a other CustomerID is disabled",
+            "Button to select a other CustomerID is not disabled",
         );
 
         $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
@@ -232,7 +220,7 @@ $Selenium->RunTest(
         );
 
         # Verify there is link to parent ticket.
-        $Self->True(
+        ok(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID')]"
             ),
@@ -253,10 +241,7 @@ $Selenium->RunTest(
             ValidID             => 1,
             UserID              => 1,
         );
-        $Self->True(
-            $CustomerID,
-            "CustomerCompanyID $CustomerID is created",
-        );
+        ok( $CustomerID, "CustomerCompanyID $CustomerID is created" );
 
         # Create test customer user.
         my $TestUser      = 'CustomerUser' . $RandomID;
@@ -271,10 +256,7 @@ $Selenium->RunTest(
             ValidID        => 1,
             UserID         => 1
         );
-        $Self->True(
-            $CustomerUser,
-            "First CustomerUser $CustomerUser is created",
-        );
+        ok( $CustomerUser, "First CustomerUser $CustomerUser is created" );
 
         my $UserFormString = "\"$TestUser $TestUser\" <$TestUserEmail>";
         my $ArticleID2     = $ArticleBackendObject->ArticleCreate(
@@ -291,10 +273,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
-            $ArticleID2,
-            "Second article created."
-        );
+        ok( $ArticleID2, "Second article created." );
 
         # Go to linked Ticket.
         $Selenium->find_element(
@@ -306,7 +285,7 @@ $Selenium->RunTest(
         );
 
         # Verify there is link to child ticket.
-        $Self->True(
+        ok(
             $Selenium->find_elements(
                 "//a[contains(\@class, 'LinkObjectLink')][contains(\@href, 'Action=AgentTicketZoom;TicketID=$TicketID[1]')]"
             ),
@@ -336,15 +315,11 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 
-        $Selenium->WaitFor(
-            JavaScript => 'return $("#CustomerAutoComplete").length;'
-        );
+        $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
 
         # Check if correct user is selected after process ticket split.
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#CustomerAutoComplete').val().trim();"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#CustomerAutoComplete').val().trim();"),
             $UserFormString,
             "Preselected customer user is correct"
         );
@@ -362,17 +337,14 @@ $Selenium->RunTest(
         );
 
         # Verify form is loaded.
-        $Self->True(
-            $Selenium->execute_script(
-                "return \$('#CustomerAutoComplete').length;"
-            ),
+        $Selenium->find_element_by_css_ok(
+            '#CustomerAutoComplete',
             "Customer field is available."
         ) || die;
 
-        my $Success;
         for my $TicketID (@DeleteTicketIDs) {
 
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
@@ -385,10 +357,7 @@ $Selenium->RunTest(
                     UserID   => $TestUserID,
                 );
             }
-            $Self->True(
-                $Success,
-                "TicketID $TicketID is deleted",
-            );
+            ok( $Success, "TicketID $TicketID is deleted" );
         }
 
         # Clean up activities.
@@ -409,26 +378,20 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog $ActivityDialog->{Name} is deleted",
-                );
+                ok( $Success, "ActivityDialog $ActivityDialog->{Name} is deleted" );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
 
-            $Self->True(
-                $Success,
-                "Activity $Activity->{Name} is deleted",
-            );
+            ok( $Success, "Activity $Activity->{Name} is deleted" );
         }
 
         # Clean up transition actions
@@ -440,15 +403,11 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "TransitionAction $TransitionAction->{Name} is deleted",
-            );
+            ok( $Success, "TransitionAction $TransitionAction->{Name} is deleted" );
         }
 
         # Clean up transition.
@@ -460,48 +419,34 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition $Transition->{Name} is deleted",
-            );
+            ok( $Success, "Transition $Transition->{Name} is deleted" );
         }
 
         # Delete created test customer users.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        $Success = $DBObject->Do(
+        my $Success  = $DBObject->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$CustomerUser ],
         );
-        $Self->True(
-            $Success,
-            "Customer user $CustomerUser is deleted",
-        );
+        ok( $Success, "Customer user $CustomerUser is deleted" );
 
         # Delete created customer company.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM customer_company WHERE customer_id = ?",
             Bind => [ \$CustomerID ],
         );
-        $Self->True(
-            $Success,
-            "CustomerCompany $CustomerID is deleted.",
-        );
+        ok( $Success, "CustomerCompany $CustomerID is deleted." );
 
         # Delete test Process.
         $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "Process $Process->{Name} is deleted",
-        );
-
+        ok( $Success, "Process $Process->{Name} is deleted" );
     },
 );
 

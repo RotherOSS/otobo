@@ -170,7 +170,7 @@ sub Run {
     if ( $Self->{Subaction} eq 'Intro' ) {
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('Intro')
             );
 
@@ -191,7 +191,7 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'License' ) {
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('License')
             );
         $LayoutObject->Block(
@@ -219,7 +219,7 @@ sub Run {
         if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
             my $Output =
                 $LayoutObject->Header(
-                Title => "$Title - "
+                    Title => "$Title - "
                     . $LayoutObject->{LanguageObject}->Translate('Error')
                 );
             $Output .= $LayoutObject->Warning(
@@ -250,7 +250,7 @@ sub Run {
 
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('Database Selection')
             );
         $LayoutObject->Block(
@@ -270,7 +270,7 @@ sub Run {
         return $Output;
     }
 
-    # Check different requirements (AJAX).
+    # Check different requirements (AJAX) and return the result as JSON.
     elsif ( $Self->{Subaction} eq 'CheckRequirements' ) {
         my $CheckMode = $ParamObject->GetParam( Param => 'CheckMode' );
         my %Result;
@@ -327,12 +327,12 @@ sub Run {
         if ( $DBType eq 'mysql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $LayoutObject->{LanguageObject}->Translate(
-                'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
+                    'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
-                Title => "$Title - "
+                    Title => "$Title - "
                     . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
                 );
             $LayoutObject->Block(
@@ -376,7 +376,7 @@ sub Run {
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
             my $Output =
                 $LayoutObject->Header(
-                Title => "$Title - "
+                    Title => "$Title - "
                     . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
                 );
             $LayoutObject->Block(
@@ -416,7 +416,7 @@ sub Run {
         elsif ( $DBType eq 'oracle' ) {
             my $Output =
                 $LayoutObject->Header(
-                Title => "$Title - "
+                    Title => "$Title - "
                     . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
                 );
             $LayoutObject->Block(
@@ -479,7 +479,7 @@ sub Run {
         my $Output = $LayoutObject->Header(
             Title => $Title . '-'
                 . $LayoutObject->{LanguageObject}->Translate(
-                'Create Database'
+                    'Create Database'
                 ),
         );
 
@@ -652,7 +652,7 @@ sub Run {
         if ($ReConfigure) {
             my $Output =
                 $LayoutObject->Header(
-                Title => Translatable('Install OTOBO - Error')
+                    Title => Translatable('Install OTOBO - Error')
                 );
             $Output .= $LayoutObject->Warning(
                 Message => Translatable('Kernel/Config.pm isn\'t writable!'),
@@ -1033,7 +1033,7 @@ sub Run {
 
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('System Settings'),
             );
 
@@ -1146,7 +1146,7 @@ sub Run {
 
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('Configure Mail')
             );
         $LayoutObject->Block(
@@ -1279,7 +1279,7 @@ sub Run {
 
         my $Output =
             $LayoutObject->Header(
-            Title => "$Title - "
+                Title => "$Title - "
                 . $LayoutObject->{LanguageObject}->Translate('Finished')
             );
         $LayoutObject->Block(
@@ -1366,7 +1366,7 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
         or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     close $Out;
@@ -1433,7 +1433,7 @@ sub ConnectToDB {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'DBD::' . $Driver ) ) {
         return (
             Successful => 0,
-            Message =>
+            Message    =>
                 $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{LanguageObject}->Translate( "Can't connect to database, Perl module DBD::%s not installed!", $Driver ),
             Comment => "",
             DB      => undef,
@@ -1482,34 +1482,27 @@ sub ConnectToDB {
 sub CheckDBRequirements {
     my ( $Self, %Param ) = @_;
 
-    my %Result = $Self->ConnectToDB(
-        %Param,
-    );
-
+    my %Result       = $Self->ConnectToDB(%Param);
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # If mysql, check some more values.
+    # Check max_allowed_packet for MySQL
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
-        # Set max_allowed_packet.
-        my $MySQLMaxAllowedPacket            = 0;
-        my $MySQLMaxAllowedPacketRecommended = 64;
-
-        my $Data = $Result{DBH}->selectall_arrayref("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
-        $MySQLMaxAllowedPacket = $Data->[0]->[1] / 1024 / 1024;
-
-        if ( $MySQLMaxAllowedPacket < $MySQLMaxAllowedPacketRecommended ) {
+        # max_allowed_packet should be at least 64 MB
+        my $MaxAllowedPacketRecommendedMB = 64;
+        my ($MaxAllowedPacket) = $Result{DBH}->selectrow_array("SHOW variables WHERE Variable_name = 'max_allowed_packet'");
+        if ( $MaxAllowedPacket < $MaxAllowedPacketRecommendedMB * 1024 * 1024 ) {
             $Result{Successful} = 0;
             $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
                 "Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.",
-                $MySQLMaxAllowedPacketRecommended, $MySQLMaxAllowedPacket
+                $MaxAllowedPacketRecommendedMB, $MaxAllowedPacket / ( 1024 * 1024 )
             );
         }
     }
 
+    # Check innodb_log_file_size.
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
 
-        # Set innodb_log_file_size.
         my $MySQLInnoDBLogFileSize            = 0;
         my $MySQLInnoDBLogFileSizeMinimum     = 256;
         my $MySQLInnoDBLogFileSizeRecommended = 512;

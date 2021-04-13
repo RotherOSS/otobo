@@ -299,7 +299,7 @@ $Selenium->RunTest(
         $Self->Is(
             $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
             0,
-            "Button to select a other CustomerID is disabled",
+            "Button to select a other CustomerID is not disabled",
         );
 
         # Check if CustomerID is not cleared on blur event.
