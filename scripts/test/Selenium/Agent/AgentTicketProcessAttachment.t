@@ -165,6 +165,7 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
+        my $TicketID;
         {
             my $ToDo = todo('selection of process is not reliable, see #929');
 
@@ -213,31 +214,33 @@ $Selenium->RunTest(
                 );
 
                 # Submit.
-                $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $(".TicketZoom").length;'
-                );
+                try_ok {
+                    $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+                    $Selenium->WaitFor(
+                        JavaScript =>
+                            'return typeof($) === "function" && $(".TicketZoom").length;'
+                    );
+                };
             };
+
+            my $Url = $Selenium->get_current_url();
+
+            # Check if ticket is created (sent to AgentTicketZoom screen).
+            ok(
+                index( $Url, 'Action=AgentTicketZoom;TicketID=' ) > -1,
+                "Current URL is correct - AgentTicketZoom",
+            );
+
+            # Get test ticket ID.
+            my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
+            $TicketID = $TicketZoomUrl[1];
+
+            # Verify article attachment is created.
+            $Selenium->find_element_by_css_ok(
+                '.ArticleAttachments li',
+                "Attachment is created in process ticket article"
+            );
         }
-
-        my $Url = $Selenium->get_current_url();
-
-        # Check if ticket is created (sent to AgentTicketZoom screen).
-        $Self->True(
-            index( $Url, 'Action=AgentTicketZoom;TicketID=' ) > -1,
-            "Current URL is correct - AgentTicketZoom",
-        );
-
-        # Get test ticket ID.
-        my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
-        my $TicketID      = $TicketZoomUrl[1];
-
-        # Verify article attachment is created.
-        $Self->True(
-            $Selenium->execute_script("return \$('.ArticleAttachments li').length;"),
-            "Attachment is created in process ticket article"
-        );
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
@@ -330,21 +333,20 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Delete test ticket.
-        $Success = $TicketObject->TicketDelete(
-            TicketID => $TicketID,
-            UserID   => $TestUserID,
-        );
-        if ( !$Success ) {
-            sleep 3;
+        if ($TicketID) {
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
+            if ( !$Success ) {
+                sleep 3;
+                $Success = $TicketObject->TicketDelete(
+                    TicketID => $TicketID,
+                    UserID   => $TestUserID,
+                );
+            }
+            ok( $Success, "Delete ticket - $TicketID" );
         }
-        $Self->True(
-            $Success,
-            "Delete ticket - $TicketID"
-        );
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
