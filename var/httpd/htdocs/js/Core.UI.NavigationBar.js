@@ -143,11 +143,9 @@ Core.UI.NavigationBar = (function (TargetNS) {
         // special highlighting for preferences and logout
         $('#oooAvatar :first-child').hover(
             function() {
-                console.log('entering');
                 $('#oooUser .oooLogout h3').addClass('Highlight');
             },
             function() {
-                console.log('leaving');
                 $('#oooUser .oooLogout h3').removeClass('Highlight');
             },
         );
