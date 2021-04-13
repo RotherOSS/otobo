@@ -407,7 +407,13 @@ $Selenium->RunTest(
         );
 
         # Wait until form has loaded, if necessary.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            try_ok {
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+            };
+        }
 
         # Check on DynamicField change - ACL restriction on Type field.
         # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
@@ -420,6 +426,9 @@ $Selenium->RunTest(
             Element => '#DynamicField_TestDropdownACLProcess',
             Value   => 'c',
         );
+
+        sleep(11);
+
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
         $Self->False(
