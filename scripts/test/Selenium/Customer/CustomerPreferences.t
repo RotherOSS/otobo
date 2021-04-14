@@ -28,16 +28,15 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 # get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
+
     sub {
 
         # get helper object
@@ -89,12 +88,12 @@ $Selenium->RunTest(
             'en',
             '#UserLanguage stored value',
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserRefreshTime', 'css' )->get_value(),
             "0",
             "#UserRefreshTime stored value",
         );
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserShowTickets', 'css' )->get_value(),
             "25",
             "#UserShowTickets stored value",
@@ -126,9 +125,9 @@ $Selenium->RunTest(
             );
         }
 
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserShowTickets', 'css' )->get_value(),
-            "20",
+            '20',
             "#UserShowTickets updated value",
         );
 
@@ -205,7 +204,7 @@ $Selenium->RunTest(
         #$Selenium->find_element( '#UserLanguageUpdate', 'css' )->VerifiedClick();
 
         # Check if malicious code was sanitized.
-        #$Self->True(
+        #ok(
         #    $Selenium->execute_script(
         #        "return typeof window.iShouldNotExist === 'undefined';"
         #    ),
@@ -214,4 +213,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
