@@ -51,26 +51,33 @@ $Selenium->RunTest(
         # go to customer preferences
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
-        # change test user password preference, input incorrect current password
-        my $NewPw = "new" . $TestUserLogin;
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+        {
+            my $ToDo = todo('CustomerPreferencesGroups###Password not set per default. See https://github.com/RotherOSS/otobo/issues/935');
 
-        # check for incorrect password update preferences message on screen
-        my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
-        $Selenium->content_contains( $IncorrectUpdateMessage, 'Customer incorrect preferences password - update' );
+            try_ok {
 
-        # change test user password preference, correct input
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+                # change test user password preference, input incorrect current password
+                my $NewPw = "new" . $TestUserLogin;
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
 
-        # check for correct password update preferences message on screen
-        my $UpdateMessage = "Preferences updated successfully!";
-        $Selenium->content_contains( $UpdateMessage, 'Customer preference password - updated' );
+                # check for incorrect password update preferences message on screen
+                my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
+                $Selenium->content_contains( $IncorrectUpdateMessage, 'Customer incorrect preferences password - update' );
+
+                # change test user password preference, correct input
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#Update", 'css' )->VerifiedClick();
+
+                # check for correct password update preferences message on screen
+                my $UpdateMessage = "Preferences updated successfully!";
+                $Selenium->content_contains( $UpdateMessage, 'Customer preference password - updated' );
+            };
+        }
     }
 );
 
