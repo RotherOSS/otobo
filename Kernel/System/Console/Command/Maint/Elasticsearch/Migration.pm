@@ -21,12 +21,15 @@ use warnings;
 
 use Time::HiRes();
 
+use Kernel::System::VariableCheck qw(:all);
+
 use parent qw(Kernel::System::Console::BaseCommand);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
     'Kernel::System::Elasticsearch',
@@ -118,37 +121,33 @@ sub Run {
 
     if ( $Targets =~ /c/ ) {
         $Self->MigrateCompanies(
-            ESObject  => $ESObject,
-            NShards   => $Config->{NS},
-            NReplicas => $Config->{NR},
-            Sleep     => $MicroSleep,
+            ESObject => $ESObject,
+            Config   => $Config,
+            Sleep    => $MicroSleep,
         );
     }
 
     if ( $Targets =~ /u/ ) {
         $Self->MigrateCustomerUsers(
-            ESObject  => $ESObject,
-            NShards   => $Config->{NS},
-            NReplicas => $Config->{NR},
-            Sleep     => $MicroSleep,
+            ESObject => $ESObject,
+            Config   => $Config,
+            Sleep    => $MicroSleep,
         );
     }
 
     if ( $Targets =~ /t/ ) {
         $Self->MigrateTickets(
-            ESObject  => $ESObject,
-            NShards   => $Config->{NS},
-            NReplicas => $Config->{NR},
-            Sleep     => $MicroSleep,
+            ESObject => $ESObject,
+            Config   => $Config,
+            Sleep    => $MicroSleep,
         );
     }
 
     if ( $Targets =~ /i/ ) {
         $Self->MigrateConfigItems(
-            ESObject  => $ESObject,
-            NShards   => $Config->{NS},
-            NReplicas => $Config->{NR},
-            Sleep     => $MicroSleep,
+            ESObject => $ESObject,
+            Config   => $Config,
+            Sleep    => $MicroSleep,
         );
     }
 
@@ -223,14 +222,15 @@ sub MigrateCompanies {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 CustomerID => {
@@ -317,14 +317,15 @@ sub MigrateCustomerUsers {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 UserLogin => {
@@ -416,14 +417,15 @@ sub MigrateTickets {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 GroupID => {
@@ -560,14 +562,15 @@ sub MigrateConfigItems {
         );
     }
 
+    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    if ( !$IndexSettings ) {
+
+        # Error is shown in _IndexSettingsGet
+        return 0;
+    }
+
     my %Request = (
-        settings => {
-            index => {
-                number_of_shards   => $Param{NShards},
-                number_of_replicas => $Param{NReplicas},
-            },
-            'index.mapping.total_fields.limit' => 2000,
-        },
+        settings => $IndexSettings,
         mappings => {
             properties => {
                 ConfigItemID => {
@@ -642,6 +645,74 @@ sub MigrateConfigItems {
 
     return 1;
 
+}
+
+sub _IndexSettingsGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+
+    # for backword comaptibility
+    if ( !defined( $Config->{FieldsLimit} ) ) {
+        $Config->{FieldsLimit} = 2000;
+    }
+
+    my $IndexSettingsTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+
+    my $Settings = $Self->_ExpandTemplate(
+        Item         => $IndexSettingsTemplate,
+        Config       => $Config,
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
+    return $Settings;
+}
+
+sub _ExpandTemplate {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+    my $Node   = $Param{Item};
+
+    if ( ref $Node eq 'HASH' ) {
+        my %Expanded;
+        for my $Key ( keys( %{$Node} ) ) {
+            $Expanded{$Key} = $Self->_ExpandTemplate(
+                Item         => $Node->{$Key},
+                Config       => $Config,
+                LayoutObject => $Param{LayoutObject},
+            );
+        }
+        return \%Expanded;
+    }
+    elsif ( ref $Node eq 'ARRAY' ) {
+        my @Expanded;
+        for my $Item ( @{$Node} ) {
+            push(
+                @Expanded,
+                $Self->_ExpandTemplate(
+                    Item         => $Item,
+                    Config       => $Config,
+                    LayoutObject => $Param{LayoutObject},
+                )
+            );
+        }
+        return \@Expanded;
+    }
+    elsif ( !defined($Node) ) {
+        return;
+    }
+    elsif ( IsNumber($Node) ) {
+        return $Node;
+    }
+    elsif ( IsString($Node) ) {
+        return $Param{LayoutObject}->Output(
+            Template => $Node,
+            Data     => $Config,
+        );
+    }
+    else {
+        return $Node;
+    }
 }
 
 1;
