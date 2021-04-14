@@ -76,7 +76,7 @@ $Selenium->RunTest(
             ok( $Element, "element with id $ID was found" );
             $Element->is_enabled_ok();
             {
-                my $ToDo = todo('CustomerPreferences has layout issues, some elements are not displayed completely. See https://github.com/RotherOSS/otobo/issues/693');
+                my $ToDo = todo('Failing these tests is OK. The elements are usually simply off screen, but they can be scrolled to.');
                 $Element->is_displayed_ok();
             }
         }
