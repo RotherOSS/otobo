@@ -59,17 +59,11 @@ $Selenium->RunTest(
             Value   => 'Europe/Berlin',
         );
 
-        {
-            my $ToOo = todo('customer preferences not yet supported, see https://github.com/RotherOSS/otobo/issues/693');
+        $Selenium->find_element( "#UserTimeZoneUpdate", 'css' )->VerifiedClick();
 
-            eval {
-                $Selenium->find_element( "#UserTimeZoneUpdate", 'css' )->VerifiedClick();
-
-                # check for update preference message on screen
-                my $UpdateMessage = "Time zone updated successfully!";
-                $Selenium->content_contains( $UpdateMessage, 'Customer preference time zone - updated' );
-            };
-        }
+        # check for update preference message on screen
+        my $UpdateMessage = "Time zone updated successfully!";
+        $Selenium->content_contains( $UpdateMessage, 'Customer preference time zone - updated' );
     }
 );
 

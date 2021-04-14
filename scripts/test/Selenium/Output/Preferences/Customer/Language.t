@@ -61,20 +61,14 @@ $Selenium->RunTest(
             Value   => $Language,
         );
 
-        {
-            my $ToOo = todo('customer preferences not yet supported, see https://github.com/RotherOSS/otobo/issues/693');
+        $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
 
-            eval {
-                $Selenium->find_element( "#UserLanguageUpdate", 'css' )->VerifiedClick();
-
-                # check for update preference message on screen
-                my $LanguageObject = Kernel::Language->new(
-                    UserLanguage => $Language,
-                );
-                my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
-                $Selenium->content_contains( $UpdateMessage, 'Customer preference language - updated' );
-            };
-        }
+        # check for update preference message on screen
+        my $LanguageObject = Kernel::Language->new(
+            UserLanguage => $Language,
+        );
+        my $UpdateMessage = $LanguageObject->Translate('Preferences updated successfully!');
+        $Selenium->content_contains( $UpdateMessage, 'Customer preference language - updated' );
     }
 );
 
