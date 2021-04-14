@@ -445,11 +445,13 @@ sub Login {
         for my $Try ( 1 .. $MaxTries ) {
 
             eval {
-                my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+                # handle some differences between agent and customer interface
+                my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
                 my $LogoutXPath;          # Logout link differs between Agent and Customer interface.
-                my $CheckForGDPRBlurb;    # whether GDPR needs to be accepted during login
+                my $CheckForGDPRBlurb;    # only customers need to accept GDPR during login
                 if ( $Param{Type} eq 'Agent' ) {
-                    $ScriptAlias .= 'index.pl';
+                    $LoginPage .= 'index.pl';
                     $LogoutXPath       = q{//a[@id='LogoutButton']};
                     $CheckForGDPRBlurb = 0;
                 }
@@ -459,13 +461,13 @@ sub Login {
                     $CheckForGDPRBlurb = 1;
                 }
 
-                $Self->get($ScriptAlias);
+                $Self->get($LoginPage);
 
                 $Self->delete_all_cookies();
 
                 # Actually log in, making sure that the params are URL encoded.
                 # Keep the URL relative, so that the configured base URL applies.
-                my $LoginURL = URI->new($ScriptAlias);
+                my $LoginURL = URI->new($LoginPage);
                 $LoginURL->query_form(
                     {
                         Action   => 'Login',
@@ -500,6 +502,7 @@ sub Login {
                 # try again
                 next TRY if $Try < $MaxTries;
 
+                # giving up
                 $Context->throw("Login() not successfull after $MaxTries attempts!");
             }
 
