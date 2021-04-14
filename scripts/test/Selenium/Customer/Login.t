@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self (unused) and $Kernel::PL
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -84,11 +82,11 @@ $Selenium->RunTest(
         }
 
         # Check if autocomplete is disabled in login form.
-        $Self->True(
+        ok(
             $Selenium->find_element("//input[\@name=\'User\'][\@autocomplete=\'off\']"),
             'Autocomplete for username input field is disabled.'
         );
-        $Self->True(
+        ok(
             $Selenium->find_element("//input[\@name=\'Password\'][\@autocomplete=\'off\']"),
             'Autocomplete for password input field is disabled.'
         );
