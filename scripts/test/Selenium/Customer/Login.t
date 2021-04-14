@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::PL
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self (unused) and $Kernel::PL
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -84,11 +82,11 @@ $Selenium->RunTest(
         }
 
         # Check if autocomplete is disabled in login form.
-        $Self->True(
+        ok(
             $Selenium->find_element("//input[\@name=\'User\'][\@autocomplete=\'off\']"),
             'Autocomplete for username input field is disabled.'
         );
-        $Self->True(
+        ok(
             $Selenium->find_element("//input[\@name=\'Password\'][\@autocomplete=\'off\']"),
             'Autocomplete for password input field is disabled.'
         );
@@ -117,7 +115,9 @@ $Selenium->RunTest(
         }
 
         # check if login is successful
-        my $ButtonLogout = $Selenium->find_element(q{//a[@id='oooUser']});
+        $Selenium->find_element_by_xpath_ok(q{//div[@class='oooLogout']/a[@title='Logout']});
+        my $ButtonLogout = $Selenium->find_element_by_xpath(q{//a[@id='oooAvatar']});
+        ok( $ButtonLogout, 'logout button found' );
 
         # Check for footer, even though it is not visible
         my $PageSource = $Selenium->get_page_source();
@@ -132,23 +132,31 @@ $Selenium->RunTest(
         );
 
         # logout again
-        $ButtonLogout->VerifiedClick();
+        if ($ButtonLogout) {
+            $ButtonLogout->VerifiedClick();
+        }
+        else {
+            fail('Logout button is not available');
+        }
 
         # Check if autocomplete is enabled in login form.
-        $Self->True(
-            $Selenium->find_element("//input[\@name=\'User\'][\@autocomplete=\'username\']"),
+        ok(
+            $Selenium->find_element_by_xpath("//input[\@name=\'User\'][\@autocomplete=\'username\']"),
             'Autocomplete for username input field is enabled.'
         );
-        $Self->True(
-            $Selenium->find_element("//input[\@name=\'Password\'][\@autocomplete=\'current-password\']"),
+        ok(
+            $Selenium->find_element_by_xpath("//input[\@name=\'Password\'][\@autocomplete=\'current-password\']"),
             'Autocomplete for password input field is enabled.'
         );
 
         # check login page
-        my $InputUser2 = $Selenium->find_element( 'input#User', 'css' );
-        $InputUser2->is_displayed();
-        $InputUser2->is_enabled();
-        $InputUser2->send_keys($TestCustomerUserLogin);
+        my $InputUser2 = $Selenium->find_element_by_css('input#User');
+        ok( $InputUser2, 'user input field found' );
+        if ($InputUser2) {
+            $InputUser2->is_displayed();
+            $InputUser2->is_enabled();
+            $InputUser2->send_keys($TestCustomerUserLogin);
+        }
     }
 );
 
