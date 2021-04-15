@@ -211,8 +211,8 @@ $Selenium->RunTest(
 
         # Remember created ticket, to delete the ticket at the end of the test.
         my @DeleteTicketIDs;
-        my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketID[1];
+        ( undef, my $TicketID ) = split /TicketID=/, $Selenium->get_current_url();
+        push @DeleteTicketIDs, $TicketID;
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -231,7 +231,11 @@ $Selenium->RunTest(
                     UserID   => $TestUserID,
                 );
             }
-            ok( $Success, "TicketID $TicketID is deleted" );
+            {
+                my $ToDo = todo('selection of process is not reliable, see #929');
+
+                ok( $Success, "TicketID $TicketID is deleted" );
+            }
         }
 
         # Delete the dynamic field values.
