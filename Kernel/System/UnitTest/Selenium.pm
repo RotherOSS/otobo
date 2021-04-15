@@ -312,11 +312,9 @@ sub RunTest {
     }
     'RunTest: no exception should be thrown';
 
+    # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+    # HandleError() will create screenshots.
     if ($@) {
-        note("RunTest: $@");
-
-        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-        # HandleError() will create screenshots.
         $Self->_TestException($@);
     }
 
