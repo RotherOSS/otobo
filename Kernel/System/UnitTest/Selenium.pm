@@ -289,7 +289,7 @@ sub button_up {
 
 =head2 RunTest()
 
-runs a selenium test if Selenium testing is configured.
+runs a selenium test only if Selenium testing is activated.
 
     $SeleniumObject->RunTest( sub { ... } );
 
@@ -307,16 +307,18 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
+    my $Context = context();
+
     try_ok {
         $Code->();
     }
     'RunTest: no exception should be thrown';
 
-    if ($@) {
-        note("RunTest: $@");
+    $Context->release();
 
-        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-        # HandleError() will create screenshots.
+    # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+    # HandleError() will create screenshots.
+    if ($@) {
         $Self->_TestException($@);
     }
 
