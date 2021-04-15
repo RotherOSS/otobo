@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -70,18 +69,19 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
 
         # Check CustomerTicketMessage overview screen.
-        for my $ID (
-            qw(Dest Subject RichText PriorityID submitRichText)
-            )
-        {
+        for my $ID (qw(Dest Subject RichText PriorityID submitRichText FileUpload)) {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
         }
 
-        my $Element = $Selenium->find_element( ".DnDUpload", 'css' );
-        $Element->is_enabled();
-        $Element->is_displayed();
+        # also try a lookup by CSS clas
+        for my $Class (qw(DnDUpload)) {
+            my $Element = $Selenium->find_element( ".$Class", 'css' );
+            $Element->is_enabled();
+            $Element->is_displayed();
+        }
+
 
         # Check client side validation.
         $Selenium->find_element( "#Subject",        'css' )->clear();
