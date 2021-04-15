@@ -363,8 +363,6 @@ $Selenium->RunTest(
             sleep 1;
         }
 
-        my @DeleteTicketIDs;
-
         # Get Process list.
         my $List = $ProcessObject->ProcessList(
             UseEntities    => 1,
@@ -442,11 +440,15 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
         # Check further ACLs before the normal process tests.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-            3,
-            "DynamicField filtered options count",
-        );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            is(
+                $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                3,
+                "DynamicField filtered options count",
+            );
+        }
 
         $Selenium->InputFieldValueSet(
             Element => '#QueueID',
@@ -454,42 +456,49 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        $Self->Is(
-            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-            1,
-            "DynamicField filtered options count",
-        );
-
         my $SubjectRandom = 'Subject' . $RandomID;
         my $ContentRandom = 'Content' . $RandomID;
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
 
-        $Selenium->InputFieldValueSet(
-            Element => '#QueueID',
-            Value   => 2,
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+            is(
+                $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                1,
+                "DynamicField filtered options count",
+            );
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+            try_ok {
+                $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
+                $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
 
-        # Check for inputed values for first step in test Process ticket.
-        $Self->True(
-            index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
-            "$SubjectRandom found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), $ProcessName ) > -1,
-            "$ProcessName found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), 'open' ) > -1,
-            "Ticket open state found on page",
-        );
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => 2,
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+                # Check for inputed values for first step in test Process ticket.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
+                    "$SubjectRandom found on page",
+                );
+                $Self->True(
+                    index( $Selenium->get_page_source(), $ProcessName ) > -1,
+                    "$ProcessName found on page",
+                );
+                $Self->True(
+                    index( $Selenium->get_page_source(), 'open' ) > -1,
+                    "Ticket open state found on page",
+                );
+            };
+        }
 
         # Remember created ticket, to delete the ticket at the end of the test.
-        my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketID[1];
+        my @DeleteTicketIDs;
+        ( undef, my $TicketID ) = split /TicketID=/, $Selenium->get_current_url();
+        push @DeleteTicketIDs, $TicketID;
 
         # Go on next step in Process ticket.
         my $URLNextAction = $Selenium->execute_script("return \$('#DynamicFieldsWidget .Actions a').attr('href');");
@@ -526,7 +535,7 @@ $Selenium->RunTest(
 
         # Verify in ticket history that invisible dynamic field has been set to correct value in
         #   previous process step.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID[1]");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
         $Self->True(
             index( $Selenium->get_page_source(), 'Changed dynamic field TestTextZeroProcess from "" to "0".' ) > -1,
             'Dynamic field set to correct value by process'
@@ -565,8 +574,8 @@ $Selenium->RunTest(
         );
 
         # Remember created ticket, to delete the ticket at the end of the test.
-        @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketID[1];
+        ( undef, $TicketID ) = split /TicketID=/, $Selenium->get_current_url();
+        push @DeleteTicketIDs, $TicketID;
 
         # Check if NotificationOwnerUpdate is trigger for owner update on AgentTicketProcess. See bug#13930.
         # Add NotificationEvent.
@@ -684,24 +693,24 @@ $Selenium->RunTest(
 
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-        my @TicketOwnerID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketOwnerID[1];
+        ( undef, my $TicketOwnerID ) = split /TicketID=/, $Selenium->get_current_url();
+        push @DeleteTicketIDs, $TicketOwnerID;
 
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Check if created process ticket is locked.
         my %Ticket = $TicketObject->TicketGet(
-            TicketID => $TicketOwnerID[1],
+            TicketID => $TicketOwnerID,
         );
 
         $Self->Is(
             $Ticket{Lock},
             'unlock',
-            "TicketID $TicketOwnerID[1] is unlocked",
+            "TicketID $TicketOwnerID is unlocked",
         );
 
         # Go to ticket history.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketOwnerID[1]");
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketOwnerID");
 
         # Check if ticket history has notification send.
         my $OwnerMsg = 'Sent "'
@@ -721,7 +730,7 @@ $Selenium->RunTest(
         );
 
         for my $TicketID (@DeleteTicketIDs) {
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
@@ -734,10 +743,7 @@ $Selenium->RunTest(
                     UserID   => $TestUserID,
                 );
             }
-            $Self->True(
-                $Success,
-                "TicketID $TicketID is deleted",
-            );
+            ok( $Success, "TicketID $TicketID is deleted" );
         }
 
         # Clean up activities.

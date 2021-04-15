@@ -143,16 +143,16 @@ EOF
             Value   => 'PriorityIDs',
         );
 
-        # Check if restricted Type is not shown in dropdown.
-        $Self->True(
-            $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
-            "Type ID $TypeID is not found in Type dropdown"
-        );
-
-        # Check if restricted Priority is not shown in dropdown.
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
+            # Check if restricted Type is not shown in dropdown.
+            ok(
+                $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
+                "Type ID $TypeID is not found in Type dropdown"
+            );
+
+            # Check if restricted Priority is not shown in dropdown.
             ok(
                 $Selenium->execute_script("return !\$('#PriorityIDs option[value=\"$PriorityID\"]').length;"),
                 "Priority ID $PriorityID is not found in Priority dropdown"
