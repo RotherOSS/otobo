@@ -82,6 +82,12 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
+        # Select the queue before click on the '#submitRichText' field,
+        # because the validation would pop up the queue selection, which tricks InputFieldValueSet()
+        $Selenium->InputFieldValueSet(
+            Element => '#Dest',
+            Value   => '2||Raw',
+        );
 
         # Check client side validation.
         $Selenium->find_element( "#Subject",        'css' )->clear();
@@ -101,10 +107,6 @@ $Selenium->RunTest(
         # Input fields and create ticket.
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
         my $TextRandom    = "Text" . $Helper->GetRandomID();
-        $Selenium->InputFieldValueSet(
-            Element => '#Dest',
-            Value   => '2||Raw',
-        );
         $Selenium->find_element( "#Subject",        'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",       'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();
