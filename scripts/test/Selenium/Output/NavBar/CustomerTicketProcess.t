@@ -75,8 +75,9 @@ $Selenium->RunTest(
         # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
+        # TODO: https://github.com/RotherOSS/otobo/issues/932
+        sleep 11;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
