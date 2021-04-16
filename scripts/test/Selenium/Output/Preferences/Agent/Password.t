@@ -51,58 +51,63 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
-        # change test user password preference, input incorrect current password
-        my $NewPw = "new" . $TestUserLogin;
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+        {
+            my $ToDo = todo('CustomerPreferencesGroups###Password not set per default. See https://github.com/RotherOSS/otobo/issues/935');
 
-        is(
-            $Selenium->execute_script(
-                "return \$('#NewPw1').val()"
-            ),
-            $NewPw,
-            'NewPw field has accepted accentuated letters',
-        );
+            try_ok {
 
-        $Selenium->execute_script(
-            "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
-        );
-        is(
-            $Selenium->execute_script(
-                "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
-            ),
-            "The current password is not correct. Please try again!",
-            'Error message shows up correctly',
-        );
+                # change test user password preference, input incorrect current password
+                # TODO: test with accents: https://github.com/RotherOSS/otobo/issues/944
+                my $NewPw = "new" . $TestUserLogin;
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
 
-        # change test user password preference, correct input
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
-        $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
-        $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+                is(
+                    $Selenium->execute_script( "return \$('#NewPw1').val()"),
+                    $NewPw,
+                    'NewPw field has been accepted',
+                );
 
-        $Selenium->execute_script(
-            "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return !\$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
-        );
+                $Selenium->execute_script(
+                    "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+                );
+                $Selenium->WaitFor(
+                    JavaScript => "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+                );
+                is(
+                    $Selenium->execute_script(
+                        "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
+                    ),
+                    "The current password is not correct. Please try again!",
+                    'Error message shows up correctly',
+                );
 
-        # Verify password change is successful.
-        $Selenium->Login(
-            Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $NewPw,
-        );
-        ok(
-            $Selenium->find_element( 'a#LogoutButton', 'css' ),
-            "Password change is successful"
-        );
+                # change test user password preference, correct input
+                $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
+                $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
+                $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
+
+                $Selenium->execute_script(
+                    "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
+                );
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return !\$('#NewPw1').closest('.WidgetSimple').hasClass('HasOverlay')"
+                );
+
+                # Verify password change is successful.
+                $Selenium->Login(
+                    Type     => 'Agent',
+                    User     => $TestUserLogin,
+                    Password => $NewPw,
+                );
+                ok(
+                    $Selenium->find_element( 'a#LogoutButton', 'css' ),
+                    "Password change is successful"
+                );
+            };
+        }
     }
 );
 
