@@ -129,7 +129,7 @@ $Selenium->RunTest(
         );
 
         # Delete Attachment.
-        $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[1]", 'xpath' )->click();
+        $Selenium->find_element( "(//a[\@class='AttachmentDelete ooo12g'])[1]", 'xpath' )->click();
         sleep 1;
 
         # Wait until attachment is deleted.
