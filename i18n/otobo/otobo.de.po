@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-02-22 10:54+0000\n"
+"PO-Revision-Date: 2021-04-16 12:24+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -19769,9 +19769,8 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
-#, fuzzy
 msgid "Agent dynamic field database details."
-msgstr "Details dynamisches Feld Datenbank Agentenbereich"
+msgstr "Agent dynamic field database details."
 
 #. SysConfig
 msgid "Agent dynamic field database search."
@@ -21168,18 +21167,16 @@ msgid "Customer Dashboard"
 msgstr "Kunden-Dashboard"
 
 #. SysConfig
-#, fuzzy
 msgid "Customer Dynamic Field Database Detailed Search"
 msgstr "Customer Dynamic Field Database Detailed Search"
 
 #. SysConfig
-#, fuzzy
 msgid "Customer Dynamic Field Database Details"
 msgstr "Customer Dynamic Field Database Details"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Customer IDs"
