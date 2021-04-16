@@ -1000,7 +1000,7 @@ sub DEMOLISH {
 
 =head2 WaitForjQueryEventBound()
 
-waits until event handler is bound to the selected C<jQuery> element. Deprecated - it will be removed in the future releases.
+waits until event handler is bound to the selected C<jQuery> element.
 
     $SeleniumObject->WaitForjQueryEventBound(
         CSSSelector => 'li > a#Test',       # (required) css selector
@@ -1012,6 +1012,8 @@ waits until event handler is bound to the selected C<jQuery> element. Deprecated
 sub WaitForjQueryEventBound {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # Check needed stuff.
     if ( !$Param{CSSSelector} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1022,51 +1024,64 @@ sub WaitForjQueryEventBound {
         return;
     }
 
-    my $Context = context();
-
     my $Event = $Param{Event} || 'click';
 
-    # Wait for element availability.
-    $Self->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
-    );
+    my $Code = sub {
 
-    # Wait for jQuery initialization.
-    $Self->WaitFor(
-        JavaScript =>
-            'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
-    );
+        # Wait for element availability.
+        $Self->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
+        );
 
-    # Get jQuery object keys.
-    my $Keys = $Self->execute_script(
-        'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
-    );
+        # Wait for jQuery initialization.
+        $Self->WaitFor(
+            JavaScript => 'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
+        );
 
-    if ( !IsArrayRefWithData($Keys) ) {
-        $Context->throw("Couldn't determine jQuery object id");
-    }
+        # Get jQuery object keys.
+        my $Keys = $Self->execute_script(
+            'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
+        );
 
-    my $JQueryObjectID;
-
-    KEY:
-    for my $Key ( @{$Keys} ) {
-        if ( $Key =~ m{^jQuery\d+$} ) {
-            $JQueryObjectID = $Key;
-            last KEY;
+        if ( !IsArrayRefWithData($Keys) ) {
+            $Context->throw("Couldn't determine jQuery object id");
         }
-    }
 
-    if ( !$JQueryObjectID ) {
-        $Context->throw("Couldn't determine jQuery object id.");
-    }
+        my $JQueryObjectID;
 
-    # Wait until click event is bound to the element.
-    $Self->WaitFor(
-        JavaScript =>
-            'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        KEY:
+        for my $Key ( @{$Keys} ) {
+            if ( $Key =~ m{^jQuery\d+$} ) {
+                $JQueryObjectID = $Key;
+
+                last KEY;
+            }
+        }
+
+        if ( !$JQueryObjectID ) {
+            $Context->throw("Couldn't determine jQuery object id.");
+        }
+
+        # Wait until click event is bound to the element.
+        $Self->WaitFor(
+            JavaScript =>
+                'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        );
+    };
+
+    my $Pass = run_subtest(
+        'WaitForjQueryEventBound()',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
     );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw('WaitForjQueryEventBound() failed') unless $Pass;
 
     $Context->release();
 
