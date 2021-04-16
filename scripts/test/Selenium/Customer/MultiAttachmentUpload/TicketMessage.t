@@ -16,22 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Output::HTML::Layout;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+use Kernel::Output::HTML::Layout;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -112,7 +113,7 @@ $Selenium->RunTest(
         sleep 1;
 
         # Check if uploaded.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.doc\")').length"
             ),
@@ -120,7 +121,7 @@ $Selenium->RunTest(
         );
 
         # Check if files still there.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('.AttachmentList tbody tr td.Filename:contains(\"Main-Test1.doc\")').length"
             ),
@@ -138,7 +139,7 @@ $Selenium->RunTest(
         );
 
         # Check if deleted.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('.AttachmentDelete i').length === 0"
             ),
@@ -147,4 +148,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
