@@ -64,7 +64,7 @@ $Selenium->RunTest(
                 $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
 
                 is(
-                    $Selenium->execute_script( "return \$('#NewPw1').val()"),
+                    $Selenium->execute_script("return \$('#NewPw1').val()"),
                     $NewPw,
                     'NewPw field has been accepted',
                 );
