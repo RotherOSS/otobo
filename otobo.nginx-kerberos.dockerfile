@@ -35,14 +35,14 @@ RUN cd /usr/src && \
     cd "/usr/src/nginx-${NGINX_VERSION}" && \
     ./configure --with-compat "${NGINX_CONFIG}" --add-dynamic-module="${SPNEGO_AUTH_DIR}" && \
     make modules && \
-    cp objs/ngx_*_module.so /usr/lib
+    cp objs/ngx_*_module.so /usr/lib/nginx/modules/
 
 
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
-
+COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
 RUN apt-get update\
