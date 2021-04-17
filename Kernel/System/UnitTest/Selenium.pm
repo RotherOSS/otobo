@@ -28,6 +28,7 @@ use File::Path qw(remove_tree);
 use Time::HiRes qw();
 use File::Spec;
 use File::Copy qw(copy);
+use Module::Load qw(autoload);
 
 # CPAN modules
 use Test2::V0;
@@ -47,6 +48,7 @@ our $ObjectManagerDisabled = 1;
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
 # Extending with 'around' is only done when the the class is actually extended.
+BEGIN
 {
     # Check whether Selenium testing is activated.
     # Note that $Kernel::OM must exist before this module is loaded.
@@ -55,6 +57,10 @@ our $ObjectManagerDisabled = 1;
     if ( $SeleniumTestsConfig->%* ) {
 
         extends 'Test::Selenium::Remote::Driver';
+
+        # load some needed CPAN modules dynamically
+        autoload Kernel::System::UnitTest::Selenium::WebElement;
+        autoload Selenium::Waiter;
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
@@ -201,9 +207,6 @@ around BUILDARGS => sub {
             _SeleniumTestsConfig => $SeleniumTestsConfig,
         } unless $Packet;
     }
-
-    $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
-        || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
 
     my $BaseURL = join '://',
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
@@ -567,20 +570,12 @@ sub WaitFor {
         $Context->throw("Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.");
     }
 
-    my $TimeOut                 = $Param{Time} // 20;             # time span after which WaitFor() gives up
-    my $WaitedSeconds           = 0;                              # counting up to $TimeOut
-                                                                  # Apparently some WaitFor() call fail because some elements show up only briefly.
-                                                                  # This might cause heisenbugs.
-                                                                  # Therefore fine tune the initial sleep times.
-    my @Intervals               = ( 0.025, 0.050, 0.075, 0.1 );
-    my $DefaultInterval         = 0.1;
-    my $Interval                = $DefaultInterval;
-    my $FindElementSleepSeconds = 0.5;                            # sleep after a successful find_element(), no idea why this is useful
+    my $TimeOut = $Param{Time} // 20;             # time span after which WaitFor() gives up
 
-    my $Success = 0;
+    # dies on the first exception the escacpes the block, because 'die => 1', is passed
+    my $Success = wait_until {
 
-    WAIT:
-    while ( $WaitedSeconds <= $TimeOut ) {
+        my $WaitSuccess;
 
         if ( $Param{JavaScript} ) {
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
@@ -591,9 +586,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
         elsif ( $Param{WindowCount} ) {
@@ -605,9 +598,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( $NumWindows == $Param{WindowCount} ) {
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
         elsif ( $Param{AlertPresent} ) {
@@ -621,9 +612,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
         elsif ( $Param{Callback} ) {
@@ -635,9 +624,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
         elsif ( $Param{ElementExists} ) {
@@ -651,11 +638,8 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                Time::HiRes::sleep($FindElementSleepSeconds);
 
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
         elsif ( $Param{ElementMissing} ) {
@@ -669,24 +653,13 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( !$Ret ) {
-                Time::HiRes::sleep($FindElementSleepSeconds);
 
-                $Success = 1;
-
-                last WAIT;
+                $WaitSuccess = 1;
             }
         }
 
-        # Interval timing is solely trial and error
-        if ( @Intervals && ( $Param{ElementExists} || $Param{ElementMissing} ) ) {
-            $Interval = shift @Intervals;
-        }
-        Time::HiRes::sleep($Interval);
-        $WaitedSeconds += $Interval;
-        $Interval      += 0.1;
-
-        $Context->note("waited for $WaitedSeconds s");
-    }
+        $WaitSuccess;    # waiting is done when true
+    } die =>1, timeout => $TimeOut;
 
     # something short that identfies the WaitFor target
     my $Argument = '';
