@@ -75,6 +75,8 @@ require/load a module
         Silent => 1,                # optional, no log entry if module was not found
     );
 
+Note that this is not a full replacement for C<use My::Module;>, as the C<import> function of the loaded module is not called.
+
 =cut
 
 sub Require {
