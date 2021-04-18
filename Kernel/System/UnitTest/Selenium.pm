@@ -25,10 +25,9 @@ use utf8;
 # core modules
 use MIME::Base64 qw(decode_base64);
 use File::Path qw(remove_tree);
-use Time::HiRes qw();
+use Time::HiRes qw(sleep gettimeofday tv_interval);
 use File::Spec;
 use File::Copy qw(copy);
-use Module::Load qw(autoload);
 
 # CPAN modules
 use Test2::V0;
@@ -48,7 +47,6 @@ our $ObjectManagerDisabled = 1;
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
 # Extending with 'around' is only done when the the class is actually extended.
-BEGIN
 {
     # Check whether Selenium testing is activated.
     # Note that $Kernel::OM must exist before this module is loaded.
@@ -57,10 +55,6 @@ BEGIN
     if ( $SeleniumTestsConfig->%* ) {
 
         extends 'Test::Selenium::Remote::Driver';
-
-        # load some needed CPAN modules dynamically
-        autoload Kernel::System::UnitTest::Selenium::WebElement;
-        autoload Selenium::Waiter;
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
@@ -207,6 +201,12 @@ around BUILDARGS => sub {
             _SeleniumTestsConfig => $SeleniumTestsConfig,
         } unless $Packet;
     }
+
+    # load some needed CPAN modules dynamically
+    $Kernel::OM->Get('Kernel::System::Main')->Require('Kernel::System::UnitTest::Selenium::WebElement')
+        || die "Could not load Kernel::System::UnitTest::Selenium::WebElement";
+    $Kernel::OM->Get('Kernel::System::Main')->Require('Selenium::Waiter')
+        || die "Could not load Selenium::Waiter";
 
     my $BaseURL = join '://',
         $Kernel::OM->Get('Kernel::Config')->Get('HttpType'),
@@ -570,12 +570,12 @@ sub WaitFor {
         $Context->throw("Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.");
     }
 
-    my $TimeOut = $Param{Time} // 20;             # time span after which WaitFor() gives up
+    my $TimeOut                 = $Param{Time} // 20;    # time span after which WaitFor() gives up
+    my $FindElementSleepSeconds = 0.5;                   # sleep after a successful find_element(), no idea why this is useful
 
-    # dies on the first exception the escacpes the block, because 'die => 1', is passed
-    my $Success = wait_until {
-
-        my $WaitSuccess;
+    my $StartTime       = [gettimeofday];
+    my $CountIterations = 0;
+    my $Code            = sub {
 
         if ( $Param{JavaScript} ) {
             my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
@@ -586,7 +586,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $WaitSuccess = 1;
+                return 1;
             }
         }
         elsif ( $Param{WindowCount} ) {
@@ -598,7 +598,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( $NumWindows == $Param{WindowCount} ) {
-                $WaitSuccess = 1;
+                return 1;
             }
         }
         elsif ( $Param{AlertPresent} ) {
@@ -612,7 +612,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $WaitSuccess = 1;
+                return 1;
             }
         }
         elsif ( $Param{Callback} ) {
@@ -624,7 +624,7 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                $WaitSuccess = 1;
+                return 1;
             }
         }
         elsif ( $Param{ElementExists} ) {
@@ -638,8 +638,9 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
+                sleep($FindElementSleepSeconds);
 
-                $WaitSuccess = 1;
+                return 1;
             }
         }
         elsif ( $Param{ElementMissing} ) {
@@ -653,13 +654,30 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( !$Ret ) {
+                sleep($FindElementSleepSeconds);
 
-                $WaitSuccess = 1;
+                return 1;
             }
         }
 
-        $WaitSuccess;    # waiting is done when true
-    } die =>1, timeout => $TimeOut;
+        $Context->note(
+            sprintf
+                '%.2f seconds elapsed after %d iteration%s',
+            tv_interval($StartTime),
+            ++$CountIterations,
+            ( $CountIterations == 1 ? '' : 's' )
+        );
+
+        # keep on waiting or give up
+        return 0;
+    };
+
+    # dies on the first exception the escacpes the sub, because 'die => 1', is passed
+    my $Success = Selenium::Waiter::wait_until(
+        $Code,
+        die     => 1,
+        timeout => $TimeOut
+    );
 
     # something short that identfies the WaitFor target
     my $Argument = '';
