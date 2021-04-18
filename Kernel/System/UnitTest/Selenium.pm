@@ -23,7 +23,6 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use MIME::Base64 qw(decode_base64);
 use File::Path qw(remove_tree);
 use Time::HiRes qw(sleep gettimeofday tv_interval);
 use File::Spec;
@@ -38,8 +37,6 @@ use Try::Tiny;
 use URI;
 
 # OTOBO modules
-use Kernel::Config;
-use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -258,7 +255,6 @@ Therefore override that subroutine.
 =cut
 
 sub button_up {
-
     my ($Self) = @_;
 
     if (
@@ -986,8 +982,6 @@ sub DEMOLISH {
 
     return;
 }
-
-=head1 DEPRECATED FUNCTIONS
 
 =head2 WaitForjQueryEventBound()
 
