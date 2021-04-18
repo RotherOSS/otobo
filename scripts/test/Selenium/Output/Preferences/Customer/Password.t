@@ -52,10 +52,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
         {
-            my $ToOo = todo('customer preferences not yet supported, see https://github.com/RotherOSS/otobo/issues/693');
+            my $ToDo = todo('CustomerPreferencesGroups###Password not set per default. See https://github.com/RotherOSS/otobo/issues/935');
 
-            eval {
+            try_ok {
+
                 # change test user password preference, input incorrect current password
+                # TODO: test with accents: https://github.com/RotherOSS/otobo/issues/944
                 my $NewPw = "new" . $TestUserLogin;
                 $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
                 $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);

@@ -35,7 +35,6 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Do not check RichText.
@@ -313,25 +312,26 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-        # Check pre-selected process is loaded correctly.
-        $Self->True(
-            $Selenium->find_element( "#Subject", 'css' ),
-            "Pre-selected process with activity dialog via URL is successful"
-        );
-
-        # Navigate to CustomerTicketProcess screen.
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
-
-        # Create first scenario for test CustomerTicketProcess.
-        $Selenium->InputFieldValueSet(
-            Element => '#ProcessEntityID',
-            Value   => $ListReverse{$ProcessName},
-        );
-
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
             try_ok {
+
+                # Check pre-selected process is loaded correctly.
+                ok(
+                    $Selenium->find_element( "#Subject", 'css' ),
+                    "Pre-selected process with activity dialog via URL is successful"
+                );
+
+                # Navigate to CustomerTicketProcess screen.
+                $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
+
+                # Create first scenario for test CustomerTicketProcess.
+                $Selenium->InputFieldValueSet(
+                    Element => '#ProcessEntityID',
+                    Value   => $ListReverse{$ProcessName},
+                );
+
                 $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
             };
         }

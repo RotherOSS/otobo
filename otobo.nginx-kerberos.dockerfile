@@ -7,6 +7,7 @@
 FROM nginx:mainline AS builder
 
 ENV SPNEGO_AUTH_COMMIT_ID=v1.1.1
+ENV SPNEGO_AUTH_COMMIT_ID_FILE=1.1.1
 
 RUN apt-get update\
  && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
@@ -30,7 +31,7 @@ RUN cd /usr/src && \
     NGINX_CONFIG="$( nginx -V 2>&1 | sed -n -e 's/^.*arguments: //p' )" && \
     tar -xzC /usr/src -f nginx.tar.gz && \
     tar -xzvf spnego-http-auth.tar.gz && \
-    SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID}" && \
+    SPNEGO_AUTH_DIR="$( pwd )/spnego-http-auth-nginx-module-${SPNEGO_AUTH_COMMIT_ID_FILE}" && \
     cd "/usr/src/nginx-${NGINX_VERSION}" && \
     ./configure --with-compat "${NGINX_CONFIG}" --add-dynamic-module="${SPNEGO_AUTH_DIR}" && \
     make modules && \

@@ -28,7 +28,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -243,7 +242,7 @@ $Selenium->RunTest(
                 Action => "AgentTicketPriority",
             },
             {
-                Name   => "Free Fields",
+                Name   => "Change Ticket",
                 Action => "AgentTicketFreeText",
             },
             {
@@ -320,7 +319,7 @@ $Selenium->RunTest(
         for my $ZoomMenuModule (@MenuModule) {
 
             my $NameForID = $ZoomMenuModule->{Name};
-            $NameForID =~ s/ /-/g if ( $NameForID =~ m/ / );
+            $NameForID =~ s/ /-/g;
 
             if ( defined $ZoomMenuModule->{Type} && $ZoomMenuModule->{Type} eq 'Cluster' ) {
 

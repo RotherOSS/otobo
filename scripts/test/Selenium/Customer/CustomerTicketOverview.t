@@ -160,11 +160,11 @@ $Selenium->RunTest(
             $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")
                 ->VerifiedClick();
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-            # TODO: sleep 10s ???
-            sleep 1;
         }
+
+        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
+        # TODO: https://github.com/RotherOSS/otobo/issues/932
+        sleep 11;
 
         # Get Process list.
         my $List = $ProcessObject->ProcessList(

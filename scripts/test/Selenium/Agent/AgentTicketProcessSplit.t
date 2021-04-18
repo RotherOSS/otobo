@@ -203,6 +203,8 @@ $Selenium->RunTest(
             Value => 1
         );
 
+        sleep(11);
+
         $Selenium->VerifiedRefresh();
 
         # Check if customer user input is on create process screen.
