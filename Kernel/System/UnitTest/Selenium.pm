@@ -567,7 +567,6 @@ sub WaitFor {
     }
 
     my $TimeOut                 = $Param{Time} // 20;    # time span after which WaitFor() gives up
-    my $FindElementSleepSeconds = 0.5;                   # sleep after a successful find_element(), no idea why this is useful
 
     my $StartTime       = [gettimeofday];
     my $CountIterations = 0;
@@ -634,8 +633,6 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
-                sleep($FindElementSleepSeconds);
-
                 return 1;
             }
         }
@@ -650,8 +647,6 @@ sub WaitFor {
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( !$Ret ) {
-                sleep($FindElementSleepSeconds);
-
                 return 1;
             }
         }
