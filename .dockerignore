@@ -3,6 +3,7 @@
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
 .bash_aliases
+.bash_history
 
 # Files for git are not needed in the image.
 .git
