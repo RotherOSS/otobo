@@ -566,7 +566,7 @@ sub WaitFor {
         $Context->throw("Need JavaScript, WindowCount, ElementExists, ElementMissing, Callback or AlertPresent.");
     }
 
-    my $TimeOut                 = $Param{Time} // 20;    # time span after which WaitFor() gives up
+    my $TimeOut = $Param{Time} // 20;    # time span after which WaitFor() gives up
 
     my $StartTime       = [gettimeofday];
     my $CountIterations = 0;
