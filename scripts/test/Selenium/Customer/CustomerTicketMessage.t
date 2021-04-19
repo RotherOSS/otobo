@@ -23,7 +23,9 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -67,18 +69,25 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketMessage");
 
         # Check CustomerTicketMessage overview screen.
-        for my $ID (
-            qw(Dest Subject RichText PriorityID submitRichText)
-            )
-        {
+        for my $ID (qw(Dest Subject RichText PriorityID submitRichText FileUpload)) {
             my $Element = $Selenium->find_element( "#$ID", 'css' );
             $Element->is_enabled();
             $Element->is_displayed();
         }
 
-        my $Element = $Selenium->find_element( ".DnDUpload", 'css' );
-        $Element->is_enabled();
-        $Element->is_displayed();
+        # also try a lookup by CSS clas
+        for my $Class (qw(DnDUpload)) {
+            my $Element = $Selenium->find_element( ".$Class", 'css' );
+            $Element->is_enabled();
+            $Element->is_displayed();
+        }
+
+        # Select the queue before click on the '#submitRichText' field,
+        # because the validation would pop up the queue selection, which tricks InputFieldValueSet()
+        $Selenium->InputFieldValueSet(
+            Element => '#Dest',
+            Value   => '2||Raw',
+        );
 
         # Check client side validation.
         $Selenium->find_element( "#Subject",        'css' )->clear();
@@ -98,10 +107,6 @@ $Selenium->RunTest(
         # Input fields and create ticket.
         my $SubjectRandom = "Subject" . $Helper->GetRandomID();
         my $TextRandom    = "Text" . $Helper->GetRandomID();
-        $Selenium->InputFieldValueSet(
-            Element => '#Dest',
-            Value   => '2||Raw',
-        );
         $Selenium->find_element( "#Subject",        'css' )->send_keys($SubjectRandom);
         $Selenium->find_element( "#RichText",       'css' )->send_keys($TextRandom);
         $Selenium->find_element( "#submitRichText", 'css' )->VerifiedClick();

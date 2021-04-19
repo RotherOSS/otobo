@@ -27,12 +27,12 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
-# create configuration backup
-# get the Znuny4OTOBO Selenium object
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# get the Selenium object
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # store test function in variable so the Selenium object can handle errors/exceptions/dies etc.
 my $SeleniumTest = sub {

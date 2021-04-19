@@ -16,14 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -83,12 +88,9 @@ $Selenium->RunTest(
 
         # Clean up test email.
         my $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Initial cleanup',
-        );
+        ok( $Success, 'Initial cleanup' );
 
-        $Self->IsDeeply(
+        is(
             $TestEmailObject->EmailsGet(),
             [],
             'Test email empty after initial cleanup',
@@ -115,30 +117,26 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Reset button[type='submit']", 'css' )->VerifiedClick();
 
         # Check for password recovery message.
-        $Self->True(
-            $Selenium->find_element( ".SuccessBox span", 'css' ),
-            "Password recovery message found on screen for valid customer",
-        );
+        my $SuccessBoxElement = $Selenium->find_element( q{div.SuccessBox p}, 'css', );
+        ok( $SuccessBoxElement, "Password recovery message found on screen for valid customer" );
+        $SuccessBoxElement->text_like(qr/\QSent password reset instructions.\E/);
 
         # Process mail queue items.
         $MailQueueProcess->();
 
         # Check if password recovery email is sent.
         my $Emails = $TestEmailObject->EmailsGet();
-        $Self->Is(
-            scalar @{$Emails},
+        is(
+            scalar $Emails->@*,
             1,
             "Password recovery email sent for valid customer user $TestCustomerUser",
         );
 
         # Clean up test email again.
         $Success = $TestEmailObject->CleanUp();
-        $Self->True(
-            $Success,
-            'Second cleanup',
-        );
+        ok( $Success, 'Second cleanup' );
 
-        $Self->IsDeeply(
+        is(
             $TestEmailObject->EmailsGet(),
             [],
             'Test email empty after second cleanup',
@@ -157,10 +155,7 @@ $Selenium->RunTest(
             ValidID        => 2,
             UserID         => 1,
         );
-        $Self->True(
-            $Success,
-            "$TestCustomerUser set to invalid",
-        );
+        ok( $Success, "$TestCustomerUser set to invalid" );
 
         # Click on 'Forgot password' again.
         $Selenium->find_element( "#ForgotPassword", 'css' )->click();
@@ -173,9 +168,9 @@ $Selenium->RunTest(
 
         # Check for password recovery message for invalid customer user, for security measures it
         # should be visible.
-        $Self->True(
-            $Selenium->find_element( ".SuccessBox span", 'css' ),
-            "Password recovery message found on screen for invalid customer",
+        $Selenium->find_element_by_css_ok(
+            q{div.SuccessBox p},
+            'Password recovery message found on screen for invalid customer',
         );
 
         # Process mail queue items.
@@ -183,12 +178,12 @@ $Selenium->RunTest(
 
         # Check if password recovery email is sent to invalid customer user.
         $Emails = $TestEmailObject->EmailsGet();
-        $Self->Is(
-            scalar @{$Emails},
+        is(
+            scalar $Emails->@*,
             0,
             "Password recovery email NOT sent for invalid customer user $TestCustomerUser",
         );
     }
 );
 
-$Self->DoneTesting();
+done_testing();

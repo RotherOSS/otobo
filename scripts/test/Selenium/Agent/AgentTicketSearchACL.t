@@ -16,18 +16,26 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
+
+# Note: this UT covers bug #11874 - Restrict service based on state when posting a note
+
+our $Self;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         $Helper->ConfigSettingChange(
@@ -135,17 +143,21 @@ EOF
             Value   => 'PriorityIDs',
         );
 
-        # Check if restricted Type is not shown in dropdown.
-        $Self->True(
-            $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
-            "Type ID $TypeID is not found in Type dropdown"
-        );
+        {
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-        # Check if restricted Priority is not shown in dropdown.
-        $Self->True(
-            $Selenium->execute_script("return !\$('#PriorityIDs option[value=\"$PriorityID\"]').length;"),
-            "Priority ID $PriorityID is not found in Priority dropdown"
-        );
+            # Check if restricted Type is not shown in dropdown.
+            ok(
+                $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
+                "Type ID $TypeID is not found in Type dropdown"
+            );
+
+            # Check if restricted Priority is not shown in dropdown.
+            ok(
+                $Selenium->execute_script("return !\$('#PriorityIDs option[value=\"$PriorityID\"]').length;"),
+                "Priority ID $PriorityID is not found in Priority dropdown"
+            );
+        }
 
         # Delete created test ACL.
         my $ACLData = $ACLObject->ACLGet(

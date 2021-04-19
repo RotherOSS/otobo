@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 use strict;
 use warnings;
 use v5.24;
@@ -28,10 +27,11 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::Language;
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {

@@ -50,6 +50,9 @@ Core.UI.NavigationBar = (function (TargetNS) {
             $('#oooUser h3').each(function() {
                 $(this).hide();
             });
+            $('#oooPrefDesc > p').each(function() {
+                $(this).hide();
+            });
         }
         // mobile mode
         else {
@@ -99,6 +102,9 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 $('#oooUser h3').each(function() {
                     $(this).show();
                 });
+                $('#oooPrefDesc > p').each(function() {
+                    $(this).show();
+                });
                 $('#oooNavigation').on('mouseleave', NavBarShrink);
             }, 100);
         });
@@ -116,6 +122,9 @@ Core.UI.NavigationBar = (function (TargetNS) {
                 $('#oooUser h3').each(function() {
                     $(this).show();
                 });
+                $('#oooPrefDesc > p').each(function() {
+                    $(this).show();
+                });
                 $('#oooUser').show().fadeIn(100);
                 $('#oooNavBarModuleIcons').show().fadeIn(100);
             }, 40);
@@ -130,6 +139,24 @@ Core.UI.NavigationBar = (function (TargetNS) {
         $('#oooMobileMenuClose').on('click', function() {
             NavBarShrink();
         });
+
+        // special highlighting for preferences and logout
+        $('#oooAvatar :first-child').hover(
+            function() {
+                $('#oooUser .oooLogout h3').addClass('Highlight');
+            },
+            function() {
+                $('#oooUser .oooLogout h3').removeClass('Highlight');
+            },
+        );
+        $('#oooPreferences').hover(
+            function() {
+                $('#oooPrefDesc > p').addClass('Highlight');
+            },
+            function() {
+                $('#oooPrefDesc > p').removeClass('Highlight');
+            }
+        );
     };
 
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');

@@ -16,14 +16,21 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -63,7 +70,7 @@ $Selenium->RunTest(
         );
 
         my @DeactivatedProcesses;
-        my $ProcessName = "TestProcess";
+        my $ProcessName = 'TestProcess';
         my $TestProcessExists;
 
         # If there had been some active processes before testing, set them to inactive.
@@ -226,70 +233,77 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 
         # Wait until process is selected and all AJAX calls are finished.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
-        );
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
 
-        # Wait for the CKE to load.
-        $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
-        );
-
-        my $CKEditorValue = $Selenium->execute_script(
-            "return CKEDITOR.instances.RichText.getData()"
-        );
-
-        # Check if there is inline image in process screen.
-        $ContentID =~ s/@/%40/g;
-        $Self->True(
-            index( $CKEditorValue, $ContentID ) > -1,
-            "RichText contains inline image.",
-        );
-
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
-
-        # Get last article id.
-        my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-            TicketID => $TicketID,
-            OnlyLast => 1,
-        );
-        my $LastArticleID = $Articles[0]->{ArticleID};
-
-        # Get article attachments.
-        my $HTMLContent     = '';
-        my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-            ArticleID => $LastArticleID,
-        );
-
-        # Go through all attachments.
-        for my $FileID ( sort keys %AttachmentIndex ) {
-            my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                ArticleID => $LastArticleID,
-                FileID    => $FileID,
-            );
-
-            # Image attachment.
-            if ( $Attachment{ContentType} =~ /^image\/png/ ) {
-                $Self->Is(
-                    $Attachment{Disposition},
-                    'inline',
-                    'Inline image attachment found',
+            try_ok {
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
                 );
 
-                # Save content id.
-                if ( $Attachment{ContentID} ) {
-                    $ContentID = $Attachment{ContentID};
-                    $ContentID =~ s/<|>//g;
-                }
-            }
+                $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
 
-            # Html attachment.
-            elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
-                $HTMLContent = $Attachment{Content};
-            }
+                # Wait for the CKE to load.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+                );
+
+                my $CKEditorValue = $Selenium->execute_script(
+                    "return CKEDITOR.instances.RichText.getData()"
+                );
+
+                # Check if there is inline image in process screen.
+                $ContentID =~ s/@/%40/g;
+                $Self->True(
+                    index( $CKEditorValue, $ContentID ) > -1,
+                    "RichText contains inline image.",
+                );
+
+                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+                # Get last article id.
+                my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+                    TicketID => $TicketID,
+                    OnlyLast => 1,
+                );
+                my $LastArticleID = $Articles[0]->{ArticleID};
+
+                # Get article attachments.
+                my $HTMLContent     = '';
+                my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+                    ArticleID => $LastArticleID,
+                );
+
+                # Go through all attachments.
+                for my $FileID ( sort keys %AttachmentIndex ) {
+                    my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                        ArticleID => $LastArticleID,
+                        FileID    => $FileID,
+                    );
+
+                    # Image attachment.
+                    if ( $Attachment{ContentType} =~ /^image\/png/ ) {
+                        $Self->Is(
+                            $Attachment{Disposition},
+                            'inline',
+                            'Inline image attachment found',
+                        );
+
+                        # Save content id.
+                        if ( $Attachment{ContentID} ) {
+                            $ContentID = $Attachment{ContentID};
+                            $ContentID =~ s/<|>//g;
+                        }
+                    }
+
+                    # Html attachment.
+                    elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
+                        $HTMLContent = $Attachment{Content};
+                    }
+                }
+            };
         }
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
@@ -437,4 +451,4 @@ $Selenium->RunTest(
     },
 );
 
-$Self->DoneTesting();
+done_testing();

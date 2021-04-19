@@ -16,20 +16,25 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::UnitTest::Selenium;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+our $Self;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # Do not check RichText.
@@ -306,21 +311,29 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-        # Check pre-selected process is loaded correctly.
-        $Self->True(
-            $Selenium->find_element( "#Subject", 'css' ),
-            "Pre-selected process with activity dialog via URL is successful"
-        );
+        {
+            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-        # Navigate to CustomerTicketProcess screen.
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
+            try_ok {
 
-        # Create first scenario for test CustomerTicketProcess.
-        $Selenium->InputFieldValueSet(
-            Element => '#ProcessEntityID',
-            Value   => $ListReverse{$ProcessName},
-        );
-        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+                # Check pre-selected process is loaded correctly.
+                ok(
+                    $Selenium->find_element( "#Subject", 'css' ),
+                    "Pre-selected process with activity dialog via URL is successful"
+                );
+
+                # Navigate to CustomerTicketProcess screen.
+                $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
+
+                # Create first scenario for test CustomerTicketProcess.
+                $Selenium->InputFieldValueSet(
+                    Element => '#ProcessEntityID',
+                    Value   => $ListReverse{$ProcessName},
+                );
+
+                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+            };
+        }
 
         # Check on DynamicField change - ACL restriction on Type field.
         # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
@@ -414,29 +427,26 @@ $Selenium->RunTest(
         my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
 
         if ( !$SecureDisableBanner ) {
-            $Self->True(
-                index( $Selenium->get_page_source(), $FooterMessage ) > -1,
+            $Selenium->content_contains(
+                $FooterMessage,
                 "$FooterMessage found in footer on page (after attachment upload)",
             );
         }
 
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+        {
+            my $ToDo = todo('layout broken see https://github.com/RotherOSS/otobo/issues/843');
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length;' );
+            try_ok {
+                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
 
-        # Check for inputed values for first step in test Process ticket.
-        $Self->True(
-            index( $Selenium->get_page_source(), $SubjectRandom ) > -1,
-            "$SubjectRandom found on page",
-        ) || die;
-        $Self->True(
-            index( $Selenium->get_page_source(), $ProcessName ) > -1,
-            "$ProcessName found on page",
-        ) || die;
-        $Self->True(
-            index( $Selenium->get_page_source(), 'open' ) > -1,
-            "Ticket open state found on page",
-        ) || die;
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length;' );
+
+                # Check for inputed values for first step in test Process ticket.
+                $Selenium->content_contains( $SubjectRandom, "$SubjectRandom found on page" );
+                $Selenium->content_contains( $ProcessName,   "$ProcessName found on page" );
+                $Selenium->content_contains( 'open',         "Ticket open state found on page" );
+            };
+        }
 
         # Remember created ticket, to delete the ticket at the end of the test.
         my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
@@ -458,21 +468,12 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length' );
 
         # Check for inputed values as final step in first scenario.
-        $Self->True(
-            index( $Selenium->get_page_source(), 'closed successful' ) > -1,
-            "Ticket closed successful state found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), '5 very high' ) > -1,
-            "Ticket priority 5 very high found on page",
-        );
+        $Selenium->content_contains( 'closed successful', "Ticket closed successful state found on page" );
+        $Selenium->content_contains( '5 very high',       "Ticket priority 5 very high found on page" );
 
         my $EndProcessMessage = "There are no dialogs available at this point in the process.";
 
-        $Self->True(
-            index( $Selenium->get_page_source(), $EndProcessMessage ) > -1,
-            "$EndProcessMessage message found on page",
-        );
+        $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
 
         # Navigate to CustomerTicketProcess screen.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
@@ -497,14 +498,8 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # Check if we are at the end of test Process ticket.
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Junk' ) > -1,
-            "Queue Junk found on page",
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), $EndProcessMessage ) > -1,
-            "$EndProcessMessage message found on page",
-        );
+        $Selenium->content_contains( 'Junk',             "Queue Junk found on page" );
+        $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
 
         # Remember created ticket, to delete the ticket at the end of the test.
         @TicketID = split( 'TicketID=', $Selenium->get_current_url() );

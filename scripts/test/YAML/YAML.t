@@ -23,8 +23,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
-use Kernel::System::ObjectManager;
-
 # get YAML object
 my $YAMLObject = $Kernel::OM->Get('Kernel::System::YAML');
 

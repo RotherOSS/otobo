@@ -42,19 +42,14 @@ use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
-our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::AuthSession',
-    'Kernel::System::Log',
-    'Kernel::System::Main',
-    'Kernel::System::UnitTest::Helper',
-);
+our $ObjectManagerDisabled = 1;
 
 # Extend Selenium::Remote::Driver only when Selenium testing is activated.
 # Otherwise Selenium::Remote::Driver::BUILD would be called with missing paramters.
 # Extending with 'around' is only done when the the class is actually extended.
 {
-    # check whether Selenium testing is activated.
+    # Check whether Selenium testing is activated.
+    # Note that $Kernel::OM must exist before this module is loaded.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
 
     if ( $SeleniumTestsConfig->%* ) {
@@ -63,7 +58,7 @@ our @ObjectDependencies = (
 
         # Override internal command of base class.
         # We use it to output successful command runs to the UnitTest object.
-        # Errors will cause an exeption. The exception will be passed to SeleniumErrorHandler().
+        # No special error handler is set up.
         around _execute_command => sub {
             my $Orig = shift;
             my $Self = shift;
@@ -72,20 +67,21 @@ our @ObjectDependencies = (
             # an exception is thrown in case of an error
             my $Result = $Self->$Orig( $Res, $Params );
 
-            # TODO: maybe write notes instead of skipping altogether
-            return $Result if $Self->_SuppressTestingEvents;
+            # decide whether to emit extra testing events for logging calls of _execute_command()
+            return $Result unless $Self->LogExecuteCommandActive;
 
-            my $TestName = 'Selenium command success: ';
-            $TestName .= $Kernel::OM->Get('Kernel::System::Main')->Dump(
-                {
-                    Res    => $Res,
-                    Params => $Params,
-                }
-            );
+            # do emit extra testing events for logging calls of _execute_command()
+            my $Description = 'Selenium command success: ' .
+                $Kernel::OM->Get('Kernel::System::Main')->Dump(
+                    {
+                        Res    => $Res,
+                        Params => $Params,
+                    }
+                );
 
             my $Context = context();
 
-            $Context->pass_and_release($TestName);
+            $Context->pass_and_release($Description);
 
             return $Result;
         };
@@ -115,8 +111,9 @@ has _TestException => (
 );
 
 # suppress testing events
-has _SuppressTestingEvents => (
-    is => 'rw',
+has LogExecuteCommandActive => (
+    is      => 'rw',
+    default => 0,
 );
 
 =head1 NAME
@@ -169,7 +166,7 @@ a failing test result including a stack trace and generate a screen shot for ana
 =cut
 
 around BUILDARGS => sub {
-    my ( $Orig, $Class ) = @_;
+    my ( $Orig, $Class, @Args ) = @_;
 
     # check whether Selenium testing is configured.
     my $SeleniumTestsConfig = $Kernel::OM->Get('Kernel::Config')->Get('SeleniumTestsConfig') // {};
@@ -223,12 +220,8 @@ around BUILDARGS => sub {
         base_url             => $BaseURL,
         webelement_class     => 'Kernel::System::UnitTest::Selenium::WebElement',
         javascript           => 1,                                                  # must be explicitly set, as the default is 0 in Test::Selenium::Remove::Driver
-        error_handler        => sub {
-            my $Self = shift;
-
-            return $Self->SeleniumErrorHandler(@_);
-        },
         $SeleniumTestsConfig->%*,
+        @Args,
     );
 };
 
@@ -241,13 +234,13 @@ sub BUILD {
     my $Height = $Self->_SeleniumTestsConfig()->{window_height} || 1200;
     my $Width  = $Self->_SeleniumTestsConfig()->{window_width}  || 1400;
 
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-    $Self->_SuppressTestingEvents(1);
+    my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+    $Self->LogExecuteCommandActive(0);
 
     # This works only because we have extended Selenium::Remove::Driver.
     $Self->set_window_size( $Height, $Width );
 
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+    $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
     return;
 }
@@ -294,25 +287,9 @@ sub button_up {
     return $Self->_execute_command( { 'command' => 'buttonUp' } );
 }
 
-=head2 SeleniumErrorHandler()
-
-Selenium::Remove::Driver uses this callback in case of errors.
-Errors should not be discarded, they should be thrown as exceptions.
-Selenium methods like find_element() will catch the exception.
-Most other methods won't.
-
-=cut
-
-sub SeleniumErrorHandler {    ## no critic qw(Subroutines::RequireFinalReturn)
-    my ( $Self, $Error ) = @_;
-
-    my $Context = context();
-    $Context->throw($Error);
-}
-
 =head2 RunTest()
 
-runs a selenium test if Selenium testing is configured.
+runs a selenium test only if Selenium testing is activated.
 
     $SeleniumObject->RunTest( sub { ... } );
 
@@ -330,16 +307,18 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
+    my $Context = context();
+
     try_ok {
         $Code->();
     }
     'RunTest: no exception should be thrown';
 
-    if ($@) {
-        note("RunTest: $@");
+    $Context->release();
 
-        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-        # HandleError() will create screenshots.
+    # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+    # HandleError() will create screenshots.
+    if ($@) {
         $Self->_TestException($@);
     }
 
@@ -468,27 +447,29 @@ sub Login {
         for my $Try ( 1 .. $MaxTries ) {
 
             eval {
-                my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+                # handle some differences between agent and customer interface
+                my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
                 my $LogoutXPath;          # Logout link differs between Agent and Customer interface.
-                my $CheckForGDPRBlurb;    # whether GDPR needs to be accepted during login
+                my $CheckForGDPRBlurb;    # only customers need to accept GDPR during login
                 if ( $Param{Type} eq 'Agent' ) {
-                    $ScriptAlias .= 'index.pl';
+                    $LoginPage .= 'index.pl';
                     $LogoutXPath       = q{//a[@id='LogoutButton']};
                     $CheckForGDPRBlurb = 0;
                 }
                 else {
-                    $ScriptAlias .= 'customer.pl';
-                    $LogoutXPath       = q{//a[@id='oooUser']};
+                    $LoginPage .= 'customer.pl';
+                    $LogoutXPath       = q{//a[@id='oooAvatar']};
                     $CheckForGDPRBlurb = 1;
                 }
 
-                $Self->get($ScriptAlias);
+                $Self->get($LoginPage);
 
                 $Self->delete_all_cookies();
 
                 # Actually log in, making sure that the params are URL encoded.
                 # Keep the URL relative, so that the configured base URL applies.
-                my $LoginURL = URI->new($ScriptAlias);
+                my $LoginURL = URI->new($LoginPage);
                 $LoginURL->query_form(
                     {
                         Action   => 'Login',
@@ -523,6 +504,7 @@ sub Login {
                 # try again
                 next TRY if $Try < $MaxTries;
 
+                # giving up
                 $Context->throw("Login() not successfull after $MaxTries attempts!");
             }
 
@@ -601,12 +583,12 @@ sub WaitFor {
     while ( $WaitedSeconds <= $TimeOut ) {
 
         if ( $Param{JavaScript} ) {
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             my $Ret = $Self->execute_script( $Param{JavaScript} );
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -615,12 +597,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{WindowCount} ) {
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             my $NumWindows = scalar $Self->get_window_handles()->@*;
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( $NumWindows == $Param{WindowCount} ) {
                 $Success = 1;
@@ -630,13 +612,13 @@ sub WaitFor {
         }
         elsif ( $Param{AlertPresent} ) {
 
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             # Eval is needed because the method would throw if no alert is present (yet).
             my $Ret = eval { $Self->get_alert_text() };
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -645,12 +627,12 @@ sub WaitFor {
             }
         }
         elsif ( $Param{Callback} ) {
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             my $Ret = $Param{Callback}->();
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 $Success = 1;
@@ -661,12 +643,12 @@ sub WaitFor {
         elsif ( $Param{ElementExists} ) {
             my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
 
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             my $Ret = eval { $Self->find_element(@Arguments) };
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ($Ret) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
@@ -679,12 +661,12 @@ sub WaitFor {
         elsif ( $Param{ElementMissing} ) {
             my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
 
-            my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-            $Self->_SuppressTestingEvents(1);
+            my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+            $Self->LogExecuteCommandActive(0);
 
             my $Ret = eval { $Self->find_element(@Arguments) };
 
-            $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+            $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
             if ( !$Ret ) {
                 Time::HiRes::sleep($FindElementSleepSeconds);
@@ -892,8 +874,8 @@ sub HandleError {
     }
 
     # No need to log generation of the screenshot.
-    my $PrevSuppressTestingEvents = $Self->_SuppressTestingEvents;
-    $Self->_SuppressTestingEvents(1);
+    my $PrevLogExecuteCommandActive = $Self->LogExecuteCommandActive;
+    $Self->LogExecuteCommandActive(0);
 
     # the file name of the screenshot is random
     my $RandomID = $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->GetRandomNumber();
@@ -954,7 +936,7 @@ sub HandleError {
         $WindowCount++;
     }
 
-    $Self->_SuppressTestingEvents($PrevSuppressTestingEvents);
+    $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
     $Context->release();
 
@@ -972,7 +954,7 @@ and performs some clean-ups.
 sub DEMOLISH {
     my $Self = shift;
 
-    $Self->_SuppressTestingEvents(1);
+    $Self->LogExecuteCommandActive(0);
 
     if ( $Self->_TestException() ) {
         $Self->HandleError( $Self->_TestException() );
@@ -1018,7 +1000,7 @@ sub DEMOLISH {
 
 =head2 WaitForjQueryEventBound()
 
-waits until event handler is bound to the selected C<jQuery> element. Deprecated - it will be removed in the future releases.
+waits until event handler is bound to the selected C<jQuery> element.
 
     $SeleniumObject->WaitForjQueryEventBound(
         CSSSelector => 'li > a#Test',       # (required) css selector
@@ -1030,6 +1012,8 @@ waits until event handler is bound to the selected C<jQuery> element. Deprecated
 sub WaitForjQueryEventBound {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # Check needed stuff.
     if ( !$Param{CSSSelector} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1040,51 +1024,64 @@ sub WaitForjQueryEventBound {
         return;
     }
 
-    my $Context = context();
-
     my $Event = $Param{Event} || 'click';
 
-    # Wait for element availability.
-    $Self->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
-    );
+    my $Code = sub {
 
-    # Wait for jQuery initialization.
-    $Self->WaitFor(
-        JavaScript =>
-            'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
-    );
+        # Wait for element availability.
+        $Self->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
+        );
 
-    # Get jQuery object keys.
-    my $Keys = $Self->execute_script(
-        'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
-    );
+        # Wait for jQuery initialization.
+        $Self->WaitFor(
+            JavaScript => 'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
+        );
 
-    if ( !IsArrayRefWithData($Keys) ) {
-        $Context->throw("Couldn't determine jQuery object id");
-    }
+        # Get jQuery object keys.
+        my $Keys = $Self->execute_script(
+            'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
+        );
 
-    my $JQueryObjectID;
-
-    KEY:
-    for my $Key ( @{$Keys} ) {
-        if ( $Key =~ m{^jQuery\d+$} ) {
-            $JQueryObjectID = $Key;
-            last KEY;
+        if ( !IsArrayRefWithData($Keys) ) {
+            $Context->throw("Couldn't determine jQuery object id");
         }
-    }
 
-    if ( !$JQueryObjectID ) {
-        $Context->throw("Couldn't determine jQuery object id.");
-    }
+        my $JQueryObjectID;
 
-    # Wait until click event is bound to the element.
-    $Self->WaitFor(
-        JavaScript =>
-            'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        KEY:
+        for my $Key ( @{$Keys} ) {
+            if ( $Key =~ m{^jQuery\d+$} ) {
+                $JQueryObjectID = $Key;
+
+                last KEY;
+            }
+        }
+
+        if ( !$JQueryObjectID ) {
+            $Context->throw("Couldn't determine jQuery object id.");
+        }
+
+        # Wait until click event is bound to the element.
+        $Self->WaitFor(
+            JavaScript =>
+                'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        );
+    };
+
+    my $Pass = run_subtest(
+        'WaitForjQueryEventBound()',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
     );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw('WaitForjQueryEventBound() failed') unless $Pass;
 
     $Context->release();
 
@@ -1160,6 +1157,110 @@ sub InputFieldValueSet {
     $Context->release();
 
     return 1;
+}
+
+=head2 find_element_by_xpath_ok
+
+Call call Selenium::Remote::Driver::find_element_by_xpath() and emit testing event accordingly.
+
+=cut
+
+sub find_element_by_xpath_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_element_by_xpath_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_xpath($Selector);
+
+    if ($MaybeElement) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_no_element_by_xpath_ok
+
+Call call Selenium::Remote::Driver::find_element_by_xpath() and emit testing event accordingly.
+
+=cut
+
+sub find_no_element_by_xpath_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_no_element_by_xpath_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_xpath($Selector);
+
+    if ( !$MaybeElement ) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_element_by_css_ok
+
+Call call Selenium::Remote::Driver::find_element_by_css() and emit testing event accordingly.
+
+=cut
+
+sub find_element_by_css_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_element_by_css_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_css($Selector);
+
+    if ($MaybeElement) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
+}
+
+=head2 find_no_element_by_css_ok
+
+Call call Selenium::Remote::Driver::find_element_by_css() and emit testing event accordingly.
+
+=cut
+
+sub find_no_element_by_css_ok {
+    my ( $Self, $Selector, $TestDescription ) = @_;
+
+    $TestDescription //= 'find_no_element_by_css_ok';
+
+    my $Context = context();
+
+    my $MaybeElement = $Self->find_element_by_css($Selector);
+
+    if ( !$MaybeElement ) {
+        $Context->pass_and_release($TestDescription);
+
+        return 1;
+    }
+
+    $Context->fail_and_release($TestDescription);
+
+    return 0;
 }
 
 1;

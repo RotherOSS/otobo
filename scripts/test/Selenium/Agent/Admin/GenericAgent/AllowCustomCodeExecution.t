@@ -29,7 +29,10 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 # Check if needed frontend module is registered in sysconfig.
 skip_all("No AdminGenericAgent") unless $ConfigObject->Get('Frontend::Module')->{AdminGenericAgent};
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+
 
 $Selenium->RunTest(
     sub {

@@ -25,7 +25,9 @@ use vars (qw($Self));
 
 use Kernel::Output::HTML::Layout;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -82,7 +84,7 @@ $Selenium->RunTest(
         my $Home        = $ConfigObject->Get('Home');
 
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketZoom;TicketNumber=$TicketNumber");
-        $Selenium->find_element("//a[contains(\@id, \'ReplyButton' )]")->click();
+        $Selenium->find_element(q{//button[@id='ReplyButton']})->click();
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('#FollowUp.Visible').length"
         );
@@ -205,8 +207,8 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length' );
 
-        # Delete Attachment.
-        $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[1]", 'xpath' )->click();
+        # Delete the only existing attachment.
+        $Selenium->find_element( q{//a[contains(@class,'AttachmentDelete')]}, 'xpath' )->click();
         sleep 1;
 
         # Wait until attachment is deleted.

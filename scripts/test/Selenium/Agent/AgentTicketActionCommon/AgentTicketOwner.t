@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-
 use strict;
 use warnings;
 use v5.24;
@@ -25,17 +24,11 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
-
-# because OTOBO modules expect $Kernel::OM
-$Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Log' => {
-        LogPrefix => 'OTOBO-otobo.UnitTest',
-    },
-);
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -180,11 +173,8 @@ $Selenium->RunTest(
         # The convoluted way of getting the focus seems to work.
         my $SearchElement = $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' );
         ok( $SearchElement, '#NewOwnerID_Search found' );
-        $SearchElement->execute_script("arguments[0].focus();");
-        ok(
-            $Selenium->find_element_by_css( '#NewOwnerID_Search', 'css' ),
-            'element with id=NewOwnerID_Search still exists'
-        );
+        $SearchElement->execute_script(q{arguments[0].focus();});
+        $Selenium->find_element_by_css_ok( '#NewOwnerID_Search', 'element with id=NewOwnerID_Search still exists' );
 
         # Click on filter button in input fileld.
         $Selenium->execute_script("\$('.InputField_Filters').click();");

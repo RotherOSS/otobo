@@ -47,3 +47,16 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: #f9bcb2;
     background-color: var(--colNotifyErr);
 }
+
+.Initials {
+    display: block;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+    text-indent: 0px;
+    color: #7f809d;
+    color: var(--colTextLight);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    text-align: center;
+}

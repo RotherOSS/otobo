@@ -20,19 +20,17 @@ use v5.24;
 use utf8;
 
 # core modules
-use Time::HiRes qw(sleep);
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM, $Self is not used here
+use Kernel::System::UnitTest::Selenium;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Selenium     = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium     = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -49,52 +47,52 @@ $Selenium->RunTest(
             # Remove path
             $File =~ s{.*/}{}smx;
 
-            $Selenium->get("${WebPath}js/test/$File");
+            subtest "running $File" => sub {
+                $Selenium->get("${WebPath}js/test/$File");
 
-            my $JSModuleName = $File;
-            $JSModuleName =~ s{\.UnitTest\.html}{}xms;
+                my $JSModuleName = $File;
+                $JSModuleName =~ s{\.UnitTest\.html}{}xms;
 
-            # Wait for the tests to complete.
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
-            );
-            $Selenium->WaitFor(
-                JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
-            );
+                # Wait for the tests to complete.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('span.module-name:contains($JSModuleName)').length;"
+                );
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("#qunit-testresult.complete").length;'
+                );
 
-            my $Completed = $Selenium->execute_script(
-                "return \$('#qunit-testresult.complete').length"
-            );
+                my $Completed = $Selenium->execute_script(
+                    "return \$('#qunit-testresult.complete').length"
+                );
 
-            $Self->True(
-                $Completed,
-                "$File - JavaScript unit tests completed"
-            );
+                ok( $Completed, "$File - JavaScript unit tests completed" );
 
-            $Selenium->find_element( "#qunit-testresult span.failed", 'css' );
-            $Selenium->find_element( "#qunit-testresult span.passed", 'css' );
-            $Selenium->find_element( "#qunit-testresult span.total",  'css' );
+                $Selenium->LogExecuteCommandActive(0);
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.failed");
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.passed");
+                $Selenium->find_element_by_css_ok("#qunit-testresult span.total");
+                $Selenium->LogExecuteCommandActive(1);
 
-            my ( $Passed, $Failed, $Total );
-            $Passed = $Selenium->execute_script(
-                "return \$('#qunit-testresult span.passed').text()"
-            );
-            $Failed = $Selenium->execute_script(
-                "return \$('#qunit-testresult span.failed').text()"
-            );
-            $Total = $Selenium->execute_script(
-                "return \$('#qunit-testresult span.total').text()"
-            );
+                my $Passed = $Selenium->execute_script(
+                    "return \$('#qunit-testresult span.passed').text()"
+                );
+                my $Failed = $Selenium->execute_script(
+                    "return \$('#qunit-testresult span.failed').text()"
+                );
+                my $Total = $Selenium->execute_script(
+                    "return \$('#qunit-testresult span.total').text()"
+                );
 
-            $Self->True( $Passed, "$File - found passed tests" );
-            $Self->Is( $Passed, $Total, "$File - total number of tests" );
-            $Self->False( $Failed, "$File - failed tests" );
+                ok( $Passed, "$File - found passed tests" );
+                is( $Passed, $Total, "$File - total number of tests" );
+                ok( !$Failed, "$File - failed tests" );
 
-            # Generate screenshot on failure
-            if ( $Failed || !$Passed || $Passed != $Total ) {
-                $Selenium->HandleError("Failed JS unit tests found.");
-            }
+                # Generate screenshot on failure
+                if ( $Failed || !$Passed || $Passed != $Total ) {
+                    $Selenium->HandleError("Failed JS unit tests found.");
+                }
+            };
         }
     }
 );

@@ -23,7 +23,9 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -297,7 +299,7 @@ $Selenium->RunTest(
         $Self->Is(
             $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled')"),
             0,
-            "Button to select a other CustomerID is disabled",
+            "Button to select a other CustomerID is not disabled",
         );
 
         # Check if CustomerID is not cleared on blur event.

@@ -16,20 +16,25 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 my $ProcessObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Process');
 my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
 my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
 
 $Selenium->RunTest(
     sub {
@@ -70,8 +75,9 @@ $Selenium->RunTest(
         # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
+        # TODO: https://github.com/RotherOSS/otobo/issues/932
+        sleep 11;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -101,8 +107,8 @@ $Selenium->RunTest(
 
         # Check if NavBarCustomerTicketProcess button is available when process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
-        $Self->True(
-            index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
+        $Selenium->content_contains(
+            'Action=CustomerTicketProcess',
             "NavBar 'New process ticket' button available",
         );
 
@@ -127,7 +133,7 @@ $Selenium->RunTest(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
+                ok(
                     $Success,
                     "ActivityDialog deleted - $ActivityDialog->{Name},",
                 );
@@ -139,7 +145,7 @@ $Selenium->RunTest(
                 UserID => $TestUserID,
             );
 
-            $Self->True(
+            ok(
                 $Success,
                 "Activity deleted - $Activity->{Name},",
             );
@@ -158,7 +164,7 @@ $Selenium->RunTest(
                 UserID => $TestUserID,
             );
 
-            $Self->True(
+            ok(
                 $Success,
                 "TransitionAction deleted - $TransitionAction->{Name},",
             );
@@ -177,7 +183,7 @@ $Selenium->RunTest(
                 UserID => $TestUserID,
             );
 
-            $Self->True(
+            ok(
                 $Success,
                 "Transition deleted - $Transition->{Name},",
             );
@@ -189,7 +195,7 @@ $Selenium->RunTest(
             UserID => $TestUserID,
         );
 
-        $Self->True(
+        ok(
             $Success,
             "Process deleted - $Process->{Name},",
         );
@@ -240,7 +246,7 @@ $Selenium->RunTest(
 
         # Check if NavBarCustomerTicketProcess button is not available when no process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'Action=AgentTicketProcess' ) == -1,
             "'New process ticket' button NOT available when no process is available",
         );
@@ -257,7 +263,7 @@ $Selenium->RunTest(
         );
 
         $Selenium->VerifiedRefresh();
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
             "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
         );
@@ -298,4 +304,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
