@@ -52,36 +52,18 @@ my $BackupType       = 'fullbackup';
 
 sub Main {
 
-    # Validate that the option max-allowed-packet is sane.
-    # The value must be one of these cases:
-    #   i.   an integer, indicating the size in bytes
-    #   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
-    #   iii. an integer immediately followed by 'M', indicating the size in Megabytes
-    #   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
-    my $MaxAllowedPacketOptionChecker = sub {
-        my ( $OptName, $OptValue ) = @_;
-
-        # check the format
-        if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
-            die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
-        }
-
-        $MaxAllowedPacket = $OptValue;
-
-        return;
-    };
-
-    # option that used only within Main()
+    # options that used only within Main()
     my (
         $HelpFlag,    # indicate whether the usage message should be printed
     );
+
     GetOptions(
         'help|h'                 => \$HelpFlag,
         'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
         'compress|c=s'           => \$CompressOption,
         'remove-old-backups|r=i' => \$RemoveDays,
         'backup-type|t=s'        => \$BackupType,
-        'max-allowed-packet=s'   => $MaxAllowedPacketOptionChecker,    # check the units, set $MaxAllowedPacket
+        'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
         'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
         'dry-run'                => \$DryRun,                          # only print the database dump commands
         'db-host=s'              => \$DatabaseHost,
@@ -168,8 +150,9 @@ $DatabaseName //= $Kernel::OM->Get('Kernel::Config')->Get('Database');
 $DatabaseUser //= $Kernel::OM->Get('Kernel::Config')->Get('DatabaseUser');
 $DatabasePw   //= $Kernel::OM->Get('Kernel::Config')->Get('DatabasePw');
 $DatabaseType //=
-    $DatabaseDSN =~ m/:mysql/i ? 'mysql' :
-    $DatabaseDSN =~ m/:pg/i    ? 'postgresql' :
+    $DatabaseDSN =~ m/:mysql/i  ? 'mysql' :
+    $DatabaseDSN =~ m/:pg/i     ? 'postgresql' :
+    $DatabaseDSN =~ m/:oracle/i ? 'oracle' :
     'mysql';
 $DatabaseType = lc $DatabaseType;
 
@@ -178,37 +161,48 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
 }
 
-# set up DB dump support
+# set up support for dumping a database
 my $DBDumpCmd = '';
 my @DBDumpOptions;
-{
-    if ($ExtraDumpOptions) {
-        push @DBDumpOptions, $ExtraDumpOptions;
-    }
+if ($ExtraDumpOptions) {
+    push @DBDumpOptions, $ExtraDumpOptions;
+}
 
-    if ( $DatabaseType eq 'mysql' ) {
-        $DBDumpCmd = 'mysqldump';
-        push @DBDumpOptions, '--no-tablespaces';
-    }
-    elsif ( $DatabaseType eq 'postgresql' ) {
-        $DBDumpCmd = 'pg_dump';
-        if ( $DatabaseDSN !~ m/host=/i ) {
-            $DatabaseHost = '';
-        }
-    }
-    else {
-        say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
+if ( $DatabaseType eq 'mysql' ) {
+    $DBDumpCmd = 'mysqldump';
+    push @DBDumpOptions, '--no-tablespaces';
+}
+elsif ( $DatabaseType eq 'postgresql' ) {
+    if ($MigrateFromOTRSBackup) {
+        say STDERR "ERROR: '--backup-type migratefromotrs' is not yet supported for 'postgresql'.";
 
         exit(1);
     }
+
+    $DBDumpCmd = 'pg_dump';
+    if ( $DatabaseDSN !~ m/host=/i ) {
+        $DatabaseHost = '';
+    }
+}
+elsif ( $DatabaseType eq 'oracle' ) {
+    if ( !$MigrateFromOTRSBackup ) {
+        say STDERR "ERROR: Can't backup an Oracle database. Only '--backup-type migratefromotrs' is supported.";
+
+        exit(1);
+    }
+
+    # $DBDumpCmd is not supported yet for 'oracle'
+}
+else {
+    say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
+
+    exit(1);
 }
 
-# check the needed system commands
+# check needed system commands
 {
-    my @Cmds = ( 'tar', $DBDumpCmd );
-    if ( $BackupType ne 'migratefromotrs' ) {
-        push @Cmds, $CompressCMD;
-    }
+    my @Cmds = grep {$_} ( 'tar', $DBDumpCmd );
+    push @Cmds, $CompressCMD unless $BackupType eq 'migratefromotrs';
 
     for my $Cmd (@Cmds) {
         my $IsInstalled = 0;
@@ -318,8 +312,7 @@ if ( $DatabaseType eq 'mysql' ) {
     }
 
     if ($MigrateFromOTRSBackup) {
-
-        BackupForMigrateFromOTRS(
+        MySQLBackupForMigrateFromOTRS(
             Directory     => $Directory,
             DBDumpCmd     => $DBDumpCmd,
             DBDumpOptions => \@DBDumpOptions,
@@ -328,6 +321,7 @@ if ( $DatabaseType eq 'mysql' ) {
         );
     }
     else {
+        say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
         my $Command = qq{( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
 
         # only print out the dump commands in a dry run
@@ -337,7 +331,6 @@ if ( $DatabaseType eq 'mysql' ) {
             exit 0;
         }
 
-        say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
         if ( !system($Command) && !-f $ErrorIndicationFileName ) {
             say 'done';
         }
@@ -348,11 +341,17 @@ if ( $DatabaseType eq 'mysql' ) {
             }
             RemoveIncompleteBackup($Directory);
 
-            die 'Backup failed';
+            die "Backup failed";
         }
     }
 }
-else {
+elsif ( $DatabaseType eq 'oracle' ) {
+    if ($MigrateFromOTRSBackup) {
+        OracleBackupForMigrateFromOTRS();
+    }
+}
+elsif ( $DatabaseType eq 'postgresql' ) {
+    print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
 
     if ($MigrateFromOTRSBackup) {
         say "Sorry, dumping for database migration is not yet supported for $DatabaseType";
@@ -392,6 +391,11 @@ else {
             die 'Backup failed';
         }
     }
+}
+else {
+    say STDERR "ERROR: the database type '$DatabaseType' is not supported.";
+
+    exit 1;
 }
 
 # remove old backups only after everything worked well
@@ -471,14 +475,13 @@ if ( defined $RemoveDays ) {
     }
 }
 
-# This only works for mysql.
 # A special MySQL dump for migrating from OTRS 6 to OTOBO 10
 # - skip tables that don't have to be migrated
 # - change the character set to utf8mb4
 # - remove COLLATE
 # - shorten columns to 191 characters
 # - rename tables
-sub BackupForMigrateFromOTRS {
+sub MySQLBackupForMigrateFromOTRS {
     my %Param = @_;
 
     # extract named params
@@ -488,19 +491,16 @@ sub BackupForMigrateFromOTRS {
     my $DatabaseName  = $Param{DatabaseName};
     my $DryRun        = $Param{DryRun};
 
+    # print a time stamp at the end of the dump
+    push @DBDumpOptions, qq{--dump-date};
+
     # for getting skipped and renamed tables
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
 
-    # add more mysqldump options
-    {
-        # skipping tables
-        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables->%*;
-        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
-
-        # print a time stamp at the end of the dump
-        push @DBDumpOptions, qq{--dump-date};
-    }
+    # add more mysqldump options for skipping tables that should not be migrated
+    push @DBDumpOptions,
+        map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) }
+        $MigrationBaseObject->DBSkipTables;
 
     # output files
     my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
@@ -546,6 +546,8 @@ END_MESSAGE
             die "Backup failed";
         }
     }
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Shorten columns because of utf8mb4 and innodb max key length.
     # Change the character set to utf8mb4.
@@ -737,6 +739,25 @@ sub RemoveIncompleteBackup {
     else {
         say STDERR "failed";
     }
+
+    return;
+}
+
+# Validate that the option max-allowed-packet is sane.
+# The value must be one of these cases:
+#   i.   an integer, indicating the size in bytes
+#   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
+#   iii. an integer immediately followed by 'M', indicating the size in Megabytes
+#   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
+sub HandleMaxAllowedPacketOption {
+    my ( $OptName, $OptValue ) = @_;
+
+    # check the format
+    if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
+        die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
+    }
+
+    $MaxAllowedPacket = $OptValue;
 
     return;
 }
