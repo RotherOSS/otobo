@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-16 12:24+0000\n"
+"PO-Revision-Date: 2021-04-19 17:51+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -20523,7 +20523,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr "Change-Ticket"
+msgstr "Ticket kategorisieren"
 
 #. SysConfig
 msgid "Change Ticket information"
@@ -31729,7 +31729,6 @@ msgstr ""
 "nicht nur in der Queue-Ansicht."
 
 #. SysConfig
-#, fuzzy
 msgid "Ticket Close"
 msgstr "Ticket Close"
 
