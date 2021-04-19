@@ -34,353 +34,8 @@ use Cwd qw(getcwd abs_path);
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-# This only works for mysql.
-# A special MySQL dump for migrating from OTRS 6 to OTOBO 10
-# - skip tables that don't have to be migrated
-# - change the character set to utf8mb4
-# - remove COLLATE
-# - shorten columns to 191 characters
-# - rename tables
-sub BackupForMigrateFromOTRS {
-    my %Param = @_;
-
-    # extract named params
-    my $Directory     = $Param{Directory};
-    my $DBDumpCmd     = $Param{DBDumpCmd};
-    my @DBDumpOptions = $Param{DBDumpOptions}->@*;
-    my $DatabaseName  = $Param{DatabaseName};
-    my $DryRun        = $Param{DryRun};
-
-    # for getting skipped and renamed tables
-    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
-
-    # add more mysqldump options
-    {
-        # skipping tables
-        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables->%*;
-        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
-
-        # print a time stamp at the end of the dump
-        push @DBDumpOptions, qq{--dump-date};
-    }
-
-    # output files
-    my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
-    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
-    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_for_otobo.sql};
-    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
-    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
-
-    # create the commands that will actually be executed
-    # TODO: support for dumping elsewhere and only processing locally
-    my @Commands = (
-        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
-        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
-    );
-
-    # only print out the dump commands in a dry run
-    if ($DryRun) {
-        for my $Command (@Commands) {
-            say $Command;
-        }
-
-        return;
-    }
-
-    say << "END_MESSAGE";
-Execute the following SQL scripts in the given order:
-    - $PreprocessFile
-    - $AdaptedSchemaDumpFile
-    - $DataDumpFile
-    - $PostprocessFile
-END_MESSAGE
-
-    # print only the count avoids printing a password into a logfile
-    my $Cnt = 0;
-    for my $Command (@Commands) {
-        $Cnt++;
-        if ( !system($Command ) ) {
-            say "done command $Cnt";
-        }
-        else {
-            say "failed executing command $Cnt";
-            say $Command;
-            die "Backup failed";
-        }
-    }
-
-    # Shorten columns because of utf8mb4 and innodb max key length.
-    # Change the character set to utf8mb4.
-    # Remove COLLATE directives.
-    {
-        # find the changed columns per table
-        my %IsShortened;
-        for my $Short ( $MigrationBaseObject->DBShortenedColumns ) {
-            $IsShortened{ $Short->{Table} } //= {};
-            $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
-        }
-
-        my @Lines = $MainObject->FileRead(
-            Location => $SchemaDumpFile,
-            Result   => 'ARRAY',
-        )->@*;
-
-        # now adapt the relevant lines
-        # TODO: make this less nasty. Make it nicety.
-        open my $Adapted, '>', $AdaptedSchemaDumpFile                      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
-        say $Adapted "-- adapted by $0";
-        say $Adapted '';
-        my $CurrentTable;
-        LINE:
-        for my $Line (@Lines) {
-
-            # substitutions for changing the character set
-            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
-            $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
-            $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
-            $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
-
-            # substitutions for removing COLLATE directives
-            $Line =~ s/COLLATE\s+\w+/ /;                                 # for CREATE TABLE, remove customer specific collation
-            $Line =~ s/COLLATE\s*=\s*\w+/ /;                             # for CREATE TABLE, remove customer specific collation
-
-            # leaving a Table Create Block
-            # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
-            if ( $Line =~ m/^\)/ ) {
-                undef $CurrentTable;
-
-                next LINE;
-            }
-
-            # entering a Table Create Block
-            # e.g.: "CREATE TABLE `acl` ("
-            if ( $Line =~ m/^CREATE TABLE `(\w+)` \(/ ) {
-                $CurrentTable = $1;
-
-                next LINE;
-            }
-
-            # check whether the current table has shortened columns
-            next LINE unless $CurrentTable;
-            next LINE unless $IsShortened{$CurrentTable};
-            next LINE unless keys $IsShortened{$CurrentTable}->%*;
-
-            # are we in a column line ?
-            # e.g.: "  `name` varchar(200) COLLATE utf8_bin NOT NULL,"
-            next LINE unless my ( $ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
-
-            # does the column need to be shortened
-            next LINE unless $IsShortened{$CurrentTable}->{$ColumnName};
-            next LINE unless $ColumnLength > 191;
-
-            # shorten
-            # e.g.: "  `name` varchar(191) COLLATE utf8_bin NOT NULL,"
-            $Line =~ s/varchar\(\d+\)/varchar(191)/;
-        }
-        continue {
-            print $Adapted $Line;
-        }
-    }
-
-    # create a SQL script for preprocessing
-    {
-        my @Lines = $MainObject->FileRead(
-            Location => $SchemaDumpFile,
-            Result   => 'ARRAY',
-        )->@*;
-
-        my @DropSQLs;
-
-        LINE:
-        for my $Line (@Lines) {
-
-            next LINE unless $Line =~ m/^DROP TABLE /;
-
-            push @DropSQLs, $Line;
-        }
-
-        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
-        my $SQLScript = <<"END_SQL";
--- SQL script generated by $0 at $Now.
-
-SET FOREIGN_KEY_CHECKS = 0;
-
- @DropSQLs
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-END_SQL
-
-        $MainObject->FileWrite(
-            Location => $PreprocessFile,
-            Content  => \$SQLScript,
-        );
-    }
-
-    # create a SQL script for postprocessing the migrated database
-    {
-        # rename tables
-        # foreign key relationsships are handled automatically
-        # RENAME TABLE IF EXISTS is not available in all MySQL versions
-        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
-        my @RenameSQLs;
-        my $Cnt = 0;
-        for my $SourceTable ( sort keys %RenameTables ) {
-            $Cnt++;
-            push @RenameSQLs, <<"END_SQL";
--- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
-SELECT Count(*)
-  INTO \@exists_$Cnt
-  FROM information_schema.tables
-    WHERE table_schema = DATABASE()
-        AND table_name = '$SourceTable';
-
-SET \@queryDrop_$Cnt = IF (
-    \@exists_$Cnt > 0,
-    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`',
-    'SELECT \\'$SourceTable does not exist. No need to drop $RenameTables{$SourceTable}\\' status'
-);
-SET \@queryRename_$Cnt = IF (
-    \@exists_$Cnt > 0,
-    'RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`',
-    'SELECT \\'$SourceTable does not exist. No need to rename $SourceTable\\' status'
-);
-
-PREPARE stmtDrop_$Cnt FROM \@queryDrop_$Cnt;
-PREPARE stmtRename_$Cnt FROM \@queryRename_$Cnt;
-
-EXECUTE stmtDrop_$Cnt;
-EXECUTE stmtRename_$Cnt;
-
-END_SQL
-        }
-
-        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
-        my $SQLScript = <<"END_SQL";
--- SQL script generated by $0 at $Now.
-
-SET FOREIGN_KEY_CHECKS = 0;
-
-@RenameSQLs
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-END_SQL
-
-        $MainObject->FileWrite(
-            Location => $PostprocessFile,
-            Content  => \$SQLScript,
-        );
-    }
-
-    return;
-}
-
-# If error occurs this functions removes the incomplete backup folder to avoid the impression
-#   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
-sub RemoveIncompleteBackup {
-    my $Directory = shift;
-
-    # remove files and directory
-    print STDERR "Deleting incomplete backup $Directory ... ";
-    my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => $Directory,
-        Filter    => '*',
-    );
-    for my $File (@Files) {
-        if ( -e $File ) {
-            unlink $File;
-        }
-    }
-    if ( rmdir($Directory) ) {
-        say STDERR "done";
-    }
-    else {
-        say STDERR "failed";
-    }
-
-    return;
-}
-
-sub PrintHelpAndExit {
-    print <<'END_HELP';
-Back up an OTOBO system.
-
-Usage:
-
-    # print this help message
-    otobo> cd /opt/otobo
-    otobo> scripts/backup.pl --help
-
-    # for regular backups, can also be used in a cron job
-    otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
-    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
-
-    # backups for creating a dump for migrating an OTRS database OTOBO
-    otobo> cd /opt/otobo
-    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
-
-    # in some special case extra parameters can be passed, note the required quotes
-    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
-
-Short options:
- [-h]                   - Display help for this command.
- [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
- [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
- [-r DAYS]              - Remove backups which are more than DAYS days old.
- [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
-
-Long options:
- [--help]                     - same as -h
- --backup-dir                 - same as -d
- [--compress]                 - same as -c
- [--remove-old-backups DAYS]  - same as -r
- [--backup-type]              - same as -t
- [--dry-run]                  - only print out the database dump command, implies '--backup-type dbonly'
- [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump. The default setting is 64M.
- [--db-host]                  - default is the setting 'DatabaseHost' in the OTOBO config
- [--db-name]                  - default is the setting 'Database' in the OTOBO config
- [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
- [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
- [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
-
-Help:
-Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
-Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
-With -t dbonly only the database will be saved.
-With -t migratefromotrs only the OTRS database will be saved and prepared for migration.
-For debugging database dumping pass --dry-run for only printing out the dump commands.
-
-Output:
- Config.tar.gz          - Backup of /Kernel/Config* configuration files.
- Application.tar.gz     - Backup of application file system (in case of full backup).
- VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
- DataDir.tar.gz         - Backup of article files.
- DatabaseBackup.sql.gz  - Database dump.
-
-Troubleshooting:
-
-Override the max allowed packet size:
-When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE>.
-The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
-This setting will be passed on to the command mysqldump. The default setting is 64M.
-
-Error when the table information_schema.COLUMN_STATISTICS is missing:
-This error occures with some versions of mysqldump 8.0.x. The problem can be evaded
-by passing the option --extra-dump-options="--column-statistics=0"
-
-END_HELP
-
-    exit 1;
-}
-
-# get options
+# file scoped option variables
 my (
-    $HelpFlag,
     $CompressOption,
     $RemoveDays,
     $DatabaseHost,
@@ -395,42 +50,57 @@ my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as
 my $BackupDir        = getcwd();
 my $BackupType       = 'fullbackup';
 
-# Validate that the option max-allowed-packet is sane.
-# The value must be one of these cases:
-#   i.   an integer, indicating the size in bytes
-#   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
-#   iii. an integer immediately followed by 'M', indicating the size in Megabytes
-#   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
-my $MaxAllowedPacketOptionChecker = sub {
-    my ( $OptName, $OptValue ) = @_;
+sub Main {
 
-    # check the format
-    if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
-        die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
-    }
+    # Validate that the option max-allowed-packet is sane.
+    # The value must be one of these cases:
+    #   i.   an integer, indicating the size in bytes
+    #   ii.  an integer immediately followed by 'K', indicating the size in kilobytes
+    #   iii. an integer immediately followed by 'M', indicating the size in Megabytes
+    #   iv.  an integer immediately followed by 'G', indicating the size in Gigabytes
+    my $MaxAllowedPacketOptionChecker = sub {
+        my ( $OptName, $OptValue ) = @_;
 
-    $MaxAllowedPacket = $OptValue;
+        # check the format
+        if ( $OptValue !~ m/^\d+[KMG]?$/ ) {
+            die "The value '$OptValue' is not allowed for $OptName. Please pass an integer or an integer followed by K, M, or G.";
+        }
+
+        $MaxAllowedPacket = $OptValue;
+
+        return;
+    };
+
+    # option that used only within Main()
+    my (
+        $HelpFlag,    # indicate whether the usage message should be printed
+    );
+    GetOptions(
+        'help|h'                 => \$HelpFlag,
+        'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
+        'compress|c=s'           => \$CompressOption,
+        'remove-old-backups|r=i' => \$RemoveDays,
+        'backup-type|t=s'        => \$BackupType,
+        'max-allowed-packet=s'   => $MaxAllowedPacketOptionChecker,    # check the units, set $MaxAllowedPacket
+        'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
+        'dry-run'                => \$DryRun,                          # only print the database dump commands
+        'db-host=s'              => \$DatabaseHost,
+        'db-name=s'              => \$DatabaseName,
+        'db-user=s'              => \$DatabaseUser,
+        'db-password=s'          => \$DatabasePw,
+        'db-type=s'              => \$DatabaseType,
+    ) || PrintHelpAndExit();
+
+    PrintHelpAndExit() if $HelpFlag;
 
     return;
-};
+}
 
-GetOptions(
-    'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
-    'compress|c=s'           => \$CompressOption,
-    'remove-old-backups|r=i' => \$RemoveDays,
-    'backup-type|t=s'        => \$BackupType,
-    'max-allowed-packet=s'   => $MaxAllowedPacketOptionChecker,    # check the units, set $MaxAllowedPacket
-    'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
-    'dry-run'                => \$DryRun,                          # only print the database dump commands
-    'db-host=s'              => \$DatabaseHost,
-    'db-name=s'              => \$DatabaseName,
-    'db-user=s'              => \$DatabaseUser,
-    'db-password=s'          => \$DatabasePw,
-    'db-type=s'              => \$DatabaseType,
-) || PrintHelpAndExit();
+Main();
 
-PrintHelpAndExit() if $HelpFlag;
+# TODO: put the script code into the sub main, so that it is assured that file scoped variables
+#       don't interfere with the subs.
+#       Better still: refactor the next 400 lines into smaller subs
 
 # check backup dir
 if ( !$BackupDir ) {
@@ -799,4 +469,348 @@ if ( defined $RemoveDays ) {
             }
         }
     }
+}
+
+# This only works for mysql.
+# A special MySQL dump for migrating from OTRS 6 to OTOBO 10
+# - skip tables that don't have to be migrated
+# - change the character set to utf8mb4
+# - remove COLLATE
+# - shorten columns to 191 characters
+# - rename tables
+sub BackupForMigrateFromOTRS {
+    my %Param = @_;
+
+    # extract named params
+    my $Directory     = $Param{Directory};
+    my $DBDumpCmd     = $Param{DBDumpCmd};
+    my @DBDumpOptions = $Param{DBDumpOptions}->@*;
+    my $DatabaseName  = $Param{DatabaseName};
+    my $DryRun        = $Param{DryRun};
+
+    # for getting skipped and renamed tables
+    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
+
+    # add more mysqldump options
+    {
+        # skipping tables
+        my @SkippedTables = sort keys $MigrationBaseObject->DBSkipTables->%*;
+        push @DBDumpOptions, map { ( '--ignore-table' => qq{'$DatabaseName.$_'} ) } @SkippedTables;
+
+        # print a time stamp at the end of the dump
+        push @DBDumpOptions, qq{--dump-date};
+    }
+
+    # output files
+    my $PreprocessFile        = qq{$Directory/${DatabaseName}_pre.sql};
+    my $SchemaDumpFile        = qq{$Directory/${DatabaseName}_schema.sql};
+    my $AdaptedSchemaDumpFile = qq{$Directory/${DatabaseName}_schema_for_otobo.sql};
+    my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
+    my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
+
+    # create the commands that will actually be executed
+    # TODO: support for dumping elsewhere and only processing locally
+    my @Commands = (
+        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
+        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
+    );
+
+    # only print out the dump commands in a dry run
+    if ($DryRun) {
+        for my $Command (@Commands) {
+            say $Command;
+        }
+
+        return;
+    }
+
+    say << "END_MESSAGE";
+Execute the following SQL scripts in the given order:
+    - $PreprocessFile
+    - $AdaptedSchemaDumpFile
+    - $DataDumpFile
+    - $PostprocessFile
+END_MESSAGE
+
+    # print only the count avoids printing a password into a logfile
+    my $Cnt = 0;
+    for my $Command (@Commands) {
+        $Cnt++;
+        if ( !system($Command ) ) {
+            say "done command $Cnt";
+        }
+        else {
+            say "failed executing command $Cnt";
+            say $Command;
+            die "Backup failed";
+        }
+    }
+
+    # Shorten columns because of utf8mb4 and innodb max key length.
+    # Change the character set to utf8mb4.
+    # Remove COLLATE directives.
+    {
+        # find the changed columns per table
+        my %IsShortened;
+        for my $Short ( $MigrationBaseObject->DBShortenedColumns ) {
+            $IsShortened{ $Short->{Table} } //= {};
+            $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
+        }
+
+        my @Lines = $MainObject->FileRead(
+            Location => $SchemaDumpFile,
+            Result   => 'ARRAY',
+        )->@*;
+
+        # now adapt the relevant lines
+        # TODO: make this less nasty. Make it nicety.
+        open my $Adapted, '>', $AdaptedSchemaDumpFile                      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+            or die "Can't open $AdaptedSchemaDumpFile for writing: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        say $Adapted "-- adapted by $0";
+        say $Adapted '';
+        my $CurrentTable;
+        LINE:
+        for my $Line (@Lines) {
+
+            # substitutions for changing the character set
+            $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
+            $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
+            $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
+
+            # substitutions for removing COLLATE directives
+            $Line =~ s/COLLATE\s+\w+/ /;                                 # for CREATE TABLE, remove customer specific collation
+            $Line =~ s/COLLATE\s*=\s*\w+/ /;                             # for CREATE TABLE, remove customer specific collation
+
+            # leaving a Table Create Block
+            # e.g.: ") ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4  ;"
+            if ( $Line =~ m/^\)/ ) {
+                undef $CurrentTable;
+
+                next LINE;
+            }
+
+            # entering a Table Create Block
+            # e.g.: "CREATE TABLE `acl` ("
+            if ( $Line =~ m/^CREATE TABLE `(\w+)` \(/ ) {
+                $CurrentTable = $1;
+
+                next LINE;
+            }
+
+            # check whether the current table has shortened columns
+            next LINE unless $CurrentTable;
+            next LINE unless $IsShortened{$CurrentTable};
+            next LINE unless keys $IsShortened{$CurrentTable}->%*;
+
+            # are we in a column line ?
+            # e.g.: "  `name` varchar(200) COLLATE utf8_bin NOT NULL,"
+            next LINE unless my ( $ColumnName, $ColumnLength ) = $Line =~ m/^ \s+ `(\w+)` \s+ varchar\( (\d+) \)/x;
+
+            # does the column need to be shortened
+            next LINE unless $IsShortened{$CurrentTable}->{$ColumnName};
+            next LINE unless $ColumnLength > 191;
+
+            # shorten
+            # e.g.: "  `name` varchar(191) COLLATE utf8_bin NOT NULL,"
+            $Line =~ s/varchar\(\d+\)/varchar(191)/;
+        }
+        continue {
+            print $Adapted $Line;
+        }
+    }
+
+    # create a SQL script for preprocessing
+    {
+        my @Lines = $MainObject->FileRead(
+            Location => $SchemaDumpFile,
+            Result   => 'ARRAY',
+        )->@*;
+
+        my @DropSQLs;
+
+        LINE:
+        for my $Line (@Lines) {
+
+            next LINE unless $Line =~ m/^DROP TABLE /;
+
+            push @DropSQLs, $Line;
+        }
+
+        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
+        my $SQLScript = <<"END_SQL";
+-- SQL script generated by $0 at $Now.
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+ @DropSQLs
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+END_SQL
+
+        $MainObject->FileWrite(
+            Location => $PreprocessFile,
+            Content  => \$SQLScript,
+        );
+    }
+
+    # create a SQL script for postprocessing the migrated database
+    {
+        # rename tables
+        # foreign key relationsships are handled automatically
+        # RENAME TABLE IF EXISTS is not available in all MySQL versions
+        my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
+        my @RenameSQLs;
+        my $Cnt = 0;
+        for my $SourceTable ( sort keys %RenameTables ) {
+            $Cnt++;
+            push @RenameSQLs, <<"END_SQL";
+-- rename  ' $SourceTable` to `$RenameTables{$SourceTable}`
+SELECT Count(*)
+  INTO \@exists_$Cnt
+  FROM information_schema.tables
+    WHERE table_schema = DATABASE()
+        AND table_name = '$SourceTable';
+
+SET \@queryDrop_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'DROP TABLE IF EXISTS `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to drop $RenameTables{$SourceTable}\\' status'
+);
+SET \@queryRename_$Cnt = IF (
+    \@exists_$Cnt > 0,
+    'RENAME TABLE `$SourceTable` TO `$RenameTables{$SourceTable}`',
+    'SELECT \\'$SourceTable does not exist. No need to rename $SourceTable\\' status'
+);
+
+PREPARE stmtDrop_$Cnt FROM \@queryDrop_$Cnt;
+PREPARE stmtRename_$Cnt FROM \@queryRename_$Cnt;
+
+EXECUTE stmtDrop_$Cnt;
+EXECUTE stmtRename_$Cnt;
+
+END_SQL
+        }
+
+        my $Now       = $Kernel::OM->Create('Kernel::System::DateTime')->ToCTimeString;
+        my $SQLScript = <<"END_SQL";
+-- SQL script generated by $0 at $Now.
+
+SET FOREIGN_KEY_CHECKS = 0;
+
+@RenameSQLs
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+END_SQL
+
+        $MainObject->FileWrite(
+            Location => $PostprocessFile,
+            Content  => \$SQLScript,
+        );
+    }
+
+    return;
+}
+
+# If error occurs this functions removes the incomplete backup folder to avoid the impression
+#   that the backup was ok (see http://bugs.otrs.org/show_bug.cgi?id=10665).
+sub RemoveIncompleteBackup {
+    my $Directory = shift;
+
+    # remove files and directory
+    print STDERR "Deleting incomplete backup $Directory ... ";
+    my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+        Directory => $Directory,
+        Filter    => '*',
+    );
+    for my $File (@Files) {
+        if ( -e $File ) {
+            unlink $File;
+        }
+    }
+    if ( rmdir($Directory) ) {
+        say STDERR "done";
+    }
+    else {
+        say STDERR "failed";
+    }
+
+    return;
+}
+
+sub PrintHelpAndExit {
+    print <<'END_HELP';
+Back up an OTOBO system.
+
+Usage:
+
+    # print this help message
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl --help
+
+    # for regular backups, can also be used in a cron job
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -d /data_backup_dir [-c gzip|bzip2] [-r DAYS] [-t fullbackup|nofullbackup|dbonly]
+    otobo> scripts/backup.pl --backup-dir /data_backup_dir [--compress gzip|bzip2] [--remove-old-backups DAYS] [--backup-type fullbackup|nofullbackup|dbonly|migratefromotrs]
+
+    # backups for creating a dump for migrating an OTRS database OTOBO
+    otobo> cd /opt/otobo
+    otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
+
+    # in some special case extra parameters can be passed, note the required quotes
+    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
+
+Short options:
+ [-h]                   - Display help for this command.
+ [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
+ [-c]                   - Select the compression method (gzip|bzip2). Defaults to gzip.
+ [-r DAYS]              - Remove backups which are more than DAYS days old.
+ [-t]                   - Specify which data will be saved (fullbackup|nofullbackup|dbonly|migratefromotrs). Default: fullbackup.
+
+Long options:
+ [--help]                     - same as -h
+ --backup-dir                 - same as -d
+ [--compress]                 - same as -c
+ [--remove-old-backups DAYS]  - same as -r
+ [--backup-type]              - same as -t
+ [--dry-run]                  - only print out the database dump command, implies '--backup-type dbonly'
+ [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump. The default setting is 64M.
+ [--db-host]                  - default is the setting 'DatabaseHost' in the OTOBO config
+ [--db-name]                  - default is the setting 'Database' in the OTOBO config
+ [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
+ [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
+ [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
+
+Help:
+Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
+Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
+With -t dbonly only the database will be saved.
+With -t migratefromotrs only the OTRS database will be saved and prepared for migration.
+For debugging database dumping pass --dry-run for only printing out the dump commands.
+
+Output:
+ Config.tar.gz          - Backup of /Kernel/Config* configuration files.
+ Application.tar.gz     - Backup of application file system (in case of full backup).
+ VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
+ DataDir.tar.gz         - Backup of article files.
+ DatabaseBackup.sql.gz  - Database dump.
+
+Troubleshooting:
+
+Override the max allowed packet size:
+When backing up a MySQL one might run into very large database fields. In this case the backup fails.
+For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE>.
+The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
+This setting will be passed on to the command mysqldump. The default setting is 64M.
+
+Error when the table information_schema.COLUMN_STATISTICS is missing:
+This error occures with some versions of mysqldump 8.0.x. The problem can be evaded
+by passing the option --extra-dump-options="--column-statistics=0"
+
+END_HELP
+
+    exit 1;
 }
