@@ -287,7 +287,7 @@ sub RowCount {
     # See https://github.com/RotherOSS/otobo/issues/639
     my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $Param{Table} eq 'groups' )
         ?
-        q{'groups'}
+        q{`groups`}
         :
         $Param{Table};
 
@@ -626,23 +626,21 @@ sub DataTransfer {
         }
 
         {
-            # no batch insert
-
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
                 my $BindString        = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
 
                 # This is a workaround for a very special case.
-                # There can be OTRS 6 running on MySQL 8, where groups is a reserverd word.
+                # There can be OTRS 6 running on MySQL 8, where groups is a reserved word.
                 # See https://github.com/RotherOSS/otobo/issues/639
-                my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $SourceTable eq 'groups' )
+                my $Table = ( $Param{OTRSDBObject}->{'DB::Type'} eq 'mysql' && $SourceTable eq 'groups' )
                     ?
-                    q{'groups'}
+                    q{`groups`}
                     :
                     $SourceTable;
+
                 $SelectSQL = "SELECT $SourceColumnsString{$SourceTable} FROM $Table";
             }
 
