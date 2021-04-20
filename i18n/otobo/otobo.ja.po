@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-02 08:20+0000\n"
-"Last-Translator: TOMOHISA HIRAMI <hirami@io-architect.com>\n"
+"PO-Revision-Date: 2021-04-20 11:00+0000\n"
+"Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
 "Language: ja\n"
@@ -1660,7 +1660,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr "顧客ユーザーのデフォルト・グループ"
+msgstr "顧客ユーザーのデフォルト・グループ:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
@@ -2101,9 +2101,7 @@ msgstr "この領域は数値でなければなりません。"
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value (e."
 "g. 3600 or -60)."
-msgstr ""
-"領域のデフォルト値を計算するための現時点との時間差  (秒単位)。  （例: 3600, "
-"-60）"
+msgstr "領域のデフォルト値を計算するための現時点との時間差 (秒単位)。 （例: 3600, -60）"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
@@ -2988,7 +2986,7 @@ msgstr "クリア"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr "このWEBサービスのデバッグログを本当にクリアしますか。"
+msgstr "このWEBサービスのデバッグログを本当にクリアしますか？"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
@@ -3008,7 +3006,7 @@ msgstr "リモートIP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr "読み込み中..."
+msgstr "読み込み中"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
@@ -3052,7 +3050,7 @@ msgstr "エラー処理モジュールを削除してよろしいですか?"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
-msgstr "すべての設定情報は失われます"
+msgstr "すべての設定情報は失われます。"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
@@ -3260,10 +3258,8 @@ msgid ""
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
 msgstr ""
-"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、"
-"リトライファクターを”２”とすると、次の要領でトリガーが機能します。\n"
-"10:01(1分後)→10:03(１x２=2分後)→10:07(２x２=4分後)→10:15(４x２=8分後)…※以降、"
-"間隔は2倍になります"
+"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”とすると、次の要領でトリガーが機能します。"
+"10:01(1分後)→10:03(１x２=2分後)→10:07(２x２=4分後)→10:15(４x２=8分後)…※以降、間隔は2倍になります"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
@@ -3293,10 +3289,8 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
-"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、"
-"リトライファクターを”２”、最大リトライ間隔を”5分”とすると、次の要領でトリガー"
-"が機能します。\n"
-"10:01(1分後)→10:03(2分後)→10:07(4分後)→10:12(8分後⇒5分後に修正)→10:17…"
+"例: トリガーを 10:00 、インターバルを1分間隔にあらかじめ設定している場合に、リトライファクターを”２”、最大リトライ間隔を”5分”とすると、次の"
+"要領でトリガーが機能します。10:01(1分後)→10:03(2分後)→10:07(4分後)→10:12(8分後⇒5分後に修正)→10:17…"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
@@ -3739,7 +3733,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
-msgstr "例2:  Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
+msgstr "例2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -9558,9 +9552,8 @@ msgid "Traceback"
 msgstr "トレースバック"
 
 #. Template: CustomerFooter
-#, fuzzy
 msgid "Powered by %s"
-msgstr "Powered by %s"
+msgstr "%s で動いています"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10266,7 +10259,6 @@ msgstr ""
 "ださい。"
 
 #. Template: InstallerSystem
-#, fuzzy
 msgid "Elasticsearch"
 msgstr "Elasticsearch"
 
@@ -10532,7 +10524,7 @@ msgstr "アラート"
 
 #. Template: Alert
 msgid "Powered by"
-msgstr "Powered by"
+msgstr "よって動いています"
 
 #. Template: Pagination
 msgid "Show first page"
@@ -11277,9 +11269,7 @@ msgstr "次のACLは、無事に更新されました。: %s"
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
-msgstr ""
-"次のACLを追加/更新するときにエラーが発生しました。: %s\n"
-"詳細は、ログファイルを参照してください。"
+msgstr "次のACLを追加/更新するときにエラーが発生しました。: %s 詳細は、ログファイルを参照してください。"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
@@ -13103,7 +13093,7 @@ msgstr "システムメンテナンスIDが必要です"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Could not get data for SystemMaintenanceID %s"
-msgstr "システムメンテナンスID  %sから日付を取得できませんでした"
+msgstr "システムメンテナンスID %sから日付を取得できませんでした"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was added successfully!"
@@ -14434,12 +14424,10 @@ msgid "Contact your Admin!"
 msgstr "管理者に連絡してください！"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-#, fuzzy
 msgid "https"
 msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
-#, fuzzy
 msgid "http"
 msgstr "http"
 
@@ -16157,7 +16145,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr " client_encodingはユニコードまたはUTF8 に設定する必要があります"
+msgstr "client_encodingはユニコードまたはUTF8 に設定する必要があります。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
@@ -16712,9 +16700,8 @@ msgid ""
 "PerlInitHandler to prevent web server restarts when installing and upgrading "
 "modules."
 msgstr ""
-" PerlModuleとしてApache::Reload あるいは Apache2::Reload が利用され、インス"
-"トールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、"
-"PerlInitHandlerが利用されるべきです"
+"PerlModuleとしてApache::Reload あるいは Apache2::Reload "
+"が利用され、インストールあるいはモジュールのアップグレード中のWebサーバー再起動を防ぐために、PerlInitHandlerが利用されるべきです。"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
@@ -18083,7 +18070,7 @@ msgstr ""
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
-msgstr "...あまり見せない"
+msgstr " ...あまり見せない"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
@@ -18383,11 +18370,13 @@ msgstr ""
 "\n"
 "カスタマーパネルより新たなチケットを作成願います。\n"
 "\n"
+"あなたのヘルプにありがとうございました。\n"
+"\n"
 "ヘルプデスク担当\n"
 
 #. SysConfig
 msgid " (work units)"
-msgstr "(工数)"
+msgstr " (工数)"
 
 #. SysConfig
 msgid " 2 minutes"
@@ -21386,7 +21375,7 @@ msgstr ""
 "[ドロップダウン]\n"
 "'1' （項目の順番）\n"
 "[日時]\n"
-"'Search_DynamicField_XTimeSlotStartYear=1974; "
+"Search_DynamicField_XTimeSlotStartYear=1974; "
 "Search_DynamicField_XTimeSlotStartMonth=01; "
 "Search_DynamicField_XTimeSlotStartDay=26; "
 "Search_DynamicField_XTimeSlotStartHour=00; "
@@ -21398,7 +21387,7 @@ msgstr ""
 "Search_DynamicField_XTimeSlotStopHour=23; "
 "Search_DynamicField_XTimeSlotStopMinute=59; "
 "Search_DynamicField_XTimeSlotStopSecond=59;' and or "
-"'Search_DynamicField_XTimePointFormat=week; "
+"Search_DynamicField_XTimePointFormat=week; "
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';"
 
@@ -21569,9 +21558,7 @@ msgstr ""
 msgid ""
 "Defines the default ticket order in the responsible view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
-msgstr ""
-" 担当者インタフェースの責任ビューで、デフォルトのチケットの順番を定義します。"
-"Up: 一番古いものがトップ. Down: 最新のものがトップ。"
+msgstr "担当者インタフェースの責任ビューで、デフォルトのチケットの順番を定義します。Up: 一番古いものがトップ. Down: 最新のものがトップ。"
 
 #. SysConfig
 msgid ""
@@ -23180,7 +23167,7 @@ msgstr "ドロップダウン"
 
 #. SysConfig
 msgid "Dutch"
-msgstr ""
+msgstr "オランダ語"
 
 #. SysConfig
 msgid ""
