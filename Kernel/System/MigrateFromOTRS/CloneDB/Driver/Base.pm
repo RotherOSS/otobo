@@ -24,7 +24,7 @@ use namespace::autoclean;
 # core modules
 use Encode;
 use MIME::Base64;
-use List::Util qw(any);
+use List::Util qw(any none);
 use Fcntl qw(:flock);
 
 # CPAN modules
@@ -474,7 +474,7 @@ sub DataTransfer {
 
                 # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
-                unless ( any { lc($SourceColumnInfos->{DATA_TYPE}) eq $_ } ( 'varchar', 'character varying', 'varchar2' ) ) {
+                if ( none { $_ eq lc($SourceColumnInfos->{DATA_TYPE}) } ( 'varchar', 'character varying', 'varchar2' ) ) {
                     next SOURCE_COLUMN;
                 }
 
