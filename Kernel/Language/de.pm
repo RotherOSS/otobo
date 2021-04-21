@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999675430055177;
+    $Self->{Completeness}        = 0.999026606099935;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3101,7 +3101,6 @@ sub Data {
         'Welcome to %s' => 'Willkommen bei %s',
         'Germany' => 'Deutschland',
         'Phone' => 'Telefon',
-        'Switzerland' => 'Schweiz',
         'Web site' => 'Website',
 
         # Template: InstallerConfigureMail
@@ -3257,6 +3256,7 @@ sub Data {
         ' Continue anyways :(' => ' Dennoch fortfahren :(',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => 'Datenbankmigration überspringen',
         'Expert option! Only works if the migration has already been done by hand.' =>
             'Achtung – Expertenoption! Nur ausführen, wenn die Migration bereits von Hand vorgenommen wurde.',
@@ -5074,7 +5074,6 @@ sub Data {
         'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Copy database.' => 'Kopiert die Datenbank.',
         'Skipped...' => 'Übersprungen ...',
-        'Need %s for Oracle db!' => '%s für Oracle DB erforderlich!',
         'System was unable to connect to OTRS database.' => 'System konnte keine Verbindung zur OTRS-Datenbank herstellen.',
         'System was unable to complete data transfer.' => 'System konnte den Datentransfer nicht abschließen.',
         'Data transfer completed.' => 'Datentransfer abgeschlossen.',
@@ -5318,8 +5317,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maximale Anfragegröße',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            'Die Einstellung \'max_allowed_packet\' muss größer als 64 MB sein.',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Größe Abfrage-Cache',
@@ -6224,7 +6222,7 @@ Thanks for your help!
 ' => '
 Sehr geehrter Kunde,
 
-leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer,
+leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, 
 so dass diese E-Mail nicht automatisch verarbeitet werden kann.
 
 Bitte erstellen Sie ein neues Ticket im Kundenbereich.
@@ -6331,7 +6329,7 @@ Ihr Helpdesk-Team
         'Agent User Search.' => 'Nutzersuche Agentenbereich.',
         'Agent contact with data search.' => 'Suche Kontaktdaten Agentenbereich.',
         'Agent dynamic field database detailed search.' => 'Detailsuche dynamisches Feld Datenbank im Agentenbereich.',
-        'Agent dynamic field database details.' => 'Details dynamisches Feld Datenbank Agentenbereich',
+        'Agent dynamic field database details.' => 'Agent dynamic field database details.',
         'Agent dynamic field database search.' => 'Suche dynamisches Feld Datenbank im Agentenbereich.',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
             'Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link \'Kontaktdaten bearbeiten\', wenn kein entsprechendes Quellfeld konfiguriert wurde).',
@@ -6516,7 +6514,7 @@ Ihr Helpdesk-Team
             'In der Ticketdarstellung genutzte Kategorien. Ist keine Standard-Farbe vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist.',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.' =>
             'In der Ticketdarstellung genutzte Kategorien. Die Reihenfolge wird nur verwendet, um die Ausgangspositionierung vor dem Größenarrangement zu bestimmen. Ist keine Standard-Farbe vorgegeben, wird das Element nicht angezeigt, wenn im Farb-Hash kein entsprechender Wert definiert ist.',
-        'Change Ticket' => 'Change-Ticket',
+        'Change Ticket' => 'Ticket kategorisieren',
         'Change Ticket information' => 'Ticketinformationen ändern',
         'Change queue!' => 'Queue ändern!',
         'Change the customer for this ticket' => 'Ticket-Kunden ändern',
@@ -6611,8 +6609,8 @@ Ihr Helpdesk-Team
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
-            'Konfiguriert eine Standardeinstellung für TicketDynamicField. "Name" definiert das Dynamische Feld, das verwendet werden soll, "Wert" sind die Daten, die gesetzt werden sollen, und "Ereignis" definiert das Auslöseereignis. Bitte beachten Sie das Entwicklerhandbuch (https://doc.otobo.com/doc/), Kapitel "Ticket Event Module".',
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
+            '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6677,7 +6675,7 @@ Ihr Helpdesk-Team
         'Customer Dashboard' => 'Kunden-Dashboard',
         'Customer Dynamic Field Database Detailed Search' => 'Customer Dynamic Field Database Detailed Search',
         'Customer Dynamic Field Database Details' => 'Customer Dynamic Field Database Details',
-        'Customer Dynamic Field Database Search' => '',
+        'Customer Dynamic Field Database Search' => 'Customer Dynamic Field Database Search',
         'Customer IDs' => 'Kundennummern',
         'Customer Information Center Search.' => 'Kunden-Informationszentrum-Suche.',
         'Customer Information Center search.' => 'Kunden-Informationszentrum-Suche.',
@@ -6961,6 +6959,8 @@ Ihr Helpdesk-Team
         'Defines the config options for the autocompletion feature.' => 'Definiert die Konfigurationsoptionen für die Autovervollständigung.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Definiert die Konfigurationsparamenter des Eintrages, der in der Benutzereinstellung angezeigt wird.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            'Definiert die Konfigurationsparamenter des Items, die in der Benutzereinstellung angezeigt wird. PasswordRegExp\' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. Legen Sie die Mindestlänge für Passwörter mit \'PasswordMinSize\' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf \'1\' setzen. \'PasswordMin2Characters\' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind \'0\' oder \'1\'). \'PasswordNeedDigit\' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind \'0\' oder \'1\'). \'PasswordMaxLoginFailed\' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist. Bitte beachte: Wenn \'Active\' auf 0 eingestellt ist, so verhindert dies nur, dass Agenten die Einstellung dieser Gruppe in ihren persönlichen Einstellungen verändern können. Der Administrator kann weiterhin diese Einstellungen im Name von Benutzern verändern. Benutze \'PreferenceGroup\', um zu steuern, in welchem Bereich diese Einstellungen in der Benutzer-Oberfläche angezeigt werden.',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Definiert die Konfigurationsparamenter des Items, die in der Benutzereinstellung angezeigt wird. Bitte beachte: Wenn \'Active\' auf 0 eingestellt ist, so verhindert dies nur, dass Agenten die Einstellung dieser Gruppe in ihren persönlichen Einstellungen verändern können. Der Administrator kann weiterhin diese Einstellungen im Name von Benutzern verändern. Benutze \'PreferenceGroup\', um zu steuern, in welchem Bereich diese Einstellungen in der Benutzer-Oberfläche angezeigt werden.',
         'Defines the connections for http/ftp, via a proxy.' => 'Definiert Verbindungen für HTTP/FTP über einen Proxy.',
@@ -6977,8 +6977,8 @@ Ihr Helpdesk-Team
             'Definiert den Standard-Inhalt einer Notiz in der TicketFreeText-Oberfläche im Agenten-Interface.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche (Kundenbenutzer oder Kundenunternehmen). Für Kundenunternehmen-Felder muss ein Präfix \'CustomerCompany_\' hinzugefügt werden.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
-            'Definiert das von Agenten und Kunden zu nutzende Standard (HTML-)Theme. Auf Wunsch können Sie hier ein eigenes Theme hinzufügen. Details dazu entnehmen Sie bitte dem Admin-Handbuch auf https://doc.otobo.org/doc/.',
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
+            '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
@@ -7906,6 +7906,8 @@ Ihr Helpdesk-Team
             'Wenn einer der SMTP-Mechanismen als SendmailModule ausgewählt wurde, muss hier der Port, auf dem Ihr Mailserver auf eingehende Verbindungen lauscht, angegeben werden.',
         'If enabled debugging information for ACLs is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für ACLs geloggt.',
         'If enabled debugging information for transitions is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für Übergänge in Prozesstickets geloggt.',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             'Aktivieren, um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8204,6 +8206,7 @@ Ihr Helpdesk-Team
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             'Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue müssen explizit in Elasticsearch gespeichert werden.',
         'Open an external link!' => 'Externen Link öffnen!',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
         'Option' => 'Option',
@@ -8461,7 +8464,6 @@ Ihr Helpdesk-Team
         'Select the main interface language.' => 'Wählen Sie die Sprache der Hauptoberfläche.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Wählen Sie das Trennzeichen, dass in CSV-Dateien (Statistiken und Suchenergebnisse) benutzt werden soll. Wenn Sie hier kein Zeichen wählen, dann wird das Standard-Trennzeichen gemäß der eingestellten Sprache benutzt.',
-        'Select your frontend Theme.' => 'Wählen Sie Ihr Anzeigeschema aus.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             'Wählen Sie Ihre persönliche Zeitzone aus. Alle Zeiten werden relativ zur eingestellten Zeitzone angezeigt.',
         'Select your preferred layout for the software.' => 'Wählen Sie Ihr bevorzugtes Layout aus.',
@@ -8496,6 +8498,8 @@ Ihr Helpdesk-Team
         'Service Level Agreements' => 'Service-Level-Vereinbarungen',
         'Service view' => 'Ansicht nach Services',
         'ServiceView' => 'DienstAnsicht',
+        'Set a new password by filling in your current password and a new one.' =>
+            'Setzen Sie ein neues Passwort, indem Sie Ihr derzeitiges und ein neues Passwort eintragen.',
         'Set sender email addresses for this system.' => 'Absendeadressen für dieses System verwalten.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'Definiert Standardhöhe (in Pixel) für Inline_HTML-Feldern in AgentTicketZoom.',
@@ -9211,7 +9215,7 @@ Ihr Helpdesk-Team
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Wenn Tickets zusammengefasst werden, kann der Kunde durch Setzen des Kontrollkästchens "Sender informieren" per E-Mail informiert werden. In diesem Bereich können Sie einen vorformatierten Text definieren, der später durch die Agents modifiziert werden kann.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
-            '',
+            'Definiert, ob in der Ticket-Druckansicht im Kundenbereich erweiterte Kundendaten angezeigt werden.',
         'Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2).' =>
             'Definiert, ob Felder automatisch befüllt (1), und ob automatisch befüllte Felder in den Ticketformularen ausgeblendet werden sollen (2).',
         'Whether or not to collect meta information from articles using filters configured in Ticket::Frontend::ZoomCollectMetaFilters.' =>
