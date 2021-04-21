@@ -1161,6 +1161,7 @@ sub LoadDefaults {
         'PreferenceGroup'                   => 'UserProfile',
         'Label'                             => 'Change password',
         'Module'                            => 'Kernel::Output::HTML::Preferences::Password',
+        'PasswordHistory'                   => '3',
         'PasswordMaxLoginFailed'            => '0',
         'PasswordMin2Characters'            => '0',
         'PasswordMin2Lower2UpperCharacters' => '0',
