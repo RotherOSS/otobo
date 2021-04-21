@@ -3183,12 +3183,14 @@ You can log in via the following URL:
                 <Item Key="Area">Agent</Item>
                 <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
+                <Item Key="PasswordHistory">3</Item>
                 <Item Key="PasswordRegExp"></Item>
-                <Item Key="PasswordMinSize">0</Item>
+                <Item Key="PasswordMinSize">8</Item>
                 <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
                 <Item Key="PasswordMin2Characters">0</Item>
-                <Item Key="PasswordNeedDigit">0</Item>
-                <Item Key="PasswordMaxLoginFailed">0</Item>
+                <Item Key="PasswordNeedDigit">1</Item>
+                <Item Key="PasswordMaxLoginFailed"></Item>
+                <Item Key="PasswordMaxValidTimeInDays"></Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Value>
@@ -3466,7 +3468,7 @@ You can log in via the following URL:
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="CustomerFrontend::NotifyModule###7-CustomerUserTimeZone-Check" Required="0" Valid="1">
+    <Setting Name="CustomerFrontend::NotifyModule###7-CustomerUserTimeZone-Check" Required="0" Valid="0">
         <Description Translatable="1">Defines the module to display a notification in the customer interface, if the customer user has not yet selected a time zone.</Description>
         <Navigation>Frontend::Customer::FrontendNotification</Navigation>
         <Value>
@@ -3944,11 +3946,14 @@ via the Preferences button after logging in.
                 <Item Key="Area">Customer</Item>
                 <Item Key="Desc" Translatable="1">Set a new password by filling in your current password and a new one.</Item>
                 <!-- <Item Key="PasswordRegExp">[a-z]|[A-z]|[0-9]|\.|;|,|:|-|\+|#|!|\$|&|\?</Item> -->
+                <Item Key="PasswordHistory">3</Item>
                 <Item Key="PasswordRegExp"></Item>
-                <Item Key="PasswordMinSize">0</Item>
+                <Item Key="PasswordMinSize">8</Item>
                 <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
                 <Item Key="PasswordMin2Characters">0</Item>
-                <Item Key="PasswordNeedDigit">0</Item>
+                <Item Key="PasswordNeedDigit">1</Item>
+                <Item Key="PasswordMaxLoginFailed"></Item>
+                <Item Key="PasswordMaxValidTimeInDays"></Item>
                 <Item Key="Active">1</Item>
             </Hash>
         </Value>
