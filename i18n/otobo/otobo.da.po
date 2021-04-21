@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-06 13:00+0000\n"
+"PO-Revision-Date: 2021-04-21 07:22+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -1987,7 +1987,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Søgbare felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
@@ -2023,7 +2023,7 @@ msgstr "Mulige værdier"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Datatype"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -2031,11 +2031,11 @@ msgstr "Filter"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Søgefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Listefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2055,7 +2055,7 @@ msgstr "Eksempel"
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
-msgstr ""
+msgstr "Link til forhåndsvisning"
 
 #. Template: AdminDynamicFieldDB
 msgid ""
@@ -2070,11 +2070,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Driver"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2098,7 +2098,7 @@ msgstr "Identifikator"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Skal være en unik kolonne fra tabellen, som angivet i Tabel/Oversigt."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -2106,11 +2106,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Søgepræfix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
