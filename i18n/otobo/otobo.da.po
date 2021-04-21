@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-21 07:49+0000\n"
+"PO-Revision-Date: 2021-04-21 08:44+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -3908,7 +3908,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
@@ -3924,7 +3924,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "BasicAuth bruger"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -3932,7 +3932,7 @@ msgstr "Brugernavnet, der skal anvendes for at tilgå fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "BasicAuth password"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -3992,35 +3992,39 @@ msgstr "Vis eller skjul SSL-muligheder for at forbinde til fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Klient certifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate file (must be in PEM, "
 "DER or PKCS#12 format)."
 msgstr ""
+"Den fulde sti og navn på SSL klient certifikat fil (skal være i PEM, DER "
+"eller PKCS#12 format)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Klient certifikat nøgle"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate key file (if not "
 "already included in certificate file)."
 msgstr ""
+"Den fulde sti og navn på SSL klient certifikat nøgle fil (hvis ikke allerede "
+"inkluderet i certifikat filen)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Klient certifikat nøgle adgangskode"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
@@ -4028,7 +4032,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
-msgstr ""
+msgstr "Certification Authority (CA) certifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4096,11 +4100,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "f.eks. https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
-msgstr ""
+msgstr "Angiv SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
@@ -4138,7 +4142,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "SOAPAction separator"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
@@ -4150,7 +4154,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr ""
+msgstr "SOAPAction fritekst"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
@@ -4216,6 +4220,8 @@ msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO "
 "will process."
 msgstr ""
+"Her kan du angive den maksimale størrelse (i bytes) på SOAP beskeder, som "
+"OTOBO vil behandle."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -4239,7 +4245,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
@@ -4249,15 +4255,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Tilføj Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Rediger Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Klon Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -4269,7 +4275,7 @@ msgstr "Klon"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Eksporter Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -4288,6 +4294,8 @@ msgid ""
 "Here you can specify a name for the webservice. If this field is empty, the "
 "name of the configuration file is used as name."
 msgstr ""
+"Her kan du angive et navn til webservicen. Hvis dette felt er tomt, anvendes "
+"navnet på konfigurationsfilen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -4295,7 +4303,7 @@ msgstr "Importer"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Konfigurationshistorik"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -4307,7 +4315,7 @@ msgstr "Vil du virkelig slette denne web-service?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt-Webservices"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4324,7 +4332,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Importer Ready2Adopt web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4345,7 +4353,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "Fjernsystem"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
@@ -4370,11 +4378,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
-msgstr ""
+msgstr "Netværk transport"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Fejlhåndterings modul"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4382,6 +4390,9 @@ msgid ""
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
 msgstr ""
+"Fejlhåndterings moduler bruges til at reagere på fejl under kommunikationen. "
+"Disse moduler udføres i en specifik rækkefølge, som kan ændres via drag and "
+"drop."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
@@ -4389,7 +4400,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Tilføj fejlhåndterings modul"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
