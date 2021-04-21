@@ -45,6 +45,7 @@ server {
     # pass on information about the client
     location / {
 	# Example to use Kerberos SSO 
+	# proxy_set_header REMOTE_USER $remote_user;
 	# auth_gss on;
 	# auth_gss_keytab ${OTOBO_NGINX_KERBEROS_KEYTAB};
 	# auth_gss_service_name ${OTOBO_NGINX_KERBEROS_SERVICE_NAME};
