@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-19 17:51+0000\n"
+"PO-Revision-Date: 2021-04-22 04:46+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -11058,7 +11058,7 @@ msgstr " Dennoch fortfahren :("
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
@@ -16944,7 +16944,7 @@ msgstr "Maximale Anfragegröße"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
+msgstr "Setzen Sie 'max_allowed_packet' auf 64 MB oder mehr."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -20914,6 +20914,10 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
+"Konfiguriert eine TicketDynamicField-Standardeinstellung. \"Name\" "
+"definiert, welches dynamische Feld genutzt werden soll, \"Value\" die zu "
+"setzenden Daten, und \"Event\" das auslösende Ereignis. Mehr dazu im Kapitel "
+"\"Ticket Event Module\" des Developer Manuals (https://doc.otobo.org/)."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -22564,6 +22568,9 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Definiert das Standard-Frontend-Theme (HTML), das von Kunden und Agenten "
+"verwendet werden soll. Auf Wunsch können Sie hier ein eigenes Theme "
+"hinzufügen. Mehr dazu im Administrator Manual unter https://doc.otobo.org/."
 
 #. SysConfig
 msgid ""
@@ -26437,6 +26444,8 @@ msgid ""
 "If enabled defines the preselected state for customer follow-up in the "
 "customer interface."
 msgstr ""
+"Definiert, wenn aktiviert, den vorausgewählten Status für das Kunden-Follow-"
+"up im Kundenbereich."
 
 #. SysConfig
 msgid ""
@@ -27691,7 +27700,7 @@ msgstr "Externen Link öffnen!"
 
 #. SysConfig
 msgid "Open the OTOBO home page in a new window"
-msgstr ""
+msgstr "Öffnet die OTOBO Homepage in einem neuen Fenster"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
