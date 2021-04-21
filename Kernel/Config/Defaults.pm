@@ -1163,6 +1163,7 @@ sub LoadDefaults {
         'Module'                            => 'Kernel::Output::HTML::Preferences::Password',
         'PasswordHistory'                   => '3',
         'PasswordMaxLoginFailed'            => '0',
+        'PasswordMaxValidTimeInDays'        => '',
         'PasswordMin2Characters'            => '0',
         'PasswordMin2Lower2UpperCharacters' => '0',
         'PasswordMinSize'                   => '8',

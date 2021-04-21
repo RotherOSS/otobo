@@ -3189,7 +3189,7 @@ You can log in via the following URL:
                 <Item Key="PasswordMin2Lower2UpperCharacters">0</Item>
                 <Item Key="PasswordMin2Characters">0</Item>
                 <Item Key="PasswordNeedDigit">1</Item>
-                <Item Key="PasswordMaxLoginFailed"></Item>
+                <Item Key="PasswordMaxLoginFailed">0</Item>
                 <Item Key="PasswordMaxValidTimeInDays"></Item>
                 <Item Key="Active">1</Item>
             </Hash>
