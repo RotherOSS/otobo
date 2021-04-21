@@ -472,9 +472,11 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
-                # shortening only for varchar
+                # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
-                next SOURCE_COLUMN unless $SourceColumnInfos->{DATA_TYPE} eq 'varchar';
+                unless ( any { lc($SourceColumnInfos->{DATA_TYPE}) eq $_ } ( 'varchar', 'character varying', 'varchar2' ) ) {
+                    next SOURCE_COLUMN;
+                }
 
                 # Get target (OTOBO) column infos
                 my $TargetColumnInfos = $TargetDBBackend->GetColumnInfos(
