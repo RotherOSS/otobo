@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-21 07:22+0000\n"
+"PO-Revision-Date: 2021-04-21 07:41+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -2114,11 +2114,11 @@ msgstr "Søgepræfix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Søgesuffix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Resultat begrænsning"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
@@ -2173,6 +2173,8 @@ msgid ""
 "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
 "instead of 'uri' filter."
 msgstr ""
+"Hvis specielle karakterer (&, @, :, /, etc.) ikke skal encodes, brug 'url' "
+"istedet for 'uri' filter."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -2204,7 +2206,7 @@ msgstr "Aktiver dette punkt for at vise værdier som et træ."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
@@ -2212,7 +2214,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Vælg de ønskede elementer og bekræft importen med 'import'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2237,7 +2239,7 @@ msgstr "Felter"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Skærme"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
@@ -2253,7 +2255,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Tilføj dynamisk felt"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
@@ -2269,7 +2271,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrer tilgængelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
@@ -2277,11 +2279,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Tilgængelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrer disablede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
@@ -2293,7 +2295,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Disablede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
@@ -2309,7 +2311,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Tildelte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
@@ -2379,15 +2381,15 @@ msgstr "Skabelon"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "fed"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "kursiv"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
@@ -2407,7 +2409,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Farve i hex."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2419,7 +2421,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Invoker"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
@@ -2447,7 +2449,7 @@ msgstr ""
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Admin besked"
 
 #. Template: AdminEmail
 msgid ""
@@ -2507,19 +2509,19 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Tilføj job"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Kør job"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtrer jobs"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtrer jobs"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2695,7 +2697,7 @@ msgstr "Dynamiske felter"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Tilføj dynamisk felt"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2899,7 +2901,7 @@ msgstr "Tildel ny sagsejer"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Nyt kunde-ID"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
