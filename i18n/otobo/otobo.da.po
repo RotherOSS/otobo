@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-04-21 07:41+0000\n"
+"PO-Revision-Date: 2021-04-21 07:49+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/"
 ">\n"
@@ -3340,7 +3340,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "Dette felt skal enten indeholde et positivt tal, eller være tomt."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -3439,7 +3439,7 @@ msgstr "Betingelse"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Rediger denne event"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -3491,7 +3491,7 @@ msgstr "Generelle Indstillinger"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Event type"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3511,7 +3511,7 @@ msgstr "Fjern denne betingelse"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking"
-msgstr ""
+msgstr "Linktype"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add a new Field"
@@ -3773,11 +3773,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Tilføj handling"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Rediger handling"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
