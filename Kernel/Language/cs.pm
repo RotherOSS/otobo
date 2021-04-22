@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.249756572541383;
+    $Self->{Completeness}        = 0.257138221933809;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -90,7 +90,7 @@ sub Data {
             'Nastavit odpovídající kritérium pro toto ACL. Pro srovnání současného zobrazení použijte \'Vlastnosti\' nebo pro srovnání atributů současných tiketů v databázi použijte \'VlastnostiDatabáze\'.',
         'Change settings' => 'Změna nastavení',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
+            'Nastavte, co chcete změnit, pokud se kritéria shodují. Myslete na to, že "možné" je "white list" a "nemožné" je "black list".',
         'Check the official %sdocumentation%s.' => 'Zkontrolovat oficiální %sdokumentaci%s.',
         'Show or hide the content' => 'Zobrazit nebo skrýt obsah',
         'Edit ACL Information' => 'Upravit informace ACL',
@@ -117,21 +117,21 @@ sub Data {
         'Import Appointments' => 'Import událostí',
         'Calendar Import' => 'Importovat kalendář',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            '',
-        'Overwrite existing entities' => '',
+            'Zde můžete nahrát konfigurační soubor pro import kalendáře do systému. Soubor musí být v .yml fomátu, exportovaný z modulu správy kalendářů.',
+        'Overwrite existing entities' => 'Přepište existující entity',
         'Upload calendar configuration' => 'Nahrát konfiguraci kalendáře',
         'Import Calendar' => 'Importovat kalendář',
         'Filter for Calendars' => 'Filtr pro kalendáře',
         'Filter for calendars' => 'Filtr pro kalendáře',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'V závislosti na skupinovém poli, systém umožní uživateli přístup do kalendáře v závislosti na úrovni oprávnění.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Jen pro čtení: uživatel může vidět a exportovat všechny schůzky v kalendáři.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Přesunout do: uživatel může upravit schůzky v kalendáři, ale beze změny výběru kalendáře.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Vytvořit: uživatelé mohou vytvořit a smazat schůzky v kalendáři.',
+        'Read/write: users can manage the calendar itself.' => 'Číst/Zapisovat: uživatelé mohou spravovat kalendář.',
         'Group' => 'Skupina',
         'Changed' => 'Změněno',
         'Created' => 'Vytvořeno',
@@ -139,10 +139,10 @@ sub Data {
         'URL' => 'URL',
         'Export calendar' => 'Exportovat kalendář',
         'Download calendar' => 'Stáhnout kalendář',
-        'Copy public calendar URL' => '',
+        'Copy public calendar URL' => 'Kopíruj veřejnou URL kalendáře',
         'Calendar' => 'Kalendář',
         'Calendar name' => 'Jméno kalendáře',
-        'Calendar with same name already exists.' => '',
+        'Calendar with same name already exists.' => 'Kalendář se stejným jménem již existuje.',
         'Color' => 'Barva',
         'Permission group' => 'Skupina oprávnění',
         'Ticket Appointments' => 'Události tiketu',
@@ -152,54 +152,54 @@ sub Data {
         'Start date' => 'Počáteční datum',
         'End date' => 'Datum ukončení',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Použijte nastavení níže pro zúžení výběru pro které tikety budou automaticky vytvořené schůzky.',
         'Queues' => 'Řady',
         'Please select a valid queue.' => 'Vyberte prosím platnou frontu.',
         'Search attributes' => 'Vyhledání atributů',
         'Add entry' => 'Přidat položku',
         'Add' => 'Přidat',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
+            'Definujte pravidla pro automatické vytvoření schůzky v tomto kalendáři na základě dat z tiketu.',
         'Add Rule' => 'Přidat pravidlo',
         'Submit' => 'Odeslat',
 
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Import události',
         'Go back' => 'Návrat zpět',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Nahrávaný soubor musí být v platném iCAL formátu (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Pokud požadovaný kalendář tu není uvedený, ujistěte se, že máte alespoň práva na jeho vytvoření.',
         'Upload' => 'Nahrát na server',
         'Update existing appointments?' => 'Aktualizovat stávající události?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
+            'Všechny existující schůzky v tomto kalendáři se stejným UniqueID budou přepsány.',
         'Upload calendar' => 'Nahrát kalendář',
         'Import appointments' => 'Import událostí',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Správa notifikací schůzek',
         'Add Notification' => 'Přidat oznámení',
         'Edit Notification' => 'Upravit oznámení',
         'Export Notifications' => 'Exportovat oznámení',
         'Filter for Notifications' => 'Filtr pro oznámení',
         'Filter for notifications' => 'Filtr pro oznámení',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Zde můžete nahrát konfigurační soubor pro import notifikací schůzek do Vašeho systému. Soubor musí být v .yml formátu exportovaný z modulu notifikací schůzek.',
         'Overwrite existing notifications?' => 'Přepsat existující oznámení?',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Upload Notification configuration' => 'Nahrát konfiguraci notifikací',
+        'Import Notification configuration' => 'Import konfigurace notifikací',
         'List' => 'Pořadí',
         'Delete' => 'Vymazat',
         'Delete this notification' => 'Smazat toto oznámení',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Zobrazit v nastavení agenta',
+        'Agent preferences tooltip' => 'Tipy nápovědy pro nastavení agenta',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Tato zpráva bude zobrazena na obrazovce nastavení preferencí agenta jako plovoucí nápověda pro tuto notifikaci.',
         'Toggle this widget' => 'Přepnout tento widget',
         'Events' => 'Události',
         'Event' => 'Událost',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Zde můžete vybrat, které události budou aktivovat tuto notifikaci. Další filtr schůzek je možno nastavit níže, aby se posílaly notifikace pouze pro schůzky s určitými kritérii.',
         'Appointment Filter' => 'Filtr událostí',
         'Type' => 'Typ',
         'Title' => 'Název',
@@ -208,21 +208,21 @@ sub Data {
         'Resource' => 'Zdroj',
         'Recipients' => 'Příjemce',
         'Send to' => 'Odeslat',
-        'Send to these agents' => '',
-        'Send to all group members (agents only)' => '',
-        'Send to all role members' => '',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
+        'Send to these agents' => 'Poslat těmto agentům',
+        'Send to all group members (agents only)' => 'Odeslat všem členům skupiny (pouze agenti)',
+        'Send to all role members' => 'Poslat všem členům role',
+        'Send on out of office' => 'Poslat Nepřítomnost v kanceláři',
+        'Also send if the user is currently out of office.' => 'Poslat i v případě pokud je uživatel Mimo kancelář.',
         'Once per day' => 'Jedenkrát denně',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Zaslat notifikaci jen jednou denně o konkrétní schůzce pomocí vybrané metody.',
         'Notification Methods' => 'Metody oznamování',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
+            'Toto jsou dostupné metody, kterými lze zasílat notifikace každému z adresátů. Prosím vyberte alespoň jednu.',
         'Enable this notification method' => 'Povolit tuto metodu oznámení',
         'Transport' => 'Transportovat',
-        'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'At least one method is needed per notification.' => 'Pro notifikace je nutná alespoň jedna metoda.',
+        'Active by default in agent preferences' => 'Standardně aktivní v nastavení agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
         'This feature is currently not available.' => '',
@@ -244,7 +244,7 @@ sub Data {
         'You can use the following tags' => '',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
-        ' e. g.' => 'např.',
+        ' e. g.' => ' např.',
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => '',
@@ -285,8 +285,8 @@ sub Data {
         'Response' => 'Odpověď',
         'Auto response from' => 'Automatická odpověď od',
         'Reference' => '',
-        'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu',
-        'To get the first 5 lines of the email.' => 'pro získáni prvních 5ti řádků z emailu',
+        'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu.',
+        'To get the first 5 lines of the email.' => 'Pro získáni prvních 5ti řádků z emailu.',
         'To get the name of the ticket\'s customer user (if given).' => '',
         'To get the article attribute' => 'Získat atributy článku',
         'Options of the current customer user data' => '',
@@ -409,7 +409,7 @@ sub Data {
         'Back to search results' => 'Zpět na výsledek vyhledávání',
         'Select' => 'Vybrat',
         'Search' => 'Vyhledat',
-        'Wildcards like \'*\' are allowed.' => 'Pseudoznaky jako \'*\' jsou povolené',
+        'Wildcards like \'*\' are allowed.' => 'Pseudoznaky jako \'*\' jsou povolené.',
         'Please enter a search term to look for contacts with data.' => '',
         'Valid' => 'Platnost',
 
@@ -719,7 +719,7 @@ sub Data {
         'RegEx' => 'Regulární výraz',
         'Invalid RegEx' => 'Neplatný regulární výraz',
         'Error Message' => 'Chybová zpráva',
-        'Add RegEx' => 'Přidat regulární výraz    ',
+        'Add RegEx' => 'Přidat regulární výraz',
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'Šablona',
@@ -768,7 +768,7 @@ sub Data {
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
         'Last run' => 'Naposledy Spuštěno',
-        'Run Now!' => 'Spustit Teď',
+        'Run Now!' => 'Spustit nyní!',
         'Delete this task' => 'Odstranit tuto úlohu',
         'Run this task' => 'Spustit tuto úlohu',
         'Job Settings' => '',
@@ -781,7 +781,7 @@ sub Data {
         'Schedule days' => '',
         'Automatic execution values are in the system timezone.' => '',
         'Currently this generic agent job will not run automatically.' =>
-            'Aktuálně nebude Úloha Obecného Prostředu spouštěna automaticky',
+            'Aktuálně nebude úloha základního agenta spouštěna automaticky.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
             'Pro automatické spuštění vyberte alespoň jednu z hodnot: minuta, hodina a den!',
         'Event Based Execution (Single Ticket)' => '',
@@ -823,7 +823,7 @@ sub Data {
         'Ticket last changed' => 'Tiket naposledy změněn',
         'Ticket last changed between' => '',
         'Change times' => '',
-        'No change time settings.' => 'Žádná nastavení změny Času',
+        'No change time settings.' => 'Žádné nastavení změny času.',
         'Ticket changed' => 'Tiket změněn',
         'Ticket changed between' => 'Tiket změněn mezi',
         'Last close times' => '',
@@ -831,15 +831,15 @@ sub Data {
         'Ticket last close' => '',
         'Ticket last close between' => '',
         'Close times' => '',
-        'No close time settings.' => 'Čas Uzavření - bez nastavení',
+        'No close time settings.' => 'Čas ukončení - bez nastavení.',
         'Ticket closed' => 'Uzavřené Tikety',
         'Ticket closed between' => 'Uzavřené Tikety mezi',
         'Pending times' => '',
-        'No pending time settings.' => 'Nevyřešené Časy - bez nastavení',
+        'No pending time settings.' => 'Čas nevyřešení - bez nastavení.',
         'Ticket pending time reached' => 'Dosažen Čas Řešení',
         'Ticket pending time reached between' => 'Dosažen Čas Řešení mezi',
         'Escalation times' => '',
-        'No escalation time settings.' => 'Časy Eskalace - bez nastavení',
+        'No escalation time settings.' => 'Čas eskalace - bez nastavení.',
         'Ticket escalation time reached' => 'Dosažen Čas Eskalace',
         'Ticket escalation time reached between' => 'Dosažen Čas Eskalace mezi',
         'Escalation - first response time' => '',
@@ -875,7 +875,7 @@ sub Data {
         'Send agent/customer notifications on changes' => 'Odeslat upozornění Řešiteli/Zákazníkovi při změně',
         'CMD' => 'Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
-            'Příkaz bude proveden. ARG[0] bude číslo Tiketu. ARG[1] ID Tiketu',
+            'Příkaz bude proveden. ARG[0] bude číslo tiketu. ARG[1] ID tiketu.',
         'Delete tickets' => 'Vymazat Tikety',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             '',
@@ -909,7 +909,7 @@ sub Data {
         'Filter from' => 'Filtrovat od',
         'Filter to' => 'Filtrovat do',
         'Filter by remote IP' => 'Filtrovat podle vzdálené IP',
-        'Limit' => 'Limit',
+        'Limit' => 'Omezení',
         'Refresh' => 'Obnovit',
 
         # Template: AdminGenericInterfaceErrorHandlingDefault
@@ -1418,15 +1418,15 @@ sub Data {
             '',
         'This field is required and must have less than 4000 characters.' =>
             '',
-        'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi nebo zákazníkovi',
+        'Notifications are sent to an agent or a customer.' => 'Oznámení jsou odeslána agentovi nebo zákazníkovi.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
-            'pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku Řešitele)',
+            'Pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku řešitele).',
         'To get the first 5 lines of the body (of the latest agent article).' =>
-            'pro získáni prvních 5ti řádků z těla (z nejnovějšího článku Řešitele)',
+            'Pro získáni prvních 5ti řádků z těla (z nejnovějšího článku řešitele).',
         'To get the first 20 character of the subject (of the latest customer article).' =>
-            'pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku Zákazníka)',
+            'Pro získáni prvních 20ti znaků z předmětu (z nejnovějšího článku zákazníka).',
         'To get the first 5 lines of the body (of the latest customer article).' =>
-            'pro získáni prvních 5ti řádků z těla (z nejnovějšího článku Zákazníka)',
+            'Pro získáni prvních 5ti řádků z těla (z nejnovějšího článku zákazníka).',
         'Attributes of the current customer user data' => '',
         'Attributes of the current ticket owner user data' => '',
         'Attributes of the current ticket responsible user data' => '',
@@ -1455,7 +1455,7 @@ sub Data {
         'Configure it here!' => 'Nakonfigurovat zde!',
         'Check PGP configuration' => '',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
-            'V tomto způsobu můžete Keyring, konfigurovaný v SysConfigu, editovat přímo',
+            'V tomto případě můžete keyring, konfigurovaný v SysConfigu, editovat napřímo.',
         'Introduction to PGP' => '',
         'Bit' => 'Kousek',
         'Fingerprint' => 'Otisk',
@@ -1540,11 +1540,11 @@ sub Data {
         'Range' => 'Oblast',
         'last' => 'poslední',
         'This feature is enabled!' => 'Tato Funkce je Aktivována!',
-        'Just use this feature if you want to log each request.' => 'Pro logování všech Požadavků stačí zapnout tuto Funkci',
+        'Just use this feature if you want to log each request.' => 'Pro logování všech požadavků stačí zapnout tuto funkci.',
         'Activating this feature might affect your system performance!' =>
             'Aktivace této Funkce může ovlivnit chod Systému!',
         'Disable it here!' => 'Deaktivujte ji Zde!',
-        'Logfile too large!' => 'Příliš velký logfile',
+        'Logfile too large!' => 'Příliš velký log soubor!',
         'The logfile is too large, you need to reset it' => '',
         'Interface' => 'Rozhraní',
         'Requests' => 'Požadavky',
@@ -1676,11 +1676,11 @@ sub Data {
 
         # Template: AdminProcessManagementProcessAccordion
         'Activities' => 'Aktivity',
-        'Filter Activities...' => 'Filtr Aktivit',
+        'Filter Activities...' => 'Filtr aktivit...',
         'Create New Activity' => 'Vytvoř novou Aktivitu',
-        'Filter Activity Dialogs...' => 'Dialog filtr Aktivit',
+        'Filter Activity Dialogs...' => 'Dialog filtru aktivit...',
         'Transitions' => 'Přechody',
-        'Filter Transitions...' => 'Filtrovat přechody',
+        'Filter Transitions...' => 'Filtrovat změny stavu...',
         'Create New Transition' => 'Vytvořit nový přechod',
         'Filter Transition Actions...' => '',
 
@@ -1766,7 +1766,7 @@ sub Data {
         'Unlock timeout' => 'Čas do odemknutí',
         '0 = no unlock' => '0 = žádné odemknutí',
         'hours' => 'hodin(y)',
-        'Only business hours are counted.' => 'Počítají se pouze úřední hodiny',
+        'Only business hours are counted.' => 'Počítají se pouze úřední hodiny.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
         'Notify by' => 'Upozorněno kým',
@@ -1876,7 +1876,7 @@ sub Data {
             '',
         'Attribute' => 'Atribut',
         'FQDN' => '',
-        'OTOBO Version' => 'Verze OTOBO ',
+        'OTOBO Version' => 'Verze OTOBO',
         'Operating System' => 'Operační systém',
         'Perl Version' => 'Verze Perlu',
         'Optional description of this system.' => '',
@@ -1915,9 +1915,9 @@ sub Data {
             '',
         'Toggle %s permission for all' => '',
         'move_into' => 'přesunout do',
-        'Permissions to move tickets into this group/queue.' => 'Práva přesunout tikety do této skupiny/fronty',
+        'Permissions to move tickets into this group/queue.' => 'Práva přesunout tikety do této skupiny/fronty.',
         'create' => 'vytvořit',
-        'Permissions to create tickets in this group/queue.' => 'Práva vytvořit tikety v této skupině/frontě',
+        'Permissions to create tickets in this group/queue.' => 'Práva vytvořit tikety v této skupině/frontě.',
         'note' => 'poznámka',
         'Permissions to add notes to tickets in this group/queue.' => '',
         'owner' => 'vlastník',
@@ -1925,7 +1925,7 @@ sub Data {
             '',
         'priority' => 'priorita',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Práva změnit prioritu tiketu v této skupině/frontě',
+            'Práva změnit prioritu tiketu v této skupině/frontě.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => '',
@@ -2326,7 +2326,7 @@ sub Data {
         # Template: AgentAppointmentEdit
         'Basic information' => 'Základní informace',
         'Date/Time' => 'Datum/čas',
-        'Invalid date!' => 'Neplatné datum',
+        'Invalid date!' => 'Neplatné datum!',
         'Please set this to value before End date.' => '',
         'Please set this to value after Start date.' => '',
         'This an occurrence of a repeating appointment.' => '',
@@ -2480,12 +2480,12 @@ sub Data {
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s je dostupný!',
-        'Please update now.' => 'Aktualizujte prosím nyní',
+        'Please update now.' => 'Aktualizujte prosím nyní.',
         'Release Note' => 'Vypustit Poznámku',
         'Level' => 'Úroveň',
 
         # Template: AgentDashboardRSSOverview
-        'Posted %s ago.' => 'Odesláno před %s',
+        'Posted %s ago.' => 'Publikováno před %s.',
 
         # Template: AgentDashboardStats
         'The configuration for this statistic widget contains errors, please review your settings.' =>
@@ -2673,7 +2673,7 @@ sub Data {
         'Responsible invalid.' => '',
         'Next state' => 'Nasledující stav',
         'State invalid.' => '',
-        'For all pending* states.' => 'Pro všechny stavy čekající na vyřízení*',
+        'For all pending* states.' => 'Pro všechny stavy čekající na vyřízení.',
         'Add Article' => 'Přidat položku',
         'Create an Article' => '',
         'Inform agents' => '',
@@ -2683,7 +2683,7 @@ sub Data {
         'Text will also be received by' => '',
         'Text Template' => '',
         'Setting a template will overwrite any text or attachment.' => '',
-        'Invalid time!' => 'Neplatný čas',
+        'Invalid time!' => 'Neplatný čas!',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '',
@@ -2693,7 +2693,7 @@ sub Data {
             '',
         'Next ticket state' => 'Následující stav tiketu',
         'Inform sender' => 'Informovat odesílatele',
-        'Send mail' => 'Poslat mail!',
+        'Send mail' => 'Poslat mail',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Hromadná akce Tiketu',
@@ -2766,7 +2766,7 @@ sub Data {
         # Template: AgentTicketMerge
         'Merge %s%s%s' => '',
         'Merge Settings' => '',
-        'You need to use a ticket number!' => 'Notno použít číslo Tiketu',
+        'You need to use a ticket number!' => 'Nutno použít číslo tiketu!',
         'A valid ticket number is required.' => '',
         'Try typing part of the ticket number or title in order to search by it.' =>
             '',
@@ -2780,7 +2780,7 @@ sub Data {
         'Move' => 'Přesunout',
 
         # Template: AgentTicketOverviewMedium
-        'No ticket data found.' => 'žádné',
+        'No ticket data found.' => 'Nenalezena žádná data.',
         'Open / Close ticket action menu' => '',
         'Select this ticket' => 'Vyber tenhle tiket',
         'Sender' => 'Odesílatel',
@@ -2898,7 +2898,7 @@ sub Data {
         'This message is being processed. Already tried to send %s time(s). Next try will be %s.' =>
             '',
         'To open links in the following article, you might need to press Ctrl or Cmd or Shift key while clicking the link (depending on your browser and OS).' =>
-            'Pro otevření odkazů z následujícího textu možná bude zapotřebí stisknout klávesu Ctrl, Cmd, nebo Shift současně s kliknutím na odkaz (závisí na vašem přohlížeči a operačním systému)',
+            'Pro otevření odkazů z následujícího textu možná bude zapotřebí stisknout klávesu Ctrl, Cmd, nebo Shift současně s kliknutím na odkaz (závisí na vašem přohlížeči a operačním systému).',
         'Close this message' => 'Zavřít tuto zprávu',
         'Image' => '',
         'PDF' => '',
@@ -2933,53 +2933,53 @@ sub Data {
 
         # Template: CloudServicesDisabled
         'This Feature Requires Cloud Services' => '',
-        'You can' => 'Můžeš ',
+        'You can' => 'Můžeš',
         'go back to the previous page' => '',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => 'Kliknutím uděluji souhlas se zpracováním osobních údajů.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
-            '',
+            'ID zákazníka není možné změnit, žádné další zákaznické ID není možno tiketu přiřadit.',
         'First select a customer user, then you can select a customer ID to assign to this ticket.' =>
-            '',
-        'Select a customer ID to assign to this ticket.' => '',
-        'From all Customer IDs' => '',
-        'From assigned Customer IDs' => '',
+            'Nejdříve vyberte uživatele zákazníka, poté bude možno přiřadit zákaznické ID tomuto tiketu.',
+        'Select a customer ID to assign to this ticket.' => 'Vyberte ID zákazníka pro přiřazení k tomuto tiketu.',
+        'From all Customer IDs' => 'Ze všech zákaznických ID',
+        'From assigned Customer IDs' => 'Z přiřazených zákaznických ID',
 
         # Template: CustomerDashboard
-        'Ticket Search' => '',
+        'Ticket Search' => 'Prohledávání tiketů',
         'New Ticket' => 'Nový Tiket',
 
         # Template: CustomerError
-        'An Error Occurred' => 'Pozor chyba',
+        'An Error Occurred' => 'Nastala chyba',
         'Error Details' => 'Detail chyby',
         'Traceback' => 'Jít zpět',
 
         # Template: CustomerFooter
-        'Powered by %s' => '',
+        'Powered by %s' => 'Používáme %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
-            '',
+            '%s nalezl možný síťový problém. Můžete se pokud znovu načíst stránku ručně nebo počkejte až prohlížeč naváže spojení sám.',
         'The connection has been re-established after a temporary connection loss. Due to this, elements on this page could have stopped to work correctly. In order to be able to use all elements correctly again, it is strongly recommended to reload this page.' =>
             '',
 
         # Template: CustomerLogin
         'JavaScript Not Available' => 'JavaScript není povolen',
         'In order to experience this software, you\'ll need to enable JavaScript in your browser.' =>
-            '',
-        'Browser Warning' => '',
+            'Aby jste mohli využívat tento software musíte povolit JavaScript ve Vašem prohlížeči.',
+        'Browser Warning' => 'Upozornění prohlížeče',
         'The browser you are using is too old.' => 'Váš prohlížeč je příliš starý.',
         'This software runs with a huge lists of browsers, please upgrade to one of these.' =>
-            '',
+            'Tento software je podporovaný v mnoha prohlížečích, modernizujte svůj a nainstalujte jeho aktuální verzi.',
         'Please see the documentation or ask your admin for further information.' =>
-            '',
+            'Prosím přečtěte si dokumentaci nebo se zeptejte svého administrátora na další informace.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
-            '',
+            'Prohlížeč, který používáte nepodporuje CSS. Je zřejmě velmi starý.',
         'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
-            '',
+            'Internet Explorer je funkční , ale ne všechny vlastnosti jsou podporovány. Doporučujeme instalaci moderního prohlížeče.',
         'One moment please, you are being redirected...' => 'Chvíli strpení, prosím, budete přesměrováni...',
         'Login' => 'Přihlášení',
         'Your user name' => 'Vaše uživatelské jméno',
@@ -3108,7 +3108,6 @@ sub Data {
         'Welcome to %s' => '',
         'Germany' => '',
         'Phone' => 'Telefon',
-        'Switzerland' => '',
         'Web site' => '',
 
         # Template: InstallerConfigureMail
@@ -3169,7 +3168,7 @@ sub Data {
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
             'Abyste mohli používat OTOBO, musíte zadat následující řádek do Vašeho příkazového řádku (Terminal/Shell) jako root.',
         'Restart your webserver' => 'Restartujte Váš webserver',
-        'After doing so your OTOBO is up and running.' => 'Po dokončení následujících operací je Váš OTOBO spuštěn a poběží',
+        'After doing so your OTOBO is up and running.' => 'Po dokončení následujících operací je Váš OTOBO spuštěn a běžící.',
         'Start page' => 'Úvodní stránka',
         'Your OTOBO Team' => 'Váš OTOBO tým',
 
@@ -3264,6 +3263,7 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => '',
         'Expert option! Only works if the migration has already been done by hand.' =>
             '',
@@ -3379,7 +3379,7 @@ sub Data {
         'Format' => '',
         'Exchange Axis' => 'Exchange osy',
         'Configurable Params of Static Stat' => '',
-        'No element selected.' => 'Nebyl vybrán prvek',
+        'No element selected.' => 'Nebyl vybrán prvek.',
         'Scale' => 'Měřítko',
         'show more' => '',
         'show less' => '',
@@ -3576,7 +3576,7 @@ sub Data {
         'The following ACLs have been added successfully: %s' => 'Následující ACL byly přidány úspěšně: %s',
         'The following ACLs have been updated successfully: %s' => 'Následující ACL byly aktualizovány úspěšně: %s',
         'There where errors adding/updating the following ACLs: %s. Please check the log file for more information.' =>
-            'Během přidávání/aktualizace následujících ACL se objevily chyby: %s. Pro více informací prosím zkontrolujte log',
+            'Během přidávání/aktualizace následujících ACL se objevily chyby: %s. Pro více informací prosím zkontrolujte log.',
         'There was an error creating the ACL' => 'Při vytvoření ACL se objevila chyba',
         'Need ACLID!' => 'Je potřeba ACLID!',
         'Could not get data for ACLID %s' => 'Není možné získat data pro ACLID %s',
@@ -3767,7 +3767,7 @@ sub Data {
         'hour(s)' => 'hodin(a)(y)',
         'Time unit' => 'Časové jednotky',
         'within the last ...' => 'během posledních ...',
-        'within the next ...' => 'během příštího',
+        'within the next ...' => 'během příštího ...',
         'more than ... ago' => 'více než ... nazpět',
         'Unarchived tickets' => '',
         'archive tickets' => '',
@@ -4113,7 +4113,7 @@ sub Data {
         'Change Agent Relations for Role' => '',
 
         # Perl Module: Kernel/Modules/AdminSLA.pm
-        'Please activate %s first!' => 'Prosím aktivujte nejdříve %s ',
+        'Please activate %s first!' => 'Prosím aktivujte nejdříve %s !',
 
         # Perl Module: Kernel/Modules/AdminSMIME.pm
         'S/MIME environment is not working. Please check log for more info!' =>
@@ -4359,8 +4359,8 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketCompose.pm
         'Article subject will be empty if the subject contains only the ticket hook!' =>
             '',
-        'Address %s replaced with registered customer address.' => 'Adresa %snahrazena registrovanou adresou zákazníka',
-        'Customer user automatically added in Cc.' => 'Zákazník automaticky přidán do kopie',
+        'Address %s replaced with registered customer address.' => 'Adresa %snahrazena registrovanou adresou zákazníka.',
+        'Customer user automatically added in Cc.' => 'Zákazník automaticky přidán do kopie.',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
         'Ticket "%s" created!' => 'Tiket "%s" vytvořen!',
@@ -4425,7 +4425,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
         'No Process configured!' => '',
-        'The selected process is invalid!' => 'Vybraný proces je chybný.',
+        'The selected process is invalid!' => 'Vybraný proces je chybný!',
         'Process %s is invalid!' => '',
         'Subaction is invalid!' => '',
         'Parameter %s is missing in %s.' => '',
@@ -4504,7 +4504,7 @@ sub Data {
         'in more than ...' => 'za více než ...',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
-        'Feature not enabled!' => 'Vlastnost není povolena',
+        'Feature not enabled!' => 'Vlastnost není nastavena!',
         'Service View' => 'Zobrazit službu',
 
         # Perl Module: Kernel/Modules/AgentTicketStatusView.pm
@@ -4658,7 +4658,7 @@ sub Data {
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
-        'Database already contains data - it should be empty!' => 'Databáze obsahuje data - měla by být prázdná.',
+        'Database already contains data - it should be empty!' => 'Databáze obsahuje data - měla by být prázdná!',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4859,7 +4859,7 @@ sub Data {
         'Online Agent: %s' => 'Online Řešitel: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
-        'There are more escalated tickets!' => 'Je zde více Eskalovaných Tiketů',
+        'There are more escalated tickets!' => 'Je zde více eskalovaných tiketů!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
         'Please select a time zone in your preferences and confirm it by clicking the save button.' =>
@@ -4938,7 +4938,7 @@ sub Data {
             '',
         'No time scale value available for the current selected time scale value on the X axis.' =>
             '',
-        'The selected date is not valid.' => 'Vybrané datum není platné',
+        'The selected date is not valid.' => 'Vybrané datum není platné.',
         'The selected end time is before the start time.' => '',
         'There is something wrong with your time selection.' => '',
         'Please select only one element or allow modification at stat generation time.' =>
@@ -5081,7 +5081,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5177,7 +5176,7 @@ sub Data {
         # Perl Module: Kernel/System/Package.pm
         'not installed' => '',
         'installed' => 'instalováno',
-        'Unable to parse repository index document.' => 'Nebylo možno načíst dokument indexu repozitáře',
+        'Unable to parse repository index document.' => 'Nebylo možno načíst dokument indexu repozitáře.',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
             'Nebyly nalezeny balíčky pro vaši verzi frameworku v tomto repozitáři, pouze obsahuje balíčky pro jiné verze frameworku.',
         'File is not installed!' => '',
@@ -5325,8 +5324,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maximální velikost SQL dotazu',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Velikost Query Cache',
@@ -5384,7 +5382,7 @@ sub Data {
         'Disk Partitions Usage' => 'Využití diskového prostoru',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
-        'Distribution' => 'Linuxová distribuce ',
+        'Distribution' => 'Linuxová distribuce',
         'Could not determine distribution.' => 'Nemohu zjistit typ Linuxové distribuce.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
@@ -5398,7 +5396,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
         'Perl Modules' => 'Moduly Perlu',
-        'Not all required Perl modules are correctly installed.' => 'Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány',
+        'Not all required Perl modules are correctly installed.' => 'Ne všechny vyžadované moduly Perlu jsou korektně nainstalovány.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
         'Perl Modules Audit' => '',
@@ -5411,8 +5409,8 @@ sub Data {
         'Free Swap Space (%)' => 'Volný swap prostor (%)',
         'No swap enabled.' => '',
         'Used Swap Space (MB)' => 'Využitý prostor swap (MB)',
-        'There should be more than 60% free swap space.' => 'Mělo by být více jak 60 % volného prostoru swapu',
-        'There should be no more than 200 MB swap space used.' => 'Nemělo by být využito více jak 200 MB swapu',
+        'There should be more than 60% free swap space.' => 'Mělo by být více jak 60 % volného prostoru swapu.',
+        'There should be no more than 200 MB swap space used.' => 'Nemělo by být využito více jak 200 MB swapu.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
         'OTOBO' => 'OTOBO',
@@ -5531,7 +5529,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
         'You should not have more than 8,000 open tickets in your system.' =>
-            'Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému',
+            'Neměli by jste mít více jak 8000 otevřených tiketů ve vašem systému.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
         'Ticket Search Index Module' => '',
@@ -5578,7 +5576,7 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
         'CGI Accelerator Usage' => '',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            'Použijte FastCGI nebo mod_perl pro zvýšení výkonu',
+            'Použijte FastCGI nebo mod_perl pro zvýšení výkonu.',
         'mod_deflate Usage' => '',
         'Please install mod_deflate to improve GUI speed.' => '',
         'mod_filter Usage' => '',
@@ -5672,7 +5670,7 @@ sub Data {
         'Logout successful.' => '',
         'Feature not active!' => 'Funkce je neaktivní!',
         'Sent password reset instructions. Please check your email.' => 'Odeslány instrukce pro obnovu hesla, Prosím zkontrolujte svojí emailovou schránku.',
-        'Invalid Token!' => 'Neplatný Token',
+        'Invalid Token!' => 'Neplatný token!',
         'Sent new password to %s. Please check your email.' => 'Odesláno nové heslo na %s. Prosím zkontrolujte svojí emailovou schránku.',
         'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '',
@@ -6148,7 +6146,7 @@ sub Data {
 
         # JS File: Core.UI.Datepicker
         'Open date selection' => 'Otevři kalendář',
-        'Invalid date (need a future date)!' => 'Nesprávne datum (musí být v budoucnosti)',
+        'Invalid date (need a future date)!' => 'Nesprávne datum (musí být v budoucnosti)!',
         'Invalid date (need a past date)!' => 'Neplatné datum (je třeba datum v minulosti)!',
 
         # JS File: Core.UI.InputFields
@@ -6311,7 +6309,7 @@ Thanks for your help!
         'Admin area navigation for the agent interface.' => '',
         'Admin contact with data.' => '',
         'Admin modules overview.' => '',
-        'Admin.' => 'Administrátor',
+        'Admin.' => 'Administrátor.',
         'Administration' => '',
         'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
@@ -6607,7 +6605,7 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             '',
         'Configure your own log text for PGP.' => '',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '',
@@ -6640,11 +6638,11 @@ Thanks for your help!
         'Create and manage customers.' => 'Vytvořit a spravovat zákazníky.',
         'Create and manage dynamic fields.' => 'Vytvořit a spravovat dynamická pole.',
         'Create and manage groups.' => 'Vytvořit a spravovat skupiny.',
-        'Create and manage queues.' => 'Vytvořit a spravovat fronty',
+        'Create and manage queues.' => 'Vytvořit a spravovat fronty.',
         'Create and manage responses that are automatically sent.' => 'Vytvořit a spravovat automatické odpovědi.',
         'Create and manage roles.' => '',
         'Create and manage salutations.' => 'Vytvořit a spravovat pozdravy.',
-        'Create and manage services.' => 'Vytvořit a spravovat služby',
+        'Create and manage services.' => 'Vytvořit a spravovat služby.',
         'Create and manage signatures.' => 'Vytvořit a spravovat podpisy.',
         'Create and manage templates.' => 'Vytvořit a spravovat šablony.',
         'Create and manage ticket notifications.' => '',
@@ -6957,6 +6955,8 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => '',
@@ -6973,7 +6973,7 @@ Thanks for your help!
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',
@@ -7902,6 +7902,8 @@ Thanks for your help!
             '',
         'If enabled debugging information for ACLs is logged.' => 'Pokud je zapnuto, jsou logovány ladící informace pro ACL.',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8045,7 +8047,7 @@ Thanks for your help!
         'Logged in users.' => '',
         'Logged-In Users' => 'Přihlášení uživatelé',
         'Logout of customer panel.' => '',
-        'Look into a ticket!' => 'Náhled Tiketu',
+        'Look into a ticket!' => 'Zkontrolujte tiket!',
         'Loop protection: no auto-response sent to "%s".' => '',
         'Macedonian' => '',
         'Mail Accounts' => '',
@@ -8071,7 +8073,7 @@ Thanks for your help!
         'Manage support data.' => '',
         'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
-        'Mark as Spam!' => 'Označit jako SPAM',
+        'Mark as Spam!' => 'Označit jako SPAM!',
         'Mark this ticket as junk!' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -8200,6 +8202,7 @@ Thanks for your help!
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'Otevřené tikety (uživatel)',
         'Open tickets (customer)' => 'Otevřené tikety (zákazník)',
         'Option' => '',
@@ -8224,7 +8227,7 @@ Thanks for your help!
         'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => '',
-        'Overview of all open Tickets.' => 'Přehled všech otevřených tiketů',
+        'Overview of all open Tickets.' => 'Přehled všech otevřených tiketů.',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'PGP klíč',
@@ -8308,7 +8311,7 @@ Thanks for your help!
         'Persian' => '',
         'Phone Call Inbound' => 'Příchozí telefonní hovor',
         'Phone Call Outbound' => 'Odchozí telefonní hovor',
-        'Phone Call.' => 'Telefoní hovor',
+        'Phone Call.' => 'Telefoní hovor.',
         'Phone call' => 'Telefoní hovor',
         'Phone communication channel.' => '',
         'Phone-Ticket' => 'Telefonní Tiket',
@@ -8457,7 +8460,6 @@ Thanks for your help!
         'Select the main interface language.' => '',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Zvolte oddělovací znak použitý v CSV souborech (stavy a vyhledávání). Pokud nebude zvolen, použije se výchozí pro váš jazyk.',
-        'Select your frontend Theme.' => 'Výběr motivu rozhraní.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '',
         'Select your preferred layout for the software.' => '',
@@ -8492,6 +8494,8 @@ Thanks for your help!
         'Service Level Agreements' => 'Servisní smlouvy SLA',
         'Service view' => 'Zobrazit službu',
         'ServiceView' => '',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set sender email addresses for this system.' => '',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -9188,7 +9192,7 @@ Thanks for your help!
         'View performance benchmark results.' => '',
         'Watch this ticket' => 'Sledovat tiket',
         'Watched Tickets' => 'Zobrazené tikety',
-        'Watched Tickets.' => 'Sledované tikety',
+        'Watched Tickets.' => 'Sledované tikety.',
         'We are performing scheduled maintenance.' => '',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             '',
@@ -9220,7 +9224,7 @@ Thanks for your help!
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
-            'Váš email s číslem Tiketu "<OTOBO_TICKET>" je svázán s "<OTOBO_MERGE_TO_TICKET>"',
+            'Váš email s číslem tiketu "<OTOBO_TICKET>" je svázán s "<OTOBO_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
             '',
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>

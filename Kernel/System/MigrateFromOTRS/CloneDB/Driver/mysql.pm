@@ -225,33 +225,45 @@ sub TranslateColumnInfos {
     my %Result;
 
     if ( $Param{DBType} =~ /mysql/ ) {
-        $Result{varchar}    = 'VARCHAR';
-        $Result{int}        = 'INTEGER';
-        $Result{datetime}   = 'DATETIME';
-        $Result{smallint}   = 'SMALLINT';
-        $Result{longblob}   = 'LONGBLOB';
-        $Result{mediumtext} = 'MEDIUMTEXT';
-        $Result{text}       = 'TEXT';
+
+        # no translation necessary
+        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
-        $Result{varchar}    = 'VARCHAR';
-        $Result{int}        = 'INTEGER';
-        $Result{datetime}   = 'timestamp';
-        $Result{smallint}   = 'SMALLINT';
-        $Result{longblob}   = 'TEXT';
-        $Result{mediumtext} = 'VARCHAR';
-        $Result{text}       = 'TEXT';
+        $Result{VARCHAR}             = 'VARCHAR';
+        $Result{'CHARACTER VARYING'} = 'VARCHAR';
+        $Result{TEXT}                = 'TEXT';
+
+        $Result{DATE}      = 'DATE';
+        $Result{TIME}      = 'TIME';
+        $Result{TIMESTAMP} = 'TIMESTAMP';
+
+        $Result{SMALLINT}           = 'SMALLINT';
+        $Result{INTEGER}            = 'INT';
+        $Result{BIGINT}             = 'BIGINT';
+        $Result{NUMERIC}            = 'DECIMAL';
+        $Result{DECIMAL}            = 'DECIMAL';
+        $Result{REAL}               = 'FLOAT';
+        $Result{'DOUBLE PRECISION'} = 'DOUBLE';
+
+        $ColumnInfos{DATA_TYPE} = $Result{ uc( $Param{ColumnInfos}->{DATA_TYPE} ) };
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
-        $Result{varchar}    = 'VARCHAR2';
-        $Result{int}        = 'NUMBER';
-        $Result{datetime}   = 'DATE';
-        $Result{smallint}   = 'NUMBER';
-        $Result{longblob}   = 'CLOB';
-        $Result{mediumtext} = 'CLOB';
-        $Result{text}       = 'VARCHAR2';
+        $Result{VARCHAR2} = 'VARCHAR';
+        $Result{TEXT}     = 'TEXT';
+        $Result{CLOB}     = 'MEDIUMTEXT';
+
+        $Result{DATE}     = 'DATE';
+        $Result{DATETIME} = 'DATETIME';
+
+        $Result{SHORTINTEGER} = 'SMALLINT';
+        $Result{INTEGER}      = 'INT';
+        $Result{LONGINTEGER}  = 'BIGINT';
+        $Result{SHORTDECIMAL} = 'DECIMAL';
+        $Result{NUMBER}       = 'DECIMAL';
+
+        $ColumnInfos{DATA_TYPE} = $Result{ uc( $Param{ColumnInfos}->{DATA_TYPE} ) };
     }
-    $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
 
     return \%ColumnInfos;
 }

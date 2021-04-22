@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -24,12 +24,13 @@ use Time::HiRes();
 use parent qw(Kernel::System::Console::BaseCommand);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 our @ObjectDependencies = (
-    'Kernel::System::Elasticsearch',
     'Kernel::Config',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
+    'Kernel::System::Elasticsearch',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -41,7 +42,7 @@ sub Configure {
 
     $Self->Description('Migrate existing tickets, customers and customerusers to Elasticsearch.');
     $Self->AddOption(
-        Name => 'target',
+        Name        => 'target',
         Description =>
             "Specify which objects will be migrated. t: Tickets; u: CustomerUsers; c: CustomerCompanies; i: ITSMConfigItems; If not specified, 'tuci' (all four) will be handled.",
         Required   => 0,
@@ -56,11 +57,12 @@ sub Configure {
         ValueRegex  => qr/^\d+$/smx,
     );
     $Self->AddOption(
-        Name        => 'rm-customer-limit',
-        Description => "Some LDAP or AD servers limit the return of results. In this case we can still get all the results by splitting the queries. 1: splits the queries into searches for a-z, a0-z9, 0-9. 2: aa-zz, a0-z9 and 0-9.",
-        Required    => 0,
-        HasValue    => 1,
-        ValueRegex  => qr/^\d$/smx,
+        Name        => 'use-customer-batches',
+        Description =>
+            "Some LDAP or AD servers limit the return of results. In this case we can still get all the results by splitting the queries. 1: splits the queries into searches for a-z, a0-z9, 0-9. 2: aa-zz, a0-z9 and 0-9.",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/^\d$/smx,
     );
     return;
 }
@@ -112,12 +114,12 @@ sub Run {
     }
 
     my $Targets            = $Self->GetOption('target') || 'tuci';
-    my $MicroSleep 	   = $Self->GetOption('micro-sleep');
-    my $CustomerLimitLevel = $Self->GetOption('rm-customer-limit') || '0';
+    my $MicroSleep         = $Self->GetOption('micro-sleep');
+    my $CustomerLimitLevel = $Self->GetOption('use-customer-batches') || '0';
 
     if ( $Targets =~ /t|i/ ) {
         $Self->CreateAttachmentPipeline(
-            ESObject  => $ESObject,
+            ESObject => $ESObject,
         );
     }
 
@@ -136,7 +138,7 @@ sub Run {
             NShards    => $Config->{NS},
             NReplicas  => $Config->{NR},
             Sleep      => $MicroSleep,
-	    LimitLevel => $CustomerLimitLevel
+            LimitLevel => $CustomerLimitLevel
         );
     }
 
@@ -310,7 +312,7 @@ sub MigrateCustomerUsers {
 
     # No special search, search all customers together
     if ( $CustomerLimitLevel == 0 ) {
-        my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
+        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
             Search => '*',
             Valid  => 1,
             Limit  => 4_000_000,
@@ -319,19 +321,19 @@ sub MigrateCustomerUsers {
     elsif ( $CustomerLimitLevel >= 1 ) {
 
         # Search with CustomerUserLimit x a..z
-        for my $Letter ("a" x $CustomerLimitLevel .. "z" x $CustomerLimitLevel, 'a0'..'z9', '0'..'9') {
+        for my $Letter ( "a" x $CustomerLimitLevel .. "z" x $CustomerLimitLevel, 'a0' .. 'z9', '0' .. '9' ) {
 
-	    $Self->Print(
-	        "<green>Search for all customeruser like: $Letter*.</green>\n"
+            $Self->Print(
+                "<green>Search for all customeruser like: $Letter*.</green>\n"
             );
 
-            my %CustomerUserListNew   = $CustomerUserObject->CustomerSearch(
-                Search => $Letter.'*',
+            my %CustomerUserListNew = $CustomerUserObject->CustomerSearch(
+                Search => $Letter . '*',
                 Valid  => 1,
                 Limit  => 4_000_000,
             );
 
-            %CustomerUserList = (%CustomerUserList, %CustomerUserListNew);
+            %CustomerUserList = ( %CustomerUserList, %CustomerUserListNew );
         }
     }
 
@@ -493,7 +495,7 @@ sub MigrateTickets {
 
     my $Count     = 0;
     my $Percent10 = ( sort { $a <=> $b } ( 10, int( $#TicketIDs / 10 ) ) )[1];
-    my $Percent1  = ( sort { $a <=> $b } ( 1, int( $#TicketIDs / 100 ) ) )[1];
+    my $Percent1  = ( sort { $a <=> $b } ( 1,  int( $#TicketIDs / 100 ) ) )[1];
 
     if ( $#TicketIDs > 100 ) {
         $Self->Print(
@@ -553,8 +555,8 @@ sub MigrateConfigItems {
 
     # check whether ITSMConfigurationManagment is installed
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-    my $IsInstalled = $PackageObject->PackageIsInstalled(
-        Name   => 'ITSMConfigurationManagement',
+    my $IsInstalled   = $PackageObject->PackageIsInstalled(
+        Name => 'ITSMConfigurationManagement',
     );
     if ( !$IsInstalled ) {
         $Self->Print("<green>Skipping ITSMConfigItems (ITSMConfigurationManagment not installed)...</green>\n");
@@ -562,7 +564,7 @@ sub MigrateConfigItems {
     }
 
     my $GeneralCatalogObject = $Kernel::OM->Get('Kernel::System::GeneralCatalog');
-    my $ConfigItemObject = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
+    my $ConfigItemObject     = $Kernel::OM->Get('Kernel::System::ITSMConfigItem');
 
     my $ClassList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
         Class => 'ITSM::ConfigItem::Class',
@@ -573,7 +575,7 @@ sub MigrateConfigItems {
 
     my @ActiveClasses;
     CLASS:
-    for my $Class ( keys %{ $ClassList } ) {
+    for my $Class ( keys %{$ClassList} ) {
         next CLASS if $ExcludedClasses->{$Class};
         push @ActiveClasses, $Class;
     }
@@ -636,14 +638,14 @@ sub MigrateConfigItems {
     return 1 if !@ActiveClasses;
 
     my $ConfigItems = $ConfigItemObject->ConfigItemSearch(
-        ClassIDs     => [ @ActiveClasses ],
+        ClassIDs => [@ActiveClasses],
     );
 
     my $Count   = 0;
-    my $CICount = scalar( @{ $ConfigItems } );
+    my $CICount = scalar( @{$ConfigItems} );
 
     my $Errors = 0;
-    for my $ConfigItemID ( @{ $ConfigItems } ) {
+    for my $ConfigItemID ( @{$ConfigItems} ) {
 
         $Count++;
 

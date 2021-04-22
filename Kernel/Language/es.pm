@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.625446283674132;
+    $Self->{Completeness}        = 0.625081116158339;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3106,7 +3106,6 @@ sub Data {
         'Welcome to %s' => 'Bienvenido a %s',
         'Germany' => '',
         'Phone' => 'Teléfono',
-        'Switzerland' => '',
         'Web site' => 'Sitio web',
 
         # Template: InstallerConfigureMail
@@ -3262,6 +3261,7 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => '',
         'Expert option! Only works if the migration has already been done by hand.' =>
             '',
@@ -5080,7 +5080,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5324,8 +5323,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Tamaño Máximo de la Consulta',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Tamaño de la Cache de la Consulta',
@@ -6623,7 +6621,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configura que pantalla debe ser mostrada después de que un nuevo ticket haya sido creado.',
         'Configure your own log text for PGP.' => 'Configure su propio texto de registro de PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla cómo mostrar el historial de entradas como valores legibles.',
@@ -6973,6 +6971,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Defines the config options for the autocompletion feature.' => 'Define las opciones de configuración para la función de autocompletar.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'Define las conexiones para http/ftp, a través de un proxy.',
@@ -6989,7 +6989,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',
@@ -7918,6 +7918,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'If enabled debugging information for ACLs is logged.' => '',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8216,6 +8218,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '¡Abrir un enlace externo!',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'Tickets abiertos (usuario cliente)',
         'Open tickets (customer)' => 'Tickets abiertos (cliente)',
         'Option' => 'Opción',
@@ -8473,7 +8476,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Select the main interface language.' => 'Selecciona el idioma principal de la interfaz.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Seleccione el carácter separador a usar en los archivos CSV (estadísticas y búsquedas). Si no selecciona ningún separador aquí, se usará el separador predeterminado para su idioma.',
-        'Select your frontend Theme.' => 'Seleccione su tema',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '',
         'Select your preferred layout for the software.' => 'Seleccione su diseño preferido para el software.',
@@ -8508,6 +8510,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Service Level Agreements' => 'Acuerdos de Niveles de Servicios',
         'Service view' => 'Vista de servicio',
         'ServiceView' => 'Vista del servicio',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set sender email addresses for this system.' => 'Establecer direcciones de envío de correo electrónico para este sistema.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',

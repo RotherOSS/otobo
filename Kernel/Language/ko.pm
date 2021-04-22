@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.90295358649789;
+    $Self->{Completeness}        = 0.902660609993511;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3101,7 +3101,6 @@ sub Data {
         'Welcome to %s' => '%s에 오신 것을 환영합니다.',
         'Germany' => '',
         'Phone' => '전화',
-        'Switzerland' => '',
         'Web site' => '웹 사이트',
 
         # Template: InstallerConfigureMail
@@ -3257,6 +3256,7 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => '',
         'Expert option! Only works if the migration has already been done by hand.' =>
             '',
@@ -5074,7 +5074,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5318,8 +5317,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => '최대 쿼리 크기',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '\'max_allowed_packet\'설정은 64MB보다 커야합니다.',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => '쿼리 캐시 크기',
@@ -6611,7 +6609,7 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             '새 티켓이 작성된 후 표시할 화면을 구성하십시오.',
         'Configure your own log text for PGP.' => 'PGP에 대한 자체 로그 텍스트를 구성하십시오.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             '티켓 기록 항목을 읽을 수 있는 값으로 표시하는 방법을 제어합니다.',
@@ -6961,6 +6959,8 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => '자동 완성 기능의 구성 옵션을 정의합니다.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             '환경 설정 보기에 표시할 이 항목의 구성 매개 변수를 정의합니다.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '환경 설정보기에 표시 할이 항목의 구성 매개 변수를 정의합니다. \'PasswordRegExp\'는 정규 표현식과 암호를 일치시킵니다. \'PasswordMinSize\'를 사용하여 최소 문자 수를 정의하십시오. 적절한 옵션을 \'1\'로 설정하여 최소한 2 개의 소문자와 2 개의 대문자가 필요한지 정의하십시오. \'PasswordMin2Characters\'는 암호가 2 자 이상의 문자 (0 또는 1로 설정)를 포함해야 하는지를 정의합니다. \'PasswordNeedDigit\'은 최소 1 자리 숫자의 필요성을 제어합니다 (제어하려면 0 또는 1로 설정). \'PasswordMaxLoginFailed\'는 최대 실패 로그인에 도달하면 에이전트를 유효하지 않게 임시로 설정할 수 있습니다. 참고 : \'활성\'을 0으로 설정하면 상담원이이 그룹의 개인 환경 설정에서 설정을 편집하지 못하게되지만 관리자가 다른 사용자를 대신하여 설정을 편집 할 수 있습니다. \'PreferenceGroup\'을 사용하여 이러한 설정을 사용자 인터페이스에 표시 할 영역을 제어하십시오.',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '환경 설정보기에 표시 할이 항목의 구성 매개 변수를 정의합니다. 참고 : \'활성\'을 0으로 설정하면 상담원이이 그룹의 개인 환경 설정에서 설정을 편집하지 못하게되지만 관리자가 다른 사용자를 대신하여 설정을 편집 할 수 있습니다. \'PreferenceGroup\'을 사용하여 이러한 설정을 사용자 인터페이스에 표시 할 영역을 제어하십시오.',
         'Defines the connections for http/ftp, via a proxy.' => '프록시를 통해 http / ftp에 대한 연결을 정의합니다.',
@@ -6977,7 +6977,7 @@ Thanks for your help!
             '에이전트 인터페이스의 티켓 비어있는 텍스트 화면에서 노트의 기본 본문을 정의합니다.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '고객 사용자 주소록 검색 (CustomerUser 또는 CustomerCompany)의 기본 필터 필드를 정의합니다. CustomerCompany 필드의 경우 접두사 \'CustomerCompany_\'를 추가해야합니다.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '기본 프런트 엔드 언어를 정의합니다. 가능한 모든 값은 시스템에서 사용 가능한 언어 파일에 의해 결정됩니다 (다음 설정 참조).',
@@ -7906,6 +7906,8 @@ Thanks for your help!
             '"SMTP"메커니즘 중 하나가 SendmailModule로 선택된 경우 메일 서버가 들어오는 연결을 수신하는 포트를 지정해야합니다.',
         'If enabled debugging information for ACLs is logged.' => '활성화 된 경우 ACL에 대한 디버깅 정보가 기록됩니다.',
         'If enabled debugging information for transitions is logged.' => '활성화 된 경우 전환에 대한 디버깅 정보가 기록됩니다.',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             '사용 가능하면 데몬은 표준 오류 스트림을 로그 파일로 재지정합니다.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8204,6 +8206,7 @@ Thanks for your help!
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '외부 링크 열기',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => '진행중 티켓 (고객 사용자)',
         'Open tickets (customer)' => '진행중 티켓 (고객)',
         'Option' => '옵션',
@@ -8461,7 +8464,6 @@ Thanks for your help!
         'Select the main interface language.' => '기본 인터페이스 언어를 선택하십시오.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'CSV 파일 (통계 및 검색)에 사용되는 구분 문자를 선택하십시오. 여기에서 구분 기호를 선택하지 않으면 언어의 기본 구분 기호가 사용됩니다.',
-        'Select your frontend Theme.' => '프론트 엔드 테마를 선택하십시오.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '개인 시간대를 선택하십시오. 모든 시간은이 시간대를 기준으로 표시됩니다.',
         'Select your preferred layout for the software.' => '소프트웨어의 기본 레이아웃을 선택하십시오.',
@@ -8496,6 +8498,8 @@ Thanks for your help!
         'Service Level Agreements' => '서비스 수준 계약',
         'Service view' => '서비스 보기',
         'ServiceView' => '서비스 보기',
+        'Set a new password by filling in your current password and a new one.' =>
+            '현재 암호와 새 암호를 입력하여 새 암호를 설정하십시오.',
         'Set sender email addresses for this system.' => '이 시스템의 보낸 사람 전자 메일 주소를 설정하십시오.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'AgentTicketZoom에서 인라인 HTML 기사의 기본 높이 (픽셀 단위)를 설정합니다.',

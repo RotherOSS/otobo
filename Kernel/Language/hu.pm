@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.929081467056151;
+    $Self->{Completeness}        = 0.928780012978585;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3106,7 +3106,6 @@ sub Data {
         'Welcome to %s' => 'Üdvözli a(z) %s',
         'Germany' => 'Németország',
         'Phone' => 'Telefon',
-        'Switzerland' => '',
         'Web site' => 'Weboldal',
 
         # Template: InstallerConfigureMail
@@ -3262,6 +3261,7 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => '',
         'Expert option! Only works if the migration has already been done by hand.' =>
             '',
@@ -5079,7 +5079,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5323,8 +5322,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Legnagyobb lekérdezési méret',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            'A „max_allowed_packet” beállításnak nagyobbnak kell lennie mint 64 MB.',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Lekérdezési gyorsítótár méret',
@@ -6616,7 +6614,7 @@ Az Ön segélyszolgálat csapata
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Annak beállítása, hogy mely képernyő legyen megjelenítve, miután egy új jegyet létrehoztak.',
         'Configure your own log text for PGP.' => 'Saját naplószöveg beállítása a PGP-hez.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Azt szabályozza, hogy hogyan jelenjenek meg a jegy előzmény bejegyzések olvasható értékként.',
@@ -6966,6 +6964,8 @@ Az Ön segélyszolgálat csapata
         'Defines the config options for the autocompletion feature.' => 'Meghatározza a beállítási lehetőségeket az automatikus kiegészítés funkcióhoz.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Meghatározza ennek az elemnek a beállítási paramétereit, amelyek a beállítások nézetben jelennek meg.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            'Meghatározza ennek az elemnek a beállítási paramétereit a beállítások nézetben történő megjelenítéshez. A „PasswordRegExp” lehetővé teszi a jelszavak illesztését egy reguláris kifejezéssel. A „PasswordMinSize” használatával meghatározható a karakterek legkisebb száma. A megfelelő beállítás „1”-re állításával meghatározható, hogy legalább 2 kisbetűs és 2 nagybetűs karakter szükséges. A „PasswordMin2Characters” azt határozza meg, hogy a jelszónak tartalmaznia kell legalább 2 betű karaktert (állítsa 0-ra vagy 1-re). A „PasswordNeedDigit” szabályozza a legalább 1 számjegy szükségét (állítsa 0-ra vagy 1-re a szabályzáshoz). A „PasswordMaxLoginFailed” lehetővé teszi egy ügyintéző átmenetileg érvénytelenre állítását, ha a maximális sikertelen bejelentkezést elérte. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Meghatározza ennek az elemnek a beállítási paramétereit, amelyek a beállítások nézetben jelennek meg. Ne feledje: az „Active” 0-ra állításával csak az ügyintézőknek akadályozza meg ezen csoport beállításainak szerkesztését a személyes beállításaikban, de az adminisztrátoroknak továbbra is lehetővé teszi a beállítások szerkesztését egy másik felhasználó nevében. Használja a „PreferenceGroup” kulcsot annak szabályozásához, hogy ezeknek a beállításoknak mely területen kell megjelenniük a felhasználói felületen.',
         'Defines the connections for http/ftp, via a proxy.' => 'Meghatározza a proxyn keresztüli HTTP/FTP kapcsolatokat.',
@@ -6982,7 +6982,7 @@ Az Ön segélyszolgálat csapata
             'Meghatározza egy jegyzet alapértelmezett törzsét az ügyintézői felület jegy szabad szöveg képernyőjén.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Meghatározza az alapértelmezett szűrőmezőket az ügyfél-felhasználó címjegyzék keresésében (CustomerUser vagy CustomerCompany). A CustomerCompany mezőnél egy „CustomerCompany_” előtagot kell hozzáadni.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Meghatározza az előtétprogram alapértelmezett nyelvét. Az összes lehetséges értéket a rendszeren lévő elérhető nyelvi fájlok határozzák meg.',
@@ -7911,6 +7911,8 @@ Az Ön segélyszolgálat csapata
             'Ha az „SMTP” mechanizmusok bármelyike SendmailModule modulként lett kiválasztva, akkor meg kell adni azt a portot, ahol a levelező kiszolgáló a bejövő kapcsolatokat figyeli.',
         'If enabled debugging information for ACLs is logged.' => 'Ha engedélyezve van, akkor az ACL-ek hibakeresési információi naplózva lesznek.',
         'If enabled debugging information for transitions is logged.' => 'Ha engedélyezve van, akkor az átmenetek hibakeresési információi naplózva lesznek.',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             'Ha engedélyezve van, akkor a démon át fogja irányítani a szabványos hibafolyamot egy naplófájlba.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8209,6 +8211,7 @@ Az Ön segélyszolgálat csapata
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => 'Nyisson meg egy külső hivatkozást!',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'Nyitott jegyek (ügyfél-felhasználó)',
         'Open tickets (customer)' => 'Nyitott jegyek (ügyfél)',
         'Option' => 'Választás',
@@ -8466,7 +8469,6 @@ Az Ön segélyszolgálat csapata
         'Select the main interface language.' => 'A felület fő nyelvének kiválasztása.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Válassza ki a CSV fájlokban (statisztikák és keresések) használt elválasztó karaktert. Ha nem választ ki elválasztót itt, a nyelvének megfelelő alapértelmezett elválasztó lesz használva.',
-        'Select your frontend Theme.' => 'Válasszon előtétprogram témát.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             'Személyes időzóna kiválasztása. Az összes idő ettől az időzónától relatívan lesz megjelenítve.',
         'Select your preferred layout for the software.' => 'Az előnyben részesített elrendezés kiválasztása a szoftverhez.',
@@ -8501,6 +8503,8 @@ Az Ön segélyszolgálat csapata
         'Service Level Agreements' => 'Szolgáltatási megállapodások',
         'Service view' => 'Szolgáltatás nézet',
         'ServiceView' => 'Szolgáltatás nézet',
+        'Set a new password by filling in your current password and a new one.' =>
+            'Új jelszó beállítása a jelenlegi jelszó és egy új kitöltésével.',
         'Set sender email addresses for this system.' => 'A küldő e-mail címeinek beállítása a rendszerhez.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'A beágyazott HTML bejegyzések alapértelmezett magasságának beállítása (képpontban) az ügyintézői jegynagyítás képernyőn.',

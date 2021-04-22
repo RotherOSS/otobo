@@ -34,9 +34,8 @@ use Cwd qw(getcwd abs_path);
 # OTOBO modules
 use Kernel::System::ObjectManager;
 
-# get options
+# file scoped option variables
 my (
-    $HelpFlag,
     $CompressOption,
     $RemoveDays,
     $DatabaseHost,
@@ -44,26 +43,46 @@ my (
     $DatabaseUser,
     $DatabasePw,
     $DatabaseType,
+    $DryRun,
+    $ExtraDumpOptions,
 );
 my $MaxAllowedPacket = '64M';          # 64 Megabytes is fine as the default, as that is already required on the server side
 my $BackupDir        = getcwd();
 my $BackupType       = 'fullbackup';
 
-GetOptions(
-    'help|h'                 => \$HelpFlag,
-    'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
-    'compress|c=s'           => \$CompressOption,
-    'remove-old-backups|r=i' => \$RemoveDays,
-    'backup-type|t=s'        => \$BackupType,
-    'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
-    'db-host=s'              => \$DatabaseHost,
-    'db-name=s'              => \$DatabaseName,
-    'db-user=s'              => \$DatabaseUser,
-    'db-password=s'          => \$DatabasePw,
-    'db-type=s'              => \$DatabaseType,
-) || PrintHelpAndExit();
+sub Main {
 
-PrintHelpAndExit() if $HelpFlag;
+    # options that used only within Main()
+    my (
+        $HelpFlag,    # indicate whether the usage message should be printed
+    );
+
+    GetOptions(
+        'help|h'                 => \$HelpFlag,
+        'backup-dir|d=s'         => \$BackupDir,                       # current dir is the default
+        'compress|c=s'           => \$CompressOption,
+        'remove-old-backups|r=i' => \$RemoveDays,
+        'backup-type|t=s'        => \$BackupType,
+        'max-allowed-packet=s'   => \&HandleMaxAllowedPacketOption,    # check the units, set $MaxAllowedPacket
+        'extra-dump-options=s'   => \$ExtraDumpOptions,                # e.g. "--column-statistics=0"
+        'dry-run'                => \$DryRun,                          # only print the database dump commands
+        'db-host=s'              => \$DatabaseHost,
+        'db-name=s'              => \$DatabaseName,
+        'db-user=s'              => \$DatabaseUser,
+        'db-password=s'          => \$DatabasePw,
+        'db-type=s'              => \$DatabaseType,
+    ) || PrintHelpAndExit();
+
+    PrintHelpAndExit() if $HelpFlag;
+
+    return;
+}
+
+Main();
+
+# TODO: put the script code into the sub main, so that it is assured that file scoped variables
+#       don't interfere with the subs.
+#       Better still: refactor the next 400 lines into smaller subs
 
 # check backup dir
 if ( !$BackupDir ) {
@@ -108,6 +127,11 @@ my ( $DBOnlyBackup, $FullBackup, $MigrateFromOTRSBackup ) = ( 0, 0, 0 );
 
         exit 1;
     }
+
+    # --dry-run is only concerned about the database dumps
+    if ($DryRun) {
+        $DBOnlyBackup = 1;
+    }
 }
 
 # create common objects
@@ -137,9 +161,13 @@ if ( $DatabasePw =~ m/^\{(.*)\}$/ ) {
     $DatabasePw = $Kernel::OM->Get('Kernel::System::DB')->_Decrypt($1);
 }
 
-# check db backup support
+# set up support for dumping a database
 my $DBDumpCmd = '';
 my @DBDumpOptions;
+if ($ExtraDumpOptions) {
+    push @DBDumpOptions, $ExtraDumpOptions;
+}
+
 if ( $DatabaseType eq 'mysql' ) {
     $DBDumpCmd = 'mysqldump';
     push @DBDumpOptions, '--no-tablespaces';
@@ -166,7 +194,7 @@ elsif ( $DatabaseType eq 'oracle' ) {
     # $DBDumpCmd is not supported yet for 'oracle'
 }
 else {
-    say STDERR "ERROR: Can't backup, no database dump support!";
+    say STDERR "ERROR: Can't backup a $DatabaseType database as no database dump support is implemented!";
 
     exit(1);
 }
@@ -289,13 +317,21 @@ if ( $DatabaseType eq 'mysql' ) {
             DBDumpCmd     => $DBDumpCmd,
             DBDumpOptions => \@DBDumpOptions,
             DatabaseName  => $DatabaseName,
+            DryRun        => $DryRun,
         );
     }
     else {
         say "Dumping $DatabaseType data to $Directory/DatabaseBackup.sql.$CompressEXT ... ";
-        my $Command = "( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT";
-        if ( !system($Command) && !-f $ErrorIndicationFileName )
-        {
+        my $Command = qq{( $DBDumpCmd @DBDumpOptions $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+
+        # only print out the dump commands in a dry run
+        if ($DryRun) {
+            say $Command;
+
+            exit 0;
+        }
+
+        if ( !system($Command) && !-f $ErrorIndicationFileName ) {
             say 'done';
         }
         else {
@@ -317,28 +353,43 @@ elsif ( $DatabaseType eq 'oracle' ) {
 elsif ( $DatabaseType eq 'postgresql' ) {
     print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
 
-    # set password via environment variable if there is one
-    if ($DatabasePw) {
-        $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-    }
-
-    if ($DatabaseHost) {
-        $DatabaseHost = "-h $DatabaseHost";
-    }
-
-    my $Command
-        = "( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT";
-    if ( !system($Command) && !-f $ErrorIndicationFileName )
-    {
-        say "done";
+    if ($MigrateFromOTRSBackup) {
+        say "Sorry, dumping for database migration is not yet supported for $DatabaseType";
     }
     else {
-        say "failed";
-        if ( -f $ErrorIndicationFileName ) {
-            unlink $ErrorIndicationFileName;
+        # set password via environment variable if there is one
+        if ($DatabasePw) {
+            $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
-        RemoveIncompleteBackup($Directory);
-        die "Backup failed";
+
+        if ($DatabaseHost) {
+            $DatabaseHost = "-h $DatabaseHost";
+        }
+
+        my $Command
+            = qq{( $DBDumpCmd $DatabaseHost -U $DatabaseUser $DatabaseName || touch $ErrorIndicationFileName ) | $CompressCMD > $Directory/DatabaseBackup.sql.$CompressEXT};
+
+        # only print out the dump commands in a dry run
+        if ($DryRun) {
+            say $Command;
+
+            exit 0;
+        }
+
+        print "Dump $DatabaseType data to $Directory/DatabaseBackup.sql ... ";
+
+        if ( !system($Command) && !-f $ErrorIndicationFileName ) {
+            say 'done';
+        }
+        else {
+            say 'failed';
+            if ( -f $ErrorIndicationFileName ) {
+                unlink $ErrorIndicationFileName;
+            }
+            RemoveIncompleteBackup($Directory);
+
+            die 'Backup failed';
+        }
     }
 }
 else {
@@ -424,7 +475,12 @@ if ( defined $RemoveDays ) {
     }
 }
 
-# a special MySQL dump for migrating from OTRS 6 to OTOBO 10
+# A special MySQL dump for migrating from OTRS 6 to OTOBO 10
+# - skip tables that don't have to be migrated
+# - change the character set to utf8mb4
+# - remove COLLATE
+# - shorten columns to 191 characters
+# - rename tables
 sub MySQLBackupForMigrateFromOTRS {
     my %Param = @_;
 
@@ -433,6 +489,7 @@ sub MySQLBackupForMigrateFromOTRS {
     my $DBDumpCmd     = $Param{DBDumpCmd};
     my @DBDumpOptions = $Param{DBDumpOptions}->@*;
     my $DatabaseName  = $Param{DatabaseName};
+    my $DryRun        = $Param{DryRun};
 
     # print a time stamp at the end of the dump
     push @DBDumpOptions, qq{--dump-date};
@@ -452,6 +509,22 @@ sub MySQLBackupForMigrateFromOTRS {
     my $DataDumpFile          = qq{$Directory/${DatabaseName}_data.sql};
     my $PostprocessFile       = qq{$Directory/${DatabaseName}_post.sql};
 
+    # create the commands that will actually be executed
+    # TODO: support for dumping elsewhere and only processing locally
+    my @Commands = (
+        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
+        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
+    );
+
+    # only print out the dump commands in a dry run
+    if ($DryRun) {
+        for my $Command (@Commands) {
+            say $Command;
+        }
+
+        return;
+    }
+
     say << "END_MESSAGE";
 Execute the following SQL scripts in the given order:
     - $PreprocessFile
@@ -459,13 +532,6 @@ Execute the following SQL scripts in the given order:
     - $DataDumpFile
     - $PostprocessFile
 END_MESSAGE
-
-    # create the commands that will actually be executed
-    # TODO: support for dumping elsewhere and only processing locally
-    my @Commands = (
-        qq{$DBDumpCmd @DBDumpOptions --no-data        --no-create-db -r $SchemaDumpFile $DatabaseName },
-        qq{$DBDumpCmd @DBDumpOptions --no-create-info --no-create-db -r $DataDumpFile $DatabaseName },
-    );
 
     # print only the count avoids printing a password into a logfile
     my $Cnt = 0;
@@ -489,7 +555,7 @@ END_MESSAGE
     {
         # find the changed columns per table
         my %IsShortened;
-        for my $Short ( $MigrationBaseObject->DBShortenedColumns() ) {
+        for my $Short ( $MigrationBaseObject->DBShortenedColumns ) {
             $IsShortened{ $Short->{Table} } //= {};
             $IsShortened{ $Short->{Table} }->{ $Short->{Column} } = 1;
         }
@@ -793,6 +859,9 @@ Usage:
     otobo> cd /opt/otobo
     otobo> scripts/backup.pl -t migratefromotrs --db-name otrs --db-host 127.0.0.1 --db-user otrs --db-password "secret_otrs_password"
 
+    # in some special case extra parameters can be passed, note the required quotes
+    otobo> scripts/backup.pl --max-allowed-packet 128M --extra-dump-options "--column-statistics=0"
+
 Short options:
  [-h]                   - Display help for this command.
  [-d]                   - Directory where the backup files should be placed. Defauls to the current dir.
@@ -806,24 +875,20 @@ Long options:
  [--compress]                 - same as -c
  [--remove-old-backups DAYS]  - same as -r
  [--backup-type]              - same as -t
- [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump
- [--db-host]                  - default taken from the current OTOBO config
- [--db-name]                  - default taken from the current OTOBO config
- [--db-user]                  - default taken from the current OTOBO config
- [--db-password]              - default taken from the current OTOBO config
- [--db-type]                  - default taken from the current OTOBO config
+ [--dry-run]                  - only print out the database dump command, implies '--backup-type dbonly'
+ [--max-allowed-packet SIZE]  - add the option "--max-allowed-packet=SIZE" to mysqldump. The default setting is 64M.
+ [--db-host]                  - default is the setting 'DatabaseHost' in the OTOBO config
+ [--db-name]                  - default is the setting 'Database' in the OTOBO config
+ [--db-user]                  - default is the setting 'DatabaseUser' in the OTOBO config
+ [--db-password]              - default is the setting 'DatabasePw' in the OTOBO config
+ [--db-type]                  - default is extracted from the setting 'DatabaseDSN' in the OTOBO config
 
 Help:
 Using -t fullbackup saves the database and the whole OTOBO home directory (except /var/tmp and cache directories).
 Using -t nofullbackup saves only the database, /Kernel/Config* and /var directories.
 With -t dbonly only the database will be saved.
-With -t migratefromotrs only the OTRS database will be saved and prepared for migration
-
-Override the max allowed packet size:
-When backing up a MySQL one might run into very large database fields. In this case the backup fails.
-For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE IN BYTES>.
-The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
-This setting will be passed on to the command mysqldump.
+With -t migratefromotrs only the OTRS database will be saved and prepared for migration.
+For debugging database dumping pass --dry-run for only printing out the dump commands.
 
 Output:
  Config.tar.gz          - Backup of /Kernel/Config* configuration files.
@@ -831,6 +896,18 @@ Output:
  VarDir.tar.gz          - Backup of /var directory (in case of no full backup).
  DataDir.tar.gz         - Backup of article files.
  DatabaseBackup.sql.gz  - Database dump.
+
+Troubleshooting:
+
+Override the max allowed packet size:
+When backing up a MySQL one might run into very large database fields. In this case the backup fails.
+For making the backup succeed one can explicitly add the parameter --max-allowed-packet=<SIZE>.
+The units K, M, and G are allowed, indicating kilobytes, Megabytes, and Gigabytes.
+This setting will be passed on to the command mysqldump. The default setting is 64M.
+
+Error when the table information_schema.COLUMN_STATISTICS is missing:
+This error occures with some versions of mysqldump 8.0.x. The problem can be evaded
+by passing the option --extra-dump-options="--column-statistics=0"
 
 END_HELP
 

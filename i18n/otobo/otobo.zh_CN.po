@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-02-12 15:30+0000\n"
+"POT-Creation-Date: 2021-02-19 14:14+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/otobo10/otobo/zh_Hans/>\n"
@@ -24596,6 +24596,10 @@ msgid "When tickets are merged, the customer can be informed per email by settin
 msgstr "工单被合并时，通过设置“通知发送人”复选框选项，客户能收到邮件通知，您可以在这个文本框中定义一个预先格式化的文本（服务人员可在以后修改）。"
 
 #. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
 msgstr "字段是否自动填充(1)， 那种情况下将会在工单表中隐藏起来(2)。"
 
@@ -25127,6 +25131,7 @@ msgstr "stats（统计）"
 #~ msgid "Defines if the communication between this system and Rother OSS GmbH servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO News and product News dashboard widgets, among others."
 #~ msgstr "定义本系统能否与OTOBO集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTOBO Business Solution™（OTOBO商业解决方案）、OTOBO Verify™（OTOBO验证）、仪表板中的OTOBO新闻和产品新闻小部件等将失效。"
 
+#. SysConfig
 #~ msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 #~ msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
@@ -25184,6 +25189,7 @@ msgstr "stats（统计）"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "短信(短消息)"
 
+#. SysConfig
 #~ msgid "Set a new password by filling in your current password and a new one."
 #~ msgstr "填写当前密码和一个新的密码来设置新密码。"
 
@@ -25238,7 +25244,27 @@ msgstr "stats（统计）"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "请通过sales@otrs.com联系我们"
 
+#. Template: OTRSDBSettings
+msgid "DSN"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr ""
+
 #. SysConfig
-msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Open the OTOBO home page in a new window"
 msgstr ""
 

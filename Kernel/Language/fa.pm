@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.644920480363518;
+    $Self->{Completeness}        = 0.644548994159637;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -3106,7 +3106,6 @@ sub Data {
         'Welcome to %s' => 'خوش آمدید به %s',
         'Germany' => '',
         'Phone' => 'تلفن',
-        'Switzerland' => '',
         'Web site' => 'وب سایت',
 
         # Template: InstallerConfigureMail
@@ -3262,6 +3261,7 @@ sub Data {
         ' Continue anyways :(' => '',
 
         # Template: OTRSDBSettings
+        'DSN' => '',
         'Skip DB migration' => '',
         'Expert option! Only works if the migration has already been done by hand.' =>
             '',
@@ -5079,7 +5079,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5323,8 +5322,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'حداکثر اندازه پرس و جو',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            '',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'جستجوهای کش اندازه',
@@ -6616,7 +6614,7 @@ Thanks for your help!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'پیکربندی که صفحه نمایش باید نشان داده شود پس از یک درخواست جدید ایجاد شده است.',
         'Configure your own log text for PGP.' => 'پیکربندی متن ورود به سیستم خود  برای PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             'کنترل نحوه نمایش نوشته های تاریخ بلیط به عنوان ارزش های قابل خواندن است.',
@@ -6966,6 +6964,8 @@ Thanks for your help!
         'Defines the config options for the autocompletion feature.' => 'تعریف می کند که گزینه های پیکربندی برای قابلیت تکمیل خودکار است.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'تعریف می کند که پارامترهای پیکربندی از این آیتم، به  نظردر تنظیمات نشان داده میشود.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            '',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Defines the connections for http/ftp, via a proxy.' => 'تعریف می کند که ارتباطات به HTTP / FTP، از طریق یک پروکسی است.',
@@ -6982,7 +6982,7 @@ Thanks for your help!
             'تعریف می کند که بدن به طور پیش فرض از توجه داشته باشید در بلیط صفحه نمایش های متنی رایگان از رابط عامل.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             '',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'زبان پیش فرض جلویی تعریف می کند. همه مقادیر ممکن توسط فایل های زبان موجود بر روی سیستم (تنظیمات بعدی را ببینید) تعیین می شود.',
@@ -7911,6 +7911,8 @@ Thanks for your help!
             'اگر هر یک از \ "SMTP " مکانیزم به عنوان SendmailModule انتخاب شد، بندر که در آن mailserver ای خود را برای اتصالات ورودی گوش دادن باید مشخص شود.',
         'If enabled debugging information for ACLs is logged.' => 'اگر اطلاعات اشکال زدایی فعال برای ACL ها وارد شده است.',
         'If enabled debugging information for transitions is logged.' => 'در صورت فعال بودن اطلاعات اشکال زدایی برای انتقال به سیستم وارد شده است.',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             'اگر فعال شبح را به جریان خطای استاندارد را به یک فایل ورود به سیستم تغییر مسیر.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8209,6 +8211,7 @@ Thanks for your help!
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => '',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'درخواست باز (کاربران مشتری)',
         'Open tickets (customer)' => 'درخواست گسترش (مشتری)',
         'Option' => 'انتخاب',
@@ -8466,7 +8469,6 @@ Thanks for your help!
         'Select the main interface language.' => '',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'لطفا کاراکتر استفاده شده برای فایل‌های CSV را انتخاب نمایید. اگر جداکننده‌ای را انتخاب نکنید، جداکننده پیش‌فرض زبان انتخاب شده توسط شما استفاده می‌گردد.',
-        'Select your frontend Theme.' => 'الگوی نمایش سیستم را انتخاب نمائید',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             '',
         'Select your preferred layout for the software.' => '',
@@ -8501,6 +8503,8 @@ Thanks for your help!
         'Service Level Agreements' => 'توافقات سطح سرویس',
         'Service view' => 'نمای سرویس',
         'ServiceView' => 'ServiceView',
+        'Set a new password by filling in your current password and a new one.' =>
+            '',
         'Set sender email addresses for this system.' => 'تنظیم آدرس ایمیل‌های ارسال‌کننده برای این سیستم',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             'مجموعه ای از ارتفاع به طور پیش فرض (به پیکسل) مقالات HTML درون خطی در AgentTicketZoom.',
