@@ -309,18 +309,19 @@ sub RunTest {
     # and a failing event will be emitted. $@ will hold the exception.
     my $Context = context();
 
-    try_ok {
+    my $CodeSuccess = try_ok {
         $Code->();
     }
-    'RunTest: no exception should be thrown';
+    'RunTest: no exception';
 
-    $Context->release();
+    if ( !$CodeSuccess ) {
 
-    # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-    # HandleError() will create screenshots.
-    if ($@) {
+        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
+        # HandleError() will create screenshots.
         $Self->_TestException($@);
     }
+
+    $Context->release();
 
     return;
 }
