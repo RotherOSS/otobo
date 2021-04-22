@@ -39,11 +39,12 @@ my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
     skip_all('Test database could not be provided, skipping test');
 }
-else {
-    pass('ProvideTestDatabase() - Database cleared');
 
-    my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+pass('ProvideTestDatabase() - Database cleared');
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+
+{
     $Selenium->RunTest(
         sub {
             my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
