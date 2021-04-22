@@ -27,6 +27,7 @@ use Test2::V0;
 
 # OTOBO moduled
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
@@ -41,10 +42,7 @@ if ( !$Success ) {
 else {
     pass('ProvideTestDatabase() - Database cleared');
 
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-
+    my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
     $Selenium->RunTest(
         sub {
