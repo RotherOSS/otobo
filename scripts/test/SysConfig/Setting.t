@@ -659,8 +659,8 @@ my @SettingUpdateTests = (
     {
         Name   => 'Value Test II Update',
         Params => {
-            DefaultID => $DefaultID0,
-            Name      => "Test0$RandomID",
+            DefaultID      => $DefaultID0,
+            Name           => "Test0$RandomID",
             EffectiveValue =>
                 '☠☬☹♓♻⚛⛑⛯⛴ <br></html></xml> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
             UserID  => 1,
@@ -677,7 +677,7 @@ my @SettingUpdateTests = (
             UserModificationPossible => 0,
             UserModificationActive   => 0,
             UserPreferencesGroup     => '',
-            EffectiveValue =>
+            EffectiveValue           =>
                 '☠☬☹♓♻⚛⛑⛯⛴ <br></html></xml> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
             DefaultValue     => $DefaultSettingAddParams[0]->{EffectiveValue},
             IsModified       => 1,
