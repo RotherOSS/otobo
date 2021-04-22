@@ -474,7 +474,7 @@ sub DataTransfer {
 
                 # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
-                if ( none { $_ eq lc($SourceColumnInfos->{DATA_TYPE}) } ( 'varchar', 'character varying', 'varchar2' ) ) {
+                if ( none { $_ eq lc( $SourceColumnInfos->{DATA_TYPE} ) } ( 'varchar', 'character varying', 'varchar2' ) ) {
                     next SOURCE_COLUMN;
                 }
 
@@ -631,7 +631,7 @@ sub DataTransfer {
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $BindString        = join ', ', map {'?'} @SourceColumns;
+                my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
 
                 # This is a workaround for a very special case.

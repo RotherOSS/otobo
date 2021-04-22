@@ -126,7 +126,7 @@ sub Run {
                 next CONFIGKEY unless IsArrayRefWithData( $UnitTestBlacklist->{$ConfigKey} );
 
                 # filter empty values
-                push @BlacklistPatterns, grep { $_ } $UnitTestBlacklist->{$ConfigKey}->@*;
+                push @BlacklistPatterns, grep {$_} $UnitTestBlacklist->{$ConfigKey}->@*;
             }
         }
 

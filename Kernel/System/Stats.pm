@@ -3124,7 +3124,7 @@ sub _GenerateDynamicStats {
                 $TimeStart = sprintf( "%04d-%02d-%02d 00:00:00", $VSYear, $VSMonth, $VSDay );
                 ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = $Self->_AddDeltaDHMS(
                     $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond,
-                    $Count, 0, 0, -1
+                    $Count,  0,        0,      -1
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d 23:59:59", $ToYear, $ToMonth, $ToDay );
 
@@ -3151,7 +3151,7 @@ sub _GenerateDynamicStats {
                 $TimeStart = sprintf( "%04d-%02d-%02d %02d:00:00", $VSYear, $VSMonth, $VSDay, $VSHour );
                 ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = $Self->_AddDeltaDHMS(
                     $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, 0,
-                    $Count, 0, -1
+                    $Count,  0,        -1
                 );
                 $TimeStop = sprintf( "%04d-%02d-%02d %02d:59:59", $ToYear, $ToMonth, $ToDay, $ToHour );
                 $ValueSeries{
@@ -3184,7 +3184,7 @@ sub _GenerateDynamicStats {
                 );
                 ( $ToYear, $ToMonth, $ToDay, $ToHour, $ToMinute, $ToSecond ) = $Self->_AddDeltaDHMS(
                     $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond, 0,
-                    0, $Count, -1
+                    0,       $Count,   -1
                 );
                 $TimeStop = sprintf(
                     "%04d-%02d-%02d %02d:%02d:59",

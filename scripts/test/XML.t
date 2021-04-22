@@ -633,7 +633,7 @@ if ( open( my $DATA, "<", "$Path/$File" ) ) {    ## no critic qw(OTOBO::Prohibit
         Cc                   => 'Some Customer <customer-b@example.com>',
         ReplyTo              => 'Some Customer <customer-b@example.com>',
         Subject              => 'some short description',
-        Body =>
+        Body                 =>
             'the message text Perl modules provide a range of featurheel, and can be downloaded',
         ContentType    => 'text/plain; charset=ISO-8859-15',
         HistoryType    => 'OwnerUpdate',
