@@ -411,64 +411,56 @@ $Selenium->RunTest(
 
             try_ok {
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
-            };
 
-            # Check on DynamicField change - ACL restriction on Type field.
-            # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
-            ok(
-                $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-                "All Types are visible before ACL"
-            );
-        }
+                # Check on DynamicField change - ACL restriction on Type field.
+                # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
+                ok(
+                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+                    "All types are visible before ACL"
+                );
 
-        $Selenium->InputFieldValueSet(
-            Element => '#DynamicField_TestDropdownACLProcess',
-            Value   => 'c',
-        );
+                $Selenium->InputFieldValueSet(
+                    Element => '#DynamicField_TestDropdownACLProcess',
+                    Value   => 'c',
+                );
 
-        sleep(11);
+                sleep(11);
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-        $Self->False(
-            $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-            "DynamicField change - ACL restricted Types"
-        );
-        $Selenium->InputFieldValueSet(
-            Element => '#TypeID',
-            Value   => $Types[1]->{ID},
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+                $Self->False(
+                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+                    "DynamicField change - ACL restricted Types"
+                );
 
-        # Check further ACLs before the normal process tests.
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+                $Selenium->InputFieldValueSet(
+                    Element => '#TypeID',
+                    Value   => $Types[1]->{ID},
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-            is(
-                $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-                3,
-                "DynamicField filtered options count",
-            );
-        }
+                # Check further ACLs before the normal process tests.
+                is(
+                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                    3,
+                    "DynamicField filtered options count",
+                );
 
-        $Selenium->InputFieldValueSet(
-            Element => '#QueueID',
-            Value   => 4,
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => 4,
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        my $SubjectRandom = 'Subject' . $RandomID;
-        my $ContentRandom = 'Content' . $RandomID;
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+                my $SubjectRandom = 'Subject' . $RandomID;
+                my $ContentRandom = 'Content' . $RandomID;
 
-            is(
-                $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-                1,
-                "DynamicField filtered options count",
-            );
+                is(
+                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                    1,
+                    "DynamicField filtered options count",
+                );
 
-            try_ok {
                 $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
                 $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
 

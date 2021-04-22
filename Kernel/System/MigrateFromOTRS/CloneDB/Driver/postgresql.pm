@@ -272,36 +272,50 @@ sub TranslateColumnInfos {
     my %Result;
 
     if ( $Param{DBType} =~ /mysql/ ) {
-        $Result{'character varying'}           = 'VARCHAR';
-        $Result{integer}                       = 'INTEGER';
-        $Result{bigint}                        = 'BIGINT';
-        $Result{'timestamp without time zone'} = 'DATETIME';
-        $Result{smallint}                      = 'SMALLINT';
-        $Result{longblob}                      = 'LONGBLOB';
-        $Result{mediumtext}                    = 'MEDIUMTEXT';
-        $Result{text}                          = 'TEXT';
+        $Result{VARCHAR} = 'VARCHAR';
+        $Result{TEXT}    = 'TEXT';
+        $Result{BLOB}    = 'TEXT';
+
+        $Result{DATE}      = 'DATE';
+        $Result{TIME}      = 'TIME';
+        $Result{DATETIME}  = 'TIMESTAMP';
+        $Result{TIMESTAMP} = 'TIMESTAMP';
+
+        $Result{TINYINT}            = 'SMALLINT';
+        $Result{SMALLINT}           = 'SMALLINT';
+        $Result{MEDIUMINT}          = 'INTEGER';
+        $Result{INTEGER}            = 'INTEGER';
+        $Result{INT}                = 'INTEGER';
+        $Result{BIGINT}             = 'BIGINT';
+        $Result{DECIMAL}            = 'DECIMAL';
+        $Result{FLOAT}              = 'REAL';
+        $Result{REAL}               = 'REAL';
+        $Result{DOUBLE}             = 'DOUBLE PRECISION';
+        $Result{'DOUBLE PRECISION'} = 'DOUBLE PRECISION';
+
+        $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
-        $Result{'character varying'}           = 'VARCHAR';
-        $Result{integer}                       = 'INTEGER';
-        $Result{bigint}                        = 'BIGSERIAL';
-        $Result{'timestamp without time zone'} = 'timestamp';
-        $Result{smallint}                      = 'SMALLINT';
-        $Result{longblob}                      = 'TEXT';
-        $Result{mediumtext}                    = 'VARCHAR';
-        $Result{text}                          = 'TEXT';
+
+        # no translation necessary
+        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
-        $Result{'character varying'}           = 'VARCHAR2';
-        $Result{integer}                       = 'NUMBER';
-        $Result{bigint}                        = 'NUMBER';
-        $Result{'timestamp without time zone'} = 'DATE';
-        $Result{smallint}                      = 'NUMBER';
-        $Result{longblob}                      = 'CLOB';
-        $Result{mediumtext}                    = 'CLOB';
-        $Result{text}                          = 'VARCHAR2';
+        $Result{VARCHAR2} = 'VARCHAR';
+        $Result{TEXT}     = 'TEXT';
+        $Result{CLOB}     = 'TEXT';
+
+        $Result{DATE}     = 'DATE';
+        $Result{DATETIME} = 'DATETIME';
+
+        $Result{SHORTINTEGER} = 'SMALLINT';
+        $Result{INTEGER}      = 'INTEGER';
+        $Result{LONGINTEGER}  = 'BIGINT';
+        $Result{SHORTDECIMAL} = 'DECIMAL';
+        $Result{NUMBER}       = 'DECIMAL';
+
+        $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
-    $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
 
     return \%ColumnInfos;
 }

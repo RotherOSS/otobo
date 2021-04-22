@@ -84,11 +84,11 @@
                     <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+49 (0) 9427 68 39 000</a></p>
                 </div>
                 <div class="Size1of2">
-                    <h4>[% Translate("Switzerland") | html %]</h4>
+                    <h4>[% Translate("Germany") | html %]</h4>
                     <p>Rother OSS GmbH</p>
-                    <p>OTOBO 10</p>
-                    <p>9000 Sankt Gallen</p>
-                    <p>[% Translate("Phone") | html %]: <a href="tel:+41715520880">+41 (0) 71 552 08 80</a></p>
+                    <p>Straubinger Straße 14</p>
+                    <p>94339 Leiblfing</p>
+                    <p>[% Translate("Phone") | html %]: <a href="tel:+4994276839000">+41 (0) 9427 68 39 000</a></p>
                 </div>
             </div>
             <div class="Clear"></div>

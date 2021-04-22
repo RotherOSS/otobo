@@ -39,11 +39,11 @@
 [% RenderBlockEnd("DeleteLinkIcon") %]
 
 [% RenderBlockStart("TimeLong") %]
-<span title="[% Data.Content | Localize("TimeLong") %]">[% Data.Content | Localize("TimeLong") %]</span>
+<span title="[% Data.Content | Localize("TimeLong") | html %]">[% Data.Content | Localize("TimeLong") | html %]</span>
 [% RenderBlockEnd("TimeLong") %]
 
 [% RenderBlockStart("Date") %]
-[% Data.Content | Localize("Date") %]
+[% Data.Content | Localize("Date") | html %]
 [% RenderBlockEnd("Date") %]
 
 [% RenderBlockStart("Checkbox") %]

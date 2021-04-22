@@ -1,4 +1,65 @@
 
+# OTOBO 10.0.10 2021-04-21
+- 2021-04-21 18:43:00 +0200 Create new OTOBO language files.
+- 2021-04-21 07:52:24 +0000 Translated using Weblate (Danish)
+- 2021-04-20 05:26:43 +0000 Translated using Weblate (Japanese)
+- 2021-04-19 12:25:49 +0000 Translated using Weblate (German)
+- 2021-03-29 19:10:16 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2021-03-23 16:54:39 +0000 Translated using Weblate (Czech)
+- 2021-03-10 07:26:34 +0000 Translated using Weblate (Sinhala)
+- 2021-03-10 07:25:45 +0000 Added translation using Weblate (Sinhala)
+- 2021-02-19 14:16:16 +0000 Update translation files
+- 2021-04-21 18:09:42 +0200 [Tidied]   Rework standard settings for passwords and other preferences. (https://github.com/RotherOSS/otobo/issues/935)
+- 2021-04-21 17:00:23 +0200 [Bugfix]   Migration: column size in PostgreSQL (https://github.com/RotherOSS/otobo/issues/836)
+- 2021-04-21 16:49:07 +0200 [Security] Update jquery-validate to 1.19.3. (CVE-2021-21252)
+- 2021-04-21 11:35:37 +0200 Add Kerberos SSO.
+- 2021-04-21 09:22:17 +0200 Update Installer.tt
+- 2021-04-20 18:11:02 +0200 [Bugfix]   Fix OTRS oracle to OTOBO oracle migration. (https://github.com/RotherOSS/otobo/issues/873) - in progress
+- 2021-04-20 15:22:07 +0200 [Security] Fix a XSS vulnerability. Thanks to the Znuny team for sharing the issue and providing the fix.
+- 2021-04-20 13:00:04 +0200 [Enhanced] Rework data type translation between different DBs in the migration. (https://github.com/RotherOSS/otobo/issues/955)
+- 2021-04-19 19:49:36 +0200 [Bugfix]   backup.pl fails when source db is mysql 5.7 and destination db is mysql 8.0 (https://github.com/RotherOSS/otobo/issues/884)
+- 2021-04-19 08:41:05 +0200 Elasticsearch initial customeruser migration from ldap (https://github.com/RotherOSS/otobo/issues/950)
+- 2021-04-18 14:39:11 +0200 Add Kerberos support.
+- 2021-04-17 15:20:01 +0200 Add Kerberos support.
+- 2021-04-17 14:05:35 +0200 Add Kerberos support.
+- 2021-04-16 16:26:15 +0200 [Bugfix]   Testing: Resolve remaining failures of Selenium tests (https://github.com/RotherOSS/otobo/issues/682) - in progress
+- 2021-04-14 18:23:51 +0200 [Enhanced] Enable customer preferences (https://github.com/RotherOSS/otobo/issues/693)
+- 2021-04-13 16:48:33 +0200 Link to Admin Manual inside the Admin Interface is brocken. (https://github.com/RotherOSS/otobo/issues/936)
+- 2021-04-11 20:41:18 +0200 [Bugfix]   SeleniumTesting: find_no_element_ok() throws exeception (https://github.com/RotherOSS/otobo/issues/925)
+- 2021-04-07 13:06:23 +0200 Bugfix: Fix typo in ticket list css for the customer interface.
+- 2021-04-07 11:20:08 +0200 [Tidied]   Adjust the code to work with CodePolicy. (https://github.com/RotherOSS/otobo/issues/760) - in progress
+- 2021-04-06 14:59:54 +0200 Bugfix: For the github action CodePolicy install libxml2-utils to be able to use xmllint.
+- 2021-04-03 17:01:02 +0200 [Tidied]   Don't use object manager for Kernel::System::UnitTest::Selenium (https://github.com/RotherOSS/otobo/issues/902)
+- 2021-03-29 12:48:28 +0200 [Bugfix]   CustomerID is not correctly added, when creating a new ticket via AgentTicketPhone or -Email. (https://github.com/RotherOSS/otobo/issues/544)
+- 2021-03-27 12:28:48 +0100 [Enhanced] Docker: screen should start a bash session (https://github.com/RotherOSS/otobo/issues/876)
+- 2021-03-19 09:37:20 +0100 Fix CodePolicy github action.
+- 2021-03-18 18:06:54 +0100 [Bugfix]   Config Option Frontend::Navigation###ExternalURLJump###1 not possible to change (https://github.com/RotherOSS/otobo/issues/867)
+- 2021-03-17 12:43:01 +0100 [Bugfix]   Docker: GenericInterface TicketCreate - uninitialized value in pattern match (https://github.com/RotherOSS/otobo/issues/853)
+- 2021-03-16 20:35:18 +0100 Kernel::System::UnitTest::Selenium should extend Test::Selenium::Remote::Driver (https://github.com/RotherOSS/otobo/issues/868)
+- 2021-03-16 17:43:35 +0100 Fix regression of psgi specific handling of $ENV{REQUEST_SCHEME}. (follow up to 258d49b5e57a07dfaf56b1e3d554460adec14d46)
+- 2021-03-10 19:25:54 +0100 Selenium Testing: no warning when subject is empty (https://github.com/RotherOSS/otobo/issues/862) - in progress
+- 2021-03-09 21:57:11 +0100 [Enhanced] Github action: run the compile action only for the changed files (https://github.com/RotherOSS/otobo/issues/856) - in progress
+- 2021-03-08 16:26:06 +0100 Update code_policy.yml
+- 2021-03-08 16:20:50 +0100 Run CodePolicy on pull requests. (https://github.com/RotherOSS/otobo/issues/854)
+- 2021-03-04 17:16:12 +0100 [Bugfix]   Migration: ResetAutoIncrementFields for PostgreSQL  (https://github.com/RotherOSS/otobo/issues/837) - in progress
+- 2021-03-04 15:52:13 +0100 [Enhanced] Migration: skip the table system_data (https://github.com/RotherOSS/otobo/issues/838)
+- 2021-03-03 12:32:19 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 11:43:24 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 11:25:25 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 11:19:00 +0100 [Bugfix]   Migration OTRS PostgreSQL to OTOBO PostgreSQL (https://github.com/RotherOSS/otobo/issues/818)
+- 2021-03-03 08:11:23 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 07:59:28 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 07:26:01 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 07:05:09 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-03 06:44:45 +0100 Add Kerberos module for Nginx in dockerfile.
+- 2021-03-02 16:59:12 +0100 [Enhanced] Add ###StatePreset to CustomerTicketZoom (https://github.com/RotherOSS/otobo/issues/833)
+- 2021-03-01 16:21:15 +0100 Fix missing colon on css top
+- 2021-02-24 21:39:01 +0100 Issue rotheross/CodePolicy#44: accept more suggestions from Perl::Tid:y
+- 2021-02-24 20:59:33 +0100 Issue rotheross/CodePolicy#44: don't ignore policy OTOBO::Perl::ParamObject
+- 2021-02-22 17:56:21 +0100 Fix CodePolicy violations from OTOBO::Perl::ObjectDependencies; (https://github.com/RotherOSS/otobo/issues/816)
+- 2021-02-19 17:19:17 +0100 [Enhanced] Default value for max-allowed-packet backup.pl (https://github.com/RotherOSS/otobo/issues/648)
+
+
 # OTOBO 10.0.9 2021-02-19
 - 2021-02-19 15:15:48 +0100 Create new OTOBO language files.
 - 2021-02-17 23:32:31 +0000 Translated using Weblate (French)
@@ -612,3 +673,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+

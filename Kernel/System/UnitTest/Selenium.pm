@@ -104,12 +104,6 @@ has _SeleniumTestsConfig => (
     is => 'ro',
 );
 
-# If a test throws an exception, we'll record it here in an attribute so that we can
-# take screenshots.
-has _TestException => (
-    is => 'rw',
-);
-
 # suppress testing events
 has LogExecuteCommandActive => (
     is      => 'rw',
@@ -309,18 +303,18 @@ sub RunTest {
     # and a failing event will be emitted. $@ will hold the exception.
     my $Context = context();
 
-    try_ok {
+    my $CodeSuccess = try_ok {
         $Code->();
     }
-    'RunTest: no exception should be thrown';
+    'RunTest: no exception';
+
+    if ( !$CodeSuccess ) {
+
+        # HandleError() will create screenshots of the open windows
+        $Self->HandleError($@);
+    }
 
     $Context->release();
-
-    # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-    # HandleError() will create screenshots.
-    if ($@) {
-        $Self->_TestException($@);
-    }
 
     return;
 }
@@ -954,16 +948,12 @@ and performs some clean-ups.
 sub DEMOLISH {
     my $Self = shift;
 
-    $Self->LogExecuteCommandActive(0);
-
-    if ( $Self->_TestException() ) {
-        $Self->HandleError( $Self->_TestException() );
-    }
-
     return unless $Self->SeleniumTestsActive();
 
+    $Self->LogExecuteCommandActive(0);
+
+    # Cleanup possibly leftover zombie firefox profiles.
     {
-        # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => '/tmp/',
             Filter    => 'anonymous*webdriver-profile',
@@ -974,8 +964,10 @@ sub DEMOLISH {
                 remove_tree($LeftoverFirefoxProfile);
             }
         }
+    }
 
-        # Cleanup all sessions which were created after the selenium test start time.
+    # Cleanup all sessions which were created after the selenium test start time.
+    {
         my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
         my @Sessions = $AuthSessionObject->GetAllSessionIDs();
@@ -995,8 +987,6 @@ sub DEMOLISH {
 
     return;
 }
-
-=head1 DEPRECATED FUNCTIONS
 
 =head2 WaitForjQueryEventBound()
 

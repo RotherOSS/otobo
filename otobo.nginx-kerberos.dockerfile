@@ -1,4 +1,9 @@
 # This is the build file for the OTOBO nginx docker image including Kerberos Single Sign On tools.
+
+# I have found no better way than to first compile NGINX in a BUILDER container and then copy the 
+# finished ngx_http_auth_spnego_module.so into the NGINX container. 
+# If anyone knows a nicer way, please share.
+
 # See also README_DOCKER.md.
 
 # builder used to create a dynamic spnego auth module
@@ -35,13 +40,16 @@ RUN cd /usr/src && \
     cd "/usr/src/nginx-${NGINX_VERSION}" && \
     ./configure --with-compat "${NGINX_CONFIG}" --add-dynamic-module="${SPNEGO_AUTH_DIR}" && \
     make modules && \
-    cp objs/ngx_*_module.so /usr/lib
+    cp objs/ngx_*_module.so /usr/lib/nginx/modules/
 
 
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
+
+# Copy the nginx module ngx_http_auth_spnego_module.so to the official nginx container
+COPY --from=builder /usr/lib/nginx/modules/ngx_http_auth_spnego_module.so /usr/lib/nginx/modules
 
 # install some required and optional Debian packages
 # hadolint ignore=DL3008
