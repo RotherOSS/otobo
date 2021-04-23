@@ -24,7 +24,7 @@ use namespace::autoclean;
 # core modules
 use Encode;
 use MIME::Base64;
-use List::Util qw(any);
+use List::Util qw(any none);
 use Fcntl qw(:flock);
 
 # CPAN modules
@@ -287,7 +287,7 @@ sub RowCount {
     # See https://github.com/RotherOSS/otobo/issues/639
     my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $Param{Table} eq 'groups' )
         ?
-        q{'groups'}
+        q{`groups`}
         :
         $Param{Table};
 
@@ -472,9 +472,11 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
-                # shortening only for varchar
+                # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
-                next SOURCE_COLUMN unless $SourceColumnInfos->{DATA_TYPE} eq 'varchar';
+                if ( none { $_ eq lc( $SourceColumnInfos->{DATA_TYPE} ) } ( 'varchar', 'character varying', 'varchar2' ) ) {
+                    next SOURCE_COLUMN;
+                }
 
                 # Get target (OTOBO) column infos
                 my $TargetColumnInfos = $TargetDBBackend->GetColumnInfos(
@@ -626,23 +628,21 @@ sub DataTransfer {
         }
 
         {
-            # no batch insert
-
             # assemble the relevant SQL
             my ( $SelectSQL, $InsertSQL );
             {
-                my $QuotedSourceTable = $Param{OTRSDBObject}->QuoteIdentifier( Table => $SourceTable );
-                my $BindString        = join ', ', map {'?'} @SourceColumns;
+                my $BindString = join ', ', map {'?'} @SourceColumns;
                 $InsertSQL = "INSERT INTO $TargetTable ($TargetColumnsString) VALUES ($BindString)";
 
                 # This is a workaround for a very special case.
-                # There can be OTRS 6 running on MySQL 8, where groups is a reserverd word.
+                # There can be OTRS 6 running on MySQL 8, where groups is a reserved word.
                 # See https://github.com/RotherOSS/otobo/issues/639
-                my $Table = ( $Param{DBObject}->{'DB::Type'} eq 'mysql' && $SourceTable eq 'groups' )
+                my $Table = ( $Param{OTRSDBObject}->{'DB::Type'} eq 'mysql' && $SourceTable eq 'groups' )
                     ?
-                    q{'groups'}
+                    q{`groups`}
                     :
                     $SourceTable;
+
                 $SelectSQL = "SELECT $SourceColumnsString{$SourceTable} FROM $Table";
             }
 

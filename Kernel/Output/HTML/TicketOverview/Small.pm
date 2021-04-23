@@ -1643,7 +1643,7 @@ sub Run {
                     # If value is in date format, change block type to 'Time' so it can be localized. See bug#14542.
                     if (
                         defined $DataValue
-                        && $DataValue =~ /^\d\d\d\d-(\d|\d\d)-(\d|\d\d)\s(\d|\d\d):(\d|\d\d):(\d|\d\d)/
+                        && $DataValue =~ /^\d\d\d\d-(\d|\d\d)-(\d|\d\d)\s(\d|\d\d):(\d|\d\d):(\d|\d\d)$/
                         )
                     {
                         $BlockType = 'Time';

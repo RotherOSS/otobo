@@ -104,12 +104,6 @@ has _SeleniumTestsConfig => (
     is => 'ro',
 );
 
-# If a test throws an exception, we'll record it here in an attribute so that we can
-# take screenshots.
-has _TestException => (
-    is => 'rw',
-);
-
 # suppress testing events
 has LogExecuteCommandActive => (
     is      => 'rw',
@@ -289,7 +283,7 @@ sub button_up {
 
 =head2 RunTest()
 
-runs a selenium test if Selenium testing is configured.
+runs a selenium test only if Selenium testing is activated.
 
     $SeleniumObject->RunTest( sub { ... } );
 
@@ -307,18 +301,20 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
-    try_ok {
+    my $Context = context();
+
+    my $CodeSuccess = try_ok {
         $Code->();
     }
-    'RunTest: no exception should be thrown';
+    'RunTest: no exception';
 
-    if ($@) {
-        note("RunTest: $@");
+    if ( !$CodeSuccess ) {
 
-        # Indicate that during DEMOLISH() the subroutine HandleError() should be called.
-        # HandleError() will create screenshots.
-        $Self->_TestException($@);
+        # HandleError() will create screenshots of the open windows
+        $Self->HandleError($@);
     }
+
+    $Context->release();
 
     return;
 }
@@ -445,27 +441,29 @@ sub Login {
         for my $Try ( 1 .. $MaxTries ) {
 
             eval {
-                my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+
+                # handle some differences between agent and customer interface
+                my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
                 my $LogoutXPath;          # Logout link differs between Agent and Customer interface.
-                my $CheckForGDPRBlurb;    # whether GDPR needs to be accepted during login
+                my $CheckForGDPRBlurb;    # only customers need to accept GDPR during login
                 if ( $Param{Type} eq 'Agent' ) {
-                    $ScriptAlias .= 'index.pl';
+                    $LoginPage .= 'index.pl';
                     $LogoutXPath       = q{//a[@id='LogoutButton']};
                     $CheckForGDPRBlurb = 0;
                 }
                 else {
-                    $ScriptAlias .= 'customer.pl';
-                    $LogoutXPath       = q{//a[@id='oooUser']};
+                    $LoginPage .= 'customer.pl';
+                    $LogoutXPath       = q{//a[@id='oooAvatar']};
                     $CheckForGDPRBlurb = 1;
                 }
 
-                $Self->get($ScriptAlias);
+                $Self->get($LoginPage);
 
                 $Self->delete_all_cookies();
 
                 # Actually log in, making sure that the params are URL encoded.
                 # Keep the URL relative, so that the configured base URL applies.
-                my $LoginURL = URI->new($ScriptAlias);
+                my $LoginURL = URI->new($LoginPage);
                 $LoginURL->query_form(
                     {
                         Action   => 'Login',
@@ -500,6 +498,7 @@ sub Login {
                 # try again
                 next TRY if $Try < $MaxTries;
 
+                # giving up
                 $Context->throw("Login() not successfull after $MaxTries attempts!");
             }
 
@@ -949,16 +948,12 @@ and performs some clean-ups.
 sub DEMOLISH {
     my $Self = shift;
 
-    $Self->LogExecuteCommandActive(0);
-
-    if ( $Self->_TestException() ) {
-        $Self->HandleError( $Self->_TestException() );
-    }
-
     return unless $Self->SeleniumTestsActive();
 
+    $Self->LogExecuteCommandActive(0);
+
+    # Cleanup possibly leftover zombie firefox profiles.
     {
-        # Cleanup possibly leftover zombie firefox profiles.
         my @LeftoverFirefoxProfiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => '/tmp/',
             Filter    => 'anonymous*webdriver-profile',
@@ -969,8 +964,10 @@ sub DEMOLISH {
                 remove_tree($LeftoverFirefoxProfile);
             }
         }
+    }
 
-        # Cleanup all sessions which were created after the selenium test start time.
+    # Cleanup all sessions which were created after the selenium test start time.
+    {
         my $AuthSessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
         my @Sessions = $AuthSessionObject->GetAllSessionIDs();
@@ -991,11 +988,9 @@ sub DEMOLISH {
     return;
 }
 
-=head1 DEPRECATED FUNCTIONS
-
 =head2 WaitForjQueryEventBound()
 
-waits until event handler is bound to the selected C<jQuery> element. Deprecated - it will be removed in the future releases.
+waits until event handler is bound to the selected C<jQuery> element.
 
     $SeleniumObject->WaitForjQueryEventBound(
         CSSSelector => 'li > a#Test',       # (required) css selector
@@ -1007,6 +1002,8 @@ waits until event handler is bound to the selected C<jQuery> element. Deprecated
 sub WaitForjQueryEventBound {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # Check needed stuff.
     if ( !$Param{CSSSelector} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -1017,51 +1014,64 @@ sub WaitForjQueryEventBound {
         return;
     }
 
-    my $Context = context();
-
     my $Event = $Param{Event} || 'click';
 
-    # Wait for element availability.
-    $Self->WaitFor(
-        JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
-    );
+    my $Code = sub {
 
-    # Wait for jQuery initialization.
-    $Self->WaitFor(
-        JavaScript =>
-            'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
-    );
+        # Wait for element availability.
+        $Self->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("' . $Param{CSSSelector} . '").length;'
+        );
 
-    # Get jQuery object keys.
-    my $Keys = $Self->execute_script(
-        'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
-    );
+        # Wait for jQuery initialization.
+        $Self->WaitFor(
+            JavaScript => 'return Object.keys($("' . $Param{CSSSelector} . '")[0]).length > 0'
+        );
 
-    if ( !IsArrayRefWithData($Keys) ) {
-        $Context->throw("Couldn't determine jQuery object id");
-    }
+        # Get jQuery object keys.
+        my $Keys = $Self->execute_script(
+            'return Object.keys($("' . $Param{CSSSelector} . '")[0]);'
+        );
 
-    my $JQueryObjectID;
-
-    KEY:
-    for my $Key ( @{$Keys} ) {
-        if ( $Key =~ m{^jQuery\d+$} ) {
-            $JQueryObjectID = $Key;
-            last KEY;
+        if ( !IsArrayRefWithData($Keys) ) {
+            $Context->throw("Couldn't determine jQuery object id");
         }
-    }
 
-    if ( !$JQueryObjectID ) {
-        $Context->throw("Couldn't determine jQuery object id.");
-    }
+        my $JQueryObjectID;
 
-    # Wait until click event is bound to the element.
-    $Self->WaitFor(
-        JavaScript =>
-            'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
-                && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        KEY:
+        for my $Key ( @{$Keys} ) {
+            if ( $Key =~ m{^jQuery\d+$} ) {
+                $JQueryObjectID = $Key;
+
+                last KEY;
+            }
+        }
+
+        if ( !$JQueryObjectID ) {
+            $Context->throw("Couldn't determine jQuery object id.");
+        }
+
+        # Wait until click event is bound to the element.
+        $Self->WaitFor(
+            JavaScript =>
+                'return $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '
+                    && $("' . $Param{CSSSelector} . '")[0].' . $JQueryObjectID . '.events.' . $Event . '.length > 0;',
+        );
+    };
+
+    my $Pass = run_subtest(
+        'WaitForjQueryEventBound()',
+        $Code,
+        {
+            buffered      => 1,
+            inherit_trace => 1
+        }
     );
+
+    # run_subtest() does an implicit eval(), but we want do bail out on the first error
+    $Context->throw('WaitForjQueryEventBound() failed') unless $Pass;
 
     $Context->release();
 

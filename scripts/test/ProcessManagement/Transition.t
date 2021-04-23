@@ -1124,7 +1124,7 @@ my @Tests = (
                         Cond1 => {
                             Fields => {
                                 Queue => {
-                                    Type => 'Module',
+                                    Type  => 'Module',
                                     Match =>
                                         'Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo',
                                 },
@@ -1168,7 +1168,7 @@ my @Tests = (
                         Cond1 => {
                             Fields => {
                                 Queue => {
-                                    Type => 'Module',
+                                    Type  => 'Module',
                                     Match =>
                                         'Kernel::System::ProcessManagement::TransitionValidation::ValidateDemo',
                                 },
@@ -1212,7 +1212,7 @@ my @Tests = (
                         Cond1 => {
                             Fields => {
                                 Queue => {
-                                    Type => 'Module',
+                                    Type  => 'Module',
                                     Match =>
                                         'Kernel::System::ProcessManagement::TransitionValidation::UnkownModule',
                                 },

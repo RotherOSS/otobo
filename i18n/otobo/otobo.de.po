@@ -46,8 +46,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2021-02-12 16:16+0000\n"
+"POT-Creation-Date: 2021-02-19 14:14+0000\n"
+"PO-Revision-Date: 2021-04-19 17:51+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -17308,9 +17308,8 @@ msgid "Agent dynamic field database detailed search."
 msgstr "Detailsuche dynamisches Feld Datenbank im Agentenbereich."
 
 #. SysConfig
-#, fuzzy
 msgid "Agent dynamic field database details."
-msgstr "Details dynamisches Feld Datenbank Agentenbereich"
+msgstr "Agent dynamic field database details."
 
 #. SysConfig
 msgid "Agent dynamic field database search."
@@ -17758,7 +17757,7 @@ msgstr "In der Ticketdarstellung genutzte Kategorien. Die Reihenfolge wird nur v
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr "Change-Ticket"
+msgstr "Ticket kategorisieren"
 
 #. SysConfig
 msgid "Change Ticket information"
@@ -18265,19 +18264,16 @@ msgid "Customer Dashboard"
 msgstr "Kunden-Dashboard"
 
 #. SysConfig
-#, fuzzy
 msgid "Customer Dynamic Field Database Detailed Search"
 msgstr "Customer Dynamic Field Database Detailed Search"
 
 #. SysConfig
-#, fuzzy
 msgid "Customer Dynamic Field Database Details"
 msgstr "Customer Dynamic Field Database Details"
 
 #. SysConfig
-#, fuzzy
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "Customer Dynamic Field Database Search"
 
 #. SysConfig
 msgid "Customer IDs"
@@ -24252,7 +24248,6 @@ msgid "This setting shows the sorting attributes in all overview screen, not onl
 msgstr "Diese Einstellung zeigt die Sortier-Attribute aller Übersichtsansichten, nicht nur in der Queue-Ansicht."
 
 #. SysConfig
-#, fuzzy
 msgid "Ticket Close"
 msgstr "Ticket Close"
 
@@ -24627,6 +24622,10 @@ msgstr "Wenn Tickets zusammengefasst werden, wird automatisch zu dem Ticket, das
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
 msgstr "Wenn Tickets zusammengefasst werden, kann der Kunde durch Setzen des Kontrollkästchens \"Sender informieren\" per E-Mail informiert werden. In diesem Bereich können Sie einen vorformatierten Text definieren, der später durch die Agents modifiziert werden kann."
+
+#. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgstr "Definiert, ob in der Ticket-Druckansicht im Kundenbereich erweiterte Kundendaten angezeigt werden."
 
 #. SysConfig
 msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
@@ -25160,6 +25159,7 @@ msgstr "Stats"
 #~ msgid "Defines if the communication between this system and Rother OSS GmbH servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO News and product News dashboard widgets, among others."
 #~ msgstr "Deaktiviert die Kommunikation zwischen diesem System und den Servern der OTOBO Gruppe, die Cloud-Services zur Verfügung stellen. Wenn dies auf 'deaktiviere Cloud-Services' eingestellt ist, so werden verschiedene Funktionen wie unter anderem die Systemregistrierung, das Senden von Supportdaten, das Upgraden auf und das Nutzen von OTOBO Business Solution™, OTOBO Verify™, OTOBO Nachrichten und Produktnachrichten im Dashboard-Widget nicht mehr funktionieren."
 
+#. SysConfig
 #~ msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 #~ msgstr "Definiert die Konfigurationsparamenter des Items, die in der Benutzereinstellung angezeigt wird. PasswordRegExp' erlaubt das Prüfen von Passwörtern gegen einen regulären Ausdruck. Legen Sie die Mindestlänge für Passwörter mit 'PasswordMinSize' fest. Legen Sie fest, ob das Passwort mindestens zwei Kleinbuchstaben und zwei Großbuchstaben enthalten muss, indem Sie die entsprechende Option auf '1' setzen. 'PasswordMin2Characters' legt fest, dass mindestens zwei Buchstaben-Zeichen erforderlich sind (mögliche Werte sind '0' oder '1'). 'PasswordNeedDigit' legt fest, ob das Passwort mindestens eine Zahl enthalten muss (mögliche Werte sind '0' oder '1'). 'PasswordMaxLoginFailed' erlaubt es einen Agenten auf temporär ungültig wenn die maximale Anzahl fehlerhafter Logins erreicht ist. Bitte beachte: Wenn 'Active' auf 0 eingestellt ist, so verhindert dies nur, dass Agenten die Einstellung dieser Gruppe in ihren persönlichen Einstellungen verändern können. Der Administrator kann weiterhin diese Einstellungen im Name von Benutzern verändern. Benutze 'PreferenceGroup', um zu steuern, in welchem Bereich diese Einstellungen in der Benutzer-Oberfläche angezeigt werden."
 
@@ -25217,6 +25217,7 @@ msgstr "Stats"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (Short Message Service)"
 
+#. SysConfig
 #~ msgid "Set a new password by filling in your current password and a new one."
 #~ msgstr "Setzen Sie ein neues Passwort, indem Sie Ihr derzeitiges und ein neues Passwort eintragen."
 
@@ -25294,7 +25295,27 @@ msgstr "Stats"
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
 
+#. Template: OTRSDBSettings
+msgid "DSN"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr ""
+
 #. SysConfig
-msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Open the OTOBO home page in a new window"
 msgstr ""
 

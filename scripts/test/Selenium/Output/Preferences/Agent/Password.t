@@ -16,18 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # get selenium object
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-
 
 $Selenium->RunTest(
     sub {
@@ -50,27 +52,25 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
         # change test user password preference, input incorrect current password
-        my $NewPw = "newáél" . $TestUserLogin;
+        # TODO: test with accents: https://github.com/RotherOSS/otobo/issues/944
+        my $NewPw = "new" . $TestUserLogin;
         $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
 
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#NewPw1').val()"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#NewPw1').val()"),
             $NewPw,
-            'NewPw field has accepted accentuated letters',
+            'NewPw field has been accepted',
         );
 
         $Selenium->execute_script(
             "\$('#NewPw1').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"
         );
         $Selenium->WaitFor(
-            JavaScript =>
-                "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
+            JavaScript => "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error:visible').length"
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#NewPw1').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
             ),
@@ -97,11 +97,11 @@ $Selenium->RunTest(
             User     => $TestUserLogin,
             Password => $NewPw,
         );
-        $Self->True(
+        ok(
             $Selenium->find_element( 'a#LogoutButton', 'css' ),
             "Password change is successful"
         );
     }
 );
 
-$Self->DoneTesting();
+done_testing();

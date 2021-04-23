@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-02-12 15:30+0000\n"
-"PO-Revision-Date: 2021-02-15 04:19+0000\n"
+"POT-Creation-Date: 2021-02-19 14:14+0000\n"
+"PO-Revision-Date: 2021-04-21 08:44+0000\n"
 "Last-Translator: Kim Mølgaard <kim@itandmore.dk>\n"
 "Language-Team: Danish <https://translate.otobo.org/projects/otobo10/otobo/da/>\n"
 "Language: da\n"
@@ -1391,11 +1391,11 @@ msgstr "Syntaksen på denne mail-adresse er forkert."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "Dette kundenummer er ugyldigt."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "Effektive tilladelser for Kunde Bruger"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1403,15 +1403,15 @@ msgstr "Gruppe-Tilladelser"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "Denne kunde har ingen gruppe tilladelser."
 
 #. Template: AdminCustomerUser
 msgid "Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it."
-msgstr ""
+msgstr "Tabellen ovenfor viser de effektive gruppetilladelser for kunde brugeren. Matrixen viser alle nedarvede tilladelser (f.eks. via kunde grupper). Bemærk: Denne tabel tager ikke ændringer med, der er lavet i denne formular, uden at submitte den."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "Kunde adgang"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1419,15 +1419,15 @@ msgstr "Kunde"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "Denne kunde har ingen kunde adgang."
 
 #. Template: AdminCustomerUser
 msgid "Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it."
-msgstr ""
+msgstr "Tabellen ovenfor viser tilladelser for kunde brugeren i tilladelsekontekst. Matrixen viser alle nedarvede tilladelser (f.eks. via kunde grupper). Bemærk: Denne tabel tager ikke ændringer med, der er lavet i denne formular, uden at submitte den."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "Administrer Kunde og Kundebruger relationer"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
@@ -1439,11 +1439,11 @@ msgstr "Kundebrugere"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "Ændr Kunde relationer for Kundebruger"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "Ændr Kundebruger relationer for Kunde"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
@@ -1459,43 +1459,44 @@ msgstr "Skift aktiv tilstand for %s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "Administrer Kundebruger/Gruppe-relationer"
 
 #. Template: AdminCustomerUserGroup
 msgid "Just use this feature if you want to define group permissions for customer users."
-msgstr ""
+msgstr "Brug denne funktion, hvis du vil definere gruppetilladelser for kundebrugere."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "Ændr standardgrupper for kundebruger"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "Disse grupper tildeles automatisk til alle kundebrugere."
 
 #. Template: AdminCustomerUserGroup
 msgid "You can manage these groups via the configuration setting \"CustomerGroupAlwaysGroups\"."
 msgstr "Du kan administrere disse grupper via konfigurationsindstillingen \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
+#, fuzzy
 msgid "Filter for groups"
 msgstr ""
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "Vælg kundebruger:gruppe-tilladelser."
 
 #. Template: AdminCustomerUserGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user)."
-msgstr ""
+msgstr "Hvis intet er velgt, er der ingen tilladelser i denne gruppe (sager vil ikke være tilgængelige for kundebrugeren)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "Kundebruger standardgrupper:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "Administrer Kundebruger/Service-relationer"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
@@ -1506,6 +1507,7 @@ msgid "Filter for Services"
 msgstr "Filter for services"
 
 #. Template: AdminCustomerUserService
+#, fuzzy
 msgid "Filter for services"
 msgstr ""
 
@@ -1523,15 +1525,15 @@ msgstr "Tilføj nyt felt for objekt"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "Filter for dynamiske felter"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "Filter for dynamiske felter"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Nye OTOBO felter"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
@@ -1543,15 +1545,15 @@ msgstr "Database"
 
 #. Template: AdminDynamicField
 msgid "Use external databases as configurable data sources for this dynamic field."
-msgstr ""
+msgstr "Brug eksterne databaser som konfigurerbare data kilder for dette dynamiske felt."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "Web Tjeneste"
 
 #. Template: AdminDynamicField
 msgid "External web services can be configured as data sources for this dynamic field."
-msgstr ""
+msgstr "Eksterne web tjenester kan konfigureres som data kilder til dette dynamiske felt."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
@@ -1587,23 +1589,23 @@ msgstr "Slet dette felt"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Import / Eksport"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module."
-msgstr ""
+msgstr "Her kan du uploade en konfigurationsfil til import af dynamiske felter til dit system. Filen skal være i samme .yml format som dynamiske felt modulet eksporter."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importer dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Eksporter dynamiske felter"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Dynamiske felter overflade"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
@@ -1651,7 +1653,7 @@ msgstr "Dette er rækkefølgen som dette felt vil blive vist på skærmbilleder,
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Is not possible to invalidate this entry, all config settings have to be changed beforehand."
-msgstr ""
+msgstr "Det er ikke muligt at invalidere denne indgang, før alle konfigurationsindstillinger er ændret."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1671,7 +1673,7 @@ msgstr "Dette felt er beskyttet og kan ikke slettes."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Dette dynamiske felt bliver brugt i de følgende indstillinger:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1687,11 +1689,11 @@ msgstr "Dette er standardværdien for dette felt."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Tilføj eller rediger kontakter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "To add contacts to this field please fill out all the needed information and save it."
-msgstr ""
+msgstr "For at tilføje kontakter til dette felt, skal alle obligatoriske felter udfyldes og gemmes først."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the 'Tickets' menu."
@@ -1699,15 +1701,15 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Navnefelt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "ValidID felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Andre felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1723,7 +1725,7 @@ msgstr "Fjern værdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Tilføj felt"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1731,19 +1733,19 @@ msgstr "Tilføj værdi"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Dette er de mulige attributter for kontakter."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Obligatoriske felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' are always mandatory and doesn't have to be listed here."
-msgstr ""
+msgstr "Kommasepareret list af obligatoriske nøgler (valgfri). Nøglerne 'Navn' og 'ValidID' er altid obligatoriske, og skal ikke listes her."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Sorterede felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically."
@@ -1751,7 +1753,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Søgbare felter"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of searchable keys (optional). Key 'Name' is always searchable and doesn't have to be listed here."
@@ -1779,7 +1781,7 @@ msgstr "Mulige værdier"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Datatype"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -1787,11 +1789,11 @@ msgstr "Filter"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Søgefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Listefelt"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -1807,7 +1809,7 @@ msgstr "Eksempel"
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
-msgstr ""
+msgstr "Link til forhåndsvisning"
 
 #. Template: AdminDynamicFieldDB
 msgid "If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too."
@@ -1819,11 +1821,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Driver"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -1847,7 +1849,7 @@ msgstr "Identifikator"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Skal være en unik kolonne fra tabellen, som angivet i Tabel/Oversigt."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -1855,19 +1857,19 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Søgepræfix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Søgesuffix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Resultat begrænsning"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
@@ -1911,7 +1913,7 @@ msgstr "År frem, der skal vises (standard: 5 år)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' instead of 'uri' filter."
-msgstr ""
+msgstr "Hvis specielle karakterer (&, @, :, /, etc.) ikke skal encodes, brug 'url' istedet for 'uri' filter."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -1943,7 +1945,7 @@ msgstr "Aktiver dette punkt for at vise værdier som et træ."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
@@ -1951,7 +1953,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Vælg de ønskede elementer og bekræft importen med 'import'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format."
@@ -1971,7 +1973,7 @@ msgstr "Felter"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Skærme"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
@@ -1987,7 +1989,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Tilføj dynamisk felt"
 
 #. Template: AdminDynamicFieldScreen
 msgid "You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list."
@@ -1999,7 +2001,7 @@ msgstr "Det er også muligt at arrangere elementerne i listen v.h.a. træk og sl
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrer tilgængelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
@@ -2007,11 +2009,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Tilgængelige elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrer disablede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
@@ -2023,7 +2025,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Disablede elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
@@ -2039,7 +2041,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Tildelte elementer"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
@@ -2107,15 +2109,15 @@ msgstr "Skabelon"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Stil"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "fed"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "kursiv"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
@@ -2135,7 +2137,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Farve i hex."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2147,7 +2149,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Invoker"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The invoker to be used to perform requests (invoker needs to be of type 'Generic::PassThrough')."
@@ -2171,7 +2173,7 @@ msgstr ""
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "Admin besked"
 
 #. Template: AdminEmail
 msgid "With this module, administrators can send messages to agents, group or role members."
@@ -2227,19 +2229,19 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "Tilføj job"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "Kør job"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "Filtrer jobs"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "Filtrer jobs"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2407,7 +2409,7 @@ msgstr "Dynamiske felter"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Tilføj dynamisk felt"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2611,7 +2613,7 @@ msgstr "Tildel ny sagsejer"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "Nyt kunde-ID"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
@@ -2987,7 +2989,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "Dette felt skal enten indeholde et positivt tal, eller være tomt."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
@@ -3067,7 +3069,7 @@ msgstr "Betingelse"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "Rediger denne event"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
@@ -3111,7 +3113,7 @@ msgstr "Generelle Indstillinger"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "Event type"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
@@ -3131,7 +3133,7 @@ msgstr "Fjern denne betingelse"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking"
-msgstr ""
+msgstr "Linktype"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add a new Field"
@@ -3375,11 +3377,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "Tilføj handling"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "Rediger handling"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
@@ -3491,7 +3493,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "Timeout"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
@@ -3507,7 +3509,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "BasicAuth bruger"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
@@ -3515,7 +3517,7 @@ msgstr "Brugernavnet, der skal anvendes for at tilgå fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "BasicAuth password"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
@@ -3575,31 +3577,31 @@ msgstr "Vis eller skjul SSL-muligheder for at forbinde til fjernsystemet."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "Klient certifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL client certificate file (must be in PEM, DER or PKCS#12 format)."
-msgstr ""
+msgstr "Den fulde sti og navn på SSL klient certifikat fil (skal være i PEM, DER eller PKCS#12 format)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/certificate.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "Klient certifikat nøgle"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the SSL client certificate key file (if not already included in certificate file)."
-msgstr ""
+msgstr "Den fulde sti og navn på SSL klient certifikat nøgle fil (hvis ikke allerede inkluderet i certifikat filen)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "f.eks. /opt/otobo/var/certificates/SOAP/key.pem"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "Klient certifikat nøgle adgangskode"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
@@ -3607,7 +3609,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
-msgstr ""
+msgstr "Certification Authority (CA) certifikat"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The full path and name of the certification authority certificate file that validates SSL certificate."
@@ -3663,11 +3665,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "f.eks. https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
-msgstr ""
+msgstr "Angiv SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
@@ -3703,7 +3705,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "SOAPAction separator"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
@@ -3715,7 +3717,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr ""
+msgstr "SOAPAction fritekst"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
@@ -3775,7 +3777,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO will process."
-msgstr ""
+msgstr "Her kan du angive den maksimale størrelse (i bytes) på SOAP beskeder, som OTOBO vil behandle."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
@@ -3799,7 +3801,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "Element"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Outbound sort order for xml fields (structure starting below function name wrapper) - see documentation for SOAP transport."
@@ -3807,15 +3809,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "Tilføj Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "Rediger Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "Klon Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
@@ -3827,7 +3829,7 @@ msgstr "Klon"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "Eksporter Webservice"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
@@ -3843,7 +3845,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Here you can specify a name for the webservice. If this field is empty, the name of the configuration file is used as name."
-msgstr ""
+msgstr "Her kan du angive et navn til webservicen. Hvis dette felt er tomt, anvendes navnet på konfigurationsfilen."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
@@ -3851,7 +3853,7 @@ msgstr "Importer"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "Konfigurationshistorik"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
@@ -3863,7 +3865,7 @@ msgstr "Vil du virkelig slette denne web-service?"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "Ready2Adopt-Webservices"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s."
@@ -3875,7 +3877,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Importer Ready2Adopt web service"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services."
@@ -3891,7 +3893,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "Fjernsystem"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
@@ -3915,15 +3917,15 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
-msgstr ""
+msgstr "Netværk transport"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "Fejlhåndterings modul"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error handling modules are used to react in case of errors during the communication. Those modules are executed in a specific order, which can be changed by drag and drop."
-msgstr ""
+msgstr "Fejlhåndterings moduler bruges til at reagere på fejl under kommunikationen. Disse moduler udføres i en specifik rækkefølge, som kan ændres via drag and drop."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
@@ -3931,7 +3933,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "Tilføj fejlhåndterings modul"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Operations are individual system functions which remote systems can request."
@@ -24577,6 +24579,10 @@ msgid "When tickets are merged, the customer can be informed per email by settin
 msgstr ""
 
 #. SysConfig
+msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "Whether fields should be automatically filled (1), and in that case also be hidden from ticket formulars (2)."
 msgstr ""
 
@@ -24871,7 +24877,35 @@ msgstr ""
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Dette tillader systemet at sende tekstbeskeder via SMS."
 
+#. Template: OTRSDBSettings
+msgid "DSN"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr ""
+
 #. SysConfig
-msgid "Whether extended customer information is shown in the ticket print screen of the customer interface."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgstr ""
+
+#. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Open the OTOBO home page in a new window"
+msgstr ""
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
 msgstr ""
 

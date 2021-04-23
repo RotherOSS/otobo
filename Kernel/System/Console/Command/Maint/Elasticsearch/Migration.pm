@@ -26,6 +26,7 @@ use Kernel::System::VariableCheck qw(:all);
 use parent qw(Kernel::System::Console::BaseCommand);
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ForeachToFor)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -33,12 +34,10 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerUser',
     'Kernel::System::Elasticsearch',
-    'Kernel::System::GeneralCatalog',
     'Kernel::System::GenericInterface::Webservice',
-    'Kernel::System::ITSMConfigItem',
-    'Kernel::System::Package',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
+    'Kernel::System::Package',
 );
 
 sub Configure {
@@ -60,7 +59,14 @@ sub Configure {
         HasValue    => 1,
         ValueRegex  => qr/^\d+$/smx,
     );
-
+    $Self->AddOption(
+        Name        => 'use-customer-batches',
+        Description =>
+            "Some LDAP or AD servers limit the return of results. In this case we can still get all the results by splitting the queries. 1: splits the queries into searches for a-z, a0-z9, 0-9. 2: aa-zz, a0-z9 and 0-9.",
+        Required   => 0,
+        HasValue   => 1,
+        ValueRegex => qr/^\d$/smx,
+    );
     return;
 }
 
@@ -110,8 +116,9 @@ sub Run {
         return 0;
     }
 
-    my $Targets    = $Self->GetOption('target') || 'tuci';
-    my $MicroSleep = $Self->GetOption('micro-sleep');
+    my $Targets            = $Self->GetOption('target') || 'tuci';
+    my $MicroSleep         = $Self->GetOption('micro-sleep');
+    my $CustomerLimitLevel = $Self->GetOption('use-customer-batches') || '0';
 
     if ( $Targets =~ /t|i/ ) {
         $Self->CreateAttachmentPipeline(
@@ -132,6 +139,7 @@ sub Run {
             ESObject => $ESObject,
             Config   => $Config,
             Sleep    => $MicroSleep,
+            LimitLevel => $CustomerLimitLevel
         );
     }
 
@@ -299,11 +307,35 @@ sub MigrateCustomerUsers {
     my ( $Self, %Param ) = @_;
 
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my %CustomerUserList   = $CustomerUserObject->CustomerSearch(
-        Search => '*',
-        Valid  => 1,
-        Limit  => 4_000_000,
-    );
+    my %CustomerUserList;
+    my $CustomerLimitLevel = $Param{LimitLevel};
+
+    # No special search, search all customers together
+    if ( $CustomerLimitLevel == 0 ) {
+        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+            Search => '*',
+            Valid  => 1,
+            Limit  => 4_000_000,
+        );
+    }
+    elsif ( $CustomerLimitLevel >= 1 ) {
+
+        # Search with CustomerUserLimit x a..z
+        for my $Letter ( "a" x $CustomerLimitLevel .. "z" x $CustomerLimitLevel, 'a0' .. 'z9', '0' .. '9' ) {
+
+            $Self->Print(
+                "<green>Search for all customeruser like: $Letter*.</green>\n"
+            );
+
+            my %CustomerUserListNew = $CustomerUserObject->CustomerSearch(
+                Search => $Letter . '*',
+                Valid  => 1,
+                Limit  => 4_000_000,
+            );
+
+            %CustomerUserList = ( %CustomerUserList, %CustomerUserListNew );
+        }
+    }
 
     my %IndexName = (
         index => 'customeruser',

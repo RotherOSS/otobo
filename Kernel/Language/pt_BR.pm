@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.909607270366764;
+    $Self->{Completeness}        = 0.923750811161583;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2935,7 +2935,7 @@ sub Data {
         'go back to the previous page' => 'retornar à página anterior',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Mit einem Klick erkläre ich meine Zustimmung.' => 'Dou meu consentimento com um clique.',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -2947,7 +2947,7 @@ sub Data {
         'From assigned Customer IDs' => 'De IDs de Cliente designados.',
 
         # Template: CustomerDashboard
-        'Ticket Search' => '',
+        'Ticket Search' => 'Procurar chamado',
         'New Ticket' => 'Novo Chamado',
 
         # Template: CustomerError
@@ -2956,7 +2956,7 @@ sub Data {
         'Traceback' => 'Rastreamento',
 
         # Template: CustomerFooter
-        'Powered by %s' => '',
+        'Powered by %s' => 'Desenvolvido por %s',
 
         # Template: CustomerFooterJS
         '%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own.' =>
@@ -2975,9 +2975,9 @@ sub Data {
         'Please see the documentation or ask your admin for further information.' =>
             'Por favor, consulte a documentação ou pergunte ao seu administrador para mais informações.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
-            '',
+            'O navegador que você está usando não oferece suporte a css-grid. Provavelmente é muito antigo.',
         'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
-            '',
+            'O Internet Explorer é funcional, mas nem todos os recursos são totalmente suportados. Considere atualizar para um navegador moderno.',
         'One moment please, you are being redirected...' => 'Um momento por favor, você está sendo redirecionado...',
         'Login' => 'Login',
         'Your user name' => 'Seu nome de usuário',
@@ -2987,7 +2987,7 @@ sub Data {
         'Your 2 Factor Token' => 'Seu fator de 2 autenticação',
         '2 Factor Token' => 'Fator de 2 autenticação',
         'Log In' => 'Entrar',
-        'Request Account' => '',
+        'Request Account' => 'Solicitar conta',
         'Request New Password' => 'Solicitar uma nova senha',
         'Your User Name' => 'Seu Nome de Usuário',
         'A new password will be sent to your email address.' => 'Uma nova senha será enviada ao seu e-mail.',
@@ -3002,26 +3002,26 @@ sub Data {
         'Logout' => 'Sair',
 
         # Template: CustomerPassword
-        'Change Password' => '',
+        'Change Password' => 'Alterar Senha',
         'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
-            '',
+            'A senha deve conter pelo menos 3 das classes de caracteres: caractere minúsculo, caractere maiúscula, dígito, caractere especial.',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
+        'Nr.' => 'N.º',
         'Welcome!' => 'Bem-vindo!',
         'You have no tickets yet. Please click here, to create a new one.' =>
-            '',
-        'Nothing to show.' => '',
-        'Click here for an unfiltered list of all your tickets.' => '',
+            'Você ainda não tem chamados. Clique aqui para criar um novo.',
+        'Nothing to show.' => 'Nada para exibir.',
+        'Click here for an unfiltered list of all your tickets.' => 'Clique aqui para obter uma lista sem filtro de todos os seus tickets.',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => 'Criar um novo Ticket',
         'Service level agreement' => 'Acordo de nível de serviço',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => '',
+        'Your Tickets' => 'Seus Tickets',
         'Page' => 'Página',
-        'Sort' => '',
+        'Sort' => 'Ordenar',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Perfil',
@@ -3051,22 +3051,22 @@ sub Data {
 
         # Template: CustomerTicketZoom
         'Reply' => 'Responder',
-        'Discard' => '',
+        'Discard' => 'Descartar',
         'Ticket Information' => 'Informação do Chamado',
-        'Categories' => '',
-        'Further actions' => '',
+        'Categories' => 'Categorias',
+        'Further actions' => 'Ações futuras',
 
         # Template: Chat
         'Expand article' => 'Expandir artigo',
 
         # Template: MIMEBase
-        'Article Information' => '',
+        'Article Information' => 'Informações de artigos',
 
         # Template: CustomerWarning
         'Warning' => 'Aviso',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => 'Emitir%sa ticket',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Informação do Evento',
@@ -3106,7 +3106,6 @@ sub Data {
         'Welcome to %s' => 'Bem-vindo a %s',
         'Germany' => 'Alemanha',
         'Phone' => 'Telefone',
-        'Switzerland' => '',
         'Web site' => 'Website',
 
         # Template: InstallerConfigureMail
@@ -3179,9 +3178,9 @@ sub Data {
         'SystemID' => 'ID do sistema',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'O identificador do sistema. Cada número de chamado e cada ID de sessão HTTP conterão esse número.',
-        'HTTP Type' => '',
+        'HTTP Type' => 'Tipo de HTTP',
         'Set the request scheme used for cookies and various links. For production purposes always use https.' =>
-            '',
+            'Defina o esquema de solicitação usado para cookies e vários links. Para fins de produção, sempre use https.',
         'System FQDN' => 'FQDN do sistema',
         'Fully qualified domain name of your system.' => 'Nome de domínio completamente qualificado do seu sistema.',
         'AdminEmail' => 'E-mail dos Administradores',
@@ -3197,10 +3196,10 @@ sub Data {
         'CheckMXRecord' => 'Verificar Registro MX',
         'Email addresses that are manually entered are checked against the MX records found in DNS. Don\'t use this option if your DNS is slow or does not resolve public addresses.' =>
             'Endereços de e-mail que são inseridos manualmente são confrontados com os registros MX encontrados no DNS. Não use esta opção se o seu DNS é lento ou não resolve endereços públicos.',
-        'Elasticsearch' => '',
-        'Initialize Elasticsearch' => '',
+        'Elasticsearch' => 'Elasticsearch',
+        'Initialize Elasticsearch' => 'Inicializar Elasticsearch',
         'Elasticsearch server was found, and it has been activated automatically for OTOBO.' =>
-            '',
+            'Servidor Elasticsearch foi encontrado, e será automaticamente ativado no OTOBO.',
         'Seemingly either no clean Elasticsearch server is running, or it is not using the standard configuration. To activate Elasticsearch manually, please edit the web service in the admin interface if necessary, activate \'Elasticsearch::Active\' and \'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext\' in the SysConfig and run the otobo.Console command \'Maint::Elasticsearch::Migration\'.' =>
             '',
 
@@ -3223,60 +3222,61 @@ sub Data {
             'Uma prévia deste site não pode ser fornecida porque ele não é permitido ser embutido.',
 
         # Template: Copy
-        'Start migration' => '',
-        'Result of data migration' => '',
-        'Last successful task:' => '',
+        'Start migration' => 'Iniciar migração',
+        'Result of data migration' => 'Resultado da migração de dados',
+        'Last successful task:' => 'Última tarefa bem-sucedida:',
         'Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime.' =>
-            '',
-        'Clean up and finish' => '',
+            'A migração será reiniciada a partir da última tarefa concluída com êxito. Por favor, execute uma nova execução completa se você alterou seu sistema nesse meio tempo.',
+        'Clean up and finish' => 'Limpe e termine',
 
         # Template: Finish
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
-            '',
+            'A migração foi concluída, obrigado por experimentar o OTOBO - esperamos que goste.',
 
         # Template: Intro
         'This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10.' =>
-            '',
+            'Este script de migração o conduzirá passo a passo pelo processo de migração de seu sistema de tíquetes do OTRS ou (((OTRS)) Community Edition versão 6 para o OTOBO 10.',
         'There is no danger whatsoever for your original system: nothing is changed there.' =>
-            '',
+            'Não há perigo algum para o seu sistema original: nada é alterado nele.',
         'Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration.' =>
-            '',
+            'Instruções e detalhes sobre os pré-requisitos de migração podem ser encontrados no manual de migração. É altamente recomendável lê-lo antes de iniciar a migração.',
         'In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted.' =>
-            '',
+            'Caso seja necessário suspender a migração, você pode retomá-la a qualquer momento no mesmo ponto, desde que o cache não tenha sido excluído.',
         'All entered passwords are cached until the migration is finished.' =>
-            '',
+            'Todas as senhas inseridas são armazenadas em cache até que a migração seja concluída.',
         ' Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again.' =>
-            '',
-        'If you need support, just ask our experts – either at' => '',
-        'OTOBO forum' => '',
-        'or directly via mail to' => '',
-        'Cached data found' => '',
+            ' Qualquer pessoa com acesso a esta página ou permissão de leitura para o diretório inicial do OTOBO poderá lê-los. Se você abortar a migração, terá a opção de limpar o cache visitando esta página novamente.',
+        'If you need support, just ask our experts – either at' => 'Se precisar de suporte, pergunte aos nossos especialistas - em',
+        'OTOBO forum' => 'Fórum OTOBO',
+        'or directly via mail to' => 'ou diretamente por e-mail para',
+        'Cached data found' => 'Dados armazenados em cache encontrados',
         'You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress.' =>
-            '',
-        'An error occured.' => '',
-        'Discard previous progress' => '',
-        'Insecure HTTP connection' => '',
+            'Você continuará de onde abortou a migração da última vez. Se você não quiser isso, descarte seu progresso anterior.',
+        'An error occured.' => 'Um erro ocorreu.',
+        'Discard previous progress' => 'Descartar o progresso anterior',
+        'Insecure HTTP connection' => 'Conexão HTTP insegura',
         'You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead.' =>
             '',
-        'Continue anyways :(' => '',
-        ' Continue anyways :(' => '',
+        'Continue anyways :(' => 'Continue assim mesmo :(',
+        ' Continue anyways :(' => ' Continue assim mesmo :(',
 
         # Template: OTRSDBSettings
-        'Skip DB migration' => '',
+        'DSN' => '',
+        'Skip DB migration' => 'Pular migração do Banco de Dados',
         'Expert option! Only works if the migration has already been done by hand.' =>
-            '',
-        'Skipped.' => '',
+            'Opção Expert! Só funciona se a migração já tiver sido feita manualmente.',
+        'Skipped.' => 'Ignorado.',
 
         # Template: OTRSFileSettings
-        'OTRS server' => '',
-        'SSH User' => '',
-        'OTRS home directory' => '',
-        'Check settings' => '',
-        'Result of settings check' => '',
-        'Settings check successful.' => '',
+        'OTRS server' => 'Servidor OTRS',
+        'SSH User' => 'Usuário SSH',
+        'OTRS home directory' => 'Diretório home do OTRS',
+        'Check settings' => 'Verifique as configurações',
+        'Result of settings check' => 'Resultado da verificação das configurações',
+        'Settings check successful.' => 'Verificação das configurações bem-sucedida.',
 
         # Template: PreChecks
-        'Execute migration pre-checks' => '',
+        'Execute migration pre-checks' => 'Executar verificações prévias de migração',
 
         # Template: MobileNotAvailableWidget
         'Feature not Available' => 'Funcionalidade não Disponível',
@@ -3397,8 +3397,8 @@ sub Data {
             'Lembre-se de que a escala do Eixo Y tem que ser maior do que a escala do Eixo X (Por exemplo, Eixo X => Mês, Eixo Y => Ano).',
 
         # Template: SettingHistoryListCompare
-        'On ' => '',
-        'Reset to this value' => '',
+        'On ' => 'Ligado ',
+        'Reset to this value' => 'Redefinir para este valor',
 
         # Template: SettingsList
         'This setting is disabled.' => 'Esta definição está desativada.',
@@ -3470,7 +3470,7 @@ sub Data {
         'Navigation' => 'Navegação',
 
         # Template: UsersSettingListCompare
-        'Delete user\'s value.' => '',
+        'Delete user\'s value.' => 'Exclua o valor do usuário.',
 
         # Template: Test
         'OTOBO Test Page' => 'Página de Teste do Gerenciador de Chamados',
@@ -3498,24 +3498,24 @@ sub Data {
         'Loading, please wait...' => 'Carregando, por favor aguarde...',
 
         # JS Template: ToggleMoreLessCustomer
-        'Show all' => '',
-        'Show less' => '',
+        'Show all' => 'Mostrar todo',
+        'Show less' => 'Mostrar menos',
 
         # JS Template: UploadContainer
         'Click to select a file for upload.' => 'Clique para selecionar um arquivo para carregar.',
-        'Click to select or drop files here.' => '',
+        'Click to select or drop files here.' => 'Clique para selecionar ou soltar arquivos aqui.',
         'Click to select files or just drop them here.' => 'Clique para selecionar os arquivos ou apenas arraste-os aqui.',
         'Click to select a file or just drop it here.' => 'Clique para selecionar o arquivo ou arraste-o aqui.',
         'Uploading...' => 'Carregando...',
 
         # JS Template: MigrationState
-        'Time needed' => '',
+        'Time needed' => 'Tempo necessário',
 
         # JS Template: PackageResolve
-        'Package' => '',
-        'Uninstall from OTOBO' => '',
-        'Ignore' => '',
-        'Migrate' => '',
+        'Package' => 'Pacote',
+        'Uninstall from OTOBO' => 'Desinstalar do OTOBO',
+        'Ignore' => 'Ignorar',
+        'Migrate' => 'Migrar',
 
         # JS Template: InformationDialog
         'Process state' => 'Estado de processo',
@@ -3675,15 +3675,15 @@ sub Data {
         'second' => 'segundo',
 
         # Perl Module: Kernel/Modules/AdminContactWD.pm
-        'No contact is given!' => '',
-        'No data found for given contact in given source!' => '',
-        'Contact updated!' => '',
-        'No field data found!' => '',
-        'Contact created!' => '',
-        'Error creating contact!' => '',
+        'No contact is given!' => 'Nenhum contato é fornecido!',
+        'No data found for given contact in given source!' => 'Nenhum dado encontrado para determinado contato em determinada fonte!',
+        'Contact updated!' => 'Contato atualizado!',
+        'No field data found!' => 'Nenhum dado encontrado no campo!',
+        'Contact created!' => 'Contato criado!',
+        'Error creating contact!' => 'Erro ao criar contato!',
         'No sources found, at least one "Contact with data" dynamic field must be added to the system!' =>
             '',
-        'No data found for given source!' => '',
+        'No data found for given source!' => 'Nenhum dado encontrado para a fonte fornecida!',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Empresa de cliente atualizada!',
@@ -3741,7 +3741,7 @@ sub Data {
         'Checked' => 'Marcado',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
-        'This field key is duplicated.' => '',
+        'This field key is duplicated.' => 'Esta chave de campo está duplicada.',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
         'This field value is duplicated.' => 'O valor deste campo está duplicado.',
@@ -3751,11 +3751,11 @@ sub Data {
         'Prevent entry of dates in the past' => 'Prevenir entrada de datas no passado',
 
         # Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
-        'Settings were saved.' => '',
-        'System was not able to save the setting!' => '',
+        'Settings were saved.' => 'As configurações foram salvas.',
+        'System was not able to save the setting!' => 'O sistema não conseguiu salvar a configuração!',
         'Setting is locked by another user!' => 'Definição está bloqueada por um outro usuário!',
         'System was not able to reset the setting!' => 'O sistema não conseguiu redefinir a definição!',
-        'Settings were reset.' => '',
+        'Settings were reset.' => 'As configurações foram redefinidas.',
 
         # Perl Module: Kernel/Modules/AdminEmail.pm
         'Select at least one recipient.' => 'Selecione pelo menos um destinatário.',
@@ -3958,7 +3958,7 @@ sub Data {
         'Can\'t read %s!' => 'Não pôde ser lido %s!',
         'File is OK' => 'Arquivo está ok',
         'Package has locally modified files.' => 'Pacote possui arquivos locais modificados.',
-        'Package not verified by the OTOBO Team!' => '',
+        'Package not verified by the OTOBO Team!' => 'Pacote não verificado pela equipe OTOBO!',
         'Not Started' => 'Não Iniciado',
         'Updated' => 'Atualizado',
         'Already up-to-date' => 'Atual',
@@ -4163,7 +4163,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
         'This deployment does not contain changes in the setting values!' =>
             '',
-        'No DeploymentID received!' => '',
+        'No DeploymentID received!' => 'DeploymentID não recebido!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
         'You need to enable the setting before locking!' => 'Você precisa ativar esta definição antes de bloquear!',
@@ -4179,15 +4179,15 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
         'No setting name received!' => '',
-        'Modified Version' => '',
-        'Reset To Default' => '',
-        'Default Version' => '',
+        'Modified Version' => 'Versão modificada',
+        'Reset To Default' => 'Restaurar ao padrão',
+        'Default Version' => 'Versão Padrão',
         'No setting name or modified version id received!' => '',
-        'Was not possible to revert the historical value!' => '',
+        'Was not possible to revert the historical value!' => 'Não foi possível reverter para o valor histórico!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
         'Missing setting name or modified id!' => '',
-        'System was not able to delete the user setting values!' => '',
+        'System was not able to delete the user setting values!' => 'O sistema não foi capaz de apagar os valores da configuração do usuário!',
 
         # Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
         'Start date shouldn\'t be defined after Stop date!' => 'Data inicial não deve ser definida após data final!',
@@ -4624,7 +4624,7 @@ sub Data {
         'Directory "%s" doesn\'t exist!' => 'Diretório "%s" não existe!',
         'Configure "Home" in Kernel/Config.pm first!' => 'Configure "Home" em Kernel/Config.pm primeiro!',
         'File "%s/Kernel/Config.pm" not found!' => 'Arquivo "%s /Kernel/Config.pm não encontrado!',
-        'Directory "%s" not found!' => 'Diretõrio "%s" não encontrado.',
+        'Directory "%s" not found!' => 'Diretório "%s" não encontrado!',
         'Install OTOBO' => 'Instalar o OTOBO',
         'Intro' => 'Introdução',
         'Kernel/Config.pm isn\'t writable!' => 'Kernel/Config.pm não está gravável.',
@@ -5079,7 +5079,6 @@ sub Data {
         'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
-        'Need %s for Oracle db!' => '',
         'System was unable to connect to OTRS database.' => '',
         'System was unable to complete data transfer.' => '',
         'Data transfer completed.' => '',
@@ -5323,8 +5322,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Tamanho Máximo da Query',
-        'The setting \'max_allowed_packet\' must be higher than 64 MB.' =>
-            'A definição \'max_allowed_packet\' deve ser maior que 64 MB.',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Tamanho do Cache de Consulta',
@@ -6616,7 +6614,7 @@ Obrigado pela ajuda!
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure qual tela deve ser mostrada após criar um novo chamado.',
         'Configure your own log text for PGP.' => 'Configure o seu próprio texto de registro para PGP.',
-        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter "Ticket Event Module".' =>
+        'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
             '',
         'Controls how to display the ticket history entries as readable values.' =>
             'Controla como disponibilizar as entradas do histórico de ticket como valores legíveis.',
@@ -6966,6 +6964,8 @@ Obrigado pela ajuda!
         'Defines the config options for the autocompletion feature.' => 'Define as opções de configuração para o recurso de preenchimento automático.',
         'Defines the config parameters of this item, to be shown in the preferences view.' =>
             'Define os parâmetros de configuração deste item para visualização na visão de preferências.',
+        'Defines the config parameters of this item, to be shown in the preferences view. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control). \'PasswordMaxLoginFailed\' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
+            'Define os parâmetros de configuração deste item que serão exibidos na visão de preferências. \'PasswordRegExp\' permite comparar senhas com expressões regulares. Defina o número mínimo de caracteres usando \'PasswordMinSize\'. Defina se pelo menos 2 letras caixa baixa e 2 letras caixa alta são necessárias ao definir a opção apropriada como \'1\'. \'PasswordMin2Characters\' define se a senha deve conter no mínimo 2 letras (definido como 0 ou 1). \'PasswordNeedDigit\' controla a necessidade de pelo menos um dígito numérico (definido como 0 ou 1 para controlar). \'PasswordMaxLoginFailed\' permite definir um agente como inválido temporariamente se o número máximo de tentativas de login incorretas for atingido. Favor observar: definindo \'Active\' para 0 só irá previnir que agentes editem definições deste grupo em suas preferências pessoais, mas ainda permitirá que os administradores editem definições em nome de outro usuário. Utilize \'PreferenceGroup\' para controlar em qual área estas definições devem ser exibidas na interface do usuário.',
         'Defines the config parameters of this item, to be shown in the preferences view. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Define os parâmetros de configuração deste item a serem exibidos na visão de preferências. Favor observar: definindo \'Ativo\' como 0 só irá previnir que agentes editem definições deste grupo em suas preferências pessoais, mas também irá permitir que administradores editem as definições em nome de outro usuário. Utilize \'PreferenceGroup\' para controlar em qual área estas definições devem ser exibidas na interface do usuário.',
         'Defines the connections for http/ftp, via a proxy.' => 'Define as conexões de http/ftp, através de um proxy.',
@@ -6982,7 +6982,7 @@ Obrigado pela ajuda!
             'Define o corpo padrão da nota na tela de ticket de campos livres da interface de agente.',
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Define os campos de filtro padrão na pesquisa de caderno de endereço de usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de Empresa Cliente um prefixo \'CustomerCompany_\' deve ser adicionado.',
-        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/.' =>
+        'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
             '',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Define o idioma padrão do frontend. Todos os valores possíveis são determinados pelos arquivos de idioma disponíveis no sistema (veja a próxima definição).',
@@ -7911,6 +7911,8 @@ Obrigado pela ajuda!
             'Se qualquer mecanismo "SMTP" foi selecioando como SendmailModule, o port que seu servidor de e-mail está escutando para conexões recebidas precisa ser especificado.',
         'If enabled debugging information for ACLs is logged.' => 'Se ativado, informações de depuração para ACLs são registradas.',
         'If enabled debugging information for transitions is logged.' => '',
+        'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
+            '',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             'Se ativado, o Daemon vai redirecionar o fluxo de erro padrão para o arquivo de log.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8209,6 +8211,7 @@ Obrigado pela ajuda!
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             '',
         'Open an external link!' => 'Abra um link externo!',
+        'Open the OTOBO home page in a new window' => '',
         'Open tickets (customer user)' => 'Chamados abertos (usuário cliente)',
         'Open tickets (customer)' => 'Chamados abertos (cliente)',
         'Option' => 'Opção',
@@ -8466,7 +8469,6 @@ Obrigado pela ajuda!
         'Select the main interface language.' => 'Selecione o idioma principal da interface.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Selecione o caractere separador usado em arquivos CSV (estatísticas e pesquisas). Se você não selecionar um separador aqui, o separador padrão para o seu idioma será usado.',
-        'Select your frontend Theme.' => 'Selecione seu tema de interface.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
             'Selecione seu fuso horário pessoal. Todos os horários serão exibidos conforme este fuso horário.',
         'Select your preferred layout for the software.' => 'Selecione seu layout preferido para o software.',
@@ -8501,6 +8503,8 @@ Obrigado pela ajuda!
         'Service Level Agreements' => 'Acordos de Nível de Serviço',
         'Service view' => 'Visão de serviços',
         'ServiceView' => 'Visão de Serviço',
+        'Set a new password by filling in your current password and a new one.' =>
+            'Defina uma nova senha ao preencher sua senha atual e uma nova.',
         'Set sender email addresses for this system.' => 'Configurar endereços de e-mail de remetente para o sistema.',
         'Set the default height (in pixels) of inline HTML articles in AgentTicketZoom.' =>
             '',
@@ -9079,7 +9083,7 @@ Obrigado pela ajuda!
         'This key is not certified with a trusted signature!' => '',
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
-        'This module is being used to extend the password policy.' => '',
+        'This module is being used to extend the password policy.' => 'Este módulo está sendo usado para estender a política de senha.',
         'This module is part of the admin area of OTOBO.' => 'Este modulo é parte da área administrativa do OTOBO.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             'Essa opção define o campo dinâmico em que o ID de Entidade da Atividade de Gerenciamento de Processos é armazenado.',
@@ -9096,7 +9100,7 @@ Obrigado pela ajuda!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => 'Esta configuração está obsoleta. Definir OTOBOTimeZone em vez disso.',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             'Essa configuração mostra os atributos de classificação em toda a tela de visão geral, não apenas na exibição de fila.',
-        'Ticket Close' => '',
+        'Ticket Close' => 'Chamado Fechado',
         'Ticket Close.' => 'Chamado fechado',
         'Ticket Compose Bounce Email.' => 'Compor chamado de devolução de E-mail',
         'Ticket Compose email Answer.' => 'Ticket Compor e-mail de Resposta.',
@@ -9185,7 +9189,7 @@ Obrigado pela ajuda!
         'Use Redis::Fast instead of Redis.' => 'Use Redis::Fast em vez de Redis.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             'Usa novos tipos de campos de seleção e com autocompletar na interface de agente (atendente) quando aplicável (InputFields).',
-        'Use specified Redis logical database.' => '',
+        'Use specified Redis logical database.' => 'Use o banco de dados lógico Redis especificado.',
         'User Profile' => 'Perfil do Usuário',
         'UserFirstname' => 'PrimeiroNome',
         'UserLastname' => 'ÚltimoNome',
