@@ -18,15 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -83,14 +84,14 @@ $Selenium->RunTest(
 
         # Verify only one agent user is accounted for.
         my $AgentsLink = $Selenium->find_element("//a[contains(\@id, \'UserOnlineAgent' )]");
-        $Self->Is(
+        is(
             $AgentsLink->get_text() // '',
             'Agents (1)',
             'Only one agent user accounted for'
         );
 
         if ( $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Agent::UnavailableForExternalChatsOnLogin') ) {
-            $Self->True(
+            ok(
                 1,
                 "UnavailableForExternalChatsOnLogin config is set, skipping test..."
             );
@@ -99,11 +100,11 @@ $Selenium->RunTest(
 
         # Test UserOnline plugin for agent.
         my $ExpectedAgent = "$TestUserLogin";
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), $ExpectedAgent ) > -1,
             "$TestUserLogin - found on UserOnline plugin"
         );
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
             ),
@@ -112,7 +113,7 @@ $Selenium->RunTest(
 
         # Verify only one customer user is accounted for.
         my $CustomersLink = $Selenium->find_element("//a[contains(\@id, \'UserOnlineCustomer' )]");
-        $Self->Is(
+        is(
             $CustomersLink->get_text() // '',
             'Customers (1)',
             'Only one customer user accounted for'
@@ -127,14 +128,14 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('table.DashboardUserOnline a:contains(\"$TestCustomerUserLogin\")').length;"
         );
 
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return \$('table.DashboardUserOnline span.UserStatusIcon.Inline.Active:visible').length"
             ),
             "$TestCustomerUserLogin - found active status icon",
         ) || die;
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('table.DashboardUserOnline a:contains(\"$TestCustomerUserLogin\")').length;"
             ),
@@ -144,4 +145,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
