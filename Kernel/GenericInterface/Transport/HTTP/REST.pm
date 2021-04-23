@@ -431,8 +431,11 @@ Prepare data payload as XML structure, generate an outgoing web service request,
 receive the response and return its data.
 
     my $Result = $TransportObject->RequesterPerformRequest(
-        Operation => 'remote_op', # name of remote operation to perform
-        Data      => {            # data payload for request
+        Operation    => 'remote_op', # name of remote operation to perform
+        Data         => {            # data payload for request
+            ...
+        },
+        CustomHeader => {            # optional
             ...
         },
     );
@@ -609,6 +612,18 @@ sub RequesterPerformRequest {
     {
         $Headers->{Authorization} = 'Basic ' . encode_base64(
             $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
+        );
+    }
+
+    if ( $Param{CustomHeader} ) {
+        $Headers = {
+            %{ $Headers },
+            %{ $Param{CustomHeader} },
+        };
+
+        $Self->{DebuggerObject}->Debug(
+            Summary => "Custom headers used:",
+            Data    => [ keys %{ $Param{CustomHeader} } ],
         );
     }
 
