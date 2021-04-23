@@ -301,8 +301,6 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
-    my $Context = context();
-
     my $CodeSuccess = try_ok {
         $Code->();
     }
@@ -313,8 +311,6 @@ sub RunTest {
         # HandleError() will create screenshots of the open windows
         $Self->HandleError($@);
     }
-
-    $Context->release();
 
     return;
 }
