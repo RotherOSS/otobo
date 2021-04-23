@@ -1909,8 +1909,19 @@ via the Preferences button after logging in.
 
     # Elasticsearch settings needed for installer.pl
     $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
-        'NS'      => '1',
-        'NR'      => '0',
+        'NS'          => '1',
+        'NR'          => '0',
+        'FieldsLimit' => '2000',
+    };
+
+    # Elasticsearch index definition
+    # Config is replaced by Elasticsearch::ArticleIndexCreationSettings at run time.
+    $Self->{'Elasticsearch::IndexSettings'} = {
+        index => {
+            number_of_shards   => '[% Data.NS | uri %]',
+            number_of_replicas => '[% Data.NR | uri %]',
+        },
+        'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
     };
 
     return 1;

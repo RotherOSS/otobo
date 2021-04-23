@@ -9213,6 +9213,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="NS">1</Item>
                 <Item Key="NR">0</Item>
+                <Item Key="FieldsLimit">2000</Item>
             </Hash>
         </Value>
     </Setting>
