@@ -343,7 +343,7 @@ sub VerifiedGet {
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+        );
     };
 
     my $Pass = run_subtest(
@@ -383,7 +383,7 @@ sub VerifiedRefresh {
         $Self->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+        );
     };
 
     my $Pass = run_subtest(
