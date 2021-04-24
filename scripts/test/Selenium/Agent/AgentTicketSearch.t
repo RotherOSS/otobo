@@ -323,10 +323,9 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
                 # Verify the alert message.
-                my $ExpectedAlertText = "Fulltext: $MinCharString";
                 like(
                     $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
+                    qr/\QFulltext: $MinCharString\E/,
                     'Minimum character string search warning is found',
                 );
 
@@ -343,10 +342,9 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
                 # Verify the alert message.
-                $ExpectedAlertText = "Fulltext: $MaxCharString";
                 like(
                     $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
+                    qr/Fulltext: $MaxCharString/,
                     'Maximum character string search warning is found',
                 );
 
@@ -363,10 +361,9 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
                 # Verify the alert message.
-                $ExpectedAlertText = "\nFulltext: because";
                 like(
                     $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
+                    qr/\Q\nFulltext: because\E/,
                     'Stop word search string warning is found',
                 );
 
@@ -390,10 +387,9 @@ $Selenium->RunTest(
                 $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
                 # Verify the alert message.
-                $ExpectedAlertText = "\nSubject: because";
                 like(
                     $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
+                    qr/\Q\nSubject: because\E/,
                     'Stop word search string warning is found',
                 );
 
