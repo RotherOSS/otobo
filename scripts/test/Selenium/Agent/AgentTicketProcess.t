@@ -842,15 +842,19 @@ $Selenium->RunTest(
         # Click 'Deploy ACLs'.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
 
-        # Cleanup DynamicField.
-        for my $DynamicFieldID (@DynamicFieldIDs) {
+        {
+            my $ToDo = todo('DynamicFieldDelete() might have a problem. See https://github.com/RotherOSS/otobo/issues/963');
 
-            # Delete created test DynamicField.
-            my $Success = $DynamicFieldObject->DynamicFieldDelete(
-                ID     => $DynamicFieldID,
-                UserID => 1,
-            );
-            ok( $Success, "DynamicFieldID $DynamicFieldID is deleted" );
+            # Cleanup DynamicField.
+            for my $DynamicFieldID (@DynamicFieldIDs) {
+
+                # Delete created test DynamicField.
+                my $Success = $DynamicFieldObject->DynamicFieldDelete(
+                    ID     => $DynamicFieldID,
+                    UserID => 1,
+                );
+                ok( $Success, "DynamicFieldID $DynamicFieldID is deleted" );
+            }
         }
 
         # Restore state of process.

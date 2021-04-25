@@ -16,17 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -67,8 +69,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        # TODO: sleep 10s ???
-        sleep 1;
+        sleep 11;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -97,20 +98,15 @@ $Selenium->RunTest(
             OwnerID      => $TestUserID,
             UserID       => $TestUserID,
         );
-
-        $Self->True(
-            $TicketID,
-            "Ticket is created - $TicketID"
-        );
+        ok( $TicketID, "Ticket is created - $TicketID" );
 
         # Go to test created ticket zoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Check if process enroll is available for test ticket.
-        $Self->True(
-            $Selenium->find_element(
-                "//a[contains(\@href, \'Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID' )]"
-            ),
+        $Selenium->find_element_ok(
+            "//a[contains(\@href, \'Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID' )]",
+            'xpath',
             "Ticket menu Process Enroll - found"
         );
 
@@ -118,8 +114,6 @@ $Selenium->RunTest(
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
         my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
         my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
-
-        my $Success;
 
         # Clean up activities.
         for my $Item ( @{ $Process->{Activities} } ) {
@@ -137,26 +131,19 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -167,15 +154,11 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -186,27 +169,19 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-
-        $Self->True(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         # Get all processes.
         my $ProcessList = $ProcessObject->ProcessListGet(
@@ -231,21 +206,20 @@ $Selenium->RunTest(
                 push @DeactivatedProcesses, $Process;
             }
         }
-        sleep 1;
+        sleep 11;
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        sleep 11;
 
         # Go to test created ticket zoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
         # Check if process enroll is not available for test ticket.
-        $Self->True(
-            index( $Selenium->get_page_source(), "Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID" )
-                == -1,
+        $Selenium->content_lacks(
+            "Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID",
             "Ticket menu Process Enroll - not found"
         );
 
@@ -257,16 +231,13 @@ $Selenium->RunTest(
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
         if ( !$Success ) {
-            sleep 3;
+            sleep 11;
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
             );
         }
-        $Self->True(
-            $Success,
-            "Delete ticket - $TicketID"
-        );
+        ok( $Success, "Delete ticket - $TicketID" );
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
@@ -293,4 +264,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();

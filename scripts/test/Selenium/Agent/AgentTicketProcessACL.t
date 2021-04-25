@@ -319,6 +319,9 @@ $Selenium->RunTest(
             );
         }
 
+        # try sleeping a long time for avoiding failures. See issue #763.
+        sleep 11;
+
         # Navigate to agent ticket process directly via URL with pre-selected process and activity dialog.
         $Selenium->VerifiedGet(
             "${ScriptAlias}index.pl?Action=AgentTicketProcess;ID=$Process->{EntityID};ActivityDialogEntityID=$Process->{Config}->{StartActivityDialog}"

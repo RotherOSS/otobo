@@ -27,6 +27,7 @@ use Test2::V0;
 
 # OTOBO moduled
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
@@ -38,14 +39,12 @@ my $Success = $Helper->ProvideTestDatabase();
 if ( !$Success ) {
     skip_all('Test database could not be provided, skipping test');
 }
-else {
-    pass('ProvideTestDatabase() - Database cleared');
 
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
+pass('ProvideTestDatabase() - Database cleared');
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
+{
     $Selenium->RunTest(
         sub {
             my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -179,7 +178,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                 # Go to next step of installation (Create Database).
                 $Selenium->find_element( '#FormDBSubmit', 'css' )->click();
                 $Selenium->WaitFor(
-                    Time => 300,
+                    Time       => 300,
                     JavaScript =>
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "Create Database (2/4)";'
                 );
@@ -205,7 +204,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                 # Go to next step of installation (System Settings).
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
                 $Selenium->WaitFor(
-                    Time => 300,
+                    Time       => 300,
                     JavaScript =>
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "System Settings (3/4)";'
                 );
@@ -228,7 +227,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 
                 $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
                 $Selenium->WaitFor(
-                    Time => 300,
+                    Time       => 300,
                     JavaScript =>
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "Mail Configuration (3/4)";'
                 );
@@ -247,7 +246,7 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                 # Go to last step of installation.
                 $Selenium->find_element( '#ButtonSkipMail', 'css' )->click();
                 $Selenium->WaitFor(
-                    Time => 300,
+                    Time       => 300,
                     JavaScript =>
                         'return typeof($) === "function" && $(".Header h2").text().trim() === "Finished (4/4)";'
                 );

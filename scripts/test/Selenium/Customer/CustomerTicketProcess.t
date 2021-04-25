@@ -290,10 +290,7 @@ $Selenium->RunTest(
             EntityID => $ListReverse{$ProcessName},
             UserID   => $TestUserID,
         );
-        $Self->True(
-            $Process,
-            "Found TestProcess",
-        );
+        $Self->True( $Process, "Found TestProcess" );
 
         # Create test customer user and login.
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate(
@@ -312,6 +309,8 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
+        my $SubjectRandom;
+        my $ContentRandom;
         {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
@@ -333,105 +332,106 @@ $Selenium->RunTest(
                 );
 
                 $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+
+                # Check on DynamicField change - ACL restriction on Type field.
+                # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
+                $Self->True(
+                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+                    "All Types are visible before ACL"
+                );
+
+                $Selenium->InputFieldValueSet(
+                    Element => '#DynamicField_TestDropdownACLProcess',
+                    Value   => 'c',
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+                $Self->False(
+                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+                    "DynamicField change - ACL restricted Types"
+                );
+                $Selenium->InputFieldValueSet(
+                    Element => '#TypeID',
+                    Value   => $Types[1]->{ID},
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+                # Check further ACLs before the normal Process tests.
+                $Self->Is(
+                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                    3,
+                    "DynamicField filtered options count",
+                );
+
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => 4,
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+                $Self->Is(
+                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+                    1,
+                    "DynamicField filtered options count",
+                );
+
+                my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
+                my $ContentRandom      = 'Content' . $Helper->GetRandomID();
+                my $AttachmentName     = "StdAttachment-Test1.txt";
+                my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
+
+                $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
+                $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => 2,
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+                $Selenium->InputFieldValueSet(
+                    Element => '#TypeID',
+                    Value   => $Types[1]->{ID},
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+
+                # Hide DnDUpload and show input field.
+                $Selenium->execute_script(
+                    "\$('.DnDUpload').css('display', 'none')"
+                );
+                $Selenium->execute_script(
+                    "\$('#FileUpload').css('display', 'block')"
+                );
+
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && $("#FileUpload:visible").length;'
+                );
+
+                $Selenium->find_element( "#FileUpload", 'css' )->clear();
+                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
+                $Selenium->WaitFor(
+                    JavaScript => 'return typeof($) === "function" && $("[class^=\'AttachmentDelete\']").length'
+                );
+
+                # Check if the header is visible on the page (bug#12543).
+                my $Element = $Selenium->find_element(
+                    "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets' )]"
+                );
+                $Element->is_enabled();
+                $Element->is_displayed();
+
+                my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
+
+                # Get secure disable banner.
+                my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
+
+                if ( !$SecureDisableBanner ) {
+                    $Selenium->content_contains(
+                        $FooterMessage,
+                        "$FooterMessage found in footer on page (after attachment upload)",
+                    );
+                }
+
             };
-        }
-
-        # Check on DynamicField change - ACL restriction on Type field.
-        # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
-        $Self->True(
-            $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-            "All Types are visible before ACL"
-        );
-
-        $Selenium->InputFieldValueSet(
-            Element => '#DynamicField_TestDropdownACLProcess',
-            Value   => 'c',
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-
-        $Self->False(
-            $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-            "DynamicField change - ACL restricted Types"
-        );
-        $Selenium->InputFieldValueSet(
-            Element => '#TypeID',
-            Value   => $Types[1]->{ID},
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-
-        # Check further ACLs before the normal Process tests.
-        $Self->Is(
-            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-            3,
-            "DynamicField filtered options count",
-        );
-
-        $Selenium->InputFieldValueSet(
-            Element => '#QueueID',
-            Value   => 4,
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-
-        $Self->Is(
-            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-            1,
-            "DynamicField filtered options count",
-        );
-
-        my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
-        my $ContentRandom      = 'Content' . $Helper->GetRandomID();
-        my $AttachmentName     = "StdAttachment-Test1.txt";
-        my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
-
-        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
-        $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
-        $Selenium->InputFieldValueSet(
-            Element => '#QueueID',
-            Value   => 2,
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-        $Selenium->InputFieldValueSet(
-            Element => '#TypeID',
-            Value   => $Types[1]->{ID},
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-
-        # Hide DnDUpload and show input field.
-        $Selenium->execute_script(
-            "\$('.DnDUpload').css('display', 'none')"
-        );
-        $Selenium->execute_script(
-            "\$('#FileUpload').css('display', 'block')"
-        );
-
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && $("#FileUpload:visible").length;'
-        );
-
-        $Selenium->find_element( "#FileUpload", 'css' )->clear();
-        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
-        $Selenium->WaitFor(
-            JavaScript => 'return typeof($) === "function" && $("[class^=\'AttachmentDelete\']").length'
-        );
-
-        # Check if the header is visible on the page (bug#12543).
-        my $Element = $Selenium->find_element(
-            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets' )]"
-        );
-        $Element->is_enabled();
-        $Element->is_displayed();
-
-        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
-
-        # Get secure disable banner.
-        my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
-
-        if ( !$SecureDisableBanner ) {
-            $Selenium->content_contains(
-                $FooterMessage,
-                "$FooterMessage found in footer on page (after attachment upload)",
-            );
         }
 
         {
@@ -446,87 +446,85 @@ $Selenium->RunTest(
                 $Selenium->content_contains( $SubjectRandom, "$SubjectRandom found on page" );
                 $Selenium->content_contains( $ProcessName,   "$ProcessName found on page" );
                 $Selenium->content_contains( 'open',         "Ticket open state found on page" );
-            };
-        }
 
-        # Remember created ticket, to delete the ticket at the end of the test.
-        my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketID[1];
+                # Remember created ticket, to delete the ticket at the end of the test.
+                my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+                push @DeleteTicketIDs, $TicketID[1];
 
-        # Go on next step in Process ticket.
-        my $URLNextAction = $Selenium->execute_script("return \$('#Activities a').attr('href');");
-        $URLNextAction =~ s/^\///s;
-        $Selenium->VerifiedGet($URLNextAction);
+                # Go on next step in Process ticket.
+                my $URLNextAction = $Selenium->find_element( '#Activities a', 'css' )->get_attr('href');
+                ok( $URLNextAction, 'got activies link' );
+                $URLNextAction =~ s/^\///s;
+                $Selenium->VerifiedGet($URLNextAction);
 
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PriorityID").length;' );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#PriorityID").length;' );
 
-        # For test scenario to complete, in next step we set ticket priority to 5 very high.
-        $Selenium->InputFieldValueSet(
-            Element => '#PriorityID',
-            Value   => 5,
-        );
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length' );
-
-        # Check for inputed values as final step in first scenario.
-        $Selenium->content_contains( 'closed successful', "Ticket closed successful state found on page" );
-        $Selenium->content_contains( '5 very high',       "Ticket priority 5 very high found on page" );
-
-        my $EndProcessMessage = "There are no dialogs available at this point in the process.";
-
-        $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
-
-        # Navigate to CustomerTicketProcess screen.
-        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
-
-        # Create second scenario for test CustomerTicketProcess.
-        $Selenium->InputFieldValueSet(
-            Element => '#ProcessEntityID',
-            Value   => $ListReverse{$ProcessName},
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
-
-        # In this scenario we just set ticket queue to junk to finish test.
-        $Selenium->InputFieldValueSet(
-            Element => '#QueueID',
-            Value   => 3,
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-        $Selenium->InputFieldValueSet(
-            Element => '#TypeID',
-            Value   => $Types[1]->{ID},
-        );
-        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
-
-        # Check if we are at the end of test Process ticket.
-        $Selenium->content_contains( 'Junk',             "Queue Junk found on page" );
-        $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
-
-        # Remember created ticket, to delete the ticket at the end of the test.
-        @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
-        push @DeleteTicketIDs, $TicketID[1];
-
-        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        for my $TicketID (@DeleteTicketIDs) {
-
-            my $Success = $TicketObject->TicketDelete(
-                TicketID => $TicketID,
-                UserID   => $TestUserID,
-            );
-
-            # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-            if ( !$Success ) {
-                sleep 3;
-                $Success = $TicketObject->TicketDelete(
-                    TicketID => $TicketID,
-                    UserID   => 1,
+                # For test scenario to complete, in next step we set ticket priority to 5 very high.
+                $Selenium->InputFieldValueSet(
+                    Element => '#PriorityID',
+                    Value   => 5,
                 );
-            }
-            $Self->True(
-                $Success,
-                "TicketID $TicketID is deleted",
-            );
+                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length' );
+
+                # Check for inputed values as final step in first scenario.
+                $Selenium->content_contains( 'closed successful', "Ticket closed successful state found on page" );
+                $Selenium->content_contains( '5 very high',       "Ticket priority 5 very high found on page" );
+
+                my $EndProcessMessage = "There are no dialogs available at this point in the process.";
+
+                $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
+
+                # Navigate to CustomerTicketProcess screen.
+                $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
+
+                # Create second scenario for test CustomerTicketProcess.
+                $Selenium->InputFieldValueSet(
+                    Element => '#ProcessEntityID',
+                    Value   => $ListReverse{$ProcessName},
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+
+                # In this scenario we just set ticket queue to junk to finish test.
+                $Selenium->InputFieldValueSet(
+                    Element => '#QueueID',
+                    Value   => 3,
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+                $Selenium->InputFieldValueSet(
+                    Element => '#TypeID',
+                    Value   => $Types[1]->{ID},
+                );
+                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+                # Check if we are at the end of test Process ticket.
+                $Selenium->content_contains( 'Junk',             "Queue Junk found on page" );
+                $Selenium->content_contains( $EndProcessMessage, "$EndProcessMessage message found on page" );
+
+                # Remember created ticket, to delete the ticket at the end of the test.
+                @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+                push @DeleteTicketIDs, $TicketID[1];
+
+                my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+                for my $TicketID (@DeleteTicketIDs) {
+
+                    my $Success = $TicketObject->TicketDelete(
+                        TicketID => $TicketID,
+                        UserID   => $TestUserID,
+                    );
+
+                    # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+                    if ( !$Success ) {
+                        sleep 3;
+                        $Success = $TicketObject->TicketDelete(
+                            TicketID => $TicketID,
+                            UserID   => 1,
+                        );
+                    }
+                    ok( $Success, "TicketID $TicketID is deleted" );
+                }
+            };
         }
 
         # Clean up activities.

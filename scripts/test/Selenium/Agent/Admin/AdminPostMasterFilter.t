@@ -29,7 +29,6 @@ use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 my $PostMasterFilterSubmit = sub {
     $Selenium->execute_script(
         "\$('#Submit')[0].scrollIntoView(true);",

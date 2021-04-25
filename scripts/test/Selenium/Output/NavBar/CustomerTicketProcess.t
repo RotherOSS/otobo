@@ -107,10 +107,14 @@ $Selenium->RunTest(
 
         # Check if NavBarCustomerTicketProcess button is available when process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
-        $Selenium->content_contains(
-            'Action=CustomerTicketProcess',
-            "NavBar 'New process ticket' button available",
-        );
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            $Selenium->content_contains(
+                'Action=CustomerTicketProcess',
+                "NavBar 'New process ticket' button available",
+            );
+        }
 
         # Clean up activities.
         my $Success;
@@ -264,10 +268,15 @@ $Selenium->RunTest(
         );
 
         $Selenium->VerifiedRefresh();
-        ok(
-            index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
-            "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
-        );
+
+        {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
+            $Selenium->content_contains(
+                'Action=CustomerTicketProcess',
+                "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
+            );
+        }
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {
