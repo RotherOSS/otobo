@@ -69,7 +69,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        sleep 11;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -206,13 +206,13 @@ $Selenium->RunTest(
                 push @DeactivatedProcesses, $Process;
             }
         }
-        sleep 1;
+        sleep 11;
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
         # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
+        sleep 11;
 
         # Go to test created ticket zoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
@@ -231,7 +231,7 @@ $Selenium->RunTest(
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
         if ( !$Success ) {
-            sleep 3;
+            sleep 11;
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => $TestUserID,
