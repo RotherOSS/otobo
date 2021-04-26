@@ -59,7 +59,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Self, %Param ) = @_;
+    my ( $Type, %Param ) = @_;
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
