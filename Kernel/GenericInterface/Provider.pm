@@ -38,9 +38,10 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::Web::Exception;
 
 our @ObjectDependencies = (
+    'Kernel::GenericInterface::ErrorHandling',
     'Kernel::System::Log',
     'Kernel::System::GenericInterface::Webservice',
-    'Kernel::GenericInterface::ErrorHandling',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
