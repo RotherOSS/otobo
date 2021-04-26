@@ -184,6 +184,8 @@ $Selenium->RunTest(
         );
 
         {
+            my $ToDo = todo('selection of process is not reliable, see #929');
+
             try_ok {
                 $Selenium->WaitFor( ElementExists => q{//button[@value='Submit']} );
                 $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($TestCustomerUserLogin);
