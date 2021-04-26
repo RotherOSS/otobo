@@ -392,7 +392,7 @@ sub ProviderGenerateResponse {
     }
 
     # Check success param.
-    my $HTTPCode = 200;
+    my $HTTPCode = $Param{HTTPStatus} // 200;
     if ( !$Param{Success} ) {
 
         # Create Fault structure.
@@ -402,8 +402,10 @@ sub ProviderGenerateResponse {
             faultstring => $FaultString,
         };
 
-        # Override HTTPCode to 500.
-        $HTTPCode = 500;
+        if ($HTTPCode < 400) {
+            # if it's not an error code, override HTTPCode to 500
+            $HTTPCode = 500;
+        }
     }
 
     # Orepare data.

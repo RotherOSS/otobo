@@ -349,6 +349,7 @@ sub Content {
             ErrorStage  => 'ProviderRequestProcess',
             Summary     => $Summary,
             Data        => $FunctionResult->{Data} // $Summary,
+            HTTPStatus  => $FunctionResult->{HTTPStatus} // 500,
         );
     }
 
@@ -430,6 +431,7 @@ sub Content {
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success => 1,
         Data    => $DataOut,
+        HTTPStatus => $FunctionResult->{HTTPStatus} // 200,
     );
 
     if ( ! $Response->{Success} ) {
@@ -469,6 +471,7 @@ sub _GenerateErrorResponse {
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
+        HTTPStatus   => $Param{HTTPStatus},
     );
 
     if ( !$Response->{Success} ) {
@@ -497,6 +500,7 @@ handles errors by
         Data             => $ErrorDataStructure,
         OperationObject  => $OperationObject,        # optional
         Operation        => 'OperationName',         # optional
+        HTTPStatus       => 400,                     # optional
     );
     print STDOUT $Output;
 
@@ -539,6 +543,7 @@ sub _HandleError {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => $Param{Summary},
+            HTTPStatus     => $Param{HTTPStatus},
         ) // '';
     }
 
