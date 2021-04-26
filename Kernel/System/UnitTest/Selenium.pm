@@ -680,11 +680,16 @@ sub WaitFor {
     # something short that identfies the WaitFor target
     my $Argument = '';
     {
-        for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        # scalar or arrayref parameters
+        for my $Key (qw(JavaScript WindowCount AlertPresent ElementExists ElementMissing)) {
+            if ( $Param{$Key} ) {
+                my $Value = ref $Param{$Key} eq 'ARRAY' ? $Param{$Key}->[0] : $Param{$Key};
+                $Argument = join ' => ', $Key, $Value;
+            }
         }
 
-        for my $Key (qw(Callback ElementExists ElementMissing)) {
+        # more complex parameters
+        for my $Key (qw(Callback)) {
             $Argument = $Key if $Param{$Key};
         }
     }
