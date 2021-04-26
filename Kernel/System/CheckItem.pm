@@ -123,7 +123,8 @@ sub CheckEmail {
     $Param{Address} =~ s{ \s* \( [^()]* \) \s* $ }{}smxg;
 
     # email address syntax check
-    if ( !Email::Valid->address( $Param{Address} ) ) {
+    my $ValidatedEmail = Email::Valid->address( $Param{Address} );
+    if ( !$ValidatedEmail or $ValidatedEmail ne $Param{Address} ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
     }
