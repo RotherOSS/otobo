@@ -124,7 +124,7 @@ sub CheckEmail {
 
     # email address syntax check
     my $ValidatedEmail = Email::Valid->address( $Param{Address} );
-    if ( !$ValidatedEmail or $ValidatedEmail ne $Param{Address} ) {
+    if ( !$ValidatedEmail || $ValidatedEmail ne $Param{Address} ) {
         $Error = "Invalid syntax";
         $Self->{ErrorType} = 'InvalidSyntax';
     }
