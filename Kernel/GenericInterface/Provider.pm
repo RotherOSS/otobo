@@ -59,8 +59,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -466,8 +465,7 @@ prepares header and content for an error response
 =cut
 
 sub _GenerateErrorResponse {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
