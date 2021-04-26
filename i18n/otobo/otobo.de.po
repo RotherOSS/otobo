@@ -47,7 +47,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-22 04:46+0000\n"
+"PO-Revision-Date: 2021-04-26 16:16+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -27650,7 +27650,7 @@ msgstr ""
 
 #. SysConfig
 msgid "OTOBO News"
-msgstr "OTOBO-Neuigkeiten"
+msgstr "Neues von OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
