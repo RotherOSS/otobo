@@ -42,13 +42,14 @@
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020.
 # Grit Rother <mr@otobo.de>, 2020, 2021.
+# svo <svo@otrs.ch>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-26 16:16+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2021-04-27 14:08+0000\n"
+"Last-Translator: svo <svo@otrs.ch>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -16386,7 +16387,7 @@ msgstr "Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr "Keine Verbindung zum OTRS-Dateiverzeichnis möglich."
+msgstr "Verbindung zum OTRS-Dateiverzeichnis ist möglich."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
