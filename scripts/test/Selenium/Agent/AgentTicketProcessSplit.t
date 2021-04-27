@@ -120,9 +120,6 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
-        sleep 1;
-
         # Navigate to AgentTicketZoom screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID;");
 
@@ -201,8 +198,6 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly',
             Value => 1
         );
-
-        sleep(11);
 
         $Selenium->VerifiedRefresh();
 
