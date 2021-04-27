@@ -531,14 +531,9 @@ sub ConfigSettingChange {
     my $Key   = $Param{Key};
     my $Value = $Param{Value};
 
-    die "Need 'Key'" if !defined $Key;
+    die "Need 'Key'" unless defined $Key;
 
     my $RandomNumber = $Self->GetRandomNumber();
-
-    my $KeyDump = $Key;
-    $KeyDump =~ s|'|\\'|smxg;
-    $KeyDump = "\$Self->{'$KeyDump'}";
-    $KeyDump =~ s|\#{3}|'}->{'|smxg;
 
     # Also set at runtime in the ConfigObject. This will be destroyed at the end of the unit test.
     $Kernel::OM->Get('Kernel::Config')->Set(
@@ -546,13 +541,21 @@ sub ConfigSettingChange {
         Value => $Valid ? $Value : undef,
     );
 
+    # Generate Perl code that sets the config value
     my $ValueDump;
-    if ($Valid) {
-        $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
-        $ValueDump =~ s/\$VAR1/$KeyDump/;
-    }
-    else {
-        $ValueDump = "delete $KeyDump;";
+    {
+        my $KeyDump = $Key;
+        $KeyDump =~ s|'|\\'|smxg;
+        $KeyDump = "\$Self->{'$KeyDump'}";
+        $KeyDump =~ s|\#{3}|'}->{'|smxg;
+
+        if ($Valid) {
+            $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
+            $ValueDump =~ s/\$VAR1/$KeyDump/;
+        }
+        else {
+            $ValueDump = "delete $KeyDump;";
+        }
     }
 
     my $PackageName = "ZZZZUnitTest$RandomNumber";
