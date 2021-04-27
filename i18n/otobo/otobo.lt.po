@@ -3,23 +3,24 @@
 # Justinas <jusgri@gmail.com>, 2018
 # Algis Simas <sadm.algimantas@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-#
+# elpaso <eldaras20@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2020-01-28 14:51+0000\n"
-"Last-Translator: Egle Martisauskaite <egle.martisauskaite@gmail.com>\n"
-"Language-Team: Lithuanian <http://translate.otobo.org/projects/otobo10/otobo/"
-"lt/>\n"
+"PO-Revision-Date: 2021-04-27 14:08+0000\n"
+"Last-Translator: elpaso <eldaras20@gmail.com>\n"
+"Language-Team: Lithuanian <https://translate.otobo.org/projects/otobo10/"
+"otobo/lt/>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < "
-"11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? "
-"1 : n % 1 != 0 ? 2: 3);\n"
-"X-Generator: Weblate 3.10\n"
+"11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 :"
+" n % 1 != 0 ? 2: 3);\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -180,10 +181,12 @@ msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
 msgstr ""
+"Nustatykite, ką norite pakeisti, jei kriterijai atitinka. Atminkite, kad "
+"„Galimas“ yra baltasis sąrašas, „Negalimas“ - juodasis sąrašas."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Patikrinkite oficialią% sdokumentaciją%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -679,11 +682,14 @@ msgid ""
 "This is the default value for assigned recipient agents who didn't make a "
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
-msgstr "Čia yra numatytoji vertė priskirtiems agentams, kurie nep"
+msgstr ""
+"Čia yra numatytoji vertė priskirtiems agentams, kurie savo nuostatose dar "
+"nepasirinko šio pranešimo. Jei langelis įgalintas, pranešimas bus išsiųstas "
+"tokiems agentams."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "Ši funkcija šiuo metu nepasiekiama."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
@@ -695,15 +701,15 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "Duomenų nerasta"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "Nerastas pranešimo metodas."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "Pranešimo tekstas"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -713,7 +719,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Pašalinti pranešimų kalbą"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -725,11 +731,11 @@ msgstr "Tekstas"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Message body"
-msgstr ""
+msgstr "Pranešimo turinys"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Pridėti naują pranešimų kalbą"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Save Changes"
@@ -737,11 +743,11 @@ msgstr "Išsaugoti pakeitimus"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Žymos nuoroda"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr ""
+msgstr "Pranešimai siunčiami agentui."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -773,19 +779,19 @@ msgstr "Konfigūracijos parinktys"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Pranešimo pavyzdys"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Papildomi gavėjo el. pašto adresai"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Šiame lauke turi būti mažiau nei 200 simbolių."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Straipsnis matomas klientui"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
@@ -795,20 +801,22 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "El. pašto šablonas"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"Naudokite šį šabloną, kad sugeneruotumėte visą el. laišką (tik HTML el. "
+"laiškams)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Įgalinti el. pašto saugą"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "El. pašto saugumo lygis"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -836,7 +844,7 @@ msgstr "Filtruoti priedus"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filtras priedams"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -1438,7 +1446,7 @@ msgstr "ro"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Tik skaitymo teisės trikčiai šioje grupėje/eilėje."
+msgstr "Tik skaitymo teisės kreipiniui šioje grupėje/eilėje."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
@@ -1446,7 +1454,7 @@ msgstr "rw"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Pilnos skaitymo ir rašymo teisės trikčiai šioje grupėje/eilėje."
+msgstr "Pilnos skaitymo ir rašymo teisės kreipiniui šioje grupėje/eilėje."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -2630,11 +2638,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
-msgstr "Triktis sukurta"
+msgstr "Kreipinys sukurtas"
 
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
-msgstr "Triktis sukurta tarp"
+msgstr "Kreipinys sukurtas tarp"
 
 #. Template: AdminGenericAgent
 msgid "and"
@@ -2698,11 +2706,11 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
-msgstr "Triktis uždaryta"
+msgstr "Kreipinys uždarytas"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed between"
-msgstr "Triktis uždaryta tarp"
+msgstr "Kreipinys uždarytas tarp"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
@@ -2838,7 +2846,7 @@ msgstr "Naujas tipas"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr "Archyvuoti pasirinktas triktis"
+msgstr "Archyvuoti pasirinktus kreipinius"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -2873,7 +2881,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
-msgstr "Ištrinti triktis"
+msgstr "Ištrinti kreipinius"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -5734,7 +5742,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "Eilių valdymas"
 
 #. Template: AdminQueue
 msgid "Add Queue"
@@ -5750,11 +5758,11 @@ msgstr "Filtruoti eiles"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "Filtras eilėms"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "Eilė šiuo pavadinimu jau egzistuoja!"
 
 #. Template: AdminQueue
 msgid ""
@@ -5805,9 +5813,9 @@ msgid ""
 "If there is not added a customer contact, either email-external or phone, to "
 "a new ticket before the time defined here expires, the ticket is escalated."
 msgstr ""
-"Jeigu naujai trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas "
-"ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus "
-"eskaluota."
+"Jeigu naujam kreipiniui nebus pridėti kliento kontaktai (išorinis el. paštas "
+"ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai kreipinys "
+"bus eskaluotas."
 
 #. Template: AdminQueue
 msgid ""
@@ -5816,19 +5824,19 @@ msgid ""
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
 msgstr ""
-"Jeigu trikčiai bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį "
+"Jeigu kreipiniui bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį "
 "el. paštą arba klientų portalą, tai eskalavimo atnaujinimo laikas yra "
-"atstatomas atgal. Jeigu trikčiai nebus pridėti kliento kontaktai (išorinis "
+"atstatomas atgal. Jeigu kreipiniui nebus pridėti kliento kontaktai (išorinis "
 "el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai "
-"triktis bus eskaluota."
+"kreipinys bus eskaluotas."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the "
 "ticket is escalated."
 msgstr ""
-"Jeigu triktis nebus ir neuždaryta iki pasibaigs čia nurodytas laikas, tai ji "
-"bus eskaluota."
+"Jeigu kreipinio nebus arba jis bus neuždarytas iki pasibaigs čia nurodytas "
+"laikas, tai ji bus eskaluotas."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
@@ -5851,8 +5859,8 @@ msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
 msgstr ""
-"Jeigu triktis yra uždaryta ir klientas vėl ką nors atsiunčia - triktis bus "
-"prirakinta prie senojo savininko."
+"Jeigu kreipinys yra uždarytas ir klientas vėl ką nors atsiunčia, tai "
+"kreipinys bus prirakintas prie senojo savininko."
 
 #. Template: AdminQueue
 msgid "System address"
@@ -5902,19 +5910,19 @@ msgstr "Keisti eilei automatinių atsakymų sąsajas"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "Šis filtras leidžia rodyti eiles be automatinių atsakymų"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "Eilės be automatinių atsakymų"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "Šis filtras leidžia rodyti visas eiles"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "Rodyti visas eiles"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -6295,7 +6303,7 @@ msgstr "Perkelti į"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr "Leidimai perkelti triktis į šią grupę/eilę."
+msgstr "Leidimai perkelti kreipinius į šią grupę/eilę."
 
 #. Template: AdminRoleGroup
 msgid "create"
@@ -6303,7 +6311,7 @@ msgstr "sukurti"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr "Leidimai kurti triktis šioje grupėje/eilėje."
+msgstr "Leidimai kurti kreipinius šioje grupėje/eilėje."
 
 #. Template: AdminRoleGroup
 msgid "note"
@@ -6311,7 +6319,7 @@ msgstr "pastaba"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr "Leidimai pridėti pastabas triktims šioje grupėje/eilėje."
+msgstr "Leidimai pridėti pastabas kreipiniams šioje grupėje/eilėje."
 
 #. Template: AdminRoleGroup
 msgid "owner"
@@ -6319,7 +6327,7 @@ msgstr "savininkas"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr "Leidimai keisti trikčių savininkus šioje grupėje/eilėje."
+msgstr "Leidimai keisti kreipinių savininkus šioje grupėje/eilėje."
 
 #. Template: AdminRoleGroup
 msgid "priority"
@@ -6327,7 +6335,7 @@ msgstr "prioritetas"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr "Leidimai keisti trikčių prioritetus šioje grupėje/eilėje."
+msgstr "Leidimai keisti kreipinių prioritetus šioje grupėje/eilėje."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
@@ -7293,7 +7301,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "Nepamirškite pridėti naujų šablonų prie eilių."
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -7909,7 +7917,7 @@ msgstr "in"
 
 #. Template: AgentDashboardCommon
 msgid "Save settings"
-msgstr ""
+msgstr "Išsaugoti nustatymus"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
@@ -7921,11 +7929,11 @@ msgstr "daugiau"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
-msgstr ""
+msgstr "Galimi stulpeliai"
 
 #. Template: AgentDashboardCommon
 msgid "Visible Columns (order by drag & drop)"
-msgstr ""
+msgstr "Matomi stulpeliai (vilkite ir paleiskite)"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Change Customer Relations"
@@ -8068,7 +8076,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr ""
+msgstr "Mano užrakinti kreipiniai"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
@@ -8080,7 +8088,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr ""
+msgstr "Kreipiniai mano eilėse"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -8501,7 +8509,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "The ticket has been locked"
-msgstr "Triktis buvo užrakinta"
+msgstr "Kreipinys buvo užrakintas"
 
 #. Template: AgentTicketActionCommon
 msgid "Undo & close"
@@ -8661,7 +8669,7 @@ msgstr "Susieti su tėvu (parent)"
 
 #. Template: AgentTicketBulk
 msgid "Unlock tickets"
-msgstr "Atrakinti triktis"
+msgstr "Atrakinti kreipinius"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
@@ -8705,7 +8713,7 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
-msgstr "Bcc"
+msgstr "Kopija"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
@@ -8889,7 +8897,7 @@ msgstr "Sprendimo laikas"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr "Perkelti triktį į kitą eilę"
+msgstr "Perkelti kreipinį į kitą eilę"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
@@ -9351,7 +9359,7 @@ msgstr ""
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
-msgstr "Nauja triktis"
+msgstr "Naujas kreipinys"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
@@ -9985,7 +9993,7 @@ msgstr ""
 
 #. Template: InstallerSystem
 msgid "SystemID"
-msgstr "SystemID"
+msgstr "Sistemos ID"
 
 #. Template: InstallerSystem
 msgid ""
@@ -10329,7 +10337,7 @@ msgstr ""
 
 #. Template: Alert
 msgid "Powered by"
-msgstr "Powered by"
+msgstr "Parengta pagal"
 
 #. Template: Pagination
 msgid "Show first page"
@@ -10377,7 +10385,7 @@ msgstr ""
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "Dialogas"
 
 #. Template: Article
 msgid "Inform Agent"
@@ -10385,7 +10393,7 @@ msgstr "Informuoti agentą"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "Sveiki"
 
 #. Template: PublicDefault
 msgid ""
@@ -11635,7 +11643,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "more than ... ago"
-msgstr "daugiau nei prieš ..."
+msgstr "daugiau nei prieš"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Unarchived tickets"
@@ -12597,7 +12605,7 @@ msgstr "Eilė atnaujinta!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "Nenaudokite :: eilės pavadinime!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
@@ -12609,7 +12617,7 @@ msgstr "-nėra-"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr ""
+msgstr "Eilės (be automatinių atsakymų)"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Queue Relations for Template"
@@ -13364,7 +13372,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
-msgstr "Triktis \"%s\" sukurta!"
+msgstr "Kreipiny \"%s\" sukurtas!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
@@ -13440,7 +13448,7 @@ msgstr "Pasiektas priminimas"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "My Locked Tickets"
-msgstr "Mano užrakintos triktys"
+msgstr "Mano užrakinti kreipiniai"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
@@ -13701,7 +13709,7 @@ msgstr "Trikties numeris"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket"
-msgstr "Triktis"
+msgstr "Kreipinys"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
@@ -14548,7 +14556,7 @@ msgstr "Rodomos triktys"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Columns"
-msgstr ""
+msgstr "Rodomi stulpeliai"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
@@ -15730,7 +15738,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "Eilės / Kreipiniai"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
@@ -16603,7 +16611,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
-msgstr "Negalimas triktis!"
+msgstr "Negalimas kreipinys!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
@@ -16924,7 +16932,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "Neklasifikuota"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
@@ -17024,7 +17032,7 @@ msgstr ""
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "Pranešimas apie kreipinių eilės atnaujinimą"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
@@ -18998,7 +19006,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change queue!"
-msgstr ""
+msgstr "Keisti eilę!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -19054,7 +19062,7 @@ msgstr "Prioritetas pakeistas iš \"%s\" (%s) į \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
-msgstr ""
+msgstr "Eilė pakeista į „% s“ (% s) iš „% s“ (% s)."
 
 #. SysConfig
 msgid "Changed responsible to \"%s\" (%s)."
@@ -19262,7 +19270,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "Bendravimas"
 
 #. SysConfig
 msgid "Communication & Notifications"
@@ -22996,7 +23004,7 @@ msgstr "Pirmoji Kalėdų diena"
 
 #. SysConfig
 msgid "First Queue"
-msgstr ""
+msgstr "Pirmoji eilė"
 
 #. SysConfig
 msgid "First response time"
@@ -23052,7 +23060,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forces to unlock tickets after being moved to another queue."
-msgstr ""
+msgstr "Priverčia atrakinti kreipinius, kai jie bus perkelti į kitą eilę."
 
 #. SysConfig
 msgid ""
@@ -24071,7 +24079,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "Triktis užrakinta."
+msgstr "Kreipinys užrakintas."
 
 #. SysConfig
 msgid "Logged in users."
@@ -24306,7 +24314,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Įvairūs"
 
 #. SysConfig
 msgid "Module for To-selection in new ticket screen in the customer interface."
@@ -24691,7 +24699,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview of all open Tickets."
-msgstr "Peržiūrėti visas atviras triktis."
+msgstr "Peržiūrėti visus atvirus kreipinius."
 
 #. SysConfig
 msgid "Overview of all open tickets."
@@ -25064,7 +25072,7 @@ msgstr ""
 
 #. SysConfig
 msgid "People"
-msgstr ""
+msgstr "Žmonės"
 
 #. SysConfig
 msgid ""
@@ -25106,7 +25114,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Phone-Ticket"
-msgstr "Triktis telefonu"
+msgstr "Kreipinys telefonu"
 
 #. SysConfig
 msgid "Picture Upload"
@@ -25240,11 +25248,11 @@ msgstr "Eilių peržiūra"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr ""
+msgstr "Eilės ↔ Automatiniai atsakymai"
 
 #. SysConfig
 msgid "Quick Close"
-msgstr ""
+msgstr "Išspręsta"
 
 #. SysConfig
 msgid "Rebuild the ticket index for AgentTicketQueue."
@@ -25327,7 +25335,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Reports"
-msgstr ""
+msgstr "Ataskaitos"
 
 #. SysConfig
 msgid ""
@@ -27956,7 +27964,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "Triktis atrakinta."
+msgstr "Kreipinys atrakintas."
 
 #. SysConfig
 msgid "Up"
@@ -28189,11 +28197,11 @@ msgstr ""
 
 #. SysConfig
 msgid "debug"
-msgstr ""
+msgstr "derinti"
 
 #. SysConfig
 msgid "error"
-msgstr ""
+msgstr "klaida"
 
 #. SysConfig
 msgid "forward"
@@ -28217,7 +28225,7 @@ msgstr ""
 
 #. SysConfig
 msgid "pending"
-msgstr ""
+msgstr "kol"
 
 #. SysConfig
 msgid "phone"
@@ -28225,7 +28233,7 @@ msgstr "Telefonas"
 
 #. SysConfig
 msgid "responsible"
-msgstr ""
+msgstr "atsakingas"
 
 #. SysConfig
 msgid "reverse"
