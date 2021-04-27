@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-27 14:08+0000\n"
+"PO-Revision-Date: 2021-04-27 14:16+0000\n"
 "Last-Translator: elpaso <eldaras20@gmail.com>\n"
 "Language-Team: Lithuanian <https://translate.otobo.org/projects/otobo10/"
 "otobo/lt/>\n"
@@ -2909,12 +2909,12 @@ msgstr "Rezultatai"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr "%s paveiktos triktys! Ką norite daryti?"
+msgstr "%s paveikti kreipiniai! Ką norite daryti?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr ""
-"ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrintos triktys bus prarastos visam "
+"ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrinti kreipiniai bus prarasti visam "
 "laikui!"
 
 #. Template: AdminGenericAgent
@@ -2925,7 +2925,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
-msgstr "Paveiktos triktys"
+msgstr "Paveikti kreipiniai"
 
 #. Template: AdminGenericAgent
 msgid "Age"
@@ -6291,7 +6291,7 @@ msgid ""
 "will not be available for the role)."
 msgstr ""
 "Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (rolei "
-"triktys bus neprieinamos)."
+"kreipiniai bus neprieinamos)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
@@ -7973,7 +7973,7 @@ msgstr ""
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "All tickets"
-msgstr "Visos triktys"
+msgstr "Visi kreipiniai"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Archived tickets"
@@ -8128,7 +8128,7 @@ msgstr ""
 
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
-msgstr "Triktys"
+msgstr "Kreipiniai"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
@@ -25585,7 +25585,7 @@ msgstr "Antroji Kalėdų diena"
 
 #. SysConfig
 msgid "Second Queue"
-msgstr ""
+msgstr "Antroji eilė"
 
 #. SysConfig
 msgid ""
@@ -25791,7 +25791,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Sets if queue must be selected by the agent."
-msgstr ""
+msgstr "Nustato, ar eilę turi pasirinkti agentas."
 
 #. SysConfig
 msgid "Sets if service must be selected by the agent."
@@ -27399,7 +27399,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr ""
+msgstr "Šablonai ↔ Eilės"
 
 #. SysConfig
 msgid "Textarea"
@@ -27774,7 +27774,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Queue Overview"
-msgstr ""
+msgstr "Kreipinio eilės apžvalga"
 
 #. SysConfig
 msgid "Ticket Responsible."
