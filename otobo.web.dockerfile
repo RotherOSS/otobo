@@ -2,8 +2,8 @@
 # See also README_DOCKER.md.
 
 # Use the latest Perl as of 2020-07-31.
-# This image is based on Debian 10 (Buster). The User is root.
-# cpanm is already installed,
+# This image is based on Debian 10 (Buster). The user is root.
+# The Perl module installer 'cpanm' is already installed.
 FROM perl:5.32.0-buster
 
 # Some initial setup that needs to be done by root.
@@ -57,6 +57,9 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 # This hopefully reduces potential conflicts.
 #
 # carton install will create cpanfile.snapshot. Currently this file is only used for documentation.
+#
+# Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
+# and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 RUN cpanm --local-lib local Net::DNS
 RUN cpanm --local-lib local Gazelle
@@ -64,6 +67,7 @@ RUN cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::I
 RUN cpanm --local-lib local Carton
 COPY cpanfile.docker cpanfile
 RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
+RUN rm -rf "$HOME/.cpanm"
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
