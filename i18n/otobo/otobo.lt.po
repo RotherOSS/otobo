@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-27 14:16+0000\n"
+"PO-Revision-Date: 2021-04-27 21:21+0000\n"
 "Last-Translator: elpaso <eldaras20@gmail.com>\n"
 "Language-Team: Lithuanian <https://translate.otobo.org/projects/otobo10/"
 "otobo/lt/>\n"
@@ -693,7 +693,7 @@ msgstr "Ši funkcija šiuo metu nepasiekiama."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "Atnaujinti į% s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
@@ -716,6 +716,8 @@ msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
 msgstr ""
+"Šios kalbos sistemoje nėra arba ji neįgalinta. Šis pranešimo tekstas gali "
+"būti ištrintas, jei jis nebereikalingas."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
@@ -860,7 +862,7 @@ msgstr "Ištrinti šį priedą"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Ar tikrai norite ištrinti šį priedą?"
 
 #. Template: AdminAttachment
 msgid "Attachment"
@@ -884,7 +886,7 @@ msgstr "Filtruoti auto. atsakymus"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filtruoti automatinius atsakymus"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -976,17 +978,19 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigūracija"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "Siųsti palaikymo duomenis"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Tai leis sistemai siųsti papildomą palaikymo duomenų informaciją OTOBO "
+"komandai."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -994,7 +998,7 @@ msgstr "Atnaujinti"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr ""
+msgstr "Sistemos registracija"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -1005,19 +1009,23 @@ msgstr ""
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "Užregistruokite šią sistemą"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
 msgstr ""
+"Jūsų sistemoje sistemos registracija yra išjungta. Patikrinkite savo "
+"konfigūraciją."
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"Sistemos registracija yra OTOBO komandos paslauga, suteikianti daug "
+"privalumų!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1027,7 +1035,7 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "Užregistruokite šią sistemą"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1037,15 +1045,15 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "Galimos debesų paslaugos"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Komunikacijos žurnalas"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Laiko diapazonas"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -6200,7 +6208,7 @@ msgstr ""
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "Registruotis"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
@@ -6612,7 +6620,7 @@ msgstr "Vykdyti užduotį"
 
 #. Template: AdminSelectBox
 msgid "%s Results"
-msgstr ""
+msgstr "% s rezultatai"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
@@ -6787,7 +6795,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Send Update"
-msgstr ""
+msgstr "Siųsti naujinį"
 
 #. Template: AdminSupportDataCollector
 msgid "Currently this data is only shown in this system."
@@ -6827,7 +6835,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Send by Email"
-msgstr ""
+msgstr "Siųsti el. paštu"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -6850,7 +6858,7 @@ msgstr ""
 
 #. Template: AdminSupportDataCollector
 msgid "Download File"
-msgstr ""
+msgstr "Atsisiųsti failą"
 
 #. Template: AdminSupportDataCollector
 msgid ""
@@ -9601,7 +9609,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created"
-msgstr "Tik triktys sukurti"
+msgstr "Tik sukurti kreipiniai"
 
 #. Template: CustomerTicketSearch
 msgid "Date range"
@@ -9609,7 +9617,7 @@ msgstr ""
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
-msgstr "Tik triktys sukurti tarp"
+msgstr "Tik kreipiniai sukurti tarp"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket Archive System"
@@ -9775,7 +9783,7 @@ msgstr ""
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "Vokiečių"
 
 #. Template: Installer
 msgid "Phone"
@@ -12502,15 +12510,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "Agento sąsaja"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Kliento sąsaja"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "Agento ir kliento sąsaja"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
@@ -12633,15 +12641,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "Testas"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
-msgstr ""
+msgstr "Mokymai"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
-msgstr ""
+msgstr "Plėtra"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
@@ -12661,7 +12669,7 @@ msgstr "Keisti rolių ryšius grupei"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "Rolė"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
@@ -13693,7 +13701,7 @@ msgstr "Eilių peržiūra"
 
 #. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
 msgid "My Responsible Tickets"
-msgstr "Triktys už kuriuos aš atsakingas"
+msgstr "Kreipiniai už kuriuos aš atsakingas"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "last-search"
@@ -13757,7 +13765,7 @@ msgstr "Būsenos peržiūra"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatchView.pm
 msgid "My Watched Tickets"
-msgstr "Mano stebimos triktys"
+msgstr "Mano stebimi kreipiniai"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
@@ -14062,11 +14070,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
-msgstr "Mano triktys"
+msgstr "Mano kreipiniai"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Company Tickets"
-msgstr "Organizacijos triktys"
+msgstr "Organizacijos kreipiniai"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Untitled!"
@@ -14552,7 +14560,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Tickets"
-msgstr "Rodomos triktys"
+msgstr "Rodomi kreipiniai"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Columns"
@@ -14987,7 +14995,7 @@ msgstr "Rikiuoti pagal"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets New"
-msgstr "Nauji užrakintos triktys"
+msgstr "Nauji užrakinti kreipiniai"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
 msgid "Locked Tickets Reminder Reached"
@@ -14999,7 +15007,7 @@ msgstr "Iš viso užrakintų trikčių"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets New"
-msgstr "Naujos atsakingos triktys"
+msgstr "Nauji atsakingi kreipiniai"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Reminder Reached"
@@ -15011,7 +15019,7 @@ msgstr "Iš viso atsakingų trikčių"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
 msgid "Watched Tickets New"
-msgstr "Naujos stebimos triktys"
+msgstr "Nauji stebimi kreipiniai"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
 msgid "Watched Tickets Reminder Reached"
@@ -18527,11 +18535,11 @@ msgstr ""
 
 #. SysConfig
 msgid "All escalated tickets"
-msgstr "Visos eskaluotos triktys"
+msgstr "Visi eskaluoti kreipiniai"
 
 #. SysConfig
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Visos naujos triktys su kuriomis dar nebuvo dirbta"
+msgstr "Visi nauji kreipiniai su kuriais dar nebuvo dirbta"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -18541,7 +18549,7 @@ msgstr ""
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
 msgstr ""
-"Visos triktys turinčios nustatytus priminimus, kurių priminimo laikai jau "
+"Visi kreipiniai turintis nustatytus priminimus, kurių priminimo laikai jau "
 "atėjo"
 
 #. SysConfig
@@ -18921,7 +18929,7 @@ msgstr "Nukreiptas į \"%s\"."
 
 #. SysConfig
 msgid "Bulgarian"
-msgstr ""
+msgstr "Bulgarų"
 
 #. SysConfig
 msgid "Bulk Action"
@@ -19135,11 +19143,11 @@ msgstr "Vaikas"
 
 #. SysConfig
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "Kinų (Supaprastinta)"
 
 #. SysConfig
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "Kinų (Tradicinis)"
 
 #. SysConfig
 msgid ""
@@ -19540,7 +19548,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Croatian"
-msgstr ""
+msgstr "Kroatų"
 
 #. SysConfig
 msgid "Custom RSS Feed"
@@ -19706,11 +19714,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Czech"
-msgstr ""
+msgstr "Čekų"
 
 #. SysConfig
 msgid "Danish"
-msgstr ""
+msgstr "Danų"
 
 #. SysConfig
 msgid "Dashboard overview."
@@ -22753,15 +22761,15 @@ msgstr ""
 
 #. SysConfig
 msgid "English (Canada)"
-msgstr ""
+msgstr "Anglų (Kanada)"
 
 #. SysConfig
 msgid "English (United Kingdom)"
-msgstr ""
+msgstr "Anglų (Jungtinė Karalystė)"
 
 #. SysConfig
 msgid "English (United States)"
-msgstr ""
+msgstr "Anglų (JAV)"
 
 #. SysConfig
 msgid ""
@@ -22783,7 +22791,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Escalated Tickets"
-msgstr "Eskaluotos triktys"
+msgstr "Eskaluoti kreipiniai"
 
 #. SysConfig
 msgid "Escalation view"
@@ -22795,7 +22803,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "Estų"
 
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
@@ -23079,11 +23087,11 @@ msgstr "Persiųstas į \"%s\"."
 
 #. SysConfig
 msgid "French"
-msgstr ""
+msgstr "Prancūzų"
 
 #. SysConfig
 msgid "French (Canada)"
-msgstr ""
+msgstr "Prancūzų (Kanada)"
 
 #. SysConfig
 msgid ""
@@ -23338,7 +23346,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Hungarian"
-msgstr ""
+msgstr "Vengrų"
 
 #. SysConfig
 msgid ""
@@ -23766,7 +23774,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Indoneziečių"
 
 #. SysConfig
 msgid "Inline"
@@ -23826,7 +23834,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Italian"
-msgstr ""
+msgstr "Italų"
 
 #. SysConfig
 msgid ""
@@ -23844,7 +23852,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Japanese"
-msgstr ""
+msgstr "Japonų"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
@@ -23856,7 +23864,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "Korėjiečių"
 
 #. SysConfig
 msgid "Language"
@@ -23896,7 +23904,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "Latvių"
 
 #. SysConfig
 msgid "Left"
@@ -24071,7 +24079,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Locked Tickets"
-msgstr "Užrakintos triktys"
+msgstr "Užrakinti kreipiniai"
 
 #. SysConfig
 msgid "Locked Tickets."
@@ -24148,7 +24156,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "Malajiečių"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
@@ -24477,7 +24485,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New Tickets"
-msgstr "Naujos triktys"
+msgstr "Nauji kreipiniai"
 
 #. SysConfig
 msgid "New Window"
@@ -25144,15 +25152,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Polish"
-msgstr ""
+msgstr "Lenkų"
 
 #. SysConfig
 msgid "Portuguese"
-msgstr ""
+msgstr "Portugalų"
 
 #. SysConfig
 msgid "Portuguese (Brasil)"
-msgstr ""
+msgstr "Portugalų (Brazilija)"
 
 #. SysConfig
 msgid "PostMaster Filters"
@@ -25479,7 +25487,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Romanian"
-msgstr ""
+msgstr "Rumunų"
 
 #. SysConfig
 msgid ""
@@ -25519,7 +25527,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Russian"
-msgstr ""
+msgstr "Rusų"
 
 #. SysConfig
 msgid "S/MIME Certificates"
@@ -25720,11 +25728,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Serbian Cyrillic"
-msgstr ""
+msgstr "Serbų kirilica"
 
 #. SysConfig
 msgid "Serbian Latin"
-msgstr ""
+msgstr "Serbų lotynų"
 
 #. SysConfig
 msgid "Service Level Agreements"
@@ -26432,11 +26440,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the history for this ticket"
-msgstr ""
+msgstr "Rodyti šio kreipinio istoriją"
 
 #. SysConfig
 msgid "Show the ticket history"
-msgstr ""
+msgstr "Rodyti kreipinių istoriją"
 
 #. SysConfig
 msgid ""
@@ -26902,7 +26910,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTOBO Daemon"
-msgstr ""
+msgstr "Rodoma informacija, kaip paleisti „OTOBO Daemon“"
 
 #. SysConfig
 msgid ""
@@ -27071,11 +27079,11 @@ msgstr "Apvalkalas"
 
 #. SysConfig
 msgid "Slovak"
-msgstr ""
+msgstr "Slovakų"
 
 #. SysConfig
 msgid "Slovenian"
-msgstr ""
+msgstr "Slovėnų"
 
 #. SysConfig
 msgid "Small"
@@ -27087,7 +27095,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Solution time"
-msgstr ""
+msgstr "Sprendimo laikas"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
@@ -27123,7 +27131,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Spam"
-msgstr ""
+msgstr "Šlamštas"
 
 #. SysConfig
 msgid ""
@@ -27137,15 +27145,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Spanish"
-msgstr ""
+msgstr "Įspanų"
 
 #. SysConfig
 msgid "Spanish (Colombia)"
-msgstr ""
+msgstr "Įspanų (Kolumbija)"
 
 #. SysConfig
 msgid "Spanish (Mexico)"
-msgstr ""
+msgstr "Įspanų (Meksika)"
 
 #. SysConfig
 msgid ""
@@ -27367,11 +27375,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Swahili"
-msgstr ""
+msgstr "Svahili"
 
 #. SysConfig
 msgid "Swedish"
-msgstr ""
+msgstr "Švedų"
 
 #. SysConfig
 msgid "System Address Display Name"
@@ -27383,7 +27391,7 @@ msgstr ""
 
 #. SysConfig
 msgid "System Configuration Group"
-msgstr ""
+msgstr "Sistemos konfigūracijos grupė"
 
 #. SysConfig
 msgid "System Configuration Setting History"
@@ -27403,11 +27411,11 @@ msgstr "Šablonai ↔ Eilės"
 
 #. SysConfig
 msgid "Textarea"
-msgstr ""
+msgstr "Teksto sritis"
 
 #. SysConfig
 msgid "Thai"
-msgstr ""
+msgstr "Tajų"
 
 #. SysConfig
 msgid "The PGP signature is expired."
@@ -27635,7 +27643,7 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
-msgstr ""
+msgstr "Šis modulis yra OTOBO administratoriaus srities dalis."
 
 #. SysConfig
 msgid ""
@@ -27690,11 +27698,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Kreipinys uždarytas"
 
 #. SysConfig
 msgid "Ticket Close."
-msgstr ""
+msgstr "Kreipinys uždarytas."
 
 #. SysConfig
 msgid "Ticket Compose Bounce Email."
@@ -27706,7 +27714,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Customer."
-msgstr ""
+msgstr "Kliento kreipinys."
 
 #. SysConfig
 msgid "Ticket Forward Email."
@@ -27718,27 +27726,27 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket History."
-msgstr ""
+msgstr "Kreipinio istorija."
 
 #. SysConfig
 msgid "Ticket Lock."
-msgstr ""
+msgstr "Kreipinio užrakinimas."
 
 #. SysConfig
 msgid "Ticket Merge."
-msgstr ""
+msgstr "Apjungti kreipinius."
 
 #. SysConfig
 msgid "Ticket Move."
-msgstr ""
+msgstr "Kreipinio perkėlimas."
 
 #. SysConfig
 msgid "Ticket Note."
-msgstr ""
+msgstr "Kreipinio pastaba."
 
 #. SysConfig
 msgid "Ticket Notifications"
-msgstr ""
+msgstr "Pranešimai apie kreipinį"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
@@ -27758,7 +27766,7 @@ msgstr "Trikčių apžvalgos \"mažasis(apatinis)\" limitas"
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "Kreipinio savininkas."
 
 #. SysConfig
 msgid "Ticket Pending."
@@ -27766,11 +27774,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Print."
-msgstr ""
+msgstr "Kreipinio spausdinimas."
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "Kreipinio prioritetas."
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -27814,7 +27822,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket notifications"
-msgstr ""
+msgstr "Pranešimai apie kreipinius"
 
 #. SysConfig
 msgid "Ticket overview"
@@ -27826,11 +27834,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket split dialog."
-msgstr ""
+msgstr "Kreipinio padalijimo dialogas."
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Kreipinio pavadinimas"
 
 #. SysConfig
 msgid "Ticket zoom view."
@@ -27838,7 +27846,7 @@ msgstr ""
 
 #. SysConfig
 msgid "TicketNumber"
-msgstr ""
+msgstr "KreipinioNumeris"
 
 #. SysConfig
 msgid ""
@@ -27849,7 +27857,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tickets."
-msgstr ""
+msgstr "Kreipiniai."
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
@@ -27871,7 +27879,7 @@ msgstr ""
 
 #. SysConfig
 msgid "To view HTML attachments."
-msgstr ""
+msgstr "Peržiūrėti HTML priedus."
 
 #. SysConfig
 msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
@@ -27919,7 +27927,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Turkish"
-msgstr ""
+msgstr "Turkų"
 
 #. SysConfig
 msgid ""
@@ -27929,7 +27937,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."
-msgstr ""
+msgstr "Įjungia „vilkti ir paleisti“ pagrindinei navigacijai."
 
 #. SysConfig
 msgid ""
@@ -27940,7 +27948,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Patobulinkite sistemą, kaip norite."
 
 #. SysConfig
 msgid ""
@@ -27952,15 +27960,17 @@ msgstr ""
 
 #. SysConfig
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainiečių"
 
 #. SysConfig
 msgid "Unlock tickets that are past their unlock timeout."
-msgstr ""
+msgstr "Atrakinti kreipinius, kurių laikas baigėsi."
 
 #. SysConfig
 msgid "Unlock tickets whenever a note is added and the owner is out of office."
 msgstr ""
+"Atrakinti kreipinius, kai tik pridedama pastaba ir savininkas yra ne savo "
+"biure."
 
 #. SysConfig
 msgid "Unlocked ticket."
@@ -27982,7 +27992,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Update time"
-msgstr ""
+msgstr "Atnaujinti laiką"
 
 #. SysConfig
 msgid ""
@@ -27995,11 +28005,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Upload your PGP key."
-msgstr ""
+msgstr "Įkelkite savo PGP raktą."
 
 #. SysConfig
 msgid "Upload your S/MIME certificate."
-msgstr ""
+msgstr "Įkelkite savo S/MIME sertifikatą."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
@@ -28013,7 +28023,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "Naudokite nurodytą „Redis“ loginę duomenų bazę."
 
 #. SysConfig
 msgid "User Profile"
@@ -28021,15 +28031,15 @@ msgstr "Naudotojo profilis"
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "VartotojoVardas"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "VartotojoPavardė"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Vartotojai, grupės ir vaidmenys"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
@@ -28043,7 +28053,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Vietnam"
-msgstr ""
+msgstr "Vietnamas"
 
 #. SysConfig
 msgid "View performance benchmark results."
@@ -28051,37 +28061,39 @@ msgstr "Peržiūrėti našumo rodiklių rezultatus."
 
 #. SysConfig
 msgid "Watch this ticket"
-msgstr ""
+msgstr "Žiūrėkite šį kreipinį"
 
 #. SysConfig
 msgid "Watched Tickets"
-msgstr "Stebimos triktys"
+msgstr "Stebimi kreipiniai"
 
 #. SysConfig
 msgid "Watched Tickets."
-msgstr ""
+msgstr "Žiūrėjo kreipinius."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Atliekame planinę priežiūrą."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
-msgstr ""
+msgstr "Atliekame planinę priežiūrą. Prisijungti laikinai negalima."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
+"Atliekame planinę priežiūrą. Netrukus turėtume vėl prisijungti prie "
+"interneto."
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Žiniatinklio tarnyba"
 
 #. SysConfig
 msgid "Web Services"
-msgstr ""
+msgstr "Žiniatinklio paslaugos"
 
 #. SysConfig
 msgid ""
@@ -28151,13 +28163,16 @@ msgstr ""
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Taip, bet paslėpkite archyvuotus kreipinius"
 
 #. SysConfig
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
 "\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
+"Jūsų el. pašto adresas su kreipinio numeriu „<OTOBO_TICKET>“ atmetamas į "
+"„<OTOBO_BOUNCE_TO>“. Norėdami gauti daugiau informacijos, susisiekite šiuo "
+"adresu."
 
 #. SysConfig
 msgid ""
@@ -28213,7 +28228,7 @@ msgstr ""
 
 #. SysConfig
 msgid "inline"
-msgstr ""
+msgstr "tiesiai"
 
 #. SysConfig
 msgid "normal"
@@ -28221,7 +28236,7 @@ msgstr "normalus"
 
 #. SysConfig
 msgid "notice"
-msgstr ""
+msgstr "pastebėti"
 
 #. SysConfig
 msgid "pending"
@@ -28241,7 +28256,7 @@ msgstr "atšaukti/panaikinti"
 
 #. SysConfig
 msgid "stats"
-msgstr ""
+msgstr "statistika"
 
 #~ msgid "Select your frontend Theme."
 #~ msgstr "Pasirinkite sąsajos temą (išvaizdą)."
