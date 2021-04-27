@@ -157,6 +157,9 @@ sub Run {
         }
     }
 
+    # Create the object that actually runs the test scripts.
+    # The 'jobs' is not set, this means that per default tests are not run in parallel,
+    # this is a requirement as test write temporary files in Kernel/Config/Files.
     my $Harness = TAP::Harness->new(
         {
             timer     => 1,
@@ -209,9 +212,9 @@ sub Run {
     my $Aggregate = $Harness->runtests(@ActualTests);
 
     if (@SkippedTests) {
-        print "Following blacklisted tests were skipped:\n";
+        say "Following blacklisted tests were skipped:";
         for my $SkippedTest (@SkippedTests) {
-            print '  ' . $Self->_Color( 'yellow', $SkippedTest ) . "\n";
+            say '  ', $Self->_Color( 'yellow', $SkippedTest );
         }
     }
 

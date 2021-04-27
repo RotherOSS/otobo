@@ -115,7 +115,10 @@ $Selenium->RunTest(
         }
 
         # check if login is successful
-        $Selenium->find_element_by_xpath_ok(q{//div[@class='oooLogout']/a[@title='Logout']});
+        $Selenium->WaitFor(
+            ElementExists => q{//div[@class='oooLogout']/a[@title='Logout']}
+        );
+
         my $ButtonLogout = $Selenium->find_element_by_xpath(q{//a[@id='oooAvatar']});
         ok( $ButtonLogout, 'logout button found' );
 
