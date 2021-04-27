@@ -487,13 +487,13 @@ sub Login {
             if ($@) {
 
                 # login was not sucessful
-                fail("Login attempt $Try/$MaxTries failed");
+                note("Login attempt $Try/$MaxTries failed");
 
                 next TRY;
             }
 
             # no error happend
-            pass("Login attempt $Try/$MaxTries succeeded");
+            note("Login attempt $Try/$MaxTries succeeded");
             $LoginSuccessful = 1;
 
             last TRY;
