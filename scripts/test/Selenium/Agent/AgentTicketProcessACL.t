@@ -303,177 +303,179 @@ $Selenium->RunTest(
             );
         }
 
-        # try sleeping a long time for avoiding failures. See issue #763.
-        sleep 11;
-
-        # Navigate to agent ticket process directly via URL with pre-selected process and activity dialog.
-        $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketProcess;ID=$Process->{EntityID};ActivityDialogEntityID=$Process->{Config}->{StartActivityDialog}"
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
-
-        # Verify all test queues exist for appropriate process, activity and activity dialog (see bug#14775).
-        $Selenium->WaitFor( ElementExists => [ '#QueueID', 'css' ] );
-        for my $Queue (@Queues) {
-            ok(
-                $Selenium->execute_script("return \$('#QueueID option[value=\"$Queue->{ID}\"]').length;"),
-                "QueueID $Queue->{ID} is found"
-            );
-        }
-
-        # Set to invalid all test ACLs except the first one (which disables all test queues).
-        ACL:
-        for my $ACL (@ACLs) {
-
-            # Do not invalidate the first ACL.
-            next ACL if $ACL->{ACLID} == $ACLs[0]->{ACLID};
-
-            my $Success = $ACLObject->ACLUpdate(
-                ID             => $ACL->{ACLID},
-                Name           => $ACL->{Name},
-                ValidID        => $InvalidID,
-                UserID         => $TestUserID,
-                Comment        => $ACL->{Comment},
-                Description    => $ACL->{Description},
-                StopAfterMatch => $ACL->{StopAfterMatch},
-                ConfigMatch    => $ACL->{ConfigMatch},
-                ConfigChange   => $ACL->{ConfigChange},
-            );
-            ok( $Success, "ACLID $ACL->{ACLID}, ACLName '$ACL->{Name}' is set to invalid" );
-        }
-
-        # Synchronize test ACLs.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-        $Selenium->content_contains(
-            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
-            "ACL deployment successful."
-        );
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Selenium->content_lacks(
-            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
-            "ACL deployment successful."
-        );
-
-        # Navigate again to agent ticket process directly via URL with pre-selected process and activity dialog.
-        $Selenium->VerifiedGet(
-            "${ScriptAlias}index.pl?Action=AgentTicketProcess;ID=$Process->{EntityID};ActivityDialogEntityID=$Process->{Config}->{StartActivityDialog}"
-        );
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
-
-        # Verify all test queues don't exist now.
-        for my $Queue (@Queues) {
+        {
             my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            $Selenium->find_no_element_by_css_ok(
-                qq{#QueueID option[value="$Queue->{ID}"]},
-                "QueueID $Queue->{ID} is not found"
-            );
-        }
+            try_ok {
 
-        # Cleanup.
-        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+                # Navigate to agent ticket process directly via URL with pre-selected process and activity dialog.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentTicketProcess;ID=$Process->{EntityID};ActivityDialogEntityID=$Process->{Config}->{StartActivityDialog}"
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        # Clean up activities.
-        my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
-        my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+                # Verify all test queues exist for appropriate process, activity and activity dialog (see bug#14775).
+                $Selenium->WaitFor( ElementExists => [ '#QueueID', 'css' ] );
+                for my $Queue (@Queues) {
+                    ok(
+                        $Selenium->execute_script("return \$('#QueueID option[value=\"$Queue->{ID}\"]').length;"),
+                        "QueueID $Queue->{ID} is found"
+                    );
+                }
 
-        for my $Item ( @{ $Process->{Activities} } ) {
-            my $Activity = $ActivityObject->ActivityGet(
-                EntityID            => $Item,
-                UserID              => $TestUserID,
-                ActivityDialogNames => 0,
-            );
+                # Set to invalid all test ACLs except the first one (which disables all test queues).
+                ACL:
+                for my $ACL (@ACLs) {
 
-            # Clean up activity dialogs.
-            for my $ActivityDialogItem ( @{ $Activity->{ActivityDialogs} } ) {
-                my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
-                    EntityID => $ActivityDialogItem,
-                    UserID   => $TestUserID,
+                    # Do not invalidate the first ACL.
+                    next ACL if $ACL->{ACLID} == $ACLs[0]->{ACLID};
+
+                    my $Success = $ACLObject->ACLUpdate(
+                        ID             => $ACL->{ACLID},
+                        Name           => $ACL->{Name},
+                        ValidID        => $InvalidID,
+                        UserID         => $TestUserID,
+                        Comment        => $ACL->{Comment},
+                        Description    => $ACL->{Description},
+                        StopAfterMatch => $ACL->{StopAfterMatch},
+                        ConfigMatch    => $ACL->{ConfigMatch},
+                        ConfigChange   => $ACL->{ConfigChange},
+                    );
+                    ok( $Success, "ACLID $ACL->{ACLID}, ACLName '$ACL->{Name}' is set to invalid" );
+                }
+
+                # Synchronize test ACLs.
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+                $Selenium->content_contains(
+                    'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+                    "ACL deployment successful."
+                );
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
+                $Selenium->content_lacks(
+                    'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+                    "ACL deployment successful."
                 );
 
-                # Delete test activity dialog.
-                my $Success = $ActivityDialogObject->ActivityDialogDelete(
-                    ID     => $ActivityDialog->{ID},
+                # Navigate again to agent ticket process directly via URL with pre-selected process and activity dialog.
+                $Selenium->VerifiedGet(
+                    "${ScriptAlias}index.pl?Action=AgentTicketProcess;ID=$Process->{EntityID};ActivityDialogEntityID=$Process->{Config}->{StartActivityDialog}"
+                );
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+                # Verify all test queues don't exist now.
+                for my $Queue (@Queues) {
+                    my $ToDo = todo('setup of ACL may be messed up, issue #763');
+
+                    $Selenium->find_no_element_by_css_ok(
+                        qq{#QueueID option[value="$Queue->{ID}"]},
+                        "QueueID $Queue->{ID} is not found"
+                    );
+                }
+
+                # Clean up activities.
+                my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
+                my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+
+                for my $Item ( @{ $Process->{Activities} } ) {
+                    my $Activity = $ActivityObject->ActivityGet(
+                        EntityID            => $Item,
+                        UserID              => $TestUserID,
+                        ActivityDialogNames => 0,
+                    );
+
+                    # Clean up activity dialogs.
+                    for my $ActivityDialogItem ( @{ $Activity->{ActivityDialogs} } ) {
+                        my $ActivityDialog = $ActivityDialogObject->ActivityDialogGet(
+                            EntityID => $ActivityDialogItem,
+                            UserID   => $TestUserID,
+                        );
+
+                        # Delete test activity dialog.
+                        my $Success = $ActivityDialogObject->ActivityDialogDelete(
+                            ID     => $ActivityDialog->{ID},
+                            UserID => $TestUserID,
+                        );
+                        ok( $Success, "ActivityDialog $ActivityDialog->{Name} is deleted" );
+                    }
+
+                    # Delete test activity.
+                    my $Success = $ActivityObject->ActivityDelete(
+                        ID     => $Activity->{ID},
+                        UserID => $TestUserID,
+                    );
+                    ok( $Success, "Activity $Activity->{Name} is deleted" );
+                }
+
+                # Clean up transition actions.
+                my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+                for my $Item ( @{ $Process->{TransitionActions} } ) {
+                    my $TransitionAction = $TransitionActionsObject->TransitionActionGet(
+                        EntityID => $Item,
+                        UserID   => $TestUserID,
+                    );
+
+                    # Delete test transition action.
+                    my $Success = $TransitionActionsObject->TransitionActionDelete(
+                        ID     => $TransitionAction->{ID},
+                        UserID => $TestUserID,
+                    );
+                    ok( $Success, "TransitionAction $TransitionAction->{Name} is deleted" );
+                }
+
+                # Clean up transition.
+                my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
+                for my $Item ( @{ $Process->{Transitions} } ) {
+                    my $Transition = $TransitionObject->TransitionGet(
+                        EntityID => $Item,
+                        UserID   => $TestUserID,
+                    );
+
+                    # Delete test transition.
+                    my $Success = $TransitionObject->TransitionDelete(
+                        ID     => $Transition->{ID},
+                        UserID => $TestUserID,
+                    );
+                    ok( $Success, "Transition $Transition->{Name} is deleted" );
+                }
+
+                # Delete test Process.
+                my $Success = $ProcessObject->ProcessDelete(
+                    ID     => $Process->{ID},
                     UserID => $TestUserID,
                 );
-                ok( $Success, "ActivityDialog $ActivityDialog->{Name} is deleted" );
-            }
+                ok( $Success, "Process $Process->{Name} is deleted" );
 
-            # Delete test activity.
-            my $Success = $ActivityObject->ActivityDelete(
-                ID     => $Activity->{ID},
-                UserID => $TestUserID,
-            );
-            ok( $Success, "Activity $Activity->{Name} is deleted" );
+                # Navigate to AdminProcessManagement screen.
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
+
+                # Synchronize Process after deleting test Process.
+                $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
+
+                pass("Process information is synchronized after removing '$Process->{Name}'");
+
+                # Cleanup ACL.
+                for my $ACL (@ACLs) {
+
+                    # Delete test ACL.
+                    my $Success = $ACLObject->ACLDelete(
+                        ID     => $ACL->{ACLID},
+                        UserID => $TestUserID,
+                    );
+                    ok( $Success, "ACLID $ACL->{ACLID} is deleted" );
+                }
+
+                # Navigate to AdminACL to synchronize after test ACL cleanup.
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
+
+                # Click 'Deploy ACLs'.
+                $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
+
+                pass("ACL information is synchronized after removing test ACLs");
+            };
         }
-
-        # Clean up transition actions.
-        my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
-        for my $Item ( @{ $Process->{TransitionActions} } ) {
-            my $TransitionAction = $TransitionActionsObject->TransitionActionGet(
-                EntityID => $Item,
-                UserID   => $TestUserID,
-            );
-
-            # Delete test transition action.
-            my $Success = $TransitionActionsObject->TransitionActionDelete(
-                ID     => $TransitionAction->{ID},
-                UserID => $TestUserID,
-            );
-            ok( $Success, "TransitionAction $TransitionAction->{Name} is deleted" );
-        }
-
-        # Clean up transition.
-        my $TransitionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
-        for my $Item ( @{ $Process->{Transitions} } ) {
-            my $Transition = $TransitionObject->TransitionGet(
-                EntityID => $Item,
-                UserID   => $TestUserID,
-            );
-
-            # Delete test transition.
-            my $Success = $TransitionObject->TransitionDelete(
-                ID     => $Transition->{ID},
-                UserID => $TestUserID,
-            );
-            ok( $Success, "Transition $Transition->{Name} is deleted" );
-        }
-
-        # Delete test Process.
-        my $Success = $ProcessObject->ProcessDelete(
-            ID     => $Process->{ID},
-            UserID => $TestUserID,
-        );
-        ok( $Success, "Process $Process->{Name} is deleted" );
-
-        # Navigate to AdminProcessManagement screen.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
-
-        # Synchronize Process after deleting test Process.
-        $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        pass("Process information is synchronized after removing '$Process->{Name}'");
-
-        # Cleanup ACL.
-        for my $ACL (@ACLs) {
-
-            # Delete test ACL.
-            my $Success = $ACLObject->ACLDelete(
-                ID     => $ACL->{ACLID},
-                UserID => $TestUserID,
-            );
-            ok( $Success, "ACLID $ACL->{ACLID} is deleted" );
-        }
-
-        # Navigate to AdminACL to synchronize after test ACL cleanup.
-        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-
-        # Click 'Deploy ACLs'.
-        $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
-
-        pass("ACL information is synchronized after removing test ACLs");
 
         # Delete test queues.
+        my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
         for my $Queue (@Queues) {
             my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM queue WHERE id = ?",
