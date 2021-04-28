@@ -5,12 +5,14 @@ var/log/ssl_request_log
 .sublimelinterrc
 .externalToolBuilders
 .gnupg
+.lesshst
 .settings
 .includepath
 .DS_Store
 .profile
 .vstags
 .vscode
+.viminfo*
 .vimrc
 
 # files that might be generated during development
