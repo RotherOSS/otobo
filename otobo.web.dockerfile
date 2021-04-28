@@ -123,7 +123,7 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh when it does not already exist.
 RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && install scripts/vim/.vimrc .vimrc
+    && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
 
 # Create ARCHIVE as the last step
 RUN bin/otobo.CheckSum.pl -a create
