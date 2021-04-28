@@ -25,10 +25,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -123,10 +121,7 @@ $Selenium->RunTest(
                 Comment         => 'Selenium Queue',
                 UserID          => $TestUserID,
             );
-            $Self->True(
-                $QueueID,
-                "QueueID $QueueID is created"
-            );
+            ok( $QueueID, "QueueID $QueueID is created" );
             push @Queues, {
                 ID   => $QueueID,
                 Name => $QueueName,
@@ -163,10 +158,7 @@ $Selenium->RunTest(
             # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
             sleep 1;
 
-            $Self->True(
-                1,
-                "Process information is synchronized",
-            );
+            pass("Process information is synchronized");
         }
 
         # Get Process list.
@@ -204,10 +196,7 @@ $Selenium->RunTest(
         # Synchronize test ACLs.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
 
-        $Self->True(
-            1,
-            "ACL information is synchronized after update",
-        );
+        pass("ACL information is synchronized after update");
 
         # Create test ACLs.
         my @ACLs = (
@@ -294,11 +283,7 @@ $Selenium->RunTest(
                 ValidID => 1,
                 UserID  => $TestUserID,
             );
-
-            $Self->True(
-                $ACLID,
-                "ACLID $ACLID is created",
-            );
+            ok( $ACLID, "ACLID $ACLID is created" );
 
             # Add ACLID to test ACL data.
             $ACL->{ACLID} = $ACLID;
@@ -312,7 +297,7 @@ $Selenium->RunTest(
 
         # Verify ACL are
         for my $ACL (@ACLs) {
-            $Self->True(
+            ok(
                 $Selenium->find_element("//a[text()=\"$ACL->{Name}\"]")->is_displayed(),
                 "ACLName '$ACL->{Name}' found on page.",
             );
@@ -330,7 +315,7 @@ $Selenium->RunTest(
         # Verify all test queues exist for appropriate process, activity and activity dialog (see bug#14775).
         $Selenium->WaitFor( ElementExists => [ '#QueueID', 'css' ] );
         for my $Queue (@Queues) {
-            $Self->True(
+            ok(
                 $Selenium->execute_script("return \$('#QueueID option[value=\"$Queue->{ID}\"]').length;"),
                 "QueueID $Queue->{ID} is found"
             );
@@ -354,29 +339,18 @@ $Selenium->RunTest(
                 ConfigMatch    => $ACL->{ConfigMatch},
                 ConfigChange   => $ACL->{ConfigChange},
             );
-            $Self->True(
-                $Success,
-                "ACLID $ACL->{ACLID}, ACLName '$ACL->{Name}' is set to invalid"
-            );
+            ok( $Success, "ACLID $ACL->{ACLID}, ACLName '$ACL->{Name}' is set to invalid" );
         }
 
         # Synchronize test ACLs.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL");
-        $Self->True(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
+        $Selenium->content_contains(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             "ACL deployment successful."
         );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             "ACL deployment successful."
         );
 
@@ -398,7 +372,6 @@ $Selenium->RunTest(
 
         # Cleanup.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-        my $Success;
 
         # Clean up activities.
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
@@ -419,26 +392,19 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                $Self->True(
-                    $Success,
-                    "ActivityDialog $ActivityDialog->{Name} is deleted",
-                );
+                ok( $Success, "ActivityDialog $ActivityDialog->{Name} is deleted" );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Activity $Activity->{Name} is deleted",
-            );
+            ok( $Success, "Activity $Activity->{Name} is deleted" );
         }
 
         # Clean up transition actions.
@@ -450,15 +416,11 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "TransitionAction $TransitionAction->{Name} is deleted",
-            );
+            ok( $Success, "TransitionAction $TransitionAction->{Name} is deleted" );
         }
 
         # Clean up transition.
@@ -470,26 +432,19 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
-
-            $Self->True(
-                $Success,
-                "Transition $Transition->{Name} is deleted",
-            );
+            ok( $Success, "Transition $Transition->{Name} is deleted" );
         }
 
         # Delete test Process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "Process $Process->{Name} is deleted",
-        );
+        ok( $Success, "Process $Process->{Name} is deleted" );
 
         # Navigate to AdminProcessManagement screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
@@ -497,23 +452,17 @@ $Selenium->RunTest(
         # Synchronize Process after deleting test Process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        $Self->True(
-            1,
-            "Process information is synchronized after removing '$Process->{Name}'",
-        );
+        pass("Process information is synchronized after removing '$Process->{Name}'");
 
         # Cleanup ACL.
         for my $ACL (@ACLs) {
 
             # Delete test ACL.
-            $Success = $ACLObject->ACLDelete(
+            my $Success = $ACLObject->ACLDelete(
                 ID     => $ACL->{ACLID},
                 UserID => $TestUserID,
             );
-            $Self->True(
-                $Success,
-                "ACLID $ACL->{ACLID} is deleted",
-            );
+            ok( $Success, "ACLID $ACL->{ACLID} is deleted" );
         }
 
         # Navigate to AdminACL to synchronize after test ACL cleanup.
@@ -522,21 +471,15 @@ $Selenium->RunTest(
         # Click 'Deploy ACLs'.
         $Selenium->find_element("//a[contains(\@href, 'Action=AdminACL;Subaction=ACLDeploy')]")->VerifiedClick();
 
-        $Self->True(
-            1,
-            "ACL information is synchronized after removing test ACLs",
-        );
+        pass("ACL information is synchronized after removing test ACLs");
 
         # Delete test queues.
         for my $Queue (@Queues) {
-            $Success = $DBObject->Do(
+            my $Success = $DBObject->Do(
                 SQL  => "DELETE FROM queue WHERE id = ?",
                 Bind => [ \$Queue->{ID} ],
             );
-            $Self->True(
-                $Success,
-                "QueueID $Queue->{ID} is deleted",
-            );
+            ok( $Success, "QueueID $Queue->{ID} is deleted" );
         }
 
         # Restore state of process.
