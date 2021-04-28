@@ -83,10 +83,6 @@ my @Tests = (
         Email => 'foo=bar@[192.22.2]',
         Valid => 0,
     },
-    {
-        Email => 'somebody @somehost.com',
-        Valid => 0,
-    },
 
     # Valid
     {
