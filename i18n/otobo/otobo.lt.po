@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-04-27 21:21+0000\n"
+"PO-Revision-Date: 2021-04-28 16:01+0000\n"
 "Last-Translator: elpaso <eldaras20@gmail.com>\n"
 "Language-Team: Lithuanian <https://translate.otobo.org/projects/otobo10/"
 "otobo/lt/>\n"
@@ -22166,7 +22166,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Delete expired sessions."
-msgstr ""
+msgstr "Ištrinkite pasibaigusius seansus."
 
 #. SysConfig
 msgid "Delete expired ticket draft entries."
@@ -22178,11 +22178,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Delete this ticket"
-msgstr ""
+msgstr "Ištrinti šį kreipinį"
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Pašalinta trikties sąsaja \"%s\"."
+msgstr "Pašalinta kreipinio sąsaja \"%s\"."
 
 #. SysConfig
 msgid ""
