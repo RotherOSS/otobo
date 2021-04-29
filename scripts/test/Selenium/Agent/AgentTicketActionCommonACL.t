@@ -479,46 +479,46 @@ END_CONTENT
                 1,
                 'There is only one entry in the SLA selection'
             );
+
+            # Close the new note popup.
+            $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
+
+            $Selenium->WaitFor( WindowCount => 1 );
+            $Selenium->switch_to_window( $Handles->[0] );
+
+            # Please see bug#12871 for more information.
+            $Success = $DynamicFieldValueObject->ValueSet(
+                FieldID  => $DynamicFieldID2,
+                ObjectID => $TicketID,
+                Value    => [
+                    {
+                        ValueText => 'a',
+                    },
+                ],
+                UserID => 1,
+            );
+
+            # Click on 'Note' and switch window.
+            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+            $Selenium->WaitFor( WindowCount => 2 );
+            $Handles = $Selenium->get_window_handles();
+            $Selenium->switch_to_window( $Handles->[1] );
+
+            # Wait until page has loaded.
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+            );
+
+            is(
+                $Selenium->execute_script(
+                    "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
+                ),
+                2,
+                "There are only two entries in the dynamic field 2 selection",
+            );
         }
-
-        # Close the new note popup.
-        $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
-
-        $Selenium->WaitFor( WindowCount => 1 );
-        $Selenium->switch_to_window( $Handles->[0] );
-
-        # Please see bug#12871 for more information.
-        $Success = $DynamicFieldValueObject->ValueSet(
-            FieldID  => $DynamicFieldID2,
-            ObjectID => $TicketID,
-            Value    => [
-                {
-                    ValueText => 'a',
-                },
-            ],
-            UserID => 1,
-        );
-
-        # Click on 'Note' and switch window.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
-
-        $Selenium->WaitFor( WindowCount => 2 );
-        $Handles = $Selenium->get_window_handles();
-        $Selenium->switch_to_window( $Handles->[1] );
-
-        # Wait until page has loaded.
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
-        );
-
-        is(
-            $Selenium->execute_script(
-                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
-            ),
-            2,
-            "There are only two entries in the dynamic field 2 selection",
-        );
 
         # De-select the dynamic field value for the first field.
         $Selenium->InputFieldValueSet(
