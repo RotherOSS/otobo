@@ -171,7 +171,19 @@ fi
 
 # now running as $OTOBO_USER
 
-# Run the OTOBO Daemon the webserver
+# print usage message when no param was passed
+if [ "$1" = "" ]; then
+    cat <<END_HELP
+This script is meant to be used as a Docker entrypoint script.
+Supported arguments are: 'daemon', 'web', 'copy_otobo_next', 'do_update_tasks'.
+When no argument is passed, then this message is printed.
+Any other argument list will be executed as a system command.
+END_HELP
+
+    exit 0
+fi
+
+# Start the OTOBO daemon
 if [ "$1" = "daemon" ]; then
     start_and_check_daemon
 
