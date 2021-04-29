@@ -1,19 +1,21 @@
-# Dot files are kept per default.
+# The toplevel dot files are not copied per default, but there are some exception that are included in the image.
+# .bash_aliases and .vimrc are not copied, but created in RUN step
+.*
+!.bash_completion
+!.fetchmailrc.dist
+!.mailfilter.dist
+!.procmailrc.dist
+!.screenrc
+
+# The dot files in the subdirectories are kept kept per default.
 # The not wanted dot files are listed here explicitly.
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
-.bash_aliases
 
-# Files for git are not needed in the image.
-.git
-.gitignore
-.gitconfig
-.github
-
-# the development folder is not needed
+# ignore the development folder as it is not needed in the image
 development
 
-# files that might be generated during development
+# ignore files that might be generated during development
 build.log
 otobo.iml
 *.out
@@ -22,13 +24,12 @@ var/httpd/htdocs/SeleniumScreenshots
 # locally installed Perl modules should not end up in the image
 local
 
-# editor swap files, other temporary files
+# ignore editor swap files and other temporary files
 **/.#*
 **/*.sw?
 **/*~
 
-# files only needed only for building the docker image
-.dockerignore
+# ignore files that are only needed only for building the docker image
 bin/docker/build_docker_images.sh
 bin/docker/lint_docker_files.sh
 hooks
