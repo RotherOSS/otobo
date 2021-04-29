@@ -103,6 +103,8 @@ $Selenium->RunTest(
         # Go to test created ticket zoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
 
+        sleep 11;
+
         # Check if process enroll is available for test ticket.
         $Selenium->find_element_ok(
             "//a[contains(\@href, \'Action=AgentTicketProcess;IsProcessEnroll=1;TicketID=$TicketID' )]",
@@ -211,11 +213,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
         sleep 11;
 
         # Go to test created ticket zoom.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+        sleep 11;
 
         # Check if process enroll is not available for test ticket.
         $Selenium->content_lacks(

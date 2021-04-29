@@ -174,37 +174,37 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedRefresh();
 
-        # Check if customer user input is on create process screen.
-        $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
-
-        my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
-        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID",           'css' )->clear();
-        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($RandomCustomerUser);
-        $Selenium->find_element( "#CustomerID",           'css' )->send_keys($RandomCustomerUser);
-
-        # Check if select button is not disabled.
-        is(
-            $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
-            0,
-            "Button to select a other CustomerID is not disabled",
-        );
-
-        $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
-        $Selenium->find_element( "#CustomerID",           'css' )->clear();
-
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly',
-            Value => 1
-        );
-
-        $Selenium->VerifiedRefresh();
-
         {
             my $ToDo = todo('selection of process is not reliable, see #929');
 
             try_ok {
+
+                # Check if customer user input is on create process screen.
+                $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
+
+                my $RandomCustomerUser = 'RandomCustomerUser' . $Helper->GetRandomID();
+                $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
+                $Selenium->find_element( "#CustomerID",           'css' )->clear();
+                $Selenium->find_element( "#CustomerAutoComplete", 'css' )->send_keys($RandomCustomerUser);
+                $Selenium->find_element( "#CustomerID",           'css' )->send_keys($RandomCustomerUser);
+
+                # Check if select button is not disabled.
+                is(
+                    $Selenium->execute_script("return \$('#SelectionCustomerID').prop('disabled');"),
+                    0,
+                    "Button to select a other CustomerID is not disabled",
+                );
+
+                $Selenium->find_element( "#CustomerAutoComplete", 'css' )->clear();
+                $Selenium->find_element( "#CustomerID",           'css' )->clear();
+
+                $Helper->ConfigSettingChange(
+                    Valid => 1,
+                    Key   => 'Ticket::Frontend::AgentTicketProcess::CustomerIDReadOnly',
+                    Value => 1
+                );
+
+                $Selenium->VerifiedRefresh();
 
                 # Check if customer user input is on create process screen.
                 $Selenium->WaitFor( ElementExists => [ '#CustomerAutoComplete', 'css' ] );
