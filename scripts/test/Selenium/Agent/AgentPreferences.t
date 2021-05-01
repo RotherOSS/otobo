@@ -360,9 +360,8 @@ $Selenium->RunTest(
             $Element->is_displayed();
         }
 
-        $Self->True(
-            index( $Selenium->get_page_source(), '<span class="Mandatory">* NotificationTest' . $RandomID . '</span>' )
-                > -1,
+        $Selenium->content_contains(
+            qq{<span class="Mandatory">* NotificationTest$RandomID</span>},
             "Notification correctly marked as mandatory in preferences."
         );
 
