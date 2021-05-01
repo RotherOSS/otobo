@@ -16,13 +16,13 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
 
 # CPAN modules
 use Test2::V0;
-use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
@@ -31,7 +31,6 @@ use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
-# get needed objects
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
