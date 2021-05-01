@@ -25,11 +25,9 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
-
-our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -94,11 +92,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-
-        $Self->True(
-            $NotificationID,
-            "Created test notification",
-        );
+        ok( $NotificationID, "Created test notification" );
 
         # get script alias
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -192,7 +186,7 @@ $Selenium->RunTest(
             );
 
             # check edited language value
-            $Self->Is(
+            is(
                 $Selenium->find_element( '#UserLanguage', 'css' )->get_value(),
                 "$Language",
                 "#UserLanguage updated value",
@@ -280,11 +274,8 @@ $Selenium->RunTest(
             Value => 'None',
         );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
-        $Self->True(
-            index(
-                $Selenium->get_page_source(),
-                "Avatars have been disabled by the system administrator. You'll see your initials instead."
-            ) > -1,
+        $Selenium->content_contains(
+            "Avatars have been disabled by the system administrator. You'll see your initials instead.",
             "Avatars disabled message found"
         );
 
@@ -295,11 +286,8 @@ $Selenium->RunTest(
             Value => 'Gravatar',
         );
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
-        $Self->True(
-            index(
-                $Selenium->get_page_source(),
-                "You can change your avatar image by registering with your email address"
-            ) > -1,
+        $Selenium->content_contains(
+            "You can change your avatar image by registering with your email address",
             "Gravatar message found"
         );
 
@@ -337,7 +325,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
         # Check if malicious code was sanitized.
-        $Self->True(
+        ok(
             $Selenium->execute_script(
                 "return typeof window.iShouldNotExist === 'undefined';"
             ),
@@ -395,7 +383,7 @@ JAVASCRIPT
             UserLanguage => $Language,
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('.NotificationEvent').closest('.WidgetSimple').find('.WidgetMessage.Error').text()"
             ),
@@ -434,7 +422,7 @@ JAVASCRIPT
         # now that the checkbox is checked, it should not be possible to disable it again
         $Selenium->find_element( "#Notification-$NotificationID-Email-checkbox", 'css' )->click();
 
-        $Self->Is(
+        is(
             $Selenium->execute_script("return window.getLastAlert()"),
             $LanguageObject->Translate("Sorry, but you can't disable all methods for this notification."),
             'Alert message shows up correctly',
@@ -445,11 +433,7 @@ JAVASCRIPT
             ID     => $NotificationID,
             UserID => 1,
         );
-
-        $Self->True(
-            $SuccessDelete,
-            "Delete test notification - $NotificationID",
-        );
+        ok( $SuccessDelete, "Delete test notification - $NotificationID" );
 
         # head over to misc settings
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=Miscellaneous");
@@ -464,7 +448,7 @@ JAVASCRIPT
             $Element->is_displayed();
         }
 
-        $Self->Is(
+        is(
             $Selenium->find_element( '#UserSkin', 'css' )->get_value(),
             $Kernel::OM->Get('Kernel::Config')->Get('Loader::Agent::DefaultSelectedSkin'),
             "#UserSkin stored value",
@@ -499,10 +483,9 @@ JAVASCRIPT
                 "return !\$('#UserSkin').closest('.WidgetSimple').hasClass('HasOverlay')"
         );
 
-        $Self->True(
-            $Selenium->find_element(
-                "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=Miscellaneous' )]"
-            ),
+        $Selenium->find_element_ok(
+            "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=Miscellaneous' )]",
+            'xpath',
             "Notification contains user miscellaneous group link"
         );
 
@@ -520,10 +503,9 @@ JAVASCRIPT
                 "return \$('div.MessageBox.Notice:contains(\"" . $NotificationTranslation . "\")').length"
         );
 
-        $Self->True(
-            $Selenium->find_element(
-                "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=UserProfile' )]"
-            ),
+        $Selenium->find_element_ok(
+            "//div[contains(\@class, 'MessageBox Notice' )]//a[contains(\@href, 'Action=AgentPreferences;Subaction=Group;Group=UserProfile' )]",
+            'xpath',
             "Notification contains user profile group link"
         );
 
