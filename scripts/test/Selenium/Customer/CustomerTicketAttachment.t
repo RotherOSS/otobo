@@ -110,26 +110,28 @@ $Selenium->RunTest(
         $Selenium->find_element_ok( $TicketNumber, 'partial_link_text' );
         $Selenium->find_element( $TicketNumber, 'partial_link_text' )->VerifiedClick();
 
-        {
-            my $ToDO = todo('attachment not shown, see issue #907');
+        # Click on attachment to open it.
+        # Initially the link is hidden. Click on the paperclip first, in order to show the link.
+        # Per default Selenium interacts only with visible elements.
+        $Selenium->LogExecuteCommandActive(0);
+        try_ok {
+            my $PaperclipSelector      = q{//div[@class='MessageHeader']/p/i[@class='fa fa-paperclip']};
+            my $AttachmentLinkSelector = qq{//span[contains(\@title,'$AttachmentName')]/a};
+            $Selenium->find_element_by_xpath_ok($PaperclipSelector);
+            $Selenium->find_element_by_xpath_ok($AttachmentLinkSelector);
+            $Selenium->click_element_ok($PaperclipSelector);
+            $Selenium->click_element_ok($AttachmentLinkSelector);
 
-            # Click on attachment to open it.
-            eval {
-                $Selenium->find_element_by_xpath_ok("//*[text()=\"$AttachmentName\"]");
-                $Selenium->find_element("//*[text()=\"$AttachmentName\"]")->click();
+            # Switch to another window.
+            $Selenium->WaitFor( WindowCount => 2 );
+            my $Handles = $Selenium->get_window_handles();
+            $Selenium->switch_to_window( $Handles->[1] );
 
-                # Switch to another window.
-                $Selenium->WaitFor( WindowCount => 2 );
-                my $Handles = $Selenium->get_window_handles();
-                $Selenium->switch_to_window( $Handles->[1] );
-
-                sleep 3;
-
-                # Check if attachment is genuine.
-                my $ExpectedAttachmentContent = "Some German Text with Umlaut";
-                $Selenium->content_contains( $ExpectedAttachmentContent, "$AttachmentName opened successfully" ) || die;
-            };
-        }
+            # Check if attachment is genuine.
+            my $ExpectedAttachmentContent = "Some German Text with Umlaut";
+            $Selenium->content_contains( $ExpectedAttachmentContent, "$AttachmentName opened successfully" );
+        };
+        $Selenium->LogExecuteCommandActive(1);
 
         # Clean up test data from the DB.
         my $Success = $TicketObject->TicketDelete(
