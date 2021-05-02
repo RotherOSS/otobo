@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
         my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -1427,7 +1426,7 @@ $Selenium->RunTest(
                 $Month11    = $Appointment11TimeSettings->{Month};
             }
             elsif (
-                ( $Appointment11TimeSettings->{Day} == $Day11 )    # Check if day is valid
+                ( $Appointment11TimeSettings->{Day} == $Day11 )                         # Check if day is valid
                 && $Appointment11TimeSettings->{Month} == $Month11
                 && ( ( $Appointment11TimeSettings->{Year} - $LastYear11 ) % 2 == 0 )    # Check if Interval matches
                 )

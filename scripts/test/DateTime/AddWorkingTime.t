@@ -101,7 +101,7 @@ my @TestConfigs = (
         TimeZone            => 'UTC',
         StartDateTimeString => '2015-02-17 12:00:00',
         WorkingTimeToAdd    => {
-            Hours => -2,                                                   # invalid param
+            Hours => -2,    # invalid param
         },
         WorkingHoursConfig        => $WorkingHours{MonToSun}->{'0To23'},
         VacationDaysConfig        => \%VacationDays,

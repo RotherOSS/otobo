@@ -300,8 +300,6 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
-    my $Context = context();
-
     my $CodeSuccess = try_ok {
         $Code->();
     }
@@ -312,8 +310,6 @@ sub RunTest {
         # HandleError() will create screenshots of the open windows
         $Self->HandleError($@);
     }
-
-    $Context->release();
 
     return;
 }
@@ -340,9 +336,8 @@ sub VerifiedGet {
         $Self->get($URL);
 
         $Self->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
     };
 
     my $Pass = run_subtest(
@@ -380,9 +375,8 @@ sub VerifiedRefresh {
         $Self->refresh();
 
         $Self->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
     };
 
     my $Pass = run_subtest(
@@ -434,12 +428,14 @@ sub Login {
     my $Code = sub {
 
         # we will try several times to log in
-        my $MaxTries = 5;
+        my $MaxTries        = 5;
+        my $LoginSuccessful = 0;
 
         TRY:
         for my $Try ( 1 .. $MaxTries ) {
 
             eval {
+                my $ToDo = todo('errors in the login loop are ignored');
 
                 # handle some differences between agent and customer interface
                 my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -485,31 +481,30 @@ sub Login {
 
                 # login successful?
                 $Self->find_element( $LogoutXPath, 'xpath' );    # throws exception if not found
-
-                pass('Login sequence ended...');
             };
 
-            # an error happend
             if ($@) {
 
-                note("Login attempt $Try of $MaxTries not successful.");
+                # login was not sucessful
+                note("Login attempt $Try/$MaxTries failed");
 
-                # try again
-                next TRY if $Try < $MaxTries;
-
-                # giving up
-                $Context->throw("Login() not successfull after $MaxTries attempts!");
+                next TRY;
             }
 
-            # login was sucessful
-            else {
-                last TRY;
-            }
+            # no error happend
+            note("Login attempt $Try/$MaxTries succeeded");
+            $LoginSuccessful = 1;
+
+            last TRY;
         }
+
+        # not successful aftet $MaxTries attempts
+        ok( $LoginSuccessful, 'Login successful' );
     };
 
     my $Pass = run_subtest(
-        'Login', $Code,
+        'Login',
+        $Code,
         {
             buffered      => 1,
             inherit_trace => 1
@@ -667,11 +662,16 @@ sub WaitFor {
     # something short that identfies the WaitFor target
     my $Argument = '';
     {
-        for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        # scalar or arrayref parameters
+        for my $Key (qw(JavaScript WindowCount AlertPresent ElementExists ElementMissing)) {
+            if ( $Param{$Key} ) {
+                my $Value = ref $Param{$Key} eq 'ARRAY' ? $Param{$Key}->[0] : $Param{$Key};
+                $Argument = join ' => ', $Key, $Value;
+            }
         }
 
-        for my $Key (qw(Callback ElementExists ElementMissing)) {
+        # more complex parameters
+        for my $Key (qw(Callback)) {
             $Argument = $Key if $Param{$Key};
         }
     }

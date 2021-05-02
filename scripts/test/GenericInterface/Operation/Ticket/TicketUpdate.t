@@ -454,7 +454,7 @@ my @Tests = (
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketUpdate.AccessDenied',
+                    ErrorCode    => 'TicketUpdate.AccessDenied',
                     ErrorMessage =>
                         'TicketUpdate: User does not have access to the ticket!'
                 },
@@ -464,7 +464,7 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketUpdate.AccessDenied',
+                    ErrorCode    => 'TicketUpdate.AccessDenied',
                     ErrorMessage =>
                         'TicketUpdate: User does not have access to the ticket!'
                 },
@@ -518,7 +518,7 @@ my @Tests = (
         ExpectedReturnLocalData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketUpdate.AccessDenied',
+                    ErrorCode    => 'TicketUpdate.AccessDenied',
                     ErrorMessage =>
                         'TicketUpdate: User does not have access to the ticket!'
                 },
@@ -528,7 +528,7 @@ my @Tests = (
         ExpectedReturnRemoteData => {
             Data => {
                 Error => {
-                    ErrorCode => 'TicketUpdate.AccessDenied',
+                    ErrorCode    => 'TicketUpdate.AccessDenied',
                     ErrorMessage =>
                         'TicketUpdate: User does not have access to the ticket!'
                 },
