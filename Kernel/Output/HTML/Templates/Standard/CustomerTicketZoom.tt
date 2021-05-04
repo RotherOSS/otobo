@@ -40,6 +40,27 @@
         </div>
     </div>
     <div id='oooMainBox' class="Content">
+[% RenderBlockStart("NextActivities") %]
+                <br>
+                <div id="Activities">
+                    <br>
+[% RenderBlockStart("ActivityDialog") %]
+                    <a title="[% Data.Name | html %]" class="AsPopup PopupType_TicketAction" href="[% Env("Baselink") %]Action=CustomerTicketProcess;Subaction=DisplayActivityDialog;TicketID=[% Data.TicketID | uri %];ProcessEntityID=[% Data.ProcessEntityID | uri %];ActivityDialogEntityID=[% Data.ActivityDialogEntityID | uri %]">
+                        <button>
+                            <span>
+                                [% Data.Name | html %]
+                            </span>
+                        </button>
+                    </a>
+[% RenderBlockEnd("ActivityDialog") %]
+#[% RenderBlockStart("NoActivityDialog") %]
+                    <!-- <div>[% Translate("There are no dialogs available at this point in the process.") | html %]</div> -->
+#[% RenderBlockEnd("NoActivityDialog") %]
+                    <br>
+                    <br>
+                    <br>
+                </div>
+[% RenderBlockEnd("NextActivities") %]
         <ul id='oooArticleList'>
         </ul>
         <ul id='oooArticleListExpanded'>

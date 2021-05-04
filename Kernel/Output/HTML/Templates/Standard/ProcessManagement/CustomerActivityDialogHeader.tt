@@ -28,6 +28,14 @@
             <div class="LayoutPopup">
 [% RenderBlockStart("Header") %]
                 <div class="PopupHeader">
+                    <div class="Row">
+                        <div class="Field">
+                            <div id="oooHeader">
+[% RenderBlockStart("CancelLink") %]
+                                <p>
+                                    <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
+                                </p>
+[% RenderBlockEnd("CancelLink") %]
                     <h1>
                         [% Translate(Data.Name) | html %]
 [% RenderBlockStart("DescriptionShort") %]
@@ -37,18 +45,21 @@
 [% RenderBlockStart("DescriptionLong") %]
                     <p class="DescriptionLong">[% Translate(Data.DescriptionLong) | html %]</p>
 [% RenderBlockEnd("DescriptionLong") %]
-[% RenderBlockStart("CancelLink") %]
-                    <p>
-                        <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
-                    </p>
-[% RenderBlockEnd("CancelLink") %]
+                            </div>
+                        </div>
+                    </div>
                 </div>
 [% RenderBlockEnd("Header") %]
                 <div class="Content">
                     <fieldset class="TableLike">
+                        <div class="Row">
+                            <div class="Field">
 [% RenderBlockStart("DescriptionShortAlt") %]
                         <h2>[% Data.DescriptionShort | html %]</h2>
 [% RenderBlockEnd("DescriptionShortAlt") %]
+                                <br>
 [% RenderBlockStart("DescriptionLongAlt") %]
                         <p class="Description DescriptionLong">[% Data.DescriptionLong | html %]</p>
 [% RenderBlockEnd("DescriptionLongAlt") %]
+                            </div>
+                        </div>

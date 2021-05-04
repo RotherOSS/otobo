@@ -13,7 +13,147 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-/**
- * @package     Skin "Default"
- * @section     Process ticket
- */
+@media only screen and (max-width: 767px) {
+
+    #oooHeader {
+        height: 128px;
+        border-radius: 20px 20px 0px 0px;
+    }
+
+    #oooHeader > h1 {
+        padding-top: 40px;
+    }
+
+    .Row:first-child {
+        margin-top: 0px;
+    }
+
+    #oooContent.TicketProcess {
+        background-color: #00023c;
+        background-color: var(--colMainDark);
+    }
+
+    #oooContent.TicketProcess > #oooMainBox{
+        border-radius: 0px;
+    }
+
+    .Row > div.Field,
+    .Row > div.InputField_Container,
+    .Row > select,
+    #cke_RichText,
+    #RichText {
+        width: calc( 50% + 150px ) !important;
+        margin-left: calc( 25% - 76px );
+    }
+
+    #Subject {
+        width: calc( 50% + 118px ) !important;
+        margin-left: calc( 25% - 76px );
+    }
+
+    .Row > label,
+    .RichTextHolder > label {
+        left: calc( -50% - 126px );
+    }
+
+}
+
+@media only screen and (min-width: 768px) {
+
+    #oooContent.TicketProcess {
+        background-color: #fff;
+    }
+
+    #oooHeader {
+        height: 145px;
+    }
+
+    #oooHeader > h1 {
+        padding-top: 48.5px;
+    }
+
+    .Row > div.Field,
+    .Row > div.InputField_Container,
+    .Row > select,
+    #cke_RichText,
+    #RichText {
+        width: 66% !important;
+        margin-left: 17%;
+    }
+
+    #Subject {
+        width: calc( 66% - 32px ) !important;
+        margin-left: 17%;
+    }
+
+    .Row > label,
+    .RichTextHolder > label {
+        left: calc( -66% + 24px );
+    }
+
+}
+
+.TicketProcess ~ #oooFooter {
+    background-color: #fff;
+}
+
+#oooHeader {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+#oooMainBox {
+    background-color: #ffffff;
+    padding-bottom: 48px;
+    overflow: hidden;
+}
+
+#oooCustomerNotifications {
+    background-color: #ffffff;
+}
+
+#BottomActionRow {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.FieldHelpContainer {
+    position: relative;
+}
+
+.FieldHelpContainer:hover > span {
+    display: block;
+}
+
+.FieldHelpContainer .FieldHelpTrigger {
+    cursor: default;
+    z-index: 1;
+    color: #bbb;
+}
+
+.FieldHelpContainer > span {
+    white-space: pre-line;
+    background: #00023c;
+    color: #fff;
+    font-size: 12px;
+    left: 15px;
+    line-height: 110%;
+    padding: 10px;
+    position: absolute;
+    z-index: 2;
+    text-align: left;
+    text-shadow: 1px 1px 1px #000;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+    top: 5px;
+    width: 200px;
+    display: none;
+    -webkit-opacity: 0.8;
+    -moz-opacity: 0.8;
+    -ms-opacity: 0.8;
+    -o-opacity: 0.8;
+    opacity: 0.8;
+}

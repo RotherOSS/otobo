@@ -316,8 +316,8 @@ $Selenium->RunTest(
             try_ok {
 
                 # Check pre-selected process is loaded correctly.
-                ok(
-                    $Selenium->find_element( "#Subject", 'css' ),
+        $Self->True(
+            $Selenium->find_element( "#ArticleSubject", 'css' ),
                     "Pre-selected process with activity dialog via URL is successful"
                 );
 
@@ -330,7 +330,7 @@ $Selenium->RunTest(
                     Value   => $ListReverse{$ProcessName},
                 );
 
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#ArticleSubject').length" );
 
                 # Check on DynamicField change - ACL restriction on Type field.
                 # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
@@ -379,7 +379,7 @@ $Selenium->RunTest(
                 my $AttachmentName     = "StdAttachment-Test1.txt";
                 my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
-                $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#ArticleSubject",  'css' )->send_keys($SubjectRandom);
                 $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
                 $Selenium->InputFieldValueSet(
                     Element => '#QueueID',
@@ -452,7 +452,7 @@ $Selenium->RunTest(
 
                 # Go on next step in Process ticket.
                 my $URLNextAction = $Selenium->find_element( '#Activities a', 'css' )->get_attr('href');
-                ok( $URLNextAction, 'got activies link' );
+                ok( $URLNextAction, 'got activites link' );
                 $URLNextAction =~ s/^\///s;
                 $Selenium->VerifiedGet($URLNextAction);
 
@@ -482,7 +482,7 @@ $Selenium->RunTest(
                     Element => '#ProcessEntityID',
                     Value   => $ListReverse{$ProcessName},
                 );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Subject").length;' );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ArticleSubject").length;' );
 
                 # In this scenario we just set ticket queue to junk to finish test.
                 $Selenium->InputFieldValueSet(
