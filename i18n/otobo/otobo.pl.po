@@ -19,13 +19,14 @@
 # Daniel Lisiecki, 2019
 # Robert Grządka <otobo@sirocco.com.pl>, 2020.
 # Przemysław Wilkosz <office@wilkosz.net>, 2021.
+# Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-05-05 13:19+0000\n"
-"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
+"PO-Revision-Date: 2021-05-05 17:53+0000\n"
+"Last-Translator: Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -63,7 +64,7 @@ msgstr "Filtr dla ACLi"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr "Zacznij pisać aby filtrować…"
+msgstr "Zacznij pisać, aby filtrować…"
 
 #. Template: AdminACL
 msgid "Configuration Import"
@@ -26475,7 +26476,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Running Process Tickets"
-msgstr ""
+msgstr "Zgłoszenia Procesowe w toku"
 
 #. SysConfig
 msgid ""
