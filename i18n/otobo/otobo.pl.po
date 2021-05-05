@@ -18,13 +18,14 @@
 # Jerzy Ruszczak <orcio6@o2.pl>, 2019
 # Daniel Lisiecki, 2019
 # Robert Grządka <otobo@sirocco.com.pl>, 2020.
+# Przemysław Wilkosz <office@wilkosz.net>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2020-10-14 07:14+0000\n"
-"Last-Translator: Robert Grządka <otobo@sirocco.com.pl>\n"
+"PO-Revision-Date: 2021-05-05 13:19+0000\n"
+"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -34,7 +35,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
-"X-Generator: Weblate 4.2.2\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -62,7 +63,7 @@ msgstr "Filtr dla ACLi"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr "Aby filtrować, wystarczy zacząć pisać"
+msgstr "Zacznij pisać aby filtrować…"
 
 #. Template: AdminACL
 msgid "Configuration Import"
