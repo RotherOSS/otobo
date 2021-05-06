@@ -37,6 +37,8 @@ use Try::Tiny;
 use URI;
 
 # OTOBO modules
+use Kernel::Config;
+use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 
 our $ObjectManagerDisabled = 1;
@@ -607,9 +609,7 @@ sub WaitFor {
 
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
-            if ($Ret) {
-                return 1;
-            }
+            return 1 if $Ret;
         }
         elsif ( $Param{ElementExists} ) {
             my @Arguments = ref( $Param{ElementExists} ) eq 'ARRAY' ? @{ $Param{ElementExists} } : $Param{ElementExists};
@@ -621,9 +621,7 @@ sub WaitFor {
 
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
-            if ($Ret) {
-                return 1;
-            }
+            return 1 if $Ret;
         }
         elsif ( $Param{ElementMissing} ) {
             my @Arguments = ref( $Param{ElementMissing} ) eq 'ARRAY' ? @{ $Param{ElementMissing} } : $Param{ElementMissing};
@@ -635,9 +633,7 @@ sub WaitFor {
 
             $Self->LogExecuteCommandActive($PrevLogExecuteCommandActive);
 
-            if ( !$Ret ) {
-                return 1;
-            }
+            return 1 unless $Ret;
         }
 
         $Context->note(
