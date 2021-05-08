@@ -25,7 +25,7 @@ use vars (qw($Self));
 
 use Kernel::System::EmailParser;
 
-=cut
+=for comment
 
 This is a test for an email from the Win7 snipping tool. This email is an invalid
 mime message and therefore cannot be parsed by MIME::Tools correctly.

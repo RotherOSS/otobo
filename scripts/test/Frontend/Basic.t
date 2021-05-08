@@ -14,9 +14,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-=cut
+=for comment
+
     This test logs into agent and customer interface, and then calls up all registered
     frontend modules to check for any internal server errors.
+
 =cut
 
 use strict;
