@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::UnitTest::MockTime;
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 use strict;
 use warnings;
