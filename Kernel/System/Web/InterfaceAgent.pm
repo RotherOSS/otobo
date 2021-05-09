@@ -1271,7 +1271,6 @@ sub Run {
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "::$UserData{UserLogin}::$QueryString\n";
-                    close $Out;
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',

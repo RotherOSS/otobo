@@ -60,7 +60,6 @@ sub Run {
                         @Loads = split ' ', $Loads;
                     }
                 }
-                close $In;
             }
         }
 

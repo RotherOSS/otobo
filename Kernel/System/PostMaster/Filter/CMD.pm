@@ -81,7 +81,6 @@ sub Run {
 
     if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {    ## no critic qw(OTOBO::ProhibitOpen)
         print $Prog $Self->{ParserObject}->GetPlainEmail();
-        close $Prog;
     }
 
     if ( -s $TmpFile ) {
