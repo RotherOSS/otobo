@@ -115,7 +115,7 @@ my @Tests = (
         ExpectedResult => 'Test: - - - -',
     },
     {
-        Name => 'Test supported tags - <OTOBO_TICKET_*>  with TicketID',
+        Name       => 'Test supported tags - <OTOBO_TICKET_*>  with TicketID',
         Salutation =>
             'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
     },

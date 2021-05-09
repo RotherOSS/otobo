@@ -1450,7 +1450,7 @@ sub Run {
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            if ( open my $Out, '>>', $File ) {
+            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                 print $Out time()
                     . '::Customer::'
                     . ( time() - $Self->{PerformanceLogStart} )

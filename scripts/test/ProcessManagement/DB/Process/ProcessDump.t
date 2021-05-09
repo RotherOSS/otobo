@@ -312,7 +312,7 @@ $Self->IsNot(
 
 for my $Part (
     qw(
-    Process Process::Activity Process::ActivityDialog Process::Transition Process::TransitionAction
+        Process Process::Activity Process::ActivityDialog Process::Transition Process::TransitionAction
     )
     )
 {

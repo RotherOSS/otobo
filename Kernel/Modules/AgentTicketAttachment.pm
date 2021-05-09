@@ -130,12 +130,13 @@ sub Run {
                 Priority => 'error',
                 Message  => "Cant write $Filename: $!",
             );
+
             return $LayoutObject->ErrorScreen();
         }
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {
+        if ( open my $ViewerFH, '-|', "$Viewer $Filename" ) {    ## no critic qw(OTOBO::ProhibitOpen)
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

@@ -273,7 +273,7 @@ my @Tests = (
         Result => ' ',
     },
     {
-        Name => 'Ascii2Html() - #26',
+        Name   => 'Ascii2Html() - #26',
         String =>
             '<script language="JavaScript" type="text/javascript"> alert("Not safe!"); </script>',
         Result =>

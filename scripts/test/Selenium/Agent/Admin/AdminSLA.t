@@ -25,10 +25,10 @@ use vars (qw($Self));
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $DBObject     = $Kernel::OM->Get('Kernel::System::DB');
+
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
-
 
 $Selenium->RunTest(
     sub {

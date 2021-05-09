@@ -207,7 +207,7 @@ my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     SenderType           => 'agent',
     IsVisibleForCustomer => 0,
-    From =>
+    From                 =>
         'Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent Some Agent <email@example.com>',
     To =>
         'Some Customer A Some Customer A Some Customer A Some Customer A Some Customer A Some Customer A  Some Customer ASome Customer A Some Customer A <customer-a@example.com>',
@@ -370,7 +370,7 @@ my $ErrorOutput = '';
 
 {
     local *STDERR;
-    open STDERR, ">>", \$ErrorOutput;
+    open STDERR, '>>', \$ErrorOutput;    ## no critic qw(OTOBO::ProhibitOpen)
 
     %TicketIDs = $TicketObject->TicketSearch(
         TicketID => [],
@@ -511,9 +511,9 @@ $Self->True(
 %TicketIDs = $TicketObject->TicketSearch(
     Result            => 'HASH',
     Limit             => 100,
-    TicketNumber      => [ $Ticket{TicketNumber}, 'ABC' ],
-    Title             => [ $Ticket{Title}, '123' ],
-    CustomerID        => [ $Ticket{CustomerID}, '1213421' ],
+    TicketNumber      => [ $Ticket{TicketNumber},   'ABC' ],
+    Title             => [ $Ticket{Title},          '123' ],
+    CustomerID        => [ $Ticket{CustomerID},     '1213421' ],
     CustomerUserLogin => [ $Ticket{CustomerUserID}, 'iadasd' ],
     UserID            => 1,
     Permission        => 'rw',
@@ -1616,7 +1616,7 @@ my @TicketIDsSortOrder = $TicketObject->TicketSearch(
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
     CustomerUser => 'unittest@otrs.com',
-    OrderBy      => [ 'Down', 'Up' ],
+    OrderBy      => [ 'Down',     'Up' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
     Limit        => 1,
@@ -1635,7 +1635,7 @@ $Self->Is(
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
     CustomerUser => 'unittest@otrs.com',
-    OrderBy      => [ 'Down', 'Down' ],
+    OrderBy      => [ 'Down',     'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
     Limit        => 1,
@@ -1733,7 +1733,7 @@ my $TicketIDSortOrder5 = $TicketObject->TicketCreate(
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
     CustomerUser => 'unittest@otrs.com',
-    OrderBy      => [ 'Down', 'Down' ],
+    OrderBy      => [ 'Down',     'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
     Limit        => 1,
@@ -1751,7 +1751,7 @@ $Self->Is(
     Queues       => ['Raw'],
     CustomerID   => $CustomerNo,
     CustomerUser => 'unittest@otrs.com',
-    OrderBy      => [ 'Up', 'Down' ],
+    OrderBy      => [ 'Up',       'Down' ],
     SortBy       => [ 'Priority', 'Age' ],
     UserID       => 1,
     Limit        => 1,

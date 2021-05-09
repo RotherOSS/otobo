@@ -1266,7 +1266,7 @@ sub Run {
             # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
 
-                if ( open my $Out, '>>', $File ) {
+                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                     print $Out time()
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )

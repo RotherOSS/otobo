@@ -84,7 +84,6 @@ $Helper->CustomCodeActivate(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 my $CheckBreadcrumb = sub {
 
     my %Param = @_;
@@ -113,7 +112,7 @@ my $NavigateToAdminPackageManager = sub {
     my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
     $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
     $Selenium->WaitFor(
-        Time => 120,
+        Time       => 120,
         JavaScript =>
             'return typeof($) == "function" && $("#FileUpload").length;'
     );
@@ -126,7 +125,7 @@ my $ClickAction = sub {
     $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
     $Selenium->find_element($Selector)->click();
     $Selenium->WaitFor(
-        Time => 120,
+        Time       => 120,
         JavaScript =>
             'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     );
@@ -245,7 +244,7 @@ $Selenium->RunTest(
         $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
         $Selenium->find_element("//button[contains(.,'Install Package')]")->click();
         $Selenium->WaitFor(
-            Time => 120,
+            Time       => 120,
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );

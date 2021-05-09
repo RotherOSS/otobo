@@ -627,7 +627,7 @@ for my $Test (@Tests) {
     if ( $Test->{VerifySignature} ) {
         my $SignatureVerified =
             grep {
-            $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
+                $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
             } @CheckResult;
 
         $Self->True(

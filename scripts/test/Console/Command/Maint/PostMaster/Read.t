@@ -37,7 +37,7 @@ my ( $ExitCode, $Result );
 
 {
     local *STDIN;
-    open STDIN, '<:utf8', \'';    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDIN, '<:utf8', \'';    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
 
@@ -50,9 +50,9 @@ $Self->Is(
 {
     my $Email = "From: me\@home.com\nTo: you\@home.com\nSubject: Test\nUnit tests rock.\n";
     local *STDIN;
-    open STDIN, '<:utf8', \$Email;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDIN, '<:utf8', \$Email;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
 

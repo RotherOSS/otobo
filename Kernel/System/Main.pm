@@ -352,7 +352,6 @@ to read files from file system
 sub FileRead {
     my ( $Self, %Param ) = @_;
 
-    my $FH;
     if ( $Param{Filename} && $Param{Directory} ) {
 
         # filename clean up
@@ -382,7 +381,8 @@ sub FileRead {
     }
 
     # return if file can not open
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
+    my $FH;
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         my $Error = $!;
 
         if ( !$Param{DisableWarnings} ) {
@@ -510,11 +510,12 @@ sub FileWrite {
 
     # return if file can not open
     my $FH;
-    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(InputOutput::RequireBriefOpen)
+    if ( !open $FH, $Mode, $Param{Location} ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can't write '$Param{Location}': $!",
         );
+
         return;
     }
 

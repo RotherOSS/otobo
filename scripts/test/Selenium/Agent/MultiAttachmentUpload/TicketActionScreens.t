@@ -29,7 +29,6 @@ use Kernel::Output::HTML::Layout;
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -132,12 +131,12 @@ $Selenium->RunTest(
         # Check screens.
         for my $Action (
             qw(
-            AgentTicketOwner
-            AgentTicketMove
-            AgentTicketClose
-            AgentTicketPending
-            AgentTicketPriority
-            AgentTicketForward
+                AgentTicketOwner
+                AgentTicketMove
+                AgentTicketClose
+                AgentTicketPending
+                AgentTicketPriority
+                AgentTicketForward
             )
             )
         {

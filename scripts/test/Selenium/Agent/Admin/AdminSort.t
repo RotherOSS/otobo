@@ -182,7 +182,7 @@ $Selenium->RunTest(
         my $Success = $Kernel::OM->Get('Kernel::System::User')->SetPreferences(
             UserID => $SecondTestUserID,
             Key    => 'AdminNavigationBarFavourites',
-            Value =>
+            Value  =>
                 '["AdminUser","AdminSystemAddress","AdminAppointmentCalendarManage",
                 "AdminCustomerUser","AdminPriority","AdminProcessManagement","AdminRole","AdminSystemConfiguration",
                 "AdminLog","AdminAppointmentNotificationEvent","AdminTemplate","AdminEmail"]',
