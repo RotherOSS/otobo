@@ -41,7 +41,7 @@ sub Run {
 
     {
         local *STDOUT;
-        open STDOUT, '>:utf8', \$CommandOutput;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        open STDOUT, '>:utf8', \$CommandOutput;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute();
     }
 
@@ -56,8 +56,8 @@ sub Run {
     }
     else {
         $Self->AddResultOk(
-            Label => Translatable('Perl Modules Audit'),
-            Value => '',
+            Label   => Translatable('Perl Modules Audit'),
+            Value   => '',
             Message =>
                 Translatable('CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.'),
         );

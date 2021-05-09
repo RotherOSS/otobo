@@ -584,10 +584,10 @@ sub _LogFilesSet {
 
     # redirect STDOUT and STDERR
     if ($RedirectSTDOUT) {
-        open STDOUT, '>>', "$FileStdOut.log";
+        open STDOUT, '>>', "$FileStdOut.log";    ## no critic qw(OTOBO::ProhibitOpen)
     }
     if ($RedirectSTDERR) {
-        open STDERR, '>>', "$FileStdErr.log";
+        open STDERR, '>>', "$FileStdErr.log";    ## no critic qw(OTOBO::ProhibitOpen)
     }
 
     return 1 if $RotationType ne 'otobo';

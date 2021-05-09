@@ -259,12 +259,12 @@ sub Run {
         }
         my $File = $ConfigObject->Get('PerformanceLog::File');
 
-        if ( open my $Out, '>>', $File ) {
+        if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $Out time()
                 . '::Public::'
                 . ( time() - $Self->{PerformanceLogStart} )
                 . "::-::$QueryString\n";
-            close $Out;
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
                 Message  => 'Response::Public: '

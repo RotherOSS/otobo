@@ -96,7 +96,7 @@ my @Tests = (
             OTOBO => {
                 DisplayName => 'OTOBO',
                 Files       => [
-                    'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
+                    'Calendar.xml',          'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
                     'ProcessManagement.xml', 'Ticket.xml'
                 ],
             },
@@ -117,7 +117,7 @@ my @Tests = (
             OTOBO => {
                 DisplayName => 'OTOBO',
                 Files       => [
-                    'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
+                    'Calendar.xml',          'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
                     'ProcessManagement.xml', 'Ticket.xml'
                 ],
             },
@@ -142,7 +142,7 @@ my @Tests = (
             OTOBO => {
                 DisplayName => 'OTOBO',
                 Files       => [
-                    'Calendar.xml', 'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
+                    'Calendar.xml',          'CloudServices.xml', 'Daemon.xml', 'Framework.xml', 'GenericInterface.xml',
                     'ProcessManagement.xml', 'Ticket.xml'
                 ],
             },

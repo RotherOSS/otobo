@@ -29,7 +29,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $Home = $ConfigObject->Get('Home');
 my $TmpSumString;
 
-if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) )    ## no critic qw(InputOutput::RequireBriefOpen)
+if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) )    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
 {
 
     LINE:

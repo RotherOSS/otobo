@@ -46,8 +46,8 @@ my $RunCommand = sub {
     {
         local *STDERR;
         local *STDOUT;
-        open STDERR, '>:utf8', \$ResultErr;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
-        open STDOUT, '>:utf8', \$ResultOut;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        open STDERR, '>:utf8', \$ResultErr;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
+        open STDOUT, '>:utf8', \$ResultOut;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute( '--non-interactive', @Args, );
     }
 

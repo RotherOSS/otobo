@@ -60,7 +60,7 @@ my $RunTasks = sub {
     local *STDERR;
 
     # Redirect the standard error to a variable.
-    open STDERR, ">>", \$ErrorMessage;
+    open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
 
     # Wait until task is executed.
     ACTIVESLEEP:
@@ -126,8 +126,8 @@ my $GenericAgentObject = $Kernel::OM->Get('Kernel::System::GenericAgent');
 my $Success = $GenericAgentObject->JobAdd(
     Name => $RandomID,
     Data => {
-        ScheduleDays  => [ 0, 1, 2, 3, 4, 5, 6, ],
-        ScheduleHours => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, ],
+        ScheduleDays    => [ 0, 1, 2, 3, 4, 5, 6, ],
+        ScheduleHours   => [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, ],
         ScheduleMinutes => [
             0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39,

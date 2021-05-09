@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 if ( !$Selenium->{browser_name} || $Selenium->{browser_name} ne 'firefox' ) {
     $Self->True(
         1,
@@ -296,7 +295,7 @@ else {
             }
 
             # Create Dynamic Fields.
-            my $RandomNumber = substr $Helper->GetRandomNumber(), -7;
+            my $RandomNumber  = substr $Helper->GetRandomNumber(), -7;
             my %DynamicFields = (
                 Dropdown => {
                     Name       => 'DFDropdown' . $RandomNumber,

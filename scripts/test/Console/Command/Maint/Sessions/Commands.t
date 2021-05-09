@@ -53,7 +53,7 @@ my ( $Result, $ExitCode );
 my $ListAllCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::ListAll');
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListAllCommandObject->Execute();
 }
 
@@ -89,7 +89,7 @@ undef $Result;
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListAllCommandObject->Execute();
 }
 
@@ -134,7 +134,7 @@ undef $Result;
 my $ListExpiredCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::ListExpired');
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListExpiredCommandObject->Execute();
 }
 
@@ -158,7 +158,7 @@ undef $Result;
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListExpiredCommandObject->Execute();
 }
 

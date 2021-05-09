@@ -43,9 +43,9 @@ sub Run {
     if ( $^O =~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
 
         # linux systems
-        if ( -e "/proc/loadavg" ) {
+        if ( -e '/proc/loadavg' ) {
             my $LoadFile;
-            open( $LoadFile, '<', "/proc/loadavg" );    ## no critic qw(OTOBO::ProhibitOpen)
+            open( $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen)
             while (<$LoadFile>) {
                 @Loads = split( " ", $_ );
             }
@@ -54,13 +54,12 @@ sub Run {
 
         # mac os
         elsif ( $^O =~ /darwin/i ) {
-            if ( open( my $In, "-|", "sysctl vm.loadavg" ) ) {
+            if ( open( my $In, '-|', "sysctl vm.loadavg" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
                 while (<$In>) {
                     if ( my ($Loads) = $_ =~ /vm\.loadavg: \s* \{ \s*  (.*) \s* \}/smx ) {
                         @Loads = split ' ', $Loads;
                     }
                 }
-                close $In;
             }
         }
 

@@ -57,11 +57,12 @@ sub Log {
     my $FH;
 
     # open logfile
-    if ( !open $FH, '>>', $Self->{LogFile} ) { ## no critic qw(InputOutput::RequireBriefOpen)
-        # print error screen
+    if ( !open $FH, '>>', $Self->{LogFile} ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+                                                  # print error screen
         print STDERR "\n";
         print STDERR " >> Can't write $Self->{LogFile}: $! <<\n";
         print STDERR "\n";
+
         return;
     }
 

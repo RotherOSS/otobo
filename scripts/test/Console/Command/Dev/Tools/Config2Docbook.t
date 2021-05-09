@@ -37,7 +37,7 @@ $Self->Is(
 my $Result;
 {
     local *STDOUT;
-    open STDOUT, '>:encoding(UTF-8)', \$Result;
+    open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
     $ExitCode = $CommandObject->Execute( '--language', 'en' );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
 }

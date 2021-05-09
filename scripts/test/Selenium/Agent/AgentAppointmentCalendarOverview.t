@@ -33,7 +33,6 @@ $Kernel::OM->ObjectParamAdd(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 my $ElementReadOnly = sub {
     my (%Param) = @_;
 

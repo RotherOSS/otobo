@@ -295,7 +295,7 @@ sub ReConfigure {
     # content of changed config file
     my $Config = '';
     {
-        open my $In, '<:encoding(utf-8)', $ConfigFile    ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $In, '<:encoding(utf-8)', $ConfigFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or return "Can't open $ConfigFile: $!";      ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
 
         LINE:
@@ -345,7 +345,7 @@ sub ReConfigure {
 
     # Write new config file, the file handle is autoclosed as it is lexical to the block
     {
-        open my $Out, '>:encoding(utf-8)', $ConfigFile    ## no critic qw(InputOutput::RequireBriefOpen)
+        open my $Out, '>:encoding(utf-8)', $ConfigFile    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             or return "Can't open $ConfigFile: $!";       ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
         print $Out $Config;
     }

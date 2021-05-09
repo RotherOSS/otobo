@@ -79,9 +79,8 @@ sub Run {
     # execute prog
     my $TmpFile = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
 
-    if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
+    if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {    ## no critic qw(OTOBO::ProhibitOpen)
         print $Prog $Self->{ParserObject}->GetPlainEmail();
-        close $Prog;
     }
 
     if ( -s $TmpFile ) {

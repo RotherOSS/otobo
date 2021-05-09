@@ -243,7 +243,7 @@ for my $Fail ( 0 .. 1 ) {
 
             # redirect STDIN from String so that the transport layer will use this data
             local *STDIN;
-            open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+            open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
 
             # reset CGI object from previous runs
             CGI::initialize_globals();
@@ -302,7 +302,7 @@ for my $Fail ( 0 .. 1 ) {
         {
             Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() UTF-8 data",
             Data => {
-                A                    => 'A',
+                A        => 'A',
                 '使用下列语言' => 'معلومات',
             },
             ResultData =>
@@ -335,7 +335,7 @@ for my $Fail ( 0 .. 1 ) {
 
                 # redirect STDOUT from String so that the transport layer will write there
                 local *STDOUT;
-                open STDOUT, '>:utf8', \$ResultData;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+                open STDOUT, '>:utf8', \$ResultData;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
 
                 # discard Web::Request from OM to prevent errors
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
