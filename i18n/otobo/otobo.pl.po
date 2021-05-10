@@ -27,7 +27,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2021-05-10 19:05+0000\n"
-"Last-Translator: sr <sr@otrs.ch>\n"
+"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -174,9 +174,8 @@ msgid "Copy"
 msgstr "Kopia"
 
 #. Template: AdminACL
-#, fuzzy
 msgid "No data found."
-msgstr "Nie odnaleziono żadnych elementów spełniających kryteria"
+msgstr "Nie odnaleziono żadnych elementów spełniających kryteria."
 
 #. Template: AdminACL
 #, fuzzy
@@ -875,9 +874,8 @@ msgid "No data found"
 msgstr "Nie znaleziono danych"
 
 #. Template: AdminAppointmentNotificationEvent
-#, fuzzy
 msgid "No notification method found."
-msgstr "Nie znaleziono metody powiadomienia"
+msgstr "Nie znaleziono metody powiadomienia."
 
 #. Template: AdminAppointmentNotificationEvent
 #, fuzzy
@@ -1738,9 +1736,8 @@ msgid "Filter for Groups"
 msgstr "Filtr dla grup."
 
 #. Template: AdminCustomerGroup
-#, fuzzy
 msgid "Select the customer:group permissions."
-msgstr "Wybierz uprawnienia klient:grupa"
+msgstr "Wybierz uprawnienia klient:grupa."
 
 #. Template: AdminCustomerGroup
 #, fuzzy
@@ -1787,9 +1784,8 @@ msgid "Toggle %s permission for %s"
 msgstr "Przełącz uprawnienie %s dla %s"
 
 #. Template: AdminCustomerGroup
-#, fuzzy
 msgid "Customer Default Groups:"
-msgstr "Domyślne grupy klientów"
+msgstr "Domyślne grupy klientów:"
 
 #. Template: AdminCustomerGroup
 #, fuzzy
@@ -1971,9 +1967,8 @@ msgid "Manage Customer User-Customer Relations"
 msgstr "Zarządzaj relacjami Użytkownik klienta - Klient"
 
 #. Template: AdminCustomerUserCustomer
-#, fuzzy
 msgid "Select the customer user:customer relations."
-msgstr "Wybierz relacje użytkownik klienta:klient"
+msgstr "Wybierz relacje użytkownik klienta:klient."
 
 #. Template: AdminCustomerUserCustomer
 #, fuzzy
