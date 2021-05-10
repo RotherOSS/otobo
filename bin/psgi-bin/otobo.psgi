@@ -274,7 +274,6 @@ use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
-use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -298,23 +297,6 @@ CGI->compile(':cgi');
 ################################################################################
 # Middlewares
 ################################################################################
-
-# this middleware is to make sure that the newest version of ZZZAAuto is loaded
-my $RefreshZZZAAutoMiddleWare = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        if ( $INC{'Kernel/Config/Files/ZZZAAuto.pm'} ) {
-
-            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepare_app();
-            Module::Refresh->refresh_module('Kernel/Config/Files/ZZZAAuto.pm');
-        }
-
-        return $App->($Env);
-    };
-};
 
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
@@ -567,9 +549,6 @@ my $OTOBOApp = builder {
 
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
-
-    # relies on that Plack::Middleware::Refresh already has populates %Module::Refresh::CACHE
-    enable $RefreshZZZAAutoMiddleWare;
 
     # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
     enable 'Plack::Middleware::Refresh';

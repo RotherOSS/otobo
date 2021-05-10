@@ -33,6 +33,7 @@ use Digest::MD5;
 use Exporter qw(import);
 
 # CPAN modules
+use Module::Refresh; # located in Kernel/cpan-lib
 
 # OTOBO modules
 
@@ -1989,6 +1990,7 @@ sub new {
             eval {
 
                 # Try to load file.
+                Module::Refresh->refresh_module_if_modified( $RelativeFile );
                 if ( !require $RelativeFile ) {
                     die "ERROR: Could not load $File: $!\n";
                 }
