@@ -1989,8 +1989,12 @@ sub new {
 
             eval {
 
+                # This also adds $RelativeFile to %Module::Refresh::CACHE.
+                if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+                    Module::Refresh->refresh_module_if_modified( $RelativeFile );
+                }
+
                 # Try to load file.
-                Module::Refresh->refresh_module_if_modified( $RelativeFile );
                 if ( !require $RelativeFile ) {
                     die "ERROR: Could not load $File: $!\n";
                 }
