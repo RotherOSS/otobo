@@ -21,13 +21,14 @@
 # Przemysław Wilkosz <office@wilkosz.net>, 2021.
 # Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>, 2021.
 # sr <sr@otrs.ch>, 2021.
+# Grit Rother <mr@otobo.de>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2021-05-10 19:05+0000\n"
-"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -238,7 +239,6 @@ msgstr ""
 "że 'możliwe' jest białą listą, 'Niemożliwe' jest czarną listą"
 
 #. Template: AdminACLEdit
-#, fuzzy
 msgid "Check the official %sdocumentation%s."
 msgstr "Sprawdź oficjalną %sdokumentację%s"
 
