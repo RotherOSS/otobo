@@ -20,13 +20,14 @@
 # Robert Grządka <otobo@sirocco.com.pl>, 2020.
 # Przemysław Wilkosz <office@wilkosz.net>, 2021.
 # Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>, 2021.
+# sr <sr@otrs.ch>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-05-10 11:49+0000\n"
-"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
+"PO-Revision-Date: 2021-05-10 19:05+0000\n"
+"Last-Translator: sr <sr@otrs.ch>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -69,9 +70,8 @@ msgid "Filter for ACLs"
 msgstr "Filtr dla ACLi"
 
 #. Template: AdminACL
-#, fuzzy
 msgid "Just start typing to filter..."
-msgstr "Aby filtrować, wystarczy zacząć pisać"
+msgstr "Aby filtrować, wystarczy zacząć pisać..."
 
 #. Template: AdminACL
 #, fuzzy
