@@ -133,138 +133,132 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
-            try_ok {
-                # wait until page has loaded, if necessary
-                $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
+        # input process ticket subject and body
+        my $SubjectRand = 'ProcessSubject-' . $Helper->GetRandomID();
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 2,
+        );
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body. ᾴ - U+01FB4 - GREEK SMALL LETTER ALPHA WITH OXIA AND YPOGEGRAMMENI');
 
-                # input process ticket subject and body
-                my $SubjectRand = 'ProcessSubject-' . $Helper->GetRandomID();
-                $Selenium->InputFieldValueSet(
-                    Element => '#QueueID',
-                    Value   => 2,
-                );
-                $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRand);
-                $Selenium->find_element( "#RichText", 'css' )->send_keys('Test Process Body. ᾴ - U+01FB4 - GREEK SMALL LETTER ALPHA WITH OXIA AND YPOGEGRAMMENI');
+        # Check if default value for title is shown.
+        # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
+        my $TitleValue = 'Test Process Title Default';
 
-                # Check if default value for title is shown.
-                # See bug#13937 https://bugs.otrs.org/show_bug.cgi?id=13937.
-                my $TitleValue = 'Test Process Title Default';
+        is(
+            $Selenium->execute_script("return \$('#Title').val();"),
+            $TitleValue,
+            "Title field Default value is: $TitleValue",
+        );
 
-                is(
-                    $Selenium->execute_script("return \$('#Title').val();"),
-                    $TitleValue,
-                    "Title field Default value is: $TitleValue",
-                );
+        # submit process
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
-                # submit process
-                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+        # get ticket object
+        my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-                # get ticket object
-                my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+        # get test process ticket ID
+        my @TicketIDs = $TicketObject->TicketSearch(
+            Result  => 'ARRAY',
+            SortBy  => 'Age',
+            OrderBy => 'Down',
+            Limit   => 1,
+            UserID  => 1,
+        );
 
-                # get test process ticket ID
-                my @TicketIDs = $TicketObject->TicketSearch(
-                    Result  => 'ARRAY',
-                    SortBy  => 'Age',
-                    OrderBy => 'Down',
-                    Limit   => 1,
-                    UserID  => 1,
-                );
+        my %Ticket = $TicketObject->TicketGet(
+            TicketID => $TicketIDs[0],
+            UserID   => 1,
+        );
 
-                my %Ticket = $TicketObject->TicketGet(
-                    TicketID => $TicketIDs[0],
-                    UserID   => 1,
-                );
+        is(
+            $Ticket{CreateBy},
+            $TestUserID,
+            "Test ticket process is created"
+        ) || die;
 
-                is(
-                    $Ticket{CreateBy},
-                    $TestUserID,
-                    "Test ticket process is created"
-                ) || die;
+        # navigate to AgentTicketZoom screen of created test process
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
 
-                # navigate to AgentTicketZoom screen of created test process
-                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketIDs[0]");
+        # Check ticket title.
+        is(
+            $Selenium->execute_script("return \$('.Headline.NoMargin h1').text().trim().split(\" — \").pop();"),
+            $TitleValue,
+            "Ticket title is: $TitleValue",
+        );
 
-                # Check ticket title.
-                is(
-                    $Selenium->execute_script("return \$('.Headline.NoMargin h1').text().trim().split(\" — \").pop();"),
-                    $TitleValue,
-                    "Ticket title is: $TitleValue",
-                );
+        # verify there is 'Process Information' widget
+        my $ParentElement = $Selenium->find_element( ".SidebarColumn", 'css' );
+        is(
+            $Selenium->find_child_element( $ParentElement, '.Header>h2', 'css' )->get_text(),
+            'Process Information',
+            'Process Information widget is enabled',
+        );
 
-                # verify there is 'Process Information' widget
-                my $ParentElement = $Selenium->find_element( ".SidebarColumn", 'css' );
-                is(
-                    $Selenium->find_child_element( $ParentElement, '.Header>h2', 'css' )->get_text(),
-                    'Process Information',
-                    'Process Information widget is enabled',
-                );
+        # verify there are process informations in 'Process Information' widget
+        $Selenium->find_element_by_xpath_ok(
+            q{//p[contains(@title, 'TestProcess')]},
+            'Process name found in Process Information widget'
+        );
+        $Selenium->find_element_by_xpath_ok(
+            q{//p[contains(@title, 'Shipping')]},
+            'Process activity found in Ticket Information widget'
+        );
 
-                # verify there are process informations in 'Process Information' widget
-                $Selenium->find_element_by_xpath_ok(
-                    q{//p[contains(@title, 'TestProcess')]},
-                    'Process name found in Process Information widget'
-                );
-                $Selenium->find_element_by_xpath_ok(
-                    q{//p[contains(@title, 'Shipping')]},
-                    'Process activity found in Ticket Information widget'
-                );
+        # click on 'Priority' and switch screen
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketIDs[0]' )]")
+            ->click();
 
-                # click on 'Priority' and switch screen
-                $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketPriority;TicketID=$TicketIDs[0]' )]")
-                    ->click();
+        $Selenium->WaitFor( WindowCount => 2 );
+        my $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
 
-                $Selenium->WaitFor( WindowCount => 2 );
-                my $Handles = $Selenium->get_window_handles();
-                $Selenium->switch_to_window( $Handles->[1] );
+        # wait until page has loaded, if necessary
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#NewPriorityID").length' );
 
-                # wait until page has loaded, if necessary
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#NewPriorityID").length' );
+        # select '5 very high' priority to trigger next stage in process
+        $Selenium->InputFieldValueSet(
+            Element => '#NewPriorityID',
+            Value   => '5',
+        );
 
-                # select '5 very high' priority to trigger next stage in process
-                $Selenium->InputFieldValueSet(
-                    Element => '#NewPriorityID',
-                    Value   => '5',
-                );
+        $Selenium->find_element( "#Subject",  'css' )->send_keys('TestSubject');
+        $Selenium->find_element( "#RichText", 'css' )->send_keys('TestBody');
+        $Selenium->find_element("//button[\@type='submit']")->click();
 
-                $Selenium->find_element( "#Subject",  'css' )->send_keys('TestSubject');
-                $Selenium->find_element( "#RichText", 'css' )->send_keys('TestBody');
-                $Selenium->find_element("//button[\@type='submit']")->click();
+        # switch back screen
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
 
-                # switch back screen
-                $Selenium->WaitFor( WindowCount => 1 );
-                $Selenium->switch_to_window( $Handles->[0] );
+        # refresh screen
+        $Selenium->VerifiedRefresh();
 
-                # refresh screen
-                $Selenium->VerifiedRefresh();
+        # verify there is new activity in 'Process Information' widget
+        $Selenium->find_element_by_xpath_ok(
+            q{//p[contains(@title, 'Ordering complete')]},
+            "Process activity found in Process Information widget"
+        );
 
-                # verify there is new activity in 'Process Information' widget
-                $Selenium->find_element_by_xpath_ok(
-                    q{//p[contains(@title, 'Ordering complete')]},
-                    "Process activity found in Process Information widget"
-                );
+        # cleanup test data
+        # delete test process ticket
+        my $TicketDeleteSuccess = $TicketObject->TicketDelete(
+            TicketID => $TicketIDs[0],
+            UserID   => $TestUserID,
+        );
 
-                # cleanup test data
-                # delete test process ticket
-                my $TicketDeleteSuccess = $TicketObject->TicketDelete(
-                    TicketID => $TicketIDs[0],
-                    UserID   => $TestUserID,
-                );
-
-                # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
-                if ( !$TicketDeleteSuccess ) {
-                    sleep 3;
-                    $TicketDeleteSuccess = $TicketObject->TicketDelete(
-                        TicketID => $TicketIDs[0],
-                        UserID   => $TestUserID,
-                    );
-                }
-                ok( $TicketDeleteSuccess, "Process ticket ID $TicketIDs[0] is deleted" );
-            };
+        # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
+        if ( !$TicketDeleteSuccess ) {
+            sleep 3;
+            $TicketDeleteSuccess = $TicketObject->TicketDelete(
+                TicketID => $TicketIDs[0],
+                UserID   => $TestUserID,
+            );
         }
+        ok( $TicketDeleteSuccess, "Process ticket ID $TicketIDs[0] is deleted" );
 
         # get needed objects
         my $ActivityObject       = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
