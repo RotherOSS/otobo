@@ -224,11 +224,7 @@ $Selenium->RunTest(
                     UserID   => $TestUserID,
                 );
             }
-            {
-                my $ToDo = todo('selection of process is not reliable, see #929');
-
-                ok( $Success, "TicketID $TicketID is deleted" );
-            }
+            ok( $Success, "TicketID $TicketID is deleted" );
         }
 
         # Delete the dynamic field values.
