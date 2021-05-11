@@ -367,64 +367,60 @@ END_CONTENT
 
         # Wait until page has loaded
         # TODO: this sometimes fails when there are not Services available. Strange.
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-            eval {
-                $Selenium->WaitFor(
-                    JavaScript => q{return typeof($) === "function" && $('#ServiceID option:not([value=""])').length}
-                );
-            };
-
-            # Check for entries in the service selection.
-            # Three test services have been added. But only "UT Test Service 1 $RandomID" is visible
-            # because of the imported ACL setup.
-            my $NumVisibleServices = $Selenium->execute_script(q{return $('#ServiceID option:not([value=""])').length;});
-            is( $NumVisibleServices, 1, 'only one entry in the service selection' );
-
-            Time::HiRes::sleep(0.5);
-
-            # Set test service and trigger AJAX refresh.
-            $Selenium->InputFieldValueSet(
-                Element => '#ServiceID',
-                Value   => $ServiceIDs[0],
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => q{return typeof($) === "function" && $('#ServiceID option:not([value=""])').length}
             );
+        };
 
-            eval {
-                # wait for the updated SLA selection
-                $Selenium->WaitFor(
-                    JavaScript => q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
-                );
-            };
+        # Check for entries in the service selection.
+        # Three test services have been added. But only "UT Test Service 1 $RandomID" is visible
+        # because of the imported ACL setup.
+        my $NumVisibleServices = $Selenium->execute_script(q{return $('#ServiceID option:not([value=""])').length;});
+        is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
-            # Check for restricted entries in the SLA selection, there should be only one.
-            is(
-                $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
-                1,
-                "There is only one entry in the SLA selection",
-            );
+        Time::HiRes::sleep(0.5);
 
-            # Verify queue is updated on ACL trigger, see bug#12862 ( https://bugs.otrs.org/show_bug.cgi?id=12862 ).
-            my %JunkQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
-                Name => 'Junk',
-            );
-            ok(
-                $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
-                "Junk queue is available in selection before ACL trigger"
-            );
+        # Set test service and trigger AJAX refresh.
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[0],
+        );
 
-            # Trigger ACL on priority change.
-            $Selenium->InputFieldValueSet(
-                Element => "#NewPriorityID",
-                Value   => 2,
+        # wait for the updated SLA selection
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
             );
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+        };
 
-            ok(
-                !$Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
-                "Junk queue is not available in selection after ACL trigger"
-            );
-        }
+        # Check for restricted entries in the SLA selection, there should be only one.
+        is(
+            $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
+            1,
+            "There is only one entry in the SLA selection",
+        );
+
+        # Verify queue is updated on ACL trigger, see bug#12862 ( https://bugs.otrs.org/show_bug.cgi?id=12862 ).
+        my %JunkQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
+            Name => 'Junk',
+        );
+        ok(
+            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
+            "Junk queue is available in selection before ACL trigger"
+        );
+
+        # Trigger ACL on priority change.
+        $Selenium->InputFieldValueSet(
+            Element => "#NewPriorityID",
+            Value   => 2,
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
+
+        ok(
+            !$Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
+            "Junk queue is not available in selection after ACL trigger"
+        );
 
         # Turn off priority and try again. Please see bug#13312 for more information.
         $Helper->ConfigSettingChange(
@@ -450,75 +446,71 @@ END_CONTENT
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
 
         # Check for entries in the service selection, there should be only one.
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+        is(
+            $Selenium->execute_script("return \$('#ServiceID option:not([value=\"\"])').length;"),
+            1,
+            'There is only one entry in the service selection'
+        );
 
-            is(
-                $Selenium->execute_script("return \$('#ServiceID option:not([value=\"\"])').length;"),
-                1,
-                'There is only one entry in the service selection'
-            );
+        Time::HiRes::sleep(0.5);
 
-            Time::HiRes::sleep(0.5);
-
-            # Set test service and trigger AJAX refresh.
-            $Selenium->InputFieldValueSet(
-                Element => '#ServiceID',
-                Value   => $ServiceIDs[0],
-            );
-            eval {
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
-                );
-            };
-
-            # Check for restricted entries in the SLA selection, there should be only one.
-            is(
-                $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
-                1,
-                'There is only one entry in the SLA selection'
-            );
-
-            # Close the new note popup.
-            $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
-
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
-
-            # Please see bug#12871 for more information.
-            $Success = $DynamicFieldValueObject->ValueSet(
-                FieldID  => $DynamicFieldID2,
-                ObjectID => $TicketID,
-                Value    => [
-                    {
-                        ValueText => 'a',
-                    },
-                ],
-                UserID => 1,
-            );
-
-            # Click on 'Note' and switch window.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
-
-            $Selenium->WaitFor( WindowCount => 2 );
-            $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # Wait until page has loaded.
+        # Set test service and trigger AJAX refresh.
+        $Selenium->InputFieldValueSet(
+            Element => '#ServiceID',
+            Value   => $ServiceIDs[0],
+        );
+        try_ok {
             $Selenium->WaitFor(
                 JavaScript =>
-                    'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+                    'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
             );
+        };
 
-            is(
-                $Selenium->execute_script(
-                    "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
-                ),
-                2,
-                "There are only two entries in the dynamic field 2 selection",
-            );
-        }
+        # Check for restricted entries in the SLA selection, there should be only one.
+        is(
+            $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
+            1,
+            'There is only one entry in the SLA selection'
+        );
+
+        # Close the new note popup.
+        $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
+
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
+
+        # Please see bug#12871 for more information.
+        $Success = $DynamicFieldValueObject->ValueSet(
+            FieldID  => $DynamicFieldID2,
+            ObjectID => $TicketID,
+            Value    => [
+                {
+                    ValueText => 'a',
+                },
+            ],
+            UserID => 1,
+        );
+
+        # Click on 'Note' and switch window.
+        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+
+        $Selenium->WaitFor( WindowCount => 2 );
+        $Handles = $Selenium->get_window_handles();
+        $Selenium->switch_to_window( $Handles->[1] );
+
+        # Wait until page has loaded.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
+        );
+
+        is(
+            $Selenium->execute_script(
+                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
+            ),
+            2,
+            "There are only two entries in the dynamic field 2 selection",
+        );
 
         # De-select the dynamic field value for the first field.
         $Selenium->InputFieldValueSet(
@@ -527,15 +519,11 @@ END_CONTENT
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-            is(
-                $Selenium->execute_script("return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"),
-                4,
-                "There are all four entries in the dynamic field 2 selection",
-            );
-        }
+        is(
+            $Selenium->execute_script("return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"),
+            4,
+            "There are all four entries in the dynamic field 2 selection",
+        );
 
         # Close the new note popup.
         $Selenium->find_element( '.CancelClosePopup', 'css' )->click();
@@ -553,58 +541,54 @@ END_CONTENT
         # Wait until page has loaded.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
 
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+        # At this point, state field should be missing 'closed successful' state because of ACL.
+        #   Change the dynamic field property to '1' and wait until 'closed successful' is available again.
+        #   Then, close the ticket and verify it was actually closed.
+        #   Please see bug#12671 for more information.
+        ok(
+            $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 0;'),
+            "State 'closed successful' not available in new state selection before DF update"
+        );
 
-            # At this point, state field should be missing 'closed successful' state because of ACL.
-            #   Change the dynamic field property to '1' and wait until 'closed successful' is available again.
-            #   Then, close the ticket and verify it was actually closed.
-            #   Please see bug#12671 for more information.
-            ok(
-                $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 0;'),
-                "State 'closed successful' not available in new state selection before DF update"
+        Time::HiRes::sleep(0.5);
+
+        # Set dynamic field value to non-zero, and wait for AJAX to complete.
+        $Selenium->InputFieldValueSet(
+            Element => "#DynamicField_Field$RandomID",
+            Value   => 1,
+        );
+
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => 'return !$(".AJAXLoader:visible").length && $("#NewStateID option:contains(\'closed successful\')").length == 1;'
             );
+        };
 
-            Time::HiRes::sleep(0.5);
+        ok(
+            $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 1;'),
+            "State 'closed successful' available in new state selection after DF update"
+        );
 
-            # Set dynamic field value to non-zero, and wait for AJAX to complete.
-            $Selenium->InputFieldValueSet(
-                Element => "#DynamicField_Field$RandomID",
-                Value   => 1,
-            );
+        # Close the ticket.
+        $Selenium->InputFieldValueSet(
+            Element => "#NewStateID",
+            Value   => 2,
+        );
+        $Selenium->find_element( '#Subject',        'css' )->send_keys('Close');
+        $Selenium->find_element( '#RichText',       'css' )->send_keys('Closing...');
+        $Selenium->find_element( '#submitRichText', 'css' )->click();
 
-            eval {
-                $Selenium->WaitFor(
-                    JavaScript => 'return !$(".AJAXLoader:visible").length && $("#NewStateID option:contains(\'closed successful\')").length == 1;'
-                );
-            };
+        $Selenium->WaitFor( WindowCount => 1 );
+        $Selenium->switch_to_window( $Handles->[0] );
 
-            ok(
-                $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 1;'),
-                "State 'closed successful' available in new state selection after DF update"
-            );
+        # Navigate to ticket history screen of test ticket.
+        $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
 
-            # Close the ticket.
-            $Selenium->InputFieldValueSet(
-                Element => "#NewStateID",
-                Value   => 2,
-            );
-            $Selenium->find_element( '#Subject',        'css' )->send_keys('Close');
-            $Selenium->find_element( '#RichText',       'css' )->send_keys('Closing...');
-            $Selenium->find_element( '#submitRichText', 'css' )->click();
-
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
-
-            # Navigate to ticket history screen of test ticket.
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketHistory;TicketID=$TicketID");
-
-            # Verify that the ticket was indeed closed successfully.
-            my $CloseMsg = 'Changed state from "new" to "closed successful".';
-            eval {
-                $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
-            };
-        }
+        # Verify that the ticket was indeed closed successfully.
+        my $CloseMsg = 'Changed state from "new" to "closed successful".';
+        try_ok {
+            $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
+        };
 
         # Cleanup
 

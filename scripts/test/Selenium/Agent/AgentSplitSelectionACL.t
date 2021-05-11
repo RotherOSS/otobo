@@ -154,14 +154,10 @@ EOF
             "Split option for 'Phone Ticket' is enabled."
         );
 
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
-            $Selenium->find_no_element_by_xpath_ok(
-                q{//option[@value='EmailTicket']},
-                q{Split option for 'Email Ticket' is disabled},
-            );
-        }
+        $Selenium->find_no_element_by_xpath_ok(
+            q{//option[@value='EmailTicket']},
+            q{Split option for 'Email Ticket' is disabled},
+        );
 
         $Selenium->find_element( '.Close', 'css' )->click();
 
@@ -189,8 +185,6 @@ EOF
             q{Split option for 'SnailMail Ticket' not available},
         );
         {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
             $Selenium->find_no_element_by_xpath_ok(
                 q{//option[@value='PhoneTicket']},
                 q{Split option for 'Phone Ticket' is disabled},
