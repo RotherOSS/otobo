@@ -483,11 +483,11 @@ $Selenium->RunTest(
 
         # Check translated values.
         for my $Item ( sort keys %TicketData ) {
-            my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
+            my $TranslatedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
             $Selenium->content_contains(
-                $TransletedTicketValue,
-                "Translated \'$Item\' value is found - $TransletedTicketValue .",
+                $TranslatedTicketValue,
+                "Translated \'$Item\' value is found - $TranslatedTicketValue .",
             );
         }
 
@@ -528,12 +528,12 @@ $Selenium->RunTest(
                 ->{ $DynamicFieldValues{$DynamicFieldType} }
                 : $DynamicFieldValues{$DynamicFieldType};
 
-            my $TransletedDynamicFieldValue = $LanguageObject->Translate($Value);
+            my $TranslatedDynamicFieldValue = $LanguageObject->Translate($Value);
 
             # Check dynamic field date format.
             $Selenium->content_contains(
-                "$DynamicFieldType: $TransletedDynamicFieldValue\n",
-                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TransletedDynamicFieldValue.",
+                "$DynamicFieldType: $TranslatedDynamicFieldValue\n",
+                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TranslatedDynamicFieldValue.",
             );
         }
 
