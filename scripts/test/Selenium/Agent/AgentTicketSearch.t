@@ -19,15 +19,17 @@ use warnings;
 use v5.24;
 use utf8;
 
+# core modules
+
 # CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
-use vars (qw($Self));
+our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -179,10 +181,7 @@ $Selenium->RunTest(
             UserID         => 1,
             NoAgentNotify  => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "Article is created - ID $ArticleID",
-        );
+        ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         $ArticleObject->ArticleSearchIndexBuild(
             TicketID  => $TicketID,
