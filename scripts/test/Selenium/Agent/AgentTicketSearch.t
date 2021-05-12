@@ -374,7 +374,7 @@ $Selenium->RunTest(
                 # Verify the alert message.
                 like(
                     $Selenium->get_alert_text(),
-                    qr/\Q\nFulltext: because\E/,
+                    qr/\n\QFulltext: because\E/,
                     'Stop word search string warning is found',
                 );
 
@@ -400,7 +400,7 @@ $Selenium->RunTest(
                 # Verify the alert message.
                 like(
                     $Selenium->get_alert_text(),
-                    qr/\Q\nSubject: because\E/,
+                    qr/\n\QSubject: because\E/,
                     'Stop word search string warning is found',
                 );
 
