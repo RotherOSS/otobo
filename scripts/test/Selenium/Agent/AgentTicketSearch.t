@@ -336,7 +336,7 @@ $Selenium->RunTest(
                 # Verify the alert message.
                 like(
                     $Selenium->get_alert_text(),
-                    qr/\QFulltext: $MinCharString\E/,
+                    qr/\n\QFulltext: $MinCharString\E/,
                     'Minimum character string search warning is found',
                 );
 
@@ -355,7 +355,7 @@ $Selenium->RunTest(
                 # Verify the alert message.
                 like(
                     $Selenium->get_alert_text(),
-                    qr/Fulltext: $MaxCharString/,
+                    qr/\n\QFulltext: $MaxCharString\E/,
                     'Maximum character string search warning is found',
                 );
 
