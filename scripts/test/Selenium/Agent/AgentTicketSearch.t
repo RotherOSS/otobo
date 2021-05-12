@@ -231,6 +231,12 @@ $Selenium->RunTest(
         # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
+        # double check whether the changed config made it to Core.Config
+        {
+            my $StopWordSetting = $Selenium->execute_script('return Core.Config.Get("CheckSearchStringsForStopWords");');
+            ok( !$StopWordSetting, 'according to Core.Config stop words are not being checked' );
+        }
+
         # Check the general fields for ticket search page.
         for my $ID (
             qw(SearchProfile SearchProfileNew Attribute ResultForm SearchFormSubmit)
@@ -308,6 +314,12 @@ $Selenium->RunTest(
 
         # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # double check whether the changed config made it to Core.Config
+        {
+            my $StopWordSetting = $Selenium->execute_script('return Core.Config.Get("CheckSearchStringsForStopWords");');
+            ok( $StopWordSetting, 'according to Core.Config stop words are being checked' );
+        }
 
         # Try to search fulltext with string less then 3 characters.
         $Selenium->execute_script(
