@@ -423,15 +423,17 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length;' );
 
-        eval {
+        {
             my $ToDo = todo('warning is not shown, issue #862');
 
             my $Message = 'Article subject will be empty if the subject contains only the ticket hook!';
 
+            $Selenium->LogExecuteCommandActive(0);
             $Self->True(
                 $Selenium->execute_script("return \$('.MessageBox.Notice:contains(\"$Message\")').length;"),
                 "Notification about empty subject is found",
             );
+            $Selenium->LogExecuteCommandActive(1);
         };
 
         # Check duplication of customer user who doesn't exist in the system (see bug#13784).
