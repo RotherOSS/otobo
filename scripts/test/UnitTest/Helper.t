@@ -115,7 +115,7 @@ my $Value = q$1'"$;
 
 # This should use ZZZZUnitTestAC.pm, as AA and AB are already removed from the sequence
 is(
-    scalar glob("$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm"),
+    scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
     0,
     'ZZZZUnitTestAC*.pm does not exist yet'
 );
@@ -125,7 +125,7 @@ $Helper->ConfigSettingChange(
     Value => $Value,
 );
 is(
-    scalar glob("$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm"),
+    scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
     1,
     'ZZZZUnitTestAC*.pm was created'
 );
