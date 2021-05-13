@@ -16,15 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::Config;
 use Kernel::System::AsynchronousExecutor;
+
+our $Self;
 
 # get helper object
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -42,19 +47,14 @@ LOOP:
 for my $I ( 1 .. 1_000_000 ) {
     my $RandomID = $Helper->GetRandomID();
     if ( $SeenRandomIDs{$RandomID}++ ) {
-        $Self->True(
-            0,
-            "GetRandomID iteration $I returned a duplicate RandomID $RandomID",
-        );
+        fail("GetRandomID iteration $I returned a duplicate RandomID $RandomID");
         $DuplicateIDFound++;
+
         last LOOP;
     }
 }
 
-$Self->False(
-    $DuplicateIDFound,
-    "GetRandomID() returned no duplicates",
-);
+ok( !$DuplicateIDFound, "GetRandomID() returned no duplicates" );
 
 # GetRandomNumber
 my %SeenRandomNumbers;
@@ -64,19 +64,14 @@ LOOP:
 for my $I ( 1 .. 1_000_000 ) {
     my $RandomNumber = $Helper->GetRandomNumber();
     if ( $SeenRandomNumbers{$RandomNumber}++ ) {
-        $Self->True(
-            0,
-            "GetRandomNumber iteration $I returned a duplicate RandomNumber $RandomNumber",
-        );
+        fail("GetRandomNumber iteration $I returned a duplicate RandomNumber $RandomNumber");
         $DuplicateNumbersFound++;
+
         last LOOP;
     }
 }
 
-$Self->False(
-    $DuplicateNumbersFound,
-    "GetRandomNumber() returned no duplicates",
-);
+ok( !$DuplicateNumbersFound, "GetRandomNumber() returned no duplicates" );
 
 # Test transactions
 $Helper->BeginWork();
@@ -217,4 +212,4 @@ $Self->False(
     'Asynchronous task not scheduled'
 );
 
-$Self->DoneTesting();
+done_testing();
