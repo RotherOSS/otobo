@@ -152,12 +152,15 @@ to create test data.
 
 =cut
 
-# Use package variables here (instead of attributes in $Self)
-# to make it work across several unit tests that run during the same second.
-my %GetRandomNumberPrevious;
-
 sub GetRandomNumber {
 
+    # Use a state variable here (instead of attributes in $Self)
+    # to make it work across several unit tests that run during the same second.
+    state %GetRandomNumberPrevious;
+
+    # Note: this is a strange formatting that does not preserve sequence of process IDs
+    # $$ = 99  gives $PID = '990000'
+    # $$ = 100 gives $PID = '100000'
     my $PIDReversed = reverse $$;
     my $PID         = reverse sprintf '%.6d', $PIDReversed;
 
@@ -443,7 +446,7 @@ sub DESTROY {
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     }
 
-    # disable email checks to create new user
+    # disable email checks to invalidate test users
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
@@ -584,6 +587,7 @@ EOF
 
     # There is no need to restart the webserver as the changed config
     # is picked up by Kernel::Config::new() for every request.
+    # Often the test script is not even running on the same machine as the webserver.
 
     return 1;
 }
