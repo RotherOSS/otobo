@@ -1950,9 +1950,14 @@ sub new {
     # load extra config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
 
+        # It is assumed that $Self->{Home} contains no spaces as otherwise
+        # glob would see at least two patterns.
+        # Note that the order of file names is deterministic as per default
+        # glob sorts in ascending ASCII order.
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
         # Resorting the filelist.
+        # Modules with 'Ticket' in their name have lower priority.
         {
             my @NewFileOrderPre;
             my @NewFileOrderPost;
