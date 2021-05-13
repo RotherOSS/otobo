@@ -39,7 +39,7 @@ $Self->True(
     "Instance created",
 );
 
-# GetRandomID
+# testing GetRandomID()
 my %SeenRandomIDs;
 my $DuplicateIDFound;
 
@@ -56,7 +56,7 @@ for my $I ( 1 .. 1_000_000 ) {
 
 ok( !$DuplicateIDFound, "GetRandomID() returned no duplicates" );
 
-# GetRandomNumber
+# testing GetRandomNumber()
 my %SeenRandomNumbers;
 my $DuplicateNumbersFound;
 
@@ -72,6 +72,12 @@ for my $I ( 1 .. 1_000_000 ) {
 }
 
 ok( !$DuplicateNumbersFound, "GetRandomNumber() returned no duplicates" );
+
+# Testing GetSequentialTwoLetterString()
+{
+    is( $Helper->GetSequentialTwoLetterString(), 'AA', 'initial value AA of the sequence' );
+    is( $Helper->GetSequentialTwoLetterString(), 'AB', 'second value AA of the sequence' );
+}
 
 # Test transactions
 $Helper->BeginWork();
@@ -102,12 +108,26 @@ $Self->Is(
     "Config setting does not exist yet",
 );
 
+my $Home = $ConfigObject->Get('Home');
+ok( -d $Home, "Home exists" );
+
 my $Value = q$1'"$;
 
+# This should use ZZZZUnitTestAC.pm, as AA and AB are already removed from the sequence
+is(
+    scalar glob("$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm"),
+    0,
+    'ZZZZUnitTestAC*.pm does not exist yet'
+);
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'nonexisting_dummy',
     Value => $Value,
+);
+is(
+    scalar glob("$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm"),
+    1,
+    'ZZZZUnitTestAC*.pm was created'
 );
 
 $Self->Is(
@@ -211,5 +231,20 @@ $Self->False(
     scalar @TaskIDs,
     'Asynchronous task not scheduled'
 );
+
+# The sequence holds 26*26 entries, count almost to the end
+{
+    try_ok {
+        for my $Counter ( 4 .. ( 26 * 26 - 3 ) ) {
+            $Helper->GetSequentialTwoLetterString();
+        }
+        is( $Helper->GetSequentialTwoLetterString(), 'ZY', 'next to last value ZY of the sequence' );
+        is( $Helper->GetSequentialTwoLetterString(), 'ZZ', 'last value ZZ of the sequence' );
+    }
+    'Counting to ZZ';
+
+    my $Exception = dies { $Helper->GetSequentialTwoLetterString() };
+    like( $Exception, qr/\QThe sequence can't proceed post 'ZZ'\E/, 'sequence dies after ZZ' );
+}
 
 done_testing();

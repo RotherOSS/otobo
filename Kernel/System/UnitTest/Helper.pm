@@ -169,6 +169,24 @@ sub GetRandomNumber {
     return $Prefix . sprintf( '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 ) );
 }
 
+=head2 GetSequentialTwoLetterString()
+
+Give the next item in the sequence from C<AA> to C<ZZ>. The sequence is per process and can't be reset.
+An exception is thrown when trying to count over C<ZZ>.
+
+The major use case is to create parts of file names that must be sorted in ASCII order.
+
+=cut
+
+sub GetSequentialTwoLetterString {
+
+    state $NextString = 'AA';
+
+    die "The sequence can't proceed post 'ZZ'" if length $NextString > 2;
+
+    return $NextString++;
+}
+
 =head2 TestUserCreate()
 
 creates a test user that can be used in tests. It will
@@ -561,7 +579,16 @@ sub ConfigSettingChange {
         }
     }
 
-    my $PackageName = "ZZZZUnitTest$RandomNumber";
+    # Generate name like 'ZZZZUnitTestAA30251' and 'ZZZZUnitTestAB30251'.
+    # The package names must be in ASCII order so that Kernel::Config::Defaults::new()
+    # evaluates them in the same order as they are written.
+    # This allows that a test script assigns different values to the same setting while it is running.
+    # A pseudo random part is still needed as otherwise differnt processes would overwrite
+    # their files.
+    my $PackageName = join '',
+        'ZZZZUnitTest',
+        $Self->GetSequentialTwoLetterString(),
+        $RandomNumber;
 
     my $Content = <<"EOF";
 # OTOBO config file (automatically generated)
