@@ -411,15 +411,11 @@ $Selenium->RunTest(
         $Element->is_enabled();
         $Element->is_displayed();
 
-        my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
-
-        # Get secure disable banner.
-        my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
-
-        if ( !$SecureDisableBanner ) {
-            $Selenium->content_contains(
-                $FooterMessage,
-                "$FooterMessage found in footer on page (after attachment upload)",
+        if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+            $Selenium->find_element_ok(
+                q{//p[@class='ooo10g'][contains(text(),'powered by')]/a[contains(text(),'Rother OSS')]},
+                'xpath',
+                "'powered by' found in footer on page (after attachment upload)",
             );
         }
 
