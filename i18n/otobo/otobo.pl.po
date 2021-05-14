@@ -22,13 +22,14 @@
 # Arkadiusz Dykiel <arkadiusz.dykiel@pep.pl>, 2021.
 # sr <sr@otrs.ch>, 2021.
 # Grit Rother <mr@otobo.de>, 2021.
+# Intalio <intalio@intalio.pl>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-05-11 18:25+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2021-05-14 07:44+0000\n"
+"Last-Translator: Intalio <intalio@intalio.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -3846,7 +3847,6 @@ msgstr ""
 "zostaną uwzględnione w dopasowaniu."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
-#, fuzzy
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
@@ -32718,7 +32718,7 @@ msgstr "Wskazuje katalog w którym umieszczone są certyfikaty SSL."
 #. SysConfig
 #, fuzzy
 msgid "Specifies the directory where private SSL certificates are stored."
-msgstr "Wskazuje katalog w którym umieszczone są prywatne certyfikaty SSL."
+msgstr "Wskazuje katalog w którym umieszczony są prywatne certyfikaty SSL."
 
 #. SysConfig
 msgid ""
