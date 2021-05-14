@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-05-14 12:47+0000\n"
+"PO-Revision-Date: 2021-05-14 22:40+0000\n"
 "Last-Translator: Intalio <intalio@intalio.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
@@ -776,7 +776,6 @@ msgid "Send to these agents"
 msgstr "Wyślij do tych agentów"
 
 #. Template: AdminAppointmentNotificationEvent
-#, fuzzy
 msgid "Send to all group members (agents only)"
 msgstr "Wyślij do wszystkich członków grupy (tylko agenci)"
 
@@ -948,7 +947,6 @@ msgid "To get the appointment attribute"
 msgstr "By pobrać atrybut wydarzenia"
 
 #. Template: AdminAppointmentNotificationEvent
-#, fuzzy
 msgid " e. g."
 msgstr " np."
 
@@ -2635,7 +2633,6 @@ msgid "Restrict entering of dates"
 msgstr "Ogranicz zakres wprowadzanych dat"
 
 #. Template: AdminDynamicFieldDateTime
-#, fuzzy
 msgid "Here you can restrict the entering of dates of tickets."
 msgstr "Tutaj możesz ograniczyć zakres wprowadzanych dat w zgłoszeniach."
 
@@ -3211,7 +3208,6 @@ msgid "Service"
 msgstr "Usługa"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Service Level Agreement"
 msgstr ""
 "Umowa o gwarantowanym poziomie świadczenia usług - Service Level Agreement "
@@ -3549,7 +3545,6 @@ msgid "Execute Ticket Commands"
 msgstr "Wykonaj polecenia zgłoszeń"
 
 #. Template: AdminGenericAgent
-#, fuzzy
 msgid "Send agent/customer notifications on changes"
 msgstr "Wyślij powidomienia agentowi/klientowi przy zmianie"
 
@@ -4389,7 +4384,6 @@ msgid "Add key mapping"
 msgstr "Dodaj mapowanie klucza"
 
 #. Template: AdminGenericInterfaceMappingSimple
-#, fuzzy
 msgid "Mapping for Key "
 msgstr "Mapowanie klucza "
 
@@ -4778,7 +4772,6 @@ msgid "Send Keep-Alive"
 msgstr "Wysyłaj \"Keep-Alive\" (podtrzymuj)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-#, fuzzy
 msgid ""
 "This configuration defines if incoming connections should get closed or kept "
 "alive."
@@ -5395,7 +5388,6 @@ msgstr ""
 "przetwarzają dane jej odpowiedzi."
 
 #. Template: AdminGenericInterfaceWebservice
-#, fuzzy
 msgid "Controller"
 msgstr "Kontroler"
 
@@ -5707,7 +5699,6 @@ msgid "Set as favorite"
 msgstr "Ustaw jako ulubiony"
 
 #. Template: AdminNotificationEvent
-#, fuzzy
 msgid "Ticket Notification Management"
 msgstr "Zarządzanie powiadomieniami"
 
@@ -6020,14 +6011,12 @@ msgid "package information"
 msgstr "informacja o pakiecie"
 
 #. Template: AdminPackageManager
-#, fuzzy
 msgid "Package installation requires a patch level update of OTOBO."
 msgstr ""
 "Instalacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji "
 "OTOBO."
 
 #. Template: AdminPackageManager
-#, fuzzy
 msgid "Package update requires a patch level update of OTOBO."
 msgstr ""
 "Aktualizacja pakietu wymaga zastosowania odpowiedniego poziomu aktualizacji "
@@ -6279,7 +6268,6 @@ msgid "File differences for file %s"
 msgstr "Różnice plikowe dla pliku %s"
 
 #. Template: AdminPerformanceLog
-#, fuzzy
 msgid "Performance Log"
 msgstr "Log wydajności"
 
@@ -6474,7 +6462,6 @@ msgid "Negate"
 msgstr "Zaprzeczenie"
 
 #. Template: AdminPostMasterFilter
-#, fuzzy
 msgid "Set Email Headers"
 msgstr "Ustaw nagłówki e-mail"
 
@@ -7020,12 +7007,10 @@ msgid "Do you really want to delete this Process?"
 msgstr "Czy na pewno chcesz usunąć ten proces?"
 
 #. Template: AdminProcessManagementProcessEdit
-#, fuzzy
 msgid "Do you really want to delete this Activity?"
 msgstr "Czy na pewno chcesz usunąć to działanie?"
 
 #. Template: AdminProcessManagementProcessEdit
-#, fuzzy
 msgid "Do you really want to delete this Activity Dialog?"
 msgstr "Czy na pewno chcesz usunąć to okno działania?"
 
@@ -7035,7 +7020,6 @@ msgid "Do you really want to delete this Transition?"
 msgstr "Czy na pewno chcesz usunąć to przejście?"
 
 #. Template: AdminProcessManagementProcessEdit
-#, fuzzy
 msgid "Do you really want to delete this Transition Action?"
 msgstr "Czy na pewno chcesz usunąć tę akcję przejścia?"
 
@@ -7662,7 +7646,6 @@ msgid "If you deregister your system, you will lose these benefits:"
 msgstr "Jeśli wyrejestrujesz system stracisz następujące bonusy:"
 
 #. Template: AdminRegistration
-#, fuzzy
 msgid "You need to log in with your OTOBO-ID to deregister your system."
 msgstr ""
 "Musisz zalogować się przy użyciu swojego OTOBO-ID by móc dokonać "
@@ -8240,7 +8223,6 @@ msgid "Run Query"
 msgstr "Uruchom polecenie"
 
 #. Template: AdminSelectBox
-#, fuzzy
 msgid "%s Results"
 msgstr "%s Wyniki"
 
@@ -10359,7 +10341,6 @@ msgid "Each row contains data of one entity."
 msgstr ""
 
 #. Template: AgentStatisticsAdd
-#, fuzzy
 msgid "Static"
 msgstr "Statyczny"
 
@@ -14204,7 +14185,6 @@ msgid "Need %s"
 msgstr "Wymagany %s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
-#, fuzzy
 msgid "Add %s field"
 msgstr "Dodaj %s pole"
 
@@ -14900,7 +14880,6 @@ msgid "Dispatching by selected Queue."
 msgstr "Przydzielaj na podstawie wybranej kolejki."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-#, fuzzy
 msgid "Agent who created the ticket"
 msgstr "Agent, który utworzył zgłoszenie"
 
@@ -14910,7 +14889,6 @@ msgid "Agent who owns the ticket"
 msgstr "Agent który jest właścicielem zgłoszenia"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
-#, fuzzy
 msgid "Agent who is responsible for the ticket"
 msgstr "Agent, który jest odpowiedzialny za zgłoszenie"
 
@@ -16062,7 +16040,6 @@ msgid "Can not delete link with %s!"
 msgstr "Nie można usunąć połączenia z %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
-#, fuzzy
 msgid "%s Link(s) deleted successfully."
 msgstr "%s Połączenie(a) usunięte pomyślnie."
 
@@ -16908,7 +16885,6 @@ msgid "Link Added"
 msgstr "Powiązanie dodane"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-#, fuzzy
 msgid "Incoming Customer Email"
 msgstr "Wiadomość od klienta"
 
@@ -17920,7 +17896,6 @@ msgid "Lite"
 msgstr "Lekkie"
 
 #. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
-#, fuzzy
 msgid "Unread article(s) available"
 msgstr "Dostępne są nieprzeczytane wiadomości"
 
@@ -17986,7 +17961,6 @@ msgstr ""
 "Są opublikowane nieprawidłowe parametry: %s. Kliknij tutaj aby je wyświetlić."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
-#, fuzzy
 msgid "You have undeployed settings, would you like to deploy them?"
 msgstr "Masz niewdrożone ustawienia, czy chcesz je wdrożyć?"
 
@@ -18069,7 +18043,6 @@ msgstr ""
 "litery!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-#, fuzzy
 msgid "Can't update password, it must contain at least 1 digit!"
 msgstr "Nie można zmienić hasła - musi zawierać co najmniej 1 cyfrę!"
 
@@ -19475,12 +19448,10 @@ msgid "Used Swap Space (MB)"
 msgstr "Używana przestrzeń wymiany (MB)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
-#, fuzzy
 msgid "There should be more than 60% free swap space."
 msgstr "Co najmniej 60% przestrzeni wymiany powinno być wolne."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
-#, fuzzy
 msgid "There should be no more than 200 MB swap space used."
 msgstr "Co najwyżej 200 MB przestrzeni wymiany powinno być używane."
 
@@ -20629,7 +20600,6 @@ msgid "Ticket create notification"
 msgstr "Powiadomienia o nowym zgłoszeniu"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
-#, fuzzy
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
@@ -21567,12 +21537,10 @@ msgid "Do you really want to continue?"
 msgstr "Czy jesteś pewien, że chcesz kontynuować?"
 
 #. JS File: Core.Agent.TicketBulk
-#, fuzzy
 msgid " ...and %s more"
 msgstr " ...i %s więcej"
 
 #. JS File: Core.Agent.TicketBulk
-#, fuzzy
 msgid " ...show less"
 msgstr " ...pokaż mniej"
 
@@ -21794,7 +21762,6 @@ msgid "Remove the filter"
 msgstr "Usuń filtr"
 
 #. JS File: Core.UI.TreeSelection
-#, fuzzy
 msgid "There are currently no elements available to select from."
 msgstr "Obecnie nie ma jeszcze elementów, z których można by wybrać."
 
@@ -22304,7 +22271,6 @@ msgid "Agent Name"
 msgstr "Imię i nazwisko Agenta"
 
 #. SysConfig
-#, fuzzy
 msgid "Agent Name + FromSeparator + System Address Display Name"
 msgstr "Imię i nazwisko agenta + Separator + Systemowy adres"
 
@@ -28892,12 +28858,10 @@ msgid "Link customers to groups."
 msgstr "Zarządzanie relacjami Klienci <-> Grupy."
 
 #. SysConfig
-#, fuzzy
 msgid "Link queues to auto responses."
 msgstr "Zarządzanie relacjami Kolejki <-> Autoodpowiedzi."
 
 #. SysConfig
-#, fuzzy
 msgid "Link roles to groups."
 msgstr "Zarządzanie relacjami Rola <-> Grupa."
 
@@ -28907,7 +28871,6 @@ msgid "Link templates to attachments."
 msgstr "Zarządzanie relacjami Szablony <-> Załączniki."
 
 #. SysConfig
-#, fuzzy
 msgid "Link templates to queues."
 msgstr "Zarządzanie relacjami Szablony <-> Kolejki."
 
