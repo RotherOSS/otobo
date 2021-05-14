@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2021-05-14 12:47+0000\n"
-"Last-Translator: Przemysław Wilkosz <office@wilkosz.net>\n"
+"Last-Translator: Intalio <intalio@intalio.pl>\n"
 "Language-Team: Polish <https://translate.otobo.org/projects/otobo10/otobo/pl/"
 ">\n"
 "Language: pl\n"
@@ -31704,9 +31704,8 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-#, fuzzy
 msgid "Sets the ticket type in the ticket bulk screen of the agent interface."
-msgstr "Ustawia typ zgłoszenia w oknie zbiorczym zgłoszenia interfejsu agenta"
+msgstr "Ustawia typ zgłoszenia w oknie zbiorczym zgłoszenia interfejsu agenta."
 
 #. SysConfig
 msgid ""
@@ -32697,7 +32696,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Specifies if an agent should receive email notification of his own actions."
 msgstr ""
@@ -32711,14 +32709,12 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-#, fuzzy
 msgid "Specifies the directory where SSL certificates are stored."
 msgstr "Wskazuje katalog w którym umieszczone są certyfikaty SSL."
 
 #. SysConfig
-#, fuzzy
 msgid "Specifies the directory where private SSL certificates are stored."
-msgstr "Wskazuje katalog w którym umieszczony są prywatne certyfikaty SSL."
+msgstr "Wskazuje katalog, w którym umieszczone są prywatne certyfikaty SSL."
 
 #. SysConfig
 msgid ""
