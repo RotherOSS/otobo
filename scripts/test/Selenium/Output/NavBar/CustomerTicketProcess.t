@@ -104,7 +104,7 @@ $Selenium->RunTest(
         # Check if NavBarCustomerTicketProcess button is available when process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
         {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+            my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
 
             $Selenium->content_contains(
                 'Action=CustomerTicketProcess',
@@ -246,7 +246,7 @@ $Selenium->RunTest(
         $Selenium->VerifiedRefresh();
 
         {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+            my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
 
             $Selenium->content_contains(
                 'Action=CustomerTicketProcess',
