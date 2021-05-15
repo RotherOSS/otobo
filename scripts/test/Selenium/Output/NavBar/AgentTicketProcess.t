@@ -206,14 +206,10 @@ $Selenium->RunTest(
 
         # Check if NavBarAgentTicketProcess button is not available when no process is available.
         $Selenium->VerifiedRefresh();
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
-
-            $Selenium->content_contains(
-                'Action=AgentTicketProcess',
-                "'New process ticket' button NOT available when no process is active when no process is available",
-            );
-        }
+        $Selenium->content_lacks(
+            'Action=AgentTicketProcess',
+            "'New process ticket' button NOT available when no process is active when no process is available",
+        );
 
         # Check if NavBarAgentTicketProcess button is available
         # When NavBarAgentTicketProcess module is disabled and no process is available.
