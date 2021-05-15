@@ -114,20 +114,23 @@ $Selenium->RunTest(
 
         # clean up dashboard cache and refresh screen
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
-        $Selenium->VerifiedRefresh();
+        {
+            my $ToDo = todo('sporadic failures, see #988');
 
-        # test OutOfOffice plugin
-        my $ExpectedResult = sprintf(
-            "$TestUserLogin until %02d/%02d/%d",
-            $DTValues->{Month},
-            $DTValues->{Day},
-            $DTValues->{Year} + 1,
-        );
-        $Self->True(
-            index( $Selenium->get_page_source(), $ExpectedResult ) > -1,
-            "OutOfOffice message - found on screen"
-        );
+            $Selenium->VerifiedRefresh();
 
+            # test OutOfOffice plugin
+            my $ExpectedResult = sprintf(
+                "$TestUserLogin until %02d/%02d/%d",
+                $DTValues->{Month},
+                $DTValues->{Day},
+                $DTValues->{Year} + 1,
+            );
+            $Selenium->content_contains(
+                $ExpectedResult,
+                "OutOfOffice message - found on screen"
+            );
+        }
     }
 );
 
