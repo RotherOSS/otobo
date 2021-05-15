@@ -117,19 +117,21 @@ $Selenium->RunTest(
         {
             my $ToDo = todo('sporadic failures, see #988');
 
-            $Selenium->VerifiedRefresh();
+            try_ok {
+                $Selenium->VerifiedRefresh();
 
-            # test OutOfOffice plugin
-            my $ExpectedResult = sprintf(
-                "$TestUserLogin until %02d/%02d/%d",
-                $DTValues->{Month},
-                $DTValues->{Day},
-                $DTValues->{Year} + 1,
-            );
-            $Selenium->content_contains(
-                $ExpectedResult,
-                "OutOfOffice message - found on screen"
-            );
+                # test OutOfOffice plugin
+                my $ExpectedResult = sprintf(
+                    "$TestUserLogin until %02d/%02d/%d",
+                    $DTValues->{Month},
+                    $DTValues->{Day},
+                    $DTValues->{Year} + 1,
+                );
+                $Selenium->content_contains(
+                    $ExpectedResult,
+                    "OutOfOffice message - found on screen"
+                );
+            };
         }
     }
 );
