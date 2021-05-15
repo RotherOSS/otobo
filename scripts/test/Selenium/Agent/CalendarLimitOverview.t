@@ -123,7 +123,6 @@ $Selenium->RunTest(
             my $CalendarName = $Calendars[$Index]->{CalendarName};
 
             # Wait until checkbox and its change event has been loaded.
-            Time::HiRes::sleep(0.5);
             $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
 
             $Self->Is(
@@ -164,8 +163,6 @@ $Selenium->RunTest(
             );
             $Selenium->find_element( "#Calendar$CalendarID", 'css' )->click();
 
-            Time::HiRes::sleep(0.5);
-
             $Selenium->WaitFor(
                 JavaScript =>
                     "return !\$('.CalendarWidget.Loading').length && \$('#Calendar$CalendarID:checked').length;"
@@ -191,7 +188,6 @@ $Selenium->RunTest(
             my $CalendarID   = $Calendars[$Index]->{CalendarID};
             my $CalendarName = $Calendars[$Index]->{CalendarName};
 
-            Time::HiRes::sleep(0.5);
             $Selenium->WaitFor( JavaScript => "return \$('#Calendar$CalendarID:checked').length == $Length;" );
 
             $Self->Is(

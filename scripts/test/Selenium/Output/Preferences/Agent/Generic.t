@@ -122,8 +122,6 @@ $Selenium->RunTest(
                 Value   => $Test->{Value},
             );
 
-            sleep 1;
-
             # Save the setting, wait for the ajax call to finish and check if success sign is shown.
             $Selenium->execute_script(
                 "\$('#$Test->{ID}').closest('.WidgetSimple').find('.SettingUpdateBox').find('button').trigger('click');"

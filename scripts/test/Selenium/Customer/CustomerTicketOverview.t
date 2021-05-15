@@ -162,10 +162,6 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
         }
 
-        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
-        # TODO: https://github.com/RotherOSS/otobo/issues/932
-        sleep 11;
-
         # Get Process list.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -278,7 +274,6 @@ $Selenium->RunTest(
                 Key   => 'Ticket::Frontend::CustomerTicketOverview###ColumnHeader',
                 Value => $ColumnHeader,
             );
-            sleep 1;
 
             my $TitleElement = $Selenium->find_element_by_css(
                 qq{div[id='oooTile03'] a[href*='Action=CustomerTicketZoom;TicketNumber=$TicketNumber'] div.oooTicketItemDesc h3.oooTIDTitle}

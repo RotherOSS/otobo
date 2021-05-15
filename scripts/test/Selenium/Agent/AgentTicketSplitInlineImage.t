@@ -143,11 +143,7 @@ $Selenium->RunTest(
                 JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
             );
             $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
-            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-            sleep 1;
         }
 
         # Get process list.
@@ -396,9 +392,6 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
 
         # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(

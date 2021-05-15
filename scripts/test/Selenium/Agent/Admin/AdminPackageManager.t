@@ -225,9 +225,6 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # Allow web server to pick up the changed config setting.
-        sleep 1;
-
         $NavigateToAdminPackageManager->();
 
         # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
@@ -323,9 +320,6 @@ $Selenium->RunTest(
                 'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[Example] ftp://ftp.example.com/'
             },
         );
-
-        # Allow web server to pick up the changed SysConfig.
-        sleep 3;
 
         $NavigateToAdminPackageManager->();
         $Selenium->InputFieldValueSet(

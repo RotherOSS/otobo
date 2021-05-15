@@ -142,7 +142,6 @@ $Selenium->RunTest(
         {
 
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-            sleep 1;
 
             if ( $Action eq 'AgentTicketOwner' )
             {

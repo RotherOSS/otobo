@@ -144,7 +144,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#$ID').val() == '$Value'"
             );
-            sleep 2;
         }
 
         # Create FormDraft and submit.
@@ -199,7 +198,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#$ID').val() == '$Value'"
             );
-            sleep 2;
         }
 
         # Try to create FormDraft with same name, expecting error.
@@ -222,7 +220,6 @@ $Selenium->RunTest(
 
         # Accept alert.
         $Selenium->accept_alert();
-        sleep 1;
 
         # Close screen and switch back window.
         $Selenium->close();
@@ -304,7 +301,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('#$ID').val() == '$Update'"
             );
-            sleep 2;
         }
 
         $Selenium->find_element( "#FormDraftUpdate", 'css' )->click();

@@ -714,7 +714,6 @@ $Selenium->RunTest(
             CSSSelector => '.ShowTreeSelection',
         );
         $Selenium->execute_script("\$('.ShowTreeSelection').click();");
-        sleep 1;
 
         my @SearchElements = $Selenium->find_elements("//input[contains(\@placeholder,'Search...')]");
 

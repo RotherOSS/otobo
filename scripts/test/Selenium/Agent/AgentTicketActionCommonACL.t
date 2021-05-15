@@ -379,8 +379,6 @@ END_CONTENT
         my $NumVisibleServices = $Selenium->execute_script(q{return $('#ServiceID option:not([value=""])').length;});
         is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
-        Time::HiRes::sleep(0.5);
-
         # Set test service and trigger AJAX refresh.
         $Selenium->InputFieldValueSet(
             Element => '#ServiceID',
@@ -451,8 +449,6 @@ END_CONTENT
             1,
             'There is only one entry in the service selection'
         );
-
-        Time::HiRes::sleep(0.5);
 
         # Set test service and trigger AJAX refresh.
         $Selenium->InputFieldValueSet(
@@ -549,8 +545,6 @@ END_CONTENT
             $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 0;'),
             "State 'closed successful' not available in new state selection before DF update"
         );
-
-        Time::HiRes::sleep(0.5);
 
         # Set dynamic field value to non-zero, and wait for AJAX to complete.
         $Selenium->InputFieldValueSet(

@@ -75,9 +75,6 @@ $Selenium->RunTest(
         # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
-
         # Get process list.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -196,9 +193,6 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
 
         # Check if NavBarAgentTicketProcess button is not available when no process is available.
         $Selenium->VerifiedRefresh();

@@ -166,11 +166,7 @@ $Selenium->RunTest(
                 JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
             );
             $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
-            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
-            sleep 1;
         }
 
         # Get Process list.

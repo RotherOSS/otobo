@@ -244,7 +244,6 @@ my $CheckTicketReplyOrForward = sub {
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys($TestCustomer);
 
         # Autocomplete results are not shown sometimes, so add a space to trigger event one times more.
-        sleep 1;
         $Selenium->find_element( "#ToCustomer", 'css' )->send_keys(" ");
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("li.ui-menu-item:visible").length' );

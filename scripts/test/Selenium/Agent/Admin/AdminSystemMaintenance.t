@@ -534,7 +534,6 @@ $Selenium->RunTest(
 
         # filter by test unique ID
         $Selenium->find_element( "#FilterSystemMaintenances", 'css' )->send_keys( $SysMainComment . ' maintenance' );
-        sleep 1;
 
         # check created SystemMaintenances
         for my $Test (@Tests) {
