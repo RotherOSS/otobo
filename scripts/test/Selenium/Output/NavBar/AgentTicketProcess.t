@@ -96,14 +96,10 @@ $Selenium->RunTest(
         # Check if NavBarAgentTicketProcess button is available when process is available.
         $Selenium->VerifiedRefresh();
 
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
-
-            $Selenium->content_contains(
-                'Action=AgentTicketProcess',
-                "NavBar 'New process ticket' button available",
-            );
-        }
+        $Selenium->content_contains(
+            'Action=AgentTicketProcess',
+            "NavBar 'New process ticket' button available",
+        );
 
         # Clean up activities.
         my $Success;
