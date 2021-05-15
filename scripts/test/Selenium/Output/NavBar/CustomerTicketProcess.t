@@ -35,12 +35,11 @@ my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagemen
 my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $Helper                  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
 
 $Selenium->RunTest(
     sub {
-
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Create and log in test user.
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -51,6 +50,7 @@ $Selenium->RunTest(
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
+        ok( $TestUserID, 'got ID for the test user' );
 
         # Login as test user.
         $Selenium->Login(
@@ -117,7 +117,6 @@ $Selenium->RunTest(
         }
 
         # Clean up activities.
-        my $Success;
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
@@ -133,26 +132,20 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                ok(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -163,15 +156,12 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -182,27 +172,21 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
 
-        ok(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         # Get all processes.
         my $ProcessList = $ProcessObject->ProcessListGet(
