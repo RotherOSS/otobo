@@ -95,6 +95,8 @@ $Selenium->RunTest(
         # Go to calendar overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentCalendarOverview");
 
+        sleep 1;
+
         # Wait for AJAX to finish.
         $Selenium->WaitFor(
             JavaScript =>
@@ -169,6 +171,8 @@ $Selenium->RunTest(
         # Go to agenda overview page.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
 
+        sleep 1;
+
         # Verify appointment is visible.
         $Selenium->content_contains( 'Time Zone Appointment', 'Appointment visible (Agenda Overview)' );
 
@@ -215,6 +219,8 @@ $Selenium->RunTest(
 
         # Go to agenda overview page again.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentAppointmentAgendaOverview;Filter=Week");
+
+        sleep 1;
 
         # Get displayed start date.
         my $StartDateTZ = $Selenium->find_element( "//*[\@id='AppointmentID_$AppointmentID']/td[4]", 'xpath' )->get_text();
