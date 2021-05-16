@@ -115,6 +115,7 @@ $Selenium->RunTest(
 
         # clean up dashboard cache and refresh screen
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Dashboard' );
+
         {
             my $ToDo = todo('sporadic failures, see #988');
 
