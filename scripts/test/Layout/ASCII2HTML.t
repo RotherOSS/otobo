@@ -193,7 +193,7 @@ my @Tests = (
             ' <a href="http://example.com?some_long_url=yes&some_what_else=index+test.html" target="_blank" title="http://example.com?some_long_url=yes&some_what_else=index+test.html">http://example.com?some_long_url=yes&some_what_else=index+test.html</a> ',
     },
     {
-        Name => 'Ascii2Html() - #11',
+        Name   => 'Ascii2Html() - #11',
         String =>
             ' http://example.com?some_long_url=yes&some_what_else=0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.0123456789.index.html ',
         Result =>
