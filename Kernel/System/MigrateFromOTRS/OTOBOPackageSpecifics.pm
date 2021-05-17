@@ -177,7 +177,7 @@ sub _FAQ_InlineImg {
 
         for my $i ( 1 .. 6 ) {
             for my $RegEx ( keys %Substitutions ) {
-                $Substituded = 1 if ( $FAQ{"Field$i"} && $FAQ{"Field$i"} =~ s/$RegEx/$Substitutions{ $RegEx }/ );
+                $Substituded = 1 if ( $FAQ{"Field$i"} && $FAQ{"Field$i"} =~ s/$RegEx/$Substitutions{ $RegEx }/g );
             }
         }
 
