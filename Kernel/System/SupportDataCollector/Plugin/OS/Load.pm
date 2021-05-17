@@ -54,7 +54,7 @@ sub Run {
 
         # mac os
         elsif ( $^O =~ /darwin/i ) {
-            if ( open( my $In, '-|', "sysctl vm.loadavg" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
+            if ( open( my $In, '-|', "sysctl vm.loadavg" ) ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
                 while (<$In>) {
                     if ( my ($Loads) = $_ =~ /vm\.loadavg: \s* \{ \s*  (.*) \s* \}/smx ) {
                         @Loads = split ' ', $Loads;
