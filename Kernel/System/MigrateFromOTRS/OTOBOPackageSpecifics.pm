@@ -82,6 +82,12 @@ sub Run {
             Result      => 'Changed path of inline images.',
             Sub         => \&_FAQ_InlineImg,
         },
+  	{
+            Package     => 'ITSMConfigurationManagement',
+            Description => 'Change ConfigItem definition from perl to yaml.',
+            Result      => 'Changed ConfigItem definition from perl to yaml.',
+            Sub         => \&_ITSM_ChangeDefinition,
+        },
 
         #        {
         #            Package     => 'Name of Package required',
@@ -185,6 +191,25 @@ sub _FAQ_InlineImg {
 
         $Success = 0 if ( !$FAQObject->FAQUpdate( %FAQ, UserID => 1 ) );
     }
+
+    return $Success;
+}
+
+sub _ITSM_ChangeDefinition {
+    my ( $Self, %Param ) = @_;
+
+    my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::ITSM::Configitem::DefinitionPerl2YAML');
+    my $Success = 0;
+
+    my ( $Result, $ExitCode );
+
+    {
+        local *STDOUT;
+        open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        $ExitCode = $CommandObject->Execute();
+    }
+
+    $Success = 1 if !$ExitCode;
 
     return $Success;
 }
