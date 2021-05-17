@@ -101,13 +101,13 @@ my $RunTest = sub {
 
     if ( $Test->{Output} && $Test->{Output} eq 'STDOUT' ) {
         local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Params} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
     }
     else {
         local *STDERR;
-        open STDERR, '>:encoding(UTF-8)', \$Result;
+        open STDERR, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Params} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
     }

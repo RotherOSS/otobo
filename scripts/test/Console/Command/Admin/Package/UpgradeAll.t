@@ -63,7 +63,7 @@ else {
     my ( $Result, $ExitCode );
     {
         local *STDOUT;
-        open STDOUT, '>:encoding(UTF-8)', \$Result;
+        open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute();
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
     }

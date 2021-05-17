@@ -33,7 +33,6 @@ skip_all("No AdminGenericAgent") unless $ConfigObject->Get('Frontend::Module')->
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 

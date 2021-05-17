@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -101,9 +100,9 @@ $Selenium->RunTest(
         # Verify screen.
         for my $ID (
             qw(
-            NameSpace MaxLength
-            RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
-            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+                NameSpace MaxLength
+                RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
+                SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
             )
             )
         {
@@ -285,12 +284,12 @@ $Selenium->RunTest(
         # Verify screen.
         for my $ID (
             qw(
-            Endpoint NameSpace Encoding Timeout
-            RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
-            SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
-            AuthType BasicAuthUser BasicAuthPassword
-            UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
-            UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
+                Endpoint NameSpace Encoding Timeout
+                RequestNameScheme RequestNameFreeText ResponseNameScheme ResponseNameFreeText
+                SOAPAction SOAPActionSeparator SOAPActionScheme SOAPActionFreeText
+                AuthType BasicAuthUser BasicAuthPassword
+                UseSSL SSLCertificate SSLKey SSLPassword SSLCAFile SSLCADir
+                UseProxy ProxyHost ProxyUser ProxyPassword ProxyExclude
             )
             )
         {

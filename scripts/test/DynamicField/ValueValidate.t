@@ -636,14 +636,14 @@ my @Tests = (
         Name   => 'Incorrect future date for date field which only allow old dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyPast},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->(
-                        Yield => sub { shift->Add( Seconds => 259200 ); },
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->(
+                            Yield => sub { shift->Add( Seconds => 259200 ); },
+                        )
                     )
-                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -654,14 +654,14 @@ my @Tests = (
         Name   => 'Correct old date for date field which only allow old dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyPast},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->(
-                        Yield => sub { shift->Subtract( Seconds => 259200 ); },
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->(
+                            Yield => sub { shift->Subtract( Seconds => 259200 ); },
+                        )
                     )
-                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -672,12 +672,12 @@ my @Tests = (
         Name   => 'Correct today date for date field which only allow old dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyPast},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->()
-                )
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->()
+                    )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -688,14 +688,14 @@ my @Tests = (
         Name   => 'Correct future date for date field which only allow future dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyFuture},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->(
-                        Yield => sub { shift->Add( Seconds => 259200 ); },
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->(
+                            Yield => sub { shift->Add( Seconds => 259200 ); },
+                        )
                     )
-                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -706,12 +706,12 @@ my @Tests = (
         Name   => 'Correct today date for date field which only allow future dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyFuture},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->()
-                )
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->()
+                    )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,
@@ -722,14 +722,14 @@ my @Tests = (
         Name   => 'Incorrect old date for date field which only allow future dates (search value)',
         Config => {
             DynamicFieldConfig => $DynamicFieldConfigs{DateOnlyFuture},
-            Value =>
+            Value              =>
                 (
-                split(
-                    /\s/,
-                    $CurrentSystemTime2Timestamp->(
-                        Yield => sub { shift->Subtract( Seconds => 259200 ); },
+                    split(
+                        /\s/,
+                        $CurrentSystemTime2Timestamp->(
+                            Yield => sub { shift->Subtract( Seconds => 259200 ); },
+                        )
                     )
-                )
                 )[0]
                 . " 00:00:00",
             UserID => $UserID,

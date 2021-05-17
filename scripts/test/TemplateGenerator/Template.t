@@ -181,13 +181,13 @@ my @Tests = (
         ExpectedResult => 'Thank you for your email. ' . $ConfigObject->Get('ScriptAlias'),
     },
     {
-        Name => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
+        Name         => 'Supported tags - <OTOBO_TICKET_*> without TicketID',
         TemplateText =>
             'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>)',
         ExpectedResult => 'Options of the ticket data (e. g. -, -, -)',
     },
     {
-        Name => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
+        Name         => 'Supported tags - <OTOBO_TICKET_*>  with TicketID',
         TemplateText =>
             'Options of the ticket data (e. g. <OTOBO_TICKET_TicketNumber>, <OTOBO_TICKET_TicketID>, <OTOBO_TICKET_Queue>, <OTOBO_TICKET_State>)',
         ExpectedResult => "Options of the ticket data (e. g. $TicketNumber, $TicketID, Raw, open)",
@@ -330,7 +330,7 @@ my @Tests = (
         }
     },
     {
-        Name => 'Test supported tag - <OTOBO_EMAIL_DATE[*]> with time zones',
+        Name         => 'Test supported tag - <OTOBO_EMAIL_DATE[*]> with time zones',
         TemplateText =>
             'Belgrade: <OTOBO_EMAIL_DATE[Europe/Belgrade]>; Denver: <OTOBO_EMAIL_DATE[America/Denver]>; Tokyo: <OTOBO_EMAIL_DATE[Asia/Tokyo]>',
         ExpectedResult =>
@@ -339,7 +339,7 @@ my @Tests = (
         TicketID => $TicketID,
     },
     {
-        Name => 'Test supported tag - <OTOBO_EMAIL_DATE> without time zone',
+        Name         => 'Test supported tag - <OTOBO_EMAIL_DATE> without time zone',
         TemplateText =>
             'No TimeZone specified (UTC): <OTOBO_EMAIL_DATE>',
         ExpectedResult => 'No TimeZone specified (UTC): Friday, January 10, 2020 at 16:00:00 (UTC)',

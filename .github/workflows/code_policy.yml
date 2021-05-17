@@ -8,10 +8,13 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl libxml2-utils
-              
+              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl libxml2-utils libxml-libxslt-perl cpanminus
+
             - name: 'checkout otobo'
               uses: actions/checkout@v2
+
+            - name: 'install from cpanfile.docker'
+              run: cpanm --sudo --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2

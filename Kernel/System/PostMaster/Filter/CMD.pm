@@ -79,9 +79,8 @@ sub Run {
     # execute prog
     my $TmpFile = $Kernel::OM->Get('Kernel::Config')->Get('TempDir') . "/PostMaster.Filter.CMD.$$";
 
-    if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {
+    if ( open my $Prog, '|-', "$Config{CMD} > $TmpFile" ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         print $Prog $Self->{ParserObject}->GetPlainEmail();
-        close $Prog;
     }
 
     if ( -s $TmpFile ) {
@@ -100,7 +99,7 @@ sub Run {
                 ObjectLogType => 'Message',
                 Priority      => 'Notice',
                 Key           => 'Kernel::System::PostMaster::Filter::CMD',
-                Value =>
+                Value         =>
                     "Set param '$Key' to '$Value' because of '$Ret' (Message-ID: $Param{GetParam}->{'Message-ID'})",
             );
         }

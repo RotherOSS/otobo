@@ -343,7 +343,7 @@ my @Tests = (
             Data    => {},
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Test with empty data for provider and requester using SOAP transport backend.',
             Debugger => {
@@ -710,7 +710,7 @@ my @Tests = (
             ErrorMessage => 'faultcode: Server, faultstring: Error message for error code: 123',
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Operation handling errors test for provider and requester using SOAP transport backend.',
             Debugger => {
@@ -2200,7 +2200,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2256,7 +2256,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2312,7 +2312,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2367,7 +2367,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2533,7 +2533,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction '#PriorityIDName' does not match "
@@ -2589,7 +2589,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'PriorityIDName' does not match "
@@ -2644,7 +2644,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'SoapTestInterface' does not match "
@@ -2706,7 +2706,7 @@ my @Tests = (
             },
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Requester&Provider).',
             Debugger => {

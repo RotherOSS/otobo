@@ -109,32 +109,32 @@ my $XMLContentRaw = <<'EOF',
 EOF
 
     my $XMLContentParsed = {
-    Name        => 'UnitTest',
-    Required    => '1',
-    Valid       => '1',
-    ConfigLevel => '200',
-    Description => [
-        {
-            Translatable => '1',
-            Content      => 'Test.',
-        },
-    ],
-    Navigation => [
-        {
-            Content => 'Core',
-        },
-    ],
-    Value => [
-        {
-            Item => [
-                {
-                    ValueType  => 'String',
-                    Content    => 'OTOBO 10',
-                    ValueRegex => '',
-                },
-            ],
-        },
-    ],
+        Name        => 'UnitTest',
+        Required    => '1',
+        Valid       => '1',
+        ConfigLevel => '200',
+        Description => [
+            {
+                Translatable => '1',
+                Content      => 'Test.',
+            },
+        ],
+        Navigation => [
+            {
+                Content => 'Core',
+            },
+        ],
+        Value => [
+            {
+                Item => [
+                    {
+                        ValueType  => 'String',
+                        Content    => 'OTOBO 10',
+                        ValueRegex => '',
+                    },
+                ],
+            },
+        ],
     };
 
 my $DefaultID1 = $SysConfigDBObject->DefaultSettingAdd(

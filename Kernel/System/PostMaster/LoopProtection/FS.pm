@@ -45,10 +45,9 @@ sub SendEmail {
 
     # write log
 
-    if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {
+    if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         print $Out "$To;" . $DateTimeObject->Format( Format => '%a %b %{day} %H:%M:%S %Y' ) . ";\n";
-        close $Out;
     }
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -99,7 +98,7 @@ sub Check {
     if ( $Max && $Count >= $Max ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
-            Message =>
+            Message  =>
                 "LoopProtection: send no more emails to '$To'! Max. count of $Self->{PostmasterMaxEmails} has been reached!",
         );
         return;

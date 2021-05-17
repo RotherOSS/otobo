@@ -377,6 +377,8 @@ $Selenium->RunTest(
         }
 
         # Test cases - all fields are set except exactly one, and in the last case all fields are set.
+        # Some of these tests currently run into a time out and are marked as todo.
+        # See issue #748.
         my @ClearTests = (
             {
                 Name      => 'Clear Service field',
@@ -393,29 +395,31 @@ $Selenium->RunTest(
                 NewQueueID => '',
             },
 
-            # These tests currently run into a time out.
-            # There is a Github issue for reactivating them: issue #748.
-            #{
-            #    Name       => 'Clear Owner field and set back Queue field',
-            #    Time       => 40,
-            #    NewQueueID => $QueueID,
-            #    NewOwnerID => '',
-            #},
-            #{
-            #    Name             => 'Clear Responsible field and set back Owner field',
-            #    NewOwnerID       => $TestUserID,
-            #    NewResponsibleID => '',
-            #},
-            #{
-            #    Name             => 'Clear State field and set back Responsible field',
-            #    NewResponsibleID => $TestUserID,
-            #    NewQueueID => $QueueID,
-            #    NewStateID       => '',
-            #},
-            #{
-            #    Name       => 'Set back State field - all fields are set',
-            #    NewStateID => $StateID,
-            #},
+            {
+                Name       => 'Clear Owner field and set back Queue field',
+                Time       => 40,
+                NewQueueID => $QueueID,
+                NewOwnerID => '',
+                ToDO       => 1
+            },
+            {
+                Name             => 'Clear Responsible field and set back Owner field',
+                NewOwnerID       => $TestUserID,
+                NewResponsibleID => '',
+                ToDO             => 1
+            },
+            {
+                Name             => 'Clear State field and set back Responsible field',
+                NewResponsibleID => $TestUserID,
+                NewQueueID       => $QueueID,
+                NewStateID       => '',
+                ToDO             => 1
+            },
+            {
+                Name       => 'Set back State field - all fields are set',
+                NewStateID => $StateID,
+                ToDO       => 1
+            },
             {
                 Name       => 'Set back Queue field - all fields are set',
                 NewQueueID => $QueueID,
@@ -425,59 +429,58 @@ $Selenium->RunTest(
         # Run test - in each iteration exactly one field is empty, last case is correct.
         for my $Test (@ClearTests) {
 
+            my $ToDo = $Test->{ToDO} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
+
             # Write test case description.
             note("Test case for 'clear': $Test->{Name}");
 
-            my $ExpectedErrorFieldID;
+            try_ok {
+                my $ExpectedErrorFieldID;
 
-            TESTFIELD:
-            for my $FieldID ( sort keys $Test->%* ) {
+                TESTFIELD:
+                for my $FieldID ( sort keys $Test->%* ) {
 
-                next TESTFIELD if $FieldID eq 'Name';
-                next TESTFIELD if $FieldID eq 'Time';
+                    next TESTFIELD if $FieldID eq 'Name';
+                    next TESTFIELD if $FieldID eq 'Time';
 
-                if ( $Test->{$FieldID} eq '' ) {
-                    $ExpectedErrorFieldID = $FieldID;
+                    if ( $Test->{$FieldID} eq '' ) {
+                        $ExpectedErrorFieldID = $FieldID;
+                    }
+
+                    $Selenium->InputFieldValueSet(
+                        Element => "#$FieldID",
+                        Value   => $Test->{$FieldID},
+                        Time    => $Test->{Time},
+                    );
+
+                    # Wait for AJAX to finish.
+                    WaitForAJAX();
                 }
 
-                $Selenium->InputFieldValueSet(
-                    Element => "#$FieldID",
-                    Value   => $Test->{$FieldID},
-                    Time    => $Test->{Time},
-                );
+                # Wait until opened field (due to error) has closed.
+                $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
 
-                # Wait for AJAX to finish.
-                WaitForAJAX();
-            }
+                # Submit.
+                $Selenium->find_element( "#submitRichText", 'css' )->click();
 
-            # Wait until opened field (due to error) has closed.
-            $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
+                # Check if class Error exists in expected field ID.
+                if ($ExpectedErrorFieldID) {
+                    ok(
+                        $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
+                        "FieldID $ExpectedErrorFieldID is empty",
+                    );
+                }
+                else {
+                    pass("All mandatory fields are filled - successful free text fields update");
 
-            # Submit.
-            $Selenium->find_element( "#submitRichText", 'css' )->click();
+                    # Switch back to the main window.
+                    $Selenium->WaitFor( WindowCount => 1 );
+                    $Selenium->switch_to_window( $Handles->[0] );
 
-            # Check if class Error exists in expected field ID.
-            if ($ExpectedErrorFieldID) {
-                $Self->True(
-                    $Selenium->execute_script(
-                        "return \$('#$ExpectedErrorFieldID.Error').length;"
-                    ),
-                    "FieldID $ExpectedErrorFieldID is empty",
-                );
-            }
-            else {
-                $Self->True(
-                    1,
-                    "All mandatory fields are filled - successful free text fields update",
-                );
-
-                # Switch back to the main window.
-                $Selenium->WaitFor( WindowCount => 1 );
-                $Selenium->switch_to_window( $Handles->[0] );
-
-                $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
-                );
+                    $Selenium->WaitFor(
+                        JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
+                    );
+                }
             }
         }
 

@@ -892,9 +892,9 @@ sub Content {
             if ($@) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         $LayoutObject->{LanguageObject}->Translate(
-                        'The customer panel mail address whitelist contains the invalid regular expression $WhitelistEntry, please check and correct it.'
+                            'The customer panel mail address whitelist contains the invalid regular expression $WhitelistEntry, please check and correct it.'
                         ),
                 );
             }
@@ -908,9 +908,9 @@ sub Content {
             if ($@) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         $LayoutObject->{LanguageObject}->Translate(
-                        'The customer panel mail address blacklist contains the invalid regular expression $BlacklistEntry, please check and correct it.'
+                            'The customer panel mail address blacklist contains the invalid regular expression $BlacklistEntry, please check and correct it.'
                         ),
                 );
             }
@@ -1398,12 +1398,12 @@ sub Content {
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            if ( open my $Out, '>>', $File ) {
+            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
                 print $Out time()
                     . '::Customer::'
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "::$UserData{UserLogin}::$QueryString\n";
-                close $Out;
+
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => 'Response::Customer: '

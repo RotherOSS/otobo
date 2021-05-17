@@ -29,7 +29,6 @@ use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
 #   e. g. when the Chat is active.
 
