@@ -106,7 +106,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
             for my $Language ( reverse sort keys %Data ) {
@@ -664,7 +664,7 @@ sub Login {
     my ( $Self, %Param ) = @_;
 
     # set Action parameter for the loader
-    $Self->{Action}     = 'Login';
+    $Self->{Action} = 'Login';
     $Param{IsLoginPage} = 1;
 
     # get singletons
