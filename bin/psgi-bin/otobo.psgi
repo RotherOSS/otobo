@@ -269,6 +269,7 @@ use CGI                ();
 use CGI::Carp          ();
 use CGI::Emulate::PSGI ();
 use CGI::PSGI;
+use Module::Refresh;
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
@@ -341,7 +342,7 @@ my $FixFCGIProxyMiddleware = sub {
         }
 
         return $App->($Env);
-    }
+    };
 };
 
 # Translate '/' is translated to '/index.html'
@@ -356,8 +357,44 @@ my $ExactlyRootMiddleware = sub {
         }
 
         return $App->($Env);
-    }
+    };
 };
+
+# This is inspired by Plack::Middleware::Refresh. But we roll our own middleware,
+# as OTOOB has special requirements.
+# The modules in Kernel/Config/Files must be exempted from the reloading
+# as it is OK when they are removed. These not removed modules are reloaded
+# for every request in Kernel::Config::Defaults::new().
+my $ModuleRefreshMiddleware;
+{
+    my $RefreshCooldown = 10;
+    my $LastRefreshTime = time - 10;
+    Module::Refresh->new();
+
+    $ModuleRefreshMiddleware = sub {
+        my $App = shift;
+
+        return sub {
+            my $Env = shift;
+
+            # don't do work for every request, just every $RefreshCooldown secondes
+            if ( time > $LastRefreshTime + $RefreshCooldown ) {
+
+                $LastRefreshTime = time;
+
+                # refresh modules, igoring the files in Kernel/Config/Files
+                MODULE:
+                for my $Module ( sort keys %INC ) {
+                    next MODULE if $Module =~ m[^Kernel/Config/Files/];
+
+                    Module::Refresh->refresh_module_if_modified($Module);
+                }
+            }
+
+            return $App->($Env);
+        };
+    };
+}
 
 ################################################################################
 # Apps
@@ -461,8 +498,10 @@ my $OTOBOApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
 
-    # check ever 10s for changed Perl modules, including Kernel/Config/Files/ZZZAAuto.pm
-    enable 'Plack::Middleware::Refresh';
+    # Check ever 10s for changed Perl modules.
+    # Exclude the modules in Kernel/Config/Files as these modules
+    # are already reloaded Kernel::Config::Defaults::new().
+    enable $ModuleRefreshMiddleware;
 
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
