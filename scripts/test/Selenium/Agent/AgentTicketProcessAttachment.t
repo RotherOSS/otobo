@@ -129,12 +129,7 @@ $Selenium->RunTest(
             JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
         );
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
-        sleep 1;
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
-        # TODO: sleep 10s ???
-        sleep 1;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -166,82 +161,74 @@ $Selenium->RunTest(
             Value   => $ListReverse{$ProcessName},
         );
 
-        my $TicketID;
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+        $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
 
-            try_ok {
-                $Selenium->WaitFor( ElementExists => [ '#Subject', 'css' ] );
+        # Hide DnDUpload and show input field.
+        $Selenium->execute_script(
+            "\$('.DnDUpload').css('display', 'none');"
+        );
+        $Selenium->execute_script(
+            "\$('#FileUpload').css('display', 'block');"
+        );
 
-                # Hide DnDUpload and show input field.
-                $Selenium->execute_script(
-                    "\$('.DnDUpload').css('display', 'none');"
-                );
-                $Selenium->execute_script(
-                    "\$('#FileUpload').css('display', 'block');"
-                );
+        # Scroll to attachment element view if necessary.
+        $Selenium->execute_script("\$('#FileUpload')[0].scrollIntoView(true);");
 
-                # Scroll to attachment element view if necessary.
-                $Selenium->execute_script("\$('#FileUpload')[0].scrollIntoView(true);");
+        # Add an attachment.
+        $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
 
-                # Add an attachment.
-                $Location = $ConfigObject->Get('Home') . "/scripts/test/sample/Main/Main-Test1.txt";
-                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
+        # Wait until attachment is uploaded, i.e. until it appears in the attachment list table.
+        #   Additional check for opacity makes sure that animation has been completed.
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").filter(function() {
+                    return $(this).css("opacity") == 1;
+                }).length;'
+        );
 
-                # Wait until attachment is uploaded, i.e. until it appears in the attachment list table.
-                #   Additional check for opacity makes sure that animation has been completed.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $(".AttachmentListContainer tbody tr").filter(function() {
-                            return $(this).css("opacity") == 1;
-                        }).length;'
-                );
+        # Check if uploaded.
+        $Self->Is(
+            $Selenium->execute_script(
+                "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
+            ),
+            1,
+            "'Main-Test1.txt' - uploaded"
+        );
 
-                # Check if uploaded.
-                $Self->Is(
-                    $Selenium->execute_script(
-                        "return \$('.AttachmentList tbody tr td.Filename:contains(Main-Test1.txt)').length;"
-                    ),
-                    1,
-                    "'Main-Test1.txt' - uploaded"
-                );
+        $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
+        $Selenium->execute_script(
+            q{
+                return CKEDITOR.instances.RichText.setData('This is a test text');
+            }
+        );
 
-                $Selenium->find_element( "#Subject", 'css' )->send_keys('Test');
-                sleep 1;
-                $Selenium->execute_script(
-                    q{
-                        return CKEDITOR.instances.RichText.setData('This is a test text');
-                    }
-                );
-
-                # Submit.
-                try_ok {
-                    $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && $(".TicketZoom").length;'
-                    );
-                };
-            };
-
-            my $Url = $Selenium->get_current_url();
-
-            # Check if ticket is created (sent to AgentTicketZoom screen).
-            ok(
-                index( $Url, 'Action=AgentTicketZoom;TicketID=' ) > -1,
-                "Current URL is correct - AgentTicketZoom",
+        # Submit.
+        try_ok {
+            $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return typeof($) === "function" && $(".TicketZoom").length;'
             );
+        };
 
-            # Get test ticket ID.
-            my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
-            $TicketID = $TicketZoomUrl[1];
+        my $Url = $Selenium->get_current_url();
 
-            # Verify article attachment is created.
-            $Selenium->find_element_by_css_ok(
-                '.ArticleAttachments li',
-                "Attachment is created in process ticket article"
-            );
-        }
+        # Check if ticket is created (sent to AgentTicketZoom screen).
+        ok(
+            index( $Url, 'Action=AgentTicketZoom;TicketID=' ) > -1,
+            "Current URL is correct - AgentTicketZoom",
+        );
+
+        # Get test ticket ID.
+        my @TicketZoomUrl = split( 'Action=AgentTicketZoom;TicketID=', $Url );
+        my $TicketID      = $TicketZoomUrl[1];
+
+        # Verify article attachment is created.
+        $Selenium->find_element_by_css_ok(
+            '.ArticleAttachments li',
+            "Attachment is created in process ticket article"
+        );
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
         my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');

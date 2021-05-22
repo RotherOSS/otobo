@@ -16,15 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::Config;
 use Kernel::System::AsynchronousExecutor;
+
+our $Self;
 
 # get helper object
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -34,7 +39,7 @@ $Self->True(
     "Instance created",
 );
 
-# GetRandomID
+# testing GetRandomID()
 my %SeenRandomIDs;
 my $DuplicateIDFound;
 
@@ -42,21 +47,16 @@ LOOP:
 for my $I ( 1 .. 1_000_000 ) {
     my $RandomID = $Helper->GetRandomID();
     if ( $SeenRandomIDs{$RandomID}++ ) {
-        $Self->True(
-            0,
-            "GetRandomID iteration $I returned a duplicate RandomID $RandomID",
-        );
+        fail("GetRandomID iteration $I returned a duplicate RandomID $RandomID");
         $DuplicateIDFound++;
+
         last LOOP;
     }
 }
 
-$Self->False(
-    $DuplicateIDFound,
-    "GetRandomID() returned no duplicates",
-);
+ok( !$DuplicateIDFound, "GetRandomID() returned no duplicates" );
 
-# GetRandomNumber
+# testing GetRandomNumber()
 my %SeenRandomNumbers;
 my $DuplicateNumbersFound;
 
@@ -64,19 +64,20 @@ LOOP:
 for my $I ( 1 .. 1_000_000 ) {
     my $RandomNumber = $Helper->GetRandomNumber();
     if ( $SeenRandomNumbers{$RandomNumber}++ ) {
-        $Self->True(
-            0,
-            "GetRandomNumber iteration $I returned a duplicate RandomNumber $RandomNumber",
-        );
+        fail("GetRandomNumber iteration $I returned a duplicate RandomNumber $RandomNumber");
         $DuplicateNumbersFound++;
+
         last LOOP;
     }
 }
 
-$Self->False(
-    $DuplicateNumbersFound,
-    "GetRandomNumber() returned no duplicates",
-);
+ok( !$DuplicateNumbersFound, "GetRandomNumber() returned no duplicates" );
+
+# Testing GetSequentialTwoLetterString()
+{
+    is( $Helper->GetSequentialTwoLetterString(), 'AA', 'initial value AA of the sequence' );
+    is( $Helper->GetSequentialTwoLetterString(), 'AB', 'second value AA of the sequence' );
+}
 
 # Test transactions
 $Helper->BeginWork();
@@ -107,12 +108,26 @@ $Self->Is(
     "Config setting does not exist yet",
 );
 
+my $Home = $ConfigObject->Get('Home');
+ok( -d $Home, "Home exists" );
+
 my $Value = q$1'"$;
 
+# This should use ZZZZUnitTestAC.pm, as AA and AB are already removed from the sequence
+is(
+    scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
+    0,
+    'ZZZZUnitTestAC*.pm does not exist yet'
+);
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'nonexisting_dummy',
     Value => $Value,
+);
+is(
+    scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
+    1,
+    'ZZZZUnitTestAC*.pm was created'
 );
 
 $Self->Is(
@@ -217,4 +232,19 @@ $Self->False(
     'Asynchronous task not scheduled'
 );
 
-$Self->DoneTesting();
+# The sequence holds 26*26 entries, count almost to the end
+{
+    try_ok {
+        for my $Counter ( 4 .. ( 26 * 26 - 3 ) ) {
+            $Helper->GetSequentialTwoLetterString();
+        }
+        is( $Helper->GetSequentialTwoLetterString(), 'ZY', 'next to last value ZY of the sequence' );
+        is( $Helper->GetSequentialTwoLetterString(), 'ZZ', 'last value ZZ of the sequence' );
+    }
+    'Counting to ZZ';
+
+    my $Exception = dies { $Helper->GetSequentialTwoLetterString() };
+    like( $Exception, qr/\QThe sequence can't proceed post 'ZZ'\E/, 'sequence dies after ZZ' );
+}
+
+done_testing();

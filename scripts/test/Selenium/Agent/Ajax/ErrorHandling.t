@@ -266,9 +266,6 @@ JAVASCRIPT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        # In some cases, we need a little bit more time to get the page up and running correctly
-        sleep(1);
-
         # Trigger faked ajax request again.
         $Selenium->execute_script($AjaxOverloadJSError);
 

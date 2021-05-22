@@ -153,7 +153,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
-            sleep 1;
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.doc";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -161,7 +160,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 2"
             );
-            sleep 1;
 
             $Location = "$Home/scripts/test/sample/Cache/Test1.txt";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
@@ -178,7 +176,6 @@ $Selenium->RunTest(
 
             # Accept alert.
             $Selenium->accept_alert();
-            sleep 1;
 
             my $Count = 2;
 
@@ -226,7 +223,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"
             );
-            sleep 1;
 
             my $CheckMaxAllowedSizeFilename = 'Test1.png';
             $Location = "$Home/scripts/test/sample/Cache/$CheckMaxAllowedSizeFilename";
@@ -269,7 +265,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
             );
-            sleep 2;
 
             # Check if uploaded.
             $Self->True(

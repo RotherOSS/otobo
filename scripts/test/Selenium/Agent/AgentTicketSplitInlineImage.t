@@ -143,12 +143,7 @@ $Selenium->RunTest(
                 JavaScript => "return !\$('#OverwriteExistingEntitiesImport:checked').length;"
             );
             $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
-            sleep 1;
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-            # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-            # TODO: sleep 10s ???
-            sleep 1;
         }
 
         # Get process list.
@@ -234,77 +229,71 @@ $Selenium->RunTest(
         $Selenium->find_element( '#SplitSubmit', 'css' )->VerifiedClick();
 
         # Wait until process is selected and all AJAX calls are finished.
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
+        );
 
-            try_ok {
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return typeof(\$) === 'function' && \$('#ProcessEntityID option:selected').text().trim() == 'TestProcess';"
+        $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
+
+        # Wait for the CKE to load.
+        $Selenium->WaitFor(
+            JavaScript =>
+                "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
+        );
+
+        my $CKEditorValue = $Selenium->execute_script(
+            "return CKEDITOR.instances.RichText.getData()"
+        );
+
+        # Check if there is inline image in process screen.
+        $ContentID =~ s/@/%40/g;
+        $Self->True(
+            index( $CKEditorValue, $ContentID ) > -1,
+            "RichText contains inline image.",
+        );
+
+        $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
+
+        # Get last article id.
+        my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+            TicketID => $TicketID,
+            OnlyLast => 1,
+        );
+        my $LastArticleID = $Articles[0]->{ArticleID};
+
+        # Get article attachments.
+        my $HTMLContent     = '';
+        my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
+            ArticleID => $LastArticleID,
+        );
+
+        # Go through all attachments.
+        for my $FileID ( sort keys %AttachmentIndex ) {
+            my %Attachment = $ArticleBackendObject->ArticleAttachment(
+                ArticleID => $LastArticleID,
+                FileID    => $FileID,
+            );
+
+            # Image attachment.
+            if ( $Attachment{ContentType} =~ /^image\/png/ ) {
+                $Self->Is(
+                    $Attachment{Disposition},
+                    'inline',
+                    'Inline image attachment found',
                 );
 
-                $Selenium->WaitFor( JavaScript => "return \$.active == 0;" );
-
-                # Wait for the CKE to load.
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        "return \$('body.cke_editable', \$('.cke_wysiwyg_frame').contents()).length == 1"
-                );
-
-                my $CKEditorValue = $Selenium->execute_script(
-                    "return CKEDITOR.instances.RichText.getData()"
-                );
-
-                # Check if there is inline image in process screen.
-                $ContentID =~ s/@/%40/g;
-                $Self->True(
-                    index( $CKEditorValue, $ContentID ) > -1,
-                    "RichText contains inline image.",
-                );
-
-                $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
-
-                # Get last article id.
-                my @Articles = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
-                    TicketID => $TicketID,
-                    OnlyLast => 1,
-                );
-                my $LastArticleID = $Articles[0]->{ArticleID};
-
-                # Get article attachments.
-                my $HTMLContent     = '';
-                my %AttachmentIndex = $ArticleBackendObject->ArticleAttachmentIndex(
-                    ArticleID => $LastArticleID,
-                );
-
-                # Go through all attachments.
-                for my $FileID ( sort keys %AttachmentIndex ) {
-                    my %Attachment = $ArticleBackendObject->ArticleAttachment(
-                        ArticleID => $LastArticleID,
-                        FileID    => $FileID,
-                    );
-
-                    # Image attachment.
-                    if ( $Attachment{ContentType} =~ /^image\/png/ ) {
-                        $Self->Is(
-                            $Attachment{Disposition},
-                            'inline',
-                            'Inline image attachment found',
-                        );
-
-                        # Save content id.
-                        if ( $Attachment{ContentID} ) {
-                            $ContentID = $Attachment{ContentID};
-                            $ContentID =~ s/<|>//g;
-                        }
-                    }
-
-                    # Html attachment.
-                    elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
-                        $HTMLContent = $Attachment{Content};
-                    }
+                # Save content id.
+                if ( $Attachment{ContentID} ) {
+                    $ContentID = $Attachment{ContentID};
+                    $ContentID =~ s/<|>//g;
                 }
-            };
+            }
+
+            # Html attachment.
+            elsif ( $Attachment{ContentType} =~ /^text\/html/ ) {
+                $HTMLContent = $Attachment{Content};
+            }
         }
 
         my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Transition');
@@ -403,10 +392,6 @@ $Selenium->RunTest(
 
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        # TODO: sleep 10s ???
-        sleep 1;
 
         # Delete created test tickets.
         $Success = $TicketObject->TicketDelete(

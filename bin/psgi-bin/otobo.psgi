@@ -260,7 +260,6 @@ to dispatch multiple ticket methods and get the TicketID
 
 # core modules
 use Data::Dumper;
-use POSIX 'SEEK_SET';
 
 # CPAN modules
 use DateTime ();
@@ -274,7 +273,6 @@ use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
-use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -297,23 +295,6 @@ CGI->compile(':cgi');
 ################################################################################
 # Middlewares
 ################################################################################
-
-# this middleware is to make sure that the newest version of ZZZAAuto is loaded
-my $RefreshZZZAAutoMiddleWare = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        if ( $INC{'Kernel/Config/Files/ZZZAAuto.pm'} ) {
-
-            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepare_app();
-            Module::Refresh->refresh_module('Kernel/Config/Files/ZZZAAuto.pm');
-        }
-
-        return $App->($Env);
-    };
-};
 
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
@@ -581,10 +562,9 @@ my $OTOBOApp = builder {
     # set %ENV
     enable $SetEnvMiddleWare;
 
-    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
-    enable $RefreshZZZAAutoMiddleWare;
-
-    # check ever 10s for changed Perl modules
+    # Check ever 10s for changed Perl modules.
+    # The check includes the Kernel/Config/Files/*.pm modules,
+    # but note that these  modules are also refreshed in Kernel::Config::Defaults::new().
     enable 'Plack::Middleware::Refresh';
 
     # we might catch an instance of Kernel::System::Web::Exception

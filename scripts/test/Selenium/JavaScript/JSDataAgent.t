@@ -23,8 +23,6 @@ use Kernel::System::UnitTest::RegisterDriver;
 
 use vars (qw($Self));
 
-use Time::HiRes qw(sleep);
-
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );

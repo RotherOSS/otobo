@@ -264,10 +264,6 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Upload process configuration'][\@type='submit']")->VerifiedClick();
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed Process cache.
-        # TODO: sleep 10s ???
-        sleep 1;
-
         # Get test user ID.
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
@@ -309,129 +305,115 @@ $Selenium->RunTest(
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-        my $SubjectRandom;
-        my $ContentRandom;
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+        # Check pre-selected process is loaded correctly.
+        ok(
+            $Selenium->find_element( "#Subject", 'css' ),
+            "Pre-selected process with activity dialog via URL is successful"
+        );
 
-            try_ok {
+        # Navigate to CustomerTicketProcess screen.
+        $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
 
-                # Check pre-selected process is loaded correctly.
-                ok(
-                    $Selenium->find_element( "#Subject", 'css' ),
-                    "Pre-selected process with activity dialog via URL is successful"
-                );
+        # Create first scenario for test CustomerTicketProcess.
+        $Selenium->InputFieldValueSet(
+            Element => '#ProcessEntityID',
+            Value   => $ListReverse{$ProcessName},
+        );
 
-                # Navigate to CustomerTicketProcess screen.
-                $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketProcess");
+        $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
 
-                # Create first scenario for test CustomerTicketProcess.
-                $Selenium->InputFieldValueSet(
-                    Element => '#ProcessEntityID',
-                    Value   => $ListReverse{$ProcessName},
-                );
+        # Check on DynamicField change - ACL restriction on Type field.
+        # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
+        $Self->True(
+            $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+            "All Types are visible before ACL"
+        );
 
-                $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#Subject').length" );
+        $Selenium->InputFieldValueSet(
+            Element => '#DynamicField_TestDropdownACLProcess',
+            Value   => 'c',
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-                # Check on DynamicField change - ACL restriction on Type field.
-                # See bug#11512 (https://bugs.otrs.org/show_bug.cgi?id=11512).
-                $Self->True(
-                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-                    "All Types are visible before ACL"
-                );
+        $Self->False(
+            $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
+            "DynamicField change - ACL restricted Types"
+        );
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => $Types[1]->{ID},
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-                $Selenium->InputFieldValueSet(
-                    Element => '#DynamicField_TestDropdownACLProcess',
-                    Value   => 'c',
-                );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        # Check further ACLs before the normal Process tests.
+        $Self->Is(
+            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+            3,
+            "DynamicField filtered options count",
+        );
 
-                $Self->False(
-                    $Selenium->execute_script("return \$('#TypeID option:contains(\"$Types[0]->{Name}\")').length;"),
-                    "DynamicField change - ACL restricted Types"
-                );
-                $Selenium->InputFieldValueSet(
-                    Element => '#TypeID',
-                    Value   => $Types[1]->{ID},
-                );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 4,
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-                # Check further ACLs before the normal Process tests.
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-                    3,
-                    "DynamicField filtered options count",
-                );
+        $Self->Is(
+            $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
+            1,
+            "DynamicField filtered options count",
+        );
 
-                $Selenium->InputFieldValueSet(
-                    Element => '#QueueID',
-                    Value   => 4,
-                );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
+        my $ContentRandom      = 'Content' . $Helper->GetRandomID();
+        my $AttachmentName     = "StdAttachment-Test1.txt";
+        my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
 
-                $Self->Is(
-                    $Selenium->execute_script("return \$('#DynamicField_TestDropdownACLProcess > option').length;"),
-                    1,
-                    "DynamicField filtered options count",
-                );
+        $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
+        $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
+        $Selenium->InputFieldValueSet(
+            Element => '#QueueID',
+            Value   => 2,
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->InputFieldValueSet(
+            Element => '#TypeID',
+            Value   => $Types[1]->{ID},
+        );
+        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
 
-                my $SubjectRandom      = 'Subject' . $Helper->GetRandomID();
-                my $ContentRandom      = 'Content' . $Helper->GetRandomID();
-                my $AttachmentName     = "StdAttachment-Test1.txt";
-                my $AttachmentLocation = $Kernel::OM->Get('Kernel::Config')->Get('Home') . "/scripts/test/sample/StdAttachment/$AttachmentName";
+        # Hide DnDUpload and show input field.
+        $Selenium->execute_script(
+            "\$('.DnDUpload').css('display', 'none')"
+        );
+        $Selenium->execute_script(
+            "\$('#FileUpload').css('display', 'block')"
+        );
 
-                $Selenium->find_element( "#Subject",  'css' )->send_keys($SubjectRandom);
-                $Selenium->find_element( "#RichText", 'css' )->send_keys($ContentRandom);
-                $Selenium->InputFieldValueSet(
-                    Element => '#QueueID',
-                    Value   => 2,
-                );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
-                $Selenium->InputFieldValueSet(
-                    Element => '#TypeID',
-                    Value   => $Types[1]->{ID},
-                );
-                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length' );
+        $Selenium->WaitFor(
+            JavaScript =>
+                'return typeof($) === "function" && $("#FileUpload:visible").length;'
+        );
 
-                # Hide DnDUpload and show input field.
-                $Selenium->execute_script(
-                    "\$('.DnDUpload').css('display', 'none')"
-                );
-                $Selenium->execute_script(
-                    "\$('#FileUpload').css('display', 'block')"
-                );
+        $Selenium->find_element( "#FileUpload", 'css' )->clear();
+        $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
+        $Selenium->WaitFor(
+            JavaScript => 'return typeof($) === "function" && $("[class^=\'AttachmentDelete\']").length'
+        );
 
-                $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && $("#FileUpload:visible").length;'
-                );
+        # Check if the header is visible on the page (bug#12543).
+        my $Element = $Selenium->find_element(
+            "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets' )]"
+        );
+        $Element->is_enabled();
+        $Element->is_displayed();
 
-                $Selenium->find_element( "#FileUpload", 'css' )->clear();
-                $Selenium->find_element( "#FileUpload", 'css' )->send_keys($AttachmentLocation);
-                $Selenium->WaitFor(
-                    JavaScript => 'return typeof($) === "function" && $("[class^=\'AttachmentDelete\']").length'
-                );
-
-                # Check if the header is visible on the page (bug#12543).
-                my $Element = $Selenium->find_element(
-                    "//a[contains(\@href, \'Action=CustomerTicketOverview;Subaction=MyTickets' )]"
-                );
-                $Element->is_enabled();
-                $Element->is_displayed();
-
-                my $FooterMessage = 'Powered by ' . $ConfigObject->Get('Product');
-
-                # Get secure disable banner.
-                my $SecureDisableBanner = $ConfigObject->Get('Secure::DisableBanner');
-
-                if ( !$SecureDisableBanner ) {
-                    $Selenium->content_contains(
-                        $FooterMessage,
-                        "$FooterMessage found in footer on page (after attachment upload)",
-                    );
-                }
-
-            };
+        if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
+            $Selenium->find_element_ok(
+                q{//p[@class='ooo10g'][contains(text(),'powered by')]/a[contains(text(),'Rother OSS')]},
+                'xpath',
+                "'powered by' found in footer on page (after attachment upload)",
+            );
         }
 
         {
