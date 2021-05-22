@@ -106,7 +106,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ENV{HTTP_ACCEPT_LANGUAGE} || '';
-        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
             for my $Language ( reverse sort keys %Data ) {
@@ -148,9 +148,9 @@ sub new {
     # set charset if there is no charset given
     $Self->{UserCharset} = 'utf-8';
     $Self->{Charset}     = $Self->{UserCharset};    # just for compat.
-    $Self->{SessionID}   = $Param{SessionID}                                              || '';
-    $Self->{SessionName} = $Param{SessionName}                                            || 'SessionID';
-    $Self->{CGIHandle}   = $Kernel::OM->Get('Kernel::System::Web::Request')->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
+    $Self->{SessionID}   = $Param{SessionID}          || '';
+    $Self->{SessionName} = $Param{SessionName}        || 'SessionID';
+    $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
 
     # baselink
     $Self->{Baselink} = $Self->{CGIHandle} . '?';
@@ -475,6 +475,7 @@ sub SetEnv {
         }
     }
     $Self->{EnvNewRef}->{ $Param{Key} } = $Param{Value};
+
     return 1;
 }
 
@@ -561,6 +562,7 @@ for the session cookie to be not yet set.
 sub Redirect {
     my ( $Self, %Param ) = @_;
 
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # add cookies if exists
@@ -662,13 +664,11 @@ sub Login {
     my ( $Self, %Param ) = @_;
 
     # set Action parameter for the loader
-    $Self->{Action} = 'Login';
+    $Self->{Action}     = 'Login';
     $Param{IsLoginPage} = 1;
 
     # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    my $Output = '';
 
     if ( $ConfigObject->Get('SessionUseCookie') ) {
 
@@ -694,6 +694,8 @@ sub Login {
             HttpOnly => 1,
         );
     }
+
+    my $Output = '';
 
     # add cookies if exists
     if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
@@ -933,7 +935,7 @@ sub FatalError {
     my ( $Self, %Param ) = @_;
 
     # Prevent endless recursion in case of problems with Template engine.
-    return if ( $Self->{InFatalError}++ );
+    return if $Self->{InFatalError}++;
 
     if ( $Param{Message} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -970,16 +972,16 @@ sub FatalError {
 sub SecureMode {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->Header(
-        Area  => 'Frontend',
-        Title => 'Secure Mode'
-    );
-    $Output .= $Self->Output(
-        TemplateFile => 'AdminSecureMode',
-        Data         => \%Param
-    );
-    $Output .= $Self->Footer();
-    return $Output;
+    return join '',
+        $Self->Header(
+            Area  => 'Frontend',
+            Title => 'Secure Mode'
+        ),
+        $Self->Output(
+            TemplateFile => 'AdminSecureMode',
+            Data         => \%Param
+        ),
+        $Self->Footer();
 }
 
 sub FatalDie {
@@ -1016,10 +1018,10 @@ sub FatalDie {
 sub ErrorScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->Header( Title => 'Error' );
-    $Output .= $Self->Error(%Param);
-    $Output .= $Self->Footer();
-    return $Output;
+    return join '',
+        $Self->Header( Title => 'Error' ),
+        $Self->Error(%Param),
+        $Self->Footer();
 }
 
 sub Error {
@@ -1232,12 +1234,11 @@ sub NotifyNonUpdatedTickets {
 generates the HTML for the page begin in the Agent interface.
 
     my $Output = $LayoutObject->Header(
-        Type              => 'Small',                # (optional) '' (Default, full header) or 'Small' (blank header)
-        ShowToolbarItems  => 0,                      # (optional) default 1 (0|1)
-        ShowPrefLink      => 0,                      # (optional) default 1 (0|1)
-        ShowLogoutButton  => 0,                      # (optional) default 1 (0|1)
-
-        DisableIFrameOriginRestricted => 1,          # (optional, default 0) - suppress X-Frame-Options header.
+        Type                          => 'Small',   # (optional) '' (Default, full header) or 'Small' (blank header)
+        ShowToolbarItems              => 0,         # (optional) default 1 (0|1)
+        ShowPrefLink                  => 0,         # (optional) default 1 (0|1)
+        ShowLogoutButton              => 0,         # (optional) default 1 (0|1)
+        DisableIFrameOriginRestricted => 1,         # (optional, default 0) - suppress X-Frame-Options header.
     );
 
 =cut
@@ -2468,12 +2469,12 @@ sub NoPermission {
 
     # create output
     my $Output;
-    $Output = $Self->Header( Title => 'Insufficient Rights' ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->Header( Title => 'Insufficient Rights' ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->Footer() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->Footer() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
@@ -2546,14 +2547,13 @@ sub Permission {
 sub CheckMimeType {
     my ( $Self, %Param ) = @_;
 
-    my $Output = '';
     if ( !$Param{Action} ) {
         $Param{Action} = '[% Env("Action") %]';
     }
 
     # check if it is a text/plain email
     if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2570,7 +2570,7 @@ sub CheckMimeType {
 
     # just to be compat
     elsif ( $Param{Body} =~ /^<.DOCTYPE\s+html|^<HTML>/i ) {
-        $Output = '<p><i class="small">'
+        return '<p><i class="small">'
             . $Self->{LanguageObject}->Translate("This is a")
             . " $Param{MimeType} "
             . $Self->{LanguageObject}->Translate("email")
@@ -2585,8 +2585,7 @@ sub CheckMimeType {
             . '</i></p>';
     }
 
-    # return note string
-    return $Output;
+    return '';
 }
 
 sub ReturnValue {
@@ -2597,19 +2596,19 @@ sub ReturnValue {
 
 =head2 Attachment()
 
-returns browser output to display/download a attachment
+returns browser output to display/download a attachment.
 
     $HTML = $LayoutObject->Attachment(
         Type             => 'inline',          # optional, default: attachment, possible: inline|attachment
         Filename         => 'FileName.png',    # optional
-        AdditionalHeader => $AdditionalHeader, # optional
+        AdditionalHeader => [ $key => $val ]   # optional, an array ref
         ContentType      => 'image/png',
         Content          => $Content,
         Sandbox          => 1,                 # optional, default 0; use content security policy to prohibit external
                                                #   scripts, flash etc.
     );
 
-or for AJAX html snippets
+Or for AJAX html snippets:
 
     $HTML = $LayoutObject->Attachment(
         Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
@@ -2636,7 +2635,7 @@ sub Attachment {
         }
     }
 
-    # get config object
+    # get singletons
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # return attachment
@@ -3354,6 +3353,7 @@ sub NavigationBar {
         # run module
         $Output .= $Object->Run( %Param, Config => \%Jobs );
     }
+
     return $Output;
 }
 
@@ -4115,12 +4115,10 @@ sub CustomerLogin {
     }
 
     # create & return output
-    $Output .= $Self->Output(
+    return $Self->Output(
         TemplateFile => 'CustomerLogin',
         Data         => \%Param,
     );
-
-    return $Output;
 }
 
 sub CustomerHeader {
@@ -4827,10 +4825,10 @@ sub CustomerError {
 sub CustomerErrorScreen {
     my ( $Self, %Param ) = @_;
 
-    my $Output = $Self->CustomerHeader( Title => 'Error' );
-    $Output .= $Self->CustomerError(%Param);
-    $Output .= $Self->CustomerFooter();
-    return $Output;
+    return join '',
+        $Self->CustomerHeader( Title => 'Error' ),
+        $Self->CustomerError(%Param),
+        $Self->CustomerFooter();
 }
 
 sub CustomerWarning {
@@ -4861,16 +4859,17 @@ sub CustomerNoPermission {
     my ( $Self, %Param ) = @_;
 
     my $WithHeader = $Param{WithHeader} || 'yes';
+
     $Param{Message} ||= Translatable('No Permission!');
 
     # create output
     my $Output;
-    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if ( $WithHeader eq 'yes' );
+    $Output = $Self->CustomerHeader( Title => Translatable('No Permission') ) if $WithHeader eq 'yes';
     $Output .= $Self->Output(
         TemplateFile => 'NoPermission',
         Data         => \%Param
     );
-    $Output .= $Self->CustomerFooter() if ( $WithHeader eq 'yes' );
+    $Output .= $Self->CustomerFooter() if $WithHeader eq 'yes';
 
     # return output
     return $Output;
@@ -4988,8 +4987,6 @@ sub RichTextDocumentComplete {
 }
 
 =begin Internal:
-
-=cut
 
 =head2 _RichTextReplaceLinkOfInlineContent()
 
@@ -5271,8 +5268,6 @@ sub RichTextDocumentCleanup {
 }
 
 =begin Internal:
-
-=cut
 
 =head2 _BuildSelectionOptionRefCreate()
 
@@ -6136,7 +6131,7 @@ sub WrapPlainText {
 
 =head2 SetRichTextParameters()
 
-set properties for rich text editor and send them to JS via AddJSData()
+set properties for rich text editor and send them to JavaScript via AddJSData()
 
 $LayoutObject->SetRichTextParameters(
     Data => \%Param,
@@ -6274,7 +6269,7 @@ sub SetRichTextParameters {
 
 =head2 CustomerSetRichTextParameters()
 
-set properties for customer rich text editor and send them to JS via AddJSData()
+set properties for customer rich text editor and send them to JavaScript via AddJSData()
 
 $LayoutObject->CustomerSetRichTextParameters(
     Data => \%Param,
