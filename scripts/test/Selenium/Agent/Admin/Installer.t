@@ -258,16 +258,11 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
                     'Loaded 4/4 screen'
                 );
 
-                my @DatabaseXMLFiles = (
-                    "$Home/scripts/database/otobo-schema.xml",
-                    "$Home/scripts/database/otobo-initial_insert.xml",
-                );
-
                 my @Tables = $Kernel::OM->Get('Kernel::System::DB')->ListTables();
 
                 # Count number of table elements in OTOBO schema for comparison.
                 my $XMLString = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                    Location => $DatabaseXMLFiles[0],
+                    Location => "$Home/scripts/database/otobo-schema.xml",
                 );
                 my $TableCount = () = ( ${$XMLString} =~ /<Table/g );
                 $Self->Is(
