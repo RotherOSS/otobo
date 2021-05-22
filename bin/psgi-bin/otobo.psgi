@@ -278,7 +278,6 @@ use SOAP::Transport::HTTP::Plack;
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
-use Kernel::System::Web::Exception                ();
 use Kernel::System::Web::InterfaceAgent           ();
 use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
@@ -524,13 +523,7 @@ my $StaticApp = builder {
     Plack::App::File->new( root => "$FindBin::Bin/../../var/httpd/htdocs" )->to_app();
 };
 
-# Port of nph-genericinterface.pl to Plack.
-#my $GenericInterfaceApp = builder {
-# TODO
-#};
-
-# Port of index.pl, customer.pl, public.pl, installer.pl, migration.pl, nph-genericinterface.pl to Plack.
-# with permission check
+# Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
 my $OTOBOApp = builder {
 
     enable 'Plack::Middleware::ErrorDocument',
@@ -686,15 +679,13 @@ builder {
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'              => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
-    mount '/otobo/customer.pl'  => $OTOBOApp;
-    mount '/otobo/index.pl'     => $OTOBOApp;
-    mount '/otobo/installer.pl' => $OTOBOApp;
-    mount '/otobo/migration.pl' => $OTOBOApp;
-    mount '/otobo/public.pl'    => $OTOBOApp;
-
-    # mount '/otobo/nph-genericinterface.pl' => $GenericInterfaceApp; # TODO
+    mount '/otobo'                         => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
+    mount '/otobo/customer.pl'             => $OTOBOApp;
+    mount '/otobo/index.pl'                => $OTOBOApp;
+    mount '/otobo/installer.pl'            => $OTOBOApp;
+    mount '/otobo/migration.pl'            => $OTOBOApp;
     mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
+    mount '/otobo/public.pl'               => $OTOBOApp;
 
     # some SOAP stuff
     mount '/otobo/rpc.pl' => $RPCApp;
