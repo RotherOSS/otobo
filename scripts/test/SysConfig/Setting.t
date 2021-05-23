@@ -42,7 +42,7 @@ my %DefaultSettingAddTemplate = (
     XMLFilename    => 'UnitTest.xml',
 );
 
-my $SetingsXML = << 'EOF',
+my $SetingsXML = << 'END_XML';
 <?xml version="1.0" encoding="utf-8"?>
 <otobo_config version="2.0" init="Application">
     <Setting Name="Test0" Required="1" Valid="1">
@@ -67,7 +67,7 @@ my $SetingsXML = << 'EOF',
         </Value>
     </Setting>
 </otobo_config>
-EOF
+END_XML
 
 # Get SysConfig XML object.
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
