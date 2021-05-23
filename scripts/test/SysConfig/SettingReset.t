@@ -41,7 +41,7 @@ $ConfigObject->Set(
     Value => 0,
 );
 
-my $SettingsXML = << 'EOF',
+my $SettingsXML = << 'END_XML';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test0" Required="1" Valid="1">
@@ -59,7 +59,7 @@ my $SettingsXML = << 'EOF',
         </Value>
     </Setting>
 </otobo_config>
-EOF
+END_XML
 
 my $SysConfigObject    = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');

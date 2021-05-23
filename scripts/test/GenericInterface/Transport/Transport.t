@@ -302,7 +302,7 @@ for my $Fail ( 0 .. 1 ) {
         {
             Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() UTF-8 data",
             Data => {
-                A        => 'A',
+                A                    => 'A',
                 '使用下列语言' => 'معلومات',
             },
             ResultData =>

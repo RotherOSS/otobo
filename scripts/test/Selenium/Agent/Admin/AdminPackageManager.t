@@ -230,14 +230,14 @@ $Selenium->RunTest(
 
         $NavigateToAdminPackageManager->();
 
-        # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
-        # This means that there is no warning about unverified packages.
-        #$Self->True(
-        #    $Selenium->execute_script(
-        #        'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
-        #    ),
-        #    'Install warning for not verified packages is displayed',
-        #);
+# The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
+# This means that there is no warning about unverified packages.
+#$Self->True(
+#    $Selenium->execute_script(
+#        'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
+#    ),
+#    'Install warning for not verified packages is displayed',
+#);
 
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 

@@ -358,7 +358,7 @@ for my $Test (@Tests) {
         Result => undef,
     },
     {
-        String => eval {'aúz'},                                                          # utf-8 string
+        String => eval {'aúz'},                                                         # utf-8 string
         Params => {},
         Result => 'aúz',
     },
