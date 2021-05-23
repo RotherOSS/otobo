@@ -72,7 +72,7 @@ $Self->IsDeeply(
     $TicketEventModulePostConfig->{$EscalationIndexName},
     {
         'Transaction' => 0,
-        'Event' =>
+        'Event'       =>
             'TicketSLAUpdate|TicketQueueUpdate|TicketStateUpdate|TicketCreate|ArticleCreate|TicketDynamicFieldUpdate|TicketTypeUpdate|TicketServiceUpdate|TicketCustomerUpdate|TicketPriorityUpdate|TicketMerge',
         'Module' => 'Kernel::System::Ticket::Event::TicketEscalationIndex'
     },

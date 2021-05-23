@@ -353,11 +353,11 @@ my @Tests = (
 
     # test for calendar 9
     {
-        Name           => 'OTOBO time zone UTC, Calendar 9 time zone Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
-        TimeStampStart => '2015-03-27 11:00:00',                                                                               # UTC
-        OTOBOTimeZone  => 'UTC',
-        Calendar       => 9,
-        Time           => 60 * 60 * 15,                                                                                        # Cal. 9 has 9 hours per day, Mon - Fri
+        Name            => 'OTOBO time zone UTC, Calendar 9 time zone Europe/Berlin ( Daylight Saving Time UTC+1 => UTC+2 )',
+        TimeStampStart  => '2015-03-27 11:00:00',                                                                               # UTC
+        OTOBOTimeZone   => 'UTC',
+        Calendar        => 9,
+        Time            => 60 * 60 * 15,                                                                                        # Cal. 9 has 9 hours per day, Mon - Fri
         TimeDate        => '15h',                    # 90 days and 1h, contains 05-01 vacation day
         DestinationTime => '2015-03-31 07:00:00',    # UTC
     },

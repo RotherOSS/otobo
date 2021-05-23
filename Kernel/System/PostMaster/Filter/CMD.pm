@@ -84,7 +84,7 @@ sub Run {
     }
 
     if ( -s $TmpFile ) {
-        open my $In, '<', $TmpFile;    ## no critic qw(OTOBO::ProhibitOpen)
+        open my $In, '<', $TmpFile;                            ## no critic qw(OTOBO::ProhibitOpen)
         my $Ret = <$In>;
         close $In;
 

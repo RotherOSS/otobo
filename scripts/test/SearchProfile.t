@@ -210,7 +210,7 @@ my @Tests = (
             Base      => $Base,
             Name      => 'last-search-array' . $RandomID,
             Key       => 'Array',
-            Value     => [ 'ValueOne', 'ValueTwo', 'ValueThree', 'ValueFour' ],    # SCALAR|ARRAYREF
+            Value     => [ 'ValueOne', 'ValueTwo', 'ValueThree', 'ValueFour' ],                      # SCALAR|ARRAYREF
             UserLogin => $Login,
         },
     },
