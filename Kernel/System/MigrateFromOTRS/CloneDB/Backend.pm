@@ -16,6 +16,8 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Backend;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
+
 use strict;
 use warnings;
 use v5.24;
@@ -66,8 +68,8 @@ sub new {
     my $Self = bless {}, $Class;
 
     my %CheckEncodingColumns = (
-        'article_data_mime.a_body'               => 1,
-        'article_data_mime_attachment.filename'  => 1,
+        'article_data_mime.a_body'              => 1,
+        'article_data_mime_attachment.filename' => 1,
     );
 
     # create all registered backend modules
@@ -202,7 +204,7 @@ sub DataTransfer {
 
     # choose the source db specific backend
     my $SourceDBBackend = $Self->{ 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object' };
-    if ( ! $SourceDBBackend ) {
+    if ( !$SourceDBBackend ) {
         $LogObject->Log(
             Priority => 'error',
             Message  => "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!",
@@ -215,7 +217,7 @@ sub DataTransfer {
     # We need to disable FOREIGN_KEY_CHECKS, because we truncate tables and copy rows.
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::DB' => {
-            DeactivateForeignKeyChecks => 1, # useful for database migration
+            DeactivateForeignKeyChecks => 1,    # useful for database migration
         },
     );
 
@@ -267,7 +269,7 @@ sub SanityChecks {
 
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
-    $Param{Message} ||= $Self->{LanguageObject}->Translate( 'Sanity checks for database.' );
+    $Param{Message} ||= $Self->{LanguageObject}->Translate('Sanity checks for database.');
 
     # check needed stuff
     if ( !$Param{OTRSDBObject} ) {
@@ -287,7 +289,7 @@ sub SanityChecks {
     # set the clone db specific backend
     my $CloneDBBackend = 'CloneDB' . $Param{OTRSDBObject}->{'DB::Type'} . 'Object';
 
-    if ( ! $Self->{$CloneDBBackend} ) {
+    if ( !$Self->{$CloneDBBackend} ) {
         my $Comment = "Backend " . $Param{OTRSDBObject}->{'DB::Type'} . " is invalid!";
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
