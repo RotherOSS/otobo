@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::FAQ',
     'Kernel::System::Package',
+    'Kernel::System::Console::Command::Maint::ITSM::Configitem::DefinitionPerl2YAML',
 );
 
 =head1 NAME
