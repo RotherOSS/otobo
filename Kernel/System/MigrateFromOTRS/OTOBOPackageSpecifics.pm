@@ -83,7 +83,7 @@ sub Run {
             Result      => 'Changed path of inline images.',
             Sub         => \&_FAQ_InlineImg,
         },
-  	{
+        {
             Package     => 'ITSMConfigurationManagement',
             Description => 'Change ConfigItem definition from perl to yaml.',
             Result      => 'Changed ConfigItem definition from perl to yaml.',
@@ -200,7 +200,7 @@ sub _ITSM_ChangeDefinition {
     my ( $Self, %Param ) = @_;
 
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::ITSM::Configitem::DefinitionPerl2YAML');
-    my $Success = 0;
+    my $Success       = 0;
 
     my ( $Result, $ExitCode );
 
