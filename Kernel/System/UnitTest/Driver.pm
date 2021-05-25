@@ -30,7 +30,7 @@ use Text::Diff;
 use Test2::API qw(context);
 
 # OTOBO modules
-use Kernel::System::UnitTest::Helper; # needed to override the builtin time functions!
+use Kernel::System::UnitTest::Helper;    # needed to override the builtin time functions!
 use Kernel::System::VariableCheck qw(DataIsDifferent);
 
 our @ObjectDependencies = (
@@ -86,14 +86,14 @@ sub True {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for True().' );
+        return $Context->fail_and_release('Error: test name was not provided for True().');
     }
 
     if ($True) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
-        return $Context->fail_and_release( $Name );
+        return $Context->fail_and_release($Name);
     }
 }
 
@@ -112,14 +112,14 @@ sub False {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for False().' );
+        return $Context->fail_and_release('Error: test name was not provided for False().');
     }
 
     if ( !$False ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
-        return $Context->fail_and_release( $Name );
+        return $Context->fail_and_release($Name);
     }
 }
 
@@ -149,23 +149,23 @@ sub Is {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for Is().' );
+        return $Context->fail_and_release('Error: test name was not provided for Is().');
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is 'undef' should be '$ShouldBe')" );
+        return $Context->fail_and_release("$Name (is 'undef' should be '$ShouldBe')");
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is '$Test' should be 'undef')" );
+        return $Context->fail_and_release("$Name (is '$Test' should be 'undef')");
     }
     elsif ( $Test eq $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
-        return $Context->fail_and_release( "$Name (is '$Test' should be '$ShouldBe')" );
+        return $Context->fail_and_release("$Name (is '$Test' should be '$ShouldBe')");
     }
 }
 
@@ -184,23 +184,23 @@ sub IsNot {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for IsNot().' );
+        return $Context->fail_and_release('Error: test name was not provided for IsNot().');
     }
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is 'undef')" );
+        return $Context->fail_and_release("$Name (is 'undef')");
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     if ( $Test ne $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
-        return $Context->fail_and_release( "$Name (is '$Test' should not be '$ShouldBe')" );
+        return $Context->fail_and_release("$Name (is '$Test' should not be '$ShouldBe')");
     }
 }
 
@@ -232,7 +232,7 @@ sub IsDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for IsDeeply().' );
+        return $Context->fail_and_release('Error: test name was not provided for IsDeeply().');
     }
 
     my $Diff = DataIsDifferent(
@@ -241,16 +241,16 @@ sub IsDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is 'undef' should be defined)" );
+        return $Context->fail_and_release("$Name (is 'undef' should be defined)");
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is defined should be 'undef')" );
+        return $Context->fail_and_release("$Name (is defined should be 'undef')");
     }
     elsif ( !$Diff ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
         my $TestDump     = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
@@ -271,7 +271,7 @@ sub IsDeeply {
         $Output .= "Actual data" . ":\n$TestDump\n";
         $Output .= "Expected data" . ":\n$ShouldBeDump\n";
 
-        return $Context->fail_and_release( "$Name (is not equal, see below)\n$Output" );
+        return $Context->fail_and_release("$Name (is not equal, see below)\n$Output");
     }
 }
 
@@ -290,7 +290,7 @@ sub IsNotDeeply {
     my $Context = context();
 
     if ( !$Name ) {
-        return $Context->fail_and_release( 'Error: test name was not provided for IsNotDeeply().' );
+        return $Context->fail_and_release('Error: test name was not provided for IsNotDeeply().');
     }
 
     my $Diff = DataIsDifferent(
@@ -299,23 +299,23 @@ sub IsNotDeeply {
     );
 
     if ( !defined $Test && !defined $ShouldBe ) {
-        return $Context->fail_and_release( "$Name (is 'undef')" );
+        return $Context->fail_and_release("$Name (is 'undef')");
     }
     elsif ( !defined $Test && defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     elsif ( defined $Test && !defined $ShouldBe ) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
 
     if ($Diff) {
-        return $Context->pass_and_release( $Name );
+        return $Context->pass_and_release($Name);
     }
     else {
         my $TestDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Test);
         my $Output   = "Actual data" . ":\n$TestDump\n";
 
-        return $Context->fail_and_release( "$Name (the structures are wrongly equal, see below)\n$Output" );
+        return $Context->fail_and_release("$Name (the structures are wrongly equal, see below)\n$Output");
     }
 }
 
@@ -339,8 +339,8 @@ sub AttachSeleniumScreenshot {
 
     push @{ $Self->{ResultData}->{Results}->{ $Self->{TestCount} }->{Screenshots} },
         {
-        Filename => $Param{Filename},
-        Content  => $Param{Content},
+            Filename => $Param{Filename},
+            Content  => $Param{Content},
         };
 
     $Context->release();
@@ -363,7 +363,7 @@ sub DoneTesting {
     my $Self = shift;
 
     my $Context = context();
-    my $Ret = $Context->done_testing();
+    my $Ret     = $Context->done_testing();
     $Context->release();
 
     return $Ret;
@@ -372,7 +372,7 @@ sub DoneTesting {
 =head2 Note()
 
 Print out a note to STDOUT. The parameter B<Note> will be split into lines and each line
-is prepended by '# '. A trailing newline will be added when there isn't on yet.
+is prepended by '# '. A newline will be appended unless there already is a newline.
 
 =cut
 
@@ -380,7 +380,7 @@ sub Note {
     my ( $Self, %Param ) = @_;
 
     my $Context = context();
-    my $Ret = $Context->note( $Param{Note} // '' );
+    my $Ret     = $Context->note( $Param{Note} // '' );
     $Context->release();
 
     return $Ret;
