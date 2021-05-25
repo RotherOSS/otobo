@@ -34,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::DateTime',
     'Kernel::System::FAQ',
     'Kernel::System::Package',
+    'Kernel::System::Console::Command::Maint::ITSM::Configitem::DefinitionPerl2YAML',
 );
 
 =head1 NAME
@@ -82,7 +83,7 @@ sub Run {
             Result      => 'Changed path of inline images.',
             Sub         => \&_FAQ_InlineImg,
         },
-  	{
+        {
             Package     => 'ITSMConfigurationManagement',
             Description => 'Change ConfigItem definition from perl to yaml.',
             Result      => 'Changed ConfigItem definition from perl to yaml.',
@@ -199,13 +200,13 @@ sub _ITSM_ChangeDefinition {
     my ( $Self, %Param ) = @_;
 
     my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::ITSM::Configitem::DefinitionPerl2YAML');
-    my $Success = 0;
+    my $Success       = 0;
 
     my ( $Result, $ExitCode );
 
     {
         local *STDOUT;
-        open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute();
     }
 
