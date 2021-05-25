@@ -422,7 +422,7 @@ sub RepositoryAdd {
             . Translatable('not installed') . '\', '
             . ' current_timestamp, 1, current_timestamp, 1)',
         Bind => [
-            \$Structure{Name}->{Content}, \$Structure{Version}->{Content},
+            \$Structure{Name}->{Content},   \$Structure{Version}->{Content},
             \$Structure{Vendor}->{Content}, \$FileName, \$Content,
         ],
     );
@@ -895,7 +895,7 @@ sub PackageUpgrade {
         if ( $Structure{Version}->{Content} eq $InstalledVersion ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Can't upgrade, package '$Structure{Name}->{Content}-$InstalledVersion' already installed!",
             );
 
@@ -904,7 +904,7 @@ sub PackageUpgrade {
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Can't upgrade, installed package '$InstalledVersion' is newer as '$Structure{Version}->{Content}'!",
             );
 
@@ -1562,9 +1562,9 @@ sub PackageOnlineList {
     if ( @Packages && !$PackageForRequestedFramework ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 Translatable(
-                'No packages for your framework version found in this repository, it only contains packages for other framework versions.'
+                    'No packages for your framework version found in this repository, it only contains packages for other framework versions.'
                 ),
         );
     }
@@ -1884,7 +1884,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1896,7 +1896,7 @@ sub PackageVerify {
         $PackageVerifyInfo = {
             Description =>
                 Translatable(
-                '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                 ),
             Title =>
                 Translatable('Package not verified by the OTOBO community!'),
@@ -1976,13 +1976,13 @@ sub PackageVerify {
     my $RequestResult = $CloudServiceObject->Request(%RequestParams);
 
     # as this is the only operation an unsuccessful request means that the operation was also unsuccessful
-    if (!IsHashRefWithData($RequestResult)) {
+    if ( !IsHashRefWithData($RequestResult) ) {
         if ($PackageAllowNotVerifiedPackages) {
 
             $Self->{PackageVerifyInfo} = {
                 Description =>
                     Translatable(
-                    "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
+                        "<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>"
                     ),
                 Title =>
                     Translatable('Verification not possible (e.g. no internet connection)!'),
@@ -1994,7 +1994,7 @@ sub PackageVerify {
             $Self->{PackageVerifyInfo} = {
                 Description =>
                     Translatable(
-                    '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
+                        '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>'
                     ),
                 Title =>
                     Translatable('Verification not possible (e.g. no internet connection)!'),
@@ -3552,7 +3552,7 @@ sub PackageUpgradeAllIsRunning {
 
     return (
         IsRunning      => $IsRunning // 0,
-        UpgradeStatus  => $SystemData{Status} || '',
+        UpgradeStatus  => $SystemData{Status}  || '',
         UpgradeSuccess => $SystemData{Success} || '',
     );
 }
@@ -3993,7 +3993,7 @@ sub _CheckPackageDepends {
                 if ( $Param{Name} eq $Module->{Content} && !$Param{Force} ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
-                        Message =>
+                        Message  =>
                             "Sorry, can't uninstall package $Param{Name}, "
                             . "because package $Local->{Name}->{Content} depends on it!",
                     );
@@ -4050,7 +4050,7 @@ sub _PackageFileCheck {
 
 =head2 _FileInstall()
 
-Update or create files below the OTOBO home dir or below a specified dir.
+Update or create files below the OTOBO home directory or below a specified directory.
 
 Additionally this method creates a backup if needed.
 
@@ -4067,12 +4067,12 @@ Return undef on failure, 1 on success.
         Permission  => '644',     # unix file permissions
     };
 
-    # File install below the OTOBO home dir
+    # File install below the OTOBO home directory
     my $FileInstallOk = $PackageObject->_FileInstall(
         File => $File,
     );
 
-    # File install below a specified dir
+    # File install below a specified directory
     my $FileInstallOk = $PackageObject->_FileInstall(
         File => $File,
         Home => $ExportDir
@@ -4108,7 +4108,7 @@ sub _FileInstall {
     my $Home = $Param{Home} || $Self->{Home};
 
     # check Home
-    if ( ! -e $Home ) {
+    if ( !-e $Home ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "No such home directory: $Home!",
@@ -4193,7 +4193,7 @@ sub _FileInstall {
         Permission => $Param{File}->{Permission},
     );
 
-    if ( ! $FileWriteOk ) {
+    if ( !$FileWriteOk ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Sorry, can't install package because the file $RealFile can't be created.",
@@ -4428,7 +4428,7 @@ sub _Encode {
 =head2 _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
-OR FROM A CODEUPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
+OR FROM A CODE UPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADD-ON.
 
 Uninstall an already framework (or module) merged package.
 
