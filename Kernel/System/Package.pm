@@ -4050,7 +4050,7 @@ sub _PackageFileCheck {
 
 =head2 _FileInstall()
 
-Update or create files below the OTOBO home dir or below a specified dir.
+Update or create files below the OTOBO home directory or below a specified directory.
 
 Additionally this method creates a backup if needed.
 
@@ -4067,12 +4067,12 @@ Return undef on failure, 1 on success.
         Permission  => '644',     # unix file permissions
     };
 
-    # File install below the OTOBO home dir
+    # File install below the OTOBO home directory
     my $FileInstallOk = $PackageObject->_FileInstall(
         File => $File,
     );
 
-    # File install below a specified dir
+    # File install below a specified directory
     my $FileInstallOk = $PackageObject->_FileInstall(
         File => $File,
         Home => $ExportDir
@@ -4428,7 +4428,7 @@ sub _Encode {
 =head2 _PackageUninstallMerged()
 
 ONLY CALL THIS METHOD FROM A DATABASE UPGRADING SCRIPT DURING FRAMEWORK UPDATES
-OR FROM A CODEUPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADDON.
+OR FROM A CODE UPGRADE SECTION IN AN SOPM FILE OF A PACKAGE THAT INCLUDES A MERGED FEATURE ADD-ON.
 
 Uninstall an already framework (or module) merged package.
 

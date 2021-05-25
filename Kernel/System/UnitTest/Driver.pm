@@ -371,7 +371,7 @@ sub DoneTesting {
 =head2 Note()
 
 Print out a note to STDOUT. The parameter B<Note> will be split into lines and each line
-is prepended by '# '. A trailing newline will be added when there isn't on yet.
+is prepended by '# '. A newline will be appended unless there already is a newline.
 
 =cut
 
