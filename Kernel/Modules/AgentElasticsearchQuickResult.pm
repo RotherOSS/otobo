@@ -14,9 +14,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 package Kernel::Modules::AgentElasticsearchQuickResult;
-## nofilter(TidyAll::Plugin::OTRS::Perl::DBObject)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::DBObject)
 
 use strict;
 use warnings;
