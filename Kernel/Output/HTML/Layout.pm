@@ -641,7 +641,7 @@ sub Redirect {
             else {
 
                 # add query param to existing query part
-                $Target = "&$Self->{SessionName}=$Self->{SessionID}";
+                $Target .= "&$Self->{SessionName}=$Self->{SessionID}";
             }
 
             # add the fragment part of the URL again
