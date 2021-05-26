@@ -493,19 +493,19 @@ sub ContentType {
     return $Self->{Query}->content_type(@Params);
 }
 
-=head2 EnvQueryString()
+=head2 QueryString()
 
-Returns the original query string.
-This is a wrapper around CGI::env_query_string().
+Returns the query string.
+This is a wrapper around CGI::query_string().
 
-    my $QueryString = $ParamObject->EnvQueryString();
+    my $QueryString = $ParamObject->QueryString();
 
 =cut
 
-sub EnvQueryString {
+sub QueryString {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->env_query_string(@Params);
+    return $Self->{Query}->query_string(@Params);
 }
 
 =head2 RequestMethod()

@@ -81,8 +81,7 @@ create the web interface object for F<public.pl>.
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
@@ -127,7 +126,7 @@ sub Content {
     my $Self = shift;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
@@ -150,7 +149,7 @@ sub Content {
     $Param{SessionID}   = $ParamObject->GetParam( Param => $Param{SessionName} ) || '';
 
     # drop old session id (if exists)
-    my $QueryString = $ParamObject->EnvQueryString() || '';
+    my $QueryString = $ParamObject->QueryString() || '';
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
@@ -208,21 +207,21 @@ sub Content {
     if ( !$DBCanConnect ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        ); # throws a Kernel::System::Web::Exception
+        );    # throws a Kernel::System::Web::Exception
     }
 
     if ( $ParamObject->Error() ) {
         $LayoutObject->CustomerFatalError(
             Message => $ParamObject->Error(),
             Comment => Translatable('Please contact the administrator.'),
-        ); # throws a Kernel::System::Web::Exception
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        ); # throws a Kernel::System::Web::Exception
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # module registry
@@ -235,7 +234,7 @@ sub Content {
         );
         $LayoutObject->CustomerFatalError(
             Comment => Translatable('Please contact the administrator.'),
-        ); # throws a Kernel::System::Web::Exception
+        );    # throws a Kernel::System::Web::Exception
     }
 
     # debug info
