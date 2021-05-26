@@ -110,7 +110,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
-        my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
 
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -1674,7 +1674,7 @@ sub _AddHeadersToResponseOBject {
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
         && $ConfigObject->Get('SessionUseCookie')
-    )
+        )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
             push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
@@ -4016,7 +4016,7 @@ sub CustomerLogin {
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
         && $ConfigObject->Get('SessionUseCookie')
-    )
+        )
     {
         my @CookieHeaders;
         for ( sort keys $Self->{SetCookies}->%* ) {
