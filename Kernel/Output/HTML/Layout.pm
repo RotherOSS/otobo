@@ -18,6 +18,8 @@ package Kernel::Output::HTML::Layout;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
 # core modules
 use Digest::MD5 qw(md5_hex);
@@ -108,7 +110,8 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
-        my %Data             = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
             for my $Language ( reverse sort keys %Data ) {
@@ -568,12 +571,12 @@ sub Redirect {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Figure out where to redirect to,
-    my $Redirect = $Self->{Baselink};    # the fallback
+    my $Redirect;
     if ( $Param{ExtURL} ) {
         $Redirect = $Param{ExtURL};
     }
     else {
-        $Redirect = $Self->{Baselink};
+        $Redirect = $Self->{Baselink};    # the fallback
 
         if ( $Param{OP} ) {
 
@@ -608,34 +611,41 @@ sub Redirect {
         if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
 
             # rewrite the redirect URL
-            $Redirect =~ s{
-                (.*)
+            # TODO: think about using URI::query_form() for messing with the URL
+
+            # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
+            my ( $Target, $Fragment );
+            if ( $Redirect =~ m/^(.+?)#(|.+?)$/ ) {
+                $Target   = $1;
+                $Fragment = "#$2";
             }
-            {
-                my $Target = $1;
-                my $End = '';
-                if ($Target =~ /^(.+?)#(|.+?)$/) {
-                    $Target = $1;
-                    $End = "#$2";
-                }
-                if ($Target =~ /http/i || !$Self->{SessionID}) {
-                    "$Target$End";
-                }
-                else {
-                    if ($Target =~ /(\?|&)$/) {
-                        "$Target$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    elsif ($Target !~ /\?/) {
-                        "$Target?$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    elsif ($Target =~ /\?/) {
-                        "$Target&$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                    else {
-                        "$Target?&$Self->{SessionName}=$Self->{SessionID}$End";
-                    }
-                }
-            }iegx;
+            else {
+                $Target   = $Redirect;
+                $Fragment = '';
+            }
+
+            if ( $Target =~ m/http/i || !$Self->{SessionID} ) {
+
+                # no fiddling when there is no session
+            }
+            elsif ( $Target =~ m/(\?|&)$/ ) {
+
+                # either an empty query part or an empty final query param
+                $Target .= "$Self->{SessionName}=$Self->{SessionID}";
+            }
+            elsif ( $Target !~ m/\?/ ) {
+
+                # there is no query part yet
+                $Target .= "?$Self->{SessionName}=$Self->{SessionID}";
+            }
+            else {
+
+                # add query param to existing query part
+                $Target = "&$Self->{SessionName}=$Self->{SessionID}";
+            }
+
+            # add the fragment part of the URL again
+            $Redirect = "$Target$Fragment";
         }
     }
 
@@ -662,7 +672,7 @@ sub Login {
     my ( $Self, %Param ) = @_;
 
     # set Action parameter for the loader
-    $Self->{Action}     = 'Login';
+    $Self->{Action} = 'Login';
     $Param{IsLoginPage} = 1;
 
     # get singletons
@@ -942,8 +952,8 @@ sub FatalError {
 
     my $Output = join '',
         $Self->Header(
-            Area              => 'Frontend',
-            Title             => 'Fatal Error'
+            Area  => 'Frontend',
+            Title => 'Fatal Error'
         ),
         $Self->Error(%Param),
         $Self->Footer();
@@ -1664,7 +1674,7 @@ sub _AddHeadersToResponseOBject {
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
         && $ConfigObject->Get('SessionUseCookie')
-    )
+        )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
             push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
@@ -4006,7 +4016,7 @@ sub CustomerLogin {
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
         && $ConfigObject->Get('SessionUseCookie')
-    )
+        )
     {
         my @CookieHeaders;
         for ( sort keys $Self->{SetCookies}->%* ) {

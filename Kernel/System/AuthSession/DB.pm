@@ -18,9 +18,14 @@ package Kernel::System::AuthSession::DB;
 
 use strict;
 use warnings;
+use utf8;
 
+# core modules
 use MIME::Base64 qw();
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
