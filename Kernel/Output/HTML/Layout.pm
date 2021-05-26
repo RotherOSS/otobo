@@ -548,18 +548,20 @@ sub JSONEncode {
 
 =head2 Redirect()
 
-return html for browser to redirect
+throw a Kernel::System::Web::Exception that triggers a redirect to the redirect URL
 
-    my $HTML = $LayoutObject->Redirect(
+    # internal redirects
+    $LayoutObject->Redirect(
         OP => "Action=AdminUserGroup;Subaction=User;ID=$UserID",
     );
 
-    my $HTML = $LayoutObject->Redirect(
+    # external redirects
+    $LayoutObject->Redirect(
         ExtURL => "http://some.example.com/",
     );
 
-During login action, C<Login => 1> should be passed to Redirect(),
-which indicates that if the browser has cookie support, it is OK
+During login action, C<Login => 1> should be passed to Redirect().
+This indicates that if the browser has cookie support, it is OK
 for the session cookie to be not yet set.
 
 =cut
@@ -567,16 +569,13 @@ for the session cookie to be not yet set.
 sub Redirect {
     my ( $Self, %Param ) = @_;
 
-    # get singletons
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # Figure out where to redirect to,
-    my $Redirect;
+    # Figure out to which URL should be redirected
+    my $RedirectURL;
     if ( $Param{ExtURL} ) {
-        $Redirect = $Param{ExtURL};
+        $RedirectURL = $Param{ExtURL};
     }
     else {
-        $Redirect = $Self->{Baselink};    # the fallback
+        $RedirectURL = $Self->{Baselink};    # the fallback when there in param OP
 
         if ( $Param{OP} ) {
 
@@ -604,60 +603,58 @@ sub Redirect {
 
             # internal redirect
             $Param{OP} =~ s/^.*\?(.+?)$/$1/;
-            $Redirect .= $Param{OP};
+            $RedirectURL .= $Param{OP};
         }
 
-        # add session id to redirect if no cookie is enabled
-        if ( !$Self->{SessionIDCookie} && !( $Self->{BrowserHasCookie} && $Param{Login} ) ) {
+        # add session id to the redirect URL when appropriate
+        if (
+            !$Self->{SessionIDCookie}                             # there in no session cookie yet
+            && !( $Self->{BrowserHasCookie} && $Param{Login} )    # not when cookie does not exits because we in Login
+            && $RedirectURL !~ m/http/i                           # ???
+            && $Self->{SessionID}                                 # when we actually have a session
+            )
+        {
 
-            # rewrite the redirect URL
             # TODO: think about using URI::query_form() for messing with the URL
 
             # look for the fragment part of the URL, the fragment part starts with an '#' and is always at the end of the URL
             my ( $Target, $Fragment );
-            if ( $Redirect =~ m/^(.+?)#(|.+?)$/ ) {
+            if ( $RedirectURL =~ m/^(.+?)#(|.+?)$/ ) {
                 $Target   = $1;
                 $Fragment = "#$2";
             }
             else {
-                $Target   = $Redirect;
+                $Target   = $RedirectURL;
                 $Fragment = '';
             }
 
-            if ( $Target =~ m/http/i || !$Self->{SessionID} ) {
-
-                # no fiddling when there is no session
-            }
-            elsif ( $Target =~ m/(\?|&)$/ ) {
+            # find out how to correct inject the session id parameter, depending on the given target
+            my $Joiner = eval {
 
                 # either an empty query part or an empty final query param
-                $Target .= "$Self->{SessionName}=$Self->{SessionID}";
-            }
-            elsif ( $Target !~ m/\?/ ) {
+                return '' if $Target =~ m/(\?|&)$/;
 
                 # there is no query part yet
-                $Target .= "?$Self->{SessionName}=$Self->{SessionID}";
-            }
-            else {
+                return '?' if $Target !~ m/\?/;
 
                 # add query param to existing query part
-                $Target .= "&$Self->{SessionName}=$Self->{SessionID}";
-            }
+                return '&';
+            };
 
             # add the fragment part of the URL again
-            $Redirect = "$Target$Fragment";
+            $RedirectURL = $Target . $Joiner . "$Self->{SessionName}=$Self->{SessionID}" . $Fragment;
         }
     }
 
     # create an response object we can work with
     my $RedirectResponse = Plack::Response->new();
-    $RedirectResponse->redirect($Redirect);
+    $RedirectResponse->redirect($RedirectURL);
 
     # add cookies to the HTTP headers if there are any
     # TODO: use the Plack::Response::cookies() method
-    if ( $Self->{SetCookies} && $ConfigObject->Get('SessionUseCookie') ) {
+    if ( $Self->{SetCookies} && $Kernel::OM->Get('Kernel::Config')->Get('SessionUseCookie') ) {
         for ( sort keys %{ $Self->{SetCookies} } ) {
-            $RedirectResponse->headers()->push_header( 'Set-Cookie' => $Self->{SetCookies}->{$_} );
+            $RedirectResponse->headers->push_header( 'Set-Cookie' => $Self->{SetCookies}->{$_} );
         }
     }
 
