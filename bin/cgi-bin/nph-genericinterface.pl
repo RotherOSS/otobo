@@ -29,6 +29,8 @@ use Plack::Handler::CGI qw();
 
 # OTOBO modules
 
+## no critic qw(Variables::RequireLocalizedPunctuationVars)
+
 #$ENV{PLACK_URLMAP_DEBUG} = 1; # enable when the URL mapping does not work
 
 # otobo.psgi looks primarily in $ENV{PATH_INFO}
