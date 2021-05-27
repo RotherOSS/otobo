@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -57,7 +57,7 @@ sub PreRun {
 
     # Perform any custom validations here. Command execution can be stopped with die().
     my $Directory = $Self->GetOption('source-directory');
-    if ( $Directory && ! -d $Directory ) {
+    if ( $Directory && !-d $Directory ) {
         die "Directory $Directory does not exist.\n";
     }
 
@@ -88,7 +88,7 @@ sub Run {
     for my $File (@Files) {
 
         my $BackupFile = $File . '.bak_otrs_6';
-        if ( ! copy( $File, $BackupFile ) ) {
+        if ( !copy( $File, $BackupFile ) ) {
             die "Could not create the backup file $BackupFile: $!";
         }
 
@@ -129,7 +129,7 @@ sub Run {
             Content  => \$Content,
             Mode     => 'utf8',
         );
-        if ( ! $SaveSuccess ) {
+        if ( !$SaveSuccess ) {
             $Self->Print("<red>Failed. Could not overwrite $File.</red>\n");
 
             next FILE;

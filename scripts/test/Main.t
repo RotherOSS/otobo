@@ -715,12 +715,12 @@ for my $Test (@Tests) {
 
 # Generate Random string tests
 {
-    my $Token  = $MainObject->GenerateRandomString();
-    my $Desc   = 'no args';
+    my $Token = $MainObject->GenerateRandomString();
+    my $Desc  = 'no args';
 
     # '0' is acceptable of For Length =>1, '00' is true already
     $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
@@ -732,11 +732,11 @@ for my $Test (@Tests) {
 }
 
 {
-    my $Token  = $MainObject->GenerateRandomString( Length => 0 );
-    my $Desc   = 'Length 0';
+    my $Token = $MainObject->GenerateRandomString( Length => 0 );
+    my $Desc  = 'Length 0';
 
     $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
@@ -748,11 +748,11 @@ for my $Test (@Tests) {
 }
 
 {
-    my $Token  = $MainObject->GenerateRandomString( Length => 1 );
-    my $Desc   = 'Length 1';
+    my $Token = $MainObject->GenerateRandomString( Length => 1 );
+    my $Desc  = 'Length 1';
 
     $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 
@@ -764,11 +764,11 @@ for my $Test (@Tests) {
 }
 
 {
-    my $Token  = $MainObject->GenerateRandomString( Length => 8 );
-    my $Desc   = 'Length 8';
+    my $Token = $MainObject->GenerateRandomString( Length => 8 );
+    my $Desc  = 'Length 8';
 
     $Self->True(
-        ( ($Token eq '0' || $Token) && ref $Token eq '' ),
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
         "GenerateRandomString - $Desc - generated",
     );
 

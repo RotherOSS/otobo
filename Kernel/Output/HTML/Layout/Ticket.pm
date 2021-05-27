@@ -652,8 +652,7 @@ sub AgentQueueListOption {
 }
 
 sub TicketListShow {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # take object ref to local, remove it from %Param (prevent memory leak)
     my $Env = $Param{Env};
@@ -1021,7 +1020,7 @@ sub TicketListShow {
             Limit     => $Limit,
             StartHit  => $StartHit,
             PageShown => $PageShown,
-            AllHits   => $Param{Total} || 0,
+            AllHits   => $Param{Total}  || 0,
             Output    => $Param{Output} || '',
         );
 }

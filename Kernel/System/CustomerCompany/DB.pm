@@ -909,10 +909,10 @@ sub CustomerCompanyUpdate {
     # check needed stuff
     FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        next FIELD if $Param{ $Entry->[0] };            # worry only about empty fields, '0' is considered as being empty
-        next FIELD if $Entry->[5] eq 'dynamic_field';   # do not complain about missing dynamic fields
-        next FIELD if !$Entry->[4];                     # complain only about missing required fields
-        next FIELD if $Entry->[0] eq 'UserPassword';    # do not complain about missing password field
+        next FIELD if $Param{ $Entry->[0] };             # worry only about empty fields, '0' is considered as being empty
+        next FIELD if $Entry->[5] eq 'dynamic_field';    # do not complain about missing dynamic fields
+        next FIELD if !$Entry->[4];                      # complain only about missing required fields
+        next FIELD if $Entry->[0] eq 'UserPassword';     # do not complain about missing password field
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -927,8 +927,8 @@ sub CustomerCompanyUpdate {
     my ( @Fields, @Values );
     FIELD:
     for my $Entry ( @{ $Self->{CustomerCompanyMap}->{Map} } ) {
-        next FIELD if $Entry->[0] =~ m/^UserPassword$/i;  # skip the password field
-        next FIELD if $Entry->[5] eq 'dynamic_field';     # skip dynamic fields
+        next FIELD if $Entry->[0] =~ m/^UserPassword$/i;    # skip the password field
+        next FIELD if $Entry->[5] eq 'dynamic_field';       # skip dynamic fields
         push @Fields, $Entry->[2] . ' = ?';
         push @Values, \$Param{ $Entry->[0] };
     }

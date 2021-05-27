@@ -223,7 +223,7 @@ sub TimeStamp2SystemTime {
         },
     );
 
-    return $DateTimeObject->TimeStamp2SystemTime( %Param );
+    return $DateTimeObject->TimeStamp2SystemTime(%Param);
 }
 
 =head2 Date2SystemTime()
@@ -348,7 +348,7 @@ sub WorkingTime {
         },
     );
 
-    my $Delta = $DateTimeObject->WorkingTime( %Param );
+    my $Delta = $DateTimeObject->WorkingTime(%Param);
 
     return $Delta->{AbsoluteSeconds};
 }

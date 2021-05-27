@@ -584,7 +584,7 @@ sub _Finish {
     # A restart should never be needed as otobo.psgi checks for changed modules.
     # But keep the old code for future reference.
     my $Webserver;
-    if ( 0 ) {
+    if (0) {
         $Webserver = 'systemctl restart apache2';
         if ( -f '/etc/SuSE-release' ) {
             $Webserver = 'rcapache2 restart';

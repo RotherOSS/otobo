@@ -41,6 +41,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::GenericInterface::ErrorHandling',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -58,8 +59,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -72,7 +72,7 @@ sub new {
     );
 
     # start with an empty hash for the new object
-    return bless {}, $Type;
+    return bless {}, $Class;
 }
 
 =head2 Content()
@@ -88,10 +88,10 @@ Can die and throw an exception to be caught be Plack::Middleware::HTTPExceptions
 =cut
 
 sub Content {
-    my $Self = shift;
+    my ($Self) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RequestURI = $ParamObject->RequestURI();
+    my $RequestURI  = $ParamObject->RequestURI();
 
     # Locate and verify the desired web service based on the request URI and load its configuration data.
 
@@ -110,7 +110,7 @@ sub Content {
     }
 
     # URI is empty or invalid.
-    if ( ! %WebserviceGetData ) {
+    if ( !%WebserviceGetData ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
@@ -432,7 +432,7 @@ sub Content {
         Data    => $DataOut,
     );
 
-    if ( ! $Response->{Success} ) {
+    if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
 
@@ -463,8 +463,7 @@ prepares header and content for an error response
 =cut
 
 sub _GenerateErrorResponse {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
@@ -632,7 +631,7 @@ Under PSGI explicitly generate a response with code 500.
 =cut
 
 sub _ThrowWebException {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # for OTOBO_RUNS_UNDER_PSGI
 

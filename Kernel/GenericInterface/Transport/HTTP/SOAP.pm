@@ -50,8 +50,7 @@ by using Kernel::GenericInterface::Transport->new();
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
     my $Self = bless {}, $Type;
@@ -89,8 +88,7 @@ In case of an error, the resulting http error code and message are remembered fo
 =cut
 
 sub ProviderProcessRequest {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -145,7 +143,7 @@ sub ProviderProcessRequest {
         # the CGI::PSGI object already has the POST of GET content
         my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
         $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
-            Param => "${RequestMethod}DATA",  # e.g. POSTDATA
+            Param => "${RequestMethod}DATA",    # e.g. POSTDATA
         );
         $Length = length $Content;
     }
@@ -153,8 +151,8 @@ sub ProviderProcessRequest {
     # No length provided.
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(411), # 'Length required'
-            HTTPError => 411,                               # HTTP_LENGTH_REQUIRED
+            Summary   => HTTP::Status::status_message(411),    # 'Length required'
+            HTTPError => 411,                                  # HTTP_LENGTH_REQUIRED
         );
     }
 
@@ -162,7 +160,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,                               # HTTP_PAYLOAD_TOO_LARGE
+            HTTPError => 413,                                  # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
@@ -179,7 +177,7 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,   # HTTP_INTERNAL_SERVER_ERROR
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
@@ -371,8 +369,7 @@ The HTTP code is set accordingly
 =cut
 
 sub ProviderGenerateResponse {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
@@ -504,8 +501,7 @@ receive the response and return its data.
 =cut
 
 sub RequesterPerformRequest {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check transport config.
     if ( !IsHashRefWithData( $Self->{TransportConfig} ) ) {
@@ -926,8 +922,7 @@ Error is generated to be passed to provider/requester.
 =cut
 
 sub _Error {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check needed params.
     if ( !IsString( $Param{Summary} ) ) {
@@ -969,8 +964,7 @@ and throw the exception object.
 =cut
 
 sub _ThrowWebException {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check params.
     my $Success = 1;
@@ -990,7 +984,7 @@ sub _ThrowWebException {
 
     # prepare protocol
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
+    my $Protocol    = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -1006,7 +1000,7 @@ sub _ThrowWebException {
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel =  $Param{HTTPCode} eq 200 ? 'debug' : 'error';
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
@@ -1112,8 +1106,7 @@ $Sort = [                                  # wrapper for level 1
 =cut
 
 sub _SOAPOutputRecursion {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Get and check types of data and sort elements.
     my $Type = $Self->_SOAPOutputTypesGet(%Param);
@@ -1248,8 +1241,7 @@ It contains the functions to process a hash key/value pair.
 =cut
 
 sub _SOAPOutputHashRecursion {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Process data.
     my $RecurseResult = $Self->_SOAPOutputRecursion(%Param);
@@ -1298,8 +1290,7 @@ It contains functions to quote invalid XML characters and encode the string
 =cut
 
 sub _SOAPOutputProcessString {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     return '' if !defined $Param{Data};
 
@@ -1347,8 +1338,7 @@ Values in the sorting structure are ignored but have to be specified
 =cut
 
 sub _SOAPOutputTypesGet {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check types.
     my %Type;

@@ -134,9 +134,9 @@ sub Run {
                 Identifier => "ApacheReloadUsed",
                 Label      => Translatable('Apache::Reload Usage'),
                 Value      => 'active',
-                Message =>
+                Message    =>
                     Translatable(
-                    'Apache::Reload or Apache2::Reload should not be used.'
+                        'Apache::Reload or Apache2::Reload should not be used.'
                     ),
             );
         }
@@ -162,9 +162,9 @@ sub Run {
                 Identifier => "ApacheDBIUsed",
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'active',
-                Message =>
+                Message    =>
                     Translatable(
-                    'Apache2::DBI should not be used.'
+                        'Apache2::DBI should not be used.'
                     ),
             );
         }

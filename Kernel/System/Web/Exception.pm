@@ -50,7 +50,7 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
+use Kernel::System::ObjectManager;    # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -69,11 +69,10 @@ create an exception object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # bless a hashref containing the passed parameters
-    return bless {%Param}, $Type;
+    return bless {%Param}, $Class;
 }
 
 =head2 as_psgi()

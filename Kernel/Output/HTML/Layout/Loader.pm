@@ -56,8 +56,8 @@ sub LoaderCreateAgentCSSCalls {
     # get host based default skin configuration
     my $SkinSelectedHostBased;
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Agent::DefaultSelectedSkin::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
+    my $ParamObject          = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                 = $ParamObject->HTTP('HOST');
     if ( $DefaultSkinHostBased && $Host ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {
@@ -283,8 +283,8 @@ sub LoaderCreateJavaScriptTemplateData {
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
+    my $ParamObject           = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                  = $ParamObject->HTTP('HOST');
     if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:
@@ -598,8 +598,8 @@ sub LoaderCreateCustomerCSSCalls {
 
     # force a skin based on host name
     my $DefaultSkinHostBased = $ConfigObject->Get('Loader::Customer::SelectedSkin::HostBased');
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Host = $ParamObject->HTTP('HOST');
+    my $ParamObject          = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Host                 = $ParamObject->HTTP('HOST');
     if ( $DefaultSkinHostBased && $Host ) {
         REGEXP:
         for my $RegExp ( sort keys %{$DefaultSkinHostBased} ) {

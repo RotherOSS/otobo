@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -111,12 +112,12 @@ sub Auth {
     }
 
     # get params
-    my $User       = $Param{User}      || '';
-    my $Pw         = $Param{Pw}        || '';
+    my $User        = $Param{User} || '';
+    my $Pw          = $Param{Pw}   || '';
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
-    my $UserID     = '';
-    my $GetPw      = '';
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $UserID      = '';
+    my $GetPw       = '';
 
     # sql query
     $Self->{DBObject}->Prepare(

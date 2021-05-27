@@ -3057,7 +3057,7 @@ sub TicketEscalationSuspendCalculate {
         my $DestinationDateTimeObject = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
-                Epoch    => $StartTime,
+                Epoch => $StartTime,
             },
         );
 
@@ -3140,7 +3140,7 @@ sub TicketWorkingTimeSuspendCalculate {
     my ( $Self, %Param ) = @_;
 
     # get required objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations or which are closed
     my @SuspendAndClosedStates;

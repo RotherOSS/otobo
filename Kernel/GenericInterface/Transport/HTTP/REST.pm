@@ -909,8 +909,7 @@ and throw the exception object.
 =cut
 
 sub _ThrowWebException {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check params.
     my $ErrorMessage;
@@ -939,7 +938,7 @@ sub _ThrowWebException {
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel =  $Param{HTTPCode} eq 200 ? 'debug' : 'error';
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",

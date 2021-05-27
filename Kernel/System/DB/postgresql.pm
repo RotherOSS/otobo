@@ -33,11 +33,10 @@ our @ObjectDependencies = (
 );
 
 sub new {
-    my $Class = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    return bless { %Param }, $Class;
+    return bless {%Param}, $Class;
 }
 
 sub LoadPreferences {
