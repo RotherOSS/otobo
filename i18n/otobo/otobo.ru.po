@@ -35,13 +35,14 @@
 # Olga Kalugina <kalugina0506@gmail.com>, 2019
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019
 # Alexey Yusov <yusovas@gmail.com>, 2019
-#
+# Yuriy Purisev <duh.khv@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2020-03-11 18:03+0000\n"
-"Last-Translator: Yuri Myasoedov <myasoedovys@gmail.com>\n"
+"PO-Revision-Date: 2021-05-27 10:04+0000\n"
+"Last-Translator: Yuriy Purisev <duh.khv@gmail.com>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
 "Language: ru\n"
@@ -51,7 +52,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 3.11.2\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -1021,6 +1022,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"Рекомендуется отправить эти данные команде OTOBO, чтобы получить улучшить "
+"качество поддержки."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1035,6 +1038,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Позволить системе отправлять дополнительную данные для поддержки команде "
+"OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -9294,7 +9299,7 @@ msgstr "Развернуть/свернуть всё"
 
 #. Template: AgentTicketHistory
 msgid "CreateTime"
-msgstr "CreateTime"
+msgstr "Дата создания"
 
 #. Template: AgentTicketHistory
 msgid "Article"
@@ -9923,16 +9928,20 @@ msgstr ""
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
 msgstr ""
+"Используемый вами браузер не поддерживает технологию css-grid. Скорее всего, "
+"он слишком старый."
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
 msgstr ""
+"Браузер Internet Explorer поддерживается, но не все функции будут работать "
+"полноценно. Пожалуйста, используйте более современный браузер."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr "Подождите, вы будете перенаправлены..."
+msgstr "Подождите немного, вы будете перенаправлены..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -9968,7 +9977,7 @@ msgstr "Войти"
 
 #. Template: CustomerLogin
 msgid "Request Account"
-msgstr ""
+msgstr "Запросить Аккаунт"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
@@ -10013,17 +10022,19 @@ msgstr "Выход"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "Сменить пароль"
 
 #. Template: CustomerPassword
 msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
 msgstr ""
+"Пароль должен состоять как минимум из 3 символов следующих типов: нижний "
+"регистр, верхний регистр, цифра, специальный знак."
 
 #. Template: CustomerTicketList
 msgid "Nr."
-msgstr ""
+msgstr "Номер:"
 
 #. Template: CustomerTicketList
 msgid "Welcome!"
@@ -10032,18 +10043,19 @@ msgstr "Добро пожаловать!"
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
 msgstr ""
+"У вас ещё нет ни одной заявки. Пожалуйста нажмите сюда, чтобы создать новую."
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "Ничего нет."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "Нажмите здесь для отключения фильтрации по всему списку ваших заявок."
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "Создать новую Заявку"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
