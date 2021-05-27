@@ -45,7 +45,7 @@ sub Run {
 
     # compat link
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Redirect = $ParamObject->RequestURI();
+    my $Redirect    = $ParamObject->RequestURI();
     if ($Redirect) {
         $Redirect =~ s/AgentZoom/AgentTicketZoom/;
     }

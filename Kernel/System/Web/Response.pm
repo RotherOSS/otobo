@@ -55,14 +55,14 @@ create response object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my $Type = shift;
+    my ( $Class, @Args ) = @_;
 
     # wrap an instance of Plack::Response
     my $Self = {
-        Response => Plack::Response->new(@_),
+        Response => Plack::Response->new(@Args),
     };
 
-    return bless $Self, $Type;
+    return bless $Self, $Class;
 }
 
 =head2 Headers()
@@ -72,9 +72,9 @@ a wrapper of Plack::Response::headers().
 =cut
 
 sub Headers {
-    my $Self = shift;
+    my ( $Self, @Args ) = @_;
 
-    return $Self->{Response}->headers(@_);
+    return $Self->{Response}->headers(@Args);
 }
 
 =head2 Header()
@@ -84,9 +84,9 @@ a wrapper of Plack::Response::header().
 =cut
 
 sub Header {
-    my $Self = shift;
+    my ( $Self, @Args ) = @_;
 
-    return $Self->{Response}->header(@_);
+    return $Self->{Response}->header(@Args);
 }
 
 =head2 Code()
@@ -96,9 +96,9 @@ a wrapper of Plack::Response::code().
 =cut
 
 sub Code {
-    my $Self = shift;
+    my ( $Self, @Args ) = @_;
 
-    return $Self->{Response}->code(@_);
+    return $Self->{Response}->code(@Args);
 }
 
 =head2 Content()
@@ -108,9 +108,9 @@ a wrapper of Plack::Response::content().
 =cut
 
 sub Content {
-    my $Self = shift;
+    my ( $Self, @Args ) = @_;
 
-    return $Self->{Response}->content(@_);
+    return $Self->{Response}->content(@Args);
 }
 
 =head2 Finalize()

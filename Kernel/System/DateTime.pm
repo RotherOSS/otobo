@@ -20,7 +20,7 @@ package Kernel::System::DateTime;
 
 use strict;
 use warnings;
-use feature qw(state);
+use v5.24;
 
 use Exporter qw(import);
 
@@ -811,7 +811,7 @@ sub WorkingTime {
     }
 
     # clean up the unset attributes from the method Delta()
-    for my $Key ( qw(Years Months Weeks Days ) ) {
+    for my $Key (qw(Years Months Weeks Days )) {
         delete $Delta->{$Key};
     }
 
@@ -1153,7 +1153,7 @@ Returns:
 sub ToTimeZone {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam ( qw(TimeZone) ) {
+    for my $RequiredParam (qw(TimeZone)) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
@@ -1603,7 +1603,7 @@ Returns:
 sub IsTimeZoneValid {
     my ( $Self, %Param ) = @_;
 
-    for my $RequiredParam ( qw(TimeZone) ) {
+    for my $RequiredParam (qw(TimeZone)) {
         if ( !defined $Param{$RequiredParam} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
@@ -1689,7 +1689,7 @@ sub SystemTimeZoneGet {
 =head2 TimeStamp2SystemTime()
 
 converts a given time stamp to system time.
-Different formats are recognised and handled.
+Different formats are recognized and handled.
 This method is similar, but not equivalent, to _StringToHash().
 
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(
@@ -1768,7 +1768,7 @@ sub TimeStamp2SystemTime {
         );
 
         # DateTime seems to be picky about the format of the offset, e.g. '+00' is not allowed
-        if ( $7 ) {
+        if ($7) {
             my $Offset = $7;
             if ( $Offset eq 'Z' ) {
                 $DateTimeParams{TimeZone} = $Offset;
@@ -1777,6 +1777,7 @@ sub TimeStamp2SystemTime {
                 $DateTimeParams{TimeZone} = sprintf '%+03d:00', $Offset;
             }
             elsif ( $Offset =~ m/^([+-]\d):(.*)/ ) {
+
                 # e.g. +5:45
                 $DateTimeParams{TimeZone} = sprintf '%+03d:%02d', $1, $2;
             }
@@ -1811,7 +1812,7 @@ sub TimeStamp2SystemTime {
     }
 
     # return error
-    if ( ! %DateTimeParams ) {
+    if ( !%DateTimeParams ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Invalid Date '$Param{String}'!",
@@ -1828,7 +1829,6 @@ sub TimeStamp2SystemTime {
 
     return $CPANDateTimeObject->epoch;
 }
-
 
 =begin Internal:
 
@@ -2113,7 +2113,7 @@ sub _CPANDateTimeObjectCreate {
             return;
         }
 
-        my $CPANDateTimeObject =  eval {
+        my $CPANDateTimeObject = eval {
             DateTime->from_epoch(
                 epoch     => $Param{Epoch},
                 time_zone => $OffsetOrTZ,
@@ -2153,7 +2153,7 @@ sub _CPANDateTimeObjectCreate {
                 locale => $Self->{Locale},
             );
         };
-        if ( $@ ) {
+        if ($@) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 'Priority' => 'Error',
                 'Message'  => "Could not create DateTime object: $@",

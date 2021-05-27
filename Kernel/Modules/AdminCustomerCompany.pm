@@ -119,7 +119,7 @@ sub Run {
         my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
         ENTRY:
-        for my $Entry ( @CustomerCompanyMap ) {
+        for my $Entry (@CustomerCompanyMap) {
 
             # check dynamic fields
             if ( $Entry->[5] eq 'dynamic_field' ) {
@@ -201,7 +201,7 @@ sub Run {
                 my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
                 ENTRY:
-                for my $Entry ( @CustomerCompanyMap ) {
+                for my $Entry (@CustomerCompanyMap) {
                     next ENTRY if $Entry->[5] ne 'dynamic_field';
 
                     my $DynamicFieldConfig = $Self->{DynamicFieldLookup}->{ $Entry->[2] };

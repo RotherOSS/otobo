@@ -24,6 +24,7 @@ use Authen::Radius;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -82,12 +83,12 @@ sub Auth {
     }
 
     # get params
-    my $User       = $Param{User}      || '';
-    my $Pw         = $Param{Pw}        || '';
+    my $User        = $Param{User} || '';
+    my $Pw          = $Param{Pw}   || '';
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
-    my $UserID     = '';
-    my $GetPw      = '';
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $UserID      = '';
+    my $GetPw       = '';
 
     # just in case for debug!
     if ( $Self->{Debug} > 0 ) {

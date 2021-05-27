@@ -29,7 +29,7 @@ use vars (qw($Self));
 #use Test2::V0; # For development the output of is() is more useful
 
 # OTOBO modules
-use Kernel::System::ObjectManager; # prevent used once warning
+use Kernel::System::ObjectManager;    # prevent used once warning
 
 my $SysConfigXMLObject = $Kernel::OM->Get('Kernel::System::SysConfig::XML');
 $Self->True(
@@ -451,23 +451,23 @@ my @Tests = (
                 'XMLContentParsed' => {
                     'Description' => [
                         {
-                            'Content' => 'Test 2.',
+                            'Content'      => 'Test 2.',
                             'Translatable' => '1'
                         }
                     ],
-                    'Name' => 'Test2',
+                    'Name'       => 'Test2',
                     'Navigation' => [
                         {
                             'Content' => 'Core::Ticket'
                         }
                     ],
                     'Required' => '1',
-                    'Valid' => '1',
-                    'Value' => [
+                    'Valid'    => '1',
+                    'Value'    => [
                         {
                             'Item' => [
                                 {
-                                    'Content' => '/usr/bin/gpg',
+                                    'Content'   => '/usr/bin/gpg',
                                     'ValueType' => 'File'
                                 }
                             ]

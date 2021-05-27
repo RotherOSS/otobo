@@ -110,7 +110,7 @@ Set headers in Kernels::System::Web::Request singleton as side effect.
 
 =cut
 
-sub Content {
+sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     my $Self = shift;
 
     # get common framework params

@@ -170,7 +170,6 @@ for my $Test (@Tests) {
         }
     );
 
-
     # implicitly call Kernel::System::Web::Request->new();
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
 

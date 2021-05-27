@@ -212,7 +212,7 @@ sub Run {
 
     # Database selection screen.
     elsif ( $Self->{Subaction} eq 'Start' ) {
-        if ( ! -w "$Self->{Path}/Kernel/Config.pm" ) {
+        if ( !-w "$Self->{Path}/Kernel/Config.pm" ) {
             return join '',
                 $LayoutObject->Header(
                     Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Error')
@@ -299,11 +299,11 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            ContentType       => 'application/json; charset='
+            ContentType => 'application/json; charset='
                 . $LayoutObject->{Charset},
-            Content           => $OutputJSON,
-            Type              => 'inline',
-            NoCache           => 1,
+            Content => $OutputJSON,
+            Type    => 'inline',
+            NoCache => 1,
         );
     }
 
@@ -1251,7 +1251,7 @@ sub Run {
             $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {},
-            ).
+            ) .
             $LayoutObject->Footer();
     }
 

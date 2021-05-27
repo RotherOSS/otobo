@@ -24,7 +24,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 
 our $Self;
 
@@ -3116,7 +3116,7 @@ for my $Test (@CheckHeadersTests) {
             );
         };
         my $WebException = $@;
-        can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
+        can_ok( $WebException, ['as_psgi'], 'exception with as_psgi() method' );
         my $PSGIResponse = $WebException->as_psgi();
         ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
 

@@ -1391,7 +1391,7 @@ for my $Test (@Tests) {
 
         for my $Item ( @{ $Test->{ExpectedResult} } ) {
 
-            my ($FoundSetting, @OtherFoundSettings) = grep { $_->{Name} eq $Item->{Name} } @DefaultSettingList;
+            my ( $FoundSetting, @OtherFoundSettings ) = grep { $_->{Name} eq $Item->{Name} } @DefaultSettingList;
 
             $Self->True(
                 $FoundSetting,
@@ -1403,7 +1403,7 @@ for my $Test (@Tests) {
                 "Only a single item ($Item->{Name}) is there.",
             );
 
-            if ( $FoundSetting ) {
+            if ($FoundSetting) {
 
                 # Compare
                 $Self->IsDeeply(

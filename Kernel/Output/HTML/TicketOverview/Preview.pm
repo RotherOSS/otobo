@@ -197,8 +197,7 @@ sub SortOrderBar {
 }
 
 sub Run {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # check needed stuff
     for my $Item (qw(TicketIDs PageShown StartHit)) {

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -88,12 +88,12 @@ my @WorkingTimeTests = (
     {
         StartDateString         => '2005-10-24 11:44:12',
         StopDateString          => '2005-10-24 16:13:31',
-        ExpectedAbsoluteSeconds => 16159,        # 16:13:31 - 11:44:12 => 4:29:19 = 4.4886...
+        ExpectedAbsoluteSeconds => 16159,                   # 16:13:31 - 11:44:12 => 4:29:19 = 4.4886...
     },
     {
         StartDateString         => '2006-12-05 22:57:34',
         StopDateString          => '2006-12-06 10:25:34',
-        ExpectedAbsoluteSeconds => 8734,         # 1 10:25:23 - 22:57:35 => 2:25:34 = 2,426...
+        ExpectedAbsoluteSeconds => 8734,                    # 1 10:25:23 - 22:57:35 => 2:25:34 = 2,426...
     },
     {
         StartDateString         => '2006-12-06 07:50:00',
@@ -132,14 +132,14 @@ for my $Test (@WorkingTimeTests) {
     # hours
     $Self->Is(
         $WorkingTime->{Hours},
-        int $Test->{ExpectedAbsoluteSeconds} / (60*60),
+        int $Test->{ExpectedAbsoluteSeconds} / ( 60 * 60 ),
         "Hour part of WorkingTime() between $Test->{StartDateString} and $Test->{StopDateString} must match expected ones.",
     );
 
     # minutes
     $Self->Is(
         $WorkingTime->{Minutes},
-        int ( ($Test->{ExpectedAbsoluteSeconds} % (60*60)) / 60 ),
+        int( ( $Test->{ExpectedAbsoluteSeconds} % ( 60 * 60 ) ) / 60 ),
         "Minute part of WorkingTime() between $Test->{StartDateString} and $Test->{StopDateString} must match expected ones.",
     );
 
@@ -152,5 +152,3 @@ for my $Test (@WorkingTimeTests) {
 }
 
 $Self->DoneTesting();
-
-
