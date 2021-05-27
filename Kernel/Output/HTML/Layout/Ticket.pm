@@ -1020,7 +1020,7 @@ sub TicketListShow {
             Limit     => $Limit,
             StartHit  => $StartHit,
             PageShown => $PageShown,
-            AllHits   => $Param{Total} || 0,
+            AllHits   => $Param{Total}  || 0,
             Output    => $Param{Output} || '',
         );
 }

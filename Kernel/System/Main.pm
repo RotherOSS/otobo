@@ -65,7 +65,7 @@ A collection of utility functions to:
 
 =item handle files
 
-=cut
+=back
 
 =head1 PUBLIC INTERFACE
 

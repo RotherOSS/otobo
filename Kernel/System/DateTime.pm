@@ -20,7 +20,7 @@ package Kernel::System::DateTime;
 
 use strict;
 use warnings;
-use feature qw(state);
+use v5.24;
 
 use Exporter qw(import);
 

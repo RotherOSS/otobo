@@ -36,7 +36,7 @@ sub new {
     my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    return bless { %Param }, $Class;
+    return bless {%Param}, $Class;
 }
 
 sub LoadPreferences {

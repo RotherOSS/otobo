@@ -143,7 +143,7 @@ sub ProviderProcessRequest {
         # the CGI::PSGI object already has the POST of GET content
         my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
         $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
-            Param => "${RequestMethod}DATA",  # e.g. POSTDATA
+            Param => "${RequestMethod}DATA",    # e.g. POSTDATA
         );
         $Length = length $Content;
     }
@@ -151,8 +151,8 @@ sub ProviderProcessRequest {
     # No length provided.
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(411), # 'Length required'
-            HTTPError => 411,                               # HTTP_LENGTH_REQUIRED
+            Summary   => HTTP::Status::status_message(411),    # 'Length required'
+            HTTPError => 411,                                  # HTTP_LENGTH_REQUIRED
         );
     }
 
@@ -160,7 +160,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,                               # HTTP_PAYLOAD_TOO_LARGE
+            HTTPError => 413,                                  # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
@@ -177,7 +177,7 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,   # HTTP_INTERNAL_SERVER_ERROR
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
@@ -984,7 +984,7 @@ sub _ThrowWebException {
 
     # prepare protocol
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $Protocol = $ParamObject->ServerProtocol() // 'HTTP/1.0';
+    my $Protocol    = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
     #   for all supported browsers 'Status:' should be used here
@@ -1000,7 +1000,7 @@ sub _ThrowWebException {
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel =  $Param{HTTPCode} eq 200 ? 'debug' : 'error';
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",

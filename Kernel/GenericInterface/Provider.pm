@@ -59,8 +59,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -73,7 +72,7 @@ sub new {
     );
 
     # start with an empty hash for the new object
-    return bless {}, $Type;
+    return bless {}, $Class;
 }
 
 =head2 Content()
@@ -89,7 +88,7 @@ Can die and throw an exception to be caught be Plack::Middleware::HTTPExceptions
 =cut
 
 sub Content {
-    my $Self = shift;
+    my ($Self) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $RequestURI = $ParamObject->RequestURI();
@@ -464,8 +463,7 @@ prepares header and content for an error response
 =cut
 
 sub _GenerateErrorResponse {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
@@ -633,7 +631,7 @@ Under PSGI explicitly generate a response with code 500.
 =cut
 
 sub _ThrowWebException {
-    my $Self = shift;
+    my ($Self) = @_;
 
     # for OTOBO_RUNS_UNDER_PSGI
 

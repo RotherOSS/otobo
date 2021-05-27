@@ -24,7 +24,7 @@ use warnings;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager; # avoid warning: Name "Kernel::OM" used only once
+use Kernel::System::ObjectManager;    # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -147,7 +147,7 @@ generate response for an incoming web service request.
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
-    if ( ! defined $Param{Success} ) {
+    if ( !defined $Param{Success} ) {
 
         return $Self->{DebuggerObject}->Error(
             Summary => 'Missing parameter Success.',

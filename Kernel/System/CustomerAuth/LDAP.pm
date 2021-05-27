@@ -147,7 +147,7 @@ sub Auth {
 
     # get params
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RemoteAddr = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;
