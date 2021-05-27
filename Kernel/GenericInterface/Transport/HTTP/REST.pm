@@ -909,8 +909,7 @@ and throw the exception object.
 =cut
 
 sub _ThrowWebException {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Check params.
     my $ErrorMessage;

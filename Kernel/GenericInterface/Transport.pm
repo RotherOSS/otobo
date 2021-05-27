@@ -64,8 +64,7 @@ create an object.
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Type, %Param ) = @_;
 
     my $Self = bless {}, $Type;
 
@@ -109,8 +108,7 @@ from the web server process.
 =cut
 
 sub ProviderProcessRequest {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     my $Result = $Self->{BackendObject}->ProviderProcessRequest(%Param);
 
@@ -147,8 +145,7 @@ generate response for an incoming web service request.
 =cut
 
 sub ProviderGenerateResponse {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( ! defined $Param{Success} ) {
 
@@ -189,8 +186,7 @@ generate an outgoing web service request, receive the response and return its da
 =cut
 
 sub RequesterPerformRequest {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     if ( !$Param{Operation} ) {
 

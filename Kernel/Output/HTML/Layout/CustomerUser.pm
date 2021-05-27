@@ -56,8 +56,7 @@ Returns a list of customer user as sort-able list with pagination.
 =cut
 
 sub CustomerUserAddressBookListShow {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # Take object ref to local, remove it from %Param (prevent memory leak).
     my $Env = delete $Param{Env};

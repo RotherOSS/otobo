@@ -102,6 +102,7 @@ sub Encode {
     # Unicode LS and PS are not replaced. But see below.
     # $Param{Data}->{sample_newline} = "\x{2028}" if ref $Param{Data} eq 'HASH';
     my $JSONEncoded = $JSONObject->encode( $Param{Data} ) || q{""};
+
     #use Devel::Peek;
     #Dump( $JSONEncoded );
 

@@ -348,7 +348,7 @@ my $NYTProfMiddleWare = sub {
 # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
 # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
 my $SetEnvMiddleWare = sub {
-    my $app = shift;
+    my $App = shift;
 
     return sub {
         my $Env = shift;
@@ -360,7 +360,7 @@ my $SetEnvMiddleWare = sub {
         # enable for debugging UrlMap
         #$ENV{PLACK_URLMAP_DEBUG} = 1;
 
-        return $app->($Env);
+        return $App->($Env);
     };
 };
 
@@ -411,7 +411,7 @@ my $AdminOnlyMiddeware = sub {
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # avoid vulnerability where a large POST is submitted
-        $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;    ## no critic
+        $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
         # Create the underlying CGI object from the PSGI environment.
         # The AuthSession modules use this object for getting info about the request.

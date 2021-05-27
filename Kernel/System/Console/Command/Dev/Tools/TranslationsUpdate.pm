@@ -448,7 +448,7 @@ sub HandleLanguage {
         }
 
         # add translatable strings from DB XML
-        my (@DBXMLFiles, @SOPMFiles);
+        my ( @DBXMLFiles, @SOPMFiles );
         if ($IsSubTranslation) {
             @SOPMFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
                 Directory => "$ModuleDirectory",
@@ -460,7 +460,7 @@ sub HandleLanguage {
         }
 
         FILE:
-        for my $File (@DBXMLFiles, @SOPMFiles) {
+        for my $File ( @DBXMLFiles, @SOPMFiles ) {
 
             my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
                 Location => $File,

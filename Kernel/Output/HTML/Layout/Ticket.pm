@@ -652,8 +652,7 @@ sub AgentQueueListOption {
 }
 
 sub TicketListShow {
-    my $Self  = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # take object ref to local, remove it from %Param (prevent memory leak)
     my $Env = $Param{Env};

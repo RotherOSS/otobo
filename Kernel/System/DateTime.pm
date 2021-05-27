@@ -1689,7 +1689,7 @@ sub SystemTimeZoneGet {
 =head2 TimeStamp2SystemTime()
 
 converts a given time stamp to system time.
-Different formats are recognised and handled.
+Different formats are recognized and handled.
 This method is similar, but not equivalent, to _StringToHash().
 
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(

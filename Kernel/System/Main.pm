@@ -78,11 +78,10 @@ create a new object. Do not use it directly, instead use:
 =cut
 
 sub new {
-    my $Type = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # allocate new hash for object
-    return bless {}, $Type;
+    return bless {}, $Class;
 }
 
 =head2 Require()
@@ -1080,8 +1079,7 @@ returns
 =cut
 
 sub GenerateRandomString {
-    my $Self = shift;
-    my %Param = @_;
+    my ( $Self, %Param ) = @_;
 
     # negative $Param{Length} produce an empty string
     # fractional $Param{Length} is truncated to the integer portion

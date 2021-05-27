@@ -65,7 +65,7 @@ sub Run {
                         $ApacheReload = 1;
                     }
                 }
-                if ( $ApacheReload ) {
+                if ($ApacheReload) {
                     return $LayoutObject->ErrorScreen(
                         Message => Translatable(
                             'Sorry, Apache::Reload should not be used'

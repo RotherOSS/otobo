@@ -69,11 +69,10 @@ create an exception object
 =cut
 
 sub new {
-    my $Type  = shift;
-    my %Param = @_;
+    my ( $Class, %Param ) = @_;
 
     # bless a hashref containing the passed parameters
-    return bless {%Param}, $Type;
+    return bless {%Param}, $Class;
 }
 
 =head2 as_psgi()

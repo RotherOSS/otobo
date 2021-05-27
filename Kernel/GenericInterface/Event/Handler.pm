@@ -308,7 +308,7 @@ sub Run {
 sub _SerializeConfig {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( grep { ! $Param{$_} } qw(Data SHash) ) {
+    for my $Needed ( grep { !$Param{$_} } qw(Data SHash) ) {
 
         my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
         $LogObject->Log(

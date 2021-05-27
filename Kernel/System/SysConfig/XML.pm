@@ -133,7 +133,7 @@ sub SettingListParse {
     my $XMLFilename = $Param{XMLFilename} // '';
 
     # check sanity by looking whether we have data
-    if ( !IsStringWithData( $XMLContent ) ) {
+    if ( !IsStringWithData($XMLContent) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Parameter XMLInput needs to be a string!",
@@ -146,9 +146,9 @@ sub SettingListParse {
     my $Document = eval {
         my $Parser = XML::LibXML->new();
 
-        return $Parser->parse_string( $XMLContent );
+        return $Parser->parse_string($XMLContent);
     };
-    if ( $@ ) {
+    if ($@) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Invalid XML format found in $XMLFilename: $@",
@@ -160,9 +160,9 @@ sub SettingListParse {
     # Don't require that 'otobo_config' is the root in order to be compatible older behavior
     my $ConfigNode;
     {
-        ( $ConfigNode, my @OtherConfigNodes) = $Document->findnodes('descendant-or-self::otobo_config');
+        ( $ConfigNode, my @OtherConfigNodes ) = $Document->findnodes('descendant-or-self::otobo_config');
 
-        if ( ! $ConfigNode ) {
+        if ( !$ConfigNode ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid XML format found in $XMLFilename: node 'otobo_config' not found",
@@ -171,7 +171,7 @@ sub SettingListParse {
             return;
         }
 
-        if ( @OtherConfigNodes ) {
+        if (@OtherConfigNodes) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Invalid XML format found in $XMLFilename: multiple 'otobo_config' nodes found",
@@ -198,7 +198,7 @@ sub SettingListParse {
     {
         my (@OldStyleNodes) = $ConfigNode->findnodes('ConfigItem');
 
-        for my $Node ( @OldStyleNodes ) {
+        for my $Node (@OldStyleNodes) {
             my $SettingName = $Node->getAttribute('Name') // '';
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -216,16 +216,16 @@ sub SettingListParse {
 
     # Use libxml for finding the Nodes with the name 'Setting'
     my @SettingNodes = eval {
-        my $Parser = XML::LibXML->new();
-        my $Document = $Parser->parse_string( $XMLContent );
+        my $Parser   = XML::LibXML->new();
+        my $Document = $Parser->parse_string($XMLContent);
 
         return $Document->findnodes('descendant-or-self::Setting[@Name]');
     };
 
     SETTING:
-    for my $SettingNode ( @SettingNodes ) {
-        my $RawSetting  = $SettingNode->toString(0); # the original content
-        my $SettingName = $SettingNode->getAttribute( 'Name' );
+    for my $SettingNode (@SettingNodes) {
+        my $RawSetting  = $SettingNode->toString(0);            # the original content
+        my $SettingName = $SettingNode->getAttribute('Name');
 
         next SETTING if !IsStringWithData($RawSetting);
         next SETTING if !IsStringWithData($SettingName);
