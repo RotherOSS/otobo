@@ -91,7 +91,7 @@ sub Content {
     my ($Self) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $RequestURI = $ParamObject->RequestURI();
+    my $RequestURI  = $ParamObject->RequestURI();
 
     # Locate and verify the desired web service based on the request URI and load its configuration data.
 
@@ -110,7 +110,7 @@ sub Content {
     }
 
     # URI is empty or invalid.
-    if ( ! %WebserviceGetData ) {
+    if ( !%WebserviceGetData ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
@@ -432,7 +432,7 @@ sub Content {
         Data    => $DataOut,
     );
 
-    if ( ! $Response->{Success} ) {
+    if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
 

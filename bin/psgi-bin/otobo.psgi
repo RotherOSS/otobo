@@ -78,6 +78,8 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
+## no critic qw(Variables::RequireLocalizedPunctuationVars)
+
 # This package is used by rpc.pl.
 # NOTE: this is mostly untested
 package OTOBO::RPC {
@@ -266,8 +268,8 @@ use POSIX 'SEEK_SET';
 use DateTime ();
 use Template ();
 use Encode qw(:all);
-use CGI                ();
-use CGI::Carp          ();
+use CGI       ();
+use CGI::Carp ();
 use CGI::PSGI;
 use Plack::Builder;
 use Plack::Request;
@@ -615,8 +617,8 @@ my $OTOBOApp = builder {
 
         # params for the interface modules
         my %InterfaceParams = (
-            Debug      => 0,  # pass 1 for enabling debug messages
-            PSGIEnv    => $Env,
+            Debug   => 0,      # pass 1 for enabling debug messages
+            PSGIEnv => $Env,
         );
 
         # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
@@ -630,33 +632,33 @@ my $OTOBOApp = builder {
             my $Content = eval {
 
                 if ( $ScriptFileName eq 'customer.pl' ) {
-                    return Kernel::System::Web::InterfaceCustomer->new( %InterfaceParams );
+                    return Kernel::System::Web::InterfaceCustomer->new(%InterfaceParams);
                 }
 
                 if ( $ScriptFileName eq 'index.pl' ) {
-                    return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
+                    return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
                 }
 
                 if ( $ScriptFileName eq 'installer.pl' ) {
-                    return Kernel::System::Web::InterfaceInstaller->new( %InterfaceParams );
+                    return Kernel::System::Web::InterfaceInstaller->new(%InterfaceParams);
                 }
 
                 if ( $ScriptFileName eq 'migration.pl' ) {
-                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new( %InterfaceParams );
+                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new(%InterfaceParams);
                 }
 
                 if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    return Kernel::GenericInterface::Provider->new( %InterfaceParams );
+                    return Kernel::GenericInterface::Provider->new(%InterfaceParams);
                 }
 
                 if ( $ScriptFileName eq 'public.pl' ) {
-                    return Kernel::System::Web::InterfacePublic->new( %InterfaceParams );
+                    return Kernel::System::Web::InterfacePublic->new(%InterfaceParams);
                 }
 
                 # index.pl is the fallback
                 warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
 
-                return Kernel::System::Web::InterfaceAgent->new( %InterfaceParams );
+                return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
             }->Content();
 
             # apply output filters for specific interfaces
@@ -675,7 +677,7 @@ my $OTOBOApp = builder {
             # The OTOBO response object already has the HTPP headers.
             # Enhance it with the HTTP status code and the c    ontent.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-            $ResponseObject->Code(200); # TODO: is it always 200 ?
+            $ResponseObject->Code(200);    # TODO: is it always 200 ?
             $ResponseObject->Content($Content);
 
             # return the funnny unblessed array reference
@@ -730,7 +732,7 @@ builder {
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp;   #redirect to /otobo/index.pl when in doubt
+    mount '/otobo'                         => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
     mount '/otobo/customer.pl'             => $OTOBOApp;
     mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
