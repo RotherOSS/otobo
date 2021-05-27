@@ -26,7 +26,6 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
-    'Kernel::System::Web::Request',
 );
 
 sub new {

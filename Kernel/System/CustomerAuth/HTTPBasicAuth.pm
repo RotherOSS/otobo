@@ -31,8 +31,7 @@ use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
-    'Kernel::System::Web::Request',
+    'Kernel::System::Log'
 );
 
 sub new {

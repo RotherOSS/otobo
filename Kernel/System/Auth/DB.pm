@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Valid',
-    'Kernel::System::Web::Request',
 );
 
 sub new {
