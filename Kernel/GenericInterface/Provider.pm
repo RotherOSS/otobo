@@ -41,7 +41,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::GenericInterface::ErrorHandling',
-    'Kernel::System::Web::Request',
 );
 
 =head1 NAME

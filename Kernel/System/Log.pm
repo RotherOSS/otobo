@@ -28,7 +28,6 @@ use Carp ();
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
-    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
