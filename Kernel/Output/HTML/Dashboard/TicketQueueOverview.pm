@@ -130,6 +130,7 @@ sub Run {
             );
             if ( $GroupID != $LimitGroupID ) {
                 delete $Queues{$QueueID};
+
                 next QUEUES;
             }
         }
@@ -143,22 +144,26 @@ sub Run {
 
     # Prepare ticket count.
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my @QueueIDs     = sort keys %Queues;
-    if ( !@QueueIDs ) {
-        @QueueIDs = (999_999);
-    }
+
+    # Prepare the IDs of the queues that are relevant for the overview.
+    # It is not guaranteed that there are any queues, especially when QueuePermissionGroup is enabled.
+    my @QueueIDs = sort keys %Queues;
 
     my %Results;
     for my $StateOrderID ( sort { $a <=> $b } keys %ConfiguredStates ) {
 
         # Run ticket search for all Queues and appropriate available State.
-        my @StateOrderTicketIDs = $TicketObject->TicketSearch(
-            UserID   => $Self->{UserID},
-            Result   => 'ARRAY',
-            QueueIDs => \@QueueIDs,
-            States   => [ $ConfiguredStates{$StateOrderID} ],
-            Limit    => 100_000,
-        );
+        # Do not search when there are no queues as TicketSearch() complains about empty array refs.
+        my @StateOrderTicketIDs;
+        if (@QueueIDs) {
+            @StateOrderTicketIDs = $TicketObject->TicketSearch(
+                UserID   => $Self->{UserID},
+                Result   => 'ARRAY',
+                QueueIDs => \@QueueIDs,
+                States   => [ $ConfiguredStates{$StateOrderID} ],
+                Limit    => 100_000,
+            );
+        }
 
         # Count of tickets per QueueID.
         my $TicketCountByQueueID = $TicketObject->TicketCountByAttribute(
