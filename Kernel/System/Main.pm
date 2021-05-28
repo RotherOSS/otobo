@@ -26,7 +26,7 @@ use Digest::MD5 qw(md5_hex);
 use Data::Dumper;
 use File::stat;
 use Unicode::Normalize;
-use List::Util qw();
+use List::Util qw(first);
 use Fcntl qw(:flock);
 use Encode;
 
@@ -44,6 +44,7 @@ use namespace::autoclean;
 our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
+    'Kernel::System::Main',
     'Kernel::System::Storable',
 );
 
@@ -80,7 +81,7 @@ create a new object. Do not use it directly, instead use:
 sub new {
     my ( $Class, %Param ) = @_;
 
-    # allocate new hash for object
+    # allocate a new empty hash for object
     return bless {}, $Class;
 }
 
@@ -148,7 +149,8 @@ sub RequireBaseClass {
     my ( $Self, $Module ) = @_;
 
     # Load the module, if not already loaded.
-    return if !$Self->Require($Module);
+    # Give up when the module can't be loaded.
+    return unless $Self->Require($Module);
 
     my $CallingClass = caller(0);
 
@@ -157,9 +159,7 @@ sub RequireBaseClass {
 
         # Check if the base class was already loaded.
         # This can happen in persistent environments as mod_perl (see bug#9686).
-        if ( List::Util::first { $_ eq $Module } @{"${CallingClass}::ISA"} ) {
-            return 1;    # nothing to do now
-        }
+        return 1 if first { $_ eq $Module } @{"${CallingClass}::ISA"};
 
         push @{"${CallingClass}::ISA"}, $Module;
     }
@@ -653,13 +653,17 @@ sub FileDelete {
 
 =head2 FileGetMTime()
 
-get timestamp of file change time
+get epoch of file change time
 
+    # specify either Directory and Filename
     my $FileMTime = $MainObject->FileGetMTime(
-        Directory => 'c:\some\location',
+        Directory => '/some/location',
         Filename  => 'me_to/alal.xml',
-        # or Location
-        Location  => 'c:\some\location\me_to\alal.xml'
+    );
+
+    # or Location
+    my $FileMTime = $MainObject->FileGetMTime(
+        Location  => '/some/location/me_to/alal.xml'
     );
 
 =cut
@@ -667,7 +671,6 @@ get timestamp of file change time
 sub FileGetMTime {
     my ( $Self, %Param ) = @_;
 
-    my $FH;
     if ( $Param{Filename} && $Param{Directory} ) {
 
         # filename clean up
@@ -687,7 +690,6 @@ sub FileGetMTime {
             Priority => 'error',
             Message  => 'Need Filename and Directory or Location!',
         );
-
     }
 
     # get file metadata
@@ -716,6 +718,84 @@ sub FileGetMTime {
     }
 
     return $Stat->mtime();
+}
+
+=head2 GetReleaseInfo()
+
+extract the Product and Version from a RELEASE file
+
+    # specify either Directory and Filename
+    my $ReleaseInfo = $MainObject->GetReleaseInfo(
+        Directory => '/opt/otobo',
+        Filename  => 'RELEASE',
+    );
+
+    # or Location
+    my $ReleaseInfo = $MainObject->GetReleaseInfo(
+        Location  => '/opt/otobo/RELEASE'
+    );
+
+The returned value is a hashref. There are two possible keys: B<Product> and B<Version>.
+The keys are only set when they are found in the release file.
+
+=cut
+
+sub GetReleaseInfo {
+    my ( $Self, %Param ) = @_;
+
+    if ( $Param{Filename} && $Param{Directory} ) {
+
+        # filename clean up
+        $Param{Filename} = $Self->FilenameCleanUp(
+            Filename => $Param{Filename},
+            Type     => $Param{Type} || 'Local',    # Local|Attachment|MD5
+        );
+        $Param{Location} = "$Param{Directory}/$Param{Filename}";
+    }
+    elsif ( $Param{Location} ) {
+
+        # filename clean up
+        $Param{Location} =~ s{//}{/}xmsg;
+    }
+    else {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Filename and Directory or Location!',
+        );
+
+        return {};
+    }
+
+    if ( open( my $ReleaseFH, '<', $Param{Location} ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+
+        # extract the release info from the file content
+        my %ReleaseInfo;
+        LINE:
+        while ( my $Line = <$ReleaseFH> ) {
+
+            # filtering of comment lines
+            next LINE if $Line =~ m/^#/;
+
+            if ( $Line =~ m/^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+                $ReleaseInfo{Product} = $1;
+            }
+            elsif ( $Line =~ m/^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
+                $ReleaseInfo{Version} = $1;
+            }
+
+            # all other lines are ignored
+        }
+
+        return \%ReleaseInfo;
+    }
+
+    # log error when the file could not be read
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => "Could not open $Param{Location} for reading.",
+    );
+
+    return {};
 }
 
 =head2 MD5sum()
