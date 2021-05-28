@@ -37,6 +37,9 @@
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
 
+# ignore files that might be generated during development
+var/httpd/htdocs/SeleniumScreenshots
+
 # ignore editor swap files and other temporary files
 **/.#*
 **/*.sw?
