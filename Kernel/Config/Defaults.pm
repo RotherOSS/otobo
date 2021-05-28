@@ -2018,6 +2018,7 @@ sub new {
         die;
     }
 
+    # Don't use the MainObject here to parse the RELEASE file
     if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while ( my $Line = <$Product> ) {
 

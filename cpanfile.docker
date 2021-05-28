@@ -49,6 +49,8 @@ requires 'Template::Toolkit';
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
 
+requires 'Text::CSV';
+
 requires 'Text::Trim';
 
 # Required for high resolution timestamps.
@@ -235,14 +237,5 @@ requires 'SOAP::Transport::HTTP::Plack';
 
 # };
 
-# feature 'plack:webserver', 'Suppport for plack:webserver' => sub {
-    # High-performance preforking PSGI/Plack web server
-    requires 'Gazelle';
+# Feature 'plack' is not needed for Docker
 
-    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
-    requires 'Linux::Inotify2';
-
-    # Serve static files
-    requires 'Plack::App::File';
-
-# };

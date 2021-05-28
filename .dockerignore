@@ -1,28 +1,44 @@
-# The toplevel dot files are not copied per default, but there are some exception that are included in the image.
-# .bash_aliases and .vimrc are not copied, but created in RUN step
-.*
+# Use a whitelist of files and directories for the top level directory.
+
+# ignore everything initially
+*
+
+# keep some dot files
 !.bash_completion
 !.fetchmailrc.dist
 !.mailfilter.dist
 !.procmailrc.dist
 !.screenrc
 
+# keep some files from the top level
+!AUTHORS.md
+!CHANGES.md
+!CONTRIBUTING.md
+!COPYING-Third-Party
+!cpanfile.docker
+!INSTALL.md
+!LICENSE
+!README.md
+!RELEASE
+!SECURITY.md
+!UPDATING.md
+
+# keep some dirs from the top level
+!bin
+!Custom
+!doc
+!i18n
+!Kernel
+!scripts
+!var
+
 # The dot files in the subdirectories are kept kept per default.
 # The not wanted dot files are listed here explicitly.
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
 
-# ignore the development folder as it is not needed in the image
-development
-
 # ignore files that might be generated during development
-build.log
-otobo.iml
-*.out
 var/httpd/htdocs/SeleniumScreenshots
-
-# locally installed Perl modules should not end up in the image
-local
 
 # ignore editor swap files and other temporary files
 **/.#*
@@ -32,19 +48,11 @@ local
 # ignore files that are only needed only for building the docker image
 bin/docker/build_docker_images.sh
 bin/docker/lint_docker_files.sh
-hooks
-otobo.*.dockerfile
 
-# Skip cpanfile, as cpanfile.docker is actually used
-cpanfile
-
-# Skip Config.pm.dist, as Config.pm.docker.dist is actually used
+# ignore Config.pm.dist, as Config.pm.docker.dist is actually used
 Kernel/Config.pm.dist
 
-# files only needed only for continous integration
-.otobo-ci.yml
-
-# files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
+# ignore files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
 bin/cgi-bin
 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
