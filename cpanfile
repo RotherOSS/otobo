@@ -49,6 +49,8 @@ requires 'Template::Toolkit';
 # The fast data stash for Template::Toolkit.
 requires 'Template::Stash::XS';
 
+requires 'Text::CSV';
+
 requires 'Text::Trim';
 
 # Required for high resolution timestamps.
@@ -352,7 +354,7 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
 };
 
-feature 'plack:webserver', 'Suppport for plack:webserver' => sub {
+feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
     # High-performance preforking PSGI/Plack web server
     requires 'Gazelle';
 

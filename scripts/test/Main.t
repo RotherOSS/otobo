@@ -16,15 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path;
+
+# CPAN modules
 use JSON::PP;
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -345,23 +350,71 @@ $Self->True(
     "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
 );
 
-my $FileMTime = $MainObject->FileGetMTime(
-    Location => $Home . '/Kernel/Config.pm',
-);
+# FileGetMTime tests
+{
+    my $FileMTime = $MainObject->FileGetMTime(
+        Location => $Home . '/Kernel/Config.pm',
+    );
 
-$Self->True(
-    int $FileMTime > 1_000_000,
-    'FileGetMTime()',
-);
+    $Self->True(
+        int $FileMTime > 1_000_000,
+        'FileGetMTime()',
+    );
 
-my $FileMTimeNonexisting = $MainObject->FileGetMTime(
-    Location => $Home . '/Kernel/some.nonexisting.file',
-);
+    my $FileMTimeNonexisting = $MainObject->FileGetMTime(
+        Location => $Home . '/Kernel/some.nonexisting.file',
+    );
 
-$Self->False(
-    defined $FileMTimeNonexisting,
-    'FileGetMTime() for nonexisting file',
-);
+    $Self->False(
+        defined $FileMTimeNonexisting,
+        'FileGetMTime() for nonexisting file',
+    );
+}
+
+# testing GetReleaseInfo
+{
+    my $ReleaseInfoByFilename = $MainObject->GetReleaseInfo(
+        Directory => $Home,
+        Filename  => 'RELEASE',
+    );
+    like(
+        $ReleaseInfoByFilename,
+        {
+            Product => 'OTOBO',
+            Version => qr/^10\./,
+        },
+        'release info via file name'
+    );
+
+    my $ReleaseInfoByLocation = $MainObject->GetReleaseInfo(
+        Location => "$Home/RELEASE",
+    );
+    like(
+        $ReleaseInfoByLocation,
+        {
+            Product => 'OTOBO',
+            Version => qr/^10\./,
+        },
+        'release info via location'
+    );
+
+    my $ReleaseInfoNoArgs = $MainObject->GetReleaseInfo(
+    );
+    is(
+        $ReleaseInfoNoArgs,
+        {},
+        'GetReleaseInfo() called with missing args'
+    );
+
+    my $ReleaseInfoDummyLocation = $MainObject->GetReleaseInfo(
+        Location => "$Home/RELIES",
+    );
+    is(
+        $ReleaseInfoNoArgs,
+        {},
+        'GetReleaseInfo() called with non-existing location'
+    );
+}
 
 # testing DirectoryRead function
 my $DirectoryWithFiles    = "$Path/WithFiles";
@@ -843,4 +896,4 @@ for my $Test (@Tests) {
     $Self->False( $RandonNumber, "Kernel::System::Main::irand() did not return anything" );
 }
 
-$Self->DoneTesting();
+done_testing();
