@@ -472,6 +472,16 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Text::CSV',
+        Required  => 1,
+        InstTypes => {
+            aptget => 'libtext-csv-perl',
+            emerge => 'dev-perl/Text-CSV',
+            zypper => 'perl-Text-CSV',
+            ports  => 'textproc/p5-Text-CSV',
+        },
+    },
+    {
         Module    => 'Text::Trim',
         Required  => 1,
         InstTypes => {

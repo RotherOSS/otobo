@@ -32,8 +32,6 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
 $Kernel::OM = Kernel::System::ObjectManager->new();
 
-## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
-
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -302,6 +300,8 @@ for my $Test (@Tests) {
                 my $ResponseData = '';
                 my $WebException;
                 {
+                    ## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
+
                     # %ENV will be picked up in Kernel::System::Web::Request::new().
                     local %ENV;
 

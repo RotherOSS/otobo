@@ -78,8 +78,6 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
-## no critic qw(Variables::RequireLocalizedPunctuationVars)
-
 # This package is used by rpc.pl.
 # NOTE: this is mostly untested
 package OTOBO::RPC {
@@ -338,11 +336,11 @@ my $SetEnvMiddleWare = sub {
         my $Env = shift;
 
         # only the side effects are important
-        $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
-        $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+        local $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
+        local $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
 
         # enable for debugging UrlMap
-        #$ENV{PLACK_URLMAP_DEBUG} = 1;
+        #local $ENV{PLACK_URLMAP_DEBUG} = 1;
 
         return $App->($Env);
     };
