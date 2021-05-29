@@ -275,7 +275,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+            $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(
@@ -286,7 +286,7 @@ else {
 
         # set password via environment variable if there is one
         if ($DatabasePw) {
-            $ENV{'PGPASSWORD'} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+            $ENV{PGPASSWORD} = $DatabasePw;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
         }
         say "Restore database into $DB ...";
         system(
