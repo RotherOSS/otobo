@@ -816,7 +816,6 @@ sub Run {
                 );
             }
         }
-        # ---
 
         my $OverwriteExistingNotifications = $ParamObject->GetParam( Param => 'OverwriteExistingNotifications' ) || '';
 
