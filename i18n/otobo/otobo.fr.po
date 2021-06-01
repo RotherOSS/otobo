@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-02-18 03:43+0000\n"
+"PO-Revision-Date: 2021-06-01 12:27+0000\n"
 "Last-Translator: Yohann <yohann.duhamel@icloud.com>\n"
 "Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
 ">\n"
@@ -716,6 +716,10 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"Il s'agit de la valeur par défaut pour les agents destinataires affectés qui "
+"n'ont pas encore fait de choix pour cette notification dans leurs "
+"préférences. Si la case est activée, la notification sera envoyée à ces "
+"agents."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -1228,7 +1232,7 @@ msgstr "Revenir à l'aperçu"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filtre pour les Comptes"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
@@ -1311,7 +1315,7 @@ msgstr "Vue détaillée pour %s la communication a démarrée à %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filtre pour les entrées de log"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
@@ -1341,19 +1345,22 @@ msgstr "Merci de sélectionner une entrée dans la liste"
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Contact avec la gestion des données"
 
 #. Template: AdminContactWD
+#, fuzzy
 msgid "Contact with data"
-msgstr ""
+msgstr "Contact avec les données"
 
 #. Template: AdminContactWD
+#, fuzzy
 msgid "Add contact with data"
-msgstr ""
+msgstr "Ajouter un contact avec des données"
 
 #. Template: AdminContactWD
+#, fuzzy
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Modifier le contact avec des données"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1372,8 +1379,11 @@ msgid "Wildcards like '*' are allowed."
 msgstr "Les caractères génériques tels que '*\\\\ sont autorisés"
 
 #. Template: AdminContactWD
+#, fuzzy
 msgid "Please enter a search term to look for contacts with data."
 msgstr ""
+"Veuillez saisir un terme de recherche pour trouver des contacts avec des "
+"données."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1413,7 +1423,7 @@ msgstr "Merci de mettre une note"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "Ce backend client est en lecture seule !"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
@@ -1451,6 +1461,8 @@ msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
 msgstr ""
+"Vous pouvez gérer ces groupes via le paramètre de configuration "
+"\"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1570,6 +1582,8 @@ msgid ""
 "This customer backend is read only, but the customer user preferences can be "
 "changed!"
 msgstr ""
+"Ce backend client est en lecture seule, mais les préférences utilisateur du "
+"client peuvent être modifiées !"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1578,7 +1592,7 @@ msgstr "Ce champ est obligatoire et doit être une adresse e-mail valide."
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
 msgstr ""
-"Cette adresse e-mail n'est past permise par la configuration du système"
+"Cette adresse e-mail n'est past permise par la configuration du système."
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
@@ -1600,7 +1614,7 @@ msgstr "L' IDClient est invalide."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr "Permissions effectives pour l'utilisateur client."
+msgstr "Permissions effectives pour l'utilisateur client"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
@@ -1637,6 +1651,11 @@ msgid ""
 "via customer groups). Note: The table does not consider changes made to this "
 "form without submitting it."
 msgstr ""
+"Le tableau ci-dessus montre l'accès client accordé à l'utilisateur client "
+"par contexte d'autorisation. La matrice prend en compte tous les accès "
+"hérités (par exemple via des groupes de clients). Remarque : Le tableau ne "
+"prend pas en compte les modifications apportées à ce formulaire sans le "
+"soumettre."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
