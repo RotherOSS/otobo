@@ -9,7 +9,7 @@ Content-Type: multipart/signed;
  protocol="application/pgp-signature"; micalg=pgp-sha512
 Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
 Subject: signature test
-Message-Id: <D93B7323-3F61-4F5F-84F9-56D84D0B6D41@otrs.com>
+Message-Id: <D93B7323-3F61-4F5F-84F9-56D84D0B6D41@otobo.org>
 Date: Thu, 7 Dec 2017 11:42:10 +0100
 X-Mailer: Apple Mail (2.3273)
 

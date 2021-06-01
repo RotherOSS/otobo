@@ -149,10 +149,10 @@ my @Tests = (
     },
 
     # Local part of email address is too long according to RFC.
-    # See http://isemail.info/modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen%3Dotrs.com%40perl.apache.org
+    # See http://isemail.info/modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen%3Dotobo.org%40perl.apache.org
     {
         Email =>
-            'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otrs.com@perl.apache.org',
+            'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otobo.org@perl.apache.org',
         Valid => 0,
     },
 
@@ -492,12 +492,12 @@ $Self->Is(
     "CheckError() - 'some..body\@example.com'",
 );
 
-$Result = $CheckItemObject->CheckEmail( Address => 'somebody123456789@otrs.com' );
+$Result = $CheckItemObject->CheckEmail( Address => 'somebody123456789@otobo.org' );
 
 # Execute unit test.
 $Self->True(
     $Result,
-    "CheckEmail() - 'somebody123456789\@otrs.com'",
+    "CheckEmail() - 'somebody123456789\@otobo.org'",
 );
 
 $Self->DoneTesting();
