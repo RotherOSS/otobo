@@ -66,7 +66,7 @@ $Selenium->RunTest(
             my $Number = $Helper->GetRandomNumber();
             push @NewsData, {
                 Title => "UT Breaking News - $Number",
-                Link  => "https://www.otrs.com/$Number",
+                Link  => "https://www.otobo.org/$Number",
             };
         }
 
