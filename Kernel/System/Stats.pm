@@ -3900,12 +3900,13 @@ sub _AutomaticSampleImport {
         if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
 
             my $Filehandle;
-            if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+            if ( !open $Filehandle, '<', $Directory . $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
                 );
                 closedir(DIRE);
+
                 return;
             }
 

@@ -1398,11 +1398,12 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                 print $Out time()
                     . '::Customer::'
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "::$UserData{UserLogin}::$QueryString\n";
+                close $Out;
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',

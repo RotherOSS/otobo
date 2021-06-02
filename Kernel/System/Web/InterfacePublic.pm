@@ -274,6 +274,7 @@ sub Content {
                 . '::Public::'
                 . ( time() - $Self->{PerformanceLogStart} )
                 . "::-::$QueryString\n";
+            close $Out;
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'debug',
