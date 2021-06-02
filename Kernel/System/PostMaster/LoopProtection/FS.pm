@@ -45,9 +45,10 @@ sub SendEmail {
 
     # write log
 
-    if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+    if ( open( my $Out, '>>', $Self->{LoopProtectionLog} ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
         my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
         print $Out "$To;" . $DateTimeObject->Format( Format => '%a %b %{day} %H:%M:%S %Y' ) . ";\n";
+        close $Out;
     }
     else {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -77,7 +78,7 @@ sub Check {
             );
         }
         else {
-            close($Out);
+            close $Out;
         }
     }
     else {
