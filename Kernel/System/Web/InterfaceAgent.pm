@@ -1229,11 +1229,12 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
 
-                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                     print $Out time()
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )
                         . "::$UserData{UserLogin}::$QueryString\n";
+                    close $Out;
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',

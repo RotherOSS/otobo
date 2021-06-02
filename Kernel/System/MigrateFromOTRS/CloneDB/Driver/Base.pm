@@ -369,6 +369,7 @@ sub DataTransfer {
     };
 
     # check whether another process has an exclusive lock on the lock file
+    # the lock will be released when $LockFh autocloses
     flock( $LockFh, LOCK_EX ) or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Another migration process is active and has locked $LockFile: $!",
