@@ -830,6 +830,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Plack::Middleware::Deflater',
+        Required  => 1,
+        Features  => ['plack'],
+        Comment   => 'Compress generated and static content',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Plack::Middleware::ForceEnv',
         Required  => 1,
         Features  => ['plack'],

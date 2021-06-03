@@ -572,8 +572,9 @@ my $StaticApp = builder {
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
 my $OTOBOApp = builder {
 
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';    # forbidden files
+    # compress the output
+    enable 'Plack::Middleware::Deflater',
+        content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
