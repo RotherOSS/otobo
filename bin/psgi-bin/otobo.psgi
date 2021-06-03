@@ -510,7 +510,10 @@ my $DumpEnvApp = sub {
     my $Env = shift;
 
     local $Data::Dumper::Sortkeys = 1;
-    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Data::Dumper->Dump(
+        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC ],
+        [qw(Title Time Env ENV INC_array INC_hash)],
+    );
     utf8::encode($Message);
 
     return [
@@ -725,8 +728,11 @@ builder {
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web' => $StaticApp;
 
-    # the most basic App
-    mount '/hello' => $HelloApp;
+    # uncomment for trouble shouting
+    #mount '/hello'          => $HelloApp;
+    #mount '/dump_env'       => $DumpEnvApp;
+    #mount '/otobo/hello'    => $HelloApp;
+    #mount '/otobo/dump_env' => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
@@ -746,5 +752,5 @@ builder {
     mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
 };
 
-# for debugging, only dump the PSGI environment
+# for debugging: dump the PSGI environment for any request
 #$DumpEnvApp;
