@@ -40,7 +40,7 @@ sub new {
     return bless {%Param}, $Type;
 }
 
-sub Run {
+sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -76,8 +76,7 @@ sub Run {
     my $DirOfSQLFiles = $Self->{Path} . '/scripts/database';
     if ( !-d $DirOfSQLFiles ) {
 
-        # PSGI: throw exception
-        # non-PSGI: print to STDOUT and exit
+        # throw a Kernel::System::Web::Exception exception
         $LayoutObject->FatalError(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" not found!', $DirOfSQLFiles ),
             Comment => Translatable('Please contact the administrator.'),
@@ -106,7 +105,7 @@ sub Run {
     # Set up the build steps.
     # The license step is not needed when it is turned off in $Self->{Options}.
     my @Steps = qw(Database General Finish);
-    unshift @Steps, 'License' if !$Self->{Options}->{SkipLicense};
+    unshift @Steps, 'License' unless $Self->{Options}->{SkipLicense};
 
     my $StepCounter;
 
@@ -187,9 +186,6 @@ sub Run {
 
     # Print license from.
     elsif ( $Self->{Subaction} eq 'License' ) {
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('License')
-        );
         $LayoutObject->Block(
             Name => 'License',
             Data => {
@@ -201,13 +197,16 @@ sub Run {
             Name => 'LicenseText',
             Data => {},
         );
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
-        $Output .= $LayoutObject->Footer();
 
-        return $Output;
+        return join '',
+            $LayoutObject->Header(
+                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('License')
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
+            ),
+            $LayoutObject->Footer();
     }
 
     # Database selection screen.
@@ -241,9 +240,6 @@ sub Run {
             SelectedID => 'mysql',
         );
 
-        my $Output = $LayoutObject->Header(
-            Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Database Selection')
-        );
         $LayoutObject->Block(
             Name => 'DatabaseStart',
             Data => {
@@ -252,13 +248,16 @@ sub Run {
                 SelectDBType => $Param{SelectDBType},
             },
         );
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
-            Data         => {},
-        );
-        $Output .= $LayoutObject->Footer();
 
-        return $Output;
+        return join '',
+            $LayoutObject->Header(
+                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Database Selection')
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+                Data         => {},
+            ),
+            $LayoutObject->Footer();
     }
 
     # Check different requirements (AJAX) and return the result as JSON.
@@ -299,11 +298,10 @@ sub Run {
         my $OutputJSON = $LayoutObject->JSONEncode( Data => \%Result );
 
         return $LayoutObject->Attachment(
-            ContentType => 'application/json; charset='
-                . $LayoutObject->{Charset},
-            Content => $OutputJSON,
-            Type    => 'inline',
-            NoCache => 1,
+            ContentType => "application/json; charset=$LayoutObject->{Charset}",
+            Content     => $OutputJSON,
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 
@@ -321,9 +319,6 @@ sub Run {
                     'If you have set a root password for your database, it must be entered here. If not, leave this field empty.',
                 )
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
-            );
             $LayoutObject->Block(
                 Name => 'DatabaseMySQL',
                 Data => {
@@ -348,24 +343,23 @@ sub Run {
                 );
             }
 
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'Installer',
-                Data         => {
-                    Item => Translatable('Configure MySQL'),
-                    Step => $StepCounter,
-                },
-            );
-            $Output .= $LayoutObject->Footer();
-
-            return $Output;
+            return join '',
+                $LayoutObject->Header(
+                    Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'MySQL' )
+                ),
+                $LayoutObject->Output(
+                    TemplateFile => 'Installer',
+                    Data         => {
+                        Item => Translatable('Configure MySQL'),
+                        Step => $StepCounter,
+                    },
+                ),
+                $LayoutObject->Footer();
         }
         elsif ( $DBType eq 'postgresql' ) {
             my $PasswordExplanation = $DBInstallType eq 'CreateDB'
                 ? $LayoutObject->{LanguageObject}->Translate('Enter the password for the administrative database user.')
                 : $LayoutObject->{LanguageObject}->Translate('Enter the password for the database user.');
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
-            );
             $LayoutObject->Block(
                 Name => 'DatabasePostgreSQL',
                 Data => {
@@ -389,21 +383,20 @@ sub Run {
                 );
             }
 
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'Installer',
-                Data         => {
-                    Item => Translatable('Configure PostgreSQL'),
-                    Step => $StepCounter,
-                },
-            );
-            $Output .= $LayoutObject->Footer();
-
-            return $Output;
+            return join '',
+                $LayoutObject->Header(
+                    Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'PostgreSQL' )
+                ),
+                $LayoutObject->Output(
+                    TemplateFile => 'Installer',
+                    Data         => {
+                        Item => Translatable('Configure PostgreSQL'),
+                        Step => $StepCounter,
+                    },
+                ),
+                $LayoutObject->Footer();
         }
         elsif ( $DBType eq 'oracle' ) {
-            my $Output = $LayoutObject->Header(
-                Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
-            );
             $LayoutObject->Block(
                 Name => 'DatabaseOracle',
                 Data => {
@@ -412,18 +405,22 @@ sub Run {
                 },
             );
 
-            $Output .= $LayoutObject->Output(
-                TemplateFile => 'Installer',
-                Data         => {
-                    Item => Translatable('Configure Oracle'),
-                    Step => $StepCounter,
-                },
-            );
-            $Output .= $LayoutObject->Footer();
-
-            return $Output;
+            return join '',
+                $LayoutObject->Header(
+                    Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate( 'Database %s', 'Oracle' )
+                ),
+                $LayoutObject->Output(
+                    TemplateFile => 'Installer',
+                    Data         => {
+                        Item => Translatable('Configure Oracle'),
+                        Step => $StepCounter,
+                    },
+                ),
+                $LayoutObject->Footer();
         }
         else {
+
+            # throw a Kernel::System::Web::Exception exception
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown database type "%s".', $DBType ),
                 Comment => Translatable('Please go back.'),
@@ -741,13 +738,11 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'System' ) {
 
         if ( !$Kernel::OM->Get('Kernel::System::DB') ) {
-            $LayoutObject->FatalError();
+            $LayoutObject->FatalError();    # throw a Kernel::System::Web::Exception exception
         }
 
         # Take care that default config is in the database.
-        if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
-        }
+        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
 
         # Install default files.
         if ( $MainObject->Require('Kernel::System::Package') ) {
@@ -1065,9 +1060,7 @@ sub Run {
         }
 
         # Take care that default config is in the database.
-        if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
-        }
+        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -1154,14 +1147,10 @@ sub Run {
     elsif ( $Self->{Subaction} eq 'Finish' ) {
 
         # Take care that default config is in the database.
-        if ( !$Self->_CheckConfig() ) {
-            return $LayoutObject->FatalError();
-        }
+        $LayoutObject->FatalError() unless $Self->_CheckConfig();    # throw a Kernel::System::Web::Exception exception
 
-        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-        my $SettingName = 'SecureMode';
-
+        my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $SettingName       = 'SecureMode';
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             Name   => $SettingName,
             Force  => 1,
@@ -1179,7 +1168,7 @@ sub Run {
 
         if ( !$Result ) {
             $LayoutObject->FatalError(
-                Message => Translatable('Can\'t write Config file!'),
+                Message => Translatable(q{Can't write Config file!}),
             );
         }
 
@@ -1207,7 +1196,6 @@ sub Run {
             unlink "$Self->{Path}/var/tmp/installer.json";
         }
 
-        # for OTOBO_RUNS_UNDER_PSGI
         # webserver restart is never necessary
 
         my $OTOBOHandle = $ParamObject->ScriptName();
@@ -1244,19 +1232,19 @@ sub Run {
             },
         );
 
-        return
+        return join '',
             $LayoutObject->Header(
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
             ),
             $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {},
-            ) .
+            ),
             $LayoutObject->Footer();
     }
 
     # Else error!
-    return $LayoutObject->FatalError(
+    $LayoutObject->FatalError(
         Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Subaction %s!', $Self->{Subaction} ),
         Comment => Translatable('Please contact the administrator.'),
     );
@@ -1277,9 +1265,10 @@ sub ReConfigure {
     }
 
     # Read config file.
-    my $ConfigFile = "$Self->{Path}/Kernel/Config.pm";
-    open( my $In, '<', $ConfigFile )               ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ConfigFile   = "$Self->{Path}/Kernel/Config.pm";
+    open( my $In, '<', $ConfigFile )                                                ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     my $Config = '';
     while (<$In>) {
 
@@ -1310,8 +1299,8 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile )         ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
-        or return "Can't open $ConfigFile: $!";    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+    open( my $Out, '>:utf8', $ConfigFile )                                          ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
+        or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     close $Out;
 
