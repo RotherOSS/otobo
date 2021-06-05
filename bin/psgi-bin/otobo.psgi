@@ -573,8 +573,9 @@ my $StaticApp = builder {
 my $OTOBOApp = builder {
 
     # compress the output
-    enable 'Plack::Middleware::Deflater',
-        content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
+    # do not enable 'Plack::Middleware::Deflater', as there were errors with 'Wide characters in print'
+    #enable 'Plack::Middleware::Deflater',
+    #    content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
