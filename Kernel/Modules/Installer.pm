@@ -1232,14 +1232,14 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             },
         );
 
-        return
+        return join '',
             $LayoutObject->Header(
                 Title => "$Title - " . $LayoutObject->{LanguageObject}->Translate('Finished')
             ),
             $LayoutObject->Output(
                 TemplateFile => 'Installer',
                 Data         => {},
-            ) .
+            ),
             $LayoutObject->Footer();
     }
 
