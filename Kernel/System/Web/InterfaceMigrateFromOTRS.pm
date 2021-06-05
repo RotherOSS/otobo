@@ -140,7 +140,7 @@ sub Content {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print
+        return join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -164,7 +164,7 @@ sub Content {
         return $GenericObject->Run();
     }
 
-    # print an error screen as the fallback
+    # return an error screen as the fallback
     return join '',
         $LayoutObject->Header(),
         $LayoutObject->Error(

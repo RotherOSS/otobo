@@ -829,6 +829,20 @@ my @NeededModules = (
             ports  => undef,
         },
     },
+
+    # Deflater not used yet, see https://github.com/RotherOSS/otobo/issues/1053
+    #{
+    #    Module    => 'Plack::Middleware::Deflater',
+    #    Required  => 1,
+    #    Features  => ['plack'],
+    #    Comment   => 'Compress generated and static content',
+    #    InstTypes => {
+    #        aptget => undef,
+    #        emerge => undef,
+    #        zypper => undef,
+    #        ports  => undef,
+    #    },
+    #},
     {
         Module    => 'Plack::Middleware::ForceEnv',
         Required  => 1,

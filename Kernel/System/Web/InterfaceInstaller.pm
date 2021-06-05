@@ -110,7 +110,7 @@ Set headers in Kernels::System::Web::Request singleton as side effect.
 
 =cut
 
-sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -133,7 +133,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print
+        return join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -157,8 +157,8 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         return $GenericObject->Run();
     }
 
-    # print an error screen as the fallback
-    print
+    # return an error screen as the fallback
+    return join '',
         $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
