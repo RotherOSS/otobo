@@ -1244,7 +1244,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
     }
 
     # Else error!
-    return $LayoutObject->FatalError(
+    $LayoutObject->FatalError(
         Message => $LayoutObject->{LanguageObject}->Translate( 'Unknown Subaction %s!', $Self->{Subaction} ),
         Comment => Translatable('Please contact the administrator.'),
     );
