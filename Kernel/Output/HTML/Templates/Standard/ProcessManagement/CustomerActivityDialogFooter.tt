@@ -19,10 +19,14 @@
                 </div>
 [% RenderBlockStart("Footer") %]
                 <div class="PopupFooter">
-                    <button class="Primary" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
+                	<div id="BottomActionRow" class="ActionRow">
+                    	<button class="oooL" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
+                        <br>
+                        <br>
 [% RenderBlockStart("SubmitAdviceText") %]
                     <span class="AdviceText">[% Translate(Data.AdviceText) | html %]</span>
 [% RenderBlockEnd("SubmitAdviceText") %]
+                	</div>
                 </div>
 [% RenderBlockEnd("Footer") %]
             </div>

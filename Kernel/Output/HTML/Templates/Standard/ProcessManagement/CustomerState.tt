@@ -1,0 +1,46 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2003-2021 CIPHRON GmbH, https://ciphron.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+[% RenderBlockStart("rw:State") %]
+<div class="Row">
+    <div class="Field">
+        <label for="" class="[% Data.MandatoryClass | html %]">
+        [% RenderBlockStart("LabelSpan") %]
+            <span class="Marker">*</span>
+        [% RenderBlockEnd("LabelSpan") %]
+        [% RenderBlockStart("rw:State:DescriptionLong") %]
+            <span class="FieldHelpContainer">
+                <i class="fa fa-question-circle FieldHelpTrigger"></i>
+                <span>[% Translate(Data.DescriptionLong) | html %]</span>
+            </span>
+        [% RenderBlockEnd("rw:State:DescriptionLong") %]
+            [% Data.Label | html %]:
+        </label>
+        <br>
+        <br>
+        [% Data.Content %]
+        <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+        <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    [% RenderBlockStart("rw:State:DescriptionShort") %]
+        <br>
+        <br>
+        <div class="FieldExplanation">[% Translate(Data.DescriptionShort) | html %]</div>
+        <br>
+    [% RenderBlockEnd("rw:State:DescriptionShort") %]
+    </div>
+</div>
+<div class="Clear"></div>
+[% RenderBlockEnd("rw:State") %]

@@ -349,7 +349,7 @@ label.oooFocus.LabelError {
 .Row > div.Field.oooCheckboxContainer {
     height: 38px;
     padding-top: 16px;
-    padding-left: 16px;
+    padding-left: 0;
     font-size: 16px;
     letter-spacing: 0.4px;
     color: #7f809d;
@@ -363,6 +363,15 @@ label.oooFocus.LabelError {
 
     background-color: #fff;
     cursor: pointer;
+}
+
+.oooDateContainer .FieldExplanation,
+.oooCheckboxContainer .FieldExplanation {
+    color: var(--colTextDark);
+    font-stretch: normal;
+    letter-spacing: 0.35px;
+    line-height: 1.5;
+    font-size: 14px;
 }
 
 .Row input[type='checkbox'] {

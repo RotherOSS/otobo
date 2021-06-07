@@ -1727,6 +1727,14 @@ sub _OutputActivityDialog {
 
     if ( $Self->{IsAjaxRequest} ) {
 
+        # Initialize input fields like checkbox correctly
+        $LayoutObject->AddJSOnDocumentComplete(
+            Code => '
+                $("label").removeAttr("for");
+                Core.UI.InputFields.Init();
+            '
+        );
+
         # Due to the initial loading of
         # the first ActivityDialog after Process selection
         # we have to bind the AjaxUpdate Function on
@@ -1950,7 +1958,7 @@ sub _RenderDynamicField {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerDynamicField' ),
     };
 }
 
@@ -2030,7 +2038,7 @@ sub _RenderTitle {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Title' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerTitle' ),
     };
 
 }
@@ -2186,7 +2194,7 @@ sub _RenderArticle {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Article' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerArticle' ),
     };
 }
 
@@ -2454,7 +2462,7 @@ sub _RenderSLA {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/SLA' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerSLA' ),
     };
 }
 
@@ -2612,7 +2620,7 @@ sub _RenderService {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Service' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerService' ),
     };
 
 }
@@ -2749,7 +2757,7 @@ sub _RenderPriority {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Priority' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerPriority' ),
     };
 }
 
@@ -2894,7 +2902,7 @@ sub _RenderQueue {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Queue' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerQueue' ),
     };
 }
 
@@ -3025,7 +3033,7 @@ sub _RenderState {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/State' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerState' ),
     };
 }
 
@@ -3176,7 +3184,7 @@ sub _RenderType {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Type' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerType' ),
     };
 }
 

@@ -3013,6 +3013,9 @@ sub Data {
         'Issue a new Ticket' => 'Neues Ticket erstellen',
         'Service level agreement' => 'Service-Level-Vereinbarung',
 
+        # Template: CustomerTicketProcess
+        'Issue a new Process Ticket' => 'Neues Prozess-Ticket erstellen',
+
         # Template: CustomerTicketOverview
         'Your Tickets' => 'Deine Tickets',
         'Page' => 'Seite',
@@ -3050,6 +3053,7 @@ sub Data {
         'Ticket Information' => 'Ticket-Informationen',
         'Categories' => 'Kategorien',
         'Further actions' => 'Weitere Aktionen',
+        'Next Process Steps' => 'Nächste Prozess-Schritte',
 
         # Template: Chat
         'Expand article' => 'Artikel aufklappen',
@@ -3062,6 +3066,9 @@ sub Data {
 
         # Template: TileNewTicket
         'Issue%sa ticket' => 'Ticket%serstellen',
+
+        # Template: TileNewProcessTicket
+        'Issue%sa process ticket' => 'Prozess-Ticket%serstellen',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Ereignisinformation',

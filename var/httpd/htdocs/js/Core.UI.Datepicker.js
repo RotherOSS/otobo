@@ -171,13 +171,17 @@ Core.UI.Datepicker = (function (TargetNS) {
                     Container.wrapInner("<div class='oooDate'></div>");
                     Container.addClass('oooDateContainer');
 
+                    var Help = $('.FieldHelpContainer', Container.parent());
                     var Label = $('label', Container.parent());
                     var Checkbox = $('.oooDate > input[type=checkbox]', Container);
                     var Icon = $("<i class='oooAltCheck ooofo'></i>").on('click', function() {
                         Checkbox.click();
                     });
+                    var DateContainer = $('.oooDate', Container.parent());
+                    var Explanation = $('.FieldExplanation', Container.parent());
 
-                    Container.prepend( Checkbox, Icon, $DatepickerElement, Label );
+                    $(".oooDate br").remove();
+                    Container.prepend( Help, Label, '<br><br>', Checkbox, Icon, $DatepickerElement, '<br><br>', DateContainer, '<br><br>', Explanation );
                 } else {
                     Element.Day.after($DatepickerElement);
                 }

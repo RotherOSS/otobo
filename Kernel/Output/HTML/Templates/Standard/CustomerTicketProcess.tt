@@ -15,25 +15,32 @@
 # --
 
 [% IF Data.ProcessList %]
-<div id="MainBox" class="TicketProcess ARIARoleMain">
-    <div class="Content">
+<div id="oooContent" class="ARIARoleMain TicketProcess">
+    <div id="oooHeader">
+        <h1>[% Translate("Issue a new Process Ticket") | html %]</h1>
+    </div>
+    <div id="oooMainBox" class="Content">
         <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="compose" id="NewProcessTicket" class="Validate PreventMultipleSubmits">
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="DisplayActivityDialog"/>
             <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
             <fieldset>
-                <div>
 [% RenderBlockStart("ProcessList") %]
-                    <label class="Mandatory" for="ProcessEntityID"><span class="Marker">*</span>[% Translate("Process") | html %]:</label>
+                <div class="Row">
                     [% Data.ProcessList %]
+                    <label for="ProcessEntityID" class="Mandatory">
+                        [% Translate("Process") | html %] <span class="Marker">*</span>
+                    </label>
                     <div id="ProcessEntityIDError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                     <div id="ProcessEntityIDServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
                 </div>
-                <div class="Spacing Clear"></div>
+                <div class="Clear"></div>
 [% RenderBlockEnd("ProcessList") %]
             </fieldset>
         </form>
-        <div id="AJAXLoader" class="Spacing Center Hidden">
+        <br>
+        <br>
+        <div id="AJAXLoader" class="Row Spacing Center Hidden">
             <span class="AJAXLoader" title="[% Translate("Loading") | html %]"></span>
         </div>
         <div id="ActivityDialogContent"></div>

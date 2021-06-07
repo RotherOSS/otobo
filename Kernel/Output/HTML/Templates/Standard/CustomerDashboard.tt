@@ -32,6 +32,9 @@
                 </h3>
             </form>
         </div>
+        [% IF Config("CustomerDashboard::Tiles").NewProcessTicket %]
+            <a id='oooHeaderProcessButton' href="[% Env("Baselink") %]Action=CustomerTicketProcess" title="[% Translate("Create New Process Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo"><b>P</b></i></button></a>
+        [% END %]
         <a id='oooHeaderButton' href="[% Env("Baselink") %]Action=CustomerTicketMessage" title="[% Translate("New Ticket") | html %] ([% Data.AccessKey | html %])" accesskey="[% Data.AccessKey | html %]"><button><i class="ooofo ooofo-add"></i></button></a>
 #        <h3 id='oooHeaderOptions' class="ooog"><i class="ooofo ooofo-more_h"></i></h3>
     </div>

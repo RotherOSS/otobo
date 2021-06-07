@@ -33,9 +33,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: none;
     }
 
+    #oooHeaderProcessButton span {
+        display: none;
+    }
     #oooHeaderButton > button {
         position: fixed;
         bottom: 32px;
+        right: 16px;
+        width: 48px;
+        z-index: 600;
+        box-shadow: 0 12px 16px 0 rgba(0, 27, 255, 0.24);
+        box-shadow: 0 12px 16px 0 val(--colShadowMain);
+	}
+
+    #oooHeaderProcessButton > button {
+        position: fixed;
+        bottom: 100px;
         right: 16px;
         width: 48px;
         z-index: 600;
@@ -111,6 +124,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 	#oooHeaderButton i {
     	padding-right: 8px;
+	}
+
+    #oooHeaderProcessButton i {
+        padding-right: 8px;
+    }
+
+    #oooHeaderProcessButton button {
+        width: 260px;
 	}
 
 	#oooHeader i {
