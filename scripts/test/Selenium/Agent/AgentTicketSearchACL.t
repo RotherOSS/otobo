@@ -143,21 +143,17 @@ EOF
             Value   => 'PriorityIDs',
         );
 
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
+        # Check if restricted Type is not shown in dropdown.
+        ok(
+            $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
+            "Type ID $TypeID is not found in Type dropdown"
+        );
 
-            # Check if restricted Type is not shown in dropdown.
-            ok(
-                $Selenium->execute_script("return !\$('#TypeIDs option[value=\"$TypeID\"]').length;"),
-                "Type ID $TypeID is not found in Type dropdown"
-            );
-
-            # Check if restricted Priority is not shown in dropdown.
-            ok(
-                $Selenium->execute_script("return !\$('#PriorityIDs option[value=\"$PriorityID\"]').length;"),
-                "Priority ID $PriorityID is not found in Priority dropdown"
-            );
-        }
+        # Check if restricted Priority is not shown in dropdown.
+        ok(
+            $Selenium->execute_script("return !\$('#PriorityIDs option[value=\"$PriorityID\"]').length;"),
+            "Priority ID $PriorityID is not found in Priority dropdown"
+        );
 
         # Delete created test ACL.
         my $ACLData = $ACLObject->ACLGet(

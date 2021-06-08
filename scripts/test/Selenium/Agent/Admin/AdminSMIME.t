@@ -247,7 +247,6 @@ $Selenium->RunTest(
             );
 
             $Selenium->find_element("//a[contains(\@href, \'Subaction=Delete;Type=$TestSMIME;Filename=' )]")->click();
-            sleep 1;
 
             $Selenium->WaitFor( AlertPresent => 1 );
             $Selenium->accept_alert();

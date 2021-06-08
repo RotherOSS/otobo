@@ -281,9 +281,6 @@ $Selenium->RunTest(
             Value => 'FromField',
         );
 
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 2;
-
         # Refresh the page.
         $Selenium->VerifiedRefresh();
 
@@ -306,9 +303,6 @@ $Selenium->RunTest(
             Key   => 'Ticket::Frontend::CustomerTicketZoom###DefaultAgentName',
             Value => $TestDefaultAgentName,
         );
-
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 2;
 
         # Refresh the page.
         $Selenium->VerifiedRefresh();

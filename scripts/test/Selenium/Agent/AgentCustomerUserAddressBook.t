@@ -644,8 +644,6 @@ $Selenium->RunTest(
                     for my $FieldName ( @{ $AgentCustomerUserAddressBookConfig->{DefaultFields}->{Email} } ) {
 
                         $Selenium->find_element( "input[name='$FieldName'] + .RemoveButton", 'css' )->click();
-
-                        sleep 1;
                         $Self->False(
                             $Selenium->execute_script("return \$('#SearchForm input[name=\"$FieldName\"]').length;"),
                             "Field '$FieldName' is not displayed'"
@@ -733,8 +731,6 @@ $Selenium->RunTest(
                     $Selenium->execute_script(
                         "\$('#SearchProfile').val('$SubTest->{UseSearchProfile}').trigger('change');",
                     );
-
-                    sleep 1;
 
                     # wait until form and overlay has loaded, if neccessary
                     $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SaveProfile').length" );
@@ -828,8 +824,6 @@ $Selenium->RunTest(
                     if ( IsHashRefWithData( $SubTest->{SearchParameter} ) ) {
                         $Selenium->find_element( '#ChangeSearch', 'css' )->click();
                     }
-
-                    sleep 1;
 
                     $Selenium->WaitFor(
                         JavaScript => 'return $("#Attribute").length == 1'

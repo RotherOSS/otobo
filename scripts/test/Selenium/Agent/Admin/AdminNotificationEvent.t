@@ -453,7 +453,6 @@ $Selenium->RunTest(
         );
 
         $Selenium->accept_alert();
-        sleep 2;
 
         eval {
             $Self->Is(

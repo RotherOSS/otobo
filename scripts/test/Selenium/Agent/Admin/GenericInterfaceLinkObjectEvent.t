@@ -136,7 +136,6 @@ $Selenium->RunTest(
             $Selenium->execute_script("return \$('#RequestList tr:eq(1)').text().trim();"),
             "There is a content in RequestList, link tiket add event is trigered",
         );
-        sleep 1;
 
         # Go back to the overview screen.
         $Selenium->execute_script("\$('.fa-caret-left').click();");
@@ -150,8 +149,6 @@ $Selenium->RunTest(
             ElementExists =>
                 "//span[contains(.,'Delete web service')]"
         );
-
-        sleep 1;
 
         # Delete web service.
         $Selenium->find_element("//span[contains(.,'Delete web service')]")->click();

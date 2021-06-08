@@ -150,7 +150,6 @@ $Selenium->RunTest(
             $Selenium->accept_alert(),
             "Unable to remove only field - JS is success"
         );
-        sleep 1;
 
         # Add new Field.
         $Selenium->find_element("//a[\@title='Add a new Field']")->click();
@@ -286,7 +285,6 @@ $Selenium->RunTest(
             $Selenium->accept_alert(),
             "Unable to remove only condition - JS is success"
         );
-        sleep 1;
 
         $Selenium->find_element( "#Submit", 'css' )->click();
 
@@ -332,7 +330,6 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $("#TransitionFilter").closest(".AccordionElement").hasClass("Active") === true;'
         );
-        sleep 1;
 
         $Selenium->find_element( "#TransitionFilter", 'css' )->clear();
         $Selenium->find_element( "#TransitionFilter", 'css' )->send_keys($TransitionRandom);
@@ -342,7 +339,6 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".OneRow[data-entity*=\'Transition\']:visible").length === 1'
         );
-        sleep 2;
 
         # Go to edit test Transition screen again.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=TransitionEdit;ID=$TransitionID' )]")->click();

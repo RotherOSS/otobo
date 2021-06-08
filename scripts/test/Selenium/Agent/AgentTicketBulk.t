@@ -631,8 +631,6 @@ $Selenium->RunTest(
                 Value => $ConfigValue,
             );
 
-            sleep 1;
-
             for my $Test (@Tests) {
 
                 # Select queue.

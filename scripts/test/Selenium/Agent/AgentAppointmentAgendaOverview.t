@@ -211,7 +211,6 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.Dialog.Modal #EditFormDelete').length"
         );
-        sleep 2;
         $Selenium->find_element( "#EditFormDelete", 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 );

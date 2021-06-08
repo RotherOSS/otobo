@@ -16,20 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use Encode();
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 
 # get needed objects
 my $ConfigObject    = $Kernel::OM->Get('Kernel::Config');
 my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-# disable dns lookups
+# disable DNS lookups
 $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 0,
@@ -203,16 +206,10 @@ for my $Test (@Tests) {
 
     # execute unit test
     if ( $Test->{Valid} ) {
-        $Self->True(
-            $Valid,
-            "CheckEmail() - $Test->{Email}",
-        );
+        ok( $Valid, "CheckEmail() - $Test->{Email}" );
     }
     else {
-        $Self->False(
-            $Valid,
-            "CheckEmail() - $Test->{Email}",
-        );
+        ok( !$Valid, "CheckEmail() - $Test->{Email}" );
     }
 }
 
@@ -376,7 +373,7 @@ for my $Test (@Tests) {
     );
 
     # check result
-    $Self->Is(
+    is(
         ${$StringRef},
         $Test->{Result},
         'TrimTest',
@@ -460,19 +457,19 @@ for my $Test (@Tests) {
     my ( $StringRef, $Found ) = $CheckItemObject->CreditCardClean( StringRef => \$String );
 
     # check result
-    $Self->Is(
+    is(
         $Found,
         $Test->{Found},
         'CreditCardClean - Found',
     );
-    $Self->Is(
+    is(
         ${$StringRef},
         $Test->{Result},
         'CreditCardClean - String',
     );
 }
 
-# disable dns lookups
+# reenable DNS lookups
 $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 1,
@@ -481,12 +478,12 @@ $ConfigObject->Set(
 my $Result = $CheckItemObject->CheckEmail( Address => 'some..body@example.com' );
 
 # Execute unit test.
-$Self->False(
-    $Result,
+ok(
+    !$Result,
     "CheckEmail() - 'some..body\@example.com'",
 );
 
-$Self->Is(
+is(
     $CheckItemObject->CheckError(),
     'invalid some..body@example.com (Invalid syntax)! ',
     "CheckError() - 'some..body\@example.com'",
@@ -495,9 +492,9 @@ $Self->Is(
 $Result = $CheckItemObject->CheckEmail( Address => 'somebody123456789@otrs.com' );
 
 # Execute unit test.
-$Self->True(
+ok(
     $Result,
     "CheckEmail() - 'somebody123456789\@otrs.com'",
 );
 
-$Self->DoneTesting();
+done_testing();

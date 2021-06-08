@@ -154,7 +154,6 @@ $Selenium->RunTest(
 
         # test Filter for Groups
         $Selenium->find_element( "#FilterGroups", 'css' )->send_keys($GroupRandomID);
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element( "$GroupRandomID", 'link_text' )->is_displayed(),
