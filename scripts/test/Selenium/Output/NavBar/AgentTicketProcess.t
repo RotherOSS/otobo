@@ -75,9 +75,6 @@ $Selenium->RunTest(
         # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
-
         # Get process list.
         my $List = $ProcessObject->ProcessList(
             UseEntities => 1,
@@ -96,14 +93,10 @@ $Selenium->RunTest(
         # Check if NavBarAgentTicketProcess button is available when process is available.
         $Selenium->VerifiedRefresh();
 
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
-
-            $Selenium->content_contains(
-                'Action=AgentTicketProcess',
-                "NavBar 'New process ticket' button available",
-            );
-        }
+        $Selenium->content_contains(
+            'Action=AgentTicketProcess',
+            "NavBar 'New process ticket' button available",
+        );
 
         # Clean up activities.
         my $Success;
@@ -201,19 +194,12 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
-
         # Check if NavBarAgentTicketProcess button is not available when no process is available.
         $Selenium->VerifiedRefresh();
-        {
-            my $ToDo = todo('selection of process is not reliable, see #929');
-
-            $Selenium->content_contains(
-                'Action=AgentTicketProcess',
-                "'New process ticket' button NOT available when no process is active when no process is available",
-            );
-        }
+        $Selenium->content_lacks(
+            'Action=AgentTicketProcess',
+            "'New process ticket' button NOT available when no process is active when no process is available",
+        );
 
         # Check if NavBarAgentTicketProcess button is available
         # When NavBarAgentTicketProcess module is disabled and no process is available.

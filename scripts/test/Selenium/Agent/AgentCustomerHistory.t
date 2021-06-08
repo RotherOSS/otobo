@@ -180,7 +180,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     'return typeof($) === "function" && $("#TicketOverviewLarge > li").length === 3'
             );
-            sleep 2;
 
             for my $Ticket (@Tickets) {
                 my $TicketID = $Ticket->{TicketID};

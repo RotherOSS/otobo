@@ -184,7 +184,6 @@ $Selenium->RunTest(
                         $Selenium->find_element(
                             "//a[contains(\@href, \'Subaction=Delete;Type=$Type;Key=$Key->{FingerprintShort}' )]"
                         )->click();
-                        sleep 1;
 
                         $Selenium->WaitFor( AlertPresent => 1 );
                         $Selenium->accept_alert();

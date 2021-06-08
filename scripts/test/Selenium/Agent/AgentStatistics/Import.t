@@ -259,8 +259,6 @@ $Selenium->RunTest(
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return !\$('.Dialog.Modal').length;" );
 
-        sleep 1;
-
         # Check Y-axis configuration dialog.
         $Selenium->find_element( ".EditYAxis", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('.Dialog.Modal #EditDialog a.RemoveButton i').length;" );

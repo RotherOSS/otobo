@@ -201,9 +201,6 @@ $Selenium->RunTest(
             Value => $TypeRandomID
         );
 
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
-
         # Try to set test type to invalid.
         $Selenium->InputFieldValueSet(
             Element => '#ValidID',

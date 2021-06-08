@@ -58,7 +58,7 @@ $Self->True(
     'Setting Ticket::EventModulePost###2300-ArchiveRestore is active and has value set.',
 );
 
-my $ExpectedResultRegex = '^Kernel/Config/Files/ZZZZUnitTest\d+\.pm$';
+my $ExpectedResultRegex = '^Kernel/Config/Files/ZZZZUnitTest[A-Z]{2}\d+\.pm$';
 
 my @Tests = (
     {

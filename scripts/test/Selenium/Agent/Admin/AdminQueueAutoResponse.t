@@ -189,7 +189,6 @@ $Selenium->RunTest(
 
         # test search filter auto response
         $Selenium->find_element( "#FilterAutoResponses", 'css' )->send_keys( $AutoResponseIDs[1]->{Name} );
-        sleep 1;
         $Self->True(
             $Selenium->find_element(
                 "//a[contains(\@href, 'Action=AdminAutoResponse;Subaction=Change;ID=$AutoResponseIDs[1]->{ID}' )]"
@@ -210,14 +209,12 @@ $Selenium->RunTest(
 
         # test search filter queue
         $Selenium->find_element( "#FilterQueues", 'css' )->send_keys($QueueRandomID);
-        sleep 1;
 
         $Self->True(
             $Selenium->find_element( $QueueRandomID, 'link_text' )->is_displayed(),
             "$QueueRandomID found on screen",
         );
         $Selenium->find_element( "#FilterQueues", 'css' )->clear();
-        sleep 1;
 
         # check auto response relation for queue screen
         $Selenium->find_element( $QueueRandomID, 'link_text' )->VerifiedClick();

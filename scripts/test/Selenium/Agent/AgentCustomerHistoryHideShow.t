@@ -148,9 +148,6 @@ $Selenium->RunTest(
                 );
                 $Selenium->execute_script("\$('li.ui-menu-item:contains($CustomerUserLogin)').click()");
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".OverviewBox").length' );
-
-                # we wait a second to make sure the content has been set correctly
-                sleep 1;
             }
 
             # Check customer history table existence.

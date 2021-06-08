@@ -333,8 +333,6 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
         );
 
-        sleep 1;
-
         # There might be relevant browsers where DragAndDrop() is not working via Selenium.
         my %BrowserIsExcluded = ();
         if ( $BrowserIsExcluded{ $Selenium->{browser_name} } ) {
@@ -462,8 +460,6 @@ $Selenium->RunTest(
                 JavaScript =>
                     'return typeof($) === "function" && $("#linkobject-Ticket_submit:visible").length;'
             );
-
-            sleep 1;
 
             # Remove TicketNumber from right side, and put it to the left side.
             $Selenium->DragAndDrop(
@@ -708,7 +704,6 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "\$('a#linkobject-$LinkObject-toggle').click();"
             );
-            sleep 1;
 
             $Selenium->WaitFor(
                 JavaScript =>

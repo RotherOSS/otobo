@@ -311,7 +311,6 @@ $Selenium->RunTest(
                         JavaScript =>
                             'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
-                    sleep 1;
 
                     # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
@@ -486,7 +485,6 @@ $Selenium->RunTest(
                         JavaScript =>
                             'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
-                    sleep 1;
 
                     # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
