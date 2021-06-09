@@ -33,7 +33,7 @@ sub Run {
     my $Self = shift;
 
     # try to get the Apache modules when we have a chance
-    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};    # ENV var set in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};             # ENV var set in otobo.psgi
     return $Self->GetResults() unless eval { require Apache2::Module; };
 
     my $MPMModel;

@@ -37,11 +37,13 @@ sub Run {
     return $Self->GetResults() unless eval { require Apache2::Module; };
 
     # Check for CGI accelerator
-    if ( $ENV{MOD_PERL} ) {
+    # We are a bit sloppy here. If Apache2::Module can be loaded we assume the effectively we have mod_perl.
+    # Checking $ENV{MOD_PERL} here is kind of useless, as Plack::Handler::Apache2 deletes $ENV{MOD_PERL}.
+    if (1) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
-            Value      => $ENV{MOD_PERL},
+            Value      => 'mod_perl, as Apache2::Module is available',
         );
     }
     elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
@@ -60,7 +62,7 @@ sub Run {
         );
     }
 
-    if ( $ENV{MOD_PERL} ) {
+    if (1) {
         my $ModDeflateLoaded =
             Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
 
