@@ -53,27 +53,9 @@ sub Run {
     return $Self->GetResults() unless $ParamObject->{Query}->can('env');
 
     # Accessing the Query attribute directly is a bit hackish
-    my $PSGIEnv      = $ParamObject->{Query}->env();
-    my %KeyIsIgnored = map { $_ => 1 } qw(
-        HTTP_REFERER
-        HTTP_CACHE_CONTROL
-        HTTP_COOKIE
-        HTTP_USER_AGENT
-        HTTP_ACCEPT_LANGUAGE
-        HTTP_ACCEPT_ENCODING
-        HTTP_ACCEPT
-        QUERY_STRING
-        REQUEST_METHOD REQUEST_URI
-        SCRIPT_NAME
-        REMOTE_PORT
-        ALLUSERSPROFILE      APPDATA        LOCALAPPDATA   COMMONPROGRAMFILES
-        PROGRAMDATA          PROGRAMFILES   PSMODULEPATH   PUBLIC
-        SYSTEMDRIVE          SYSTEMROOT     TEMP           WINDIR
-        USERPROFILE
-    );
-
+    my $PSGIEnv = $ParamObject->{Query}->env();
     KEY:
-    for my $Key ( sort { $a cmp $b } grep { !$KeyIsIgnored{$_} } keys $PSGIEnv->%* ) {
+    for my $Key ( sort { $a cmp $b } keys $PSGIEnv->%* ) {
 
         # avoid confusing stringification
         next KEY if ref $PSGIEnv->{$Key};
