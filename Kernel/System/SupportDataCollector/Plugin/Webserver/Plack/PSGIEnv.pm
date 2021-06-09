@@ -18,6 +18,9 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Plack::PSGIEnv;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
@@ -35,13 +38,13 @@ sub Run {
     my $Self = shift;
 
     # No web request or no Plack based webserver skip this check.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
-    return $Self->GetResults() if !$ENV{OTOBO_RUNS_UNDER_PSGI};
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+    return $Self->GetResults() unless $ENV{OTOBO_RUNS_UNDER_PSGI};
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    return $Self->GetResults() if !$ParamObject->{Query};
-    return $Self->GetResults() if !$ParamObject->{Query}->can('env');
+    return $Self->GetResults() unless $ParamObject->{Query};
+    return $Self->GetResults() unless $ParamObject->{Query}->can('env');
 
     # Accessing the Query attribute directly is a bit hackish
     my $PSGIEnv      = $ParamObject->{Query}->env();
