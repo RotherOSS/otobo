@@ -119,35 +119,6 @@ sub Run {
             );
         }
 
-        # check if Apache::Reload is loaded
-        my $ApacheReloadUsed = 0;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                $ApacheReloadUsed = $Module;
-            }
-        }
-
-        if ($ApacheReloadUsed) {
-            $Self->AddResultWarning(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'active',
-                Message    =>
-                    Translatable(
-                        'Apache::Reload or Apache2::Reload should not be used.'
-                    ),
-            );
-        }
-        else {
-            $Self->AddResultOk(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'not active',
-            );
-        }
-
         my $ApacheDBIUsed;
         for my $Module ( sort keys %INC ) {
             $Module =~ s/\//::/g;
