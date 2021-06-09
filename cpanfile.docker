@@ -8,6 +8,9 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
+# for use in Autoload modules.
+requires 'Class::Method::Modifiers';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
