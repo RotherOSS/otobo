@@ -10,6 +10,9 @@ requires 'Archive::Zip';
 
 requires 'Const::Fast';
 
+# for use in Autoload modules.
+requires 'Class::Method::Modifiers';
+
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
