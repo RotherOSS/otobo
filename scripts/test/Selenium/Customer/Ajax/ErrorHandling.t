@@ -29,7 +29,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (not used) and $
 use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 
-skip_all('Error handling is either changed or broken. See issue #900');
+skip_all('Error handling is either changed or broken. See issue #909');
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
