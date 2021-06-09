@@ -271,6 +271,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Class::Method::Modifiers',
+        Required  => 1,
+        Comment   => 'for use in Autoload modules.',
+        InstTypes => {
+            aptget => 'libclass-method-modifiers-perl',
+            emerge => 'dev-perl/Class-Method-Modifiers',
+            zypper => 'perl-Class-Method-Modifiers',
+            ports  => 'devel/p5-Class-Method-Modifiers',
+        },
+    },
+    {
         Module    => 'Date::Format',
         Required  => 1,
         InstTypes => {
