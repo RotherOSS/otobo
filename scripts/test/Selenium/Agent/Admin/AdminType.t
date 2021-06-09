@@ -224,9 +224,6 @@ $Selenium->RunTest(
             Value => $DefaultTicketType
         );
 
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
-
         # Set test type to invalid.
         $Selenium->find_element( "#Name", 'css' )->clear();
         $Selenium->find_element( "#Name", 'css' )->send_keys($TypeRandomID);

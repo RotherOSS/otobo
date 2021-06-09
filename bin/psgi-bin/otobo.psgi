@@ -304,9 +304,6 @@ my $NYTProfMiddleWare = sub {
     return sub {
         my $Env = shift;
 
-        # this is used only for Support Data Collection
-        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
-
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
         if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
@@ -536,7 +533,7 @@ my $OTOBOApp = builder {
         # make sure to have a clean CGI.pm for each request, see CGI::Compile
         CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-        # this is used only for Support Data Collection
+        # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
         # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'

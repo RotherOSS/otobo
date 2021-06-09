@@ -32,17 +32,18 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no apache webserver, skip this check.
-    if ( !$ENV{GATEWAY_INTERFACE} || !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{apache}i ) {
-        return $Self->GetResults();
-    }
+    # try to get the Apache modules when we have a chance
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};             # ENV var set in otobo.psgi
+    return $Self->GetResults() unless eval { require Apache2::Module; };
 
     # Check for CGI accelerator
-    if ( $ENV{MOD_PERL} ) {
+    # We are a bit sloppy here. If Apache2::Module can be loaded we assume the effectively we have mod_perl.
+    # Checking $ENV{MOD_PERL} here is kind of useless, as Plack::Handler::Apache2 deletes $ENV{MOD_PERL}.
+    if (1) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
-            Value      => $ENV{MOD_PERL},
+            Value      => 'mod_perl, as Apache2::Module is available',
         );
     }
     elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
@@ -61,7 +62,7 @@ sub Run {
         );
     }
 
-    if ( $ENV{MOD_PERL} ) {
+    if (1) {
         my $ModDeflateLoaded =
             Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
 
@@ -116,35 +117,6 @@ sub Run {
                 Label      => Translatable('mod_headers Usage'),
                 Value      => 'not active',
                 Message    => Translatable('Please install mod_headers to improve GUI speed.'),
-            );
-        }
-
-        # check if Apache::Reload is loaded
-        my $ApacheReloadUsed = 0;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                $ApacheReloadUsed = $Module;
-            }
-        }
-
-        if ($ApacheReloadUsed) {
-            $Self->AddResultWarning(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'active',
-                Message    =>
-                    Translatable(
-                        'Apache::Reload or Apache2::Reload should not be used.'
-                    ),
-            );
-        }
-        else {
-            $Self->AddResultOk(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'not active',
             );
         }
 

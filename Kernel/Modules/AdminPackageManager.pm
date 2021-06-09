@@ -43,49 +43,20 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # modules needed for checking SecureMode
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Source = $Self->{UserRepository} || '';
-    my %Errors;
-
-    # ------------------------------------------------------------ #
-    # check mod perl version and Apache::Reload
-    # ------------------------------------------------------------ #
-
-    if ( exists $ENV{MOD_PERL} ) {
-        if ( defined $mod_perl::VERSION ) {
-            if ( $mod_perl::VERSION >= 1.99 ) {
-
-                # check if Apache::Reload is loaded
-                my $ApacheReload = 0;
-                for my $Module ( sort keys %INC ) {
-                    $Module =~ s/\//::/g;
-                    $Module =~ s/\.pm$//g;
-                    if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                        $ApacheReload = 1;
-                    }
-                }
-                if ($ApacheReload) {
-                    return $LayoutObject->ErrorScreen(
-                        Message => Translatable(
-                            'Sorry, Apache::Reload should not be used'
-                        ),
-                    );
-                }
-            }
-        }
-    }
-
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # secure mode message (don't allow this action until secure mode is enabled)
-    if ( !$ConfigObject->Get('SecureMode') ) {
-        return $LayoutObject->SecureMode();
-    }
+    return $LayoutObject->SecureMode() unless $ConfigObject->Get('SecureMode');
 
+    # load more singletons
     my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
     my $ParamObject   = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
+
+    my $Source = $Self->{UserRepository} || '';
+    my %Errors;
 
     # ------------------------------------------------------------ #
     # view diff file
