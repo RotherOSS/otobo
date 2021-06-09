@@ -210,7 +210,7 @@ if ($DoPrintHelp) {
     print "Optionally limit to the required but missing packages or modules.\n";
     print "\n";
     print "Usage:\n";
-    print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile]\n";
+    print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile|-docker-cpanfile]\n";
     print "\n";
     print "Options:\n";
     printf " %-22s - %s\n", '[-help]', 'Print this help message.';
@@ -243,8 +243,9 @@ my $ExitCode = 0;    # success
 # Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
 # The key 'Features' is only used for supporting features when creating a cpanfile.
 #
-# ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfile
-#           bin/otobo.CheckModules.pl --cpanfile > cpanfile
+# ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfiles:
+#            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
+#            bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 my @NeededModules = (
 
     # Core
