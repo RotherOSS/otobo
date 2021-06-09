@@ -24,6 +24,12 @@ use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Scalar::Util qw(reftype);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -71,6 +77,10 @@ sub Run {
 
         # avoid confusing stringification
         next KEY if ref $PSGIEnv->{$Key};
+
+        # typeglobs are not reliably cached, so skip those
+        # e.g. 'Label' => 'psgi.errors', 'Value' => *::STDERR,
+        next KEY if reftype( \$PSGIEnv->{$Key} ) eq 'GLOB';
 
         $Self->AddResultInformation(
             Identifier => $Key,
