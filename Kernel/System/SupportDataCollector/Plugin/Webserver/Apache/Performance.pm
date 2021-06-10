@@ -132,24 +132,6 @@ sub Run {
                 Message    => Translatable('Please install mod_headers to improve GUI speed.'),
             );
         }
-
-        # check whether DB connection caching is activated
-        if ( is_loaded('Apache::DBI') || is_loaded('Apache2::DBI') ) {
-            $Self->AddResultWarning(
-                Identifier => 'ApacheDBIUsed',
-                Label      => Translatable('Apache2::DBI Usage'),
-                Value      => 'active',
-                Message    => Translatable('Apache2::DBI should not be used.'),
-            );
-        }
-        else {
-            $Self->AddResultOk(
-                Identifier => 'ApacheDBIUsed',
-                Label      => Translatable('Apache2::DBI Usage'),
-                Value      => 'not active',
-            );
-        }
-
     }
 
     return $Self->GetResults();
