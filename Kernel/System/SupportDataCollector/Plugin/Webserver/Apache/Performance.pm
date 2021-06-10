@@ -21,6 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Module::Loaded qw(is_loaded);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = ();
@@ -33,11 +39,11 @@ sub Run {
     my $Self = shift;
 
     # try to get the Apache modules when we have a chance
-    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};             # ENV var set in otobo.psgi
-    return $Self->GetResults() unless eval { require Apache2::Module; };
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};         # ENV var set in otobo.psgi
+    return $Self->GetResults() unless is_loaded('Apache2::Module');    # are we running under mod_perl ?
 
     # Check for CGI accelerator
-    # We are a bit sloppy here. If Apache2::Module can be loaded we assume the effectively we have mod_perl.
+    # We are a bit sloppy here. If Apache2::Module has been loaded we assume the effectively we have mod_perl.
     # Checking $ENV{MOD_PERL} here is kind of useless, as Plack::Handler::Apache2 deletes $ENV{MOD_PERL}.
     if (1) {
         $Self->AddResultOk(

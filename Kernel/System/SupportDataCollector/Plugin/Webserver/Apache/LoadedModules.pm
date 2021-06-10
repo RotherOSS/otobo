@@ -21,6 +21,12 @@ use warnings;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Module::Loaded qw(is_loaded);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = ();
@@ -33,8 +39,8 @@ sub Run {
     my $Self = shift;
 
     # try to get the Apache modules when we have a chance
-    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};             # ENV var set in otobo.psgi
-    return $Self->GetResults() unless eval { require Apache2::Module; };
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};         # ENV var set in otobo.psgi
+    return $Self->GetResults() unless is_loaded('Apache2::Module');    # are we running under mod_perl ?
 
     # report name and versions of Apache modules
     for ( my $Module = Apache2::Module::top_module(); $Module; $Module = $Module->next() ) {
