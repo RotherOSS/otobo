@@ -157,23 +157,19 @@ EOF
         );
 
         for my $Test (@Tests) {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Test->{Action}");
 
             # Check if ACL works on the screen.
             # Check if there is only 'closed successful' state on the screen.
-            try_ok {
-                is(
-                    $Selenium->execute_script("return \$('#$Test->{StateSelector} option').length;"),
-                    $Test->{Count},    # there are two option, posible none is enabled
-                    "$Test->{Count} $Test->{StateSelector} state(2) found on screen"
-                );
-                ok(
-                    $Selenium->execute_script("return \$('#$Test->{StateSelector} option[value=2]').length;"),
-                    "There is only 'closed successful' state on the screen"
-                );
-            };
+            is(
+                $Selenium->execute_script("return \$('#$Test->{StateSelector} option').length;"),
+                $Test->{Count},    # there are two option, posible none is enabled
+                "$Test->{Count} $Test->{StateSelector} state(2) found on screen"
+            );
+            ok(
+                $Selenium->execute_script("return \$('#$Test->{StateSelector} option[value=2]').length;"),
+                "There is only 'closed successful' state on the screen"
+            );
         }
 
         # Delete test ACLs rules.

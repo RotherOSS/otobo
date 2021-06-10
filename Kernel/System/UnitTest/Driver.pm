@@ -353,7 +353,6 @@ sub AttachSeleniumScreenshot {
 Print out a test plan. This assumes that the number of test that have
 run so far is exactly the number of tests that should run.
 This effectively disables the check of the test plan.
-This method is called automatically in Kernel::System::UnitTest::RegisterDriver.
 
     $Driver->DoneTesting();
 

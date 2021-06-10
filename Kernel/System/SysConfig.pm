@@ -5112,7 +5112,6 @@ sub _FileWriteAtomic {
     # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$;    # append the processs id
     {
-
         my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$Success ) {
 

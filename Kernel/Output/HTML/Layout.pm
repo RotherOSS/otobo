@@ -658,7 +658,6 @@ sub Redirect {
         }
     }
 
-    # for OTOBO_RUNS_UNDER_PSGI
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
         PlackResponse => $RedirectResponse

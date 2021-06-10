@@ -400,25 +400,23 @@ $Selenium->RunTest(
                 Time       => 40,
                 NewQueueID => $QueueID,
                 NewOwnerID => '',
-                ToDO       => 1
+                ToDo       => 1
             },
             {
                 Name             => 'Clear Responsible field and set back Owner field',
                 NewOwnerID       => $TestUserID,
                 NewResponsibleID => '',
-                ToDO             => 1
             },
             {
                 Name             => 'Clear State field and set back Responsible field',
                 NewResponsibleID => $TestUserID,
                 NewQueueID       => $QueueID,
                 NewStateID       => '',
-                ToDO             => 1
             },
             {
                 Name       => 'Set back State field - all fields are set',
                 NewStateID => $StateID,
-                ToDO       => 1
+                ToDo       => 1
             },
             {
                 Name       => 'Set back Queue field - all fields are set',
@@ -429,7 +427,7 @@ $Selenium->RunTest(
         # Run test - in each iteration exactly one field is empty, last case is correct.
         for my $Test (@ClearTests) {
 
-            my $ToDo = $Test->{ToDO} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
+            my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
 
             # Write test case description.
             note("Test case for 'clear': $Test->{Name}");

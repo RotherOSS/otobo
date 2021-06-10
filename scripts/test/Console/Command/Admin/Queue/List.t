@@ -49,7 +49,6 @@ my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
 );
 
 {
-
     local *STDOUT;
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
@@ -69,7 +68,6 @@ $Self->True(
 $Result = '';
 
 {
-
     local *STDOUT;
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('--all');
@@ -89,7 +87,6 @@ $Self->True(
 $Result = '';
 
 {
-
     local *STDOUT;
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute( '--all', '--verbose' );

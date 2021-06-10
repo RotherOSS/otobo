@@ -201,9 +201,6 @@ $Selenium->RunTest(
             Value => $TypeRandomID
         );
 
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
-
         # Try to set test type to invalid.
         $Selenium->InputFieldValueSet(
             Element => '#ValidID',
@@ -212,13 +209,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Default ticket type cannot be set to invalid.
-        $Self->True(
-            index(
-                $Selenium->get_page_source(),
-                "The ticket type is set as a default ticket type, so it cannot be set to invalid!"
-            ) > -1,
+        $Selenium->content_contains(
+            "The ticket type is set as a default ticket type, so it cannot be set to invalid!",
             "$TypeRandomID ticket type is set as a default ticket type, so it cannot be set to invalid!",
-        ) || die;
+        );
 
         # Reset default ticket type.
         $Helper->ConfigSettingChange(
@@ -226,9 +220,6 @@ $Selenium->RunTest(
             Key   => 'Ticket::Type::Default',
             Value => $DefaultTicketType
         );
-
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
 
         # Set test type to invalid.
         $Selenium->find_element( "#Name", 'css' )->clear();

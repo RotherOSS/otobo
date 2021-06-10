@@ -150,7 +150,6 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
         );
-        sleep 1;
 
         my $CheckMaxAllowedSizeFilename = 'Test1.png';
         $Location = "$Home/scripts/test/sample/Cache/$CheckMaxAllowedSizeFilename";
@@ -209,7 +208,6 @@ $Selenium->RunTest(
 
         # Delete the only existing attachment.
         $Selenium->find_element( q{//a[contains(@class,'AttachmentDelete')]}, 'xpath' )->click();
-        sleep 1;
 
         # Wait until attachment is deleted.
         $Selenium->WaitFor(

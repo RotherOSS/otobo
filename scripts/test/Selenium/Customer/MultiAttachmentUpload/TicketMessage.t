@@ -110,7 +110,6 @@ $Selenium->RunTest(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length"
         );
-        sleep 1;
 
         # Check if uploaded.
         ok(
@@ -130,7 +129,6 @@ $Selenium->RunTest(
 
         # Delete Attachment.
         $Selenium->find_element( "(//a[\@class='AttachmentDelete ooo12g'])[1]", 'xpath' )->click();
-        sleep 1;
 
         # Wait until attachment is deleted.
         $Selenium->WaitFor(

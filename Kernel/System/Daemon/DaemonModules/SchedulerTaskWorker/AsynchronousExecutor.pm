@@ -145,7 +145,6 @@ sub Run {
                 %{ $Param{Data}->{Params} // {} },
             );
         }
-
     };
 
     # Check if there are errors.

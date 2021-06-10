@@ -530,7 +530,7 @@ $Selenium->RunTest(
         );
 
         # Wait a short time and for the spinner to disappear.
-        sleep(2);
+        sleep 2;
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('.AJAXLoader:visible', \$('.PopupIframe').contents()).length == 0"

@@ -78,8 +78,6 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
-## no critic qw(Variables::RequireLocalizedPunctuationVars)
-
 # This package is used by rpc.pl.
 # NOTE: this is mostly untested
 package OTOBO::RPC {
@@ -262,7 +260,6 @@ to dispatch multiple ticket methods and get the TicketID
 
 # core modules
 use Data::Dumper;
-use POSIX 'SEEK_SET';
 
 # CPAN modules
 use DateTime ();
@@ -271,12 +268,12 @@ use Encode qw(:all);
 use CGI       ();
 use CGI::Carp ();
 use CGI::PSGI;
+use Module::Refresh;
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
-use Module::Refresh;
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -300,32 +297,12 @@ CGI->compile(':cgi');
 # Middlewares
 ################################################################################
 
-# this middleware is to make sure that the newest version of ZZZAAuto is loaded
-my $RefreshZZZAAutoMiddleWare = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        if ( $INC{'Kernel/Config/Files/ZZZAAuto.pm'} ) {
-
-            # Module::Refresh::Cache already set up in Plack::Middleware::Refresh::prepare_app();
-            Module::Refresh->refresh_module('Kernel/Config/Files/ZZZAAuto.pm');
-        }
-
-        return $App->($Env);
-    };
-};
-
 # conditionally enable profiling, UNTESTED
 my $NYTProfMiddleWare = sub {
     my $App = shift;
 
     return sub {
         my $Env = shift;
-
-        # this is used only for Support Data Collection
-        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
@@ -356,11 +333,11 @@ my $SetEnvMiddleWare = sub {
         my $Env = shift;
 
         # only the side effects are important
-        $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
-        $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+        local $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
+        local $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
 
         # enable for debugging UrlMap
-        #$ENV{PLACK_URLMAP_DEBUG} = 1;
+        #local $ENV{PLACK_URLMAP_DEBUG} = 1;
 
         return $App->($Env);
     };
@@ -383,7 +360,7 @@ my $FixFCGIProxyMiddleware = sub {
         }
 
         return $App->($Env);
-    }
+    };
 };
 
 # Translate '/' is translated to '/index.html'
@@ -398,93 +375,44 @@ my $ExactlyRootMiddleware = sub {
         }
 
         return $App->($Env);
-    }
-};
-
-# check whether the logged in user has admin privs
-my $AdminOnlyMiddeware = sub {
-    my $App = shift;
-
-    return sub {
-        my $Env = shift;
-
-        local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-        # avoid vulnerability where a large POST is submitted
-        $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
-
-        # Create the underlying CGI object from the PSGI environment.
-        # The AuthSession modules use this object for getting info about the request.
-        $Kernel::OM->ObjectParamAdd(
-            'Kernel::System::Web::Request' => {
-                PSGIEnv => $Env,
-            },
-        );
-
-        my $PlackRequest = Plack::Request->new($Env);
-
-        # Find out whether user is admin via the session.
-        # Passing the session ID via POST or GET is not supported.
-        my ( $UserIsAdmin, $UserLogin ) = eval {
-
-            return ( 0, undef ) unless $ConfigObject->Get('SessionUseCookie');
-
-            my $SessionName = $ConfigObject->Get('SessionName');
-
-            return ( 0, undef ) unless $SessionName;
-
-            # check whether the browser sends the SessionID cookie
-            my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
-            my $SessionID     = $PlackRequest->cookies()->{$SessionName};
-
-            return ( 0, undef ) unless $SessionObject;
-            return ( 0, undef ) unless $SessionObject->CheckSessionID( SessionID => $SessionID );
-
-            # get session data
-            my %UserData = $SessionObject->GetSessionIDData(
-                SessionID => $SessionID,
-            );
-
-            my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-            return ( 0, $UserData{UserLogin} ) unless $GroupObject;
-
-            my $IsAdmin = $GroupObject->PermissionCheck(
-                UserID    => $UserData{UserID},
-                GroupName => 'admin',
-                Type      => 'rw',
-            );
-
-            return ( $IsAdmin, $UserData{UserLogin} );
-        };
-        if ($@) {
-
-            # deny access when anything goes wrong
-            $UserIsAdmin = 0;
-            $UserLogin   = undef;
-        }
-
-        # deny access for non-admins
-        if ( !$UserIsAdmin ) {
-            my $Message = $UserLogin
-                ?
-                "User $UserLogin has no admin privileges."
-                :
-                'Not logged in.';
-
-            return [
-                403,
-                [ 'Content-Type' => 'text/plain;charset=utf-8' ],
-                [ '403 permission denied.', "\n", $Message ]
-            ];
-        }
-
-        # user is authorised, now do the work
-        return $App->($Env);
     };
 };
+
+# This is inspired by Plack::Middleware::Refresh. But we roll our own middleware,
+# as OTOOB has special requirements.
+# The modules in Kernel/Config/Files must be exempted from the reloading
+# as it is OK when they are removed. These not removed modules are reloaded
+# for every request in Kernel::Config::Defaults::new().
+my $ModuleRefreshMiddleware;
+{
+    my $RefreshCooldown = 10;
+    my $LastRefreshTime = time - 10;
+    Module::Refresh->new();
+
+    $ModuleRefreshMiddleware = sub {
+        my $App = shift;
+
+        return sub {
+            my $Env = shift;
+
+            # don't do work for every request, just every $RefreshCooldown secondes
+            if ( time > $LastRefreshTime + $RefreshCooldown ) {
+
+                $LastRefreshTime = time;
+
+                # refresh modules, igoring the files in Kernel/Config/Files
+                MODULE:
+                for my $Module ( sort keys %INC ) {
+                    next MODULE if $Module =~ m[^Kernel/Config/Files/];
+
+                    Module::Refresh->refresh_module_if_modified($Module);
+                }
+            }
+
+            return $App->($Env);
+        };
+    };
+}
 
 ################################################################################
 # Apps
@@ -512,7 +440,10 @@ my $DumpEnvApp = sub {
     my $Env = shift;
 
     local $Data::Dumper::Sortkeys = 1;
-    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Data::Dumper->Dump(
+        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC ],
+        [qw(Title Time Env ENV INC_array INC_hash)],
+    );
     utf8::encode($Message);
 
     return [
@@ -571,8 +502,10 @@ my $StaticApp = builder {
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
 my $OTOBOApp = builder {
 
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';    # forbidden files
+    # compress the output
+    # do not enable 'Plack::Middleware::Deflater', as there were errors with 'Wide characters in print'
+    #enable 'Plack::Middleware::Deflater',
+    #    content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
@@ -583,11 +516,10 @@ my $OTOBOApp = builder {
     # set %ENV
     enable $SetEnvMiddleWare;
 
-    # relies on that Plack::Middleware::Refresh already has populated %Module::Refresh::CACHE
-    enable $RefreshZZZAAutoMiddleWare;
-
-    # check ever 10s for changed Perl modules
-    enable 'Plack::Middleware::Refresh';
+    # Check ever 10s for changed Perl modules.
+    # Exclude the modules in Kernel/Config/Files as these modules
+    # are already reloaded Kernel::Config::Defaults::new().
+    enable $ModuleRefreshMiddleware;
 
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
@@ -601,7 +533,7 @@ my $OTOBOApp = builder {
         # make sure to have a clean CGI.pm for each request, see CGI::Compile
         CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-        # this is used only for Support Data Collection
+        # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
         # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
@@ -727,12 +659,15 @@ builder {
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web' => $StaticApp;
 
-    # the most basic App
-    mount '/hello' => $HelloApp;
+    # uncomment for trouble shouting
+    #mount '/hello'          => $HelloApp;
+    #mount '/dump_env'       => $DumpEnvApp;
+    #mount '/otobo/hello'    => $HelloApp;
+    #mount '/otobo/dump_env' => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
+    mount '/otobo'                         => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
     mount '/otobo/customer.pl'             => $OTOBOApp;
     mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
@@ -748,5 +683,5 @@ builder {
     mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
 };
 
-# for debugging, only dump the PSGI environment
+# for debugging: dump the PSGI environment for any request
 #$DumpEnvApp;

@@ -18,12 +18,22 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::LoadedM
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver') . '/' . Translatable('Loaded Apache Modules');
@@ -32,19 +42,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no apache webserver with mod_perl, skip this check.
-    # Using ENV is OK in this context
-    if (
-        !$ENV{GATEWAY_INTERFACE}
-        || !$ENV{SERVER_SOFTWARE}
-        || $ENV{SERVER_SOFTWARE} !~ m{apache}i
-        || !$ENV{MOD_PERL}
-        || !eval { require Apache2::Module; }
-        )
-    {
-        return $Self->GetResults();
-    }
+    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Check for mod_perl by trying to load Apache2::Module, that module is needed later on anyways
+    return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
+
+    # report name and versions of Apache modules
     for ( my $Module = Apache2::Module::top_module(); $Module; $Module = $Module->next() ) {
         $Self->AddResultInformation(
             Identifier => $Module->name(),

@@ -44,12 +44,10 @@ sub Run {
 
         # linux systems
         if ( -e '/proc/loadavg' ) {
-            my $LoadFile;
-            open( $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen)
+            open( my $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             while (<$LoadFile>) {
                 @Loads = split( " ", $_ );
             }
-            close($LoadFile);
         }
 
         # mac os
@@ -60,6 +58,7 @@ sub Run {
                         @Loads = split ' ', $Loads;
                     }
                 }
+                close $In;
             }
         }
 

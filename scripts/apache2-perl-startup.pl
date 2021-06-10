@@ -15,11 +15,13 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# TODO: maybe eliminate this file, see https://github.com/RotherOSS/otobo/issues/1054
+
 use strict;
 use warnings;
 
 # Make sure we are in a sane environment.
-$ENV{MOD_PERL} =~ /mod_perl/ || die "MOD_PERL not used!";
+$ENV{MOD_PERL} =~ m/mod_perl/ || die 'mod_perl is not used!';
 
 BEGIN {
 

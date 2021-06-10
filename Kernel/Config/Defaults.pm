@@ -33,6 +33,7 @@ use Digest::MD5;
 use Exporter qw(import);
 
 # CPAN modules
+use Module::Refresh; # located in Kernel/cpan-lib
 
 # OTOBO modules
 
@@ -1949,9 +1950,14 @@ sub new {
     # load extra config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
 
+        # It is assumed that $Self->{Home} contains no spaces as otherwise
+        # glob would see at least two patterns.
+        # Note that the order of file names is deterministic as per default
+        # glob sorts in ascending ASCII order.
         my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
 
         # Resorting the filelist.
+        # Modules with 'Ticket' in their name have lower priority.
         {
             my @NewFileOrderPre;
             my @NewFileOrderPost;
@@ -1987,6 +1993,11 @@ sub new {
             $Package =~ s/\.pm$//g;
 
             eval {
+
+                # This also adds $RelativeFile to %Module::Refresh::CACHE.
+                if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+                    Module::Refresh->refresh_module_if_modified( $RelativeFile );
+                }
 
                 # Try to load file.
                 if ( !require $RelativeFile ) {

@@ -65,6 +65,7 @@ RUN apt-get update\
  "libpam-ccreds"\
  "krb5-multidev"\
  "libkrb5-dev"\
+ "certbot"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
@@ -98,6 +99,9 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
 COPY scripts/nginx/templates/ templates
 COPY scripts/nginx/snippets/  snippets
+
+# Copy text to line 4 - load Kerberos module in nginx.conf
+RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
