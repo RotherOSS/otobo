@@ -52,7 +52,7 @@ sub Run {
             Value      => 'mod_perl, as Apache2::Module is available',
         );
     }
-    elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
+    elsif ( is_loaded('CGI::Fast') || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
