@@ -325,7 +325,7 @@ sub Connect {
         $Self->{dbh} = $Cache{$CacheKey}->dbh();
     }
     else {
-        # When Apache::DBI is loaded a cached connection might be used
+        # use a connection that is not cached
         $Self->{dbh} = DBI->connect(
             $Self->{DSN},
             $Self->{USER},
