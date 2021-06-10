@@ -32,33 +32,19 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a linux system
-    if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-        return $Self->GetResults();
-    }
+    # Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
+    return $Self->GetResults() unless $^O =~ m/(linux|unix|netbsd|freebsd)/i;
 
     my @Loads;
 
     # If used OS is a linux system
-    if ( $^O =~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
+    if ( $^O =~ /(linux|unix|netbsd|freebsd)/i ) {
 
         # linux systems
         if ( -e '/proc/loadavg' ) {
             open( my $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             while (<$LoadFile>) {
                 @Loads = split( " ", $_ );
-            }
-        }
-
-        # mac os
-        elsif ( $^O =~ /darwin/i ) {
-            if ( open( my $In, '-|', "sysctl vm.loadavg" ) ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-                while (<$In>) {
-                    if ( my ($Loads) = $_ =~ /vm\.loadavg: \s* \{ \s*  (.*) \s* \}/smx ) {
-                        @Loads = split ' ', $Loads;
-                    }
-                }
-                close $In;
             }
         }
 
