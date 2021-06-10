@@ -95,7 +95,6 @@ sub OSInfoGet {
         linux   => 'Linux',
         freebsd => 'FreeBSD',
         openbsd => 'OpenBSD',
-        darwin  => 'MacOSX',
     );
 
     # If used OS is a linux system
@@ -129,13 +128,6 @@ sub OSInfoGet {
                 $OSName = $Content->[0];
             }
         }
-    }
-    elsif ( $^O eq 'darwin' ) {
-
-        my $MacVersion = `sw_vers -productVersion` || '';
-        chomp $MacVersion;
-
-        $OSName = 'MacOSX ' . $MacVersion;
     }
     elsif ( $^O eq 'freebsd' || $^O eq 'openbsd' ) {
 

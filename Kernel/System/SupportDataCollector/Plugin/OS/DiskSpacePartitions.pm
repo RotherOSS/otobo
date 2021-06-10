@@ -32,15 +32,13 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a Linux system
-    if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-        return $Self->GetResults();
-    }
+    # Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
+    return $Self->GetResults() unless $^O =~ m/(linux|unix|netbsd|freebsd)/i;
 
     my $Commandline = "df -lHx tmpfs -x iso9660 -x udf -x squashfs";
 
-    # current MacOS and FreeBSD does not support the -x flag for df
-    if ( $^O =~ /(darwin|freebsd)/i ) {
+    # currently FreeBSD does not support the -x flag for df
+    if ( $^O =~ /(freebsd)/i ) {
         $Commandline = "df -lH";
     }
 
