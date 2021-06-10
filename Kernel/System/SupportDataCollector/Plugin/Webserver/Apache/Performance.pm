@@ -29,7 +29,9 @@ use Module::Loaded qw(is_loaded);
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver');
@@ -38,9 +40,13 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # try to get the Apache modules when we have a chance
-    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};         # ENV var set in otobo.psgi
-    return $Self->GetResults() unless is_loaded('Apache2::Module');    # are we running under mod_perl ?
+    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Check for mod_perl by trying to load Apache2::Module, that module is needed later on anyways
+    return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
 
     # Check for CGI accelerator
     # We are a bit sloppy here. If Apache2::Module has been loaded we assume the effectively we have mod_perl.
