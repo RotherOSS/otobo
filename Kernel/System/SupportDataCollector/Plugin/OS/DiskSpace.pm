@@ -36,7 +36,7 @@ sub Run {
 
     # This plugin is temporary disabled
     # A new logic is required to calculate the space
-    # TODO: fix
+    # TODO: see https://github.com/RotherOSS/otobo/issues/1076
     return $Self->GetResults();
 
     ## Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
