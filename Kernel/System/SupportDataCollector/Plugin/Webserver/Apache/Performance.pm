@@ -18,12 +18,23 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Perform
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Module::Loaded qw(is_loaded);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver');
@@ -32,12 +43,16 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # try to get the Apache modules when we have a chance
-    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};             # ENV var set in otobo.psgi
-    return $Self->GetResults() unless eval { require Apache2::Module; };
+    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Check for mod_perl by trying to load Apache2::Module, that module is needed later on anyways
+    return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
 
     # Check for CGI accelerator
-    # We are a bit sloppy here. If Apache2::Module can be loaded we assume the effectively we have mod_perl.
+    # We are a bit sloppy here. If Apache2::Module has been loaded we assume the effectively we have mod_perl.
     # Checking $ENV{MOD_PERL} here is kind of useless, as Plack::Handler::Apache2 deletes $ENV{MOD_PERL}.
     if (1) {
         $Self->AddResultOk(
@@ -46,7 +61,7 @@ sub Run {
             Value      => 'mod_perl, as Apache2::Module is available',
         );
     }
-    elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
+    elsif ( is_loaded('CGI::Fast') || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
@@ -62,9 +77,9 @@ sub Run {
         );
     }
 
+    # TODO: this does not really check whether the output filter has been activated
     if (1) {
-        my $ModDeflateLoaded =
-            Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
+        my $ModDeflateLoaded = Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
 
         if ($ModDeflateLoaded) {
             $Self->AddResultOk(
@@ -82,8 +97,7 @@ sub Run {
             );
         }
 
-        my $ModFilterLoaded =
-            Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
+        my $ModFilterLoaded = Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
 
         if ($ModFilterLoaded) {
             $Self->AddResultOk(
@@ -101,8 +115,7 @@ sub Run {
             );
         }
 
-        my $ModHeadersLoaded =
-            Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
+        my $ModHeadersLoaded = Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
 
         if ($ModHeadersLoaded) {
             $Self->AddResultOk(
@@ -120,29 +133,18 @@ sub Run {
             );
         }
 
-        my $ApacheDBIUsed;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::DBI' || $Module eq 'Apache2::DBI' ) {
-                $ApacheDBIUsed = $Module;
-            }
-        }
-
-        if ($ApacheDBIUsed) {
+        # check whether DB connection caching is activated
+        if ( is_loaded('Apache::DBI') || is_loaded('Apache2::DBI') ) {
             $Self->AddResultWarning(
-                Identifier => "ApacheDBIUsed",
+                Identifier => 'ApacheDBIUsed',
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'active',
-                Message    =>
-                    Translatable(
-                        'Apache2::DBI should not be used.'
-                    ),
+                Message    => Translatable('Apache2::DBI should not be used.'),
             );
         }
         else {
             $Self->AddResultOk(
-                Identifier => "ApacheDBIUsed",
+                Identifier => 'ApacheDBIUsed',
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'not active',
             );
