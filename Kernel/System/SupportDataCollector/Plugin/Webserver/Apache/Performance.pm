@@ -68,9 +68,9 @@ sub Run {
         );
     }
 
+    # TODO: this does not really check whether the output filter has been activated
     if (1) {
-        my $ModDeflateLoaded =
-            Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
+        my $ModDeflateLoaded = Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
 
         if ($ModDeflateLoaded) {
             $Self->AddResultOk(
@@ -88,8 +88,7 @@ sub Run {
             );
         }
 
-        my $ModFilterLoaded =
-            Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
+        my $ModFilterLoaded = Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
 
         if ($ModFilterLoaded) {
             $Self->AddResultOk(
@@ -107,8 +106,7 @@ sub Run {
             );
         }
 
-        my $ModHeadersLoaded =
-            Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
+        my $ModHeadersLoaded = Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
 
         if ($ModHeadersLoaded) {
             $Self->AddResultOk(
@@ -126,29 +124,18 @@ sub Run {
             );
         }
 
-        my $ApacheDBIUsed;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::DBI' || $Module eq 'Apache2::DBI' ) {
-                $ApacheDBIUsed = $Module;
-            }
-        }
-
-        if ($ApacheDBIUsed) {
+        # check whether DB connection caching is activated
+        if ( is_loaded('Apache::DBI') || is_loaded('Apache2::DBI') ) {
             $Self->AddResultWarning(
-                Identifier => "ApacheDBIUsed",
+                Identifier => 'ApacheDBIUsed',
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'active',
-                Message    =>
-                    Translatable(
-                        'Apache2::DBI should not be used.'
-                    ),
+                Message    => Translatable('Apache2::DBI should not be used.'),
             );
         }
         else {
             $Self->AddResultOk(
-                Identifier => "ApacheDBIUsed",
+                Identifier => 'ApacheDBIUsed',
                 Label      => Translatable('Apache2::DBI Usage'),
                 Value      => 'not active',
             );
