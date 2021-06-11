@@ -119,7 +119,7 @@ END_XML
 
     # Fake STDIN and fill it with the request.
     local *STDIN;
-    open STDIN, '<:encoding(UTF-8)', \$Request;
+    open STDIN, '<:encoding(UTF-8)', \$Request;    ## no critic qw(OTOBO::ProhibitOpen)
 
     # Fake environment variables as it gets it from the request.
     # %ENV will be picked up in Kernel::System::Web::Request::new().

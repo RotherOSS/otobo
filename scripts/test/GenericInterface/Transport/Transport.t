@@ -252,7 +252,7 @@ for my $Fail ( 0 .. 1 ) {
 
                 # redirect STDIN from String so that the transport layer will use this data
                 local *STDIN;
-                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};
+                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen)
 
                 # force the ParamObject to use the new request params
                 CGI::initialize_globals();
@@ -399,7 +399,7 @@ for my $Fail ( 0 .. 1 ) {
                         # when Success = 0 is passed
                         is( $Result, undef, 'no result as exception is thrown' );
                         my $PSGIResponse = $WebException->as_psgi;
-                        is( $PSGIResponse->[0], 500, 'HTTP status 500' );
+                        is( $PSGIResponse->[0], 500,                   'HTTP status 500' );
                         is( $PSGIResponse->[2], [$CustomErrorMessage], 'custom error message' );
                     }
                 }
@@ -409,7 +409,7 @@ for my $Fail ( 0 .. 1 ) {
                     # when Fail = 1 is set in the transporter config.
                     is( $Result, undef, 'no result as exception is thrown' );
                     my $PSGIResponse = $WebException->as_psgi;
-                    is( $PSGIResponse->[0], 500, 'HTTP status 500' );
+                    is( $PSGIResponse->[0], 500,                                 'HTTP status 500' );
                     is( $PSGIResponse->[2], ['Test response generation failed'], 'error message for Fail = 1' );
                     use Data::Dumper;
                     warn Dumper( 'KKK', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
