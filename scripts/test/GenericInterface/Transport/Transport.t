@@ -252,7 +252,7 @@ for my $Fail ( 0 .. 1 ) {
 
                 # redirect STDIN from String so that the transport layer will use this data
                 local *STDIN;
-                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};
+                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen)
 
                 # force the ParamObject to use the new request params
                 CGI::initialize_globals();
