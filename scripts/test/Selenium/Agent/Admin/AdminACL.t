@@ -155,13 +155,8 @@ $Selenium->RunTest(
             'Client side validation correctly detected missing input value',
         );
 
-        my @TestACLNames;
-
         # Create test ACL names.
-        for my $Name (qw(ACL NewACL)) {
-            my $TestACLName = $Name . $Helper->GetRandomNumber() . ' $ @';
-            push @TestACLNames, $TestACLName;
-        }
+        my @TestACLNames = map { $_ . $Helper->GetRandomNumber() . ' $ @' } qw(ACL NewACL);
 
         # Test for Bug#14411, 300 is more than the allowed by the filed (200), exceeding characters
         #   are just not typed.
