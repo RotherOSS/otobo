@@ -23,11 +23,14 @@
 otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
 time_stamp=$(date +'%F-%H%M%S')
 git_branch=$(cat git-branch.txt 2>/dev/null)
-log_file="prove_${otobo_version}_${time_stamp}_${git_branch}.out"
+log_file="prove_${otobo_version}_${time_stamp}_${git_branch:-unknown_branch}.out"
 
 # print out the relevant information about this OTOBO installation
 # Never mind when any of these files are missing
 more RELEASE git-*.txt >$log_file 2>/dev/null
+
+# add an empty line, just for visual pleasantness
+echo >>$log_file
 
 # run the test suite
 bin/otobo.Console.pl Dev::UnitTest::Run --verbose >>$log_file 2>&1
