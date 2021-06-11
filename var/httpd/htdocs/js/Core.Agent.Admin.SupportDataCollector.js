@@ -102,7 +102,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
                     TextClass = 'Error';
 
                     Core.UI.Dialog.ShowContentDialog(
-                        '<div class="Spacing Center NoSupportBunle"><span class="W50pc ' + TextClass + '" title="' + ResponseMessage + '">' + ResponseMessage + '</span></div>', Core.Language.Translate("Generate Result"),
+                        '<div class="Spacing Center NoSupportBunle"><span class="W50pc ' + TextClass + '" title="' + ResponseMessage + '"><p>' + ResponseMessage + '</p><br /><p>' + Response.Message +'</p></span></div>', Core.Language.Translate("Generate Result"),
                         '10px',
                         'Center',
                         true,
