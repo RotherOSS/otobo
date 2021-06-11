@@ -15,6 +15,10 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# This script is a small helper for running the complete test suite.
+# The output of the test suite is written to a log file with a somewhat
+# sensible name. No parameters are handled.
+
 # generate an informative log file name
 otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
 time_stamp=$(date +'%F-%H%M%S')
