@@ -265,7 +265,9 @@ sub Log {
         $Self->{ lc $Priority }->{Message} = $Message;
     }
 
-    # write shm cache log
+    # Prepend the current log line to the shared memory segment.
+    # The oldest log lines might fall out of the window.
+    # shmwrite() might append "\0" bytes for padding.
     if ( lc $Priority ne 'debug' && $Self->{IPC} ) {
 
         $Priority = lc $Priority;
@@ -316,7 +318,7 @@ sub GetLog {
     # Remove \0 bytes that shmwrite adds for padding.
     $String =~ s{\0}{}smxg;
 
-    # encode the string
+    # the string is UTF-8 encoded, decode it (even though the method is called EncodeInput)
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$String );
 
     return $String;
