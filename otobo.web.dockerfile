@@ -1,10 +1,10 @@
 # This is the build file for the OTOBO web docker image.
 # See also README_DOCKER.md.
 
-# Use the latest Perl as of 2020-07-31.
+# Use the latest Perl as of 2021-06-12.
 # This image is based on Debian 10 (Buster). The user is root.
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.32.0-buster
+FROM perl:5.34.0-buster
 
 # Some initial setup that needs to be done by root.
 USER root
