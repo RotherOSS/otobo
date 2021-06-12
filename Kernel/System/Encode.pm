@@ -282,10 +282,10 @@ sub EncodeInput {
     return unless defined $What;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What if !defined ${$What};
+        return $What unless defined $What->$*;
 
         # assuming the the incoming string is already encoded in UTF-8
-        Encode::_utf8_on( ${$What} );
+        Encode::_utf8_on( $What->$* );
 
         return $What;
     }
@@ -293,7 +293,7 @@ sub EncodeInput {
     if ( ref $What eq 'ARRAY' ) {
 
         STRING:
-        for my $String ( @{$What} ) {
+        for my $String ( $What->@* ) {
             next STRING unless defined $String;
 
             # assuming the the incoming string is already encoded in UTF-8
@@ -329,10 +329,10 @@ sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What unless defined ${$What};
-        return $What unless Encode::is_utf8( ${$What} );
+        return $What unless defined $What->$*;
+        return $What unless Encode::is_utf8( $What->$* );
 
-        ${$What} = Encode::encode_utf8( ${$What} );
+        $What->$* = Encode::encode_utf8( $What->$* );
 
         return $What;
     }
@@ -342,9 +342,9 @@ sub EncodeOutput {
         STRING_REF:
         for my $StringRef ( @{$What} ) {
             next STRING_REF unless defined $StringRef;
-            next STRING_REF unless Encode::is_utf8( ${$StringRef} );
+            next STRING_REF unless Encode::is_utf8( $StringRef->$* );
 
-            ${$StringRef} = Encode::encode_utf8( ${$StringRef} );
+            $StringRef->$* = Encode::encode_utf8( $StringRef->$* );
         }
 
         return $What;
