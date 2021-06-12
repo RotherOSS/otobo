@@ -262,12 +262,16 @@ sub Convert2CharsetInternal {
 
 =head2 EncodeInput()
 
-Convert internal used charset (e. g. utf-8) into given charset (utf-8).
+Assume that the incoming data is binary data containing UTF-8 encoded strings. Turn the data
+into Perl strings with the proper semantics.
 
-Should be used on all I/O interfaces if data is already utf-8 to set the utf-8 stamp.
+Should be used on all I/O interfaces if data is already utf-8 to set the UTF8 flag.
+
+Note that the method name is a misnomer. The method should be DecodeInput().
 
     $EncodeObject->EncodeInput( \$String );
 
+    # @Array may contain only undef and references to strings
     $EncodeObject->EncodeInput( \@Array );
 
 =cut
@@ -279,7 +283,10 @@ sub EncodeInput {
 
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
+
+        # assuming the the incoming string is already encoded in UTF-8
         Encode::_utf8_on( ${$What} );
+
         return $What;
     }
 
@@ -288,11 +295,16 @@ sub EncodeInput {
         ROW:
         for my $Row ( @{$What} ) {
             next ROW if !defined $Row;
+
+            # assuming the the incoming string is already encoded in UTF-8
             Encode::_utf8_on($Row);
         }
+
         return $What;
     }
 
+    # assuming the the incoming string is already encoded in UTF-8
+    # TODO: It is not documented that strings can be passed in directly.
     Encode::_utf8_on($What);
 
     return $What;
@@ -307,6 +319,7 @@ This should be used in for output of utf-8 chars.
 
     $EncodeObject->EncodeOutput( \$String );
 
+    # @Array may contain only undef and references to strings
     $EncodeObject->EncodeOutput( \@Array );
 
 =cut
@@ -317,7 +330,9 @@ sub EncodeOutput {
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
         return $What if !Encode::is_utf8( ${$What} );
+
         ${$What} = Encode::encode_utf8( ${$What} );
+
         return $What;
     }
 
@@ -327,13 +342,19 @@ sub EncodeOutput {
         for my $Row ( @{$What} ) {
             next ROW if !defined $Row;
             next ROW if !Encode::is_utf8( ${$Row} );
+
             ${$Row} = Encode::encode_utf8( ${$Row} );
         }
+
         return $What;
     }
 
+    # TODO: it is not documented that anything but scalar or array refs can be passed as argument
+    # TODO: it is not obvious what is_utf8() or encode_utf8() do with references
     return $What if !Encode::is_utf8( \$What );
+
     Encode::encode_utf8( \$What );
+
     return $What;
 }
 
