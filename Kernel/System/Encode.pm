@@ -279,7 +279,7 @@ Note that the method name is a misnomer. The method should be DecodeInput().
 sub EncodeInput {
     my ( $Self, $What ) = @_;
 
-    return if !defined $What;
+    return unless defined $What;
 
     if ( ref $What eq 'SCALAR' ) {
         return $What if !defined ${$What};
@@ -294,7 +294,7 @@ sub EncodeInput {
 
         ROW:
         for my $Row ( @{$What} ) {
-            next ROW if !defined $Row;
+            next ROW unless defined $Row;
 
             # assuming the the incoming string is already encoded in UTF-8
             Encode::_utf8_on($Row);
@@ -328,8 +328,8 @@ sub EncodeOutput {
     my ( $Self, $What ) = @_;
 
     if ( ref $What eq 'SCALAR' ) {
-        return $What if !defined ${$What};
-        return $What if !Encode::is_utf8( ${$What} );
+        return $What unless defined ${$What};
+        return $What unless Encode::is_utf8( ${$What} );
 
         ${$What} = Encode::encode_utf8( ${$What} );
 
@@ -340,8 +340,8 @@ sub EncodeOutput {
 
         ROW:
         for my $Row ( @{$What} ) {
-            next ROW if !defined $Row;
-            next ROW if !Encode::is_utf8( ${$Row} );
+            next ROW unless defined $Row;
+            next ROW unless Encode::is_utf8( ${$Row} );
 
             ${$Row} = Encode::encode_utf8( ${$Row} );
         }
@@ -351,7 +351,7 @@ sub EncodeOutput {
 
     # TODO: it is not documented that anything but scalar or array refs can be passed as argument
     # TODO: it is not obvious what is_utf8() or encode_utf8() do with references
-    return $What if !Encode::is_utf8( \$What );
+    return $What unless Encode::is_utf8( \$What );
 
     Encode::encode_utf8( \$What );
 
