@@ -271,7 +271,7 @@ Note that the method name is a misnomer. The method should be DecodeInput().
 
     $EncodeObject->EncodeInput( \$String );
 
-    # @Array may contain only undef and references to strings
+    # @Array may contain only undef and strings
     $EncodeObject->EncodeInput( \@Array );
 
 =cut
@@ -320,6 +320,7 @@ This should be used in for output of utf-8 chars.
     $EncodeObject->EncodeOutput( \$String );
 
     # @Array may contain only undef and references to strings
+    # Note that this is a different type of array as supported in EncodeInput().
     $EncodeObject->EncodeOutput( \@Array );
 
 =cut
