@@ -292,12 +292,12 @@ sub EncodeInput {
 
     if ( ref $What eq 'ARRAY' ) {
 
-        ROW:
-        for my $Row ( @{$What} ) {
-            next ROW unless defined $Row;
+        STRING:
+        for my $String ( @{$What} ) {
+            next STRING unless defined $String;
 
             # assuming the the incoming string is already encoded in UTF-8
-            Encode::_utf8_on($Row);
+            Encode::_utf8_on($String);
         }
 
         return $What;
@@ -339,12 +339,12 @@ sub EncodeOutput {
 
     if ( ref $What eq 'ARRAY' ) {
 
-        ROW:
-        for my $Row ( @{$What} ) {
-            next ROW unless defined $Row;
-            next ROW unless Encode::is_utf8( ${$Row} );
+        STRING_REF:
+        for my $StringRef ( @{$What} ) {
+            next STRING_REF unless defined $StringRef;
+            next STRING_REF unless Encode::is_utf8( ${$StringRef} );
 
-            ${$Row} = Encode::encode_utf8( ${$Row} );
+            ${$StringRef} = Encode::encode_utf8( ${$StringRef} );
         }
 
         return $What;
