@@ -84,7 +84,8 @@ else {
         }
 
         # Skip files with expected changes.
-        next LINE if $Filename =~ m/Cron|CHANGES|apache2-perl-startup/;
+        next LINE if $Filename eq 'Cron';
+        next LINE if $Filename eq 'CHANGES';
 
         # ignore output files of unittest runs
         next LINE if $Filename =~ m/unittest_.*\.out/;

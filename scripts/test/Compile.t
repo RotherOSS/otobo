@@ -46,7 +46,6 @@ my %FailureIsAccepted = (
     'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
-    'scripts/apache2-perl-startup.pl'            => 'mod_perl not neccessarily available',
 );
 
 # object for doing the actual check
