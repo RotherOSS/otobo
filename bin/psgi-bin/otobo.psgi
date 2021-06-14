@@ -439,11 +439,17 @@ my $HelloApp = sub {
 my $DumpEnvApp = sub {
     my $Env = shift;
 
+    # collect some useful info
     local $Data::Dumper::Sortkeys = 1;
     my $Message = Data::Dumper->Dump(
-        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC ],
-        [qw(Title Time Env ENV INC_array INC_hash)],
+        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC, '🦦' ],
+        [qw(Title Time Env ENV INC_array INC_hash otter)],
     );
+
+    # add some unicode
+    $Message .= "unicode: 🦦 ⛄ 🥨\n";
+
+    # emit the content as UTF-8
     utf8::encode($Message);
 
     return [
@@ -612,6 +618,8 @@ my $OTOBOApp = builder {
             $ResponseObject->Code(200);    # TODO: is it always 200 ?
             $ResponseObject->Content($Content);
 
+            # for debugging: warn Dumper( { Response => $ResponseObject, is_utf8 => utf8::is_utf8( $ResponseObject->{Response}->{body} ) } );
+
             # return the funnny unblessed array reference
             return $ResponseObject->Finalize();
         }
@@ -659,7 +667,7 @@ builder {
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web' => $StaticApp;
 
-    # uncomment for trouble shouting
+    # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
     #mount '/dump_env'       => $DumpEnvApp;
     #mount '/otobo/hello'    => $HelloApp;
@@ -683,5 +691,5 @@ builder {
     mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
 };
 
-# for debugging: dump the PSGI environment for any request
+# enable for debugging: dump debugging info, including the PSGI environment, for any request
 #$DumpEnvApp;
