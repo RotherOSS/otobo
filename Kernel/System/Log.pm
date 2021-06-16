@@ -15,10 +15,12 @@
 # --
 
 package Kernel::System::Log;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
@@ -27,8 +29,10 @@ use Carp ();
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Encode',
-    'Kernel::System::Web::Request',
+
+    # the following objects are used, but they don't affect the state of the Log object
+    # 'Kernel::System::Encode',
+    # 'Kernel::System::Web::Request',
 );
 
 =head1 NAME
