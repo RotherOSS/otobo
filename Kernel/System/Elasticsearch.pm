@@ -15,13 +15,14 @@
 # --
 
 package Kernel::System::Elasticsearch;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
 
 use Kernel::System::VariableCheck qw( :all );
 
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
@@ -34,6 +35,12 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+);
+
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
 );
 
 =head1 NAME

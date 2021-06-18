@@ -20,19 +20,24 @@ package Kernel::System::Log;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectDependencies)
 
 use strict;
 use warnings;
 
 use Carp ();
 
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
+);
 
-    # the following objects are used, but they don't affect the state of the Log object
-    # 'Kernel::System::Encode',
-    # 'Kernel::System::Web::Request',
+# Inform the CodePolicy about the soft dependencies that are intentionally not in @ObjectDependencies.
+# Soft dependencies are modules that used by this object, but who don't affect the state of this object.
+# There is no need to discard this module when one of the soft dependencies is discarded.
+our @SoftObjectDependencies = (
+    'Kernel::System::Encode',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
