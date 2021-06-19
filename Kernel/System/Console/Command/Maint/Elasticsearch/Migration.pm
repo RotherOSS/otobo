@@ -42,6 +42,8 @@ our @ObjectDependencies = (
 # Soft dependencies are modules that used by this object, but who don't affect the state of this object.
 # There is no need to discard this module when one of the soft dependencies is discarded.
 our @SoftObjectDependencies = (
+    'Kernel::System::GeneralCatalog',
+    'Kernel::System::ITSMConfigItem',
 );
 
 sub Configure {
