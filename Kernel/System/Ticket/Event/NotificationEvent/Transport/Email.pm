@@ -42,6 +42,8 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 

@@ -26,6 +26,8 @@ use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
