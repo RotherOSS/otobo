@@ -16,6 +16,8 @@
 
 package Kernel::System::AuthSession::DB;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 

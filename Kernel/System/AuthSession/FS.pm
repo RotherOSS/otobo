@@ -16,6 +16,8 @@
 
 package Kernel::System::AuthSession::FS;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
