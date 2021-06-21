@@ -16,11 +16,17 @@
 
 package Kernel::System::DynamicField::Backend;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
+# core modules
 use Scalar::Util qw(weaken);
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
