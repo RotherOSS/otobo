@@ -16,6 +16,8 @@
 
 package Kernel::System::SupportDataCollector::Plugin::Webserver::Plack::PSGIEnv;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 use v5.24;
@@ -33,6 +35,8 @@ use Scalar::Util qw(reftype);
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 

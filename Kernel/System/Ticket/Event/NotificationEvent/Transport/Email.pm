@@ -15,8 +15,9 @@
 # --
 
 package Kernel::System::Ticket::Event::NotificationEvent::Transport::Email;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
-## TODO: decide whether (TidyAll::Plugin::OOTOBO::Perl::ParamObject) should be filtered, see issue rotheross/CodePolicy:#44
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 use strict;
 use warnings;
@@ -41,6 +42,8 @@ our @ObjectDependencies = (
     'Kernel::System::Ticket::Article',
     'Kernel::System::Ticket::Article::Backend::Email',
     'Kernel::System::User',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
