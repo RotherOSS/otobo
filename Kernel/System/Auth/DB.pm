@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::DB;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -29,6 +31,8 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Valid',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
