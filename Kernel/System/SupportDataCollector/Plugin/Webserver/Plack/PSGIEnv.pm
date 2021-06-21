@@ -16,6 +16,8 @@
 
 package Kernel::System::SupportDataCollector::Plugin::Webserver::Plack::PSGIEnv;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 

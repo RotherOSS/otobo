@@ -16,6 +16,8 @@
 
 package Kernel::System::SupportDataCollector::Plugin::Webserver::Version;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
