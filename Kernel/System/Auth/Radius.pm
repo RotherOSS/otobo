@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::Radius;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -24,6 +26,8 @@ use Authen::Radius;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
