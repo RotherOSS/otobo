@@ -16,6 +16,8 @@
 
 package Kernel::System::DynamicField::ObjectType::CustomerCompany;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 

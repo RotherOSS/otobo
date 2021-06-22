@@ -26,12 +26,16 @@
 
 package Kernel::System::Auth::HTTPBasicAuth;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 

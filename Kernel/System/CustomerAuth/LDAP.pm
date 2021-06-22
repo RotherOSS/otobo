@@ -16,6 +16,8 @@
 
 package Kernel::System::CustomerAuth::LDAP;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -26,6 +28,8 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 

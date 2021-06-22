@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::Sync::LDAP;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -28,6 +30,8 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::User',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
