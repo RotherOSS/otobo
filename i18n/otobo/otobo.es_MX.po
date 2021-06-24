@@ -17,21 +17,22 @@
 # Luis Armando Medina <lamedina@gmail.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
-#
+# Fredy Aragón <fredmac48@hotmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2020-02-25 16:18+0000\n"
-"Last-Translator: Carlos Vazquez <carlos.vazquez@oslc.com.mx>\n"
-"Language-Team: Spanish (Mexico) <https://translate.otobo.com/projects/"
+"PO-Revision-Date: 2021-06-24 09:32+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -982,7 +983,7 @@ msgstr "Gestión de Servicio en la Nube"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr "Recolector  de Datos de Soporte"
+msgstr "Recolector de datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
@@ -1001,6 +1002,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un "
+"mejor apoyo."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1015,6 +1018,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Esto permitirá que el sistema envíe información adicional de datos de apoyo "
+"al equipo de OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1022,7 +1027,7 @@ msgstr "Actualizar"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr "Registro del Sistema"
+msgstr "Registro del sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -1030,17 +1035,20 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO "
+"o actualice la información de registro de su sistema (asegúrese de activar "
+"la opción \"enviar datos de soporte\")"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr "Registrar este Sistema"
+msgstr "Registrar este sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
 msgstr ""
-"El Registro no está disponible para su sistema. Por favor revise su "
+"El registro no está disponible para su sistema. Por favor revise su "
 "configuración."
 
 #. Template: AdminCloudServices
@@ -1048,6 +1056,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"El registro del sistema es un servicio del equipo de OTOBO, ¡que ofrece "
+"muchas ventajas!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1071,15 +1081,15 @@ msgstr ""
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr "Servicios en la Nube Disponibles "
+msgstr "Servicios en la nube disponibles"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr "Bitácora de Comunicación"
+msgstr "Bitácora de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr "Rango de Tiempo"
+msgstr "Rango de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -1089,7 +1099,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr "Filtro para Comunicaciones"
+msgstr "Filtro para comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -29301,7 +29311,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Ajusta el sistema como quieras."
 
 #. SysConfig
 msgid ""
@@ -29310,6 +29320,11 @@ msgid ""
 "mechanism (i.e. logrotate). Note: External rotation mechanism requires its "
 "own and independent configuration."
 msgstr ""
+"Tipo de rotación del demonio de registros a utilizar: Elija 'OTOBO' para "
+"dejar que el sistema OTOBO se encargue de la rotación de archivos, o elija "
+"'Externo' para utilizar un mecanismo de rotación de terceros (por ejemplo, "
+"logrotate). Nota: El mecanismo de rotación externo requiere una "
+"configuración propia e independiente."
 
 #. SysConfig
 msgid "Ukrainian"
@@ -29370,13 +29385,15 @@ msgstr "Subir su certificado S/MIME."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Utilice Redis::Fast en lugar de Redis."
 
 #. SysConfig
 msgid ""
 "Use new type of select and autocomplete fields in agent interface, where "
 "applicable (InputFields)."
 msgstr ""
+"Utilizar el nuevo tipo de campos de selección y autocompletado en la "
+"interfaz del agente, cuando sea aplicable (InputFields)."
 
 #. SysConfig
 msgid "Use specified Redis logical database."
@@ -29400,13 +29417,15 @@ msgstr "Usuarios, Grupos y Roles"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Utiliza texto enriquecido para ver y editar la notificación del ticket."
 
 #. SysConfig
 msgid ""
 "Uses richtext for viewing and editing: articles, salutations, signatures, "
 "standard templates, auto responses and notifications."
 msgstr ""
+"Utiliza texto enriquecido para ver y editar: artículos, saludos, firmas, "
+"plantillas estándar, respuestas automáticas y notificaciones."
 
 #. SysConfig
 msgid "Vietnam"
@@ -29430,25 +29449,29 @@ msgstr "Tickets Visualizados."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Estamos realizando un mantenimiento programado."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. Login is temporarily not available."
 msgstr ""
+"Estamos realizando un mantenimiento programado. El inicio de sesión no está "
+"disponible temporalmente."
 
 #. SysConfig
 msgid ""
 "We are performing scheduled maintenance. We should be back online shortly."
 msgstr ""
+"Estamos realizando un mantenimiento programado. Deberíamos volver a estar en "
+"línea en breve."
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Servicio web"
 
 #. SysConfig
 msgid "Web Services"
-msgstr "Web Services"
+msgstr "Servicios web"
 
 #. SysConfig
 msgid ""
@@ -29456,12 +29479,17 @@ msgid ""
 "WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail"
 "\" and \"UserLogin\" will be substituted."
 msgstr ""
+"Texto de bienvenida para la cabecera del tablero. El nombre se insertará en "
+"%s del texto de bienvenida. \"UserTitle\", \"UserFirstname\", \"UserLastname"
+"\", \"UserEmail\" y \"UserLogin\" serán sustituidos."
 
 #. SysConfig
 msgid ""
 "When agent creates a ticket, whether or not the ticket is automatically "
 "locked to the agent."
 msgstr ""
+"Cuando el agente crea un ticket, si el ticket se bloquea o no "
+"automáticamente para el agente."
 
 #. SysConfig
 msgid ""
@@ -29469,6 +29497,9 @@ msgid ""
 "which is no longer active. Here you can define the body of this note (this "
 "text cannot be changed by the agent)."
 msgstr ""
+"Cuando se fusionan los tickets, se añade automáticamente una nota al ticket "
+"que ya no está activo. Aquí puede definir el cuerpo de esta nota (este texto "
+"no puede ser modificado por el agente)."
 
 #. SysConfig
 msgid ""
@@ -29476,6 +29507,9 @@ msgid ""
 "which is no longer active. Here you can define the subject of this note "
 "(this subject cannot be changed by the agent)."
 msgstr ""
+"Cuando se fusionan los tickets, se añade automáticamente una nota al ticket "
+"que ya no está activo. Aquí puede definir el asunto de esta nota (este "
+"asunto no puede ser modificado por el agente)."
 
 #. SysConfig
 msgid ""
@@ -29556,7 +29590,7 @@ msgstr "Detalle"
 
 #. SysConfig
 msgid "attachment"
-msgstr "Adjuntar Archivo"
+msgstr "Adjuntar archivo"
 
 #. SysConfig
 msgid "bounce"
