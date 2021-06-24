@@ -1,0 +1,56 @@
+/* TicketStats */
+.oooTile_TicketStats {
+        background-size:cover;
+        padding-left: 32px;
+        padding-top: 24px;
+}
+
+.oooTile_TicketStats h2 {
+        margin-bottom: 30px;
+}
+
+.oooTicketStatsChart {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+}
+
+.oooTicketStatsChart0 {
+        width: 70px;
+        height: 70px;
+        border: 15px solid orange;
+        border-radius: 50px;
+        position: absolute;
+}
+
+.oooTicketStatsChart1 {
+        width: 70px;
+        height: 70px;
+        border: 15px solid blue;
+        border-radius: 50px;
+        position: absolute;
+        clip: rect(0px, 50px, 100px, 0px);
+}
+
+.oooTicketStatsChart2 {
+        width: 70px;
+        height: 70px;
+        border: 15px solid blue;
+        border-radius: 50px;
+        position: absolute;
+        clip: rect(0px, 50px, 100px, 0px);
+}
+.oooTicketStatsText {
+        position: relative;
+        left: 180px;
+        top: 15px;
+        margin-bottom: 10px;
+}
+
+.oooTicketStatsColor {
+        border: 10px solid orange;
+        border-radius: 50px;
+        position: absolute;
+        top: 2px;
+        right: 400px;
+}
