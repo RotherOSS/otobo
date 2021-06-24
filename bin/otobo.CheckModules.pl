@@ -86,8 +86,9 @@ my %InstTypeToCMD = (
 my %DistToInstType = (
 
     # apt-get
-    debian => 'aptget',
-    ubuntu => 'aptget',
+    debian    => 'aptget',
+    ubuntu    => 'aptget',
+    linuxmint => 'aptget',
 
     # emerge
     # for reasons unknown, some environments return "gentoo" (incl. the quotes)
