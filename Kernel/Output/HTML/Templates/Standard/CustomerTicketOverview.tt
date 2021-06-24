@@ -34,7 +34,7 @@
         <div id='oooTicketListHeader'>
 [% IF Env("Subaction") == 'Search' %]
             <p class="ooo12 oool Selected">
-                [% Translate("Search") | html %]:  "[% Data.Fulltext %]"
+                [% Translate("Search") | html %]:  "[% Data.Fulltext | html %]"
             </p>
 [% END %]
 [% RenderBlockStart("FilterHeader") %]
