@@ -213,7 +213,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             // build TOC
             var TOCItem = Core.Template.Render('Customer/TicketZoomTOCItem', {
                 Sender:  Header.children(".oooSender").first().text(),
-                Age:     Header.children(".oooAge").first().text(),
+                Age:     Header.find(".oooAge").first().text(),
                 Subject: Header.children(".oooSubject").first().text(),
                 Attach:  Attachments.length,
             });
