@@ -1070,7 +1070,7 @@ my $WebserviceConfig = {
         'Test for Ticket Connector using SOAP transport backend.',
     Debugger => {
         DebugThreshold => 'debug',
-        TestMode       => 1,
+        TestMode       => 1,         # write no debug info in the table gi_debugger_entry_content
     },
     Provider => {
         Transport => {
@@ -1145,7 +1145,12 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
     },
 );
 
+# sanity check of the request for a new session
+# e.g. 'wewB0FscgcXFLYDmoSgmAEcEP8n5wMAT'
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
+note "got the new session ID: $NewSessionID";
+ok( $NewSessionID, 'received a new session id' );
+like( $NewSessionID, qr{^\w{32}$}, 'new session id looks sane, is 32 characters long' );
 
 my @Tests = (
     {
@@ -1857,7 +1862,7 @@ my @Tests = (
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
         DebugThreshold => 'debug',
-        TestMode       => 1,
+        TestMode       => 1,         # write no debug info in the table gi_debugger_entry_content
     },
     WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
