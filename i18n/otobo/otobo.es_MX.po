@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-06-25 19:53+0000\n"
+"PO-Revision-Date: 2021-06-28 21:36+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -2607,7 +2607,7 @@ msgstr "Última ejecución"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Ejecutar ahora"
+msgstr "¡Ejecutar ahora!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
@@ -2663,8 +2663,8 @@ msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
 msgstr ""
-"Para habilitar la ejecución automática, seleccione al menos un valor de "
-"minutos, horas y días."
+"¡Para habilitar la ejecución automática, seleccione al menos un valor de "
+"minutos, horas y días!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -3071,8 +3071,8 @@ msgstr "¡%s Tickets afectados! ¿Qué desea hacer?"
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
 msgstr ""
-"Advertencia: Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se "
-"perderán!. "
+"Advertencia: ¡Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se "
+"perderán!"
 
 #. Template: AdminGenericAgent
 msgid ""
@@ -4942,7 +4942,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr "¡Configurelo aquí! "
+msgstr "¡Configurelo aquí!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -5238,7 +5238,7 @@ msgstr "último"
 
 #. Template: AdminPerformanceLog
 msgid "This feature is enabled!"
-msgstr "Esta característica está habilitada"
+msgstr "¡Esta característica está habilitada!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
@@ -5250,11 +5250,11 @@ msgstr "Activar esta opción podría afectar el rendimiento de su sistema!"
 
 #. Template: AdminPerformanceLog
 msgid "Disable it here!"
-msgstr "Deshabilítelo aquí"
+msgstr "¡Deshabilítelo aquí!"
 
 #. Template: AdminPerformanceLog
 msgid "Logfile too large!"
-msgstr "Archivo de log muy grande"
+msgstr "¡Archivo de log muy grande!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
@@ -6751,7 +6751,7 @@ msgstr ""
 
 #. Template: AdminSalutation
 msgid "e. g."
-msgstr "p. ej.:"
+msgstr "Por ejemplo."
 
 #. Template: AdminSalutation
 msgid "Example salutation"
@@ -7766,7 +7766,7 @@ msgstr "Fecha/Hora"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
-msgstr "Fecha inválida."
+msgstr "¡Fecha inválida!"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
@@ -8770,7 +8770,7 @@ msgstr "Propietario nuevo"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr "Por favor, defina un propietario nuevo."
+msgstr "¡Por favor, defina un propietario nuevo!"
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
@@ -8838,7 +8838,7 @@ msgstr "Establecer una plantilla sobrescribirá cualquier texto o adjunto."
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
-msgstr "Hora inválida."
+msgstr "¡Hora inválida!"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
@@ -10611,7 +10611,7 @@ msgstr "Mostrar la última página"
 
 #. Template: PictureUpload
 msgid "Need FormID!"
-msgstr "Se necesita el ID del Formulario"
+msgstr "¡Se necesita el FormID!"
 
 #. Template: PictureUpload
 msgid "No file found!"
@@ -13641,7 +13641,7 @@ msgstr "Cliente agregado automáticamente en Cc."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
-msgstr "Ticket \"%s\" creado"
+msgstr "¡Ticket \"%s\" creado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
@@ -14548,7 +14548,7 @@ msgstr "No existe el usuario!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid calendar!"
-msgstr "Calendario inválido"
+msgstr "¡Calendario inválido!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid URL!"
@@ -14932,7 +14932,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
-msgstr "No tiene Permiso."
+msgstr "¡No tiene permiso!"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -14988,7 +14988,7 @@ msgstr "Agente Conectado: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
 msgid "There are more escalated tickets!"
-msgstr "No hay más tickets escalados"
+msgstr "¡No hay más tickets escalados!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
 msgid ""
@@ -15067,7 +15067,7 @@ msgstr "Verificar contraseña"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr "¡Contraseña incorrecta! Por favor, intente de nuevo."
+msgstr "¡Contraseña incorrecta Por favor, intente de nuevo!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -16896,7 +16896,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
-msgstr "Funcionalidad inactiva."
+msgstr "¡Funcionalidad inactiva!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
@@ -16906,7 +16906,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
-msgstr "Información inválida."
+msgstr "¡Información inválida!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
@@ -17920,7 +17920,7 @@ msgstr "Esta es una cita repetitiva"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Would you like to edit just this occurrence or all occurrences?"
-msgstr "Desea editar solo esta o todas las ocurrencias"
+msgstr "¿Desea editar solo esta ocurrencia o todas las ocurrencias?"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "All occurrences"
@@ -18211,7 +18211,7 @@ msgstr "Limpiar búsqueda"
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
 msgstr ""
-"Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán."
+"¡Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán!"
 
 #. JS File: Core.UI.Popup
 msgid ""
@@ -19384,7 +19384,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change queue!"
-msgstr "Cambiar fila"
+msgstr "¡Cambiar fila!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -21034,9 +21034,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
-msgstr ""
-"Define el texto para el cuerpo de los correos electrónicos electrónicos "
-"rechazados."
+msgstr "Define el texto para el cuerpo de los correos electrónicos rechazados."
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
@@ -25094,7 +25092,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Look into a ticket!"
-msgstr "Revisar un ticket"
+msgstr "¡Revisar un ticket!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
@@ -25205,7 +25203,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "Marcar como correo no deseado"
+msgstr "¡Marcar como correo no deseado!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
