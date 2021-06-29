@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.193380921479559;
+    $Self->{Completeness}        = 0.221771576898118;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -83,8 +83,8 @@ sub Data {
             '',
         'Change settings' => 'Keisti nustatymus',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
-            '',
-        'Check the official %sdocumentation%s.' => '',
+            'Nustatykite, ką norite pakeisti, jei kriterijai atitinka. Atminkite, kad „Galimas“ yra baltasis sąrašas, „Negalimas“ - juodasis sąrašas.',
+        'Check the official %sdocumentation%s.' => 'Patikrinkite oficialią% sdokumentaciją%s.',
         'Show or hide the content' => 'Slėpti arba rodyti turinį',
         'Edit ACL Information' => 'Pakeisti ACL informaciją',
         'Name' => 'Vardas',
@@ -217,23 +217,23 @@ sub Data {
         'At least one method is needed per notification.' => 'Bent vienas būdas yra būtinas vienam pranešimui.',
         'Active by default in agent preferences' => '"Aktyvus" numatyta agento pasirinkimuose',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            'Čia yra numatytoji vertė priskirtiems agentams, kurie nep',
-        'This feature is currently not available.' => '',
-        'Upgrade to %s' => '',
+            'Čia yra numatytoji vertė priskirtiems agentams, kurie savo nuostatose dar nepasirinko šio pranešimo. Jei langelis įgalintas, pranešimas bus išsiųstas tokiems agentams.',
+        'This feature is currently not available.' => 'Ši funkcija šiuo metu nepasiekiama.',
+        'Upgrade to %s' => 'Atnaujinti į% s',
         'Please activate this transport in order to use it.' => '',
-        'No data found' => '',
-        'No notification method found.' => '',
-        'Notification Text' => '',
+        'No data found' => 'Duomenų nerasta',
+        'No notification method found.' => 'Nerastas pranešimo metodas.',
+        'Notification Text' => 'Pranešimo tekstas',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Notification Language' => '',
+            'Šios kalbos sistemoje nėra arba ji neįgalinta. Šis pranešimo tekstas gali būti ištrintas, jei jis nebereikalingas.',
+        'Remove Notification Language' => 'Pašalinti pranešimų kalbą',
         'Subject' => 'Tema',
         'Text' => 'Tekstas',
-        'Message body' => '',
-        'Add new notification language' => '',
+        'Message body' => 'Pranešimo turinys',
+        'Add new notification language' => 'Pridėti naują pranešimų kalbą',
         'Save Changes' => 'Išsaugoti pakeitimus',
-        'Tag Reference' => '',
-        'Notifications are sent to an agent.' => '',
+        'Tag Reference' => 'Žymos nuoroda',
+        'Notifications are sent to an agent.' => 'Pranešimai siunčiami agentui.',
         'You can use the following tags' => 'Galite naudoti šias žymeles',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
@@ -241,19 +241,19 @@ sub Data {
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => 'Konfigūracijos parinktys',
-        'Example notification' => '',
+        'Example notification' => 'Pranešimo pavyzdys',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
-        'This field must have less then 200 characters.' => '',
-        'Article visible for customer' => '',
+        'Additional recipient email addresses' => 'Papildomi gavėjo el. pašto adresai',
+        'This field must have less then 200 characters.' => 'Šiame lauke turi būti mažiau nei 200 simbolių.',
+        'Article visible for customer' => 'Straipsnis matomas klientui',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
-        'Email template' => '',
+        'Email template' => 'El. pašto šablonas',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
-        'Enable email security' => '',
-        'Email security level' => '',
+            'Naudokite šį šabloną, kad sugeneruotumėte visą el. laišką (tik HTML el. laiškams).',
+        'Enable email security' => 'Įgalinti el. pašto saugą',
+        'Email security level' => 'El. pašto saugumo lygis',
         'If signing key/certificate is missing' => '',
         'If encryption key/certificate is missing' => '',
 
@@ -262,11 +262,11 @@ sub Data {
         'Add Attachment' => 'Pridėti Priedą',
         'Edit Attachment' => 'Keisti priedą',
         'Filter for Attachments' => 'Filtruoti priedus',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filtras priedams',
         'Filename' => 'Failo pavadinimas',
         'Download file' => 'Parsisiųsti failą',
         'Delete this attachment' => 'Ištrinti šį priedą',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Ar tikrai norite ištrinti šį priedą?',
         'Attachment' => 'Priedas',
 
         # Template: AdminAutoResponse
@@ -274,7 +274,7 @@ sub Data {
         'Add Auto Response' => 'Pridėti Automatinį atsakymą',
         'Edit Auto Response' => 'Redaguoti automatinį atsakymą',
         'Filter for Auto Responses' => 'Filtruoti auto. atsakymus',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filtruoti automatinius atsakymus',
         'Response' => 'Atsakymas',
         'Auto response from' => 'Automatinis atsakymas nuo',
         'Reference' => 'Nuoroda (Reference)',
@@ -300,31 +300,31 @@ sub Data {
         'Currently support data is only shown in this system.' => '',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
             '',
-        'Configuration' => '',
-        'Send support data' => '',
+        'Configuration' => 'Konfigūracija',
+        'Send support data' => 'Siųsti palaikymo duomenis',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Tai leis sistemai siųsti papildomą palaikymo duomenų informaciją OTOBO komandai.',
         'Update' => 'Atnaujinti',
-        'System Registration' => '',
+        'System Registration' => 'Sistemos registracija',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
             '',
-        'Register this System' => '',
+        'Register this System' => 'Užregistruokite šią sistemą',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            '',
+            'Jūsų sistemoje sistemos registracija yra išjungta. Patikrinkite savo konfigūraciją.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'Sistemos registracija yra OTOBO komandos paslauga, suteikianti daug privalumų!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             '',
-        'Register this system' => '',
+        'Register this system' => 'Užregistruokite šią sistemą',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             '',
-        'Available Cloud Services' => '',
+        'Available Cloud Services' => 'Galimos debesų paslaugos',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Komunikacijos žurnalas',
+        'Time Range' => 'Laiko diapazonas',
         'Show only communication logs created in specific time range.' =>
             '',
         'Filter for Communications' => '',
@@ -442,10 +442,10 @@ sub Data {
         'Customer Default Groups:' => 'Standartinės klientų grupės:',
         'No changes can be made to these groups.' => 'Šioms grupėms negalima atlikti jokių pakeitimų.',
         'ro' => 'ro',
-        'Read only access to the ticket in this group/queue.' => 'Tik skaitymo teisės trikčiai šioje grupėje/eilėje.',
+        'Read only access to the ticket in this group/queue.' => 'Tik skaitymo teisės kreipiniui šioje grupėje/eilėje.',
         'rw' => 'rw',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Pilnos skaitymo ir rašymo teisės trikčiai šioje grupėje/eilėje.',
+            'Pilnos skaitymo ir rašymo teisės kreipiniui šioje grupėje/eilėje.',
 
         # Template: AdminCustomerUser
         'Customer User Management' => '',
@@ -808,8 +808,8 @@ sub Data {
         'Add dynamic field' => '',
         'Create times' => 'Sukūrimo datos',
         'No create time settings.' => '',
-        'Ticket created' => 'Triktis sukurta',
-        'Ticket created between' => 'Triktis sukurta tarp',
+        'Ticket created' => 'Kreipinys sukurtas',
+        'Ticket created between' => 'Kreipinys sukurtas tarp',
         'and' => 'ir',
         'Last changed times' => '',
         'No last changed time settings.' => '',
@@ -825,8 +825,8 @@ sub Data {
         'Ticket last close between' => '',
         'Close times' => 'Uždarymo datos',
         'No close time settings.' => '',
-        'Ticket closed' => 'Triktis uždaryta',
-        'Ticket closed between' => 'Triktis uždaryta tarp',
+        'Ticket closed' => 'Kreipinys uždarytas',
+        'Ticket closed between' => 'Kreipinys uždarytas tarp',
         'Pending times' => '',
         'No pending time settings.' => '',
         'Ticket pending time reached' => '',
@@ -860,7 +860,7 @@ sub Data {
         'New customer ID' => 'Naujo kliento ID',
         'New title' => 'Naujas pavadinimas',
         'New type' => 'Naujas tipas',
-        'Archive selected tickets' => 'Archyvuoti pasirinktas triktis',
+        'Archive selected tickets' => 'Archyvuoti pasirinktus kreipinius',
         'Add Note' => 'Pridėti pastabą',
         'Visible for customer' => '',
         'Time units' => 'Laiko vienetai',
@@ -869,19 +869,19 @@ sub Data {
         'CMD' => 'CMD',
         'This command will be executed. ARG[0] will be the ticket number. ARG[1] the ticket id.' =>
             'Ši komanda bus įvykdyta. ARG[0] bus užduoties numeris, ARG[1] - trikties ID.',
-        'Delete tickets' => 'Ištrinti triktis',
+        'Delete tickets' => 'Ištrinti kreipinius',
         'Warning: All affected tickets will be removed from the database and cannot be restored!' =>
             'Įspėjimas: visos paveiktos užduotys bus pašalintos iš duomenų bazės ir bus nebeatstatomos!',
         'Execute Custom Module' => 'Vykdyti pasirinktinį/nestandartinį (custom) modulį',
         'Param %s key' => 'Parametro %s raktas',
         'Param %s value' => 'Parametro %s reikšmė',
         'Results' => 'Rezultatai',
-        '%s Tickets affected! What do you want to do?' => '%s paveiktos triktys! Ką norite daryti?',
+        '%s Tickets affected! What do you want to do?' => '%s paveikti kreipiniai! Ką norite daryti?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrintos triktys bus prarastos visam laikui!',
+            'ĮSPĖJIMAS: Pasirinkote IŠTRINTI. Ištrinti kreipiniai bus prarasti visam laikui!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
             '',
-        'Affected Tickets' => 'Paveiktos triktys',
+        'Affected Tickets' => 'Paveikti kreipiniai',
         'Age' => 'Amžius',
 
         # Template: AdminGenericInterfaceDebugger
@@ -1747,12 +1747,12 @@ sub Data {
         'Remove this Parameter' => '',
 
         # Template: AdminQueue
-        'Queue Management' => '',
+        'Queue Management' => 'Eilių valdymas',
         'Add Queue' => 'Pridėto eilę',
         'Edit Queue' => 'Redaguoti eilę',
         'Filter for Queues' => 'Filtruoti eiles',
-        'Filter for queues' => '',
-        'A queue with this name already exists!' => '',
+        'Filter for queues' => 'Filtras eilėms',
+        'A queue with this name already exists!' => 'Eilė šiuo pavadinimu jau egzistuoja!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
         'Sub-queue of' => 'Poeilis',
@@ -1765,17 +1765,17 @@ sub Data {
         'Notify by' => 'Pranešti per',
         '0 = no escalation' => '0 = neeskaluoti',
         'If there is not added a customer contact, either email-external or phone, to a new ticket before the time defined here expires, the ticket is escalated.' =>
-            'Jeigu naujai trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus eskaluota.',
+            'Jeigu naujam kreipiniui nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai kreipinys bus eskaluotas.',
         'If there is an article added, such as a follow-up via email or the customer portal, the escalation update time is reset. If there is no customer contact, either email-external or phone, added to a ticket before the time defined here expires, the ticket is escalated.' =>
-            'Jeigu trikčiai bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį el. paštą arba klientų portalą, tai eskalavimo atnaujinimo laikas yra atstatomas atgal. Jeigu trikčiai nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai triktis bus eskaluota.',
+            'Jeigu kreipiniui bus pridėtas naujas straipsnis, pvz., atsakymas per išorinį el. paštą arba klientų portalą, tai eskalavimo atnaujinimo laikas yra atstatomas atgal. Jeigu kreipiniui nebus pridėti kliento kontaktai (išorinis el. paštas ar telefono numeris), iki pasibaigiant čia nurodytam laikui, tai kreipinys bus eskaluotas.',
         'If the ticket is not set to closed before the time defined here expires, the ticket is escalated.' =>
-            'Jeigu triktis nebus ir neuždaryta iki pasibaigs čia nurodytas laikas, tai ji bus eskaluota.',
+            'Jeigu kreipinio nebus arba jis bus neuždarytas iki pasibaigs čia nurodytas laikas, tai ji bus eskaluotas.',
         'Follow up Option' => '',
         'Specifies if follow up to closed tickets would re-open the ticket, be rejected or lead to a new ticket.' =>
             'Nurodo ar tolimesni veiksmai su jau uždaryta triktimi: ją iš naujo atidarytų, atmestų bet kokius tolimesnius veiksmus, sukurtų naują triktį.',
         'Ticket lock after a follow up' => 'Užrakinti triktį po bet kokio atsakymo ar kontakto',
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
-            'Jeigu triktis yra uždaryta ir klientas vėl ką nors atsiunčia - triktis bus prirakinta prie senojo savininko.',
+            'Jeigu kreipinys yra uždarytas ir klientas vėl ką nors atsiunčia, tai kreipinys bus prirakintas prie senojo savininko.',
         'System address' => 'Sistemos adresas',
         'Will be the sender address of this queue for email answers.' => 'Bus šios eilės siunčiamų atsakymų siuntėjo adresas.',
         'Default sign key' => 'Standartinis pasirašymo raktas',
@@ -1790,10 +1790,10 @@ sub Data {
         # Template: AdminQueueAutoResponse
         'Manage Queue-Auto Response Relations' => 'Valdyti eilių - automatinių atsakymų ryšius',
         'Change Auto Response Relations for Queue' => 'Keisti eilei automatinių atsakymų sąsajas',
-        'This filter allow you to show queues without auto responses' => '',
-        'Queues without Auto Responses' => '',
-        'This filter allow you to show all queues' => '',
-        'Show All Queues' => '',
+        'This filter allow you to show queues without auto responses' => 'Šis filtras leidžia rodyti eiles be automatinių atsakymų',
+        'Queues without Auto Responses' => 'Eilės be automatinių atsakymų',
+        'This filter allow you to show all queues' => 'Šis filtras leidžia rodyti visas eiles',
+        'Show All Queues' => 'Rodyti visas eiles',
         'Auto Responses' => 'Automatiniai atsakymai',
 
         # Template: AdminQueueTemplates
@@ -1875,7 +1875,7 @@ sub Data {
         'Optional description of this system.' => '',
         'This will allow the system to send additional support data information to OTOBO Team.' =>
             '',
-        'Register' => '',
+        'Register' => 'Registruotis',
         'Continuing with this step will deregister the system from OTOBO Team.' =>
             '',
         'Deregister' => '',
@@ -1905,20 +1905,20 @@ sub Data {
         'Roles' => 'Rolės',
         'Select the role:group permissions.' => 'Pasirinkite rolė:grupė leidimus.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the role).' =>
-            'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (rolei triktys bus neprieinamos).',
+            'Jeigu nėra nieko pasirinkta, tai šioje grupėje nėra nustatytų leidimų (rolei kreipiniai bus neprieinamos).',
         'Toggle %s permission for all' => 'Perjungti visiems %s leidimą',
         'move_into' => 'Perkelti į',
-        'Permissions to move tickets into this group/queue.' => 'Leidimai perkelti triktis į šią grupę/eilę.',
+        'Permissions to move tickets into this group/queue.' => 'Leidimai perkelti kreipinius į šią grupę/eilę.',
         'create' => 'sukurti',
-        'Permissions to create tickets in this group/queue.' => 'Leidimai kurti triktis šioje grupėje/eilėje.',
+        'Permissions to create tickets in this group/queue.' => 'Leidimai kurti kreipinius šioje grupėje/eilėje.',
         'note' => 'pastaba',
-        'Permissions to add notes to tickets in this group/queue.' => 'Leidimai pridėti pastabas triktims šioje grupėje/eilėje.',
+        'Permissions to add notes to tickets in this group/queue.' => 'Leidimai pridėti pastabas kreipiniams šioje grupėje/eilėje.',
         'owner' => 'savininkas',
         'Permissions to change the owner of tickets in this group/queue.' =>
-            'Leidimai keisti trikčių savininkus šioje grupėje/eilėje.',
+            'Leidimai keisti kreipinių savininkus šioje grupėje/eilėje.',
         'priority' => 'prioritetas',
         'Permissions to change the ticket priority in this group/queue.' =>
-            'Leidimai keisti trikčių prioritetus šioje grupėje/eilėje.',
+            'Leidimai keisti kreipinių prioritetus šioje grupėje/eilėje.',
 
         # Template: AdminRoleUser
         'Manage Agent-Role Relations' => 'Valdyti Agentas-Rolė ryšius',
@@ -2007,7 +2007,7 @@ sub Data {
             '',
         'Result format' => 'Rezultato formatas',
         'Run Query' => 'Vykdyti užduotį',
-        '%s Results' => '',
+        '%s Results' => '% s rezultatai',
         'Query is executed.' => '',
 
         # Template: AdminService
@@ -2064,7 +2064,7 @@ sub Data {
             '',
         'You can manually trigger the Support Data sending by pressing this button:' =>
             '',
-        'Send Update' => '',
+        'Send Update' => 'Siųsti naujinį',
         'Currently this data is only shown in this system.' => '',
         'It is highly recommended to send this data to OTOBO Team in order to get better support.' =>
             '',
@@ -2075,7 +2075,7 @@ sub Data {
         'Generate Support Bundle' => '',
         'The Support Bundle has been Generated' => '',
         'Please choose one of the following options.' => '',
-        'Send by Email' => '',
+        'Send by Email' => 'Siųsti el. paštu',
         'The support bundle is too large to send it by email, this option has been disabled.' =>
             '',
         'The email address for this user is invalid, this option has been disabled.' =>
@@ -2083,7 +2083,7 @@ sub Data {
         'Sending' => 'Siuntėjas',
         'The support bundle will be sent to OTOBO Team via email automatically.' =>
             '',
-        'Download File' => '',
+        'Download File' => 'Atsisiųsti failą',
         'A file containing the support bundle will be downloaded to the local system. Please save the file and send it to the OTOBO Team, using an alternate method.' =>
             '',
         'Error: Support data could not be collected (%s).' => '',
@@ -2242,7 +2242,7 @@ sub Data {
         'Edit Template' => '',
         'A template is a default text which helps your agents to write faster tickets, answers or forwards.' =>
             '',
-        'Don\'t forget to add new templates to queues.' => '',
+        'Don\'t forget to add new templates to queues.' => 'Nepamirškite pridėti naujų šablonų prie eilių.',
         'Attachments' => 'Priedai',
         'Delete this entry' => 'Ištrinti šį įrašą',
         'Do you really want to delete this template?' => '',
@@ -2440,11 +2440,11 @@ sub Data {
         'in' => 'in',
 
         # Template: AgentDashboardCommon
-        'Save settings' => '',
+        'Save settings' => 'Išsaugoti nustatymus',
         'Close this widget' => '',
         'more' => 'daugiau',
-        'Available Columns' => '',
-        'Visible Columns (order by drag & drop)' => '',
+        'Available Columns' => 'Galimi stulpeliai',
+        'Visible Columns (order by drag & drop)' => 'Matomi stulpeliai (vilkite ir paleiskite)',
 
         # Template: AgentDashboardCustomerIDList
         'Change Customer Relations' => '',
@@ -2458,7 +2458,7 @@ sub Data {
         'Escalated tickets' => '',
         'Open tickets' => '',
         'Closed tickets' => '',
-        'All tickets' => 'Visos triktys',
+        'All tickets' => 'Visi kreipiniai',
         'Archived tickets' => '',
 
         # Template: AgentDashboardCustomerUserInformation
@@ -2498,10 +2498,10 @@ sub Data {
         # Template: AgentDashboardTicketGeneric
         'Assigned to customer user' => '',
         'Accessible for customer user' => '',
-        'My locked tickets' => '',
+        'My locked tickets' => 'Mano užrakinti kreipiniai',
         'My watched tickets' => '',
         'My responsibilities' => '',
-        'Tickets in My Queues' => '',
+        'Tickets in My Queues' => 'Kreipiniai mano eilėse',
         'Tickets in My Services' => '',
         'Service Time' => 'Aptarnavimo laikas',
 
@@ -2523,7 +2523,7 @@ sub Data {
         'Details view' => '',
 
         # Template: AgentElasticsearchQuickResult
-        'Tickets' => 'Triktys',
+        'Tickets' => 'Kreipiniai',
         'ConfigItems' => '',
 
         # Template: AgentInfo
@@ -2652,7 +2652,7 @@ sub Data {
         'Set Pending Time for %s%s%s' => '',
         'Change Priority of %s%s%s' => '',
         'Change Responsible of %s%s%s' => '',
-        'The ticket has been locked' => 'Triktis buvo užrakinta',
+        'The ticket has been locked' => 'Kreipinys buvo užrakintas',
         'Undo & close' => '',
         'Ticket Settings' => 'Užduočių nustatymai',
         'Queue invalid.' => 'Eilė negalima.',
@@ -2697,7 +2697,7 @@ sub Data {
         'Merge to oldest' => 'Prijungti prie seniausio',
         'Link together' => 'Susieti vieną su kitu',
         'Link to parent' => 'Susieti su tėvu (parent)',
-        'Unlock tickets' => 'Atrakinti triktis',
+        'Unlock tickets' => 'Atrakinti kreipinius',
         'Execute Bulk Action' => '',
 
         # Template: AgentTicketCompose
@@ -2713,7 +2713,7 @@ sub Data {
             '',
         'This address already exists on the address list.' => '',
         'Remove Cc' => '',
-        'Bcc' => 'Bcc',
+        'Bcc' => 'Kopija',
         'Remove Bcc' => '',
         'Date Invalid!' => 'Negalima data!',
 
@@ -2780,7 +2780,7 @@ sub Data {
         'First Response Time' => 'Pirmas atsakymo laikas',
         'Update Time' => 'Atnaujinimo laikas',
         'Solution Time' => 'Sprendimo laikas',
-        'Move ticket to a different queue' => 'Perkelti triktį į kitą eilę',
+        'Move ticket to a different queue' => 'Perkelti kreipinį į kitą eilę',
         'Change queue' => 'Pakeisti eilę',
 
         # Template: AgentTicketOverviewNavBar
@@ -2943,7 +2943,7 @@ sub Data {
 
         # Template: CustomerDashboard
         'Ticket Search' => '',
-        'New Ticket' => 'Nauja triktis',
+        'New Ticket' => 'Naujas kreipinys',
 
         # Template: CustomerError
         'An Error Occurred' => '',
@@ -3028,9 +3028,9 @@ sub Data {
         'No time settings' => '',
         'All' => 'Visos',
         'Specific date' => '',
-        'Only tickets created' => 'Tik triktys sukurti',
+        'Only tickets created' => 'Tik sukurti kreipiniai',
         'Date range' => '',
-        'Only tickets created between' => 'Tik triktys sukurti tarp',
+        'Only tickets created between' => 'Tik kreipiniai sukurti tarp',
         'Ticket Archive System' => '',
         'Save Search as Template?' => '',
         'Save as Template?' => 'Išsaugoti kaip šabloną?',
@@ -3099,7 +3099,7 @@ sub Data {
         'General Specifications and Mail Settings' => 'Bendrieji reikalavimai ir Pašto nustatymai',
         'Finish' => 'Baigti',
         'Welcome to %s' => '',
-        'Germany' => '',
+        'Germany' => 'Vokiečių',
         'Phone' => 'Telefonas',
         'Web site' => 'Interneto puslapis',
 
@@ -3170,7 +3170,7 @@ sub Data {
         'Accept license and continue' => '',
 
         # Template: InstallerSystem
-        'SystemID' => 'SystemID',
+        'SystemID' => 'Sistemos ID',
         'The identifier of the system. Each ticket number and each HTTP session ID contain this number.' =>
             'Sistemos identifikacijos numeris. Šis numeris bus kiekviename trikties numeryje ir kiekviename HTTP sesijos ID.',
         'HTTP Type' => '',
@@ -3288,7 +3288,7 @@ sub Data {
 
         # Template: Alert
         'Alert' => '',
-        'Powered by' => 'Powered by',
+        'Powered by' => 'Parengta pagal',
 
         # Template: Pagination
         'Show first page' => 'Rodyti pirmą puslapį',
@@ -3309,13 +3309,13 @@ sub Data {
 
         # Template: ActivityDialogHeader
         'Process Information' => '',
-        'Dialog' => '',
+        'Dialog' => 'Dialogas',
 
         # Template: Article
         'Inform Agent' => 'Informuoti agentą',
 
         # Template: PublicDefault
-        'Welcome' => '',
+        'Welcome' => 'Sveiki',
         'This is the default public interface of OTOBO! There was no action parameter given.' =>
             '',
         'You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface.' =>
@@ -3761,7 +3761,7 @@ sub Data {
         'Time unit' => 'Laiko vienetas',
         'within the last ...' => '',
         'within the next ...' => '',
-        'more than ... ago' => 'daugiau nei prieš ...',
+        'more than ... ago' => 'daugiau nei prieš',
         'Unarchived tickets' => '',
         'archive tickets' => '',
         'restore tickets from archive' => '',
@@ -4038,9 +4038,9 @@ sub Data {
         'Could not get data for ActivityDialogID %s' => '',
         'There was an error updating the ActivityDialog' => '',
         'Edit Activity Dialog "%s"' => '',
-        'Agent Interface' => '',
-        'Customer Interface' => '',
-        'Agent and Customer Interface' => '',
+        'Agent Interface' => 'Agento sąsaja',
+        'Customer Interface' => 'Kliento sąsaja',
+        'Agent and Customer Interface' => 'Agento ir kliento sąsaja',
         'Do not show Field' => '',
         'Show Field' => '',
         'Show Field As Mandatory' => '',
@@ -4075,12 +4075,12 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
         'Queue updated!' => 'Eilė atnaujinta!',
-        'Don\'t use :: in queue name!' => '',
+        'Don\'t use :: in queue name!' => 'Nenaudokite :: eilės pavadinime!',
         'Click back and change it!' => '',
         '-none-' => '-nėra-',
 
         # Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
-        'Queues ( without auto responses )' => '',
+        'Queues ( without auto responses )' => 'Eilės (be automatinių atsakymų)',
 
         # Perl Module: Kernel/Modules/AdminQueueTemplates.pm
         'Change Queue Relations for Template' => '',
@@ -4088,9 +4088,9 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminRegistration.pm
         'Production' => '',
-        'Test' => '',
-        'Training' => '',
-        'Development' => '',
+        'Test' => 'Testas',
+        'Training' => 'Mokymai',
+        'Development' => 'Plėtra',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
         'Role updated!' => 'Rolė atnaujinta!',
@@ -4101,7 +4101,7 @@ sub Data {
         'Change Role Relations for Group' => 'Keisti rolių ryšius grupei',
 
         # Perl Module: Kernel/Modules/AdminRoleUser.pm
-        'Role' => '',
+        'Role' => 'Rolė',
         'Change Role Relations for Agent' => 'Keisti rolių ryšius agentui',
         'Change Agent Relations for Role' => 'Keisti agentų ryšius rolei',
 
@@ -4356,7 +4356,7 @@ sub Data {
         'Customer user automatically added in Cc.' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'Ticket "%s" created!' => 'Triktis "%s" sukurta!',
+        'Ticket "%s" created!' => 'Kreipiny "%s" sukurtas!',
         'No Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
@@ -4389,7 +4389,7 @@ sub Data {
         'New Article' => 'Naujas straipsnis',
         'Pending' => 'Laukiantis sprendimo',
         'Reminder Reached' => 'Pasiektas priminimas',
-        'My Locked Tickets' => 'Mano užrakintos triktys',
+        'My Locked Tickets' => 'Mano užrakinti kreipiniai',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
         'Can\'t merge ticket with itself!' => '',
@@ -4480,13 +4480,13 @@ sub Data {
         'QueueView' => 'Eilių peržiūra',
 
         # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'My Responsible Tickets' => 'Triktys už kuriuos aš atsakingas',
+        'My Responsible Tickets' => 'Kreipiniai už kuriuos aš atsakingas',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'last-search' => 'Paskutinė paieška',
         'Untitled' => '',
         'Ticket Number' => 'Trikties numeris',
-        'Ticket' => 'Triktis',
+        'Ticket' => 'Kreipinys',
         'printed by' => 'atspausdino',
         'CustomerID (complex search)' => '',
         'CustomerID (exact match)' => '',
@@ -4504,7 +4504,7 @@ sub Data {
         'Status View' => 'Būsenos peržiūra',
 
         # Perl Module: Kernel/Modules/AgentTicketWatchView.pm
-        'My Watched Tickets' => 'Mano stebimos triktys',
+        'My Watched Tickets' => 'Mano stebimi kreipiniai',
 
         # Perl Module: Kernel/Modules/AgentTicketWatcher.pm
         'Feature is not active' => '',
@@ -4597,8 +4597,8 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerTicketOverview.pm
         'Need CustomerID!' => '',
-        'My Tickets' => 'Mano triktys',
-        'Company Tickets' => 'Organizacijos triktys',
+        'My Tickets' => 'Mano kreipiniai',
+        'Company Tickets' => 'Organizacijos kreipiniai',
         'Untitled!' => '',
 
         # Perl Module: Kernel/Modules/CustomerTicketSearch.pm
@@ -4792,8 +4792,8 @@ sub Data {
         'Can\'t connect to %s!' => '',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'Shown Tickets' => 'Rodomos triktys',
-        'Shown Columns' => '',
+        'Shown Tickets' => 'Rodomi kreipiniai',
+        'Shown Columns' => 'Rodomi stulpeliai',
         'filter not active' => '',
         'filter active' => '',
         'This ticket has no title or subject' => '',
@@ -4973,17 +4973,17 @@ sub Data {
         'Order by' => 'Rikiuoti pagal',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
-        'Locked Tickets New' => 'Nauji užrakintos triktys',
+        'Locked Tickets New' => 'Nauji užrakinti kreipiniai',
         'Locked Tickets Reminder Reached' => '',
         'Locked Tickets Total' => 'Iš viso užrakintų trikčių',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
-        'Responsible Tickets New' => 'Naujos atsakingos triktys',
+        'Responsible Tickets New' => 'Nauji atsakingi kreipiniai',
         'Responsible Tickets Reminder Reached' => '',
         'Responsible Tickets Total' => 'Iš viso atsakingų trikčių',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
-        'Watched Tickets New' => 'Naujos stebimos triktys',
+        'Watched Tickets New' => 'Nauji stebimi kreipiniai',
         'Watched Tickets Reminder Reached' => '',
         'Watched Tickets Total' => 'Iš viso stebimų trikčių',
 
@@ -5274,7 +5274,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => '',
-        'Queues / Tickets' => '',
+        'Queues / Tickets' => 'Eilės / Kreipiniai',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => '',
@@ -5663,7 +5663,7 @@ sub Data {
         'Logout successful.' => '',
         'Feature not active!' => 'Funkcija/ypatybė neaktyvuota!',
         'Sent password reset instructions. Please check your email.' => 'Slaptažodžio atstatymo instrukcijos išsiųstos. Prašome pasitikrinti savo el. paštą.',
-        'Invalid Token!' => 'Negalimas triktis!',
+        'Invalid Token!' => 'Negalimas kreipinys!',
         'Sent new password to %s. Please check your email.' => 'Naujas slaptažodis išsiųstas į %s. Prašome pasitikrinti savo el. paštą.',
         'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '',
@@ -5762,7 +5762,7 @@ sub Data {
         'default follow-up (after a ticket follow-up has been added)' => '',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
             '',
-        'Unclassified' => '',
+        'Unclassified' => 'Neklasifikuota',
         '1 very low' => '1 labai žemas',
         '2 low' => '2 žemas',
         '3 normal' => '3 normalus',
@@ -5789,7 +5789,7 @@ sub Data {
         'Ticket owner update notification' => '',
         'Ticket responsible update notification' => '',
         'Ticket new note notification' => '',
-        'Ticket queue update notification' => '',
+        'Ticket queue update notification' => 'Pranešimas apie kreipinių eilės atnaujinimą',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
             '',
         'Ticket pending reminder notification (locked)' => '',
@@ -6353,12 +6353,12 @@ Thanks for your help!
         'Agents ↔ Roles' => '',
         'All CustomerIDs of a customer user.' => '',
         'All customer users of a CustomerID' => '',
-        'All escalated tickets' => 'Visos eskaluotos triktys',
-        'All new tickets, these tickets have not been worked on yet' => 'Visos naujos triktys su kuriomis dar nebuvo dirbta',
+        'All escalated tickets' => 'Visi eskaluoti kreipiniai',
+        'All new tickets, these tickets have not been worked on yet' => 'Visi nauji kreipiniai su kuriais dar nebuvo dirbta',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
-            'Visos triktys turinčios nustatytus priminimus, kurių priminimo laikai jau atėjo',
+            'Visi kreipiniai turintis nustatytus priminimus, kurių priminimo laikai jau atėjo',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
@@ -6480,7 +6480,7 @@ Thanks for your help!
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
             '',
         'Bounced to "%s".' => 'Nukreiptas į "%s".',
-        'Bulgarian' => '',
+        'Bulgarian' => 'Bulgarų',
         'Bulk Action' => 'Masinis veiksmas',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
             '',
@@ -6505,7 +6505,7 @@ Thanks for your help!
             '',
         'Change Ticket' => '',
         'Change Ticket information' => '',
-        'Change queue!' => '',
+        'Change queue!' => 'Keisti eilę!',
         'Change the customer for this ticket' => '',
         'Change the owner for this ticket' => '',
         'Change the priority for this ticket' => '',
@@ -6519,7 +6519,7 @@ Thanks for your help!
         'Changed owner to "%s" (%s).' => '',
         'Changed pending time to "%s".' => '',
         'Changed priority from "%s" (%s) to "%s" (%s).' => 'Prioritetas pakeistas iš "%s" (%s) į "%s" (%s).',
-        'Changed queue to "%s" (%s) from "%s" (%s).' => '',
+        'Changed queue to "%s" (%s) from "%s" (%s).' => 'Eilė pakeista į „% s“ (% s) iš „% s“ (% s).',
         'Changed responsible to "%s" (%s).' => '',
         'Changed service to "%s" (%s).' => '',
         'Changed state from "%s" to "%s".' => '',
@@ -6540,8 +6540,8 @@ Thanks for your help!
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
             '',
         'Child' => 'Vaikas',
-        'Chinese (Simplified)' => '',
-        'Chinese (Traditional)' => '',
+        'Chinese (Simplified)' => 'Kinų (Supaprastinta)',
+        'Chinese (Traditional)' => 'Kinų (Tradicinis)',
         'Choose for which kind of appointment changes you want to receive notifications.' =>
             '',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
@@ -6576,7 +6576,7 @@ Thanks for your help!
             '',
         'Comment for new history entries in the customer interface.' => '',
         'Comment2' => '',
-        'Communication' => '',
+        'Communication' => 'Bendravimas',
         'Communication & Notifications' => '',
         'Communication Log GUI' => '',
         'Communication log limit per page for Communication Log Overview.' =>
@@ -6654,7 +6654,7 @@ Thanks for your help!
         'Create your first ticket' => 'Sukurti pirmąjį trikties pranešimą',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
             '',
-        'Croatian' => '',
+        'Croatian' => 'Kroatų',
         'Custom RSS Feed' => '',
         'Custom RSS feed.' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
@@ -6697,8 +6697,8 @@ Thanks for your help!
         'Customers ↔ Groups' => '',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
             '',
-        'Czech' => '',
-        'Danish' => '',
+        'Czech' => 'Čekų',
+        'Danish' => 'Danų',
         'Dashboard overview.' => '',
         'Data used to export the search result in CSV format.' => '',
         'Date / Time' => '',
@@ -7455,11 +7455,11 @@ Thanks for your help!
             '',
         'Delete expired cache from core modules.' => '',
         'Delete expired loader cache weekly (Sunday mornings).' => '',
-        'Delete expired sessions.' => '',
+        'Delete expired sessions.' => 'Ištrinkite pasibaigusius seansus.',
         'Delete expired ticket draft entries.' => '',
         'Delete expired upload cache hourly.' => '',
-        'Delete this ticket' => '',
-        'Deleted link to ticket "%s".' => 'Pašalinta trikties sąsaja "%s".',
+        'Delete this ticket' => 'Ištrinti šį kreipinį',
+        'Deleted link to ticket "%s".' => 'Pašalinta kreipinio sąsaja "%s".',
         'Deletes a session if the session id is used with an invalid remote IP address.' =>
             '',
         'Deletes requested sessions if they have timed out.' => '',
@@ -7642,18 +7642,18 @@ Thanks for your help!
         'Enables ticket watcher feature only for the listed groups.' => '',
         'Enabling SecureMode disables the web installer (http://yourhost.example.com/otobo/installer.pl) and the migrations. This is done in order to prevent the system from being hijacked. When SecureMode is not enabled the system can be reinstalled. In this case the current basic configuration will be used to pre-populate the questions within the installer script. Enabling SecureMode also enables GenericAgent, PackageManager and SQL Box.' =>
             '',
-        'English (Canada)' => '',
-        'English (United Kingdom)' => '',
-        'English (United States)' => '',
+        'English (Canada)' => 'Anglų (Kanada)',
+        'English (United Kingdom)' => 'Anglų (Jungtinė Karalystė)',
+        'English (United States)' => 'Anglų (JAV)',
         'English stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
             '',
-        'Escalated Tickets' => 'Eskaluotos triktys',
+        'Escalated Tickets' => 'Eskaluoti kreipiniai',
         'Escalation view' => 'Eskalacijų peržiūra',
         'EscalationTime' => '',
-        'Estonian' => '',
+        'Estonian' => 'Estų',
         'Event module registration (store historical data in dynamic fields).' =>
             '',
         'Event module registration. For more performance you can define a trigger event (e. g. Event => TicketCreate).' =>
@@ -7721,7 +7721,7 @@ Thanks for your help!
         'Filter incoming emails.' => 'Filtruoti įeinančius laiškus.',
         'Finnish' => '',
         'First Christmas Day' => 'Pirmoji Kalėdų diena',
-        'First Queue' => '',
+        'First Queue' => 'Pirmoji eilė',
         'First response time' => '',
         'FirstLock' => '',
         'FirstResponse' => '',
@@ -7738,13 +7738,13 @@ Thanks for your help!
         'Forces to choose a different ticket state (from current) after lock action. Define the current state as key, and the next state after lock action as content.' =>
             '',
         'Forces to unlock tickets after being moved to another queue.' =>
-            '',
+            'Priverčia atrakinti kreipinius, kai jie bus perkelti į kitą eilę.',
         'Format of Creation date shown for tickets. As an example \'%Y-%m-%d %H:%M:%S\' would be interpreted as \'2020-01-22 18:07:23\'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns.' =>
             '',
         'Format to be ingested.' => '',
         'Forwarded to "%s".' => 'Persiųstas į "%s".',
-        'French' => '',
-        'French (Canada)' => '',
+        'French' => 'Prancūzų',
+        'French (Canada)' => 'Prancūzų (Kanada)',
         'French stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Frontend' => '',
@@ -7816,7 +7816,7 @@ Thanks for your help!
         'High Contrast' => '',
         'High contrast skin for visually impaired users.' => '',
         'Hindi' => '',
-        'Hungarian' => '',
+        'Hungarian' => 'Vengrų',
         'If "DB" was selected for Customer::AuthModule, a database driver (normally autodetection is used) can be specified.' =>
             '',
         'If "DB" was selected for Customer::AuthModule, a password to connect to the customer table can be specified.' =>
@@ -7951,7 +7951,7 @@ Thanks for your help!
             '',
         'Indicates if a bounce e-mail should always be treated as normal follow-up.' =>
             '',
-        'Indonesian' => '',
+        'Indonesian' => 'Indoneziečių',
         'Inline' => '',
         'Input' => '',
         'Interface language' => 'Sąsajos kalba',
@@ -7965,15 +7965,15 @@ Thanks for your help!
             '',
         'It was not possible to check the PGP signature, this may be caused by a missing public key or an unsupported algorithm.' =>
             '',
-        'Italian' => '',
+        'Italian' => 'Italų',
         'Italian stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Ivory' => '',
         'Ivory (Slim)' => '',
-        'Japanese' => '',
+        'Japanese' => 'Japonų',
         'JavaScript function for the search frontend.' => '',
         'Jump to OTOBO!' => '',
-        'Korean' => '',
+        'Korean' => 'Korėjiečių',
         'Language' => 'Kalba',
         'Large' => 'Didelis',
         'Last Screen Overview' => '',
@@ -7983,7 +7983,7 @@ Thanks for your help!
         'Lastname, Firstname' => '',
         'Lastname, Firstname (UserLogin)' => '',
         'LastnameFirstname' => '',
-        'Latvian' => '',
+        'Latvian' => 'Latvių',
         'Left' => '',
         'Link Object' => 'Susieti objektą',
         'Link Object.' => '',
@@ -8034,9 +8034,9 @@ Thanks for your help!
         'Loader module registration for the agent interface.' => '',
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
-        'Locked Tickets' => 'Užrakintos triktys',
+        'Locked Tickets' => 'Užrakinti kreipiniai',
         'Locked Tickets.' => '',
-        'Locked ticket.' => 'Triktis užrakinta.',
+        'Locked ticket.' => 'Kreipinys užrakintas.',
         'Logged in users.' => '',
         'Logged-In Users' => '',
         'Logout of customer panel.' => '',
@@ -8054,7 +8054,7 @@ Thanks for your help!
         'Makes the application check the syntax of email addresses.' => '',
         'Makes the session management use html cookies. If html cookies are disabled or if the client browser disabled html cookies, then the system will work as usual and append the session id to the links.' =>
             '',
-        'Malay' => '',
+        'Malay' => 'Malajiečių',
         'Manage OTOBO Team cloud services.' => '',
         'Manage PGP keys for email encryption.' => 'Valdyti PGP raktus el. laiškų šifravimui.',
         'Manage POP3 or IMAP accounts to fetch email from.' => 'Valdyti POP3 arba IMAP paskyras laiškams gauti.',
@@ -8104,7 +8104,7 @@ Thanks for your help!
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => '',
         'Minute' => '',
-        'Miscellaneous' => '',
+        'Miscellaneous' => 'Įvairūs',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check if a incoming e-mail message is bounce.' => '',
@@ -8157,7 +8157,7 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New Tickets' => 'Naujos triktys',
+        'New Tickets' => 'Nauji kreipiniai',
         'New Window' => '',
         'New Year\'s Day' => 'Naujieji metai',
         'New Year\'s Eve' => 'Naujųjų Metų išvakarės',
@@ -8220,7 +8220,7 @@ Thanks for your help!
         'Overview of all Tickets per assigned Queue.' => '',
         'Overview of all appointments.' => '',
         'Overview of all escalated tickets.' => '',
-        'Overview of all open Tickets.' => 'Peržiūrėti visas atviras triktis.',
+        'Overview of all open Tickets.' => 'Peržiūrėti visus atvirus kreipinius.',
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'PGP raktas',
@@ -8296,7 +8296,7 @@ Thanks for your help!
         'Path for the log file (it only applies if "FS" was selected for LoopProtectionModule and it is mandatory).' =>
             '',
         'Pending time' => '',
-        'People' => '',
+        'People' => 'Žmonės',
         'Performs the configured action for each event (as an Invoker) for each configured web service.' =>
             '',
         'Permitted width for compose email windows.' => '',
@@ -8307,16 +8307,16 @@ Thanks for your help!
         'Phone Call.' => '',
         'Phone call' => 'Telefono skambutis',
         'Phone communication channel.' => '',
-        'Phone-Ticket' => 'Triktis telefonu',
+        'Phone-Ticket' => 'Kreipinys telefonu',
         'Picture Upload' => '',
         'Picture upload module.' => '',
         'Picture-Upload' => '',
         'Please click the button below to create your first ticket.' => 'Prašome paspausti žemiau esantį mytuką, kad sukurtumėte savo pirmąjį trikties pranešimą.',
         'Plugin search' => '',
         'Plugin search module for autocomplete.' => '',
-        'Polish' => '',
-        'Portuguese' => '',
-        'Portuguese (Brasil)' => '',
+        'Polish' => 'Lenkų',
+        'Portuguese' => 'Portugalų',
+        'Portuguese (Brasil)' => 'Portugalų (Brazilija)',
         'PostMaster Filters' => 'PostMaster filtrai',
         'PostMaster Mail Accounts' => 'PostMaster el. pašto paskyros',
         'Print this ticket' => '',
@@ -8342,8 +8342,8 @@ Thanks for your help!
         'Public Calendar' => '',
         'Public calendar.' => '',
         'Queue view' => 'Eilių peržiūra',
-        'Queues ↔ Auto Responses' => '',
-        'Quick Close' => '',
+        'Queues ↔ Auto Responses' => 'Eilės ↔ Automatiniai atsakymai',
+        'Quick Close' => 'Išspręsta',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
         'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
@@ -8368,7 +8368,7 @@ Thanks for your help!
             '',
         'Replaces the original sender with current customer\'s email address on compose answer in the ticket compose screen of the agent interface.' =>
             '',
-        'Reports' => '',
+        'Reports' => 'Ataskaitos',
         'Reprocess mails from spool directory that could not be imported in the first place.' =>
             '',
         'Required permissions to change the customer of a ticket in the agent interface.' =>
@@ -8417,7 +8417,7 @@ Thanks for your help!
             '',
         'Right' => '',
         'Roles ↔ Groups' => '',
-        'Romanian' => '',
+        'Romanian' => 'Rumunų',
         'Run file based generic agent jobs (Note: module name needs to be specified in -configuration-module param e.g. "Kernel::System::GenericAgent").' =>
             '',
         'Running Process Tickets' => '',
@@ -8429,7 +8429,7 @@ Thanks for your help!
             '',
         'Runs the system in "Demo" mode. If enabled, agents can change preferences, such as selection of language and theme via the agent web interface. These changes are only valid for the current session. It will not be possible for agents to change their passwords.' =>
             '',
-        'Russian' => '',
+        'Russian' => 'Rusų',
         'S/MIME Certificates' => 'S/MIME sertifikatai',
         'Salutations' => 'Kreipimosi formos(pasveikinimai)',
         'Sample command output' => '',
@@ -8445,7 +8445,7 @@ Thanks for your help!
         'Search backend router.' => '',
         'Search.' => '',
         'Second Christmas Day' => 'Antroji Kalėdų diena',
-        'Second Queue' => '',
+        'Second Queue' => 'Antroji eilė',
         'Select after which period ticket overviews should refresh automatically.' =>
             '',
         'Select how many tickets should be shown in overviews by default.' =>
@@ -8482,8 +8482,8 @@ Thanks for your help!
         'Sent email to "%s".' => '',
         'Sent email to customer.' => '',
         'Sent notification to "%s".' => '',
-        'Serbian Cyrillic' => '',
-        'Serbian Latin' => '',
+        'Serbian Cyrillic' => 'Serbų kirilica',
+        'Serbian Latin' => 'Serbų lotynų',
         'Service Level Agreements' => 'Aptarnavimo lygio sutartys',
         'Service view' => '',
         'ServiceView' => '',
@@ -8503,7 +8503,7 @@ Thanks for your help!
         'Sets if SLA must be selected by the customer.' => '',
         'Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
             '',
-        'Sets if queue must be selected by the agent.' => '',
+        'Sets if queue must be selected by the agent.' => 'Nustato, ar eilę turi pasirinkti agentas.',
         'Sets if service must be selected by the agent.' => '',
         'Sets if service must be selected by the customer.' => '',
         'Sets if state must be selected by the agent.' => '',
@@ -8718,8 +8718,8 @@ Thanks for your help!
         'Show queues even when only locked tickets are in.' => '',
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
-        'Show the history for this ticket' => '',
-        'Show the ticket history' => '',
+        'Show the history for this ticket' => 'Rodyti šio kreipinio istoriją',
+        'Show the ticket history' => 'Rodyti kreipinių istoriją',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -8841,7 +8841,7 @@ Thanks for your help!
             '',
         'Shows existing parent/child queue lists in the system in the form of a tree or a list.' =>
             '',
-        'Shows information on how to start OTOBO Daemon' => '',
+        'Shows information on how to start OTOBO Daemon' => 'Rodoma informacija, kaip paleisti „OTOBO Daemon“',
         'Shows link to external page in the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
             '',
         'Shows the article head information in the agent zoom view.' => '',
@@ -8897,11 +8897,11 @@ Thanks for your help!
         'Signatures' => 'Parašai',
         'Simple' => '',
         'Skin' => 'Apvalkalas',
-        'Slovak' => '',
-        'Slovenian' => '',
+        'Slovak' => 'Slovakų',
+        'Slovenian' => 'Slovėnų',
         'Small' => 'Mažas',
         'Software Package Manager.' => '',
-        'Solution time' => '',
+        'Solution time' => 'Sprendimo laikas',
         'SolutionDiffInMin' => '',
         'SolutionInMin' => '',
         'Some description!' => '',
@@ -8910,14 +8910,14 @@ Thanks for your help!
             '',
         'Sorts the tickets (ascendingly or descendingly) when a single queue is selected in the service view and after the tickets are sorted by priority. Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on top). Use the ServiceID for the key and 0 or 1 for value.' =>
             '',
-        'Spam' => '',
+        'Spam' => 'Šlamštas',
         'Spam Assassin example setup. Ignores emails that are marked with SpamAssassin.' =>
             '',
         'Spam Assassin example setup. Moves marked mails to spam queue.' =>
             '',
-        'Spanish' => '',
-        'Spanish (Colombia)' => '',
-        'Spanish (Mexico)' => '',
+        'Spanish' => 'Įspanų',
+        'Spanish (Colombia)' => 'Įspanų (Kolumbija)',
+        'Spanish (Mexico)' => 'Įspanų (Meksika)',
         'Spanish stop words for fulltext index. These words will be removed from the search index.' =>
             '',
         'Specifies if an agent should receive email notification of his own actions.' =>
@@ -8985,17 +8985,17 @@ Thanks for your help!
             '',
         'Support Agent' => '',
         'Suspend already escalated tickets.' => '',
-        'Swahili' => '',
-        'Swedish' => '',
+        'Swahili' => 'Svahili',
+        'Swedish' => 'Švedų',
         'System Address Display Name' => '',
         'System Configuration Deployment' => '',
-        'System Configuration Group' => '',
+        'System Configuration Group' => 'Sistemos konfigūracijos grupė',
         'System Configuration Setting History' => '',
         'System Maintenance' => '',
         'Templates ↔ Attachments' => '',
-        'Templates ↔ Queues' => '',
-        'Textarea' => '',
-        'Thai' => '',
+        'Templates ↔ Queues' => 'Šablonai ↔ Eilės',
+        'Textarea' => 'Teksto sritis',
+        'Thai' => 'Tajų',
         'The PGP signature is expired.' => '',
         'The PGP signature was made by a revoked key, this could mean that the signature is forged.' =>
             '',
@@ -9068,7 +9068,7 @@ Thanks for your help!
         'This module and its PreRun() function will be executed, if defined, for every request. This module is useful to check some user options or to display news about new applications.' =>
             '',
         'This module is being used to extend the password policy.' => '',
-        'This module is part of the admin area of OTOBO.' => '',
+        'This module is part of the admin area of OTOBO.' => 'Šis modulis yra OTOBO administratoriaus srities dalis.',
         'This option defines the dynamic field in which a Process Management activity entity id is stored.' =>
             '',
         'This option defines the dynamic field in which a Process Management process entity id is stored.' =>
@@ -9084,28 +9084,28 @@ Thanks for your help!
         'This setting is deprecated. Set OTOBOTimeZone instead.' => '',
         'This setting shows the sorting attributes in all overview screen, not only in queue view.' =>
             '',
-        'Ticket Close' => '',
-        'Ticket Close.' => '',
+        'Ticket Close' => 'Kreipinys uždarytas',
+        'Ticket Close.' => 'Kreipinys uždarytas.',
         'Ticket Compose Bounce Email.' => '',
         'Ticket Compose email Answer.' => '',
-        'Ticket Customer.' => '',
+        'Ticket Customer.' => 'Kliento kreipinys.',
         'Ticket Forward Email.' => '',
         'Ticket FreeText.' => '',
-        'Ticket History.' => '',
-        'Ticket Lock.' => '',
-        'Ticket Merge.' => '',
-        'Ticket Move.' => '',
-        'Ticket Note.' => '',
-        'Ticket Notifications' => '',
+        'Ticket History.' => 'Kreipinio istorija.',
+        'Ticket Lock.' => 'Kreipinio užrakinimas.',
+        'Ticket Merge.' => 'Apjungti kreipinius.',
+        'Ticket Move.' => 'Kreipinio perkėlimas.',
+        'Ticket Note.' => 'Kreipinio pastaba.',
+        'Ticket Notifications' => 'Pranešimai apie kreipinį',
         'Ticket Outbound Email.' => '',
         'Ticket Overview "Medium" Limit' => 'Trikčių apžvalgos "vidutinis" limitas',
         'Ticket Overview "Preview" Limit' => 'Trikčių apžvalgos "peržiūros" limitas',
         'Ticket Overview "Small" Limit' => 'Trikčių apžvalgos "mažasis(apatinis)" limitas',
-        'Ticket Owner.' => '',
+        'Ticket Owner.' => 'Kreipinio savininkas.',
         'Ticket Pending.' => '',
-        'Ticket Print.' => '',
-        'Ticket Priority.' => '',
-        'Ticket Queue Overview' => '',
+        'Ticket Print.' => 'Kreipinio spausdinimas.',
+        'Ticket Priority.' => 'Kreipinio prioritetas.',
+        'Ticket Queue Overview' => 'Kreipinio eilės apžvalga',
         'Ticket Responsible.' => '',
         'Ticket Watcher' => '',
         'Ticket Zoom' => '',
@@ -9116,23 +9116,23 @@ Thanks for your help!
         'Ticket limit per page for Ticket Overview "Medium".' => '',
         'Ticket limit per page for Ticket Overview "Preview".' => '',
         'Ticket limit per page for Ticket Overview "Small".' => '',
-        'Ticket notifications' => '',
+        'Ticket notifications' => 'Pranešimai apie kreipinius',
         'Ticket overview' => 'Trikčių peržiūra',
         'Ticket plain view of an email.' => '',
-        'Ticket split dialog.' => '',
-        'Ticket title' => '',
+        'Ticket split dialog.' => 'Kreipinio padalijimo dialogas.',
+        'Ticket title' => 'Kreipinio pavadinimas',
         'Ticket zoom view.' => '',
-        'TicketNumber' => '',
+        'TicketNumber' => 'KreipinioNumeris',
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
             '',
-        'Tickets.' => '',
+        'Tickets.' => 'Kreipiniai.',
         'Tile registration for the CustomerDashboard. Module is required.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
             '',
         'To accept login information, such as an EULA or license.' => '',
         'To download attachments.' => '',
-        'To view HTML attachments.' => '',
+        'To view HTML attachments.' => 'Peržiūrėti HTML priedus.',
         'Toggles display of OTOBO FeatureAddons list in PackageManager.' =>
             '',
         'Toolbar Item for a shortcut. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
@@ -9146,53 +9146,53 @@ Thanks for your help!
             '',
         'Triggers ticket escalation events and notification events for escalation.' =>
             '',
-        'Turkish' => '',
+        'Turkish' => 'Turkų',
         'Turns off SSL certificate validation, for example if you use a transparent HTTPS proxy. Use at your own risk!' =>
             '',
-        'Turns on drag and drop for the main navigation.' => '',
+        'Turns on drag and drop for the main navigation.' => 'Įjungia „vilkti ir paleisti“ pagrindinei navigacijai.',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Tweak the system as you wish.' => '',
+        'Tweak the system as you wish.' => 'Patobulinkite sistemą, kaip norite.',
         'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
             '',
-        'Ukrainian' => '',
-        'Unlock tickets that are past their unlock timeout.' => '',
+        'Ukrainian' => 'Ukrainiečių',
+        'Unlock tickets that are past their unlock timeout.' => 'Atrakinti kreipinius, kurių laikas baigėsi.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
-            '',
-        'Unlocked ticket.' => 'Triktis atrakinta.',
+            'Atrakinti kreipinius, kai tik pridedama pastaba ir savininkas yra ne savo biure.',
+        'Unlocked ticket.' => 'Kreipinys atrakintas.',
         'Up' => 'Į viršų',
         'Upcoming Events' => 'Artėjantys įvykiai',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
-        'Update time' => '',
+        'Update time' => 'Atnaujinti laiką',
         'Updates the ticket escalation index after a ticket attribute got updated.' =>
             '',
         'Updates the ticket index accelerator.' => '',
-        'Upload your PGP key.' => '',
-        'Upload your S/MIME certificate.' => '',
+        'Upload your PGP key.' => 'Įkelkite savo PGP raktą.',
+        'Upload your S/MIME certificate.' => 'Įkelkite savo S/MIME sertifikatą.',
         'Use Redis::Fast instead of Redis.' => '',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
             '',
-        'Use specified Redis logical database.' => '',
+        'Use specified Redis logical database.' => 'Naudokite nurodytą „Redis“ loginę duomenų bazę.',
         'User Profile' => 'Naudotojo profilis',
-        'UserFirstname' => '',
-        'UserLastname' => '',
-        'Users, Groups & Roles' => '',
+        'UserFirstname' => 'VartotojoVardas',
+        'UserLastname' => 'VartotojoPavardė',
+        'Users, Groups & Roles' => 'Vartotojai, grupės ir vaidmenys',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
-        'Vietnam' => '',
+        'Vietnam' => 'Vietnamas',
         'View performance benchmark results.' => 'Peržiūrėti našumo rodiklių rezultatus.',
-        'Watch this ticket' => '',
-        'Watched Tickets' => 'Stebimos triktys',
-        'Watched Tickets.' => '',
-        'We are performing scheduled maintenance.' => '',
+        'Watch this ticket' => 'Žiūrėkite šį kreipinį',
+        'Watched Tickets' => 'Stebimi kreipiniai',
+        'Watched Tickets.' => 'Žiūrėjo kreipinius.',
+        'We are performing scheduled maintenance.' => 'Atliekame planinę priežiūrą.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
-            '',
+            'Atliekame planinę priežiūrą. Prisijungti laikinai negalima.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
-            '',
-        'Web Service' => '',
-        'Web Services' => '',
+            'Atliekame planinę priežiūrą. Netrukus turėtume vėl prisijungti prie interneto.',
+        'Web Service' => 'Žiniatinklio tarnyba',
+        'Web Services' => 'Žiniatinklio paslaugos',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
             '',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
@@ -9213,9 +9213,9 @@ Thanks for your help!
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Taip, bet paslėpkite archyvuotus kreipinius',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
-            '',
+            'Jūsų el. pašto adresas su kreipinio numeriu „<OTOBO_TICKET>“ atmetamas į „<OTOBO_BOUNCE_TO>“. Norėdami gauti daugiau informacijos, susisiekite šiuo adresu.',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
             'Jūsų el. laiškas trikties numeriu "<OTOBO_TICKET>" yra sujungtas su "<OTOBO_MERGE_TO_TICKET>".',
         'Your queue selection of your preferred queues. You also get notified about those queues via email if enabled.' =>
@@ -9226,18 +9226,18 @@ Thanks for your help!
         'attachment' => '',
         'bounce' => '',
         'compose' => '',
-        'debug' => '',
-        'error' => '',
+        'debug' => 'derinti',
+        'error' => 'klaida',
         'forward' => '',
         'info' => '',
-        'inline' => '',
+        'inline' => 'tiesiai',
         'normal' => 'normalus',
-        'notice' => '',
-        'pending' => '',
+        'notice' => 'pastebėti',
+        'pending' => 'kol',
         'phone' => 'Telefonas',
-        'responsible' => '',
+        'responsible' => 'atsakingas',
         'reverse' => 'atšaukti/panaikinti',
-        'stats' => '',
+        'stats' => 'statistika',
 
     };
 

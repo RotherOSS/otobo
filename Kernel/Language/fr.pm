@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.440785204412719;
+    $Self->{Completeness}        = 0.442083062946139;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -225,7 +225,7 @@ sub Data {
         'At least one method is needed per notification.' => 'Au moins une méthode par notification est nécessaire.',
         'Active by default in agent preferences' => 'Actif par défaut dans les préférences de l\'opérateur',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Il s\'agit de la valeur par défaut pour les agents destinataires affectés qui n\'ont pas encore fait de choix pour cette notification dans leurs préférences. Si la case est activée, la notification sera envoyée à ces agents.',
         'This feature is currently not available.' => 'Cette fonctionalité n\'est pas disponile pour l\'instant.',
         'Upgrade to %s' => 'Mettre à jour vers %s',
         'Please activate this transport in order to use it.' => 'Merci d\'activer ce transport afin de l\'utiliser.',
@@ -367,7 +367,7 @@ sub Data {
         # Template: AdminCommunicationLogAccounts
         'Account Status' => 'statut du compte',
         'Back to overview' => 'Revenir à l\'aperçu',
-        'Filter for Accounts' => '',
+        'Filter for Accounts' => 'Filtre pour les Comptes',
         'Filter for accounts' => 'Filtre pour les comptes',
         'You can change the sort and order of those columns by clicking on the column header.' =>
             'Vus pouvez changer le tri et l\'ordre des colonnes en cliquant sur son titre.',
@@ -394,7 +394,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vue détaillée pour %s la communication a démarrée à %s',
-        'Filter for Log Entries' => '',
+        'Filter for Log Entries' => 'Filtre pour les entrées de log',
         'Filter for log entries' => 'Filtre pour les journaux de log',
         'Show only entries with specific priority and higher:' => 'Afficher uniquement les entrées avec des priorités spécifiques ou importantes :',
         'Communication Log Overview (%s)' => 'Synthèse du journal des communications (%s)',
@@ -403,7 +403,7 @@ sub Data {
         'Please select an entry from the list.' => 'Merci de sélectionner une entrée dans la liste',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => 'Contact avec la gestion des données',
         'Contact with data' => '',
         'Add contact with data' => '',
         'Edit contact with data' => '',
@@ -423,7 +423,7 @@ sub Data {
         'Please enter a search term to look for customers.' => 'Merci d\'entrer un motif pour rechercher des clients',
         'Customer ID' => 'ID Client',
         'Please note' => 'Merci de mettre une note',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Ce backend client est en lecture seule !',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Gérer les relations Client-Groupe',
@@ -435,7 +435,7 @@ sub Data {
         'Edit Customer Default Groups' => 'Éditer les groupes par défault du client',
         'These groups are automatically assigned to all customers.' => 'Ces groupes sont automatiquement assignés à tous les clients',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            '',
+            'Vous pouvez gérer ces groupes via le paramètre de configuration "CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtre pour les Groupes',
         'Select the customer:group permissions.' => 'Selectionner les permissions client::groupe',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
@@ -468,17 +468,17 @@ sub Data {
         'Login as' => 'Connecté en tant que',
         'Switch to customer' => 'Basculer vers le client',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            '',
+            'Ce backend client est en lecture seule, mais les préférences utilisateur du client peuvent être modifiées !',
         'This field is required and needs to be a valid email address.' =>
             'Ce champ est obligatoire et doit être une adresse e-mail valide.',
         'This email address is not allowed due to the system configuration.' =>
-            'Cette adresse e-mail n\'est past permise par la configuration du système',
+            'Cette adresse e-mail n\'est past permise par la configuration du système.',
         'This email address failed MX check.' => 'Cette adresse e-mail n\'a pas passé la vérification MX.',
         'DNS problem, please check your configuration and the error log.' =>
             'Problème DNS. Veuillez contrôler le journal d\'erreur ainsi que votre configuration.',
         'The syntax of this email address is incorrect.' => 'La syntaxe de cette adresse e-mail est incorrecte.',
         'This CustomerID is invalid.' => 'L\' IDClient est invalide.',
-        'Effective Permissions for Customer User' => 'Permissions effectives pour l\'utilisateur client.',
+        'Effective Permissions for Customer User' => 'Permissions effectives pour l\'utilisateur client',
         'Group Permissions' => 'Permissions au sein des groupes',
         'This customer user has no group permissions.' => 'Cet utilisateur client n\'a pas de permission de groupe.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
@@ -487,7 +487,7 @@ sub Data {
         'Customer' => 'Client',
         'This customer user has no customer access.' => 'Cet utilisateur client n\'a pas d\'accès client.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Le tableau ci-dessus montre l\'accès client accordé à l\'utilisateur client par contexte d\'autorisation. La matrice prend en compte tous les accès hérités (par exemple via des groupes de clients). Remarque : Le tableau ne prend pas en compte les modifications apportées à ce formulaire sans le soumettre.',
 
         # Template: AdminCustomerUserCustomer
         'Manage Customer User-Customer Relations' => 'Gestion des relations entre utilisateurs client et clients',
