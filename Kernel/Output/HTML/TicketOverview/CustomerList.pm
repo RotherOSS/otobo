@@ -149,8 +149,9 @@ sub Run {
 
         # Age design.
         $Ticket{CustomerAge} = $LayoutObject->CustomerAge(
-            Age   => $Ticket{Age},
-            Space => ' '
+            Age               => $Ticket{Age},
+            Space             => ' ',
+            DisplayCreateDate => 1,
         ) || 0;
 
         # return ticket information if there is no article
