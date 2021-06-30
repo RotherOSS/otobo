@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.537800129785853;
+    $Self->{Completeness}        = 0.550940947436729;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -124,7 +124,7 @@ sub Data {
             'Mover_A: usuarios que pueden modificar citas en el calendario, pero sin cambiar la selección de calendario.',
         'Create: users can create and delete appointments in the calendar.' =>
             'Crear: usuarios que pueden crear y borrar citas en el calendario.',
-        'Read/write: users can manage the calendar itself.' => 'RW: usuario que pueden gestionar el calendario en sí',
+        'Read/write: users can manage the calendar itself.' => 'Lectura/Escritura: usuario que pueden gestionar el calendario en sí.',
         'Group' => 'Grupo',
         'Changed' => 'Modificado',
         'Created' => 'Creado',
@@ -147,7 +147,7 @@ sub Data {
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
             'Use las opciones mostradas abajo para acortar las citas de tickets serán creadas automáticamente.',
         'Queues' => 'Filas',
-        'Please select a valid queue.' => 'Poor favor seleccione una fila válida',
+        'Please select a valid queue.' => 'Poor favor seleccione una fila válida.',
         'Search attributes' => 'Atributos de búsqueda',
         'Add entry' => 'Añadir entrada',
         'Add' => 'Añadir',
@@ -159,13 +159,13 @@ sub Data {
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Importar Cita',
         'Go back' => 'Regresar',
-        'Uploaded file must be in valid iCal format (.ics).' => 'El archivo cargado tiene que estar en un formato iCal válido (.ics)',
+        'Uploaded file must be in valid iCal format (.ics).' => 'El archivo cargado tiene que estar en un formato iCal válido (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear"',
+            'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear".',
         'Upload' => 'Subir',
         'Update existing appointments?' => '¿Actualizar las citas existentes?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            'Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán',
+            'Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán.',
         'Upload calendar' => 'Cargar calendario',
         'Import appointments' => 'Importar citas',
 
@@ -201,7 +201,7 @@ sub Data {
         'Resource' => 'Recurso',
         'Recipients' => 'Recipientes',
         'Send to' => 'Enviar a',
-        'Send to these agents' => 'Enviar a estos agentes.',
+        'Send to these agents' => 'Enviar a estos agentes',
         'Send to all group members (agents only)' => 'Enviar a todos los miembros del grupo (solo agentes)',
         'Send to all role members' => 'enviar a todos los miembros del rol',
         'Send on out of office' => 'Mandar cuando esta fuera de la oficina',
@@ -214,7 +214,7 @@ sub Data {
             'Estos son los métodos posibles que pueden usarsa para enviar notificaciones a cada uno de los destinatarios. Favor de seleccionar al menos uno de los métodos siguientes.',
         'Enable this notification method' => 'Activar este método de notificación',
         'Transport' => 'Transporte',
-        'At least one method is needed per notification.' => 'AL menos un métodos es necesario por cada notificación',
+        'At least one method is needed per notification.' => 'AL menos un métodos es necesario por cada notificación.',
         'Active by default in agent preferences' => 'Activo por omisión en las preferencias del agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'Este es el valor predeterminado para los agentes destinatarios asignados que aún no han elegido esta notificación en sus preferencias. Si la casilla está habilitada, la notificación se enviará a dichos agentes.',
@@ -222,7 +222,7 @@ sub Data {
         'Upgrade to %s' => 'Actualizar a %s',
         'Please activate this transport in order to use it.' => 'Por favor active este transporte para poder usarlo.',
         'No data found' => 'No se encontraron datos',
-        'No notification method found.' => 'Método de notificación no encontrado',
+        'No notification method found.' => 'Método de notificación no encontrado.',
         'Notification Text' => 'Texto de Notificación',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             'Este idioma no está presente o habilitado en el sistema. Este texto de notificación podría eliminarse si ya no es necesario.',
@@ -235,13 +235,13 @@ sub Data {
         'Tag Reference' => 'Etiqueta de Referencia',
         'Notifications are sent to an agent.' => 'Las notificaciones se envían a un agente.',
         'You can use the following tags' => 'Puede utilizar las siguientes etiquetas',
-        'To get the first 20 character of the appointment title.' => 'Para obtener los primeros 20 caracteres del título de la cita',
+        'To get the first 20 character of the appointment title.' => 'Para obtener los primeros 20 caracteres del título de la cita.',
         'To get the appointment attribute' => 'Para obtener el atributo de la cita',
-        ' e. g.' => 'Por ejemplo:',
+        ' e. g.' => ' Por ejemplo.',
         'To get the calendar attribute' => 'Para obtener el atributo del calendario',
         'Attributes of the recipient user for the notification' => 'Atributos del usuario destino para la notificación',
         'Config options' => 'Opciones de configuración',
-        'Example notification' => 'Notificación de ejemplo.',
+        'Example notification' => 'Notificación de ejemplo',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => 'Direcciones de correo electrónico adicionales para el destinatario',
@@ -253,7 +253,7 @@ sub Data {
         'Use this template to generate the complete email (only for HTML emails).' =>
             'Use esta plantilla para generar el correo electrónico completo (solo para correos electrónicos HTML).',
         'Enable email security' => 'Activar seguridad de correo electrónico',
-        'Email security level' => 'Nivel de seguridad de correo electrónico ',
+        'Email security level' => 'Nivel de seguridad de correo electrónico',
         'If signing key/certificate is missing' => 'Si la llave o certificado para firmar no se encuentran',
         'If encryption key/certificate is missing' => 'Si la llave o certificado de encriptación no se encuentran',
 
@@ -294,40 +294,40 @@ sub Data {
 
         # Template: AdminCloudServiceSupportDataCollector
         'Cloud Service Management' => 'Gestión de Servicio en la Nube',
-        'Support Data Collector' => 'Recolector  de Datos de Soporte',
+        'Support Data Collector' => 'Recolector de datos de soporte',
         'Support data collector' => 'Recolector de datos de soporte',
         'Hint' => 'Consejo',
         'Currently support data is only shown in this system.' => 'Actualmente los datos de soporte sólo son mostrados en este sistema.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un mejor apoyo.',
         'Configuration' => 'Configuración',
         'Send support data' => 'Enviar datos de soporte',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Esto permitirá que el sistema envíe información adicional de datos de apoyo al equipo de OTOBO.',
         'Update' => 'Actualizar',
-        'System Registration' => 'Registro del Sistema',
+        'System Registration' => 'Registro del sistema',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
-        'Register this System' => 'Registrar este Sistema',
+            'Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO o actualice la información de registro de su sistema (asegúrese de activar la opción "enviar datos de soporte")',
+        'Register this System' => 'Registrar este sistema',
         'System Registration is disabled for your system. Please check your configuration.' =>
-            'El Registro no está disponible para su sistema. Por favor revise su configuración.',
+            'El registro no está disponible para su sistema. Por favor revise su configuración.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'El registro del sistema es un servicio del equipo de OTOBO, ¡que ofrece muchas ventajas!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Por favor tenga en cuenta que el uso de servicios en la nube de OTOBO requiere que el sistema esté registrado.',
         'Register this system' => 'Registrar este sistema',
         'Here you can configure available cloud services that communicate securely with %s.' =>
             'Aquí puede configurar los servicios en la nube disponibles que se comunican de forma segura con %s.',
-        'Available Cloud Services' => 'Servicios en la Nube Disponibles ',
+        'Available Cloud Services' => 'Servicios en la nube disponibles',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => 'Bitácora de Comunicación',
-        'Time Range' => 'Rango de Tiempo',
+        'Communication Log' => 'Bitácora de comunicación',
+        'Time Range' => 'Rango de tiempo',
         'Show only communication logs created in specific time range.' =>
             'Mostrar solo los registros de comunicación creados en un rango de tiempo específico.',
-        'Filter for Communications' => 'Filtro para Comunicaciones',
+        'Filter for Communications' => 'Filtro para comunicaciones',
         'Filter for communications' => 'Filtro para comunicaciones',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
             'En esta pantalla puede ver una descripción general de las comunicaciones entrantes y salientes.',
@@ -390,20 +390,20 @@ sub Data {
         'Filter for log entries' => 'Filtrar por entradas de registro',
         'Show only entries with specific priority and higher:' => 'Mostrar solo entradas con un prioridad en específico y mas altas:',
         'Communication Log Overview (%s)' => 'Resumen de registro de comunicación (%s)',
-        'No communication objects found.' => 'No se encontraron objetos de comunicacion. ',
+        'No communication objects found.' => 'No se encontraron objetos de comunicación.',
         'Communication Log Details' => 'Detalles del registro de comunicación',
         'Please select an entry from the list.' => 'Por favor seleccione una entrada de la lista.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => 'Contacto con la gestión de datos',
         'Contact with data' => 'Contacto con datos',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Add contact with data' => 'Añadir contacto con datos',
+        'Edit contact with data' => 'Editar contacto con los datos',
         'Back to search results' => 'Regresar a los resultados de búsqueda',
         'Select' => 'Seleccionar',
         'Search' => 'Buscar',
         'Wildcards like \'*\' are allowed.' => 'Están permitidos comodines como \'*\'.',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Introduzca un término de búsqueda para buscar contactos con datos.',
         'Valid' => 'Válido',
 
         # Template: AdminCustomerCompany
@@ -412,7 +412,7 @@ sub Data {
         'Edit Customer' => 'Modificar Cliente',
         'List (only %s shown - more available)' => 'Lista (solo el %s es mostrado - mas disponible)',
         'total' => 'total',
-        'Please enter a search term to look for customers.' => 'Por favor, introduzca un parámetro de búsqueda para buscar clientes',
+        'Please enter a search term to look for customers.' => 'Por favor, introduzca un parámetro de búsqueda para buscar clientes.',
         'Customer ID' => 'ID del Cliente',
         'Please note' => 'Por favor tome en cuenta',
         'This customer backend is read only!' => 'Este backend cliente es de solo lectura!',
@@ -420,16 +420,16 @@ sub Data {
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Gestionar Relaciones Cliente-Grupo',
         'Notice' => 'Aviso',
-        'This feature is disabled!' => 'Esta característica está deshabilitada',
+        'This feature is disabled!' => '¡Esta característica está deshabilitada!',
         'Just use this feature if you want to define group permissions for customers.' =>
             'Utilice esta función únicamente si desea definir permisos de grupo para los clientes.',
-        'Enable it here!' => 'Habilítelo aquí',
+        'Enable it here!' => '¡Habilítelo aquí!',
         'Edit Customer Default Groups' => 'Modificar los grupos por defecto de los clientes',
         'These groups are automatically assigned to all customers.' => 'Estos grupos se asignan automáticamente a todos los clientes.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
-            'Es posible gestionar estos grupos por medio de la configuración "CustomerGroupCompanyAlwaysGroups"',
+            'Es posible gestionar estos grupos por medio de la configuración "CustomerGroupCompanyAlwaysGroups".',
         'Filter for Groups' => 'Filtro para Grupos',
-        'Select the customer:group permissions.' => 'Seleccione los permisos cliente:grupo',
+        'Select the customer:group permissions.' => 'Seleccione los permisos cliente:grupo.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Si nada se selecciona, no habrá permisos para este grupo y los tickets no estarán disponibles para el cliente.',
         'Search Results' => 'Resultado de la búsqueda',
@@ -460,7 +460,7 @@ sub Data {
         'Login as' => 'Iniciar sesión como',
         'Switch to customer' => 'Cambiar a cliente',
         'This customer backend is read only, but the customer user preferences can be changed!' =>
-            'Este backend del cliente es de solo lectura, pero las preferencias del usuario pueden ser cambiadas.',
+            '¡Este backend del cliente es de solo lectura, pero las preferencias del usuario pueden ser cambiadas!',
         'This field is required and needs to be a valid email address.' =>
             'Este es un campo obligatorio y tiene que ser una dirección de correo electrónico válida.',
         'This email address is not allowed due to the system configuration.' =>
@@ -477,7 +477,7 @@ sub Data {
             'La tabla anterior muestra los permisos de grupo efectivos para el usuario del cliente. La matriz tiene en cuenta todos los permisos heredados (por ejemplo, a través de grupos de clientes). Nota: La tabla no considera los cambios realizados en este formulario sin enviarlo.',
         'Customer Access' => 'Acceso a Clientes',
         'Customer' => 'Cliente',
-        'This customer user has no customer access.' => 'Este usuario cliente no tiene acceso a los clientes',
+        'This customer user has no customer access.' => 'Este usuario cliente no tiene acceso a los clientes.',
         'Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
             'La tabla anterior muestra el acceso otorgado para los usuarios del cliente por contexto de permiso. La matriz tiene en cuenta todos los accesos heredados (por ejemplo, a través de grupos de clientes). Nota: La tabla no considera los cambios realizados en este formulario sin enviarlo.',
 
@@ -518,17 +518,17 @@ sub Data {
         'Add new field for object' => 'Agregar nuevo campo para el objeto',
         'Filter for Dynamic Fields' => 'Filtro para Campos Dinámcos',
         'Filter for dynamic fields' => 'Filtro para campos dinámicos',
-        'New OTOBO Community  Fields' => '',
+        'New OTOBO Community  Fields' => 'Nuevos campos comunitarios de OTOBO',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
-            '',
+            '¿Desea beneficiarse de otros tipos de campos dinámicos? Tiene acceso completo a los siguientes tipos de campo:',
         'Database' => 'Base de Datos',
         'Use external databases as configurable data sources for this dynamic field.' =>
-            '',
+            'Utilice bases de datos externas como fuentes de datos configurables para este campo dinámico.',
         'Web service' => 'Servicio web',
         'External web services can be configured as data sources for this dynamic field.' =>
-            '',
+            'Se pueden configurar servicios web externos como fuentes de datos para este campo dinámico.',
         'This feature allows to add (multiple) contacts with data to tickets.' =>
-            '',
+            'Esta función permite añadir contactos (múltiples) con datos a los tickets.',
         'To add a new field, select the field type from one of the object\'s list, the object defines the boundary of the field and it can\'t be changed after the field creation.' =>
             'Para añadir un nuevo campo, seleccione el tipo de campo de la lista de objetos, el objeto define los limites del campo y no puede ser cambiado después de la creación del campo.',
         'Dynamic Fields List' => 'Lista de Campos Dinámicos',
@@ -539,14 +539,14 @@ sub Data {
         'Delete this field' => 'Eliminar este campo',
 
         # Template: AdminDynamicFieldAdvanced
-        'Import / Export' => '',
+        'Import / Export' => 'Importación / Exportación',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
-        'DynamicFields Import' => '',
-        'DynamicFields Export' => '',
-        'Dynamic Fields Screens' => '',
+            'Aquí puede subir un archivo de configuración para importar campos dinámicos a su sistema. El archivo debe estar en formato .yml, tal y como lo exporta el módulo de gestión de campos dinámicos.',
+        'DynamicFields Import' => 'Importación de DynamicFields',
+        'DynamicFields Export' => 'Importación de DynamicFields',
+        'Dynamic Fields Screens' => 'Pantallas de campos dinámicos',
         'Here you can manage the dynamic fields in the respective screens.' =>
-            '',
+            'Aquí puede gestionar los campos dinámicos en las respectivas pantallas.',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
@@ -565,41 +565,41 @@ sub Data {
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Éste es el orden en que se mostrará este campo en las pantallas en las que esté activo.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
-            '',
+            'No es posible invalidar esta entrada, todos los ajustes de configuración tienen que ser cambiados de antemano.',
         'Field type' => 'Typo de campo',
         'Object type' => 'Tipo de objeto',
         'Internal field' => 'Campo interno',
         'This field is protected and can\'t be deleted.' => 'Este campo está protegido y no puede ser eliminado.',
         'This dynamic field is used in the following config settings:' =>
-            '',
+            'Este campo dinámico se utiliza en los siguientes ajustes de configuración:',
         'Field Settings' => 'Configuración del Campo',
         'Default value' => 'Valor por defecto',
         'This is the default value for this field.' => 'Este es el valor predefinido para este campo.',
 
         # Template: AdminDynamicFieldContactWD
-        'Add or edit contacts' => '',
+        'Add or edit contacts' => 'Añadir o editar contactos',
         'To add contacts to this field please fill out all the needed information and save it.' =>
-            '',
+            'Para añadir contactos a este campo, rellene toda la información necesaria y guárdela.',
         'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
-            '',
-        'Name Field' => '',
-        'ValidID Field' => '',
-        'Other Fields' => '',
+            'Haga clic en el nombre del campo desde la vista general para editarlo y busque la acción correspondiente en la barra lateral o en el menú \'Tickets.',
+        'Name Field' => 'Campo nombre',
+        'ValidID Field' => 'Campo ValidID',
+        'Other Fields' => 'Otros campos',
         'Key' => 'Clave',
         'Value' => 'Valor',
         'Remove value' => 'Eliminar valor',
-        'Add Field' => '',
+        'Add Field' => 'Campo agregar',
         'Add value' => 'Agregar valor',
-        'These are the possible data attributes for contacts.' => '',
-        'Mandatory fields' => '',
+        'These are the possible data attributes for contacts.' => 'Estos son los posibles atributos de datos para los contactos.',
+        'Mandatory fields' => 'Campos obligatorios',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
-            '',
-        'Sorted fields' => '',
+            'Lista separada por comas de las claves obligatorias (opcional). Las claves \'Nombre\' y \'ValidID\' son siempre obligatorias y no tienen que ser listadas aquí.',
+        'Sorted fields' => 'Campos ordenados',
         'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
-            '',
-        'Searchable fields' => '',
+            'Lista de claves separadas por comas en orden de clasificación (opcional). Las claves listadas aquí vienen primero, todos los campos restantes después y ordenados alfabéticamente.',
+        'Searchable fields' => 'Campos de búsqueda',
         'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
-            '',
+            'Lista separada por comas de las claves que se pueden buscar (opcional). La clave \'Nombre\' siempre se puede buscar y no tiene que aparecer en esta lista.',
         'Translatable values' => 'Valores traducibles',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Si activa esta opción los valores se traducirán al idioma definido por el usuario.',
@@ -619,22 +619,22 @@ sub Data {
         'Example' => 'Ejemplo',
         'Link for preview' => 'Enlace para muestra',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
-            '',
+            'Si se rellena, esta URL se utilizará para una vista previa que se mostrará cuando se pase el ratón por este enlace en el zoom del ticket. Tenga en cuenta que para que esto funcione, el campo de la URL normal de arriba también debe rellenarse.',
         'SID' => 'SID',
-        'Driver' => '',
-        'Server' => '',
+        'Driver' => 'Controlador',
+        'Server' => 'Servidor',
         'Port' => 'Puerto',
-        'Table / View' => '',
+        'Table / View' => 'Tabla / Vista',
         'User' => 'Usuario',
         'Password' => 'Contraseña',
         'Identifier' => 'Identificador',
-        'Must be unique column from the table entered in Table/View.' => '',
+        'Must be unique column from the table entered in Table/View.' => 'Debe ser una columna única de la tabla introducida en la Tabla/Vista.',
         'Multiselect' => 'Selección múltiple',
         'CacheTTL' => '',
         'Searchprefix' => '',
         'Searchsuffix' => '',
-        'Result Limit' => '',
-        'Case Sensitive' => '',
+        'Result Limit' => 'Límite de resultados',
+        'Case Sensitive' => 'Caso Sensible',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferencia de fechas predeterminada',
@@ -649,7 +649,7 @@ sub Data {
         'Years in the future' => 'Años en el futuro',
         'Years in the future to display (default: 5 years).' => 'Años en el futuro a mostrar (valor predeterminado: 5 años).',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            'Si los caracteres especiales (&, @, :, /, etc.) no deben codificarse, utilice el filtro \'url\' en lugar de \'uri\'.',
         'Restrict entering of dates' => 'Restringir el ingreso de fechas',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí puede restringir el ingreso de fechas para los tickets.',
 
@@ -662,39 +662,39 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '',
-        'Select the items you want to ' => '',
+        'Select the items you want to ' => 'Seleccione los elementos que desea ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            'Seleccione los elementos deseados y confirme la importación con "importar".',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
-            '',
+            'Aquí puede exportar un archivo de configuración de campos dinámicos y pantallas de campos dinámicos para importarlos en otro sistema. El archivo de configuración se exporta en formato yml.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
-            '',
-        'Toggle all available elements' => '',
+            'Los siguientes campos dinámicos no pueden ser importados debido a un backend inválido.',
+        'Toggle all available elements' => 'Alternar todos los elementos disponibles',
         'Fields' => 'Campos',
-        'Screens' => '',
+        'Screens' => 'Pantallas',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => 'Gestión de Campos Dinámicos <-> Pantallas',
         'Overview' => 'Resumen',
-        'Default Columns Screens' => '',
-        'Add DynamicField' => '',
+        'Default Columns Screens' => 'Columnas por defecto de Pantallas',
+        'Add DynamicField' => 'Añadir DynamicField',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Puede asignar elementos a esta Pantalla/Campo arrastrando los elementos con el ratón desde la lista de la izquierda a la de la derecha.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'También es posible ordenar los elementos de la lista arrastrando y soltando los elementos .',
-        'Filter available elements' => '',
-        'selected to available elements' => '',
-        'Available Elements' => '',
-        'Filter disabled elements' => '',
-        'selected to disabled elements' => '',
-        'Toggle all disabled elements' => '',
-        'Disabled Elements' => '',
-        'Filter assigned elements' => '',
-        'selected to assigned elements' => '',
-        'Toggle all assigned elements' => '',
-        'Assigned Elements' => '',
-        'Filter assigned required elements' => '',
-        'selected to assigned required elements' => '',
+        'Filter available elements' => 'Elementos filtrantes disponibles',
+        'selected to available elements' => 'seleccionados a los elementos disponibles',
+        'Available Elements' => 'Elementos disponibles',
+        'Filter disabled elements' => 'Elementos filtrantes desactivados',
+        'selected to disabled elements' => 'seleccionados a elementos deshabilitados',
+        'Toggle all disabled elements' => 'Conmutar todos los elementos desactivados',
+        'Disabled Elements' => 'Elementos desactivados',
+        'Filter assigned elements' => 'Elementos filtrantes asignados',
+        'selected to assigned elements' => 'seleccionados a los elementos asignados',
+        'Toggle all assigned elements' => 'Conmutar todos los elementos asignados',
+        'Assigned Elements' => 'Elementos asignados',
+        'Filter assigned required elements' => 'Filtrar los elementos necesarios asignados',
+        'selected to assigned required elements' => 'seleccionados para asignar los elementos necesarios',
         'Toggle all assigned required elements' => '',
         'Assigned Required Elements' => '',
         'Reset' => 'Resetear',
@@ -761,7 +761,7 @@ sub Data {
         'Filter for Jobs' => 'Filtro para Tareas',
         'Filter for jobs' => 'Filtro para tareas',
         'Last run' => 'Última ejecución',
-        'Run Now!' => 'Ejecutar ahora',
+        'Run Now!' => '¡Ejecutar ahora!',
         'Delete this task' => 'Eliminar esta tarea',
         'Run this task' => 'Ejecutar esta tarea',
         'Job Settings' => 'Configuraciones de la Tarea',
@@ -776,7 +776,7 @@ sub Data {
         'Currently this generic agent job will not run automatically.' =>
             'Actualmente esta tarea del agente genérico no se ejecutará automáticamente',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
-            'Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días.',
+            '¡Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días!',
         'Event Based Execution (Single Ticket)' => 'Ejecución Basada en Eventos (Ticket Individual)',
         'Event Triggers' => 'Disparadores de Eventos',
         'List of all configured events' => 'Lista de todos los eventos configurados',
@@ -878,7 +878,7 @@ sub Data {
         'Results' => 'Resultados',
         '%s Tickets affected! What do you want to do?' => '¡%s Tickets afectados! ¿Qué desea hacer?',
         'Warning: You used the DELETE option. All deleted tickets will be lost!' =>
-            'Advertencia: Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!. ',
+            'Advertencia: ¡Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!',
         'Warning: There are %s tickets affected but only %s may be modified during one job execution!' =>
             '',
         'Affected Tickets' => 'Tickets Afectados',
@@ -1445,7 +1445,7 @@ sub Data {
         'Faulty PGP configuration' => 'Configuration PGP erronea',
         'PGP support is enabled, but the relevant configuration contains errors. Please check the configuration using the button below.' =>
             '',
-        'Configure it here!' => '¡Configurelo aquí! ',
+        'Configure it here!' => '¡Configurelo aquí!',
         'Check PGP configuration' => 'Revisar configuración de PGP',
         'In this way you can directly edit the keyring configured in SysConfig.' =>
             'De esta forma puede editar directamente el anillo de Claves configurado en Sysconfig',
@@ -1532,12 +1532,12 @@ sub Data {
         'Performance Log' => 'Log de rendimiento',
         'Range' => 'Rango',
         'last' => 'último',
-        'This feature is enabled!' => 'Esta característica está habilitada',
+        'This feature is enabled!' => '¡Esta característica está habilitada!',
         'Just use this feature if you want to log each request.' => 'Use esta característica sólo si desea registrar cada petición.',
         'Activating this feature might affect your system performance!' =>
             'Activar esta opción podría afectar el rendimiento de su sistema!',
-        'Disable it here!' => 'Deshabilítelo aquí',
-        'Logfile too large!' => 'Archivo de log muy grande',
+        'Disable it here!' => '¡Deshabilítelo aquí!',
+        'Logfile too large!' => '¡Archivo de log muy grande!',
         'The logfile is too large, you need to reset it' => 'El archivo de registros es muy grande, necesita restablecerlo',
         'Interface' => 'Interfase',
         'Requests' => 'Solicitudes',
@@ -1981,7 +1981,7 @@ sub Data {
         'Edit Salutation' => 'Modificar Saludo',
         'Filter for Salutations' => '',
         'Filter for salutations' => '',
-        'e. g.' => 'p. ej.:',
+        'e. g.' => 'Por ejemplo.',
         'Example salutation' => 'Saludo de ejemplo',
 
         # Template: AdminSecureMode
@@ -2193,7 +2193,7 @@ sub Data {
         'Run search' => 'Ejecutar la búsqueda',
 
         # Template: AdminSystemConfigurationSettingHistoryDetails
-        'Change History' => '',
+        'Change History' => 'Modificar el historial',
         'Change History of %s' => '',
         'No modified values for this setting, the default value is used.' =>
             '',
@@ -2319,7 +2319,7 @@ sub Data {
         # Template: AgentAppointmentEdit
         'Basic information' => 'Información básica',
         'Date/Time' => 'Fecha/Hora',
-        'Invalid date!' => 'Fecha inválida.',
+        'Invalid date!' => '¡Fecha inválida!',
         'Please set this to value before End date.' => 'Por favor fije este valor antes de la fecha de término.',
         'Please set this to value after Start date.' => 'Por favor fije este valor después de la fecha de inicio',
         'This an occurrence of a repeating appointment.' => 'Esta es una ocurrencia de una cita repetitiva.',
@@ -2659,7 +2659,7 @@ sub Data {
         'Service invalid.' => 'Servicio inválido.',
         'SLA invalid.' => '',
         'New Owner' => 'Propietario nuevo',
-        'Please set a new owner!' => 'Por favor, defina un propietario nuevo.',
+        'Please set a new owner!' => '¡Por favor, defina un propietario nuevo!',
         'Owner invalid.' => '',
         'New Responsible' => 'Nuevo Responsable',
         'Please set a new responsible!' => '',
@@ -2676,7 +2676,7 @@ sub Data {
         'Text will also be received by' => '',
         'Text Template' => 'Plantilla de texto',
         'Setting a template will overwrite any text or attachment.' => 'Establecer una plantilla sobrescribirá cualquier texto o adjunto.',
-        'Invalid time!' => 'Hora inválida.',
+        'Invalid time!' => '¡Hora inválida!',
 
         # Template: AgentTicketBounce
         'Bounce %s%s%s' => '',
@@ -3298,7 +3298,7 @@ sub Data {
         'Show last page' => 'Mostrar la última página',
 
         # Template: PictureUpload
-        'Need FormID!' => 'Se necesita el ID del Formulario',
+        'Need FormID!' => '¡Se necesita el FormID!',
         'No file found!' => '¡No se encontró el archivo!',
         'The file is not an image that can be shown inline!' => '¡El archivo no es una imagen que se pueda mostrar en línea!',
 
@@ -4356,7 +4356,7 @@ sub Data {
         'Customer user automatically added in Cc.' => 'Cliente agregado automáticamente en Cc.',
 
         # Perl Module: Kernel/Modules/AgentTicketEmail.pm
-        'Ticket "%s" created!' => 'Ticket "%s" creado',
+        'Ticket "%s" created!' => '¡Ticket "%s" creado!',
         'No Subaction!' => '',
 
         # Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
@@ -4665,7 +4665,7 @@ sub Data {
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'No se tiene %s!',
         'No such user!' => 'No existe el usuario!',
-        'Invalid calendar!' => 'Calendario inválido',
+        'Invalid calendar!' => '¡Calendario inválido!',
         'Invalid URL!' => 'URL inválido!',
         'There was an error exporting the calendar!' => 'Se produjo un error al exportar el calendario!',
 
@@ -4826,7 +4826,7 @@ sub Data {
         '%s MB' => '',
         '%s KB' => '',
         '%s B' => '',
-        'No Permission!' => 'No tiene Permiso.',
+        'No Permission!' => '¡No tiene permiso!',
         'No Permission' => '',
         'Show Tree Selection' => 'Mostrar el árbol de selección',
         'Split Quote' => 'Dividir Cita',
@@ -4852,7 +4852,7 @@ sub Data {
         'Online Agent: %s' => 'Agente Conectado: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
-        'There are more escalated tickets!' => 'No hay más tickets escalados',
+        'There are more escalated tickets!' => '¡No hay más tickets escalados!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
         'Please select a time zone in your preferences and confirm it by clicking the save button.' =>
@@ -4902,7 +4902,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
         'Verify password' => 'Verificar contraseña',
-        'The current password is not correct. Please try again!' => '¡Contraseña incorrecta! Por favor, intente de nuevo.',
+        'The current password is not correct. Please try again!' => '¡Contraseña incorrecta Por favor, intente de nuevo!',
         'Please supply your new password!' => '¡Por favor ingrese una nueva contraseña!',
         'Can\'t update password, the new password and the repeated password do not match.' =>
             '',
@@ -5661,9 +5661,9 @@ sub Data {
             '',
         'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
-        'Feature not active!' => 'Funcionalidad inactiva.',
+        'Feature not active!' => '¡Funcionalidad inactiva!',
         'Sent password reset instructions. Please check your email.' => 'Instrucciones de restablecimiento de contraseña enviadas. Por favor, revise su correo electrónico.',
-        'Invalid Token!' => 'Información inválida.',
+        'Invalid Token!' => '¡Información inválida!',
         'Sent new password to %s. Please check your email.' => 'Contraseña nueva enviada a %s. Por favor, revise su correo electrónico.',
         'Error: invalid session.' => '',
         'No Permission to use this frontend module!' => '',
@@ -6013,7 +6013,7 @@ sub Data {
         'Sa' => 'Sáb',
         'This is a repeating appointment' => 'Esta es una cita repetitiva',
         'Would you like to edit just this occurrence or all occurrences?' =>
-            'Desea editar solo esta o todas las ocurrencias',
+            '¿Desea editar solo esta ocurrencia o todas las ocurrencias?',
         'All occurrences' => 'Todas las ocurrencias',
         'Just this occurrence' => 'Solo esta',
         'Too many active calendars' => 'Demasiados calendarios activos',
@@ -6153,7 +6153,7 @@ sub Data {
 
         # JS File: Core.UI.Popup
         'If you now leave this page, all open popup windows will be closed, too!' =>
-            'Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán.',
+            '¡Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
             'Ya hay una pop-up abierta de esta pantalla. ¿Desea cerrarla y cargar esta en su lugar?',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
@@ -6505,7 +6505,7 @@ Thanks for your help!
             '',
         'Change Ticket' => '',
         'Change Ticket information' => '',
-        'Change queue!' => 'Cambiar fila',
+        'Change queue!' => '¡Cambiar fila!',
         'Change the customer for this ticket' => 'Cambiar el cliente para este ticket',
         'Change the owner for this ticket' => 'Cambiar el propietario de este ticket',
         'Change the priority for this ticket' => 'Cambiar la prioridad para este ticket',
@@ -6938,7 +6938,7 @@ Thanks for your help!
             '',
         'Defines the body text for notification mails sent to customers, with token about new requested password.' =>
             '',
-        'Defines the body text for rejected emails.' => 'Define el texto para el cuerpo de los correos electrónicos electrónicos rechazados.',
+        'Defines the body text for rejected emails.' => 'Define el texto para el cuerpo de los correos electrónicos rechazados.',
         'Defines the calendar width in percent. Default is 95%.' => '',
         'Defines the close state for quick close.' => '',
         'Defines the column to store the keys for the preferences table.' =>
@@ -8040,7 +8040,7 @@ Thanks for your help!
         'Logged in users.' => '',
         'Logged-In Users' => '',
         'Logout of customer panel.' => '',
-        'Look into a ticket!' => 'Revisar un ticket',
+        'Look into a ticket!' => '¡Revisar un ticket!',
         'Loop protection: no auto-response sent to "%s".' => '',
         'Macedonian' => '',
         'Mail Accounts' => 'Cuentas de Correo',
@@ -8066,7 +8066,7 @@ Thanks for your help!
         'Manage support data.' => 'Gestionar datos de soporte.',
         'Manage system registration.' => 'Gestionar registro del sistema.',
         'Manage tasks triggered by event or time based execution.' => '',
-        'Mark as Spam!' => 'Marcar como correo no deseado',
+        'Mark as Spam!' => '¡Marcar como correo no deseado!',
         'Mark this ticket as junk!' => 'Marcar este ticket como basura!',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             'Tamaño máximo (en caracteres) para la tabla de información del cliente (teléfono y correo electrónico) en la ventana de redacción.',
@@ -9152,9 +9152,9 @@ Thanks for your help!
         'Turns on drag and drop for the main navigation.' => '',
         'Turns on the remote ip address check. It should not be enabled if the application is used, for example, via a proxy farm or a dialup connection, because the remote ip address is mostly different for the requests.' =>
             '',
-        'Tweak the system as you wish.' => '',
+        'Tweak the system as you wish.' => 'Ajusta el sistema como quieras.',
         'Type of daemon log rotation to use: Choose \'OTOBO\' to let OTOBO system to handle the file rotation, or choose \'External\' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration.' =>
-            '',
+            'Tipo de rotación del demonio de registros a utilizar: Elija \'OTOBO\' para dejar que el sistema OTOBO se encargue de la rotación de archivos, o elija \'Externo\' para utilizar un mecanismo de rotación de terceros (por ejemplo, logrotate). Nota: El mecanismo de rotación externo requiere una configuración propia e independiente.',
         'Ukrainian' => 'Ucraniano',
         'Unlock tickets that are past their unlock timeout.' => 'Desbloquear tickets que han sobrepasado su tiempo de desbloqueo.',
         'Unlock tickets whenever a note is added and the owner is out of office.' =>
@@ -9170,37 +9170,37 @@ Thanks for your help!
         'Updates the ticket index accelerator.' => 'Actualiza el acelerador de índice de ticket.',
         'Upload your PGP key.' => 'Subir su llave PGP.',
         'Upload your S/MIME certificate.' => 'Subir su certificado S/MIME.',
-        'Use Redis::Fast instead of Redis.' => '',
+        'Use Redis::Fast instead of Redis.' => 'Utilice Redis::Fast en lugar de Redis.',
         'Use new type of select and autocomplete fields in agent interface, where applicable (InputFields).' =>
-            '',
+            'Utilizar el nuevo tipo de campos de selección y autocompletado en la interfaz del agente, cuando sea aplicable (InputFields).',
         'Use specified Redis logical database.' => '',
         'User Profile' => 'Perfil del Usuario',
         'UserFirstname' => '',
         'UserLastname' => '',
         'Users, Groups & Roles' => 'Usuarios, Grupos y Roles',
-        'Uses richtext for viewing and editing ticket notification.' => '',
+        'Uses richtext for viewing and editing ticket notification.' => 'Utiliza texto enriquecido para ver y editar la notificación del ticket.',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
-            '',
+            'Utiliza texto enriquecido para ver y editar: artículos, saludos, firmas, plantillas estándar, respuestas automáticas y notificaciones.',
         'Vietnam' => 'Vietnam',
         'View performance benchmark results.' => 'Ver los resultados de rendimiento.',
         'Watch this ticket' => 'Dar seguimiento a este ticket',
         'Watched Tickets' => 'Tickets Monitoreados',
         'Watched Tickets.' => 'Tickets Visualizados.',
-        'We are performing scheduled maintenance.' => '',
+        'We are performing scheduled maintenance.' => 'Estamos realizando un mantenimiento programado.',
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
-            '',
+            'Estamos realizando un mantenimiento programado. El inicio de sesión no está disponible temporalmente.',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
-            '',
-        'Web Service' => '',
-        'Web Services' => 'Web Services',
+            'Estamos realizando un mantenimiento programado. Deberíamos volver a estar en línea en breve.',
+        'Web Service' => 'Servicio web',
+        'Web Services' => 'Servicios web',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
-            '',
+            'Texto de bienvenida para la cabecera del tablero. El nombre se insertará en %s del texto de bienvenida. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" y "UserLogin" serán sustituidos.',
         'When agent creates a ticket, whether or not the ticket is automatically locked to the agent.' =>
-            '',
+            'Cuando el agente crea un ticket, si el ticket se bloquea o no automáticamente para el agente.',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent).' =>
-            '',
+            'Cuando se fusionan los tickets, se añade automáticamente una nota al ticket que ya no está activo. Aquí puede definir el cuerpo de esta nota (este texto no puede ser modificado por el agente).',
         'When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent).' =>
-            '',
+            'Cuando se fusionan los tickets, se añade automáticamente una nota al ticket que ya no está activo. Aquí puede definir el asunto de esta nota (este asunto no puede ser modificado por el agente).',
         'When tickets are merged, the customer can be informed per email by setting the check box "Inform Sender". In this text area, you can define a pre-formatted text which can later be modified by the agents.' =>
             'Cuando los tickets se mezclan, el cliente puede ser informado por correo electrónico al seleccionar "Inform Sender". Es posible predefinir el contenido de dicha notificación en esta área de texto, que luego puede ser modificada por los agentes.',
         'Whether extended customer information is shown in the ticket print screen of the customer interface.' =>
@@ -9223,7 +9223,7 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'Zoom' => 'Detalle',
-        'attachment' => 'Adjuntar Archivo',
+        'attachment' => 'Adjuntar archivo',
         'bounce' => 'rebotar',
         'compose' => 'redactar',
         'debug' => 'Depuración',

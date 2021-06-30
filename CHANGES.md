@@ -1,4 +1,51 @@
 
+# OTOBO 10.0.11 2021-06-29
+- 2021-06-29 14:12:12 +0200 Create new OTOBO language files.
+- 2021-06-28 17:02:11 +0000 Translated using Weblate (Spanish (Mexico))
+- 2021-06-01 11:40:19 +0000 Translated using Weblate (French)
+- 2021-06-24 16:34:11 +0200 [Security] Detect XSS in Ticket Search Form (https://github.com/RotherOSS/otobo/issues/1101)
+- 2021-06-24 15:55:09 +0200 [Bugfix]   Fix age and name length in the article overview in CustomerTicketZoom. (https://github.com/RotherOSS/otobo/issues/1102)
+- 2021-06-24 11:32:32 +0200 Add linuxmint as aptget os to CheckModules.
+- 2021-06-21 16:02:46 +0200 [Tidied]   OTOBO::Perl::ParamObject violations in rel-10_0 (https://github.com/RotherOSS/otobo/issues/1095)
+- 2021-06-09 10:03:40 +0200 Selenium Testing: no error message when calling an unknown JS function (https://github.com/RotherOSS/otobo/issues/909) - in progress
+- 2021-06-09 08:35:15 +0200 Issue #534 simple mysql migration (https://github.com/RotherOSS/otobo/issues/537)
+- 2021-06-07 09:31:51 +0200 Github-Action: Use CodePolicy 10.0.4.
+- 2021-06-02 15:06:05 +0200 [Tidied]   Check the cases where autoclose of lexical variables is used (https://github.com/RotherOSS/otobo/issues/1051)
+- 2021-06-01 16:17:08 +0200 Issue rotheross/docker-compose#51: also build otobo-nginx-kerberos-webproxy
+- 2021-05-29 08:02:19 +0200 Add load_module to nginx.conf and install certbot.
+- 2021-05-27 05:50:27 +0000 Translated using Weblate (Russian)
+- 2021-05-17 09:35:03 +0000 Translated using Weblate (Polish)
+- 2021-05-13 09:40:37 +0000 Translated using Weblate (German)
+- 2021-05-03 16:33:22 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2021-04-28 15:47:05 +0000 Translated using Weblate (Lithuanian)
+- 2021-04-21 16:43:27 +0000 Update translation files
+- 2021-05-25 22:28:40 +0200 [Tidied]   Adjust the code in rel-10_0 branch to work with CodePolicy. (https://github.com/RotherOSS/otobo/issues/760)
+- 2021-05-23 15:14:52 +0200 Reloading the Kernel/Config/Files/ZZZ*.pm files (https://github.com/RotherOSS/otobo/issues/1000)
+- 2021-05-17 17:44:40 +0200 [Bugfix]   Migrate older ConfigItem definitions in perl syntax to .yaml (https://github.com/RotherOSS/otobo/issues/1009)
+- 2021-05-17 17:10:23 +0200 [Bugfix]   Not all FAQ inline images are visible after migration from OTRS (https://github.com/RotherOSS/otobo/issues/1008)
+- 2021-05-13 13:02:02 +0200 Issue #1006, #800, #601: Fix base64 encoding in migration from postgreSQL.
+- 2021-05-12 18:37:47 +0200 Selenium Testing: no warning when subject is empty (https://github.com/RotherOSS/otobo/issues/862) - in progress
+- 2021-05-11 20:24:11 +0200 [Enhanced] Selenium: Put each Login-Attempt into a subtest (https://github.com/RotherOSS/otobo/issues/1003)
+- 2021-05-09 15:10:32 +0200 [Enhanced] Docker: add screen to the docker images (https://github.com/RotherOSS/otobo/issues/680)
+- 2021-05-08 17:17:03 +0200 SeleniumTesting: fix TODO tests for setting Owner, Responsible, State  (https://github.com/RotherOSS/otobo/issues/748) - in progress
+- 2021-05-02 12:28:36 +0200 [Bugfix]   SeleniumTesting: Attachment not shown in CustomerTicketAttachment.t (https://github.com/RotherOSS/otobo/issues/907)
+- 2021-05-01 16:26:35 +0200 [Bugfix]   activate PreferencesGroup::Password per default (https://github.com/RotherOSS/otobo/issues/715)
+- 2021-04-30 16:17:36 +0200 [Bugfix]   Testing: Resolve remaining failures of Selenium tests (https://github.com/RotherOSS/otobo/issues/682)
+- 2021-04-30 14:05:33 +0200 Admin -> ACL -> CustomerTicketMessage missing in ACLKeysLevel3 (https://github.com/RotherOSS/otobo/issues/878)
+- 2021-04-29 20:43:52 +0200 Issue rotheross/otobo-docker#46: saner code comments
+- 2021-04-29 20:40:03 +0200 Issue rotheross/otobo-docker#46: print a usage message
+- 2021-04-29 23:06:37 +0500 fixed missing dependencies in workflows
+- 2021-04-28 18:04:28 +0200 Dont include dot-files in the Docker images (https://github.com/RotherOSS/otobo/issues/951)
+- 2021-04-28 16:27:02 +0200 ignore all vim dotfiles
+- 2021-04-28 15:17:37 +0200 Allow webserver configurations that do not rely
+- 2021-04-28 09:12:41 +0200 Revert "Fix CheckEmail for some special cases"
+- 2021-04-27 16:13:09 +0200 Very big UID and GID identifiers in the otobo-docker (https://github.com/RotherOSS/otobo/issues/972)
+- 2021-04-26 22:03:25 +0200 Fix CheckEmail for some special cases
+- 2021-04-26 21:56:07 +0200 Fix CheckEmail for some special cases
+- 2021-01-27 18:35:13 +0100 Fix HTTP::REST Transport error if request body is empty
+- 2021-04-22 21:11:47 +0200 [Tidied]   Rework standard settings for passwords and other preferences. (https://github.com/RotherOSS/otobo/issues/935)
+
+
 # OTOBO 10.0.10 2021-04-21
 - 2021-04-21 18:43:00 +0200 Create new OTOBO language files.
 - 2021-04-21 07:52:24 +0000 Translated using Weblate (Danish)
@@ -673,3 +720,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
