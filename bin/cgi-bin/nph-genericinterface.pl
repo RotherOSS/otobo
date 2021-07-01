@@ -24,10 +24,9 @@ use utf8;
 use File::Basename qw(dirname);
 
 # CPAN modules
-use Plack::Util qw();
+use Plack::Builder;
 use Plack::Handler::CGI qw();
-
-#use Plack::Middleware::DebugLogging;
+use Plack::Util qw();
 
 # OTOBO modules
 
@@ -37,18 +36,20 @@ use Plack::Handler::CGI qw();
 local $ENV{PATH_INFO}   = join '/', grep { defined $_ && $_ ne '' } @ENV{qw(SCRIPT_NAME PATH_INFO)};
 local $ENV{SCRIPT_NAME} = '';
 
-#$Plack::Middleware::DebugLogging::module_map->{'text/xml; charset=utf-8'} = 'XML::Simple';
-#$Plack::Middleware::DebugLogging::module_map->{'text/xml; charset=UTF-8'} = 'XML::Simple';
-
 my $CgiBinDir = dirname(__FILE__);
 
-#state $App = Plack::Middleware::DebugLogging->wrap(
-#    Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi"),
-#    debug    => 1,
-#    response => 1,
-#    request  => 1
-#);
-state $App = Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi");
+state $App = builder {
+
+    #    enable 'Plack::Middleware::DebugLogging',
+    #        debug    => 1,
+    #        response => 1,
+    #        request  => 1;
+
+    Plack::Util::load_psgi("$CgiBinDir/../psgi-bin/otobo.psgi");
+};
+
+#$Plack::Middleware::DebugLogging::module_map->{'text/xml; charset=utf-8'} = 'XML::Simple';
+#$Plack::Middleware::DebugLogging::module_map->{'text/xml; charset=UTF-8'} = 'XML::Simple';
 
 # set up a PSGI environment from %ENV
 my $PSGIEnv = Plack::Handler::CGI->new()->setup_env();
