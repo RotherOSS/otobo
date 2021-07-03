@@ -27,8 +27,8 @@ use PerlIO;
 
 # CPAN modules
 use HTTP::Status;
-use SOAP::Lite;
 use Plack::Response;
+use SOAP::Lite;    # for enabling debugging import +trace => 'all'
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

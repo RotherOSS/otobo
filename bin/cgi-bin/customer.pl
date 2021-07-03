@@ -32,7 +32,7 @@ use Plack::Handler::CGI qw();
 #local $ENV{PLACK_URLMAP_DEBUG} = 1; # enable when the URL mapping does not work
 
 # otobo.psgi looks primarily in $ENV{PATH_INFO}
-local $ENV{PATH_INFO}   = join '/', grep { defined $_ || $_ ne '' } @ENV{qw(SCRIPT_NAME PATH_INFO)};
+local $ENV{PATH_INFO}   = join '/', grep { defined $_ && $_ ne '' } @ENV{qw(SCRIPT_NAME PATH_INFO)};
 local $ENV{SCRIPT_NAME} = '';
 
 my $CgiBinDir = dirname(__FILE__);
