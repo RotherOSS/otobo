@@ -129,7 +129,7 @@ sub Run {
     if ( $Targets =~ /c/ ) {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
-            Config   => $Config,
+            Config   => $Config->{Customer} || $Config->{all},
             Sleep    => $MicroSleep,
         );
     }
@@ -137,7 +137,7 @@ sub Run {
     if ( $Targets =~ /u/ ) {
         $Self->MigrateCustomerUsers(
             ESObject => $ESObject,
-            Config   => $Config,
+            Config   => $Config->{CustomerUser} || $Config->{all},
             Sleep    => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
@@ -146,7 +146,7 @@ sub Run {
     if ( $Targets =~ /t/ ) {
         $Self->MigrateTickets(
             ESObject => $ESObject,
-            Config   => $Config,
+            Config   => $Config->{Ticket} || $Config->{all},
             Sleep    => $MicroSleep,
         );
     }
@@ -154,7 +154,7 @@ sub Run {
     if ( $Targets =~ /i/ ) {
         $Self->MigrateConfigItems(
             ESObject => $ESObject,
-            Config   => $Config,
+            Config   => $Config->{ConfigItem} || $Config->{all},
             Sleep    => $MicroSleep,
         );
     }
