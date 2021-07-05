@@ -19,15 +19,17 @@ use warnings;
 use v5.24;
 use utf8;
 
+# core modules
+
 # CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
-use vars (qw($Self));
+our $Self;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -179,10 +181,7 @@ $Selenium->RunTest(
             UserID         => 1,
             NoAgentNotify  => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "Article is created - ID $ArticleID",
-        );
+        ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         $ArticleObject->ArticleSearchIndexBuild(
             TicketID  => $TicketID,
@@ -231,6 +230,12 @@ $Selenium->RunTest(
 
         # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
+
+        # double check whether the changed config made it to Core.Config
+        {
+            my $StopWordSetting = $Selenium->execute_script('return Core.Config.Get("CheckSearchStringsForStopWords");');
+            ok( !$StopWordSetting, 'according to Core.Config stop words are not being checked' );
+        }
 
         # Check the general fields for ticket search page.
         for my $ID (
@@ -310,30 +315,28 @@ $Selenium->RunTest(
         # Wait until form and overlay has loaded, if necessary.
         $Selenium->WaitFor( JavaScript => "return typeof(\$) === 'function' && \$('#SearchProfile').length" );
 
+        # double check whether the changed config made it to Core.Config
+        {
+            my $StopWordSetting = $Selenium->execute_script('return Core.Config.Get("CheckSearchStringsForStopWords");');
+            ok( $StopWordSetting, 'according to Core.Config stop words are being checked' );
+        }
+
         # Try to search fulltext with string less then 3 characters.
         $Selenium->execute_script(
             "\$('input[name=\"Fulltext\"]').val('$MinCharString');",
         );
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        {
-            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
 
-            try_ok {
-                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MinCharString not found';
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/\n\QFulltext: $MinCharString\E/,
+            'Minimum character string search warning is found',
+        );
 
-                # Verify the alert message.
-                my $ExpectedAlertText = "Fulltext: $MinCharString";
-                like(
-                    $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
-                    'Minimum character string search warning is found',
-                );
-
-                # Accept the alert to continue with the tests.
-                $Selenium->accept_alert();
-            };
-        }
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
 
         # Try to search fulltext with string more than 30 characters.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
@@ -342,24 +345,16 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        {
-            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
 
-            try_ok {
-                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for MaxCharString not found';
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/\n\QFulltext: $MaxCharString\E/,
+            'Maximum character string search warning is found',
+        );
 
-                # Verify the alert message.
-                my $ExpectedAlertText = "Fulltext: $MaxCharString";
-                like(
-                    $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
-                    'Maximum character string search warning is found',
-                );
-
-                # Accept the alert to continue with the tests.
-                $Selenium->accept_alert();
-            };
-        }
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
 
         # Try to search fulltext with 'stop word' search.
         $Selenium->find_element( "Fulltext", 'name' )->clear();
@@ -368,24 +363,16 @@ $Selenium->RunTest(
         );
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        {
-            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
-            try_ok {
-                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/\n\QFulltext: because\E/,
+            'Stop word search string warning is found',
+        );
 
-                # Verify the alert message.
-                my $ExpectedAlertText = "\nFulltext: because";
-                like(
-                    $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
-                    'Stop word search string warning is found',
-                );
-
-                # Accept the alert to continue with the tests.
-                $Selenium->accept_alert();
-            };
-        }
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
 
         # Add Subject field and try searching subject with 'stop word' search.
         $Selenium->InputFieldValueSet(
@@ -401,24 +388,16 @@ $Selenium->RunTest(
         $Selenium->find_element( "MIMEBase_Subject",  'name' )->send_keys('because');
         $Selenium->find_element( '#SearchFormSubmit', 'css' )->click();
 
-        {
-            my $ToDo = todo('decide whether an alert should be shown. See https://github.com/RotherOSS/otobo/issues/921');
+        $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
 
-            try_ok {
-                $Selenium->WaitFor( AlertPresent => 1 ) || die 'Alert for stop word not found';
+        # Verify the alert message.
+        $Selenium->alert_text_like(
+            qr/\n\QSubject: because\E/,
+            'Stop word search string warning is found',
+        );
 
-                # Verify the alert message.
-                my $ExpectedAlertText = "\nSubject: because";
-                like(
-                    $Selenium->get_alert_text(),
-                    $ExpectedAlertText,
-                    'Stop word search string warning is found',
-                );
-
-                # Accept the alert to continue with the tests.
-                $Selenium->accept_alert();
-            };
-        }
+        # Accept the alert to continue with the tests.
+        $Selenium->accept_alert();
 
         # Clear Subject field.
         $Selenium->find_element( "MIMEBase_Subject", 'name' )->clear();
@@ -612,7 +591,6 @@ $Selenium->RunTest(
             Name => $DFTextName,
         );
         my $BackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-        my $Success;
         for my $DFValue (qw(GASZ JLEB)) {
             my $Title    = "Title$DFValue" . $RandomID;
             my $Number   = $TicketObject->TicketCreateNumber();
@@ -633,16 +611,13 @@ $Selenium->RunTest(
             );
             push @TicketIDs, $TicketID;
 
-            $Success = $BackendObject->ValueSet(
+            my $Success = $BackendObject->ValueSet(
                 DynamicFieldConfig => $TextTypeDynamicFieldConfig,
                 ObjectID           => $TicketID,
                 Value              => $DFValue,
                 UserID             => 1,
             );
-            $Self->True(
-                $Success,
-                "Value '$DFValue' is set successfully for ticketID $TicketID",
-            );
+            $Self->True( $Success, "Value '$DFValue' is set successfully for ticketID $TicketID" );
         }
 
         # Navigate to AgentTicketSearch screen.
@@ -739,7 +714,6 @@ $Selenium->RunTest(
             CSSSelector => '.ShowTreeSelection',
         );
         $Selenium->execute_script("\$('.ShowTreeSelection').click();");
-        sleep 1;
 
         my @SearchElements = $Selenium->find_elements("//input[contains(\@placeholder,'Search...')]");
 
@@ -856,7 +830,7 @@ $Selenium->RunTest(
 
         # Clean up test data from the DB.
         for my $TicketID (@TicketIDs) {
-            $Success = $TicketObject->TicketDelete(
+            my $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
                 UserID   => 1,
             );
@@ -869,22 +843,16 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
             }
-            $Self->True(
-                $Success,
-                "Ticket - ID $TicketID - deleted",
-            );
+            $Self->True( $Success, "Ticket - ID $TicketID - deleted" );
         }
 
         # Delete created test dynamic fields.
         for my $DynamicFieldID (@DynamicFieldIDs) {
-            $Success = $DynamicFieldObject->DynamicFieldDelete(
+            my $Success = $DynamicFieldObject->DynamicFieldDelete(
                 ID     => $DynamicFieldID,
                 UserID => 1,
             );
-            $Self->True(
-                $Success,
-                "Dynamic field - ID $DynamicFieldID - deleted",
-            );
+            $Self->True( $Success, "Dynamic field - ID $DynamicFieldID - deleted" );
         }
 
         # Make sure the cache is correct.

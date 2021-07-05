@@ -17,20 +17,21 @@
 # Luis Armando Medina <lamedina@gmail.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
-#
+# Fredy Aragón <fredmac48@hotmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2020-02-25 16:18+0000\n"
-"Last-Translator: Carlos Vazquez <carlos.vazquez@oslc.com.mx>\n"
-"Language-Team: Spanish (Mexico) <https://translate.otobo.com/projects/otobo10/otobo/es_MX/>\n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
+"POT-Creation-Date: 2021-04-21 16:42+0000\n"
+"PO-Revision-Date: 2021-06-28 21:36+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10.3\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -290,7 +291,7 @@ msgstr "Crear: usuarios que pueden crear y borrar citas en el calendario."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "RW: usuario que pueden gestionar el calendario en sí"
+msgstr "Lectura/Escritura: usuario que pueden gestionar el calendario en sí."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -378,7 +379,7 @@ msgstr "Filas"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Poor favor seleccione una fila válida"
+msgstr "Poor favor seleccione una fila válida."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -414,11 +415,11 @@ msgstr "Regresar"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr "El archivo cargado tiene que estar en un formato iCal válido (.ics)"
+msgstr "El archivo cargado tiene que estar en un formato iCal válido (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid "If desired Calendar is not listed here, please make sure that you have at least 'create' permissions."
-msgstr "Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de \"crear\""
+msgstr "Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de \"crear\"."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -430,7 +431,7 @@ msgstr "¿Actualizar las citas existentes?"
 
 #. Template: AdminAppointmentImport
 msgid "All existing appointments in the calendar with same UniqueID will be overwritten."
-msgstr "Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán"
+msgstr "Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -554,7 +555,7 @@ msgstr "Enviar a"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr "Enviar a estos agentes."
+msgstr "Enviar a estos agentes"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
@@ -598,7 +599,7 @@ msgstr "Transporte"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr "AL menos un métodos es necesario por cada notificación"
+msgstr "AL menos un métodos es necesario por cada notificación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
@@ -626,7 +627,7 @@ msgstr "No se encontraron datos"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr "Método de notificación no encontrado"
+msgstr "Método de notificación no encontrado."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
@@ -674,7 +675,7 @@ msgstr "Puede utilizar las siguientes etiquetas"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr "Para obtener los primeros 20 caracteres del título de la cita"
+msgstr "Para obtener los primeros 20 caracteres del título de la cita."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
@@ -682,7 +683,7 @@ msgstr "Para obtener el atributo de la cita"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "Por ejemplo:"
+msgstr " Por ejemplo."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -698,7 +699,7 @@ msgstr "Opciones de configuración"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr "Notificación de ejemplo."
+msgstr "Notificación de ejemplo"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
@@ -730,7 +731,7 @@ msgstr "Activar seguridad de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr "Nivel de seguridad de correo electrónico "
+msgstr "Nivel de seguridad de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
@@ -866,7 +867,7 @@ msgstr "Gestión de Servicio en la Nube"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr "Recolector  de Datos de Soporte"
+msgstr "Recolector de datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
@@ -882,7 +883,7 @@ msgstr "Actualmente los datos de soporte sólo son mostrados en este sistema."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "It is sometimes recommended to send this data to the OTOBO team in order to get better support."
-msgstr ""
+msgstr "A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un mejor apoyo."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -894,7 +895,7 @@ msgstr "Enviar datos de soporte"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
-msgstr ""
+msgstr "Esto permitirá que el sistema envíe información adicional de datos de apoyo al equipo de OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -902,23 +903,23 @@ msgstr "Actualizar"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr "Registro del Sistema"
+msgstr "Registro del sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the 'send support data' option.)"
-msgstr ""
+msgstr "Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO o actualice la información de registro de su sistema (asegúrese de activar la opción \"enviar datos de soporte\")"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr "Registrar este Sistema"
+msgstr "Registrar este sistema"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration is disabled for your system. Please check your configuration."
-msgstr "El Registro no está disponible para su sistema. Por favor revise su configuración."
+msgstr "El registro no está disponible para su sistema. Por favor revise su configuración."
 
 #. Template: AdminCloudServices
 msgid "System registration is a service of OTOBO team, which provides a lot of advantages!"
-msgstr ""
+msgstr "El registro del sistema es un servicio del equipo de OTOBO, ¡que ofrece muchas ventajas!"
 
 #. Template: AdminCloudServices
 msgid "Please note that the use of OTOBO cloud services requires the system to be registered."
@@ -934,15 +935,15 @@ msgstr "Aquí puede configurar los servicios en la nube disponibles que se comun
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr "Servicios en la Nube Disponibles "
+msgstr "Servicios en la nube disponibles"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr "Bitácora de Comunicación"
+msgstr "Bitácora de comunicación"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr "Rango de Tiempo"
+msgstr "Rango de tiempo"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
@@ -950,7 +951,7 @@ msgstr "Mostrar solo los registros de comunicación creados en un rango de tiemp
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr "Filtro para Comunicaciones"
+msgstr "Filtro para comunicaciones"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
@@ -1154,7 +1155,7 @@ msgstr "Resumen de registro de comunicación (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr "No se encontraron objetos de comunicacion. "
+msgstr "No se encontraron objetos de comunicación."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
@@ -1166,7 +1167,7 @@ msgstr "Por favor seleccione una entrada de la lista."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Contacto con la gestión de datos"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1174,11 +1175,11 @@ msgstr "Contacto con datos"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Añadir contacto con datos"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Editar contacto con los datos"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1198,7 +1199,7 @@ msgstr "Están permitidos comodines como '*'."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Introduzca un término de búsqueda para buscar contactos con datos."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1226,7 +1227,7 @@ msgstr "total"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr "Por favor, introduzca un parámetro de búsqueda para buscar clientes"
+msgstr "Por favor, introduzca un parámetro de búsqueda para buscar clientes."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
@@ -1250,7 +1251,7 @@ msgstr "Aviso"
 
 #. Template: AdminCustomerGroup
 msgid "This feature is disabled!"
-msgstr "Esta característica está deshabilitada"
+msgstr "¡Esta característica está deshabilitada!"
 
 #. Template: AdminCustomerGroup
 msgid "Just use this feature if you want to define group permissions for customers."
@@ -1258,7 +1259,7 @@ msgstr "Utilice esta función únicamente si desea definir permisos de grupo par
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
-msgstr "Habilítelo aquí"
+msgstr "¡Habilítelo aquí!"
 
 #. Template: AdminCustomerGroup
 msgid "Edit Customer Default Groups"
@@ -1270,7 +1271,7 @@ msgstr "Estos grupos se asignan automáticamente a todos los clientes."
 
 #. Template: AdminCustomerGroup
 msgid "You can manage these groups via the configuration setting \"CustomerGroupCompanyAlwaysGroups\"."
-msgstr "Es posible gestionar estos grupos por medio de la configuración \"CustomerGroupCompanyAlwaysGroups\""
+msgstr "Es posible gestionar estos grupos por medio de la configuración \"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
@@ -1278,7 +1279,7 @@ msgstr "Filtro para Grupos"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr "Seleccione los permisos cliente:grupo"
+msgstr "Seleccione los permisos cliente:grupo."
 
 #. Template: AdminCustomerGroup
 msgid "If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer)."
@@ -1378,7 +1379,7 @@ msgstr "Cambiar a cliente"
 
 #. Template: AdminCustomerUser
 msgid "This customer backend is read only, but the customer user preferences can be changed!"
-msgstr "Este backend del cliente es de solo lectura, pero las preferencias del usuario pueden ser cambiadas."
+msgstr "¡Este backend del cliente es de solo lectura, pero las preferencias del usuario pueden ser cambiadas!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
@@ -1430,7 +1431,7 @@ msgstr "Cliente"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr "Este usuario cliente no tiene acceso a los clientes"
+msgstr "Este usuario cliente no tiene acceso a los clientes."
 
 #. Template: AdminCustomerUser
 msgid "Table above shows granted customer access for the customer user by permission context. The matrix takes into account all inherited access (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it."
@@ -1542,11 +1543,11 @@ msgstr "Filtro para campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Nuevos campos comunitarios de OTOBO"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
-msgstr ""
+msgstr "¿Desea beneficiarse de otros tipos de campos dinámicos? Tiene acceso completo a los siguientes tipos de campo:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1554,7 +1555,7 @@ msgstr "Base de Datos"
 
 #. Template: AdminDynamicField
 msgid "Use external databases as configurable data sources for this dynamic field."
-msgstr ""
+msgstr "Utilice bases de datos externas como fuentes de datos configurables para este campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "Web service"
@@ -1562,11 +1563,11 @@ msgstr "Servicio web"
 
 #. Template: AdminDynamicField
 msgid "External web services can be configured as data sources for this dynamic field."
-msgstr ""
+msgstr "Se pueden configurar servicios web externos como fuentes de datos para este campo dinámico."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
-msgstr ""
+msgstr "Esta función permite añadir contactos (múltiples) con datos a los tickets."
 
 #. Template: AdminDynamicField
 msgid "To add a new field, select the field type from one of the object's list, the object defines the boundary of the field and it can't be changed after the field creation."
@@ -1598,27 +1599,27 @@ msgstr "Eliminar este campo"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Importación / Exportación"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module."
-msgstr ""
+msgstr "Aquí puede subir un archivo de configuración para importar campos dinámicos a su sistema. El archivo debe estar en formato .yml, tal y como lo exporta el módulo de gestión de campos dinámicos."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importación de DynamicFields"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Importación de DynamicFields"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Pantallas de campos dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
-msgstr ""
+msgstr "Aquí puede gestionar los campos dinámicos en las respectivas pantallas."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1662,7 +1663,7 @@ msgstr "Éste es el orden en que se mostrará este campo en las pantallas en las
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Is not possible to invalidate this entry, all config settings have to be changed beforehand."
-msgstr ""
+msgstr "No es posible invalidar esta entrada, todos los ajustes de configuración tienen que ser cambiados de antemano."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
@@ -1682,7 +1683,7 @@ msgstr "Este campo está protegido y no puede ser eliminado."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "Este campo dinámico se utiliza en los siguientes ajustes de configuración:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
@@ -1698,27 +1699,27 @@ msgstr "Este es el valor predefinido para este campo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Añadir o editar contactos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "To add contacts to this field please fill out all the needed information and save it."
-msgstr ""
+msgstr "Para añadir contactos a este campo, rellene toda la información necesaria y guárdela."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the 'Tickets' menu."
-msgstr ""
+msgstr "Haga clic en el nombre del campo desde la vista general para editarlo y busque la acción correspondiente en la barra lateral o en el menú 'Tickets."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Campo nombre"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Campo ValidID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Otros campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1734,7 +1735,7 @@ msgstr "Eliminar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Campo agregar"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -1742,31 +1743,31 @@ msgstr "Agregar valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Estos son los posibles atributos de datos para los contactos."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Campos obligatorios"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' are always mandatory and doesn't have to be listed here."
-msgstr ""
+msgstr "Lista separada por comas de las claves obligatorias (opcional). Las claves 'Nombre' y 'ValidID' son siempre obligatorias y no tienen que ser listadas aquí."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Campos ordenados"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically."
-msgstr ""
+msgstr "Lista de claves separadas por comas en orden de clasificación (opcional). Las claves listadas aquí vienen primero, todos los campos restantes después y ordenados alfabéticamente."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Campos de búsqueda"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Comma separated list of searchable keys (optional). Key 'Name' is always searchable and doesn't have to be listed here."
-msgstr ""
+msgstr "Lista separada por comas de las claves que se pueden buscar (opcional). La clave 'Nombre' siempre se puede buscar y no tiene que aparecer en esta lista."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -1789,6 +1790,7 @@ msgid "Possible values"
 msgstr "Valores posibles"
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Datatype"
 msgstr ""
 
@@ -1797,10 +1799,12 @@ msgid "Filter"
 msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Searchfield"
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Listfield"
 msgstr ""
 
@@ -1822,7 +1826,7 @@ msgstr "Enlace para muestra"
 
 #. Template: AdminDynamicFieldDB
 msgid "If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too."
-msgstr ""
+msgstr "Si se rellena, esta URL se utilizará para una vista previa que se mostrará cuando se pase el ratón por este enlace en el zoom del ticket. Tenga en cuenta que para que esto funcione, el campo de la URL normal de arriba también debe rellenarse."
 
 #. Template: AdminDynamicFieldDB
 msgid "SID"
@@ -1830,11 +1834,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Controlador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -1842,7 +1846,7 @@ msgstr "Puerto"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Tabla / Vista"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -1858,31 +1862,34 @@ msgstr "Identificador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Debe ser una columna única de la tabla introducida en la Tabla/Vista."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
 msgstr "Selección múltiple"
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "CacheTTL"
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Searchprefix"
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
+#, fuzzy
 msgid "Searchsuffix"
 msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Límite de resultados"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Caso Sensible"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -1922,7 +1929,7 @@ msgstr "Años en el futuro a mostrar (valor predeterminado: 5 años)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' instead of 'uri' filter."
-msgstr ""
+msgstr "Si los caracteres especiales (&, @, :, /, etc.) no deben codificarse, utilice el filtro 'url' en lugar de 'uri'."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -1953,28 +1960,29 @@ msgid "Activate this option to display values as a tree."
 msgstr "Active esta opción para mostrar los valores como un árbol."
 
 #. Template: AdminDynamicFieldImportExport
+#, fuzzy
 msgid "%s - %s"
 msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Seleccione los elementos que desea "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Seleccione los elementos deseados y confirme la importación con \"importar\"."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format."
-msgstr ""
+msgstr "Aquí puede exportar un archivo de configuración de campos dinámicos y pantallas de campos dinámicos para importarlos en otro sistema. El archivo de configuración se exporta en formato yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "The following dynamic fields can not be imported because of an invalid backend."
-msgstr ""
+msgstr "Los siguientes campos dinámicos no pueden ser importados debido a un backend inválido."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Alternar todos los elementos disponibles"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -1982,11 +1990,11 @@ msgstr "Campos"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Gestión de Campos Dinámicos <-> Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -1994,15 +2002,15 @@ msgstr "Resumen"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Columnas por defecto de Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Añadir DynamicField"
 
 #. Template: AdminDynamicFieldScreen
 msgid "You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list."
-msgstr ""
+msgstr "Puede asignar elementos a esta Pantalla/Campo arrastrando los elementos con el ratón desde la lista de la izquierda a la de la derecha."
 
 #. Template: AdminDynamicFieldScreen
 msgid "Ordering the elements within the list is also possible by drag 'n' drop."
@@ -2010,55 +2018,55 @@ msgstr "También es posible ordenar los elementos de la lista arrastrando y solt
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Elementos filtrantes disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "seleccionados a los elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Elementos filtrantes desactivados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "seleccionados a elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Conmutar todos los elementos desactivados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Elementos desactivados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "Elementos filtrantes asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "seleccionados a los elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "Conmutar todos los elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Elementos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "Filtrar los elementos necesarios asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "seleccionados para asignar los elementos necesarios"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
@@ -2258,7 +2266,7 @@ msgstr "Última ejecución"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Ejecutar ahora"
+msgstr "¡Ejecutar ahora!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
@@ -2310,7 +2318,7 @@ msgstr "Actualmente esta tarea del agente genérico no se ejecutará automática
 
 #. Template: AdminGenericAgent
 msgid "To enable automatic execution select at least one value from minutes, hours and days!"
-msgstr "Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días."
+msgstr "¡Para habilitar la ejecución automática, seleccione al menos un valor de minutos, horas y días!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
@@ -2698,7 +2706,7 @@ msgstr "¡%s Tickets afectados! ¿Qué desea hacer?"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr "Advertencia: Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!. "
+msgstr "Advertencia: ¡Eligió la opción ELIMINAR. ¡Todos los tickets eliminados se perderán!"
 
 #. Template: AdminGenericAgent
 msgid "Warning: There are %s tickets affected but only %s may be modified during one job execution!"
@@ -4330,7 +4338,7 @@ msgstr ""
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr "¡Configurelo aquí! "
+msgstr "¡Configurelo aquí!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
@@ -4610,7 +4618,7 @@ msgstr "último"
 
 #. Template: AdminPerformanceLog
 msgid "This feature is enabled!"
-msgstr "Esta característica está habilitada"
+msgstr "¡Esta característica está habilitada!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
@@ -4622,11 +4630,11 @@ msgstr "Activar esta opción podría afectar el rendimiento de su sistema!"
 
 #. Template: AdminPerformanceLog
 msgid "Disable it here!"
-msgstr "Deshabilítelo aquí"
+msgstr "¡Deshabilítelo aquí!"
 
 #. Template: AdminPerformanceLog
 msgid "Logfile too large!"
-msgstr "Archivo de log muy grande"
+msgstr "¡Archivo de log muy grande!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
@@ -5974,7 +5982,7 @@ msgstr ""
 
 #. Template: AdminSalutation
 msgid "e. g."
-msgstr "p. ej.:"
+msgstr "Por ejemplo."
 
 #. Template: AdminSalutation
 msgid "Example salutation"
@@ -6530,7 +6538,7 @@ msgstr "Ejecutar la búsqueda"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "Modificar el historial"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
@@ -6894,7 +6902,7 @@ msgstr "Fecha/Hora"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
-msgstr "Fecha inválida."
+msgstr "¡Fecha inválida!"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
@@ -7854,7 +7862,7 @@ msgstr "Propietario nuevo"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr "Por favor, defina un propietario nuevo."
+msgstr "¡Por favor, defina un propietario nuevo!"
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
@@ -7918,7 +7926,7 @@ msgstr "Establecer una plantilla sobrescribirá cualquier texto o adjunto."
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
-msgstr "Hora inválida."
+msgstr "¡Hora inválida!"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
@@ -9065,10 +9073,6 @@ msgid "Phone"
 msgstr "Teléfono"
 
 #. Template: Installer
-msgid "Switzerland"
-msgstr ""
-
-#. Template: Installer
 msgid "Web site"
 msgstr "Sitio web"
 
@@ -9493,6 +9497,10 @@ msgid " Continue anyways :("
 msgstr ""
 
 #. Template: OTRSDBSettings
+msgid "DSN"
+msgstr ""
+
+#. Template: OTRSDBSettings
 msgid "Skip DB migration"
 msgstr ""
 
@@ -9586,7 +9594,7 @@ msgstr "Mostrar la última página"
 
 #. Template: PictureUpload
 msgid "Need FormID!"
-msgstr "Se necesita el ID del Formulario"
+msgstr "¡Se necesita el FormID!"
 
 #. Template: PictureUpload
 msgid "No file found!"
@@ -12506,7 +12514,7 @@ msgstr "Cliente agregado automáticamente en Cc."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
-msgstr "Ticket \"%s\" creado"
+msgstr "¡Ticket \"%s\" creado!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
@@ -13374,7 +13382,7 @@ msgstr "No existe el usuario!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid calendar!"
-msgstr "Calendario inválido"
+msgstr "¡Calendario inválido!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid URL!"
@@ -13750,7 +13758,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
-msgstr "No tiene Permiso."
+msgstr "¡No tiene permiso!"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
@@ -13806,7 +13814,7 @@ msgstr "Agente Conectado: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
 msgid "There are more escalated tickets!"
-msgstr "No hay más tickets escalados"
+msgstr "¡No hay más tickets escalados!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
 msgid "Please select a time zone in your preferences and confirm it by clicking the save button."
@@ -13874,7 +13882,7 @@ msgstr "Verificar contraseña"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr "¡Contraseña incorrecta! Por favor, intente de nuevo."
+msgstr "¡Contraseña incorrecta Por favor, intente de nuevo!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -14262,10 +14270,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Skipped..."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
@@ -14869,7 +14873,7 @@ msgid "Maximum Query Size"
 msgstr "Tamaño Máximo de Consulta"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -15594,7 +15598,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
-msgstr "Funcionalidad inactiva."
+msgstr "¡Funcionalidad inactiva!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
@@ -15602,7 +15606,7 @@ msgstr "Instrucciones de restablecimiento de contraseña enviadas. Por favor, re
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
-msgstr "Información inválida."
+msgstr "¡Información inválida!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
@@ -16522,7 +16526,7 @@ msgstr "Esta es una cita repetitiva"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Would you like to edit just this occurrence or all occurrences?"
-msgstr "Desea editar solo esta o todas las ocurrencias"
+msgstr "¿Desea editar solo esta ocurrencia o todas las ocurrencias?"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "All occurrences"
@@ -16790,7 +16794,7 @@ msgstr "Limpiar búsqueda"
 
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
-msgstr "Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán."
+msgstr "¡Si sale de esta página ahora, todas las ventanas pop-up también se cerrarán!"
 
 #. JS File: Core.UI.Popup
 msgid "A popup of this screen is already open. Do you want to close it and load this one instead?"
@@ -17729,7 +17733,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change queue!"
-msgstr "Cambiar fila"
+msgstr "¡Cambiar fila!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
@@ -18016,7 +18020,7 @@ msgid "Configure your own log text for PGP."
 msgstr "Configure su propio texto largo para PGP"
 
 #. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -18929,7 +18933,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
-msgstr "Define el texto para el cuerpo de los correos electrónicos electrónicos rechazados."
+msgstr "Define el texto para el cuerpo de los correos electrónicos rechazados."
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
@@ -18954,6 +18958,10 @@ msgstr ""
 #. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view."
 msgstr "Define los parámetros de configuración de este elemento, para que se muestren en la vista de preferencias."
+
+#. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
@@ -18992,7 +19000,7 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
@@ -21160,6 +21168,10 @@ msgid "If enabled debugging information for transitions is logged."
 msgstr ""
 
 #. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr ""
 
@@ -21581,7 +21593,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Look into a ticket!"
-msgstr "Revisar un ticket"
+msgstr "¡Revisar un ticket!"
 
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
@@ -21677,7 +21689,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "Marcar como correo no deseado"
+msgstr "¡Marcar como correo no deseado!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
@@ -22021,6 +22033,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Open an external link!"
+msgstr ""
+
+#. SysConfig
+msgid "Open the OTOBO home page in a new window"
 msgstr ""
 
 #. SysConfig
@@ -22728,10 +22744,6 @@ msgid "Select the separator character used in CSV files (stats and searches). If
 msgstr "Seleccione el caracter de separación para los archivos CSV (estadísticas y búsquedas). En caso de que no lo seleccione, se usará el separador por defecto para su idioma."
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Seleccione su tema."
-
-#. SysConfig
 msgid "Select your personal time zone. All times will be displayed relative to this time zone."
 msgstr "Seleccione su zona horaria personal. Todas las horas se mostrarán en relación con esta zona horaria."
 
@@ -22838,6 +22850,10 @@ msgstr "Vista del Servicio"
 #. SysConfig
 msgid "ServiceView"
 msgstr ""
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr "Establezca una nueva contraseña introduciendo su contraseña actual y una nueva."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -24437,11 +24453,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Tweak the system as you wish."
-msgstr ""
+msgstr "Ajusta el sistema como quieras."
 
 #. SysConfig
 msgid "Type of daemon log rotation to use: Choose 'OTOBO' to let OTOBO system to handle the file rotation, or choose 'External' to use a 3rd party rotation mechanism (i.e. logrotate). Note: External rotation mechanism requires its own and independent configuration."
-msgstr ""
+msgstr "Tipo de rotación del demonio de registros a utilizar: Elija 'OTOBO' para dejar que el sistema OTOBO se encargue de la rotación de archivos, o elija 'Externo' para utilizar un mecanismo de rotación de terceros (por ejemplo, logrotate). Nota: El mecanismo de rotación externo requiere una configuración propia e independiente."
 
 #. SysConfig
 msgid "Ukrainian"
@@ -24493,11 +24509,11 @@ msgstr "Subir su certificado S/MIME."
 
 #. SysConfig
 msgid "Use Redis::Fast instead of Redis."
-msgstr ""
+msgstr "Utilice Redis::Fast en lugar de Redis."
 
 #. SysConfig
 msgid "Use new type of select and autocomplete fields in agent interface, where applicable (InputFields)."
-msgstr ""
+msgstr "Utilizar el nuevo tipo de campos de selección y autocompletado en la interfaz del agente, cuando sea aplicable (InputFields)."
 
 #. SysConfig
 msgid "Use specified Redis logical database."
@@ -24521,11 +24537,11 @@ msgstr "Usuarios, Grupos y Roles"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
-msgstr ""
+msgstr "Utiliza texto enriquecido para ver y editar la notificación del ticket."
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications."
-msgstr ""
+msgstr "Utiliza texto enriquecido para ver y editar: artículos, saludos, firmas, plantillas estándar, respuestas automáticas y notificaciones."
 
 #. SysConfig
 msgid "Vietnam"
@@ -24549,39 +24565,39 @@ msgstr "Tickets Visualizados."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance."
-msgstr ""
+msgstr "Estamos realizando un mantenimiento programado."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance. Login is temporarily not available."
-msgstr ""
+msgstr "Estamos realizando un mantenimiento programado. El inicio de sesión no está disponible temporalmente."
 
 #. SysConfig
 msgid "We are performing scheduled maintenance. We should be back online shortly."
-msgstr ""
+msgstr "Estamos realizando un mantenimiento programado. Deberíamos volver a estar en línea en breve."
 
 #. SysConfig
 msgid "Web Service"
-msgstr ""
+msgstr "Servicio web"
 
 #. SysConfig
 msgid "Web Services"
-msgstr "Web Services"
+msgstr "Servicios web"
 
 #. SysConfig
 msgid "Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" and \"UserLogin\" will be substituted."
-msgstr ""
+msgstr "Texto de bienvenida para la cabecera del tablero. El nombre se insertará en %s del texto de bienvenida. \"UserTitle\", \"UserFirstname\", \"UserLastname\", \"UserEmail\" y \"UserLogin\" serán sustituidos."
 
 #. SysConfig
 msgid "When agent creates a ticket, whether or not the ticket is automatically locked to the agent."
-msgstr ""
+msgstr "Cuando el agente crea un ticket, si el ticket se bloquea o no automáticamente para el agente."
 
 #. SysConfig
 msgid "When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the body of this note (this text cannot be changed by the agent)."
-msgstr ""
+msgstr "Cuando se fusionan los tickets, se añade automáticamente una nota al ticket que ya no está activo. Aquí puede definir el cuerpo de esta nota (este texto no puede ser modificado por el agente)."
 
 #. SysConfig
 msgid "When tickets are merged, a note will be added automatically to the ticket which is no longer active. Here you can define the subject of this note (this subject cannot be changed by the agent)."
-msgstr ""
+msgstr "Cuando se fusionan los tickets, se añade automáticamente una nota al ticket que ya no está activo. Aquí puede definir el asunto de esta nota (este asunto no puede ser modificado por el agente)."
 
 #. SysConfig
 msgid "When tickets are merged, the customer can be informed per email by setting the check box \"Inform Sender\". In this text area, you can define a pre-formatted text which can later be modified by the agents."
@@ -24633,7 +24649,7 @@ msgstr "Detalle"
 
 #. SysConfig
 msgid "attachment"
-msgstr "Adjuntar Archivo"
+msgstr "Adjuntar archivo"
 
 #. SysConfig
 msgid "bounce"
@@ -24690,6 +24706,9 @@ msgstr "revertir"
 #. SysConfig
 msgid "stats"
 msgstr "estadísticas"
+
+#~ msgid "Select your frontend Theme."
+#~ msgstr "Seleccione su tema."
 
 #~ msgid "It is highly recommended to send this data to Rother OSS GmbH in order to get better support."
 #~ msgstr "Se recomienda ampliamente que envié estos datos al Grupo OTOBO con el fin de obtener un mejor soporte."
@@ -24820,10 +24839,6 @@ msgstr "estadísticas"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (Servicio de Mensaje Corto)"
 
-#. SysConfig
-#~ msgid "Set a new password by filling in your current password and a new one."
-#~ msgstr "Establezca una nueva contraseña introduciendo su contraseña actual y una nueva."
-
 #~ msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
 #~ msgstr "Muestra todos los tickets abiertos (inclusive si están bloqueados), en la vista de escaladas, de la interfaz del agente."
 
@@ -24838,32 +24853,4 @@ msgstr "estadísticas"
 
 #~ msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
 #~ msgstr "p.e. https://local.otrs.com:8000/Webservice/Example"
-
-#. Template: OTRSDBSettings
-msgid "DSN"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
-
-#. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Open the OTOBO home page in a new window"
-msgstr ""
 

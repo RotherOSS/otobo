@@ -39,7 +39,7 @@ my ( $Result, $ExitCode );
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListCommandObject->Execute();
 }
 
@@ -56,7 +56,7 @@ $Self->True(
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $FixCommandObject->Execute();
 }
 
@@ -140,7 +140,7 @@ for my $SettingName ( sort keys %Settings ) {
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListCommandObject->Execute();
 }
 
@@ -162,7 +162,7 @@ $Self->True(
 my $YAMLFile = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/var/tmp/ListInvalidFixInvalid.yml';
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListCommandObject->Execute( '--export-to-path', $YAMLFile );
 }
 
@@ -219,7 +219,7 @@ $Self->True(
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $FixCommandObject->Execute( '--values-from-path', $YAMLFile, '--non-interactive' );
 }
 
@@ -239,7 +239,7 @@ $Self->True(
 
 {
     local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListCommandObject->Execute();
 }
 

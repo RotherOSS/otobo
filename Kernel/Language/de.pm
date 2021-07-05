@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999026606099935;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2589,7 +2589,7 @@ sub Data {
 
         # Template: AgentPreferencesOverview
         'Choose from the groups on the right to find the settings you\'d wish to change.' =>
-            'Wählen Sie aus den Gruppen auf der rechten Seite, um die Einstellungen zu finden, die Sie ändern möchten.',
+            'Wählen Sie in den Kacheln rechts aus, welche Einstellungen Sie ändern möchten.',
         'Did you know?' => 'Wussten Sie schon?',
         'You can change your avatar by registering with your email address %s on %s' =>
             'Sie können Ihren Avatar ändern, indem Sie sich mit Ihrer E-Mail-Adresse %s unter %s registrieren',
@@ -3256,7 +3256,7 @@ sub Data {
         ' Continue anyways :(' => ' Dennoch fortfahren :(',
 
         # Template: OTRSDBSettings
-        'DSN' => '',
+        'DSN' => 'DSN',
         'Skip DB migration' => 'Datenbankmigration überspringen',
         'Expert option! Only works if the migration has already been done by hand.' =>
             'Achtung – Expertenoption! Nur ausführen, wenn die Migration bereits von Hand vorgenommen wurde.',
@@ -5116,7 +5116,7 @@ sub Data {
         'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm ist in OTOBO verfügbar',
         'Check if we are able to connect to OTRS Home.' => 'Überprüft, ob eine Verbindung zu OTRS Home hergestellt werden kann.',
         'Can\'t connect to OTRS file directory.' => 'Kann keine Verbindung zum OTRS-Dateiverzeichnis herstellen.',
-        'Connect to OTRS file directory is possible.' => 'Keine Verbindung zum OTRS-Dateiverzeichnis möglich.',
+        'Connect to OTRS file directory is possible.' => 'Verbindung zum OTRS-Dateiverzeichnis ist möglich.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => 'Versucht eine Verbindung zur Datenbank herzustellen und Plausibilitätsprüfungen durchzuführen.',
@@ -5317,7 +5317,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Maximale Anfragegröße',
-        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => 'Setzen Sie \'max_allowed_packet\' auf 64 MB oder mehr.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Größe Abfrage-Cache',
@@ -6610,7 +6610,7 @@ Ihr Helpdesk-Team
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
-            '',
+            'Konfiguriert eine TicketDynamicField-Standardeinstellung. "Name" definiert, welches dynamische Feld genutzt werden soll, "Value" die zu setzenden Daten, und "Event" das auslösende Ereignis. Mehr dazu im Kapitel "Ticket Event Module" des Developer Manuals (https://doc.otobo.org/).',
         'Controls how to display the ticket history entries as readable values.' =>
             'Kontrolliert wie die Ticket-Historie in lesbaren Werten dargestellt wird.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
@@ -6978,7 +6978,7 @@ Ihr Helpdesk-Team
         'Defines the default filter fields in the customer user address book search (CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix \'CustomerCompany_\' must be added.' =>
             'Definiert die Standard-Filterfelder in der Kundenbenutzer-Adressbuch-Suche (Kundenbenutzer oder Kundenunternehmen). Für Kundenunternehmen-Felder muss ein Präfix \'CustomerCompany_\' hinzugefügt werden.',
         'Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/.' =>
-            '',
+            'Definiert das Standard-Frontend-Theme (HTML), das von Kunden und Agenten verwendet werden soll. Auf Wunsch können Sie hier ein eigenes Theme hinzufügen. Mehr dazu im Administrator Manual unter https://doc.otobo.org/.',
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
@@ -7907,7 +7907,7 @@ Ihr Helpdesk-Team
         'If enabled debugging information for ACLs is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für ACLs geloggt.',
         'If enabled debugging information for transitions is logged.' => 'Wenn aktiviert, werden Debugging-Informationen für Übergänge in Prozesstickets geloggt.',
         'If enabled defines the preselected state for customer follow-up in the customer interface.' =>
-            '',
+            'Definiert, wenn aktiviert, den vorausgewählten Status für das Kunden-Follow-up im Kundenbereich.',
         'If enabled the daemon will redirect the standard error stream to a log file.' =>
             'Aktivieren, um die Fehler-Ausgabe des Daemons in eine Log-Datei umzuleiten.',
         'If enabled the daemon will redirect the standard output stream to a log file.' =>
@@ -8195,7 +8195,7 @@ Ihr Helpdesk-Team
             'Anzahl von Tickets pro Seite in Suchergebnissen im Agentenbereich.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             'Anzahl der anzuzeigenen Tickets pro Seite in einem Suchergebnis in der Kundenoberfläche.',
-        'OTOBO News' => 'OTOBO-Neuigkeiten',
+        'OTOBO News' => 'Neues von OTOBO',
         'OTOBO Team Services' => 'Services von Team OTOBO',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             'OTOBO kann eine oder mehrere Spiegeldatenbanken für aufwändige Operationen wie Volltextsuchen oder Statistikgenerierungen nutzen. Hier können Sie die DSN für die erste Spiegeldatenbank hinterlegen.',
@@ -8206,7 +8206,7 @@ Ihr Helpdesk-Team
         'Objects to search for, how many entries and which attributs to show. Ticket attributes, except queue, have to explicitely be stored via Elasticsearch.' =>
             'Definiert, nach welchen Objekten gesucht wird, wie viele Einträge und welche Attribute angezeigt werden sollen. Alle Ticket-Attribute außer der Queue müssen explizit in Elasticsearch gespeichert werden.',
         'Open an external link!' => 'Externen Link öffnen!',
-        'Open the OTOBO home page in a new window' => '',
+        'Open the OTOBO home page in a new window' => 'Öffnet die OTOBO Homepage in einem neuen Fenster',
         'Open tickets (customer user)' => 'Offene Tickets (Kundenbenutzer)',
         'Open tickets (customer)' => 'Offene Tickets (Kunde)',
         'Option' => 'Option',

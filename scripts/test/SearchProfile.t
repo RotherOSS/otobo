@@ -355,7 +355,7 @@ my %CustomerSearches      = (
         Search => {
             PriorityIDs => [ 2, 4 ],
             StateIDs    => [ 1, 3, 5 ],
-            Body => 'asdf',
+            Body        => 'asdf',
         }
     },
     Second => {

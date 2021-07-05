@@ -58,7 +58,7 @@ for my $Test (@Tests) {
     {
         local $ENV{COMP_LINE} = $Test->{COMP_LINE};
         local *STDOUT;
-        open STDOUT, '>:utf8', \$Result;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+        open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Arguments} } );
     }
 

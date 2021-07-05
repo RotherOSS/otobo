@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -212,7 +211,6 @@ $Selenium->RunTest(
         $Selenium->WaitFor(
             JavaScript => "return typeof(\$) === 'function' && \$('.Dialog.Modal #EditFormDelete').length"
         );
-        sleep 2;
         $Selenium->find_element( "#EditFormDelete", 'css' )->click();
 
         $Selenium->WaitFor( AlertPresent => 1 );

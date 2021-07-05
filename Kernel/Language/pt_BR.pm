@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.923750811161583;
+    $Self->{Completeness}        = 0.93105126541207;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3261,7 +3261,7 @@ sub Data {
         ' Continue anyways :(' => ' Continue assim mesmo :(',
 
         # Template: OTRSDBSettings
-        'DSN' => '',
+        'DSN' => 'DSN',
         'Skip DB migration' => 'Pular migração do Banco de Dados',
         'Expert option! Only works if the migration has already been done by hand.' =>
             'Opção Expert! Só funciona se a migração já tiver sido feita manualmente.',
@@ -4178,7 +4178,7 @@ sub Data {
         'Missing Settings!' => 'Faltam Definições!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
-        'No setting name received!' => '',
+        'No setting name received!' => 'Nenhum nome de configuração recebido!',
         'Modified Version' => 'Versão modificada',
         'Reset To Default' => 'Restaurar ao padrão',
         'Default Version' => 'Versão Padrão',
@@ -4290,7 +4290,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AgentPreferences.pm
         'Param Group is required!' => 'Parametro Grupo é obrigatório. ',
-        'This feature is not available.' => '',
+        'This feature is not available.' => 'Este recurso não está disponível.',
         'Updated user preferences' => 'Preferências de usuário atualizadas',
         'System was unable to deploy your changes.' => 'Sistema não conseguiu implantar suas mudanças.',
         'Setting not found!' => 'Configuração não encontrada!',
@@ -4645,8 +4645,8 @@ sub Data {
         'Install OTOBO - Error' => 'Erro ao Installar OTOBO',
         'File "%s/%s.xml" not found!' => 'Arquivo "%s/%s.xml" não encontrado.',
         'Contact your Admin!' => 'Entre em contato com o seu Administrador.',
-        'https' => '',
-        'http' => '',
+        'https' => 'https',
+        'http' => 'http',
         'System Settings' => 'Configurações de Sistema',
         'Syslog' => 'Syslog',
         'Configure Mail' => 'Configurar E-mail',
@@ -4665,7 +4665,7 @@ sub Data {
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
             '',
-        'OTRS to OTOBO migration' => '',
+        'OTRS to OTOBO migration' => 'Migração do OTRS para OTOBO',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
         'No %s!' => 'Nenhum %s!',
@@ -4710,7 +4710,7 @@ sub Data {
         'Print this article' => 'Imprimir este artigo',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
-        'Contact us at hello@otobo.de' => '',
+        'Contact us at hello@otobo.de' => 'Contacte-nos em hello@otobo.de',
         'Get Help' => 'Solicitar Ajuda',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
@@ -5054,21 +5054,21 @@ sub Data {
         'Maximum size is %s characters.' => 'O tamanho máximo é %s caracteres.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-        'Sanity checks for database.' => '',
+        'Sanity checks for database.' => 'Verificações de integridade para banco de dados.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
         'Deploy the ACL configuration.' => '',
-        'Deployment completed, perfect!' => '',
+        'Deployment completed, perfect!' => 'Implantação concluída, perfeita!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
-        'Migrate database table auto_responses.' => '',
-        'Migration failed.' => '',
+        'Migrate database table auto_responses.' => 'Migrar tabela de banco de dados auto_responses.',
+        'Migration failed.' => 'Migração falhou.',
         'Migrate database table auto_response.' => '',
-        'Migration completed, perfect!' => '',
+        'Migration completed, perfect!' => 'Migração concluída, perfeito!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
         'OTOBO Cache cleanup.' => '',
-        'Completed.' => '',
+        'Completed.' => 'Completo.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
         'Need OTRSData->%s!' => '',
@@ -5076,31 +5076,31 @@ sub Data {
         'All needed files copied and migrated, perfect!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Check if OTOBO version is correct.' => '',
-        'Copy database.' => '',
-        'Skipped...' => '',
-        'System was unable to connect to OTRS database.' => '',
-        'System was unable to complete data transfer.' => '',
-        'Data transfer completed.' => '',
+        'Check if OTOBO version is correct.' => 'Verifique se a versão do OTOBO está correta.',
+        'Copy database.' => 'Copiar banco de dados.',
+        'Skipped...' => 'Pular...',
+        'System was unable to connect to OTRS database.' => 'O sistema não conseguiu se conectar ao banco de dados OTRS.',
+        'System was unable to complete data transfer.' => 'O sistema não conseguiu completar a transferência de dados.',
+        'Data transfer completed.' => 'Transferência de dados completo.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-        'Check if OTOBO and OTRS connect is possible.' => '',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
-        'Check if OTOBO and OTRS version is correct.' => '',
-        '%s does not exist!' => '',
-        'Can\'t read OTOBO RELEASE file: %s: %s!' => '',
-        'No OTOBO system found!' => '',
+        'Check if OTOBO and OTRS connect is possible.' => 'Verifique se a conexão OTOBO e OTRS é possível.',
+        'Can\'t open RELEASE file from OTRSHome: %s!' => 'Não é possível abrir o arquivo RELEASE de OTRSHome: %s!',
+        'Check if OTOBO and OTRS version is correct.' => 'Verifique se a versão OTOBO e OTRS está correta.',
+        '%s does not exist!' => '%s não existe!',
+        'Can\'t read OTOBO RELEASE file: %s: %s!' => 'Não foi possível ler o arquivo RELEASE de OTOBO: %s: %s!',
+        'No OTOBO system found!' => 'Nenhum sistema OTOBO encontrado!',
         'You are trying to run this script on the wrong framework version %s!' =>
             '',
-        'OTOBO Version is correct: %s.' => '',
-        'Check if OTRS version is correct.' => '',
+        'OTOBO Version is correct: %s.' => 'A versão do OTOBO está correta: %s.',
+        'Check if OTRS version is correct.' => 'Verifique se a versão OTRS está correta.',
         'OTRS RELEASE file %s does not exist: %s!' => '',
         'Can\'t read OTRS RELEASE file: %s: %s!' => '',
-        'No OTRS system found!' => '',
-        'OTRS Version is correct: %s.' => '',
+        'No OTRS system found!' => 'Nenhum sistema OTRS encontrado!',
+        'OTRS Version is correct: %s.' => 'Versão do OTRS esta correta: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-        'Migrate configuration settings.' => '',
+        'Migrate configuration settings.' => 'Migre as definições de configuração.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             '',
         'An error occured during SysConfig migration when writing XML to DB.' =>
@@ -5110,18 +5110,18 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
         'Migrate web service configuration.' => '',
-        'Failed - see the log!' => '',
+        'Failed - see the log!' => 'Falha - veja o log!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
-        'Migrate database table notification.' => '',
+        'Migrate database table notification.' => 'Migrar tabela de notificação.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
         'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '',
         'Check if Kernel/Config.pm exists in OTOBO home.' => '',
         'Kernel/Config.pm exists in OTOBO home' => '',
-        'Check if we are able to connect to OTRS Home.' => '',
-        'Can\'t connect to OTRS file directory.' => '',
-        'Connect to OTRS file directory is possible.' => '',
+        'Check if we are able to connect to OTRS Home.' => 'Verifique se podemos nos conectar ao OTRS Home.',
+        'Can\'t connect to OTRS file directory.' => 'Não é possível conectar ao diretório de arquivos OTRS.',
+        'Connect to OTRS file directory is possible.' => 'É possível conectar-se ao diretório de arquivos OTRS.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => '',
@@ -5137,8 +5137,8 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
         'Package specific tasks' => '',
-        'Done -' => '',
-        'Failed at -' => '',
+        'Done -' => 'Feito -',
+        'Failed at -' => 'Falhou em -',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
         'Check if all needed Perl modules have been installed.' => '',
@@ -5148,7 +5148,7 @@ sub Data {
         'All required Perl modules have been installed, perfect!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
-        'Migrate postmaster filter.' => '',
+        'Migrate postmaster filter.' => 'Migrar o filtro do postmaster.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
         'Deploy the process management configuration.' => '',
@@ -5163,7 +5163,7 @@ sub Data {
         'Migrate database table signature.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
-        'Migrate statistics.' => '',
+        'Migrate statistics.' => 'Migrar estatísticas.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
@@ -5182,7 +5182,7 @@ sub Data {
         'Can\'t read file!' => 'Não pode ler o arquivo!',
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
             '',
-        'Package not verified by the OTOBO community!' => '',
+        'Package not verified by the OTOBO community!' => 'Pacote não verificado pelo OTOBO community!',
         '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
             '',
         'Verification not possible (e.g. no internet connection)!' => '',
@@ -5279,7 +5279,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
         'Days' => 'Dias',
-        'Queues / Tickets' => '',
+        'Queues / Tickets' => 'Filas / Chamados',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
         'Outdated Tables' => 'Tabelas Desatualizadas',
@@ -5322,7 +5322,7 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
         'Maximum Query Size' => 'Tamanho Máximo da Query',
-        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => 'A configuração \'max_allowed_packet\' deve ser 64 MB ou maior.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
         'Query Cache Size' => 'Tamanho do Cache de Consulta',
@@ -5492,7 +5492,7 @@ sub Data {
         'Some packages have locally modified files.' => 'Alguns pacotes possuem arquivos modificados localmente.',
         'Some packages are not correctly installed.' => 'Alguns pacotes não foram instalados corretamente.',
         'Package Verification Status' => 'Status da verificação do pacote.',
-        'Some packages are not verified by the OTOBO Team.' => '',
+        'Some packages are not verified by the OTOBO Team.' => 'Alguns pacotes não são verificados pela equipe OTOBO.',
         'Package Framework Version Status' => 'Status de Versão de Framework de Pacote',
         'Some packages are not allowed for the current framework version.' =>
             'Alguns pacotes não são permitidos para a versão atual do framework.',
@@ -5659,7 +5659,7 @@ sub Data {
         'Chat Message Text' => 'Mensagem de Texto de Chat',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Too many failed login attempts, please retry in %s s.' => '',
+        'Too many failed login attempts, please retry in %s s.' => 'Muitas tentativas de login com falha, tente novamente em %s s.',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'Autenticação falhou! Nome de usuário ou senha foram digitados incorretamente.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
@@ -5690,7 +5690,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
-            '',
+            'Se você deseja executar novamente o installer.pl, desative o SecureMode nas Configurações do Sistema.',
         'Action "%s" not found!' => 'Ação "%s" não encontrada!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm

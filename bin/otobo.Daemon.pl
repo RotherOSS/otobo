@@ -15,6 +15,8 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+
 use strict;
 use warnings;
 use utf8;
@@ -186,10 +188,10 @@ sub PrintUsage {
     $UsageText .= sprintf " %-22s - %s", '[--force]',
         'Reduce the time the main daemon waits other daemons to stop.' . "\n";
     $UsageText .= "\nActions:\n";
-    $UsageText .= sprintf " %-22s - %s", 'start', 'Start the daemon process.' . "\n";
-    $UsageText .= sprintf " %-22s - %s", 'stop', 'Stop the daemon process.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'start',  'Start the daemon process.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'stop',   'Stop the daemon process.' . "\n";
     $UsageText .= sprintf " %-22s - %s", 'status', 'Show daemon process current state.' . "\n";
-    $UsageText .= sprintf " %-22s - %s", 'help', 'Display help for this command.' . "\n";
+    $UsageText .= sprintf " %-22s - %s", 'help',   'Display help for this command.' . "\n";
     $UsageText .= "\nHelp:\n";
     $UsageText
         .= "In debug mode if a daemon module is specified the debug mode will be activated only for that daemon.\n";
@@ -259,11 +261,11 @@ sub Start {
     };
 
     # Watch the Config files for modifications and force a reload of the Config.
-    if ( $LinuxInotify2IsAvailable ) {
+    if ($LinuxInotify2IsAvailable) {
 
-        my $Inotify   = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
-        my $Home      = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $Callback  = sub {
+        my $Inotify  = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
+        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $Callback = sub {
 
             # an alternative could be to send a SIGHUP signal,
             # but there is a possibility that Eventhandlers also change the config and this would be messy
@@ -275,8 +277,8 @@ sub Start {
 
         for my $ConfigFile (
             "$Home/Kernel/Config.pm",
-            map {  "$Home/Kernel/$_.pm" } qw(ZZZAuto ZZZAAuto ZZZACL ZZZProcessManagement)
-        )
+            map {"$Home/Kernel/$_.pm"} qw(ZZZAuto ZZZAAuto ZZZACL ZZZProcessManagement)
+            )
         {
             $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
         }
@@ -584,10 +586,10 @@ sub _LogFilesSet {
 
     # redirect STDOUT and STDERR
     if ($RedirectSTDOUT) {
-        open STDOUT, '>>', "$FileStdOut.log";
+        open STDOUT, '>>', "$FileStdOut.log";    ## no critic qw(OTOBO::ProhibitOpen)
     }
     if ($RedirectSTDERR) {
-        open STDERR, '>>', "$FileStdErr.log";
+        open STDERR, '>>', "$FileStdErr.log";    ## no critic qw(OTOBO::ProhibitOpen)
     }
 
     return 1 if $RotationType ne 'otobo';
@@ -625,7 +627,7 @@ sub _LogFilesCleanup {
     my %Param = @_;
 
     # skip cleanup if OTOBO log rotation is not enabled
-    my $RotationType = lc ( $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::RotationType') || 'otobo' );
+    my $RotationType = lc( $Kernel::OM->Get('Kernel::Config')->Get('Daemon::Log::RotationType') || 'otobo' );
     return 1 if $RotationType ne 'otobo';
 
     my @LogFiles = glob "$LogDir/*.log";

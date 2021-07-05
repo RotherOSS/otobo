@@ -29,7 +29,6 @@ use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 # TODO: This test does not cancel potential other AJAX calls that might happen in the background,
 #   e. g. when the Chat is active.
 
@@ -266,9 +265,6 @@ JAVASCRIPT
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
-
-        # In some cases, we need a little bit more time to get the page up and running correctly
-        sleep(1);
 
         # Trigger faked ajax request again.
         $Selenium->execute_script($AjaxOverloadJSError);

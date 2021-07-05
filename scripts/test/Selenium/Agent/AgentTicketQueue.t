@@ -28,7 +28,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -119,9 +118,9 @@ $Selenium->RunTest(
 
             push @Queues,
                 {
-                QueueName => $QueueName,
-                QueueID   => $QueueID,
-                Created   => $Created,
+                    QueueName => $QueueName,
+                    QueueID   => $QueueID,
+                    Created   => $Created,
                 };
         }
 

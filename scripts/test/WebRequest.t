@@ -75,7 +75,7 @@ use Kernel::System::Web::Request;
     );
 
     local *STDIN;
-    open STDIN, '<:utf8', \$PostData;    ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer)
+    open STDIN, '<:utf8', \$PostData;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
 
     CGI->initialize_globals();
     my $Request = Kernel::System::Web::Request->new();

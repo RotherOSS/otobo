@@ -388,8 +388,6 @@ $Selenium->RunTest(
             # Sort by Priority.
             $Selenium->execute_script("\$('th.Priority #PriorityOverviewControl$DashboardName').trigger('click');");
 
-            sleep 2;
-
             # Wait for AJAX to finish.
             $Self->True(
                 $Selenium->WaitFor(

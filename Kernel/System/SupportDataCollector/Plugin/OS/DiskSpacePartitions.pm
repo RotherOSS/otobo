@@ -46,7 +46,7 @@ sub Run {
 
     # run the command an store the result on an array
     my @Lines;
-    if ( open( my $In, "-|", "$Commandline" ) ) {
+    if ( open( my $In, '-|', "$Commandline" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
         @Lines = <$In>;
         close($In);
     }

@@ -15,7 +15,9 @@
 # --
 
 package Kernel::System::Calendar::Event::Transport::Email;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
 use strict;
 use warnings;
@@ -34,6 +36,8 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::SystemAddress',
+);
+our @SoftObjectDependencies = (
     'Kernel::System::Web::Request',
 );
 
@@ -377,7 +381,9 @@ sub TransportParamSettingsGet {
         )
     {
         my @Data = $ParamObject->GetArray( Param => $Parameter );
-        next PARAMETER if !@Data;
+
+        next PARAMETER unless @Data;
+
         $Param{GetParam}->{Data}->{$Parameter} = \@Data;
     }
 

@@ -320,8 +320,6 @@ $Selenium->RunTest(
             $Selenium->find_element( "#DialogButton1", 'css' )->click();
             $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".Dialog.Modal").length;' );
 
-            sleep 2;
-
             # Change preview format to Print.
             $Selenium->execute_script("\$('button[data-format=Print]').click();");
             $Selenium->WaitFor(
@@ -376,8 +374,6 @@ $Selenium->RunTest(
 
             # Save and finish test statistics.
             $Selenium->find_element( "#SaveAndFinish", 'css' )->VerifiedClick();
-
-            sleep 2;
 
             # Sort decreasing by StatsID.
             $Selenium->VerifiedGet(
@@ -458,7 +454,6 @@ $Selenium->RunTest(
             )->click();
 
             $Selenium->WaitFor( AlertPresent => 1 );
-            sleep 1;
             $Selenium->accept_alert();
             $Selenium->WaitFor(
                 JavaScript =>

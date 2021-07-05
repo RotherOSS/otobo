@@ -35,12 +35,11 @@ my $TransitionObject        = $Kernel::OM->Get('Kernel::System::ProcessManagemen
 my $ActivityObject          = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Activity');
 my $TransitionActionsObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
 my $ActivityDialogObject    = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::ActivityDialog');
+my $Helper                  = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject            = $Kernel::OM->Get('Kernel::Config');
 
 $Selenium->RunTest(
     sub {
-
-        my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
         # Create and log in test user.
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -51,6 +50,7 @@ $Selenium->RunTest(
         my $TestUserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin,
         );
+        ok( $TestUserID, 'got ID for the test user' );
 
         # Login as test user.
         $Selenium->Login(
@@ -74,10 +74,6 @@ $Selenium->RunTest(
 
         # Synchronize process.
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
-
-        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
-        # TODO: https://github.com/RotherOSS/otobo/issues/932
-        sleep 11;
 
         # Get process list.
         my $List = $ProcessObject->ProcessList(
@@ -107,13 +103,16 @@ $Selenium->RunTest(
 
         # Check if NavBarCustomerTicketProcess button is available when process is available.
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerTicketOverview;Subaction=MyTickets");
-        $Selenium->content_contains(
-            'Action=CustomerTicketProcess',
-            "NavBar 'New process ticket' button available",
-        );
+        {
+            my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
+
+            $Selenium->content_contains(
+                'Action=CustomerTicketProcess',
+                "NavBar 'New process ticket' button available",
+            );
+        }
 
         # Clean up activities.
-        my $Success;
         for my $Item ( @{ $Process->{Activities} } ) {
             my $Activity = $ActivityObject->ActivityGet(
                 EntityID            => $Item,
@@ -129,26 +128,20 @@ $Selenium->RunTest(
                 );
 
                 # Delete test activity dialog.
-                $Success = $ActivityDialogObject->ActivityDialogDelete(
+                my $Success = $ActivityDialogObject->ActivityDialogDelete(
                     ID     => $ActivityDialog->{ID},
                     UserID => $TestUserID,
                 );
-                ok(
-                    $Success,
-                    "ActivityDialog deleted - $ActivityDialog->{Name},",
-                );
+                ok( $Success, "ActivityDialog deleted - $ActivityDialog->{Name}," );
             }
 
             # Delete test activity.
-            $Success = $ActivityObject->ActivityDelete(
+            my $Success = $ActivityObject->ActivityDelete(
                 ID     => $Activity->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "Activity deleted - $Activity->{Name},",
-            );
+            ok( $Success, "Activity deleted - $Activity->{Name}," );
         }
 
         # Clean up transition actions.
@@ -159,15 +152,12 @@ $Selenium->RunTest(
             );
 
             # Delete test transition action.
-            $Success = $TransitionActionsObject->TransitionActionDelete(
+            my $Success = $TransitionActionsObject->TransitionActionDelete(
                 ID     => $TransitionAction->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "TransitionAction deleted - $TransitionAction->{Name},",
-            );
+            ok( $Success, "TransitionAction deleted - $TransitionAction->{Name}," );
         }
 
         # Clean up transition.
@@ -178,27 +168,21 @@ $Selenium->RunTest(
             );
 
             # Delete test transition.
-            $Success = $TransitionObject->TransitionDelete(
+            my $Success = $TransitionObject->TransitionDelete(
                 ID     => $Transition->{ID},
                 UserID => $TestUserID,
             );
 
-            ok(
-                $Success,
-                "Transition deleted - $Transition->{Name},",
-            );
+            ok( $Success, "Transition deleted - $Transition->{Name}," );
         }
 
         # Delete test process.
-        $Success = $ProcessObject->ProcessDelete(
+        my $Success = $ProcessObject->ProcessDelete(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
 
-        ok(
-            $Success,
-            "Process deleted - $Process->{Name},",
-        );
+        ok( $Success, "Process deleted - $Process->{Name}," );
 
         # Get all processes.
         my $ProcessList = $ProcessObject->ProcessListGet(
@@ -234,9 +218,6 @@ $Selenium->RunTest(
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminProcessManagement");
         $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
 
-        # We have to allow a 1 second delay for Apache2::Reload to pick up the changed process cache.
-        sleep 1;
-
         # Log in customer.
         $Selenium->Login(
             Type     => 'Customer',
@@ -263,10 +244,15 @@ $Selenium->RunTest(
         );
 
         $Selenium->VerifiedRefresh();
-        ok(
-            index( $Selenium->get_page_source(), 'Action=CustomerTicketProcess' ) > -1,
-            "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
-        );
+
+        {
+            my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
+
+            $Selenium->content_contains(
+                'Action=CustomerTicketProcess',
+                "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
+            );
+        }
 
         # Restore state of process.
         for my $Process (@DeactivatedProcesses) {

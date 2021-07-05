@@ -266,8 +266,6 @@ EOF
             "ACL deployment successful."
         );
 
-        sleep 5;
-
         # Delete test tickets.
         for my $Ticket (@Tickets) {
             $Success = $TicketObject->TicketDelete(

@@ -287,39 +287,33 @@ $Selenium->RunTest(
 
         # Click on 'Delete' and check for ACL error message.
         $Selenium->find_element(q{//a[contains(@title, 'Delete this ticket')]})->VerifiedClick();
-        {
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
 
-            try_ok {
-                $Selenium->WaitFor(
-                    ElementExists => [ 'span.Error', 'css' ]
-                );
+        $Selenium->WaitFor(
+            ElementExists => [ 'span.Error', 'css' ]
+        );
 
-                $Selenium->content_contains(
-                    $ErrorMessage,
-                    q{ACL restriction error message found for 'Delete' menu},
-                );
+        $Selenium->content_contains(
+            $ErrorMessage,
+            q{ACL restriction error message found for 'Delete' menu},
+        );
 
-                # Click to return back to AgentTicketZoom screen.
-                $Selenium->WaitFor(
-                    ElementExists => [ '.ReturnToPreviousPage', 'css' ]
-                );
-                $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
+        # Click to return back to AgentTicketZoom screen.
+        $Selenium->WaitFor(
+            ElementExists => [ '.ReturnToPreviousPage', 'css' ]
+        );
+        $Selenium->find_element( ".ReturnToPreviousPage", 'css' )->VerifiedClick();
 
-                $Selenium->WaitFor(
-                    JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Mark this ticket as junk!\"]').length;"
-                );
+        $Selenium->WaitFor(
+            JavaScript => "return typeof(\$) === 'function' && \$('a[title*=\"Mark this ticket as junk!\"]').length;"
+        );
 
-                # Click on 'Spam' and check for ACL error message.
-                $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
+        # Click on 'Spam' and check for ACL error message.
+        $Selenium->find_element("//a[contains(\@title, 'Mark this ticket as junk!')]")->VerifiedClick();
 
-                $Selenium->content_contains(
-                    $ErrorMessage,
-                    q{ACL restriction error message found for 'Spam' menu},
-                );
-            }
-            'no exception expected';
-        };
+        $Selenium->content_contains(
+            $ErrorMessage,
+            q{ACL restriction error message found for 'Spam' menu},
+        );
 
         # Test for bug#12559 that nothing shpuld happen,
         # if the user click on a disabled queue (only for move type 'form').
@@ -408,17 +402,10 @@ $Selenium->RunTest(
 
         # Delete created test queues.
         for my $QueueDelete (@QueueIDs) {
-
-            my $ToDo = todo('setup of ACL may be messed up, issue #763');
-
             my $Success = $Kernel::OM->Get('Kernel::System::DB')->Do(
                 SQL => "DELETE FROM queue WHERE id = $QueueDelete",
             );
-
-            ok(
-                $Success,
-                "DeleteID $QueueDelete is deleted",
-            );
+            ok( $Success, "DeleteID $QueueDelete is deleted" );
         }
 
         # Delete created test tickets.

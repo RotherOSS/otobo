@@ -29,7 +29,6 @@ use File::Path qw(mkpath rmtree);
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -185,7 +184,6 @@ $Selenium->RunTest(
                         $Selenium->find_element(
                             "//a[contains(\@href, \'Subaction=Delete;Type=$Type;Key=$Key->{FingerprintShort}' )]"
                         )->click();
-                        sleep 1;
 
                         $Selenium->WaitFor( AlertPresent => 1 );
                         $Selenium->accept_alert();

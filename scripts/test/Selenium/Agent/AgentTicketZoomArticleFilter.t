@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -267,7 +266,6 @@ $Selenium->RunTest(
 
         # Click on first page.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".ArticlePages a").length === 2;' );
-        sleep 1;
         $Selenium->find_element("//a[contains(\@href, \'TicketID=$TicketID;ArticlePage=1')]")->VerifiedClick();
 
         for my $Article (@SecondArticles) {

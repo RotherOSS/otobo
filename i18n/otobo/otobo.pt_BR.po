@@ -56,9 +56,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-02-19 14:14+0000\n"
-"PO-Revision-Date: 2021-03-29 19:49+0000\n"
-"Last-Translator: Jefferson Campos <foguinho.peruca@gmail.com>\n"
+"POT-Creation-Date: 2021-04-21 16:42+0000\n"
+"PO-Revision-Date: 2021-05-03 21:50+0000\n"
+"Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -9100,10 +9100,6 @@ msgid "Phone"
 msgstr "Telefone"
 
 #. Template: Installer
-msgid "Switzerland"
-msgstr "Suíça"
-
-#. Template: Installer
 msgid "Web site"
 msgstr "Website"
 
@@ -9526,6 +9522,10 @@ msgstr "Continue assim mesmo :("
 #. Template: Intro
 msgid " Continue anyways :("
 msgstr " Continue assim mesmo :("
+
+#. Template: OTRSDBSettings
+msgid "DSN"
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
@@ -12017,7 +12017,7 @@ msgstr "Faltam Definições!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "Nenhum nome de configuração recebido!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
@@ -12337,7 +12337,7 @@ msgstr "Parametro Grupo é obrigatório. "
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "Este recurso não está disponível."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
@@ -13341,11 +13341,11 @@ msgstr "Entre em contato com o seu Administrador."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -13397,7 +13397,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "Migração do OTRS para OTOBO"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
@@ -13481,7 +13481,7 @@ msgstr "Imprimir este artigo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "Contacte-nos em hello@otobo.de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
@@ -14241,7 +14241,7 @@ msgstr "O tamanho máximo é %s caracteres."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "Verificações de integridade para banco de dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
@@ -14249,15 +14249,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "Implantação concluída, perfeita!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "Migrar tabela de banco de dados auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "Migração falhou."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
@@ -14265,7 +14265,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "Migração concluída, perfeito!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
@@ -14273,7 +14273,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "Completo."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
@@ -14289,55 +14289,51 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "Verifique se a versão do OTOBO está correta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "Copiar banco de dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Skipped..."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
-msgstr ""
+msgstr "Pular..."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "O sistema não conseguiu se conectar ao banco de dados OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "O sistema não conseguiu completar a transferência de dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "Transferência de dados completo."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "Verifique se a conexão OTOBO e OTRS é possível."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "Não é possível abrir o arquivo RELEASE de OTRSHome: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "Verifique se a versão OTOBO e OTRS está correta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "%s não existe!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "Não foi possível ler o arquivo RELEASE de OTOBO: %s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "Nenhum sistema OTOBO encontrado!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
@@ -14345,11 +14341,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "A versão do OTOBO está correta: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "Verifique se a versão OTRS está correta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist: %s!"
@@ -14361,15 +14357,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "Nenhum sistema OTRS encontrado!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "Versão do OTRS esta correta: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "Migre as definições de configuração."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration or no configuration exists."
@@ -14393,11 +14389,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
+msgstr "Falha - veja o log!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "Migrar tabela de notificação."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
@@ -14413,15 +14409,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "Verifique se podemos nos conectar ao OTRS Home."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "Não é possível conectar ao diretório de arquivos OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "É possível conectar-se ao diretório de arquivos OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
@@ -14457,11 +14453,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Done -"
-msgstr ""
+msgstr "Feito -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Failed at -"
-msgstr ""
+msgstr "Falhou em -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
@@ -14481,7 +14477,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "Migrar o filtro do postmaster."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
@@ -14501,7 +14497,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "Migrar estatísticas."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Couldn't read Notification configuration file. Please make sure the file is valid."
@@ -14545,7 +14541,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "Pacote não verificado pelo OTOBO community!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the \"Package::AllowNotVerifiedPackages\" system configuration setting.</p>"
@@ -14813,7 +14809,7 @@ msgstr "Dias"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "Filas / Chamados"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
@@ -14904,8 +14900,8 @@ msgid "Maximum Query Size"
 msgstr "Tamanho Máximo da Query"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
-msgstr "A definição 'max_allowed_packet' deve ser maior que 64 MB."
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr "A configuração 'max_allowed_packet' deve ser 64 MB ou maior."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -15277,7 +15273,7 @@ msgstr "Status da verificação do pacote."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "Alguns pacotes não são verificados pela equipe OTOBO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
@@ -15609,7 +15605,7 @@ msgstr "Mensagem de Texto de Chat"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "Muitas tentativas de login com falha, tente novamente em %s s."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -15685,7 +15681,7 @@ msgstr "Nova conta criada. Enviadas informações de login para %s. Por favor, v
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "If you want to re-run installer.pl, then disable the SecureMode in the SysConfig."
-msgstr ""
+msgstr "Se você deseja executar novamente o installer.pl, desative o SecureMode nas Configurações do Sistema."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
@@ -18062,7 +18058,7 @@ msgid "Configure your own log text for PGP."
 msgstr "Configure o seu próprio texto de registro para PGP."
 
 #. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -19002,6 +18998,10 @@ msgid "Defines the config parameters of this item, to be shown in the preference
 msgstr "Define os parâmetros de configuração deste item para visualização na visão de preferências."
 
 #. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr "Define os parâmetros de configuração deste item que serão exibidos na visão de preferências. 'PasswordRegExp' permite comparar senhas com expressões regulares. Defina o número mínimo de caracteres usando 'PasswordMinSize'. Defina se pelo menos 2 letras caixa baixa e 2 letras caixa alta são necessárias ao definir a opção apropriada como '1'. 'PasswordMin2Characters' define se a senha deve conter no mínimo 2 letras (definido como 0 ou 1). 'PasswordNeedDigit' controla a necessidade de pelo menos um dígito numérico (definido como 0 ou 1 para controlar). 'PasswordMaxLoginFailed' permite definir um agente como inválido temporariamente se o número máximo de tentativas de login incorretas for atingido. Favor observar: definindo 'Active' para 0 só irá previnir que agentes editem definições deste grupo em suas preferências pessoais, mas ainda permitirá que os administradores editem definições em nome de outro usuário. Utilize 'PreferenceGroup' para controlar em qual área estas definições devem ser exibidas na interface do usuário."
+
+#. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 msgstr "Define os parâmetros de configuração deste item a serem exibidos na visão de preferências. Favor observar: definindo 'Ativo' como 0 só irá previnir que agentes editem definições deste grupo em suas preferências pessoais, mas também irá permitir que administradores editem as definições em nome de outro usuário. Utilize 'PreferenceGroup' para controlar em qual área estas definições devem ser exibidas na interface do usuário."
 
@@ -19038,7 +19038,7 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "Define os campos de filtro padrão na pesquisa de caderno de endereço de usuário cliente  (Usuário Cliente ou Empresa Cliente). Para campos de Empresa Cliente um prefixo 'CustomerCompany_' deve ser adicionado."
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
@@ -21206,6 +21206,10 @@ msgid "If enabled debugging information for transitions is logged."
 msgstr ""
 
 #. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr "Se ativado, o Daemon vai redirecionar o fluxo de erro padrão para o arquivo de log."
 
@@ -22070,6 +22074,10 @@ msgid "Open an external link!"
 msgstr "Abra um link externo!"
 
 #. SysConfig
+msgid "Open the OTOBO home page in a new window"
+msgstr ""
+
+#. SysConfig
 msgid "Open tickets (customer user)"
 msgstr "Chamados abertos (usuário cliente)"
 
@@ -22774,10 +22782,6 @@ msgid "Select the separator character used in CSV files (stats and searches). If
 msgstr "Selecione o caractere separador usado em arquivos CSV (estatísticas e pesquisas). Se você não selecionar um separador aqui, o separador padrão para o seu idioma será usado."
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Selecione seu tema de interface."
-
-#. SysConfig
 msgid "Select your personal time zone. All times will be displayed relative to this time zone."
 msgstr "Selecione seu fuso horário pessoal. Todos os horários serão exibidos conforme este fuso horário."
 
@@ -22884,6 +22888,10 @@ msgstr "Visão de serviços"
 #. SysConfig
 msgid "ServiceView"
 msgstr "Visão de Serviço"
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr "Defina uma nova senha ao preencher sua senha atual e uma nova."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -24737,6 +24745,15 @@ msgstr "reverso"
 msgid "stats"
 msgstr "estatísticas"
 
+#~ msgid "Switzerland"
+#~ msgstr "Suíça"
+
+#~ msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+#~ msgstr "A definição 'max_allowed_packet' deve ser maior que 64 MB."
+
+#~ msgid "Select your frontend Theme."
+#~ msgstr "Selecione seu tema de interface."
+
 #~ msgid "My Tickets."
 #~ msgstr "Meus Chamados."
 
@@ -25127,10 +25144,6 @@ msgstr "estatísticas"
 #~ msgid "Defines if the communication between this system and Rother OSS GmbH servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO News and product News dashboard widgets, among others."
 #~ msgstr "Define se é possível a comunicação entre este sistema e os servidores do Grupo OTOBO que provêem serviços em nuvem. Se definido como 'Desativar serviços em nuvem', algumas funcionalidades serão perdidas como registro de sistema, envio de dados de suporte, atualização e utilização de OTOBO Business Solution™, OTOBO Verify™, Notícias OTOBO e widgets de painel sobre notícias de produto, entre outros."
 
-#. SysConfig
-#~ msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
-#~ msgstr "Define os parâmetros de configuração deste item que serão exibidos na visão de preferências. 'PasswordRegExp' permite comparar senhas com expressões regulares. Defina o número mínimo de caracteres usando 'PasswordMinSize'. Defina se pelo menos 2 letras caixa baixa e 2 letras caixa alta são necessárias ao definir a opção apropriada como '1'. 'PasswordMin2Characters' define se a senha deve conter no mínimo 2 letras (definido como 0 ou 1). 'PasswordNeedDigit' controla a necessidade de pelo menos um dígito numérico (definido como 0 ou 1 para controlar). 'PasswordMaxLoginFailed' permite definir um agente como inválido temporariamente se o número máximo de tentativas de login incorretas for atingido. Favor observar: definindo 'Active' para 0 só irá previnir que agentes editem definições deste grupo em suas preferências pessoais, mas ainda permitirá que os administradores editem definições em nome de outro usuário. Utilize 'PreferenceGroup' para controlar em qual área estas definições devem ser exibidas na interface do usuário."
-
 #~ msgid "Defines the module to display a notification if cloud services are disabled."
 #~ msgstr "Define o módulo para exibir uma notificação se serviços em nuvem estiverem desativados."
 
@@ -25173,10 +25186,6 @@ msgstr "estatísticas"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (Serviço de Mensagens Curtas)"
 
-#. SysConfig
-#~ msgid "Set a new password by filling in your current password and a new one."
-#~ msgstr "Defina uma nova senha ao preencher sua senha atual e uma nova."
-
 #~ msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents."
 #~ msgstr "Define o número máximo de agentes ativos no intervalo de tempo definido em SessionMaxIdleTime antes que um alerta fique visível para os agentes logados."
 
@@ -25215,28 +25224,4 @@ msgstr "estatísticas"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Contacte-nos em sales@otrs.com"
-
-#. Template: OTRSDBSettings
-msgid "DSN"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
-
-#. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Open the OTOBO home page in a new window"
-msgstr ""
 

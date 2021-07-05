@@ -95,8 +95,6 @@ $Selenium->RunTest(
                 Key   => 'FirstnameLastnameOrder',
                 Value => $Order,
             );
-            sleep 1;
-
             $Selenium->VerifiedGet("${ScriptAlias}index.pl");
 
             $Self->Is(

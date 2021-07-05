@@ -250,7 +250,6 @@ $Selenium->RunTest(
 
         # Change focus and verify customer auto complete field.
         $Selenium->execute_script("\$(':focus').blur();");
-        sleep 1;
         $Self->Is(
             $Selenium->execute_script("return \$('#CustomerAutoComplete').val()"),
             "\"$TestCustomers[0] $TestCustomers[0]\" <$TestCustomers[0]\@localhost.com>",

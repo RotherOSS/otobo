@@ -16,20 +16,19 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
+# core modules
+
+# CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-use Kernel::Language;
-
-our $Self;
-
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
-my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -186,11 +185,7 @@ $Selenium->RunTest(
             my $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
                 %{ $DynamicFields{$DynamicFieldType} },
             );
-
-            $Self->True(
-                $DynamicFieldID,
-                "Dynamic field $DynamicFields{$DynamicFieldType}->{Name} - ID $DynamicFieldID - created",
-            );
+            ok( $DynamicFieldID, "Dynamic field $DynamicFields{$DynamicFieldType}->{Name} - ID $DynamicFieldID - created" );
 
             push @DynamicFieldIDs, $DynamicFieldID;
         }
@@ -222,10 +217,7 @@ $Selenium->RunTest(
             ValidID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TemplateID,
-            "Standard template is created - ID $TemplateID",
-        );
+        ok( $TemplateID, "Standard template is created - ID $TemplateID" );
 
         # Assign template to the queue.
         my $Success = $Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberAdd(
@@ -234,10 +226,7 @@ $Selenium->RunTest(
             Active             => 1,
             UserID             => 1,
         );
-        $Self->True(
-            $Success,
-            "$TemplateID is assigned to the queue.",
-        );
+        ok( $Success, "$TemplateID is assigned to the queue." );
 
         # Create test user with admin permissions.
         my $UserName = "Name$RandomID";
@@ -249,10 +238,7 @@ $Selenium->RunTest(
             ValidID       => 1,
             ChangeUserID  => 1,
         );
-        $Self->True(
-            $UserID,
-            "UserID $UserID is created",
-        );
+        ok( $UserID, "UserID $UserID is created" );
 
         my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
@@ -272,10 +258,7 @@ $Selenium->RunTest(
             },
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "UserID '$UserID' set permission for 'admin' group"
-        );
+        ok( $Success, "UserID '$UserID' set permission for 'admin' group" );
 
         # Create test customer.
         my $TestCustomer       = 'Customer' . $RandomID;
@@ -290,10 +273,7 @@ $Selenium->RunTest(
             ValidID        => 1,
             UserID         => 1
         );
-        $Self->True(
-            $TestCustomerUserID,
-            "CustomerUserAdd - ID $TestCustomerUserID",
-        );
+        ok( $TestCustomerUserID, "CustomerUserAdd - ID $TestCustomerUserID" );
 
         # Set customer user language.
         my $Language = 'es';
@@ -302,10 +282,7 @@ $Selenium->RunTest(
             Value  => $Language,
             UserID => $TestCustomer,
         );
-        $Self->True(
-            $Success,
-            "Customer user language is set.",
-        );
+        ok( $Success, "Customer user language is set." );
 
         # Create test ticket.
         my %TicketData = (
@@ -337,10 +314,7 @@ $Selenium->RunTest(
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "Ticket is created - ID $TicketID",
-        );
+        ok( $TicketID, "Ticket is created - ID $TicketID" );
 
         # Set dynamic field values.
         for my $DynamicFieldType ( sort keys %DynamicFieldValues, sort keys %DynamicFieldDateValues ) {
@@ -373,10 +347,7 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "Article is created - ID $ArticleID",
-        );
+        ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         # Set state to 'pending reminder' for next 2 days.
         $Success = $TicketObject->TicketStateSet(
@@ -384,19 +355,14 @@ $Selenium->RunTest(
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
-            $Success,
-            "TicketID $TicketID - set state to pending reminder successfully",
-        );
+        ok( $Success, "TicketID $TicketID - set state to pending reminder successfully" );
+
         $Success = $TicketObject->TicketPendingTimeSet(
             Diff     => ( 2 * 24 * 60 ),
             TicketID => $TicketID,
             UserID   => 1,
         );
-        $Self->True(
-            $Success,
-            "Set pending time successfully",
-        );
+        ok( $Success, "Set pending time successfully" );
 
         my %CreatedTicketData = $TicketObject->TicketGet(
             TicketID => $TicketID,
@@ -422,15 +388,17 @@ $Selenium->RunTest(
 
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ToCustomer").length;' );
 
-        eval {
+        {
             my $ToDo = todo('warning is not shown, issue #862');
 
             my $Message = 'Article subject will be empty if the subject contains only the ticket hook!';
 
-            $Self->True(
+            $Selenium->LogExecuteCommandActive(0);
+            ok(
                 $Selenium->execute_script("return \$('.MessageBox.Notice:contains(\"$Message\")').length;"),
                 "Notification about empty subject is found",
             );
+            $Selenium->LogExecuteCommandActive(1);
         };
 
         # Check duplication of customer user who doesn't exist in the system (see bug#13784).
@@ -442,7 +410,7 @@ $Selenium->RunTest(
             JavaScript =>
                 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length;'
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $(".Dialog.Modal.Alert").length;'),
             1,
             "Alert dialog is found.",
@@ -479,7 +447,7 @@ $Selenium->RunTest(
                 'return typeof($) === "function" && $(".Dialog.Modal.Alert:visible").length;'
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $(".Dialog.Modal.Alert").length;'),
             1,
             "Error message found.",
@@ -498,7 +466,7 @@ $Selenium->RunTest(
             $Element->is_enabled();
         }
 
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#IsVisibleForCustomer").val();'),
             1,
             "Default customer visibility is honored",
@@ -515,11 +483,11 @@ $Selenium->RunTest(
 
         # Check translated values.
         for my $Item ( sort keys %TicketData ) {
-            my $TransletedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
+            my $TranslatedTicketValue = $LanguageObject->Translate( $TicketData{$Item} );
 
-            $Self->True(
-                index( $Selenium->get_page_source(), $TransletedTicketValue ) > -1,
-                "Translated \'$Item\' value is found - $TransletedTicketValue .",
+            $Selenium->content_contains(
+                $TranslatedTicketValue,
+                "Translated \'$Item\' value is found - $TranslatedTicketValue .",
             );
         }
 
@@ -530,8 +498,8 @@ $Selenium->RunTest(
             'NoSeconds',
         );
 
-        $Self->True(
-            index( $Selenium->get_page_source(), $TranslatedTicketCreated ) > -1,
+        $Selenium->content_contains(
+            $TranslatedTicketCreated,
             "Translated 'Created' value is found - $TranslatedTicketCreated.",
         );
 
@@ -548,8 +516,8 @@ $Selenium->RunTest(
             'NoSeconds',
         );
 
-        $Self->True(
-            index( $Selenium->get_page_source(), $RealTillTimeNotUsed ) > -1,
+        $Selenium->content_contains(
+            $RealTillTimeNotUsed,
             "Translated 'RealTillTimeNotUsed' value is found - $RealTillTimeNotUsed.",
         );
 
@@ -560,13 +528,12 @@ $Selenium->RunTest(
                 ->{ $DynamicFieldValues{$DynamicFieldType} }
                 : $DynamicFieldValues{$DynamicFieldType};
 
-            my $TransletedDynamicFieldValue = $LanguageObject->Translate($Value);
+            my $TranslatedDynamicFieldValue = $LanguageObject->Translate($Value);
 
             # Check dynamic field date format.
-            $Self->True(
-                index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $TransletedDynamicFieldValue . "\n" )
-                    > -1,
-                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TransletedDynamicFieldValue.",
+            $Selenium->content_contains(
+                "$DynamicFieldType: $TranslatedDynamicFieldValue\n",
+                "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $TranslatedDynamicFieldValue.",
             );
         }
 
@@ -581,8 +548,8 @@ $Selenium->RunTest(
             );
 
             # Check dynamic field date format.
-            $Self->True(
-                index( $Selenium->get_page_source(), $DynamicFieldType . ': ' . $LanguageFormatDateValue . "\n" ) > -1,
+            $Selenium->content_contains(
+                "$DynamicFieldType: $LanguageFormatDateValue\n",
                 "Translated date format for  \'DynamicField_$DynamicFields{$DynamicFieldType}->{Name}\' value is found - $LanguageFormatDateValue.",
             );
         }
@@ -599,8 +566,8 @@ $Selenium->RunTest(
 
         # Verify that compose worked as expected.
         my $HistoryText = "Sent email to \"\"$TestCustomer $TestCustomer\"";
-        $Self->True(
-            index( $Selenium->get_page_source(), $HistoryText ) > -1,
+        $Selenium->content_contains(
+            $HistoryText,
             'Compose executed correctly'
         );
 
@@ -624,7 +591,7 @@ $Selenium->RunTest(
             UserID    => 1,
             NewUserID => $UserID,
         );
-        $Self->Is(
+        is(
             $OwnerSet,
             1,
             "UserID '$UserID' is set successfully as ticket owner for TicketID '$TicketID'"
@@ -638,12 +605,12 @@ $Selenium->RunTest(
         my %TicketDataBeforeUndo = $TicketObject->TicketGet(
             TicketID => $TicketID,
         );
-        $Self->Is(
+        is(
             $TicketDataBeforeUndo{Lock},
             'unlock',
             "Before undo - Ticket lock is 'unlock'"
         );
-        $Self->Is(
+        is(
             $TicketDataBeforeUndo{OwnerID},
             $UserID,
             "Before undo - Ticket owner is test user $UserID"
@@ -669,7 +636,7 @@ $Selenium->RunTest(
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
         );
-        $Self->Is(
+        is(
             $Selenium->execute_script('return $("#RichText").val().trim();'),
             $TicketNumber,
             "Text field contains ticket number $TicketNumber"
@@ -679,9 +646,6 @@ $Selenium->RunTest(
         $Selenium->execute_script('$(".UndoClosePopup").click();');
         $Selenium->WaitFor( WindowCount => 1 );
         $Selenium->switch_to_window( $Handles->[0] );
-
-        # Wait for reload to kick in.
-        sleep 1;
         $Selenium->WaitFor(
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
@@ -698,12 +662,12 @@ $Selenium->RunTest(
             TicketID => $TicketID,
         );
 
-        $Self->Is(
+        is(
             $TicketDataAfterUndo{Lock},
             'unlock',
             "After undo - Ticket lock is still 'unlock'"
         ) || die;
-        $Self->Is(
+        is(
             $TicketDataAfterUndo{OwnerID},
             $UserID,
             "After undo - Ticket owner is still test user $UserID"
@@ -727,14 +691,11 @@ $Selenium->RunTest(
             HistoryComment       => 'Some free text!',
             UserID               => 1,
         );
-        $Self->True(
-            $ArticleID,
-            "Article is created - ID $ArticleID",
-        );
+        ok( $ArticleID, "Article is created - ID $ArticleID" );
 
         # Refresh screen and verify there is a reply button for internal type article. See bug#14958 for more details.
         $Selenium->VerifiedRefresh();
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#ResponseID$ArticleID').length;"),
             "Reply for internal article typo found."
         );
@@ -753,19 +714,13 @@ $Selenium->RunTest(
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
 
         # Delete standard template.
         $Success = $StandardTemplateObject->StandardTemplateDelete(
             ID => $TemplateID,
         );
-        $Self->True(
-            $Success,
-            "Standard template is deleted - ID $TemplateID"
-        );
+        ok( $Success, "Standard template is deleted - ID $TemplateID" );
 
         # Delete test customer user.
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -774,10 +729,7 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$TestCustomer ],
         );
-        $Self->True(
-            $Success,
-            "Delete customer user - $TestCustomer",
-        );
+        ok( $Success, "Delete customer user - $TestCustomer" );
 
         # Delete created test dynamic fields.
         for my $DynamicFieldID (@DynamicFieldIDs) {
@@ -785,10 +737,7 @@ $Selenium->RunTest(
                 ID     => $DynamicFieldID,
                 UserID => 1,
             );
-            $Self->True(
-                $Success,
-                "Dynamic field - ID $DynamicFieldID - deleted",
-            );
+            ok( $Success, "Dynamic field - ID $DynamicFieldID - deleted" );
         }
 
         # Delete group-user relation.
@@ -796,29 +745,20 @@ $Selenium->RunTest(
             SQL  => "DELETE FROM group_user WHERE group_id = ?",
             Bind => [ \$GroupID ],
         );
-        $Self->True(
-            $Success,
-            "Relation for group ID $GroupID is deleted",
-        );
+        ok( $Success, "Relation for group ID $GroupID is deleted" );
 
         # Delete test created user.
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM user_preferences WHERE user_id = ?",
             Bind => [ \$UserID ],
         );
-        $Self->True(
-            $Success,
-            "User preferences for $UserID is deleted",
-        );
+        ok( $Success, "User preferences for $UserID is deleted" );
 
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM users WHERE id = ?",
             Bind => [ \$UserID ],
         );
-        $Self->True(
-            $Success,
-            "UserID $UserID is deleted",
-        );
+        ok( $Success, "UserID $UserID is deleted" );
 
         # Make sure the cache is correct.
         for my $Cache (qw( Ticket CustomerUser User )) {

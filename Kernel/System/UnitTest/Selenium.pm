@@ -23,7 +23,6 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
-use MIME::Base64 qw(decode_base64);
 use File::Path qw(remove_tree);
 use Time::HiRes qw();
 use File::Spec;
@@ -301,8 +300,6 @@ sub RunTest {
     # This emits a passing event when there is no exception.
     # In case of an exception, the exception will be return as a diagnostic
     # and a failing event will be emitted. $@ will hold the exception.
-    my $Context = context();
-
     my $CodeSuccess = try_ok {
         $Code->();
     }
@@ -313,8 +310,6 @@ sub RunTest {
         # HandleError() will create screenshots of the open windows
         $Self->HandleError($@);
     }
-
-    $Context->release();
 
     return;
 }
@@ -341,9 +336,8 @@ sub VerifiedGet {
         $Self->get($URL);
 
         $Self->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
     };
 
     my $Pass = run_subtest(
@@ -381,9 +375,8 @@ sub VerifiedRefresh {
         $Self->refresh();
 
         $Self->WaitFor(
-            JavaScript =>
-                'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
-        ) || $Context->throw("OTOBO API verification failed after page load.");
+            JavaScript => 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
+        );
     };
 
     my $Pass = run_subtest(
@@ -418,99 +411,107 @@ login to agent or customer interface
 sub Login {
     my ( $Self, %Param ) = @_;
 
+    my $Context = context();
+
     # check needed stuff
     for (qw(Type User Password)) {
         if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
+            note("Need parameter '$_' for Login()");
 
             return;
         }
     }
 
-    my $Context = context();
-
     my $Code = sub {
 
-        # we will try several times to log in
-        my $MaxTries = 5;
+        # we will try up to $MaxTries times to log in
+        my $MaxTries        = 5;
+        my $LoginSuccessful = 0;
 
         TRY:
         for my $Try ( 1 .. $MaxTries ) {
 
-            eval {
+            my $ToDo = todo('errors in the login loop are ignored');
 
-                # handle some differences between agent and customer interface
-                my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
-                my $LogoutXPath;          # Logout link differs between Agent and Customer interface.
-                my $CheckForGDPRBlurb;    # only customers need to accept GDPR during login
-                if ( $Param{Type} eq 'Agent' ) {
-                    $LoginPage .= 'index.pl';
-                    $LogoutXPath       = q{//a[@id='LogoutButton']};
-                    $CheckForGDPRBlurb = 0;
-                }
-                else {
-                    $LoginPage .= 'customer.pl';
-                    $LogoutXPath       = q{//a[@id='oooAvatar']};
-                    $CheckForGDPRBlurb = 1;
-                }
+            run_subtest(
+                "login attempt $Try/$MaxTries",
+                sub {
+                    eval {
+                        # handle some differences between agent and customer interface
+                        my $LoginPage = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
+                        my $LogoutXPath;          # Logout link differs between Agent and Customer interface.
+                        my $CheckForGDPRBlurb;    # only customers need to accept GDPR during login
+                        if ( $Param{Type} eq 'Agent' ) {
+                            $LoginPage .= 'index.pl';
+                            $LogoutXPath       = q{//a[@id='LogoutButton']};
+                            $CheckForGDPRBlurb = 0;
+                        }
+                        else {
+                            $LoginPage .= 'customer.pl';
+                            $LogoutXPath       = q{//a[@id='oooAvatar']};
+                            $CheckForGDPRBlurb = 1;
+                        }
 
-                $Self->get($LoginPage);
+                        $Self->get($LoginPage);
 
-                $Self->delete_all_cookies();
+                        $Self->delete_all_cookies();
 
-                # Actually log in, making sure that the params are URL encoded.
-                # Keep the URL relative, so that the configured base URL applies.
-                my $LoginURL = URI->new($LoginPage);
-                $LoginURL->query_form(
-                    {
-                        Action   => 'Login',
-                        User     => $Param{User},
-                        Password => $Param{Password},
-                    },
-                    ';'
-                );
-                $Self->VerifiedGet( $LoginURL->as_string() );
+                        # Actually log in, making sure that the params are URL encoded.
+                        # Keep the URL relative, so that the configured base URL applies.
+                        my $LoginURL = URI->new($LoginPage);
+                        $LoginURL->query_form(
+                            {
+                                Action   => 'Login',
+                                User     => $Param{User},
+                                Password => $Param{Password},
+                            },
+                            ';'
+                        );
+                        $Self->VerifiedGet( $LoginURL->as_string() );
 
-                # In the customer interface there is a data privacy blurb that must be accepted.
-                # Note that find_element_by_xpath() does not throw exceptions.
-                # The method returns 0 when the element is not found.
-                if ($CheckForGDPRBlurb) {
-                    my $AcceptGDPRLink = $Self->find_element_by_xpath(q{//a[@id="AcceptGDPR"]});
-                    if ($AcceptGDPRLink) {
-                        $AcceptGDPRLink->click();
+                        # In the customer interface there is a data privacy blurb that must be accepted.
+                        # Note that find_element_by_xpath() does not throw exceptions.
+                        # The method returns 0 when the element is not found.
+                        if ($CheckForGDPRBlurb) {
+                            my $AcceptGDPRLink = $Self->find_element_by_xpath(q{//a[@id="AcceptGDPR"]});
+                            if ($AcceptGDPRLink) {
+                                $AcceptGDPRLink->click();
+                            }
+                        }
+
+                        # login successful?
+                        $Self->find_element( $LogoutXPath, 'xpath' );    # throws exception if not found
+                    };
+
+                    if ($@) {
+
+                        # login was not sucessful
+                        note("Login attempt $Try/$MaxTries failed");
                     }
+                    else {
+
+                        # no error happend
+                        note("Login attempt $Try/$MaxTries succeeded");
+                        $LoginSuccessful = 1;
+                    }
+                },
+                {
+                    buffered      => 1,
+                    inherit_trace => 1
                 }
+            );
 
-                # login successful?
-                $Self->find_element( $LogoutXPath, 'xpath' );    # throws exception if not found
-
-                pass('Login sequence ended...');
-            };
-
-            # an error happend
-            if ($@) {
-
-                note("Login attempt $Try of $MaxTries not successful.");
-
-                # try again
-                next TRY if $Try < $MaxTries;
-
-                # giving up
-                $Context->throw("Login() not successfull after $MaxTries attempts!");
-            }
-
-            # login was sucessful
-            else {
-                last TRY;
-            }
+            # no need to try again when login succeeded
+            last TRY if $LoginSuccessful;
         }
+
+        # this decides whether the subtest succeeds
+        ok( $LoginSuccessful, 'Login successful' );
     };
 
     my $Pass = run_subtest(
-        'Login', $Code,
+        'Login',
+        $Code,
         {
             buffered      => 1,
             inherit_trace => 1
@@ -685,11 +686,16 @@ sub WaitFor {
     # something short that identfies the WaitFor target
     my $Argument = '';
     {
-        for my $Key (qw(JavaScript WindowCount AlertPresent)) {
-            $Argument = "$Key => $Param{$Key}" if $Param{$Key};
+        # scalar or arrayref parameters
+        for my $Key (qw(JavaScript WindowCount AlertPresent ElementExists ElementMissing)) {
+            if ( $Param{$Key} ) {
+                my $Value = ref $Param{$Key} eq 'ARRAY' ? $Param{$Key}->[0] : $Param{$Key};
+                $Argument = join ' => ', $Key, $Value;
+            }
         }
 
-        for my $Key (qw(Callback ElementExists ElementMissing)) {
+        # more complex parameters
+        for my $Key (qw(Callback)) {
             $Argument = $Key if $Param{$Key};
         }
     }

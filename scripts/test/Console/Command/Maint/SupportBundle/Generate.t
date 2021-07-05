@@ -26,8 +26,8 @@ use vars (qw($Self));
 # Work around a Perl bug that is triggered in Carp
 #   (Bizarre copy of HASH in list assignment at /usr/share/perl5/vendor_perl/Carp.pm line 229).
 #
-#   See https://rt.perl.org/Public/Bug/Display.html?id=52610 and
-#   http://rt.perl.org/rt3/Public/Bug/Display.html?id=78186
+#   https://rt.perl.org/Public/Bug/Display.html?id=52610 and
+#   http://rt.perl.org/rt3/Public/Bug/Display.html?id=78186
 
 no warnings 'redefine';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use Carp;

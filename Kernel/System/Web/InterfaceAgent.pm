@@ -429,10 +429,10 @@ sub Run {
             # show need user data error message
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title => 'Error',
+                    Title   => 'Error',
                     Message =>
                         Translatable(
-                        'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.'
+                            'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.'
                         ),
                     %Param,
                     MessageType => 'Error',
@@ -1009,7 +1009,7 @@ sub Run {
             # show login
             $LayoutObject->Print(
                 Output => \$LayoutObject->Login(
-                    Title => 'Login',
+                    Title   => 'Login',
                     Message =>
                         $LayoutObject->{LanguageObject}->Translate( $SessionObject->SessionIDErrorMessage() ),
                     MessageType => 'Error',
@@ -1057,7 +1057,7 @@ sub Run {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
             $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
@@ -1266,7 +1266,7 @@ sub Run {
             # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
 
-                if ( open my $Out, '>>', $File ) {
+                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                     print $Out time()
                         . '::Agent::'
                         . ( time() - $Self->{PerformanceLogStart} )

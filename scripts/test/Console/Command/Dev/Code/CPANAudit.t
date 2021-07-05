@@ -30,7 +30,7 @@ my $ExitCode = $CommandObject->Execute();
 my $Output;
 {
     local *STDOUT;
-    open STDOUT, '>:encoding(UTF-8)', \$Output;
+    open STDOUT, '>:encoding(UTF-8)', \$Output;    ## no critic qw(OTOBO::ProhibitOpen)
     $ExitCode = $CommandObject->Execute();
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Output );
 }

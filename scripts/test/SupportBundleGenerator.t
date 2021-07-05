@@ -320,7 +320,7 @@ for my $Test (@Tests) {
         for my $Package ( sort keys %{ $Test->{UninstallPackages} } ) {
             $Success =
                 $PackageObject->PackageUninstall(
-                String => $Test->{UninstallPackages}->{$Package}
+                    String => $Test->{UninstallPackages}->{$Package}
                 );
             $Self->True(
                 $Success,
@@ -425,7 +425,7 @@ for my $Test (@Tests) {
         for my $Package ( sort keys %{ $Test->{UninstallPackages} } ) {
             $Success =
                 $PackageObject->PackageUninstall(
-                String => $Test->{UninstallPackages}->{$Package}
+                    String => $Test->{UninstallPackages}->{$Package}
                 );
             $Self->True(
                 $Success,
@@ -470,8 +470,8 @@ my $PerlStructureScalar = $JSONObject->Decode(
 if (%RegistrationInfo) {
     for my $Attribute (
         qw(
-        FQDN OTOBOVersion OSType OSVersion DatabaseVersion PerlVersion
-        Description SupportDataSending RegistrationKey APIKey State Type
+            FQDN OTOBOVersion OSType OSVersion DatabaseVersion PerlVersion
+            Description SupportDataSending RegistrationKey APIKey State Type
         )
         )
     {
@@ -504,14 +504,14 @@ $OriginalResult{Result} = \%OriginalIdentifiers;
 # sometimes is doesn't for this test we delete the possible offending identifiers
 for my $Identifier (
     qw(
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
     )
     )
 {
@@ -555,14 +555,14 @@ $PerlStructureScalar->{Result} = \%NewIdentifiers;
 # sometimes is doesn't for this test we delete the possible offending identifiers
 for my $Identifier (
     qw(
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
-    Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
-    Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheDBIUsed
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ApacheReloadUsed
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModDeflateLoaded
+        Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Performance::ModHeadersLoaded
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::MOD_PERL_API_VERSION
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::PERL_USE_UNSAFE_INC
+        Kernel::System::SupportDataCollector::Plugin::Webserver::EnvironmentVariables::LANGUAGE
     )
     )
 {

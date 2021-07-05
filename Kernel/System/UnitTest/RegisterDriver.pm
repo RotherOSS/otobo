@@ -17,16 +17,17 @@ package Kernel::System::UnitTest::RegisterDriver;
 
 =head1 NAME
 
-Kernel::System::UnitTest::RegisterDriver - another helper for unit tests
+Kernel::System::UnitTest::RegisterDriver - setup for test scripts
 
 =head1 SYNOPSIS
 
-    # Set up the test driver $Self when we are running as a standalone script.
-    use if __PACKAGE__ ne 'Kernel::System::UnitTest::Driver', 'Kernel::System::UnitTest::RegisterDriver';
+    # Set up the test driver $Self and $Kernel::OM in test scripts.
+    use Kernel::System::UnitTest::RegisterDriver;
 
 =head1 DESCRIPTION
 
-Support for running test scripts as standalone scripts.
+This script provides support for running test scripts as standalone scripts.
+It sets up the variables C<$main::Self> and C<$Kernel::OM>.
 
 =cut
 
@@ -51,12 +52,15 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     # This means that we don't have to localize $Kernel::OM.
     # This is good, as we are in a subroutine that does not eval the test script.
     $Kernel::OM = Kernel::System::ObjectManager->new(
+
+        # Log to an identifiable logfile.
         'Kernel::System::Log' => {
             LogPrefix => 'OTOBO-otobo.UnitTest',
         },
     );
 
-    # provide $Self in the test scripts
+    # Provide $Self in the test script.
+    # $Self is primarily used for methods like $Self->Is() or $Self->True().
     $main::Self = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     return;

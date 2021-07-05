@@ -84,7 +84,6 @@ $Helper->CustomCodeActivate(
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 my $CheckBreadcrumb = sub {
 
     my %Param = @_;
@@ -113,7 +112,7 @@ my $NavigateToAdminPackageManager = sub {
     my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
     $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminPackageManager");
     $Selenium->WaitFor(
-        Time => 120,
+        Time       => 120,
         JavaScript =>
             'return typeof($) == "function" && $("#FileUpload").length;'
     );
@@ -126,7 +125,7 @@ my $ClickAction = sub {
     $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
     $Selenium->find_element($Selector)->click();
     $Selenium->WaitFor(
-        Time => 120,
+        Time       => 120,
         JavaScript =>
             'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     );
@@ -226,16 +225,14 @@ $Selenium->RunTest(
             Value => 1,
         );
 
-        # Allow web server to pick up the changed config setting.
-        sleep 1;
-
         $NavigateToAdminPackageManager->();
 
         # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
         # This means that there is no warning about unverified packages.
         #$Self->True(
         #    $Selenium->execute_script(
-        #        'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
+        #        'return $("div.MessageBox.Error p:contains(\'The installation of packages which are not verified by the OTOBO Team is activated. '
+        #        . 'These packages could threaten your whole system! It is recommended not to use unverified packages.\')").length',
         #    ),
         #    'Install warning for not verified packages is displayed',
         #);
@@ -245,7 +242,7 @@ $Selenium->RunTest(
         $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
         $Selenium->find_element("//button[contains(.,'Install Package')]")->click();
         $Selenium->WaitFor(
-            Time => 120,
+            Time       => 120,
             JavaScript =>
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
@@ -324,9 +321,6 @@ $Selenium->RunTest(
                 'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[Example] ftp://ftp.example.com/'
             },
         );
-
-        # Allow web server to pick up the changed SysConfig.
-        sleep 3;
 
         $NavigateToAdminPackageManager->();
         $Selenium->InputFieldValueSet(

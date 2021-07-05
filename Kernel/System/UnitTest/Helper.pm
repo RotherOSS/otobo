@@ -152,18 +152,39 @@ to create test data.
 
 =cut
 
-# Use package variables here (instead of attributes in $Self)
-# to make it work across several unit tests that run during the same second.
-my %GetRandomNumberPrevious;
-
 sub GetRandomNumber {
 
+    # Use a state variable here (instead of attributes in $Self)
+    # to make it work across several unit tests that run during the same second.
+    state %GetRandomNumberPrevious;
+
+    # Note: this is a strange formatting that does not preserve sequence of process IDs
+    # $$ = 99  gives $PID = '990000'
+    # $$ = 100 gives $PID = '100000'
     my $PIDReversed = reverse $$;
     my $PID         = reverse sprintf '%.6d', $PIDReversed;
 
     my $Prefix = $PID . substr time(), -5, 5;
 
     return $Prefix . sprintf( '%.05d', ( $GetRandomNumberPrevious{$Prefix}++ || 0 ) );
+}
+
+=head2 GetSequentialTwoLetterString()
+
+Give the next item in the sequence from C<AA> to C<ZZ>. The sequence is per process and can't be reset.
+An exception is thrown when trying to count over C<ZZ>.
+
+The major use case is to create parts of file names that must be sorted in ASCII order.
+
+=cut
+
+sub GetSequentialTwoLetterString {
+
+    state $NextString = 'AA';
+
+    die "The sequence can't proceed post 'ZZ'" if length $NextString > 2;
+
+    return $NextString++;
 }
 
 =head2 TestUserCreate()
@@ -443,7 +464,7 @@ sub DESTROY {
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
     }
 
-    # disable email checks to create new user
+    # disable email checks to invalidate test users
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     local $ConfigObject->{CheckEmailAddresses} = 0;
 
@@ -531,14 +552,9 @@ sub ConfigSettingChange {
     my $Key   = $Param{Key};
     my $Value = $Param{Value};
 
-    die "Need 'Key'" if !defined $Key;
+    die "Need 'Key'" unless defined $Key;
 
     my $RandomNumber = $Self->GetRandomNumber();
-
-    my $KeyDump = $Key;
-    $KeyDump =~ s|'|\\'|smxg;
-    $KeyDump = "\$Self->{'$KeyDump'}";
-    $KeyDump =~ s|\#{3}|'}->{'|smxg;
 
     # Also set at runtime in the ConfigObject. This will be destroyed at the end of the unit test.
     $Kernel::OM->Get('Kernel::Config')->Set(
@@ -546,16 +562,33 @@ sub ConfigSettingChange {
         Value => $Valid ? $Value : undef,
     );
 
+    # Generate Perl code that sets the config value
     my $ValueDump;
-    if ($Valid) {
-        $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
-        $ValueDump =~ s/\$VAR1/$KeyDump/;
-    }
-    else {
-        $ValueDump = "delete $KeyDump;";
+    {
+        my $KeyDump = $Key;
+        $KeyDump =~ s|'|\\'|smxg;
+        $KeyDump = "\$Self->{'$KeyDump'}";
+        $KeyDump =~ s|\#{3}|'}->{'|smxg;
+
+        if ($Valid) {
+            $ValueDump = $Kernel::OM->Get('Kernel::System::Main')->Dump($Value);
+            $ValueDump =~ s/\$VAR1/$KeyDump/;
+        }
+        else {
+            $ValueDump = "delete $KeyDump;";
+        }
     }
 
-    my $PackageName = "ZZZZUnitTest$RandomNumber";
+    # Generate name like 'ZZZZUnitTestAA30251' and 'ZZZZUnitTestAB30251'.
+    # The package names must be in ASCII order so that Kernel::Config::Defaults::new()
+    # evaluates them in the same order as they are written.
+    # This allows that a test script assigns different values to the same setting while it is running.
+    # A pseudo random part is still needed as otherwise differnt processes would overwrite
+    # their files.
+    my $PackageName = join '',
+        'ZZZZUnitTest',
+        $Self->GetSequentialTwoLetterString(),
+        $RandomNumber;
 
     my $Content = <<"EOF";
 # OTOBO config file (automatically generated)
@@ -581,6 +614,7 @@ EOF
 
     # There is no need to restart the webserver as the changed config
     # is picked up by Kernel::Config::new() for every request.
+    # Often the test script is not even running on the same machine as the webserver.
 
     return 1;
 }

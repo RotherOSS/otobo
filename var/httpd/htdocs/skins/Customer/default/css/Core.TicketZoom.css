@@ -282,25 +282,35 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     #oooArticleList .oooSender {
         display: inline-block;
         text-align: left;
-        line-height: 16px;
-        margin-top: 16px;
+        line-height: 19px;
+        margin-top: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100% - 138px);
     }
 
     #oooArticleList .oooAge {
         display: inline-block;
         text-align: right;
         float: right;
-        line-height: 16px;
-        margin-top: 16px;
+        line-height: 19px;
+        margin-top: 14px;
         margin-right: 56px;
+        max-width: 50px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     #oooArticleList .oooSubject {
         margin-left: 24px;
+        margin-top: -2px;
         padding-right: 16px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        max-width: calc(100% - 88px);
     }
 }
 

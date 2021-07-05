@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -531,7 +530,7 @@ $Selenium->RunTest(
         );
 
         # Wait a short time and for the spinner to disappear.
-        sleep(2);
+        sleep 2;
         $Selenium->WaitFor(
             JavaScript =>
                 "return typeof(\$) === 'function' && \$('.AJAXLoader:visible', \$('.PopupIframe').contents()).length == 0"

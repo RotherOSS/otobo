@@ -100,7 +100,10 @@ sub Run {
         return \%Result;
     }
 
-    my $ExitCode = system("$ScriptPath -list");
+    # do never write anything on STDOUT here. It would break the following
+    # AJAX scripts not expecting addtional information. We need the ExitCode
+    # only. So redirect STDOUT to STDERR.
+    my $ExitCode = system("$ScriptPath -list >&2");
 
     if ( $ExitCode != 0 ) {
         my %Result;

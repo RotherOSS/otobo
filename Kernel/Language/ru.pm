@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.865671641791045;
+    $Self->{Completeness}        = 0.867618429591175;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -310,11 +310,11 @@ sub Data {
         'Hint' => 'Подсказка',
         'Currently support data is only shown in this system.' => 'В настоящее время эти данные для поддержки только отображаются в этой системе.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Рекомендуется отправить эти данные команде OTOBO, чтобы получить улучшить качество поддержки.',
         'Configuration' => 'Конфигурация',
         'Send support data' => 'Выслать данные для технической поддержки',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Позволить системе отправлять дополнительную данные для поддержки команде OTOBO.',
         'Update' => 'Обновление',
         'System Registration' => 'Регистрация системы',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
@@ -2764,7 +2764,7 @@ sub Data {
         'History of %s%s%s' => 'История для %s%s%s',
         'Filter for history items' => 'Фильтр для элементов истории',
         'Expand/collapse all' => 'Развернуть/свернуть всё',
-        'CreateTime' => 'CreateTime',
+        'CreateTime' => 'Дата создания',
         'Article' => 'Сообщение',
 
         # Template: AgentTicketMerge
@@ -2981,10 +2981,10 @@ sub Data {
         'Please see the documentation or ask your admin for further information.' =>
             'Обратитесь к документации или спросите своего администратора для получения дополнительной информации.',
         'The browser you are using doesn\'t support css-grid. It\'s likely too old.' =>
-            '',
+            'Используемый вами браузер не поддерживает технологию css-grid. Скорее всего, он слишком старый.',
         'Internet Explorer is functional, but not all features are fully supported. Please consider updating to a modern browser.' =>
-            '',
-        'One moment please, you are being redirected...' => 'Подождите, вы будете перенаправлены...',
+            'Браузер Internet Explorer поддерживается, но не все функции будут работать полноценно. Пожалуйста, используйте более современный браузер.',
+        'One moment please, you are being redirected...' => 'Подождите немного, вы будете перенаправлены...',
         'Login' => 'Вход',
         'Your user name' => 'Ваше имя пользователя',
         'User name' => 'Имя пользователя',
@@ -2993,7 +2993,7 @@ sub Data {
         'Your 2 Factor Token' => 'Ваш 2-факторный токен',
         '2 Factor Token' => '2-факторный токен',
         'Log In' => 'Войти',
-        'Request Account' => '',
+        'Request Account' => 'Запросить Аккаунт',
         'Request New Password' => 'Запросить новый пароль',
         'Your User Name' => 'Логин',
         'A new password will be sent to your email address.' => 'Новый пароль будет отправлен на ваш адрес электронной почты',
@@ -3008,20 +3008,20 @@ sub Data {
         'Logout' => 'Выход',
 
         # Template: CustomerPassword
-        'Change Password' => '',
+        'Change Password' => 'Сменить пароль',
         'Password needs to contain at least 3 of the character classes: lower char, upper char, digit, special character.' =>
-            '',
+            'Пароль должен состоять как минимум из 3 символов следующих типов: нижний регистр, верхний регистр, цифра, специальный знак.',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
+        'Nr.' => 'Номер:',
         'Welcome!' => 'Добро пожаловать!',
         'You have no tickets yet. Please click here, to create a new one.' =>
-            '',
-        'Nothing to show.' => '',
-        'Click here for an unfiltered list of all your tickets.' => '',
+            'У вас ещё нет ни одной заявки. Пожалуйста нажмите сюда, чтобы создать новую.',
+        'Nothing to show.' => 'Ничего нет.',
+        'Click here for an unfiltered list of all your tickets.' => 'Нажмите здесь для отключения фильтрации по всему списку ваших заявок.',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => 'Создать новую Заявку',
         'Service level agreement' => 'Соглашение об уровне сервиса',
 
         # Template: CustomerTicketOverview

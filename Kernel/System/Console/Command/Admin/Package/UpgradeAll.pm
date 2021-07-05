@@ -142,7 +142,7 @@ sub Run {
         local *STDERR;
 
         # Redirect the standard error to a variable.
-        open STDERR, ">>", \$ErrorMessage;
+        open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
 
         %Result = $PackageObject->PackageUpgradeAll(
             Force => $Self->GetOption('force'),

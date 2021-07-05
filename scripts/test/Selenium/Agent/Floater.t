@@ -30,7 +30,6 @@ use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -97,7 +96,7 @@ $Selenium->RunTest(
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
             Subject              => 'Selenium subject test',
-            Body =>
+            Body                 =>
                 'This is a test with some CVE numbers in it. They CVE-353-22 should be recognized correctly and displayed next to the article body: CVE-353-19, CVE-353-13',
             ContentType    => 'text/plain; charset=ISO-8859-15',
             HistoryType    => 'OwnerUpdate',
@@ -118,7 +117,7 @@ $Selenium->RunTest(
             IsVisibleForCustomer => 0,
             SenderType           => 'agent',
             Subject              => 'some short description',
-            Body =>
+            Body                 =>
                 '<p>This is an HTML article containing some CVE-Numbers like <ul><li>CVE-353-19</li><li>CVE-353-13</li></ul></p>',
             ContentType    => 'text/html; charset=ISO-8859-15',
             HistoryType    => 'AddNote',

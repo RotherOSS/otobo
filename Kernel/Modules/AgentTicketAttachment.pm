@@ -119,7 +119,7 @@ sub Run {
         # write tmp file
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
         my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open( my $ViewerDataFH, '>', $Filename ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
+        if ( open my $ViewerDataFH, '>', $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $ViewerDataFH $Data{Content};
             close $ViewerDataFH;
         }
@@ -130,12 +130,13 @@ sub Run {
                 Priority => 'error',
                 Message  => "Cant write $Filename: $!",
             );
+
             return $LayoutObject->ErrorScreen();
         }
 
         # use viewer
         my $Content = '';
-        if ( open( my $ViewerFH, "-|", "$Viewer $Filename" ) ) {
+        if ( open my $ViewerFH, '-|', "$Viewer $Filename" ) {    ## no critic qw(OTOBO::ProhibitOpen)
             while (<$ViewerFH>) {
                 $Content .= $_;
             }

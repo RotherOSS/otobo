@@ -139,7 +139,7 @@ sub Run {
         local *STDERR;
 
         # Redirect the standard error to a variable.
-        open STDERR, ">>", \$ErrorMessage;
+        open STDERR, ">>", \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
 
         # Disable ANSI terminal colors for console commands, then in case of an error the output
         #   will be clean.

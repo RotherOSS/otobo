@@ -43,18 +43,16 @@ sub Run {
     if ( $^O =~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
 
         # linux systems
-        if ( -e "/proc/loadavg" ) {
-            my $LoadFile;
-            open( $LoadFile, '<', "/proc/loadavg" );    ## no critic qw(OTOBO::ProhibitOpen)
+        if ( -e '/proc/loadavg' ) {
+            open( my $LoadFile, '<', '/proc/loadavg' );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
             while (<$LoadFile>) {
                 @Loads = split( " ", $_ );
             }
-            close($LoadFile);
         }
 
         # mac os
         elsif ( $^O =~ /darwin/i ) {
-            if ( open( my $In, "-|", "sysctl vm.loadavg" ) ) {
+            if ( open( my $In, '-|', "sysctl vm.loadavg" ) ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
                 while (<$In>) {
                     if ( my ($Loads) = $_ =~ /vm\.loadavg: \s* \{ \s*  (.*) \s* \}/smx ) {
                         @Loads = split ' ', $Loads;
@@ -66,11 +64,11 @@ sub Run {
 
         if (@Loads) {
             $Self->AddResultInformation(
-                Label => Translatable('System Load'),
-                Value => $Loads[2],
+                Label   => Translatable('System Load'),
+                Value   => $Loads[2],
                 Message =>
                     Translatable(
-                    'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).'
+                        'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).'
                     ),
             );
         }

@@ -893,7 +893,7 @@ sub Run {
 
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Login',
+                    Title   => 'Login',
                     Message =>
                         Translatable('This e-mail address already exists. Please log in or reset your password.'),
                     UserTitle     => $GetParams{UserTitle},
@@ -919,9 +919,9 @@ sub Run {
             if ($@) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         $LayoutObject->{LanguageObject}->Translate(
-                        'The customer panel mail address whitelist contains the invalid regular expression $WhitelistEntry, please check and correct it.'
+                            'The customer panel mail address whitelist contains the invalid regular expression $WhitelistEntry, please check and correct it.'
                         ),
                 );
             }
@@ -935,9 +935,9 @@ sub Run {
             if ($@) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message =>
+                    Message  =>
                         $LayoutObject->{LanguageObject}->Translate(
-                        'The customer panel mail address blacklist contains the invalid regular expression $BlacklistEntry, please check and correct it.'
+                            'The customer panel mail address blacklist contains the invalid regular expression $BlacklistEntry, please check and correct it.'
                         ),
                 );
             }
@@ -956,7 +956,7 @@ sub Run {
 
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Login',
+                    Title   => 'Login',
                     Message =>
                         Translatable('This email address is not allowed to register. Please contact support staff.'),
                     UserTitle     => $GetParams{UserTitle},
@@ -1186,7 +1186,7 @@ sub Run {
             # show login
             $LayoutObject->Print(
                 Output => \$LayoutObject->CustomerLogin(
-                    Title => 'Login',
+                    Title   => 'Login',
                     Message =>
                         $LayoutObject->{LanguageObject}->Translate( $SessionObject->SessionIDErrorMessage() ),
                     %Param,
@@ -1233,7 +1233,7 @@ sub Run {
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message =>
+                Message  =>
                     "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
             );
             $LayoutObject->CustomerFatalError(
@@ -1450,12 +1450,13 @@ sub Run {
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            if ( open my $Out, '>>', $File ) {
+            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
                 print $Out time()
                     . '::Customer::'
                     . ( time() - $Self->{PerformanceLogStart} )
                     . "::$UserData{UserLogin}::$QueryString\n";
                 close $Out;
+
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'debug',
                     Message  => 'Response::Customer: '
@@ -1470,6 +1471,7 @@ sub Run {
                 );
             }
         }
+
         return 1;
     }
 

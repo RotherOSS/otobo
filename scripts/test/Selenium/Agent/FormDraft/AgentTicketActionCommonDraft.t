@@ -27,7 +27,6 @@ use vars (qw($Self));
 use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-
 $Selenium->RunTest(
     sub {
 
@@ -312,7 +311,6 @@ $Selenium->RunTest(
                         JavaScript =>
                             'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
-                    sleep 1;
 
                     # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )
@@ -487,7 +485,6 @@ $Selenium->RunTest(
                         JavaScript =>
                             'return typeof($) === "function" && $("#FileUpload:visible").length;'
                     );
-                    sleep 1;
 
                     # Upload a file.
                     $Selenium->find_element( "#FileUpload", 'css' )

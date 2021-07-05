@@ -87,7 +87,7 @@ else {
 # check needed programs
 for my $CMD ( 'cp', 'tar', $DecompressCMD ) {
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $CMD" );    ## no critic qw(InputOutput::RequireBriefOpen)
+    open( my $Input, '-|', "which $CMD" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -139,7 +139,7 @@ if ( $DatabaseDSN =~ m/:mysql/i ) {
     $DBDump = 'mysql';
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );    ## no critic qw(InputOutput::RequireBriefOpen)
+    open( my $Input, '-|', "which $DBDump" );    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }
@@ -157,7 +157,7 @@ elsif ( $DatabaseDSN =~ m/:pg/i ) {
     }
 
     my $IsInstalled = 0;
-    open( my $Input, '-|', "which $DBDump" );
+    open( my $Input, '-|', "which $DBDump" );    ## no critic qw(OTOBO::ProhibitOpen)
     while (<$Input>) {
         $IsInstalled = 1;
     }

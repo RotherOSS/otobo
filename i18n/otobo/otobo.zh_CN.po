@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-02-19 14:14+0000\n"
+"POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2020-11-17 04:38+0000\n"
 "Last-Translator: Paul Yang <paul.yang@itservice.com.cn>\n"
 "Language-Team: Chinese (Simplified) <https://translate.otobo.org/projects/otobo10/otobo/zh_Hans/>\n"
@@ -9064,10 +9064,6 @@ msgid "Phone"
 msgstr "电话"
 
 #. Template: Installer
-msgid "Switzerland"
-msgstr "瑞士"
-
-#. Template: Installer
 msgid "Web site"
 msgstr "网址"
 
@@ -9490,6 +9486,10 @@ msgstr "不论如何都继续:("
 #. Template: Intro
 msgid " Continue anyways :("
 msgstr " 不论如何都继续 :("
+
+#. Template: OTRSDBSettings
+msgid "DSN"
+msgstr ""
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
@@ -14264,10 +14264,6 @@ msgid "Skipped..."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
-msgstr "Oracle db 需要 %s ！"
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
 msgstr "系统无法连接OTRS数据库。"
 
@@ -14868,8 +14864,8 @@ msgid "Maximum Query Size"
 msgstr "最大查询大小"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
-msgstr "'max_allowed_packet'必须设置为大于64MB。"
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -18024,8 +18020,8 @@ msgid "Configure your own log text for PGP."
 msgstr "配置您自己的PGP日志文本。"
 
 #. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
-msgstr "配置默认的TicketDynamicField设置。 “名称”定义应使用的动态字段，“值”是将要设置的数据，“事件”定义触发事件。请查看开发人员手册（https://doc.otobo.org/doc/）中“票务事件模块”。"
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
+msgstr ""
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
@@ -18964,6 +18960,10 @@ msgid "Defines the config parameters of this item, to be shown in the preference
 msgstr "定义在个人偏好设置视图中显示这个条目的配置参数。"
 
 #. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
+
+#. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 msgstr "定义此条目的配置参数，以显示在偏好设置视图中。 请注意：将'Active（激活）'设置为0只会阻止服务人员在个人偏好设置中编辑此组的设置，但仍然允许管理员以其他用户的名义编辑这些设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
 
@@ -19000,8 +19000,8 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "定义客户用户通讯录搜索（客户用户或客户单位）中的默认过滤器字段。 对于客户单位字段，必须添加一个前缀“CustomerCompany_”。"
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
-msgstr "定义话务员和客户要使用的默认前端（HTML）主题。如果愿意，可以添加自己的主题。请参阅位于https://doc.otobo.org/doc/的管理员手册。"
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
+msgstr ""
 
 #. SysConfig
 msgid "Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting)."
@@ -21168,6 +21168,10 @@ msgid "If enabled debugging information for transitions is logged."
 msgstr "如果启用了此选项，将记录转换的调试信息。"
 
 #. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr "如果启用了此选项，守护进程的标准错误流将重定向到一个日志文件。"
 
@@ -22032,6 +22036,10 @@ msgid "Open an external link!"
 msgstr "打开一个外部链接！"
 
 #. SysConfig
+msgid "Open the OTOBO home page in a new window"
+msgstr ""
+
+#. SysConfig
 msgid "Open tickets (customer user)"
 msgstr "处理中的工单（客户用户）"
 
@@ -22736,10 +22744,6 @@ msgid "Select the separator character used in CSV files (stats and searches). If
 msgstr "选择CSV文件（统计和搜索）中使用的分隔符。如果不指定，系统将使用当前语言的默认分隔符。"
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "选择您的界面主题。"
-
-#. SysConfig
 msgid "Select your personal time zone. All times will be displayed relative to this time zone."
 msgstr "选择你的个人时区，所有时间将相对于这个时区显示。"
 
@@ -22846,6 +22850,10 @@ msgstr "服务视图"
 #. SysConfig
 msgid "ServiceView"
 msgstr "服务视图"
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr "填写当前密码和一个新的密码来设置新密码。"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -24699,6 +24707,24 @@ msgstr "倒序"
 msgid "stats"
 msgstr "stats（统计）"
 
+#~ msgid "Switzerland"
+#~ msgstr "瑞士"
+
+#~ msgid "Need %s for Oracle db!"
+#~ msgstr "Oracle db 需要 %s ！"
+
+#~ msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+#~ msgstr "'max_allowed_packet'必须设置为大于64MB。"
+
+#~ msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
+#~ msgstr "配置默认的TicketDynamicField设置。 “名称”定义应使用的动态字段，“值”是将要设置的数据，“事件”定义触发事件。请查看开发人员手册（https://doc.otobo.org/doc/）中“票务事件模块”。"
+
+#~ msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
+#~ msgstr "定义话务员和客户要使用的默认前端（HTML）主题。如果愿意，可以添加自己的主题。请参阅位于https://doc.otobo.org/doc/的管理员手册。"
+
+#~ msgid "Select your frontend Theme."
+#~ msgstr "选择您的界面主题。"
+
 #~ msgid "Can't add web service for Elasticsearch. File %s not found!"
 #~ msgstr "无法为Elasticsearch添加网络服务，未发现文件 %s！"
 
@@ -25131,10 +25157,6 @@ msgstr "stats（统计）"
 #~ msgid "Defines if the communication between this system and Rother OSS GmbH servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO News and product News dashboard widgets, among others."
 #~ msgstr "定义本系统能否与OTOBO集团提供云服务的服务器通信。如果设置为“禁用云服务”，某些功能如系统注册、发送支持数据、升级到OTOBO Business Solution™（OTOBO商业解决方案）、OTOBO Verify™（OTOBO验证）、仪表板中的OTOBO新闻和产品新闻小部件等将失效。"
 
-#. SysConfig
-#~ msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
-#~ msgstr "定义在偏好设置中这个条目的配置参数。'PasswordRegExp'保证密码不匹配一个正则表达式；'PasswordMinSize'定义密码的最小字符数；如果至少需要2个小写字母和2个大写字母就设置合适的选项为“1”，'PasswordMin2Characters'定义密码如果要包含至少2个字母字符（设置为0或1）；'PasswordNeedDigit'控制是否至少包含1个数字（设置为0或1）；'PasswordMaxLoginFailed'设置最大登录失败数，一个服务人员在登录失败次数达到这个数后会临时无效。请注意：将'Active（激活）'设置为0只会阻止服务人员根据他们的个人偏好编辑此组的设置，但仍然允许管理员以其他用户的名义编辑其偏好设置。 使用'PreferenceGroup'来控制这些设置应该显示在用户界面的哪个区域。"
-
 #~ msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.com/doc/."
 #~ msgstr "定义服务人员和客户使用的默认前端主题（HTML）。如果您喜欢，您可以添加您自己的主题。请参考管理员手册https://doc.otobo.com/doc/ 。"
 
@@ -25189,10 +25211,6 @@ msgstr "stats（统计）"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "短信(短消息)"
 
-#. SysConfig
-#~ msgid "Set a new password by filling in your current password and a new one."
-#~ msgstr "填写当前密码和一个新的密码来设置新密码。"
-
 #~ msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents."
 #~ msgstr "设置在SessionMaxIdleTime中定义的时间范围内最大的活动服务人员数，之后才能对登录的服务人员显示先前的警告。"
 
@@ -25243,28 +25261,4 @@ msgstr "stats（统计）"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "请通过sales@otrs.com联系我们"
-
-#. Template: OTRSDBSettings
-msgid "DSN"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
-
-#. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Open the OTOBO home page in a new window"
-msgstr ""
 

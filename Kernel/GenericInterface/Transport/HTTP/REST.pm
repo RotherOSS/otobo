@@ -760,8 +760,18 @@ sub RequesterPerformRequest {
     }
     push @RequestParam, $Controller;
 
-    if ( IsStringWithData( $Param{Data} ) ) {
-        $Body = $Param{Data};
+    # Only POST, PUT or PATCH have a body. If it is empty
+    # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
+    if (
+        $RestCommand eq 'POST'
+        || $RestCommand eq 'PUT'
+        || $RestCommand eq 'PATCH'
+        )
+    {
+        if ( IsStringWithData( $Param{Data} ) ) {
+            $Body = $Param{Data};
+        }
+
         push @RequestParam, $Body;
     }
 

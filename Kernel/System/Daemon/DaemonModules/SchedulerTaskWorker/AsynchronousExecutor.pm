@@ -133,7 +133,7 @@ sub Run {
         local *STDERR;
 
         # Redirect the standard error to a variable.
-        open STDERR, ">>", \$ErrorMessage;
+        open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)
 
         if ( ref $Param{Data}->{Params} eq 'ARRAY' ) {
             $LocalObject->$Function(
@@ -145,7 +145,6 @@ sub Run {
                 %{ $Param{Data}->{Params} // {} },
             );
         }
-
     };
 
     # Check if there are errors.

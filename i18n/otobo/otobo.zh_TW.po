@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-02-19 14:14+0000\n"
+"POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Ann Li <dn.annli@gmail.com>, 2019\n"
 "Language-Team: Chinese (Taiwan) (https://translate.otobo.org/projects/otobo10/otobo/zh_TW/)\n"
@@ -9055,10 +9055,6 @@ msgid "Phone"
 msgstr "電話"
 
 #. Template: Installer
-msgid "Switzerland"
-msgstr ""
-
-#. Template: Installer
 msgid "Web site"
 msgstr "網址"
 
@@ -9480,6 +9476,10 @@ msgstr ""
 
 #. Template: Intro
 msgid " Continue anyways :("
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "DSN"
 msgstr ""
 
 #. Template: OTRSDBSettings
@@ -14255,10 +14255,6 @@ msgid "Skipped..."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
 msgstr ""
 
@@ -14859,7 +14855,7 @@ msgid "Maximum Query Size"
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
@@ -18007,7 +18003,7 @@ msgid "Configure your own log text for PGP."
 msgstr ""
 
 #. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -18947,6 +18943,10 @@ msgid "Defines the config parameters of this item, to be shown in the preference
 msgstr ""
 
 #. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 msgstr ""
 
@@ -18983,7 +18983,7 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr ""
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
@@ -21151,6 +21151,10 @@ msgid "If enabled debugging information for transitions is logged."
 msgstr ""
 
 #. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr ""
 
@@ -22015,6 +22019,10 @@ msgid "Open an external link!"
 msgstr ""
 
 #. SysConfig
+msgid "Open the OTOBO home page in a new window"
+msgstr ""
+
+#. SysConfig
 msgid "Open tickets (customer user)"
 msgstr ""
 
@@ -22719,10 +22727,6 @@ msgid "Select the separator character used in CSV files (stats and searches). If
 msgstr "選擇CSV文件（統計和搜索）中使用的分隔符。如果不指定，系統將使用默認分隔符。"
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "界面主題."
-
-#. SysConfig
 msgid "Select your personal time zone. All times will be displayed relative to this time zone."
 msgstr "系統中的時間會相對應您所選擇的時區。"
 
@@ -22829,6 +22833,10 @@ msgstr ""
 #. SysConfig
 msgid "ServiceView"
 msgstr ""
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr "輸入目前密碼來變更密碼"
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -24682,6 +24690,9 @@ msgstr "倒序"
 msgid "stats"
 msgstr ""
 
+#~ msgid "Select your frontend Theme."
+#~ msgstr "界面主題."
+
 #~ msgid "My Tickets."
 #~ msgstr "我的工單"
 
@@ -24765,36 +24776,4 @@ msgstr ""
 
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (短訊服務)"
-
-#. SysConfig
-#~ msgid "Set a new password by filling in your current password and a new one."
-#~ msgstr "輸入目前密碼來變更密碼"
-
-#. Template: OTRSDBSettings
-msgid "DSN"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
-
-#. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Open the OTOBO home page in a new window"
-msgstr ""
 

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-02-19 14:14+0000\n"
+"POT-Creation-Date: 2021-04-21 16:42+0000\n"
 "PO-Revision-Date: 2020-01-25 16:27+0000\n"
 "Last-Translator: Dusan Vuckovic <dusan.vuckovic@otrs.com>\n"
 "Language-Team: Serbian <https://translate.otobo.org/projects/otobo10/otobo/sr/>\n"
@@ -9053,10 +9053,6 @@ msgid "Phone"
 msgstr "Позив"
 
 #. Template: Installer
-msgid "Switzerland"
-msgstr ""
-
-#. Template: Installer
 msgid "Web site"
 msgstr "Веб сајт"
 
@@ -9478,6 +9474,10 @@ msgstr ""
 
 #. Template: Intro
 msgid " Continue anyways :("
+msgstr ""
+
+#. Template: OTRSDBSettings
+msgid "DSN"
 msgstr ""
 
 #. Template: OTRSDBSettings
@@ -14253,10 +14253,6 @@ msgid "Skipped..."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Need %s for Oracle db!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
 msgstr ""
 
@@ -14857,8 +14853,8 @@ msgid "Maximum Query Size"
 msgstr "Максимална величина упита"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
-msgstr "Подешавање 'max_allowed_packet' мора бити више од 64 MB."
+msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
+msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -18015,7 +18011,7 @@ msgid "Configure your own log text for PGP."
 msgstr "Конфигуриши сопствени лог текст за PGP."
 
 #. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/doc/), chapter \"Ticket Event Module\"."
+msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
 
 #. SysConfig
@@ -18955,6 +18951,10 @@ msgid "Defines the config parameters of this item, to be shown in the preference
 msgstr "Дефинише конфигурационе параметре за ову ставку, да буду приказани у приказу подешавања."
 
 #. SysConfig
+msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr "Одређује све параметре за ову ставку у екрану подешавања. PasswordRegExp омогућава проверу лозинке путем регуларног израза. Дефинишите минимални број карактера путем PasswordMinSize. Дефинишите најмање 2 мала и 2 велика слова тако што ћете подесити одговарајућу опцију на 1. PasswordMin2Characters дефинише да ли лозинка мора да садржи најмање два слова (0 или 1). PasswordNeedDigit контролише потребу за најмање једном цифром (0 или 1). PasswordMaxLoginFailed дозвољава аутоматско проглашавање статуса оператера као неважећи-привремено, уколико је достигнут максимални број неуспешних логовања. Напомена: подешавање 'Active' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите 'PreferenceGroup' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана."
+
+#. SysConfig
 msgid "Defines the config parameters of this item, to be shown in the preferences view. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 msgstr "Дефинише конфигурационе параметре ове ставке за приказ у екрану подешавања. Напомена: подешавање 'Active' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите 'PreferenceGroup' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана."
 
@@ -18991,7 +18991,7 @@ msgid "Defines the default filter fields in the customer user address book searc
 msgstr "Дефинише подразумевана филтер поља у претрази адресара клијент корисника (CustomerUser или CustomerCompany). За CustomerCompany поља, морате додати префикс 'CustomerCompany_'."
 
 #. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/doc/."
+msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
 msgstr ""
 
 #. SysConfig
@@ -21159,6 +21159,10 @@ msgid "If enabled debugging information for transitions is logged."
 msgstr "Ако је активирано, исправљање грешака за транзиције се бележи."
 
 #. SysConfig
+msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
+msgstr ""
+
+#. SysConfig
 msgid "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr "Ако је активирано, сервис ће преусмерити стандардни ток грешке у лог датотеку."
 
@@ -22023,6 +22027,10 @@ msgid "Open an external link!"
 msgstr "Отвори екстерну везу!"
 
 #. SysConfig
+msgid "Open the OTOBO home page in a new window"
+msgstr ""
+
+#. SysConfig
 msgid "Open tickets (customer user)"
 msgstr "Отворени тикети (клијент корисник)"
 
@@ -22727,10 +22735,6 @@ msgid "Select the separator character used in CSV files (stats and searches). If
 msgstr "Изаберите сепаратор који ће се користи у CSV датотекама (статистика и претраге). Ако овде не изаберете сепаратор, користиће се подразумевани сепаратор за ваш језик"
 
 #. SysConfig
-msgid "Select your frontend Theme."
-msgstr "Изаберите тему интерфејса."
-
-#. SysConfig
 msgid "Select your personal time zone. All times will be displayed relative to this time zone."
 msgstr "Изаберите вашу личну временску зону. Сва времена ће бити приказана у њој."
 
@@ -22837,6 +22841,10 @@ msgstr "Преглед услуге"
 #. SysConfig
 msgid "ServiceView"
 msgstr "ServiceView"
+
+#. SysConfig
+msgid "Set a new password by filling in your current password and a new one."
+msgstr "Подесите нову лозинку укуцавањем ваше тренутне и нове."
 
 #. SysConfig
 msgid "Set sender email addresses for this system."
@@ -24690,6 +24698,12 @@ msgstr "обрнуто"
 msgid "stats"
 msgstr "статистика"
 
+#~ msgid "The setting 'max_allowed_packet' must be higher than 64 MB."
+#~ msgstr "Подешавање 'max_allowed_packet' мора бити више од 64 MB."
+
+#~ msgid "Select your frontend Theme."
+#~ msgstr "Изаберите тему интерфејса."
+
 #~ msgid "My Tickets."
 #~ msgstr "Моји тикети."
 
@@ -25092,10 +25106,6 @@ msgstr "статистика"
 #~ msgid "Defines if the communication between this system and Rother OSS GmbH servers that provide cloud services is possible. If set to 'Disable cloud services', some functionality will be lost such as system registration, support data sending, upgrading to and use of OTOBO Business Solution™, OTOBO Verify™, OTOBO News and product News dashboard widgets, among others."
 #~ msgstr "Дефинише да ли је могућа комуникација између овог система и сервера OTOBO групе који обезбеђују сервисе у облаку. Ако је подешено на 'Онемогући сервисе у облаку' неке функционалности неће радити, а то су регистрација система, слање података подршке, унапређење на OTOBO Business Solution™, OTOBO верификација, OTOBO новости и новости о производу у додацима на контролној табли, између осталих."
 
-#. SysConfig
-#~ msgid "Defines the config parameters of this item, to be shown in the preferences view. 'PasswordRegExp' allows to match passwords against a regular expression. Define the minimum number of characters using 'PasswordMinSize'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to '1'. 'PasswordMin2Characters' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). 'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to control). 'PasswordMaxLoginFailed' allows to set an agent to invalid-temporarily if max failed logins reached. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
-#~ msgstr "Одређује све параметре за ову ставку у екрану подешавања. PasswordRegExp омогућава проверу лозинке путем регуларног израза. Дефинишите минимални број карактера путем PasswordMinSize. Дефинишите најмање 2 мала и 2 велика слова тако што ћете подесити одговарајућу опцију на 1. PasswordMin2Characters дефинише да ли лозинка мора да садржи најмање два слова (0 или 1). PasswordNeedDigit контролише потребу за најмање једном цифром (0 или 1). PasswordMaxLoginFailed дозвољава аутоматско проглашавање статуса оператера као неважећи-привремено, уколико је достигнут максимални број неуспешних логовања. Напомена: подешавање 'Active' на 0 ће само онемогућити оператерима да мењају своја лична подешавања из ове групе, али ће администратори и даље моћи да их мењају у њихово име. Подесите 'PreferenceGroup' да бисте одредили у ком делу интерфејса ова подешавања треба да буду приказана."
-
 #~ msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.com/doc/."
 #~ msgstr "Одређује подразумевану тему главног интерфејса (HTML) која ће бити коришћена од стране оператера или клијената. Уколико желите можете додати вашу личну тему. Молимо вас да погледате упутство за администратора, које се налази на https://doc.otobo.com/doc/."
 
@@ -25150,10 +25160,6 @@ msgstr "статистика"
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (сервис кратких порука)"
 
-#. SysConfig
-#~ msgid "Set a new password by filling in your current password and a new one."
-#~ msgstr "Подесите нову лозинку укуцавањем ваше тренутне и нове."
-
 #~ msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime before a prior warning will be visible for the logged in agents."
 #~ msgstr "Поставља максимални број активних оператера у временском распону дефинисаном у SessionMaxIdleTime пре него што обавештење буде видљиво за пријављене оператере."
 
@@ -25204,28 +25210,4 @@ msgstr "статистика"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Контактирајте нас на sales@otrs.com"
-
-#. Template: OTRSDBSettings
-msgid "DSN"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
-
-#. SysConfig
-msgid "Configures a default TicketDynamicField setting. \"Name\" defines the dynamic field which should be used, \"Value\" is the data that will be set, and \"Event\" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter \"Ticket Event Module\"."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the default front-end (HTML) theme to be used by the agents and customers. If you like, you can add your own theme. Please refer the administrator manual located at https://doc.otobo.org/."
-msgstr ""
-
-#. SysConfig
-msgid "If enabled defines the preselected state for customer follow-up in the customer interface."
-msgstr ""
-
-#. SysConfig
-msgid "Open the OTOBO home page in a new window"
-msgstr ""
 
