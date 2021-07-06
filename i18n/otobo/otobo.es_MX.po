@@ -23,9 +23,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-06-28 21:36+0000\n"
+"PO-Revision-Date: 2021-07-06 20:18+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
-"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/otobo10/otobo/es_MX/>\n"
+"Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
+"otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1790,23 +1791,20 @@ msgid "Possible values"
 msgstr "Valores posibles"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Datatype"
-msgstr ""
+msgstr "Tipo de dato"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
 msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Searchfield"
-msgstr ""
+msgstr "Campo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Listfield"
-msgstr ""
+msgstr "Campo de la lista"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -1869,19 +1867,16 @@ msgid "Multiselect"
 msgstr "Selección múltiple"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "CacheTTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Searchprefix"
-msgstr ""
+msgstr "Prefijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
-#, fuzzy
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Sufijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
@@ -1960,9 +1955,8 @@ msgid "Activate this option to display values as a tree."
 msgstr "Active esta opción para mostrar los valores como un árbol."
 
 #. Template: AdminDynamicFieldImportExport
-#, fuzzy
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
@@ -2070,11 +2064,11 @@ msgstr "seleccionados para asignar los elementos necesarios"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "Alternar todos los elementos asignados requeridos"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "Elementos requeridos asignados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
@@ -2126,23 +2120,23 @@ msgstr "Plantilla"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Estilo"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "negrita"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "itálica"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "subrayar"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "Estilo de fuente de la etiqueta."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2150,11 +2144,11 @@ msgstr "Tamaño"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "Tamaño de fuente de la etiqueta."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Color en hexadecimal."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2162,31 +2156,38 @@ msgstr "Esta campo es requerido"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "El servicio web a ejecutar para posibles valores."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Invocador"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The invoker to be used to perform requests (invoker needs to be of type 'Generic::PassThrough')."
 msgstr ""
+"El invocador que se utilizará para realizar las solicitudes (el invocador "
+"debe ser de tipo 'Generic::PassThrough')."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "Active esta opción para permitir la selección múltiple de resultados."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "Cache TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
 msgstr ""
+"Almacene el tiempo de vida en caché (en minutos), para guardar los posibles "
+"valores recuperados."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields."
 msgstr ""
+"Aquí puede especificar un enlace HTTP opcional para el valor del campo en "
+"las pantallas de Panorama y Zoom. El enlace HTTP opcional sólo funciona para "
+"los campos de selección única."
 
 #. Template: AdminEmail
 msgid "Admin Message"
@@ -2311,6 +2312,7 @@ msgstr "Fijar días"
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Los valores de ejecución automática están en la zona horaria del sistema."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -2355,6 +2357,8 @@ msgstr "Agregar Disparador de Evento"
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
 msgstr ""
+"Para agregar un nuevo evento, seleccione el objeto del evento y el nombre "
+"del evento"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
@@ -2426,7 +2430,7 @@ msgstr "Campos Dinámicos"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Agregar campo dinámico"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2482,19 +2486,19 @@ msgstr "Ticket modificado entre"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "Últimos tiempos de cierre"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "Sin configuración de hora de último cierre."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "Último cierre del Ticket"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "Último cierre del Ticket entre"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -2711,6 +2715,8 @@ msgstr "Advertencia: ¡Eligió la opción ELIMINAR. ¡Todos los tickets eliminad
 #. Template: AdminGenericAgent
 msgid "Warning: There are %s tickets affected but only %s may be modified during one job execution!"
 msgstr ""
+"Advertencia: ¡Hay %s tickets afectados pero sólo %s pueden ser modificados "
+"durante la ejecución de un trabajo!"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
@@ -2815,6 +2821,8 @@ msgstr "Opciones generales"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "The name can be used to distinguish different error handling configurations."
 msgstr ""
+"El nombre puede ser utilizado para distinguir diferentes configuraciones de "
+"manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
@@ -2822,11 +2830,13 @@ msgstr "Por favor ingrese un nombre único para este servicio web."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "Módulo de gestión de errores backend"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "This OTOBO error handling backend module will be called internally to process the error handling mechanism."
 msgstr ""
+"Este módulo backend de manejo de errores de OTOBO será llamado internamente "
+"para procesar el mecanismo de manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
@@ -2835,10 +2845,14 @@ msgstr "Procesando opciones"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
 msgstr ""
+"Configure los filtros para controlar la ejecución del módulo de gestión de "
+"errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only requests matching all configured filters (if any) will trigger module execution."
 msgstr ""
+"Sólo las solicitudes que coincidan con todos los filtros configurados (si "
+"los hay) activarán la ejecución del módulo."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
@@ -2847,10 +2861,15 @@ msgstr "Filtro de operaciones"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
 msgstr ""
+"Sólo ejecuta el módulo de tratamiento de errores para las operaciones "
+"seleccionadas."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter."
 msgstr ""
+"Nota: La operación es indeterminada para los errores que se producen al "
+"recibir los datos de la solicitud. Los filtros que implican esta etapa de "
+"error no deben utilizar el filtro de operación."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
@@ -2859,6 +2878,8 @@ msgstr "Filtro para invocador"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
 msgstr ""
+"Sólo ejecuta el módulo de manejo de errores para los invocadores "
+"seleccionados."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
@@ -2867,26 +2888,36 @@ msgstr "Filtro para el contenido del mensaje de error"
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Enter a regular expression to restrict which error messages should cause error handling module execution."
 msgstr ""
+"Introduzca una expresión regular para restringir qué mensajes de error deben "
+"provocar la ejecución del módulo de gestión de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message subject and data (as seen in the debugger error entry) will considered for a match."
 msgstr ""
+"El asunto y los datos del mensaje de error (como se ve en la entrada de "
+"error del depurador) se considerarán para una coincidencia."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication related errors."
 msgstr ""
+"Ejemplo: Introduzca '^.*401 Unauthorized.*\\\\$' para gestionar sólo los "
+"errores relacionados con la autenticación."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr ""
+msgstr "Filtro de etapa de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module on errors that occur during specific processing stages."
 msgstr ""
+"Sólo ejecuta el módulo de tratamiento de errores en los errores que se "
+"producen durante las etapas de procesamiento específicas."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Example: Handle only errors where mapping for outgoing data could not be applied."
 msgstr ""
+"Ejemplo: Manejar sólo los errores en los que no se ha podido aplicar la "
+"asignación de datos de salida."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
@@ -2894,7 +2925,7 @@ msgstr "Código de error"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "Un identificador de error para este módulo de manejo de errores."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "This identifier will be available in XSLT-Mapping and shown in debugger output."
@@ -24853,4 +24884,3 @@ msgstr "estadísticas"
 
 #~ msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
 #~ msgstr "p.e. https://local.otrs.com:8000/Webservice/Example"
-
