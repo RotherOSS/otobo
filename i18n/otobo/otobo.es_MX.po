@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2021-07-07 22:08+0000\n"
+"PO-Revision-Date: 2021-07-08 06:24+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -9920,135 +9920,162 @@ msgstr "Resultado de la migración de datos"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "Última tarea con éxito:"
 
 #. Template: Copy
 msgid "Migration will restart from the last successfully finished task. Please do a complete rerun if you changed your system in the meantime."
 msgstr ""
+"La migración se reiniciará a partir de la última tarea finalizada con éxito. "
+"Por favor, haga una reejecución completa si ha cambiado su sistema en ese "
+"tiempo."
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "Limpiar y terminar"
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
 msgstr ""
+"La migración se ha completado, gracias por probar OTOBO - esperamos que te "
+"guste."
 
 #. Template: Intro
 msgid "This migration script will lead you step by step through the process of migrating your ticket system from OTRS or ((OTRS)) Community Edition version 6 to OTOBO 10."
 msgstr ""
+"Este script de migración le guiará paso a paso a través del proceso de "
+"migración de su sistema de tickets de OTRS o ((OTRS)) Community Edition "
+"versión 6 a OTOBO 10."
 
 #. Template: Intro
 msgid "There is no danger whatsoever for your original system: nothing is changed there."
-msgstr ""
+msgstr "No hay ningún peligro para su sistema original: no se cambia nada."
 
 #. Template: Intro
 msgid "Instructions and details on migration prerequisites can be found in the migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"Las instrucciones y los detalles sobre los requisitos previos a la migración "
+"se encuentran en el manual de migración. Le recomendamos encarecidamente que "
+"lo lea antes de iniciar la migración."
 
 #. Template: Intro
 msgid "In case you have to suspend migration, you can resume it anytime at the same point as long as the cache has not been deleted."
 msgstr ""
+"En caso de que tenga que suspender la migración, puede reanudarla en "
+"cualquier momento en el mismo punto siempre que el caché no haya sido "
+"eliminado."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
 msgstr ""
+"Todas las contraseñas introducidas se almacenan en la caché hasta que "
+"finaliza la migración."
 
 #. Template: Intro
 msgid " Anyone with access to this page, or read permission for the OTOBO Home Directory will be able to read them. If you abort the migration, you are given the option to clear the cache by visiting this page again."
 msgstr ""
+" Cualquiera que tenga acceso a esta página, o permiso de lectura para el "
+"Directorio de Inicio de OTOBO podrá leerlos. Si aborta la migración, se le "
+"da la opción de borrar la caché visitando de nuevo esta página."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
 msgstr ""
+"Si necesita ayuda, sólo tiene que pedirla a nuestros expertos - ya sea en"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "Foro OTOBO"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "o directamente por correo a"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "Datos encontrados en caché"
 
 #. Template: Intro
 msgid "You will continue where you aborted the migration last time. If you do not want this, please discard your previous progress."
 msgstr ""
+"Continuará donde abortó la migración la última vez. Si no quiere esto, por "
+"favor, descarte su progreso anterior."
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "Se ha producido un error."
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "Descartar el progreso anterior"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "Conexión HTTP no segura"
 
 #. Template: Intro
 msgid "You are using the migration script via http. This is highly insecure as various passwords are required during the process, and will be transferred unencrypted. Anyone between you and the OTOBO server will be able to read them! Please consider setting up https instead."
 msgstr ""
+"Está utilizando el script de migración vía http. Esto es altamente inseguro "
+"ya que se requieren varias contraseñas durante el proceso, y serán "
+"transferidas sin encriptar. Cualquiera entre usted y el servidor de OTOBO "
+"podrá leerlas. Por favor, considere configurar https en su lugar."
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "Continúa de todos modos :("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " Continúa de todos modos :("
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
-msgstr ""
+msgstr "Omitir la migración de la base de datos"
 
 #. Template: OTRSDBSettings
 msgid "Expert option! Only works if the migration has already been done by hand."
 msgstr ""
+"¡Opción de experto! Sólo funciona si la migración ya se ha hecho a mano."
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
-msgstr ""
+msgstr "Omitido."
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "Servidor OTRS"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "Usuario SSH"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "Directorio principal de OTRS"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "Verificar los ajustes"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "Resultado de la verificación de los ajustes"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "Verificación exitosa de la configuración."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "Ejecutar las comprobaciones previas a la migración"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "Función no disponible"
 
 #. Template: MobileNotAvailableWidget
 msgid "Sorry, but this feature of OTOBO is currently not available for mobile devices. If you'd like to use it, you can either switch to desktop mode or use your regular desktop device."
@@ -10060,7 +10087,7 @@ msgstr "Mensaje del día"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "Este es el mensaje del día. Puedes editarlo en %s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
@@ -10072,7 +10099,7 @@ msgstr "Volver a la página anterior"
 
 #. Template: Alert
 msgid "Alert"
-msgstr ""
+msgstr "Alerta"
 
 #. Template: Alert
 msgid "Powered by"
@@ -10137,10 +10164,14 @@ msgstr "Bienvenido"
 #. Template: PublicDefault
 msgid "This is the default public interface of OTOBO! There was no action parameter given."
 msgstr ""
+"¡Esta es la interfaz pública por defecto de OTOBO! No se ha dado ningún "
+"parámetro de acción."
 
 #. Template: PublicDefault
 msgid "You could install a custom public module (via the package manager), for example the FAQ module, which has a public interface."
 msgstr ""
+"Puedes instalar un módulo público personalizado (a través del gestor de "
+"paquetes), por ejemplo el módulo FAQ, que tiene una interfaz pública."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
@@ -10169,6 +10200,8 @@ msgstr "Crear una fila de agregación"
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
 msgstr ""
+"Generar una fila adicional que contenga las sumas de todas las filas de "
+"datos."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
@@ -10177,6 +10210,8 @@ msgstr "Crear una columna de agregación"
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
 msgstr ""
+"Generar una columna adicional que contenga las sumas de todas las columnas "
+"de datos."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
@@ -10185,14 +10220,22 @@ msgstr "Cache de resultados"
 #. Template: GeneralSpecificationsWidget
 msgid "Stores statistics result data in a cache to be used in subsequent views with the same configuration (requires at least one selected time field)."
 msgstr ""
+"Almacena los datos de los resultados estadísticos en una caché para "
+"utilizarlos en vistas posteriores con la misma configuración (requiere al "
+"menos un campo de tiempo seleccionado)."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Provide the statistic as a widget that agents can activate in their dashboard."
 msgstr ""
+"Proporcionar la estadística como un widget que los agentes pueden activar en "
+"su panel de control."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Please note that enabling the dashboard widget will activate caching for this statistic in the dashboard."
 msgstr ""
+"Tenga en cuenta que al habilitar el widget del tablero de instrumentos se "
+"activará el almacenamiento en caché de esta estadística en el tablero de "
+"instrumentos."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
@@ -10212,7 +10255,7 @@ msgstr "Esta estadística no provee datos de vista previa."
 
 #. Template: PreviewWidget
 msgid "Preview format"
-msgstr ""
+msgstr "Vista previa del formato"
 
 #. Template: PreviewWidget
 msgid "Please note that the preview uses random data and does not consider data filters."
@@ -10248,7 +10291,7 @@ msgstr "Periodo absoluto"
 
 #. Template: RestrictionsWidget
 msgid "Between %s and %s"
-msgstr ""
+msgstr "Entre %s y %s"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
@@ -10256,7 +10299,7 @@ msgstr "Periodo relativo"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "El pasado completo %s y el actual+próximo completo %s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
@@ -10272,7 +10315,7 @@ msgstr "Intercambiar Ejes"
 
 #. Template: StatsParamsWidget
 msgid "Configurable Params of Static Stat"
-msgstr ""
+msgstr "Parámetros configurables de las estadísticas estáticas"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
@@ -10301,118 +10344,132 @@ msgstr "Descargar PNG"
 #. Template: XAxisWidget
 msgid "The selected time period defines the default time frame for this statistic to collect data from."
 msgstr ""
+"El período de tiempo seleccionado define el marco temporal por defecto para "
+"que esta estadística recoja datos."
 
 #. Template: XAxisWidget
 msgid "Defines the time unit that will be used to split the selected time period into reporting data points."
 msgstr ""
+"Define la unidad de tiempo que se utilizará para dividir el período de "
+"tiempo seleccionado en puntos de datos de reporte."
 
 #. Template: YAxisWidget
 msgid "Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
+"Recuerde que la escala del eje Y tiene que ser mayor que la del eje X (por "
+"ejemplo, eje X => Mes, eje Y => Año)."
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "En "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "Restablecer este valor"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
-msgstr ""
+msgstr "Este ajuste está desactivado."
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
-msgstr ""
+msgstr "¡Esta configuración está arreglada, pero aún no se ha desplegado!"
 
 #. Template: SettingsList
 msgid "This setting is currently being overridden in %s and can't thus be changed here!"
 msgstr ""
+"¡Este ajuste está siendo anulado en %s y por lo tanto no puede ser cambiado "
+"aquí!"
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
 msgstr ""
+"¡La modificación de este ajuste sólo está disponible en un nivel de "
+"configuración superior!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
-msgstr ""
+msgstr "%s (%s) está trabajando actualmente en esta configuración."
 
 #. Template: SettingsList
 msgid "Toggle advanced options for this setting"
-msgstr ""
+msgstr "Activar las opciones avanzadas de esta configuración"
 
 #. Template: SettingsList
 msgid "Disable this setting, so it is no longer effective"
-msgstr ""
+msgstr "Desactivar este ajuste, por lo que ya no es eficaz"
 
 #. Template: SettingsList
 msgid "Disable"
-msgstr ""
+msgstr "Desactivar"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
-msgstr ""
+msgstr "Habilitar este ajuste, para que sea efectivo"
 
 #. Template: SettingsList
 msgid "Enable"
-msgstr ""
+msgstr "Activar"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
-msgstr ""
+msgstr "Restablecer esta configuración a su estado por defecto"
 
 #. Template: SettingsList
 msgid "Reset setting"
-msgstr ""
+msgstr "Restablecer la configuración"
 
 #. Template: SettingsList
 msgid "Allow users to adapt this setting from within their personal preferences"
 msgstr ""
+"Permitir a los usuarios adaptar esta configuración desde sus preferencias "
+"personales"
 
 #. Template: SettingsList
 msgid "Allow users to update"
-msgstr ""
+msgstr "Permitir a los usuarios actualizar"
 
 #. Template: SettingsList
 msgid "Do not longer allow users to adapt this setting from within their personal preferences"
 msgstr ""
+"Ya no permite a los usuarios adaptar esta configuración desde sus "
+"preferencias personales"
 
 #. Template: SettingsList
 msgid "Forbid users to update"
-msgstr ""
+msgstr "Prohibir a los usuarios que se actualicen"
 
 #. Template: SettingsList
 msgid "Show user specific changes for this setting"
-msgstr ""
+msgstr "Mostrar los cambios específicos del usuario para esta configuración"
 
 #. Template: SettingsList
 msgid "Show user settings"
-msgstr ""
+msgstr "Mostrar la configuración del usuario"
 
 #. Template: SettingsList
 msgid "Copy a direct link to this setting to your clipboard"
-msgstr ""
+msgstr "Copie un enlace directo a esta configuración en su portapapeles"
 
 #. Template: SettingsList
 msgid "Copy direct link"
-msgstr ""
+msgstr "Copiar enlace directo"
 
 #. Template: SettingsList
 msgid "Remove this setting from your favorites setting"
-msgstr ""
+msgstr "Eliminar este ajuste de su configuración de favoritos"
 
 #. Template: SettingsList
 msgid "Remove from favourites"
-msgstr ""
+msgstr "Eliminar de los favoritos"
 
 #. Template: SettingsList
 msgid "Add this setting to your favorites"
-msgstr ""
+msgstr "Añadir esta configuración a tus favoritos"
 
 #. Template: SettingsList
 msgid "Add to favourites"
-msgstr ""
+msgstr "Añadir a favoritos"
 
 #. Template: SettingsList
 msgid "Cancel editing this setting"
@@ -10420,7 +10477,7 @@ msgstr "Cancelar la edición de esta configuración"
 
 #. Template: SettingsList
 msgid "Save changes on this setting"
-msgstr ""
+msgstr "Guardar los cambios en esta configuración"
 
 #. Template: SettingsList
 msgid "Edit this setting"
@@ -10428,31 +10485,33 @@ msgstr "Editar esta configuración"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "Habilitar esta configuración"
 
 #. Template: SettingsList
 msgid "This group doesn't contain any settings. Please try navigating to one of its sub groups or another group."
 msgstr ""
+"Este grupo no contiene ninguna configuración. Por favor, intente navegar a "
+"uno de sus subgrupos o a otro grupo."
 
 #. Template: SettingsListCompare
 msgid "Now"
-msgstr ""
+msgstr "Ahora"
 
 #. Template: SettingsListCompare
 msgid "User modification"
-msgstr ""
+msgstr "Modificación del usuario"
 
 #. Template: SettingsListCompare
 msgid "enabled"
-msgstr ""
+msgstr "activado"
 
 #. Template: SettingsListCompare
 msgid "disabled"
-msgstr ""
+msgstr "desactivado"
 
 #. Template: SettingsListCompare
 msgid "Setting state"
-msgstr ""
+msgstr "Estado de la configuración"
 
 #. Template: Actions
 msgid "Edit search"
@@ -10460,71 +10519,73 @@ msgstr "Editar búsqueda"
 
 #. Template: Actions
 msgid "Go back to admin: "
-msgstr ""
+msgstr "Volver a la administración: "
 
 #. Template: Actions
 msgid "Deployment"
-msgstr ""
+msgstr "Despliegue"
 
 #. Template: Actions
 msgid "My favourite settings"
-msgstr ""
+msgstr "Mis ajustes favoritos"
 
 #. Template: Actions
 msgid "Invalid settings"
-msgstr ""
+msgstr "Ajustes no válidos"
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
-msgstr ""
+msgstr "Filtrar los ajustes visibles..."
 
 #. Template: DynamicActions
 msgid "Enable edit mode for all settings"
-msgstr ""
+msgstr "Activar el modo de edición para todos los ajustes"
 
 #. Template: DynamicActions
 msgid "Save all edited settings"
-msgstr ""
+msgstr "Guardar todos los ajustes editados"
 
 #. Template: DynamicActions
 msgid "Cancel editing for all settings"
-msgstr ""
+msgstr "Cancelar la edición de todos los ajustes"
 
 #. Template: DynamicActions
 msgid "All actions from this widget apply to the visible settings on the right only."
 msgstr ""
+"Todas las acciones de este widget se aplican sólo a los ajustes visibles de "
+"la derecha."
 
 #. Template: Help
 msgid "Currently edited by me."
-msgstr ""
+msgstr "Actualmente editado por mí."
 
 #. Template: Help
 msgid "Modified but not yet deployed."
-msgstr ""
+msgstr "Modificado pero aún no desplegado."
 
 #. Template: Help
 msgid "Currently edited by another user."
-msgstr ""
+msgstr "Editado por otro usuario."
 
 #. Template: Help
 msgid "Different from its default value."
-msgstr ""
+msgstr "Diferente de su valor por defecto."
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "Guarda el ajuste actual."
 
 #. Template: Help
 msgid "Cancel editing current setting."
-msgstr ""
+msgstr "Cancelar la edición del ajuste actual."
 
 #. Template: Navigation
 msgid "Navigation"
-msgstr ""
+msgstr "Navegación"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "Eliminar el valor del usuario."
 
 #. Template: Test
 msgid "OTOBO Test Page"
@@ -10552,15 +10613,15 @@ msgstr "Mostrar"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "Título del proyecto"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "Mostrar artículo"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "¿Realmente quieres borrar \"%s\"?"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
@@ -10568,63 +10629,63 @@ msgstr "Confirmar"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "Cargando, por favor espere..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "Mostrar todo"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "Mostrar menos"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
-msgstr ""
+msgstr "Haga clic para seleccionar un archivo para cargar."
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "Haga clic para seleccionar o arrástrelo archivos aquí."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "Haga clic para seleccionar los archivos o simplemente arrástrelo aquí."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "Haga clic para seleccionar un archivo o simplemente arrástrelo aquí."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "Cargando..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "Tiempo necesario"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "Paquete"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "Desinstalación desde OTOBO"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "Ignore"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "Migrar"
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "Estado del proceso"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "Corriendo"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -10632,7 +10693,7 @@ msgstr "Finalizado"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "Información sobre el paquete no disponible ."
 
 #. JS Template: AddButton
 msgid "Add new entry"
@@ -10640,67 +10701,71 @@ msgstr "Añadir una entrada nueva"
 
 #. JS Template: AddHashKey
 msgid "Add key"
-msgstr ""
+msgstr "Añadir clave"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "Comentario sobre el despliegue..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "Este campo no puede tener más de 250 caracteres."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "Desplegando, por favor espere..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
-msgstr ""
+msgstr "Preparando el despliegue, por favor espere..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "Despliegue ahora"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "Inténtelo de nuevo"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "Opciones de reinicio"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "Restablecer la configuración a nivel global."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "Restablecimiento global"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "Eliminar todos los cambios de usuario."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "Restablecer localmente"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "usuario(s) ha(n) modificado esta configuración."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
 msgstr ""
+"¿Realmente quieres restablecer esta configuración a su valor por defecto?"
 
 #. JS Template: HelpDialog
 msgid "You can use the category selection to limit the navigation tree below to entries from the selected category. As soon as you select the category, the tree will be re-built."
 msgstr ""
+"Puede utilizar la selección de la categoría para limitar el árbol de "
+"navegación inferior a las entradas de la categoría seleccionada. En cuanto "
+"seleccione la categoría, el árbol se volverá a construir."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
-msgstr ""
+msgstr "Base de datos backend"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "CustomerIDs"
@@ -10757,82 +10822,88 @@ msgstr "La información de las ACL en la base de datos no está sincronizada con
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACLs could not be Imported due to a unknown error, please check OTOBO logs for more information"
 msgstr ""
+"Las ACLs no pudieron ser importadas debido a un error desconocido, por favor "
+"revise los registros de OTOBO para más información"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
-msgstr ""
+msgstr "Las siguientes ACLs se han añadido con éxito: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been updated successfully: %s"
-msgstr ""
+msgstr "Las siguientes ACLs han sido actualizadas con éxito: %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There where errors adding/updating the following ACLs: %s. Please check the log file for more information."
 msgstr ""
+"Hubo errores al añadir/actualizar las siguientes ACLs: %s. Por favor, "
+"compruebe el archivo de registro para obtener más información."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "Hubo un error al crear la ACL"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "¡Necesita ACL ID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
-msgstr ""
+msgstr "No se han podido obtener los datos de ACL ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr ""
+msgstr "Hubo un error al actualizar la ACL"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr ""
+msgstr "Hubo un error al establecer el estado de sincronización de la entidad."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr ""
+msgstr "Se ha producido un error al sincronizar las ACL."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
-msgstr ""
+msgstr "La ACL %s no ha podido ser eliminada"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
-msgstr ""
+msgstr "Hubo un error al obtener datos para la ACL con ID %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "%s (copia) %s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Please note that ACL restrictions will be ignored for the Superuser account (UserID 1)."
 msgstr ""
+"Tenga en cuenta que las restricciones ACL serán ignoradas para la cuenta de "
+"superusuario (UserID 1)."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "Coincidencia exacta"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "Coincidencia exacta negada"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "Expresión regular"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "Expresión regular (ignorar mayúsculas y minúsculas)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "Expresión regular negada"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "Expresión regular negada (ignorar mayúsculas y minúsculas)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
@@ -10908,7 +10979,7 @@ msgstr "El sistema no pudo importar el archivo!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "Please check the log for more information."
-msgstr ""
+msgstr "Consulte el registro para obtener más información."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification name already exists!"
@@ -10916,43 +10987,48 @@ msgstr "El nombre de la notificación ya existe!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification added!"
-msgstr ""
+msgstr "¡Notificación añadida!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error getting data for Notification with ID:%s!"
 msgstr ""
+"¡Se ha producido un error al obtener los datos de la notificación con ID:%s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
-msgstr ""
+msgstr "¡Notificación desconocida %s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (copia)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "Se ha producido un error al crear la notificación"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notifications could not be Imported due to a unknown error, please check OTOBO logs for more information"
 msgstr ""
+"Las notificaciones no pudieron ser importadas debido a un error desconocido, "
+"por favor revise los registros de OTOBO para más información"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
-msgstr ""
+msgstr "Las siguientes notificaciones se han añadido con éxito: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been updated successfully: %s"
-msgstr ""
+msgstr "Las siguientes notificaciones han sido actualizadas con éxito: %s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There where errors adding/updating the following Notifications: %s. Please check the log file for more information."
 msgstr ""
+"Se han producido errores al añadir/actualizar las siguientes notificaciones: "
+"%s. Por favor, compruebe el archivo de registro para obtener más información."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
-msgstr ""
+msgstr "¡Notificación actualizada!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Agent (resources), who are selected within the appointment"
@@ -10976,11 +11052,11 @@ msgstr "¡Respuesta Automática agregada!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "¡ID de comunicación inválida!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
-msgstr ""
+msgstr "Todas las comunicaciones"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
@@ -11004,23 +11080,23 @@ msgstr "Últimas 24 horas"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last week"
-msgstr ""
+msgstr "Semana pasada"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last month"
-msgstr ""
+msgstr "Mes pasado"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
-msgstr ""
+msgstr "¡Hora de inicio inválida: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
-msgstr ""
+msgstr "Exitoso"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Processing"
-msgstr ""
+msgstr "Procesando"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Failed"
@@ -11028,7 +11104,7 @@ msgstr "Falló"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid Filter: %s!"
-msgstr ""
+msgstr "¡Filtro inválido: %s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
@@ -11036,15 +11112,15 @@ msgstr "Menos de un segundo"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "ordenados de forma descendente"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "ordenado de forma ascendente"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Trace"
-msgstr ""
+msgstr "Rastrear"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Debug"
