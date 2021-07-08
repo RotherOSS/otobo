@@ -24706,3 +24706,7 @@ msgstr ""
 #~ msgid "Free Fields"
 #~ msgstr "Serbest Alanlar"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

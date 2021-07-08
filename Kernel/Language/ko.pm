@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.902660609993511;
+    $Self->{Completeness}        = 0.902514193025142;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8190,6 +8190,8 @@ Thanks for your help!
         'Number of displayed tickets' => '표시된 티켓 수',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '에이전트 인터페이스에서 검색 유틸리티가 표시하는 행당 (티켓 당) 수.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '에이전트 인터페이스에서 검색 결과의 각 페이지에 표시할 티넷 수입니다.',

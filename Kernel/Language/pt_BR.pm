@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.93105126541207;
+    $Self->{Completeness}        = 0.930900243309002;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8195,6 +8195,8 @@ Obrigado pela ajuda!
         'Number of displayed tickets' => 'Número de Chamados Exibidos',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Número de linhas (por ticket) que são exibidos pela utilidade de pesquisa na interface de agente.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Número de tickets a serem exibidos em cada página de resultado de pesquisa na interface de agente.',

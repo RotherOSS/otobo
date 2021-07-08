@@ -25211,3 +25211,7 @@ msgstr "statisztikák"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Vegye fel velünk a kapcsolatot a sales@otrs.com címen"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

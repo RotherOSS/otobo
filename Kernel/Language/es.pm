@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.625081116158339;
+    $Self->{Completeness}        = 0.625141930251419;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2198,7 +2198,7 @@ sub Data {
         'Run search' => 'Ejecutar la búsqueda',
 
         # Template: AdminSystemConfigurationSettingHistoryDetails
-        'Change History' => '',
+        'Change History' => 'Cambiar el historial',
         'Change History of %s' => '',
         'No modified values for this setting, the default value is used.' =>
             '',
@@ -8201,6 +8201,8 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Notified about update time escalation.' => '',
         'Number of displayed tickets' => 'Número de tickets mostrados',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
+            '',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
             '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>

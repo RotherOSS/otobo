@@ -24701,3 +24701,7 @@ msgstr "statistika"
 #~ msgid "Free Fields"
 #~ msgstr "Laisvi laukeliai"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

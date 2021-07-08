@@ -63,6 +63,13 @@ sub Configure {
         Required => 0,
         HasValue => 0,
     );
+    $Self->AddOption(
+        Name        => 'clean-tmp-name',
+        Description =>
+            "For modules clean names where the directory has the format 'PackageName_cd3jai4uuqbf...'.",
+        Required => 0,
+        HasValue => 0,
+    );
 
     my $Name = $Self->Name();
 
@@ -180,6 +187,12 @@ sub HandleLanguage {
 
         # extract module name from module path
         $Module = basename $Module;
+
+        # remove random strings for temporary directories from names
+        # e.g. PackageName_cwo3nfn24woal49
+        if ( $Self->GetOption('clean-tmp-name') ) {
+            $Module =~ s/_[\w\d]+$//;
+        }
 
         # remove underscores and/or version numbers and following from module name
         # i.e. FAQ_2_0 or FAQ20

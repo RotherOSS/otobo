@@ -29,19 +29,21 @@
 # Duilio Poggi Oneto <duiliopoggio@gmail.com>, 2019
 # Armando Ríos <armando.rios@otrs.com>, 2019
 # Santi Herranz <santi.herranz@isalus.es>, 2019
-#
+# Fredy Aragón <fredmac48@hotmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-04-21 16:42+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Santi Herranz <santi.herranz@isalus.es>, 2019\n"
-"Language-Team: Spanish (https://translate.otobo.org/projects/otobo10/otobo/es/)\n"
+"PO-Revision-Date: 2021-06-30 19:43+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -6541,7 +6543,7 @@ msgstr "Ejecutar la búsqueda"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "Cambiar el historial"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
@@ -25072,4 +25074,8 @@ msgstr "estadísticas"
 
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Contactamos en sales@otrs.com"
+
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
 

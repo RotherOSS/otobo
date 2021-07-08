@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.644548994159637;
+    $Self->{Completeness}        = 0.644444444444444;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8195,6 +8195,8 @@ Thanks for your help!
         'Number of displayed tickets' => 'تعداد درخواست‌های نمایش داده شده',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'تعداد خطوط (در هر بلیط) که توسط ابزار جستجو در رابط عامل نشان داده شده است.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'تعداد بلیط در هر صفحه از یک نتیجه جستجو در رابط عامل نمایش داده شود.',

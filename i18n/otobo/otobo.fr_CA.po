@@ -24719,3 +24719,7 @@ msgstr ""
 #~ msgid "The logo shown in the header of the customer interface. The URL to the image can be a relative URL to the skin image directory, or a full URL to a remote web server."
 #~ msgstr "Le logo affiché dans l'en-tête de l'interface client. L'adresse URL vers l'image peut être une adresse relative vers le répertoire d'habillages ou une adresse complète vers un serveur Web distant."
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

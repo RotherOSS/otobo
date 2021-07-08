@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 1;
+    $Self->{Completeness}        = 0.999837793998378;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -6460,7 +6460,7 @@ Ihr Helpdesk-Team
         'Appointment calendar event module that prepares notification entries for appointments.' =>
             'Terminkalender Event-Modul, welches Benachrichtigungseinträge für Termine vorbereitet.',
         'Appointment calendar event module that updates the ticket with data from ticket appointment.' =>
-            'Termin-Kalender Eventmodul, welches Tickets mit Daten aus Ticket-Terminen aktualisiert.',
+            'Termin-Kalender Event-Modul, welches Tickets mit Daten aus Ticket-Terminen aktualisiert.',
         'Appointment edit screen.' => 'Terminbearbeitungsansicht.',
         'Appointment list' => 'Terminliste',
         'Appointment list.' => 'Terminliste.',
@@ -8190,6 +8190,8 @@ Ihr Helpdesk-Team
         'Number of displayed tickets' => 'Anzahl der angezeigten Tickets',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Anzahl von Zeilen (pro Ticket), die über das Such-Tool im Agentenbereich angezeigt werden.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => 'Anzahl der Shards (NS) und Replicas (NR) für den Index.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Anzahl von Tickets pro Seite in Suchergebnissen im Agentenbereich.',

@@ -24777,3 +24777,7 @@ msgstr ""
 #~ msgid "SMS (Short Message Service)"
 #~ msgstr "SMS (短訊服務)"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

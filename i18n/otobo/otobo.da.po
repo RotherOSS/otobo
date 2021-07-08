@@ -24886,3 +24886,7 @@ msgstr ""
 #~ msgid "This will allow the system to send text messages via SMS."
 #~ msgstr "Dette tillader systemet at sende tekstbeskeder via SMS."
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.198734587929916;
+    $Self->{Completeness}        = 0.198702351987024;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8179,6 +8179,8 @@ Thanks for your help!
         'Notified about update time escalation.' => '',
         'Number of displayed tickets' => '',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
+            '',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
             '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
