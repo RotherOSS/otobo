@@ -25010,3 +25010,7 @@ msgstr ""
 #~ msgid "Web View"
 #~ msgstr "مشاهده وب سایت"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

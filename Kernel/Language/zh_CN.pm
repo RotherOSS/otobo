@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.996593121349773;
+    $Self->{Completeness}        = 0.996431467964315;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -8194,6 +8194,8 @@ Thanks for your help!
         'Number of displayed tickets' => '显示工单个数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '服务人员界面搜索工具显示每个工单的行数。',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '索引的分片（NS）和副本（NR）的数量。',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '服务人员界面搜索结果每页显示的工单数。',

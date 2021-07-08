@@ -24726,3 +24726,7 @@ msgstr ""
 #~ msgid "Free Fields"
 #~ msgstr "Neaizpildītie lauki"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

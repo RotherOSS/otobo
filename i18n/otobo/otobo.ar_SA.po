@@ -24718,3 +24718,7 @@ msgstr ""
 #~ msgid "An update for your %s is available, but there is a conflict with your framework version! Please update your framework first!"
 #~ msgstr "يوجد تحديث ل %s ، ولكن هناك تعارض مع نسخة الفريم وورك خاصتك! فضلاً قم بتحديث الفريم وورك خاصتك!"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

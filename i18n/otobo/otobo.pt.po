@@ -24793,3 +24793,7 @@ msgstr "estatística"
 #~ msgid "Web View"
 #~ msgstr "Vista web"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

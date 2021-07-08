@@ -24831,3 +24831,7 @@ msgstr ""
 #~ msgid "Shows all open tickets (even if they are locked) in the escalation view of the agent interface."
 #~ msgstr "Viser alle åpne saker (også låste) i eskaleringsvinduet i agentdelen"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

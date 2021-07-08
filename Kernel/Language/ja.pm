@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.801103179753407;
+    $Self->{Completeness}        = 0.800973236009732;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8203,6 +8203,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Number of displayed tickets' => '表示チケット数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '担当者インタフェースの検索ユーティリティにより、表示される行（チケット毎）の数です。',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '担当者インタフェースの検索結果の各ページで、表示されるチケットの数です。',

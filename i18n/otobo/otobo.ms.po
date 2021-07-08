@@ -24986,3 +24986,7 @@ msgstr ""
 #~ msgid "Web View"
 #~ msgstr "Pandangan Web"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

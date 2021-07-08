@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.259733939000649;
+    $Self->{Completeness}        = 0.259691808596918;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8181,6 +8181,8 @@ Thanks for your help!
         'Number of displayed tickets' => 'प्रदर्शित टिकट की संख्या',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'पंक्तियों(प्रति टिकट) की संख्या जो प्रतिनिधि अंतरफलक में खोज उपयोगिता द्वारा दिखाए जाते हैं।',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'प्रतिनिधि अंतरफलक में एक खोज परिणाम के प्रत्येक पृष्ठ में प्रदर्शित होने के लिए टिकटों की संख्या।',

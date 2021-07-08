@@ -25000,3 +25000,7 @@ msgstr ""
 #~ msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
 #~ msgstr "bv. https://local.otrs.com:8000/Webservice/Example"
 
+#. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+

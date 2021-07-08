@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.92715768981181;
+    $Self->{Completeness}        = 0.927007299270073;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -8196,6 +8196,8 @@ Vaša tehnička podrška
         'Number of displayed tickets' => 'Broj prikazanih tiketa',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Broj linija (po tiketu) prikazanih prema uslužnoj pretrazi u interfejsu operatera.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Broj tiketa koji će biti prikazani na svakoj strani rezultata pretrage u interfejsu operatera.',

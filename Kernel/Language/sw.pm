@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%M/%D/%Y';
     $Self->{DateInputFormat}     = '%M/%D/%Y';
     $Self->{DateInputFormatLong} = '%M/%D/%Y - %T';
-    $Self->{Completeness}        = 0.450519143413368;
+    $Self->{Completeness}        = 0.450446066504461;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -8185,6 +8185,8 @@ Mfano:
         'Number of displayed tickets' => 'Namba ya tiketi zilizoonyeshwa',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Namba ya mistari (kwa kila tiketi) ambazo zinaonyeshwa na kifaa ha utafutaji katika kiolesura cha wakala.',
+        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+            '',
         'Number of shards (NS) and replicas (NR) for the index.' => '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Namba ta tiketi zitakazoonyeshwa katika kila ukurasa wa matokeo ya utafutaji katika kiolesura cha wakala.',
