@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-08 18:56+0000\n"
+"PO-Revision-Date: 2021-07-08 20:48+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -13386,23 +13386,23 @@ msgstr "Interfaz de agente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "Interfaz del cliente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "Interfaz de agente y cliente"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
-msgstr ""
+msgstr "No mostrar Campo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field"
-msgstr ""
+msgstr "Mostrar campo"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field As Mandatory"
-msgstr ""
+msgstr "Mostrar campo como obligatorio"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
@@ -13410,74 +13410,79 @@ msgstr "Editar Ruta"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
-msgstr ""
+msgstr "Hubo un error al generar un nuevo EntityID para esta Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr ""
+msgstr "Hubo un error al crear la Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
 msgstr ""
+"Hubo un error al establecer el estado de sincronización de la entidad de "
+"Transición: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
-msgstr ""
+msgstr "¡Necesita TransitionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
-msgstr ""
+msgstr "No se han podido obtener los datos de TransitionID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
-msgstr ""
+msgstr "Hubo un error al actualizar la Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "Editar Transición \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
-msgstr ""
+msgstr "Módulo validación de transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
-msgstr ""
+msgstr "Se requiere al menos un parámetro de configuración válido."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
 msgstr ""
+"Hubo un error al generar un nuevo EntityID para esta Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
-msgstr ""
+msgstr "Hubo un error al crear la Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
 msgstr ""
+"Se ha producido un error al establecer el estado de sincronización de la "
+"entidad Acción de Transición: %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
-msgstr ""
+msgstr "¡Necesita TransitionActionID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
-msgstr ""
+msgstr "No se han podido obtener datos para TransitionActionID %s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
-msgstr ""
+msgstr "Hubo un error al actualizar la Acción de Transición"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Edit Transition Action \"%s\""
-msgstr ""
+msgstr "Editar Acción de Transición \"%s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
-msgstr ""
+msgstr "Error: No todas las claves parecen tener valores o viceversa."
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
@@ -13489,7 +13494,7 @@ msgstr "¡No use :: en el nombre de la fila!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
-msgstr ""
+msgstr "¡Vuelve a hacer clic y cámbialo!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "-none-"
@@ -13558,62 +13563,64 @@ msgstr "¡Favor de activar %s primero!"
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
 msgstr ""
+"El entorno S/MIME no funciona. ¡Por favor, compruebe el registro para "
+"obtener más información!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to delete!"
-msgstr ""
+msgstr "¡Se necesita el parámetro Nombre de archivo para eliminar!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to download!"
-msgstr ""
+msgstr "¡Necesita un parámetro nombre de archivo para descargar!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed CertFingerprint and CAFingerprint!"
-msgstr ""
+msgstr "¡Se necesita CertFingerprint y CAFingerprint!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
-msgstr ""
+msgstr "CAFingerprint debe ser diferente de CertFingerprint"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
-msgstr ""
+msgstr "¡La relación existe!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation added!"
-msgstr ""
+msgstr "¡Relación añadida!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to add relation!"
-msgstr ""
+msgstr "¡Imposible añadir la relación!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation doesn't exists"
-msgstr ""
+msgstr "La relación no existe"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation deleted!"
-msgstr ""
+msgstr "¡Relación borrada!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to delete relation!"
-msgstr ""
+msgstr "¡Imposibilidad de eliminar la relación!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Certificate %s could not be read!"
-msgstr ""
+msgstr "¡No se ha podido leer el certificado %s!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed Fingerprint"
-msgstr ""
+msgstr "Huella dactilar necesaria"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Handle Private Certificate Relations"
-msgstr ""
+msgstr "Manejar las relaciones de los certificados privados"
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
-msgstr ""
+msgstr "¡Saludo añadido!"
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature updated!"
@@ -13629,7 +13636,7 @@ msgstr "¡Estado añadido!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "¡No se ha podido leer el archivo %s!"
 
 #. Perl Module: Kernel/Modules/AdminSystemAddress.pm
 msgid "System e-mail address added!"
@@ -13637,23 +13644,23 @@ msgstr "¡Cuenta de correo del sistema actualizada!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Invalid Settings"
-msgstr ""
+msgstr "Ajustes no válidos"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "There are no invalid settings active at this time."
-msgstr ""
+msgstr "En este momento no hay configuraciones inválidas activas."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "You currently don't have any favourite settings."
-msgstr ""
+msgstr "Actualmente no tienes ninguna configuración de favoritos."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
-msgstr ""
+msgstr "No se ha podido encontrar la siguiente configuración: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Import not allowed!"
-msgstr ""
+msgstr "¡No se permite la importación!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
