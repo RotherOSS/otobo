@@ -275,6 +275,8 @@ use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 
+#use Data::Peek; # for development
+
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
@@ -599,7 +601,8 @@ my $OTOBOApp = builder {
                 return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
             }->Content();
 
-            # apply output filters for specific interfaces
+            # Apply output filters for specific interfaces.
+            # The output filters still work with proper Perl strings.
             my %HasOutputFilter = (
                 'customer.pl' => 1,
                 'index.pl'    => 1,
@@ -613,14 +616,19 @@ my $OTOBOApp = builder {
             }
 
             # The OTOBO response object already has the HTPP headers.
-            # Enhance it with the HTTP status code and the c    ontent.
+            # Enhance it with the HTTP status code and the content.
+            # When we got so far, we can assume that the request was successful, that is code 200.
+            # The content is UTF-8 encoded. This is in line with the header
+            #   'Content-Type'    => 'text/html; charset=utf-8'
+            # which was added Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-            $ResponseObject->Code(200);    # TODO: is it always 200 ?
+            $ResponseObject->Code(200);
+            utf8::encode($Content);
             $ResponseObject->Content($Content);
 
-            # for debugging: warn Dumper( { Response => $ResponseObject, is_utf8 => utf8::is_utf8( $ResponseObject->{Response}->{body} ) } );
+            # for debugging: warn DDump( $ResponseObject->{Response}->{body} )
 
-            # return the funnny unblessed array reference
+            # return the PSGI response, a funnny unblessed array reference with three elements
             return $ResponseObject->Finalize();
         }
     };
