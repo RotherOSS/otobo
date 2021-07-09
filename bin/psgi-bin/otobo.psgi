@@ -617,12 +617,13 @@ my $OTOBOApp = builder {
 
             # The OTOBO response object already has the HTPP headers.
             # Enhance it with the HTTP status code and the content.
-            # When we got so far, we can assume that the request was successful, that is code 200.
+            # Keep the HTTP status code when it already was set.
+            # Otherwise assume that the request was successful and set the code to 200.
             # The content is UTF-8 encoded. This is in line with the header
             #   'Content-Type'    => 'text/html; charset=utf-8'
             # which was added Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-            $ResponseObject->Code(200);
+            $ResponseObject->Code(200) unless $ResponseObject->Code();
             utf8::encode($Content);
             $ResponseObject->Content($Content);
 
