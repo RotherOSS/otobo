@@ -312,7 +312,6 @@ sub Run {
             Content     => $OutputJSON,
             Type        => 'inline',
             NoCache     => 1,
-            NoEncode    => 1,                                                         # return a Perl string that may have characters greater 255
         );
     }
 
