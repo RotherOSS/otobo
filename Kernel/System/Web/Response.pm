@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -38,13 +38,15 @@ Kernel::System::Web::Response - a wrapper around Plack::Response
 
 =head1 DESCRIPTION
 
-A wrapper around M<Plack::Response>. Use for collecting the HTTP headers that should be emitted.
+A wrapper around L<Plack::Response>.
+Used for collecting the HTTP headers that should be emitted.
+Also, the status code set in this object overrides in F<otobo.psgi> the default status code 200..
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create response object. Do not use it directly, instead use:
+create an web response object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
 
