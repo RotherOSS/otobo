@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-09 17:03+0000\n"
+"PO-Revision-Date: 2021-07-10 02:57+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -15262,11 +15262,11 @@ msgstr "Se produjo un error al exportar el calendario!"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
-msgstr ""
+msgstr "Necesita configurar Package::RepositoryAccessRegExp"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "¡Ha fallado la autenticación de %s!"
 
 #. Perl Module: Kernel/Output/HTML/Article/Chat.pm
 msgid "Chat"
@@ -15286,19 +15286,19 @@ msgstr "Responder a todos"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend this article"
-msgstr ""
+msgstr "Reenviar este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend"
-msgstr ""
+msgstr "Reenviar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "View message log details for this article"
-msgstr ""
+msgstr "Ver detalles del registro de mensajes de este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "Message Log"
-msgstr ""
+msgstr "Registro de mensajes"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketNote.pm
 msgid "Reply to note"
@@ -15310,7 +15310,7 @@ msgstr "Dividir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "View the source for this Article"
-msgstr ""
+msgstr "Ver la fuente de este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "Plain Format"
@@ -15322,11 +15322,11 @@ msgstr "Imprimir este artículo"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "Póngase en contacto con nosotros en hello@otobo.de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
-msgstr ""
+msgstr "Obtener ayuda"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Mark"
@@ -15338,11 +15338,11 @@ msgstr "Desmarcar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr ""
+msgstr "Volver a instalar el paquete"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
-msgstr ""
+msgstr "Vuelva a instalar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Crypted"
@@ -15350,7 +15350,7 @@ msgstr "Encriptado"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message encrypted to recipient!"
-msgstr ""
+msgstr "¡Mensaje encriptado enviado al destinatario!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Signed"
@@ -15359,42 +15359,50 @@ msgstr "Firmado"
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
 msgstr ""
+"Se ha encontrado la cabecera \"PGP SIGNED MESSAGE\", ¡pero no es válida!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
 msgstr ""
+"Se ha encontrado la cabecera \"S/MIME SIGNED MESSAGE\", ¡pero no es válida!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Ticket decrypted before"
-msgstr ""
+msgstr "Ticket descifrado antes de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
 msgstr ""
+"Imposible descifrar: ¡no se ha encontrado la clave privada del correo "
+"electrónico!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "Desencriptación exitosa"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no encryption keys available for the addresses: '%s'. "
-msgstr ""
+msgstr "No hay claves de cifrado disponibles para las direcciones: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no selected encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "No hay claves de cifrado para las direcciones seleccionadas : '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
 msgstr ""
+"No se pueden utilizar claves de cifrado caducadas para las direcciones: "
+"'%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
 msgstr ""
+"No se pueden utilizar claves de cifrado revocadas para las direcciones: "
+"'%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
-msgstr ""
+msgstr "Cifrar"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid ""
@@ -15402,50 +15410,53 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"Las claves/certificados sólo se mostrarán para los destinatarios con más de "
+"una clave/certificado. Se preseleccionará la primera clave/certificado "
+"encontrada. Por favor, asegúrese de seleccionar la correcta."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
-msgstr ""
+msgstr "Seguridad del correo electrónico"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign"
-msgstr ""
+msgstr "Firma PGP"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign and encrypt"
-msgstr ""
+msgstr "Firma y encriptación PGP"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP encrypt"
-msgstr ""
+msgstr "Encriptación PGP"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign"
-msgstr ""
+msgstr "firma SMIME"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME sign and encrypt"
-msgstr ""
+msgstr "Firma y encriptación SMIME"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "SMIME encrypt"
-msgstr ""
+msgstr "Encriptación SMIME"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use expired signing key: '%s'. "
-msgstr ""
+msgstr "No se puede utilizar la clave de firma caducada: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Cannot use revoked signing key: '%s'. "
-msgstr ""
+msgstr "No se puede utilizar la clave de firma revocada: '%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no signing keys available for the addresses '%s'."
-msgstr ""
+msgstr "No hay claves de firma disponibles para las direcciones '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no selected signing keys for the addresses '%s'."
-msgstr ""
+msgstr "No hay claves de firma seleccionadas para las direcciones '%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Sign"
@@ -15457,6 +15468,9 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"Las claves/certificados sólo se mostrarán para un remitente con más de una "
+"clave/certificado. Se preseleccionará la primera clave/certificado "
+"encontrada. Por favor, asegúrese de seleccionar la correcta."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Shown"
@@ -15472,7 +15486,7 @@ msgstr "apagado"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
 msgid "Shown customer ids"
-msgstr ""
+msgstr "Id. de cliente mostrados"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Shown customer users"
@@ -15480,47 +15494,49 @@ msgstr "Los clientes mostrados"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Offline"
-msgstr ""
+msgstr "Fuera de línea"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently offline."
-msgstr ""
+msgstr "El usuario está actualmente desconectado."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "El usuario está actualmente activo."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Away"
-msgstr ""
+msgstr "Fuera de servicio"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User was inactive for a while."
-msgstr ""
+msgstr "El usuario estuvo inactivo durante un tiempo."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
 msgstr ""
+"¡La hora de inicio de un ticket se ha fijado después de la hora de "
+"finalización!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTOBO News server!"
-msgstr ""
+msgstr "¡No se puede conectar al servidor de OTOBO News!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTOBO News from server!"
-msgstr ""
+msgstr "¡No se pudo obtener las noticias de OTOBO desde el servidor!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr ""
+msgstr "¡No se puede conectar con el servidor de noticias de productos!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
-msgstr ""
+msgstr "¡No puedo obtener noticias de productos del servidor!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
-msgstr ""
+msgstr "¡No se puede conectar a %s!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Tickets"
@@ -15532,11 +15548,11 @@ msgstr "Mostrar columnas"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
-msgstr ""
+msgstr "filtro no activo"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter active"
-msgstr ""
+msgstr "filtro activo"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
@@ -15548,11 +15564,11 @@ msgstr "Estadísticas Semanales"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "User set their status to unavailable."
-msgstr ""
+msgstr "El usuario ha establecido su estado como no disponible."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
-msgstr ""
+msgstr "No disponible"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -15560,7 +15576,7 @@ msgstr "Estándar"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "Los siguientes tickets no están actualizados: %s."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
@@ -15579,6 +15595,8 @@ msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
 msgstr ""
+"Este ticket no existe, o no tiene permisos para acceder a él en su estado "
+"actual. Puede realizar una de las siguientes acciones:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
@@ -15614,23 +15632,23 @@ msgstr "Marcar para activar esta fecha"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
-msgstr ""
+msgstr "%s TB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s GB"
-msgstr ""
+msgstr "%s GB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr ""
+msgstr "%s MB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
-msgstr ""
+msgstr "%s KB"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s B"
-msgstr ""
+msgstr "%s B"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
@@ -15638,7 +15656,7 @@ msgstr "¡No tiene permiso!"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "Sin permiso"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"
@@ -15650,7 +15668,7 @@ msgstr "Dividir Cita"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Remove Quote"
-msgstr ""
+msgstr "Eliminar presupuesto"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
@@ -15682,7 +15700,7 @@ msgstr "Cita"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "Búsqueda de archivos"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -15697,6 +15715,8 @@ msgid ""
 "Please select a time zone in your preferences and confirm it by clicking the "
 "save button."
 msgstr ""
+"Seleccione una zona horaria en sus preferencias y confírmela haciendo clic "
+"en el botón de guardar."
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
@@ -15704,12 +15724,14 @@ msgstr "Cliente Conectado: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "¡El mantenimiento del sistema está activo!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
 msgstr ""
+"Un período de mantenimiento del sistema comenzará en: %s y se espera que "
+"termine en: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
@@ -15723,18 +15745,20 @@ msgstr "Tiene habilitado «Fuera de la oficina», ¿desea inhabilitarlo?"
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid settings."
 msgstr ""
+"Tiene %s ajustes no válidos desplegados. Haga clic aquí para mostrar los "
+"ajustes no válidos."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
-msgstr ""
+msgstr "Tienes ajustes sin desplegar, ¿quieres desplegarlos?"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "The configuration is being updated, please be patient..."
-msgstr ""
+msgstr "La configuración se está actualizando, por favor sea paciente..."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "There is an error updating the system configuration!"
-msgstr ""
+msgstr "¡Hay un error al actualizar la configuración del sistema!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
 msgid ""
@@ -15782,12 +15806,17 @@ msgid ""
 "Can't update password, the new password and the repeated password do not "
 "match."
 msgstr ""
+"No se puede actualizar la contraseña, la nueva contraseña y la repetida no "
+"coinciden."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "This password is forbidden by the current system configuration. Please "
 "contact the administrator if you have additional questions."
 msgstr ""
+"Esta contraseña está prohibida por la configuración actual del sistema. Por "
+"favor, póngase en contacto con el administrador si tiene preguntas "
+"adicionales."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
@@ -15800,6 +15829,8 @@ msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "letter characters!"
 msgstr ""
+"¡No se puede actualizar la contraseña, debe contener al menos 2 letras "
+"minúsculas y 2 mayúsculas!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
@@ -15810,16 +15841,20 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
 msgstr ""
+"No se puede actualizar la contraseña, ¡debe contener al menos 2 caracteres "
+"de letra!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, it must contain at least 3 of 4 (lower char, upper "
 "char, digit, special character)!"
 msgstr ""
+"No se puede actualizar la contraseña, ¡debe contener al menos 3 de 4 ("
+"minúscula, mayúscula, numero, carácter especial)!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
-msgstr ""
+msgstr "¡Zona horaria actualizada con éxito!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
@@ -15838,16 +15873,22 @@ msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
 msgstr ""
+"No se ha seleccionado el valor de tiempo relativo completo pasado o completo "
+"actual+próximo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
 msgstr ""
+"El período de tiempo seleccionado es mayor que el período de tiempo "
+"permitido."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
 msgstr ""
+"No hay valor de escala de tiempo disponible para el valor de escala de "
+"tiempo seleccionado actualmente en el eje X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
@@ -15855,22 +15896,26 @@ msgstr "La fecha seleccionada no es válida."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
-msgstr ""
+msgstr "La hora de finalización seleccionada es anterior a la hora de inicio."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
-msgstr ""
+msgstr "Hay algo que no funciona en su selección de tiempo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select only one element or allow modification at stat generation time."
 msgstr ""
+"Por favor, seleccione sólo un elemento o permita la modificación en el "
+"momento de generar las estadísticas."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select at least one value of this field or allow modification at stat "
 "generation time."
 msgstr ""
+"Por favor, seleccione al menos un valor de este campo o permita su "
+"modificación en el momento de generar las estadísticas."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
@@ -15878,19 +15923,21 @@ msgstr "Por favor seleccione un elemento para el Eje-X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one time element for the Y axis."
-msgstr ""
+msgstr "Sólo puede utilizar un elemento de tiempo para el eje Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "Sólo puede utilizar uno o dos elementos para el eje Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
-msgstr ""
+msgstr "Por favor, seleccione al menos un valor de este campo."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
 msgstr ""
+"Por favor, proporcione un valor o permita la modificación en el momento de "
+"generar las estadísticas."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
@@ -15900,6 +15947,8 @@ msgstr "Por favor seleccione una escala de tiempo."
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
 msgstr ""
+"El intervalo de tiempo del informe es demasiado pequeño, por favor, utilice "
+"una escala de tiempo mayor."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "second(s)"
@@ -15918,6 +15967,8 @@ msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "restrictions: %s."
 msgstr ""
+"Por favor, elimine las siguientes palabras porque no se pueden utilizar para "
+"las restricciones del ticket: %s."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
@@ -15925,11 +15976,11 @@ msgstr "Cancelar la edición y desbloquear este ajuste"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Reset this setting to its default value."
-msgstr ""
+msgstr "Restablece este ajuste a su valor por defecto."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Unable to load %s!"
-msgstr ""
+msgstr "¡No se puede cargar %s!"
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Content"
@@ -16007,6 +16058,8 @@ msgstr "Campos Dinámicos del Ticket"
 msgid ""
 "Couldn't read ACL configuration file. Please make sure the file is valid."
 msgstr ""
+"No se ha podido leer el archivo de configuración ACL. Por favor, asegúrese "
+"de que el archivo es válido."
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid ""
@@ -16021,7 +16074,7 @@ msgstr "¡Límite de sesiones alcanzado! Por favor intente más tarde."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Session per user limit reached!"
-msgstr ""
+msgstr "¡Se ha alcanzado el límite de sesiones por usuario!"
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session invalid. Please log in again."
@@ -16081,17 +16134,19 @@ msgstr "Esta configuración no puede ser desactivada."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting is not visible."
-msgstr ""
+msgstr "Este ajuste no es visible."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid "This setting can be overridden in the user preferences."
-msgstr ""
+msgstr "Esta configuración se puede anular en las preferencias del usuario."
 
 #. Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
 msgid ""
 "This setting can be overridden in the user preferences, but is not active by "
 "default."
 msgstr ""
+"Esta configuración puede anularse en las preferencias del usuario, pero no "
+"está activa por defecto."
 
 #. Perl Module: Kernel/System/CustomerUser.pm
 msgid "Customer user \"%s\" already exists."
@@ -16113,11 +16168,11 @@ msgstr "entre"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
 msgid "e.g. Text or Te*t"
-msgstr ""
+msgstr "p. ej. Texto o Te*t"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "Ignorar este campo."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
 msgid "This field is required or"
@@ -16133,168 +16188,174 @@ msgstr "El tamaño máximo es de %s caracteres."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
-msgstr ""
+msgstr "Comprobaciones de limpieza para la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "Despliegue de la configuración ACL."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
-msgstr ""
+msgstr "Despliegue completado, ¡perfecto!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_responses."
-msgstr ""
+msgstr "Migrar la tabla de la base de datos auto_responses."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration failed."
-msgstr ""
+msgstr "La migración falló."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "Migrar la tabla de la base de datos auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
-msgstr ""
+msgstr "Migración completada, ¡perfecto!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "Limpieza de la caché de OTOBO."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
-msgstr ""
+msgstr "Completado."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "¡Necesita OTRSData->%s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
-msgstr ""
+msgstr "¡No se puede acceder a OTRS Home: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "Todos los archivos necesarios copiados y migrados, ¡perfecto!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Check if OTOBO version is correct."
-msgstr ""
+msgstr "Compruebe si la versión de OTOBO es correcta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
-msgstr ""
+msgstr "Copiar base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Skipped..."
-msgstr ""
+msgstr "Omitiendo..."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to connect to OTRS database."
-msgstr ""
+msgstr "El sistema no pudo conectarse a la base de datos OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "System was unable to complete data transfer."
-msgstr ""
+msgstr "El sistema no pudo completar la transferencia de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
-msgstr ""
+msgstr "Transferencia de datos completada."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS connect is possible."
-msgstr ""
+msgstr "Compruebe si la conexión de OTOBO y OTRS es posible."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't open RELEASE file from OTRSHome: %s!"
-msgstr ""
+msgstr "¡No se puede abrir el archivo RELEASE de OTRSHome: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO and OTRS version is correct."
-msgstr ""
+msgstr "Compruebe si la versión de OTOBO y OTRS es correcta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "%s does not exist!"
-msgstr ""
+msgstr "¡%s no existe!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
+msgstr "No se puede leer el archivo OTOBO RELEASE: ¡%s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
-msgstr ""
+msgstr "¡No se ha encontrado ningún sistema OTOBO!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
 msgstr ""
+"¡Está intentando ejecutar este script en la versión de framework %s "
+"incorrecta!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
-msgstr ""
+msgstr "La versión de OTOBO es correcta: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTRS version is correct."
-msgstr ""
+msgstr "Compruebe si la versión de OTRS es correcta."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist: %s!"
-msgstr ""
+msgstr "¡El archivo OTRS RELEASE %s no existe: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s: %s!"
-msgstr ""
+msgstr "No se puede leer el archivo OTRS RELEASE: ¡%s: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
-msgstr ""
+msgstr "¡No se ha encontrado ningún sistema OTRS!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
-msgstr ""
+msgstr "La versión de OTRS es correcta: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
-msgstr ""
+msgstr "Migrar los ajustes de configuración."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid ""
 "An error occured during SysConfig data migration or no configuration exists."
 msgstr ""
+"Se ha producido un error durante la migración de datos de SysConfig o no "
+"existe ninguna configuración."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
+"Se ha producido un error durante la migración de SysConfig al escribir XML "
+"en la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig data migration."
-msgstr ""
+msgstr "Se ha producido un error durante la migración de datos de SysConfig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "Se ha completado la migración de datos de SysConfig."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "Migrar la configuración del servicio web."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
-msgstr ""
+msgstr "Falló - ¡vea el registro!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
 msgid "Migrate database table notification."
-msgstr ""
+msgstr "Migrar la tabla de notificación de la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't open Kernel/Config.pm file from OTRSHome: %s!"
-msgstr ""
+msgstr "¡No se puede abrir el archivo Kernel/Config.pm desde OTRSHome: %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if Kernel/Config.pm exists in OTOBO home."
-msgstr ""
+msgstr "Compruebe si Kernel/Config.pm existe en el home de OTOBO."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
