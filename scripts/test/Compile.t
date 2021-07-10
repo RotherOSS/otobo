@@ -59,14 +59,14 @@ note('check syntax of the Perl modules');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        if ( $FailureIsAccepted{$File} ) {
-            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
+        # Kernel/TidyAll is usually a symlink to the corresponding dir in the CodePolicy.
+        # The CodePolicy scripts and modules expect 'Kernel' to be in @INC, but that isn't the case
+        # in proper OTOBO. Therefore the modules in Kernel/TidyAll are skipped here.
+        next FILE if $File =~ m{^Kernel/TidyAll/};
 
-            ok( $Internal->pm_file_compiles($File), "$File compiles" );
-        }
-        else {
-            ok( $Internal->pm_file_compiles($File), "$File compiles" );
-        }
+        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+
+        ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
 }
 
@@ -78,14 +78,9 @@ note('check syntax of the Perl scripts');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        if ( $FailureIsAccepted{$File} ) {
-            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
+        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
 
-            ok( $Internal->pl_file_compiles($File), "$File compiles" );
-        }
-        else {
-            ok( $Internal->pl_file_compiles($File), "$File compiles" );
-        }
+        ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
 }
 
@@ -101,14 +96,9 @@ note('look at Perl code with an unusual extension');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        if ( $FailureIsAccepted{$File} ) {
-            my $ToDo = todo "$File: $FailureIsAccepted{$File}";
+        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
 
-            ok( $Internal->pl_file_compiles($File), "$File compiles" );
-        }
-        else {
-            ok( $Internal->pl_file_compiles($File), "$File compiles" );
-        }
+        ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
 }
 
@@ -134,7 +124,7 @@ note('check syntax of some shell scripts');
 note('check syntax of Docker hub hook scripts, when the dir hooks exists');
 
 SKIP: {
-    skip 'no hooks dir' if !-d 'hooks';
+    skip 'no hooks dir' unless -d 'hooks';
 
     FILE:
     for my $File ( glob 'hooks/*' ) {
