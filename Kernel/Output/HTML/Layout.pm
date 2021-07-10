@@ -2681,18 +2681,6 @@ Or for AJAX html snippets:
         NoCache     => 1,               # optional
     );
 
-Or when running under PSGI where the content will be encoded later:
-
-    $HTML = $LayoutObject->Attachment(
-        Type        => 'inline',        # optional, default: attachment, possible: inline|attachment
-        Filename    => 'FileName.html', # optional
-        ContentType => 'text/html',
-        Charset     => 'utf-8',         # optional
-        Content     => $Content,
-        NoCache     => 1,               # optional
-        NoEncode    => 1,               # optional
-    );
-
 =cut
 
 sub Attachment {
@@ -2781,23 +2769,13 @@ sub Attachment {
     my @AdditionalHeaders = ( $Param{AdditionalHeader} // [] )->@*;
     $Kernel::OM->Get('Kernel::System::Web::Response')->Headers( [ %Headers, @AdditionalHeaders ] );
 
-    # disable utf8 flag, to write binary to output
-    if ( !$Param{NoEncode} ) {
-        my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-        $EncodeObject->EncodeOutput( \$Param{Content} );
-    }
-
     # fix for firefox HEAD problem
-    my $Output        = '';
     my $RequestMethod = $Kernel::OM->Get('Kernel::System::Web::Request')->RequestMethod();
-    if ( !$RequestMethod || $RequestMethod ne 'HEAD' ) {
-        $Output .= $Param{Content};
+    if ( $RequestMethod && $RequestMethod eq 'HEAD' ) {
+        return '';
     }
 
-    # reset binmode, don't use utf8
-    binmode STDOUT, ':bytes';
-
-    return $Output;
+    return $Param{Content};
 }
 
 =head2 PageNavBar()

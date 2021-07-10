@@ -275,6 +275,8 @@ use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
 
+#use Data::Peek; # for development
+
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
@@ -599,7 +601,8 @@ my $OTOBOApp = builder {
                 return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
             }->Content();
 
-            # apply output filters for specific interfaces
+            # Apply output filters for specific interfaces.
+            # The output filters still work with proper Perl strings.
             my %HasOutputFilter = (
                 'customer.pl' => 1,
                 'index.pl'    => 1,
@@ -612,15 +615,26 @@ my $OTOBOApp = builder {
                 $LayoutObject->ApplyOutputFilters( Output => \$Content );
             }
 
-            # The OTOBO response object already has the HTPP headers.
-            # Enhance it with the HTTP status code and the c    ontent.
+            # The HTTP headers of the OTOBO web response object already have been set up.
+            # Enhance it with the HTTP status code and the content.
             my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-            $ResponseObject->Code(200);    # TODO: is it always 200 ?
+
+            # Keep the HTTP status code when it already was set.
+            # Otherwise assume that the request was successful and set the code to 200.
+            $ResponseObject->Code(200) unless $ResponseObject->Code();
+
+            # The content is UTF-8 encoded when the header Content-Type has been set up like:
+            #   'Content-Type'    => 'text/html; charset=utf-8'
+            # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
+            my $Charset = $ResponseObject->Headers->content_type_charset // '';
+            if ( $Charset eq 'UTF-8' ) {
+                utf8::encode($Content);
+            }
             $ResponseObject->Content($Content);
 
-            # for debugging: warn Dumper( { Response => $ResponseObject, is_utf8 => utf8::is_utf8( $ResponseObject->{Response}->{body} ) } );
+            # for debugging: warn DDump( $ResponseObject->{Response}->{body} )
 
-            # return the funnny unblessed array reference
+            # return the PSGI response, a funnny unblessed array reference with three elements
             return $ResponseObject->Finalize();
         }
     };
