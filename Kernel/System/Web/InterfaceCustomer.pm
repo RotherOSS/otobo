@@ -165,14 +165,16 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
-    my %FrameworkParams = (
-        Lang         => '',
-        Action       => '',
-        Subaction    => '',
-        RequestedURL => $QueryString,
-    );
-    for my $Key ( sort keys %FrameworkParams ) {
-        $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $FrameworkParams{$Key};
+    {
+        my %FrameworkParams = (
+            Lang         => '',
+            Action       => '',
+            Subaction    => '',
+            RequestedURL => $QueryString,
+        );
+        for my $Key ( sort keys %FrameworkParams ) {
+            $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $FrameworkParams{$Key};
+        }
     }
 
     # validate language
