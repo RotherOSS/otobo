@@ -73,6 +73,8 @@ sub new {
         $Self->{Params} = {};
     }
 
+    $Self->{StartTLS} = $ConfigObject->Get( 'AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+
     # host
     if ( $Self->{CustomerUserMap}->{Params}->{Host} ) {
         $Self->{Host} = $Self->{CustomerUserMap}->{Params}->{Host};
@@ -198,6 +200,22 @@ sub _Connect {
                 Message  => "Can't connect to $Self->{Host}: $@",
             );
             return;
+        }
+    }
+    if ( $Self->{StartTLS} ) {
+        my $Started = $Self->{LDAP}->start_tls( verify => $Self->{StartTLS} );
+        if ( !$Started ) {
+            if ( $Self->{Die} ) {
+                die "start_tls on $Self->{Host} failed: $@";
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
+                );
+                $Self->{LDAP}->disconnect();
+                return;
+            }
         }
     }
 
