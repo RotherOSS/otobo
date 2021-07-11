@@ -41,7 +41,6 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
     'Kernel::System::DB',
     'Kernel::System::Email',
-    'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
