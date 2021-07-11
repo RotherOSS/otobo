@@ -1654,8 +1654,10 @@ sub _AddHeadersToResponseObject {
         $Headers{'X-OTOBO-Login'} = $Self->{Baselink};
     }
 
-    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+    $ResponseObject->Headers( [%Headers] );
+
+    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
@@ -1665,11 +1667,9 @@ sub _AddHeadersToResponseObject {
         for ( sort keys $Self->{SetCookies}->%* ) {
             my $Ingredients = $Self->{SetCookies}->{$_};
             my $Name        = delete $Ingredients->{name};
-            $ResponseObject->cookies->{$Name} = $Ingredients;
+            $ResponseObject->Cookies->{$Name} = $Ingredients;
         }
     }
-
-    $ResponseObject->Headers( [%Headers] );
 
     return 1;
 }
@@ -3987,7 +3987,7 @@ sub CustomerLogin {
         for ( sort keys $Self->{SetCookies}->%* ) {
             my $Ingredients = $Self->{SetCookies}->{$_};
             my $Name        = delete $Ingredients->{name};
-            $ResponseObject->cookies->{$Name} = $Ingredients;
+            $ResponseObject->Cookies->{$Name} = $Ingredients;
         }
     }
 
