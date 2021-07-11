@@ -647,20 +647,29 @@ sub Redirect {
     }
 
     # create an response object we can work with
-    my $RedirectResponse = Plack::Response->new();
-    $RedirectResponse->redirect($RedirectURL);
+    my $ResponseObject = Plack::Response->new();
+    $ResponseObject->redirect($RedirectURL);
 
-    # add cookies to the HTTP headers if there are any
-    # TODO: use the Plack::Response::cookies() method
-    if ( $Self->{SetCookies} && $Kernel::OM->Get('Kernel::Config')->Get('SessionUseCookie') ) {
-        for ( sort keys %{ $Self->{SetCookies} } ) {
-            $RedirectResponse->headers->push_header( 'Set-Cookie' => $Self->{SetCookies}->{$_} );
+    # Add cookies to the HTTP headers if there are any.
+    # The values are plain hash references.
+    # For some reason the name used for bake_cookie is the attribute 'name' of the hash ref.
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if (
+        $Self->{SetCookies}
+        && ref $Self->{SetCookies} eq 'HASH'
+        && $ConfigObject->Get('SessionUseCookie')
+        )
+    {
+        for ( sort keys $Self->{SetCookies}->%* ) {
+            my $Ingredients = $Self->{SetCookies}->{$_};
+            my $Name        = delete $Ingredients->{name};
+            $ResponseObject->cookies->{$Name} = $Ingredients;
         }
     }
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
-        PlackResponse => $RedirectResponse
+        PlackResponse => $ResponseObject
     );
 }
 
@@ -1614,10 +1623,6 @@ sub _AddHeadersToResponseObject {
 
     # there are no required parameters
 
-    # get singletons
-    my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-    my $ConfigObject   = $Kernel::OM->Get('Kernel::Config');
-
     # first the unconditional headers
     my %Headers = (
         'Content-Type'    => 'text/html; charset=utf-8',
@@ -1631,6 +1636,7 @@ sub _AddHeadersToResponseObject {
         $Headers{'Content-Disposition'} = $Param{ContentDisposition};
     }
 
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
         $Headers{'X-Powered-By'} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version'), '(https://www.otobo.de/)';
     }
@@ -1649,7 +1655,7 @@ sub _AddHeadersToResponseObject {
     }
 
     # add cookies if exists, an array must be used because Set-Cookie can be multi-values
-    my @CookieHeaders;
+    my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
@@ -1657,11 +1663,13 @@ sub _AddHeadersToResponseObject {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
+            my $Ingredients = $Self->{SetCookies}->{$_};
+            my $Name        = delete $Ingredients->{name};
+            $ResponseObject->cookies->{$Name} = $Ingredients;
         }
     }
 
-    $ResponseObject->Headers( [ %Headers, @CookieHeaders ] );
+    $ResponseObject->Headers( [%Headers] );
 
     return 1;
 }
@@ -3969,18 +3977,18 @@ sub CustomerLogin {
     }
 
     # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
         && $ConfigObject->Get('SessionUseCookie')
         )
     {
-        my @CookieHeaders;
         for ( sort keys $Self->{SetCookies}->%* ) {
-            push @CookieHeaders, 'Set-Cookie' => $Self->{SetCookies}->{$_};
+            my $Ingredients = $Self->{SetCookies}->{$_};
+            my $Name        = delete $Ingredients->{name};
+            $ResponseObject->cookies->{$Name} = $Ingredients;
         }
-
-        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers( \@CookieHeaders );
     }
 
     # check if message should be shown

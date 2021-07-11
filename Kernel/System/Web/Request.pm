@@ -340,15 +340,17 @@ sub _GetUploadInfo {
 
 =head2 SetCookie()
 
-set a cookie
+return a hashref based on the input params. The keys of the returned hashref
+are the keys that are accepted by the second parameter to C<Cookie::Backer::bake_cookie()>.
+An exception is the key I<name> which must be passed as the first parameter.
 
     $ParamObject->SetCookie(
-        Key     => ID,
-        Value   => 123456,
-        Expires => '+3660s',
-        Path    => 'otobo/',     # optional, only allow cookie for given path
-        Secure  => 1,           # optional, set secure attribute to disable cookie on HTTP (HTTPS only)
-        HTTPOnly => 1,          # optional, sets HttpOnly attribute of cookie to prevent access via JavaScript
+        Key     => ID,          # name
+        Value   => 123456,      # value
+        Expires => '+3660s',    # expires
+        Path    => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure  => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly => 1,          # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 =cut
@@ -358,14 +360,14 @@ sub SetCookie {
 
     $Param{Path} ||= '';
 
-    return $Self->{Query}->cookie(
-        -name     => $Param{Key},
-        -value    => $Param{Value},
-        -expires  => $Param{Expires},
-        -secure   => $Param{Secure}   || '',
-        -httponly => $Param{HTTPOnly} || '',
-        -path     => '/' . $Param{Path},
-    );
+    return {
+        name     => $Param{Key},
+        value    => $Param{Value},
+        expires  => $Param{Expires},
+        secure   => $Param{Secure}   || '',
+        httponly => $Param{HTTPOnly} || '',
+        path     => '/' . ( $Param{Path} // '' ),
+    };
 }
 
 =head2 GetCookie()
