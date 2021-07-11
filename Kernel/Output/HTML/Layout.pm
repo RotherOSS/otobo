@@ -4179,6 +4179,10 @@ sub CustomerLogin {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
+    $Self->_AddHeadersToResponseOBject(
+        Data => \%Param,
+    );
+
     # create & return output
     return $Self->Output(
         TemplateFile => 'CustomerLogin',
@@ -4302,7 +4306,6 @@ sub CustomerHeader {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
-    # TODO: Data contains unneeded keys
     $Self->_AddHeadersToResponseOBject(
         Data => \%Param,
     );
