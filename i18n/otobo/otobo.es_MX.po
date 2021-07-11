@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-10 02:57+0000\n"
+"PO-Revision-Date: 2021-07-11 08:52+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -16359,39 +16359,41 @@ msgstr "Compruebe si Kernel/Config.pm existe en el home de OTOBO."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Kernel/Config.pm exists in OTOBO home"
-msgstr ""
+msgstr "Kernel/Config.pm existe en el home de OTOBO"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Check if we are able to connect to OTRS Home."
-msgstr ""
+msgstr "Compruebe si podemos conectarnos a l home de OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Can't connect to OTRS file directory."
-msgstr ""
+msgstr "No se puede conectar al directorio de archivos OTRS."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
 msgid "Connect to OTRS file directory is possible."
-msgstr ""
+msgstr "La conexión al directorio de archivos OTRS es posible."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Try database connect and sanity checks."
 msgstr ""
+"Prueba la conexión a la base de datos y las comprobaciones de integridad."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "No se ha podido crear el objeto base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
 msgstr ""
+"Conexión de la base de datos y comprobaciones de integridad completadas."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "Compruebe si todos los paquetes necesarios están instalados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "Los siguientes paquetes sólo se instalan en OTRS:"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid ""
@@ -16399,78 +16401,87 @@ msgid ""
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
 "\\@otobo.org. We will find a solution."
 msgstr ""
+"Por favor, instale (o desinstale) los paquetes antes de la migración. Si un "
+"paquete no existe para OTOBO, por favor contacte con el equipo de OTOBO en "
+"bugs\\\\@otobo.org. Encontraremos una solución."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
+msgstr "Los mismos paquetes están instalados en ambos sistemas, ¡perfecto!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Package specific tasks"
-msgstr ""
+msgstr "Tareas específicas del paquete"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Done -"
-msgstr ""
+msgstr "Terminado -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Failed at -"
-msgstr ""
+msgstr "Falló en -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "Compruebe si se han instalado todos los módulos Perl necesarios."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "El script %s no existe."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid ""
 "One or more required Perl modules are missing. Please install them as "
 "recommended, and run the migration script again."
 msgstr ""
+"Faltan uno o más módulos Perl necesarios. Por favor, instálelos como se "
+"recomienda y ejecute de nuevo el script de migración."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "Se han instalado todos los módulos Perl necesarios, ¡perfecto!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
-msgstr ""
+msgstr "Migrar el filtro postmaster."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
 msgid "Deploy the process management configuration."
-msgstr ""
+msgstr "Despliegue de la configuración de gestión de procesos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "Migrar la tabla de la base de datos response_template."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "Migrar la tabla de saludos de la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "Migrar la tabla de firmas de la base de datos."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
-msgstr ""
+msgstr "Migrar las estadísticas."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid ""
 "Couldn't read Notification configuration file. Please make sure the file is "
 "valid."
 msgstr ""
+"No se ha podido leer el archivo de configuración de la notificación. Por "
+"favor, asegúrese de que el archivo es válido."
 
 #. Perl Module: Kernel/System/NotificationEvent.pm
 msgid "Imported notification has body text with more than 4000 characters."
 msgstr ""
+"La notificación importada tiene un cuerpo de texto con más de 4000 "
+"caracteres."
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "not installed"
-msgstr ""
+msgstr "no instalado"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "installed"
@@ -16490,15 +16501,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is not installed!"
-msgstr ""
+msgstr "¡El archivo no está instalado!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "File is different!"
-msgstr ""
+msgstr "¡El archivo es diferente!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Can't read file!"
-msgstr ""
+msgstr "¡No se puede leer el archivo!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -16506,10 +16517,14 @@ msgid ""
 "Ensure, however, that the origin of this package is trustworthy, as it can "
 "modify OTOBO in any possible way.</p>"
 msgstr ""
+"<p>Los paquetes adicionales pueden mejorar OTOBO con un montón de "
+"características útiles. Asegúrese, sin embargo, de que el origen de este "
+"paquete es de confianza, ya que puede modificar OTOBO de cualquier manera "
+"posible.</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
-msgstr ""
+msgstr "¡Paquete no verificado por la comunidad OTOBO!"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid ""
@@ -16517,14 +16532,18 @@ msgid ""
 "activate the installation of not verified packages via the \"Package::"
 "AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p>La instalación de paquetes no verificados está desactivada. Puede activar "
+"la instalación de paquetes no verificados mediante el ajuste de "
+"configuración del sistema \"Package::AllowNotVerifiedPackages\".</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Verification not possible (e.g. no internet connection)!"
 msgstr ""
+"¡No es posible la verificación (por ejemplo, si no hay conexión a Internet)!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
-msgstr ""
+msgstr "El proceso \"%s\" y todos sus datos han sido importados con éxito."
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "Inactive"
@@ -16532,7 +16551,7 @@ msgstr "Inactivo"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
 msgid "FadeAway"
-msgstr ""
+msgstr "Desaparecer"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't contact registration server. Please try again later."
@@ -16548,7 +16567,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Can't get Token from sever"
-msgstr ""
+msgstr "No se puede obtener el Token del servidor"
 
 #. Perl Module: Kernel/System/Registration.pm
 msgid "Username and password do not match. Please try again."
@@ -16595,7 +16614,7 @@ msgstr "Tiempo de Creación"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Pending until time"
-msgstr ""
+msgstr "Pendiente hasta el momento"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Close Time"
@@ -16627,7 +16646,7 @@ msgstr "Creado por Agente/Propietario"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
 msgid "Assigned to Customer User Login"
-msgstr ""
+msgstr "Asignado al inicio de sesión del usuario del cliente"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Evaluation by"
@@ -16687,7 +16706,7 @@ msgstr "Número de artículos"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
-msgstr ""
+msgstr "ilimitado"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
@@ -16715,72 +16734,92 @@ msgstr "Número"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Last Changed"
-msgstr ""
+msgstr "Último cambio"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
-msgstr ""
+msgstr "Solución contenedora"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time"
-msgstr ""
+msgstr "Tiempo mínimo de Solución"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time"
-msgstr ""
+msgstr "Tiempo máximo de Solución"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average (affected by escalation configuration)"
-msgstr ""
+msgstr "Solución Contenedora (afectada por la configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo mínimo para la solución (afectado por la configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo máximo para la solución (afectado por la configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Working Time Average (affected by escalation configuration)"
 msgstr ""
+"Promedio del tiempo de trabajo para la solución (afectado por la "
+"configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Working Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo de trabajo mínimo para la solución (afectado por la configuración de "
+"la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Working Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo máximo de trabajo para la solución (afectado por la configuración de "
+"la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Average (affected by escalation configuration)"
 msgstr ""
+"Promedio para la primera respuesta (afectada por la configuración de la "
+"escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo mínimo para primera respuesta (afectado por la configuración de la "
+"escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo máximo para primera respuesta (afectado por la configuración de la "
+"escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid ""
 "First Response Working Time Average (affected by escalation configuration)"
 msgstr ""
+"Tiempo promedio de trabajo para la primera respuesta (afectado por la "
+"configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Min Working Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo de trabajo mínimo para la primera respuesta (afectado por la "
+"configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "First Response Max Working Time (affected by escalation configuration)"
 msgstr ""
+"Tiempo máximo de trabajo para la primera respuesta (afectado por la "
+"configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Number of Tickets (affected by escalation configuration)"
-msgstr ""
+msgstr "Número de tickets (afectados por la configuración de la escalada)"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Days"
@@ -16788,20 +16827,22 @@ msgstr "Días"
 
 #. Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
 msgid "Queues / Tickets"
-msgstr ""
+msgstr "Colas / Tickets"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid "Outdated Tables"
-msgstr ""
+msgstr "Tablas obsoletas"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
 msgid ""
 "Outdated tables were found in the database. These can be removed if empty."
 msgstr ""
+"Se han encontrado tablas obsoletas en la base de datos. Se pueden eliminar "
+"si están vacías."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Table Presence"
-msgstr ""
+msgstr "Tabla presente"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Internal Error: Could not open file."
@@ -16849,7 +16890,7 @@ msgstr "Juego de Caracteres del Servidor de Base de Datos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "Por favor, convierta su base de datos al juego de caracteres 'utf8mb4'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
@@ -16858,6 +16899,7 @@ msgstr "Juego de Caracter de la Tabla"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
 msgstr ""
+"Se han encontrado tablas que no tienen 'utf8mb4' como conjunto de caracteres."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
@@ -16869,7 +16911,7 @@ msgstr "La variable 'innodb_log_file_size' debe ser de al menos 256 MB."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid "Invalid Default Values"
-msgstr ""
+msgstr "Valores por defecto inválidos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid ""
@@ -16877,6 +16919,9 @@ msgid ""
 "automatically, please run: bin/otobo.Console.pl Maint::Database::Check --"
 "repair"
 msgstr ""
+"Se han encontrado tablas con valores por defecto no válidos. Para "
+"solucionarlo automáticamente, ejecute: bin/otobo.Console.pl Maint::Database::"
+"Check --repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
@@ -16884,7 +16929,7 @@ msgstr "Tamaño Máximo de Consulta"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
+msgstr "El ajuste 'max_allowed_packet' debe ser de 64 MB o superior."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
@@ -16924,32 +16969,36 @@ msgstr "Variable NLS_LANG"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8)."
 msgstr ""
+"NLS_LANG debe establecerse como al32utf8 (por ejemplo, GERMAN_GERMANY."
+"AL32UTF8)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "Configuración de NLS_DATE_FORMAT"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "NLS_DATE_FORMAT debe estar configurado como 'AAAA-MM-DD HH24:MI:SS'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "NLS_DATE_FORMAT Ajuste de la comprobación SQL"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid "Primary Key Sequences and Triggers"
-msgstr ""
+msgstr "Secuencias de claves primarias y Triggers"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid ""
 "The following sequences and/or triggers with possible wrong names have been "
 "found. Please rename them manually."
 msgstr ""
+"Se han encontrado las siguientes secuencias y/o triggers con posibles "
+"nombres erróneos. Por favor, cámbieles el nombre manualmente."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "La configuración de client_encoding debe ser UNICODE o UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
