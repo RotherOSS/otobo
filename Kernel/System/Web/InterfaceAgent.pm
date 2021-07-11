@@ -246,7 +246,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     # check request type
     if ( $Param{Action} eq 'PreLogin' ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-        $Param{RequestedURL} = $Param{RequestedURL} || "Action=AgentDashboard";
+        $Param{RequestedURL} ||= 'Action=AgentDashboard';
 
         # login screen
         return $LayoutObject->Login(
