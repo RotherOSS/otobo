@@ -27,7 +27,6 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Email;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language qw(Translatable);
 use Kernel::System::DateTime;
@@ -41,7 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',
     'Kernel::System::DB',
-    'Kernel::System::Group',
+    'Kernel::System::Email',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::Scheduler',
@@ -107,7 +106,7 @@ sub new {
     # register object params
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Log' => {
-            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix'),
+            LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Customer',
         },
         'Kernel::System::Web::Request' => {
             PSGIEnv => $Param{PSGIEnv} || 0,
@@ -165,15 +164,16 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     $QueryString =~ s/(\?|&|;|)$Param{SessionName}(=&|=;|=.+?&|=.+?$)/;/g;
 
     # define framework params
-    my $FrameworkParams = {
-        Lang         => '',
-        Action       => '',
-        Subaction    => '',
-        RequestedURL => $QueryString,
-    };
-    for my $Key ( sort keys %{$FrameworkParams} ) {
-        $Param{$Key} = $ParamObject->GetParam( Param => $Key )
-            || $FrameworkParams->{$Key};
+    {
+        my %FrameworkParams = (
+            Lang         => '',
+            Action       => '',
+            Subaction    => '',
+            RequestedURL => $QueryString,
+        );
+        for my $Key ( sort keys %FrameworkParams ) {
+            $Param{$Key} = $ParamObject->GetParam( Param => $Key ) || $FrameworkParams{$Key};
+        }
     }
 
     # validate language
@@ -248,6 +248,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     # check request type
     if ( $Param{Action} eq 'PreLogin' ) {
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+        $Param{RequestedURL} ||= 'Action=CustomerDashboard';
 
         # login screen
         return $LayoutObject->CustomerLogin(
@@ -350,10 +351,10 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+                # throw a Kernel::System::Web::Exception that redirects
                 $LayoutObject->Redirect(
-                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
-                        . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
-                );    # throws a Kernel::System::Web::Exception
+                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL') . "?Reason=LoginFailed&RequestedURL=$Param{RequestedURL}",
+                );
             }
 
             if ($PreventBruteForceConfig) {
@@ -416,10 +417,11 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
+
+                # throw a Kernel::System::Web::Exception that redirects
                 $LayoutObject->Redirect(
-                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
-                        . '?Reason=SystemError',
-                );    # throws a Kernel::System::Web::Exception
+                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL') . '?Reason=SystemError',
+                );
             }
 
             # show need user data error message
@@ -627,7 +629,6 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         # redirect to alternate login
         if ( $ConfigObject->Get('CustomerPanelLogoutURL') ) {
-
             $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL'),
             );    # throws a Kernel::System::Web::Exception
@@ -718,7 +719,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # create email object
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
         # send password reset token
         if ( !$Token ) {
@@ -967,7 +968,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # send notify email
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
         my $Body        = $ConfigObject->Get('CustomerPanelBodyNewAccount')
             || 'No Config Option found!';
         my $Subject = $ConfigObject->Get('CustomerPanelSubjectNewAccount')
@@ -1161,8 +1162,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # redirect to alternate login
             if ( $ConfigObject->Get('CustomerPanelLoginURL') ) {
                 $LayoutObject->Redirect(
-                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL')
-                        . '?Reason=SystemError',
+                    ExtURL => $ConfigObject->Get('CustomerPanelLoginURL') . '?Reason=SystemError',
                 );    # throws a Kernel::System::Web::Exception
             }
 
@@ -1423,7 +1423,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         return $Output;
     }
 
-    # throw exception
+    # throws a Kernel::System::Web::Exception
     my %Data = $SessionObject->GetSessionIDData(
         SessionID => $Param{SessionID},
     );
@@ -1439,7 +1439,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
     $LayoutObject->CustomerFatalError(
         Comment => Translatable('Please contact the administrator.'),
-    );    # throws a Kernel::System::Web::Exception
+    );
 }
 
 =begin Internal:
