@@ -1657,7 +1657,8 @@ sub _AddHeadersToResponseObject {
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     $ResponseObject->Headers( [%Headers] );
 
-    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    # Add cookies if they exist.
+    # TODO: the cookie name should be the key in $Self->{SetCookies} instead of $Ingredients->{name};
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
@@ -3976,7 +3977,8 @@ sub CustomerLogin {
         );
     }
 
-    # add cookies if exists, an array must be used because Set-Cookie can be multi-values
+    # Add cookies if they exist.
+    # TODO: the cookie name should be the key in $Self->{SetCookies} instead of $Ingredients->{name};
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     if (
         $Self->{SetCookies}
