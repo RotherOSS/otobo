@@ -91,6 +91,18 @@ sub Header {
     return $Self->{Response}->header(@Args);
 }
 
+=head2 Cookies()
+
+a wrapper of Plack::Response::header().
+
+=cut
+
+sub Cookies {
+    my ( $Self, @Args ) = @_;
+
+    return $Self->{Response}->cookies(@Args);
+}
+
 =head2 Code()
 
 a wrapper of Plack::Response::code().
