@@ -876,7 +876,7 @@ sub Login {
     );
 
     # declare headers including the X-OTOBO-Login header field
-    $Self->_AddHeadersToResponseOBject(
+    $Self->_AddHeadersToResponseObject(
         XLoginHeader => 1,
     );
 
@@ -1583,7 +1583,7 @@ sub Header {
         }
     }
 
-    $Self->_AddHeadersToResponseOBject(
+    $Self->_AddHeadersToResponseObject(
         ContentDisposition            => $Param{ContentDisposition},
         DisableIFrameOriginRestricted => $Param{DisableIFrameOriginRestricted},
     );
@@ -1597,11 +1597,11 @@ sub Header {
 
 =begin Internal:
 
-=head2 _AddHeadersToResponseOBject()
+=head2 _AddHeadersToResponseObject()
 
 basically the same thing as executing the formerly used template HTTPHeaders.tt
 
-    my $Success = $LayoutObject->_AddHeadersToResponseOBject(
+    my $Success = $LayoutObject->_AddHeadersToResponseObject(
         Data => \%Params,
     );
 
@@ -1609,7 +1609,7 @@ The cookies are also added here.
 
 =cut
 
-sub _AddHeadersToResponseOBject {
+sub _AddHeadersToResponseObject {
     my ( $Self, %Param ) = @_;
 
     # there are no required parameters
@@ -4162,7 +4162,7 @@ sub CustomerLogin {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
-    $Self->_AddHeadersToResponseOBject(
+    $Self->_AddHeadersToResponseObject(
         XLoginHeader => 1,
     );
 
@@ -4289,7 +4289,7 @@ sub CustomerHeader {
         $Param{ColorDefinitions} .= "--col$Color:$ColorDefinitions->{ $Color };";
     }
 
-    $Self->_AddHeadersToResponseOBject(
+    $Self->_AddHeadersToResponseObject(
         ContentDisposition            => $Param{ContentDisposition},
         DisableIFrameOriginRestricted => $Param{DisableIFrameOriginRestricted},
     );
