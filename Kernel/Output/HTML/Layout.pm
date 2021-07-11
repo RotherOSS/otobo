@@ -875,12 +875,9 @@ sub Login {
         Value => $Param{LoginFailed},
     );
 
-    # include the X-OTOBO-Login header field
-    $Param{XLoginHeader} = 1;
-
-    # TODO: Data contains unneeded keys
+    # declare headers including the X-OTOBO-Login header field
     $Self->_AddHeadersToResponseOBject(
-        Data => \%Param,
+        XLoginHeader => 1,
     );
 
     # create & return output
@@ -1586,9 +1583,9 @@ sub Header {
         }
     }
 
-    # TODO: Data contains unneeded keys
     $Self->_AddHeadersToResponseOBject(
-        Data => \%Param,
+        ContentDisposition            => $Param{ContentDisposition},
+        DisableIFrameOriginRestricted => $Param{DisableIFrameOriginRestricted},
     );
 
     # create & return output
@@ -1615,20 +1612,7 @@ The cookies are also added here.
 sub _AddHeadersToResponseOBject {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(Data)) {
-        if ( !$Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!"
-            );
-
-            return;
-        }
-    }
-
-    # extract parames
-    my %Data = $Param{Data}->%*;
+    # there are no required parameters
 
     # get singletons
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
@@ -1643,8 +1627,8 @@ sub _AddHeadersToResponseOBject {
         'Pragma'          => 'no-cache',
     );
 
-    if ( $Data{ContentDisposition} ) {
-        $Headers{'Content-Disposition'} = $Data{ContentDisposition};
+    if ( $Param{ContentDisposition} ) {
+        $Headers{'Content-Disposition'} = $Param{ContentDisposition};
     }
 
     if ( !$ConfigObject->Get('Secure::DisableBanner') ) {
@@ -1653,14 +1637,14 @@ sub _AddHeadersToResponseOBject {
 
     if (
         !$ConfigObject->Get('DisableIFrameOriginRestricted')
-        && !$Data{DisableIFrameOriginRestricted}
+        && !$Param{DisableIFrameOriginRestricted}
         )
     {
         $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
     }
 
     # With this X-Header, Core.AJAX can recognize that the AJAX request returned the login page (session timeout) and perform a redirect.
-    if ( $Data{'XLoginHeader'} ) {
+    if ( $Param{XLoginHeader} ) {
         $Headers{'X-OTOBO-Login'} = $Self->{Baselink};
     }
 
@@ -3951,9 +3935,8 @@ sub HumanReadableDataSize {
 sub CustomerLogin {
     my ( $Self, %Param ) = @_;
 
-    $Param{TitleArea}    = $Self->{LanguageObject}->Translate('Login') . ' - ';
-    $Param{IsLoginPage}  = 1;
-    $Param{XLoginHeader} = 1;
+    $Param{TitleArea}   = $Self->{LanguageObject}->Translate('Login') . ' - ';
+    $Param{IsLoginPage} = 1;
 
     # set Action parameter for the loader
     $Self->{Action} = 'CustomerLogin';
@@ -4180,7 +4163,7 @@ sub CustomerLogin {
     }
 
     $Self->_AddHeadersToResponseOBject(
-        Data => \%Param,
+        XLoginHeader => 1,
     );
 
     # create & return output
@@ -4307,7 +4290,8 @@ sub CustomerHeader {
     }
 
     $Self->_AddHeadersToResponseOBject(
-        Data => \%Param,
+        ContentDisposition            => $Param{ContentDisposition},
+        DisableIFrameOriginRestricted => $Param{DisableIFrameOriginRestricted},
     );
 
     # create & return output
