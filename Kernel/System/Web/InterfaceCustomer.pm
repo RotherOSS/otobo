@@ -27,7 +27,6 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::Email;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData IsHashRefWithData);
 use Kernel::Language qw(Translatable);
 use Kernel::System::DateTime;
@@ -41,6 +40,7 @@ our @ObjectDependencies = (
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',
     'Kernel::System::DB',
+    'Kernel::System::Email',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -718,7 +718,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # create email object
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
 
         # send password reset token
         if ( !$Token ) {
@@ -967,7 +967,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # send notify email
-        my $EmailObject = Kernel::System::Email->new( %{$Self} );
+        my $EmailObject = $Kernel::OM->Get('Kernel::System::Email');
         my $Body        = $ConfigObject->Get('CustomerPanelBodyNewAccount')
             || 'No Config Option found!';
         my $Subject = $ConfigObject->Get('CustomerPanelSubjectNewAccount')
