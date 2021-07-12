@@ -1,5 +1,7 @@
 # This is the build file for the OTOBO web docker image.
-# See also README_DOCKER.md.
+
+# See also bin/docker/build_docker_images.sh
+# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # Use the latest Perl as of 2020-07-31.
 # This image is based on Debian 10 (Buster). The user is root.
