@@ -1,5 +1,7 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
-# See also README_DOCKER.md.
+
+# See also bin/docker/build_docker_images.sh
+# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # Use 7.8.0, because latest flag is not available
 # This image is based on CentOS 7. The User is root.
