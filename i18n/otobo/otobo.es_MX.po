@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-12 15:28+0000\n"
+"PO-Revision-Date: 2021-07-12 15:51+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -19046,11 +19046,11 @@ msgstr "Eliminar borrador"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "No hay más borradores disponibles."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
-msgstr ""
+msgstr "No fue posible eliminar este borrador."
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Article filter"
@@ -19070,7 +19070,7 @@ msgstr "Deslice la barra de navegación"
 
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "¡Desactive el modo de compatibilidad en Internet Explorer!"
 
 #. JS File: Core.App.Responsive
 msgid "Switch to mobile mode"
@@ -19082,19 +19082,23 @@ msgstr "Error: !Fallo la comprobación del navegador!"
 
 #. JS File: Core.App
 msgid "Reload page"
-msgstr ""
+msgstr "Recargar la página"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "Recargar la página (%ss)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
 msgstr ""
+"El espacio de nombres %s no pudo ser inicializado, porque %s no pudo ser "
+"encontrado."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
 msgstr ""
+"¡Se ha producido un error! ¡Por favor, compruebe el registro de errores del "
+"navegador para obtener más detalles!"
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
@@ -19112,23 +19116,25 @@ msgstr ""
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
-msgstr ""
+msgstr "Abrir este nodo en una nueva ventana"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
 msgstr ""
+"Por favor, añada valores para todas las claves antes de guardar la "
+"configuración."
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
-msgstr ""
+msgstr "La clave no debe estar vacía."
 
 #. JS File: Core.SystemConfiguration
 msgid "A key with this name ('%s') already exists."
-msgstr ""
+msgstr "Ya existe una clave con este nombre ('%s')."
 
 #. JS File: Core.SystemConfiguration
 msgid "Do you really want to revert this setting to its historical value?"
-msgstr ""
+msgstr "¿Realmente quieres revertir este ajuste a su valor histórico?"
 
 #. JS File: Core.UI.Datepicker
 msgid "Open date selection"
@@ -19152,11 +19158,11 @@ msgstr "y %s más..."
 
 #. JS File: Core.UI.InputFields
 msgid "Show current selection"
-msgstr ""
+msgstr "Mostrar la selección actual"
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr ""
+msgstr "Selección actual"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
@@ -19193,31 +19199,31 @@ msgstr ""
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
-msgstr ""
+msgstr "Ordenación ascendente aplicada, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "Descending sort applied, "
-msgstr ""
+msgstr "Ordenación descendente aplicada, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "No sort applied, "
-msgstr ""
+msgstr "No se aplica una ordenación, "
 
 #. JS File: Core.UI.Table.Sort
 msgid "sorting is disabled"
-msgstr ""
+msgstr "la ordenación está desactivada"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply an ascending sort"
-msgstr ""
+msgstr "activar para aplicar una ordenación ascendente"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply a descending sort"
-msgstr ""
+msgstr "activar para aplicar una ordenación descendente"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to remove the sort"
-msgstr ""
+msgstr "activar para eliminar la clasificación"
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
