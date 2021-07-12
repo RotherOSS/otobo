@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-12 14:30+0000\n"
+"PO-Revision-Date: 2021-07-12 15:28+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -18494,18 +18494,22 @@ msgid ""
 "There is a package upgrade process running, click here to see status "
 "information about the upgrade progress."
 msgstr ""
+"Hay un proceso de actualización de paquetes en marcha, haga clic aquí para "
+"ver la información sobre el progreso de la actualización."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "A package upgrade was recently finished. Click here to see the results."
 msgstr ""
+"Recientemente se ha terminado de actualizar un paquete. Haga clic aquí para "
+"ver los resultados."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "No hay respuesta del resultado de la actualización del paquete."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "Actualizar todos los paquetes"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
@@ -18513,19 +18517,21 @@ msgstr "Descartar"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "Actualizar todos los paquetes"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "No hay respuesta de la actualización todos los paquetes."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
-msgstr ""
+msgstr "Actualmente no es posible"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
 msgstr ""
+"Actualmente está desactivado debido a una actualización de paquetes que está "
+"en curso."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
@@ -18536,19 +18542,21 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
-msgstr ""
+msgstr "¿Está seguro de que quiere actualizar todos los paquetes instalados?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
 msgstr ""
+"No hay respuesta al obtener el estado de ejecución de la actualización del "
+"paquete."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "Eliminar este PostMasterFilter"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
-msgstr ""
+msgstr "Borrar el filtro postmaster y sus datos. Esto puede llevar un tiempo..."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove Entity from canvas"
@@ -18563,10 +18571,12 @@ msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
 msgstr ""
+"Todavía no hay diálogos asignados. Sólo tiene que elegir un diálogo de "
+"actividad de la lista de la izquierda y arrastrarlo hasta aquí."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "Esta actividad no puede ser eliminada porque es la actividad de inicio."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove the Transition from this Process"
@@ -18577,6 +18587,8 @@ msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
 msgstr ""
+"En cuanto utilice este botón o enlace, saldrá de esta pantalla y su estado "
+"actual se guardará automáticamente. ¿Desea continuar?"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Delete Entity"
@@ -18585,26 +18597,33 @@ msgstr "Eliminar Entidad"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "This Activity is already used in the Process. You cannot add it twice!"
 msgstr ""
+"Esta Actividad ya se utiliza en el Proceso. ¡No puede añadirla dos veces!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
-msgstr ""
+msgstr "Error durante la comunicación AJAX"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
 msgstr ""
+"Ya se ha colocado una transición no conectada en el escenario. Por favor, "
+"conecte primero esta transición antes de colocar otra."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This Transition is already used for this Activity. You cannot use it twice!"
 msgstr ""
+"Esta Transición ya se ha utilizado para esta Actividad. ¡No puede utilizarla "
+"dos veces!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This TransitionAction is already used in this Path. You cannot use it twice!"
 msgstr ""
+"Esta TransitionAction ya se ha utilizado en esta ruta. ¡No puede utilizarla "
+"dos veces!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Hide EntityIDs"
@@ -18617,14 +18636,15 @@ msgstr "Editar Detalles del Campo"
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Customer interface does not support articles not visible for customers."
 msgstr ""
+"La interfaz del cliente no admite artículos no visibles para los clientes."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
-msgstr ""
+msgstr "Lo sentimos, el único parámetro existente no puede ser eliminado."
 
 #. JS File: Core.Agent.Admin.SMIME
 msgid "Do you really want to delete this certificate?"
-msgstr ""
+msgstr "¿Realmente quiere eliminar este certificado?"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Sending Update..."
@@ -18640,7 +18660,7 @@ msgstr "No fue posible enviar los Datos de Soporte."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "Resultado de la actualización"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
@@ -18648,7 +18668,7 @@ msgstr "Generando..."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "No ha sido posible generar el paquete de soporte."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generate Result"
@@ -18667,28 +18687,33 @@ msgid ""
 "It is not possible to set this entry to invalid. All affected configuration "
 "settings have to be changed beforehand."
 msgstr ""
+"No es posible establecer esta entrada como inválida. Todos los ajustes de "
+"configuración afectados tienen que ser cambiados de antemano."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Cannot proceed"
-msgstr ""
+msgstr "No se puede proceder"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Update manually"
-msgstr ""
+msgstr "Actualizar manualmente"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
 "You can either have the affected settings updated automatically to reflect "
 "the changes you just made or do it on your own by pressing 'update manually'."
 msgstr ""
+"Puedes hacer que los ajustes afectados se actualicen automáticamente para "
+"reflejar los cambios que acabas de hacer o hacerlo por tu cuenta pulsando "
+"\"actualizar manualmente\"."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Save and update automatically"
-msgstr ""
+msgstr "Guardar y actualizar automáticamente"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Don't save, update manually"
-msgstr ""
+msgstr "No guardar, actualizar manualmente"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
@@ -18697,6 +18722,11 @@ msgid ""
 "state. Please wait until the setting has been deployed. If you're unsure "
 "what to do next, please contact your system administrator."
 msgstr ""
+"El elemento que está viendo forma parte de un ajuste de configuración aún no "
+"desplegado, por lo que es imposible editarlo en su estado actual. Por favor, "
+"espere hasta que la configuración haya sido desplegada. Si no está seguro de "
+"qué hacer a continuación, póngase en contacto con el administrador del "
+"sistema."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -18704,71 +18734,81 @@ msgstr "Cargando..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Search the System Configuration"
-msgstr ""
+msgstr "Buscar en la configuración del sistema"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
 msgstr ""
+"Por favor, introduzca al menos una palabra de búsqueda para encontrar algo."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Unfortunately deploying is currently not possible, maybe because another "
 "agent is already deploying. Please try again later."
 msgstr ""
+"Desafortunadamente el despliegue no es posible en este momento, tal vez "
+"porque otro agente ya está desplegando. Por favor, inténtelo de nuevo más "
+"tarde."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
-msgstr ""
+msgstr "Desplegar"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "The deployment is already running."
-msgstr ""
+msgstr "El despliegue ya está en marcha."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr ""
+msgstr "Despliegue exitoso. Está siendo redirigido..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "There was an error. Please save all settings you are editing and check the "
 "logs for more information."
 msgstr ""
+"Se ha producido un error. Por favor, guarde todos los ajustes que está "
+"editando y compruebe los registros para obtener más información."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "¡La opción de reinicio es necesaria!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "By restoring this deployment all settings will be reverted to the value they "
 "had at the time of the deployment. Do you really want to continue?"
 msgstr ""
+"Al restaurar este despliegue, todos los ajustes volverán al valor que tenían "
+"en el momento del despliegue. ¿Realmente quiere continuar?"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Keys with values can't be renamed. Please remove this key/value pair instead "
 "and re-add it afterwards."
 msgstr ""
+"Las claves con valores no pueden ser renombradas. Por favor, elimine este "
+"par clave/valor y vuelva a añadirla después."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
-msgstr ""
+msgstr "Desbloquear la configuración."
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "¿Está seguro de que quiere eliminar todos los valores del usuario?"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "¿Realmente quiere eliminar este mantenimiento programado del sistema?"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Delete this Template"
-msgstr ""
+msgstr "Eliminar esta plantilla"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Deleting the template and its data. This may take a while..."
-msgstr ""
+msgstr "Borrar la plantilla y sus datos. Esto puede llevar un tiempo..."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Jump"
@@ -18792,7 +18832,7 @@ msgstr "Previo(a)"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Resources"
-msgstr ""
+msgstr "Recursos"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Su"
@@ -18851,7 +18891,7 @@ msgstr ""
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Restore default settings"
-msgstr ""
+msgstr "Restaurar la configuración por defecto"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid ""
@@ -18866,6 +18906,8 @@ msgid ""
 "First select a customer user, then select a customer ID to assign to this "
 "ticket."
 msgstr ""
+"Primero seleccione un usuario cliente, luego seleccione un ID de cliente "
+"para asignar a este ticket."
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "Duplicated entry"
@@ -18873,7 +18915,7 @@ msgstr "Entrada duplicada"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "Se va a borrar del campo, por favor, inténtelo de nuevo."
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
@@ -18897,19 +18939,19 @@ msgstr "Eliminar los filtros activos para este widget."
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "Este valor de la base de datos del campo dinámico ya está seleccionado."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
-msgstr ""
+msgstr "Por favor, espere..."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Searching for linkable objects. This may take a while..."
-msgstr ""
+msgstr "Buscando objetos enlazables. Esto puede llevar un tiempo..."
 
 #. JS File: Core.Agent.LinkObject
 msgid "Do you really want to delete this link?"
-msgstr ""
+msgstr "¿Realmente quieres borrar este enlace?"
 
 #. JS File: Core.Agent.Login
 msgid ""
@@ -18917,30 +18959,41 @@ msgid ""
 "several issues and we highly recommend you to add an exception for this "
 "domain."
 msgstr ""
+"¿Utilizas un plugin de navegador como AdBlock o AdBlockPlus? Esto puede "
+"causar varios problemas y le recomendamos que añada una excepción para este "
+"dominio."
 
 #. JS File: Core.Agent.Login
 msgid "Do not show this warning again."
-msgstr ""
+msgstr "No volver a mostrar esta advertencia."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
 msgstr ""
+"Lo sentimos, pero no se pueden desactivar todos los métodos de las "
+"notificaciones marcadas como obligatorias."
 
 #. JS File: Core.Agent.Preferences
 msgid "Sorry, but you can't disable all methods for this notification."
 msgstr ""
+"Lo sentimos, pero no se pueden desactivar todos los métodos para esta "
+"notificación."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
 msgstr ""
+"Tenga en cuenta que al menos uno de los ajustes que ha cambiado requiere una "
+"recarga de la página. Haga clic aquí para recargar la pantalla actual."
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
 msgstr ""
+"Se ha producido un error desconocido. Por favor, póngase en contacto con el "
+"administrador."
 
 #. JS File: Core.Agent.Responsive
 msgid "Switch to desktop mode"
@@ -18956,11 +19009,12 @@ msgstr ""
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "Generar"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
 msgstr ""
+"Este elemento tiene elementos hijos y actualmente no puede ser eliminado."
 
 #. JS File: Core.Agent.Statistics
 msgid "Do you really want to delete this statistic?"
@@ -18968,7 +19022,7 @@ msgstr "¿Realmente desea eliminar esta estadística?"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
-msgstr ""
+msgstr "Seleccione un ID de cliente para asignar a este ticket"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Do you really want to continue?"
@@ -18976,11 +19030,11 @@ msgstr "¿Desea continuar?"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...and %s more"
-msgstr ""
+msgstr " ...y %s más"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
-msgstr ""
+msgstr " ...ver menos"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
