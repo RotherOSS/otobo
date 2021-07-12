@@ -1,28 +1,19 @@
-# This is the build file for the OTOBO Elasticsearch docker image.
+# This is the build file for the OTOBO selenium-chrome docker image.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
-# Use 7.8.0, because latest flag is not available
-# This image is based on CentOS 7. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+# note that selenium/standalone-chrome-debug:3.141.59-20210607 has changed behavior
+FROM selenium/standalone-chrome-debug:3.141.59-20210422
 
-# install system tools
-# hadolint ignore=DL3008
-RUN yum install -y\
- "less"\
- "nano"\
- "screen"\
- "tree"\
- "vim"
+# For the VNC-viewer, e.g. Remmina
+EXPOSE 5900/tcp
 
-# Install important plugins
-RUN bin/elasticsearch-plugin install --batch ingest-attachment
-RUN bin/elasticsearch-plugin install --batch analysis-icu
+# Make sure that /opt/otobo exists and is writable by $OTOBO_USER.
+RUN sudo mkdir --parent /opt/otobo/scripts/test
+RUN sudo chown -R seluser:seluser /opt/otobo
 
-# We want an UTF-8 console
-ENV LC_ALL C.UTF-8
-ENV LANG C.UTF-8
+COPY --chown=seluser:seluser scripts/test/sample /opt/otobo/scripts/test/sample
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
@@ -33,7 +24,7 @@ LABEL org.opencontainers.image.authors='Team OTOBO <dev@otobo.org>'
 LABEL org.opencontainers.image.description='OTOBO is the new open source ticket system with strong functionality AND a great look'
 LABEL org.opencontainers.image.documentation='https://otobo.org'
 LABEL org.opencontainers.image.licenses='GNU General Public License v3.0 or later'
-LABEL org.opencontainers.image.title='OTOBO elasticsearch'
+LABEL org.opencontainers.image.title='OTOBO selenium-chrome'
 LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 ARG BUILD_DATE=unspecified

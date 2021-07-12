@@ -52,3 +52,8 @@ hooks/build || exit 1
 export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
 hooks/build || exit 1
+
+# build otobo-selenium-chrome
+export DOCKERFILE_PATH=otobo.selenium-chrome.dockerfile
+export IMAGE_NAME=otobo-selenium-chrome:$DOCKER_TAG
+hooks/build || exit 1
