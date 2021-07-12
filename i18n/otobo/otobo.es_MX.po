@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-11 08:52+0000\n"
+"PO-Revision-Date: 2021-07-12 04:13+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -17002,7 +17002,7 @@ msgstr "La configuración de client_encoding debe ser UNICODE o UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "La configuración de server_encoding debe ser UNICODE o UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Date Format"
@@ -17014,17 +17014,19 @@ msgstr "La configuración DateStyle necesita ser ISO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "Primary Key Sequences"
-msgstr ""
+msgstr "Secuencias de claves primarias"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid ""
 "The following sequences with possible wrong names have been found. Please "
 "rename them manually."
 msgstr ""
+"Se han encontrado las siguientes secuencias con posibles nombres erróneos. "
+"Por favor, renómbralas manualmente."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 9.2 or higher is required."
-msgstr ""
+msgstr "Se requiere PostgreSQL 9.2 o superior."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
@@ -17085,7 +17087,7 @@ msgstr "No todos los módulos Perl necesarios están instalados correctamente."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "Auditoría de módulos Perl"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -17093,12 +17095,18 @@ msgid ""
 "vulnerabilities. Please note that there might be false positives for "
 "distributions patching Perl modules without changing their version number."
 msgstr ""
+"CPAN::Audit ha informado de que uno o más módulos de Perl instalados tienen "
+"vulnerabilidades conocidas. Tenga en cuenta que puede haber falsos positivos "
+"para las distribuciones que parchean los módulos de Perl sin cambiar su "
+"número de versión."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
 "CPAN::Audit did not report any known vulnerabilities in the installed Perl "
 "modules."
 msgstr ""
+"CPAN::Audit no informó de ninguna vulnerabilidad conocida en los módulos de "
+"Perl instalados."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
@@ -17126,7 +17134,7 @@ msgstr "OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
-msgstr ""
+msgstr "Estado del índice de búsqueda de artículos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
@@ -17134,47 +17142,47 @@ msgstr "Artículos Indexados"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
-msgstr ""
+msgstr "Artículos por canal de comunicación"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Incoming communications"
-msgstr ""
+msgstr "Comunicaciones entrantes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Outgoing communications"
-msgstr ""
+msgstr "Comunicaciones salientes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Failed communications"
-msgstr ""
+msgstr "Comunicaciones fallidas"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Average processing time of communications (s)"
-msgstr ""
+msgstr "Tiempo medio de procesamiento de las comunicaciones (s)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "Communication Log Account Status (last 24 hours)"
-msgstr ""
+msgstr "Registro de comunicaciones Estado de la cuenta (últimas 24 horas)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
-msgstr ""
+msgstr "No se ha encontrado ninguna conexión."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
-msgstr ""
+msgstr "Vale"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
-msgstr ""
+msgstr "errores de conexión permanentes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
-msgstr ""
+msgstr "errores de conexión intermitentes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
-msgstr ""
+msgstr "Ajustes de configuración"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Could not determine value."
@@ -17194,7 +17202,7 @@ msgstr "El demonio no está en ejecución."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Database Records"
-msgstr ""
+msgstr "Registros de la base de datos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Ticket History Entries"
@@ -17226,11 +17234,11 @@ msgstr "Valorres del Campo Dinámico Invalidos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr ""
+msgstr "Interfaz genérica de servicios web"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
-msgstr ""
+msgstr "Proceso de Tickets"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Months Between First And Last Ticket"
@@ -17253,6 +17261,8 @@ msgid ""
 "Security risk: you use the default setting for SOAP::User and SOAP::"
 "Password. Please change it."
 msgstr ""
+"Riesgo de seguridad: utiliza la configuración por defecto para SOAP::User y "
+"SOAP::Password. Por favor, cámbiela."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid "Default Admin Password"
@@ -17269,11 +17279,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Email Sending Queue"
-msgstr ""
+msgstr "Cola de envío de correo electrónico"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Emails queued for sending"
-msgstr ""
+msgstr "Correos electrónicos en cola para enviar"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "FQDN (domain name)"
@@ -17299,27 +17309,35 @@ msgstr "Sistema de Archivo con permisos de Escritura"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "The file system on your OTOBO partition is not writable."
-msgstr ""
+msgstr "El sistema de archivos de su partición OTOBO no es escribible."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy Configuration Backups"
-msgstr ""
+msgstr "Copias de seguridad de la configuración heredada"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
 msgstr ""
+"No se han encontrado archivos de copia de seguridad de la configuración "
+"heredada."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but "
 "they might still be required by some packages."
 msgstr ""
+"Los archivos de copia de seguridad de la configuración heredada se "
+"encuentran en la carpeta Kernel/Config/Backups, pero pueden seguir siendo "
+"necesarios para algunos paquetes."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
+"Los archivos de copia de seguridad de la configuración heredada ya no son "
+"necesarios para los paquetes instalados, por favor, elimínelos de la carpeta "
+"Kernel/Config/Backups."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
@@ -17327,27 +17345,28 @@ msgstr "Estado de la Instalación del Paquete"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages have locally modified files."
-msgstr ""
+msgstr "Algunos paquetes tienen archivos modificados localmente."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
-msgstr ""
+msgstr "Algunos paquetes no están correctamente instalados."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "Estado de verificación del paquete"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "Algunos paquetes no son verificados por el equipo de OTOBO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
-msgstr ""
+msgstr "Estado de la versión del Framework"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
 msgstr ""
+"Algunos paquetes no están permitidos para la versión actual del framework."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
@@ -17355,19 +17374,20 @@ msgstr "Lista de Paquetes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
-msgstr ""
+msgstr "Ajustes de configuración de la sesión"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "Mensajes de correo electrónico en cola"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "There are emails in var/spool that OTOBO could not process."
-msgstr ""
+msgstr "Hay correos electrónicos en var/spool que OTOBO no ha podido procesar."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
 msgstr ""
+"La configuración de su SystemID no es válida, sólo debería contener dígitos."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
@@ -17378,6 +17398,8 @@ msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
 msgstr ""
+"El tipo de ticket configurado por defecto no es válido o no existe. Cambie "
+"el ajuste Ticket::Type::Default y seleccione un tipo de ticket válido."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
@@ -17388,14 +17410,17 @@ msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
 msgstr ""
+"Tiene más de 60.000 tickets y debería utilizar el backend StaticDB. Consulte "
+"el manual del administrador (Performance Tuning) para obtener más "
+"información."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "Usuarios no válidos con tickets bloqueados"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "Hay usuarios no válidos con entradas bloqueadas."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
@@ -17412,30 +17437,40 @@ msgid ""
 "This will increase the size of the search index and thus may slow down "
 "fulltext searches."
 msgstr ""
+"El proceso de indexación obliga a almacenar el texto original del artículo "
+"en el índice de búsqueda de artículos, sin ejecutar filtros ni aplicar "
+"listas de palabras de parada. Esto aumentará el tamaño del índice de "
+"búsqueda y, por tanto, puede ralentizar las búsquedas de texto completo."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
-msgstr ""
+msgstr "Registros huérfanos en la tabla ticket_lock_index"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
 "Table ticket_lock_index contains orphaned records. Please run bin/otobo."
 "Console.pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
+"La tabla ticket_lock_index contiene registros huérfanos. Por favor, ejecute "
+"bin/otobo.Console.pl \"Maint::Ticket::QueueIndexCleanup\" para limpiar el "
+"índice de StaticDB."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_index Table"
-msgstr ""
+msgstr "Registros huérfanos en la tabla ticket_index"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid ""
 "Table ticket_index contains orphaned records. Please run bin/otobo.Console."
 "pl \"Maint::Ticket::QueueIndexCleanup\" to clean the StaticDB index."
 msgstr ""
+"La tabla ticket_index contiene registros huérfanos. Por favor, ejecute bin/"
+"otobo.Console.pl \"Maint::Ticket::QueueIndexCleanup\" para limpiar el índice "
+"de StaticDB."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Time Settings"
-msgstr ""
+msgstr "Ajustes de tiempo"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Server time zone"
@@ -17443,43 +17478,44 @@ msgstr "Zona horaria del servidor"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone"
-msgstr ""
+msgstr "Zona horaria de OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone is not set."
-msgstr ""
+msgstr "La zona horaria de OTOBO no está configurada."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone"
-msgstr ""
+msgstr "Zona horaria por defecto del usuario"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone is not set."
-msgstr ""
+msgstr "La zona horaria por defecto del usuario no está configurada."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Calendar time zone is not set."
-msgstr ""
+msgstr "La zona horaria del calendario no está configurada."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
-msgstr ""
+msgstr "UI - Uso de la apariencia del agente"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentThemeUsage.pm
 msgid "UI - Agent Theme Usage"
-msgstr ""
+msgstr "IU - Uso del tema del agente"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "UI - Special Statistics"
-msgstr ""
+msgstr "IU - Estadísticas especiales"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
-msgstr ""
+msgstr "Agentes que utilizan la ordenación personalizada del menú principal"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
 msgstr ""
+"Agentes que utilizan los favoritos para la visión general del administrador"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
