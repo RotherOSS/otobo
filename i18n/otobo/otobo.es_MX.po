@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-12 04:13+0000\n"
+"PO-Revision-Date: 2021-07-12 14:30+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -17523,7 +17523,7 @@ msgstr "Servidor Web"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "Módulos Apache cargados"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "MPM model"
@@ -17531,7 +17531,7 @@ msgstr "Modelo MPM"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "OTOBO requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "OTOBO requiere que apache se ejecute con el modelo MPM 'prefork'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "CGI Accelerator Usage"
@@ -17539,7 +17539,7 @@ msgstr "Uso Del Acelerador de CGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr ""
+msgstr "Debería utilizar FastCGI o mod_perl para aumentar su rendimiento."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_deflate Usage"
@@ -17547,7 +17547,7 @@ msgstr "Uso de mod_deflate"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "Por favor, instale mod_deflate para mejorar la velocidad de la GUI."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_filter Usage"
@@ -17555,7 +17555,7 @@ msgstr "Uso de mod_filter"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "Por favor, instale mod_filter si se utiliza mod_deflate."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_headers Usage"
@@ -17563,11 +17563,11 @@ msgstr "Uso de mod_headers"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
+msgstr "Por favor, instale mod_headers para mejorar la velocidad de la GUI."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache::Reload Usage"
-msgstr ""
+msgstr "Uso de Apache::Reload"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid ""
@@ -17575,36 +17575,41 @@ msgid ""
 "PerlInitHandler to prevent web server restarts when installing and upgrading "
 "modules."
 msgstr ""
+"Apache::Reload o Apache2::Reload deben usarse como PerlModule y "
+"PerlInitHandler para evitar que se reinicie el servidor web al instalar y "
+"actualizar módulos."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Apache2::DBI Usage"
-msgstr ""
+msgstr "Uso de Apache2::DBI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid ""
 "Apache2::DBI should be used to get a better performance  with pre-"
 "established database connections."
 msgstr ""
+"Apache2::DBI debería utilizarse para obtener un mejor rendimiento con "
+"conexiones a bases de datos preestablecidas."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
-msgstr ""
+msgstr "Variables de entorno"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support Data Collection"
-msgstr ""
+msgstr "Soporte a la Recolección de datos"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
-msgstr ""
+msgstr "Los datos de soporte no pudieron ser recogidos del servidor web."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "Entorno PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "Se ejecuta bajo PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
@@ -17616,7 +17621,7 @@ msgstr "No se puedo determinar la versión del servidor web."
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
-msgstr ""
+msgstr "Detalles de los usuarios concurrentes"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users"
@@ -17632,99 +17637,103 @@ msgstr "Problema"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s does not exists!"
-msgstr ""
+msgstr "¡La configuración %s no existe!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s is not locked to this user!"
-msgstr ""
+msgstr "¡La configuración %s no está bloqueada para este usuario!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting value is not valid!"
-msgstr ""
+msgstr "¡El valor establecido no es válido!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not add modified setting!"
-msgstr ""
+msgstr "¡No se ha podido añadir la configuración modificada!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not update modified setting!"
-msgstr ""
+msgstr "¡No se ha podido actualizar la configuración modificada!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting could not be unlocked!"
-msgstr ""
+msgstr "¡No se ha podido desbloquear el ajuste!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
-msgstr ""
+msgstr "¡Falta la clave %s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "Configuración no válida: %s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "No se han podido combinar los valores de configuración en un hash perl."
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "¡No se puede bloquear el despliegue para el UserID '%s'!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
-msgstr ""
+msgstr "Todos los ajustes"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
-msgstr ""
+msgstr "Por defecto"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
-msgstr ""
+msgstr "El valor no es correcto. Por favor, considere actualizar este campo."
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value doesn't satisfy regex (%s)."
-msgstr ""
+msgstr "El valor no satisface la regex (%s)."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivado"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
 msgid "System was not able to calculate user Date in OTOBOTimeZone!"
-msgstr ""
+msgstr "¡El sistema no pudo calcular la fecha del usuario en la OTOBOTimeZone!!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
 msgid "System was not able to calculate user DateTime in OTOBOTimeZone!"
 msgstr ""
+"¡El sistema no ha podido calcular el DateTime del usuario en OTOBOTimeZone!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
-msgstr ""
+msgstr "El valor no es correcto. Por favor, considere actualizar este módulo."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/VacationDays.pm
 msgid "Value is not correct! Please, consider updating this setting."
 msgstr ""
+"El valor no es correcto. Por favor, considere actualizar esta configuración."
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "Reinicio del tiempo de desbloqueo."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "Participante en el chat"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "Texto del mensaje de chat"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
 msgstr ""
+"Demasiados intentos de inicio de sesión fallidos, por favor reintente en %s "
+"s."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17735,14 +17744,17 @@ msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
 msgstr ""
+"La autenticación se ha realizado con éxito, pero no se ha encontrado ningún "
+"registro de datos de usuario en la base de datos. Por favor, póngase en "
+"contacto con el administrador."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "No se puede eliminar el SessionID."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Cierre de sesión con éxito."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
@@ -17765,21 +17777,26 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "Error: sesión no válida."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "¡No hay permiso para utilizar este módulo del frontend!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
 msgstr ""
+"La autenticación se ha realizado con éxito, pero no se ha encontrado ningún "
+"registro de cliente en el backend de clientes. Por favor, póngase en "
+"contacto con el administrador."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
 msgstr ""
+"No se ha podido restablecer la contraseña. Por favor, póngase en contacto "
+"con el administrador."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17797,7 +17814,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "Añadido a través del panel de clientes (%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
@@ -17805,7 +17822,7 @@ msgstr "¡El usuario del cliente no puede ser agregado!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "¡No se puede enviar la información de la cuenta!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17819,16 +17836,20 @@ msgid ""
 "If you want to re-run installer.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"Si quieres volver a ejecutar installer.pl, entonces desactiva el SecureMode "
+"en el SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "¡Acción \"%s\" no encontrada!"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid ""
 "If you want to re-run migration.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"Si quieres volver a ejecutar migration.pl, entonces desactiva el SecureMode "
+"en el SysConfig."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -17852,7 +17873,7 @@ msgstr "nuevo"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
-msgstr ""
+msgstr "Todos los nuevos tipos de estado (por defecto: visible)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
@@ -17860,7 +17881,7 @@ msgstr "abierto"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
-msgstr ""
+msgstr "Todos los tipos de estado abiertos (por defecto: visibles)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
@@ -17868,7 +17889,7 @@ msgstr "cerrado"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
-msgstr ""
+msgstr "Todos los tipos de estado cerrados (por defecto: no visibles)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
@@ -17877,6 +17898,8 @@ msgstr "recordatorio pendiente"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
 msgstr ""
+"Todos los tipos de estado de \"recordatorio pendiente\" (por defecto: "
+"visible)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
@@ -17884,7 +17907,7 @@ msgstr "pendiente automático"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
-msgstr ""
+msgstr "Todos los tipos de estado 'pendiente de auto *' (por defecto: visible)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
@@ -17892,7 +17915,7 @@ msgstr "eliminado"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
-msgstr ""
+msgstr "Todos los tipos de estado \"eliminados\" (por defecto: no visibles)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
@@ -17900,7 +17923,7 @@ msgstr "mezclado"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
-msgstr ""
+msgstr "Tipo de estado para los tickets fusionados (por defecto: no visible)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
@@ -17977,6 +18000,8 @@ msgstr "posible"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
 msgstr ""
+"Es posible realizar un seguimiento de los tickets cerrados. El ticket será "
+"reabierto."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
@@ -17987,6 +18012,8 @@ msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
 msgstr ""
+"No es posible hacer un seguimiento de los tickets cerrados. No se creará un "
+"nuevo ticket."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
@@ -17996,6 +18023,8 @@ msgstr "nuevo ticket"
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
 msgstr ""
+"No es posible hacer un seguimiento de los tickets cerrados. Se creará un "
+"nuevo ticket."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
@@ -18021,6 +18050,7 @@ msgstr "auto responder"
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
 msgstr ""
+"Respuesta automática que se enviará tras la creación de un nuevo ticket."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
@@ -18031,6 +18061,9 @@ msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
+"Rechazo automático que se enviará después de que se haya rechazado un "
+"seguimiento (en caso de que la opción de seguimiento de la cola sea "
+"\"rechazar\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
@@ -18041,6 +18074,8 @@ msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
+"Confirmación automática que se envía después de recibir un seguimiento de un "
+"ticket (en caso de que la opción de seguimiento de la cola sea \"posible\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
@@ -18052,6 +18087,9 @@ msgid ""
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
+"Respuesta automática que se enviará después de que se haya rechazado un "
+"seguimiento y se haya creado un nuevo ticket (en caso de que la opción de "
+"seguimiento de la cola sea \"nuevo ticket\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
@@ -18060,24 +18098,29 @@ msgstr "auto eliminar"
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
 msgstr ""
+"La eliminación automática se enviará después de que el cliente haya "
+"eliminado la solicitud."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "respuesta por defecto (tras la creación de un nuevo ticket)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
 msgstr ""
+"rechazo por defecto (tras el seguimiento y rechazo de un ticket cerrado)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "seguimiento por defecto (después de añadir un seguimiento del ticket)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
+"rechazo por defecto/nuevo ticket creado (después de un seguimiento cerrado "
+"con la creación de un nuevo ticket)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
@@ -18136,6 +18179,8 @@ msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
+"Recibirá una notificación cada vez que se cree un nuevo ticket en una de sus "
+"\"Mis Colas\" o \"Mis Servicios\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
@@ -18170,6 +18215,8 @@ msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
 msgstr ""
+"Recibirá una notificación en cuanto se desbloquee automáticamente un ticket "
+"de su propiedad."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
@@ -18192,32 +18239,35 @@ msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
 msgstr ""
+"Recibirá una notificación si un ticket se mueve a una de sus \"Mis Colas\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "Notificación de recordatorio de ticket pendiente (bloqueado)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "Notificación de recordatorio de ticket pendiente (desbloqueado)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "Notificación de escalada de tickets"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "Notificación de advertencia de escalada de tickets"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "Notificación de actualización del servicio de tickets"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
 msgstr ""
+"Recibirá una notificación si el servicio de un ticket se cambia a uno de sus "
+"\"Mis Servicios\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
@@ -18228,18 +18278,20 @@ msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
 msgstr ""
+"Recibirá una notificación cada vez que se alcance una hora de recordatorio "
+"para una de sus citas."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
-msgstr ""
+msgstr "Notificación de fallo en la entrega del ticket por correo electrónico"
 
 #. JS File: Core.AJAX
 msgid "Error during AJAX communication. Status: %s, Error: %s"
-msgstr ""
+msgstr "Error durante la comunicación AJAX. Estado: %s, Error: %s"
 
 #. JS File: Core.AJAX
 msgid "This window must be called from compose window."
-msgstr ""
+msgstr "Esta ventana debe ser llamada desde la ventana de composición."
 
 #. JS File: Core.Agent.Admin.ACL
 msgid "Add all"
@@ -18267,7 +18319,7 @@ msgstr "Menos"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
-msgstr ""
+msgstr "Pulse Ctrl+C (Cmd+C) para copiar al portapapeles"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
@@ -18307,7 +18359,7 @@ msgstr "Eliminando el campo y su información. Esto puede tomar un tiempo..."
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
-msgstr ""
+msgstr "Eliminar este campo dinámico"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
@@ -18315,7 +18367,7 @@ msgstr "Quitar selección"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "¿Realmente quieres eliminar este trabajo de agente genérico?"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
@@ -18340,7 +18392,7 @@ msgstr "Detalles de la petición"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details for Communication ID"
-msgstr ""
+msgstr "Solicitar detalles para el ID Comunicación"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Show or hide the content."
@@ -18352,12 +18404,14 @@ msgstr "Limpiar log de depuración"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
-msgstr ""
+msgstr "Eliminar el módulo de tratamiento de errores"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
 msgstr ""
+"No es posible añadir un nuevo trigger de evento porque el evento no está "
+"configurado."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
@@ -18365,27 +18419,27 @@ msgstr "Eliminar este invocador"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing condition can't be removed."
-msgstr ""
+msgstr "Lo siento, la única condición existente no puede ser eliminada."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing field can't be removed."
-msgstr ""
+msgstr "Lo siento, el único campo existente no puede ser eliminado."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Delete conditions"
-msgstr ""
+msgstr "Eliminar condiciones"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key %s"
-msgstr ""
+msgstr "Asignación de la clave %s"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key"
-msgstr ""
+msgstr "Mapeo para la clave"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "Eliminar este mapeo de teclas"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceOperation
 msgid "Delete this Operation"
@@ -18417,15 +18471,15 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "Eliminar esta cuenta de correo"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
-msgstr ""
+msgstr "Borrar la cuenta de correo y sus datos. Esto puede llevar un tiempo..."
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "¿Realmente quieres eliminar este lenguaje de notificación?"
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification?"
@@ -18433,7 +18487,7 @@ msgstr "¿Está Usted seguro que desea eliminar esta notificación?"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "¿Realmente quieres borrar esta llave?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
