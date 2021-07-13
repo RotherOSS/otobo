@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-13 16:28+0000\n"
+"PO-Revision-Date: 2021-07-13 18:23+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -23751,6 +23751,8 @@ msgid ""
 "Defines the module that shows the currently logged in customers in the "
 "customer interface."
 msgstr ""
+"Define el módulo que muestra los clientes actualmente conectados en la "
+"interfaz de cliente."
 
 #. SysConfig
 msgid "Defines the module to authenticate customers."
@@ -23761,30 +23763,40 @@ msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "OTOBO Daemon is not running."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente si "
+"el demonio OTOBO no se está ejecutando."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface if the "
 "system configuration is out of sync."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente si "
+"la configuración del sistema no está sincronizada."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent has not yet selected a time zone."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente, si "
+"éste aún no ha seleccionado una zona horaria."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having out-of-office active."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente, si "
+"el agente está conectado mientras tiene activa la salida de la oficina."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if the "
 "agent is logged in while having system maintenance active."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente, si "
+"el agente está conectado mientras tiene el mantenimiento del sistema activo."
 
 #. SysConfig
 msgid ""
@@ -23800,28 +23812,39 @@ msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are invalid sysconfig settings deployed."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente, si "
+"hay ajustes de sysconfig no válidos desplegados."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the agent interface, if "
 "there are modified sysconfig settings that are not deployed yet."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del agente, si "
+"hay ajustes de sysconfig modificados que aún no se han desplegado."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer is logged in while having system maintenance active."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del cliente, "
+"si el cliente está conectado mientras tiene el mantenimiento del sistema "
+"activo."
 
 #. SysConfig
 msgid ""
 "Defines the module to display a notification in the customer interface, if "
 "the customer user has not yet selected a time zone."
 msgstr ""
+"Define el módulo para mostrar una notificación en la interfaz del cliente, "
+"si el usuario del cliente aún no ha seleccionado una zona horaria."
 
 #. SysConfig
 msgid "Defines the module to generate code for periodic page reloads."
 msgstr ""
+"Define el módulo para generar código para las recargas periódicas de la "
+"página."
 
 #. SysConfig
 msgid ""
@@ -23831,6 +23854,12 @@ msgid ""
 "\"Test\" doesn't send emails, but writes them to $OTOBO_HOME/var/tmp/"
 "CacheFileStorable/EmailTest/ for testing purposes."
 msgstr ""
+"Define el módulo para enviar correos electrónicos. \"DoNotSendEmail\" no "
+"envía correos electrónicos en absoluto. Cualquiera de los mecanismos \"SMTP\""
+" utiliza un servidor de correo (externo) especificado. \"Sendmail\" utiliza "
+"directamente el binario de sendmail de su sistema operativo. \"Test\" no "
+"envía correos electrónicos, pero los escribe en $OTOBO_HOME/var/tmp/"
+"CacheFileStorable/EmailTest/ para fines de prueba."
 
 #. SysConfig
 msgid ""
@@ -23881,6 +23910,7 @@ msgstr ""
 #. SysConfig
 msgid "Defines the name of the table where the user preferences are stored."
 msgstr ""
+"Define el nombre de la tabla donde se almacenan las preferencias del usuario."
 
 #. SysConfig
 msgid ""
@@ -23904,6 +23934,8 @@ msgid ""
 "Defines the next possible states after sending a message in the email "
 "outbound screen of the agent interface."
 msgstr ""
+"Define los siguientes estados posibles después de enviar un mensaje en la "
+"pantalla de salida de correo electrónico de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -23994,32 +24026,42 @@ msgid ""
 "Defines the next state of a ticket, in the ticket bulk screen of the agent "
 "interface."
 msgstr ""
+"Define el siguiente estado de un ticket, en la pantalla de conjunto de "
+"tickets de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Defines the number of character per line used in case an HTML article "
 "preview replacement on TemplateGenerator for EventNotifications."
 msgstr ""
+"Define el número de caracteres por línea utilizados en el caso de una "
+"sustitución de la vista previa del artículo HTML en TemplateGenerator para "
+"EventNotifications."
 
 #. SysConfig
 msgid "Defines the number of days to keep the daemon log files."
 msgstr ""
+"Define el número de días para mantener los archivos de registro del demonio."
 
 #. SysConfig
 msgid ""
 "Defines the number of header fields in frontend modules for add and update "
 "postmaster filters. It can be up to 99 fields."
 msgstr ""
+"Define el número de campos de cabecera en los módulos del frontend para "
+"añadir y actualizar los filtros del postmaster. Puede ser de hasta 99 campos."
 
 #. SysConfig
 msgid ""
 "Defines the number of hours a communication will be stored, whichever its "
 "status."
 msgstr ""
+"Define el número de horas que se almacenará una comunicación, sea cual sea "
+"su estado."
 
 #. SysConfig
 msgid "Defines the number of hours a successful communication will be stored."
-msgstr ""
+msgstr "Define el número de horas que se almacenará una comunicación exitosa."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
@@ -24034,6 +24076,14 @@ msgid ""
 "indicates the cache expiration period in minutes for the plugin. \"Mandatory"
 "\" determines if the plugin is always shown and can not be removed by agents."
 msgstr ""
+"Define los parámetros para el backend del cuadro de mando. \"Cmd\" se "
+"utiliza para especificar el comando con parámetros. \"Grupo\" se utiliza "
+"para restringir el acceso al plugin (por ejemplo, Grupo: "
+"admin;group1;group2;). \"Default\" indica si el plugin está habilitado por "
+"defecto o si el usuario debe habilitarlo manualmente. \"CacheTTL\" indica el "
+"periodo de expiración de la caché en minutos para el plugin. \"Obligatorio\" "
+"determina si el plugin se muestra siempre y no puede ser eliminado por los "
+"agentes."
 
 #. SysConfig
 msgid ""
@@ -24044,6 +24094,13 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"Define los parámetros para el backend del cuadro de mando. \"Grupo\" se "
+"utiliza para restringir el acceso al plugin (por ejemplo, Grupo: "
+"admin;group1;group2;). \"Default\" indica si el plugin está habilitado por "
+"defecto o si el usuario debe habilitarlo manualmente. \"CacheTTL\" indica el "
+"periodo de expiración de la caché en minutos para el plugin. \"Obligatorio\" "
+"determina si el plugin se muestra siempre y no puede ser eliminado por los "
+"agentes."
 
 #. SysConfig
 msgid ""
@@ -24054,6 +24111,13 @@ msgid ""
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
+"Define los parámetros para el backend del dashboard. \"Grupo\" se utiliza "
+"para restringir el acceso al plugin (por ejemplo, Grupo: "
+"admin;group1;group2;). \"Por defecto\" indica si el plugin está habilitado "
+"por defecto o si el usuario tiene que habilitarlo manualmente. "
+"\"CacheTTLLocal\" define el periodo de expiración de la caché en minutos "
+"para el plugin. \"Obligatorio\" determina si el plugin se muestra siempre y "
+"no puede ser eliminado por los agentes."
 
 #. SysConfig
 msgid ""
@@ -24065,6 +24129,13 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"Define los parámetros para el backend del dashboard. \"Límite\" define el "
+"número de entradas mostradas por defecto. \"Grupo\" se utiliza para "
+"restringir el acceso al plugin (por ejemplo, Grupo: admin;group1;group2;). "
+"\"Por defecto\" indica si el plugin está habilitado por defecto o si el "
+"usuario tiene que habilitarlo manualmente. \"CacheTTL\" indica el periodo de "
+"expiración de la caché en minutos para el plugin. \"Obligatorio\" determina "
+"si el plugin se muestra siempre y no puede ser eliminado por los agentes."
 
 #. SysConfig
 msgid ""
@@ -24076,6 +24147,14 @@ msgid ""
 "plugin. \"Mandatory\" determines if the plugin is always shown and can not "
 "be removed by agents."
 msgstr ""
+"Define los parámetros para el backend del dashboard. \"Límite\" define el "
+"número de entradas mostradas por defecto. \"Grupo\" se utiliza para "
+"restringir el acceso al plugin (por ejemplo, Grupo: admin;group1;group2;). "
+"\"Por defecto\" indica si el plugin está habilitado por defecto o si el "
+"usuario tiene que habilitarlo manualmente. \"CacheTTLLocal\" define el "
+"periodo de expiración de la caché en minutos para el plugin. \"Obligatorio\" "
+"determina si el plugin se muestra siempre y no puede ser eliminado por los "
+"agentes."
 
 #. SysConfig
 msgid "Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl)."
@@ -24148,6 +24227,8 @@ msgid ""
 "Defines the path of the shown info file, that is located under Kernel/Output/"
 "HTML/Templates/Standard/CustomerAccept.tt."
 msgstr ""
+"Define la ruta del archivo de información mostrado, que se encuentra en "
+"Kernel/Output/HTML/Templates/Standard/CustomerAccept.tt."
 
 #. SysConfig
 msgid "Defines the path to PGP binary."
@@ -24164,6 +24245,9 @@ msgid ""
 "Defines the period of time (in minutes) before agent is marked as \"away\" "
 "due to inactivity (e.g. in the \"Logged-In Users\" widget or for the chat)."
 msgstr ""
+"Define el período de tiempo (en minutos) antes de que el agente sea marcado "
+"como \"ausente\" debido a la inactividad (por ejemplo, en el widget "
+"\"Usuarios conectados\" o para el chat)."
 
 #. SysConfig
 msgid ""
@@ -24171,6 +24255,9 @@ msgid ""
 "\" due to inactivity (e.g. in the \"Logged-In Users\" widget or for the "
 "chat)."
 msgstr ""
+"Define el período de tiempo (en minutos) antes de que el cliente sea marcado "
+"como \"ausente\" debido a la inactividad (por ejemplo, en el widget "
+"\"Usuarios conectados\" o para el chat)."
 
 #. SysConfig
 msgid "Defines the postmaster default queue."
@@ -24178,7 +24265,7 @@ msgstr "Define la fila por defecto del administrador de correos."
 
 #. SysConfig
 msgid "Defines the priority in which the information is logged and presented."
-msgstr ""
+msgstr "Define la prioridad con la que se registra y presenta la información."
 
 #. SysConfig
 msgid ""
@@ -24186,6 +24273,9 @@ msgid ""
 "ticket (\"Queue\" shows all queues, \"System address\" displays all system "
 "addresses) in the agent interface."
 msgstr ""
+"Define el destino del ticket telefónico y el remitente del ticket de correo "
+"electrónico (\"Cola\" muestra todas las colas, \"Dirección del sistema\" "
+"muestra todas las direcciones del sistema) en la interfaz del agente."
 
 #. SysConfig
 msgid ""
