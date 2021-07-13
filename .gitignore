@@ -18,6 +18,7 @@ var/log/ssl_request_log
 build.log
 otobo.iml
 *.out
+git-*.txt
 
 # Editor swap files
 *.swn

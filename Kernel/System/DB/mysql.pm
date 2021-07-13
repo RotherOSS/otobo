@@ -19,7 +19,12 @@ package Kernel::System::DB::mysql;
 use strict;
 use warnings;
 
+# core modules
 use Encode ();
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',

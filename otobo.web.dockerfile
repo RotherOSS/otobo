@@ -122,13 +122,19 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Create dirs.
 # Enable bash completion.
 # Add a .vimrc.
+# make Docker image identifyable via the files git-(repo|branch|commit).txt
+# Create ARCHIVE with hashes of the files in the workdir
 # Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh when it does not already exist.
+ARG GIT_REPO=unspecified
+ARG GIT_BRANCH=unspecified
+ARG GIT_COMMIT=unspecified
 RUN install -d var/stats var/packages var/article var/tmp \
     && (echo ". ~/.bash_completion" >> .bash_aliases ) \
-    && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc
-
-# Create ARCHIVE as the last step
-RUN bin/otobo.CheckSum.pl -a create
+    && install -m u=rw,g=r,o=r scripts/vim/.vimrc .vimrc \
+    && (echo $GIT_REPO   > git-repo.txt) \
+    && (echo $GIT_BRANCH > git-branch.txt) \
+    && (echo $GIT_COMMIT > git-commit.txt) \
+    && bin/otobo.CheckSum.pl -a create
 
 # Up to now we have prepared /opt/otobo_install/otobo_next.
 # Merging /opt/otobo_install/otobo_next and /opt/otobo is left to /opt/otobo_install/entrypoint.sh.
@@ -156,9 +162,7 @@ LABEL org.opencontainers.image.url=https://github.com/RotherOSS/otobo
 LABEL org.opencontainers.image.vendor='Rother OSS GmbH'
 ARG BUILD_DATE=unspecified
 LABEL org.opencontainers.image.created=$BUILD_DATE
-ARG GIT_COMMIT=unspecified
 LABEL org.opencontainers.image.revision=$GIT_COMMIT
-ARG GIT_REPO=unspecified
 LABEL org.opencontainers.image.source=$GIT_REPO
 ARG DOCKER_TAG=unspecified
 LABEL org.opencontainers.image.version=$DOCKER_TAG
