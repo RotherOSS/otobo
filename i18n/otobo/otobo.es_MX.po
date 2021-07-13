@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-13 15:32+0000\n"
+"PO-Revision-Date: 2021-07-13 16:28+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -22862,17 +22862,40 @@ msgid ""
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
 msgstr ""
+"Define el atributo de búsqueda de tickets mostrado por defecto para la "
+"pantalla de búsqueda de tickets. Ejemplo: \"Clave\" debe tener el nombre del "
+"Campo Dinámico en este caso 'X', \"Contenido\" debe tener el valor del Campo "
+"Dinámico dependiendo del tipo de Campo Dinámico, Texto: 'un texto', "
+"Desplegable: '1', Date/Time: 'Search_DynamicField_XTimeSlotStartYear=1974; "
+"Search_DynamicField_XTimeSlotStartMonth=01; "
+"Search_DynamicField_XTimeSlotStartDay=26; "
+"Search_DynamicField_XTimeSlotStartHour=00; "
+"Search_DynamicField_XTimeSlotStartMinute=00; "
+"Search_DynamicField_XTimeSlotStartSecond=00; "
+"Search_DynamicField_XTimeSlotStopYear=2013; "
+"Search_DynamicField_XTimeSlotStopMonth=01; "
+"Search_DynamicField_XTimeSlotStopDay=26; "
+"Search_DynamicField_XTimeSlotStopHour=23; "
+"Search_DynamicField_XTimeSlotStopMinute=59; "
+"Search_DynamicField_XTimeSlotSecond=59;' y o "
+"'Search_DynamicField_XTimePointFormat=week; "
+"Search_DynamicField_XTimePointStart=Before; "
+"Search_DynamicField_XTimePointValue=7';."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all queues displayed in the queue view."
 msgstr ""
+"Define los criterios de ordenación por defecto para todas las colas "
+"mostradas en la vista de colas."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all services displayed in the service "
 "view."
 msgstr ""
+"Define el criterio de ordenación por defecto para todos los servicios "
+"mostrados en la vista de servicios."
 
 #. SysConfig
 msgid ""
@@ -22887,6 +22910,8 @@ msgid ""
 "Defines the default sort order for all services in the service view, after "
 "priority sort."
 msgstr ""
+"Define el orden por defecto de todos los servicios en la vista de servicios, "
+"después de la ordenación por prioridad."
 
 #. SysConfig
 msgid ""
@@ -22904,6 +22929,8 @@ msgid ""
 "Defines the default subject for phone tickets in the ticket phone inbound "
 "screen of the agent interface."
 msgstr ""
+"Define el asunto por defecto para los tickets telefónicos en la pantalla de "
+"entrada de tickets telefónicos de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -22926,6 +22953,8 @@ msgid ""
 "Defines the default the number of seconds (from current time) to re-schedule "
 "a generic interface failed task."
 msgstr ""
+"Define por defecto el número de segundos (desde la hora actual) para "
+"reprogramar una tarea fallida de la interfaz genérica."
 
 #. SysConfig
 msgid ""
@@ -22988,6 +23017,8 @@ msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search "
 "result of this operation."
 msgstr ""
+"Define el atributo de ticket por defecto para la clasificación de tickets "
+"del resultado de la búsqueda de tickets de esta operación."
 
 #. SysConfig
 msgid ""
@@ -23003,6 +23034,9 @@ msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone inbound screen of the agent interface."
 msgstr ""
+"Define el estado predeterminado del siguiente ticket después de añadir una "
+"nota telefónica en la pantalla de entrada del teléfono del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -23063,6 +23097,9 @@ msgid ""
 "Defines the default ticket order in the ticket search result of the this "
 "operation. Up: oldest on top. Down: latest on top."
 msgstr ""
+"Define el orden por defecto de las entradas en el resultado de la búsqueda "
+"de entradas de esta operación. Arriba: el más antiguo en la parte superior. "
+"Abajo: el más reciente en la parte superior."
 
 #. SysConfig
 msgid ""
@@ -23152,6 +23189,8 @@ msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
 msgstr ""
+"Define el tipo de ticket por defecto para los nuevos tickets de cliente en "
+"la interfaz de cliente."
 
 #. SysConfig
 msgid "Defines the default ticket type."
@@ -23192,6 +23231,8 @@ msgstr ""
 msgid ""
 "Defines the default visibility of the article to customer for this operation."
 msgstr ""
+"Define la visibilidad por defecto del artículo para el cliente para esta "
+"operación."
 
 #. SysConfig
 msgid ""
@@ -23199,11 +23240,16 @@ msgid ""
 "customers. A default agent name can be defined in Ticket::Frontend::"
 "CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
+"Define el estilo de visualización del campo De en las notas visibles para "
+"los clientes. Se puede definir un nombre de agente por defecto en el ajuste "
+"Ticket::Frontend::CustomerTicketZoom###DefaultAgentName."
 
 #. SysConfig
 msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
 msgstr ""
+"Define los campos dinámicos que se utilizan para mostrar en los eventos del "
+"calendario."
 
 #. SysConfig
 msgid ""
@@ -23219,10 +23265,13 @@ msgid ""
 "binary needs to be 'fetchmail', if it is different please use a symbolic "
 "link."
 msgstr ""
+"Define la ruta de retorno para abrir el binario de fetchmail. Nota: El "
+"nombre del binario tiene que ser 'fetchmail', si es diferente utilice un "
+"enlace simbólico."
 
 #. SysConfig
 msgid "Defines the filter that processes the HTML templates."
-msgstr ""
+msgstr "Define el filtro que procesa las plantillas HTML."
 
 #. SysConfig
 msgid ""
@@ -23238,6 +23287,9 @@ msgid ""
 "interface ([% Data.OrigFrom | html %] is From 1:1, [% Data.OrigFromName | "
 "html %] is only realname of From)."
 msgstr ""
+"Define el formato de las respuestas en la pantalla de composición de tickets "
+"de la interfaz del agente ([% Data.OrigFrom | html %] es From 1:1, [% "
+"Data.OrigFromName | html %] es sólo el nombre real de From)."
 
 #. SysConfig
 msgid ""
@@ -23256,24 +23308,33 @@ msgid ""
 "is enabled and you don't want to manage every customer user for these "
 "groups)."
 msgstr ""
+"Define los grupos en los que estará cada usuario cliente (si "
+"CustomerGroupSupport está habilitado y no quieres gestionar cada usuario "
+"cliente para estos grupos)."
 
 #. SysConfig
 msgid ""
 "Defines the groups every customer will be in (if CustomerGroupSupport is "
 "enabled and you don't want to manage every customer for these groups)."
 msgstr ""
+"Define los grupos en los que estará cada cliente (si CustomerGroupSupport "
+"está habilitado y no quiere gestionar cada cliente para estos grupos)."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
+"Define la altura del componente del editor de texto enriquecido para esta "
+"pantalla. Introduzca un número (píxeles) o un valor porcentual (relativo)."
 
 #. SysConfig
 msgid ""
 "Defines the height for the rich text editor component. Enter number (pixels) "
 "or percent value (relative)."
 msgstr ""
+"Define la altura del componente del editor de texto enriquecido. Introduzca "
+"un número (píxeles) o un valor porcentual (relativo)."
 
 #. SysConfig
 msgid ""
@@ -23343,6 +23404,9 @@ msgid ""
 "Defines the history comment for the ticket phone inbound screen action, "
 "which gets used for ticket history in the agent interface."
 msgstr ""
+"Define el comentario del historial para la acción de la pantalla de entrada "
+"del teléfono del ticket, que se utiliza para el historial del ticket en la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -23385,6 +23449,8 @@ msgid ""
 "Defines the history comment for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Define el comentario del historial para esta operación, que se utiliza para "
+"el historial de tickets en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -23454,6 +23520,9 @@ msgid ""
 "Defines the history type for the ticket phone inbound screen action, which "
 "gets used for ticket history in the agent interface."
 msgstr ""
+"Define el tipo de historial para la acción de la pantalla de entrada del "
+"teléfono del ticket, que se utiliza para el historial del ticket en la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -23496,12 +23565,16 @@ msgid ""
 "Defines the history type for this operation, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Define el tipo de historial para esta operación, que se utiliza para el "
+"historial de tickets en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Defines the hours and week days of the indicated calendar, to count the "
 "working time."
 msgstr ""
+"Define las horas y los días de la semana del calendario indicado, para "
+"contar el tiempo de trabajo."
 
 #. SysConfig
 msgid "Defines the hours and week days to count the working time."
@@ -23562,6 +23635,9 @@ msgid ""
 "as repository, for example: Key=\"http://example.com/otobo/public.pl?"
 "Action=PublicRepository;File=\" and Content=\"Some Name\"."
 msgstr ""
+"Define la lista de repositorios en línea. Se puede utilizar otra instalación "
+"como repositorio, por ejemplo: Key=\"http://example.com/otobo/public."
+"pl?Action=PublicRepository;File=\" y Content=\" Algún Nombre\"."
 
 #. SysConfig
 msgid ""
@@ -23575,10 +23651,13 @@ msgid ""
 "Defines the list of possible next actions on an error screen, a full path is "
 "required, then is possible to add external links if needed."
 msgstr ""
+"Define la lista de posibles acciones siguientes en una pantalla de error, se "
+"requiere una ruta completa, luego es posible añadir enlaces externos si es "
+"necesario."
 
 #. SysConfig
 msgid "Defines the list of types for templates."
-msgstr ""
+msgstr "Define la lista de tipos para las plantillas."
 
 #. SysConfig
 msgid ""
@@ -23604,6 +23683,10 @@ msgid ""
 "masks in your OTOBO instance to stop working (probably any mask which takes "
 "input from the user)."
 msgstr ""
+"Define el tamaño máximo (en bytes) para la subida de archivos a través del "
+"navegador. Advertencia: Establecer esta opción a un valor demasiado bajo "
+"puede hacer que muchas máscaras en su instancia de OTOBO dejen de funcionar ("
+"probablemente cualquier máscara que tome la entrada del usuario)."
 
 #. SysConfig
 msgid "Defines the maximal valid time (in seconds) for a session id."
@@ -23611,7 +23694,7 @@ msgstr "Define el tiempo máximo (en segundos) válido para un id de sesión."
 
 #. SysConfig
 msgid "Defines the maximum number of affected tickets per job."
-msgstr ""
+msgstr "Define el número máximo de tickets afectados por trabajo."
 
 #. SysConfig
 msgid "Defines the maximum number of pages per PDF file."
@@ -23620,10 +23703,12 @@ msgstr "Define el número máximo de páginas por archivo PDF."
 #. SysConfig
 msgid "Defines the maximum number of quoted lines to be added to responses."
 msgstr ""
+"Define el número máximo de líneas entrecomilladas que se añadirán a las "
+"respuestas."
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
-msgstr ""
+msgstr "Define el número máximo de tareas que se ejecutarán al mismo tiempo."
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
@@ -23634,6 +23719,8 @@ msgid ""
 "Defines the maximum size in KiloByte of GenericInterface responses that get "
 "logged to the gi_debugger_entry_content table."
 msgstr ""
+"Define el tamaño máximo en KiloByte de las respuestas de GenericInterface "
+"que se registran en la tabla gi_debugger_entry_content."
 
 #. SysConfig
 msgid ""
@@ -23648,12 +23735,16 @@ msgid ""
 "Defines the module that shows all the currently logged in customers in the "
 "agent interface."
 msgstr ""
+"Define el módulo que muestra todos los clientes actualmente conectados en la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Defines the module that shows the currently logged in agents in the customer "
 "interface."
 msgstr ""
+"Define el módulo que muestra los agentes actualmente conectados en la "
+"interfaz del cliente."
 
 #. SysConfig
 msgid ""
