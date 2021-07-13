@@ -122,15 +122,15 @@ sub XMLIn {
             Priority => 'error',
             Message  => "Parameter Options needs to be a hash ref!",
         );
+
         return;
     }
 
-    my $PerlStructure;
-    eval {
+    my $PerlStructure = eval {
 
         my $XMLSimpleObject = XML::LibXML::Simple->new();
 
-        $PerlStructure = $XMLSimpleObject->XMLin(
+        return $XMLSimpleObject->XMLin(
             $Param{XMLInput},
             $Param{Options} ? %{ $Param{Options} } : (),
         );
