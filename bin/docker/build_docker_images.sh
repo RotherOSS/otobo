@@ -27,8 +27,9 @@
 # https://docs.docker.com/docker-hub/builds/advanced/.
 # This means that local build can use the same build hook as Docker Hub builds.
 
-# set general environment variables
-export SOURCE_COMMIT=$(git rev-parse HEAD)
+# environment vars for all Docker images built by this script
+export SOURCE_BRANCH=$(git branch --show-current)   # will be empty in detached HEAD
+export SOURCE_COMMIT=$(git rev-parse HEAD)          # also works in detached HEAD
 otobo_version=$(perl -lne 'print $1 if /VERSION\s*=\s*(\S+)/' < RELEASE)
 export DOCKER_TAG="local-${otobo_version}"
 
