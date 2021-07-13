@@ -104,7 +104,8 @@ note('look at Perl code with an unusual extension');
 
 note('check syntax of some shell scripts');
 {
-    my @ShellScripts = glob 'bin/docker/*.sh';
+    # grab scripts in bin/docker and bin/devel
+    my @ShellScripts = glob 'bin/*/*.sh';
 
     if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
         push @ShellScripts, 'bin/Cron.sh';

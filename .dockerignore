@@ -32,6 +32,7 @@ local
 # ignore files that are only needed only for building the docker image
 bin/docker/build_docker_images.sh
 bin/docker/lint_docker_files.sh
+bin/devel
 hooks
 otobo.*.dockerfile
 
