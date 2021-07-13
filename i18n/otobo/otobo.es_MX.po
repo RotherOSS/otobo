@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-12 22:31+0000\n"
+"PO-Revision-Date: 2021-07-13 15:32+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -22214,30 +22214,40 @@ msgid ""
 "Defines if the note in the ticket note screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"Define si la nota en la pantalla de notas del ticket de la interfaz del "
+"agente es visible para el cliente por defecto."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket owner screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"Define si la nota en la pantalla del propietario del ticket de la interfaz "
+"del agente es visible para el cliente por defecto."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket pending screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"Define si la nota en la pantalla de tickets pendientes de la interfaz del "
+"agente es visible para el cliente por defecto."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket priority screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"Define si la nota en la pantalla de prioridad del ticket de la interfaz del "
+"agente es visible para el cliente por defecto."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket responsible screen of the agent interface "
 "is visible for the customer by default."
 msgstr ""
+"Define si la nota en la pantalla del responsable del ticket de la interfaz "
+"del agente es visible para el cliente por defecto."
 
 #. SysConfig
 msgid ""
@@ -22245,6 +22255,9 @@ msgid ""
 "This is slightly less secure but gives users 30 seconds more time to enter "
 "their one-time password."
 msgstr ""
+"Define si el token previamente válido debe ser aceptado para la "
+"autenticación. Esto es ligeramente menos seguro, pero da a los usuarios 30 "
+"segundos más de tiempo para introducir su contraseña de un solo uso."
 
 #. SysConfig
 msgid ""
@@ -22253,6 +22266,10 @@ msgid ""
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
 msgstr ""
+"Define si los valores para los filtros deben ser recuperados de todos los "
+"tickets disponibles. Si se activa, sólo los valores que se utilizan "
+"realmente en cualquier ticket estarán disponibles para el filtrado. Nota: La "
+"lista de clientes siempre se recuperará así."
 
 #. SysConfig
 msgid ""
@@ -22261,35 +22278,49 @@ msgid ""
 "is configured as active or is originally mandatory for the individual ticket "
 "action screen)."
 msgstr ""
+"Define si la contabilidad del tiempo es obligatoria en la interfaz del "
+"agente. Si está activada, debe introducirse una nota para todas las acciones "
+"de ticket (sin importar si la nota en sí está configurada como activa o si "
+"es originalmente obligatoria para la pantalla de acción de ticket "
+"individual)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
 msgstr ""
+"Define si la contabilidad de tiempos debe establecerse para todos los "
+"tickets en una acción masiva."
 
 #. SysConfig
 msgid "Defines internal communication channel."
-msgstr ""
+msgstr "Define el canal de comunicación interno."
 
 #. SysConfig
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
 msgstr ""
+"Define la plantilla del mensaje fuera de la oficina. Dos parámetros de "
+"cadena (%s) disponibles: fecha de finalización y número de días restantes."
 
 #. SysConfig
 msgid "Defines phone communication channel."
-msgstr ""
+msgstr "Define el canal de comunicación telefónica."
 
 #. SysConfig
 msgid ""
 "Defines queues that's tickets are used for displaying as calendar events."
 msgstr ""
+"Define las colas que se utilizan para mostrar los tickets como eventos del "
+"calendario."
 
 #. SysConfig
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
 "module 'PublicSupportDataCollector' (e.g. used from the OTOBO Daemon)."
 msgstr ""
+"Define el nombre de host HTTP para la recogida de datos de soporte con el "
+"módulo público 'PublicSupportDataCollector' (por ejemplo, utilizado desde el "
+"demonio OTOBO)."
 
 #. SysConfig
 msgid ""
@@ -22306,6 +22337,8 @@ msgid ""
 "Defines the PostMaster header to be used on the filter for keeping the "
 "current state of the ticket."
 msgstr ""
+"Define la cabecera PostMaster que se utilizará en el filtro para mantener el "
+"estado actual del ticket."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
@@ -22339,6 +22372,8 @@ msgstr ""
 msgid ""
 "Defines the agent preferences key where the shared secret key is stored."
 msgstr ""
+"Define la clave de preferencias del agente donde se almacena la clave "
+"secreta compartida."
 
 #. SysConfig
 msgid ""
@@ -22346,24 +22381,34 @@ msgid ""
 "to select all minutes of one hour from 1-59. Select \"30 Minutes\" to only "
 "make full and half hours available."
 msgstr ""
+"Define los pasos disponibles en las selecciones de tiempo. Seleccione "
+"\"Minuto\" para poder seleccionar todos los minutos de una hora del 1 al 59. "
+"Seleccione \"30 minutos\" para que sólo estén disponibles las horas "
+"completas y las medias horas."
 
 #. SysConfig
 msgid ""
 "Defines the body for the quick close action, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Define el cuerpo de la acción del cierre rápido, que se utiliza para el "
+"historial de tickets en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
 "password."
 msgstr ""
+"Define el texto del cuerpo de los correos de notificación enviados a los "
+"agentes, sobre la nueva contraseña."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
 "about new requested password."
 msgstr ""
+"Define el texto del cuerpo de los correos de notificación enviados a los "
+"agentes, con el token sobre la nueva contraseña solicitada."
 
 #. SysConfig
 msgid ""
@@ -22378,12 +22423,16 @@ msgid ""
 "Defines the body text for notification mails sent to customers, about new "
 "password."
 msgstr ""
+"Define el texto del cuerpo de los correos de notificación enviados a los "
+"clientes, sobre la nueva contraseña."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
 "about new requested password."
 msgstr ""
+"Define el texto del cuerpo de los correos de notificación enviados a los "
+"clientes, con el token sobre la nueva contraseña solicitada."
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
@@ -22391,11 +22440,11 @@ msgstr "Define el texto para el cuerpo de los correos electrónicos rechazados."
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
-msgstr ""
+msgstr "Define el ancho del calendario en porcentaje. Por defecto es el 95%."
 
 #. SysConfig
 msgid "Defines the close state for quick close."
-msgstr ""
+msgstr "Define el estado de cierre para el cierre rápido."
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
@@ -22404,10 +22453,11 @@ msgstr "Define la columna para guardar las llaves en la tabla de preferencias."
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
 msgstr ""
+"Define el canal de comunicación para la acción de cierre rápido del artículo."
 
 #. SysConfig
 msgid "Defines the config options for the autocompletion feature."
-msgstr ""
+msgstr "Define las opciones de configuración de la función de autocompletado."
 
 #. SysConfig
 msgid ""
@@ -22475,6 +22525,8 @@ msgstr "Define la conexión para http/ftp, a través de un proxy."
 msgid ""
 "Defines the customer preferences key where the shared secret key is stored."
 msgstr ""
+"Define la clave de preferencias del cliente donde se almacena la clave "
+"secreta compartida."
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
@@ -22492,11 +22544,15 @@ msgid ""
 "Defines the default agent name in the ticket zoom view of the customer "
 "interface."
 msgstr ""
+"Define el nombre del agente por defecto en la vista de zoom del ticket de la "
+"interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Defines the default auto response type of the article for this operation."
 msgstr ""
+"Define el tipo de respuesta automática por defecto del artículo para esta "
+"operación."
 
 #. SysConfig
 msgid ""
@@ -22512,6 +22568,9 @@ msgid ""
 "(CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix "
 "'CustomerCompany_' must be added."
 msgstr ""
+"Define los campos de filtro por defecto en la búsqueda de la libreta de "
+"direcciones del usuario cliente (CustomerUser o CustomerCompany). Para los "
+"campos ClienteEmpresa hay que añadir un prefijo 'ClienteEmpresa_'."
 
 #. SysConfig
 msgid ""
@@ -22519,6 +22578,9 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"Define el tema por defecto del front-end (HTML) que utilizarán los agentes y "
+"los clientes. Si lo desea, puede añadir su propio tema. Consulte el manual "
+"del administrador que se encuentra en https://doc.otobo.org/."
 
 #. SysConfig
 msgid ""
@@ -22546,12 +22608,16 @@ msgid ""
 "Defines the default maximum number of statistics per page on the overview "
 "screen."
 msgstr ""
+"Define el número máximo por defecto de estadísticas por página en la "
+"pantalla de resumen."
 
 #. SysConfig
 msgid ""
 "Defines the default next state for a ticket after customer follow-up in the "
 "customer interface."
 msgstr ""
+"Define el siguiente estado por defecto de un ticket tras el seguimiento del "
+"cliente en la interfaz de cliente."
 
 #. SysConfig
 msgid ""
@@ -22639,6 +22705,9 @@ msgid ""
 "Defines the default next state of a ticket after the message has been sent, "
 "in the email outbound screen of the agent interface."
 msgstr ""
+"Define el siguiente estado predeterminado de un ticket después de que se "
+"haya enviado el mensaje, en la pantalla de salida de correo electrónico de "
+"la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -22654,12 +22723,17 @@ msgid ""
 "Defines the default next state of a ticket, in the ticket bulk screen of the "
 "agent interface."
 msgstr ""
+"Define el siguiente estado por defecto de un ticket, en la pantalla de "
+"conjunto de tickets de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Defines the default note body text for phone tickets in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"Define el texto del cuerpo de la nota por defecto para los tickets "
+"telefónicos en la pantalla de entrada de tickets de telefónicos en la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -22675,6 +22749,8 @@ msgid ""
 "Defines the default priority of follow-up customer tickets in the ticket "
 "zoom screen in the customer interface."
 msgstr ""
+"Define la prioridad por defecto de los tickets de seguimiento del cliente en "
+"la pantalla de zoom del ticket en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
@@ -22698,6 +22774,7 @@ msgstr ""
 #. SysConfig
 msgid "Defines the default queue for new tickets in the agent interface."
 msgstr ""
+"Define la cola por defecto para los nuevos tickets en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -22728,6 +22805,8 @@ msgid ""
 "Defines the default sender type for phone tickets in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"Define el tipo de remitente por defecto para los tickets telefónicos en la "
+"pantalla de entrada de tickets telefónicos de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -22750,6 +22829,9 @@ msgid ""
 "Defines the default shown ticket search attribute for ticket search screen "
 "(AllTickets/ArchivedTickets/NotArchivedTickets)."
 msgstr ""
+"Define el atributo de búsqueda de tickets mostrado por defecto para la "
+"pantalla de búsqueda de tickets (AllTickets/ArchivedTickets/"
+"NotArchivedTickets)."
 
 #. SysConfig
 msgid ""
