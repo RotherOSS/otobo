@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-13 18:23+0000\n"
+"PO-Revision-Date: 2021-07-14 13:47+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -24283,6 +24283,9 @@ msgid ""
 "\"SystemAddress\" shows only the queues which are assigned to system "
 "addresses) in the customer interface."
 msgstr ""
+"Define el destino de los tickets (\"Cola\" muestra todas las colas, "
+"\"Dirección del sistema\" muestra sólo las colas asignadas a direcciones del "
+"sistema) en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
@@ -24302,10 +24305,13 @@ msgid ""
 "With the setting 'CustomerTicketTextField' the values for the recipient "
 "field can be specified."
 msgstr ""
+"Define los parámetros de búsqueda para la pantalla "
+"AgentCustomerUserAddressBook. Con el ajuste 'CustomerTicketTextField' se "
+"pueden especificar los valores del campo destinatario."
 
 #. SysConfig
 msgid "Defines the sender for rejected emails."
-msgstr ""
+msgstr "Define el remitente de los correos electrónicos rechazados."
 
 #. SysConfig
 msgid ""
@@ -24320,6 +24326,8 @@ msgid ""
 "Defines the shown columns and the position in the "
 "AgentCustomerUserAddressBook result screen."
 msgstr ""
+"Define las columnas mostradas y la posición en la pantalla de resultados de "
+"AgentCustomerUserAddressBook."
 
 #. SysConfig
 msgid ""
@@ -24327,10 +24335,13 @@ msgid ""
 "interface of this OTOBO system. The value in \"Key\" is the external URL, "
 "the value in \"Content\" is the shown label."
 msgstr ""
+"Define los enlaces mostrados en el área de pie de página de la interfaz de "
+"cliente y público de este sistema OTOBO. El valor en \"Clave\" es la URL "
+"externa, el valor en \"Contenido\" es la etiqueta mostrada."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
-msgstr ""
+msgstr "Define el campo dinámico de origen para almacenar los datos históricos."
 
 #. SysConfig
 msgid ""
@@ -24415,6 +24426,8 @@ msgid ""
 "Defines the subject for the quick close action, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"Define el asunto para la acción de cierre rápido, que se utiliza para el "
+"historial de tickets en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -24431,12 +24444,18 @@ msgid ""
 "will be processed as follow-ups (useful when communicating between two "
 "instances of OTOBO)."
 msgstr ""
+"Define el identificador del sistema. Cada número de ticket y cadena de "
+"sesión http contiene este identificador. Esto asegura que sólo los tickets "
+"que pertenecen a su sistema serán procesados como seguimientos (útil cuando "
+"se comunica entre dos instancias de OTOBO)."
 
 #. SysConfig
 msgid ""
 "Defines the target attribute in the link to external customer database. E.g. "
 "'AsPopup PopupType_TicketAction'."
 msgstr ""
+"Define el atributo de destino en el enlace a la base de datos externa de "
+"clientes. Por ejemplo, 'AsPopup PopupType_TicketAction'."
 
 #. SysConfig
 msgid ""
@@ -24449,6 +24468,8 @@ msgstr ""
 #. SysConfig
 msgid "Defines the target dynamic fields for storing historical data."
 msgstr ""
+"Define los campos dinámicos de destino para el almacenamiento de datos "
+"históricos."
 
 #. SysConfig
 msgid ""
@@ -24476,6 +24497,9 @@ msgid ""
 "The \"Key\" defines the field or ticket attribute and the \"Content\" "
 "defines the display name."
 msgstr ""
+"Define los campos del ticket que se van a mostrar los eventos del "
+"calendario. La \"Clave\" define el campo o atributo del ticket y el "
+"\"Contenido\" define el nombre a mostrar."
 
 #. SysConfig
 msgid "Defines the ticket plugin for calendar appointments."
@@ -24486,6 +24510,8 @@ msgid ""
 "Defines the time zone of the indicated calendar, which can be assigned later "
 "to a specific queue."
 msgstr ""
+"Define la zona horaria del calendario indicado, que puede asignarse "
+"posteriormente a una cola específica."
 
 #. SysConfig
 msgid ""
@@ -24493,14 +24519,17 @@ msgid ""
 "collection with the public module 'PublicSupportDataCollector' (e.g. used "
 "from the OTOBO Daemon)."
 msgstr ""
+"Define el tiempo de espera (en segundos, el mínimo es 20 segundos) para la "
+"recogida de datos de soporte con el módulo público "
+"'PublicSupportDataCollector' (por ejemplo, utilizado desde el Daemon OTOBO)."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate agents."
-msgstr ""
+msgstr "Define el módulo de dos factores para autenticar a los agentes."
 
 #. SysConfig
 msgid "Defines the two-factor module to authenticate customers."
-msgstr ""
+msgstr "Define el módulo de dos factores para autenticar a los clientes."
 
 #. SysConfig
 msgid ""
@@ -24513,6 +24542,14 @@ msgid ""
 "all forms of messaging used by the application, to build links to the "
 "tickets within your system."
 msgstr ""
+"Define el tipo de protocolo, utilizado por el servidor web, para servir la "
+"aplicación. Si se va a utilizar el protocolo HTTP en lugar del seguro HTTPS, "
+"debe especificarse aquí. Dado que esto no afecta a la configuración o al "
+"comportamiento del servidor web, no cambiará el método de acceso a la "
+"aplicación y, si es incorrecto, no impedirá que se acceda a la aplicación. "
+"Esta configuración sólo se utiliza como una variable, OTOBO_CONFIG_HttpType "
+"que se encuentra en todas las formas de mensajería utilizadas por la "
+"aplicación, para construir enlaces a las entradas dentro de su sistema."
 
 #. SysConfig
 msgid ""
@@ -24520,6 +24557,10 @@ msgid ""
 "screen of the agent interface. If this is empty or inactive, original emails "
 "will not be quoted but appended to the response."
 msgstr ""
+"Define el carácter utilizado para las citas de correo electrónico en texto "
+"plano en la pantalla de composición de tickets de la interfaz del agente. Si "
+"está vacío o inactivo, los correos electrónicos originales no se citarán "
+"sino que se añadirán a la respuesta."
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
@@ -24551,12 +24592,18 @@ msgid ""
 "have any state type from this setting, this ticket will be considered as "
 "open, otherwise as closed."
 msgstr ""
+"Define los tipos de estado válidos para un ticket. Si un ticket está en un "
+"estado que tiene cualquier tipo de estado de esta configuración, este ticket "
+"se considerará como abierto, de lo contrario como cerrado."
 
 #. SysConfig
 msgid ""
 "Defines the valid states for unlocked tickets. To unlock tickets the script "
 "\"bin/otobo.Console.pl Maint::Ticket::UnlockTimeout\" can be used."
 msgstr ""
+"Define los estados válidos para los tickets desbloqueados. Para desbloquear "
+"los tickets se puede utilizar el script \"bin/otobo.Console.pl "
+"Maint::Ticket::UnlockTimeout\"."
 
 #. SysConfig
 msgid ""
@@ -24564,12 +24611,17 @@ msgid ""
 "make sure to delete the cache in order to use the new value. Default: "
 "unlock, tmp_lock."
 msgstr ""
+"Define los bloqueos visibles de un ticket. NOTA: Cuando cambie esta "
+"configuración, asegúrese de eliminar la caché para poder utilizar el nuevo "
+"valor. Por defecto: desbloqueo, tmp_lock."
 
 #. SysConfig
 msgid ""
 "Defines the width for the rich text editor component for this screen. Enter "
 "number (pixels) or percent value (relative)."
 msgstr ""
+"Define el ancho del componente del editor de texto enriquecido para esta "
+"pantalla. Introduzca un número (píxeles) o un valor porcentual (relativo)."
 
 #. SysConfig
 msgid ""
@@ -24584,10 +24636,14 @@ msgid ""
 "Defines time in minutes since last modification for drafts of specified type "
 "before they are considered expired."
 msgstr ""
+"Define el tiempo en minutos desde la última modificación de los borradores "
+"del tipo especificado antes de que se consideren caducados."
 
 #. SysConfig
 msgid "Defines whether to index archived tickets for fulltext searches."
 msgstr ""
+"Define si se indexan los tickets archivados para las búsquedas de texto "
+"completo."
 
 #. SysConfig
 msgid ""
