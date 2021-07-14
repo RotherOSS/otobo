@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-14 22:09+0000\n"
+"PO-Revision-Date: 2021-07-15 09:29+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -26592,10 +26592,13 @@ msgid ""
 "HTTP headers and the X-Headers of outgoing mails. NOTE: If you change this "
 "option, please make sure to delete the cache."
 msgstr ""
+"Si está activada, la etiqueta de la versión de OTOBO se eliminará de la "
+"interfaz web, de las cabeceras HTTP y de las cabeceras X de los correos "
+"salientes. NOTA: Si cambia esta opción, asegúrese de borrar la caché."
 
 #. SysConfig
 msgid "If enabled, the cache data be held in memory."
-msgstr ""
+msgstr "Si se activa, los datos de la caché se mantienen en la memoria."
 
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
