@@ -15,6 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# Start a local build of the selenium server needed for Selenium testing.
-# For now we use locally built image. It can be build with bin/docker/build_docker_images.sh
-docker start otobo_selenium || docker run -d --rm --name otobo_selenium -p 4444:4444 -p 7900:7900 -v /dev/shm:/dev/shm otobo-selenium-chrome:local-10.0.x
+# Start an OTOBO specific image for Selenium testing.
+# The image will be downloaded from hub.docker.com.
+# The container holds no state. So we simple remove the container when it stops.
+docker run --detach --rm --restart no --name otobo_selenium-chrome -p 4444:4444 -p 7900:7900 -v /dev/shm:/dev/shm rotheross/otobo-selenium-chrome:latest
