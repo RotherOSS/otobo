@@ -15,7 +15,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-# Start an OTOBO specific image for Selenium testing.
-# The image will be downloaded from hub.docker.com.
-# The container holds no state. So we simple remove the container when it stops.
-docker run --detach --rm --restart no --name otobo_selenium-chrome -p 4444:4444 -p 7900:7900 -v /dev/shm:/dev/shm rotheross/otobo-selenium-chrome:latest
+# Stop the OTOBO specific container for Selenium testing.
+# Usually the container will be autmatically removed after it had been stopped.
+# The image will linger.
+docker stop otobo_selenium-chrome
