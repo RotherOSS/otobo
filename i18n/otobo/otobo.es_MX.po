@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-14 14:23+0000\n"
+"PO-Revision-Date: 2021-07-14 22:09+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -24943,11 +24943,13 @@ msgstr ""
 
 #. SysConfig
 msgid "Display communication log entries."
-msgstr ""
+msgstr "Muestra las entradas del registro de comunicaciones."
 
 #. SysConfig
 msgid "Display settings to override defaults for Process Tickets."
 msgstr ""
+"Muestra la configuración para anular los valores predeterminados de los "
+"tickets de proceso."
 
 #. SysConfig
 msgid "Displays the accounted time for an article in the ticket zoom view."
@@ -24960,6 +24962,8 @@ msgid ""
 "Displays the number of all tickets with the same CustomerID as current "
 "ticket in the ticket zoom view."
 msgstr ""
+"Muestra el número de todos los tickets con el mismo CustomerID que el ticket "
+"actual en la vista de zoom del ticket."
 
 #. SysConfig
 msgid "Down"
@@ -24967,61 +24971,74 @@ msgstr "Abajo"
 
 #. SysConfig
 msgid "Dropdown"
-msgstr ""
+msgstr "Desplegable"
 
 #. SysConfig
 msgid "Dutch"
-msgstr ""
+msgstr "Holandés"
 
 #. SysConfig
 msgid ""
 "Dutch stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en holandés para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid "Dynamic Fields Checkbox Backend GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del backend de campos dinámicos"
 
 #. SysConfig
 msgid "Dynamic Fields Contact Data Backend GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) de datos backend de los campos dinámicos "
+"de contacto"
 
 #. SysConfig
 msgid "Dynamic Fields Database Backend GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del backend de campos dinámicos"
 
 #. SysConfig
 msgid "Dynamic Fields Date Time Backend GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) del backend de los Campos dinámicos Fecha "
+"Hora"
 
 #. SysConfig
 msgid "Dynamic Fields Drop-down Backend GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) del backend de campos dinámicos "
+"desplegables"
 
 #. SysConfig
 msgid "Dynamic Fields GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) de campos dinámicos"
 
 #. SysConfig
 msgid "Dynamic Fields Multiselect Backend GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) del backend de campos dinámicos "
+"multiselección"
 
 #. SysConfig
 msgid "Dynamic Fields Overview Limit"
-msgstr ""
+msgstr "Resumen del Límite campos dinámicos"
 
 #. SysConfig
 msgid "Dynamic Fields Text Backend GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del backend Campos dinámicos Texto"
 
 #. SysConfig
 msgid "Dynamic Fields Web Service Backend GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) de los campos dinámicos del servicio web"
 
 #. SysConfig
 msgid "Dynamic Fields used to export the search result in CSV format."
 msgstr ""
+"Campos dinámicos utilizados para exportar el resultado de la búsqueda en "
+"formato CSV."
 
 #. SysConfig
 msgid ""
@@ -25029,10 +25046,14 @@ msgid ""
 "the value contains the fields to be shown. Example: 'Key => My Group', "
 "'Content: Name_X, NameY'."
 msgstr ""
+"Grupos de campos dinámicos para el widget de procesos. La clave es el nombre "
+"del grupo, el valor contiene los campos a mostrar. Ejemplo: 'Clave => Mi "
+"Grupo', 'Contenido: Nombre_X, NombreY'."
 
 #. SysConfig
 msgid "Dynamic fields limit per page for Dynamic Fields Overview."
 msgstr ""
+"Límite de campos dinámicos por página para el resumen de campos dinámicos."
 
 #. SysConfig
 msgid ""
@@ -25041,164 +25062,224 @@ msgid ""
 "of the customer interface, you have to enable them in "
 "CustomerTicketZoom###DynamicField."
 msgstr ""
+"Opciones de campos dinámicos que se muestran en la pantalla de mensajes del "
+"ticket de la interfaz del cliente. NOTA. Si desea mostrar estos campos "
+"también en el zoom del ticket de la interfaz del cliente, debe habilitarlos "
+"en CustomerTicketZoom###DynamicField."
 
 #. SysConfig
 msgid ""
 "Dynamic fields options shown in the ticket reply section in the ticket zoom "
 "screen of the customer interface."
 msgstr ""
+"Opciones de campos dinámicos mostrados en la sección de respuesta del ticket "
+"en la pantalla de zoom del ticket de la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the email outbound screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de salida de correo electrónico de "
+"la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the process widget in ticket zoom screen of the "
 "agent interface."
 msgstr ""
+"Campos dinámicos mostrados en el widget del proceso en la pantalla de zoom "
+"del ticket de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the sidebar of the ticket zoom screen of the agent "
 "interface."
 msgstr ""
+"Campos dinámicos mostrados en la barra lateral de la pantalla de zoom del "
+"ticket de la interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket close screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de cierre de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket compose screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de composición de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket email screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de correo electrónico del ticket "
+"de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket forward screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de envío de tickets de la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket free text screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de texto libre del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket medium format overview screen of the "
 "agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de resumen del formato del ticket "
+"de la interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket move screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de movimiento de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket note screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de notas del ticket de la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket overview screen of the customer interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de resumen de tickets de la "
+"interfaz de cliente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket owner screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla del propietario del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket pending screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de tickets pendientes de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone inbound screen of the agent "
 "interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de entrada del teléfono del ticket "
+"de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket phone outbound screen of the agent "
 "interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de salida del teléfono del ticket "
+"de la interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket phone screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla del teléfono del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket preview format overview screen of the "
 "agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de resumen del formato de vista "
+"previa del ticket de la interfaz del agente."
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket print screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de impresión de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket print screen of the customer interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de impresión de tickets de la "
+"interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket priority screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de prioridad del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket responsible screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla del responsable del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search overview results screen of the "
 "customer interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de resultados de búsqueda de "
+"tickets de la interfaz de cliente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the agent interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de búsqueda de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket search screen of the customer interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de búsqueda de tickets de la "
+"interfaz de cliente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket small format overview screen of the agent "
 "interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de resumen del formato pequeño del "
+"ticket de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Dynamic fields shown in the ticket zoom screen of the customer interface."
 msgstr ""
+"Campos dinámicos mostrados en la pantalla de zoom del ticket de la interfaz "
+"del cliente."
 
 #. SysConfig
 msgid "DynamicField"
-msgstr ""
+msgstr "DynamicField"
 
 #. SysConfig
 msgid "DynamicField backend registration."
-msgstr ""
+msgstr "Registro del backend de DynamicField."
 
 #. SysConfig
 msgid "DynamicField object registration."
-msgstr ""
+msgstr "Registro del objeto DynamicField."
 
 #. SysConfig
 msgid "DynamicFieldScreen"
-msgstr ""
+msgstr "DynamicFieldScreen"
 
 #. SysConfig
 msgid "DynamicField_%s"
@@ -25210,7 +25291,7 @@ msgstr "Correo saliente"
 
 #. SysConfig
 msgid "Edit Customer Companies."
-msgstr ""
+msgstr "Editar empresas clientes."
 
 #. SysConfig
 msgid "Edit Customer Users."
@@ -25222,11 +25303,11 @@ msgstr "Editar cita"
 
 #. SysConfig
 msgid "Edit contacts with data"
-msgstr ""
+msgstr "Editar contactos con datos"
 
 #. SysConfig
 msgid "Edit contacts with data."
-msgstr ""
+msgstr "Editar contactos con datos."
 
 #. SysConfig
 msgid "Edit customer company"
@@ -25234,7 +25315,7 @@ msgstr "Editar empresa del cliente"
 
 #. SysConfig
 msgid "Elasticsearch quick result module."
-msgstr ""
+msgstr "Módulo de resultados rápidos de Elasticsearch."
 
 #. SysConfig
 msgid "Email Addresses"
@@ -25242,11 +25323,11 @@ msgstr "Direcciones de Correo"
 
 #. SysConfig
 msgid "Email Outbound"
-msgstr ""
+msgstr "Correo electrónico de salida"
 
 #. SysConfig
 msgid "Email Resend"
-msgstr ""
+msgstr "Reenviar el correo electrónico"
 
 #. SysConfig
 msgid "Email communication channel."
@@ -25254,17 +25335,19 @@ msgstr "Canal de comunicación por correo electrónico."
 
 #. SysConfig
 msgid "Enable highlighting queues based on ticket age."
-msgstr ""
+msgstr "Habilitar el resaltado de colas en función de la antigüedad del ticket."
 
 #. SysConfig
 msgid "Enable keep-alive connection header for SOAP responses."
-msgstr ""
+msgstr "Habilitar la cabecera de conexión keep-alive para las respuestas SOAP."
 
 #. SysConfig
 msgid ""
 "Enable this if you trust in all your public and private pgp keys, even if "
 "they are not certified with a trusted signature."
 msgstr ""
+"Habilite esto si confía en todas sus claves pgp públicas y privadas, aunque "
+"no estén certificadas con una firma de confianza."
 
 #. SysConfig
 msgid "Enabled filters."
@@ -25277,6 +25360,10 @@ msgid ""
 "Otherwise, there will be problems with the privileges when accessing .gnupg "
 "folder."
 msgstr ""
+"Activa el soporte de PGP. Cuando se habilita el soporte de PGP para firmar y "
+"encriptar el correo, es MUY recomendable que el servidor web se ejecute como "
+"el usuario OTOBO. De lo contrario, habrá problemas con los privilegios al "
+"acceder a la carpeta .gnupg."
 
 #. SysConfig
 msgid "Enables S/MIME support."
@@ -25289,6 +25376,7 @@ msgstr "Permite a los clientes crear sus propias cuentas."
 #. SysConfig
 msgid "Enables fetch S/MIME from CustomerUser backend support."
 msgstr ""
+"Habilita la recuperación de S/MIME desde el soporte de backend CustomerUser."
 
 #. SysConfig
 msgid "Enables file upload in the package manager frontend."
@@ -25300,10 +25388,14 @@ msgid ""
 "template caching for production environments for it will cause a massive "
 "performance drop! This setting should only be disabled for debugging reasons!"
 msgstr ""
+"Activa o desactiva el almacenamiento en caché de las plantillas. ADVERTENCIA:"
+" ¡NO deshabilite el almacenamiento en caché de las plantillas en entornos de "
+"producción, ya que provocará una caída masiva del rendimiento! ¡Este ajuste "
+"sólo debe ser desactivado por razones de depuración!"
 
 #. SysConfig
 msgid "Enables or disables the debug mode over frontend interface."
-msgstr ""
+msgstr "Activa o desactiva el modo de depuración a través del frontend."
 
 #. SysConfig
 msgid ""
@@ -25327,6 +25419,8 @@ msgid ""
 "Enables the minimal ticket counter size (if \"Date\" was selected as "
 "TicketNumberGenerator)."
 msgstr ""
+"Activa el tamaño mínimo del contador de tickets (si se ha seleccionado "
+"\"Fecha\" como TicketNumberGenerator)."
 
 #. SysConfig
 msgid ""
@@ -25350,7 +25444,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Enables ticket type feature."
-msgstr ""
+msgstr "Activa la función de tipo de ticket."
 
 #. SysConfig
 msgid "Enables ticket watcher feature only for the listed groups."
@@ -25367,6 +25461,12 @@ msgid ""
 "pre-populate the questions within the installer script. Enabling SecureMode "
 "also enables GenericAgent, PackageManager and SQL Box."
 msgstr ""
+"Al activar SecureMode se desactiva el instalador web (http://yourhost.example"
+".com/otobo/installer.pl) y las migraciones. Esto se hace para evitar que el "
+"sistema sea secuestrado. Cuando SecureMode no está habilitado, el sistema "
+"puede ser reinstalado. En este caso, se utilizará la configuración básica "
+"actual para rellenar previamente las preguntas del script de instalación. Al "
+"activar SecureMode también se activan GenericAgent, PackageManager y SQL Box."
 
 #. SysConfig
 msgid "English (Canada)"
@@ -25385,18 +25485,25 @@ msgid ""
 "English stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en inglés para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid "Enroll process for this ticket"
-msgstr ""
+msgstr "Proceso de inscripción para este ticket"
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Enter your shared secret to enable two factor authentication. WARNING: Make "
 "sure that you add the shared secret to your generator application and the "
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
+"Introduzca su secreto compartido para activar la autenticación de dos "
+"factores. ADVERTENCIA: Asegúrate de que añades el secreto compartido a tu "
+"aplicación generadora y que la aplicación funciona bien. De lo contrario, ya "
+"no podrá iniciar sesión sin el token de dos factores."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -25408,21 +25515,25 @@ msgstr "Vista de escaladas"
 
 #. SysConfig
 msgid "EscalationTime"
-msgstr ""
+msgstr "EscalationTime"
 
 #. SysConfig
 msgid "Estonian"
-msgstr ""
+msgstr "Estoniano"
 
 #. SysConfig
 msgid "Event module registration (store historical data in dynamic fields)."
 msgstr ""
+"Registro del módulo de eventos (almacenar datos históricos en campos "
+"dinámicos)."
 
 #. SysConfig
 msgid ""
 "Event module registration. For more performance you can define a trigger "
 "event (e. g. Event => TicketCreate)."
 msgstr ""
+"Registro del módulo de eventos. Para un mayor rendimiento, puede definir un "
+"evento desencadenante (por ejemplo, Evento => TicketCreate)."
 
 #. SysConfig
 msgid ""
@@ -25430,52 +25541,72 @@ msgid ""
 "event (e. g. Event => TicketCreate). This is only possible if all Ticket "
 "dynamic fields need the same event."
 msgstr ""
+"Registro del módulo de eventos. Para un mayor rendimiento, puede definir un "
+"evento desencadenante (por ejemplo, Evento => TicketCreate). Esto sólo es "
+"posible si todos los campos dinámicos del ticket necesitan el mismo evento."
 
 #. SysConfig
 msgid ""
 "Event module that performs an update statement on TicketIndex to rename the "
 "queue name there if needed and if StaticDB is actually used."
 msgstr ""
+"Módulo de eventos que realiza una sentencia de actualización en TicketIndex "
+"para renombrar el nombre de la cola allí si es necesario y si se utiliza "
+"realmente StaticDB."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer company object name for dynamic fields."
 msgstr ""
+"Módulo de eventos que actualiza el nombre del objeto empresa del cliente "
+"para los campos dinámicos."
 
 #. SysConfig
 msgid "Event module that updates customer user object name for dynamic fields."
 msgstr ""
+"Módulo de eventos que actualiza el nombre del objeto usuario cliente para "
+"los campos dinámicos."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user search profiles if login changes."
 msgstr ""
+"Módulo de eventos que actualiza los perfiles de búsqueda de los usuarios "
+"clientes si se producen cambios en el inicio de sesión."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer user service membership if login changes."
 msgstr ""
+"Módulo de eventos que actualiza la membresía del servicio de usuario cliente "
+"si el inicio de sesión cambia."
 
 #. SysConfig
 msgid ""
 "Event module that updates customer users after an update of the Customer."
 msgstr ""
+"Módulo de eventos que actualiza los usuarios del cliente después de una "
+"actualización del mismo."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer User."
 msgstr ""
+"Módulo de eventos que actualiza los tickets tras una actualización del "
+"usuario cliente."
 
 #. SysConfig
 msgid "Event module that updates tickets after an update of the Customer."
 msgstr ""
+"Módulo de eventos que actualiza los tickets tras una actualización del "
+"Cliente."
 
 #. SysConfig
 msgid "Events Ticket Calendar"
-msgstr ""
+msgstr "Calendario de eventos"
 
 #. SysConfig
 msgid "Example package autoload configuration."
-msgstr ""
+msgstr "Ejemplo de configuración de autocarga de paquetes."
 
 #. SysConfig
 msgid "Execute SQL statements."
@@ -25486,16 +25617,21 @@ msgid ""
 "Executes a custom command or module. Note: if module is used, function is "
 "required."
 msgstr ""
+"Ejecuta un comando o módulo personalizado. Nota: si se utiliza un módulo, la "
+"función es obligatoria."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on In-Reply-To or References headers for mails "
 "that don't have a ticket number in the subject."
 msgstr ""
+"Ejecuta comprobaciones de seguimiento en las cabeceras In-Reply-To o "
+"References para los correos que no tienen un número de ticket en el asunto."
 
 #. SysConfig
 msgid "Executes follow-up checks on OTOBO Header 'X-OTOBO-Bounce'."
 msgstr ""
+"Ejecuta comprobaciones de seguimiento en la cabecera OTOBO 'X-OTOBO-Bounce'."
 
 #. SysConfig
 msgid ""
@@ -25510,12 +25646,16 @@ msgid ""
 "Executes follow-up checks on email body for mails that don't have a ticket "
 "number in the subject."
 msgstr ""
+"Ejecuta comprobaciones de seguimiento en el cuerpo del correo electrónico "
+"para los correos que no tienen un número de ticket en el asunto."
 
 #. SysConfig
 msgid ""
 "Executes follow-up checks on the raw source email for mails that don't have "
 "a ticket number in the subject."
 msgstr ""
+"Ejecuta comprobaciones de seguimiento en el correo electrónico de origen en "
+"bruto para los correos que no tienen un número de ticket en el asunto."
 
 #. SysConfig
 msgid ""
@@ -25554,6 +25694,9 @@ msgid ""
 "Fields of the customer company index, used for the company fulltext search. "
 "Fields are also stored, but are not mandatory for the overall functionality."
 msgstr ""
+"Campos del índice de la empresa cliente, utilizados para la búsqueda de "
+"texto completo de la empresa. Los campos también se almacenan, pero no son "
+"obligatorios para la funcionalidad general."
 
 #. SysConfig
 msgid ""
@@ -25563,6 +25706,11 @@ msgid ""
 "update event has to be added to the TicketManagement invoker of the "
 "Elasticsearch webservice!"
 msgstr ""
+"Campos del índice del ticket, utilizados para la búsqueda de texto completo "
+"del ticket. Los campos también se almacenan, pero no son obligatorios para "
+"la funcionalidad general. Si se añaden campos que pueden actualizarse ("
+"especialmente DynamicFields), ¡su respectivo evento de actualización debe "
+"añadirse al invocador TicketManagement del servicio web de Elasticsearch!"
 
 #. SysConfig
 msgid ""
@@ -25570,6 +25718,9 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"Campos almacenados en el índice de empresa cliente que se utilizan para "
+"otras cosas además de las búsquedas de texto completo. Para la funcionalidad "
+"completa todos los campos son obligatorios."
 
 #. SysConfig
 msgid ""
@@ -25577,6 +25728,9 @@ msgid ""
 "besides fulltext searches. For the complete functionality all fields are "
 "mandatory."
 msgstr ""
+"Campos almacenados en el índice de usuario cliente que se utilizan para "
+"otras cosas además de las búsquedas de texto completo. Para la funcionalidad "
+"completa todos los campos son obligatorios."
 
 #. SysConfig
 msgid ""
@@ -25586,30 +25740,45 @@ msgid ""
 "respective update event has to be added to the TicketManagement invoker of "
 "the Elasticsearch webservice!"
 msgstr ""
+"Campos almacenados en el índice del ticket que se utilizan para otras cosas "
+"además de las búsquedas de texto completo. Para la funcionalidad completa "
+"todos los campos son obligatorios. Si se añaden campos que pueden ser "
+"actualizados (especialmente DynamicFields), ¡su respectivo evento de "
+"actualización tiene que ser añadido al invocador TicketManagement del "
+"servicio web de Elasticsearch!"
 
 #. SysConfig
 msgid ""
 "Fields to be searched in ticket index. Fields are also stored, but are not "
 "mandatory for the overall functionality."
 msgstr ""
+"Campos a buscar en el índice de tickets. Los campos también se almacenan, "
+"pero no son obligatorios para la funcionalidad general."
 
 #. SysConfig
 msgid ""
 "File that is displayed in the Kernel::Modules::AgentInfo module, if located "
 "under Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 msgstr ""
+"Archivo que se muestra en el módulo Kernel::Modules::AgentInfo, si se "
+"encuentra en Kernel/Output/HTML/Templates/Standard/AgentInfo.tt."
 
 #. SysConfig
 msgid ""
 "Filter for debugging ACLs. Note: More ticket attributes can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"Filtro para depurar ACLs. Nota: Se pueden añadir más atributos de tickets "
+"con el formato <OTOBO_TICKET_Attribute>, por ejemplo, "
+"<OTOBO_TICKET_Priority>."
 
 #. SysConfig
 msgid ""
 "Filter for debugging Transitions. Note: More filters can be added in the "
 "format <OTOBO_TICKET_Attribute> e.g. <OTOBO_TICKET_Priority>."
 msgstr ""
+"Filtro para depurar las transiciones. Nota: Se pueden añadir más filtros con "
+"el formato <OTOBO_TICKET_Attribute>, por ejemplo, <OTOBO_TICKET_Priority>."
 
 #. SysConfig
 msgid "Filter incoming emails."
@@ -25633,19 +25802,19 @@ msgstr "Tiempo de primera respuesta"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr ""
+msgstr "FirstLock"
 
 #. SysConfig
 msgid "FirstResponse"
-msgstr ""
+msgstr "FirstResponse"
 
 #. SysConfig
 msgid "FirstResponseDiffInMin"
-msgstr ""
+msgstr "FirstResponseDiffInMin"
 
 #. SysConfig
 msgid "FirstResponseInMin"
-msgstr ""
+msgstr "FirstResponseInMin"
 
 #. SysConfig
 msgid "Firstname Lastname"
@@ -25653,13 +25822,15 @@ msgstr "Nombre Apellido"
 
 #. SysConfig
 msgid "Firstname Lastname (UserLogin)"
-msgstr ""
+msgstr "Nombre Apellido (UserLogin)"
 
 #. SysConfig
 msgid ""
 "For these state types the ticket numbers are striked through in the link "
 "table."
 msgstr ""
+"Para estos tipos de estado, los números de ticket están tachados en la tabla "
+"de enlaces."
 
 #. SysConfig
 msgid ""
@@ -25667,6 +25838,10 @@ msgid ""
 "without executing filters or applying stop word lists. This will increase "
 "the size of the search index and thus may slow down fulltext searches."
 msgstr ""
+"Forzar el almacenamiento del texto original del artículo en el índice de "
+"búsqueda de artículos, sin ejecutar filtros ni aplicar listas de palabras de "
+"parada. Esto aumentará el tamaño del índice de búsqueda y, por tanto, puede "
+"ralentizar las búsquedas de texto completo."
 
 #. SysConfig
 msgid "Forces encoding of outgoing emails (7bit|8bit|quoted-printable|base64)."
@@ -25694,10 +25869,14 @@ msgid ""
 "would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search."
 "cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns."
 msgstr ""
+"Formato de la fecha de creación mostrada para los tickets. Por ejemplo, \""
+"%Y-%m-%d %H:%M:%S\" se interpretaría como \"2020-01-22 18:07:23\". Consulte "
+"http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime."
+"pm#strftime_Patterns."
 
 #. SysConfig
 msgid "Format to be ingested."
-msgstr ""
+msgstr "Formato a consumir."
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
@@ -25716,16 +25895,20 @@ msgid ""
 "French stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en francés para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid "Frontend"
-msgstr ""
+msgstr "Frontend"
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable AgentTicketService link if Ticket "
 "Service feature is not used)."
 msgstr ""
+"Registro del módulo frontend (desactive el enlace AgentTicketService si no "
+"se utiliza la función Ticket Service)."
 
 #. SysConfig
 msgid ""
@@ -25740,22 +25923,28 @@ msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available) for Customer."
 msgstr ""
+"Registro del módulo Frontend (desactivar la pantalla de procesos de tickets "
+"si no hay procesos disponibles) para el Cliente."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (disable ticket processes screen if no process "
 "available)."
 msgstr ""
+"Registro del módulo frontend (desactivar la pantalla de procesos del ticket "
+"si no hay ningún proceso disponible)."
 
 #. SysConfig
 msgid ""
 "Frontend module registration (show personal favorites as sub navigation "
 "items of 'Admin')."
 msgstr ""
+"Registro del módulo frontend (mostrar los favoritos personales como "
+"elementos de subnavegación de 'Admin')."
 
 #. SysConfig
 msgid "Frontend module registration for the admin interface."
-msgstr ""
+msgstr "Registro del módulo frontend para la interfaz de administración."
 
 #. SysConfig
 msgid "Frontend module registration for the agent interface."
@@ -25776,6 +25965,8 @@ msgstr "Valor completo"
 #. SysConfig
 msgid "Fulltext index regex filters to remove parts of the text."
 msgstr ""
+"Filtros de índice de expresiones regulares de texto completo para eliminar "
+"partes del texto."
 
 #. SysConfig
 msgid "Fulltext search"
@@ -25783,11 +25974,11 @@ msgstr "Búsqueda de texto completo"
 
 #. SysConfig
 msgid "Fulltext search using Elasticsearch."
-msgstr ""
+msgstr "Búsqueda de texto completo mediante Elasticsearch."
 
 #. SysConfig
 msgid "FulltextES"
-msgstr ""
+msgstr "FulltextES"
 
 #. SysConfig
 msgid "Galician"
@@ -25798,12 +25989,17 @@ msgid ""
 "General ticket data shown in the ticket overviews (fall-back). Note that "
 "TicketNumber can not be disabled, because it is necessary."
 msgstr ""
+"Datos generales del ticket que se muestran en los resúmenes de los tickets "
+"(fall-back). Tenga en cuenta que TicketNumber no se puede desactivar, ya que "
+"es necesario."
 
 #. SysConfig
 msgid ""
 "Generate HTML comment hooks for the specified blocks so that filters can use "
 "them."
 msgstr ""
+"Genera los comentarios HTML de los bloques especificados para que los "
+"filtros puedan utilizarlos."
 
 #. SysConfig
 msgid "Generate dashboard statistics."
@@ -25811,7 +26007,7 @@ msgstr "Generar estadísticas del panel."
 
 #. SysConfig
 msgid "Generic Info module."
-msgstr ""
+msgstr "Módulo de información genérica."
 
 #. SysConfig
 msgid "GenericAgent"
@@ -25819,67 +26015,74 @@ msgstr "AgenteGenérico"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del depurador de la GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface ErrorHandling GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) GenericInterface ErrorHandling"
 
 #. SysConfig
 msgid "GenericInterface Invoker Event GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) del invocación de eventos GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Invoker GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del invocador GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Operation GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) de Operación de GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPREST GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) de GenericInterface TransportHTTPREST"
 
 #. SysConfig
 msgid "GenericInterface TransportHTTPSOAP GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) de GenericInterface TransportHTTPSOAP"
 
 #. SysConfig
 msgid "GenericInterface Web Service GUI"
-msgstr ""
+msgstr "Interfaz gráfica de usuario (GUI) del servicio web GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Web Service History GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) del Historial del servicio web "
+"GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface Web Service Mapping GUI"
 msgstr ""
+"Interfaz gráfica de usuario (GUI) de mapeo de servicios web GenericInterface"
 
 #. SysConfig
 msgid "GenericInterface module registration for an error handling module."
 msgstr ""
+"Registro del módulo GenericInterface para un módulo de gestión de errores."
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
 msgstr ""
+"Registro del módulo GenericInterface para la capa de invocación de "
+"PassThrough."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
-msgstr ""
+msgstr "Registro del módulo GenericInterface para la capa de invocación."
 
 #. SysConfig
 msgid "GenericInterface module registration for the mapping layer."
-msgstr ""
+msgstr "Registro del módulo GenericInterface para la capa de mapeo."
 
 #. SysConfig
 msgid "GenericInterface module registration for the operation layer."
-msgstr ""
+msgstr "Registro del módulo GenericInterface para la capa de operación."
 
 #. SysConfig
 msgid "GenericInterface module registration for the transport layer."
-msgstr ""
+msgstr "Registro del módulo GenericInterface para la capa de transporte."
 
 #. SysConfig
 msgid "German"
@@ -25890,12 +26093,17 @@ msgid ""
 "German stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en alemán para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid ""
 "Gives customer users group based access to tickets from customer users of "
 "the same customer (ticket CustomerID is a CustomerID of the customer user)."
 msgstr ""
+"Da a los usuarios cliente acceso basado en grupos a los tickets de los "
+"usuarios del mismo cliente (el CustomerID del ticket es un CustomerID del "
+"usuario del cliente)."
 
 #. SysConfig
 msgid ""
@@ -25916,7 +26124,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Global Search Module."
-msgstr ""
+msgstr "Módulo de búsqueda global."
 
 #. SysConfig
 msgid "Go to dashboard!"
@@ -25924,23 +26132,26 @@ msgstr "¡Ir al panel principal!"
 
 #. SysConfig
 msgid "Good PGP signature."
-msgstr ""
+msgstr "Buena firma PGP."
 
 #. SysConfig
 msgid "Google Authenticator"
 msgstr "Autenticador de Google"
 
 #. SysConfig
+#, fuzzy
 msgid "Graph: Bar Chart"
-msgstr ""
+msgstr "Gráfico: Gráfico de barras"
 
 #. SysConfig
+#, fuzzy
 msgid "Graph: Line Chart"
-msgstr ""
+msgstr "Gráfico: Gráfico de líneas"
 
 #. SysConfig
+#, fuzzy
 msgid "Graph: Stacked Area Chart"
-msgstr ""
+msgstr "Gráfico: Gráfico de áreas apiladas"
 
 #. SysConfig
 msgid "Greek"
@@ -25958,14 +26169,19 @@ msgid ""
 "initial index use \"bin/otobo.Console.pl Maint::Ticket::FulltextIndex --"
 "rebuild\"."
 msgstr ""
+"Ayuda a ampliar la búsqueda de texto completo de sus artículos (De, Para, "
+"CC, Asunto y Cuerpo). Despojará todos los artículos y construirá un índice "
+"después de la creación del artículo, aumentando las búsquedas de texto "
+"completo alrededor del 50%. Para crear un índice inicial utilice \"bin/"
+"otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild\"."
 
 #. SysConfig
 msgid "High Contrast"
-msgstr ""
+msgstr "Alto contraste"
 
 #. SysConfig
 msgid "High contrast skin for visually impaired users."
-msgstr ""
+msgstr "Diseño de alto contraste para usuarios con problemas de visión."
 
 #. SysConfig
 msgid "Hindi"
@@ -26020,6 +26236,8 @@ msgid ""
 "If \"DB\" was selected for Customer::AuthModule, the encryption type of "
 "passwords must be specified."
 msgstr ""
+"Si se ha seleccionado \"DB\" para Customer::AuthModule, se debe especificar "
+"el tipo de cifrado de las contraseñas."
 
 #. SysConfig
 msgid ""
@@ -26070,6 +26288,9 @@ msgid ""
 "to strip leading parts of user names (e. g. for domains like example_domain\\"
 "\\user to user)."
 msgstr ""
+"Si se ha seleccionado \"HTTPBasicAuth\" para Customer::AuthModule, puede "
+"especificar que se eliminen las partes iniciales de los nombres de usuario ("
+"por ejemplo, para dominios como example_domain\\\\\\user a user)."
 
 #. SysConfig
 msgid ""
@@ -26243,6 +26464,9 @@ msgid ""
 "If \"bcrypt\" was selected for CryptType, use cost specified here for bcrypt "
 "hashing. Currently max. supported cost value is 31."
 msgstr ""
+"Si se seleccionó \"bcrypt\" para el tipo de encriptación, utilice el coste "
+"especificado aquí para el hash bcrypt. Actualmente el valor máximo de coste "
+"soportado es 31."
 
 #. SysConfig
 msgid ""
@@ -26257,12 +26481,16 @@ msgid ""
 "If active, none of the regular expressions may match the user's email "
 "address to allow registration."
 msgstr ""
+"Si está activo, ninguna de las expresiones regulares puede coincidir con la "
+"dirección de correo electrónico del usuario para permitir el registro."
 
 #. SysConfig
 msgid ""
 "If active, one of the regular expressions has to match the user's email "
 "address to allow registration."
 msgstr ""
+"Si se activa, una de las expresiones regulares tiene que coincidir con la "
+"dirección de correo electrónico del usuario para permitir el registro."
 
 #. SysConfig
 msgid ""
@@ -26302,27 +26530,34 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled debugging information for ACLs is logged."
-msgstr ""
+msgstr "Si se activa, se registra la información de depuración de las ACL."
 
 #. SysConfig
 msgid "If enabled debugging information for transitions is logged."
 msgstr ""
+"Si se activa, se registra la información de depuración de las transiciones."
 
 #. SysConfig
 msgid ""
 "If enabled defines the preselected state for customer follow-up in the "
 "customer interface."
 msgstr ""
+"Si está activado, define el estado preseleccionado para el seguimiento del "
+"cliente en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard error stream to a log file."
 msgstr ""
+"Si se activa, el demonio redirigirá el flujo de error estándar a un archivo "
+"de registro."
 
 #. SysConfig
 msgid ""
 "If enabled the daemon will redirect the standard output stream to a log file."
 msgstr ""
+"Si se activa, el demonio redirigirá el flujo de salida estándar a un archivo "
+"de registro."
 
 #. SysConfig
 msgid ""
@@ -26330,10 +26565,14 @@ msgid ""
 "Please stop the daemon before any change and use this setting only if <"
 "$OTOBOHome>/var/run/ can not be used."
 msgstr ""
+"Si se activa, el demonio utilizará este directorio para crear sus archivos "
+"PID. Nota: Por favor, detenga el demonio antes de cualquier cambio y utilice "
+"esta configuración sólo si <$OTOBOHome>/var/run/ no puede ser utilizado."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all CSS files in minified form."
 msgstr ""
+"Si se activa, OTOBO entregará todos los archivos CSS en forma minificada."
 
 #. SysConfig
 msgid "If enabled, OTOBO will deliver all JavaScript files in minified form."
