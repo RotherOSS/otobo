@@ -127,10 +127,12 @@
                             <td>[% Data.ChangeTime | Localize("TimeShort") %]</td>
                             <td>[% Data.CreateTime | Localize("TimeShort") %]</td>
                             <td class="Center">
+                            [% IF Data.Permission != 'ro' %]
                                 <a class="TrashCan TemplateDelete" href="#" data-query-string="Action=[% Env("Action") %];Subaction=Delete;ID=[% Data.ID | uri %];[% Env("ChallengeTokenParam") | html %]" title="[% Translate("Delete this entry") | html %]">
                                     [% Translate("Delete this entry") | html %]
                                     <i class="fa fa-trash-o"></i>
                                 </a>
+                            [% END %]
                             </td>
                         </tr>
 [% RenderBlockEnd("OverviewResultRow") %]
@@ -221,6 +223,7 @@
                         </div>
                         <div class="Clear"></div>
 
+                    [% IF Data.Permission != 'ro' %]
                         <div class="Field">
                             [% IF Data.Action == 'Change' %]
                                 <button class="CallForAction Primary" id="SubmitAndContinue" type="button" value="[% Translate("Save") | html %]"><span>[% Translate("Save") | html %]</span></button>
@@ -233,6 +236,7 @@
                             <a href="[% Env("Baselink") %]Action=[% Env("Action") %]">[% Translate("Cancel") | html %]</a>
                         </div>
                         <div class="Clear"></div>
+                    [% END %]
                     </fieldset>
                 </form>
             </div>

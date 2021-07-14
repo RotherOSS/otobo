@@ -1118,6 +1118,9 @@ sub Run {
                     $Param{AccessRo} = 1;
                 }
             }
+            if ( $Param{Action} =~ /^Admin/ && !$Param{AccessRw} && $Param{AccessRo} ) {
+                $Param{LightAdmin} = 1;
+            }
             if ( !$Param{AccessRo} && !$Param{AccessRw} || !$Param{AccessRo} && $Param{AccessRw} ) {
 
                 print $Kernel::OM->Get('Kernel::Output::HTML::Layout')->NoPermission(
