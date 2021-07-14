@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-14 13:47+0000\n"
+"PO-Revision-Date: 2021-07-14 14:23+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -24650,20 +24650,28 @@ msgid ""
 "Defines which article sender types should be shown in the preview of a "
 "ticket."
 msgstr ""
+"Define qué tipos de remitentes de artículos deben mostrarse en la vista "
+"previa de un ticket."
 
 #. SysConfig
 msgid ""
 "Defines which items are available for 'Action' in third level of the ACL "
 "structure."
 msgstr ""
+"Define qué elementos están disponibles para la \"Acción\" en el tercer nivel "
+"de la estructura ACL."
 
 #. SysConfig
 msgid "Defines which items are available in first level of the ACL structure."
 msgstr ""
+"Define qué elementos están disponibles en el primer nivel de la estructura "
+"ACL."
 
 #. SysConfig
 msgid "Defines which items are available in second level of the ACL structure."
 msgstr ""
+"Define qué elementos están disponibles en el segundo nivel de la estructura "
+"ACL."
 
 #. SysConfig
 msgid ""
@@ -24678,14 +24686,18 @@ msgid ""
 "Defines, which tickets of which ticket state types should not be listed in "
 "linked ticket lists."
 msgstr ""
+"Define qué tickets de qué tipo de estado de ticket no deben aparecer en las "
+"listas de tickets enlazados."
 
 #. SysConfig
 msgid "Delete expired cache from core modules."
-msgstr ""
+msgstr "Eliminar el caché caducado de los módulos centrales."
 
 #. SysConfig
 msgid "Delete expired loader cache weekly (Sunday mornings)."
 msgstr ""
+"Borrar el caché del cargador caducado semanalmente (los domingos por la "
+"mañana)."
 
 #. SysConfig
 msgid "Delete expired sessions."
@@ -24693,11 +24705,11 @@ msgstr "Eliminar sesiones expiradas."
 
 #. SysConfig
 msgid "Delete expired ticket draft entries."
-msgstr ""
+msgstr "Eliminar las entradas de ticket borrador caducados."
 
 #. SysConfig
 msgid "Delete expired upload cache hourly."
-msgstr ""
+msgstr "Borrar el caché de carga caducado cada hora."
 
 #. SysConfig
 msgid "Delete this ticket"
@@ -24724,20 +24736,24 @@ msgid ""
 "Delivers extended debugging information in the frontend in case any AJAX "
 "errors occur, if enabled."
 msgstr ""
+"Ofrece información de depuración ampliada en el frontend en caso de que se "
+"produzca algún error de AJAX, si está activado."
 
 #. SysConfig
 msgid "DeploymentHistory"
-msgstr ""
+msgstr "Historial de despliegue"
 
 #. SysConfig
 msgid "Detached"
-msgstr ""
+msgstr "Independiente"
 
 #. SysConfig
 msgid ""
 "Determines if a button to delete a link should be displayed next to each "
 "link in each zoom mask."
 msgstr ""
+"Determina si se debe mostrar un botón para eliminar un enlace junto a cada "
+"enlace en cada máscara de zoom."
 
 #. SysConfig
 msgid ""
@@ -24752,7 +24768,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines if the statistics module may generate ticket lists."
-msgstr ""
+msgstr "Determina si el módulo de estadísticas puede generar listas de tickets."
 
 #. SysConfig
 msgid ""
@@ -24775,12 +24791,16 @@ msgid ""
 "Determines the next possible ticket states, for process tickets in the agent "
 "interface."
 msgstr ""
+"Determina los siguientes estados posibles del ticket, para procesar tickets "
+"en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Determines the next possible ticket states, for process tickets in the "
 "customer interface."
 msgstr ""
+"Determina los siguientes estados posibles del ticket, para procesar tickets "
+"en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
@@ -24795,6 +24815,8 @@ msgid ""
 "Determines the next screen after the follow-up screen of a zoomed ticket in "
 "the customer interface."
 msgstr ""
+"Determina la siguiente pantalla después de la pantalla de seguimiento de un "
+"ticket ampliado en la interfaz del cliente."
 
 #. SysConfig
 msgid ""
@@ -24802,6 +24824,10 @@ msgid ""
 "will return the last overview screen (e.g. search results, queueview, "
 "dashboard). TicketZoom will return to the TicketZoom."
 msgstr ""
+"Determina la siguiente pantalla después de mover el ticket. "
+"LastScreenOverview devolverá la última pantalla de vista general (por "
+"ejemplo, resultados de búsqueda, vista de cola, tablero). TicketZoom "
+"regresará al TicketZoom."
 
 #. SysConfig
 msgid ""
@@ -24819,6 +24845,12 @@ msgid ""
 "for SystemAddress \"<Realname> <<Email>>\" shows the name and email of the "
 "recipient."
 msgstr ""
+"Determina las cadenas que se mostrarán como destinatario (To:) del ticket "
+"telefónico y como remitente (From:) del ticket de correo electrónico en la "
+"interfaz del agente. Para la cola como NewQueueSelectionType \"<Cola>\" "
+"muestra los nombres de las colas y para SystemAddress \"<Nombre real> "
+"<<Correo electrónico>>\" muestra el nombre y el correo electrónico del "
+"destinatario."
 
 #. SysConfig
 msgid ""
@@ -24827,6 +24859,11 @@ msgid ""
 "\" shows the names of the queues, and for SystemAddress, \"<Realname> "
 "<<Email>>\" shows the name and email of the recipient."
 msgstr ""
+"Determina las cadenas que se mostrarán como destinatario (To:) del ticket en "
+"la interfaz del cliente. Para la cola como CustomerPanelSelectionType, \""
+"<Queue>\" muestra los nombres de las colas, y para SystemAddress, \""
+"<Realname> <<Email>>\" muestra el nombre y el correo electrónico del "
+"destinatario."
 
 #. SysConfig
 msgid "Determines the way the linked objects are displayed in each zoom mask."
@@ -24839,6 +24876,8 @@ msgid ""
 "Determines which options will be valid of the recipient (phone ticket) and "
 "the sender (email ticket) in the agent interface."
 msgstr ""
+"Determina qué opciones serán válidas para el destinatario (ticket telefónico)"
+" y del remitente (ticket de correo electrónico) en la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -24854,6 +24893,10 @@ msgid ""
 "script contents. Disabling this HTTP header can be a security issue! Only "
 "disable it, if you know what you are doing!"
 msgstr ""
+"Desactive la cabecera HTTP \"Content-Security-Policy\" para permitir la "
+"carga de contenidos de scripts externos. Desactivar esta cabecera HTTP puede "
+"suponer un problema de seguridad. ¡Sólo desactívela si sabe lo que está "
+"haciendo!"
 
 #. SysConfig
 msgid ""
@@ -24861,32 +24904,42 @@ msgid ""
 "included as an IFrame in other websites. Disabling this HTTP header can be a "
 "security issue! Only disable it, if you know what you are doing!"
 msgstr ""
+"Desactive la cabecera HTTP \"X-Frame-Options: SAMEORIGIN\" para permitir que "
+"OTOBO sea incluido como un IFrame en otros sitios web. Desactivar esta "
+"cabecera HTTP puede suponer un problema de seguridad. ¡Sólo desactívela si "
+"sabe lo que está haciendo!"
 
 #. SysConfig
 msgid "Disable autocomplete in the login screen."
-msgstr ""
+msgstr "Desactivar el autocompletado en la pantalla de inicio de sesión."
 
 #. SysConfig
 msgid "Disable cloud services"
-msgstr ""
+msgstr "Desactivar los servicios en la nube"
 
 #. SysConfig
 msgid ""
 "Disables sending reminder notifications to the responsible agent of a ticket "
 "(Ticket::Responsible needs to be enabled)."
 msgstr ""
+"Desactiva el envío de notificaciones de recordatorio al agente responsable "
+"de un ticket (Ticket::Responsible debe estar activado)."
 
 #. SysConfig
 msgid ""
 "Disables the redirection to the last screen overview / dashboard after a "
 "ticket is closed."
 msgstr ""
+"Desactiva la redirección a la última pantalla de resumen / tablero después "
+"de cerrar un ticket."
 
 #. SysConfig
 msgid ""
 "Display a warning and prevent search when using stop words within fulltext "
 "search."
 msgstr ""
+"Mostrar una advertencia e impedir la búsqueda cuando se utilizan palabras de "
+"parada en la búsqueda de texto completo."
 
 #. SysConfig
 msgid "Display communication log entries."
