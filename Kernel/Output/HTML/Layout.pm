@@ -85,6 +85,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
+    # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
 
     # set debug
@@ -99,14 +100,10 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get/set some common params
-    if ( !$Self->{UserTheme} ) {
-        $Self->{UserTheme} = $ConfigObject->Get('DefaultTheme');
-    }
-
+    $Self->{UserTheme}    ||= $ConfigObject->Get('DefaultTheme');
     $Self->{UserTimeZone} ||= Kernel::System::DateTime->UserDefaultTimeZoneGet();
 
-    # Determine the language to use based on the browser setting, if there
-    #   is none yet.
+    # Determine the language to use based on the browser setting, if there isn't one yet.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
@@ -650,9 +647,9 @@ sub Redirect {
     my $ResponseObject = Plack::Response->new();
     $ResponseObject->redirect($RedirectURL);
 
-    # Add cookies to the HTTP headers if there are any.
-    # The values are plain hash references.
-    # For some reason the name used for bake_cookie is the attribute 'name' of the hash ref.
+    # Add the cookies that had been set in the constructor.
+    # The values of $Self->{SetCookies} are plain hash references.
+    # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     if (
         $Self->{SetCookies}
@@ -661,9 +658,11 @@ sub Redirect {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
@@ -1657,8 +1656,9 @@ sub _AddHeadersToResponseObject {
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     $ResponseObject->Headers( [%Headers] );
 
-    # Add cookies if they exist.
-    # TODO: the cookie name should be the key in $Self->{SetCookies} instead of $Ingredients->{name};
+    # Add the cookies that had been set in the constructor.
+    # The values of $Self->{SetCookies} are plain hash references.
+    # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     if (
         $Self->{SetCookies}
         && ref $Self->{SetCookies} eq 'HASH'
@@ -1666,9 +1666,11 @@ sub _AddHeadersToResponseObject {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->Cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
@@ -3977,8 +3979,9 @@ sub CustomerLogin {
         );
     }
 
-    # Add cookies if they exist.
-    # TODO: the cookie name should be the key in $Self->{SetCookies} instead of $Ingredients->{name};
+    # Add the cookies that had been set in the constructor.
+    # The values of $Self->{SetCookies} are plain hash references.
+    # For some reason the name eventually used by Cookie::Baker::bake_cookie() is the attribute 'name' of the hashref.
     my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
     if (
         $Self->{SetCookies}
@@ -3987,9 +3990,11 @@ sub CustomerLogin {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->Cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
