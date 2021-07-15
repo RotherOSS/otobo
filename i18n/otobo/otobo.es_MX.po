@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-15 16:23+0000\n"
+"PO-Revision-Date: 2021-07-16 01:18+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -19320,7 +19320,7 @@ msgstr "Apilado"
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Stream"
-msgstr "Stream"
+msgstr "Flujo"
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Expanded"
@@ -25802,7 +25802,7 @@ msgstr "Tiempo de primera respuesta"
 
 #. SysConfig
 msgid "FirstLock"
-msgstr "FirstLock"
+msgstr "Primer bloqueo"
 
 #. SysConfig
 msgid "FirstResponse"
@@ -26139,19 +26139,16 @@ msgid "Google Authenticator"
 msgstr "Autenticador de Google"
 
 #. SysConfig
-#, fuzzy
 msgid "Graph: Bar Chart"
-msgstr "Gráfico: Gráfico de barras"
+msgstr "Gráfico: De barras"
 
 #. SysConfig
-#, fuzzy
 msgid "Graph: Line Chart"
-msgstr "Gráfico: Gráfico de líneas"
+msgstr "Gráfico: De líneas"
 
 #. SysConfig
-#, fuzzy
 msgid "Graph: Stacked Area Chart"
-msgstr "Gráfico: Gráfico de áreas apiladas"
+msgstr "Gráfico: áreas apiladas"
 
 #. SysConfig
 msgid "Greek"
@@ -27820,28 +27817,40 @@ msgid ""
 "Optional queue limitation for the CreatorCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"Limitación opcional de colas para el módulo de permisos CreatorCheck. Si se "
+"establece, el permiso sólo se concede para los tickets de las colas "
+"especificadas."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the InvolvedCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"Limitación opcional de colas para el módulo de permisos InvolvedCheck. Si se "
+"establece, el permiso sólo se concede para los tickets de las colas "
+"especificadas."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the OwnerCheck permission module. If set, "
 "permission is only granted for tickets in the specified queues."
 msgstr ""
+"Limitación opcional de colas para el módulo de permisos OwnerCheck. Si se "
+"establece, el permiso sólo se concede para los tickets de las colas "
+"especificadas."
 
 #. SysConfig
 msgid ""
 "Optional queue limitation for the ResponsibleCheck permission module. If "
 "set, permission is only granted for tickets in the specified queues."
 msgstr ""
+"Limitación opcional de colas para el módulo de permisos ResponsibleCheck. Si "
+"se establece, el permiso sólo se concede para los tickets de las colas "
+"especificadas."
 
 #. SysConfig
 msgid "Other Customers"
-msgstr ""
+msgstr "Otros clientes"
 
 #. SysConfig
 msgid "Out Of Office"
@@ -27853,12 +27862,14 @@ msgstr "Tiempo de ausencia de la oficina"
 
 #. SysConfig
 msgid "Out of Office users."
-msgstr ""
+msgstr "Usuarios fuera de la oficina."
 
 #. SysConfig
 msgid ""
 "Output filter to inject the necessary Dynamic field names in hidden input."
 msgstr ""
+"Filtro de salida para inyectar los nombres de campos dinámicos necesarios en "
+"la entrada oculta."
 
 #. SysConfig
 msgid ""
@@ -27870,7 +27881,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Overview Escalated Tickets."
-msgstr ""
+msgstr "Visión general de los tickets escalados."
 
 #. SysConfig
 msgid "Overview Refresh Time"
@@ -27886,7 +27897,7 @@ msgstr "Resumen de todas las citas."
 
 #. SysConfig
 msgid "Overview of all escalated tickets."
-msgstr ""
+msgstr "Resumen de todos los tickets escalados."
 
 #. SysConfig
 msgid "Overview of all open Tickets."
