@@ -658,9 +658,11 @@ sub Redirect {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
@@ -1664,9 +1666,11 @@ sub _AddHeadersToResponseObject {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->Cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
@@ -3986,9 +3990,11 @@ sub CustomerLogin {
         )
     {
         for ( sort keys $Self->{SetCookies}->%* ) {
-            my $Ingredients = $Self->{SetCookies}->{$_};
-            my $Name        = delete $Ingredients->{name};
-            $ResponseObject->Cookies->{$Name} = $Ingredients;
+
+            # make a copy because we might need $Self->{SetCookies} later on
+            my %Ingredients = $Self->{SetCookies}->{$_}->%*;
+            my $Name        = delete $Ingredients{name};
+            $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
 
