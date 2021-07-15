@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-15 09:29+0000\n"
+"PO-Revision-Date: 2021-07-15 16:23+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -26603,18 +26603,23 @@ msgstr "Si se activa, los datos de la caché se mantienen en la memoria."
 #. SysConfig
 msgid "If enabled, the cache data will be stored in cache backend."
 msgstr ""
+"Si se activa, los datos del caché se almacenarán en el caché del backend."
 
 #. SysConfig
 msgid ""
 "If enabled, the customer can search for tickets in all services (regardless "
 "what services are assigned to the customer)."
 msgstr ""
+"Si se activa, el cliente puede buscar tickets en todos los servicios ("
+"independientemente de los servicios asignados al cliente)."
 
 #. SysConfig
 msgid ""
 "If enabled, the different overviews (Dashboard, LockedView, QueueView) will "
 "automatically refresh after the specified time."
 msgstr ""
+"Si se activa, las diferentes vistas generales (Dashboard, LockedView, "
+"QueueView) se actualizarán automáticamente después del tiempo especificado."
 
 #. SysConfig
 msgid ""
@@ -26626,7 +26631,7 @@ msgstr ""
 
 #. SysConfig
 msgid "If enabled, the quick close action will create an article."
-msgstr ""
+msgstr "Si se activa, la acción de cierre rápido creará un artículo."
 
 #. SysConfig
 msgid ""
@@ -26635,6 +26640,11 @@ msgid ""
 "a time zone and (2) OTOBOTimeZone and UserDefaultTimeZone do match and (3) "
 "are not set to UTC."
 msgstr ""
+"Si se habilita, los usuarios que aún no hayan seleccionado una zona horaria "
+"recibirán una notificación para que lo hagan. Nota: La notificación no se "
+"mostrará si (1) el usuario aún no ha seleccionado una zona horaria y (2) "
+"OTOBOTimeZone y UserDefaultTimeZone coinciden y (3) no están configurados en "
+"UTC."
 
 #. SysConfig
 msgid ""
@@ -26642,6 +26652,10 @@ msgid ""
 "possible to use the email's from address instead of an empty envelope sender "
 "(required in certain mail server configurations)."
 msgstr ""
+"Si no se especifica SendmailNotificationEnvelopeFrom, esta configuración "
+"permite utilizar la dirección de correo electrónico del remitente en lugar "
+"de un remitente vacío (necesario en determinadas configuraciones del "
+"servidor de correo)."
 
 #. SysConfig
 msgid ""
@@ -26649,6 +26663,10 @@ msgid ""
 "notifications. If no address is specified, the envelope sender header is "
 "empty (unless SendmailNotificationEnvelopeFrom::FallbackToEmailFrom is set)."
 msgstr ""
+"Si se establece, esta dirección se utiliza como cabecera del remitente en "
+"las notificaciones salientes. Si no se especifica ninguna dirección, la "
+"cabecera del remitente estará vacía (a menos que se establezca "
+"SendmailNotificationEnvelopeFrom::FallbackToEmailFrom)."
 
 #. SysConfig
 msgid ""
@@ -26656,6 +26674,10 @@ msgid ""
 "notifications - see below). If no address is specified, the envelope sender "
 "is equal to queue e-mail address."
 msgstr ""
+"Si se establece, esta dirección se utiliza como remitente en los mensajes "
+"salientes (no en las notificaciones - véase más adelante). Si no se "
+"especifica ninguna dirección, el remitente es igual a la dirección de correo "
+"electrónico de la cola."
 
 #. SysConfig
 msgid ""
@@ -26663,6 +26685,10 @@ msgid ""
 "Customers or Agents, will receive an autoresponse if configured. If this "
 "option is not enabled, no autoresponses will be sent."
 msgstr ""
+"Si esta opción está habilitada, los tickets creados a través de la interfaz "
+"web, a través de Clientes o Agentes, si está configurada recibirán una "
+"autorespuesta . Si esta opción no está habilitada, no se enviará ninguna "
+"autorespuesta."
 
 #. SysConfig
 msgid "If this regex matches, no message will be send by the autoresponder."
@@ -26675,12 +26701,18 @@ msgid ""
 "If this setting is enabled, it is possible to install packages which are not "
 "verified by OTOBO Team. These packages could threaten your whole system!"
 msgstr ""
+"Si esta configuración está activada, es posible que se instalen paquetes que "
+"no están verificados por el equipo de OTOBO. ¡Estos paquetes podrían "
+"amenazar todo su sistema!"
 
 #. SysConfig
 msgid ""
 "If this setting is enabled, local modifications will not be highlighted as "
 "errors in the package manager and support data collector."
 msgstr ""
+"Si esta configuración está activada, las modificaciones locales no se "
+"resaltarán como errores en el gestor de paquetes ni en el recopilador de "
+"datos de soporte."
 
 #. SysConfig
 msgid ""
@@ -26696,6 +26728,10 @@ msgid ""
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
 msgstr ""
+"Ignorar los tipos de artículos del remitente del sistema (por ejemplo, "
+"respuestas automáticas o notificaciones por correo electrónico) para que se "
+"marquen como \"Artículo no leído\" en AgentTicketZoom o se expandan "
+"automáticamente en las pantallas de vista grande."
 
 #. SysConfig
 msgid "Import appointments screen."
@@ -26703,11 +26739,11 @@ msgstr "Pantalla de importación de citas."
 
 #. SysConfig
 msgid "Include tickets of subqueues per default when selecting a queue."
-msgstr ""
+msgstr "Incluir tickets de subcolas por defecto al seleccionar una cola."
 
 #. SysConfig
 msgid "Include unknown customers in ticket filter."
-msgstr ""
+msgstr "Incluir clientes desconocidos en el filtro de tickets."
 
 #. SysConfig
 msgid ""
@@ -26718,7 +26754,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Incoming Phone Call."
-msgstr ""
+msgstr "Llamada telefónica entrante."
 
 #. SysConfig
 msgid ""
@@ -26731,23 +26767,33 @@ msgid ""
 "\"bin/otobo.Console.pl Maint::Ticket::QueueIndexRebuild\" for initial index "
 "creation."
 msgstr ""
+"IndexAccelerator: para elegir el módulo TicketViewAccelerator del backend. "
+"\"RuntimeDB\" genera cada vista de cola sobre la marcha a partir de la tabla "
+"de tickets (sin problemas de rendimiento hasta aproximadamente 60.000 "
+"tickets en total y 6.000 tickets abiertos en el sistema). \"StaticDB\" es el "
+"módulo más potente, utiliza una tabla extra de índice de tickets que "
+"funciona como una vista (recomendado si se almacenan más de 80.000 y 6.000 "
+"tickets abiertos en el sistema). Utilice el comando \"bin/otobo.Console.pl "
+"Maint::Ticket::QueueIndexRebuild\" para la creación del índice inicial."
 
 #. SysConfig
 msgid ""
 "Indicates if a bounce e-mail should always be treated as normal follow-up."
 msgstr ""
+"Indica si un correo electrónico rebotado debe tratarse siempre como un "
+"seguimiento normal."
 
 #. SysConfig
 msgid "Indonesian"
-msgstr ""
+msgstr "Indonesia"
 
 #. SysConfig
 msgid "Inline"
-msgstr ""
+msgstr "En línea"
 
 #. SysConfig
 msgid "Input"
-msgstr ""
+msgstr "Entrada"
 
 #. SysConfig
 msgid "Interface language"
@@ -26755,7 +26801,7 @@ msgstr "Idioma de la interfaz"
 
 #. SysConfig
 msgid "Internal communication channel."
-msgstr ""
+msgstr "Canal de comunicación interno."
 
 #. SysConfig
 msgid "International Workers' Day"
@@ -26817,6 +26863,8 @@ msgid ""
 "It was not possible to check the PGP signature, this may be caused by a "
 "missing public key or an unsupported algorithm."
 msgstr ""
+"No fue posible comprobar la firma PGP, esto puede ser causado por una clave "
+"pública faltante o un algoritmo no soportado."
 
 #. SysConfig
 msgid "Italian"
@@ -26827,14 +26875,16 @@ msgid ""
 "Italian stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en italiano para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid "Ivory"
-msgstr ""
+msgstr "Marfil"
 
 #. SysConfig
 msgid "Ivory (Slim)"
-msgstr ""
+msgstr "Marfil (Liviano)"
 
 #. SysConfig
 msgid "Japanese"
@@ -26842,15 +26892,15 @@ msgstr "Japonés"
 
 #. SysConfig
 msgid "JavaScript function for the search frontend."
-msgstr ""
+msgstr "Función JavaScript para el frontend de búsqueda."
 
 #. SysConfig
 msgid "Jump to OTOBO!"
-msgstr ""
+msgstr "¡Salta a OTOBO!"
 
 #. SysConfig
 msgid "Korean"
-msgstr ""
+msgstr "Coreano"
 
 #. SysConfig
 msgid "Language"
@@ -26862,19 +26912,19 @@ msgstr "Grande"
 
 #. SysConfig
 msgid "Last Screen Overview"
-msgstr ""
+msgstr "Resumen de la última pantalla"
 
 #. SysConfig
 msgid "Last customer subject"
-msgstr ""
+msgstr "Asunto del último cliente"
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Apellido Nombre"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
-msgstr ""
+msgstr "Apellido Nombre (UserLogin)"
 
 #. SysConfig
 msgid "Lastname, Firstname"
@@ -26882,19 +26932,19 @@ msgstr "Apellido, Nombre"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
-msgstr ""
+msgstr "Apellido, Nombre (UserLogin)"
 
 #. SysConfig
 msgid "LastnameFirstname"
-msgstr ""
+msgstr "ApellidoNombre"
 
 #. SysConfig
 msgid "Latvian"
-msgstr ""
+msgstr "Letonia"
 
 #. SysConfig
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #. SysConfig
 msgid "Link Object"
@@ -26902,7 +26952,7 @@ msgstr "Enlazar Objeto"
 
 #. SysConfig
 msgid "Link Object."
-msgstr ""
+msgstr "Objeto de enlace."
 
 #. SysConfig
 msgid "Link agents to groups."
@@ -26926,7 +26976,7 @@ msgstr "Liga los usuarios del cliente a servicios."
 
 #. SysConfig
 msgid "Link customers to groups."
-msgstr ""
+msgstr "Vincular clientes con grupos."
 
 #. SysConfig
 msgid "Link queues to auto responses."
@@ -26983,22 +27033,32 @@ msgstr ""
 #. SysConfig
 msgid "List of all CustomerCompany events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de CustomerCompany que se mostrarán en la "
+"Interfaz gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all CustomerUser events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de CustomerUser que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all DynamicField events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de DynamicField que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all LinkObject events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de LinkObject que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all Package events to be displayed in the GUI."
 msgstr ""
+"Lista de todo el Paquete de eventos que se mostrarán en la Interfaz gráfica "
+"de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all appointment events to be displayed in the GUI."
@@ -27007,6 +27067,8 @@ msgstr "Lista de todos los eventos de citas que son desplegaos en la GUI."
 #. SysConfig
 msgid "List of all article events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de artículos que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all calendar events to be displayed in the GUI."
@@ -27016,10 +27078,14 @@ msgstr ""
 #. SysConfig
 msgid "List of all queue events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de la cola que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid "List of all ticket events to be displayed in the GUI."
 msgstr ""
+"Lista de todos los eventos de tickets que se mostrarán en la Interfaz "
+"gráfica de usuario (GUI)."
 
 #. SysConfig
 msgid ""
@@ -27037,20 +27103,26 @@ msgid ""
 "List of default Standard Templates which are assigned automatically to new "
 "Queues upon creation."
 msgstr ""
+"Lista de plantillas estándar por defecto que se asignan automáticamente a "
+"las nuevas colas en el momento de su creación."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the agent interface."
 msgstr ""
+"Lista de archivos CSS responsive que deben cargarse siempre para la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
 "List of responsive CSS files to always be loaded for the customer interface."
 msgstr ""
+"Lista de archivos CSS responsive que se cargan siempre para la interfaz del "
+"cliente."
 
 #. SysConfig
 msgid "List of states for which escalations should be suspended."
-msgstr ""
+msgstr "Lista de estados para los que se deben suspender el escalado."
 
 #. SysConfig
 msgid "List view"
@@ -27062,15 +27134,15 @@ msgstr "Lituano"
 
 #. SysConfig
 msgid "Loader module registration for the agent interface."
-msgstr ""
+msgstr "Registro del módulo de carga para la interfaz del agente."
 
 #. SysConfig
 msgid "Loader module registration for the customer interface."
-msgstr ""
+msgstr "Registro del módulo de carga para la interfaz del cliente."
 
 #. SysConfig
 msgid "Lock / unlock this ticket"
-msgstr ""
+msgstr "Bloquear/desbloquear este ticket"
 
 #. SysConfig
 msgid "Locked Tickets"
@@ -27078,7 +27150,7 @@ msgstr "Tickets Bloqueados"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Tickets Bloqueados."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -27086,15 +27158,15 @@ msgstr "Ticket bloqueado."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Usuarios registrados."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Usuarios conectados"
 
 #. SysConfig
 msgid "Logout of customer panel."
-msgstr ""
+msgstr "Cierre de sesión del panel de clientes."
 
 #. SysConfig
 msgid "Look into a ticket!"
@@ -27103,10 +27175,11 @@ msgstr "¡Revisar un ticket!"
 #. SysConfig
 msgid "Loop protection: no auto-response sent to \"%s\"."
 msgstr ""
+"Protección de bucle: no se ha enviado ninguna respuesta automática a \"%s\"."
 
 #. SysConfig
 msgid "Macedonian"
-msgstr ""
+msgstr "Macedonia"
 
 #. SysConfig
 msgid "Mail Accounts"
@@ -27114,23 +27187,23 @@ msgstr "Cuentas de Correo"
 
 #. SysConfig
 msgid "MailQueue configuration settings."
-msgstr ""
+msgstr "Ajustes de configuración de MailQueue."
 
 #. SysConfig
 msgid "Main menu for the agent interface."
-msgstr ""
+msgstr "Menú principal de la interfaz del agente."
 
 #. SysConfig
 msgid "Main menu item registration."
-msgstr ""
+msgstr "Registro del elemento del menú principal."
 
 #. SysConfig
 msgid "Main menu registration."
-msgstr ""
+msgstr "Registro menú principal."
 
 #. SysConfig
 msgid "Makes the application block external content loading."
-msgstr ""
+msgstr "Hace que la aplicación bloquee la carga de contenido externo."
 
 #. SysConfig
 msgid ""
@@ -27160,11 +27233,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Malay"
-msgstr ""
+msgstr "Malayo"
 
 #. SysConfig
 msgid "Manage OTOBO Team cloud services."
-msgstr ""
+msgstr "Gestiona los servicios en la nube de OTOBO Team."
 
 #. SysConfig
 msgid "Manage PGP keys for email encryption."
@@ -27181,7 +27254,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage System Configuration Deployments."
-msgstr ""
+msgstr "Gestionar los despliegues de configuración del sistema."
 
 #. SysConfig
 msgid "Manage different calendars."
@@ -27189,7 +27262,7 @@ msgstr "Gestionar diferentes calendarios."
 
 #. SysConfig
 msgid "Manage dynamic field in screens."
-msgstr ""
+msgstr "Gestionar el campo dinámico en las pantallas."
 
 #. SysConfig
 msgid "Manage existing sessions."
@@ -27206,6 +27279,7 @@ msgstr "Gestionar registro del sistema."
 #. SysConfig
 msgid "Manage tasks triggered by event or time based execution."
 msgstr ""
+"Gestione las tareas de triggers por evento o ejecución basada en el tiempo."
 
 #. SysConfig
 msgid "Mark as Spam!"
@@ -27226,15 +27300,21 @@ msgstr ""
 #. SysConfig
 msgid "Max size (in rows) of the informed agents box in the agent interface."
 msgstr ""
+"Tamaño máximo (en filas) del cuadro de agentes informados en la interfaz de "
+"agentes."
 
 #. SysConfig
 msgid "Max size (in rows) of the involved agents box in the agent interface."
 msgstr ""
+"Tamaño máximo (en filas) del cuadro de agentes participantes en la interfaz "
+"de agentes."
 
 #. SysConfig
 msgid ""
 "Max size of the subjects in an email reply and in some overview screens."
 msgstr ""
+"Tamaño máximo de los asuntos en una respuesta de correo electrónico y en "
+"algunas pantallas de resumen."
 
 #. SysConfig
 msgid ""
@@ -27248,10 +27328,13 @@ msgid ""
 "Maximal auto email responses to own email-address a day, configurable by "
 "email address (Loop-Protection)."
 msgstr ""
+"Máxima cantidad de respuestas automáticas a la propia dirección de correo "
+"electrónico al día, configurable por dirección de correo electrónico ("
+"Protección de bucle)."
 
 #. SysConfig
 msgid "Maximal number of results returned by ES per field."
-msgstr ""
+msgstr "Número máximo de resultados devueltos por ES por campo."
 
 #. SysConfig
 msgid ""
@@ -27263,23 +27346,27 @@ msgstr ""
 
 #. SysConfig
 msgid "Maximum Number of a calendar shown in a dropdown."
-msgstr ""
+msgstr "Número máximo de un calendario mostrado en un desplegable."
 
 #. SysConfig
 msgid "Maximum file size for the ingest plugin."
-msgstr ""
+msgstr "Tamaño máximo del archivo para el plugin de carga."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the article of the "
 "ticket zoom view."
 msgstr ""
+"Longitud máxima (en caracteres) del campo dinámico en el artículo de la "
+"vista de zoom del ticket."
 
 #. SysConfig
 msgid ""
 "Maximum length (in characters) of the dynamic field in the sidebar of the "
 "ticket zoom view."
 msgstr ""
+"Longitud máxima (en caracteres) del campo dinámico en la barra lateral de la "
+"vista de zoom del ticket."
 
 #. SysConfig
 msgid ""
@@ -27312,6 +27399,7 @@ msgstr ""
 msgid ""
 "Maximum number of tickets to be displayed in the result of this operation."
 msgstr ""
+"Número máximo de entradas que se mostrarán en el resultado de esta operación."
 
 #. SysConfig
 msgid ""
@@ -27327,19 +27415,19 @@ msgstr "Mediano"
 
 #. SysConfig
 msgid "Merge this ticket and all articles into another ticket"
-msgstr ""
+msgstr "Fusionar este ticket y todos los artículos en otro ticket"
 
 #. SysConfig
 msgid "Merged Ticket (%s/%s) to (%s/%s)."
-msgstr ""
+msgstr "Fusionar Ticket (%s/%s) a (%s/%s)."
 
 #. SysConfig
 msgid "Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>."
-msgstr ""
+msgstr "Fusionar Ticket <OTOBO_TICKET> a <OTOBO_MERGE_TO_TICKET>."
 
 #. SysConfig
 msgid "Minute"
-msgstr ""
+msgstr "Minuto"
 
 #. SysConfig
 msgid "Miscellaneous"
@@ -27354,6 +27442,8 @@ msgstr ""
 #. SysConfig
 msgid "Module to check if a incoming e-mail message is bounce."
 msgstr ""
+"Módulo para comprobar si un mensaje de correo electrónico entrante es "
+"rebotado."
 
 #. SysConfig
 msgid ""
@@ -27361,14 +27451,21 @@ msgid ""
 "original forwarded internal email). IsVisibleForCustomer and SenderType "
 "define the values for the arrived email/article."
 msgstr ""
+"Módulo para comprobar si los correos electrónicos que llegan deben marcarse "
+"como internos (debido al correo interno original reenviado). "
+"IsVisibleForCustomer y SenderType definen los valores para el correo electró"
+"nico/artículo que llega."
 
 #. SysConfig
 msgid "Module to check the group permissions for customer access to tickets."
 msgstr ""
+"Módulo para comprobar los permisos de grupo para el acceso de los clientes a "
+"los tickets."
 
 #. SysConfig
 msgid "Module to check the group permissions for the access to tickets."
 msgstr ""
+"Módulo para comprobar los permisos de grupo para el acceso a los tickets."
 
 #. SysConfig
 msgid "Module to compose signed messages (PGP or S/MIME)."
@@ -27377,14 +27474,18 @@ msgstr "Módulo para redactar mensajes firmados (PGP o S/MIME)."
 #. SysConfig
 msgid "Module to define the email security options to use (PGP or S/MIME)."
 msgstr ""
+"Módulo para definir las opciones de seguridad del correo electrónico a "
+"utilizar (PGP o S/MIME)."
 
 #. SysConfig
 msgid "Module to encrypt composed messages (PGP or S/MIME)."
-msgstr ""
+msgstr "Módulo para cifrar los mensajes compuestos (PGP o S/MIME)."
 
 #. SysConfig
 msgid "Module to fetch customer users SMIME certificates of incoming messages."
 msgstr ""
+"Módulo para obtener los certificados SMIME de los mensajes entrantes de los "
+"usuarios."
 
 #. SysConfig
 msgid ""
@@ -27406,7 +27507,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Module to filter encrypted bodies of incoming messages."
-msgstr ""
+msgstr "Módulo para filtrar los cuerpos de los mensajes entrantes cifrados."
 
 #. SysConfig
 msgid "Module to generate accounted time ticket statistics."
@@ -27444,40 +27545,48 @@ msgid ""
 "Module to grant access if the CustomerID of the customer has necessary group "
 "permissions."
 msgstr ""
+"Módulo para conceder acceso si el CustomerID del cliente tiene los permisos "
+"de grupo necesarios."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerID of the ticket matches the "
 "CustomerID of the customer."
 msgstr ""
+"Módulo para conceder acceso si el CustomerID del ticket coincide con el "
+"CustomerID del cliente."
 
 #. SysConfig
 msgid ""
 "Module to grant access if the CustomerUserID of the ticket matches the "
 "CustomerUserID of the customer."
 msgstr ""
+"Módulo para conceder acceso si el CustomerUserID del ticket coincide con el "
+"CustomerUserID del cliente."
 
 #. SysConfig
 msgid ""
 "Module to grant access to any agent that has been involved in a ticket in "
 "the past (based on ticket history entries)."
 msgstr ""
+"Módulo para conceder acceso a cualquier agente que haya estado involucrado "
+"en un ticket en el pasado (basado en las entradas del historial de tickets)."
 
 #. SysConfig
 msgid "Module to grant access to the agent responsible of a ticket."
-msgstr ""
+msgstr "Módulo para dar acceso al agente responsable de un ticket."
 
 #. SysConfig
 msgid "Module to grant access to the creator of a ticket."
-msgstr ""
+msgstr "Módulo para conceder acceso al creador de un ticket."
 
 #. SysConfig
 msgid "Module to grant access to the owner of a ticket."
-msgstr ""
+msgstr "Módulo para conceder acceso al propietario de un ticket."
 
 #. SysConfig
 msgid "Module to grant access to the watcher agents of a ticket."
-msgstr ""
+msgstr "Módulo para dar acceso a los agentes observadores de un ticket."
 
 #. SysConfig
 msgid ""
@@ -27519,10 +27628,13 @@ msgid ""
 "Name of custom service. The custom service is a service selection of your "
 "preferred services and can be selected in the preferences settings."
 msgstr ""
+"Nombre del servicio personalizado. El servicio personalizado es una "
+"selección de sus servicios preferidos y se puede seleccionar en la "
+"configuración de preferencias."
 
 #. SysConfig
 msgid "NameX"
-msgstr ""
+msgstr "NombreX"
 
 #. SysConfig
 msgid "New Tickets"
@@ -27550,13 +27662,16 @@ msgstr "¡Noticias sobre lanzamientos de OTOBO!"
 
 #. SysConfig
 msgid "News about OTOBO."
-msgstr ""
+msgstr "Noticias sobre OTOBO."
 
 #. SysConfig
 msgid ""
 "Next possible ticket states after adding a phone note in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"Los siguientes estados posibles del ticket después de añadir una nota "
+"telefónica en la pantalla de entrada del teléfono del ticket de la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
@@ -27569,11 +27684,11 @@ msgstr ""
 
 #. SysConfig
 msgid "No public key found."
-msgstr ""
+msgstr "No se ha encontrado ninguna clave pública."
 
 #. SysConfig
 msgid "No valid OpenPGP data found."
-msgstr ""
+msgstr "No se han encontrado datos válidos de OpenPGP."
 
 #. SysConfig
 msgid "None"
@@ -27589,15 +27704,15 @@ msgstr "Configuración de Notificaciones"
 
 #. SysConfig
 msgid "Notified about response time escalation."
-msgstr ""
+msgstr "Notificado sobre el aumento del tiempo de respuesta."
 
 #. SysConfig
 msgid "Notified about solution time escalation."
-msgstr ""
+msgstr "Notificado sobre la escalada del tiempo de solución."
 
 #. SysConfig
 msgid "Notified about update time escalation."
-msgstr ""
+msgstr "Notificado sobre la escalada de tiempo de actualización."
 
 #. SysConfig
 msgid "Number of displayed tickets"
@@ -27613,11 +27728,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Number of shards (NS) and replicas (NR) for the index ticket."
-msgstr ""
+msgstr "Número de fragmentos (NS) y réplicas (NR) para el ticket del índice."
 
 #. SysConfig
 msgid "Number of shards (NS) and replicas (NR) for the index."
-msgstr ""
+msgstr "Número de fragmentos (NS) y réplicas (NR) para el índice."
 
 #. SysConfig
 msgid ""
@@ -27641,7 +27756,7 @@ msgstr "Novedades de OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
-msgstr ""
+msgstr "Servicios del equipo OTOBO"
 
 #. SysConfig
 msgid ""
@@ -27649,6 +27764,10 @@ msgid ""
 "like fulltext search or statistics generation. Here you can specify the DSN "
 "for the first mirror database."
 msgstr ""
+"OTOBO puede utilizar una o más bases de datos espejo de sólo lectura para "
+"operaciones costosas como la búsqueda de texto completo o la generación de "
+"estadísticas. Aquí puede especificar el DSN para la primera base de datos "
+"espejo."
 
 #. SysConfig
 msgid ""
@@ -27665,21 +27784,24 @@ msgstr ""
 
 #. SysConfig
 msgid "Objects to search for, how many entries and which attributs to show."
-msgstr ""
+msgstr "Objetos a buscar, cuántas entradas y qué atributos mostrar."
 
 #. SysConfig
 msgid ""
 "Objects to search for, how many entries and which attributs to show. Ticket "
 "attributes, except queue, have to explicitely be stored via Elasticsearch."
 msgstr ""
+"Objetos a buscar, cuántas entradas y qué atributos mostrar. Los atributos de "
+"las entradas, excepto la cola, tienen que ser almacenados explícitamente a "
+"través de Elasticsearch."
 
 #. SysConfig
 msgid "Open an external link!"
-msgstr ""
+msgstr "¡Abrir un enlace externo!"
 
 #. SysConfig
 msgid "Open the OTOBO home page in a new window"
-msgstr ""
+msgstr "Abrir la página de inicio de OTOBO en una nueva ventana"
 
 #. SysConfig
 msgid "Open tickets (customer user)"
