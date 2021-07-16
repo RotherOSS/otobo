@@ -662,6 +662,8 @@ sub Redirect {
             # make a copy because we might need $Self->{SetCookies} later on
             my %Ingredients = $Self->{SetCookies}->{$_}->%*;
             my $Name        = delete $Ingredients{name};
+
+            # the method 'cookies' is in lower case because we use Plack::Response directly
             $ResponseObject->cookies->{$Name} = \%Ingredients;
         }
     }
@@ -1670,7 +1672,7 @@ sub _AddHeadersToResponseObject {
             # make a copy because we might need $Self->{SetCookies} later on
             my %Ingredients = $Self->{SetCookies}->{$_}->%*;
             my $Name        = delete $Ingredients{name};
-            $ResponseObject->cookies->{$Name} = \%Ingredients;
+            $ResponseObject->Cookies->{$Name} = \%Ingredients;
         }
     }
 
@@ -3994,7 +3996,7 @@ sub CustomerLogin {
             # make a copy because we might need $Self->{SetCookies} later on
             my %Ingredients = $Self->{SetCookies}->{$_}->%*;
             my $Name        = delete $Ingredients{name};
-            $ResponseObject->cookies->{$Name} = \%Ingredients;
+            $ResponseObject->Cookies->{$Name} = \%Ingredients;
         }
     }
 
