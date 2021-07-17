@@ -145,7 +145,7 @@ sub new {
     }
 
     # Continue without IPC.
-    return $Self if !$Self->{IPCSHMKey};
+    return $Self unless $Self->{IPCSHMSegment};
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
@@ -333,7 +333,7 @@ sub Log {
         my $OldString = $Self->GetLog();
         my $NewString = join "\n", $LogLine, $OldString;
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$NewString );
-        shmwrite( $Self->{IPCSHMKey}, $NewString, 0, $Self->{IPCSize} ) || die $!;
+        shmwrite( $Self->{IPCSHMSegment}, $NewString, 0, $Self->{IPCSize} ) || die $!;
     }
 
     return 1;
@@ -369,7 +369,7 @@ sub GetLog {
 
     my $String = '';
     if ( $Self->{IPC} ) {
-        shmread( $Self->{IPCSHMKey}, $String, 0, $Self->{IPCSize} ) || die "$!";
+        shmread( $Self->{IPCSHMSegment}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
 
     # Remove \0 bytes that shmwrite adds for padding.
@@ -394,7 +394,7 @@ sub CleanUp {
 
     return 1 if !$Self->{IPC};
 
-    shmwrite( $Self->{IPCSHMKey}, '', 0, $Self->{IPCSize} ) || die $!;
+    shmwrite( $Self->{IPCSHMSegment}, '', 0, $Self->{IPCSize} ) || die $!;
 
     return 1;
 }
