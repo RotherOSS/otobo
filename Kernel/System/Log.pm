@@ -104,9 +104,9 @@ sub new {
     $Self->{LogPrefix} .= '-' . $SystemID;
 
     # configured log level (debug by default)
-    $Self->{MinimumLevel}    = $ConfigObject->Get('MinimumLogLevel') || 'debug';
-    $Self->{MinimumLevel}    = lc $Self->{MinimumLevel};
-    $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
+    # Setting an unknown MinimumLogLevel effectively turns off logging altogether.
+    my $MinLevel = lc( $ConfigObject->Get('MinimumLogLevel') || 'debug' );
+    $Self->{MinimumLevelNum} = $LogLevel{$MinLevel};
 
     # load log backend
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
