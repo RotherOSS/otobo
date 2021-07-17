@@ -24,8 +24,15 @@ package Kernel::System::Log;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
 use Carp ();
+
+# CPAN modules
+use DateTime 1.08;
+
+# OTOBO modules
 
 # Inform the object manager about the hard dependencies.
 # This module must be discarded when one of the hard dependencies has been discarded.
@@ -76,16 +83,18 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     if ( !$Kernel::OM ) {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
     }
 
+    # extract some values from the config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    $Self->{ProductVersion} = $ConfigObject->Get('Product') . ' ';
-    $Self->{ProductVersion} .= $ConfigObject->Get('Version');
+
+    # Needed for determining the log time. Trust that the OTOBO time zone is set to a sensible value.
+    # The default, both here and in Framework.xml, is UTC.
+    $Self->{OTOBOTimeZone} = $ConfigObject->Get('OTOBOTimeZone') || 'UTC';
 
     # get system id
     my $SystemID = $ConfigObject->Get('SystemID');
@@ -95,9 +104,9 @@ sub new {
     $Self->{LogPrefix} .= '-' . $SystemID;
 
     # configured log level (debug by default)
-    $Self->{MinimumLevel}    = $ConfigObject->Get('MinimumLogLevel') || 'debug';
-    $Self->{MinimumLevel}    = lc $Self->{MinimumLevel};
-    $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
+    # Setting an unknown MinimumLogLevel effectively turns off logging altogether.
+    my $MinLevel = lc( $ConfigObject->Get('MinimumLogLevel') || 'debug' );
+    $Self->{MinimumLevelNum} = $LogLevel{$MinLevel};
 
     # load log backend
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
@@ -110,18 +119,18 @@ sub new {
         %Param,
     );
 
-    return $Self if !eval "require IPC::SysV";    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
     # Setup IPC for shared access to the last log entries.
-    $Self->{IPCKey}  = '444423' . $SystemID;                                    # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
-    if ( !eval { $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) } ) {
+    if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
 
         # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, 1, oct(1777) );
-        if ( !shmctl( $Self->{IPCSHMKey}, 0, 0 ) ) {
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
+        if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -132,11 +141,11 @@ sub new {
         }
 
         # Re-initialize SHM segment.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
     }
 
     # Continue without IPC.
-    return $Self if !$Self->{IPCSHMKey};
+    return $Self unless $Self->{IPCSHMSegment};
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
@@ -205,10 +214,48 @@ sub Log {
         Line      => $Line1,
     );
 
-    my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime'
-    );
-    my $LogTime = $DateTimeObject->ToCTimeString();
+    # Get current timestamp while honoring the OTOBO time zone.
+    # The reason why Kernel::System::DateTime is not used here, is that there were infinite loops
+    # during global destruction.
+    # See https://github.com/RotherOSS/otobo/issues/1099
+    my $LogTime;
+    if ( $Self->{OTOBOTimeZone} eq 'UTC' ) {
+
+        # This is the regular case. The value is always in English and not locale dependent.
+        # E.g. 'Sat Jul 17 09:25:15 2021'
+        $LogTime = gmtime;
+    }
+    else {
+
+        # honor the non-UTC OTOBO time zone
+
+        # It is not obvious why we can't simply use something like:
+        #{
+        #    local $ENV{TZ} = $Self->{OTOBOTimeZone};
+        #    # calling POSIX::tzset() only necessary up to Perl 5.8.9, https://perldoc.perl.org/5.8.9/perldelta
+        #    $LogTime = localtime;
+        #}
+
+        # This code has been extracted from Kernel::System::DateTime::ToCTimeString().
+        # Use English abbreviation for the day of the week and for the month.
+        my $Locale = DateTime::Locale->load('en_US');
+
+        # replicate the ctime format
+        my $Format = '%a %b %{day} %H:%M:%S %Y';
+
+        # Create object with current date/time and format it.
+        $LogTime = eval {
+            DateTime->now(
+                time_zone => $Self->{OTOBOTimeZone},
+                locale    => $Locale,
+            )->strftime($Format);
+        };
+
+        # ignore errors when DateTime has problems and fall back to UTC
+        if ( $@ || !$LogTime ) {
+            $LogTime = gmtime;
+        }
+    }
 
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
@@ -217,8 +264,9 @@ sub Log {
             . $LogTime . "\n\n", $^V;
         $Error .= " Message: $Message\n\n";
 
-        # more info when we are in a web context
-        if ( $ENV{GATEWAY_INTERFACE} ) {
+        # More info when we are in a web context.
+        # But don't try to get an object when we are already in global destruction.
+        if ( $ENV{GATEWAY_INTERFACE} && ${^GLOBAL_PHASE} ne 'DESTRUCT' ) {
 
             my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
             my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
@@ -286,7 +334,7 @@ sub Log {
         my $OldString = $Self->GetLog();
         my $NewString = join "\n", $LogLine, $OldString;
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$NewString );
-        shmwrite( $Self->{IPCSHMKey}, $NewString, 0, $Self->{IPCSize} ) || die $!;
+        shmwrite( $Self->{IPCSHMSegment}, $NewString, 0, $Self->{IPCSize} ) || die $!;
     }
 
     return 1;
@@ -322,7 +370,7 @@ sub GetLog {
 
     my $String = '';
     if ( $Self->{IPC} ) {
-        shmread( $Self->{IPCSHMKey}, $String, 0, $Self->{IPCSize} ) || die "$!";
+        shmread( $Self->{IPCSHMSegment}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
 
     # Remove \0 bytes that shmwrite adds for padding.
@@ -347,7 +395,7 @@ sub CleanUp {
 
     return 1 if !$Self->{IPC};
 
-    shmwrite( $Self->{IPCSHMKey}, '', 0, $Self->{IPCSize} ) || die $!;
+    shmwrite( $Self->{IPCSHMSegment}, '', 0, $Self->{IPCSize} ) || die $!;
 
     return 1;
 }
