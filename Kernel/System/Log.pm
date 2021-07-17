@@ -92,9 +92,6 @@ sub new {
     # extract some values from the config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # TODO: is this still needed
-    $Self->{ProductVersion} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
-
     # Needed for determining the log time. Trust that the OTOBO time zone is set to a sensible value.
     # The default, both here and in Framework.xml, is UTC.
     $Self->{OTOBOTimeZone} = $ConfigObject->Get('OTOBOTimeZone') || 'UTC';
