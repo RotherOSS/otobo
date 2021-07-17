@@ -24,7 +24,9 @@ package Kernel::System::Log;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
 use Carp ();
 
 # CPAN modules
@@ -81,8 +83,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     if ( !$Kernel::OM ) {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
@@ -121,7 +122,7 @@ sub new {
         %Param,
     );
 
-    return $Self if !eval "require IPC::SysV";    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
     # Setup IPC for shared access to the last log entries.
     $Self->{IPCKey}  = '444423' . $SystemID;                                    # This name is used to identify the shared memory segment.
