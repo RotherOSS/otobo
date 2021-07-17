@@ -27,6 +27,11 @@ use warnings;
 
 use Carp ();
 
+# CPAN modules
+use DateTime 1.08;
+
+# OTOBO modules
+
 # Inform the object manager about the hard dependencies.
 # This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
@@ -83,9 +88,15 @@ sub new {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
     }
 
+    # extract some values from the config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    $Self->{ProductVersion} = $ConfigObject->Get('Product') . ' ';
-    $Self->{ProductVersion} .= $ConfigObject->Get('Version');
+
+    # TODO: is this still needed
+    $Self->{ProductVersion} = join ' ', $ConfigObject->Get('Product'), $ConfigObject->Get('Version');
+
+    # Needed for determining the log time. Trust that the OTOBO time zone is set to a sensible value.
+    # The default, both here and in Framework.xml, is UTC.
+    $Self->{OTOBOTimeZone} = $ConfigObject->Get('OTOBOTimeZone') || 'UTC';
 
     # get system id
     my $SystemID = $ConfigObject->Get('SystemID');
@@ -205,10 +216,48 @@ sub Log {
         Line      => $Line1,
     );
 
-    my $DateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime'
-    );
-    my $LogTime = $DateTimeObject->ToCTimeString();
+    # Get current timestamp while honoring the OTOBO time zone.
+    # The reason why Kernel::System::DateTime is not used here, is that there were infinite loops
+    # during global destruction.
+    # See https://github.com/RotherOSS/otobo/issues/1099
+    my $LogTime;
+    if ( $Self->{OTOBOTimeZone} eq 'UTC' ) {
+
+        # This is the regular case. The value is always in English and not locale dependent.
+        # E.g. 'Sat Jul 17 09:25:15 2021'
+        $LogTime = gmtime;
+    }
+    else {
+
+        # honor the non-UTC OTOBO time zone
+
+        # It is not obvious why we can't simply use something like:
+        #{
+        #    local $ENV{TZ} = $Self->{OTOBOTimeZone};
+        #    # calling POSIX::tzset() only necessary up to Perl 5.8.9, https://perldoc.perl.org/5.8.9/perldelta
+        #    $LogTime = localtime;
+        #}
+
+        # This code has been extracted from Kernel::System::DateTime::ToCTimeString().
+        # Use English abbreviation for the day of the week and for the month.
+        my $Locale = DateTime::Locale->load('en_US');
+
+        # replicate the ctime format
+        my $Format = '%a %b %{day} %H:%M:%S %Y';
+
+        # Create object with current date/time and format it.
+        $LogTime = eval {
+            DateTime->now(
+                time_zone => $Self->{OTOBOTimeZone},
+                locale    => $Locale,
+            )->strftime($Format);
+        };
+
+        # ignore errors when DateTime has problems and fall back to UTC
+        if ( $@ || !$LogTime ) {
+            $LogTime = gmtime;
+        }
+    }
 
     # if error, write it to STDERR
     if ( $Priority =~ m/^error/i ) {
