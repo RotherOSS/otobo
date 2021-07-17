@@ -78,193 +78,13 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
-# This package is used by rpc.pl.
-# NOTE: this is mostly untested
-package OTOBO::RPC {
-
-    use Kernel::System::ObjectManager;
-
-    sub new {
-        my $Self = shift;
-
-        my $Class = ref($Self) || $Self;
-
-        return bless {} => $Class;
-    }
-
-    sub Dispatch {
-        my ( $Self, $User, $Pw, $Object, $Method, %Param ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # We want to keep providing the TimeObject as legacy API for now.
-        ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-        $CommonObject{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject} = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        return $CommonObject{$Object}->$Method(%Param);
-    }
-
-=item DispatchMultipleTicketMethods()
-
-to dispatch multiple ticket methods and get the TicketID
-
-    my $TicketID = $RPC->DispatchMultipleTicketMethods(
-        $SOAP_User,
-        $SOAP_Pass,
-        'TicketObject',
-        [ { Method => 'TicketCreate', Parameter => \%TicketData }, { Method => 'ArticleCreate', Parameter => \%ArticleData } ],
-    );
-
-=cut
-
-    sub DispatchMultipleTicketMethods {
-        my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-
-        # common objects
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-        $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        my $TicketID;
-        my $Counter;
-
-        for my $MethodParamEntry ( @{$MethodParamArrayRef} ) {
-
-            my $Method    = $MethodParamEntry->{Method};
-            my %Parameter = %{ $MethodParamEntry->{Parameter} };
-
-            # push ticket id to params if there is no ticket id
-            if ( !$Parameter{TicketID} && $TicketID ) {
-                $Parameter{TicketID} = $TicketID;
-            }
-
-            my $ReturnValue = $CommonObject{$Object}->$Method(%Parameter);
-
-            # remember ticket id if method was TicketCreate
-            if ( !$Counter && $Object eq 'TicketObject' && $Method eq 'TicketCreate' ) {
-                $TicketID = $ReturnValue;
-            }
-
-            $Counter++;
-        }
-
-        return $TicketID;
-    }
-}
-
 # core modules
 use Data::Dumper;
+use Encode qw(:all);
 
 # CPAN modules
-use DateTime ();
-use Template ();
-use Encode qw(:all);
+use DateTime 1.08;
+use Template  ();
 use CGI       ();
 use CGI::Carp ();
 use CGI::PSGI;
@@ -285,6 +105,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use Kernel::System::Web::RPC                      ();    # provides OTOBO::RPC
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
