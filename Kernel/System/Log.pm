@@ -264,8 +264,9 @@ sub Log {
             . $LogTime . "\n\n", $^V;
         $Error .= " Message: $Message\n\n";
 
-        # more info when we are in a web context
-        if ( $ENV{GATEWAY_INTERFACE} ) {
+        # More info when we are in a web context.
+        # But don't try to get an object when we are already in global destruction.
+        if ( $ENV{GATEWAY_INTERFACE} && ${^GLOBAL_PHASE} ne 'DESTRUCT' ) {
 
             my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
             my $RemoteAddr  = $ParamObject->RemoteAddr() || '-';
