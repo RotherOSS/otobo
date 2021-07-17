@@ -122,15 +122,15 @@ sub new {
     return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
     # Setup IPC for shared access to the last log entries.
-    $Self->{IPCKey}  = '444423' . $SystemID;                                    # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
-    if ( !eval { $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) } ) {
+    if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
 
         # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, 1, oct(1777) );
-        if ( !shmctl( $Self->{IPCSHMKey}, 0, 0 ) ) {
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
+        if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -141,7 +141,7 @@ sub new {
         }
 
         # Re-initialize SHM segment.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
     }
 
     # Continue without IPC.
