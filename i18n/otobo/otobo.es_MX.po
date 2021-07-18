@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-18 05:45+0000\n"
+"PO-Revision-Date: 2021-07-18 15:33+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -431,11 +431,11 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
-msgstr "Filas"
+msgstr "Colas"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr "Poor favor seleccione una fila válida."
+msgstr "Por favor, seleccione una cola válida."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
@@ -603,7 +603,7 @@ msgid ""
 msgstr ""
 "Aquí es posible elegir los eventos que iniciarán esta notificación. Un "
 "filtro adicional de la cita se puede aplicar a continuación para enviar sólo "
-"para citas con ciertos criterios."
+"citas con ciertos criterios."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -6254,11 +6254,11 @@ msgstr "Modificar Fila"
 
 #. Template: AdminQueue
 msgid "Filter for Queues"
-msgstr "Filtro para Filas"
+msgstr "Filtro para colas"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr "Filtro para filas"
+msgstr "Filtro para colas"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
@@ -6416,7 +6416,7 @@ msgstr "Modificar las Relaciones de Respuesta Automática para la Fila"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr "Este filtro le permite mostrar las filas sin respuestas automáticas"
+msgstr "Este filtro le permite mostrar las colas sin respuestas automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
@@ -6424,11 +6424,11 @@ msgstr "Colas sin Respuestas Automáticas"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr "Este filtro le permite mostrar todas las filas"
+msgstr "Este filtro le permite mostrar todas las colas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr "Mostrar todas las Filas"
+msgstr "Mostrar todas las colas"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
@@ -7919,7 +7919,7 @@ msgstr ""
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr "No olvide agregar las plantillas nuevas a las filas de espera."
+msgstr "No olvide agregar las plantillas nuevas a las colas de espera."
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -8747,7 +8747,7 @@ msgstr "Mis responsabilidades"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr "Tickets en Mis Filas"
+msgstr "Tickets en Mis Colas"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
@@ -14628,11 +14628,11 @@ msgstr "Tickets disponibles"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "including subqueues"
-msgstr "incluir subfilas"
+msgstr "incluir subcolas"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "excluding subqueues"
-msgstr "excluir subfilas"
+msgstr "excluir subcolas"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "QueueView"
@@ -18192,7 +18192,7 @@ msgid ""
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
 "Recibirá una notificación si un cliente envía un seguimiento a un ticket "
-"desbloqueado que está en \"Mis colas\" o \"Mis servicios\"."
+"desbloqueado que está en \"Mis Colas\" o \"Mis Servicios\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
@@ -21041,7 +21041,7 @@ msgstr "Crear y gestionar grupos."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr "Crear y gestionar filas."
+msgstr "Crear y gestionar colas."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
@@ -22092,26 +22092,24 @@ msgstr ""
 "propietario)."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Defines if agents should be allowed to login if they have no shared secret "
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
 "Define si se debe permitir a los agentes iniciar sesión si no tienen ningún "
-"secreto compartido almacenado en sus preferencias y, por lo tanto, no están "
-"utilizando la autenticación de dos factores."
+"clave secreta compartida almacenada en sus preferencias y, por lo tanto, no "
+"están utilizando la autenticación de dos factores."
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Defines if customers should be allowed to login if they have no shared "
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
-"Define si se debe permitir a los clientes iniciar sesión si no tienen ningún "
-"secreto compartido almacenado en sus preferencias y, por lo tanto, no están "
-"utilizando la autenticación de dos factores."
+"Define si se debe permitir a los clientes iniciar sesión si no tienen "
+"ninguna clave secreta compartida almacenado en sus preferencias y, por lo "
+"tanto, no están utilizando la autenticación de dos factores."
 
 #. SysConfig
 msgid ""
@@ -22902,7 +22900,7 @@ msgid ""
 "Defines the default sort order for all queues in the queue view, after "
 "priority sort."
 msgstr ""
-"Define el orden por defecto para todas las filas mostradas en la vista de "
+"Define el orden por defecto para todas las colas mostradas en la vista de "
 "filas, luego de haberse ordenado por prioridad."
 
 #. SysConfig
@@ -24761,7 +24759,7 @@ msgid ""
 "displayed in a dropdown list or in a new window in the agent interface. If "
 "\"New Window\" is set you can add a move note to the ticket."
 msgstr ""
-"Determina si la lista de filas posibles a las que los tickets pueden ser "
+"Determina si la lista de colas posibles a las que los tickets pueden ser "
 "movidos, deberá mostrarse en una lista desplegable o en una nueva ventana, "
 "en la interfaz del agente. Si se elije \"Ventana nueva\", es posible añadir "
 "una nota al mover el ticket."
@@ -24884,7 +24882,7 @@ msgid ""
 "Determines which queues will be valid for ticket's recepients in the "
 "customer interface."
 msgstr ""
-"Determina las filas que serán válidas coom remitentes de los ticket, en la "
+"Determina las colas que serán válidas como remitentes de los ticket, en la "
 "interfaz del cliente."
 
 #. SysConfig
@@ -25493,17 +25491,16 @@ msgid "Enroll process for this ticket"
 msgstr "Proceso de inscripción para este ticket"
 
 #. SysConfig
-#, fuzzy
 msgid ""
 "Enter your shared secret to enable two factor authentication. WARNING: Make "
 "sure that you add the shared secret to your generator application and the "
 "application works well. Otherwise you will be not able to login anymore "
 "without the two factor token."
 msgstr ""
-"Introduzca su secreto compartido para activar la autenticación de dos "
-"factores. ADVERTENCIA: Asegúrate de que añades el secreto compartido a tu "
-"aplicación generadora y que la aplicación funciona bien. De lo contrario, ya "
-"no podrá iniciar sesión sin el token de dos factores."
+"Introduzca su clave secreta compartida para activar la autenticación de dos "
+"factores. ADVERTENCIA: Asegúrate de que añades la clave secreta compartida a "
+"tu aplicación generadora y que la aplicación funciona bien. De lo contrario, "
+"ya no podrá iniciar sesión sin el token de dos factores."
 
 #. SysConfig
 msgid "Escalated Tickets"
@@ -26977,7 +26974,7 @@ msgstr "Vincular clientes con grupos."
 
 #. SysConfig
 msgid "Link queues to auto responses."
-msgstr "Vincular filas de espera con respuestas automáticas."
+msgstr "Vincular colas de espera con respuestas automáticas."
 
 #. SysConfig
 msgid "Link roles to groups."
@@ -26989,7 +26986,7 @@ msgstr "Vincular plantillas con archivos adjuntos."
 
 #. SysConfig
 msgid "Link templates to queues."
-msgstr "Vincular plantillas con filas de espera."
+msgstr "Vincular plantillas con colas de espera."
 
 #. SysConfig
 msgid "Link this ticket to other objects"
@@ -27606,7 +27603,7 @@ msgstr "Módulo usado para detectar si hay archivos adjuntos presentes."
 
 #. SysConfig
 msgid "My Queues"
-msgstr "Mis Filas"
+msgstr "Mis Colas"
 
 #. SysConfig
 msgid "My Services"
@@ -27617,7 +27614,7 @@ msgid ""
 "Name of custom queue. The custom queue is a queue selection of your "
 "preferred queues and can be selected in the preferences settings."
 msgstr ""
-"Nombre de fila personalizada, misma que es una selección de sus filas de "
+"Nombre de fila personalizada, misma que es una selección de sus colas de "
 "preferencia y puede elegirse en las configuraciones de sus preferencias."
 
 #. SysConfig
@@ -28695,7 +28692,7 @@ msgstr "Vista de Filas"
 
 #. SysConfig
 msgid "Queues ↔ Auto Responses"
-msgstr "Filas ↔ Respuestas Automáticas"
+msgstr "Colas ↔ Respuestas Automáticas"
 
 #. SysConfig
 msgid "Quick Close"
@@ -29402,7 +29399,7 @@ msgid ""
 "Sets the age in minutes (first level) for highlighting queues that contain "
 "untouched tickets."
 msgstr ""
-"Fija la edad en minutos (primer nivel) para resaltar filas que contienen "
+"Fija la edad en minutos (primer nivel) para resaltar colas que contienen "
 "tickets sin tocar."
 
 #. SysConfig
@@ -29410,7 +29407,7 @@ msgid ""
 "Sets the age in minutes (second level) for highlighting queues that contain "
 "untouched tickets."
 msgstr ""
-"Fija la edad en minutos (segundo nivel) para resaltar filas que contienen "
+"Fija la edad en minutos (segundo nivel) para resaltar colas que contienen "
 "tickets sin tocar."
 
 #. SysConfig
@@ -30194,7 +30191,7 @@ msgstr "Configuración de la pantalla de inicio de sesión del cliente."
 
 #. SysConfig
 msgid "Shared Secret"
-msgstr ""
+msgstr "Clave secreta compartida"
 
 #. SysConfig
 msgid ""
@@ -30904,7 +30901,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows all both ro and rw queues in the queue view."
-msgstr "Muestra las filas ro y rw en la vista de filas."
+msgstr "Muestra todas las colas ro y rw en la vista de colas."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
@@ -31608,7 +31605,7 @@ msgstr "Plantillas ↔ Anexos"
 
 #. SysConfig
 msgid "Templates ↔ Queues"
-msgstr "Plantillas ↔ Filas"
+msgstr "Plantillas ↔ Colas"
 
 #. SysConfig
 msgid "Textarea"
