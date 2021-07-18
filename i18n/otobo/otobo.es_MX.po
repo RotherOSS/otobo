@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-16 23:30+0000\n"
+"PO-Revision-Date: 2021-07-18 05:45+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -17498,7 +17498,7 @@ msgstr "La zona horaria del calendario no está configurada."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
-msgstr "UI - Uso de la apariencia del agente"
+msgstr "UI - Uso de la interfaz del agente"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentThemeUsage.pm
 msgid "UI - Agent Theme Usage"
@@ -19371,8 +19371,8 @@ msgstr " 7 minutos"
 #. SysConfig
 msgid "\"Slim\" skin which tries to save screen space for power users."
 msgstr ""
-"\"Diseño delgado\" que trata de ahorrar espacio en la pantalla para los "
-"usuarios avanzados."
+"\"Diseño delgado\" interfaz que trata de ahorrar espacio en la pantalla para "
+"los usuarios avanzados."
 
 #. SysConfig
 msgid "%s"
@@ -20373,11 +20373,11 @@ msgstr "Avatar"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr "Diseño blanco equilibrado de Felix Niklas (versión liviana)."
+msgstr "Interfaz blanco equilibrado de Felix Niklas (versión liviana)."
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
-msgstr "Piel blanca balanceda diseñada por Felix Niklas."
+msgstr "interfaz blanca balanceada diseñada por Felix Niklas."
 
 #. SysConfig
 msgid "Based on global RichText setting"
@@ -26813,11 +26813,11 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
-"Es posible configurar diferentes pieles, por ejemplo: para diferenciar entre "
-"distintos agentes, para usarse una base por-dominio en la aplicación. Al "
-"definir una expresión regular, puede configurarse un par Llave/Contenido "
+"Es posible configurar diferentes interfases, por ejemplo: para diferenciar "
+"entre distintos agentes, para usarse una base por-dominio en la aplicación. "
+"Al definir una expresión regular, puede configurarse un par Llave/Contenido "
 "para coincidir con el dominio. El valor en \"Key\" debe coincidir con el "
-"dominio, y \"Content\" tiene que ser una piel válida en el sistema. Por "
+"dominio, y \"Content\" tiene que ser una interfaz válida en el sistema. Por "
 "favor, verifique las entradas de ejemplo para la forma de expresión regular "
 "correcta."
 
@@ -26830,11 +26830,11 @@ msgid ""
 "domain, and the value in \"Content\" should be a valid skin on your system. "
 "Please see the example entries for the proper form of the regex."
 msgstr ""
-"Es posible configurar diferentes pieles, por ejemplo: para diferenciar entre "
-"distintos clientes, para usarse una base por-dominio en la aplicación. Al "
-"definir una expresión regular, puede configurarse un par Llave/Contenido "
+"Es posible configurar diferentes interfases, por ejemplo: para diferenciar "
+"entre distintos clientes, para usarse una base por-dominio en la aplicación. "
+"Al definir una expresión regular, puede configurarse un par Llave/Contenido "
 "para coincidir con el dominio. El valor en \"Key\" debe coincidir con el "
-"dominio, y \"Content\" tiene que ser una piel válida en el sistema. Por "
+"dominio, y \"Content\" tiene que ser una interfaz válida en el sistema. Por "
 "favor, verifique las entradas de ejemplo para la forma de expresión regular "
 "correcta."
 
@@ -29296,7 +29296,7 @@ msgstr "Vista del Servicio"
 
 #. SysConfig
 msgid "ServiceView"
-msgstr "ServiceView"
+msgstr "Vista de servicio"
 
 #. SysConfig
 msgid "Set a new password by filling in your current password and a new one."
@@ -30207,18 +30207,20 @@ msgstr ""
 #. SysConfig
 msgid "Show article as rich text even if rich text writing is disabled."
 msgstr ""
+"Mostrar el artículo como texto enriquecido incluso si la escritura de texto "
+"enriquecido está desactivada."
 
 #. SysConfig
 msgid "Show command line output."
-msgstr ""
+msgstr "Mostrar la salida de la línea de comandos."
 
 #. SysConfig
 msgid "Show queues even when only locked tickets are in."
-msgstr ""
+msgstr "Mostrar colas incluso cuando sólo hay entradas bloqueadas."
 
 #. SysConfig
 msgid "Show the current owner in the customer interface."
-msgstr ""
+msgstr "Mostrar el propietario actual en la interfaz del cliente."
 
 #. SysConfig
 msgid "Show the current queue in the customer interface."
@@ -30237,6 +30239,8 @@ msgid ""
 "Shows a count of attachments in the ticket zoom, if the article has "
 "attachments."
 msgstr ""
+"Muestra un recuento de los archivos adjuntos en el zoom del ticket, si el "
+"artículo tiene archivos adjuntos."
 
 #. SysConfig
 msgid ""
@@ -30267,6 +30271,14 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Muestra un enlace en el menú para suscribirse/desuscribirse de un ticket en "
+"la vista de zoom del ticket de la interfaz del agente. El control de acceso "
+"adicional para mostrar o no este enlace puede hacerse utilizando la Clave "
+"\"Grupo\" y el Contenido como \"rw:grupo1;move_into:grupo2\". Para agrupar "
+"los elementos del menú utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que quiera ver en la UI. Utilice \"ClusterPriority"
+"\" para configurar el orden de un determinado cluster dentro de la barra de "
+"herramientas."
 
 #. SysConfig
 msgid ""
@@ -30278,6 +30290,14 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Muestra un enlace en el menú que permite vincular un ticket con otro objeto "
+"en la vista de zoom del ticket de la interfaz del agente. Se puede realizar "
+"un control de acceso adicional para mostrar o no mostrar este enlace "
+"utilizando la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: "
+"group2\". Para agrupar elementos del menú, utilice para la clave "
+"\"ClusterName\" y para el contenido cualquier nombre que desee ver en la "
+"interfaz de usuario. Utilice \"ClusterPriority\" para configurar el orden de "
+"un determinado clúster dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30288,6 +30308,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú que permite fusionar tickets en la vista de "
+"zoom de tickets de la interfaz del agente. Se puede realizar un control de "
+"acceso adicional para mostrar o no mostrar este enlace utilizando la tecla "
+"\"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para agrupar "
+"elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30298,6 +30326,14 @@ msgid ""
 "and for the Content any name you want to see in the UI. Use \"ClusterPriority"
 "\" to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para acceder al historial de un ticket en la "
+"vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30308,6 +30344,14 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para agregar un campo de texto libre en la "
+"vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30318,6 +30362,14 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para agregar una nota en la vista de zoom del "
+"ticket de la interfaz del agente. Se puede realizar un control de acceso "
+"adicional para mostrar o no mostrar este enlace utilizando la tecla \"Grupo\""
+" y Contenido como \"rw: group1; move_into: group2\". Para agrupar elementos "
+"del menú, utilice para la clave \"ClusterName\" y para el contenido "
+"cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30336,6 +30388,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para agregar una llamada telefónica entrante en "
+"la vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30346,6 +30406,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para agregar una llamada telefónica saliente en "
+"la vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30357,6 +30425,14 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Muestra un enlace en el menú para cambiar el cliente que solicitó el ticket "
+"en la vista de zoom del ticket de la interfaz del agente. Se puede realizar "
+"un control de acceso adicional para mostrar o no mostrar este enlace "
+"utilizando la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: "
+"group2\". Para agrupar elementos del menú, utilice para la clave "
+"\"ClusterName\" y para el contenido cualquier nombre que desee ver en la "
+"interfaz de usuario. Utilice \"ClusterPriority\" para configurar el orden de "
+"un determinado clúster dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30367,6 +30443,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para cambiar el propietario de un ticket en la "
+"vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30378,6 +30462,14 @@ msgid ""
 "\"ClusterPriority\" to configure the order of a certain cluster within the "
 "toolbar."
 msgstr ""
+"Muestra un enlace en el menú para cambiar el agente responsable de un ticket "
+"en la vista de zoom del ticket de la interfaz del agente. Se puede realizar "
+"un control de acceso adicional para mostrar o no mostrar este enlace "
+"utilizando la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: "
+"group2\". Para agrupar elementos del menú, utilice para la clave "
+"\"ClusterName\" y para el contenido cualquier nombre que desee ver en la "
+"interfaz de usuario. Utilice \"ClusterPriority\" para configurar el orden de "
+"un determinado clúster dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30396,6 +30488,14 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para cerrar un ticket en la vista de zoom del "
+"ticket de la interfaz del agente. Se puede realizar un control de acceso "
+"adicional para mostrar o no mostrar este enlace utilizando la tecla \"Grupo\""
+" y Contenido como \"rw: group1; move_into: group2\". Para agrupar elementos "
+"del menú, utilice para la clave \"ClusterName\" y para el contenido "
+"cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30419,12 +30519,22 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para eliminar un ticket en la vista de zoom del "
+"ticket de la interfaz del agente. Se puede realizar un control de acceso "
+"adicional para mostrar o no mostrar este enlace utilizando la tecla \"Grupo\""
+" y Contenido como \"rw: group1; move_into: group2\". Para agrupar elementos "
+"del menú, utilice para la clave \"ClusterName\" y para el contenido "
+"cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to enroll a ticket into a process in the ticket "
 "zoom view of the agent interface."
 msgstr ""
+"Muestra un enlace en el menú para inscribir un ticket en un proceso en la "
+"vista de zoom del ticket de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -30435,6 +30545,14 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para volver a la vista de zoom del ticket de la "
+"interfaz del agente. Se puede realizar un control de acceso adicional para "
+"mostrar o no mostrar este enlace utilizando la tecla \"Grupo\" y Contenido "
+"como \"rw: group1; move_into: group2\". Para agrupar elementos del menú, "
+"utilice para la clave \"ClusterName\" y para el contenido cualquier nombre "
+"que desee ver en la interfaz de usuario. Utilice \"ClusterPriority\" para "
+"configurar el orden de un determinado clúster dentro de la barra de "
+"herramientas."
 
 #. SysConfig
 msgid ""
@@ -30453,6 +30571,14 @@ msgid ""
 "Content any name you want to see in the UI. Use \"ClusterPriority\" to "
 "configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para bloquear / desbloquear tickets en la vista "
+"de zoom de tickets de la interfaz del agente. Se puede realizar un control "
+"de acceso adicional para mostrar o no mostrar este enlace utilizando la "
+"tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30471,18 +30597,30 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para imprimir un ticket o un artículo en la "
+"vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to quick close a ticket in every ticket overview of "
 "the agent interface."
 msgstr ""
+"Muestra un enlace en el menú para cerrar rápidamente un ticket en cada "
+"descripción general de ticket de la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Shows a link in the menu to quick close a ticket in the ticket zoom view of "
 "the agent interface."
 msgstr ""
+"Muestra un enlace en el menú para cerrar rápidamente un ticket en la vista "
+"de zoom del ticket de la interfaz del agente."
 
 #. SysConfig
 msgid ""
@@ -30502,6 +30640,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para ver la prioridad de un ticket en la vista "
+"de zoom del ticket de la interfaz del agente. Se puede realizar un control "
+"de acceso adicional para mostrar o no mostrar este enlace utilizando la "
+"tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30512,6 +30658,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para enviar un correo electrónico saliente en "
+"la vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30520,6 +30674,11 @@ msgid ""
 "can be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
+"Muestra un enlace en el menú para configurar un ticket como basura en cada "
+"descripción general de ticket de la interfaz del agente. Se puede realizar "
+"un control de acceso adicional para mostrar o no mostrar este enlace "
+"utilizando la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: "
+"group2\"."
 
 #. SysConfig
 msgid ""
@@ -30530,6 +30689,14 @@ msgid ""
 "for the Content any name you want to see in the UI. Use \"ClusterPriority\" "
 "to configure the order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace en el menú para establecer un ticket como pendiente en la "
+"vista de zoom del ticket de la interfaz del agente. Se puede realizar un "
+"control de acceso adicional para mostrar o no mostrar este enlace utilizando "
+"la tecla \"Grupo\" y Contenido como \"rw: group1; move_into: group2\". Para "
+"agrupar elementos del menú, utilice para la clave \"ClusterName\" y para el "
+"contenido cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30581,6 +30748,14 @@ msgid ""
 "name you want to see in the UI. Use \"ClusterPriority\" to configure the "
 "order of a certain cluster within the toolbar."
 msgstr ""
+"Muestra un enlace para configurar un ticket como basura en la vista de zoom "
+"del ticket de la interfaz del agente. Se puede realizar un control de acceso "
+"adicional para mostrar o no mostrar este enlace utilizando la tecla \"Grupo\""
+" y Contenido como \"rw: group1; move_into: group2\". Para agrupar elementos "
+"del menú, utilice para la clave \"ClusterName\" y para el contenido "
+"cualquier nombre que desee ver en la interfaz de usuario. Utilice "
+"\"ClusterPriority\" para configurar el orden de un determinado clúster "
+"dentro de la barra de herramientas."
 
 #. SysConfig
 msgid ""
@@ -30733,16 +30908,20 @@ msgstr "Muestra las filas ro y rw en la vista de filas."
 
 #. SysConfig
 msgid "Shows all both ro and rw tickets in the service view."
-msgstr ""
+msgstr "Muestra todos los tickets ro y rw en la vista de servicio."
 
 #. SysConfig
 msgid "Shows all the articles of the ticket (expanded) in the agent zoom view."
 msgstr ""
+"Muestra todos los artículos del ticket (expandido) en la vista de zoom del "
+"agente."
 
 #. SysConfig
 msgid ""
 "Shows all the articles of the ticket (expanded) in the customer zoom view."
 msgstr ""
+"Muestra todos los artículos del ticket (expandido) en la vista de zoom del "
+"cliente."
 
 #. SysConfig
 msgid ""
@@ -30757,6 +30936,9 @@ msgid ""
 "Shows all the customer user identifiers in a multi-select field (not useful "
 "if you have a lot of customer user identifiers)."
 msgstr ""
+"Muestra todos los identificadores de usuario cliente en un campo de "
+"selección múltiple (no es útil si tiene muchos identificadores de usuario "
+"cliente)."
 
 #. SysConfig
 msgid ""
@@ -30792,7 +30974,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Shows information on how to start OTOBO Daemon"
-msgstr ""
+msgstr "Muestra información sobre cómo iniciar OTOBO Demonio"
 
 #. SysConfig
 msgid ""
@@ -30800,10 +30982,16 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"Muestra un enlace a una página externa en la vista de zoom del ticket de la "
+"interfaz del agente. Se puede realizar un control de acceso adicional para "
+"mostrar o no mostrar este enlace utilizando la tecla \"Grupo\" y Contenido "
+"como \"rw: group1; move_into: group2\"."
 
 #. SysConfig
 msgid "Shows the article head information in the agent zoom view."
 msgstr ""
+"Muestra la información del encabezado del artículo en la vista de zoom del "
+"agente."
 
 #. SysConfig
 msgid ""
@@ -30825,6 +31013,8 @@ msgid ""
 "Shows the enabled ticket attributes in the customer interface (0 = Disabled "
 "and 1 = Enabled)."
 msgstr ""
+"Muestra los atributos de ticket habilitados en la interfaz del cliente (0 = "
+"Deshabilitado y 1 = Habilitado)."
 
 #. SysConfig
 msgid ""
@@ -30834,6 +31024,12 @@ msgid ""
 "needs to enable it manually. \"Mandatory\" determines if the plugin is "
 "always shown and can not be removed by agents."
 msgstr ""
+"Muestra el mensaje del día (MOTD) en el panel del agente. \"Grupo\" se "
+"utiliza para restringir el acceso al complemento (p. Ej. Grupo: admin; "
+"grupo1; grupo2;). \"Predeterminado\" indica si el complemento está "
+"habilitado de forma predeterminada o si el usuario necesita habilitarlo "
+"manualmente. \"Obligatorio\" determina si el complemento siempre se muestra "
+"y los agentes no pueden eliminarlo."
 
 #. SysConfig
 msgid "Shows the message of the day on login screen of the agent interface."
@@ -30923,55 +31119,74 @@ msgstr ""
 msgid ""
 "Shows the title field in the close ticket screen of the agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla de cierre de ticket de la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket free text screen of the agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla de texto libre de tickets de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid "Shows the title field in the ticket note screen of the agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla de notas de ticket de la interfaz "
+"del agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket owner screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla del propietario del ticket de un "
+"ticket ampliado en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket pending screen of a zoomed ticket in the "
 "agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla de ticket pendiente de un ticket "
+"ampliado en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket priority screen of a zoomed ticket in "
 "the agent interface."
 msgstr ""
+"Muestra el campo de título en la pantalla de prioridad del ticket de un "
+"ticket ampliado en la interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Shows the title field in the ticket responsible screen of the agent "
 "interface."
 msgstr ""
+"Muestra el campo de título en la pantalla responsable del ticket de la "
+"interfaz del agente."
 
 #. SysConfig
 msgid ""
 "Shows time in long format (days, hours, minutes), if enabled; or in short "
 "format (days, hours), if not enabled."
 msgstr ""
+"Muestra la hora en formato largo (días, horas, minutos), si está habilitado; "
+"o en formato corto (días, horas), si no está habilitado."
 
 #. SysConfig
 msgid ""
 "Shows time use complete description (days, hours, minutes), if enabled; or "
 "just first letter (d, h, m), if not enabled."
 msgstr ""
+"Muestra una descripción completa del uso del tiempo (días, horas, minutos), "
+"si está habilitado; o simplemente la primera letra (d, h, m), si no está "
+"habilitado."
 
 #. SysConfig
 msgid "Signature data."
-msgstr ""
+msgstr "Datos de firma."
 
 #. SysConfig
 msgid "Signatures"
@@ -30979,11 +31194,11 @@ msgstr "Firmas"
 
 #. SysConfig
 msgid "Simple"
-msgstr ""
+msgstr "Sencillo"
 
 #. SysConfig
 msgid "Skin"
-msgstr "Apariencia"
+msgstr "interfaz"
 
 #. SysConfig
 msgid "Slovak"
@@ -30999,7 +31214,7 @@ msgstr "Pequeño"
 
 #. SysConfig
 msgid "Software Package Manager."
-msgstr ""
+msgstr "Administrador de paquetes de software."
 
 #. SysConfig
 msgid "Solution time"
@@ -31007,19 +31222,19 @@ msgstr "Tiempo de Solución"
 
 #. SysConfig
 msgid "SolutionDiffInMin"
-msgstr ""
+msgstr "SolutionDiffInMin"
 
 #. SysConfig
 msgid "SolutionInMin"
-msgstr ""
+msgstr "SolutionInMin"
 
 #. SysConfig
 msgid "Some description!"
-msgstr ""
+msgstr "¡Alguna descripción!"
 
 #. SysConfig
 msgid "Some picture description!"
-msgstr ""
+msgstr "¡Alguna descripción de la imagen!"
 
 #. SysConfig
 msgid ""
@@ -31041,10 +31256,15 @@ msgid ""
 "Values: 0 = ascending (oldest on top, default), 1 = descending (youngest on "
 "top). Use the ServiceID for the key and 0 or 1 for value."
 msgstr ""
+"Ordena los tickets (de forma ascendente o descendente) cuando se selecciona "
+"una sola cola en la vista de servicio y después de que los tickets se "
+"clasifiquen por prioridad. Valores: 0 = ascendente (el más antiguo arriba, "
+"predeterminado), 1 = descendente (el más joven arriba). Utilice ServiceID "
+"para la clave y 0 o 1 para el valor."
 
 #. SysConfig
 msgid "Spam"
-msgstr ""
+msgstr "Correo no deseado"
 
 #. SysConfig
 msgid ""
@@ -31077,6 +31297,8 @@ msgid ""
 "Spanish stop words for fulltext index. These words will be removed from the "
 "search index."
 msgstr ""
+"Palabras de parada en español para el índice de texto completo. Estas "
+"palabras se eliminarán del índice de búsqueda."
 
 #. SysConfig
 msgid ""
@@ -31090,6 +31312,8 @@ msgid ""
 "Specifies the directory to store the data in, if \"FS\" was selected for "
 "ArticleStorage."
 msgstr ""
+"Especifica el directorio en el que se almacenan los datos, si se ha "
+"seleccionado \"FS\" para ArticleStorage."
 
 #. SysConfig
 msgid "Specifies the directory where SSL certificates are stored."
@@ -31108,24 +31332,36 @@ msgid ""
 "otobo@your.example.com). You can use the OTOBO_CONFIG_FQDN variable as set "
 "in your configuation, or choose another email address."
 msgstr ""
+"Especifica la dirección de correo electrónico que debe utilizar la "
+"aplicación al enviar notificaciones. La dirección de correo electrónico se "
+"utiliza para crear el nombre de visualización completo para el maestro de "
+"notificaciones (es decir, \"Notificaciones OTOBO\" otobo@your.example.com). "
+"Puede usar la variable OTOBO_CONFIG_FQDN según lo establecido en su "
+"configuración, o elegir otra dirección de correo electrónico."
 
 #. SysConfig
 msgid ""
 "Specifies the email addresses to get notification messages from scheduler "
 "tasks."
 msgstr ""
+"Especifica las direcciones de correo electrónico para recibir mensajes de "
+"notificación de las tareas del programador."
 
 #. SysConfig
 msgid ""
 "Specifies the group where the user needs rw permissions so that he can "
 "access the \"SwitchToCustomer\" feature."
 msgstr ""
+"Especifica el grupo donde el usuario necesita permisos rw para poder acceder "
+"a la función \"SwitchToCustomer\"."
 
 #. SysConfig
 msgid ""
 "Specifies the group where the user needs rw permissions so that they can "
 "edit other users preferences."
 msgstr ""
+"Especifica el grupo donde el usuario necesita permisos rw para poder editar "
+"las preferencias de otros usuarios."
 
 #. SysConfig
 msgid ""
@@ -31134,12 +31370,18 @@ msgid ""
 "for the notification master (i.e. \"OTOBO Notifications\" otobo@your.example."
 "com)."
 msgstr ""
+"Especifica el nombre que debe utilizar la aplicación al enviar "
+"notificaciones. El nombre del remitente se utiliza para crear el nombre de "
+"visualización completo para el maestro de notificaciones (es decir, "
+"\"Notificaciones OTOBO\" otobo@your.example.com)."
 
 #. SysConfig
 msgid ""
 "Specifies the order in which the firstname and the lastname of agents will "
 "be displayed."
 msgstr ""
+"Especifica el orden en el que se mostrarán el nombre y apellido de los "
+"agentes."
 
 #. SysConfig
 msgid ""
@@ -31205,26 +31447,37 @@ msgid ""
 "attachments. This is only required for installations where some attachments "
 "are in the file system, and others in the database."
 msgstr ""
+"Especifica si se deben verificar todos los backends de almacenamiento al "
+"buscar archivos adjuntos. Esto solo es necesario para instalaciones donde "
+"algunos adjuntos están en el sistema de archivos y otros en la base de datos."
 
 #. SysConfig
 msgid ""
 "Specifies whether the (MIMEBase) article attachments will be indexed and "
 "searchable."
 msgstr ""
+"Especifica si los archivos adjuntos del artículo (MIMEBase) serán indexados "
+"y se podrán buscar."
 
 #. SysConfig
 msgid ""
 "Specify how many sub directory levels to use when creating cache files. This "
 "should prevent too many cache files being in one directory."
 msgstr ""
+"Especifica cuántos niveles de subdirectorios se utilizarán al crear archivos "
+"de caché. Esto debería evitar que haya demasiados archivos de caché en un "
+"mismo directorio."
 
 #. SysConfig
 msgid "Specify the password to authenticate for the first mirror database."
 msgstr ""
+"Especifique la contraseña para autenticar la primera base de datos espejo."
 
 #. SysConfig
 msgid "Specify the username to authenticate for the first mirror database."
 msgstr ""
+"Especifique el nombre de usuario para autenticar la primera base de datos "
+"espejo."
 
 #. SysConfig
 msgid ""
@@ -31251,21 +31504,23 @@ msgstr ""
 
 #. SysConfig
 msgid "Started response time escalation."
-msgstr ""
+msgstr "Se ha iniciado la tiempo de escalado de la respuesta."
 
 #. SysConfig
 msgid "Started solution time escalation."
-msgstr ""
+msgstr "Inició el tiempo de escalado de la solución."
 
 #. SysConfig
 msgid "Started update time escalation."
-msgstr ""
+msgstr "Inició el escalamiento del tiempo de actualización."
 
 #. SysConfig
 msgid ""
 "Starts a wildcard search of the active object after the link object mask is "
 "started."
 msgstr ""
+"Inicia una búsqueda con comodines del objeto activo después de que se inicie "
+"la máscara del objeto enlace."
 
 #. SysConfig
 msgid "Stat#"
@@ -31277,7 +31532,7 @@ msgstr "Estado"
 
 #. SysConfig
 msgid "Statistics overview."
-msgstr ""
+msgstr "Resumen de estadísticas."
 
 #. SysConfig
 msgid "Status view"
@@ -31285,15 +31540,15 @@ msgstr "Vista de estados"
 
 #. SysConfig
 msgid "Stopped response time escalation."
-msgstr ""
+msgstr "Detención del tiempo de escalada de la respuesta."
 
 #. SysConfig
 msgid "Stopped solution time escalation."
-msgstr ""
+msgstr "Detención del tiempo de escalado de la solución."
 
 #. SysConfig
 msgid "Stopped update time escalation."
-msgstr ""
+msgstr "Detención de tiempo de escalada de la actualización."
 
 #. SysConfig
 msgid "Stores cookies after the browser has been closed."
@@ -31313,11 +31568,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Support Agent"
-msgstr ""
+msgstr "Agente de soporte"
 
 #. SysConfig
 msgid "Suspend already escalated tickets."
-msgstr ""
+msgstr "Suspender los tickets que ya han sido escalados."
 
 #. SysConfig
 msgid "Swahili"
@@ -31329,19 +31584,19 @@ msgstr "Sueco"
 
 #. SysConfig
 msgid "System Address Display Name"
-msgstr ""
+msgstr "Dirección del sistema muestra Nombre"
 
 #. SysConfig
 msgid "System Configuration Deployment"
-msgstr ""
+msgstr "Despliegue de la configuración del sistema"
 
 #. SysConfig
 msgid "System Configuration Group"
-msgstr ""
+msgstr "Grupo de configuración del sistema"
 
 #. SysConfig
 msgid "System Configuration Setting History"
-msgstr ""
+msgstr "Historial de ajustes de configuración del sistema"
 
 #. SysConfig
 msgid "System Maintenance"
@@ -31365,62 +31620,69 @@ msgstr "Tailandés"
 
 #. SysConfig
 msgid "The PGP signature is expired."
-msgstr ""
+msgstr "La firma PGP ha caducado."
 
 #. SysConfig
 msgid ""
 "The PGP signature was made by a revoked key, this could mean that the "
 "signature is forged."
 msgstr ""
+"La firma PGP fue realizada por una clave revocada, esto podría significar "
+"que la firma es falsificada."
 
 #. SysConfig
 msgid "The PGP signature was made by an expired key."
-msgstr ""
+msgstr "La firma PGP fue realizada por una clave caducada."
 
 #. SysConfig
 msgid "The PGP signature with the keyid has not been verified successfully."
-msgstr ""
+msgstr "La firma PGP con el keyid no ha sido verificada con éxito."
 
 #. SysConfig
 msgid "The PGP signature with the keyid is good."
-msgstr ""
+msgstr "La firma PGP con el keyid es buena."
 
 #. SysConfig
 msgid ""
 "The agent skin's InternalName which should be used in the agent interface. "
 "Please check the available skins in Frontend::Agent::Skins."
 msgstr ""
-"El nombre interno de la piel que debe usarse en la interfaz del agente. Por "
-"favor, verifique las pieles disponibles en Frontend::Agent::Skins."
+"El nombre interno del diseño que debe usarse en la interfaz del agente. Por "
+"favor, verifique los diseños disponibles en Frontend::Agent::Skins."
 
 #. SysConfig
 msgid ""
 "The customer skin's InternalName which should be used in the customer "
 "interface. Please check the available skins in Frontend::Customer::Skins."
 msgstr ""
-"El nombre interno de la piel que debe usarse en la interfaz del cliente. Por "
-"favor, verifique las pieles disponibles en Frontend::Customer::Skins."
+"El nombre interno del diseño que debe usarse en la interfaz del cliente. Por "
+"favor, verifique los diseños disponibles en Frontend::Customer::Skins."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler cron task manager."
-msgstr ""
+msgstr "El registro del demonio para el gestor de tareas del programador cron ."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler future task manager."
 msgstr ""
+"El registro del demonio para el planificador del futuro gestor de tareas."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler generic agent task manager."
 msgstr ""
+"El registro del demonio para el gestor de tareas del programador del agente "
+"genérico."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler task worker."
-msgstr ""
+msgstr "El registro del demonio para el planificador de tareas del trabajador."
 
 #. SysConfig
 msgid ""
 "The daemon registration for the system configuration deployment sync manager."
 msgstr ""
+"El registro del demonio para el administrador de la sincronización del "
+"despliegue de la configuración del sistema."
 
 #. SysConfig
 msgid "The divider between TicketHook and ticket number. E.g ': '."
@@ -31442,6 +31704,12 @@ msgid ""
 "setting PostMaster::CheckFollowUpModule###0200-References is activated to "
 "recognize followups based on email headers."
 msgstr ""
+"El formato del asunto. 'Izquierda' significa '[TicketHook#:12345] Algún "
+"asunto', 'Derecha' significa 'Algún asunto [TicketHook#:12345]', 'Ninguno' "
+"significa 'Algún asunto' y ningún número de ticket. En este último caso debe "
+"verificar que el ajuste PostMaster::CheckFollowUpModule##0200-References "
+"está activado para reconocer los seguimientos basados en las cabeceras de "
+"los correos electrónicos."
 
 #. SysConfig
 msgid "The headline shown in the customer interface."
@@ -31463,12 +31731,19 @@ msgid ""
 "to 196px*32px. (In the mobile setup both have a height of 24px with variable "
 "length.)"
 msgstr ""
+"El logotipo y el sello que se muestran en la cabecera de la interfaz del "
+"cliente. La URL de la imagen puede ser una URL relativa al directorio de "
+"imágenes del diseño, o una URL completa a un servidor web remoto. El sello "
+"será escalado a 32px*32px, el logo a 196px*32px. (En la configuración móvil "
+"ambos tienen una altura de 24px con longitud variable.)"
 
 #. SysConfig
 msgid ""
 "The logo shown in the header of the agent interface for the skin \"default"
 "\". See \"AgentLogo\" for further description."
 msgstr ""
+"El logo mostrado en la cabecera de la interfaz del agente para el diseño "
+"\"por defecto\". Ver \"AgentLogo\" para una mayor descripción."
 
 #. SysConfig
 msgid ""
@@ -31476,6 +31751,9 @@ msgid ""
 "can be a relative URL to the skin image directory, or a full URL to a remote "
 "web server."
 msgstr ""
+"El logotipo que se muestra en la cabecera de la interfaz del agente. La URL "
+"de la imagen puede ser una URL relativa al directorio de imágenes del "
+"diseño, o una URL completa a un servidor web remoto."
 
 #. SysConfig
 msgid ""
@@ -31483,28 +31761,41 @@ msgid ""
 "the image can be a relative URL to the skin image directory, or a full URL "
 "to a remote web server."
 msgstr ""
+"El logotipo que se muestra en la parte superior de la caja de acceso de la "
+"interfaz del agente. La URL de la imagen puede ser una URL relativa al "
+"directorio de imágenes del diseño, o una URL completa a un servidor web "
+"remoto."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles expanded on a single page in AgentTicketZoom."
 msgstr ""
+"El número máximo de artículos expandidos en una sola página en "
+"AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximal number of articles shown on a single page in AgentTicketZoom."
 msgstr ""
+"El número máximo de artículos mostrados en una sola página en "
+"AgentTicketZoom."
 
 #. SysConfig
 msgid ""
 "The maximum number of mails fetched at once before reconnecting to the "
 "server."
 msgstr ""
+"El número máximo de correos recuperados a la vez antes de volver a "
+"conectarse al servidor."
 
 #. SysConfig
 msgid ""
 "The secret you supplied is invalid. The secret must only contain letters (A-"
 "Z, uppercase) and numbers (2-7) and must consist of 16 characters."
 msgstr ""
+"El código secreto que has proporcionado no es válido. El código secreto debe "
+"contener sólo letras (A-Z, mayúsculas) y números (2-7) y debe constar de 16 "
+"caracteres."
 
 #. SysConfig
 msgid ""
@@ -31524,7 +31815,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The value of the From field"
-msgstr ""
+msgstr "El valor del campo De"
 
 #. SysConfig
 msgid "Theme"
@@ -31535,18 +31826,24 @@ msgid ""
 "This configuration defines all possible screens to enable or disable default "
 "columns."
 msgstr ""
+"Esta configuración define todas las pantallas posibles para activar o "
+"desactivar las columnas por defecto."
 
 #. SysConfig
 msgid ""
 "This configuration defines all possible screens to enable or disable dynamic "
 "fields."
 msgstr ""
+"Esta configuración define todas las pantallas posibles para activar o "
+"desactivar los campos dinámicos."
 
 #. SysConfig
 msgid ""
 "This configuration defines if only valids or all (invalids) dynamic fields "
 "should be shown."
 msgstr ""
+"Esta configuración define si sólo deben mostrarse los campos dinámicos "
+"válidos o todos (inválidos)."
 
 #. SysConfig
 msgid ""
@@ -31554,12 +31851,17 @@ msgid ""
 "at max for calculating the WorkingTime for a Ticket. Attention: Setting this "
 "configuration to high can lead to performance issues."
 msgstr ""
+"Esta configuración define el número de iteraciones que deben realizarse como "
+"máximo para calcular el Tiempo de Trabajo de un Ticket. Atención: Establecer "
+"esta configuración a un valor alto puede provocar problemas de rendimiento."
 
 #. SysConfig
 msgid ""
 "This configuration registers an OutputFilter module that injects the "
 "javascript functionality to remove PendingTime."
 msgstr ""
+"Esta configuración registra un módulo OutputFilter que inyecta la "
+"funcionalidad javascript para eliminar PendingTime."
 
 #. SysConfig
 msgid ""
@@ -31567,26 +31869,29 @@ msgid ""
 "tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to "
 "configure the mapping."
 msgstr ""
+"Este módulo de eventos almacena los atributos de CustomerUser como entradas "
+"DynamicFields. Por favor, vea configuración DynamicFieldFromCustomerUser::"
+"Mapping para saber de cómo configurar el mapeo."
 
 #. SysConfig
 msgid "This is a Description for Comment on Framework."
-msgstr ""
+msgstr "Se trata de una descripción para comentar el Framework."
 
 #. SysConfig
 msgid "This is a Description for DynamicField on Framework."
-msgstr ""
+msgstr "Esta es una descripción de DynamicField sobre el Framework."
 
 #. SysConfig
 msgid "This is the default orange - black skin for the customer interface."
-msgstr ""
+msgstr "Esta es el diseño naranja-negro por defecto de la interfaz del cliente."
 
 #. SysConfig
 msgid "This is the default orange - black skin."
-msgstr ""
+msgstr "Esta es el diseño naranja-negro por defecto."
 
 #. SysConfig
 msgid "This key is not certified with a trusted signature!"
-msgstr ""
+msgstr "¡Esta clave no está certificada con una firma de confianza!"
 
 #. SysConfig
 msgid ""
@@ -31600,45 +31905,51 @@ msgstr ""
 
 #. SysConfig
 msgid "This module is being used to extend the password policy."
-msgstr ""
+msgstr "Este módulo se utiliza para ampliar la política de contraseñas."
 
 #. SysConfig
 msgid "This module is part of the admin area of OTOBO."
-msgstr ""
+msgstr "Este módulo forma parte del área de administración de OTOBO."
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management activity "
 "entity id is stored."
 msgstr ""
+"Esta opción define el campo dinámico en el que se almacena un identificador "
+"de entidad de la Gestión de Procesos."
 
 #. SysConfig
 msgid ""
 "This option defines the dynamic field in which a Process Management process "
 "entity id is stored."
 msgstr ""
+"Esta opción define el campo dinámico en el que se almacena el ID de la "
+"entidad del proceso de la Gestión de Procesos."
 
 #. SysConfig
 msgid "This option defines the process tickets default lock."
-msgstr ""
+msgstr "Esta opción define el bloqueo por defecto de los tickets procesados."
 
 #. SysConfig
 msgid "This option defines the process tickets default priority."
-msgstr ""
+msgstr "Esta opción define la prioridad por defecto de los tickets procesados."
 
 #. SysConfig
 msgid "This option defines the process tickets default queue."
-msgstr ""
+msgstr "Esta opción define la cola por defecto de los tickets procesados."
 
 #. SysConfig
 msgid "This option defines the process tickets default state."
-msgstr ""
+msgstr "Esta opción define el estado por defecto de los tickets procesados."
 
 #. SysConfig
 msgid ""
 "This option will deny the access to customer company tickets, which are not "
 "created by the customer user."
 msgstr ""
+"Esta opción denegará el acceso a los tickets de la empresa cliente, que no "
+"son creados por el usuario cliente."
 
 #. SysConfig
 msgid ""
@@ -31646,20 +31957,25 @@ msgid ""
 "list of countries. This is particularly handy if you just want to use a "
 "small select group of countries."
 msgstr ""
+"Esta opción le permite anular la lista de países incorporada con su propia "
+"lista de países. Esto es especialmente útil si sólo quieres utilizar un "
+"pequeño grupo de países seleccionados."
 
 #. SysConfig
 msgid "This setting is deprecated. Set OTOBOTimeZone instead."
-msgstr ""
+msgstr "Este ajuste está obsoleto. Establezca en su lugar OTOBOTimeZone."
 
 #. SysConfig
 msgid ""
 "This setting shows the sorting attributes in all overview screen, not only "
 "in queue view."
 msgstr ""
+"Esta configuración muestra los atributos de clasificación en toda la "
+"pantalla de resumen, no sólo en la vista de colas."
 
 #. SysConfig
 msgid "Ticket Close"
-msgstr ""
+msgstr "Ticket cerrado"
 
 #. SysConfig
 msgid "Ticket Close."
@@ -31711,7 +32027,7 @@ msgstr "Notificaciones de Ticket"
 
 #. SysConfig
 msgid "Ticket Outbound Email."
-msgstr ""
+msgstr "Correo electrónico de salida del ticket."
 
 #. SysConfig
 msgid "Ticket Overview \"Medium\" Limit"
@@ -31727,19 +32043,19 @@ msgstr "Límite de vista de resumen \"Pequeña\" de tickets"
 
 #. SysConfig
 msgid "Ticket Owner."
-msgstr ""
+msgstr "Propietario del ticket."
 
 #. SysConfig
 msgid "Ticket Pending."
-msgstr ""
+msgstr "Ticket pendiente."
 
 #. SysConfig
 msgid "Ticket Print."
-msgstr ""
+msgstr "Impresión de tickets."
 
 #. SysConfig
 msgid "Ticket Priority."
-msgstr ""
+msgstr "Prioridad de tickets."
 
 #. SysConfig
 msgid "Ticket Queue Overview"
@@ -31747,23 +32063,23 @@ msgstr "Vista general por fila"
 
 #. SysConfig
 msgid "Ticket Responsible."
-msgstr ""
+msgstr "Responsable del ticket."
 
 #. SysConfig
 msgid "Ticket Watcher"
-msgstr ""
+msgstr "Observador de tickets"
 
 #. SysConfig
 msgid "Ticket Zoom"
-msgstr ""
+msgstr "Zoom del ticket"
 
 #. SysConfig
 msgid "Ticket Zoom."
-msgstr ""
+msgstr "Zoom del Ticket."
 
 #. SysConfig
 msgid "Ticket bulk module."
-msgstr ""
+msgstr "Módulo de tickets en masa."
 
 #. SysConfig
 msgid "Ticket event module that triggers the escalation stop events."
@@ -31773,15 +32089,16 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Medium\"."
-msgstr ""
+msgstr "Límite de tickets por página para el resumen de tickets \"Medio\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Preview\"."
 msgstr ""
+"Límite de tickets por página para el resumen de tickets \"Vista previa\"."
 
 #. SysConfig
 msgid "Ticket limit per page for Ticket Overview \"Small\"."
-msgstr ""
+msgstr "Límite de tickets por página para el resumen de tickets \"Pequeño\"."
 
 #. SysConfig
 msgid "Ticket notifications"
@@ -31792,24 +32109,25 @@ msgid "Ticket overview"
 msgstr "Vista de resumen de los tickets"
 
 #. SysConfig
+#, fuzzy
 msgid "Ticket plain view of an email."
-msgstr ""
+msgstr "Ticket a la vista de un correo electrónico."
 
 #. SysConfig
 msgid "Ticket split dialog."
-msgstr ""
+msgstr "Diálogo de división de tickets."
 
 #. SysConfig
 msgid "Ticket title"
-msgstr ""
+msgstr "Título del ticket"
 
 #. SysConfig
 msgid "Ticket zoom view."
-msgstr ""
+msgstr "Vista de zoom del ticket."
 
 #. SysConfig
 msgid "TicketNumber"
-msgstr ""
+msgstr "TicketNumber"
 
 #. SysConfig
 msgid ""
@@ -31817,14 +32135,19 @@ msgid ""
 "server. To apply this to existing tickets, the ticket migration has to be "
 "run via console, after changing this option."
 msgstr ""
+"Los tickets de las siguientes colas no se almacenarán en el servidor de "
+"Elasticsearch. Para aplicar esto a los tickets existentes, hay que ejecutar "
+"la migración de tickets a través de la consola, después de cambiar esta "
+"opción."
 
 #. SysConfig
 msgid "Tickets."
-msgstr ""
+msgstr "Tickets."
 
 #. SysConfig
 msgid "Tile registration for the CustomerDashboard. Module is required."
 msgstr ""
+"El registro del mosaico para el CustomerDashboard. El módulo es necesario."
 
 #. SysConfig
 msgid ""
@@ -31836,19 +32159,21 @@ msgstr ""
 
 #. SysConfig
 msgid "To accept login information, such as an EULA or license."
-msgstr ""
+msgstr "Para aceptar información de acceso, como un EULA o una licencia."
 
 #. SysConfig
 msgid "To download attachments."
-msgstr ""
+msgstr "Para descargar archivos adjuntos."
 
 #. SysConfig
 msgid "To view HTML attachments."
-msgstr ""
+msgstr "Para ver los archivos adjuntos HTML."
 
 #. SysConfig
 msgid "Toggles display of OTOBO FeatureAddons list in PackageManager."
 msgstr ""
+"Activa la visualización de la lista de FeatureAddons de OTOBO en el "
+"PackageManager."
 
 #. SysConfig
 msgid ""
@@ -31856,6 +32181,9 @@ msgid ""
 "this link can be done by using Key \"Group\" and Content like \"rw:group1;"
 "move_into:group2\"."
 msgstr ""
+"Elemento de la barra de herramientas para un acceso directo. El control de "
+"acceso adicional para mostrar o no este enlace se puede hacer utilizando la "
+"clave \"Grupo\" y el contenido como \"rw:grupo1;move_into:grupo2\"."
 
 #. SysConfig
 msgid ""
@@ -31903,6 +32231,8 @@ msgstr ""
 msgid ""
 "Triggers ticket escalation events and notification events for escalation."
 msgstr ""
+"Activa los eventos de escalado de tickets y los eventos de notificación para "
+"el escalado."
 
 #. SysConfig
 msgid "Turkish"
@@ -31913,10 +32243,12 @@ msgid ""
 "Turns off SSL certificate validation, for example if you use a transparent "
 "HTTPS proxy. Use at your own risk!"
 msgstr ""
+"Desactiva la validación del certificado SSL, por ejemplo, si utiliza un "
+"proxy HTTPS transparente. ¡Úsalo bajo tu propio riesgo!"
 
 #. SysConfig
 msgid "Turns on drag and drop for the main navigation."
-msgstr ""
+msgstr "Activa la función de arrastrar y soltar para la navegación principal."
 
 #. SysConfig
 msgid ""
@@ -31924,6 +32256,10 @@ msgid ""
 "application is used, for example, via a proxy farm or a dialup connection, "
 "because the remote ip address is mostly different for the requests."
 msgstr ""
+"Activa la comprobación de la dirección ip remota. No debe activarse si la "
+"aplicación se utiliza, por ejemplo, a través de una granja de proxies o una "
+"conexión de acceso telefónico, porque la dirección ip remota es en su "
+"mayoría diferente para las solicitudes."
 
 #. SysConfig
 msgid "Tweak the system as you wish."
@@ -32013,7 +32349,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Use specified Redis logical database."
-msgstr ""
+msgstr "Utilizar la base de datos lógica Redis especificada."
 
 #. SysConfig
 msgid "User Profile"
@@ -32021,11 +32357,11 @@ msgstr "Perfil del Usuario"
 
 #. SysConfig
 msgid "UserFirstname"
-msgstr ""
+msgstr "NombreUsuario"
 
 #. SysConfig
 msgid "UserLastname"
-msgstr ""
+msgstr "ApellidoUsuario"
 
 #. SysConfig
 msgid "Users, Groups & Roles"
@@ -32144,18 +32480,24 @@ msgid ""
 "Whether extended customer information is shown in the ticket print screen of "
 "the customer interface."
 msgstr ""
+"Si la información ampliada del cliente se muestra en la pantalla de "
+"impresión de tickets de la interfaz del cliente."
 
 #. SysConfig
 msgid ""
 "Whether fields should be automatically filled (1), and in that case also be "
 "hidden from ticket formulars (2)."
 msgstr ""
+"Si los campos deben rellenarse automáticamente (1), y en ese caso también "
+"deben ocultarse de los formularios de las entradas (2)."
 
 #. SysConfig
 msgid ""
 "Whether or not to collect meta information from articles using filters "
 "configured in Ticket::Frontend::ZoomCollectMetaFilters."
 msgstr ""
+"Recoger o no información meta de los artículos utilizando los filtros "
+"configurados en Ticket::Frontend::ZoomCollectMetaFilters."
 
 #. SysConfig
 msgid ""
@@ -32163,6 +32505,10 @@ msgid ""
 "dependencies. This can improve loading times of ticket formulars, but has to "
 "be disabled, if ACLModules are to be used for Ticket- and Form-ReturnTypes."
 msgstr ""
+"Si se puede evitar la ejecución de TicketACL comprobando las dependencias de "
+"los campos en el caché. Esto puede mejorar los tiempos de carga de los "
+"formularios de tickets, pero tiene que estar desactivado, si se van a "
+"utilizar ACLModules para Ticket- y Form-ReturnTypes."
 
 #. SysConfig
 msgid ""
@@ -32170,16 +32516,22 @@ msgid ""
 "check that your web server is configured correctly for https protocol before "
 "enable this option."
 msgstr ""
+"Para forzar la redirección de todas las peticiones del protocolo http al "
+"https. Por favor, compruebe que su servidor web está configurado "
+"correctamente para el protocolo https antes de activar esta opción."
 
 #. SysConfig
 msgid "Yes, but hide archived tickets"
-msgstr ""
+msgstr "Sí, pero oculta los tickets archivados"
 
 #. SysConfig
 msgid ""
 "Your email with ticket number \"<OTOBO_TICKET>\" is bounced to "
 "\"<OTOBO_BOUNCE_TO>\". Contact this address for further information."
 msgstr ""
+"Su correo electrónico con el número de ticket \"<OTOBO_TICKET>\" ha sido "
+"devuelto a \"<OTOBO_BOUNCE_TO>\". Ponte en contacto con esta dirección para "
+"obtener más información."
 
 #. SysConfig
 msgid ""
@@ -32194,12 +32546,16 @@ msgid ""
 "Your queue selection of your preferred queues. You also get notified about "
 "those queues via email if enabled."
 msgstr ""
+"Su selección de colas de espera preferidas. También se le notifica acerca de "
+"esas colas por correo electrónico si está activado."
 
 #. SysConfig
 msgid ""
 "Your service selection of your preferred services. You also get notified "
 "about those services via email if enabled."
 msgstr ""
+"Su selección de servicios preferidos. También se le notifica acerca de esos "
+"servicios por correo electrónico si está habilitado."
 
 #. SysConfig
 msgid "Zoom"
