@@ -101,7 +101,9 @@ div.InputField_InputContainer {
         max-width: 610px;
     }
 
-    fieldset.TableLike > .Field > div.CustomerContainer {
+    fieldset.TableLike > .Field > div.CustomerContainer,
+    fieldset.TableLike > .Field > div.CcCustomerContainer,
+    fieldset.TableLike > .Field > div.BccCustomerContainer {
         width: calc( 75% - 7px );
         max-width: 607px;
     }
