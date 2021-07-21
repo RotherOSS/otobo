@@ -47,8 +47,10 @@ sub Run {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # Check for mod_perl by trying to load Apache2::Module, that module is needed later on anyways
+    # Checking for $ENV{MOD_PERL} is not reliable, see https://github.com/plack/Plack/issues/562.
+    # Check for mod_perl by trying to load Apache2::Module and see whether Apache2::Module::top_module() is available.
     return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
+    return $Self->GetResults() unless defined &Apache2::Module::top_module;
 
     my $MPMModel;
     my %KnownModels = (
