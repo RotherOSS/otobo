@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-07-18 15:33+0000\n"
+"PO-Revision-Date: 2021-07-26 15:50+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -64,7 +64,7 @@ msgstr "Comience a teclear para filtrar..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr "Configuración para Importar"
+msgstr "Importar Configuración"
 
 #. Template: AdminACL
 msgid ""
