@@ -30,13 +30,14 @@
 # Armando Ríos <armando.rios@otrs.com>, 2019
 # Santi Herranz <santi.herranz@isalus.es>, 2019
 # Fredy Aragón <fredmac48@hotmail.com>, 2021.
+# Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-07-08 11:22+0000\n"
-"PO-Revision-Date: 2021-06-30 19:43+0000\n"
-"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"PO-Revision-Date: 2021-07-28 02:14+0000\n"
+"Last-Translator: Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es/>\n"
 "Language: es\n"
@@ -68,7 +69,7 @@ msgstr "Exportar las ACL"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr "Filtro para las ACLs."
+msgstr "Filtro para las ACLs"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
@@ -215,7 +216,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr "Compruebe la documentación oficial"
+msgstr "Compruebe la documentación oficial."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -1014,6 +1015,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un "
+"mejor soporte."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1028,6 +1031,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Esto permitirá que el sistema envíe información de datos de soporte "
+"adicional al equipo de OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1043,6 +1048,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO "
+"o actualice la información de registro de su sistema (asegúrese de activar "
+"la opción 'enviar datos de soporte')."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1061,6 +1069,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"El registro del sistema es un servicio del equipo de OTOBO que ofrece muchas "
+"ventajas."
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1334,7 +1344,7 @@ msgstr "Favor, seleccione una entrada de la lista."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Contacto con la gestión de datos"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1342,11 +1352,11 @@ msgstr "Contacto con los datos"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Agregar contacto con datos"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Editar contacto con datos"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1366,7 +1376,7 @@ msgstr "Se permiten caracteres comodín como '*'."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Ingrese un término de búsqueda para buscar contactos con datos."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1766,13 +1776,15 @@ msgstr "Filtrar por Campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "New OTOBO Community  Fields"
-msgstr ""
+msgstr "Nuevos campos de la comunidad OTOBO"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"¿Le gustaría beneficiarse de tipos de campos dinámicos adicionales? Tiene "
+"acceso completo a los siguientes tipos de campos:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1839,7 +1851,7 @@ msgstr "Borrar este campo"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Importar / Exportar"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1847,22 +1859,26 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Aquí puede cargar un archivo de configuración para importar campos dinámicos "
+"a su sistema. El archivo debe estar en formato .yml exportado por el módulo "
+"\"administración de campos dinámicos\"."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Importación de campos dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Exportación de campos dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Pantallas de campos dinámicos"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
 msgstr ""
+"Aquí puede administrar los campos dinámicos en las respectivas pantallas."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -1956,31 +1972,35 @@ msgstr "Éste es valor predeterminado para este campo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Añadir o editar contactos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"Para agregar contactos a este campo, complete toda la información necesaria "
+"y guárdelo."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"Haga clic en el nombre del campo de la descripción general para editarlo y "
+"busque la acción correspondiente en la barra lateral o en el menú 'Entradas'."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Campo de nombre"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Campo ValidID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Otros campos"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -1996,7 +2016,7 @@ msgstr "Eliminar el valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Añadir campo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -2004,37 +2024,44 @@ msgstr "Añadir un valor"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Estos son los posibles atributos de datos para los contactos."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Campos obligatorios"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Lista separada por comas de claves obligatorias (opcional). Las claves "
+"'Name' y 'ValidID' son siempre obligatorias y no tienen que aparecer aquí."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Campos ordenados"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
+"Lista de claves separadas por comas en orden de clasificación (opcional). "
+"Las claves enumeradas aquí van primero, todos los campos restantes después y "
+"ordenados alfabéticamente."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Campos de búsqueda"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"Lista separada por comas de claves de búsqueda (opcional). La clave 'Nombre' "
+"siempre se puede buscar y no tiene que aparecer aquí."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -2066,7 +2093,7 @@ msgstr "Posibles valores"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Tipo de datos"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -2074,11 +2101,11 @@ msgstr "Filtro"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Campo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Campo de lista"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2089,8 +2116,8 @@ msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
 msgstr ""
-"Aquí puede indicar un enlace HTTP opcional para el valor del campo en las "
-"pantallas de Vista general y Ampliación"
+"Aquí usted puede especificar un enlace HTTP opcional para el valor del campo "
+"en las vistas \"Panel Principal\" y \"Ampliación\""
 
 #. Template: AdminDynamicFieldDB
 msgid "Example"
@@ -2116,11 +2143,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Controlador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2128,7 +2155,7 @@ msgstr "Puerto"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Tabla / Vista"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2144,7 +2171,7 @@ msgstr "Identificador"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Debe ser una columna única de la tabla ingresada en Tabla/Vista."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -2152,23 +2179,23 @@ msgstr "Selección múltiple"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "Tiempo de expiración de la caché"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Prefijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Sufijo de búsqueda"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Límite de resultados"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Sensible a mayúsculas"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -2219,6 +2246,8 @@ msgid ""
 "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
 "instead of 'uri' filter."
 msgstr ""
+"Si los caracteres especiales (&, @,:, /, etc.) no deben codificarse, "
+"utilizar el filtro \"url\" en lugar del filtro \"uri\"."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
@@ -2254,11 +2283,12 @@ msgstr ""
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Seleccione los elementos que desee "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
 msgstr ""
+"Seleccione los elementos deseados y confirme la importación con 'importar'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2266,16 +2296,21 @@ msgid ""
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
 msgstr ""
+"Aquí puede exportar un archivo de configuración de campos dinámicos y "
+"pantallas de campo dinámico para importarlos en otro sistema. El archivo de "
+"configuración se exporta en formato yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
 msgstr ""
+"Los siguientes campos dinámicos no se pueden importar debido a un backend no "
+"válido."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Cambiar todos los elementos disponibles"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -2283,11 +2318,11 @@ msgstr "Campos"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Gestión de campos dinámicos <-> pantallas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2295,17 +2330,19 @@ msgstr "Resumen"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Pantallas de columnas predeterminadas"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Agregar campo dinámico"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"Puede asignar elementos a esta pantalla / campo arrastrando los elementos "
+"con el mouse de la lista de la izquierda a la lista de la derecha."
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
@@ -2316,27 +2353,27 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Filtrar elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "seleccionado a los elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "elementos disponibles"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Filtrar elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "seleccionado para elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Alternar todos los elementos deshabilitados"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
