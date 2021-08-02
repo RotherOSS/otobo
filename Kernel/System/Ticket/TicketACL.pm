@@ -575,7 +575,7 @@ sub TicketAcl {
                 %NewTmpData = ();
 
                 # debug log
-                if ( $Self->{ADLDebug} ) {
+                if ( $Self->{ACLDebug} ) {
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => $Self->{ACLDebugLogPriority},
                         Message  =>

@@ -447,6 +447,13 @@ Core.AJAX = (function (TargetNS) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
+
+                // handling of database dynamic fields
+                var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                if( FieldData.length > 0 ) {
+                    FieldData.removeClass("Validate_Required");
+                    FieldData.addClass("Validate_Required_IfVisible");
+                }
             }
             // field has to be shown again
             else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") == true ) {
@@ -468,6 +475,13 @@ Core.AJAX = (function (TargetNS) {
                 else if ( Field.hasClass("Validate_DependingRequired_IfVisibleOR") == true ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleOR");
                     Field.addClass("Validate_DependingRequiredOR");
+                }
+
+                // handling database dynamic fields
+                var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                if( FieldData.length > 0 ) {
+                    FieldData.removeClass("Validate_Required_IfVisible");
+                    FieldData.addClass("Validate_Required");
                 }
 
                 // init modernization on select fields hidden initially
