@@ -134,6 +134,8 @@ sub ResetAutoIncrementField {
         }
     }
 
+    # the nextval from the sequence must be beyond the current max id
+    # so $NextID would be better names as $MinNextID
     $Param{DBObject}->Prepare(
         SQL => "SELECT max(id)+1 FROM $Param{Table}"
     ) || return;
@@ -147,7 +149,7 @@ sub ResetAutoIncrementField {
     # we will to increase it till the last entry on
     # if field we have
 
-    # verify if the sequence exists
+    # verify that the sequence exists
     $Param{DBObject}->Prepare(
         SQL => "
             SELECT COUNT(*)
@@ -166,22 +168,23 @@ sub ResetAutoIncrementField {
 
     if ($SequenceCount) {
 
-        # set increment as last number on the id field, plus one
+        # advance the sequence by the lowest number that should be the next value
+        # it does not matter when there are gaps
         my $SQL = "ALTER SEQUENCE $SequenceName INCREMENT BY $NextID";
-
         $Param{DBObject}->Do(
             SQL => $SQL,
         ) || return;
 
-        # get next value for sequence
+        # actually advance the sequence
         $SQL = "SELECT $SequenceName.nextval FROM dual";
-
         $Param{DBObject}->Prepare(
             SQL => $SQL,
         ) || return;
 
         my $ResultNextVal;
         while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
+
+            # do nothing with the result
             $ResultNextVal = $Row[0];
         }
 
@@ -196,7 +199,7 @@ sub ResetAutoIncrementField {
     return 1;
 }
 
-# Get all binary columns and return a lookup hash with table and column name as keys.
+# Get the binary columns of table and return a lookup hash with the column name as key.
 sub BlobColumnsList {
     my ( $Self, %Param ) = @_;
 
