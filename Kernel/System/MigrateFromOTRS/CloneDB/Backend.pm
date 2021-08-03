@@ -179,7 +179,7 @@ sub CreateOTRSDBConnection {
 transfers information from a OTRS DB to the OTOBO DB.
 
     my $Success = $BackendObject->DataTransfer(
-        OTRSDBObject   => $OTRSDBObject,   # mandatory
+        OTRSDBObject   => $OTRSDBObject,   # mandatory, instance of Kernel::System::DB
         OTRSDBSettings => $OTRSDBSettings, # mandatory
     );
 
