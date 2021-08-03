@@ -341,13 +341,21 @@ sub DataTransfer {
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
     # get setup
-    my %TableIsSkipped =
-        map { $_ => 1 }
-        $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables;
-    my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
+    my %TableIsSkipped = map { $_ => 1 } $MigrationBaseObject->DBSkipTables;
+    my %RenameTables   = $MigrationBaseObject->DBRenameTables->%*;
 
-    # Conversion of BLOBs is only relevant when DirectBlob settings are different.
+    # Keep track of table attributes which must be base64 encoded or decoded.
+    # This conversion of BLOBs is only relevant when DirectBlob settings are different.
     my %BlobConversionNeeded;
+    my $DirectBlobSettingIsSame =
+        $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
+    my %IsDirectBlobColumn;
+    if ( !$DirectBlobSettingIsSame ) {
+        for my $Setup ( $MigrationBaseObject->DBDirectBlobColumns ) {
+            $IsDirectBlobColumn{ lc $Setup->{Table} } //= {};
+            $IsDirectBlobColumn{ lc $Setup->{Table} }->{ lc $Setup->{Column} } = 1;
+        }
+    }
 
     # Because of InnodB max key size in MySQL 5.6 or earlier
     my $MaxLenghtShortenedColumns = 190;    # int( 767 / 4 ) - 1
@@ -516,18 +524,26 @@ sub DataTransfer {
             $SourceColumnsString{$SourceTable} = join ', ', @MaybeShortenedColumns;
         }
 
-        # get a list of blob columns from OTRS DB
+        # get a list of blob columns from OTRS DB,
+        # only relevant when the DirectBlob settings are different and when there are any
+        # DirectBlob fields for this table
         $BlobConversionNeeded{$SourceTable} = {};
-        if (
-            $TargetDBObject->GetDatabaseFunction('DirectBlob')
-            != $SourceDBObject->GetDatabaseFunction('DirectBlob')
-            )
-        {
-            $BlobConversionNeeded{$SourceTable} = $Self->BlobColumnsList(
+        if ( !$DirectBlobSettingIsSame && $IsDirectBlobColumn{$SourceTable} ) {
+
+            # get LONGBLOB fields of the source table as only those are candidates for base63 conversion o
+            my $BlobColumnsList = $Self->BlobColumnsList(
                 Table    => $SourceTable,
                 DBName   => $Param{DBInfo}->{DBName},
                 DBObject => $Param{OTRSDBObject},
             ) || {};
+
+            # check whether the LONGBLOB fields are relevant for base64 conversion
+            COLUMN:
+            for my $Column ( sort keys $BlobColumnsList->%* ) {
+                next COLUMN unless $IsDirectBlobColumn{$SourceTable}->{$Column};
+
+                $BlobConversionNeeded{$SourceTable}->{$Column} = 1;
+            }
         }
 
         # Truncate the target table in all cases.
@@ -670,10 +686,12 @@ sub DataTransfer {
 
                         next COLUMN unless $BlobConversionNeeded{$SourceTable}->{$Column};
 
+                        # e.g. PostgreSQL to MySQL
                         if ( !$SourceDBObject->GetDatabaseFunction('DirectBlob') ) {
                             $Row[$ColumnCounter] = decode_base64( $Row[$ColumnCounter] );
                         }
 
+                        # e.g. MySQL to PostgreSQL
                         if ( !$TargetDBObject->GetDatabaseFunction('DirectBlob') ) {
                             $EncodeObject->EncodeOutput( \$Row[$ColumnCounter] );
                             $Row[$ColumnCounter] = encode_base64( $Row[$ColumnCounter] );

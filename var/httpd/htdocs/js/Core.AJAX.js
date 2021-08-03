@@ -435,21 +435,28 @@ Core.AJAX = (function (TargetNS) {
                 Field.parent().parent('div.Row').addClass("ooo.ACLHidden");
 
                 // hidden fields cannot be mandatory
-                if ( Field.hasClass("Validate_Required") == true ) {
+                if ( Field.hasClass("Validate_Required") ) {
                     Field.removeClass("Validate_Required");
                     Field.addClass("Validate_Required_IfVisible");
+
+                    // handling of database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_Required") ) {
+                        FieldData.removeClass("Validate_Required");
+                        FieldData.addClass("Validate_Required_IfVisible");
+                    }
                 }
-                else if ( Field.hasClass("Validate_DependingRequiredAND") == true ) {
+                else if ( Field.hasClass("Validate_DependingRequiredAND") ) {
                     Field.removeClass("Validate_DependingRequiredAND");
                     Field.addClass("Validate_DependingRequired_IfVisibleAND");
                 }
-                else if ( Field.hasClass("Validate_DependingRequiredOR") == true ) {
+                else if ( Field.hasClass("Validate_DependingRequiredOR") ) {
                     Field.removeClass("Validate_DependingRequiredOR");
                     Field.addClass("Validate_DependingRequired_IfVisibleOR");
                 }
             }
             // field has to be shown again
-            else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") == true ) {
+            else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") ) {
                 Field.parent().parent('div.Row').show();
                 // if it was hidden via autoselect before
                 Field.parent().show();
@@ -457,15 +464,22 @@ Core.AJAX = (function (TargetNS) {
                 Field.parent().parent('div.Row').removeClass("ooo.ACLHidden");
 
                 // restore validation on mandatory fields
-                if ( Field.hasClass("Validate_Required_IfVisible") == true ) {
+                if ( Field.hasClass("Validate_Required_IfVisible") ) {
                     Field.removeClass("Validate_Required_IfVisible");
                     Field.addClass("Validate_Required");
+
+                    // handling database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 && FieldData.hasClass("Validate_Required_IfVisible") ) {
+                        FieldData.removeClass("Validate_Required_IfVisible");
+                        FieldData.addClass("Validate_Required");
+                    }
                 }
-                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") == true ) {
+                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleAND");
                     Field.addClass("Validate_DependingRequiredAND");
                 }
-                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleOR") == true ) {
+                else if ( Field.hasClass("Validate_DependingRequired_IfVisibleOR") ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleOR");
                     Field.addClass("Validate_DependingRequiredOR");
                 }
