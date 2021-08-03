@@ -3527,7 +3527,7 @@ sub _MaskEmailNew {
 
             # ACL hidden fields cannot be mandatory
             if ( $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2 ) {
-                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
             }
         }
 
