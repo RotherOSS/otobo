@@ -196,7 +196,7 @@ sub ResetAutoIncrementField {
     return 1;
 }
 
-# Get all binary columns and return a lookup hash with table and column name as keys.
+# Get the binary columns of table and return a lookup hash with the column name as key.
 sub BlobColumnsList {
     my ( $Self, %Param ) = @_;
 
