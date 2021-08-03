@@ -7170,15 +7170,15 @@
                 <Item Key="Key" Translatable="1"></Item>
                 <Item Key="Data">
                     <Hash>
+                        <Item Key="10">10</Item>
+                        <Item Key="25">25</Item>
                         <Item Key="50">50</Item>
                         <Item Key="100">100</Item>
-                        <Item Key="200">200</Item>
-                        <Item Key="300">300</Item>
-                        <Item Key="400">400</Item>
+                        <Item Key="250">250</Item>
                         <Item Key="500">500</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010100</Item>
+                <Item Key="DataSelected">100</Item>
                 <Item Key="PrefKey">UserTicketOverviewMediumPageShown</Item>
                 <Item Key="Prio">8100</Item>
                 <Item Key="Active">0</Item>
