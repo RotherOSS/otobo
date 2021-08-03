@@ -438,6 +438,13 @@ Core.AJAX = (function (TargetNS) {
                 if ( Field.hasClass("Validate_Required") == true ) {
                     Field.removeClass("Validate_Required");
                     Field.addClass("Validate_Required_IfVisible");
+
+                    // handling of database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 ) {
+                        FieldData.removeClass("Validate_Required");
+                        FieldData.addClass("Validate_Required_IfVisible");
+                    }
                 }
                 else if ( Field.hasClass("Validate_DependingRequiredAND") == true ) {
                     Field.removeClass("Validate_DependingRequiredAND");
@@ -460,6 +467,13 @@ Core.AJAX = (function (TargetNS) {
                 if ( Field.hasClass("Validate_Required_IfVisible") == true ) {
                     Field.removeClass("Validate_Required_IfVisible");
                     Field.addClass("Validate_Required");
+
+                    // handling database dynamic fields
+                    var FieldData = $( '#' + FieldInfo[0] + 'Data' );
+                    if( FieldData.length > 0 ) {
+                        FieldData.removeClass("Validate_Required_IfVisible");
+                        FieldData.addClass("Validate_Required");
+                    }
                 }
                 else if ( Field.hasClass("Validate_DependingRequired_IfVisibleAND") == true ) {
                     Field.removeClass("Validate_DependingRequired_IfVisibleAND");

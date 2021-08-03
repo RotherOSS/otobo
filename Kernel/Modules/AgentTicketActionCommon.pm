@@ -2758,7 +2758,7 @@ sub _Mask {
 
             # ACL hidden fields cannot be mandatory
             if ( $Config->{DynamicField}->{ $TicketTypeDynamicField->{Name} } == 2 ) {
-                $TicketTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                $TicketTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
             }
         }
 
