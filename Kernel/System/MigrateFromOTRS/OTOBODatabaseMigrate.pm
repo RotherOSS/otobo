@@ -133,7 +133,7 @@ sub Run {
     # create CloneDB backend object
     my $CloneDBBackendObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::CloneDB::Backend');
 
-    # create OTRS DB connection
+    # create OTRS DB connection, that is an instance of Kernel::System::DB
     my $SourceDBObject = $CloneDBBackendObject->CreateOTRSDBConnection(
         OTRSDBSettings => $Param{DBData},
     );

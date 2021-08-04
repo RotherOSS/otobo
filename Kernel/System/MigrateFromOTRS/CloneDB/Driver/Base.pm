@@ -721,12 +721,12 @@ sub DataTransfer {
         # This is irrespective whether the table was polulated with a batch insert
         # or via many small inserts.
         if (
-            $TargetDBObject->can('ResetAutoIncrementField')
+            $TargetDBBackend->can('ResetAutoIncrementField')
             && any { lc($_) eq 'id' } @SourceColumns
             )
         {
 
-            $TargetDBObject->ResetAutoIncrementField(
+            $TargetDBBackend->ResetAutoIncrementField(
                 DBObject => $TargetDBObject,
                 Table    => $TargetTable,
             );
