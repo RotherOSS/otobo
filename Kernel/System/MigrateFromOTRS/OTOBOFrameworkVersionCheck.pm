@@ -230,6 +230,7 @@ sub _CheckOTOBOVersion {
         };
 }
 
+# Znuny LTS is also accepted for migration
 sub _CheckOTRSRelease {
     my ( $Self, %Param ) = @_;
 
@@ -257,7 +258,7 @@ sub _CheckOTRSRelease {
             };
     }
 
-    if ( $ReleaseInfo->{Product} ne 'OTRS' ) {
+    if ( $ReleaseInfo->{Product} ne 'OTRS' && $ReleaseInfo->{Product} ne 'Znuny LTS' ) {
         return
             {
                 Message    => $Message,
