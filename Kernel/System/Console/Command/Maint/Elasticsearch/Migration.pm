@@ -109,6 +109,12 @@ sub Run {
 
     my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
     my $Config   = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+    my $ConfigIndexSettings = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+
+    # prefer Elasticsearch::IndexSettings over Elasticsearch::ArticleIndexCreationSettings
+    if ( $ConfigIndexSettings ) {
+        $Config = $ConfigIndexSettings;
+    }
 
     # test the connection to the server
     if ( !$ESObject->TestConnection() ) {
@@ -129,7 +135,7 @@ sub Run {
     if ( $Targets =~ /c/ ) {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
-            Config   => $Config->{Customer} || $Config->{all},
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings{Customer} || $Config,
             Sleep    => $MicroSleep,
         );
     }
@@ -137,7 +143,7 @@ sub Run {
     if ( $Targets =~ /u/ ) {
         $Self->MigrateCustomerUsers(
             ESObject => $ESObject,
-            Config   => $Config->{CustomerUser} || $Config->{all},
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings{CustomerUser} || $Config,
             Sleep    => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
@@ -146,7 +152,7 @@ sub Run {
     if ( $Targets =~ /t/ ) {
         $Self->MigrateTickets(
             ESObject => $ESObject,
-            Config   => $Config->{Ticket} || $Config->{all},
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings{Ticket} || $Config,
             Sleep    => $MicroSleep,
         );
     }
@@ -154,7 +160,7 @@ sub Run {
     if ( $Targets =~ /i/ ) {
         $Self->MigrateConfigItems(
             ESObject => $ESObject,
-            Config   => $Config->{ConfigItem} || $Config->{all},
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings{ConfigItem} || $Config,
             Sleep    => $MicroSleep,
         );
     }
