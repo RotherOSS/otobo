@@ -107,12 +107,12 @@ sub PreRun {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
-    my $Config   = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+    my $ESObject            = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+    my $Config              = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
     my $ConfigIndexSettings = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
 
     # prefer Elasticsearch::IndexSettings over Elasticsearch::ArticleIndexCreationSettings
-    if ( $ConfigIndexSettings ) {
+    if ($ConfigIndexSettings) {
         $Config = $ConfigIndexSettings;
     }
 
@@ -135,16 +135,16 @@ sub Run {
     if ( $Targets =~ /c/ ) {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
-            Config   => $ConfigIndexSettings && $ConfigIndexSettings{Customer} || $Config,
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings->{Customer} || $Config,
             Sleep    => $MicroSleep,
         );
     }
 
     if ( $Targets =~ /u/ ) {
         $Self->MigrateCustomerUsers(
-            ESObject => $ESObject,
-            Config   => $ConfigIndexSettings && $ConfigIndexSettings{CustomerUser} || $Config,
-            Sleep    => $MicroSleep,
+            ESObject   => $ESObject,
+            Config     => $ConfigIndexSettings && $ConfigIndexSettings->{CustomerUser} || $Config,
+            Sleep      => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
     }
@@ -152,7 +152,7 @@ sub Run {
     if ( $Targets =~ /t/ ) {
         $Self->MigrateTickets(
             ESObject => $ESObject,
-            Config   => $ConfigIndexSettings && $ConfigIndexSettings{Ticket} || $Config,
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings->{Ticket} || $Config,
             Sleep    => $MicroSleep,
         );
     }
@@ -160,7 +160,7 @@ sub Run {
     if ( $Targets =~ /i/ ) {
         $Self->MigrateConfigItems(
             ESObject => $ESObject,
-            Config   => $ConfigIndexSettings && $ConfigIndexSettings{ConfigItem} || $Config,
+            Config   => $ConfigIndexSettings && $ConfigIndexSettings->{ConfigItem} || $Config,
             Sleep    => $MicroSleep,
         );
     }
@@ -696,6 +696,9 @@ sub _IndexSettingsGet {
     }
 
     my $IndexSettingsTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+    if ( !$IndexSettingsTemplate ) {
+        $IndexSettingsTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+    }
 
     my $Settings = $Self->_ExpandTemplate(
         Item         => $IndexSettingsTemplate,
@@ -718,6 +721,7 @@ sub _ExpandTemplate {
                 Item         => $Node->{$Key},
                 Config       => $Config,
                 LayoutObject => $Param{LayoutObject},
+                Key          => $Key
             );
         }
         return \%Expanded;
@@ -740,7 +744,12 @@ sub _ExpandTemplate {
         return;
     }
     elsif ( IsNumber($Node) ) {
-        return $Node;
+        if ( defined( $Config->{ $Param{Key} } ) ) {
+            return $Config->{ $Param{Key} };
+        }
+        else {
+            return $Node;
+        }
     }
     elsif ( IsString($Node) ) {
         return $Param{LayoutObject}->Output(
