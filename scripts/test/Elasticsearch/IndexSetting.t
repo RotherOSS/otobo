@@ -43,15 +43,15 @@ my $Index1 = $MigObject->_IndexSettingsGet(
     }
 );
 
-Test2::V0::is(
+is(
     $Index1->{NS}, 5,
     '#1 number_of_shards'
 );
-Test2::V0::is(
+is(
     $Index1->{NR}, 10,
     '#1 number_of_replicas'
 );
-Test2::V0::is(
+is(
     $Index1->{FieldsLimit}, 1000,
     '#1 index.mapping.total_fields.limit'
 );
@@ -63,7 +63,7 @@ my $Index2 = $MigObject->_IndexSettingsGet(
         NR => 10,
     }
 );
-Test2::V0::is(
+is(
     $Index2->{FieldsLimit}, 2000,
     '#2 index.mapping.total_fields.limit'
 );
@@ -104,40 +104,40 @@ my $Expanded = $MigObject->_ExpandTemplate(
     LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
 );
 
-Test2::V0::is(
+is(
     $Expanded->{index}->{number_of_shards}, 'XXX0XXX',
     '#4 number_of_shards template expansion',
 );
 
-Test2::V0::is(
+is(
     $Expanded->{index}->{scalar}->{number}, 123,
     '#4 expand scalar-number',
 );
-Test2::V0::is(
+is(
     $Expanded->{index}->{scalar}->{string}, '456',
     '#4 expand scalar-string',
 );
-Test2::V0::is(
+is(
     $Expanded->{index}->{scalar}->{nullval}, undef,
     '#4 expand scalar-nullval',
 );
-Test2::V0::is(
+is(
     $Expanded->{index}->{scalar}->{zero}, 0,
     '#4 expand scalar-zero',
 );
-Test2::V0::is(
+is(
     ref $Expanded->{index}->{empty}, 'HASH',
     '#4 expand index-empty',
 );
-Test2::V0::is(
+is(
     $Expanded->{index}->{arraytest}->{array}->[2], 'ghi',
     '#4 expand index-arraytest-array',
 );
-Test2::V0::is(
+is(
     $Expanded->{index}->{arraytest}->{nested}->[1]->{value3}, 789,
     '#4 expand index-arraytest-array',
 );
-Test2::V0::is(
+is(
     ref $Expanded->{index}->{arraytest}->{empty}, 'ARRAY',
     '#4 expand index-arraytest-empty',
 );
