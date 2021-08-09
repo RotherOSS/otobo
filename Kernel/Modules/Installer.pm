@@ -861,6 +861,10 @@ sub Run {
             my $Errors;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+            my $FieldsLimit = 2000;
+            if ( $IndexConfig && $IndexConfig->{FieldsLimit} ) {
+                $FieldsLimit = $IndexConfig->{FieldsLimit};
+            }
             my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
@@ -901,7 +905,7 @@ sub Run {
                         number_of_shards   => $IndexConfig->{NS},
                         number_of_replicas => $IndexConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => 2000,
+                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
@@ -926,7 +930,7 @@ sub Run {
                         number_of_shards   => $IndexConfig->{NS},
                         number_of_replicas => $IndexConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => 2000,
+                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
@@ -951,7 +955,7 @@ sub Run {
                         number_of_shards   => $IndexConfig->{NS},
                         number_of_replicas => $IndexConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => 2000,
+                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
