@@ -726,6 +726,7 @@ sub Prepare {
             Priority => 'error',
             Message  => 'Need SQL!',
         );
+
         return;
     }
 
@@ -747,15 +748,11 @@ sub Prepare {
         )
     {
         $Self->{_PreparedOnSlaveDB} = 1;
+
         return $Self->{SlaveDBObject}->Prepare(%Param);
     }
 
-    if ( defined $Param{Encode} ) {
-        $Self->{Encode} = $Param{Encode};
-    }
-    else {
-        $Self->{Encode} = undef;
-    }
+    $Self->{Encode}       = $Param{Encode} // undef;
     $Self->{Limit}        = 0;
     $Self->{LimitStart}   = 0;
     $Self->{LimitCounter} = 0;
@@ -800,9 +797,9 @@ sub Prepare {
     # check bind params
     my @Array;
     if ( $Param{Bind} ) {
-        for my $Data ( @{ $Param{Bind} } ) {
+        for my $Data ( $Param{Bind}->@* ) {
             if ( ref $Data eq 'SCALAR' ) {
-                push @Array, $$Data;
+                push @Array, $Data->$*;
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -810,15 +807,17 @@ sub Prepare {
                     Priority => 'Error',
                     Message  => 'No SCALAR param in Bind!',
                 );
+
                 return;
             }
         }
+
         if ( @Array && $Self->{Backend}->{'DB::PreProcessBindData'} ) {
             $Self->{Backend}->PreProcessBindData( \@Array );
         }
     }
 
-    return if !$Self->Connect();
+    return unless $Self->Connect();
 
     # do
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
