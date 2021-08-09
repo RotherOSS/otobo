@@ -222,14 +222,13 @@ sub TranslateColumnInfos {
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
 
-    my %Result;
-
-    if ( $Param{DBType} =~ /mysql/ ) {
+    if ( $Param{DBType} =~ m/mysql/ ) {
 
         # no translation necessary
         $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
+        my %Result;
         $Result{VARCHAR}             = 'VARCHAR';
         $Result{'CHARACTER VARYING'} = 'VARCHAR';
         $Result{TEXT}                = 'TEXT';
@@ -249,6 +248,7 @@ sub TranslateColumnInfos {
         $ColumnInfos{DATA_TYPE} = $Result{ uc( $Param{ColumnInfos}->{DATA_TYPE} ) };
     }
     elsif ( $Param{DBType} =~ /oracle/ ) {
+        my %Result;
         $Result{VARCHAR2} = 'VARCHAR';
         $Result{TEXT}     = 'TEXT';
         $Result{CLOB}     = 'MEDIUMTEXT';
