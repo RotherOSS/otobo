@@ -217,7 +217,7 @@ sub DataTransfer {
     # We need to disable FOREIGN_KEY_CHECKS, because we truncate tables and copy rows.
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::DB' => {
-            DeactivateForeignKeyChecks => 1,    # useful for database migration
+            DeactivateForeignKeyChecks => 1,
         },
     );
 
