@@ -861,10 +861,7 @@ sub Run {
             my $Errors;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
-            my $FieldsLimit = 2000;
-            if ( $IndexConfig && $IndexConfig->{FieldsLimit} ) {
-                $FieldsLimit = $IndexConfig->{FieldsLimit};
-            }
+            my $FieldsLimit = $IndexConfig->{FieldsLimit} // 2000;
             my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
