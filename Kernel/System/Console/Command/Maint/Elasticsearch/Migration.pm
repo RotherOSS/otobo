@@ -111,9 +111,9 @@ sub Run {
     my $Config              = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
     my $ConfigIndexSettings = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
 
-    # prefer Elasticsearch::IndexSettings over Elasticsearch::ArticleIndexCreationSettings
-    if ($ConfigIndexSettings) {
-        $Config = $ConfigIndexSettings;
+    # prefer Elasticsearch::IndexSettings###Default over Elasticsearch::ArticleIndexCreationSettings
+    if ($ConfigIndexSettings && $ConfigIndexSettings->{Default}) {
+        $Config = $ConfigIndexSettings->{Default};
     }
 
     # test the connection to the server
