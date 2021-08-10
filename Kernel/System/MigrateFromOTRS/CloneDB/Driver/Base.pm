@@ -494,7 +494,15 @@ sub DataTransfer {
 
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
 
-                # check whether to varchar column has been shorted
+                # Check whether to varchar column has to be shortened.
+                # Be careful to shorten only in the specific cases that related to switching to utf8mb4.
+                # The magic number 255 is the max number where MySQL still uses VARCHAR(n).
+                # Do not worry so much about migrations to MySQL, as MySQL shortens automatically.
+                # TODO: catch the cases where MySQL has TEXT fields but PostgreSQL is still at VARCHAR(n).
+                next SOURCE_COLUMN unless defined $SourceColumnInfos->{LENGTH};
+                next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} <= 255;
+                next SOURCE_COLUMN unless defined $TargetColumnInfos->{LENGTH};
+                next SOURCE_COLUMN unless $TargetColumnInfos->{LENGTH} <= 255;
                 next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH};
 
                 # We need to shorten that column in that table to 191 chars.
