@@ -396,9 +396,8 @@ sub DataTransfer {
     # get a list of tables on OTOBO DB
     my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
 
-    # Collect information about the OTRS tables.
-    # Decide whether batch insert, or destructive table renaming, is possible for a table.
-    # Trunkate the target OTOBO tables.
+    # Collect information about the OTRS source tables.
+    # Find out whether target OTOBO table columns must be shortened.
     # In the case of destructive table renaming, keep track of the foreign keys.
     my ( @SourceTablesToBeCopied, %SourceColumnsString );
     SOURCE_TABLE:
@@ -441,10 +440,8 @@ sub DataTransfer {
         # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
         # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
         #
-        # For the shortend columns we need to cut the values. In order to be on the safe
-        # side we cut to $MaxLenghtShortenedColumns=190 characters.
-        #
-        # When we need to shorten then we can't do a batch insert.
+        # For some columns we need to shorten the values. In order to be on the safe side
+        # we cut to $MaxLenghtShortenedColumns=190 characters.
         #
         # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
 
@@ -717,15 +714,12 @@ sub DataTransfer {
             }
         }
 
-        # If needed, reset the auto-incremental field.
-        # This is irrespective whether the table was polulated with a batch insert
-        # or via many small inserts.
+        # Reset the autoincrement fields when needed. Under PostgreSQL the appropriate term would be serial field.
         if (
             $TargetDBBackend->can('ResetAutoIncrementField')
             && any { lc($_) eq 'id' } @SourceColumns
             )
         {
-
             $TargetDBBackend->ResetAutoIncrementField(
                 DBObject => $TargetDBObject,
                 Table    => $TargetTable,
