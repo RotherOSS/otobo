@@ -396,9 +396,8 @@ sub DataTransfer {
     # get a list of tables on OTOBO DB
     my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
 
-    # Collect information about the OTRS tables.
-    # Decide whether batch insert, or destructive table renaming, is possible for a table.
-    # Trunkate the target OTOBO tables.
+    # Collect information about the OTRS source tables.
+    # Find out whether target OTOBO table columns must be shortened.
     # In the case of destructive table renaming, keep track of the foreign keys.
     my ( @SourceTablesToBeCopied, %SourceColumnsString );
     SOURCE_TABLE:
@@ -441,10 +440,8 @@ sub DataTransfer {
         # and for all columns with an UNIQUE index. With switching to the utf8mb4 character set.
         # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
         #
-        # For the shortend columns we need to cut the values. In order to be on the safe
-        # side we cut to $MaxLenghtShortenedColumns=190 characters.
-        #
-        # When we need to shorten then we can't do a batch insert.
+        # For some columns we need to shorten the values. In order to be on the safe side
+        # we cut to $MaxLenghtShortenedColumns=190 characters.
         #
         # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
 
@@ -497,7 +494,15 @@ sub DataTransfer {
 
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
 
-                # check whether to varchar column has been shorted
+                # Check whether to varchar column has to be shortened.
+                # Be careful to shorten only in the specific cases that related to switching to utf8mb4.
+                # The magic number 255 is the max number where MySQL still uses VARCHAR(n).
+                # Do not worry so much about migrations to MySQL, as MySQL shortens automatically.
+                # TODO: catch the cases where MySQL has TEXT fields but PostgreSQL is still at VARCHAR(n).
+                next SOURCE_COLUMN unless defined $SourceColumnInfos->{LENGTH};
+                next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} <= 255;
+                next SOURCE_COLUMN unless defined $TargetColumnInfos->{LENGTH};
+                next SOURCE_COLUMN unless $TargetColumnInfos->{LENGTH} <= 255;
                 next SOURCE_COLUMN unless $SourceColumnInfos->{LENGTH} > $TargetColumnInfos->{LENGTH};
 
                 # We need to shorten that column in that table to 191 chars.
@@ -505,8 +510,8 @@ sub DataTransfer {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => "Column $SourceColumn needs to cut to new length of $MaxLenghtShortenedColumns chars, cause utf8mb4.",
-                    Priority => "notice",
+                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLenghtShortenedColumns chars",
+                    Priority => 'notice',
                 );
             }
             continue {
@@ -717,15 +722,12 @@ sub DataTransfer {
             }
         }
 
-        # If needed, reset the auto-incremental field.
-        # This is irrespective whether the table was polulated with a batch insert
-        # or via many small inserts.
+        # Reset the autoincrement fields when needed. Under PostgreSQL the appropriate term would be serial field.
         if (
             $TargetDBBackend->can('ResetAutoIncrementField')
             && any { lc($_) eq 'id' } @SourceColumns
             )
         {
-
             $TargetDBBackend->ResetAutoIncrementField(
                 DBObject => $TargetDBObject,
                 Table    => $TargetTable,
