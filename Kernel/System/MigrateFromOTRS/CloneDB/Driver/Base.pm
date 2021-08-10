@@ -510,8 +510,8 @@ sub DataTransfer {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => "Column $SourceColumn needs to cut to new length of $MaxLenghtShortenedColumns chars, cause utf8mb4.",
-                    Priority => "notice",
+                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLenghtShortenedColumns chars",
+                    Priority => 'notice',
                 );
             }
             continue {
