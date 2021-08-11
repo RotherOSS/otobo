@@ -16,6 +16,7 @@ RUN apt-get update\
  "screen"\
  "tree"\
  "vim"\
+ "certbot"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
