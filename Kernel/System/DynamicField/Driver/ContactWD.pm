@@ -240,6 +240,14 @@ sub EditFieldRender {
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
 
+    my %Data = {
+        'FieldName' => $FieldName,
+        'ValueEscaped' => $ValueEscaped,
+        'FieldClass' => $FieldClass,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'VisibleValue' => $VisibleValue,
+    };    
+
     my $HTMLString = <<"EOF";
 <input type="hidden" id="$FieldName" name="$FieldName" value="$ValueEscaped" />
 <input type="text" class="$FieldClass" id="Autocomplete_$FieldName" name="Autocomplete_$FieldName" title="$FieldLabelEscaped" value="$VisibleValue" />
@@ -249,6 +257,9 @@ EOF
         my $DivID = $FieldName . 'Error';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+
+        $Data{'DivID'} = $DivID;
+        $Data{'FieldRequiredMessage'} = $FieldRequiredMessage;
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -265,6 +276,9 @@ EOF
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
         $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
+
+        $Data{'ErrorMessage'} = $ErrorMessage;
+        $Data{'DivID'} = $DivID;
 
         # for server side validation
         $HTMLString .= <<"EOF";
