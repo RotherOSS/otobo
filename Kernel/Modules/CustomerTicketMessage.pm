@@ -468,13 +468,14 @@ sub Run {
                 PossibleValuesFilter => defined $DynFieldStates{Fields}{$i}
                 ? $DynFieldStates{Fields}{$i}{PossibleValues}
                 : undef,
-                Value           => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-                LayoutObject    => $LayoutObject,
-                ParamObject     => $ParamObject,
-                AJAXUpdate      => 1,
-                UpdatableFields => $Self->_GetFieldsToUpdate(),
-                Mandatory       => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                CustomerLabel   => 1,
+                Value             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                LayoutObject      => $LayoutObject,
+                ParamObject       => $ParamObject,
+                AJAXUpdate        => 1,
+                UpdatableFields   => $Self->_GetFieldsToUpdate(),
+                Mandatory         => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+                CustomerLabel     => 1,
+                CustomerInterface => 1,
                 %UseDefault,
             );
         }
@@ -664,13 +665,14 @@ sub Run {
                     PossibleValuesFilter => $PossibleValuesFilter,
                     Mandatory            =>
                     $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                    ServerError     => $ValidationResult->{ServerError}  || '',
-                    ErrorMessage    => $ValidationResult->{ErrorMessage} || '',
-                    LayoutObject    => $LayoutObject,
-                    ParamObject     => $ParamObject,
-                    AJAXUpdate      => 1,
-                    UpdatableFields => $Self->_GetFieldsToUpdate(),
-                    CustomerLabel   => 1,
+                    ServerError       => $ValidationResult->{ServerError}  || '',
+                    ErrorMessage      => $ValidationResult->{ErrorMessage} || '',
+                    LayoutObject      => $LayoutObject,
+                    ParamObject       => $ParamObject,
+                    AJAXUpdate        => 1,
+                    UpdatableFields   => $Self->_GetFieldsToUpdate(),
+                    CustomerLabel     => 1,
+                    CustomerInterface => 1,
                 );
         }
 
