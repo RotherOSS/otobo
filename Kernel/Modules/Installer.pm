@@ -860,8 +860,8 @@ sub Run {
         if ($Success) {
             my $Errors;
 
-            my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
-            my $FieldsLimit = $IndexConfig->{FieldsLimit} // 2000;
+            my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+            my $DefaultConfig = $IndexSettings->{Default};
             my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
@@ -896,13 +896,14 @@ sub Run {
             my %IndexName = (
                 index => 'customer',
             );
+            my $CustomerConfig = $IndexConfig->{Customer} // $DefaultConfig;
             my %Request = (
                 settings => {
                     index => {
-                        number_of_shards   => $IndexConfig->{NS},
-                        number_of_replicas => $IndexConfig->{NR},
+                        number_of_shards   => $CustomerConfig->{NS},
+                        number_of_replicas => $CustomerConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => $CustomerConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
@@ -921,13 +922,14 @@ sub Run {
             %IndexName = (
                 index => 'customeruser',
             );
+            my $CustomerUserConfig = $IndexConfig->{CustomerUser} // $DefaultConfig;
             %Request = (
                 settings => {
                     index => {
-                        number_of_shards   => $IndexConfig->{NS},
-                        number_of_replicas => $IndexConfig->{NR},
+                        number_of_shards   => $CustomerUserConfig->{NS},
+                        number_of_replicas => $CustomerUserConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => $CustomerUserConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
@@ -946,13 +948,14 @@ sub Run {
             %IndexName = (
                 index => 'ticket',
             );
+            my $TicketConfig = $IndexConfig->{Ticket} // $DefaultConfig;
             %Request = (
                 settings => {
                     index => {
-                        number_of_shards   => $IndexConfig->{NS},
-                        number_of_replicas => $IndexConfig->{NR},
+                        number_of_shards   => $TicketConfig->{NS},
+                        number_of_replicas => $TicketConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $IndexConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => $TicketConfig->{FieldsLimit},
                 },
                 mappings => {
                     properties => {
