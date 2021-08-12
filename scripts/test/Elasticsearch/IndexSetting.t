@@ -20,6 +20,8 @@ use utf8;
 
 use Test2::V0;
 
+use Data::Dumper;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -34,25 +36,31 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $MigObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
+my $Template = {
+    number_of_shards   => '[% Data.NS | uri %]',
+    number_of_replicas => '[% Data.NR | uri %]',
+    'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
+};
 
 my $Index1 = $MigObject->_IndexSettingsGet(
     Config => {
         NS          => 5,
         NR          => 10,
         FieldsLimit => 1000,
-    }
+    },
+    Template => $Template,
 );
 
 is(
-    $Index1->{NS}, 5,
+    $Index1->{number_of_shards}, 5,
     '#1 number_of_shards'
 );
 is(
-    $Index1->{NR}, 10,
+    $Index1->{number_of_replicas}, 10,
     '#1 number_of_replicas'
 );
 is(
-    $Index1->{FieldsLimit}, 1000,
+    $Index1->{'index.mapping.total_fields.limit'}, 1000,
     '#1 index.mapping.total_fields.limit'
 );
 
@@ -61,10 +69,11 @@ my $Index2 = $MigObject->_IndexSettingsGet(
     Config => {
         NS => 5,
         NR => 10,
-    }
+    },
+    Template => $Template,
 );
 is(
-    $Index2->{FieldsLimit}, 2000,
+    $Index2->{'index.mapping.total_fields.limit'}, 2000,
     '#2 index.mapping.total_fields.limit'
 );
 
@@ -106,40 +115,40 @@ my $Expanded = $MigObject->_ExpandTemplate(
 
 is(
     $Expanded->{index}->{number_of_shards}, 'XXX0XXX',
-    '#4 number_of_shards template expansion',
+    '#3 number_of_shards template expansion',
 );
 
 is(
     $Expanded->{index}->{scalar}->{number}, 123,
-    '#4 expand scalar-number',
+    '#3 expand scalar-number',
 );
 is(
     $Expanded->{index}->{scalar}->{string}, '456',
-    '#4 expand scalar-string',
+    '#3 expand scalar-string',
 );
 is(
     $Expanded->{index}->{scalar}->{nullval}, undef,
-    '#4 expand scalar-nullval',
+    '#3 expand scalar-nullval',
 );
 is(
     $Expanded->{index}->{scalar}->{zero}, 0,
-    '#4 expand scalar-zero',
+    '#3 expand scalar-zero',
 );
 is(
     ref $Expanded->{index}->{empty}, 'HASH',
-    '#4 expand index-empty',
+    '#3 expand index-empty',
 );
 is(
     $Expanded->{index}->{arraytest}->{array}->[2], 'ghi',
-    '#4 expand index-arraytest-array',
+    '#3 expand index-arraytest-array',
 );
 is(
     $Expanded->{index}->{arraytest}->{nested}->[1]->{value3}, 789,
-    '#4 expand index-arraytest-array',
+    '#3 expand index-arraytest-array',
 );
 is(
     ref $Expanded->{index}->{arraytest}->{empty}, 'ARRAY',
-    '#4 expand index-arraytest-empty',
+    '#3 expand index-arraytest-empty',
 );
 
 # cleanup is done by RestoreDatabase
