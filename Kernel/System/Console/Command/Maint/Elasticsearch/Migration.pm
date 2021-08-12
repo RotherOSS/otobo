@@ -21,6 +21,7 @@ use warnings;
 
 use Time::HiRes();
 
+use Data::Dumper;
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Console::BaseCommand);
@@ -110,6 +111,7 @@ sub Run {
     my $ESObject            = $Kernel::OM->Get('Kernel::System::Elasticsearch');
     my $Config              = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
     my $ConfigIndexSettings = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+    my $IndexTemplates      = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
 
     # prefer Elasticsearch::IndexSettings###Default over Elasticsearch::ArticleIndexCreationSettings
     if ($ConfigIndexSettings && $ConfigIndexSettings->{Default}) {
@@ -136,6 +138,7 @@ sub Run {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{Customer} // $Config,
+            Template => $IndexTemplates->{Customer} // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
@@ -144,6 +147,7 @@ sub Run {
         $Self->MigrateCustomerUsers(
             ESObject   => $ESObject,
             Config     => $ConfigIndexSettings->{CustomerUser} // $Config,
+            Template   => $IndexTemplates->{CustomerUser} // $IndexTemplates->{Default},
             Sleep      => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
@@ -153,6 +157,7 @@ sub Run {
         $Self->MigrateTickets(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{Ticket} // $Config,
+            Template => $IndexTemplates->{Ticket} // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
@@ -161,6 +166,7 @@ sub Run {
         $Self->MigrateConfigItems(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{ConfigItem} // $Config,
+            Template => $IndexTemplates->{ConfigItem} // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
@@ -600,6 +606,7 @@ sub MigrateConfigItems {
         );
     }
 
+    $Param{Template} = '';
     my $IndexSettings = $Self->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
@@ -695,13 +702,8 @@ sub _IndexSettingsGet {
         $Config->{FieldsLimit} = 2000;
     }
 
-    my $IndexSettingsTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
-    if ( !$IndexSettingsTemplate ) {
-        $IndexSettingsTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
-    }
-
     my $Settings = $Self->_ExpandTemplate(
-        Item         => $IndexSettingsTemplate,
+        Item         => $Param{Template},
         Config       => $Config,
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
     );
