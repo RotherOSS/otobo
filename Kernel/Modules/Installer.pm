@@ -861,7 +861,7 @@ sub Run {
             my $Errors;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
-            my $DefaultConfig = $IndexSettings->{Default};
+            my $DefaultConfig = $IndexConfig->{Default};
             my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
