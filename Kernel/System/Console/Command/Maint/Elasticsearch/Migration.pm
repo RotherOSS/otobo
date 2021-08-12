@@ -21,7 +21,6 @@ use warnings;
 
 use Time::HiRes();
 
-use Data::Dumper;
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Console::BaseCommand);
@@ -114,7 +113,7 @@ sub Run {
     my $IndexTemplates      = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
 
     # prefer Elasticsearch::IndexSettings###Default over Elasticsearch::ArticleIndexCreationSettings
-    if ($ConfigIndexSettings && $ConfigIndexSettings->{Default}) {
+    if ( $ConfigIndexSettings && $ConfigIndexSettings->{Default} ) {
         $Config = $ConfigIndexSettings->{Default};
     }
 
@@ -138,7 +137,7 @@ sub Run {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{Customer} // $Config,
-            Template => $IndexTemplates->{Customer} // $IndexTemplates->{Default},
+            Template => $IndexTemplates->{Customer}      // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
@@ -147,7 +146,7 @@ sub Run {
         $Self->MigrateCustomerUsers(
             ESObject   => $ESObject,
             Config     => $ConfigIndexSettings->{CustomerUser} // $Config,
-            Template   => $IndexTemplates->{CustomerUser} // $IndexTemplates->{Default},
+            Template   => $IndexTemplates->{CustomerUser}      // $IndexTemplates->{Default},
             Sleep      => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
@@ -157,7 +156,7 @@ sub Run {
         $Self->MigrateTickets(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{Ticket} // $Config,
-            Template => $IndexTemplates->{Ticket} // $IndexTemplates->{Default},
+            Template => $IndexTemplates->{Ticket}      // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
@@ -166,7 +165,7 @@ sub Run {
         $Self->MigrateConfigItems(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{ConfigItem} // $Config,
-            Template => $IndexTemplates->{ConfigItem} // $IndexTemplates->{Default},
+            Template => $IndexTemplates->{ConfigItem}      // $IndexTemplates->{Default},
             Sleep    => $MicroSleep,
         );
     }
