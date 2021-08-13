@@ -912,7 +912,7 @@ sub Run {
                         number_of_shards   => $CustomerConfig->{NS},
                         number_of_replicas => $CustomerConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $CustomerConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => 2000,
                 },
                 mappings => {
                     properties => {
@@ -938,7 +938,7 @@ sub Run {
                         number_of_shards   => $CustomerUserConfig->{NS},
                         number_of_replicas => $CustomerUserConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $CustomerUserConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => 2000,
                 },
                 mappings => {
                     properties => {
@@ -964,7 +964,7 @@ sub Run {
                         number_of_shards   => $TicketConfig->{NS},
                         number_of_replicas => $TicketConfig->{NR},
                     },
-                    'index.mapping.total_fields.limit' => $TicketConfig->{FieldsLimit},
+                    'index.mapping.total_fields.limit' => 2000,
                 },
                 mappings => {
                     properties => {
