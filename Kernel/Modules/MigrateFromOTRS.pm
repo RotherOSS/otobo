@@ -53,9 +53,7 @@ sub Run {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
             Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.'
-            ),
+            Comment => Translatable('If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.'),
         );
     }
 
@@ -87,7 +85,7 @@ sub Run {
     # perform the requested AJAX task
     my $AJAXTask = $ParamObject->GetParam( Param => 'Task' );
     if ($AJAXTask) {
-        my $Return                = {};
+        my $Return                = {};                                                    # the AJAX response that will be sent back to the browser
         my $MigrateFromOTRSObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS');
 
         if ( $Self->{Subaction} eq 'GetProgress' && $AJAXTask eq 'GetProgress' ) {
@@ -148,7 +146,7 @@ sub Run {
                 Task     => 'OTOBOOTRSConnectionCheck',
                 UserID   => 1,
                 OTRSData => \%GetParam,
-            )->{'OTOBOOTRSConnectionCheck'};
+            )->{OTOBOOTRSConnectionCheck};
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
@@ -173,9 +171,7 @@ sub Run {
 
             # skip if db migration is already done
             if ( $GetParam{SkipDBMigration} ) {
-                $Return = {
-                    Successful => 1,
-                };
+                $Return = { Successful => 1 };
             }
 
             # "normal" migration
@@ -184,7 +180,7 @@ sub Run {
                     Task   => 'OTOBOOTRSDBCheck',
                     UserID => 1,
                     DBData => \%GetParam,
-                )->{'OTOBOOTRSDBCheck'};
+                )->{OTOBOOTRSDBCheck};
             }
         }
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
@@ -396,7 +392,7 @@ sub Run {
         # Use defaults for various settings, unless we have cached data
         if ( !IsHashRefWithData($CachedData) ) {
 
-            # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
+            # Under Docker we assume that /opt/otrs has been copied into the otobo_opt_otobo volume.
             my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/var/tmp/copied_otrs' : '/opt/otrs';
             my %Defaults        = (
                 Intro => {
