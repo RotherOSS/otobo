@@ -3,10 +3,11 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
-# Use the latest Perl as of 2021-06-12.
+# Use the latest maintainance release of the Perl 5.32.x series.
+# As of 2021-01-23 this is Perl 5.32.1. See https://perldoc.perl.org/perl5321delta.
 # This image is based on Debian 10 (Buster). The user is root.
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.34.0-buster
+FROM perl:5.32-buster
 
 # Some initial setup that needs to be done by root.
 USER root
