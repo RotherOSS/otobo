@@ -139,8 +139,8 @@ sub Run {
     );
 
     return {
-        Message    => $Self->{LanguageObject}->Translate("Copy database."),
-        Comment    => $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database."),
+        Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+        Comment    => $Self->{LanguageObject}->Translate('System was unable to connect to OTRS database.'),
         Successful => 0,
     } unless $SourceDBObject;
 
@@ -156,15 +156,15 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate("Copy database."),
-            Comment    => $Self->{LanguageObject}->Translate("System was unable to complete data transfer."),
+            Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+            Comment    => $Self->{LanguageObject}->Translate('System was unable to complete data transfer.'),
             Successful => 0,
         } unless $TransferIsOK;
     }
 
     return {
-        Message    => $Self->{LanguageObject}->Translate("Copy database."),
-        Comment    => $Self->{LanguageObject}->Translate("Data transfer completed."),
+        Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+        Comment    => $Self->{LanguageObject}->Translate('Data transfer completed.'),
         Successful => 1,
     };
 }
