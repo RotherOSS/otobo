@@ -98,18 +98,18 @@ sub Run {
             );
 
             if ($Status) {
-                my $Now  = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-                my $Time = $Now - $Status->{StartTime};
+                my $Now     = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+                my $Seconds = $Now - $Status->{StartTime};
                 my $TimeSpent;
-                if ( $Time >= 3600 ) {
-                    $TimeSpent = sprintf "%d h ", int( $Time / 3600 );
-                    $Time      = $Time % 3600;
+                if ( $Seconds >= 3600 ) {
+                    $TimeSpent = sprintf '%d h ', int( $Seconds / 3600 );
+                    $Seconds %= 3600;
                 }
-                if ( $Time >= 60 || $TimeSpent ) {
-                    $TimeSpent .= sprintf "%02d m ", int( $Time / 60 );
-                    $Time = $Time % 60;
+                if ( $Seconds >= 60 || $TimeSpent ) {
+                    $TimeSpent .= sprintf '%02d m ', int( $Seconds / 60 );
+                    $Seconds %= 60;
                 }
-                $TimeSpent .= sprintf '%02d s', $Time;
+                $TimeSpent .= sprintf '%02d s', $Seconds;
 
                 $Return = {
                     Task      => $Status->{Task},
