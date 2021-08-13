@@ -861,7 +861,16 @@ sub Run {
             my $Errors;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
-            my $DefaultConfig = $IndexConfig->{Default};
+            if ( $IndexConfig ) {
+                my $DefaultConfig = $IndexConfig->{Default};
+            }
+            else {
+                $DefaultConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+            };
+            if ( !$DefaultConfig ) {
+                $LayoutObject->FatalError();
+            }
+
             my %Pipeline    = (
                 description => "Extract external attachment information",
                 processors  => [
