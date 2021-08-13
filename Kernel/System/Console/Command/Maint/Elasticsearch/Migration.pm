@@ -145,9 +145,9 @@ sub Run {
 
     if ( $Targets =~ /u/ ) {
         $Self->MigrateCustomerUsers(
-            ESObject => $ESObject,
-            Config   => $Config->{CustomerUser} || $Config->{all},
-            Sleep    => $MicroSleep,
+            ESObject   => $ESObject,
+            Config     => $Config->{CustomerUser} || $Config->{all},
+            Sleep      => $MicroSleep,
             LimitLevel => $CustomerLimitLevel
         );
     }
