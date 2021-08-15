@@ -859,15 +859,25 @@ sub Run {
         # initialize standard indices
         if ($Success) {
             my $Errors;
+            my $DefaultConfig;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
             if ( $IndexConfig ) {
-                my $DefaultConfig = $IndexConfig->{Default};
+                $DefaultConfig = $IndexConfig->{Default};
             }
             else {
                 $DefaultConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
             };
             if ( !$DefaultConfig ) {
+                $LayoutObject->FatalError();
+            }
+
+            my $DefaultTemplate;
+            my $IndexTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
+            if ( $IndexTemplate ) {
+                $DefaultTemplate = $IndexTemplate->{Default};
+            }
+            else {
                 $LayoutObject->FatalError();
             }
 
@@ -905,15 +915,11 @@ sub Run {
             my %IndexName = (
                 index => 'customer',
             );
-            my $CustomerConfig = $IndexConfig->{Customer} // $DefaultConfig;
             my %Request = (
-                settings => {
-                    index => {
-                        number_of_shards   => $CustomerConfig->{NS},
-                        number_of_replicas => $CustomerConfig->{NR},
-                    },
-                    'index.mapping.total_fields.limit' => 2000,
-                },
+                settings => $ESObject->_IndexSettingsGet(
+                    Config   => $IndexConfig->{Customer} // $DefaultConfig,
+                    Template => $IndexTemplate->{Customer} // $DefaultTemplate,
+                ),
                 mappings => {
                     properties => {
                         CustomerID => {
@@ -931,15 +937,11 @@ sub Run {
             %IndexName = (
                 index => 'customeruser',
             );
-            my $CustomerUserConfig = $IndexConfig->{CustomerUser} // $DefaultConfig;
             %Request = (
-                settings => {
-                    index => {
-                        number_of_shards   => $CustomerUserConfig->{NS},
-                        number_of_replicas => $CustomerUserConfig->{NR},
-                    },
-                    'index.mapping.total_fields.limit' => 2000,
-                },
+                settings => $ESObject->_IndexSettingsGet(
+                    Config   => $IndexConfig->{CustomerUser} // $DefaultConfig,
+                    Template => $IndexTemplate->{CustomerUser} // $DefaultTemplate,
+                ),
                 mappings => {
                     properties => {
                         UserLogin => {
@@ -957,15 +959,11 @@ sub Run {
             %IndexName = (
                 index => 'ticket',
             );
-            my $TicketConfig = $IndexConfig->{Ticket} // $DefaultConfig;
             %Request = (
-                settings => {
-                    index => {
-                        number_of_shards   => $TicketConfig->{NS},
-                        number_of_replicas => $TicketConfig->{NR},
-                    },
-                    'index.mapping.total_fields.limit' => 2000,
-                },
+                settings => $ESObject->_IndexSettingsGet(
+                    Config   => $IndexConfig->{Ticket} // $DefaultConfig,
+                    Template => $IndexTemplate->{Ticket} // $DefaultTemplate,
+                ),
                 mappings => {
                     properties => {
                         GroupID => {

@@ -20,6 +20,7 @@ use utf8;
 
 use Test2::V0;
 
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -33,14 +34,19 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $MigObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
+my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
-my $Index1 = $MigObject->_IndexSettingsGet(
+my $Index1 = $ESObject->_IndexSettingsGet(
     Config => {
         NS          => 5,
         NR          => 10,
         FieldsLimit => 1000,
-    }
+    },
+    Template => {
+        NS          => 5,
+        NR          => 10,
+        FieldsLimit => 2000,
+    },
 );
 
 is(
@@ -52,16 +58,21 @@ is(
     '#1 number_of_replicas'
 );
 is(
-    $Index1->{FieldsLimit}, 1000,
+    $Index1->{FieldsLimit}, 2000,
     '#1 index.mapping.total_fields.limit'
 );
 
 # When admin changes Elasticsearch::ArticleIndexCreationSettings, FieldsLimit is missing
-my $Index2 = $MigObject->_IndexSettingsGet(
+my $Index2 = $ESObject->_IndexSettingsGet(
     Config => {
         NS => 5,
         NR => 10,
-    }
+    },
+    Template => {
+        NS          => 5,
+        NR          => 10,
+        FieldsLimit => 2000,
+    },
 );
 is(
     $Index2->{FieldsLimit}, 2000,
@@ -95,7 +106,7 @@ my $Data = {
     'index.mapping.total_fields.limit' => 2000,
 };
 
-my $Expanded = $MigObject->_ExpandTemplate(
+my $Expanded = $ESObject->_ExpandTemplate(
     Item   => $Data,
     Config => {
         NS => 0,

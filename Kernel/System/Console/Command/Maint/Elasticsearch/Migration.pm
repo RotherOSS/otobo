@@ -241,7 +241,7 @@ sub MigrateCompanies {
         );
     }
 
-    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
         # Error is shown in _IndexSettingsGet
@@ -360,7 +360,7 @@ sub MigrateCustomerUsers {
         );
     }
 
-    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
         # Error is shown in _IndexSettingsGet
@@ -460,7 +460,7 @@ sub MigrateTickets {
         );
     }
 
-    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
         # Error is shown in _IndexSettingsGet
@@ -605,7 +605,7 @@ sub MigrateConfigItems {
         );
     }
 
-    my $IndexSettings = $Self->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
         # Error is shown in _IndexSettingsGet
@@ -688,72 +688,6 @@ sub MigrateConfigItems {
 
     return 1;
 
-}
-
-sub _IndexSettingsGet {
-    my ( $Self, %Param ) = @_;
-
-    my $Config = $Param{Config};
-
-    # for backword comaptibility
-    if ( !defined( $Config->{FieldsLimit} ) ) {
-        $Config->{FieldsLimit} = 2000;
-    }
-
-    my $Settings = $Self->_ExpandTemplate(
-        Item         => $Param{Template},
-        Config       => $Config,
-        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
-    );
-    return $Settings;
-}
-
-sub _ExpandTemplate {
-    my ( $Self, %Param ) = @_;
-
-    my $Config = $Param{Config};
-    my $Node   = $Param{Item};
-
-    if ( ref $Node eq 'HASH' ) {
-        my %Expanded;
-        for my $Key ( keys( %{$Node} ) ) {
-            $Expanded{$Key} = $Self->_ExpandTemplate(
-                Item         => $Node->{$Key},
-                Config       => $Config,
-                LayoutObject => $Param{LayoutObject},
-            );
-        }
-        return \%Expanded;
-    }
-    elsif ( ref $Node eq 'ARRAY' ) {
-        my @Expanded;
-        for my $Item ( @{$Node} ) {
-            push(
-                @Expanded,
-                $Self->_ExpandTemplate(
-                    Item         => $Item,
-                    Config       => $Config,
-                    LayoutObject => $Param{LayoutObject},
-                )
-            );
-        }
-        return \@Expanded;
-    }
-    elsif ( !defined($Node) ) {
-        return;
-    }
-    elsif ( IsNumber($Node) ) {
-        return $Node;
-    }
-    elsif ( IsString($Node) ) {
-        return $Param{LayoutObject}->Output(
-            Template => $Node,
-            Data     => $Config,
-        );
-    }
-    else {
-        return $Node;
-    }
 }
 
 1;
