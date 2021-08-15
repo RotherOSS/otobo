@@ -606,7 +606,6 @@ sub MigrateConfigItems {
         );
     }
 
-    $Param{Template} = '';
     my $IndexSettings = $Self->_IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
@@ -723,7 +722,6 @@ sub _ExpandTemplate {
                 Item         => $Node->{$Key},
                 Config       => $Config,
                 LayoutObject => $Param{LayoutObject},
-                Key          => $Key
             );
         }
         return \%Expanded;
@@ -746,12 +744,7 @@ sub _ExpandTemplate {
         return;
     }
     elsif ( IsNumber($Node) ) {
-        if ( defined( $Config->{ $Param{Key} } ) ) {
-            return $Config->{ $Param{Key} };
-        }
-        else {
-            return $Node;
-        }
+        return $Node;
     }
     elsif ( IsString($Node) ) {
         return $Param{LayoutObject}->Output(
