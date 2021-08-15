@@ -21,7 +21,6 @@ use warnings;
 
 use Time::HiRes();
 
-use Data::Dumper;
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Console::BaseCommand);
