@@ -1,4 +1,3 @@
-#!/usr/bin/env perl
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
@@ -15,11 +14,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package OTOBO::RPC;
+package OTOBO::RPC;    ## no critic (Modules::RequireFilenameMatchesPackage)
 
 =head1 NAME
 
-OTOBO::RPC - subroutines for the SOAP service 'rpc.pl'
+OTOBO::RPC - subroutines for the SOAP service F<rpc.pl>
 
 =head1 SYNOPSIS
 
@@ -27,8 +26,8 @@ OTOBO::RPC - subroutines for the SOAP service 'rpc.pl'
 
 =head1 DESCRIPTION
 
-The SOAP service rpc.pl will dispatch to this module. Note that the package name M<OTOBO::RPC> diverges
-frome the file name F<Kernel/System/Web/RPC.pm>. This is intended as M<SOAP::Lite> dispatches based on the package name.
+The SOAP service F<rpc.pl> will dispatch to this module. Note that the package name L<OTOBO::RPC> diverges
+from the file name F<Kernel/System/Web/RPC.pm>. This is intended as L<SOAP::Lite> dispatches based on the package name.
 
 The module is not managed with the object manager.
 
@@ -47,9 +46,13 @@ use utf8;
 
 # OTOBO modules
 
-=head2 new
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ObjectManagerCreation)
 
-Constructor for a dummy object, as M<SOAP::Lite> dispatches on objects.
+our $ObjectManagerDisabled = 1;
+
+=head2 new()
+
+Constructor for a dummy object, as L<SOAP::Lite> dispatches on objects.
 
 =cut
 
@@ -61,7 +64,7 @@ sub new {
     return bless {} => $Class;
 }
 
-=head2 Dispatch
+=head2 Dispatch()
 
 Call the methods that were requested by the SOAP client.
 
@@ -133,7 +136,7 @@ sub Dispatch {
     return $CommonObject{$Object}->$Method(%Param);
 }
 
-=item DispatchMultipleTicketMethods()
+=head2 DispatchMultipleTicketMethods()
 
 to dispatch multiple ticket methods and get the TicketID
 
