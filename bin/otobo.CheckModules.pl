@@ -169,6 +169,7 @@ my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
     import Linux::Distribution;
+
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
 $OSDist //= $^O;
@@ -1115,6 +1116,7 @@ elsif ($DoPrintInstCommand) {
 
     my %PackageList = CollectPackageInfo( \@SelectedModules );
 
+    # the distro packages that supply one or more of the required Perl modules
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
 
         my $CMD = $PackageList{CMD};
@@ -1124,15 +1126,28 @@ elsif ($DoPrintInstCommand) {
                 $Package = sprintf $PackageList{SubCMD}, $Package;
             }
         }
-        printf $CMD, join( ' ', @{ $PackageList{Packages} } );
-        print "\n";
+        say $CMD, join( ' ', @{ $PackageList{Packages} } );
+    }
+
+    # for some modules there is no module avaialable
+    for my $Module ( $PackageList{CPANOnlyModules}->@* ) {
+        say <<"END_MSG";
+
+No $OSDist package found that contains the Perl module $Module->{Module}.
+For installing you can search in your package manager for $Module->{Module}.
+Or install with your favourite CPAN installer, e.g. 'sudo cpanm install $Module->{Module}'.
+END_MSG
     }
 }
 elsif ($DoPrintFeatures) {
+
+    # print a list of the available features
     my %Features;
     MODULE:
     for my $Module (@NeededModules) {
-        next MODULE if !$Module->{Features};
+
+        next MODULE unless $Module->{Features};
+
         for my $Feature ( @{ $Module->{Features} } ) {
             $Features{$Feature}++;
         }
@@ -1398,7 +1413,7 @@ sub CollectPackageInfo {
     my $CMD;
     my $SubCMD;
     my @Packages;
-    my @MissingModules;
+    my @CPANOnlyModules;
 
     # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
@@ -1410,20 +1425,22 @@ sub CollectPackageInfo {
 
             my %InstallCommand = GetInstallCommand($Module);
 
-            next MODULE if !IsHashRefWithData( \%InstallCommand );
-
-            $CMD    = $InstallCommand{CMD};
-            $SubCMD = $InstallCommand{SubCMD};
-            push @Packages,       $InstallCommand{Package};
-            push @MissingModules, $Module;
+            if ( IsHashRefWithData( \%InstallCommand ) ) {
+                $CMD    = $InstallCommand{CMD};
+                $SubCMD = $InstallCommand{SubCMD};
+                push @Packages, $InstallCommand{Package};
+            }
+            else {
+                push @CPANOnlyModules, $Module;
+            }
         }
     }
 
     return (
-        CMD            => $CMD,
-        SubCMD         => $SubCMD,
-        Packages       => \@Packages,
-        MissingModules => \@MissingModules,
+        CMD             => $CMD,
+        SubCMD          => $SubCMD,
+        Packages        => \@Packages,
+        CPANOnlyModules => \@CPANOnlyModules,
     );
 }
 
