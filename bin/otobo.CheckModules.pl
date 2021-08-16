@@ -1126,7 +1126,7 @@ elsif ($DoPrintInstCommand) {
                 $Package = sprintf $PackageList{SubCMD}, $Package;
             }
         }
-        say $CMD, join( ' ', @{ $PackageList{Packages} } );
+        say sprintf $CMD, join( ' ', @{ $PackageList{Packages} } );
     }
 
     # for some modules there is no module avaialable
