@@ -137,7 +137,6 @@ my %IsDockerFeature = (
     'devel:test'        => 1,
     'div:bcrypt'        => 1,
     'div:ldap'          => 1,
-    'div:readonly'      => 1,
     'div:xslt'          => 1,
     'mail:imap'         => 1,
     'mail:ntlm'         => 1,
@@ -271,16 +270,6 @@ my @NeededModules = (
             emerge => 'dev-perl/Archive-Zip',
             zypper => 'perl-Archive-Zip',
             ports  => 'archivers/p5-Archive-Zip',
-        },
-    },
-    {
-        Module    => 'Const::Fast',
-        Required  => 1,
-        InstTypes => {
-            aptget => 'libconst-fast-perl',
-            emerge => 'dev-perl/Const-Fast',
-            zypper => 'perl-Const-Fast',
-            ports  => 'devel/p5-Const-Fast',
         },
     },
     {
@@ -1014,14 +1003,14 @@ my @NeededModules = (
     },
     {
         Module    => 'Const::Fast',
-        Required  => 0,
-        Features  => ['div:readonly'],
+        Required  => 1,
         Comment   => 'Support for readonly Perl variables',
         InstTypes => {
             aptget => 'libconst-fast-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
+
         },
     },
 

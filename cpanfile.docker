@@ -8,8 +8,6 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
-requires 'Const::Fast';
-
 # for use in Autoload modules.
 requires 'Class::Method::Modifiers';
 
@@ -103,6 +101,9 @@ requires 'Plack::Middleware::Rewrite';
 # PSGI SOAP adapter
 requires 'SOAP::Transport::HTTP::Plack';
 
+# Support for readonly Perl variables
+requires 'Const::Fast';
+
 
 # Feature 'apache:mod_perl' is not needed for Docker
 
@@ -171,12 +172,6 @@ requires 'SOAP::Transport::HTTP::Plack';
 # feature 'div:ldap', 'Suppport for div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
-
-# };
-
-# feature 'div:readonly', 'Suppport for div:readonly' => sub {
-    # Support for readonly Perl variables
-    requires 'Const::Fast';
 
 # };
 
