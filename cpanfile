@@ -8,8 +8,6 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
-requires 'Const::Fast';
-
 # for use in Autoload modules.
 requires 'Class::Method::Modifiers';
 
@@ -103,6 +101,9 @@ requires 'Plack::Middleware::Rewrite';
 # PSGI SOAP adapter
 requires 'SOAP::Transport::HTTP::Plack';
 
+# Support for readonly Perl variables
+requires 'Const::Fast';
+
 
 feature 'apache:mod_perl', 'Suppport for apache:mod_perl' => sub {
     # Improves Performance on Apache webservers dramatically.
@@ -180,12 +181,6 @@ feature 'div:hanextra', 'Suppport for div:hanextra' => sub {
 feature 'div:ldap', 'Suppport for div:ldap' => sub {
     # Required for directory authentication.
     requires 'Net::LDAP';
-
-};
-
-feature 'div:readonly', 'Suppport for div:readonly' => sub {
-    # Support for readonly Perl variables
-    requires 'Const::Fast';
 
 };
 
@@ -312,9 +307,6 @@ feature 'optional', 'Suppport for optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
-
-    # Support for readonly Perl variables
-    requires 'Const::Fast';
 
     # used by Kernel::System::UnitTest::Selenium
     requires 'Selenium::Remote::Driver', ">= 1.40";

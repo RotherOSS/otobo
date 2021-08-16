@@ -137,7 +137,6 @@ my %IsDockerFeature = (
     'devel:test'        => 1,
     'div:bcrypt'        => 1,
     'div:ldap'          => 1,
-    'div:readonly'      => 1,
     'div:xslt'          => 1,
     'mail:imap'         => 1,
     'mail:ntlm'         => 1,
@@ -169,6 +168,7 @@ my $OSDist;
 eval {
     require Linux::Distribution;    ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
     import Linux::Distribution;
+
     $OSDist = Linux::Distribution::distribution_name() || '';
 };
 $OSDist //= $^O;
@@ -255,6 +255,7 @@ my @NeededModules = (
         Required  => 1,
         Comment   => 'Required for compressed file generation (in perlcore).',
         InstTypes => {
+            aptget => 'perl',
             emerge => 'perl-core/Archive-Tar',
             zypper => 'perl-Archive-Tar',
             ports  => 'archivers/p5-Archive-Tar',
@@ -269,16 +270,6 @@ my @NeededModules = (
             emerge => 'dev-perl/Archive-Zip',
             zypper => 'perl-Archive-Zip',
             ports  => 'archivers/p5-Archive-Zip',
-        },
-    },
-    {
-        Module    => 'Const::Fast',
-        Required  => 1,
-        InstTypes => {
-            aptget => 'libconst-fast-perl',
-            emerge => 'dev-perl/Const-Fast',
-            zypper => 'perl-Const-Fast',
-            ports  => 'devel/p5-Const-Fast',
         },
     },
     {
@@ -352,10 +343,10 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Digest::SHA',    # Supposed to be in perlcore, but seems to be missing on some distributions.
+        Module    => 'Digest::SHA',
         Required  => 1,
         InstTypes => {
-            aptget => 'libdigest-sha-perl',
+            aptget => 'perl',
             emerge => 'dev-perl/Digest-SHA',
             zypper => 'perl-Digest-SHA',
             ports  => 'security/p5-Digest-SHA'
@@ -562,6 +553,7 @@ my @NeededModules = (
         Required  => 1,
         Comment   => 'For internationalised sorting',
         InstTypes => {
+            aptget => 'perl',
 
             # This is a core Perl module which should be available on most distributions.
             # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
@@ -608,7 +600,7 @@ my @NeededModules = (
         Features  => ['db:oracle'],
         Comment   => 'Required to connect to a Oracle database.',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             yum    => undef,
             zypper => undef,
@@ -633,6 +625,7 @@ my @NeededModules = (
         Features  => ['db:sqlite'],
         Comment   => 'Required to connect to a SQLite database.',
         InstTypes => {
+            aptget => 'libdbd-sqlite3-perl',
         },
     },
 
@@ -663,7 +656,7 @@ my @NeededModules = (
             },
         ],
         InstTypes => {
-            aptget => undef,
+            aptget => 'perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -764,7 +757,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Adapt CGI.pm to the PSGI protocol',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libcgi-psgi-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -776,7 +769,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Sane persistent database connection',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libdbix-connector-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -788,7 +781,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'High-performance preforking PSGI/Plack web server',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -800,7 +793,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
-            aptget => undef,
+            aptget => 'liblinux-inotify2-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -812,7 +805,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Neater path manipulation and some utils',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libpath-class-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -824,7 +817,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libplack-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -836,7 +829,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Serve static files',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libplack-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -862,7 +855,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -874,7 +867,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Set HTTP headers',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libplack-middleware-header-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -886,7 +879,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libplack-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -898,7 +891,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libplack-middleware-reverseproxy-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -910,7 +903,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'Set environment variables',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -922,7 +915,7 @@ my @NeededModules = (
         Features  => ['plack'],
         Comment   => 'PSGI SOAP adapter',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1010,14 +1003,14 @@ my @NeededModules = (
     },
     {
         Module    => 'Const::Fast',
-        Required  => 0,
-        Features  => ['div:readonly'],
+        Required  => 1,
         Comment   => 'Support for readonly Perl variables',
         InstTypes => {
-            aptget => undef,
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
+            aptget => 'libconst-fast-perl',
+            emerge => 'dev-perl/Const-Fast',
+            zypper => 'perl-Const-Fast',
+            ports  => 'devel/p5-Const-Fast',
+
         },
     },
 
@@ -1029,7 +1022,7 @@ my @NeededModules = (
         Features        => ['devel:test'],
         Comment         => 'used by Kernel::System::UnitTest::Selenium',
         InstTypes       => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1041,7 +1034,7 @@ my @NeededModules = (
         Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1053,7 +1046,7 @@ my @NeededModules = (
         Features  => ['devel:test'],
         Comment   => 'a quick compile check',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libtest-compile-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1065,7 +1058,7 @@ my @NeededModules = (
         Features  => ['devel:test'],
         Comment   => 'basic test functions',
         InstTypes => {
-            aptget => undef,
+            aptget => 'libtest2-suite-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1077,7 +1070,7 @@ my @NeededModules = (
         Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
         InstTypes => {
-            aptget => undef,
+            aptget => 'perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -1089,13 +1082,28 @@ my @NeededModules = (
         Features  => ['devel:test'],
         Comment   => 'testing PSGI apps and URLs',
         InstTypes => {
-            aptget => undef,
+            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,
         },
     },
 );
+
+# This is a quick hack for looking up the Debian package names that contain the Perl modules.
+# Not removed because it might be useful in the future.
+if (0) {
+    for my $Module (@NeededModules) {
+        my $InstType = $DistToInstType{$OSDist};
+
+        say 'Module ', $Module->{Module};
+        say $Module->{InstTypes}->{$InstType} // 'UNDEFINED';
+        print `dh-make-perl locate $Module->{Module}`;
+        say "";
+    }
+
+    exit;
+}
 
 if ($DoPrintCpanfile) {
     say <<'END_HEADER';
@@ -1135,6 +1143,7 @@ elsif ($DoPrintInstCommand) {
 
     my %PackageList = CollectPackageInfo( \@SelectedModules );
 
+    # the distro packages that supply one or more of the required Perl modules
     if ( IsArrayRefWithData( $PackageList{Packages} ) ) {
 
         my $CMD = $PackageList{CMD};
@@ -1144,15 +1153,28 @@ elsif ($DoPrintInstCommand) {
                 $Package = sprintf $PackageList{SubCMD}, $Package;
             }
         }
-        printf $CMD, join( ' ', @{ $PackageList{Packages} } );
-        print "\n";
+        say sprintf $CMD, join( ' ', @{ $PackageList{Packages} } );
+    }
+
+    # for some modules there is no module avaialable
+    for my $Module ( $PackageList{CPANOnlyModules}->@* ) {
+        say <<"END_MSG";
+
+No $OSDist package found that contains the Perl module $Module->{Module}.
+For installing you can search in your package manager for $Module->{Module}.
+Or install with your favourite CPAN installer, e.g. 'sudo cpanm install $Module->{Module}'.
+END_MSG
     }
 }
 elsif ($DoPrintFeatures) {
+
+    # print a list of the available features
     my %Features;
     MODULE:
     for my $Module (@NeededModules) {
-        next MODULE if !$Module->{Features};
+
+        next MODULE unless $Module->{Features};
+
         for my $Feature ( @{ $Module->{Features} } ) {
             $Features{$Feature}++;
         }
@@ -1417,7 +1439,7 @@ sub CollectPackageInfo {
     my $CMD;
     my $SubCMD;
     my @Packages;
-    my @MissingModules;
+    my @CPANOnlyModules;
 
     # if we're on Windows we don't need to see Apache + mod_perl modules
     MODULE:
@@ -1429,20 +1451,22 @@ sub CollectPackageInfo {
 
             my %InstallCommand = GetInstallCommand($Module);
 
-            next MODULE if !IsHashRefWithData( \%InstallCommand );
-
-            $CMD    = $InstallCommand{CMD};
-            $SubCMD = $InstallCommand{SubCMD};
-            push @Packages,       $InstallCommand{Package};
-            push @MissingModules, $Module;
+            if ( IsHashRefWithData( \%InstallCommand ) ) {
+                $CMD    = $InstallCommand{CMD};
+                $SubCMD = $InstallCommand{SubCMD};
+                push @Packages, $InstallCommand{Package};
+            }
+            else {
+                push @CPANOnlyModules, $Module;
+            }
         }
     }
 
     return (
-        CMD            => $CMD,
-        SubCMD         => $SubCMD,
-        Packages       => \@Packages,
-        MissingModules => \@MissingModules,
+        CMD             => $CMD,
+        SubCMD          => $SubCMD,
+        Packages        => \@Packages,
+        CPANOnlyModules => \@CPANOnlyModules,
     );
 }
 
