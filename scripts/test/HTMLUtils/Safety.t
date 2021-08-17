@@ -53,6 +53,16 @@ my @Tests = (
         Name => 'Safety - simple'
     },
     {
+        Input => '<a href = " javascript : alert(
+            \'Hi!\'
+        )" >Some Text</a>',
+        Result => {
+            Output  => '<a href = "" >Some Text</a>',
+            Replace => 1,
+        },
+        Name => 'Safety - simple'
+    },
+    {
         Input =>
             '<a href="https://www.yoururl.tld/sub/online-assessment/index.php" target="_blank">https://www.yoururl.tld/sub/online-assessment/index.php</a>',
         Result => {
@@ -173,6 +183,19 @@ You should be able to continue reading these lessons, however.
         Result => {
             Output => '<center>
 <IMG SRC="">
+</center>',
+            Replace => 1,
+        },
+        Name => 'Safety - img tag'
+    },
+    {
+        Input => '<center>
+<IMG SRC=" javascript:    alert(
+ \'XSS\'    );" >
+</center>',
+        Result => {
+            Output => '<center>
+<IMG SRC="" >
 </center>',
             Replace => 1,
         },
@@ -322,6 +345,20 @@ You should be able to continue reading these lessons, however.
     },
     {
         Input => '<center>
+<TABLE BACKGROUND="   javascript:    alert(
+    \'XSS\'
+    ) " >
+</center>',
+        Result => {
+            Output => '<center>
+<TABLE BACKGROUND="" >
+</center>',
+            Replace => 1,
+        },
+        Name => 'Safety - background'
+    },
+    {
+        Input => '<center>
 <SCRIPT a=">" SRC="http://ha.ckers.org/xss.js"></SCRIPT>
 </center>',
         Result => {
@@ -375,6 +412,20 @@ PT
         Input => '<center>
 <A
  HREF="javascript:document.location=\'http://www.example.com/\'">XSS</A>
+</center>',
+        Result => {
+            Output => '<center>
+<A
+ HREF="">XSS</A>
+</center>',
+            Replace => 1,
+        },
+        Name => 'Safety - script'
+    },
+    {
+        Input => '<center>
+<A
+ HREF="   javascript:   document.location = \'http://www.example.com/\'">XSS</A>
 </center>',
         Result => {
             Output => '<center>
@@ -556,7 +607,9 @@ EOF
     {
         Input => <<EOF,
 <img src="/img1.png"/>
-<iframe src='  javascript:alert("XSS Exploit");'></iframe>
+<iframe src='  javascript:alert(
+    "XSS Exploit"
+);'></iframe>
 <img src="/img2.png"/>
 EOF
         Result => {

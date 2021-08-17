@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 use Archive::Tar;
+use Cwd qw(abs_path);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -626,11 +627,19 @@ sub _GetCustomFileList {
     # cleanup file name
     $TempDir =~ s/\/\//\//g;
 
+    # assemble additional paths to be ignored
+    my %AdditionalIgnoredAbsPaths = map { $Self->_GetAbsPath($_) => 1 } (
+        $ConfigObject->Get('SMIME::PrivatePath'),
+        $ConfigObject->Get('SMIME::CertPath'),
+    );
+
     # check all $Param{Directory}/* in home directory
     my @Files;
     my @List = glob("$Param{Directory}/*");
     FILE:
     for my $File (@List) {
+        my $AbsFilePath = $Self->_GetAbsPath($File);
+        next FILE if $AdditionalIgnoredAbsPaths{$AbsFilePath};
 
         # cleanup file name
         $File =~ s/\/\//\//g;
@@ -721,7 +730,17 @@ sub _MaskPasswords {
     $StringToMask =~ s{://\w+:\w+@}{://[user]:[password]@}smxg;
 
     return $StringToMask;
+}
 
+sub _GetAbsPath {
+    my ( $Self, $Path ) = @_;
+
+    return if !defined $Path;
+    return if !length $Path;
+
+    my $AbsPath = abs_path($Path);
+
+    return $AbsPath;
 }
 
 1;
