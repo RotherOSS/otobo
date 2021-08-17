@@ -113,7 +113,7 @@ sub Run {
 
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+            Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', "DBData->$Key" ),
             Successful => 0,
         };
     }
