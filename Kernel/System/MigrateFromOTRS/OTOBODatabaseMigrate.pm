@@ -147,6 +147,7 @@ sub Run {
         Successful => 0,
     } unless $SourceDBObject;
 
+    # TODO: what happens when SanityChecks() is not successful
     my $SanityCheck = $CloneDBBackendObject->SanityChecks(
         OTRSDBObject => $SourceDBObject,
         Message      => $Message,
