@@ -70,6 +70,9 @@ Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::Run()>.
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # string used for progress and log messages
+    my $Message = $Self->{LanguageObject}->Translate('Copy database.');
+
     # check needed stuff
     for my $Key (qw(DBData)) {
         if ( !$Param{$Key} ) {
@@ -79,7 +82,7 @@ sub Run {
             );
 
             return {
-                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                Message    => $Message,
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
             };
@@ -90,7 +93,7 @@ sub Run {
     if ( $Param{DBData}{SkipDBMigration} ) {
         return {
             Successful => 1,
-            Message    => $Self->{LanguageObject}->Translate("Copy database."),
+            Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
         };
     }
@@ -109,7 +112,7 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+            Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
             Successful => 0,
         };
@@ -139,14 +142,14 @@ sub Run {
     );
 
     return {
-        Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+        Message    => $Message,
         Comment    => $Self->{LanguageObject}->Translate('System was unable to connect to OTRS database.'),
         Successful => 0,
     } unless $SourceDBObject;
 
     my $SanityCheck = $CloneDBBackendObject->SanityChecks(
         OTRSDBObject => $SourceDBObject,
-        Message      => $Self->{LanguageObject}->Translate("Copy database."),
+        Message      => $Message,
     );
 
     if ( $SanityCheck->{Successful} ) {
@@ -156,14 +159,14 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+            Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate('System was unable to complete data transfer.'),
             Successful => 0,
         } unless $TransferIsOK;
     }
 
     return {
-        Message    => $Self->{LanguageObject}->Translate('Copy database.'),
+        Message    => $Message,
         Comment    => $Self->{LanguageObject}->Translate('Data transfer completed.'),
         Successful => 1,
     };
