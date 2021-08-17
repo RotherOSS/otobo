@@ -311,7 +311,7 @@ sub RowCount {
 
 =head2 DataTransfer()
 
-There are four loops over tables of the source database.
+There are five loops over tables of the source database.
 
 The first loop determines which source tables are to be copied. Source tables that are marked as to be skipped
 and source tables that have no counterpart in the target are not copied.
@@ -322,7 +322,9 @@ a list of the required actions. Target tables are purged.
 The third loop checks for problematic NULL values in the source tables.
 The data transfer is stopped when there are problematic cases.
 
-The fourth loop actually copies the data from source table to the target table.
+The fourth loop purges the target tables.
+
+The fifth loop actually copies the data from source table to the target table.
 
 Progress messages are provided by the last two loops. These messages are shown in the web interface.
 
@@ -357,7 +359,7 @@ sub DataTransfer {
     open my $LockFh, '>', $LockFile or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Could not open lockfile $LockFile; $!",
-            Priority => "error",
+            Priority => 'error',
         );
 
         return;
@@ -458,12 +460,6 @@ sub DataTransfer {
     SOURCE_TABLE:
     for my $SourceTable (@SourceTablesToBeCopied) {
 
-        push @CheckNullConstraints,
-            {
-                Table   => $SourceTable,
-                Columns => [],
-            };
-
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
 
         # In the target database schema some varchar columns have been shortened
@@ -495,9 +491,11 @@ sub DataTransfer {
         }
 
         # Columns might be shortened for any database type.
+        # NULL Checks might be required when the target is stricter than the source.
         {
             my @MaybeShortenedColumns;
             my $DoShorten;    # flag used for assembly of $SourceColumnsString
+            my @MoreRelaxedColumns;
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
 
@@ -524,6 +522,11 @@ sub DataTransfer {
                     DBObject => $TargetDBObject,
                     Column   => $SourceColumn,
                 );
+
+                # whether the target column has stricter NULL checking
+                if ( !$TargetColumnInfos->{IS_NULLABLE} && $SourceColumnInfos->{IS_NULLABLE} ) {
+                    push @MoreRelaxedColumns, $SourceColumn;
+                }
 
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
 
@@ -556,6 +559,15 @@ sub DataTransfer {
                     "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
                     :
                     $SourceColumn;
+
+                # we might have to check for NULL values in the source table
+                if (@MoreRelaxedColumns) {
+                    push @CheckNullConstraints,
+                        {
+                            Table   => $SourceTable,
+                            Columns => \@MoreRelaxedColumns,
+                        };
+                }
             }
 
             # This string might contain some MySQL SUBSTRING() calls
@@ -584,39 +596,24 @@ sub DataTransfer {
             }
         }
 
-        # Truncate the target table in all cases.
-        # The truncated table provides info about columns and foreign keys.
-        # The SQL is driver dependent because PostgreSQL 11 does not honor
-        # the deactivation of foreign key check with 'TRUNCATE TABLE'.
-        {
-            my $PurgeSQL = sprintf $TargetDBObject->GetDatabaseFunction('PurgeTable'), $TargetTable;
-            my $Success  = $TargetDBObject->Do( SQL => $PurgeSQL );
-
-            if ( !$Success ) {
-                $MigrationBaseObject->MigrationLog(
-                    String   => "Could not truncate target table '$TargetTable'",
-                    Priority => 'error',
-                );
-
-                return;    # bail out
-            }
-        }
     }
 
     # needed for the progress messages emitted by the last two loops
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # third loop: check for NULL values
+    # third loop: check for NULL value violations,
+    # that is cases where a source column has NULL values while the target column is set to NOT NULL
     {
         my $TotalNumConstraints = scalar @CheckNullConstraints;
         my $CountConstraint     = 0;
+        my $TotalNumViolations  = 0;
         for my $Constraint (@CheckNullConstraints) {
 
             my $SourceTable = $Constraint->{Table};
 
             # Set cache object with taskinfo and starttime to show current state in frontend
             $CountConstraint++;
-            my $ProgressMessage = "Check NULL for table ($CountConstraint/$TotalNumConstraints): $SourceTable";
+            my $ProgressMessage = "Check for NULL values in table ($CountConstraint/$TotalNumConstraints): $SourceTable";
             $CacheObject->Set(
                 Type  => 'OTRSMigration',
                 Key   => 'MigrationState',
@@ -627,11 +624,71 @@ sub DataTransfer {
                 },
             );
 
-            sleep 1;
+            # Log info to apache error log and OTOBO log (syslog or file)
+            $MigrationBaseObject->MigrationLog(
+                String   => $ProgressMessage,
+                Priority => 'notice',
+            );
+
+            my @Violations;
+            SOURCE_COLUMN:
+            for my $SourceColumn ( $Constraint->{Columns}->@* ) {
+
+                $SourceDBObject->Prepare(
+                    SQL => "SELECT COUNT(*) FROM $SourceTable WHERE $SourceColumn IS NULL"
+                );
+                my ($NumNulls) = $Param{DBObject}->FetchrowArray();
+
+                push @Violations, [ $SourceColumn, $NumNulls ] if $NumNulls;
+            }
+
+            if (@Violations) {
+                $TotalNumViolations += @Violations;
+                my $ReportLine       = join ', ', join ': ', @Violations;
+                my $ViolationMessage = "NULL values found in $SourceTable: $ReportLine";
+
+                $CacheObject->Set(
+                    Type  => 'OTRSMigration',
+                    Key   => 'MigrationState',
+                    Value => {
+                        Task      => 'OTOBODatabaseMigrate',
+                        SubTask   => $ViolationMessage,
+                        StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
+                    },
+                );
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => $ViolationMessage,
+                    Priority => 'error',
+                );
+            }
+        }
+
+        # bail out when NULL violations are detected
+        return if $TotalNumViolations;
+    }
+
+    # Fourth loop.
+    # Truncate the target table in all cases.
+    SOURCE_TABLE:
+    for my $SourceTable (@SourceTablesToBeCopied) {
+        my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
+        my $PurgeSQL    = sprintf $TargetDBObject->GetDatabaseFunction('PurgeTable'), $TargetTable;
+
+        my $Success = $TargetDBObject->Do( SQL => $PurgeSQL );
+
+        if ( !$Success ) {
+            $MigrationBaseObject->MigrationLog(
+                String   => "Could not truncate target table '$TargetTable'",
+                Priority => 'error',
+            );
+
+            return;    # bail out
         }
     }
 
-    # fourth loop: do the actual data transfer for the relevant tables
+    # fifth loop: do the actual data transfer for the relevant tables
     my $CountTable     = 0;
     my $TotalNumTables = scalar @SourceTablesToBeCopied;
     SOURCE_TABLE:

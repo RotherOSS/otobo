@@ -192,6 +192,7 @@ sub GetColumnInfos {
         ],
     ) || return {};
 
+    # collect the column info, actually we expect a single row
     my %Result;
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         $Result{COLUMN}      = $Row[0];
