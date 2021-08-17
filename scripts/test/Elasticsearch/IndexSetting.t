@@ -34,6 +34,8 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $MigObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
+my $ESObject  = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+
 my $Template = {
     number_of_shards   => '[% Data.NS | uri %]',
     number_of_replicas => '[% Data.NR | uri %]',
