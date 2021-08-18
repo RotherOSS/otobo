@@ -523,8 +523,9 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
-                # whether the target column has stricter NULL checking
-                if ( !$TargetColumnInfos->{IS_NULLABLE} && $SourceColumnInfos->{IS_NULLABLE} ) {
+                # Whether the target column has stricter NULL checking.
+                # Hoping that the usage of 'YES and 'NO' is standardized accross database systems.
+                if ( $TargetColumnInfos->{IS_NULLABLE} eq 'NO' && $SourceColumnInfos->{IS_NULLABLE} eq 'YES' ) {
                     push @MoreRelaxedColumns, $SourceColumn;
                 }
 
