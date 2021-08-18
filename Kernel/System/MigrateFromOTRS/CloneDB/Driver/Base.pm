@@ -561,14 +561,15 @@ sub DataTransfer {
                     :
                     $SourceColumn;
 
-                # we might have to check for NULL values in the source table
-                if (@MoreRelaxedColumns) {
-                    push @CheckNullConstraints,
-                        {
-                            Table   => $SourceTable,
-                            Columns => \@MoreRelaxedColumns,
-                        };
-                }
+            }
+
+            # we might have to check for NULL values in the source table
+            if (@MoreRelaxedColumns) {
+                push @CheckNullConstraints,
+                    {
+                        Table   => $SourceTable,
+                        Columns => \@MoreRelaxedColumns,
+                    };
             }
 
             # This string might contain some MySQL SUBSTRING() calls
