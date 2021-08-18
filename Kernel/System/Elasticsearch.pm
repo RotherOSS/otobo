@@ -1015,11 +1015,6 @@ sub IndexSettingsGet {
 
     my $Config = $Param{Config};
 
-    # for backword comaptibility
-    if ( !defined( $Config->{FieldsLimit} ) ) {
-        $Config->{FieldsLimit} = 2000;
-    }
-
     my $Settings = $Self->_ExpandTemplate(
         Item         => $Param{Template},
         Config       => $Config,
