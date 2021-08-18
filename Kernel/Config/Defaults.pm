@@ -1916,7 +1916,6 @@ via the Preferences button after logging in.
         Default => {
             'NS'          => '1',
             'NR'          => '0',
-            'FieldsLimit' => '2000',
         }
     };
 
@@ -1929,7 +1928,7 @@ via the Preferences button after logging in.
             number_of_shards   => '[% Data.NS | uri %]',
             number_of_replicas => '[% Data.NR | uri %]',
         },
-        'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
+        'index.mapping.total_fields.limit' => 2000,
     };
 
     return 1;
