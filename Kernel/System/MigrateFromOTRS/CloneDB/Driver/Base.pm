@@ -645,8 +645,8 @@ sub DataTransfer {
 
             if (@Violations) {
                 $TotalNumViolations += @Violations;
-                my $ReportLine       = join ', ', join ': ', @Violations;
-                my $ViolationMessage = "NULL values found in $SourceTable: $ReportLine";
+                my $ReportLine       = join ', ', map {"$_->[0] ($_->[1])"} @Violations;
+                my $ViolationMessage = "NULL values found in the source table '$SourceTable': $ReportLine";
 
                 $CacheObject->Set(
                     Type  => 'OTRSMigration',
