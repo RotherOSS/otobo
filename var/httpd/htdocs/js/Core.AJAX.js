@@ -394,6 +394,12 @@ Core.AJAX = (function (TargetNS) {
                 UpdateTextarea($Element, DataValue);
                 return;
             }
+            
+            // check box elements
+            if ( $Element.is(':checkbox') ) {
+                $Element.prop('checked', false);
+                return;
+            }
 
             // Other form elements
             $Element.val(DataValue);
