@@ -9206,28 +9206,64 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
-    <Setting Name="Elasticsearch::ArticleIndexCreationSettings###all" Required="0" Valid="1">
-        <Description Translatable="1">Number of shards (NS) and replicas (NR) for the index.</Description>
+    <Setting Name="Elasticsearch::ArticleIndexCreationSettings" Required="0" Valid="1">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index. Note: 'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards compatibility use 'Elasticsearch::IndexSettings###Default' instead.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="NS">1</Item>
                 <Item Key="NR">0</Item>
-                <Item Key="FieldsLimit">2000</Item>
            </Hash>
         </Value>
     </Setting>
-    <!-- Special settings are possible for the indices Ticket, Customer, CustomerUser and ConfigItem
-         If not set the general settings defined al 'all' are used. -->
-    <Setting Name="Elasticsearch::ArticleIndexCreationSettings###Ticket" Required="0" Valid="1">
-        <Description Translatable="1">Number of shards (NS) and replicas (NR) for the index ticket.</Description>
+    <Setting Name="Elasticsearch::IndexSettings###Default" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
         <Value>
             <Hash>
                 <Item Key="NS">1</Item>
                 <Item Key="NR">0</Item>
-                <Item Key="FieldsLimit">2000</Item>
-            </Hash>
+           </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::IndexSettings###Ticket" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NS">1</Item>
+                <Item Key="NR">0</Item>
+           </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::IndexSettings###Customer" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NS">1</Item>
+                <Item Key="NR">0</Item>
+           </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::IndexSettings###CustomerUser" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NS">1</Item>
+                <Item Key="NR">0</Item>
+           </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Elasticsearch::IndexSettings###ConfigItem" Required="0" Valid="0">
+        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'.</Description>
+        <Navigation>Core::Elasticsearch::Settings</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="NS">1</Item>
+                <Item Key="NR">0</Item>
+           </Hash>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::QuickSearchCreatedFormat" Required="0" Valid="0">
