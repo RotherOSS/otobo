@@ -241,10 +241,10 @@ sub MigrateCompanies {
         );
     }
 
-    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
-        # Error is shown in _IndexSettingsGet
+        # Error is shown in IndexSettingsGet
         return 0;
     }
 
@@ -360,10 +360,10 @@ sub MigrateCustomerUsers {
         );
     }
 
-    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
-        # Error is shown in _IndexSettingsGet
+        # Error is shown in IndexSettingsGet
         return 0;
     }
 
@@ -460,10 +460,10 @@ sub MigrateTickets {
         );
     }
 
-    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
-        # Error is shown in _IndexSettingsGet
+        # Error is shown in IndexSettingsGet
         return 0;
     }
 
@@ -605,10 +605,10 @@ sub MigrateConfigItems {
         );
     }
 
-    my $IndexSettings = $Param{ESObject}->_IndexSettingsGet(%Param);
+    my $IndexSettings = $Param{ESObject}->IndexSettingsGet(%Param);
     if ( !$IndexSettings ) {
 
-        # Error is shown in _IndexSettingsGet
+        # Error is shown in IndexSettingsGet
         return 0;
     }
 

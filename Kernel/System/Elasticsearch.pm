@@ -999,7 +999,18 @@ sub CreatePipeline {
 
 }
 
-sub _IndexSettingsGet {
+=head2 IndexSettingsGet()
+
+Get settings for a certain index
+
+    $ESObject->IndexSettingsGet(
+        Config   => $Config,
+        Template => $Template,
+    ;)
+
+=cut
+
+sub IndexSettingsGet {
     my ( $Self, %Param ) = @_;
 
     my $Config = $Param{Config};

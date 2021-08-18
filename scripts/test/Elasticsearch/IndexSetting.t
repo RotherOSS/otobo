@@ -42,7 +42,7 @@ my $Template = {
     'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
 };
 
-my $Index1 = $ESObject->_IndexSettingsGet(
+my $Index1 = $ESObject->IndexSettingsGet(
     Config => {
         NS          => 5,
         NR          => 10,
@@ -65,7 +65,7 @@ is(
 );
 
 # When admin changes Elasticsearch::ArticleIndexCreationSettings, FieldsLimit is missing
-my $Index2 = $ESObject->_IndexSettingsGet(
+my $Index2 = $ESObject->IndexSettingsGet(
     Config => {
         NS => 5,
         NR => 10,

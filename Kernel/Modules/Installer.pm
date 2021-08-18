@@ -916,7 +916,7 @@ sub Run {
                 index => 'customer',
             );
             my %Request = (
-                settings => $ESObject->_IndexSettingsGet(
+                settings => $ESObject->IndexSettingsGet(
                     Config   => $IndexConfig->{Customer} // $DefaultConfig,
                     Template => $IndexTemplate->{Customer} // $DefaultTemplate,
                 ),
@@ -938,7 +938,7 @@ sub Run {
                 index => 'customeruser',
             );
             %Request = (
-                settings => $ESObject->_IndexSettingsGet(
+                settings => $ESObject->IndexSettingsGet(
                     Config   => $IndexConfig->{CustomerUser} // $DefaultConfig,
                     Template => $IndexTemplate->{CustomerUser} // $DefaultTemplate,
                 ),
@@ -960,7 +960,7 @@ sub Run {
                 index => 'ticket',
             );
             %Request = (
-                settings => $ESObject->_IndexSettingsGet(
+                settings => $ESObject->IndexSettingsGet(
                     Config   => $IndexConfig->{Ticket} // $DefaultConfig,
                     Template => $IndexTemplate->{Ticket} // $DefaultTemplate,
                 ),
