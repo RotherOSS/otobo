@@ -395,6 +395,12 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            // check box elements
+            if ( $Element.is(':checkbox') && $Element.val() == 1 ) {
+                $Element.prop('checked', (DataValue == 1 ? true : false));
+                return;
+            }
+
             // Other form elements
             $Element.val(DataValue);
 
