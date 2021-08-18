@@ -638,7 +638,7 @@ sub DataTransfer {
                 $SourceDBObject->Prepare(
                     SQL => "SELECT COUNT(*) FROM $SourceTable WHERE $SourceColumn IS NULL"
                 );
-                my ($NumNulls) = $Param{DBObject}->FetchrowArray();
+                my ($NumNulls) = $SourceDBObject->FetchrowArray();
 
                 push @Violations, [ $SourceColumn, $NumNulls ] if $NumNulls;
             }
