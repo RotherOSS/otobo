@@ -248,10 +248,10 @@ sub Run {
                         PackageResolve => $Resolve  // {},
                     );
                 };
-                if ( !$Result || !defined $Result->{$PerlTask}{Successful} ) {
-                    $Result->{$PerlTask}{Successful} = 0;
-                    $Result->{$PerlTask}{Message}    = $AJAXTask;
-                    $Result->{$PerlTask}{Comment}    = 'A fatal error occured.';
+                if ( !$Result || !defined $Result->{$PerlTask}->{Successful} ) {
+                    $Result->{$PerlTask}->{Successful} = 0;
+                    $Result->{$PerlTask}->{Message}    = $AJAXTask;
+                    $Result->{$PerlTask}->{Comment}    = 'A fatal error occured.';
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
@@ -260,7 +260,7 @@ sub Run {
                 }
 
                 # check if progress update has to be stopped
-                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{$PerlTask}{Successful} ) ) {
+                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{$PerlTask}->{Successful} ) ) {
                     my $Status = $CacheObject->Delete(
                         Type => 'OTRSMigration',
                         Key  => 'MigrationState',
@@ -268,7 +268,7 @@ sub Run {
                 }
 
                 # store next task in cache in case of a restart
-                if ( $Self->{Subaction} eq 'Copy' && $Result->{$PerlTask}{Successful} ) {
+                if ( $Self->{Subaction} eq 'Copy' && $Result->{$PerlTask}->{Successful} ) {
                     $CacheObject->Set(
                         Type  => 'OTRSMigration',
                         Key   => 'Copy',
@@ -284,7 +284,6 @@ sub Run {
                     NextTask => $NextTask{$AJAXTask},
                 };
             }
-
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -533,9 +532,7 @@ sub _Finish {
     my ( $Self, %Param ) = @_;
 
     # Take care that default config is in the database.
-    if ( !$Self->_CheckConfig() ) {
-        return $Param{LayoutObject}->FatalError();
-    }
+    return $Param{LayoutObject}->FatalError() unless $Self->_CheckConfig();
 
     # Delete migration cache
     my $Status = $Param{CacheObject}->CleanUp(
