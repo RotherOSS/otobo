@@ -159,11 +159,22 @@ sub Run {
             OTRSDBSettings => $Param{DBData},
         );
 
+        # undef is returned when the DataTransfer bails out
         return {
             Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate('System was unable to complete data transfer.'),
             Successful => 0,
         } unless $TransferIsOK;
+
+        # in some cases there is an error with more informative messages
+        if ( ref $TransferIsOK eq 'HASH' && exists $TransferIsOK->{Successful} && !$TransferIsOK->{Successful} ) {
+            return {
+                Message    => $Message,
+                Comment    => join( "\n", ( $TransferIsOK->{Messages} // [] )->@* ),
+                Successful => 0,
+            };
+
+        }
     }
 
     return {

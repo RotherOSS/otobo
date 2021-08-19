@@ -311,13 +311,34 @@ sub RowCount {
 
 =head2 DataTransfer()
 
-There are five loops over tables of the source database.
+Transfer data from the source database tables to the target database tables. The data is transferred row by row.
 
-The first loop determines which source tables are to be copied. Source tables that are marked as to be skipped
+There are three possible return values.
+
+=over 4
+
+=item empty list
+
+There was an unspecified error. Bailing out of the migration.
+
+=item the number 1
+
+The data transfer was successful.
+
+=item a hashref with two keys.
+
+C<Successful> indicates success or failure.
+C<Messages> a list of messages, usually indicating the errors
+
+=back
+
+Altogether, there are five loops over the tables of the source database.
+
+The first loop determines which source tables need to be copied. Source tables that are marked as to be skipped
 and source tables that have no counterpart in the target are not copied.
 
 The second loop examines the to be copied tables of the source and target database and compiles basically
-a list of the required actions. Target tables are purged.
+a list of the required actions.
 
 The third loop checks for problematic NULL values in the source tables.
 The data transfer is stopped when there are problematic cases.
@@ -495,7 +516,7 @@ sub DataTransfer {
         {
             my @MaybeShortenedColumns;
             my $DoShorten;    # flag used for assembly of $SourceColumnsString
-            my @MoreRelaxedColumns;
+            my @NullAllowedColumns;
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
 
@@ -526,7 +547,7 @@ sub DataTransfer {
                 # Whether the target column has stricter NULL checking.
                 # Hoping that the usage of 'YES and 'NO' is standardized accross database systems.
                 if ( $TargetColumnInfos->{IS_NULLABLE} eq 'NO' && $SourceColumnInfos->{IS_NULLABLE} eq 'YES' ) {
-                    push @MoreRelaxedColumns, $SourceColumn;
+                    push @NullAllowedColumns, $SourceColumn;
                 }
 
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
@@ -564,11 +585,11 @@ sub DataTransfer {
             }
 
             # we might have to check for NULL values in the source table
-            if (@MoreRelaxedColumns) {
+            if (@NullAllowedColumns) {
                 push @CheckNullConstraints,
                     {
-                        Table   => $SourceTable,
-                        Columns => \@MoreRelaxedColumns,
+                        Table              => $SourceTable,
+                        NullAllowedColumns => \@NullAllowedColumns,
                     };
             }
 
@@ -608,7 +629,7 @@ sub DataTransfer {
     {
         my $TotalNumConstraints = scalar @CheckNullConstraints;
         my $CountConstraint     = 0;
-        my $TotalNumViolations  = 0;
+        my @ViolationMessages;
         for my $Constraint (@CheckNullConstraints) {
 
             my $SourceTable = $Constraint->{Table};
@@ -634,7 +655,7 @@ sub DataTransfer {
 
             my @Violations;
             SOURCE_COLUMN:
-            for my $SourceColumn ( $Constraint->{Columns}->@* ) {
+            for my $SourceColumn ( $Constraint->{NullAllowedColumns}->@* ) {
 
                 $SourceDBObject->Prepare(
                     SQL => "SELECT COUNT(*) FROM $SourceTable WHERE $SourceColumn IS NULL"
@@ -644,31 +665,39 @@ sub DataTransfer {
                 push @Violations, [ $SourceColumn, $NumNulls ] if $NumNulls;
             }
 
-            if (@Violations) {
-                $TotalNumViolations += @Violations;
-                my $ReportLine       = join ', ', map {"$_->[0] ($_->[1])"} @Violations;
-                my $ViolationMessage = "NULL values found in the source table '$SourceTable': $ReportLine";
+            # report the found violations
+            for my $Violation (@Violations) {
+                my ( $Column, $NumNulls ) = $Violation->@*;
+                my $PluralS = $NumNulls == 1 ? '' : 's';
+                my $Message = "$NumNulls NULL value$PluralS found in the column '$Column' of the source table '$SourceTable'.";
+                push @ViolationMessages, $Message;
 
                 $CacheObject->Set(
                     Type  => 'OTRSMigration',
                     Key   => 'MigrationState',
                     Value => {
                         Task      => 'OTOBODatabaseMigrate',
-                        SubTask   => $ViolationMessage,
+                        SubTask   => $Message,
                         StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
                     },
                 );
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => $ViolationMessage,
+                    String   => $Message,
                     Priority => 'error',
                 );
             }
         }
 
-        # bail out when NULL violations are detected
-        return if $TotalNumViolations;
+        # return an error when violations were detected
+        if (@ViolationMessages) {
+            return
+                {
+                    Successful => 0,
+                    Messages   => \@ViolationMessages,
+                };
+        }
     }
 
     # Fourth loop.
