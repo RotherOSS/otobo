@@ -546,7 +546,12 @@ sub DataTransfer {
 
                 # Whether the target column has stricter NULL checking.
                 # Hoping that the usage of 'YES and 'NO' is standardized accross database systems.
-                if ( $TargetColumnInfos->{IS_NULLABLE} eq 'NO' && $SourceColumnInfos->{IS_NULLABLE} eq 'YES' ) {
+                # NULLs are OK when the target column has a default value.
+                if (
+                    ( $TargetColumnInfos->{IS_NULLABLE} eq 'NO' && !defined $TargetColumnInfos->{COLUMN_DEFAULT} )
+                    && $SourceColumnInfos->{IS_NULLABLE} eq 'YES'
+                    )
+                {
                     push @NullAllowedColumns, $SourceColumn;
                 }
 
