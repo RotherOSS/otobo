@@ -715,12 +715,17 @@ sub DataTransfer {
         my $Success = $TargetDBObject->Do( SQL => $PurgeSQL );
 
         if ( !$Success ) {
+            my $Message = "Could not truncate target table '$TargetTable'";
             $MigrationBaseObject->MigrationLog(
                 String   => "Could not truncate target table '$TargetTable'",
                 Priority => 'error',
             );
 
-            return;    # bail out
+            return
+                {
+                    Successful => 0,
+                    Messages   => [$Message],
+                };
         }
     }
 
@@ -867,12 +872,17 @@ sub DataTransfer {
                 if ( !$Success ) {
 
                     # Log info to apache error log and OTOBO log (syslog or file)
+                    my $Message = "Could not insert data: Table: $SourceTable - id:$Row[0].";
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could not insert data: Table: $SourceTable - id:$Row[0].",
+                        String   => $Message,
                         Priority => "notice",
                     );
 
-                    return;
+                    return
+                        {
+                            Successful => 0,
+                            Messages   => [$Message],
+                        };
                 }
             }
         }
