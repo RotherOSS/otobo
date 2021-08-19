@@ -5,7 +5,7 @@
 
 # Use 7.8.0, because latest flag is not available
 # This image is based on CentOS 7. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.14.0
 
 # install system tools
 # hadolint ignore=DL3008
