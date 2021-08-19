@@ -63,7 +63,7 @@ sub Run {
 
         if ( !-d $Home ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Home ),
                 Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
             );
         }
@@ -312,7 +312,7 @@ sub Run {
         );
     }
 
-    # if this is not an AJAX request, then build the html for the current subaction
+    # if this is not an AJAX request, then build the HTML for the current subaction
 
     # generate current title
     my $Title     = $LayoutObject->{LanguageObject}->Translate('OTRS to OTOBO migration');
