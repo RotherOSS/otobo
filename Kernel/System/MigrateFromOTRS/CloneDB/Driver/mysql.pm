@@ -183,21 +183,23 @@ sub GetColumnInfos {
 
     $Param{DBObject}->Prepare(
         SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ?
-            AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+            SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_DEFAULT, IS_NULLABLE
+            FROM INFORMATION_SCHEMA.COLUMNS
+            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?",
 
         Bind => [
             \$Param{DBName}, \$Param{Table}, \$Param{Column},
         ],
     ) || return {};
 
+    # collect the column info, actually we expect a single row
     my %Result;
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
-        $Result{COLUMN}      = $Row[0];
-        $Result{DATA_TYPE}   = $Row[1];
-        $Result{LENGTH}      = $Row[2];
-        $Result{IS_NULLABLE} = $Row[3];
+        $Result{COLUMN}         = $Row[0];
+        $Result{DATA_TYPE}      = $Row[1];
+        $Result{LENGTH}         = $Row[2];
+        $Result{COLUMN_DEFAULT} = $Row[3];
+        $Result{IS_NULLABLE}    = $Row[4];
     }
 
     return \%Result;

@@ -119,27 +119,17 @@ sub _ExecutePreCheck {
 
         # NOTE: This looks strange. When one check succeeded and next check can't be loaded that the
         # check succeeds altogether.
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
-            last TASK;
-        }
+        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
 
         # NOTE: see the note above
         $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-        if ( !$Self->{TaskObjects}->{$ModuleName} ) {
-            last TASK;
-        }
+
+        last TASK unless $Self->{TaskObjects}->{$ModuleName};
 
         # Execute previous check, printing a different message
         # NOTE: when last check succeeds the the check succeeds altogether
-        elsif ( $Self->{TaskObjects}->{$ModuleName}->can('CheckPreviousRequirement') ) {
-
+        if ( $Self->{TaskObjects}->{$ModuleName}->can('CheckPreviousRequirement') ) {
             $IsOK = $Self->{TaskObjects}->{$ModuleName}->CheckPreviousRequirement(%Param);
-
-        }
-
-        # Do not handle CheckPreviousRequirement if task has no appropriate method.
-        else {
-            next TASK;
         }
     }
 
@@ -180,14 +170,11 @@ sub _ExecuteRun {
 
         my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName) ) {
-            last TASK;
-        }
+        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
 
         $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-        if ( !$Self->{TaskObjects}->{$ModuleName} ) {
-            last TASK;
-        }
+
+        last TASK unless $Self->{TaskObjects}->{$ModuleName};
 
         # Execute Run-Component
         if ( $Self->{TaskObjects}->{$ModuleName}->can('Run') ) {
@@ -202,6 +189,7 @@ sub _ExecuteRun {
         else {
             next TASK;
         }
+
         $CurrentStep++;
     }
 
@@ -213,9 +201,7 @@ sub _TasksGet {
 
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
 
-    my @SecurityCheck = $MigrationBaseObject->TaskSecurityCheck();
-
-    return @SecurityCheck;
+    return $MigrationBaseObject->TaskSecurityCheck();
 }
 
 1;

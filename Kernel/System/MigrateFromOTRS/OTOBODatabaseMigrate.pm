@@ -63,12 +63,15 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::Run()>.
 
 =cut
 
 sub Run {
     my ( $Self, %Param ) = @_;
+
+    # string used for progress and log messages
+    my $Message = $Self->{LanguageObject}->Translate('Copy database.');
 
     # check needed stuff
     for my $Key (qw(DBData)) {
@@ -79,7 +82,7 @@ sub Run {
             );
 
             return {
-                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                Message    => $Message,
                 Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
                 Successful => 0,
             };
@@ -90,7 +93,7 @@ sub Run {
     if ( $Param{DBData}{SkipDBMigration} ) {
         return {
             Successful => 1,
-            Message    => $Self->{LanguageObject}->Translate("Copy database."),
+            Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate("Skipped..."),
         };
     }
@@ -109,8 +112,8 @@ sub Run {
         );
 
         return {
-            Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
-            Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', "DBData->$Key" ),
             Successful => 0,
         };
     }
@@ -139,14 +142,15 @@ sub Run {
     );
 
     return {
-        Message    => $Self->{LanguageObject}->Translate("Copy database."),
-        Comment    => $Self->{LanguageObject}->Translate("System was unable to connect to OTRS database."),
+        Message    => $Message,
+        Comment    => $Self->{LanguageObject}->Translate('System was unable to connect to OTRS database.'),
         Successful => 0,
     } unless $SourceDBObject;
 
+    # TODO: what happens when SanityChecks() is not successful
     my $SanityCheck = $CloneDBBackendObject->SanityChecks(
         OTRSDBObject => $SourceDBObject,
-        Message      => $Self->{LanguageObject}->Translate("Copy database."),
+        Message      => $Message,
     );
 
     if ( $SanityCheck->{Successful} ) {
@@ -155,16 +159,27 @@ sub Run {
             OTRSDBSettings => $Param{DBData},
         );
 
+        # undef is returned when the DataTransfer bails out
         return {
-            Message    => $Self->{LanguageObject}->Translate("Copy database."),
-            Comment    => $Self->{LanguageObject}->Translate("System was unable to complete data transfer."),
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate('System was unable to complete data transfer.'),
             Successful => 0,
         } unless $TransferIsOK;
+
+        # in some cases there is an error with more informative messages
+        if ( ref $TransferIsOK eq 'HASH' && exists $TransferIsOK->{Successful} && !$TransferIsOK->{Successful} ) {
+            return {
+                Message    => $Message,
+                Comment    => join( "\n", ( $TransferIsOK->{Messages} // [] )->@* ),
+                Successful => 0,
+            };
+
+        }
     }
 
     return {
-        Message    => $Self->{LanguageObject}->Translate("Copy database."),
-        Comment    => $Self->{LanguageObject}->Translate("Data transfer completed."),
+        Message    => $Message,
+        Comment    => $Self->{LanguageObject}->Translate('Data transfer completed.'),
         Successful => 1,
     };
 }
