@@ -998,7 +998,7 @@ sub Safety {
         }
     }
 
-    my $String = $Param{String} || '';
+    my $String = $Param{String} // '';
 
     # check ref
     my $StringScalar;
