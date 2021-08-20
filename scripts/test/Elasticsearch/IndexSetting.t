@@ -39,7 +39,7 @@ my $ESObject  = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 my $Template = {
     number_of_shards   => '[% Data.NS | uri %]',
     number_of_replicas => '[% Data.NR | uri %]',
-    'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
+    'index.mapping.total_fields.limit' => 2000,
 };
 
 my $Index1 = $ESObject->IndexSettingsGet(
@@ -59,12 +59,13 @@ is(
     $Index1->{number_of_replicas}, 10,
     '#1 number_of_replicas'
 );
+# FieldsLimit can not be changed by settings/sysconfig
 is(
-    $Index1->{'index.mapping.total_fields.limit'}, 1000,
+    $Index1->{'index.mapping.total_fields.limit'}, 2000,
     '#1 index.mapping.total_fields.limit'
 );
 
-# When admin changes Elasticsearch::ArticleIndexCreationSettings, FieldsLimit is missing
+# Missing settings are taken from the template
 my $Index2 = $ESObject->IndexSettingsGet(
     Config => {
         NS => 5,
@@ -74,7 +75,7 @@ my $Index2 = $ESObject->IndexSettingsGet(
 );
 is(
     $Index2->{'index.mapping.total_fields.limit'}, 2000,
-    '#2 index.mapping.total_fields.limit'
+    '#2 missing settings'
 );
 
 # Expansion test
@@ -140,11 +141,11 @@ is(
 );
 is(
     $Expanded->{index}->{arraytest}->{array}->[2], 'ghi',
-    '#3 expand index-arraytest-array',
+    '#3 expand index-arraytest-array (string)',
 );
 is(
     $Expanded->{index}->{arraytest}->{nested}->[1]->{value3}, 789,
-    '#3 expand index-arraytest-array',
+    '#3 expand index-arraytest-array (number)',
 );
 is(
     ref $Expanded->{index}->{arraytest}->{empty}, 'ARRAY',
