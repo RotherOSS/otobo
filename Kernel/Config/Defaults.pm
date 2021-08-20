@@ -1912,13 +1912,12 @@ via the Preferences button after logging in.
     # Default defines settings for all indices. To configure different settings
     # for a single index  simply add a corresponding definition with the index name 
     # ('Customer', 'CustomerUser' or 'Ticket') instead of 'Default'.
-    # NOTE: This setting will be activated in future versions
-    #$Self->{'Elasticsearch::IndexSettings'} = {
-    #    Default => {
-    #        'NS'          => '1',
-    #        'NR'          => '0',
-    #    }
-    #};
+    $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
+        Default => {
+            'NS'          => '1',
+            'NR'          => '0',
+        }
+    };
 
     # Elasticsearch index definition template
     # To use a different index template for just one index add a corresponding
