@@ -1913,10 +1913,8 @@ via the Preferences button after logging in.
     # for a single index  simply add a corresponding definition with the index name 
     # ('Customer', 'CustomerUser' or 'Ticket') instead of 'Default'.
     $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
-        Default => {
-            'NS'          => '1',
-            'NR'          => '0',
-        }
+        'NS'          => '1',
+        'NR'          => '0',
     };
 
     # Elasticsearch index definition template
