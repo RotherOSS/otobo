@@ -265,7 +265,14 @@ sub TicketSearch {
                 push @CustomerIDs, @{ $Entry->{CustomerIDs} };
             }
 
-            if ( @CustomerIDs && $Entry->{CustomerUserID} ) {
+            if ( defined $Param{CustomerUserLoginRaw} || ( $Entry->{CustomerUserID} && !@CustomerIDs ) ) {
+                $DirectConditions = {
+                    term => {
+                        CustomerUserID => $Param{CustomerUserLoginRaw} // $Entry->{CustomerUserID},
+                    },
+                };
+            }
+            elsif ( @CustomerIDs && $Entry->{CustomerUserID} ) {
                 $DirectConditions = {
                     bool => {
                         should => [
@@ -287,13 +294,6 @@ sub TicketSearch {
                 $DirectConditions = {
                     terms => {
                         CustomerID => \@CustomerIDs,
-                    },
-                };
-            }
-            elsif ( $Entry->{CustomerUserID} ) {
-                $DirectConditions = {
-                    term => {
-                        CustomerUserID => $Entry->{CustomerUserID},
                     },
                 };
             }
