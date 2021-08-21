@@ -1,4 +1,57 @@
 
+# OTOBO 10.0.12 2021-08-21
+- 2021-08-21 14:48:04 +0200 Create new OTOBO language files.
+- 2021-08-21 13:39:55 +0200 [Security] Respect disabling of customer company tickets in Elasticsearch results.
+- 2021-08-20 16:18:38 +0200 Keep 0 as string in safety check, as it is needed for appointment creations - follow up to d820cf41d63d0764fd4501a668641e4475d5e208.
+- 2021-08-20 15:54:00 +0200 [Enhanced] Enable the system admin to provide complex index settings for Elasticsearch. (https://github.com/RotherOSS/otobo/issues/961)
+- 2021-08-20 11:00:12 +0200 [Bugfix]   Agent email not saved when equal to username (https://github.com/RotherOSS/otobo/issues/1113)
+- 2021-08-20 10:19:59 +0200 [Bugfix]   Customer Frontend state selector jumps when ACL is active (https://github.com/RotherOSS/otobo/issues/1145)
+- 2021-08-19 17:09:59 +0200 [Enhanced] Docker: add screen to the docker images (https://github.com/RotherOSS/otobo/issues/680)
+- 2021-08-19 16:54:07 +0200 Tidied.
+- 2021-08-19 16:46:36 +0200 [Enhanced] Migration: Check for invalid NULL values in the source database. (https://github.com/RotherOSS/otobo/issues/1151)
+- 2021-08-19 16:41:50 +0200 Update docker Elasticsearch version.
+- 2021-08-19 11:02:13 +0200 [bugfix] Add CustomerUser as a valid trigger in ACLPreselectionCache generation.
+- 2021-08-18 09:59:03 +0200 Issue #1174 Take DataValue into account for checking / unchecking checkboxes
+- 2021-08-18 09:53:13 +0200 issue #961 total_fields.limit is not configurable via sysconfig
+- 2021-08-18 08:58:38 +0200 Issue #1174 Special Handling of Checkboxes for unsetting value when hiding
+- 2021-08-17 22:29:44 +0200 issue #961 re-add accidentially deleted line of code
+- 2021-08-17 17:43:33 +0200 issue #961 improve elasticsearchindex definition settings
+- 2021-08-04 11:59:01 +0200 Added permission check to ticket recipient list (CVE-2021-21443). Thanks for hints to Centuran Consulting.
+- 2021-08-04 11:29:32 +0200 Added permission check to appointment list (CVE-2021-36091). Thanks for hints to Centuran Consulting.
+- 2021-08-04 11:01:52 +0200 Files in configured directories of SysConfig options SMIME::PrivatePath and SMIME::CertPath will now not be included in a support bundle anymore if they are within the Znuny directory (CVE-2021-21440). Thanks for hints to Centuran Consulting.
+- 2021-08-04 10:26:06 +0200 Added safety checks for form/URL parameters to AdminAppointmentCalendarManage, AgentAppointmentEdit and AgentAppointmentList. Thanks for hints to Centuran Consulting.
+- 2021-07-30 11:32:34 +0000 Improved JavaScript recognition in function Kernel::System::HTMLUtils::Safety. Thanks for hints to Tim PÃ¼ttmanns, maxence.
+- 2021-08-16 18:44:48 +0200 Missing Packages in otobo.CheckModules.pl in rel-10_1 (https://github.com/RotherOSS/otobo/issues/1180)
+- 2021-08-13 18:26:38 +0200 [Security] Docker: use the maintenance releases of Perl as base images  (https://github.com/RotherOSS/otobo/issues/1175)
+- 2021-08-11 15:41:40 +0200 Add lets encrypt certbot
+- 2021-08-10 16:45:48 +0200 Accept suggestions from the CodePolicy.
+- 2021-08-10 16:03:57 +0200 Migration PostgreSQL to MariaDB: Shortening Columns (https://github.com/RotherOSS/otobo/issues/1166)
+- 2021-08-09 16:43:23 +0200 [Bugfix]   Migration PostgreSQL to MariaDB: Issues with DirectBlob feature  (https://github.com/RotherOSS/otobo/issues/1149)
+- 2021-08-04 16:13:39 +0200 [Bugfix]   ResetAutoIncrementField() was likely never called (https://github.com/RotherOSS/otobo/issues/1161)
+- 2021-08-03 15:29:01 +0200 [Bugfix]   Validation of Dynamic Field from type database not works correctly in the CustomerTicketMessage (https://github.com/RotherOSS/otobo/issues/1140)
+- 2021-08-03 14:19:05 +0200 Issue #1140 Global flag added to RegExes in related files
+- 2021-08-03 08:58:44 +0200 Issue #1140 Shifted Code Blocks to correct Positions in Core.AJAX.js
+- 2021-08-03 08:58:44 +0200 Issue #1140 Shifted Code Blocks to correct Positions in Core.AJAX.js
+- 2021-08-03 11:09:53 +0200 Issue #1154 Old Options added again for preventing errors when updating
+- 2021-08-03 10:39:50 +0200 Issue #1154 Values for Default Options changed after Review
+- 2021-08-03 10:29:01 +0200 Issue #1154 Changing default options for results per page for Dynamic Fields list
+- 2021-08-03 08:58:44 +0200 Issue #1140 Shifted Code Blocks to correct Positions in Core.AJAX.js
+- 2021-07-27 21:50:24 +0000 Translated using Weblate (Spanish)
+- 2021-07-26 15:20:19 +0000 Translated using Weblate (Spanish (Mexico))
+- 2021-07-08 11:23:43 +0000 Update translation files
+- 2021-07-19 15:38:37 +0200 Css fix: treat CustomerContainerCc/Bcc like CustomerContainer.
+- 2021-07-14 16:05:27 +0200 Provide a OTOBO specific image for Chrome, that can be used for testing with Selenium (https://github.com/RotherOSS/otobo/issues/1109)
+- 2021-07-13 21:02:41 +0200 Slight edit to see whether automatic builds are triggered.
+- 2021-07-13 18:02:32 +0200 [Tidied]   Review diffs between rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/1033) - in progress
+- 2021-07-10 13:43:21 +0200 [Bugfix]   Don't run the compile tests for modules in Kernel/TidyAll (https://github.com/RotherOSS/otobo/issues/1115)
+- 2021-07-09 19:02:52 +0200 Update the header set in TranslationUpdate.
+- 2021-07-08 13:23:18 +0200 Create new OTOBO language files.
+- 2021-06-30 09:47:18 +0000 Translated using Weblate (German)
+- 2021-07-08 12:15:55 +0200 Add an option to the TranslationUpdate console command, to remove random strings of temporary directories from module names.
+- 2021-07-05 11:53:19 +0200 Now Elasticsearch index settings are configurable for each index separately
+- 2021-04-14 10:00:02 +0000 Discussing on PR#911, Change definition of ElasticSearch index.
+
+
 # OTOBO 10.0.11 2021-06-29
 - 2021-06-29 14:12:12 +0200 Create new OTOBO language files.
 - 2021-06-28 17:02:11 +0000 Translated using Weblate (Spanish (Mexico))
@@ -720,3 +773,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
