@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999837793998378;
+    $Self->{Completeness}        = 0.999351281219591;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5071,7 +5071,6 @@ sub Data {
         'All needed files copied and migrated, perfect!' => 'Alle Dateien wurden kopiert und migriert. Glückwunsch!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Copy database.' => 'Kopiert die Datenbank.',
         'Skipped...' => 'Übersprungen ...',
         'System was unable to connect to OTRS database.' => 'System konnte keine Verbindung zur OTRS-Datenbank herstellen.',
@@ -5079,6 +5078,7 @@ sub Data {
         'Data transfer completed.' => 'Datentransfer abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO version is correct.' => 'Überprüft, ob die OTOBO Version korrekt ist.',
         'Check if OTOBO and OTRS connect is possible.' => 'Überprüft, ob eine Verbindung zwischen OTRS und OTOBO hergestellt werden kann.',
         'Can\'t open RELEASE file from OTRSHome: %s!' => 'Kann das RELEASE File in OTRSHome: %s nicht öffnen!',
         'Check if OTOBO and OTRS version is correct.' => 'Überprüft, ob die verwendeten OTOBO- und OTRS-Versionen korrekt sind.',
@@ -6222,7 +6222,7 @@ Thanks for your help!
 ' => '
 Sehr geehrter Kunde,
 
-leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer,
+leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer, 
 so dass diese E-Mail nicht automatisch verarbeitet werden kann.
 
 Bitte erstellen Sie ein neues Ticket im Kundenbereich.
@@ -7429,8 +7429,8 @@ Ihr Helpdesk-Team
             'Legt den Timeout in Sekunden für die Sammlung von Supportdaten des öffentlichen Moduls \'PublicSupportDataCollector\' fest, das z. B. vom OTOBO Daemon genutzt wird (min. 20 Sekunden).',
         'Defines the two-factor module to authenticate agents.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Agenten.',
         'Defines the two-factor module to authenticate customers.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Kunden.',
-        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            'Legt das Protokoll fest, das zur Auslieferung der Applikation durch den Webserver genutzt werden soll. Wenn http anstelle von https genutzt werden soll, muss dies hier festgelegt werden. Die Einstellung hat keine Auswirkungen auf die Konfiguration des Webservers und verändert nicht, wie auf die Applikation zugegriffen wird. Bei fehlerhafter Konfiguration verhindert die Einstellung nicht die Anmeldung am System. Diese Einstellung wird nur als Variable verwendet (OTOBO_CONFIG_HttpType), die in allen Nachrichten-Formularen zur Verfügung steht, um Links auf Tickets in Ihrem System zu generieren.',
+        'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Legt das genutzte Zeichen für Zitate in Plaintext-E-Mails im Verfassen-Bildschirm des Agentenbereichs fest. Bleibt das Feld leer oder ist die Einstellung nicht aktiviert, wird die ursprüngliche E-Mail nicht zitiert, sondern an die Antwort angehängt.',
         'Defines the user identifier for the customer panel.' => 'Definiert den Benutzer-Identifier für das Kunden-Interface.',
@@ -8190,9 +8190,12 @@ Ihr Helpdesk-Team
         'Number of displayed tickets' => 'Anzahl der angezeigten Tickets',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Anzahl von Zeilen (pro Ticket), die über das Such-Tool im Agentenbereich angezeigt werden.',
-        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             '',
-        'Number of shards (NS) and replicas (NR) for the index.' => 'Anzahl der Shards (NS) und Replicas (NR) für den Index.',
+        'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+            '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Anzahl von Tickets pro Seite in Suchergebnissen im Agentenbereich.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>

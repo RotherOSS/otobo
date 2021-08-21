@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.996431467964315;
+    $Self->{Completeness}        = 0.995945507622446;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -5077,7 +5077,6 @@ sub Data {
         'All needed files copied and migrated, perfect!' => '所有需要的文件都已经复制并迁移了，完美！',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Check if OTOBO version is correct.' => '检查OTOBO的版本是否正确。',
         'Copy database.' => '复制数据库。',
         'Skipped...' => '',
         'System was unable to connect to OTRS database.' => '系统无法连接OTRS数据库。',
@@ -5085,6 +5084,7 @@ sub Data {
         'Data transfer completed.' => '数据传递完成。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO version is correct.' => '检查OTOBO的版本是否正确。',
         'Check if OTOBO and OTRS connect is possible.' => '检查OTOBO和OTRS能否连接。',
         'Can\'t open RELEASE file from OTRSHome: %s!' => '无法从 OTRSHome: %s 打开RELEASE文件！',
         'Check if OTOBO and OTRS version is correct.' => '检查OTOBO 和 OTRS 的版本是否正确。',
@@ -7433,8 +7433,8 @@ Thanks for your help!
             '使用公共模块“PublicSupportDataCollector”（例如用于OTOBO守护进程的模块）来定义支持数据收集的超时（以秒为单位，最小为20秒）。',
         'Defines the two-factor module to authenticate agents.' => '定义服务人员的双因素身份验证模块。',
         'Defines the two-factor module to authenticate customers.' => '定义客户的双因素身份验证模块。',
-        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
-            '定义Web服务器用来为应用程序提供服务的协议类型。如果将使用HTTP协议代替安全HTTPS，则必须在此处指定。由于这对Web服务器的设置或行为没有影响，因此不会更改对应用程序的访问方式，并且如果输入错误，也不会阻止您登录应用程序。此设置仅用作变量OTOBO_CONFIG_HttpType，可以在应用程序使用的所有消息传递形式中找到该设置，以建立指向系统中工单的链接。',
+        'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
+            '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '定义服务人员界面工单编写屏幕使用的普通文本邮件引用字符。如果这个设置为空或不激活，原始邮件将不会被引用而是追加到回复内容中。',
         'Defines the user identifier for the customer panel.' => '定义客户门户的用户标识符。',
@@ -8194,9 +8194,12 @@ Thanks for your help!
         'Number of displayed tickets' => '显示工单个数',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '服务人员界面搜索工具显示每个工单的行数。',
-        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             '',
-        'Number of shards (NS) and replicas (NR) for the index.' => '索引的分片（NS）和副本（NR）的数量。',
+        'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+            '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '服务人员界面搜索结果每页显示的工单数。',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
