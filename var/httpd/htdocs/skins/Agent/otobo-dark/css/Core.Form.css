@@ -519,11 +519,11 @@ form label.LabelError {
 .CustomerContainer,
 .CcCustomerContainer,
 .BccCustomerContainer {
-    background-color: #F2F2F2;
-    border: 1px solid #CCCCCC;
-    -moz-box-shadow: inset 1px 1px 5px #ccc;
-    -webkit-box-shadow: inset 1px 1px 5px #ccc;
-    box-shadow: inset 1px 1px 5px #ccc;
+    background-color: #141414;
+    border: 1px solid #272727;
+    -moz-box-shadow: inset 1px 1px 5px #000;
+    -webkit-box-shadow: inset 1px 1px 5px #000;
+    box-shadow: inset 1px 1px 5px #000;
     padding: 5px 7px 10px 6px;
     width: 74%;
     position: relative;
@@ -562,7 +562,7 @@ form label.LabelError {
 .CustomerContainer .BoxLabel,
 .CcCustomerContainer .BoxLabel,
 .BccCustomerContainer .BoxLabel {
-    background-color: #CCCCCC;
+    background-color: #1f1f1f;
     font-size: 11px;
     right: 100%;
     top: 10px;
@@ -571,7 +571,7 @@ form label.LabelError {
     text-align: center;
     text-shadow: 1px 1px 1px #000;
     min-width: 20px;
-    color: #555;
+    color: #c8c6c4;
 }
 
 #EmailRecipientsList span,

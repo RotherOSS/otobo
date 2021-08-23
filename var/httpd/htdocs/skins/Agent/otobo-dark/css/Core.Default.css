@@ -380,7 +380,7 @@ div.DnDUploadBox {
 }
 
 div.DnDUpload {
-    border: 1px solid #ccc;
+    border: 1px solid #272727;
     border-radius: 10px;
     color: #aaa;
     min-height: 60px;
@@ -389,7 +389,7 @@ div.DnDUpload {
     margin-bottom: 5px;
     max-width: 622px;
     box-sizing: border-box;
-    background-color: white;
+    background-color: #1f1f1f;
 }
 
 span.ReadyForUpload {
