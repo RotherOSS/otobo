@@ -1,0 +1,1335 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Widgets
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsection  Widget Tablelike list
+ */
+ul.Tablelike {
+    border: 1px solid #333;
+}
+
+ul.Tablelike:first-child {
+    margin-right: 8px;
+}
+
+.RTL .Size1of3:first-child ul.Tablelike {
+    margin-left: 8px;
+    margin-right: 0;
+}
+
+.StrikeThrough a {
+    text-decoration: line-through;
+}
+
+ul.Tablelike li {
+    line-height: 20px;
+    padding: 0 4px;
+    min-height: 20px;
+    background-color: #1f1f1f;
+}
+
+ul.Tablelike li.OneRow,
+ul.Tablelike li.OneRow .AsBlock {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ul.Tablelike li:nth-child(even) {
+    background-color: #292929;
+}
+
+ul.Tablelike li:hover {
+    background: #33321f;
+}
+
+ul.Tablelike li:hover a {
+    color: #c8c6c4;
+}
+
+ul.Tablelike li.Header {
+    color: #dbd9d7;
+    font-size: 11px;
+    line-height: 20px;
+    text-transform: uppercase;
+    background: #333;
+    border-top: 1px solid #333;
+}
+
+ul.Tablelike + ul.Tablelike.AllocationList {
+    border-top: 0px;
+}
+
+ul.Tablelike li.Header + li {
+    border-top: 1px solid #333;
+}
+
+/**
+ * @subsection  WidgetSimple
+ */
+
+.LayoutPopup .Content > .WidgetSimple:last-child {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple {
+    margin-bottom: 15px;
+    background: #1f1f1f;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 10px;
+}
+
+.WidgetSimple.WidgetLoading i {
+    display: block;
+    text-align: center;
+    margin: 10px 0px;
+}
+
+.WidgetSimple.MobileNotAvailableWidget {
+    display: none;
+}
+
+.WidgetSimple .WidgetSimple {
+    background: #333;
+    border: 1px solid #333;
+    margin: 15px 10px;
+}
+
+.WidgetSimple .WidgetSimple .WidgetSimple {
+    background: #f5f5f5;
+}
+
+.WidgetSimple .WidgetSimple .WidgetSimple h2 {
+    font-size: 12px;
+}
+
+.WidgetSimple > .Header,
+.WidgetSimple.Collapsed.AnimationRunning > .Header {
+    padding: 2px 5px 2px 5px;
+    position: relative;
+}
+
+.WidgetSimple.Collapsed > .Header {
+    border-bottom: none;
+}
+
+.WidgetSimple > .Header h2,
+.WidgetSimple > .Header h3 {
+    padding: 4px 3px;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 13px;
+    text-shadow: 1px 1px #000;
+    color: #c8c6c4;
+}
+
+.WidgetSimple > .Content {
+    padding: 8px 8px 10px;
+    overflow: auto;
+    /**
+     *   START IE9 Hover Bug Workaround
+     *   The problem occurs when you have a container that has a fixed width set, an overflow set to
+     *   auto, content long enough to trigger the horizontal scroll and a hover style set
+     *   on elements inside the container.
+     *   The container mysteriously increases in size.
+     *   (e.g. if you have installed OTOBODashboardOverviewFilters and many dynamic fields are
+     *   shown in the dashboard.)
+     */
+    min-height: 0%;
+    /* END IE9 Hover Bug Workaround */
+}
+
+.WidgetSimple > .Content.OverflowVisible {
+    overflow: visible;
+}
+
+.WidgetSimple.QueueOverview > .Content {
+    padding-bottom: 2px;
+}
+
+.WidgetSimple.Collapsed > .Content {
+    display: none;
+}
+
+.WidgetSimple .WidgetSettingsForm fieldset {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Field.LayoutGrid {
+    padding-top: 7px;
+}
+
+.WidgetSimple .Field.LayoutGrid .Tablelike {
+    width: 98%;
+}
+
+.WidgetSimple .Buttons {
+    border-top: 1px solid #333;
+    margin: 15px -8px -10px -8px;
+    padding: 10px 10px 9px 10px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.WidgetSimple .Buttons.NoMargin {
+    margin-top: 5px;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList {
+    max-height: 192px;
+}
+
+.WidgetSimple .Field.LayoutGrid .AllocationList.OrderNumbers {
+    list-style: decimal inside;
+}
+
+#FormDraftTable td:nth-child(2) {
+    width: 10px;
+}
+
+/* Legend & Shortcuts */
+
+.WidgetSimple .Legend,
+.WidgetSimple .ShortCuts {
+    margin: 5px;
+}
+
+.WidgetSimple .Legend {
+    margin-left: 8px;
+}
+
+.WidgetSimple .Legend li,
+.WidgetSimple .ShortCuts li {
+    margin-bottom: 7px;
+    font-size: 11px;
+    position: relative;
+    padding-left: 10px;
+    color: #999;
+}
+
+.RTL .WidgetSimple .Legend li,
+.RTL .WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.WidgetSimple .Legend li:last-child,
+.WidgetSimple .ShortCuts li:last-child {
+    margin-bottom: 0px;
+}
+
+.WidgetSimple .Legend li span {
+    position: absolute;
+    left: 0px;
+    top: 50%;
+    height: 12px;
+    margin-top: -6px;
+    width: 5px;
+}
+
+.RTL .WidgetSimple .Legend li span {
+    left: auto;
+    right: 0px;
+}
+
+.WidgetSimple .ShortCuts {
+    margin-top: 7px;
+    display: table;
+}
+
+.WidgetSimple .ShortCuts li {
+    padding-left: 0px;
+    display: table-row;
+}
+
+.WidgetSimple .ShortCuts li em {
+    display: table-cell;
+    padding-top: 5px;
+    font-style: normal;
+}
+
+.WidgetSimple .ShortCuts li em:first-child {
+    text-align: right;
+}
+
+.WidgetSimple .ShortCuts li span {
+    display: inline-block;
+    border: 1px solid #ccc;
+    text-transform: uppercase;
+    font-size: 9px;
+    font-weight: bold;
+    margin-right: 5px;
+    color: #c8c6c4;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.RTL .WidgetSimple .ShortCuts li span {
+    margin-right: 0px;
+    margin-left: 5px;
+}
+
+/**
+ * @subsection Widgets as notices
+ */
+
+.WidgetNotice {
+    background-color: #F39C19
+}
+
+.WidgetNotice .Content {
+    border: 1px solid #F6AF2F;
+    color: #442A0B;
+    font-weight: bold;
+    padding-bottom: 8px;
+    line-height: 140%;
+}
+
+/**
+ * @subsection AJAX Loader
+ */
+
+.Loading > .Header h2 {
+    position: relative;
+}
+
+.Loading > .Header h2:after {
+    left: auto;
+    top: auto;
+    right: 3px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+}
+
+.RTL .Loading > .Header h2:after {
+    left: 3px;
+    right: auto;
+}
+
+.WidgetIsLoading {
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    color: #777;
+    border: 1px dotted #bbb;
+    margin-bottom: 15px;
+}
+
+/**
+ * @subsection  WidgetBox
+ */
+.WidgetBox > .Header h2 {
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+.RTL .WidgetBox > .Header h2 {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
+.WidgetBox > .Header .WidgetAction + h2 {
+    margin: 0;
+    padding-left: 30px;
+    padding-right: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.RTL .WidgetBox > .Header .WidgetAction + h2 {
+    padding-left: 200px;
+    padding-right: 30px;
+}
+
+.WidgetBox > .Header h2 + h3 {
+    background-color: #EEE;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #BBB;
+    font-size: 16px;
+    padding: 5px 5px 5px 10px;
+    color: #333;
+}
+
+.RTL .WidgetBox > .Header h2 + h3 {
+    padding: 5px 10px 5px 5px;
+}
+
+.WidgetBox > .Content {
+    background: #ffffff;
+    min-height: 200px;
+    border-left: 1px solid #C6C5C4;
+    border-right: 1px solid #C6C5C4;
+    border-bottom: 1px solid #C6C5C4;
+}
+
+.Collapsed > .Content {
+    display: none;
+}
+
+.WidgetBox > .Content.AutoHeight {
+    min-height: 0;
+}
+
+/**
+ * @subaction   ActionMenu
+ */
+
+.ActionMenu {
+    top: 4px;
+    right: 7px;
+    padding-left: 3px;
+    position: absolute;
+    display: none;
+}
+
+.RTL .ActionMenu {
+    right: auto;
+    left: 0;
+    padding: 0 2px 0 0;
+    border-left: none;
+    border-right: 1px solid #DDD;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 2px;
+}
+
+.Header:hover .ActionMenu,
+.Header .ActionMenu.Visible {
+    display: block;
+}
+
+/**
+ * @subsection  WidgetActions
+ */
+
+.WidgetAction {
+    height: 19px;
+    width: 16px;
+    padding-right: 1px;
+    float: left;
+    text-align: center;
+}
+
+.RTL .WidgetAction {
+    padding: 0 0 0 1px;
+    float: right;
+}
+
+.WidgetAction a {
+    font-size: 14px;
+    height: 20px;
+    display: block;
+}
+
+.WidgetAction.WithText {
+    width: auto;
+}
+
+.WidgetAction.WithText a {
+    color: #999;
+    font-size: 11px;
+    white-space: nowrap;
+    line-height: 16px;
+}
+
+.WidgetAction.WithText a i {
+    font-size: 14px;
+    position: relative;
+    top: -2px;
+    display: inline-block !important;
+    margin-left: 5px;
+}
+
+.WidgetAction.Toggle,
+.Expanded.AnimationRunning > .Header > .WidgetAction.Toggle {
+    height: 13px;
+    width: 12px;
+    margin: 5px 0px 5px 2px;
+    float: left;
+}
+
+.WidgetAction.Toggle i {
+    font-size: 17px;
+    position: absolute;
+    left: 7px;
+    top: 2px;
+    color: #c8c6c4 !important;
+}
+
+.RTL .WidgetAction.Toggle i {
+    left: auto;
+    right: 7px;
+}
+
+.Expanded > .Header > .WidgetAction.Toggle i.fa-caret-right {
+    display: none !important;
+}
+
+.RTL .WidgetSimple .Header > .WidgetAction.Toggle i.fa-caret-right {
+    transform: rotateY(180deg);
+}
+
+.Collapsed > .Header > .WidgetAction.Toggle i.fa-caret-down {
+    display: none !important;
+}
+
+.Header:active > .WidgetAction.Toggle {
+    background-position: 0 -13px;
+}
+
+.Expanded > .Header > .WidgetAction.Toggle,
+.Collapsed.AnimationRunning > .Header > .WidgetAction.Toggle {
+    background-position: 0 -26px;
+}
+
+.RTL .WidgetAction.Toggle {
+    margin: 5px 2px 5px 6px;
+    float: right;
+}
+
+.WidgetAction.Toggle a {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+/* Settings */
+.WidgetAction i {
+    color: #777;
+    display: block !important;
+    margin: 2px 0px 0px 2px;
+    vertical-align: middle;
+}
+
+.WidgetAction:hover i,
+.WidgetAction a:focus i {
+    color: #c8c6c4;
+}
+
+.WidgetTooltip {
+    background-color: #fff;
+    position: absolute;
+    width: 125px;
+    top: 20px;
+    right: 0px;
+}
+
+ul.WidgetTooltip {
+    width: 170px;
+    right: -3px;
+    top: 21px;
+    background: rgba(216, 216, 216, 0.85);
+}
+
+ul.WidgetTooltip li {
+    padding: 7px 13px 2px 23px;
+    text-align: left;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+}
+
+ul.WidgetTooltip li i {
+    position: absolute;
+    left: 6px;
+    top: 7px;
+    color: #aaa !important;
+}
+
+ul.WidgetTooltip li:last-child {
+    border-bottom: 0px;
+}
+
+ul.WidgetTooltip li a {
+    color: #333;
+}
+
+ul.WidgetTooltip li a:hover {
+    text-decoration: underline;
+}
+
+ul.WidgetTooltip li a:hover i {
+    color: #333 !important;
+}
+
+.WidgetTooltip a {
+    padding: 0px;
+    line-height: 150%;
+    font-size: 11px;
+}
+
+/**
+ * @subsection      Call for action buttons and search form
+ */
+
+.ActionList li {
+    margin-bottom: 7px;
+}
+
+.ActionList li.Separated {
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.ActionList li:last-child {
+    margin-bottom: 0px;
+}
+
+.ActionList p {
+    margin: 0;
+    padding: 2px 2px 5px;
+    font-size: 11px;
+    color: #888;
+}
+
+.WidgetSimple .ActionList select {
+    margin: 0px auto;
+    padding: 2px 3px;
+    display: block;
+    width: 240px;
+}
+
+.WidgetSimple .ActionList select + .FieldExplanation {
+    margin-top: 2px;
+}
+
+.WidgetSimple .ActionList .CallForAction ~ select {
+    margin-top: -5px;
+}
+
+.CallForAction,
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
+    min-height: 12px;
+    padding: 3px 7px 6px;
+    line-height: 14px;
+    vertical-align: middle;
+    color: #c8c6c4;
+    font-size: 11px;
+    border: 1px solid #444;
+    background-color: #444;
+    border-bottom: none;
+    cursor: pointer;
+/*    display: block; */
+    position: relative;
+    border-radius: 20px
+/*    padding: 0px;
+    background-color: #0000fc;
+    text-align: center;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    -webkit-transition: width 0.3s ease;
+    -moz-transition: width 0.3s ease;
+    -o-transition: width 0.3s ease;
+    transition: width 0.3s ease;
+    border: none;
+    border-radius: 20px;
+    border-width: 10px 15px 10px 15px;
+    border-style: solid;
+    border-color: #0000fc;
+    border-radius: 20px;
+    width: 180px;
+    height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.4px */
+}
+
+.CallForAction.Inline {
+    position: relative;
+    top: -1px;
+}
+
+.CallForAction:disabled {
+    cursor: default;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button {
+    font-weight: bold !important;
+}
+
+.cke_dialog_footer_buttons a.cke_dialog_ui_button:hover {
+    background-color: #0000fc;
+}
+
+.CallForAction.Hidden {
+    display: none;
+}
+
+.CallForAction.LittleSpacingTop {
+    margin-top: 5px;
+}
+
+.ActionList li a.Fullsize,
+.CallForAction.Fullsize {
+    display: block;
+}
+
+.CallForAction.Fullsize {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+#SystemMaintenanceForm .CallForAction.LittleSpacingTop.Fullsize.Center {
+    width: 248px;
+}
+
+.CallForAction.Fullsize + .FieldExplanation {
+    border: 1px solid #ddd;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+/**
+ * @css-for     Firefox
+ * @note        bug: button containing an element has an hidden padding
+ */
+
+.CallForAction::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+.CallForAction:hover,
+.CallForAction:focus {
+    color: #3ab5e4;
+    border-color: #aaa;
+}
+
+.CallForAction span,
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {    min-height: 12px;
+/*    padding: 3px 7px 6px;
+    line-height: 14px;
+    vertical-align: middle;
+    color: #333;
+    font-size: 11px;
+    border: 1px solid #FFF;
+    border-bottom: none;
+    display: block;
+    text-shadow: 0 1px 0 #FFF;
+    cursor: pointer;
+    position: relative;*/
+}
+
+.CallForAction.Inline span {
+    padding: 2px 7px 4px 7px;
+}
+
+.CallForAction.Small span {
+    padding: 0px 3px 2px 3px;
+    font-size: 10px;
+}
+
+.CallForAction.Fullsize span {
+    padding: 3px 20px 5px 20px;
+}
+
+.CallForAction:disabled span {
+    color: rgba(31,31,31,0.5) !important;
+    cursor: default;
+}
+
+.cke_dialog_footer_buttons td a.cke_dialog_ui_button span {
+    font-size: 11px;
+    line-height: auto;
+    color: #fff;
+    font-weight: bold;
+}
+
+.CallForAction span i {
+    position: relative;
+    left: 0px;
+    top: 1px;
+    font-size: 13px;
+    width: 15px;
+    text-align: center;
+    color: #3ab5e4 !important;
+}
+
+.RTL .CallForAction span i {
+    margin-left: 5px;
+}
+
+.CallForAction.Fullsize.Center span i {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+}
+
+.HeaderPopup {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+
+}
+
+.HeaderPopupleft {
+    float: left;
+    max-width: calc( 100% - 200px );
+}
+
+.HeaderPopupright {
+    margin-top: 5px;
+    margin-right: 5px;
+    float: right;
+}
+
+.CallForAction:active,
+.CallForAction:hover,
+.CallForAction:focus {
+    background-color: #555;
+    border-color: #555;
+    color: #c4c6c8;
+}
+
+.CallForAction.Disabled {
+    background: #141414 !important;
+    border: 1px solid #1f1f1f !important;
+    border-bottom: 1px solid #1f1f1f !important;
+    color: #c4cdfa !important;
+}
+
+.CallForAction.Disabled > span i {
+    color: #555 !important;
+}
+
+.CallForAction.Disabled, .CallForAction.Disabled span {
+    color: #999;
+    cursor: no-drop;
+}
+
+input.FilterBox {
+    padding: 4px 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.SearchBox {
+    position: relative;
+    margin-bottom: 3px;
+}
+
+.SearchBox input[type='text'] {
+    height: 15px;
+    margin: 0px;
+    padding: 4px 5px;
+    font: normal 12px/15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    border-color: #999;
+    border-right: none;
+    vertical-align: bottom;
+    width: 213px;
+}
+
+.RTL .SearchBox input[type='text']{
+    border-left: none;
+    border-right: 1px solid #999;
+}
+
+.SearchBox input:focus {
+    border-color: #666;
+    border-right: none;
+}
+.RTL .SearchBox input:focus {
+    border-color: #666;
+    border-left: none;
+}
+
+.SearchBox button {
+    height: 25px;
+    width: 25px;
+    margin: 0 0 0 -4px;
+    padding: 3px 3px 4px;
+    color: #333;
+    font: bold 11px/14px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #333;
+    border: 1px solid #555;
+    text-shadow: 0 1px 0 #000;
+    vertical-align: baseline;
+}
+
+.RTL .SearchBox button {
+    height: 25px;
+    margin: 0 -4px 0 0;
+    text-shadow: 0 1px 0 #000;
+    vertical-align: baseline;
+    border-right: 1px solid #888;
+}
+
+.SearchBox button:hover {
+    border-color: #696969;
+    cursor: pointer;
+}
+
+.SearchBox button:active {
+    padding: 4px 3px 3px;
+    background: #e4e4e4;
+    outline: none;
+}
+
+/**
+ * @subsection      Drag and Drop
+ */
+.CanDrag .Header h2 {
+    cursor: move;
+}
+
+.DropPlaceholder {
+    border: 1px dashed #DDD;
+    background: #EEE url(../img/dnd_placeholder_bg.png);
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+/**
+ * @subsection      ProgressBar
+ */
+#ProgressBar {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    overflow: hidden;
+    width: 950px;
+}
+
+.ProgressBarElements1 li {
+    width: 950px;
+}
+
+.ProgressBarElements2 li {
+    width: 474px;
+}
+
+.ProgressBarElements3 li {
+    width: 316px;
+}
+
+.ProgressBarElements4 li {
+    width: 237px;
+}
+
+.ProgressBarElements5 li {
+    width: 189px;
+}
+
+.ProgressBarElements6 li {
+    width: 158px;
+}
+
+.ProgressBarElements7 li {
+    width: 135px;
+}
+
+/* Because of the minimum screen resolution of 1024px more than 7 elements are not possible at the moment */
+
+#ProgressBar li {
+    float: left;
+    list-style: none;
+    border-style: solid;
+    border-width: 1px 0px;
+    border-color: #CCC;
+    background-color: #EEE;
+}
+
+#ProgressBar li > span {
+    display: block;
+    background-image: url(../img/ProgressBarArrow.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+}
+
+#ProgressBar li a {
+    padding: 12px 7px 13px 12px;
+    color: #484848;
+    text-decoration: none;
+    font: 13px/18px Helvetica Neue, sans-serif;
+    display: block;
+    height: 42px;
+    border-style: solid;
+    border-width: 1px 0px;
+    border-color: #F4F4F4;
+    background: url(../img/ProgressBarIsolator.png) no-repeat left 6px;
+    cursor: default;
+    text-align: left;
+}
+
+#ProgressBar li span a span {
+    color: #ABABAB;
+    font-size: 11px;
+    line-height: 12px;
+    text-shadow: inherit;
+    display: block;
+}
+
+#ProgressBar li:first-child, #ProgressBar li.First {
+    border-left-width: 1px;
+}
+
+#ProgressBar li:first-child a, #ProgressBar li.First a {
+    border-left-width: 1px;
+    padding-left: 14px;
+    background: none;
+}
+
+#ProgressBar li:last-child {
+    border-right-width: 1px;
+}
+
+#ProgressBar li:last-child a {
+    border-right-width: 1px;
+    padding-right: 14px;
+}
+
+#ProgressBar .Highlighted {
+    background-color: #fbb42c;
+    border-top-color: #9b6937;
+    border-bottom-color: #996634;
+}
+
+#ProgressBar li.Highlighted:first-child {
+    border-left-color: #9b6937;
+}
+
+#ProgressBar li.Highlighted > span {
+    background-image: url(../img/ProgressBarArrowActive.png);
+}
+
+#ProgressBar .Highlighted a {
+    color: #562900;
+    text-shadow: 0 1px 0 #FCD891;
+    border-top-color: #ffeec8;
+    border-bottom-color: #eaa350;
+    cursor: pointer;
+}
+
+#ProgressBar .Highlighted.NoLink a {
+    cursor: default;
+}
+
+#ProgressBar li:first-child.Highlighted a {
+    border-left-color: #f2bf5c;
+}
+
+#ProgressBar .Highlighted span a span {
+    color: #a14f00;
+    text-shadow: 0 1px 0 #f5b04e;
+}
+
+#ProgressBar .Active {
+    border-right: 1px solid #9b6937;
+    position: relative;
+    z-index: 2;
+}
+
+#ProgressBar .Active a {
+    border-right: 1px solid #f2bf5c;
+}
+
+#ProgressBar .Active + li {
+    margin-left: -2px;
+    padding-left: 1px;
+}
+
+#ProgressBar .Active + .Active {
+    z-index: 1;
+}
+
+#ProgressBar .Active + li a {
+    background: none;
+}
+
+#ProgressBar .Visited {
+    background-color: #DDD;
+}
+
+#ProgressBar .Visited.Active {
+    border-right-color: #CCC;
+}
+
+#ProgressBar .Visited.Active a {
+    border-right-color: #EEE;
+}
+
+/**
+ * @subsection      Widget messages
+ */
+
+.WidgetSimple .WidgetMessage {
+    background: #eee;
+    margin: 10px -8px !important;
+    padding: 5px 20px;
+    font-size: 11px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+    line-height: 150%;
+}
+
+.WidgetSimple .WidgetMessage p + p {
+    margin-top: 2px;
+}
+
+.WidgetSimple .WidgetMessage p + p:last-child {
+    margin-bottom: 2px;
+}
+
+.SidebarColumn .WidgetSimple .WidgetMessage {
+    margin: 5px -8px;
+    padding: 5px 8px;
+}
+
+.WidgetSimple .WidgetMessage.Bottom {
+    margin-bottom: -10px !important;
+}
+
+.WidgetSimple .WidgetMessage.Top {
+    margin-top: 0px !important;
+}
+
+.WidgetSimple .WidgetMessage.Error {
+    background: #b8384e;
+    color: rgba(255, 255, 255, 0.8);
+    border: 0px;
+}
+
+.WidgetSimple .WidgetMessage.Warning {
+    background: #F7AE40;
+    border-color: #D18F2B;
+    color: #774a06;
+}
+
+.WidgetSimple .WidgetMessage.Warning * {
+}
+
+.WidgetSimple .WidgetMessage.Success {
+    background: #6EB22A;
+    color: #fff;
+    border-color: #52891B;
+}
+
+.WidgetSimple .WidgetMessage.Notice {
+    background: #2A61AF;
+    color: #fff;
+    border-color: #15468C;
+}
+
+.WidgetSimple .WidgetMessage button {
+    background: #eee;
+    border: 1px solid #aaa;
+    display: inline-block;
+    margin-right: 5px;
+    transition: all ease 0.3s;
+}
+
+.WidgetSimple .WidgetMessage button:hover {
+    cursor: pointer;
+    background: #ddd;
+}
+
+/**
+ * @subsection      Overlays
+ */
+
+.WidgetSimple.HasOverlay {
+    position: relative;
+    overflow: hidden;
+}
+
+.WidgetSimple .Overlay {
+    position: absolute;
+    box-sizing: border-box;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-size: 16px;
+    z-index: 2;
+}
+
+.WidgetSimple .Overlay i {
+    position: absolute;
+    top: 50%;
+    margin-top: -8px;
+    left: 50%;
+    color: #777;
+    margin-left: -8px;
+}
+
+.WidgetSimple .Overlay i.fa-check {
+    color: #5BAD5B;
+}
+
+/**
+ * @subsection      Icon colors
+ */
+
+.CallForAction span i.fa-plus-square {
+    color: #1f1f1f;
+}
+
+.CallForAction span i.fa-rocket {
+    color: #1f1f1f;
+}
+.CallForAction span i.fa-download,
+.CallForAction span i.fa-upload {
+    color: #1f1f1f;
+}
+
+/**
+ * @subsection      Chat icons
+ */
+
+.UserChatIcons {
+    float: right;
+}
+
+.UserChatIcons.Block {
+    float: none;
+    margin-top: 2px;
+}
+
+.UserChatIcons i {
+    color: #999;
+    margin-right: 3px;
+}
+
+.UserChatIcons .Unavailable i,
+.UserChatIcons .Unsupported i {
+    opacity: 0.4;
+}
+
+.UserStatusIcon {
+    cursor: default;
+    margin-right: 3px;
+}
+
+.UserStatusIcon.Inline {
+    margin-right: 0;
+}
+
+.UserStatusIcon.Active i {
+    color: #0a0;
+}
+
+.UserStatusIcon.Offline i {
+    color: #c8c6c4;
+}
+
+.UserStatusIcon.Unavailable i {
+    color: #d00;
+    opacity: 1;
+}
+
+.UserStatusIcon.Away i {
+    color: #fb0;
+}
+
+button.HighlightHint {
+    animation: ButtonHint 0.7s infinite alternate;
+}
+
+button.HighlightError {
+    animation: ButtonError 0.7s infinite alternate;
+}
+
+/**
+ * @subsection      Tabs
+ */
+
+.WidgetSimple.Tabs > .Header {
+    padding: 0px;
+    overflow: hidden;
+}
+
+.WidgetSimple.Tabs > .Header a {
+    display: block;
+    float: left;
+    padding: 7px 9px;
+    color: #333;
+}
+
+.WidgetSimple.Tabs > .Header a.Disabled {
+    color: #999;
+    cursor: not-allowed;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.WidgetSimple.Tabs > .Header a:not(.Disabled).Active,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):hover,
+.WidgetSimple.Tabs > .Header a:not(.Disabled):active  {
+    background: #777;
+    color: #fff;
+}
+
+.WidgetSimple.Tabs > .Content > div {
+    display: none;
+}
+
+.WidgetSimple.Tabs > .Content > div.Active {
+    display: block;
+}
+
+.LoginScreen .MessageOfTheDayBox {
+    width: 350px;
+    margin: auto;
+    text-align: justify;
+    margin-top: 15px;
+}
+
+.LoginScreen .WidgetSimple.MessageOfTheDayBox h2,
+.LoginScreen .WidgetSimple.MessageOfTheDayBox p {
+    padding: 0px 15px;
+}
+
+.LoginScreen .WidgetSimple.MessageOfTheDayBox h2 {
+    padding: 5px 0px;
+}
+
+@keyframes ButtonHint {
+    from {
+        box-shadow: none;
+        }
+    to {
+        box-shadow: 0 0 10px green;
+    }
+}
+
+@keyframes ButtonError {
+    from {
+        box-shadow: none;
+        }
+    to {
+        box-shadow: 0 0 10px red;
+    }
+}
+
+} /* end @media */

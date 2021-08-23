@@ -1,0 +1,105 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     MigrateFromOTRS
+ */
+
+@media screen,projection,tv,handheld {
+
+#MigrateFromOTRSContinueWithJS,
+#MigrateFromOTRSContinueWithJSIntro {
+    display: none;
+}
+
+#MigrateFromOTRSContinueWithJS form {
+    display: inline;
+}
+
+.WidgetSimple h2 {
+    color: #c8c6c4;
+    font-family: Quicksand;
+}
+
+.WidgetSimple > .Header h2 {
+    font-size: 20px;
+}
+
+.WidgetSimple {
+    margin-bottom: 15px;
+    background: white;
+    box-shadow: 0 1px 4px 0 rgba(4,0,71,0.16);
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 10px;
+    padding: 1.5rem;
+    line-height: 1.4;
+}
+
+#WebMigrateFromOTRSBox ul {
+    list-style: disc;
+    padding-left: 16px;
+}
+
+#WebMigrateFromOTRSBox li:last-child {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+div.License {
+   font-family: monospace;
+   white-space: pre;
+   border: 1px solid #000;
+   background-color: #FFF;
+   width: 600px;
+   height: 500px;
+   overflow-x: scroll;
+   text-align: left;
+   padding: 5px;
+   margin: auto;
+}
+
+div.DBItem {
+   padding: 2px;
+   margin-left: 350px;
+}
+
+div.Result {
+   color: #049e35;
+   font-weight: bold;
+   padding: 6px 8px 10px;
+}
+
+span.Emphasis {
+    color: #049e35;
+    font-weight: bold;
+}
+
+#FormDB fieldset > h4 {
+  margin-left: 31%;
+  margin-top: 15px;
+}
+
+.PackageComment {
+    margin-left: 24px;
+    color: #929292;
+}
+
+#DBSkipped {
+    display: none;
+}
+
+} /* end @media */

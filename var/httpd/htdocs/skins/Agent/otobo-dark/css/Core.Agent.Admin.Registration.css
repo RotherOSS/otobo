@@ -1,0 +1,85 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  AdminRegistration
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     General
+ */
+
+ .QA {
+    padding: 15px;
+    line-height: 150%;
+    width: 550px;
+    font-size: 13px;
+}
+
+.QA p,
+.QA li,
+.QA a {
+    font-size: 12px;
+}
+
+.QA ul,
+.ServiceDescription ul {
+    list-style-type: square;
+    margin: 0px 0px 7px 20px;
+}
+
+.ServiceDescription ul {
+    margin-top: 7px;
+}
+
+.QA ul li,
+.ServiceDescription ul li {
+    margin-bottom: 5px;
+    line-height: 130%;
+}
+
+.QA h1 {
+    margin-bottom: 4px;
+    margin-top: 7px;
+    font-size: 14px;
+}
+
+.QA > p {
+    margin-bottom: 12px;
+    margin-left: 8px;
+}
+
+.ServiceDescription {
+    font-size: 12px;
+    margin: 0px auto 20px auto;
+    width: 49%;
+}
+
+.SystemDataListContainer {
+    margin-left: 25%;
+    width: 600px;
+    margin-bottom: 12px;
+}
+
+.DP {
+    max-height: 450px;
+    overflow: scroll;
+}
+
+} /* end @media */
