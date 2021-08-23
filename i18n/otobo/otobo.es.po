@@ -36,8 +36,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-08-21 12:47+0000\n"
-"PO-Revision-Date: 2021-07-28 02:14+0000\n"
-"Last-Translator: Pau Nadeu Rabat <PAU.NADEU@networkhero.tech>\n"
+"PO-Revision-Date: 2021-08-23 15:38+0000\n"
+"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish <https://translate.otobo.org/projects/otobo10/otobo/"
 "es/>\n"
 "Language: es\n"
@@ -355,7 +355,7 @@ msgstr "Crear: usuarios que pueden crear y borrar citas en el calendario."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr "RW: usuario que pueden gestionar el calendario en sí"
+msgstr "RW: usuario que pueden gestionar el calendario en sí."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -487,7 +487,7 @@ msgstr "Regresar"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr "El archivo cargado tiene que estar en un formato iCal válido (.ics)"
+msgstr "El archivo cargado tiene que estar en un formato iCal válido (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
@@ -495,7 +495,7 @@ msgid ""
 "least 'create' permissions."
 msgstr ""
 "Si el Calendario deseado no aparece en la lista, por favor asegúrese de que "
-"tenga al menos el permiso de \"crear\""
+"tenga al menos el permiso de \"crear\"."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -511,7 +511,7 @@ msgid ""
 "overwritten."
 msgstr ""
 "Todas las citas existentes en el calendario con el mismo UniqueID se "
-"sobrescribirán"
+"sobrescribirán."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
@@ -704,7 +704,7 @@ msgstr "Transporte"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr "Se necesita al menos un método por notificación"
+msgstr "Se necesita al menos un método por notificación."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
@@ -730,11 +730,11 @@ msgstr "Actualizar a %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr "Por favor active el transporte para poder usarlo"
+msgstr "Por favor active el transporte para poder usarlo."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr "No se encontró ningún dato."
+msgstr "No se encontró ningún dato"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
@@ -790,7 +790,7 @@ msgstr "Puede usar las siguientes etiquetas"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr "Para obtener los primeros 20 caracteres del título de la cita"
+msgstr "Para obtener los primeros 20 caracteres del título de la cita."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
@@ -798,7 +798,7 @@ msgstr "Para obtener el atributo de la cita"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "v. g."
+msgstr " v. g."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -806,7 +806,7 @@ msgstr "Para obtener el atributo del calendario"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr "Atributos del usuario destinatario para la notificación."
+msgstr "Atributos del usuario destinatario para la notificación"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -818,11 +818,11 @@ msgstr "Notificación de ejemplo"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr "Direcciones adicionales del destinatario de correo electrónico."
+msgstr "Direcciones adicionales del destinatario de correo electrónico"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr "Este campo debe tener menos de 200 caracteres"
+msgstr "Este campo debe tener menos de 200 caracteres."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
@@ -946,7 +946,7 @@ msgstr "Para obtener las primeras 5 líneas del correo."
 msgid "To get the name of the ticket's customer user (if given)."
 msgstr ""
 "Para obtener el nombre del usuario de cliente de ticket (si lo habían "
-"entregado)"
+"entregado)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -1050,7 +1050,7 @@ msgid ""
 msgstr ""
 "Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO "
 "o actualice la información de registro de su sistema (asegúrese de activar "
-"la opción 'enviar datos de soporte')."
+"la opción 'enviar datos de soporte')"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
