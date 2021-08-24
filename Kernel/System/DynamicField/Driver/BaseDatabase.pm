@@ -329,19 +329,16 @@ sub EditFieldRender {
         $DynamicFieldDBContainer .= ' DynamicFieldDBContainerProcess';
     }
 
-    my $HTMLString = <<"EOF";
-    <input type="text" class="$FieldClass" id="${FieldName}" title="$FieldLabel" value="$Value" />
-    <a href="#" id="DynamicFieldDBDetailedSearch_${FieldName}" field="${FieldName}" alt="$DetailedSearchMsg" title="$DetailedSearchMsg"><i class="fa fa-search"></i></a>
-    <input type="hidden" class="$FieldClass" width="100%" id="${FieldName}Data" name="${FieldName}" title="$FieldLabel" value="$Value" />
-    <div class="Field Hidden">
-        <div class="ResultElementTemplate${FieldName} Hidden">
-            <input id="ResultElementText" class="ResultElementText Radio" type="text" readonly="readonly" value="" name="ResultElementText" title="" />
-            <a href="#" class="DynamicFieldDBDetails_${FieldName} AddButton" field="${FieldName}" alt="$DetailsMsg" title="$DetailsMsg"><i class="fa fa-list-alt"></i></a>
-            <a id="RemoveDynamicFieldDBEntry" class="RemoveButton" title="$RemoveValueMsg" href="#"><i class="fa fa-minus-square-o"></i></a>
-        </div>
-        <div id="${FieldName}Container" class="$DynamicFieldDBContainer"></div>
-    </div>
-EOF
+    my %FieldTemplateData = (
+        'FieldName' => ${FieldName},
+        'FieldLabel' => $FieldLabel,
+        'Value' => $Value,
+        'DetailedSearchMsg' => $DetailedSearchMsg,
+        'FieldClass' => $FieldClass,
+        'DetailsMsg' => $DetailsMsg,
+        'RemoveValueMsg' => $RemoveValueMsg,
+        'DynamicFieldDBContainer' => $DynamicFieldDBContainer
+    );
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
@@ -349,13 +346,8 @@ EOF
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
-        $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            $FieldRequiredMessage
-        </p>
-    </div>
-EOF
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
@@ -366,13 +358,8 @@ EOF
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
 
         # for server side validation
-        $HTMLString .= <<"EOF";
-    <div id="$DivID" class="TooltipErrorMessage">
-        <p>
-            $FieldRequiredMessage
-        </p>
-    </div>
-EOF
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;        
     }
 
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')
@@ -390,6 +377,18 @@ EOF
         DynamicFieldConfig => $Param{DynamicFieldConfig},
         Mandatory          => $Param{Mandatory} || '0',
         FieldName          => $FieldName,
+    );
+
+    my $TemplateFile = '';
+    if($Param{CustomerInterface}) {
+        $TemplateFile = 'DynamicField/Customer/BaseDatabase';
+    } else {
+        $TemplateFile = 'DynamicField/Agent/BaseDatabase';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $TemplateFile,
+        'Data' => \%FieldTemplateData
     );
 
     my $Data = {
