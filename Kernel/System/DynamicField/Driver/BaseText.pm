@@ -231,7 +231,7 @@ sub EditFieldRender {
         Text => $FieldLabel,
     );
 
-    my %FileTemplateData = (
+    my %FieldTemplateData = (
         'FieldClass' => $FieldClass,
         'FieldName' => $FieldName,
         'FieldLabelEscaped' => $FieldLabelEscaped,
@@ -244,9 +244,9 @@ sub EditFieldRender {
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
-        $FileTemplateData{Mandatory} = $Param{Mandatory};
-        $FileTemplateData{DivID} = $DivID;
-        $FileTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     
@@ -257,9 +257,9 @@ sub EditFieldRender {
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
-        $FileTemplateData{ServerError} = $Param{ServerError};
-        $FileTemplateData{DivID} = $DivID;
-        $FileTemplateData{ErrorMessage} = $ErrorMessage;
+        $FieldTemplateData{ServerError} = $Param{ServerError};
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
     # call EditLabelRender on the common Driver
