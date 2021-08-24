@@ -113,7 +113,7 @@ sub new {
 
 sub EditFieldRender {
     my ( $Self, %Param ) = @_;
-
+    
     # take config from field config
     my $FieldConfig = $Param{DynamicFieldConfig}->{Config};
     my $FieldName   = 'DynamicField_' . $Param{DynamicFieldConfig}->{Name};
@@ -177,9 +177,6 @@ sub EditFieldRender {
     # validation framework might generate an error while the user is still capable to enter text in the
     # text-area. Otherwise the maxlength property will prevent to enter more text than the maximum.
     my $MaxLength  = $Param{MaxLength} // $Self->{MaxLength};
-    my $HTMLString = <<"EOF";
-<textarea class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" rows="$RowsNumber" cols="$ColsNumber" data-maxlength="$MaxLength">$ValueEscaped</textarea>
-EOF
 
     # for client side validation
     my $DivID = $FieldName . 'Error';
@@ -188,23 +185,22 @@ EOF
     my $ErrorMessage2 = $Param{LayoutObject}->{LanguageObject}->Translate("The field content is too long!");
     my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
 
+    my %FieldTemplateData = (
+        'FieldClass' => $FieldClass,
+        'FieldName' => $FieldName,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'RowsNumber' => $RowsNumber,
+        'ColsNumber' => $ColsNumber,
+        'MaxLength' => $MaxLength,
+        'ValueEscaped' => $ValueEscaped,
+        'DivID' => $DivID,
+        'ErrorMessage1' => $ErrorMessage1,
+        'ErrorMessage2' => $ErrorMessage2,
+        'ErrorMessage3' => $ErrorMessage3
+     );
+
     if ( $Param{Mandatory} ) {
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage1 $ErrorMessage2 $ErrorMessage3
-    </p>
-</div>
-EOF
-    }
-    else {
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage2 $ErrorMessage3
-    </p>
-</div>
-EOF
+        $FieldTemplateData{'Mandatory'} = $Param{Mandatory};
     }
 
     if ( $Param{ServerError} ) {
@@ -212,15 +208,10 @@ EOF
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
         $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        
+        $FieldTemplateData{'ServerError'} = $Param{ServerError};
+        $FieldTemplateData{'DivID'} = $DivID;
+        $FieldTemplateData{'ErrorMessage'} = $ErrorMessage;
     }
 
     # call EditLabelRender on the common Driver
@@ -228,6 +219,11 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
+    );
+ 
+    my $HTMLString = $Param{LayoutObject}->Output(
+        TemplateFile => 'DynamicField/Agent/TextArea',
+        Data => \%FieldTemplateData
     );
 
     my $Data = {
