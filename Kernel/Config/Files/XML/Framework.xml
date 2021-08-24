@@ -9256,16 +9256,6 @@ via the Preferences button after logging in.
            </Hash>
         </Value>
     </Setting>
-    <Setting Name="Elasticsearch::IndexSettings###ConfigItem" Required="0" Valid="0">
-        <Description Translatable="1">Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'.</Description>
-        <Navigation>Core::Elasticsearch::Settings</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="NS">1</Item>
-                <Item Key="NR">0</Item>
-           </Hash>
-        </Value>
-    </Setting>
     <Setting Name="Elasticsearch::QuickSearchCreatedFormat" Required="0" Valid="0">
         <Description Translatable="1">Format of Creation date shown for tickets. As an example '%Y-%m-%d %H:%M:%S' would be interpreted as '2020-01-22 18:07:23'. Please refer to http://search.cpan.org/~drolsky/DateTime-1.21/lib/DateTime.pm#strftime_Patterns.</Description>
         <Navigation>Core::Elasticsearch::Settings</Navigation>
