@@ -231,9 +231,12 @@ sub EditFieldRender {
         Text => $FieldLabel,
     );
 
-    my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
-EOF
+    my %FileTemplateData = (
+        'FieldClass' => $FieldClass,
+        'FieldName' => $FieldName,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'ValueEscaped' => $ValueEscaped,
+    );
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
@@ -241,15 +244,12 @@ EOF
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FileTemplateData{Mandatory} = $Param{Mandatory};
+        $FileTemplateData{DivID} = $DivID;
+        $FileTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
+    
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
@@ -257,13 +257,9 @@ EOF
         my $DivID = $FieldName . 'ServerError';
 
         # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FileTemplateData{ServerError} = $Param{ServerError};
+        $FileTemplateData{DivID} = $DivID;
+        $FileTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
     # call EditLabelRender on the common Driver
@@ -271,6 +267,18 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
+    );
+
+    my $TemplateFile = '';
+    if($Param{CustomerInterface}) {
+        $TemplateFile = 'DynamicField/Customer/BaseText';
+    } else {
+        $TemplateFile = 'DynamicField/Agent/BaseText';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $TemplateFile,
+        'Data' => \%FieldTemplateData
     );
 
     my $Data = {

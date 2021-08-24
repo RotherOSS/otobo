@@ -346,6 +346,7 @@ sub EditFieldRender {
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
         # for client side validation
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
         $FieldTemplateData{DivID} = $DivID;
         $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
@@ -358,6 +359,7 @@ sub EditFieldRender {
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
 
         # for server side validation
+        $FieldTemplateData{ServerError} = $Param{ServerError};
         $FieldTemplateData{DivID} = $DivID;
         $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;        
     }
