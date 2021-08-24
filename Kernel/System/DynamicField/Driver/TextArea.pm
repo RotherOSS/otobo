@@ -220,6 +220,11 @@ sub EditFieldRender {
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
     );
+ 
+    my $HTMLString = $Param{LayoutObject}->Output(
+        TemplateFile => 'DynamicField/Agent/TextArea',
+        Data => \%FieldTemplateData
+    );
 
     my $FieldTemplateFile = '';
     if($Param{CustomerInterface}) {
