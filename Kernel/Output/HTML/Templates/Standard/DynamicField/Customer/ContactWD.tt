@@ -1,0 +1,16 @@
+<input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ValueEscaped %]" />
+<input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.VisibleValue %]" />
+[% IF Data.DivID && Data.FieldRequiredMessage %]
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% Data.FieldRequiredMessage %]
+    </p>
+</div>
+[% END %]
+[% IF Data.DivID && Data.ErrorMessage %]
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% Data.ErrorMessage %]
+    </p>
+</div>
+[% END %]
