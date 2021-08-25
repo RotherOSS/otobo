@@ -240,7 +240,7 @@ sub EditFieldRender {
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
 
-    my %Data = {
+    my %FieldTemplateData = {
         'FieldName' => $FieldName,
         'ValueEscaped' => $ValueEscaped,
         'FieldClass' => $FieldClass,
@@ -258,8 +258,9 @@ EOF
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
-        $Data{'DivID'} = $DivID;
-        $Data{'FieldRequiredMessage'} = $FieldRequiredMessage;
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{'DivID'} = $DivID;
+        $FieldTemplateData{'FieldRequiredMessage'} = $FieldRequiredMessage;
 
         # for client side validation
         $HTMLString .= <<"EOF";
@@ -277,8 +278,9 @@ EOF
         $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
-        $Data{'ErrorMessage'} = $ErrorMessage;
-        $Data{'DivID'} = $DivID;
+        $FieldTemplateData{ServerError} = $Param{ServerError};
+        $FieldTemplateData{'ErrorMessage'} = $ErrorMessage;
+        $FieldTemplateData{'DivID'} = $DivID;
 
         # for server side validation
         $HTMLString .= <<"EOF";
@@ -289,6 +291,17 @@ EOF
 </div>
 EOF
     }
+
+    my $FieldTemplateFile = '';
+    if($Param{CustomerInterface) {
+        $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
+    } else {
+        $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
+    }
+    # $HTMLString = $Param{LayoutObject}->Output(
+    #     'TemplateFile' => $FieldTemplateFile,
+    #     'Data' => \%FieldTemplateData
+    # );
 
     # Get default agent autocomplete config.
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
