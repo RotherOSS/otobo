@@ -293,7 +293,7 @@ EOF
     }
 
     my $FieldTemplateFile = '';
-    if($Param{CustomerInterface) {
+    if($Param{CustomerInterface}) {
         $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
     } else {
         $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
