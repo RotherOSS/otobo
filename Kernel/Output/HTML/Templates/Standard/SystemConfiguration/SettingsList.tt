@@ -73,7 +73,7 @@
                 <a href="#" class="Button SettingEnabled [% IF Setting.IsValid == 0 %]Hidden[% END %]" title="[% Translate("Disable this setting, so it is no longer effective") | html %]"><i class="fa fa-times"></i> [% Translate("Disable") | html %]</a>
                 <a href="#" class="Button SettingDisabled [% IF Setting.IsValid == 1 %]Hidden[% END %]" title="[% Translate("Enable this setting, so it becomes effective") | html %]"><i class="fa fa-check"></i> [% Translate("Enable") | html %]</a>
                 [% END %]
-                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="OTRSBusinessRequired SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") | html %]</a>
+                <a href="[% Env("Baselink") %]Action=AdminSystemConfigurationSettingHistory;Subaction=ShowSettingHistory;SettingName=[% Setting.Name | uri %]" class="SettingHistory Button"><i class="fa fa-clock-o"></i> [% Translate("History") | html %]</a>
                 <a href="#" class="ResetSetting Button" data-user-modification="[% Setting.UserModificationPossible %]" title="[% Translate("Reset this setting to its default state") | html %]">
                     <i class="fa fa-undo"></i>
                     [% Translate("Reset setting") | html %]
