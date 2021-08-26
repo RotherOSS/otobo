@@ -463,6 +463,14 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - SessionList() no sessions left",
     );
 
+    # Some special tests for the possible agent session limits.
+    my $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
+
+    $Self->False(
+        $AgentSessionLimitPriorWarningMessage,
+        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning not active",
+    );
+
     for my $Count ( 1 .. 2 ) {
 
         my %NewSessionData = (
@@ -482,9 +490,20 @@ for my $ModuleFile (@BackendModuleFiles) {
         Key   => 'AgentSessionPerUserLimit',
         Value => 1,
     );
+    $ConfigObject->Set(
+        Key   => 'AgentSessionLimitPriorWarning',
+        Value => 1,
+    );
 
     # Reset the session object, to get the new config settings.
     $SessionObject = Kernel::System::AuthSession->new();
+
+    $AgentSessionLimitPriorWarningMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
+
+    $Self->True(
+        $AgentSessionLimitPriorWarningMessage,
+        "#$Module - CheckAgentSessionLimitPriorWarning() - AgentSessionLimitPriorWarning reached",
+    );
 
     my $SessionID = $SessionObject->CreateSessionID(
         UserLogin => 'root1',
@@ -537,9 +556,11 @@ for my $ModuleFile (@BackendModuleFiles) {
         "#$Module - CleanUp after session limit tests()",
     );
 
-    # Test the speical otobo business values from the cloudservice.
     # First reset the config and session object
     #   and generate some dummy data in the system data.
+    $ConfigObject->Set(
+        Key => 'AgentSessionLimitPriorWarning',
+    );
     $ConfigObject->Set(
         Key   => 'AgentSessionLimit',
         Value => 100,
