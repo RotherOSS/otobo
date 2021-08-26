@@ -266,9 +266,17 @@ sub GetUserData {
         $Preferences{UserLastLoginTimestamp} = $UserLastLoginTimeObj->ToString();
     }
 
-    # check compat stuff
+    # check compat stuff - this is a very old solution to a very old change and should be taken out with 10.1 or probably 11
     if ( !$Preferences{UserEmail} ) {
         $Preferences{UserEmail} = $Data{UserLogin};
+
+        # "repair" special cases where UserEmail really equals UserLogin - see issue #1113
+        my $GeneratorModule = $ConfigObject->Get('User::PreferencesModule') || 'Kernel::System::User::Preferences::DB';
+        $Kernel::OM->Get($GeneratorModule)->SetPreferences(
+            UserID => $Data{UserID},
+            Key    => 'UserEmail',
+            Value  => $Data{UserLogin},
+        );
     }
 
     # out of office check

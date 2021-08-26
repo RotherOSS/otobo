@@ -311,7 +311,43 @@ sub RowCount {
 
 =head2 DataTransfer()
 
-Transfer the actual table data
+Transfer data from the source database tables to the target database tables. The data is transferred row by row.
+
+There are three possible return values.
+
+=over 4
+
+=item empty list
+
+There was an unspecified error. Bailing out of the migration.
+
+=item the number 1
+
+The data transfer was successful.
+
+=item a hashref with two keys.
+
+C<Successful> indicates success or failure.
+C<Messages> a list of messages, usually indicating the errors
+
+=back
+
+Altogether, there are five loops over the tables of the source database.
+
+The first loop determines which source tables need to be copied. Source tables that are marked as to be skipped
+and source tables that have no counterpart in the target are not copied.
+
+The second loop examines the to be copied tables of the source and target database and compiles basically
+a list of the required actions.
+
+The third loop checks for problematic NULL values in the source tables.
+The data transfer is stopped when there are problematic cases.
+
+The fourth loop purges the target tables.
+
+The fifth loop actually copies the data from source table to the target table.
+
+Progress messages are provided by the last two loops. These messages are shown in the web interface.
 
 =cut
 
@@ -330,35 +366,9 @@ sub DataTransfer {
         }
     }
 
-    # extract params
-    my $SourceDBObject  = $Param{OTRSDBObject};
-    my $TargetDBObject  = $Param{OTOBODBObject};
-    my $TargetDBBackend = $Param{OTOBODBBackend};
-
-    # get objects
+    # get objects needed for checking the lockfile
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
-    my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-
-    # get setup
-    my %TableIsSkipped = map { $_ => 1 } $MigrationBaseObject->DBSkipTables;
-    my %RenameTables   = $MigrationBaseObject->DBRenameTables->%*;
-
-    # Keep track of table attributes which must be base64 encoded or decoded.
-    # This conversion of BLOBs is only relevant when DirectBlob settings are different.
-    my %BlobConversionNeeded;
-    my $DirectBlobSettingIsSame =
-        $TargetDBObject->GetDatabaseFunction('DirectBlob') == $SourceDBObject->GetDatabaseFunction('DirectBlob');
-    my %IsDirectBlobColumn;
-    if ( !$DirectBlobSettingIsSame ) {
-        for my $Setup ( $MigrationBaseObject->DBDirectBlobColumns ) {
-            $IsDirectBlobColumn{ lc $Setup->{Table} } //= {};
-            $IsDirectBlobColumn{ lc $Setup->{Table} }->{ lc $Setup->{Column} } = 1;
-        }
-    }
-
-    # Because of InnodB max key size in MySQL 5.6 or earlier
-    my $MaxLenghtShortenedColumns = 190;    # int( 767 / 4 ) - 1
 
     # Use a locking table for avoiding concurrent migrations.
     # Open for writing as the file usually does not exist yet.
@@ -370,7 +380,7 @@ sub DataTransfer {
     open my $LockFh, '>', $LockFile or do {
         $MigrationBaseObject->MigrationLog(
             String   => "Could not open lockfile $LockFile; $!",
-            Priority => "error",
+            Priority => 'error',
         );
 
         return;
@@ -390,48 +400,88 @@ sub DataTransfer {
     # looks good, there is no other concurrent process that wants to migrate tables
     # the lock will be released at the end of this sub
 
-    # get a list of tables on OTRS DB
-    my @SourceTables = $SourceDBObject->ListTables();
+    # extract params needed in the first and the following loops
+    my $SourceDBObject = $Param{OTRSDBObject};
+    my $TargetDBObject = $Param{OTOBODBObject};
 
-    # get a list of tables on OTOBO DB
-    my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
+    # get setup
+    my %RenameTables = $MigrationBaseObject->DBRenameTables->%*;
 
-    # Collect information about the OTRS source tables.
-    # Find out whether target OTOBO table columns must be shortened.
-    # In the case of destructive table renaming, keep track of the foreign keys.
-    my ( @SourceTablesToBeCopied, %SourceColumnsString );
-    SOURCE_TABLE:
-    for my $SourceTable (@SourceTables) {
+    # first loop: compile list of tables that should be copied
+    my @SourceTablesToBeCopied;
+    {
+        # get a complete list of tables on OTRS DB
+        my @AllSourceTables = $SourceDBObject->ListTables();
 
-        if ( $TableIsSkipped{$SourceTable} ) {
+        # filter the tables that should be skipped
+        my %TableIsSkipped = map { $_ => 1 } $MigrationBaseObject->DBSkipTables;
 
-            # Log info to apache error log and OTOBO log (syslog or file)
-            $MigrationBaseObject->MigrationLog(
-                String   => "Skipping table $SourceTable, cause it is defined in SkipTables config...",
-                Priority => "notice",
-            );
+        # filter the tables that have no counterpart in the target database
+        my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
 
-            next SOURCE_TABLE;
+        SOURCE_TABLE:
+        for my $SourceTable (@AllSourceTables) {
+
+            # skip the tables that should not be copied
+            if ( $TableIsSkipped{$SourceTable} ) {
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Skipping table $SourceTable, because it is defined in SkipTables config...",
+                    Priority => 'notice',
+                );
+
+                next SOURCE_TABLE;
+            }
+
+            # e.g. groups renamed to groups_table
+            my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
+
+            # Do not migrate tables that are not needed on the target
+            if ( !$TargetTableExists{$TargetTable} ) {
+
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => "Table $SourceTable does not exist in OTOBO.",
+                    Priority => 'notice',
+                );
+
+                next SOURCE_TABLE;
+            }
+
+            # take the not skipped tables
+            push @SourceTablesToBeCopied, $SourceTable;
         }
+    }
+
+    # Keep track of table attributes which must be base64 encoded or decoded.
+    # This conversion of BLOBs is only relevant when DirectBlob settings are different.
+    my %BlobConversionNeeded;
+    my %IsDirectBlobColumn;
+    if ( $TargetDBObject->GetDatabaseFunction('DirectBlob') != $SourceDBObject->GetDatabaseFunction('DirectBlob') ) {
+        for my $Setup ( $MigrationBaseObject->DBDirectBlobColumns ) {
+            $IsDirectBlobColumn{ lc $Setup->{Table} } //= {};
+            $IsDirectBlobColumn{ lc $Setup->{Table} }->{ lc $Setup->{Column} } = 1;
+        }
+    }
+
+    # extract params needed in the second and the following loops
+    my $SourceDBName    = $Param{DBInfo}->{DBName};
+    my $TargetDBBackend = $Param{OTOBODBBackend};
+
+    # Handle the OTOBO table columns which must be shortened.
+    # Usually because of InnodB max key size in MySQL 5.6 or earlier.
+    my $MaxLenghtShortenedColumns = 190;    # int( 767 / 4 ) - 1
+    my %SourceColumnsString;
+
+    # Determine the columns where the source might contain NULLs that are not allowed in the target.
+    my @CheckNullConstraints;
+
+    # Second loop: collect information about the OTRS source tables.
+    SOURCE_TABLE:
+    for my $SourceTable (@SourceTablesToBeCopied) {
 
         my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
-
-        # Do not migrate tables that are not needed on the target
-        if ( !$TargetTableExists{$TargetTable} ) {
-
-            # Log info to apache error log and OTOBO log (syslog or file)
-            $MigrationBaseObject->MigrationLog(
-                String   => "Table $SourceTable does not exist in OTOBO.",
-                Priority => "notice",
-            );
-
-            next SOURCE_TABLE;
-        }
-
-        push @SourceTablesToBeCopied, $SourceTable;
-
-        # The OTOBO table exists. So, either truncate or drop the table in OTOBO.
-        # For destructive table copying drop the table but keep Track of foreign keys first.
 
         # In the target database schema some varchar columns have been shortened
         # to int( 767 / 4 ) = 191 characters
@@ -448,7 +498,7 @@ sub DataTransfer {
         # We need the list of columns for checking about shortening
         my $SourceColumnsRef = $Self->ColumnsList(
             Table    => $SourceTable,
-            DBName   => $Param{DBInfo}->{DBName},
+            DBName   => $SourceDBName,
             DBObject => $SourceDBObject,
         );
 
@@ -462,9 +512,11 @@ sub DataTransfer {
         }
 
         # Columns might be shortened for any database type.
+        # NULL Checks might be required when the target is stricter than the source.
         {
             my @MaybeShortenedColumns;
             my $DoShorten;    # flag used for assembly of $SourceColumnsString
+            my @NullAllowedColumns;
             SOURCE_COLUMN:
             for my $SourceColumn ( $SourceColumnsRef->@* ) {
 
@@ -473,7 +525,7 @@ sub DataTransfer {
                 # Get Source (OTRS) column infos
                 my $SourceColumnInfos = $Self->GetColumnInfos(
                     Table    => $SourceTable,
-                    DBName   => $Param{DBInfo}->{DBName},
+                    DBName   => $SourceDBName,
                     DBObject => $SourceDBObject,
                     Column   => $SourceColumn,
                 );
@@ -491,6 +543,17 @@ sub DataTransfer {
                     DBObject => $TargetDBObject,
                     Column   => $SourceColumn,
                 );
+
+                # Whether the target column has stricter NULL checking.
+                # Hoping that the usage of 'YES and 'NO' is standardized accross database systems.
+                # NULLs are OK when the target column has a default value.
+                if (
+                    ( $TargetColumnInfos->{IS_NULLABLE} eq 'NO' && !defined $TargetColumnInfos->{COLUMN_DEFAULT} )
+                    && $SourceColumnInfos->{IS_NULLABLE} eq 'YES'
+                    )
+                {
+                    push @NullAllowedColumns, $SourceColumn;
+                }
 
                 next SOURCE_COLUMN unless IsHashRefWithData($TargetColumnInfos);
 
@@ -523,6 +586,16 @@ sub DataTransfer {
                     "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
                     :
                     $SourceColumn;
+
+            }
+
+            # we might have to check for NULL values in the source table
+            if (@NullAllowedColumns) {
+                push @CheckNullConstraints,
+                    {
+                        Table              => $SourceTable,
+                        NullAllowedColumns => \@NullAllowedColumns,
+                    };
             }
 
             # This string might contain some MySQL SUBSTRING() calls
@@ -533,13 +606,13 @@ sub DataTransfer {
         # only relevant when the DirectBlob settings are different and when there are any
         # DirectBlob fields for this table
         $BlobConversionNeeded{$SourceTable} = {};
-        if ( !$DirectBlobSettingIsSame && $IsDirectBlobColumn{$SourceTable} ) {
+        if ( $IsDirectBlobColumn{$SourceTable} ) {
 
             # get LONGBLOB fields of the source table as only those are candidates for base63 conversion o
             my $BlobColumnsList = $Self->BlobColumnsList(
                 Table    => $SourceTable,
-                DBName   => $Param{DBInfo}->{DBName},
-                DBObject => $Param{OTRSDBObject},
+                DBName   => $SourceDBName,
+                DBObject => $SourceDBObject,
             ) || {};
 
             # check whether the LONGBLOB fields are relevant for base64 conversion
@@ -551,27 +624,114 @@ sub DataTransfer {
             }
         }
 
-        # Truncate the target table in all cases.
-        # The truncated table provides info about columns and foreign keys.
-        # The SQL is driver dependent because PostgreSQL 11 does not honor
-        # the deactivation of foreign key check with 'TRUNCATE TABLE'.
-        {
-            my $PurgeSQL = sprintf $TargetDBObject->GetDatabaseFunction('PurgeTable'), $TargetTable;
-            my $Success  = $TargetDBObject->Do( SQL => $PurgeSQL );
+    }
 
-            if ( !$Success ) {
-                $MigrationBaseObject->MigrationLog(
-                    String   => "Could not truncate target table '$TargetTable'",
-                    Priority => 'error',
+    # needed for the progress messages emitted by the last two loops
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+
+    # third loop: check for NULL value violations,
+    # that is cases where a source column has NULL values while the target column is set to NOT NULL
+    {
+        my $TotalNumConstraints = scalar @CheckNullConstraints;
+        my $CountConstraint     = 0;
+        my @ViolationMessages;
+        for my $Constraint (@CheckNullConstraints) {
+
+            my $SourceTable = $Constraint->{Table};
+
+            # Set cache object with taskinfo and starttime to show current state in frontend
+            $CountConstraint++;
+            my $ProgressMessage = "Check for NULL values in table ($CountConstraint/$TotalNumConstraints): $SourceTable";
+            $CacheObject->Set(
+                Type  => 'OTRSMigration',
+                Key   => 'MigrationState',
+                Value => {
+                    Task      => 'OTOBODatabaseMigrate',
+                    SubTask   => $ProgressMessage,
+                    StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
+                },
+            );
+
+            # Log info to apache error log and OTOBO log (syslog or file)
+            $MigrationBaseObject->MigrationLog(
+                String   => $ProgressMessage,
+                Priority => 'notice',
+            );
+
+            my @Violations;
+            SOURCE_COLUMN:
+            for my $SourceColumn ( $Constraint->{NullAllowedColumns}->@* ) {
+
+                $SourceDBObject->Prepare(
+                    SQL => "SELECT COUNT(*) FROM $SourceTable WHERE $SourceColumn IS NULL"
+                );
+                my ($NumNulls) = $SourceDBObject->FetchrowArray();
+
+                push @Violations, [ $SourceColumn, $NumNulls ] if $NumNulls;
+            }
+
+            # report the found violations
+            for my $Violation (@Violations) {
+                my ( $Column, $NumNulls ) = $Violation->@*;
+                my $PluralS = $NumNulls == 1 ? '' : 's';
+                my $Message = "$NumNulls NULL value$PluralS found in the column '$Column' of the source table '$SourceTable'.";
+                push @ViolationMessages, $Message;
+
+                $CacheObject->Set(
+                    Type  => 'OTRSMigration',
+                    Key   => 'MigrationState',
+                    Value => {
+                        Task      => 'OTOBODatabaseMigrate',
+                        SubTask   => $Message,
+                        StartTime => $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch(),
+                    },
                 );
 
-                return;    # bail out
+                # Log info to apache error log and OTOBO log (syslog or file)
+                $MigrationBaseObject->MigrationLog(
+                    String   => $Message,
+                    Priority => 'error',
+                );
             }
+        }
+
+        # return an error when violations were detected
+        if (@ViolationMessages) {
+            return
+                {
+                    Successful => 0,
+                    Messages   => \@ViolationMessages,
+                };
         }
     }
 
-    # do the actual data transfer for the relevant tables
-    my ( $TotalNumTables, $CountTable ) = ( scalar @SourceTablesToBeCopied, 0 );
+    # Fourth loop.
+    # Truncate the target table in all cases.
+    SOURCE_TABLE:
+    for my $SourceTable (@SourceTablesToBeCopied) {
+        my $TargetTable = $RenameTables{$SourceTable} // $SourceTable;
+        my $PurgeSQL    = sprintf $TargetDBObject->GetDatabaseFunction('PurgeTable'), $TargetTable;
+
+        my $Success = $TargetDBObject->Do( SQL => $PurgeSQL );
+
+        if ( !$Success ) {
+            my $Message = "Could not truncate target table '$TargetTable'";
+            $MigrationBaseObject->MigrationLog(
+                String   => "Could not truncate target table '$TargetTable'",
+                Priority => 'error',
+            );
+
+            return
+                {
+                    Successful => 0,
+                    Messages   => [$Message],
+                };
+        }
+    }
+
+    # fifth loop: do the actual data transfer for the relevant tables
+    my $CountTable     = 0;
+    my $TotalNumTables = scalar @SourceTablesToBeCopied;
     SOURCE_TABLE:
     for my $SourceTable (@SourceTablesToBeCopied) {
 
@@ -603,7 +763,7 @@ sub DataTransfer {
         {
             my $SourceColumnRef = $Self->ColumnsList(
                 Table    => $SourceTable,
-                DBName   => $Param{DBInfo}->{DBName},
+                DBName   => $SourceDBName,
                 DBObject => $SourceDBObject,
             ) || return;
 
@@ -630,7 +790,7 @@ sub DataTransfer {
 
                 my $SourceColumnInfos = $Self->GetColumnInfos(
                     Table    => $SourceTable,
-                    DBName   => $Param{DBInfo}->{DBName},
+                    DBName   => $SourceDBName,
                     DBObject => $SourceDBObject,
                     Column   => $SourceColumn,
                 );
@@ -712,12 +872,17 @@ sub DataTransfer {
                 if ( !$Success ) {
 
                     # Log info to apache error log and OTOBO log (syslog or file)
+                    my $Message = "Could not insert data: Table: $SourceTable - id:$Row[0].";
                     $MigrationBaseObject->MigrationLog(
-                        String   => "Could not insert data: Table: $SourceTable - id:$Row[0].",
+                        String   => $Message,
                         Priority => "notice",
                     );
 
-                    return;
+                    return
+                        {
+                            Successful => 0,
+                            Messages   => [$Message],
+                        };
                 }
             }
         }
@@ -735,6 +900,7 @@ sub DataTransfer {
         }
     }
 
+    # TODO: will this be executed in the case of an exception ?
     if ( $TargetDBObject->{'DB::Type'} eq 'postgresql' ) {
         $TargetDBObject->Do( SQL => 'set session_replication_role to default;' );
     }

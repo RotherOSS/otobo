@@ -274,7 +274,14 @@ sub TicketSearch {
                 push @CustomerIDs, @{ $Entry->{CustomerIDs} };
             }
 
-            if ( @CustomerIDs && $Entry->{CustomerUserID} ) {
+            if ( defined $Param{CustomerUserLoginRaw} || ( $Entry->{CustomerUserID} && !@CustomerIDs ) ) {
+                $DirectConditions = {
+                    term => {
+                        CustomerUserID => $Param{CustomerUserLoginRaw} // $Entry->{CustomerUserID},
+                    },
+                };
+            }
+            elsif ( @CustomerIDs && $Entry->{CustomerUserID} ) {
                 $DirectConditions = {
                     bool => {
                         should => [
@@ -296,13 +303,6 @@ sub TicketSearch {
                 $DirectConditions = {
                     terms => {
                         CustomerID => \@CustomerIDs,
-                    },
-                };
-            }
-            elsif ( $Entry->{CustomerUserID} ) {
-                $DirectConditions = {
-                    term => {
-                        CustomerUserID => $Entry->{CustomerUserID},
                     },
                 };
             }
@@ -1006,6 +1006,78 @@ sub CreatePipeline {
 
     return $Result->{Success};
 
+}
+
+=head2 IndexSettingsGet()
+
+Get settings for a certain index
+
+    $ESObject->IndexSettingsGet(
+        Config   => $Config,
+        Template => $Template,
+    ;)
+
+=cut
+
+sub IndexSettingsGet {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+
+    my $Settings = $Self->_ExpandTemplate(
+        Item         => $Param{Template},
+        Config       => $Config,
+        LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
+    );
+    return $Settings;
+}
+
+sub _ExpandTemplate {
+    my ( $Self, %Param ) = @_;
+
+    my $Config = $Param{Config};
+    my $Node   = $Param{Item};
+
+    if ( ref $Node eq 'HASH' ) {
+        my %Expanded;
+        for my $Key ( keys( %{$Node} ) ) {
+            $Expanded{$Key} = $Self->_ExpandTemplate(
+                Item         => $Node->{$Key},
+                Config       => $Config,
+                LayoutObject => $Param{LayoutObject},
+            );
+        }
+        return \%Expanded;
+    }
+    elsif ( ref $Node eq 'ARRAY' ) {
+        my @Expanded;
+        for my $Item ( @{$Node} ) {
+            push(
+                @Expanded,
+                $Self->_ExpandTemplate(
+                    Item         => $Item,
+                    Config       => $Config,
+                    LayoutObject => $Param{LayoutObject},
+                )
+            );
+        }
+        return \@Expanded;
+    }
+    elsif ( !defined($Node) ) {
+        return;
+    }
+    elsif ( IsNumber($Node) ) {
+        return $Node;
+    }
+    elsif ( IsString($Node) ) {
+        return $Param{LayoutObject}->Output(
+            Template => $Node,
+            Data     => $Config,
+        );
+    }
+    else {
+        return $Node;
+    }
 }
 
 1;

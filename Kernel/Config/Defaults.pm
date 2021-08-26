@@ -1909,20 +1909,24 @@ via the Preferences button after logging in.
     };
 
     # Elasticsearch settings needed for installer.pl
+    # Default defines settings for all indices. To configure different settings
+    # for a single index  simply add a corresponding definition with the index name 
+    # ('Customer', 'CustomerUser' or 'Ticket') instead of 'Default'.
     $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
         'NS'          => '1',
         'NR'          => '0',
-        'FieldsLimit' => '2000',
     };
 
-    # Elasticsearch index definition
-    # Config is replaced by Elasticsearch::ArticleIndexCreationSettings at run time.
-    $Self->{'Elasticsearch::IndexSettings'} = {
+    # Elasticsearch index definition template
+    # To use a different index template for just one index add a corresponding
+    # definition using the index name instead of 'Default'.
+    # Config is replaced by Elasticsearch::IndexSettings at run time.
+    $Self->{'Elasticsearch::IndexTemplate'}->{Default} = {
         index => {
             number_of_shards   => '[% Data.NS | uri %]',
             number_of_replicas => '[% Data.NR | uri %]',
         },
-        'index.mapping.total_fields.limit' => '[% Data.FieldsLimit | uri %]',
+        'index.mapping.total_fields.limit' => 2000,
     };
 
     return 1;

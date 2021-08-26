@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+use Test2::V0;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
@@ -32,38 +34,48 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $MigObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elasticsearch::Migration');
+my $ESObject  = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
-my $Index1 = $MigObject->_IndexSettingsGet(
+my $Template = {
+    number_of_shards   => '[% Data.NS | uri %]',
+    number_of_replicas => '[% Data.NR | uri %]',
+    'index.mapping.total_fields.limit' => 2000,
+};
+
+my $Index1 = $ESObject->IndexSettingsGet(
     Config => {
         NS          => 5,
         NR          => 10,
         FieldsLimit => 1000,
-    }
+    },
+    Template => $Template,
 );
 
-$Self->Is(
-    $Index1->{index}->{number_of_shards}, 5,
+is(
+    $Index1->{number_of_shards}, 5,
     '#1 number_of_shards'
 );
-$Self->Is(
-    $Index1->{index}->{number_of_replicas}, 10,
+is(
+    $Index1->{number_of_replicas}, 10,
     '#1 number_of_replicas'
 );
-$Self->Is(
-    $Index1->{'index.mapping.total_fields.limit'}, 1000,
+# FieldsLimit can not be changed by settings/sysconfig
+is(
+    $Index1->{'index.mapping.total_fields.limit'}, 2000,
     '#1 index.mapping.total_fields.limit'
 );
 
-# When admin changes Elasticsearch::ArticleIndexCreationSettings, FieldsLimit is missing
-my $Index2 = $MigObject->_IndexSettingsGet(
+# Missing settings are taken from the template
+my $Index2 = $ESObject->IndexSettingsGet(
     Config => {
         NS => 5,
         NR => 10,
-    }
+    },
+    Template => $Template,
 );
-$Self->Is(
+is(
     $Index2->{'index.mapping.total_fields.limit'}, 2000,
-    '#2 index.mapping.total_fields.limit'
+    '#2 missing settings'
 );
 
 # Expansion test
@@ -93,7 +105,7 @@ my $Data = {
     'index.mapping.total_fields.limit' => 2000,
 };
 
-my $Expanded = $MigObject->_ExpandTemplate(
+my $Expanded = $ESObject->_ExpandTemplate(
     Item   => $Data,
     Config => {
         NS => 0,
@@ -102,42 +114,42 @@ my $Expanded = $MigObject->_ExpandTemplate(
     LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
 );
 
-$Self->Is(
+is(
     $Expanded->{index}->{number_of_shards}, 'XXX0XXX',
-    '#4 number_of_shards template expansion',
+    '#3 number_of_shards template expansion',
 );
 
-$Self->Is(
+is(
     $Expanded->{index}->{scalar}->{number}, 123,
-    '#4 expand scalar-number',
+    '#3 expand scalar-number',
 );
-$Self->Is(
+is(
     $Expanded->{index}->{scalar}->{string}, '456',
-    '#4 expand scalar-string',
+    '#3 expand scalar-string',
 );
-$Self->Is(
+is(
     $Expanded->{index}->{scalar}->{nullval}, undef,
-    '#4 expand scalar-nullval',
+    '#3 expand scalar-nullval',
 );
-$Self->Is(
+is(
     $Expanded->{index}->{scalar}->{zero}, 0,
-    '#4 expand scalar-zero',
+    '#3 expand scalar-zero',
 );
-$Self->Is(
+is(
     ref $Expanded->{index}->{empty}, 'HASH',
-    '#4 expand index-empty',
+    '#3 expand index-empty',
 );
-$Self->Is(
+is(
     $Expanded->{index}->{arraytest}->{array}->[2], 'ghi',
-    '#4 expand index-arraytest-array',
+    '#3 expand index-arraytest-array (string)',
 );
-$Self->Is(
+is(
     $Expanded->{index}->{arraytest}->{nested}->[1]->{value3}, 789,
-    '#4 expand index-arraytest-array',
+    '#3 expand index-arraytest-array (number)',
 );
-$Self->Is(
+is(
     ref $Expanded->{index}->{arraytest}->{empty}, 'ARRAY',
-    '#4 expand index-arraytest-empty',
+    '#3 expand index-arraytest-empty',
 );
 
 # cleanup is done by RestoreDatabase

@@ -590,6 +590,7 @@ sub SetACLPreselectionCache {
         Service          => 'ServiceID',
         SLA              => 'SLAID',
         StandardTemplate => 'StandardTemplateID',
+        CustomerUser     => 'ServiceID',    # for some unknown reason the changed element upon customer user change is always ServiceID
     );
 
     # dynamic fields
@@ -633,7 +634,7 @@ sub SetACLPreselectionCache {
                     $Controller{$Name} = 1;
                 }
             }
-            for my $Field (qw/Queue Service Type Priority SLA State Owner Responsible/) {
+            for my $Field (qw/Queue Service Type Priority SLA State Owner Responsible CustomerUser/) {
                 if ( $ACL->{$PropertiesHash}{$Field} ) {
                     $Controller{$Field} = 1;
                 }

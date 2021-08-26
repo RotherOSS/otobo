@@ -53,9 +53,7 @@ sub Run {
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
         $LayoutObject->FatalError(
             Message => Translatable('SecureMode active!'),
-            Comment => Translatable(
-                'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.'
-            ),
+            Comment => Translatable('If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.'),
         );
     }
 
@@ -65,7 +63,7 @@ sub Run {
 
         if ( !-d $Home ) {
             $LayoutObject->FatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $$Home ),
+                Message => $LayoutObject->{LanguageObject}->Translate( 'Directory "%s" doesn\'t exist!', $Home ),
                 Comment => Translatable('Configure "Home" in Kernel/Config.pm first!'),
             );
         }
@@ -87,7 +85,7 @@ sub Run {
     # perform the requested AJAX task
     my $AJAXTask = $ParamObject->GetParam( Param => 'Task' );
     if ($AJAXTask) {
-        my $Return                = {};
+        my $Return                = {};                                                    # the AJAX response that will be sent back to the browser
         my $MigrateFromOTRSObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS');
 
         if ( $Self->{Subaction} eq 'GetProgress' && $AJAXTask eq 'GetProgress' ) {
@@ -98,18 +96,18 @@ sub Run {
             );
 
             if ($Status) {
-                my $Now  = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
-                my $Time = $Now - $Status->{StartTime};
+                my $Now     = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
+                my $Seconds = $Now - $Status->{StartTime};
                 my $TimeSpent;
-                if ( $Time >= 3600 ) {
-                    $TimeSpent = sprintf "%d h ", int( $Time / 3600 );
-                    $Time      = $Time % 3600;
+                if ( $Seconds >= 3600 ) {
+                    $TimeSpent = sprintf '%d h ', int( $Seconds / 3600 );
+                    $Seconds %= 3600;
                 }
-                if ( $Time >= 60 || $TimeSpent ) {
-                    $TimeSpent .= sprintf "%02d m ", int( $Time / 60 );
-                    $Time = $Time % 60;
+                if ( $Seconds >= 60 || $TimeSpent ) {
+                    $TimeSpent .= sprintf '%02d m ', int( $Seconds / 60 );
+                    $Seconds %= 60;
                 }
-                $TimeSpent .= sprintf '%02d s', $Time;
+                $TimeSpent .= sprintf '%02d s', $Seconds;
 
                 $Return = {
                     Task      => $Status->{Task},
@@ -148,7 +146,7 @@ sub Run {
                 Task     => 'OTOBOOTRSConnectionCheck',
                 UserID   => 1,
                 OTRSData => \%GetParam,
-            )->{'OTOBOOTRSConnectionCheck'};
+            )->{OTOBOOTRSConnectionCheck};
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
@@ -173,9 +171,7 @@ sub Run {
 
             # skip if db migration is already done
             if ( $GetParam{SkipDBMigration} ) {
-                $Return = {
-                    Successful => 1,
-                };
+                $Return = { Successful => 1 };
             }
 
             # "normal" migration
@@ -184,7 +180,7 @@ sub Run {
                     Task   => 'OTOBOOTRSDBCheck',
                     UserID => 1,
                     DBData => \%GetParam,
-                )->{'OTOBOOTRSDBCheck'};
+                )->{OTOBOOTRSDBCheck};
             }
         }
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
@@ -252,10 +248,10 @@ sub Run {
                         PackageResolve => $Resolve  // {},
                     );
                 };
-                if ( !$Result || !defined $Result->{$PerlTask}{Successful} ) {
-                    $Result->{$PerlTask}{Successful} = 0;
-                    $Result->{$PerlTask}{Message}    = $AJAXTask;
-                    $Result->{$PerlTask}{Comment}    = 'A fatal error occured.';
+                if ( !$Result || !defined $Result->{$PerlTask}->{Successful} ) {
+                    $Result->{$PerlTask}->{Successful} = 0;
+                    $Result->{$PerlTask}->{Message}    = $AJAXTask;
+                    $Result->{$PerlTask}->{Comment}    = 'A fatal error occured.';
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
@@ -264,7 +260,7 @@ sub Run {
                 }
 
                 # check if progress update has to be stopped
-                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{$PerlTask}{Successful} ) ) {
+                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{$PerlTask}->{Successful} ) ) {
                     my $Status = $CacheObject->Delete(
                         Type => 'OTRSMigration',
                         Key  => 'MigrationState',
@@ -272,7 +268,7 @@ sub Run {
                 }
 
                 # store next task in cache in case of a restart
-                if ( $Self->{Subaction} eq 'Copy' && $Result->{$PerlTask}{Successful} ) {
+                if ( $Self->{Subaction} eq 'Copy' && $Result->{$PerlTask}->{Successful} ) {
                     $CacheObject->Set(
                         Type  => 'OTRSMigration',
                         Key   => 'Copy',
@@ -288,7 +284,6 @@ sub Run {
                     NextTask => $NextTask{$AJAXTask},
                 };
             }
-
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -315,7 +310,7 @@ sub Run {
         );
     }
 
-    # if this is not an AJAX request, then build the html for the current subaction
+    # if this is not an AJAX request, then build the HTML for the current subaction
 
     # generate current title
     my $Title     = $LayoutObject->{LanguageObject}->Translate('OTRS to OTOBO migration');
@@ -395,7 +390,7 @@ sub Run {
         # Use defaults for various settings, unless we have cached data
         if ( !IsHashRefWithData($CachedData) ) {
 
-            # Under Docker we assume that /opt/otrs has been copied init otobo_opt_otobo volume.
+            # Under Docker we assume that /opt/otrs has been copied into the otobo_opt_otobo volume.
             my $DefaultOTRSHome = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? '/opt/otobo/var/tmp/copied_otrs' : '/opt/otrs';
             my %Defaults        = (
                 Intro => {
@@ -536,9 +531,7 @@ sub _Finish {
     my ( $Self, %Param ) = @_;
 
     # Take care that default config is in the database.
-    if ( !$Self->_CheckConfig() ) {
-        return $Param{LayoutObject}->FatalError();
-    }
+    return $Param{LayoutObject}->FatalError() unless $Self->_CheckConfig();
 
     # Delete migration cache
     my $Status = $Param{CacheObject}->CleanUp(

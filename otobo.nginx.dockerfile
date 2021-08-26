@@ -7,7 +7,7 @@
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
 
-# install some required and optional Debian packages
+# install some required and optional Debian packages 
 # hadolint ignore=DL3008
 RUN apt-get update\
  && apt-get -y --no-install-recommends install\
@@ -17,6 +17,7 @@ RUN apt-get update\
  "tree"\
  "vim"\
  "certbot"\
+ "python3-certbot-nginx"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
