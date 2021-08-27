@@ -76,6 +76,8 @@ Valid parameters are:
 
 =item SkipSSLVerify
 
+Unset C<$ENV{PERL_LWP_SSL_VERIFY_HOSTNAME}> while this instance exists.
+
 =item UseTmpArticleDir
 
 =item RestoreDatabase
@@ -98,7 +100,7 @@ sub new {
     # set environment variable to skip SSL certificate verification if needed
     if ( $Param{SkipSSLVerify} ) {
 
-        # remember original value
+        # remember original value, so that it can be reset in DESTROY()
         $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME} = $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME};
 
         # set environment value to 0

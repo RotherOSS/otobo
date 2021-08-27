@@ -1,8 +1,8 @@
 What is OTOBO?
 ===================================
 OTOBO is one of the most flexible web-based ticketing
-systems used for Customer Service, Help Desk, and IT Service Management
-based on the ((OTRS)) Community Edition.
+systems used for Customer Service, Help Desk, and IT Service Management.
+It is based on the ((OTRS)) Community Edition.
 With a fast implementation and easy customization to your needs it
 helps you reducing costs and increasing the efficiency and transparency
 of your business communication. OTOBO offers always full [**OTOBO**](https://www.otobo.de) functionality.

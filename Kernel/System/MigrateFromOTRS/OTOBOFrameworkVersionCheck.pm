@@ -233,13 +233,14 @@ sub _CheckOTOBOVersion {
     return \%Result;
 }
 
+# Znuny LTS is also accepted for migration
 sub _CheckOTRSRelease {
     my ( $Self, %Param ) = @_;
 
     my $OTRSReleasePath = $Param{OTRSReleasePath};
 
     # load RELEASE file
-    if ( !-e "$OTRSReleasePath" ) {
+    if ( !-e $OTRSReleasePath ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! );
@@ -262,7 +263,7 @@ sub _CheckOTRSRelease {
                 }
             }
         }
-        close($Product);
+        close $Product;
     }
     else {
         my %Result;
@@ -273,7 +274,7 @@ sub _CheckOTRSRelease {
         return \%Result;
     }
 
-    if ( $ProductName ne 'OTRS' ) {
+    if ( $ProductName ne 'OTRS' && $ProductName ne 'Znuny LTS' ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("No OTRS system found!");
@@ -282,7 +283,7 @@ sub _CheckOTRSRelease {
         return \%Result;
     }
 
-    if ( $Version !~ /^6\.0(.*)$/ ) {
+    if ( $Version !~ m/^6\.0(.*)$/ ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );

@@ -287,6 +287,9 @@ sub Run {
         if ( $ElementChanged && $Uniformity{$ElementChanged} ) {
             $ElementChanged = $Uniformity{$ElementChanged};
         }
+        for my $DiversID ( keys %Uniformity ) {
+            $GetParam{ $Uniformity{ $DiversID } } = $GetParam{ $DiversID };
+        }
 
         my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
         my $Autoselect              = $ConfigObject->Get('TicketACL::Autoselect') || undef;
@@ -2331,7 +2334,7 @@ sub _Mask {
 
                 # ACL hidden fields cannot be mandatory
                 if ( $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2 ) {
-                    $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                    $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
                 }
             }
 

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.930900243309002;
+    $Self->{Completeness}        = 0.930749270191372;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -5076,7 +5076,6 @@ sub Data {
         'All needed files copied and migrated, perfect!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Check if OTOBO version is correct.' => 'Verifique se a versão do OTOBO está correta.',
         'Copy database.' => 'Copiar banco de dados.',
         'Skipped...' => 'Pular...',
         'System was unable to connect to OTRS database.' => 'O sistema não conseguiu se conectar ao banco de dados OTRS.',
@@ -5084,6 +5083,7 @@ sub Data {
         'Data transfer completed.' => 'Transferência de dados completo.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO version is correct.' => 'Verifique se a versão do OTOBO está correta.',
         'Check if OTOBO and OTRS connect is possible.' => 'Verifique se a conexão OTOBO e OTRS é possível.',
         'Can\'t open RELEASE file from OTRSHome: %s!' => 'Não é possível abrir o arquivo RELEASE de OTRSHome: %s!',
         'Check if OTOBO and OTRS version is correct.' => 'Verifique se a versão OTOBO e OTRS está correta.',
@@ -7434,7 +7434,7 @@ Obrigado pela ajuda!
             '',
         'Defines the two-factor module to authenticate agents.' => 'Define o módulo de autenticação de dois fatores para autenticar agentes.',
         'Defines the two-factor module to authenticate customers.' => 'Define o módulo de autenticação de dois fatores para autenticar clientes.',
-        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+        'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
@@ -8195,9 +8195,12 @@ Obrigado pela ajuda!
         'Number of displayed tickets' => 'Número de Chamados Exibidos',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Número de linhas (por ticket) que são exibidos pela utilidade de pesquisa na interface de agente.',
-        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             '',
-        'Number of shards (NS) and replicas (NR) for the index.' => '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+            '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Número de tickets a serem exibidos em cada página de resultado de pesquisa na interface de agente.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>

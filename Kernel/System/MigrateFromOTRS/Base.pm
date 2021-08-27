@@ -1572,6 +1572,59 @@ sub DBShortenedColumns {
         };
 }
 
+# DBDirectBlobColumns.
+# Under MySQL binary data, often text in various encodings, is stored directly in LONGBLOB columns. This feature is called DirectBlob support.
+# For other database the DirectBlob feature is not supported. Either because the database does not support it, or because the
+# fitting data type is not used in the OTOBO schema. In these cases the data is base64 encoded.
+# This is an issue during migration from PostgreSQL to MySQL, as columns that are BASE64 in PostgreSQL are not encoded in MySQL.
+#
+# Confusingly not all LONGBLOB columns are handled in this way. Some columns are LONGBLOB, even though it is known that the
+# content is UTF-8 encoded text. It is not obvious how to distinguish these cases on the database level. Therefore an explicit list
+# is provided.
+sub DBDirectBlobColumns {
+    return
+        {
+            Table  => 'article_data_mime_attachment',
+            Column => 'content',
+        },
+        {
+            Table  => 'article_data_mime_plain',
+            Column => 'body',
+        },
+        {
+            Table  => 'change_template',    # from the ITSM package
+            Column => 'content',
+        },
+        {
+            Table  => 'faq_attachment',     # from the FAQ package
+            Column => 'content'
+        },
+        {
+            Table  => 'form_draft',
+            Column => 'content'
+        },
+        {
+            Table  => 'mail_queue',
+            Column => 'raw_message'
+        },
+        {
+            Table  => 'package_repository',    # included here, even though package_repository is not migrated
+            Column => 'content'
+        },
+        {
+            Table  => 'standard_attachment',
+            Column => 'content',
+        },
+        {
+            Table  => 'virtual_fs_db',
+            Column => 'content'
+        },
+        {
+            Table  => 'web_upload_cache',
+            Column => 'content',
+        };
+}
+
 # list of files that need to be copied
 sub CopyFileListfromOTRSToOTOBO {
     my @Files = (
@@ -1900,6 +1953,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     );
 }
 
+# TODO: this sub seems to be misnamed
 sub TaskSecurityCheck {
     return (
         {

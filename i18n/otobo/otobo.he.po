@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-04-21 16:42+0000\n"
+"POT-Creation-Date: 2021-07-08 11:22+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Idan Cohen <idan2cohen@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://translate.otobo.org/projects/otobo10/otobo/he/)\n"
@@ -14237,7 +14237,7 @@ msgstr ""
 msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Check if OTOBO version is correct."
 msgstr ""
 
@@ -21973,6 +21973,10 @@ msgid "Number of lines (per ticket) that are shown by the search utility in the 
 msgstr ""
 
 #. SysConfig
+msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgstr ""
+
+#. SysConfig
 msgid "Number of shards (NS) and replicas (NR) for the index."
 msgstr ""
 
@@ -24718,6 +24722,18 @@ msgstr ""
 #~ msgstr "שדות חופשיים"
 
 #. SysConfig
-msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgid "Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then 'http' must be specified here. The setting of 'HttpType' has no affect on the web server's settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping 'HttpType' set to 'https' is that the session management cookie will only be set for secure connections."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note: 'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards compatibility use 'Elasticsearch::IndexSettings###Default' instead."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr ""
 

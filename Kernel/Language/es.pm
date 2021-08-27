@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.625141930251419;
+    $Self->{Completeness}        = 0.634609146934804;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -52,7 +52,7 @@ sub Data {
         'Create New ACL' => 'Crear una nueva ACL',
         'Deploy ACLs' => 'Desplegar las ACL',
         'Export ACLs' => 'Exportar las ACL',
-        'Filter for ACLs' => 'Filtro para las ACLs.',
+        'Filter for ACLs' => 'Filtro para las ACLs',
         'Just start typing to filter...' => 'Empiece a escribir para filtrar...',
         'Configuration Import' => 'Importar configuración',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
@@ -89,7 +89,7 @@ sub Data {
         'Change settings' => 'Cambiar los ajustes',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Establecer qué quiere cambiar si los criterios coinciden. Tenga en cuenta que «Posible» es una lista blanca, «PosibleNo» una lista negra.',
-        'Check the official %sdocumentation%s.' => 'Compruebe la documentación oficial',
+        'Check the official %sdocumentation%s.' => 'Compruebe la documentación oficial.',
         'Show or hide the content' => 'Mostrar u ocultar el contenido',
         'Edit ACL Information' => 'Editar información de la ACL',
         'Name' => 'Nombre',
@@ -304,22 +304,22 @@ sub Data {
         'Hint' => 'Consejo',
         'Currently support data is only shown in this system.' => 'Actualmente los datos de soporte sólo son mostrados en este sistema.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'A veces se recomienda enviar estos datos al equipo de OTOBO para obtener un mejor soporte.',
         'Configuration' => 'Configuración',
         'Send support data' => 'Enviar datos de soporte',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Esto permitirá que el sistema envíe información de datos de soporte adicional al equipo de OTOBO.',
         'Update' => 'Actualizar',
         'System Registration' => 'Registro del sistema',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO o actualice la información de registro de su sistema (asegúrese de activar la opción \'enviar datos de soporte\').',
         'Register this System' => 'Registre este Sistema',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'El Registro no está disponible para su sistema. Por favor revise su configuración.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'El registro del sistema es un servicio del equipo de OTOBO que ofrece muchas ventajas.',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Por favor tenga en cuenta que el uso de servicios en la nube de OTOBO requiere que el sistema esté registrado.',
         'Register this system' => 'Registrar este sistema',
@@ -400,15 +400,15 @@ sub Data {
         'Please select an entry from the list.' => 'Favor, seleccione una entrada de la lista.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => 'Contacto con la gestión de datos',
         'Contact with data' => 'Contacto con los datos',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Add contact with data' => 'Agregar contacto con datos',
+        'Edit contact with data' => 'Editar contacto con datos',
         'Back to search results' => 'Volver a los resultados de la búsqueda',
         'Select' => 'Seleccionar',
         'Search' => 'Buscar',
         'Wildcards like \'*\' are allowed.' => 'Se permiten caracteres comodín como \'*\'.',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Ingrese un término de búsqueda para buscar contactos con datos.',
         'Valid' => 'Válido',
 
         # Template: AdminCustomerCompany
@@ -523,9 +523,9 @@ sub Data {
         'Add new field for object' => 'Añadir un nuevo campo al objeto',
         'Filter for Dynamic Fields' => 'Filtrar por Campos dinámicos',
         'Filter for dynamic fields' => 'Filtrar por Campos dinámicos',
-        'New OTOBO Community  Fields' => '',
+        'New OTOBO Community  Fields' => 'Nuevos campos de la comunidad OTOBO',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
-            '',
+            '¿Le gustaría beneficiarse de tipos de campos dinámicos adicionales? Tiene acceso completo a los siguientes tipos de campos:',
         'Database' => 'Base de datos',
         'Use external databases as configurable data sources for this dynamic field.' =>
             'Usa los bases de datos externos cómo los fuentes configurables de datos para éste campo dinámico.',
@@ -544,14 +544,14 @@ sub Data {
         'Delete this field' => 'Borrar este campo',
 
         # Template: AdminDynamicFieldAdvanced
-        'Import / Export' => '',
+        'Import / Export' => 'Importar / Exportar',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
-        'DynamicFields Import' => '',
-        'DynamicFields Export' => '',
-        'Dynamic Fields Screens' => '',
+            'Aquí puede cargar un archivo de configuración para importar campos dinámicos a su sistema. El archivo debe estar en formato .yml exportado por el módulo "administración de campos dinámicos".',
+        'DynamicFields Import' => 'Importación de campos dinámicos',
+        'DynamicFields Export' => 'Exportación de campos dinámicos',
+        'Dynamic Fields Screens' => 'Pantallas de campos dinámicos',
         'Here you can manage the dynamic fields in the respective screens.' =>
-            '',
+            'Aquí puede administrar los campos dinámicos en las respectivas pantallas.',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Campos Dinámicos',
@@ -582,29 +582,29 @@ sub Data {
         'This is the default value for this field.' => 'Éste es valor predeterminado para este campo.',
 
         # Template: AdminDynamicFieldContactWD
-        'Add or edit contacts' => '',
+        'Add or edit contacts' => 'Añadir o editar contactos',
         'To add contacts to this field please fill out all the needed information and save it.' =>
-            '',
+            'Para agregar contactos a este campo, complete toda la información necesaria y guárdelo.',
         'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
-            '',
-        'Name Field' => '',
-        'ValidID Field' => '',
-        'Other Fields' => '',
+            'Haga clic en el nombre del campo de la descripción general para editarlo y busque la acción correspondiente en la barra lateral o en el menú \'Entradas\'.',
+        'Name Field' => 'Campo de nombre',
+        'ValidID Field' => 'Campo ValidID',
+        'Other Fields' => 'Otros campos',
         'Key' => 'Clave',
         'Value' => 'Valor',
         'Remove value' => 'Eliminar el valor',
-        'Add Field' => '',
+        'Add Field' => 'Añadir campo',
         'Add value' => 'Añadir un valor',
-        'These are the possible data attributes for contacts.' => '',
-        'Mandatory fields' => '',
+        'These are the possible data attributes for contacts.' => 'Estos son los posibles atributos de datos para los contactos.',
+        'Mandatory fields' => 'Campos obligatorios',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
-            '',
-        'Sorted fields' => '',
+            'Lista separada por comas de claves obligatorias (opcional). Las claves \'Name\' y \'ValidID\' son siempre obligatorias y no tienen que aparecer aquí.',
+        'Sorted fields' => 'Campos ordenados',
         'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
-            '',
-        'Searchable fields' => '',
+            'Lista de claves separadas por comas en orden de clasificación (opcional). Las claves enumeradas aquí van primero, todos los campos restantes después y ordenados alfabéticamente.',
+        'Searchable fields' => 'Campos de búsqueda',
         'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
-            '',
+            'Lista separada por comas de claves de búsqueda (opcional). La clave \'Nombre\' siempre se puede buscar y no tiene que aparecer aquí.',
         'Translatable values' => 'Valores traducibles',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Si activa esta opción los valores se traducirán al idioma definido por el usuario.',
@@ -614,32 +614,32 @@ sub Data {
 
         # Template: AdminDynamicFieldDB
         'Possible values' => 'Posibles valores',
-        'Datatype' => '',
+        'Datatype' => 'Tipo de datos',
         'Filter' => 'Filtro',
-        'Searchfield' => '',
-        'Listfield' => '',
+        'Searchfield' => 'Campo de búsqueda',
+        'Listfield' => 'Campo de lista',
         'Show link' => 'Mostrar el enlace',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
-            'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación',
+            'Aquí usted puede especificar un enlace HTTP opcional para el valor del campo en las vistas "Panel Principal" y "Ampliación"',
         'Example' => 'Ejemplo',
         'Link for preview' => 'Enlace de vista previa',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Si se rellena, esta URL será usada para una vista preliminar si se pone el ratón encima de detalles del ticket. Por favor note que para que esto funcione, la URL usada arriba debe ser rellenada también.',
         'SID' => 'SID',
-        'Driver' => '',
-        'Server' => '',
+        'Driver' => 'Controlador',
+        'Server' => 'Servidor',
         'Port' => 'Puerto',
-        'Table / View' => '',
+        'Table / View' => 'Tabla / Vista',
         'User' => 'Usuario',
         'Password' => 'Contraseña',
         'Identifier' => 'Identificador',
-        'Must be unique column from the table entered in Table/View.' => '',
+        'Must be unique column from the table entered in Table/View.' => 'Debe ser una columna única de la tabla ingresada en Tabla/Vista.',
         'Multiselect' => 'Selección múltiple',
-        'CacheTTL' => '',
-        'Searchprefix' => '',
-        'Searchsuffix' => '',
-        'Result Limit' => '',
-        'Case Sensitive' => '',
+        'CacheTTL' => 'Tiempo de expiración de la caché',
+        'Searchprefix' => 'Prefijo de búsqueda',
+        'Searchsuffix' => 'Sufijo de búsqueda',
+        'Result Limit' => 'Límite de resultados',
+        'Case Sensitive' => 'Sensible a mayúsculas',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Diferencia de fechas predeterminada',
@@ -654,7 +654,7 @@ sub Data {
         'Years in the future' => 'Años en el futuro',
         'Years in the future to display (default: 5 years).' => 'Años en el futuro a mostrar (por defecto: 5 años).',
         'If special characters (&, @, :, /, etc.) should not be encoded, use \'url\' instead of \'uri\' filter.' =>
-            '',
+            'Si los caracteres especiales (&, @,:, /, etc.) no deben codificarse, utilizar el filtro "url" en lugar del filtro "uri".',
         'Restrict entering of dates' => 'Restringir entrada de fechas',
         'Here you can restrict the entering of dates of tickets.' => 'Aquí puede restringir la entrada de fechas para los tickets.',
 
@@ -667,32 +667,32 @@ sub Data {
 
         # Template: AdminDynamicFieldImportExport
         '%s - %s' => '',
-        'Select the items you want to ' => '',
+        'Select the items you want to ' => 'Seleccione los elementos que desee ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            'Seleccione los elementos deseados y confirme la importación con \'importar\'.',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
-            '',
+            'Aquí puede exportar un archivo de configuración de campos dinámicos y pantallas de campo dinámico para importarlos en otro sistema. El archivo de configuración se exporta en formato yml.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
-            '',
-        'Toggle all available elements' => '',
+            'Los siguientes campos dinámicos no se pueden importar debido a un backend no válido.',
+        'Toggle all available elements' => 'Cambiar todos los elementos disponibles',
         'Fields' => 'Campos',
-        'Screens' => '',
+        'Screens' => 'Pantallas',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => 'Gestión de campos dinámicos <-> pantallas',
         'Overview' => 'Resumen',
-        'Default Columns Screens' => '',
-        'Add DynamicField' => '',
+        'Default Columns Screens' => 'Pantallas de columnas predeterminadas',
+        'Add DynamicField' => 'Agregar campo dinámico',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Puede asignar elementos a esta pantalla / campo arrastrando los elementos con el mouse de la lista de la izquierda a la lista de la derecha.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'Ordenar los elementos dentro de la lista también es posible mediante arrastrar y soltar .',
-        'Filter available elements' => '',
-        'selected to available elements' => '',
-        'Available Elements' => '',
-        'Filter disabled elements' => '',
-        'selected to disabled elements' => '',
-        'Toggle all disabled elements' => '',
+        'Filter available elements' => 'Filtrar elementos disponibles',
+        'selected to available elements' => 'seleccionado a los elementos disponibles',
+        'Available Elements' => 'elementos disponibles',
+        'Filter disabled elements' => 'Filtrar elementos deshabilitados',
+        'selected to disabled elements' => 'seleccionado para elementos deshabilitados',
+        'Toggle all disabled elements' => 'Alternar todos los elementos deshabilitados',
         'Disabled Elements' => '',
         'Filter assigned elements' => '',
         'selected to assigned elements' => '',
@@ -5077,7 +5077,6 @@ sub Data {
         'All needed files copied and migrated, perfect!' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Check if OTOBO version is correct.' => '',
         'Copy database.' => '',
         'Skipped...' => '',
         'System was unable to connect to OTRS database.' => '',
@@ -5085,6 +5084,7 @@ sub Data {
         'Data transfer completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+        'Check if OTOBO version is correct.' => '',
         'Check if OTOBO and OTRS connect is possible.' => '',
         'Can\'t open RELEASE file from OTRSHome: %s!' => '',
         'Check if OTOBO and OTRS version is correct.' => '',
@@ -7441,7 +7441,7 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Defines the two-factor module to authenticate agents.' => '',
         'Defines the two-factor module to authenticate customers.' => '',
-        'Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server\'s settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system.' =>
+        'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
             '',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             '',
@@ -8202,9 +8202,12 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
         'Number of displayed tickets' => 'Número de tickets mostrados',
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             '',
-        'Number of shards (NS) and replicas (NR) for the index ticket.' =>
+        'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
             '',
-        'Number of shards (NS) and replicas (NR) for the index.' => '',
+        'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
+            '',
+        'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
+            '',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>

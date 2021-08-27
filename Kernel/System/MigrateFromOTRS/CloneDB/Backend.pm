@@ -179,7 +179,7 @@ sub CreateOTRSDBConnection {
 transfers information from a OTRS DB to the OTOBO DB.
 
     my $Success = $BackendObject->DataTransfer(
-        OTRSDBObject   => $OTRSDBObject,   # mandatory
+        OTRSDBObject   => $OTRSDBObject,   # mandatory, instance of Kernel::System::DB
         OTRSDBSettings => $OTRSDBSettings, # mandatory
     );
 
@@ -217,7 +217,7 @@ sub DataTransfer {
     # We need to disable FOREIGN_KEY_CHECKS, because we truncate tables and copy rows.
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::DB' => {
-            DeactivateForeignKeyChecks => 1,    # useful for database migration
+            DeactivateForeignKeyChecks => 1,
         },
     );
 
