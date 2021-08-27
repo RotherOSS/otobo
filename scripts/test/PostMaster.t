@@ -494,7 +494,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
-                        'b50d85781d2ac10c210f99bf8142badc',
+                        '91346794644d70cd95553ab46d5f3334',
                         $NamePrefix . ' md5 body check',
                     );
 
@@ -579,7 +579,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
-                        '2ac290235a8cad953a1837c77701c5dc',
+                        'c2aa129ff25272a00a305668f0d9e0c2',
                         $NamePrefix . ' md5 body check',
                     );
 

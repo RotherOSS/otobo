@@ -241,7 +241,7 @@ $Self->Is(
 $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
-    '0596f2939525c6bd50fc2b649e40fbb6',
+    'd2288c4aa6a50bc41a0e9b8820495922',
     "#5 md5 check",
 );
 $Self->Is(
@@ -469,7 +469,7 @@ $Self->Is(
 $MD5 = $MainObject->MD5sum( String => $EmailParserObject->GetMessageBody() ) || '';
 $Self->Is(
     $MD5,
-    '7ddc731e5a3e76cd27d4b1e0628468b1',
+    '4e269fc57c9aa7861ad432607e660ae9',
     "#10 md5 body check",
 );
 
@@ -477,7 +477,7 @@ $Self->Is(
 $MD5         = $MainObject->MD5sum( String => $Attachments[0]->{Content} ) || '';
 $Self->Is(
     $MD5,
-    '7ddc731e5a3e76cd27d4b1e0628468b1',
+    '4e269fc57c9aa7861ad432607e660ae9',
     "#10 md5 check",
 );
 
@@ -717,7 +717,7 @@ $Self->Is(
 $MD5         = $MainObject->MD5sum( String => $Attachments[1]->{Content} ) || '';
 $Self->Is(
     $MD5,
-    'e86c2c15e59fc1e1695f890ff102b06c',
+    '9a7c5ce111d1ec69e1625d51abba0442',
     "#15 md5 check",
 );
 $Self->Is(
