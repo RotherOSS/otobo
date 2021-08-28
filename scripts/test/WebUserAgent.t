@@ -97,7 +97,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - Credentials ' . $TestNumber++,
-        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
+        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 1,
@@ -105,12 +105,12 @@ my @Tests = (
             User     => 'guest',
             Password => 'guest',
             Realm    => 'OTRS UnitTest',
-            Location => 'makalu.otrs.com:443',
+            Location => 'makalu.otobo.org:443',
         },
     },
     {
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
-        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
+        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Success     => 0,
@@ -118,7 +118,7 @@ my @Tests = (
     },
     {
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
-        URL         => "https://makalu.otrs.com/unittest/HTTPBasicAuth/",
+        URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
         Proxy       => $Proxy,
         Credentials => {

@@ -43,7 +43,7 @@ my $TicketID = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'closed successful',
     CustomerNo   => '123465',
-    CustomerUser => 'unittest@otrs.com',
+    CustomerUser => 'unittest@otobo.org',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -322,7 +322,7 @@ for my $Test (@Tests) {
 # Cleanup is done by RestoreDatabase, but we need to delete the tickets to cleanup the filesystem too.
 my @DeleteTicketList = $TicketObject->TicketSearch(
     Result            => 'ARRAY',
-    CustomerUserLogin => 'unittest@otrs.com',
+    CustomerUserLogin => 'unittest@otobo.org',
     UserID            => 1,
 );
 for my $TicketID (@DeleteTicketList) {
