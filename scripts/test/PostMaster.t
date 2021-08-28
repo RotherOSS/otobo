@@ -382,7 +382,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
 
                 # follow up check
-                my @ContentNew = ();
+                my @ContentNew;
                 for my $Line (@Content) {
                     push @ContentNew, $Line;
                 }
@@ -579,7 +579,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
-                        'c2aa129ff25272a00a305668f0d9e0c2',
+                        '44da7f29cd0cca31532f6acd50b42da8',
                         $NamePrefix . ' md5 body check',
                     );
 
