@@ -214,21 +214,21 @@ my @Tests = (
         Name  => '#3 - With Inline Images',
         Match => [
             {
-                Key   => 'X-OTRS-AttachmentExists',
+                Key   => 'X-OTOBO-AttachmentExists',
                 Value => 'yes',
             },
             {
-                Key   => 'X-OTRS-AttachmentCount',
+                Key   => 'X-OTOBO-AttachmentCount',
                 Value => 1,
             }
         ],
         Set => [
             {
-                Key   => 'X-OTRS-DynamicField-TicketFreeText1',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                 Value => 'This should not be set',
             },
             {
-                Key   => 'X-OTRS-DynamicField-TicketFreeText2',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText2',
                 Value => 'This should not be set',
             },
         ],
