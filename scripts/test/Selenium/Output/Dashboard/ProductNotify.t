@@ -72,7 +72,7 @@ $Selenium->RunTest(
             my $Number = $Helper->GetRandomNumber();
             push @ProductFeeds, {
                 Version => "$NextVersionFirstNumber.0.$Count",
-                Link    => "https://www.otrs.com/release-notes-$Number",
+                Link    => "https://www.otobo.org/release-notes-$Number",
             };
         }
 
