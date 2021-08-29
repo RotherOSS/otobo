@@ -18,13 +18,18 @@ package Kernel::Output::HTML::Layout::Template;
 
 use strict;
 use warnings;
+use v5.20;
 
+# core modules
 use Scalar::Util qw();
+
+# CPAN modules
 use Template;
 use Template::Stash::XS;
 use Template::Context;
 use Template::Plugins;
 
+# OTOBO modules
 use Kernel::Output::Template::Provider;
 
 our $ObjectManagerDisabled = 1;
