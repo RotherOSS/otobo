@@ -87,11 +87,6 @@ sub Output {
         $Self->FatalError();
     }
 
-    # asure compatibility with old KeepScriptTags parameter
-    if ( $Param{KeepScriptTags} && !$Param{AJAX} ) {
-        $Param{AJAX} = $Param{KeepScriptTags};
-    }
-
     # fill init Env
     if ( !$Self->{EnvRef} ) {
         %{ $Self->{EnvRef} } = %ENV;
