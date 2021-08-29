@@ -18,13 +18,18 @@ package Kernel::Output::HTML::Layout::Template;
 
 use strict;
 use warnings;
+use v5.20;
 
+# core modules
 use Scalar::Util qw();
+
+# CPAN modules
 use Template;
 use Template::Stash::XS;
 use Template::Context;
 use Template::Plugins;
 
+# OTOBO modules
 use Kernel::Output::Template::Provider;
 
 our $ObjectManagerDisabled = 1;
@@ -53,11 +58,15 @@ Using a template string:
         Data     => \%Param,
     );
 
-Additional parameters:
+=head3 Additional parameters:
 
-    AJAX - AJAX-specific adjustements: this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
-        to be replaced. This is important to be able to generate snippets which can be cached.
-        Also, JS data added with AddJSData() calls is appended to the output here.
+=over 4
+
+=item AJAX
+
+AJAX-specific adjustments, this causes [% WRAPPER JSOnDocumentComplete %] blocks NOT
+to be replaced. This is important to be able to generate snippets which can be cached.
+Also, JavaScript data added with AddJSData() calls is appended to the output here.
 
     my $HTML = $LayoutObject->Output(
         TemplateFile   => 'AdminLog.tt',
@@ -65,7 +74,7 @@ Additional parameters:
         AJAX           => 1,
     );
 
-    KeepScriptTags - DEPRECATED, please use the parameter "AJAX" instead
+=back
 
 =cut
 
@@ -81,11 +90,6 @@ sub Output {
             Message  => "Need HashRef in Param Data! Got: '" . ref( $Param{Data} ) . "'!",
         );
         $Self->FatalError();
-    }
-
-    # asure compatibility with old KeepScriptTags parameter
-    if ( $Param{KeepScriptTags} && !$Param{AJAX} ) {
-        $Param{AJAX} = $Param{KeepScriptTags};
     }
 
     # fill init Env
