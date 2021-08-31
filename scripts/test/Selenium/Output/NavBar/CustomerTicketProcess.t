@@ -106,10 +106,12 @@ $Selenium->RunTest(
         {
             my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
 
+            $Selenium->LogExecuteCommandActive(0);
             $Selenium->content_contains(
                 'Action=CustomerTicketProcess',
                 "NavBar 'New process ticket' button available",
             );
+            $Selenium->LogExecuteCommandActive(1);
         }
 
         # Clean up activities.
