@@ -420,7 +420,9 @@ $Selenium->RunTest(
             my $ToDo = todo('layout broken see https://github.com/RotherOSS/otobo/issues/843');
 
             try_ok {
+                $Selenium->LogExecuteCommandActive(0);
                 $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->click();
+                $Selenium->LogExecuteCommandActive(1);
 
                 $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#Activities").length;' );
 
