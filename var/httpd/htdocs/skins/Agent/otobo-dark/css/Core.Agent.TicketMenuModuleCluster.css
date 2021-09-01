@@ -37,10 +37,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     position: absolute;
     top: 25px;
     left: -9px;
-    background: #EDEDED;
+    background: #272727;
     z-index: 999;
     min-width: 110%;
-    box-shadow: 1px 1px 3px #999;
+    box-shadow: 1px 1px 3px #000;
     height: 0px;
     opacity: 0;
     overflow: hidden;
@@ -62,7 +62,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: block;
     float: none;
     padding: 0px !important;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #272727;
     white-space: nowrap;
 }
 
@@ -89,7 +89,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .Cluster ul ul li a:hover {
     border-color: transparent;
-    background: #ddd;
+    background: #333;
 }
 
 .Cluster ul ul li:after {
