@@ -166,7 +166,7 @@ table tr.MasterAction {
 }
 
 .DataTable tbody tr.Invalid {
-    color: #333;
+    color: #555;
 }
 
 .DataTable tbody td {
