@@ -196,7 +196,7 @@ p.NoItemsInfo i {
 
 #ConfigTree .jstree-hovered:not(.jstree-disabled),
 #ConfigTree .jstree-wholerow-hovered:not(.jstree-disabled) {
-    background: #ddd !important;
+    background: #333 !important;
 }
 
 .UpdateSetting {
