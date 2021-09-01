@@ -370,7 +370,7 @@ ul.ContextFunctions li:last-child:hover > a {
 }
 
 .Tab.Actions li a:hover {
-    color: #777;
+    color: #c8c6c4;
     background: none;
     text-decoration: underline;
     border-bottom: 0px;
