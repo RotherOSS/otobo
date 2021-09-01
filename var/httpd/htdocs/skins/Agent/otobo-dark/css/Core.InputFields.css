@@ -185,7 +185,7 @@ div.InputField_Selection div.Remove {
 }
 
 .AlreadyDisabled div.InputField_Selection div.Text {
-    background: #f5f5f5;
+    background: #141414;
     cursor: default;
 }
 
@@ -290,7 +290,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .InputField_FiltersList {
-    background: #fff;
+    background: #141414;
     white-space: nowrap;
     border-top: 1px solid #ccc;
     z-index: 1500;
@@ -489,7 +489,7 @@ div.InputField_ToolbarContainer ul li a:hover {
 
 .jstree-InputField .Disabled > .jstree-wholerow:hover,
 .jstree-InputField .Disabled > .jstree-wholerow-hovered {
-    background-color: #eee;
+    background-color: #1f1f1f;
     cursor: default;
 }
 
