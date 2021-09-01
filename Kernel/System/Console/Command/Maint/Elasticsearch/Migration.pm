@@ -323,7 +323,7 @@ sub MigrateCustomerUsers {
 
     # No special search, search all customers together
     if ( $CustomerLimitLevel == 0 ) {
-        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+        %CustomerUserList = $CustomerUserObject->CustomerSearch(
             Search => '*',
             Valid  => 1,
             Limit  => 4_000_000,
