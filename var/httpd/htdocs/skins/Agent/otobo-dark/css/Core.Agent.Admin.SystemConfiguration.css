@@ -492,12 +492,12 @@ h2.SearchResults {
 }
 
 .WidgetSimple.Setting .Header .HeaderMessage a {
-    color: #c8c6c4;
+    color: #999;
     transition: color ease 0.2s;
 }
 
 .WidgetSimple.Setting .Header .HeaderMessage a:hover {
-    color: #333;
+    color: #c8c6c4;
 }
 
 .WidgetSimple.Setting .Header .HeaderMessage a,
@@ -770,7 +770,7 @@ h2.SearchResults {
 }
 
 .WidgetSimple .WidgetMenu {
-    background: #eee;
+    background: #292929;
     padding: 7px 10px 7px 18px;
     display: none;
 }
@@ -778,12 +778,12 @@ h2.SearchResults {
 .WidgetSimple .WidgetMenu > a,
 .WidgetSimple .WidgetMenu > span {
     display: inline-block;
-    background: #e5e5e5;
+    background: #333;
     margin-right: 3px;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     padding: 3px 5px;
     font-size: 11px;
-    color: #777;
+    color: #aaa;
     transition: all ease 1s;
     cursor: pointer;
     opacity: 0;
@@ -791,8 +791,8 @@ h2.SearchResults {
 
 .WidgetSimple .WidgetMenu > a:focus,
 .WidgetSimple .WidgetMenu > span:focus {
-    border-color: #00023c;
-    color: #00023c;
+    border-color: #c8c6c4;
+    color: #c8c6c4;
 }
 
 .WidgetSimple.MenuExpanded .WidgetMenu > a,
@@ -835,8 +835,8 @@ h2.SearchResults {
 
 .WidgetSimple .WidgetMenu > a:hover,
 .WidgetSimple .WidgetMenu > span:hover {
-    background: #eee;
-    border-color: #777;
+    background: #4a4a4a;
+    border-color: #c8c6c4;
 }
 
 .WidgetSimple .WidgetMenu > a i,
