@@ -76,6 +76,7 @@ sub Configure {
         HasValue   => 1,
         ValueRegex => qr/^\d$/smx,
     );
+
     return;
 }
 
@@ -129,6 +130,7 @@ sub Run {
     # test the connection to the server
     if ( !$ESObject->TestConnection() ) {
         $Self->Print("<red>Connection could not be established!</red>\n");
+
         return 0;
     }
 
@@ -136,13 +138,13 @@ sub Run {
     my $MicroSleep         = $Self->GetOption('micro-sleep');
     my $CustomerLimitLevel = $Self->GetOption('use-customer-batches') || '0';
 
-    if ( $Targets =~ /t|i/ ) {
+    if ( $Targets =~ m/t|i/ ) {
         $Self->CreateAttachmentPipeline(
             ESObject => $ESObject,
         );
     }
 
-    if ( $Targets =~ /c/ ) {
+    if ( $Targets =~ m/c/ ) {
         $Self->MigrateCompanies(
             ESObject => $ESObject,
             Config   => $ConfigIndexSettings->{Customer} // $Config,
@@ -224,6 +226,7 @@ sub CreateAttachmentPipeline {
     }
     else {
         $Self->Print("<red>Attachment pipeline could not be set up!</red>\n");
+
         return 0;
     }
 
@@ -284,11 +287,12 @@ sub MigrateCompanies {
     # return if no StoreFields are defined
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::CustomerCompanyStoreFields') ) {
         $Self->Print("<yellow>No CustomerCompanyStoreFields are defined.</yellow>\n");
+
         return 1;
     }
 
     my $Count         = 0;
-    my $CustomerCount = scalar( keys %CustomerCompanyList );
+    my $CustomerCount = scalar keys %CustomerCompanyList;
 
     my $Errors = 0;
     CUSTOMERID:
@@ -316,11 +320,10 @@ sub MigrateCompanies {
         $Self->Print("<yellow>CustomerCompany transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>CustomerCompany transfer complete.</green>\n");
+        $Self->Print("<green>CustomerCompany transfer complete. Transferred $Count companies.</green>\n");
     }
 
     return 1;
-
 }
 
 sub MigrateCustomerUsers {
@@ -332,7 +335,7 @@ sub MigrateCustomerUsers {
 
     # No special search, search all customers together
     if ( $CustomerLimitLevel == 0 ) {
-        my %CustomerUserList = $CustomerUserObject->CustomerSearch(
+        %CustomerUserList = $CustomerUserObject->CustomerSearch(
             Search => '*',
             Valid  => 1,
             Limit  => 4_000_000,
@@ -397,6 +400,7 @@ sub MigrateCustomerUsers {
     }
     else {
         $Self->Print("<red>CustomerUser index could not be created!</red>\n");
+
         return 0;
     }
 
@@ -407,7 +411,7 @@ sub MigrateCustomerUsers {
     }
 
     my $Count             = 0;
-    my $CustomerUserCount = scalar( keys %CustomerUserList );
+    my $CustomerUserCount = scalar keys %CustomerUserList;
 
     my $Errors = 0;
     CUSTOMERUSERID:
@@ -435,11 +439,10 @@ sub MigrateCustomerUsers {
         $Self->Print("<yellow>CustomerUser transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>CustomerUser transfer complete.</green>\n");
+        $Self->Print("<green>CustomerUser transfer complete. Transferred $Count customer users.</green>\n");
     }
 
     return 1;
-
 }
 
 sub MigrateTickets {
@@ -506,12 +509,14 @@ sub MigrateTickets {
     }
     else {
         $Self->Print("<red>Ticket index could not be created!</red>\n");
+
         return 0;
     }
 
     # return if no StoreFields are defined
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::TicketStoreFields') ) {
         $Self->Print("<yellow>No TicketStoreFields are defined.</yellow>\n");
+
         return 1;
     }
 
@@ -565,11 +570,10 @@ sub MigrateTickets {
         $Self->Print("<yellow>Ticket transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>Ticket transfer complete.</green>\n");
+        $Self->Print("<green>Ticket transfer complete. Transferred $Count tickets.</green>\n");
     }
 
     return 1;
-
 }
 
 sub MigrateConfigItems {
@@ -582,6 +586,7 @@ sub MigrateConfigItems {
     );
     if ( !$IsInstalled ) {
         $Self->Print("<green>Skipping ITSMConfigItems (ITSMConfigurationManagment not installed)...</green>\n");
+
         return 1;
     }
 
@@ -648,12 +653,14 @@ sub MigrateConfigItems {
     }
     else {
         $Self->Print("<red>ConfigItem index could not be created!</red>\n");
+
         return 0;
     }
 
     # return if no StoreFields are defined
     if ( !$Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ConfigItemStoreFields') ) {
         $Self->Print("<yellow>No ConfigItemStoreFields are defined.</yellow>\n");
+
         return 1;
     }
 
@@ -665,7 +672,7 @@ sub MigrateConfigItems {
     );
 
     my $Count   = 0;
-    my $CICount = scalar( @{$ConfigItems} );
+    my $CICount = scalar @{$ConfigItems};
 
     my $Errors = 0;
     for my $ConfigItemID ( @{$ConfigItems} ) {
@@ -692,11 +699,10 @@ sub MigrateConfigItems {
         $Self->Print("<yellow>ConfigItem transfer complete. $Errors error(s) occured!</yellow>\n");
     }
     else {
-        $Self->Print("<green>ConfigItem transfer complete.</green>\n");
+        $Self->Print("<green>ConfigItem transfer complete. Transferred $Count config items.</green>\n");
     }
 
     return 1;
-
 }
 
 1;
