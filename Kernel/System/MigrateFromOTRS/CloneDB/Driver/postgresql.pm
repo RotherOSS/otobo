@@ -169,8 +169,10 @@ sub ResetAutoIncrementField {
 
     # The 2 argument form setval() sets the last used value of the sequence.
     # Thus the next value will be the set plus one.
+    # Note that setval('sequence_name', 0) is not supported by PostgreSQL, at least not by all versions of PostgreSQL.
+    # As a workaround skip the value 1 for empty tables.
     $Param{DBObject}->Prepare(
-        SQL => qq{ SELECT setval('$SequenceName', ( SELECT coalesce(max(id), 0) FROM $TableName ) )},
+        SQL => qq{ SELECT setval('$SequenceName', ( SELECT coalesce(max(id), 1) FROM $TableName ) )},
     ) || return;
 
     # no need to fetch anything, as Prepare() already executes the query

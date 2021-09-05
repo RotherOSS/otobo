@@ -53,9 +53,9 @@ $Selenium->RunTest(
 
         try_ok {
 
-            # change test user password preference, input incorrect current password
-            # TODO: test with accents: https://github.com/RotherOSS/otobo/issues/944
-            my $NewPw = "new" . $TestUserLogin;
+            # Change test customer password preference to a password with accents.
+            # First input an incorrect current password.
+            my $NewPw = "newáél" . $TestUserLogin;
             $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
             $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
             $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
@@ -65,7 +65,7 @@ $Selenium->RunTest(
             my $IncorrectUpdateMessage = "The current password is not correct. Please try again!";
             $Selenium->content_contains( $IncorrectUpdateMessage, 'Customer incorrect preferences password - update' );
 
-            # change test user password preference, correct input
+            # change test customer password preference, use the correct current password this time
             $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
             $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
             $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
