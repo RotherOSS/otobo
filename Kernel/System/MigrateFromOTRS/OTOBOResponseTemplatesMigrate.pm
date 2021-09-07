@@ -89,8 +89,7 @@ sub Run {
 
         # ATTENTION, don't use opening or closing tags here (< or >)
         # because old response templates can contain quoted tags (&lt; or &gt;)
-        'OTRS_' => 'OTOBO_',
-        'OTRS'  => 'OTOBO',
+        'OTRS' => 'OTOBO',
     );
 
     # get needed objects
