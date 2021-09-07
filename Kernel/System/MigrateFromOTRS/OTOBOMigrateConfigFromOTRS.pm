@@ -187,14 +187,14 @@ sub Run {
     }
 
     # Write ZZZAAuto.pm
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
         Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
         AllSettings => 1,
         Force       => 1,
         UserID      => 1,
     );
 
-    if ( !$Success ) {
+    if ( !$DeployResult{Success} ) {
         my %Result;
         $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");

@@ -830,17 +830,17 @@ sub RebuildConfig {
     }
 
     # Rebuild ZZZAAuto.pm with current values
-    if (
-        !$SysConfigObject->ConfigurationDeploy(
-            Comments    => $Param{Comments} || "Configuration Rebuild",
-            AllSettings => 1,
-            Force       => 1,
+    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
+        Comments    => $Param{Comments} || "Configuration Rebuild",
+        AllSettings => 1,
+        Force       => 1,
 
-            #            NoValidation => 1,
-            UserID => 1,
-        )
-        )
-    {
+        # NoValidation => 1,
+        UserID => 1,
+    );
+
+    if ( !$DeployResult{Success} ) {
+
         # Log info to apache error log and OTOBO log (syslog or file)
         $Self->MigrationLog(
             String   => "There was a problem writing XML to DB.",
