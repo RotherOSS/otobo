@@ -90,7 +90,7 @@ sub Run {
     $Result{Successful} = 0;
 
     # map wrong to correct tags
-    my %NotificationTagsOld2New = (
+    my %OldTag2NewTag = (
 
         # ATTENTION, don't use opening or closing tags here (< or >)
         # because old notifications can contain quoted tags (&lt; or &gt;)
@@ -121,11 +121,11 @@ sub Run {
         # remember if we need to replace something
         my $NeedToReplace;
 
-        # get old notification tag
-        for my $OldTag ( sort keys %NotificationTagsOld2New ) {
+        # get old tag
+        for my $OldTag ( sort keys %OldTag2NewTag ) {
 
-            # get new notification tag
-            my $NewTag = $NotificationTagsOld2New{$OldTag};
+            # get new tag
+            my $NewTag = $OldTag2NewTag{$OldTag};
 
             # replace tags in Subject and Text
             ATTRIBUTE:
