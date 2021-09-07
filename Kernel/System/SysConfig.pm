@@ -3509,6 +3509,7 @@ sub ConfigurationDeploy {
         );
 
         $Result{Error} = $LanguageObject->Translate( "Invalid setting: %s", $CurrentSetting->{Name} );
+
         return %Result;
     }
 
@@ -3531,6 +3532,7 @@ sub ConfigurationDeploy {
             );
 
             $Result{Error} = $LanguageObject->Translate("Could not combine settings values into a perl hash.");
+
             return %Result;
         }
     }
@@ -3560,10 +3562,8 @@ sub ConfigurationDeploy {
                 Message  => "Can not lock the deployment for UserID '$Param{UserID}'!",
             );
 
-            $Result{Error} = $LanguageObject->Translate(
-                "Can not lock the deployment for UserID '%s'!",
-                $Param{UserID},
-            );
+            $Result{Error} = $LanguageObject->Translate( "Can not lock the deployment for UserID '%s'!", $Param{UserID} );
+
             return %Result;
         }
 
