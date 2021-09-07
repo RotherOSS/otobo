@@ -62,7 +62,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
