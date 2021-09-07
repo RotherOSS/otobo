@@ -116,7 +116,7 @@ sub Run {
         };
     }
 
-    NOTIFICATIONMESSAGE:
+    AUTO_RESPONSE:
     for my $AutoResponse (@AutoResponses) {
 
         # remember if we need to replace something
@@ -144,7 +144,7 @@ sub Run {
         }
 
         # only change the database if something has been really replaced
-        next NOTIFICATIONMESSAGE if !$NeedToReplace;
+        next AUTO_RESPONSE unless $NeedToReplace;
 
         # update the database
         $DBObject->Do(

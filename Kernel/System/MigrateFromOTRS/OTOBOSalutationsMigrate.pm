@@ -110,7 +110,7 @@ sub Run {
         };
     }
 
-    NOTIFICATIONMESSAGE:
+    SALUTATION:
     for my $Salutation (@Salutations) {
 
         # remember if we need to replace something
@@ -138,7 +138,7 @@ sub Run {
         }
 
         # only change the database if something has been really replaced
-        next NOTIFICATIONMESSAGE if !$NeedToReplace;
+        next SALUTATION unless $NeedToReplace;
 
         # update the database
         $DBObject->Do(
