@@ -196,8 +196,11 @@ sub Run {
 
     if ( !$DeployResult{Success} ) {
         my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
+        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment} = $Self->{LanguageObject}->Translate(<<'END_COMMENT');
+The merged Configuration could not be deployed. Please try to fix the configuration
+by running these console commands: Admin::Config::ListInvalid, Admin::Config::FixInvalid, and Maint::Config::Rebuild."
+END_COMMENT
         $Result{Successful} = 0;
 
         return \%Result;
