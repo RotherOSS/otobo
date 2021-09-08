@@ -1,3 +1,8 @@
+[% IF Data.ServerError %]
+    <p>
+        [% Data.ErrorMessage %]
+    </p>
+[% END %]
 <input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]"
 [% IF Data.Mandatory %]
     <div id="[% Data.DivID %]" class="TooltipErrorMessage">
@@ -6,10 +11,4 @@
         </p>
     </div>
 [% END %]
-[% IF Data.ServerError %]
-    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
-        <p>
-            [% Data.ErrorMessage %]
-        </p>
-    </div>
-[% END %]
+
