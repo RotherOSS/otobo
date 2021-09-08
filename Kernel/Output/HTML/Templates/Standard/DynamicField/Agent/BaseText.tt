@@ -1,4 +1,4 @@
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]"
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]">
 [% IF Data.Mandatory %]
     <div id="[% Data.DivID %]" class="TooltipErrorMessage">
         <p>
