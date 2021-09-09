@@ -62,7 +62,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -90,7 +90,7 @@ sub Run {
     $Result{Successful} = 0;
 
     # map wrong to correct tags
-    my %NotificationTagsOld2New = (
+    my %OldTag2NewTag = (
 
         # ATTENTION, don't use opening or closing tags here (< or >)
         # because old notifications can contain quoted tags (&lt; or &gt;)
@@ -115,17 +115,17 @@ sub Run {
         };
     }
 
-    NOTIFICATIONMESSAGE:
+    NOTIFICATION_MESSAGE:
     for my $NotificationMessage (@NotificationMessages) {
 
         # remember if we need to replace something
         my $NeedToReplace;
 
-        # get old notification tag
-        for my $OldTag ( sort keys %NotificationTagsOld2New ) {
+        # get old tag
+        for my $OldTag ( sort keys %OldTag2NewTag ) {
 
-            # get new notification tag
-            my $NewTag = $NotificationTagsOld2New{$OldTag};
+            # get new tag
+            my $NewTag = $OldTag2NewTag{$OldTag};
 
             # replace tags in Subject and Text
             ATTRIBUTE:
@@ -143,7 +143,7 @@ sub Run {
         }
 
         # only change the database if something has been really replaced
-        next NOTIFICATIONMESSAGE if !$NeedToReplace;
+        next NOTIFICATION_MESSAGE unless $NeedToReplace;
 
         # update the database
         $DBObject->Do(

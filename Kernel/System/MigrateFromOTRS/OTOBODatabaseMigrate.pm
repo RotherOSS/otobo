@@ -177,6 +177,10 @@ sub Run {
         }
     }
 
+    # Now that the data is transfered the cache might contain obsolete values.
+    # Purge the cache, except the entries that concerns the migration directly.
+    $Self->CacheCleanup();
+
     return {
         Message    => $Message,
         Comment    => $Self->{LanguageObject}->Translate('Data transfer completed.'),
