@@ -198,8 +198,8 @@ sub Run {
         my %Result;
         $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
         $Result{Comment} = $Self->{LanguageObject}->Translate(<<'END_COMMENT');
-The merged Configuration could not be deployed. Please try to fix the configuration
-by running these console commands: Admin::Config::ListInvalid, Admin::Config::FixInvalid, and Maint::Config::Rebuild."
+The merged configuration could not be deployed because it contain invalid values. Please try to fix the configuration
+by running these commands: "bin/otobo.Console.pl Admin::Config::ListInvalid" and "bin/otobo.Console.pl Admin::Config::FixInvalid".
 END_COMMENT
         $Result{Successful} = 0;
 
