@@ -52,7 +52,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    return bless {}, $Type;
+    return bless { TaskObjects => {} }, $Type;
 }
 
 =head2 Run()
@@ -69,6 +69,8 @@ run migration task
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my %ResultFail = ( Successful => 0 );
+
     # check needed stuff
     for my $Needed (qw(Task UserID)) {
         if ( !$Param{$Needed} ) {
@@ -77,12 +79,22 @@ sub Run {
                 Message  => "Need $Needed!",
             );
 
-            return;
+            return \%ResultFail;
         }
     }
 
+    # don't attempt to run when the task is not registered
+    if ( !$Self->_TaskIsRegistered( Task => $Param{Task} ) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => qq{The migration task $Param{Task} is not valid. Perhaps you need to add the new task to \$Self->_TaskIsRegistered().},
+        );
+
+        return \%ResultFail;
+    }
+
     # don't attempt to run when the pre check failed
-    return unless $Self->_ExecutePreCheck(%Param);
+    return \%ResultFail unless $Self->_ExecutePreCheck(%Param);
 
     return $Self->_ExecuteRun(%Param);
 }
@@ -90,118 +102,75 @@ sub Run {
 sub _ExecutePreCheck {
     my ( $Self, %Param ) = @_;
 
-    # determine the relevant tasks
-    my @Tasks;
-    {
-        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
+    my $Task = $Param{Task};
 
-        if ( $Param{Task} eq 'All' ) {
-            @Tasks = @AllTasks;
-        }
-        else {
-            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
-        }
-    }
+    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
 
-    if ( !@Tasks ) {
-        print STDERR "No valid Module $Param{Task} found. ",
-            q{Perhaps you need to add the new check to $Self->_TasksGet().};
+    return 0 unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
 
-        return 0;
-    }
+    $Self->{TaskObjects}->{$Task} //= $Kernel::OM->Create($ModuleName);
 
-    my $IsOK = 0;
+    return 0 unless $Self->{TaskObjects}->{$Task};
 
-    TASK:
-    for my $Task (@Tasks) {
+    # successful per default
+    return 1 unless $Self->{TaskObjects}->{$Task}->can('CheckPreviousRequirement');
 
-        my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
-
-        # NOTE: This looks strange. When one check succeeded and next check can't be loaded that the
-        # check succeeds altogether.
-        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-        # NOTE: see the note above
-        $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-
-        last TASK unless $Self->{TaskObjects}->{$ModuleName};
-
-        # Execute previous check, printing a different message
-        # NOTE: when last check succeeds the the check succeeds altogether
-        if ( $Self->{TaskObjects}->{$ModuleName}->can('CheckPreviousRequirement') ) {
-            $IsOK = $Self->{TaskObjects}->{$ModuleName}->CheckPreviousRequirement(%Param);
-        }
-    }
-
-    return $IsOK;
+    return $Self->{TaskObjects}->{$Task}->CheckPreviousRequirement(%Param);
 }
 
 sub _ExecuteRun {
     my ( $Self, %Param ) = @_;
 
-    # determine the relevant tasks
-    my @Tasks;
-    {
-        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
+    my $Task       = $Param{Task};
+    my %ResultFail = ( Successful => 0 );
 
-        if ( $Param{Task} eq 'All' ) {
-            @Tasks = @AllTasks;
-        }
-        else {
-            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
-        }
-    }
+    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
 
-    if ( !@Tasks ) {
+    return \%ResultFail unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
 
-        return {
-            Message => "invalid task $Param{Task}",
-            Comment => "No valid Module $Param{Task} found. "
-                . qq{Perhaps you need to add the new check to $Self->_TasksGet().},
-            Successful => 0,
-        };
-    }
+    $Self->{TaskObjects}->{$Task} //= $Kernel::OM->Create($ModuleName);
 
-    my $CurrentStep = 1;
-    my %Result;
+    return \%ResultFail unless $Self->{TaskObjects}->{$Task};
 
-    TASK:
-    for my $Task (@Tasks) {
+    # a migration step must have a Run-method
+    return \%ResultFail unless $Self->{TaskObjects}->{$Task}->can('Run');
 
-        my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
-
-        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-        $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-
-        last TASK unless $Self->{TaskObjects}->{$ModuleName};
-
-        # Execute Run-Component
-        if ( $Self->{TaskObjects}->{$ModuleName}->can('Run') ) {
-
-            $Result{ $Task->{Module} } = $Self->{TaskObjects}->{$ModuleName}->Run(%Param);
-
-            # Add counter to $Result.
-            $Result{ $Task->{Module} }->{CurrentStep} = $CurrentStep;
-        }
-
-        # Do not handle Run if task has no appropriate method.
-        else {
-            next TASK;
-        }
-
-        $CurrentStep++;
-    }
-
-    return \%Result;
+    # Execute Run-Component
+    return $Self->{TaskObjects}->{$Task}->Run(%Param);
 }
 
-sub _TasksGet {
+# Check wether the Task is registered and return a hashref.
+# The hashref contains the task name and the
+sub _TaskIsRegistered {
     my ( $Self, %Param ) = @_;
 
-    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
+    my %TaskIsRegistered = (
+        OTOBOOTRSConnectionCheck            => 1,
+        OTOBOOTRSDBCheck                    => 1,
+        OTOBOFrameworkVersionCheck          => 1,
+        OTOBOPerlModulesCheck               => 1,
+        OTOBOOTRSPackageCheck               => 1,
+        OTOBOCopyFilesFromOTRS              => 1,
+        OTOBODatabaseMigrate                => 1,
+        OTOBONotificationMigrate            => 1,
+        OTOBOSalutationsMigrate             => 1,
+        OTOBOSignaturesMigrate              => 1,
+        OTOBOResponseTemplatesMigrate       => 1,
+        OTOBOAutoResponseTemplatesMigrate   => 1,
+        OTOBOMigrateWebServiceConfiguration => 1,
+        OTOBOCacheCleanup                   => 1,
+        OTOBOMigrateConfigFromOTRS          => 1,
+        OTOBOStatsMigrate                   => 1,
+        OTOBOCacheCleanup                   => 1,
+        OTOBOACLDeploy                      => 1,
+        OTOBOProcessDeploy                  => 1,
+        OTOBOPostmasterFilterMigrate        => 1,
+        OTOBOPackageSpecifics               => 1,
+        OTOBOItsmTablesMigrate              => 1,
+    );
 
-    return $MigrationBaseObject->TaskSecurityCheck();
+    return 1 if $TaskIsRegistered{ $Param{Task} };    # registered
+    return 0;                                         # not registered
 }
 
 1;

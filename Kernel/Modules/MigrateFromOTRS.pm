@@ -146,7 +146,7 @@ sub Run {
                 Task     => 'OTOBOOTRSConnectionCheck',
                 UserID   => 1,
                 OTRSData => \%GetParam,
-            )->{OTOBOOTRSConnectionCheck};
+            );
         }
         elsif ( $Self->{Subaction} eq 'OTRSDBSettings' && $AJAXTask eq 'CheckSettings' ) {
             my %GetParam;
@@ -180,7 +180,7 @@ sub Run {
                     Task   => 'OTOBOOTRSDBCheck',
                     UserID => 1,
                     DBData => \%GetParam,
-                )->{OTOBOOTRSDBCheck};
+                );
             }
         }
         elsif ( $Self->{Subaction} eq 'PreChecks' || $Self->{Subaction} eq 'Copy' ) {
@@ -248,10 +248,10 @@ sub Run {
                         PackageResolve => $Resolve  // {},
                     );
                 };
-                if ( !$Result || !defined $Result->{$PerlTask}->{Successful} ) {
-                    $Result->{$PerlTask}->{Successful} = 0;
-                    $Result->{$PerlTask}->{Message}    = $AJAXTask;
-                    $Result->{$PerlTask}->{Comment}    = 'A fatal error occured.';
+                if ( !$Result || !defined $Result->{Successful} ) {
+                    $Result->{Successful} = 0;
+                    $Result->{Message}    = $AJAXTask;
+                    $Result->{Comment}    = 'A fatal error occured.';
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'error',
@@ -260,7 +260,7 @@ sub Run {
                 }
 
                 # check if progress update has to be stopped
-                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{$PerlTask}->{Successful} ) ) {
+                if ( $Self->{Subaction} eq 'Copy' && ( !$NextTask{$AJAXTask} || !$Result->{Successful} ) ) {
                     my $Status = $CacheObject->Delete(
                         Type => 'OTRSMigration',
                         Key  => 'MigrationState',
@@ -268,7 +268,7 @@ sub Run {
                 }
 
                 # store next task in cache in case of a restart
-                if ( $Self->{Subaction} eq 'Copy' && $Result->{$PerlTask}->{Successful} ) {
+                if ( $Self->{Subaction} eq 'Copy' && $Result->{Successful} ) {
                     $CacheObject->Set(
                         Type  => 'OTRSMigration',
                         Key   => 'Copy',
@@ -280,7 +280,7 @@ sub Run {
                 }
 
                 $Return = {
-                    %{ $Result->{$PerlTask} },
+                    $Result->%*,
                     NextTask => $NextTask{$AJAXTask},
                 };
             }
