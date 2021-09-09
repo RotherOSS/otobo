@@ -873,7 +873,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox {
     margin: 0px;
-    background: #6a5c21;
+    background: #F6A72B;
     position: relative;
     z-index: 1;
 }
@@ -894,7 +894,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox p,
 .MessageBox a {
-    color: rgba(200,198,196,0.8);
+    color: rgba(255,255,255,0.8);
 }
 
 .MessageBox.Info a,
@@ -904,7 +904,7 @@ table.AttachmentList.DataTable thead th {
 
 .MessageBox a:hover,
 .MessageBox a:hover {
-    color: #c8c6c4;
+    color: #fff;
 }
 
 .MessageBox a:hover {
@@ -915,8 +915,17 @@ table.AttachmentList.DataTable thead th {
     margin-top: 2px;
 }
 
+.MessageBox.Notice p,
+.MessageBox.Notice a {
+    color: #1f1f1f;
+}
+
+.MessageBox.Notice a:hover {
+    color: #000;
+}
+
 .MessageBox.Error {
-    background: #660011;
+    background: #DA3633;
 }
 
 .MessageBox.Confirmation {
