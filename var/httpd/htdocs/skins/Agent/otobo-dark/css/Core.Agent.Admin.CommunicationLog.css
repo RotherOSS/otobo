@@ -34,7 +34,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .ItemListGrid > li {
-    border: 1px solid #ccc;
+    border: 1px solid #333;
     min-width: 300px;
 }
 
@@ -42,26 +42,26 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     font-size: 20px;
 }
 .ItemListGrid.WithIcons > li span.Title {
-    color: #666;
+    color: #c8c6c4;
 }
 
 .ItemListGrid.WithIcons > li.Successful span.Title,
 .ItemListGrid.WithIcons > li.Successful span.Icons i.Icon,
 .ItemListGrid.WithIcons > li.Successful span.Icons i.Icon2 {
-    color: #069d07;
+    color: #3fb950;
 }
 
 .ItemListGrid.WithIcons > li.Warning span.Title,
 .ItemListGrid.WithIcons > li.Warning span.Icons i.Icon,
 .ItemListGrid.WithIcons > li.Warning span.Icons i.Icon2 {
-    color: #ff9050;
+    color: #f6a72b;
 }
 
 
 .ItemListGrid.WithIcons > li.Failed span.Title,
 .ItemListGrid.WithIcons > li.Failed span.Icons i.Icon,
 .ItemListGrid.WithIcons > li.Failed span.Icons i.Icon2 {
-    color: #ff505e;
+    color: #da3633;
 }
 
 td.Edit,
@@ -90,11 +90,11 @@ td.EndTime {
 }
 
 .ControlRow {
-    background: #E8E8E8;
+    background: #333;
 }
 
 .ControlRow li > a {
-    color: #888;
+    color: #c8c6c4;
 }
 
 } /* end @media print*/

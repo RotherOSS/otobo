@@ -75,11 +75,13 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .AdminSupportDataCollector .CheckResultProblem p {
-    background-color: #EDD3D3;
+    background-color: #da3633;
+    color: #ddd;
 }
 
 .AdminSupportDataCollector .CheckResultWarning p {
-    background-color: #F4EBCD;
+    background-color: #f6a72b;
+    color: #1f1f1f;
 }
 
 /**
