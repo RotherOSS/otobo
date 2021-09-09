@@ -64,7 +64,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -187,17 +187,20 @@ sub Run {
     }
 
     # Write ZZZAAuto.pm
-    my $Success = $SysConfigObject->ConfigurationDeploy(
+    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
         Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
         AllSettings => 1,
         Force       => 1,
         UserID      => 1,
     );
 
-    if ( !$Success ) {
+    if ( !$DeployResult{Success} ) {
         my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
+        $Result{Message} = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
+        $Result{Comment} = $Self->{LanguageObject}->Translate(<<'END_COMMENT');
+The merged configuration could not be deployed because it contain invalid values. Please try to fix the configuration
+by running these commands: "bin/otobo.Console.pl Admin::Config::ListInvalid" and "bin/otobo.Console.pl Admin::Config::FixInvalid".
+END_COMMENT
         $Result{Successful} = 0;
 
         return \%Result;
