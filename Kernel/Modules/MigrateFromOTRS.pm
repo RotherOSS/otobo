@@ -201,6 +201,7 @@ sub Run {
                     OTOBOMigrateConfigFromOTRS
                     OTOBONotificationMigrate
                     OTOBOStatsMigrate
+                    OTOBOItsmTablesMigrate
                     OTOBOAutoResponseTemplatesMigrate
                     OTOBOResponseTemplatesMigrate
                     OTOBOSalutationsMigrate
