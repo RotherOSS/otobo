@@ -22,8 +22,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 @media screen,projection,tv,handheld {
 
 .WidgetSimple fieldset.Separated {
-    background-color: #E9E9E9;
-    border: 1px solid #CCCCCC;
+    background-color: #1f1f1f;
+    border: 1px solid #333;
     margin: 9px 0px;
     padding: 4px;
 }
@@ -34,7 +34,7 @@ a.Copy {
 }
 
 .ACLStructure {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #333;
     padding-bottom: 20px;
 }
 
@@ -56,11 +56,11 @@ fieldset:first-child .ACLFields > h4 {
     font-size: 11px;
     width: 450px;
     padding-bottom: 5px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #333;
 }
 
 .ACLFields > p a {
-    color: #00023c;
+    color: #c8c6c4;
     text-decoration: underline;
 }
 
@@ -91,14 +91,14 @@ fieldset:first-child .ACLFields > h4 {
     border-radius: 5px;
     line-height: 12px;
     font-size: 11px;
-    background-color: #ddd;
+    background-color: #444;
     position: relative;
     margin-right: 5px;
     cursor: pointer;
 }
 
 .AddAll:hover {
-    background-color: #ccc;
+    background-color: #555;
 }
 
 .ACLFieldGroup input.NewDataItem {
@@ -218,7 +218,7 @@ fieldset:first-child .ACLFields > h4 {
     border-radius: 5px;
     line-height: 12px;
     font-size: 11px;
-    background-color: #ddd;
+    background-color: #333;
     position: relative;
     margin-right: 5px;
     margin-bottom: 5px;
@@ -236,7 +236,7 @@ fieldset:first-child .ACLFields > h4 {
     position: absolute;
     -moz-border-radius: 0px 5px 5px 0px;
     border-radius: 0px 5px 5px 0px;
-    background-color: #bbb;
+    background-color: #444;
     right: 0px;
     top: 0px;
     font-style: normal;
@@ -247,7 +247,7 @@ fieldset:first-child .ACLFields > h4 {
 }
 
 .ACLFieldGroup li ul li ul li ul li em:hover {
-    background-color: #777;
+    background-color: #555;
     color: #fff;
 }
 
@@ -301,8 +301,8 @@ fieldset:first-child .ACLFields > h4 {
 }
 
 .ACLNote {
-    background: #fff;
-    border: 1px solid #CCCCCC;
+    background: #000;
+    border: 1px solid #333;
     margin-bottom: 10px;
     padding: 5px 10px;
 }
