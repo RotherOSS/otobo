@@ -1,23 +1,18 @@
 # adapted from https://raku-advent.blog/2019/12/06/put-some-github-actions-in-your-raku-repositories/
 name: 'prove scripts/test/Compile.t'
-
-on: ['push']
-
+on: ['pull_request']
 jobs:
     syntax_check:
         runs-on: 'ubuntu-latest'
-
-
-        container:
-            # using a working OTOBO images avoids the need to install dependencies
-            image: 'rotheross/otobo:devel-rel-10_0'
-            options: --user root
-
         steps:
-            # checkout with history
-            - uses: actions/checkout@v2
-              with:
-                fetch-depth: 0
+            - id: files
+              uses: jitterbit/get-changed-files@v1
+
+            - name: 'install dependencies'
+              run: sudo apt install -y libxml2-utils libxml-libxslt-perl cpanminus
+
+            - name: 'checkout otobo'
+              uses: actions/checkout@v2
 
             # some diagnostics
             - name: perl -V
@@ -38,11 +33,8 @@ jobs:
                 Kernel/cpan-lib/Apache2
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
-            - name: show changed files
-              run: git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
-
             # The actual test step.
             # xargs adds the changed files to the prove command
             # :: tells prove that whatever follows should be passed to the test script
             - name: prove
-              run: 'git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t ::'
+              run: prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: ${{ steps.files.outputs.added_modified }}
