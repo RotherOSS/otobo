@@ -22,6 +22,9 @@ jobs:
             - name: env
               run: env | sort
 
+            - name: 'install from cpanfile.docker'
+              run: cpanm --sudo --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up Kernel/Config.pm
               run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
