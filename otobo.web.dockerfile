@@ -48,14 +48,6 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 
 # Install packages from CPAN into the local lib /opt/otobo_install/local.
 #
-# The modules Net::DNS and Gazelle take a long time to build and test.
-# Install them early in a separate RUN in order to make rebuilds faster.
-# TODO: go back to install via the cpanfile
-#
-# Found no easy way to install with --force in the cpanfile. Therefore install
-# the modules with ignorable test failures with the option --force.
-# TODO: go back to install via the cpanfile
-#
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
 #
@@ -64,9 +56,6 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
-RUN cpanm --local-lib local Net::DNS
-RUN cpanm --local-lib local Gazelle
-RUN cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
 RUN cpanm --local-lib local Carton
 COPY cpanfile.docker cpanfile
 RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
