@@ -43,8 +43,7 @@ There are some requirements for running this application. Do something like the 
 in F<otobo.web.dockerfile>.
 
     cp cpanfile.docker cpanfile
-    cpanm --local-lib local Carton Net::DNS Gazelle
-    cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+    cpanm --local-lib local Carton
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 =head1 Profiling
