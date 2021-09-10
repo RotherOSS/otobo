@@ -872,9 +872,8 @@ sub TableExists {
 
     my %TableNames = map { lc $_ => 1 } $DBObject->ListTables();
 
-    return if !$TableNames{ lc $Param{Table} };
-
-    return 1;
+    return 1 if $TableNames{ lc $Param{Table} };
+    return 0;
 }
 
 =head2 ColumnExists()
