@@ -36,7 +36,6 @@ jobs:
                 Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 
             # The actual test step.
-            # xargs adds the changed files to the prove command
             # :: tells prove that whatever follows should be passed to the test script
             - name: prove
-              run: prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: ${{ steps.files.outputs.added_modified }}
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: ${{ steps.files.outputs.added_modified }}'
