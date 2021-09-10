@@ -1,3 +1,5 @@
+%YAML 1.1
+---
 name: 'CodePolicy'
 on: ['pull_request']
 jobs:
@@ -12,6 +14,12 @@ jobs:
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
+
+            # some diagnostics
+            - name: perl -V
+              run: perl -V
+            - name: env
+              run: env | sort
 
             - name: 'install from cpanfile.docker'
               run: cpanm --sudo --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
