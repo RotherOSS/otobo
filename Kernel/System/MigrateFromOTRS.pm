@@ -103,7 +103,7 @@ sub _ExecutePreCheck {
     my $TaskObject = delete $Param{TaskObject};
 
     # successful per default, CheckPreviousRequirement() is not a required method
-    return 1 unless $$TaskObject->can('CheckPreviousRequirement');
+    return 1 unless $TaskObject->can('CheckPreviousRequirement');
 
     return $TaskObject->CheckPreviousRequirement(%Param);
 }
