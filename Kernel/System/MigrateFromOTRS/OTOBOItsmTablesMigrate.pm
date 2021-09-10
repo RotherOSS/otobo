@@ -88,27 +88,24 @@ sub Run {
         },
     );
 
-    # get needed objects
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    my $Table = 'change_notification_message';
 
-    # check whether the table 'change_notification_message' exists
-    my @Tables = $DBObject->ListTables();
-
-    if ( !any { $_ eq 'change_notification_message' } @Tables ) {
+    if ( !$Self->TableExists( Table => $Table ) ) {
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate("Nothing to do as the the table 'change_notification_message' does not exist."),
+            Comment    => $Self->{LanguageObject}->Translate( "Nothing to do, as the the table '%s' does not exist.", $Table ),
             Successful => 1,
         };
     }
 
     # the actual migration
     # TODO: maybe move that to Base.pm
-    my $Table = 'change_notification_message';
-    my @SQLs  = (
+    my @SQLs = (
         qq{UPDATE $Table SET text = REPLACE( text, '<OTRS_', '<OTOBO_')},
         qq{UPDATE $Table SET text = REPLACE( text, '&lt;OTRS_', '&lt;OTOBO_')},
     );
+
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     SQL:
     for my $SQL (@SQLs) {
