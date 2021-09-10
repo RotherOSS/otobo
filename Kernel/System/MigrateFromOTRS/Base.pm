@@ -95,7 +95,6 @@ sub CleanLicenseHeader {
     my ( $Self, %Param ) = @_;
 
     my $FilePathAndName = $Param{File};
-    my $NewContent;
 
     # Open file
     open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
@@ -166,6 +165,7 @@ sub CleanLicenseHeader {
         return;
     }
 
+    my $NewContent;
     if ( $Parse->{New} ) {
         $NewContent = $Parse->{New}[0];
         if ($ExtraLicenses) {
@@ -336,7 +336,6 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegEx        = _ChangeFileInfo();
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
-    my $NewContent;
     open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
@@ -350,6 +349,7 @@ sub CleanOTRSFileToOTOBOStyle {
         return;
     }
 
+    my $NewContent;
     while ( my $Line = <$FileHandle> ) {
 
         TYPE:
@@ -433,6 +433,7 @@ sub CleanOTRSFilesToOTOBOStyleInDir {
             UserID => 1,
         );
     }
+
     return 1;
 }
 
@@ -470,9 +471,8 @@ sub ChangePathFileName {
         $NewFile =~ s/$Search/$Change/g;
     }
 
-    if ( $NewFile eq $File ) {
-        return 1;
-    }
+    # nothing to do when there are no changes
+    return 1 if $NewFile eq $File;
 
     # Check if new directory exists
     my $NewFileDirname = dirname($NewFile);
@@ -499,6 +499,7 @@ sub ChangePathFileName {
             String   => "The move operation failed: $!",
             Priority => 'error',
         );
+
     return 1;
 }
 
