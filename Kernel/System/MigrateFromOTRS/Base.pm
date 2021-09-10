@@ -95,7 +95,6 @@ sub CleanLicenseHeader {
     my ( $Self, %Param ) = @_;
 
     my $FilePathAndName = $Param{File};
-    my $NewContent;
 
     # Open file
     open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
@@ -166,6 +165,7 @@ sub CleanLicenseHeader {
         return;
     }
 
+    my $NewContent;
     if ( $Parse->{New} ) {
         $NewContent = $Parse->{New}[0];
         if ($ExtraLicenses) {
@@ -336,7 +336,6 @@ sub CleanOTRSFileToOTOBOStyle {
     my @ParserRegEx        = _ChangeFileInfo();
     my @ParserRegExLicence = _ChangeLicenseHeaderRules();
 
-    my $NewContent;
     open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
@@ -350,6 +349,7 @@ sub CleanOTRSFileToOTOBOStyle {
         return;
     }
 
+    my $NewContent;
     while ( my $Line = <$FileHandle> ) {
 
         TYPE:
@@ -433,6 +433,7 @@ sub CleanOTRSFilesToOTOBOStyleInDir {
             UserID => 1,
         );
     }
+
     return 1;
 }
 
@@ -470,9 +471,8 @@ sub ChangePathFileName {
         $NewFile =~ s/$Search/$Change/g;
     }
 
-    if ( $NewFile eq $File ) {
-        return 1;
-    }
+    # nothing to do when there are no changes
+    return 1 if $NewFile eq $File;
 
     # Check if new directory exists
     my $NewFileDirname = dirname($NewFile);
@@ -499,6 +499,7 @@ sub ChangePathFileName {
             String   => "The move operation failed: $!",
             Priority => 'error',
         );
+
     return 1;
 }
 
@@ -872,9 +873,8 @@ sub TableExists {
 
     my %TableNames = map { lc $_ => 1 } $DBObject->ListTables();
 
-    return if !$TableNames{ lc $Param{Table} };
-
-    return 1;
+    return 1 if $TableNames{ lc $Param{Table} };
+    return 0;
 }
 
 =head2 ColumnExists()
@@ -988,6 +988,63 @@ sub IndexExists {
 
     return if !$Result[0];
 
+    return 1;
+}
+
+=head2 ReplaceSubstringsOfColumnValues()
+
+Update the passed columns of all rows of the passed table. The substitutions are given as an
+reference to an array of array references.
+
+    my $Success = $MigrateFromOTRSObject->ReplaceSubstringsOfColumnValues(
+        Table        => 'change_notification_message',
+        Columns      => [ qw(text) ],
+        Replacements =>
+            [
+                [ '<OTRS_', '<OTOBO_' ],
+                [ '&lt;OTRS_', '&lt;OTOBO_' ]
+            ],
+    );
+
+=cut
+
+sub ReplaceSubstringsOfColumnValues {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Table Columns Replacements)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    # the actual migration
+    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the the first parameter
+    # It exitst in MySQL, PostgreSQL, and Oracle
+    my @SQLs     = map {"UPDATE $Param{Table} SET $_ = REPLACE( $_, ?, ? )"} $Param{Columns}->@*;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    SQL:
+    for my $SQL (@SQLs) {
+
+        for my $Replacement ( $Param{Replacements}->@* ) {
+            my ( $FindStr, $ReplacementStr ) = $Replacement->@*;
+
+            # bail out at the first errro
+            my $Success = $DBObject->Do(
+                SQL  => $SQL,
+                Bind => [ \$FindStr, \$ReplacementStr ],
+            );
+
+            return unless $Success;
+        }
+    }
+
+    # all UPDATEs went well
     return 1;
 }
 
@@ -1877,96 +1934,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 ",
             ],
-        },
-    );
-}
-
-# TODO: this sub seems to be misnamed
-sub TaskSecurityCheck {
-    return (
-        {
-            Message => 'Check filesystem connect',
-            Module  => 'OTOBOOTRSConnectionCheck',
-        },
-        {
-            Message => 'Check database connect',
-            Module  => 'OTOBOOTRSDBCheck',
-        },
-        {
-            Message => 'Check framework version',
-            Module  => 'OTOBOFrameworkVersionCheck',
-        },
-        {
-            Message => 'Check required Perl modules',
-            Module  => 'OTOBOPerlModulesCheck',
-        },
-        {
-            Message => 'Check installed CPAN modules for known vulnerabilities',
-            Module  => 'OTOBOOTRSPackageCheck',
-        },
-        {
-            Message => 'Copy needed files from OTRS',
-            Module  => 'OTOBOCopyFilesFromOTRS',
-        },
-        {
-            Message => 'Migrate database to OTOBO',
-            Module  => 'OTOBODatabaseMigrate',
-        },
-        {
-            Message => 'Migrate notification tags in Ticket notifications',
-            Module  => 'OTOBONotificationMigrate',
-        },
-        {
-            Message => 'Migrate salutations to OTOBO style',
-            Module  => 'OTOBOSalutationsMigrate',
-        },
-        {
-            Message => 'Migrate signatures to OTOBO style',
-            Module  => 'OTOBOSignaturesMigrate',
-        },
-        {
-            Message => 'Migrate response templates to OTOBO style',
-            Module  => 'OTOBOResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate auto response templates to OTOBO style',
-            Module  => 'OTOBOAutoResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
-            Module  => 'OTOBOMigrateWebServiceConfiguration',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Migrate OTRS configuration',
-            Module  => 'OTOBOMigrateConfigFromOTRS',
-        },
-        {
-            Message => 'Migrate stats from OTRS to OTOBO',
-            Module  => 'OTOBOStatsMigrate',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Deploy ACLs',
-            Module  => 'OTOBOACLDeploy',
-        },
-        {
-            Message => 'Deploy processes',
-            Module  => 'OTOBOProcessDeploy',
-        },
-        {
-            Message => 'Migrate postmaster filter from OTRS to OTOBO',
-            Module  => 'OTOBOPostmasterFilterMigrate',
-        },
-        {
-            Message => 'Package specific actions',
-            Module  => 'OTOBOPackageSpecifics',
         },
     );
 }
