@@ -30,7 +30,6 @@ use utf8;
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
-    'Kernel::System::MigrateFromOTRS::Base',
     'Kernel::System::Log',
 );
 
@@ -52,8 +51,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    # TODO: eliminate TaskObjects
-    return bless { TaskObjects => {} }, $Type;
+    return bless {}, $Type;
 }
 
 =head2 Run()
@@ -84,50 +82,44 @@ sub Run {
         }
     }
 
-    # don't attempt to run when the pre check failed
-    return \%ResultFail unless $Self->_ExecutePreCheck(%Param);
+    my $Task       = $Param{Task};
+    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
 
-    return $Self->_ExecuteRun(%Param);
+    return \%ResultFail unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
+
+    my $TaskObject = $Kernel::OM->Create($ModuleName);
+
+    return \%ResultFail unless $TaskObject;
+
+    # don't attempt to run when the pre check failed
+    return \%ResultFail unless $Self->_ExecutePreCheck( %Param, TaskObject => $TaskObject );
+
+    return $Self->_ExecuteRun( %Param, TaskObject => $TaskObject );
 }
 
 sub _ExecutePreCheck {
     my ( $Self, %Param ) = @_;
 
-    my $Task = $Param{Task};
+    my $TaskObject = delete $Param{TaskObject};
 
-    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
+    # successful per default, CheckPreviousRequirement() is not a required method
+    return 1 unless $$TaskObject->can('CheckPreviousRequirement');
 
-    return 0 unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-    $Self->{TaskObjects}->{$Task} //= $Kernel::OM->Create($ModuleName);
-
-    return 0 unless $Self->{TaskObjects}->{$Task};
-
-    # successful per default
-    return 1 unless $Self->{TaskObjects}->{$Task}->can('CheckPreviousRequirement');
-
-    return $Self->{TaskObjects}->{$Task}->CheckPreviousRequirement(%Param);
+    return $TaskObject->CheckPreviousRequirement(%Param);
 }
 
 sub _ExecuteRun {
     my ( $Self, %Param ) = @_;
 
-    my $Task       = $Param{Task};
+    my $TaskObject = delete $Param{TaskObject};
+
     my %ResultFail = ( Successful => 0 );
 
-    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
-
-    return \%ResultFail unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-    $Self->{TaskObjects}->{$Task} //= $Kernel::OM->Create($ModuleName);
-
-    return \%ResultFail unless $Self->{TaskObjects}->{$Task};
-
     # a migration step must have a Run-method
-    return \%ResultFail unless $Self->{TaskObjects}->{$Task}->can('Run');
+    return \%ResultFail unless $TaskObject->can('Run');
 
     # Execute Run-Component
-    return $Self->{TaskObjects}->{$Task}->Run(%Param);
+    return $TaskObject->Run(%Param);
 }
 
 1;
