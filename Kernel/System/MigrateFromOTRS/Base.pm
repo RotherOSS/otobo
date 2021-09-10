@@ -991,6 +991,63 @@ sub IndexExists {
     return 1;
 }
 
+=head2 ReplaceSubstringsOfColumnValues()
+
+Update the passed columns of all rows of the passed table. The substitutions are given as an
+reference to an array of array references.
+
+    my $Success = $MigrateFromOTRSObject->ReplaceSubstringsOfColumnValues(
+        Table        => 'change_notification_message',
+        Columns      => [ qw(text) ],
+        Replacements =>
+            [
+                [ '<OTRS_', '<OTOBO_' ],
+                [ '&lt;OTRS_', '&lt;OTOBO_' ]
+            ],
+    );
+
+=cut
+
+sub ReplaceSubstringsOfColumnValues {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Table Columns Replacements)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    # the actual migration
+    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the the first parameter
+    # It exitst in MySQL, PostgreSQL, and Oracle
+    my @SQLs     = map {"UPDATE $Param{Table} SET $_ = REPLACE( $_, ?, ? )"} $Param{Columns}->@*;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    SQL:
+    for my $SQL (@SQLs) {
+
+        for my $Replacement ( $Param{Replacements}->@* ) {
+            my ( $FindStr, $ReplacementStr ) = $Replacement->@*;
+
+            # bail out at the first errro
+            my $Success = $DBObject->Do(
+                SQL  => $SQL,
+                Bind => [ \$FindStr, \$ReplacementStr ],
+            );
+
+            return unless $Success;
+        }
+    }
+
+    # all UPDATEs went well
+    return 1;
+}
+
 =head2 SettingUpdate()
 
 Update an existing SysConfig Setting in a migration context. It will skip updating both read-only and already modified

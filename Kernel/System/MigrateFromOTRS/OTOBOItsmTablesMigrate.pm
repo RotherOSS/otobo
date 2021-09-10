@@ -98,28 +98,21 @@ sub Run {
         };
     }
 
-    # the actual migration
-    # TODO: maybe move that to Base.pm
-    my @SQLs = (
-        qq{UPDATE $Table SET text = REPLACE( text, '<OTRS_', '<OTOBO_')},
-        qq{UPDATE $Table SET text = REPLACE( text, '&lt;OTRS_', '&lt;OTOBO_')},
+    my $Success = $Self->ReplaceSubstringsOfColumnValues(
+        Table        => 'change_notification_message',
+        Columns      => [qw(text)],
+        Replacements =>
+            [
+                [ '<OTRS_',    '<OTOBO_' ],
+                [ '&lt;OTRS_', '&lt;OTOBO_' ]
+            ],
     );
 
-    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-
-    SQL:
-    for my $SQL (@SQLs) {
-
-        # do the UPDATE
-        next SQL if $DBObject->Do($SQL);
-
-        # stop trying in case of an error
-        return {
-            Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( "UPDATE of the table '%s' failed.", $Table ),
-            Successful => 0,
-        };
-    }
+    return {
+        Message    => $Message,
+        Comment    => $Self->{LanguageObject}->Translate( "UPDATE of the table '%s' failed.", $Table ),
+        Successful => 0,
+    } unless $Success;
 
     return {
         Message    => $Message,
