@@ -52,6 +52,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
+    # TODO: eliminate TaskObjects
     return bless { TaskObjects => {} }, $Type;
 }
 
@@ -81,16 +82,6 @@ sub Run {
 
             return \%ResultFail;
         }
-    }
-
-    # don't attempt to run when the task is not registered
-    if ( !$Self->_TaskIsRegistered( Task => $Param{Task} ) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => qq{The migration task $Param{Task} is not valid. Perhaps you need to add the new task to \$Self->_TaskIsRegistered().},
-        );
-
-        return \%ResultFail;
     }
 
     # don't attempt to run when the pre check failed
@@ -137,40 +128,6 @@ sub _ExecuteRun {
 
     # Execute Run-Component
     return $Self->{TaskObjects}->{$Task}->Run(%Param);
-}
-
-# Check wether the Task is registered and return a hashref.
-# The hashref contains the task name and the
-sub _TaskIsRegistered {
-    my ( $Self, %Param ) = @_;
-
-    my %TaskIsRegistered = (
-        OTOBOOTRSConnectionCheck            => 1,
-        OTOBOOTRSDBCheck                    => 1,
-        OTOBOFrameworkVersionCheck          => 1,
-        OTOBOPerlModulesCheck               => 1,
-        OTOBOOTRSPackageCheck               => 1,
-        OTOBOCopyFilesFromOTRS              => 1,
-        OTOBODatabaseMigrate                => 1,
-        OTOBONotificationMigrate            => 1,
-        OTOBOSalutationsMigrate             => 1,
-        OTOBOSignaturesMigrate              => 1,
-        OTOBOResponseTemplatesMigrate       => 1,
-        OTOBOAutoResponseTemplatesMigrate   => 1,
-        OTOBOMigrateWebServiceConfiguration => 1,
-        OTOBOCacheCleanup                   => 1,
-        OTOBOMigrateConfigFromOTRS          => 1,
-        OTOBOStatsMigrate                   => 1,
-        OTOBOCacheCleanup                   => 1,
-        OTOBOACLDeploy                      => 1,
-        OTOBOProcessDeploy                  => 1,
-        OTOBOPostmasterFilterMigrate        => 1,
-        OTOBOPackageSpecifics               => 1,
-        OTOBOItsmTablesMigrate              => 1,
-    );
-
-    return 1 if $TaskIsRegistered{ $Param{Task} };    # registered
-    return 0;                                         # not registered
 }
 
 1;
