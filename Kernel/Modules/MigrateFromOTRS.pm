@@ -501,9 +501,6 @@ sub Run {
     }
 
     # generate HTML for the current step
-    my $Output = $LayoutObject->Header(
-        Title => "$Title - $CurrentSubtitle",
-    );
     $LayoutObject->Block(
         Name => $Self->{Subaction},
         Data => {
@@ -520,13 +517,16 @@ sub Run {
             },
         );
     }
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'MigrateFromOTRS',
-        Data         => {},
-    );
-    $Output .= $LayoutObject->Footer();
 
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => "$Title - $CurrentSubtitle",
+        ),
+        $LayoutObject->Output(
+            TemplateFile => 'MigrateFromOTRS',
+            Data         => {},
+        ),
+        $LayoutObject->Footer();
 }
 
 sub _Finish {
@@ -650,6 +650,7 @@ sub _CheckConfig {
 
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
+    # TODO: is this still needed? ConfigurationXML2DB is already called on OTOBOMigrateConfigFromOTRS
     return $SysConfigObject->ConfigurationXML2DB(
         UserID    => 1,
         Directory => "$Home/Kernel/Config/Files/XML",
