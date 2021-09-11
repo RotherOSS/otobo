@@ -439,6 +439,7 @@ $Selenium->RunTest(
 
                         next TESTFIELD if $FieldID eq 'Name';
                         next TESTFIELD if $FieldID eq 'Time';
+                        next TESTFIELD if $FieldID eq 'ToDo';
 
                         if ( $Test->{$FieldID} eq '' ) {
                             $ExpectedErrorFieldID = $FieldID;
