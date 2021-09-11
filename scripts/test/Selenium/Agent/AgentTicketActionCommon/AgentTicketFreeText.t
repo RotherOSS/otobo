@@ -238,82 +238,83 @@ $Selenium->RunTest(
         for my $Test (@MandatoryTests) {
 
             # Write test case description.
-            note("Test case for 'mandatory': $Test->{Name}");
+            subtest "Test case for 'mandatory': $Test->{Name}" => sub {
 
-            for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
+                for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
 
-                $Helper->ConfigSettingChange(
-                    Valid => 1,
-                    Key   => "Ticket::Frontend::AgentTicketFreeText###$NoMandatoryField",
-                    Value => $Test->{NoMandatory},
-                );
-            }
-
-            for my $MandatoryField ( values %{ $FreeTextFields{Mandatory} } ) {
-
-                $Helper->ConfigSettingChange(
-                    Valid => 1,
-                    Key   => "Ticket::Frontend::AgentTicketFreeText###$MandatoryField",
-                    Value => $Test->{Mandatory},
-                );
-            }
-
-            # Navigate to zoom view of created test ticket.
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-            # Wait until page has loaded.
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-
-            # Force sub menus to be visible in order to be able to click one of the links.
-            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
-            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
-            );
-
-            # Click on 'Free Fields' and switch window.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
-
-            $Selenium->WaitFor( WindowCount => 2 );
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
-
-            # Get NoMandatory/Mandatory fields for exist checking.
-            my $CheckFields = $Test->{CheckFields};
-
-            for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
-
-                if ( $Test->{ExpectedExist} == 0 ) {
-                    $Self->False(
-                        $Selenium->execute_script(
-                            "return \$('#$FieldID').length;"
-                        ),
-                        "FieldID $FieldID doesn't exist",
+                    $Helper->ConfigSettingChange(
+                        Valid => 1,
+                        Key   => "Ticket::Frontend::AgentTicketFreeText###$NoMandatoryField",
+                        Value => $Test->{NoMandatory},
                     );
                 }
-                else {
-                    $Self->True(
-                        $Selenium->execute_script("return \$('#$FieldID').length;"),
-                        "FieldID $FieldID exists",
+
+                for my $MandatoryField ( values %{ $FreeTextFields{Mandatory} } ) {
+
+                    $Helper->ConfigSettingChange(
+                        Valid => 1,
+                        Key   => "Ticket::Frontend::AgentTicketFreeText###$MandatoryField",
+                        Value => $Test->{Mandatory},
                     );
-                    if ( $CheckFields eq 'Mandatory' ) {
-                        $Self->Is(
-                            $Selenium->execute_script("return \$('label[for=$FieldID].Mandatory').length;"),
-                            1,
-                            "FieldID $FieldID is mandatory",
+                }
+
+                # Navigate to zoom view of created test ticket.
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+                # Wait until page has loaded.
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
+                # Force sub menus to be visible in order to be able to click one of the links.
+                $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
+                $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
+                );
+
+                # Click on 'Free Fields' and switch window.
+                $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
+
+                $Selenium->WaitFor( WindowCount => 2 );
+                my $Handles = $Selenium->get_window_handles();
+                $Selenium->switch_to_window( $Handles->[1] );
+
+                # Wait until page has loaded, if necessary.
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
+
+                # Get NoMandatory/Mandatory fields for exist checking.
+                my $CheckFields = $Test->{CheckFields};
+
+                for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
+
+                    if ( $Test->{ExpectedExist} == 0 ) {
+                        $Self->False(
+                            $Selenium->execute_script(
+                                "return \$('#$FieldID').length;"
+                            ),
+                            "FieldID $FieldID doesn't exist",
                         );
                     }
+                    else {
+                        $Self->True(
+                            $Selenium->execute_script("return \$('#$FieldID').length;"),
+                            "FieldID $FieldID exists",
+                        );
+                        if ( $CheckFields eq 'Mandatory' ) {
+                            $Self->Is(
+                                $Selenium->execute_script("return \$('label[for=$FieldID].Mandatory').length;"),
+                                1,
+                                "FieldID $FieldID is mandatory",
+                            );
+                        }
+                    }
                 }
-            }
 
-            # Close the window and switch back to the first screen.
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
+                # Close the window and switch back to the first screen.
+                $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+                $Selenium->WaitFor( WindowCount => 1 );
+                $Selenium->switch_to_window( $Handles->[0] );
+            };
         }
 
         # Define field values.
