@@ -427,9 +427,9 @@ $Selenium->RunTest(
         # Run test - in each iteration exactly one field is empty, last case is correct.
         for my $Test (@ClearTests) {
 
-            my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
-
             subtest "Test case for 'clear': $Test->{Name}" => sub {
+
+                my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
 
                 try_ok {
                     my $ExpectedErrorFieldID;
