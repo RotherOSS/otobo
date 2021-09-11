@@ -237,7 +237,6 @@ $Selenium->RunTest(
 
         for my $Test (@MandatoryTests) {
 
-            # Write test case description.
             subtest "Test case for 'mandatory': $Test->{Name}" => sub {
 
                 for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
@@ -430,57 +429,57 @@ $Selenium->RunTest(
 
             my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
 
-            # Write test case description.
-            note("Test case for 'clear': $Test->{Name}");
+            subtest "Test case for 'clear': $Test->{Name}" => sub {
 
-            try_ok {
-                my $ExpectedErrorFieldID;
+                try_ok {
+                    my $ExpectedErrorFieldID;
 
-                TESTFIELD:
-                for my $FieldID ( sort keys $Test->%* ) {
+                    TESTFIELD:
+                    for my $FieldID ( sort keys $Test->%* ) {
 
-                    next TESTFIELD if $FieldID eq 'Name';
-                    next TESTFIELD if $FieldID eq 'Time';
+                        next TESTFIELD if $FieldID eq 'Name';
+                        next TESTFIELD if $FieldID eq 'Time';
 
-                    if ( $Test->{$FieldID} eq '' ) {
-                        $ExpectedErrorFieldID = $FieldID;
+                        if ( $Test->{$FieldID} eq '' ) {
+                            $ExpectedErrorFieldID = $FieldID;
+                        }
+
+                        $Selenium->InputFieldValueSet(
+                            Element => "#$FieldID",
+                            Value   => $Test->{$FieldID},
+                            Time    => $Test->{Time},
+                        );
+
+                        # Wait for AJAX to finish.
+                        WaitForAJAX();
                     }
 
-                    $Selenium->InputFieldValueSet(
-                        Element => "#$FieldID",
-                        Value   => $Test->{$FieldID},
-                        Time    => $Test->{Time},
-                    );
+                    # Wait until opened field (due to error) has closed.
+                    $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
 
-                    # Wait for AJAX to finish.
-                    WaitForAJAX();
+                    # Submit.
+                    $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+                    # Check if class Error exists in expected field ID.
+                    if ($ExpectedErrorFieldID) {
+                        ok(
+                            $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
+                            "FieldID $ExpectedErrorFieldID is empty",
+                        );
+                    }
+                    else {
+                        pass("All mandatory fields are filled - successful free text fields update");
+
+                        # Switch back to the main window.
+                        $Selenium->WaitFor( WindowCount => 1 );
+                        $Selenium->switch_to_window( $Handles->[0] );
+
+                        $Selenium->WaitFor(
+                            JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
+                        );
+                    }
                 }
-
-                # Wait until opened field (due to error) has closed.
-                $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
-
-                # Submit.
-                $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-                # Check if class Error exists in expected field ID.
-                if ($ExpectedErrorFieldID) {
-                    ok(
-                        $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
-                        "FieldID $ExpectedErrorFieldID is empty",
-                    );
-                }
-                else {
-                    pass("All mandatory fields are filled - successful free text fields update");
-
-                    # Switch back to the main window.
-                    $Selenium->WaitFor( WindowCount => 1 );
-                    $Selenium->switch_to_window( $Handles->[0] );
-
-                    $Selenium->WaitFor(
-                        JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
-                    );
-                }
-            }
+            };
         }
 
         # Define messages in ticket history screen.
