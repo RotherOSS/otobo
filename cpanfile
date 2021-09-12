@@ -295,9 +295,6 @@ feature 'optional', 'Suppport for optional' => sub {
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
-    # Serve static files
-    requires 'Plack::App::File';
-
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
 

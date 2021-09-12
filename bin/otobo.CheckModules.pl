@@ -804,18 +804,6 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module    => 'Plack::App::File',
-        Required  => 0,
-        Features  => ['plack'],
-        Comment   => 'Serve static files',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
 
     # Deflater not used yet, see https://github.com/RotherOSS/otobo/issues/1053
     #{
