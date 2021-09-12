@@ -187,6 +187,15 @@ requires 'Const::Fast';
 
 # };
 
+# feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => sub {
+    # High-performance preforking PSGI/Plack web server
+    requires 'Gazelle';
+
+    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
+    requires 'Linux::Inotify2';
+
+# };
+
 # Feature 'mail' is not needed for Docker
 
 
@@ -234,6 +243,3 @@ requires 'Const::Fast';
     requires 'Redis::Fast';
 
 # };
-
-# Feature 'plack' is not needed for Docker
-
