@@ -203,6 +203,15 @@ feature 'div:xslt', 'Suppport for div:xslt' => sub {
 
 };
 
+feature 'gazelle', 'Required packages if you want to use Gazelle webserver' => sub {
+    # High-performance preforking PSGI/Plack web server
+    requires 'Gazelle';
+
+    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
+    requires 'Linux::Inotify2';
+
+};
+
 feature 'mail', 'Features enabling communication with a mail-server' => sub {
     # Simple Mail Transfer Protocol Client.
     # Please consider updating to version 3.11 or higher: This version fixes email sending (bug#14357).
@@ -286,9 +295,6 @@ feature 'optional', 'Suppport for optional' => sub {
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
-    # Serve static files
-    requires 'Plack::App::File';
-
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
 
@@ -346,17 +352,5 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
-
-};
-
-feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental and advanced)' => sub {
-    # High-performance preforking PSGI/Plack web server
-    requires 'Gazelle';
-
-    # Used when plackup is run with the -R option. This option restarts the server when files have changed.
-    requires 'Linux::Inotify2';
-
-    # Serve static files
-    requires 'Plack::App::File';
 
 };
