@@ -16,18 +16,32 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 my $ValidObject = $Kernel::OM->Get('Kernel::System::Valid');
 
-$Self->False(
-    $ValidObject->can('AutoLoadTest'),
-    'Valid object has no method AutoLoadTest by default.',
+ok(
+    !$ValidObject->can('AutoloadTest'),
+    'Valid object has no method AutoloadTest by default.',
+);
+
+my $StateObject = $Kernel::OM->Get('Kernel::System::State');
+
+my $NonExistentState = 'dummy state for Autoload.t';
+
+is(
+    scalar $StateObject->StateLookup( State => $NonExistentState ),
+    undef,
+    'nonexistent state does not exist'
 );
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
@@ -42,10 +56,20 @@ $Helper->ConfigSettingChange(
 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
 $Kernel::OM->Get('Kernel::Config');
 
-$Self->Is(
-    $Kernel::OM->Get('Kernel::System::Valid')->AutoloadTest(),
+ok(
+    $ValidObject->can('AutoloadTest'),
+    'Valid object now has method AutoloadTest',
+);
+is(
+    $ValidObject->AutoloadTest(),
     1,
-    "Autoload correctly added a new function to Kernel::System::Valid",
+    'Autoload correctly added a new function to Kernel::System::Valid',
 );
 
-$Self->DoneTesting();
+is(
+    scalar $StateObject->StateLookup( State => $NonExistentState ),
+    'unknown state',
+    "nonexistent state now has a default name",
+);
+
+done_testing();
