@@ -66,21 +66,17 @@ $Selenium->RunTest(
         # navigate to CustomerPreference screen
         $Selenium->VerifiedGet("${ScriptAlias}customer.pl?Action=CustomerPreferences");
 
-        # check CustomerPreferences screen
-        # The look uses the testing methods provided by the Selenium::Remote::Driver distro.
-        # Therefore the testing events from Kernel::System::UnitTest::Selenium are not needed.
-        # TODO: also check CurPw NewPw NewPw1
-        $Selenium->LogExecuteCommandActive(0);
-        for my $ID (qw(UserLanguage UserShowTickets UserRefreshTime UserGoogleAuthenticatorSecretKey)) {
+        # Check the CustomerPreferences screen.
+        # Some elements are off screen, but can be scrolled to. Don't check is_displayed_ok() for these elements.
+        my %IsOnScreen = map { $_ => 1 } qw(CurPw NewPw NewPw1 UserGoogleAuthenticatorSecretKey);
+        for my $ID (qw(CurPw NewPw NewPw1 UserGoogleAuthenticatorSecretKey UserLanguage UserShowTickets UserRefreshTime)) {
             my $Element = $Selenium->find_element_by_id($ID);    # throws no exception when no element is found
             ok( $Element, "element with id $ID was found" );
             $Element->is_enabled_ok();
-            {
-                my $ToDo = todo('Failing these tests is OK. The elements are usually simply off screen, but they can be scrolled to.');
+            if ( $IsOnScreen{$ID} ) {
                 $Element->is_displayed_ok();
             }
         }
-        $Selenium->LogExecuteCommandActive(1);
 
         # check CustomerPreferences default values
         is(
