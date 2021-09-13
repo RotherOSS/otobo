@@ -14,6 +14,11 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+# This file demonstrates how to use the autoload mechanism of OTOBO to change existing functionality.
+# Please note that all autoload files have to be registered via SysConfig (see AutoloadPerlPackages###1000-Test).
+
+# First, we add a method to Kernel::System::Valid.
+
 use Kernel::System::Valid;    ## no critic (Modules::RequireExplicitPackage)
 
 package Kernel::System::Valid;    ## no critic (Modules::RequireFilenameMatchesPackage)
@@ -23,17 +28,45 @@ use warnings;
 use v5.24;
 use utf8;
 
-#
-# This file demonstrates how to use the autoload mechanism of OTOBO to change existing functionality,
-#   adding a method to Kernel::System::Valid in this case.
-#
-
-#
-# Please note that all autoload files have to be registered via SysConfig (see AutoloadPerlPackages###1000-Test).
-#
-
 sub AutoloadTest {
     return 1;
+}
+
+# Now, we modify a method of Kernel::System::State.
+
+package Kernel::Autoload::Test;    ## no critic qw(Modules::ProhibitMultiplePackages)
+
+use strict;
+use warnings;
+use v5.24;
+use utf8;
+
+use Kernel::System::State;
+
+our @ObjectDependencies = (
+    'Kernel::System::Log'
+);
+
+{
+    no warnings 'redefine';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+
+    # keep reference to the original StateLookup()
+    my $Orig = \&Kernel::System::State::StateLookup;
+
+    # redefine StateLookup
+    *Kernel::System::State::StateLookup = sub {
+        my $Self = shift;
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'info',
+            Message  => 'Calling the modified method Kernel::System::State::StateLookup',
+        );
+
+        my $Result = $Orig->( $Self, @_ );
+
+        # return a default value
+        return $Result // 'unknown state';
+    };
 }
 
 1;
