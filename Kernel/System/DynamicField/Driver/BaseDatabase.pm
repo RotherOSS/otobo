@@ -356,12 +356,10 @@ sub EditFieldRender {
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
         my $DivID        = $FieldName . 'ServerError';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
-
         # for server side validation
         $FieldTemplateData{ServerError} = $Param{ServerError};
         $FieldTemplateData{DivID} = $DivID;
-        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;        
+        $FieldTemplateData{ErrorMessage} = $ErrorMessage;        
     }
 
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')

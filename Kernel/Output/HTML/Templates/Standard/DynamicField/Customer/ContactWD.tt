@@ -10,7 +10,7 @@
 [% IF Data.DivID && Data.ErrorMessage %]
 <div id="[% Data.DivID %]" class="TooltipErrorMessage">
     <p>
-        [% Data.ErrorMessage %]
+        [% Translate(Data.ErrorMessage) | html %]
     </p>
 </div>
 [% END %]

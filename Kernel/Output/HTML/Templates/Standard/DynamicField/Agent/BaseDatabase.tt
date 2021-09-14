@@ -9,10 +9,17 @@
     </div>
     <div id="[% Data.FieldName %]Container" class="[% Data.DynamicFieldDBContainer %]"></div>
 </div>
-[% IF Data.Mandatory || Data.ServerError %]
+[% IF Data.Mandatory %]
     <div id="[% Data.DivID %]" class="TooltipErrorMessage">
         <p>
             [% Data.FieldRequiredMessage %]
         </p>
+    </div>
+[% END %]
+[% IF Data.ServerError %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.ErrorMessage) | html %]
+        </p>        
     </div>
 [% END %]

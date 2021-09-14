@@ -248,11 +248,6 @@ sub EditFieldRender {
         'VisibleValue' => $VisibleValue,
     };    
 
-    my $HTMLString = <<"EOF";
-<input type="hidden" id="$FieldName" name="$FieldName" value="$ValueEscaped" />
-<input type="text" class="$FieldClass" id="Autocomplete_$FieldName" name="Autocomplete_$FieldName" title="$FieldLabelEscaped" value="$VisibleValue" />
-EOF
-
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
@@ -261,15 +256,6 @@ EOF
         $FieldTemplateData{Mandatory} = $Param{Mandatory};
         $FieldTemplateData{'DivID'} = $DivID;
         $FieldTemplateData{'FieldRequiredMessage'} = $FieldRequiredMessage;
-
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
     }
 
     if ( $Param{ServerError} ) {
@@ -281,15 +267,6 @@ EOF
         $FieldTemplateData{ServerError} = $Param{ServerError};
         $FieldTemplateData{'ErrorMessage'} = $ErrorMessage;
         $FieldTemplateData{'DivID'} = $DivID;
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
     }
 
     my $FieldTemplateFile = '';
@@ -298,10 +275,11 @@ EOF
     } else {
         $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
     }
-    # $HTMLString = $Param{LayoutObject}->Output(
-    #     'TemplateFile' => $FieldTemplateFile,
-    #     'Data' => \%FieldTemplateData
-    # );
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data' => \%FieldTemplateData
+    );
 
     # Get default agent autocomplete config.
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')->{'Default'};
