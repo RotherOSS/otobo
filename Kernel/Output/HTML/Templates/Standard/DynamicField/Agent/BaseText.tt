@@ -1,0 +1,15 @@
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]">
+[% IF Data.Mandatory %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Data.FieldRequiredMessage %]
+        </p>
+    </div>
+[% END %]
+[% IF Data.ServerError %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.ErrorMessage) | html %]
+        </p>
+    </div>
+[% END %]

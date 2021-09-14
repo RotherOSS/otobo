@@ -240,24 +240,22 @@ sub EditFieldRender {
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
 
-    my $HTMLString = <<"EOF";
-<input type="hidden" id="$FieldName" name="$FieldName" value="$ValueEscaped" />
-<input type="text" class="$FieldClass" id="Autocomplete_$FieldName" name="Autocomplete_$FieldName" title="$FieldLabelEscaped" value="$VisibleValue" />
-EOF
+    my %FieldTemplateData = {
+        'FieldName' => $FieldName,
+        'ValueEscaped' => $ValueEscaped,
+        'FieldClass' => $FieldClass,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'VisibleValue' => $VisibleValue,
+    };
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
@@ -266,14 +264,9 @@ EOF
         $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
 
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{ServerError} = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
+        $FieldTemplateData{DivID} = $DivID;
     }
 
     # Get default agent autocomplete config.
@@ -288,6 +281,18 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
+    );
+
+    my $FieldTemplateFile = '';
+    if($Param{CustomerInterface}) {
+        $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
+    } else {
+        $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data' => \%FieldTemplateData
     );
 
     my $Data = {

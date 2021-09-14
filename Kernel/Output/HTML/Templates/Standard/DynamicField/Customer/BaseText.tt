@@ -1,0 +1,12 @@
+[% IF Data.ServerError %]
+    <p>
+        [% Translate(Data.ErrorMessage) | html %]
+    </p>
+[% END %]
+[% IF Data.Mandatory %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.FieldRequiredMessage) | html %]
+        </p>
+    </div>
+[% END %]

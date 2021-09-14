@@ -1,0 +1,13 @@
+<textarea class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" rows="[% Data.RowsNumber %]" cols="[% Data.ColsNumber %]" data-maxlength="[% Data.MaxLength %]">[% Data.ValueEscaped %]</textarea>
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% IF Data.Mandatory %][% Data.ErrorMessage1 %] [% END %][% Data.ErrorMessage2 %] [% Data.ErrorMessage3 %]    
+    </p>
+</div>
+[% IF Data.ServerError %]
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% Translate(Data.ErrorMessage) | html %]
+    </p>
+</div>
+[% END %]

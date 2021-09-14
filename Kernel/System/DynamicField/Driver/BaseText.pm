@@ -231,39 +231,31 @@ sub EditFieldRender {
         Text => $FieldLabel,
     );
 
-    my $HTMLString = <<"EOF";
-<input type="text" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" value="$ValueEscaped" />
-EOF
+    my %FieldTemplateData = (
+        'FieldClass'        => $FieldClass,
+        'FieldName'         => $FieldName,
+        'FieldLabelEscaped' => $FieldLabelEscaped,
+        'ValueEscaped'      => $ValueEscaped
+    );
 
     if ( $Param{Mandatory} ) {
         my $DivID = $FieldName . 'Error';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
         my $DivID = $FieldName . 'ServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        
+$FieldTemplateData{ServerError} = $Param{ServerError};
+        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
     # call EditLabelRender on the common Driver
@@ -271,6 +263,18 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName,
+    );
+
+    my $TemplateFile = '';
+    if($Param{CustomerInterface}) {
+        $TemplateFile = 'DynamicField/Customer/BaseText';
+    } else {
+        $TemplateFile = 'DynamicField/Agent/BaseText';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile'  => $TemplateFile,
+        'Data'          => \%FieldTemplateData
     );
 
     my $Data = {
