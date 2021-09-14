@@ -1,6 +1,6 @@
 [% IF Data.ServerError %]
     <p>
-        [% Data.ErrorMessage %]
+        [% Translate(Data.ErrorMessage) | html %]
     </p>
 [% END %]
 <input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]"
@@ -11,4 +11,3 @@
         </p>
     </div>
 [% END %]
-
