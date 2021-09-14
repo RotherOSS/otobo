@@ -141,7 +141,7 @@ Core.Form.Validate = (function (TargetNS) {
         // Get the target element and find the associated hidden div with the
         // error message.
         InputErrorMessageHTML = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType).html();
-        InputErrorMessageText = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType).text();
+        InputErrorMessageText = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType + ' > p').first().html();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // If error field is a RTE, it is a little bit more difficult.
