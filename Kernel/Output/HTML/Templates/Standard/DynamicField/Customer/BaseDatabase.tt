@@ -9,6 +9,7 @@
     </div>
     <div id="[% Data.FieldName %]Container" class="[% Data.DynamicFieldDBContainer %]"></div>
 </div>
+<<<<<<< HEAD
 [% IF Data.Mandatory %]
     <div id="[% Data.DivID %]" class="TooltipErrorMessage">
         <p>

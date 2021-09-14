@@ -232,18 +232,6 @@ sub EditFieldRender {
         Data => \%FieldTemplateData
     );
 
-    my $FieldTemplateFile = '';
-    if($Param{CustomerInterface}) {
-        $FieldTemplateFile = 'DynamicField/Customer/TextArea';
-    } else {
-        $FieldTemplateFile = 'DynamicField/Agent/TextArea';
-    }
- 
-    my $HTMLString = $Param{LayoutObject}->Output(
-        TemplateFile => $FieldTemplateFile,
-        Data => \%FieldTemplateData
-    );
-
     my $Data = {
         Field => $HTMLString,
         Label => $LabelString,
