@@ -1077,4 +1077,225 @@ sub _ExpandTemplate {
     }
 }
 
+=head2 InitialSetup()
+
+This method is used by I<installer.pl> and by alternative install scripts to get a working
+initial setup.
+
+    my ($Success, $FatalError) = $ESObject->InitialSetup()
+
+=cut
+
+sub InitialSetup {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # SysConfig
+    {
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Elasticsearch::Active',
+            IsValid           => 1,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+
+        # TODO: handle errors
+    }
+
+    my $Success = 1;
+
+    # initialize standard indices
+    if ($Success) {
+        my $Errors;
+        my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+        my $DefaultConfig;
+        if ($IndexConfig) {
+            $DefaultConfig = $IndexConfig->{Default};
+        }
+        else {
+            $DefaultConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+        }
+
+        # throw an fatal error when we are in a web context
+        return 0, 1 unless $DefaultConfig;
+
+        my $DefaultTemplate;
+        my $IndexTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
+        if ($IndexTemplate) {
+            $DefaultTemplate = $IndexTemplate->{Default};
+        }
+        else {
+
+            # throw an fatal error when we are in a web context
+            return 0, 1;
+        }
+
+        my %Pipeline = (
+            description => "Extract external attachment information",
+            processors  => [
+                {
+                    for => {
+                        field     => "Attachments",
+                        processor => {
+                            attachment => {
+                                target_field => "_ingest._value.attachment",
+                                field        => "_ingest._value.data"
+                            }
+                        }
+                    }
+                },
+                {
+                    for => {
+                        field     => "Attachments",
+                        processor => {
+                            remove => {
+                                field => "_ingest._value.data"
+                            }
+                        }
+                    }
+                },
+            ]
+        );
+
+        my $Success = $Self->CreatePipeline(
+            Request => \%Pipeline,
+        );
+        $Errors++ unless $Success;
+
+        # create index for customer
+        my %RequestCustomer = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{Customer}   // $DefaultConfig,
+                Template => $IndexTemplate->{Customer} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    CustomerID => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'customer' },
+            Request   => \%RequestCustomer,
+        );
+        $Errors++ unless $Success;
+
+        # create index for customer users
+        my %RequestCustomerUser = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{CustomerUser}   // $DefaultConfig,
+                Template => $IndexTemplate->{CustomerUser} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    UserLogin => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'customeruser' },
+            Request   => \%RequestCustomerUser,
+        );
+        $Errors++ unless $Success;
+
+        # create index for tickets
+        my %RequestTicket = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{Ticket}   // $DefaultConfig,
+                Template => $IndexTemplate->{Ticket} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    GroupID => {
+                        type => 'integer',
+                    },
+                    QueueID => {
+                        type => 'integer',
+                    },
+                    CustomerID => {
+                        type => 'keyword',
+                    },
+                    CustomerUserID => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'ticket' },
+            Request   => \%RequestTicket,
+        );
+        $Errors++ unless $Success;
+
+        $Success = 0 if $Errors;
+    }
+
+    if ($Success) {
+        my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+            IsValid           => 1,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            EffectiveValue    => $Setting{EffectiveValue},
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+    }
+    else {
+        # disable in case of failure
+        my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+        my $ESWebservice     = $WebserviceObject->WebserviceGet(
+            Name => 'Elasticsearch',
+        );
+
+        $WebserviceObject->WebserviceUpdate(
+            %{$ESWebservice},
+            ValidID => 2,
+            UserID  => 1,
+        );
+
+        # SysConfig
+        my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Elasticsearch::Active',
+            IsValid           => 0,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+    }
+
+    return $Success, 0;
+}
+
 1;
