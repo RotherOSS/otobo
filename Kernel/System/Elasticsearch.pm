@@ -891,7 +891,7 @@ sub ConfigItemCreate {
 
 Test the connection to the Elasticsearch server.
 
-    $ESObject->TestConnection();
+    my $Success = $ESObject->TestConnection();
 
 =cut
 
@@ -911,15 +911,20 @@ sub TestConnection {
     );
 
     return $Result->{Success};
-
 }
 
 =head2 CreateIndex()
 
 Create a new index.
 
-    $ESObject->CreateIndex(
-        IndexName => 'name',
+    my $Success = $ESObject->CreateIndex(
+        IndexName => {
+            name => 'something',
+        },
+        Request   => {
+            settings => { ... },
+            mappings => { ... },
+        },
     );
 
 =cut
@@ -1001,7 +1006,7 @@ sub CreatePipeline {
 
 Get settings for a certain index
 
-    $ESObject->IndexSettingsGet(
+    my $Settings = $ESObject->IndexSettingsGet(
         Config   => $Config,
         Template => $Template,
     ;)
