@@ -56,8 +56,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get the Elasticsearch webservice id
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -898,6 +897,7 @@ Test the connection to the Elasticsearch server.
 
 sub TestConnection {
     my ( $Self, %Param ) = @_;
+
     my %DummyIndex = (
         index => '',
     );
@@ -938,7 +938,6 @@ sub CreateIndex {
     );
 
     return $Result->{Success};
-
 }
 
 =head2 DropIndex()
@@ -962,8 +961,8 @@ sub DropIndex {
             IndexName => $Param{IndexName},
         }
     );
-    return $Result->{Success};
 
+    return $Result->{Success};
 }
 
 sub DeletePipeline {
@@ -979,7 +978,6 @@ sub DeletePipeline {
     );
 
     return $Result->{Success};
-
 }
 
 sub CreatePipeline {
@@ -1020,6 +1018,7 @@ sub IndexSettingsGet {
         Config       => $Config,
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
     );
+
     return $Settings;
 }
 
@@ -1038,6 +1037,7 @@ sub _ExpandTemplate {
                 LayoutObject => $Param{LayoutObject},
             );
         }
+
         return \%Expanded;
     }
     elsif ( ref $Node eq 'ARRAY' ) {
@@ -1052,6 +1052,7 @@ sub _ExpandTemplate {
                 )
             );
         }
+
         return \@Expanded;
     }
     elsif ( !defined($Node) ) {

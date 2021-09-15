@@ -862,26 +862,26 @@ sub Run {
             my $DefaultConfig;
 
             my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
-            if ( $IndexConfig ) {
+            if ($IndexConfig) {
                 $DefaultConfig = $IndexConfig->{Default};
             }
             else {
                 $DefaultConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
-            };
+            }
             if ( !$DefaultConfig ) {
                 $LayoutObject->FatalError();
             }
 
             my $DefaultTemplate;
             my $IndexTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
-            if ( $IndexTemplate ) {
+            if ($IndexTemplate) {
                 $DefaultTemplate = $IndexTemplate->{Default};
             }
             else {
                 $LayoutObject->FatalError();
             }
 
-            my %Pipeline    = (
+            my %Pipeline = (
                 description => "Extract external attachment information",
                 processors  => [
                     {
@@ -910,14 +910,12 @@ sub Run {
             $Success = $ESObject->CreatePipeline(
                 Request => \%Pipeline,
             );
-            $Errors++ if !$Success;
+            $Errors++ unless $Success;
 
-            my %IndexName = (
-                index => 'customer',
-            );
-            my %Request = (
+            # create index for customer
+            my %RequestCustomer = (
                 settings => $ESObject->IndexSettingsGet(
-                    Config   => $IndexConfig->{Customer} // $DefaultConfig,
+                    Config   => $IndexConfig->{Customer}   // $DefaultConfig,
                     Template => $IndexTemplate->{Customer} // $DefaultTemplate,
                 ),
                 mappings => {
@@ -929,17 +927,15 @@ sub Run {
                 },
             );
             $Success = $ESObject->CreateIndex(
-                IndexName => \%IndexName,
-                Request   => \%Request,
+                IndexName => { index => 'customer' },
+                Request   => \%RequestCustomer,
             );
-            $Errors++ if !$Success;
+            $Errors++ unless $Success;
 
-            %IndexName = (
-                index => 'customeruser',
-            );
-            %Request = (
+            # create index for customer users
+            my %RequestCustomerUser = (
                 settings => $ESObject->IndexSettingsGet(
-                    Config   => $IndexConfig->{CustomerUser} // $DefaultConfig,
+                    Config   => $IndexConfig->{CustomerUser}   // $DefaultConfig,
                     Template => $IndexTemplate->{CustomerUser} // $DefaultTemplate,
                 ),
                 mappings => {
@@ -951,17 +947,15 @@ sub Run {
                 },
             );
             $Success = $ESObject->CreateIndex(
-                IndexName => \%IndexName,
-                Request   => \%Request,
+                IndexName => { index => 'customeruser' },
+                Request   => \%RequestCustomerUser,
             );
-            $Errors++ if !$Success;
+            $Errors++ unless $Success;
 
-            %IndexName = (
-                index => 'ticket',
-            );
-            %Request = (
+            # create index for tickets
+            my %RequestTicket = (
                 settings => $ESObject->IndexSettingsGet(
-                    Config   => $IndexConfig->{Ticket} // $DefaultConfig,
+                    Config   => $IndexConfig->{Ticket}   // $DefaultConfig,
                     Template => $IndexTemplate->{Ticket} // $DefaultTemplate,
                 ),
                 mappings => {
@@ -982,10 +976,10 @@ sub Run {
                 },
             );
             $Success = $ESObject->CreateIndex(
-                IndexName => \%IndexName,
-                Request   => \%Request,
+                IndexName => { index => 'ticket' },
+                Request   => \%RequestTicket,
             );
-            $Errors++ if !$Success;
+            $Errors++ unless $Success;
 
             if ($Errors) {
                 $Success = 0;
