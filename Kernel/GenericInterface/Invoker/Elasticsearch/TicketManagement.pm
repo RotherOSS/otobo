@@ -321,7 +321,7 @@ sub PrepareRequest {
             }
 
             # restore ticket, if moved from excluded queue
-            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+            elsif ( $ExcludedQueues->{ $Param{Data}{OldTicketData}{Queue} } ) {
                 my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
                 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
