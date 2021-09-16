@@ -148,7 +148,7 @@ sub PrepareRequest {
                 TicketID => $Param{Data}{TicketID},
             );
 
-            # create the articles
+            # create the articles, when the ticket is already deleted then the article list will be empty
             my @ArticleList = $ArticleObject->ArticleList(
                 TicketID => $Param{Data}{TicketID}
             );
@@ -327,7 +327,7 @@ sub PrepareRequest {
                     TicketID => $Param{Data}{TicketID},
                 );
 
-                # create the articles
+                # create the articles, when the ticket is already deleted then the article list will be empty
                 my @ArticleList = $ArticleObject->ArticleList(
                     TicketID => $Param{Data}{TicketID}
                 );
