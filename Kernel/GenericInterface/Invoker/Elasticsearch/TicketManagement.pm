@@ -273,13 +273,9 @@ sub PrepareRequest {
     }
 
     # handle the regular updating and creation
-    # get needed objects
-    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
 
-    # gather all fields which have to be stored
-    my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
-    my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+    # get needed objects
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # handle excluded queues
     my $ExcludedQueues = $ConfigObject->Get('Elasticsearch::ExcludedQueues');
@@ -358,6 +354,11 @@ sub PrepareRequest {
         }
     }
 
+    # gather all fields which have to be stored
+    my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
+    my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my %DataToStore;
     if ( $Param{Data}{Event} =~ m/^Article/ ) {
 
