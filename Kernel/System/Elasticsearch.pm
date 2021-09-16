@@ -1091,7 +1091,7 @@ sub InitialSetup {
 
     my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
-    # SysConfig
+    # activate Elasticsearch in the SysConfig
     {
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             LockAll => 1,
@@ -1139,11 +1139,14 @@ sub InitialSetup {
             return 0, 1;
         }
 
+        # Create pipelines.
+        # Writing the string 'foreach' in a funny way, as some versions of the CodePolicy
+        # replaced it with the string 'for'.
         my %Pipeline = (
             description => "Extract external attachment information",
             processors  => [
                 {
-                    for => {
+                    q{foreach} => {
                         field     => "Attachments",
                         processor => {
                             attachment => {
@@ -1154,7 +1157,7 @@ sub InitialSetup {
                     }
                 },
                 {
-                    for => {
+                    q{foreach} => {
                         field     => "Attachments",
                         processor => {
                             remove => {
