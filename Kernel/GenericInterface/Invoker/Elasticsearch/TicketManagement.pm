@@ -556,19 +556,18 @@ sub PrepareRequest {
         );
 
         $API = '_update';
+    }
 
+    # at ticket creation customerupdate is sent before ticketcreate and is not needed here
+    elsif ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
+        return {
+            Success           => 1,
+            StopCommunication => 1,
+        };
     }
 
     # diverse updates
     else {
-        # at ticket creation customerupdate is sent before ticketcreate and not needed here
-        if ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
-            return {
-                Success           => 1,
-                StopCommunication => 1,
-            };
-        }
-
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
