@@ -18,6 +18,7 @@ package Kernel::GenericInterface::Invoker::Elasticsearch::TicketManagement;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -39,8 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed params and store them in $Self
     for my $Needed (qw/DebuggerObject WebserviceID/) {
@@ -104,6 +104,7 @@ sub PrepareRequest {
                 }
             }
         );
+
         return {
             Success => 1,
             Data    => {
@@ -126,6 +127,7 @@ sub PrepareRequest {
                     }
                 }
             );
+
             return {
                 Success => 1,
                 Data    => {
@@ -185,6 +187,7 @@ sub PrepareRequest {
                 ArticleID => $Param{Data}{ArticleID},
                 FileID    => $AttachmentIndex,
             );
+
             next ATTACHMENT if !%ArticleAttachment;
 
             use MIME::Base64;
@@ -195,6 +198,7 @@ sub PrepareRequest {
 
             # Ingest attachment if only filesize less than defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
+
             $FileType =~ /^.*?\/([\d\w]+)/;
             my $TypeFormat = $1;
             $FileName =~ /\.([\d\w]+)$/;
@@ -209,17 +213,14 @@ sub PrepareRequest {
                 push( @Attachments, \%Data );
             }
         }
-        my %Content = (
-            Attachments => \@Attachments,
-        );
 
         return {
             Success => 1,
             Data    => {
-                docapi => '_doc',
-                path   => 'Attachments',
-                id     => '',
-                %Content,
+                docapi      => '_doc',
+                path        => 'Attachments',
+                id          => '',
+                Attachments => \@Attachments,
             },
         };
     }
@@ -310,6 +311,7 @@ sub PrepareRequest {
                         }
                     }
                 );
+
                 return {
                     Success => 1,
                     Data    => {
@@ -358,7 +360,7 @@ sub PrepareRequest {
     }
 
     my %DataToStore;
-    if ( $Param{Data}{Event} =~ /^Article/ ) {
+    if ( $Param{Data}{Event} =~ m/^Article/ ) {
 
         # standard fields
         for my $Field ( @{ $Store->{Article} }, @{ $Search->{Article} } ) {
@@ -370,7 +372,8 @@ sub PrepareRequest {
             my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFieldName,
             );
-            next DYNAMICFIELD if !$DynamicField;
+
+            next DYNAMICFIELD unless $DynamicField;
 
             if ( $DynamicField->{ObjectType} eq 'Article' ) {
                 $DataToStore{"DynamicField_$DynamicFieldName"} = 1;
@@ -388,7 +391,8 @@ sub PrepareRequest {
             my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFieldName,
             );
-            next DYNAMICFIELD if !$DynamicField;
+
+            next DYNAMICFIELD unless $DynamicField;
 
             if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
                 $DataToStore{"DynamicField_$DynamicFieldName"} = 1;
@@ -417,7 +421,7 @@ sub PrepareRequest {
         );
 
         # set content
-        %Content = ( map { $_ => $Ticket{$_} } keys %DataToStore );
+        %Content = map { $_ => $Ticket{$_} } keys %DataToStore;
 
         # initialize article array
         $Content{ArticlesExternal}    = [];
@@ -435,7 +439,6 @@ sub PrepareRequest {
         $Content{Created} = $DateTimeObject->ToEpoch();
 
         $API = '_doc';
-
     }
 
     # article create
@@ -453,7 +456,8 @@ sub PrepareRequest {
             ArticleID     => $Param{Data}{ArticleID},
             DynamicFields => $GetDynamicFields,
         );
-        my %ArticleContent = ( map { $_ => $Article{$_} } keys %DataToStore );
+
+        my %ArticleContent = map { $_ => $Article{$_} } keys %DataToStore;
         my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
 
         # put attachment and ingest it into tmpattachment
@@ -591,7 +595,6 @@ sub PrepareRequest {
             %Content,
         },
     };
-
 }
 
 =head2 HandleResponse()
