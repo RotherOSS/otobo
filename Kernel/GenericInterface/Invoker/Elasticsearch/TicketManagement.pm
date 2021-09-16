@@ -297,8 +297,14 @@ sub PrepareRequest {
             TicketID => $Param{Data}{TicketID},
         );
 
+        # if the ticket is not found, then it surely is not in an excluded queue
+        if ( !%Ticket ) {
+
+            # do nothing
+        }
+
         # if the queue is changed, check if the ticket has to be created or deleted in ES
-        if ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
+        elsif ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
 
             # return if both, old and new queue are excluded
             if ( $QueueIsExcluded{ $Ticket{Queue} } && $QueueIsExcluded{ $Param{Data}{OldTicketData}{Queue} } ) {
@@ -430,6 +436,15 @@ sub PrepareRequest {
             TicketID      => $Param{Data}{TicketID},
             DynamicFields => $GetDynamicFields,
         );
+
+        # Nothing to do when the newly created ticket is already gone.
+        # This happens frequently in unit tests.
+        if ( !%Ticket ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
 
         # set content
         %Content = map { $_ => $Ticket{$_} } keys %DataToStore;
@@ -598,7 +613,16 @@ sub PrepareRequest {
             DynamicField => $GetDynamicFields,
         );
 
-        # only submit potenitally changed values
+        # Nothing to do when the updated ticket is gone.
+        # This might happen in unit tests.
+        if ( !%Ticket ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
+        # only submit potentially changed values
         delete $DataToStore{Created};
         delete $DataToStore{TicketNumber};
 
