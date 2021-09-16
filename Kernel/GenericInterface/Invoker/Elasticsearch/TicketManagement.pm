@@ -281,12 +281,11 @@ sub PrepareRequest {
     my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
     my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
 
-    # exclusions
+    # handle excluded queues
     my $ExcludedQueues = $ConfigObject->Get('Elasticsearch::ExcludedQueues');
-    $ExcludedQueues = $ExcludedQueues ? { map { $_ => 1 } @{$ExcludedQueues} } : undef;
-
-    # excluded queues
     if ($ExcludedQueues) {
+        my %QueueIsExcluded = map { $_ => 1 } $ExcludedQueues->@*;
+
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $Param{Data}{TicketID},
         );
@@ -295,7 +294,7 @@ sub PrepareRequest {
         if ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
 
             # return if both, old and new queue are excluded
-            if ( $ExcludedQueues->{ $Ticket{Queue} } && $ExcludedQueues->{ $Param{Data}{OldTicketData}{Queue} } ) {
+            if ( $QueueIsExcluded{ $Ticket{Queue} } && $QueueIsExcluded{ $Param{Data}{OldTicketData}{Queue} } ) {
                 return {
                     Success           => 1,
                     StopCommunication => 1,
@@ -303,7 +302,7 @@ sub PrepareRequest {
             }
 
             # delete ticket, if moved to excluded queue
-            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+            elsif ( $QueueIsExcluded{ $Ticket{Queue} } ) {
                 my %Content = (
                     query => {
                         term => {
@@ -323,7 +322,7 @@ sub PrepareRequest {
             }
 
             # restore ticket, if moved from excluded queue
-            elsif ( $ExcludedQueues->{ $Param{Data}{OldTicketData}{Queue} } ) {
+            elsif ( $QueueIsExcluded{ $Param{Data}{OldTicketData}{Queue} } ) {
                 my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
                 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -351,7 +350,7 @@ sub PrepareRequest {
         }
 
         # in all other cases just skip tickets in excluded queues
-        elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+        elsif ( $QueueIsExcluded{ $Ticket{Queue} } ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,
