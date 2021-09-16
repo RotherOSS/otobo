@@ -180,6 +180,17 @@ sub PrepareRequest {
             ArticleID => $Param{Data}{ArticleID},
         );
 
+        # Nothing to do when that article is not found.
+        # This happens frequently in unit tests.
+        # Use an explicit check of the type because it looks like
+        # Kernel::System::Ticket::Article::Backend::Invalid::ArticleAttachment() is not implemented.
+        if ( !$ArticleBackend || ref $ArticleBackend eq 'Kernel::System::Ticket::Article::Backend::Invalid' ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         my @Attachments;
         ATTACHMENT:
         for my $AttachmentIndex ( sort keys %{ $Param{Data}{AttachmentIndex} } ) {
@@ -451,6 +462,18 @@ sub PrepareRequest {
             TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
+
+        # Nothing to do when the newly created article is not found.
+        # This happens frequently in unit tests.
+        # Use an explicit check of the type because it looks like
+        # Kernel::System::Ticket::Article::Backend::Invalid::ArticleGet() returns a hash with the key SenderType
+        if ( !$ArticleBackend || ref $ArticleBackend eq 'Kernel::System::Ticket::Article::Backend::Invalid' ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         my %Article = $ArticleBackend->ArticleGet(
             TicketID      => $Param{Data}{TicketID},
             ArticleID     => $Param{Data}{ArticleID},
