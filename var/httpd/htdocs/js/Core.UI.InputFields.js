@@ -289,8 +289,6 @@ Core.UI.InputFields = (function (TargetNS) {
                     Textarea = $('textarea', this);
                 }
 
-                console.log(Textarea);
-
                 // move labels for checkboxes
                 if ( Checkbox.length > 0 && Select.length === 0 ) {
                     $('.Field', this).addClass('oooCheckboxContainer');
