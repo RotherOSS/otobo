@@ -46,19 +46,19 @@ export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-nginx-kerberos-webproxy
-export DOCKERFILE_PATH=otobo.nginx-kerberos.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx-kerberos.dockerfile
 export IMAGE_NAME=otobo-nginx-kerberos-webproxy:$DOCKER_TAG
-export BUILD_PATH=.
+export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-elasticsearch
-export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
+export DOCKERFILE_PATH=../../otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
-export BUILD_PATH=.
+export BUILD_PATH=scripts/elasticsearch
 hooks/build || exit 1
 
 # build otobo-selenium-chrome
-export DOCKERFILE_PATH=otobo.selenium-chrome.dockerfile
+export DOCKERFILE_PATH=../../../otobo.selenium-chrome.dockerfile
 export IMAGE_NAME=otobo-selenium-chrome:$DOCKER_TAG
-export BUILD_PATH=.
+export BUILD_PATH=scripts/test/sample
 hooks/build || exit 1

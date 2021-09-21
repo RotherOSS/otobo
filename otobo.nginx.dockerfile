@@ -1,5 +1,4 @@
 # This is the build file for the OTOBO nginx Docker image.
-# It is expected that the build takes place in the subdirectory scripts/nginx/.
 
 # See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
