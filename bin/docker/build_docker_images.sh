@@ -52,7 +52,7 @@ export BUILD_PATH=.
 hooks/build || exit 1
 
 # build otobo-elasticsearch
-export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
+export DOCKERFILE_PATH=../../otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
 export BUILD_PATH=scripts/elasticsearch
 hooks/build || exit 1
