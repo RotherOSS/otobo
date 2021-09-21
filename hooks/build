@@ -2,6 +2,10 @@
 
 # Override the build command for automated builds on Docker Hub.
 # See https://docs.docker.com/docker-hub/builds/advanced/ for the list of preset environment variables.
+ls
+pwd
+docker -v
+env
 echo docker build\
  --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
  --build-arg "DOCKER_TAG=$DOCKER_TAG"\
