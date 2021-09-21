@@ -1,6 +1,6 @@
 # This is the build file for the OTOBO nginx docker image.
 
-# See also bin/docker/build_docker_images.sh
+# See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # Use the latest nginx.
