@@ -67,6 +67,7 @@ RUN apt-get update\
  "krb5-multidev"\
  "libkrb5-dev"\
  "certbot"\
+ "python3-certbot-nginx"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
