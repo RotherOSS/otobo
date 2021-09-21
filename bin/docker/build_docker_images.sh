@@ -39,9 +39,9 @@ export IMAGE_NAME=otobo:$DOCKER_TAG
 hooks/build || exit 1
 
 # build otobo-nginx-webproxy
-export DOCKERFILE_PATH=otobo.nginx.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx.dockerfile
 export IMAGE_NAME=otobo-nginx-webproxy:$DOCKER_TAG
-hooks/build || exit 1
+(cd scripts/nginx && ../../hooks/build ) || exit 1
 
 # build otobo-nginx-kerberos-webproxy
 export DOCKERFILE_PATH=otobo.nginx-kerberos.dockerfile
