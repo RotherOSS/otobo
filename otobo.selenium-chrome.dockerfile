@@ -13,7 +13,8 @@ EXPOSE 5900/tcp
 RUN sudo mkdir --parent /opt/otobo/scripts/test
 RUN sudo chown -R seluser:seluser /opt/otobo
 
-COPY --chown=seluser:seluser scripts/test/sample /opt/otobo/scripts/test/sample
+# Build context is scripts/test/sample
+COPY --chown=seluser:seluser . /opt/otobo/scripts/test/sample
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.
