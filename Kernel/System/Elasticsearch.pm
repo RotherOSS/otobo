@@ -690,6 +690,7 @@ sub ConfigItemSearch {
 =head2 TicketCreate()
 
 Explicitly creates a ticket in the Elasticsearch database. Happens event based in a productive system.
+E.g. when a Ticket is restored from the archive or when when a ticket is moved from an excluded queue.
 
     $ESObject->TicketCreate(
         TicketID => $TicketID,
