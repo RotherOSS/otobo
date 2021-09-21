@@ -46,9 +46,9 @@ export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-nginx-kerberos-webproxy
-export DOCKERFILE_PATH=otobo.nginx-kerberos.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx-kerberos.dockerfile
 export IMAGE_NAME=otobo-nginx-kerberos-webproxy:$DOCKER_TAG
-export BUILD_PATH=.
+export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-elasticsearch
