@@ -1,6 +1,6 @@
-# This is the build file for the OTOBO nginx docker image including Kerberos Single Sign On tools.
+# This is the build file for the OTOBO nginx Docker image including Kerberos Single Sign On tools.
 
-# See also bin/docker/build_docker_images.sh
+# See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # I have found no better way than to first compile NGINX in a BUILDER container and then copy the
@@ -98,8 +98,8 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
-COPY scripts/nginx/templates/ templates
-COPY scripts/nginx/snippets/  snippets
+COPY templates/ templates
+COPY snippets/  snippets
 
 # Copy text to line 4 - load Kerberos module in nginx.conf
 RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf
