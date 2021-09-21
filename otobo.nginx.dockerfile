@@ -1,6 +1,6 @@
-# This is the build file for the OTOBO nginx docker image.
+# This is the build file for the OTOBO nginx Docker image.
 
-# See also bin/docker/build_docker_images.sh
+# See bin/docker/build_docker_images.sh for how to create local builds.
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # Use the latest nginx.
@@ -49,8 +49,8 @@ RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
-COPY scripts/nginx/templates/ templates
-COPY scripts/nginx/snippets/  snippets
+COPY templates/ templates
+COPY snippets/  snippets
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.

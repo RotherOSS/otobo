@@ -36,24 +36,29 @@ export DOCKER_TAG="local-${otobo_version}"
 # build otobo
 export DOCKERFILE_PATH=otobo.web.dockerfile
 export IMAGE_NAME=otobo:$DOCKER_TAG
+export BUILD_PATH=.
 hooks/build || exit 1
 
 # build otobo-nginx-webproxy
-export DOCKERFILE_PATH=otobo.nginx.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx.dockerfile
 export IMAGE_NAME=otobo-nginx-webproxy:$DOCKER_TAG
+export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-nginx-kerberos-webproxy
 export DOCKERFILE_PATH=otobo.nginx-kerberos.dockerfile
 export IMAGE_NAME=otobo-nginx-kerberos-webproxy:$DOCKER_TAG
+export BUILD_PATH=.
 hooks/build || exit 1
 
 # build otobo-elasticsearch
 export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
+export BUILD_PATH=.
 hooks/build || exit 1
 
 # build otobo-selenium-chrome
 export DOCKERFILE_PATH=otobo.selenium-chrome.dockerfile
 export IMAGE_NAME=otobo-selenium-chrome:$DOCKER_TAG
+export BUILD_PATH=.
 hooks/build || exit 1
