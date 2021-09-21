@@ -1,17 +1,24 @@
 #!/bin/sh
 
-# Override the build command for automated builds on Docker Hub.
+# Override the build hook for automated builds on Docker Hub.
 # See https://docs.docker.com/docker-hub/builds/advanced/ for the list of preset environment variables.
-ls
-pwd
-docker -v
-env
-echo docker build\
+# Additionally the undocumented environment variable BUILD_PATH is used.
+# The path to the Dockerfile is given relative to $BUILD_PATH in order to be compatible
+# with the default build hook in Docker Hub.
+
+# These commands can be uncommented for debugging:
+#pwd
+#ls
+#docker -v
+#env
+
+# build the Docker image
+docker build\
  --build-arg "BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"\
  --build-arg "DOCKER_TAG=$DOCKER_TAG"\
  --build-arg "GIT_COMMIT=$SOURCE_COMMIT"\
  --build-arg "GIT_BRANCH=$SOURCE_BRANCH"\
  --build-arg "GIT_REPO=$(git config --get remote.origin.url)"\
- -f $DOCKERFILE_PATH\
+ -f $BUILD_PATH/$DOCKERFILE_PATH\
  -t $IMAGE_NAME\
- .
+ $BUILD_PATH
