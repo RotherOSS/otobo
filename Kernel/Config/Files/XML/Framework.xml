@@ -7273,7 +7273,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Hash>
-                <Item Key="https://www.otrs.com">OTOBO Homepage</Item>
+                <Item Key="https://www.otobo.org">OTOBO Homepage</Item>
             </Hash>
         </Value>
     </Setting>
