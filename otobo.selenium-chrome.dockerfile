@@ -1,6 +1,6 @@
-# This is the build file for the OTOBO selenium-chrome docker image.
+# This is the build file for the OTOBO selenium-chrome Docker image.
 
-# See also bin/docker/build_docker_images.sh
+# See bin/docker/build_docker_images.sh for how to build locally.
 # See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
 
 # note that selenium/standalone-chrome-debug:3.141.59-20210607 has changed behavior

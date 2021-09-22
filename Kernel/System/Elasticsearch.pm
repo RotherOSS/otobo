@@ -699,6 +699,7 @@ sub ConfigItemSearch {
 =head2 TicketCreate()
 
 Explicitly creates a ticket in the Elasticsearch database. Happens event based in a productive system.
+E.g. when a Ticket is restored from the archive or when when a ticket is moved from an excluded queue.
 
     $ESObject->TicketCreate(
         TicketID => $TicketID,
@@ -1256,7 +1257,6 @@ sub InitialSetup {
     }
 
     if ($Success) {
-        my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             LockAll => 1,
             Force   => 1,
@@ -1290,7 +1290,6 @@ sub InitialSetup {
         );
 
         # SysConfig
-        my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
         my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
             LockAll => 1,
             Force   => 1,
@@ -1306,6 +1305,14 @@ sub InitialSetup {
             UnlockAll => 1,
         );
     }
+
+    # 'Rebuild' the configuration.
+    $SysConfigObject->ConfigurationDeploy(
+        Comments    => "Quick setup of Elasticsearch",
+        AllSettings => 1,
+        Force       => 1,
+        UserID      => 1,
+    );
 
     return $Success, 0;
 }

@@ -335,7 +335,7 @@ returns:
         Version         => "3.3.1",
         DefaultLanguage => "en",
         Home            => "/opt/otobo",
-        Host            => "prod.otrs.com",
+        Host            => "otobo.example.org",
         SystemID        => 70,
     );
 
