@@ -7273,7 +7273,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Hash>
-                <Item Key="https://www.otrs.com">OTOBO Homepage</Item>
+                <Item Key="https://www.otobo.org">OTOBO Homepage</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7764,7 +7764,7 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://www.otrs.com/wp-uploads//2013/10/OTOBO_Logo-300x170.png</Item>
+                <Item Key="URL">https://otobo.de/wp-content/uploads/2020/11/OTOBO-Rother-OSS-1.jpg</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Link">https://otobo.org/</Item>
