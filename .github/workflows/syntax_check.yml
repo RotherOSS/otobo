@@ -2,8 +2,8 @@
 ---
 # just like code_policy.yml, only using a different check
 name: 'SyntaxCheck'
-on: ['pull_request']
-#on: ['push', 'pull_request']
+#on: ['pull_request']
+on: ['push', 'pull_request']
 jobs:
     SyntaxCheck:
         runs-on: 'ubuntu-latest'
