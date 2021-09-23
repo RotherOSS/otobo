@@ -19,7 +19,7 @@
 
 bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 
-=head1 SYNOPSISN
+=head1 SYNOPSIS
 
     # print usage information
     bin/otobo.CheckModules.pl --help
