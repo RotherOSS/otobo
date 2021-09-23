@@ -43,6 +43,7 @@ use ExtUtils::MakeMaker;
 use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
+use Pod::Usage;
 
 # CPAN modules
 
@@ -205,8 +206,7 @@ GetOptions(
     'flist=s{1,}'     => \@FeatureList,
     cpanfile          => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
-);
-#TODO: print help in case of unknown params
+) || pod2usage(2);
 
 if (@FeatureList) {
     $DoPrintPackageList = 1;
