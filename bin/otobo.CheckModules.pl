@@ -15,10 +15,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+=head1 NAME
+
+bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
+
+=head1 SYNOPSISN
+
+    # print usage information
+    bin/otobo.CheckModules.pl --help
+    bin/otobo.CheckModules.pl -h
+
+=cut
+
 use strict;
-use warnings;
-use v5.24;
-use utf8;
+#use warnings;
+#use v5.24;
+#use utf8;
 
 use File::Basename;
 use FindBin qw($RealBin);
@@ -173,6 +185,7 @@ eval {
 };
 $OSDist //= $^O;
 
+# extract command line parameters
 my $DoPrintAllModules;
 my $DoPrintInstCommand;
 my $DoPrintPackageList;
@@ -193,6 +206,7 @@ GetOptions(
     cpanfile          => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
 );
+#TODO: print help in case of unknown params
 
 if (@FeatureList) {
     $DoPrintPackageList = 1;
@@ -204,7 +218,8 @@ elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !
     $DoPrintHelp = 1;
 }
 
-# check needed params
+# print help
+# TODO: use Pod::Usage
 if ($DoPrintHelp) {
     print "\n";
     print "Print all required and optional packages of OTOBO.\n";
