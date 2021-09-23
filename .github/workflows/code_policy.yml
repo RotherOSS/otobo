@@ -34,12 +34,12 @@ jobs:
               id: local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923e
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923f
 
             - name: 'install from cpanfile.docker'
               if: steps.local_lib.outputs.cache-hit != 'true'
               run: |
-                cpanm -l local --quiet --notest Code::TidyAll
+                cpanm -l local --quiet --notest Code::TidyAll --with-develop --with-configure --with-recommends
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             - name: 'tree local'
