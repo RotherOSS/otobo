@@ -49,6 +49,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     # Print a cpanfile with the required modules for a Docker-based installation.
     bin/otobo.CheckModules.pl --docker-cpanfile
 
+=head1 DESCRIPTION
+
+This scripts can be used for checking whether required Perl modules are installed.
+
 =cut
 
 use strict;
