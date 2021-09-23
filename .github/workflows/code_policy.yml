@@ -1,5 +1,6 @@
 %YAML 1.1
 ---
+# just like syntax_check.yml, only using a different check
 name: 'CodePolicy'
 #on: ['pull_request']
 on: ['push']
@@ -7,7 +8,7 @@ jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
         env:
-            PERL5LIB: local
+            PERL5LIB: local/lib/perl5
         steps:
             - id: files
               uses: jitterbit/get-changed-files@v1
@@ -26,7 +27,8 @@ jobs:
 
             # no need to reinstall modules from CPAN for every check, cache them
             # Packages are reinstalled when cpanfile.docker changes.
-            # Set current date for forcing a rebuild.
+            # Set current date for forcing a rebuild. In this reqard, code_policy.yml and syntax_check.yml
+            # should be kept in sync.
             - name: 'check cache for CPAN modules'
               uses: actions/cache@v2
               id: local_lib
