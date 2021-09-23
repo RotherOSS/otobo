@@ -28,7 +28,7 @@ jobs:
               run: cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             - name: 'tree local'
-              run: pwd; tree local
+              run: pwd; cpanm -v; tree local
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2
