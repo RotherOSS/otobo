@@ -14,7 +14,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libxml2-utils libxml-libxslt-perl cpanminus
+              run: sudo apt install -y libcode-tidyall-perl libxml2-utils libxml-libxslt-perl cpanminus
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -34,12 +34,11 @@ jobs:
               id: local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923f
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923g
 
             - name: 'install from cpanfile.docker'
               if: steps.local_lib.outputs.cache-hit != 'true'
               run: |
-                cpanm -l local --quiet --notest Code::TidyAll --with-develop --with-configure --with-recommends
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             - name: 'tree local'
