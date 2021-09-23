@@ -12,6 +12,9 @@ jobs:
             PERL5LIB: local/lib/perl5
         steps:
 
+            - name: 'checkout otobo'
+              uses: actions/checkout@v2
+
             # Use caching for not needing to reinstall modules from CPAN for every check.
             # Packages are reinstalled when cpanfile.docker changes or when
             # cache key is manually changed.
@@ -24,15 +27,11 @@ jobs:
               id: local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923i
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923j
 
             - name: 'install dependencies'
               if: steps.local_lib.outputs.cache-hit != 'true'
               run: sudo apt install -y libcode-tidyall-perl libxml2-utils libxml-libxslt-perl cpanminus
-
-            - name: 'checkout otobo'
-              if: steps.local_lib.outputs.cache-hit != 'true'
-              uses: actions/checkout@v2
 
             - name: 'install from cpanfile.docker'
               if: steps.local_lib.outputs.cache-hit != 'true'
