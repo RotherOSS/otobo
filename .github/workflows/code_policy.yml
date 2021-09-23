@@ -32,7 +32,7 @@ jobs:
               id: local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923d
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923e
 
             - name: 'install from cpanfile.docker'
               if: steps.local_lib.outputs.cache-hit != 'true'
