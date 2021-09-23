@@ -2,8 +2,8 @@
 ---
 # just like code_policy.yml, only using a different check
 name: 'SyntaxCheck'
-#on: ['pull_request']
-on: ['push']
+on: ['pull_request']
+#on: ['push', 'pull_request']
 jobs:
     SyntaxCheck:
         runs-on: 'ubuntu-latest'
@@ -40,6 +40,9 @@ jobs:
               if: steps.local_lib.outputs.cache-hit != 'true'
               run: |
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
+            - name: 'tree local'
+              run: tree local
 
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up Kernel/Config.pm
