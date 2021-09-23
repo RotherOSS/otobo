@@ -13,7 +13,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libxml2-utils libxml-libxslt-perl cpanminus
+              run: sudo apt install -y libxml2-utils cpanminus
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
             # some diagnostics
             - name: diagnostics
               run: |
-                unname -a
+                uname -a
                 perl -V
                 printenv | sort
 
