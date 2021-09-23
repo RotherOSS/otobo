@@ -13,7 +13,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libxml2-utils libxslt1.1 cpanminus
+              run: sudo apt install -y libxml2-utils libxml-libxslt-perl cpanminus
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -38,7 +38,6 @@ jobs:
               if: steps.local_lib.outputs.cache-hit != 'true'
               run: |
                 cpanm -l local --quiet --notest Code::TidyAll
-                cpanm -l local --quiet --notest XML::LibXSLT
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             - name: 'tree local'
