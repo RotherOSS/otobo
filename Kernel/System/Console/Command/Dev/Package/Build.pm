@@ -110,7 +110,8 @@ sub Run {
         && !$Structure{PackageIsDownloadable}->{Content}
         )
     {
-        $Self->PrintError("Package cannot be built.\n");
+        $Self->PrintError("Package is not built because the flag PackageIsDownloadable is set to 0.\n");
+
         return $Self->ExitCodeError();
     }
 
