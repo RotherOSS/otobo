@@ -42,7 +42,7 @@ This module is managing time functions.
 
 create a time object. Do not use it directly, instead use:
 
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::DateTime');
+    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
 
 =cut
 
@@ -205,7 +205,7 @@ sub SystemTime2Date {
 
 =head2 TimeStamp2SystemTime()
 
-converts a given time stamp to local system time.
+converts a given time stamp to system time.
 
     my $SystemTime = $TimeObject->TimeStamp2SystemTime(
         String => '2004-08-14 22:45:00',
@@ -216,122 +216,20 @@ converts a given time stamp to local system time.
 sub TimeStamp2SystemTime {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    if ( !$Param{String} ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Need String!',
-        );
-        return;
-    }
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            TimeZone => $Self->{TimeZone},
+        },
+    );
 
-    my $SystemTime = 0;
-
-    # match iso date format
-    if ( $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $1,
-            Month  => $2,
-            Day    => $3,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
-
-    # match iso date format (wrong format)
-    elsif ( $Param{String} =~ /(\d{1,2})-(\d{1,2})-(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $3,
-            Month  => $2,
-            Day    => $1,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
-
-    # match euro time format
-    elsif ( $Param{String} =~ /(\d{1,2})\.(\d{1,2})\.(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})/ ) {
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $3,
-            Month  => $2,
-            Day    => $1,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
-
-    # match yyyy-mm-ddThh:mm:ss+tt:zz time format
-    elsif (
-        $Param{String}
-        =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})(\+|\-)((\d{1,2}):(\d{1,2}))/i
-        )
-    {
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $1,
-            Month  => $2,
-            Day    => $3,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
-
-    # match mail time format
-    elsif (
-        $Param{String}
-        =~ /((...),\s+|)(\d{1,2})\s(...)\s(\d{4})\s(\d{1,2}):(\d{1,2}):(\d{1,2})\s((\+|\-)(\d{2})(\d{2})|...)/
-        )
-    {
-        my @MonthMap    = qw/Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec/;
-        my $Month       = 1;
-        my $MonthString = $4;
-        for my $MonthCount ( 0 .. $#MonthMap ) {
-            if ( $MonthString =~ /$MonthMap[$MonthCount]/i ) {
-                $Month = $MonthCount + 1;
-            }
-        }
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $5,
-            Month  => $Month,
-            Day    => $3,
-            Hour   => $6,
-            Minute => $7,
-            Second => $8,
-        );    # + $Self->{TimeSecDiff};
-    }
-    elsif (    # match yyyy-mm-ddThh:mm:ssZ
-        $Param{String} =~ /(\d{4})-(\d{1,2})-(\d{1,2})T(\d{1,2}):(\d{1,2}):(\d{1,2})Z$/
-        )
-    {
-        $SystemTime = $Self->Date2SystemTime(
-            Year   => $1,
-            Month  => $2,
-            Day    => $3,
-            Hour   => $4,
-            Minute => $5,
-            Second => $6,
-        );
-    }
-
-    # return error
-    if ( !defined $SystemTime ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Invalid Date '$Param{String}'!",
-        );
-    }
-
-    # return system time
-    return $SystemTime;
-
+    return $DateTimeObject->TimeStamp2SystemTime(%Param);
 }
 
 =head2 Date2SystemTime()
 
 converts a structured date array to system time of OTOBO.
+In this context system time is the epoch.
 
     my $SystemTime = $TimeObject->Date2SystemTime(
         Year   => 2004,
@@ -375,9 +273,7 @@ sub Date2SystemTime {
         return;
     }
 
-    my $SystemTime = $DateTimeObject->ToEpoch();
-
-    return $SystemTime;
+    return $DateTimeObject->ToEpoch();
 }
 
 =head2 ServerLocalTimeOffsetSeconds()
@@ -445,48 +341,14 @@ get the working time in seconds between these local system times.
 sub WorkingTime {
     my ( $Self, %Param ) = @_;
 
-    # check needed stuff
-    for (qw(StartTime StopTime)) {
-        if ( !defined $Param{$_} ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Need $_!",
-            );
-            return;
-        }
-    }
-
-    return 0 if $Param{StartTime} >= $Param{StopTime};
-
-    my $StartDateTimeObject = $Kernel::OM->Create(
+    my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => {
-            Epoch    => $Param{StartTime},
             TimeZone => $Self->{TimeZone},
         },
     );
 
-    my $StopDateTimeObject = $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            Epoch    => $Param{StopTime},
-            TimeZone => $Self->{TimeZone},
-        },
-    );
-
-    my $Delta = $StartDateTimeObject->Delta(
-        DateTimeObject => $StopDateTimeObject,
-        ForWorkingTime => 1,
-        Calendar       => $Param{Calendar},
-    );
-
-    if ( !IsHashRefWithData($Delta) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => 'Error calculating working time.',
-        );
-        return;
-    }
+    my $Delta = $DateTimeObject->WorkingTime(%Param);
 
     return $Delta->{AbsoluteSeconds};
 }

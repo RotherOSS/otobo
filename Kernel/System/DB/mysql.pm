@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 # core modules
-use Encode ();
 
 # CPAN modules
 

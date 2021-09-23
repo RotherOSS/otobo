@@ -87,3 +87,20 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     top: 1px;
     margin-right: 8px;
 }
+
+/* Error Widgets in Warning.tt etc. */
+
+.CenterBox {
+    text-align: center;
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+.CenterBox > .WidgetSimple {
+    display: inline-block;
+    width: 60%;
+    background-color: #fff;
+    padding: 40px;
+    margin: 40px;
+    border-radius: 20px;
+}

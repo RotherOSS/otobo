@@ -18,12 +18,22 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::MPMMode
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver');
@@ -32,11 +42,15 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no apache webserver with mod_perl, skip this check.
-    if ( !$ENV{GATEWAY_INTERFACE} || !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{apache}i || !$ENV{MOD_PERL} )
-    {
-        return $Self->GetResults();
-    }
+    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Checking for $ENV{MOD_PERL} is not reliable, see https://github.com/plack/Plack/issues/562.
+    # Check for mod_perl by trying to load Apache2::Module and see whether Apache2::Module::top_module() is available.
+    return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
+    return $Self->GetResults() unless defined &Apache2::Module::top_module;
 
     my $MPMModel;
     my %KnownModels = (

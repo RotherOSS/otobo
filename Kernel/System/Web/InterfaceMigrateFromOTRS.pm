@@ -41,32 +41,49 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceMigrateFromOTRS - the migration web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfaceMigrateFromOTRS;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-This module generates the content for F<migration.pl>.
+This module generates the HTTP response for F<migration.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create the web interface object for 'migration.pl'.
-
-    use Kernel::System::Web::InterfaceMigrateFromOTRS;
-
-    my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-        Debug => 1
-    );
+create the web interface object for F<migration.pl>.
 
 =cut
 
 sub new {
-    my ( $Class, %Param ) = @_;
+    my ( $Type, %Param ) = @_;
 
     # start with an empty hash for the new object
-    my $Self = bless {}, $Class;
+    my $Self = bless {}, $Type;
 
     # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
@@ -77,7 +94,7 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'MigrateFromOTRS',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
@@ -92,15 +109,15 @@ sub new {
     return $Self;
 }
 
-=head2 Run()
+=head2 Content()
 
 execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->Run();
-
+    my $Content = $Interface->Content();
 =cut
 
-sub Run {
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -123,7 +140,7 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print
+        return join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -132,8 +149,6 @@ sub Run {
                 ),
             ),
             $LayoutObject->Footer();
-
-        return;
     }
 
     # run modules if a version value exists
@@ -146,21 +161,17 @@ sub Run {
         );
 
         # output filters are not applied for this interface
-        print $GenericObject->Run();
-
-        return;
+        return $GenericObject->Run();
     }
 
-    # print an error screen as the fallback
-    print join '',
+    # return an error screen as the fallback
+    return join '',
         $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         ),
         $LayoutObject->Footer();
-
-    return;
 }
 
 1;

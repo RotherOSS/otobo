@@ -81,7 +81,7 @@ sub new {
 
     $Self->{_GlobalOptions} = [
         {
-            Name        => 'help',
+            Name        => 'help|h',
             Description => 'Display help for this command.',
         },
         {
@@ -400,6 +400,7 @@ sub Execute {
             "You cannot run otobo.Console.pl as root. Please run it as the 'otobo' user or with the help of su:"
         );
         $Self->Print("  <yellow>su -c \"bin/otobo.Console.pl MyCommand\" -s /bin/bash otobo</yellow>\n");
+
         return $Self->ExitCodeError();
     }
 
@@ -454,6 +455,7 @@ sub Execute {
     eval { $Self->PreRun(); };
     if ($@) {
         $Self->PrintError($@);
+
         return $Self->ExitCodeError();
     }
 
@@ -554,7 +556,9 @@ sub GetUsageHelp {
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
     for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+
         next GLOBALOPTION if $Option->{Invisible};
+
         my $OptionShort = "[--$Option->{Name}]";
         $OptionsText .= sprintf " <green>%-30s</green> - %s", $OptionShort, $Option->{Description} . "\n";
     }

@@ -36,14 +36,12 @@ sub Run {
 
     # This plugin is temporary disabled
     # A new logic is required to calculate the space
-    # TODO: fix
+    # TODO: see https://github.com/RotherOSS/otobo/issues/1076
     return $Self->GetResults();
 
-    # # Check if used OS is a linux system
-    # if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-    #     return $Self->GetResults();
-    # }
-    #
+    ## Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
+    #return $Self->GetResults() unless $^O =~ m/(linux|unix|netbsd|freebsd)/i;
+
     # # find OTOBO partition
     # my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     #

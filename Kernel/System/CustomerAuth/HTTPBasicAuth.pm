@@ -26,12 +26,17 @@
 
 package Kernel::System::CustomerAuth::HTTPBasicAuth;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -74,8 +79,9 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # get params
-    my $User       = $ENV{REMOTE_USER} || $ENV{HTTP_REMOTE_USER};
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $User        = $ParamObject->RemoteUser() || $ParamObject->HTTP('REMOTE_USER');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # return on on user
     if ( !$User ) {

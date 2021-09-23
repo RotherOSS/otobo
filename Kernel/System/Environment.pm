@@ -95,7 +95,6 @@ sub OSInfoGet {
         linux   => 'Linux',
         freebsd => 'FreeBSD',
         openbsd => 'OpenBSD',
-        darwin  => 'MacOSX',
     );
 
     # If used OS is a linux system
@@ -129,13 +128,6 @@ sub OSInfoGet {
                 $OSName = $Content->[0];
             }
         }
-    }
-    elsif ( $^O eq 'darwin' ) {
-
-        my $MacVersion = `sw_vers -productVersion` || '';
-        chomp $MacVersion;
-
-        $OSName = 'MacOSX ' . $MacVersion;
     }
     elsif ( $^O eq 'freebsd' || $^O eq 'openbsd' ) {
 
@@ -230,8 +222,7 @@ returns:
 
         Modules => {
             "Algorithm::Diff"  => "1.30",
-            "Apache::DBI"      => 1.62,
-            ......
+            ...
         },
     );
 
@@ -248,7 +239,10 @@ sub PerlInfoGet {
 
     if ( $Param{BundledModules} ) {
 
-        my @ModuleList = qw(
+        # add bundled modules and their version
+        my %ModuleToVersion =
+            map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
+            qw(
             Algorithm::Diff
             CGI
             Class::Inspector
@@ -284,24 +278,7 @@ sub PerlInfoGet {
             Types::TypeTiny
             YAML
             URI
-        );
-
-        # Some modules are only needed when not running in a PSGI environment.
-        # Therefore they are not bundled in the Docker image.
-        # See .dockerignore.
-        if ( !$ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            push @ModuleList, qw(
-                Apache::DBI
-                Apache2::Reload
             );
-        }
-
-        # add module and version
-        my %ModuleToVersion;
-        for my $Module (@ModuleList) {
-            $ModuleToVersion{$Module} = $Self->ModuleVersionGet( Module => $Module );
-        }
-
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
 

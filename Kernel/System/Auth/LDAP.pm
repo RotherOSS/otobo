@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::LDAP;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -26,6 +28,9 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -139,7 +144,8 @@ sub Auth {
     $Param{Pw}   = $Self->_ConvertTo( $Param{Pw},   'utf-8' );
 
     # get params
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # remove leading and trailing spaces
     $Param{User} =~ s/^\s+//;

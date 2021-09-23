@@ -18,18 +18,20 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use MIME::Base64;
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionCreate;
 use Kernel::GenericInterface::Operation::Ticket::TicketGet;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -45,6 +47,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify => 1,
     },
 );
+
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get a random number
@@ -1067,7 +1070,7 @@ my $WebserviceConfig = {
         'Test for Ticket Connector using SOAP transport backend.',
     Debugger => {
         DebugThreshold => 'debug',
-        TestMode       => 1,
+        TestMode       => 1,         # write no debug info in the table gi_debugger_entry_content
     },
     Provider => {
         Transport => {
@@ -1142,7 +1145,12 @@ my $RequesterSessionResult = $RequesterSessionObject->Run(
     },
 );
 
+# sanity check of the request for a new session
+# e.g. 'wewB0FscgcXFLYDmoSgmAEcEP8n5wMAT'
 my $NewSessionID = $RequesterSessionResult->{Data}->{SessionID};
+note "got the new session ID: $NewSessionID";
+ok( $NewSessionID, 'received a new session id' );
+like( $NewSessionID, qr{^\w{32}$}, 'new session id looks sane, is 32 characters long' );
 
 my @Tests = (
     {
@@ -1854,7 +1862,7 @@ my @Tests = (
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
         DebugThreshold => 'debug',
-        TestMode       => 1,
+        TestMode       => 1,         # write no debug info in the table gi_debugger_entry_content
     },
     WebserviceID      => $WebserviceID,
     CommunicationType => 'Provider',
@@ -1867,134 +1875,82 @@ $Self->Is(
 
 for my $Test (@Tests) {
 
-    # create local object
-    my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
-        DebuggerObject => $DebuggerObject,
-        WebserviceID   => $WebserviceID,
-    );
+    subtest $Test->{Name} => sub {
 
-    $Self->Is(
-        "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}",
-        ref $LocalObject,
-        "$Test->{Name} - Create local object",
-    );
+        # create local object
+        my $LocalObject = "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}"->new(
+            DebuggerObject => $DebuggerObject,
+            WebserviceID   => $WebserviceID,
+        );
 
-    my %Auth = (
-        UserLogin => $UserLogin,
-        Password  => $Password,
-    );
-    if ( IsHashRefWithData( $Test->{Auth} ) ) {
-        %Auth = %{ $Test->{Auth} };
-    }
+        $Self->Is(
+            "Kernel::GenericInterface::Operation::Ticket::$Test->{Operation}",
+            ref $LocalObject,
+            "Create local object",
+        );
 
-    # start requester with our web-service
-    my $LocalResult = $LocalObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            %Auth,
-            %{ $Test->{RequestData} },
-        },
-    );
-
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $LocalResult,
-        "$Test->{Name} - Local result structure is valid",
-    );
-
-    # create requester object
-    my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-    $Self->Is(
-        'Kernel::GenericInterface::Requester',
-        ref $RequesterObject,
-        "$Test->{Name} - Create requester object",
-    );
-
-    # start requester with our web-service
-    my $RequesterResult = $RequesterObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => $Test->{Operation},
-        Data         => {
-            %Auth,
-            %{ $Test->{RequestData} },
-        },
-    );
-
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $RequesterResult,
-        "$Test->{Name} - Requester result structure is valid",
-    );
-
-    $Self->Is(
-        $RequesterResult->{Success},
-        $Test->{SuccessRequest},
-        "$Test->{Name} - Requester successful result",
-    );
-
-    # workaround because results from direct call and
-    # from SOAP call are a little bit different
-    if ( $Test->{Operation} eq 'TicketGet' ) {
-
-        if ( ref $LocalResult->{Data}->{Ticket} eq 'ARRAY' ) {
-            for my $Item ( @{ $LocalResult->{Data}->{Ticket} } ) {
-                for my $Key ( sort keys %{$Item} ) {
-                    if ( !defined $Item->{$Key} ) {
-                        $Item->{$Key} = '';
-                    }
-                    if ( $SkipFields{$Key} ) {
-                        delete $Item->{$Key};
-                    }
-                    if ( $Key eq 'DynamicField' ) {
-                        for my $DF ( @{ $Item->{$Key} } ) {
-                            if ( !defined $DF->{Value} ) {
-                                $DF->{Value} = '';
-                            }
-                        }
-                    }
-                }
-
-                # Articles
-                if ( defined $Item->{Article} ) {
-                    for my $Article ( @{ $Item->{Article} } ) {
-                        for my $Key ( sort keys %{$Article} ) {
-                            if ( !defined $Article->{$Key} ) {
-                                $Article->{$Key} = '';
-                            }
-                            if ( $SkipFields{$Key} ) {
-                                delete $Article->{$Key};
-                            }
-
-                            if ( $Key eq 'Attachment' ) {
-                                for my $Atm ( @{ $Article->{$Key} } ) {
-                                    $Atm->{ContentID}          = '';
-                                    $Atm->{ContentAlternative} = '';
-                                }
-                            }
-
-                            if ( $Key eq 'DynamicField' ) {
-                                for my $DF ( @{ $Article->{$Key} } ) {
-                                    if ( !defined $DF->{Value} ) {
-                                        $DF->{Value} = '';
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+        my %Auth = (
+            UserLogin => $UserLogin,
+            Password  => $Password,
+        );
+        if ( IsHashRefWithData( $Test->{Auth} ) ) {
+            %Auth = %{ $Test->{Auth} };
         }
 
-        if (
-            defined $RequesterResult->{Data}
-            && defined $RequesterResult->{Data}->{Ticket}
-            )
-        {
-            if ( ref $RequesterResult->{Data}->{Ticket} eq 'ARRAY' ) {
-                for my $Item ( @{ $RequesterResult->{Data}->{Ticket} } ) {
+        # start requester with our web-service
+        my $LocalResult = $LocalObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => $Test->{Operation},
+            Data         => {
+                %Auth,
+                %{ $Test->{RequestData} },
+            },
+        );
+
+        # check result
+        $Self->Is(
+            'HASH',
+            ref $LocalResult,
+            "Local result structure is valid",
+        );
+
+        # create requester object
+        my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+        $Self->Is(
+            'Kernel::GenericInterface::Requester',
+            ref $RequesterObject,
+            "Create requester object",
+        );
+
+        # start requester with our web-service
+        my $RequesterResult = $RequesterObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => $Test->{Operation},
+            Data         => {
+                %Auth,
+                %{ $Test->{RequestData} },
+            },
+        );
+
+        # check result
+        $Self->Is(
+            'HASH',
+            ref $RequesterResult,
+            "Requester result structure is valid",
+        );
+
+        $Self->Is(
+            $RequesterResult->{Success},
+            $Test->{SuccessRequest},
+            "Requester successful result",
+        );
+
+        # workaround because results from direct call and
+        # from SOAP call are a little bit different
+        if ( $Test->{Operation} eq 'TicketGet' ) {
+
+            if ( ref $LocalResult->{Data}->{Ticket} eq 'ARRAY' ) {
+                for my $Item ( @{ $LocalResult->{Data}->{Ticket} } ) {
                     for my $Key ( sort keys %{$Item} ) {
                         if ( !defined $Item->{$Key} ) {
                             $Item->{$Key} = '';
@@ -2010,29 +1966,10 @@ for my $Test (@Tests) {
                             }
                         }
                     }
-                }
-            }
-            elsif ( ref $RequesterResult->{Data}->{Ticket} eq 'HASH' ) {
-                for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket} } ) {
-                    if ( !defined $RequesterResult->{Data}->{Ticket}->{$Key} ) {
-                        $RequesterResult->{Data}->{Ticket}->{$Key} = '';
-                    }
-                    if ( $SkipFields{$Key} ) {
-                        delete $RequesterResult->{Data}->{Ticket}->{$Key};
-                    }
-                    if ( $Key eq 'DynamicField' ) {
-                        for my $DF ( @{ $RequesterResult->{Data}->{Ticket}->{$Key} } ) {
-                            if ( !defined $DF->{Value} ) {
-                                $DF->{Value} = '';
-                            }
-                        }
-                    }
-                }
 
-                # Articles
-                if ( defined $RequesterResult->{Data}->{Ticket}->{Article} ) {
-                    if ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'ARRAY' ) {
-                        for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
+                    # Articles
+                    if ( defined $Item->{Article} ) {
+                        for my $Article ( @{ $Item->{Article} } ) {
                             for my $Key ( sort keys %{$Article} ) {
                                 if ( !defined $Article->{$Key} ) {
                                     $Article->{$Key} = '';
@@ -2040,12 +1977,14 @@ for my $Test (@Tests) {
                                 if ( $SkipFields{$Key} ) {
                                     delete $Article->{$Key};
                                 }
+
                                 if ( $Key eq 'Attachment' ) {
                                     for my $Atm ( @{ $Article->{$Key} } ) {
                                         $Atm->{ContentID}          = '';
                                         $Atm->{ContentAlternative} = '';
                                     }
                                 }
+
                                 if ( $Key eq 'DynamicField' ) {
                                     for my $DF ( @{ $Article->{$Key} } ) {
                                         if ( !defined $DF->{Value} ) {
@@ -2056,22 +1995,25 @@ for my $Test (@Tests) {
                             }
                         }
                     }
-                    elsif ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'HASH' ) {
-                        for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
-                            if ( !defined $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} ) {
-                                $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} = '';
+                }
+            }
+
+            if (
+                defined $RequesterResult->{Data}
+                && defined $RequesterResult->{Data}->{Ticket}
+                )
+            {
+                if ( ref $RequesterResult->{Data}->{Ticket} eq 'ARRAY' ) {
+                    for my $Item ( @{ $RequesterResult->{Data}->{Ticket} } ) {
+                        for my $Key ( sort keys %{$Item} ) {
+                            if ( !defined $Item->{$Key} ) {
+                                $Item->{$Key} = '';
                             }
                             if ( $SkipFields{$Key} ) {
-                                delete $RequesterResult->{Data}->{Ticket}->{Article}->{$Key};
-                            }
-                            if ( $Key eq 'Attachment' ) {
-                                for my $Atm ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} } ) {
-                                    $Atm->{ContentID}          = '';
-                                    $Atm->{ContentAlternative} = '';
-                                }
+                                delete $Item->{$Key};
                             }
                             if ( $Key eq 'DynamicField' ) {
-                                for my $DF ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} } ) {
+                                for my $DF ( @{ $Item->{$Key} } ) {
                                     if ( !defined $DF->{Value} ) {
                                         $DF->{Value} = '';
                                     }
@@ -2080,38 +2022,106 @@ for my $Test (@Tests) {
                         }
                     }
                 }
+                elsif ( ref $RequesterResult->{Data}->{Ticket} eq 'HASH' ) {
+                    for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket} } ) {
+                        if ( !defined $RequesterResult->{Data}->{Ticket}->{$Key} ) {
+                            $RequesterResult->{Data}->{Ticket}->{$Key} = '';
+                        }
+                        if ( $SkipFields{$Key} ) {
+                            delete $RequesterResult->{Data}->{Ticket}->{$Key};
+                        }
+                        if ( $Key eq 'DynamicField' ) {
+                            for my $DF ( @{ $RequesterResult->{Data}->{Ticket}->{$Key} } ) {
+                                if ( !defined $DF->{Value} ) {
+                                    $DF->{Value} = '';
+                                }
+                            }
+                        }
+                    }
+
+                    # Articles
+                    if ( defined $RequesterResult->{Data}->{Ticket}->{Article} ) {
+                        if ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'ARRAY' ) {
+                            for my $Article ( @{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
+                                for my $Key ( sort keys %{$Article} ) {
+                                    if ( !defined $Article->{$Key} ) {
+                                        $Article->{$Key} = '';
+                                    }
+                                    if ( $SkipFields{$Key} ) {
+                                        delete $Article->{$Key};
+                                    }
+                                    if ( $Key eq 'Attachment' ) {
+                                        for my $Atm ( @{ $Article->{$Key} } ) {
+                                            $Atm->{ContentID}          = '';
+                                            $Atm->{ContentAlternative} = '';
+                                        }
+                                    }
+                                    if ( $Key eq 'DynamicField' ) {
+                                        for my $DF ( @{ $Article->{$Key} } ) {
+                                            if ( !defined $DF->{Value} ) {
+                                                $DF->{Value} = '';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        elsif ( ref $RequesterResult->{Data}->{Ticket}->{Article} eq 'HASH' ) {
+                            for my $Key ( sort keys %{ $RequesterResult->{Data}->{Ticket}->{Article} } ) {
+                                if ( !defined $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} ) {
+                                    $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} = '';
+                                }
+                                if ( $SkipFields{$Key} ) {
+                                    delete $RequesterResult->{Data}->{Ticket}->{Article}->{$Key};
+                                }
+                                if ( $Key eq 'Attachment' ) {
+                                    for my $Atm ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} } ) {
+                                        $Atm->{ContentID}          = '';
+                                        $Atm->{ContentAlternative} = '';
+                                    }
+                                }
+                                if ( $Key eq 'DynamicField' ) {
+                                    for my $DF ( @{ $RequesterResult->{Data}->{Ticket}->{Article}->{$Key} } ) {
+                                        if ( !defined $DF->{Value} ) {
+                                            $DF->{Value} = '';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-    }
 
-    # remove ErrorMessage parameter from direct call
-    # result to be consistent with SOAP call result
-    if ( $LocalResult->{ErrorMessage} ) {
-        delete $LocalResult->{ErrorMessage};
-    }
+        # remove ErrorMessage parameter from direct call
+        # result to be consistent with SOAP call result
+        if ( $LocalResult->{ErrorMessage} ) {
+            delete $LocalResult->{ErrorMessage};
+        }
 
-    $Self->IsDeeply(
-        $RequesterResult,
-        $Test->{ExpectedReturnRemoteData},
-        "$Test->{Name} - Requester success status (needs configured and running web server)",
-    );
-
-    if ( $Test->{ExpectedReturnLocalData} ) {
-        $Self->IsDeeply(
-            $LocalResult,
-            $Test->{ExpectedReturnLocalData},
-            "$Test->{Name} - Local result matched with expected local call result.",
-        );
-    }
-    else {
-        $Self->IsDeeply(
-            $LocalResult,
+        is(
+            $RequesterResult,
             $Test->{ExpectedReturnRemoteData},
-            "$Test->{Name} - Local result matched with remote result.",
+            "Requester success status (needs configured and running web server)",
         );
-    }
 
-}    #end loop
+        if ( $Test->{ExpectedReturnLocalData} ) {
+            is(
+                $LocalResult,
+                $Test->{ExpectedReturnLocalData},
+                "Local result matched with expected local call result.",
+            );
+        }
+        else {
+            is(
+                $LocalResult,
+                $Test->{ExpectedReturnRemoteData},
+                "Local result matched with remote result.",
+            );
+        }
+    };
+}
 
 # cleanup
 
@@ -2159,4 +2169,4 @@ for my $TestFieldConfigItem (@TestFieldConfig) {
 # cleanup cache
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 
-$Self->DoneTesting();
+done_testing();

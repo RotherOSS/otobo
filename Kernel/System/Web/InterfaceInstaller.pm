@@ -41,24 +41,41 @@ our @ObjectDependencies = (
 
 Kernel::System::Web::InterfaceInstaller - the installer web interface
 
+=head1 SYNOPSIS
+
+    use Kernel::System::Web::InterfaceInstaller;
+
+    # a Plack request handler
+    my $App = sub {
+        my $Env = shift;
+
+        my $Interface = Kernel::System::Web::InterfaceInstaller->new(
+            # Debug => 1
+            PSGIEnv    => $Env,
+        );
+
+        # generate content (actually headers are generated as a side effect)
+        my $Content = $Interface->Content();
+
+        # assuming all went well and HTML was generated
+        return [
+            '200',
+            [ 'Content-Type' => 'text/html' ],
+            $Content
+        ];
+    };
+
 =head1 DESCRIPTION
 
-This module prints the HTTP response for F<installer.pl>.
+This module generates the HTTP response for F<installer.pl>.
+This class is meant to be used within a Plack request handler.
+See F<bin/psgi-bin/otobo.psgi> for the real live usage.
 
 =head1 PUBLIC INTERFACE
 
 =head2 new()
 
-create the web interface object for 'installer.pl'.
-
-    use Kernel::System::Web::InterfaceInstaller;
-
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new();
-
-    # with debugging enabled
-    my $Interface = Kernel::System::Web::InterfaceInstaller->new(
-        Debug => 1
-    );
+create the web interface object for F<installer.pl>.
 
 =cut
 
@@ -68,7 +85,7 @@ sub new {
     # start with an empty hash for the new object
     my $Self = bless {}, $Type;
 
-    # get debug level
+    # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
     # register object params
@@ -77,22 +94,23 @@ sub new {
             LogPrefix => $Kernel::OM->Get('Kernel::Config')->Get('CGILogPrefix') || 'Installer',
         },
         'Kernel::System::Web::Request' => {
-            WebRequest => $Param{WebRequest} || 0,
+            PSGIEnv => $Param{PSGIEnv} || 0,
         },
     );
 
     return $Self;
 }
 
-=head2 Run()
+=head2 Content()
 
 execute the object.
+Set headers in Kernels::System::Web::Request singleton as side effect.
 
-    $Interface->Run();
+    my $Content = $Interface->Content();
 
 =cut
 
-sub Run {
+sub Content {
     my $Self = shift;
 
     # get common framework params
@@ -115,7 +133,7 @@ sub Run {
 
     # check secure mode
     if ( $Kernel::OM->Get('Kernel::Config')->Get('SecureMode') ) {
-        print
+        return join '',
             $LayoutObject->Header(),
             $LayoutObject->Error(
                 Message => Translatable('SecureMode active!'),
@@ -124,8 +142,6 @@ sub Run {
                 ),
             ),
             $LayoutObject->Footer();
-
-        return;
     }
 
     # run modules if a version value exists
@@ -137,21 +153,18 @@ sub Run {
             Debug => $Self->{Debug},
         );
 
-        print $GenericObject->Run();
-
-        return;
+        # output filters are not applied for this interface
+        return $GenericObject->Run();
     }
 
-    # print an error screen as the fallback
-    print
+    # return an error screen as the fallback
+    return join '',
         $LayoutObject->Header(),
         $LayoutObject->Error(
             Message => $LayoutObject->{LanguageObject}->Translate( 'Action "%s" not found!', $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         ),
         $LayoutObject->Footer();
-
-    return;
 }
 
 1;

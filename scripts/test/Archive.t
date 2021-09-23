@@ -19,10 +19,13 @@ use warnings;
 use v5.24;
 use utf8;
 
+# core modules
+
+# CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self
 
 our $Self;
 
@@ -47,8 +50,8 @@ if ( -e $ChecksumFile ) {
 # This should be a SKIP-block
 
 if ( !$ChecksumFileArrayRef || !@{$ChecksumFileArrayRef} ) {
-    $Self->False(
-        1,
+    $Self->True(
+        0,
         'Archive unit test requires the checksum file (ARCHIVE) to be present and valid. Please first call the following command to create it: bin/otobo.CheckSum.pl -a create'
     );
 }
@@ -81,7 +84,8 @@ else {
         }
 
         # Skip files with expected changes.
-        next LINE if $Filename =~ m/Cron|CHANGES|apache2-perl-startup/;
+        next LINE if $Filename eq 'Cron';
+        next LINE if $Filename eq 'CHANGES';
 
         # ignore output files of unittest runs
         next LINE if $Filename =~ m/unittest_.*\.out/;
@@ -106,7 +110,7 @@ else {
 
     $Self->False(
         $ErrorsFound,
-        "Mismatches in file list",
+        "$ErrorsFound mismatches in file list",
     );
 }
 

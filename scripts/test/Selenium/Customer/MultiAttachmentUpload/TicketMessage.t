@@ -111,7 +111,7 @@ $Selenium->RunTest(
         # The class Hidden is only removed when the upload is complete.
         $Selenium->WaitFor(
             JavaScript =>
-                q{return typeof($) === 'function' && $('.AttachmentDelete i').length}
+                q{return typeof($) === 'function' && $('a.AttachmentDelete:not(.Hidden) i').length}
         );
 
         # Check if uploaded.

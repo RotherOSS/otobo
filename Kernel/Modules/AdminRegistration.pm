@@ -228,11 +228,7 @@ sub Run {
 
         $Output .= $LayoutObject->Output(
             TemplateFile => 'AdminRegistration',
-            Data         => {
-                %Param,
-                OTOBOSTORMIsInstalled   => 0,    # OTOBOCommunity feature
-                OTOBOCONTROLIsInstalled => 0,    # OTOBOCommunity feature
-            },
+            Data         => {%Param},
         );
         $Output .= $LayoutObject->Footer();
 

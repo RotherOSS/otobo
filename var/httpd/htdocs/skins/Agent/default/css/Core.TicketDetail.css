@@ -631,8 +631,8 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 
 .UseArticleColors tr.NotVisibleForCustomer > td {
     background: #fce4e0 !important;
-    border-bottom-color: #fbd6d0;
-    border-color: #fbd6d0;
+    border-bottom-color: #f9bcb2;
+    border-color: #f9bcb2;
 }
 
 .UseArticleColors tr.NotVisibleForCustomer.Active > td,
@@ -642,56 +642,17 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 }
 
 .UseArticleColors tr.system > td {
-    background: #fce4e0 !important;
-    border-bottom-color: #fbd6d0;
-    border-color: #fbd6d0;
+    background: #fffccc !important;
+    border-bottom-color: #efedbe;
+    border-color: #efedbe;
 }
 
 .UseArticleColors tr.system.Active > td,
 .UseArticleColors tr.system:hover > td {
-    background-color: #f9bcb2 !important;
-    border-color: #f9bcb2;
-}
-/*
-.UseArticleColors td,
-.UseArticleColors tr:nth-child(even) td {
-    transition: background ease 0.3s;
-    background: #fff;
-    border-color: #ccc;
-    border-bottom: 1px solid #eee;
+    background-color: #efedbe !important;
+    border-color: #efedbe;
 }
 
-.UseArticleColors tr.Active > td,
-.UseArticleColors tr:hover > td {
-    background-color: #f2f2f2 !important;
-    border-color: #f2f2f2;
-    border-right-color: #ccc !important;
-}
-
-.UseArticleColors tr.NotVisibleForCustomer > td {
-    background: #FFCCCC !important;
-    border-bottom-color: #e7abab;
-    border-color: #e7abab;
-}
-
-.UseArticleColors tr.NotVisibleForCustomer.Active > td,
-.UseArticleColors tr.NotVisibleForCustomer:hover > td {
-    background-color: #e7abab !important;
-    border-color: #e7abab;
-}
-
-.UseArticleColors tr.system > td {
-    background: #fff7be !important;
-    border-bottom-color: #ffef80;
-    border-color: #ffef80;
-}
-
-.UseArticleColors tr.system.Active > td,
-.UseArticleColors tr.system:hover > td {
-    background-color: #ffef80 !important;
-    border-color: #ffef80;
-}
-*/
 .ArticleMailContent iframe,
 .ArticleMailContent .ArticleBody,
 .ArticleMailContent .ArticleHTML,

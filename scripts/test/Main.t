@@ -16,15 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path;
+
+# CPAN modules
 use JSON::PP;
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -345,23 +350,71 @@ $Self->True(
     "FileRead() - Check a utf8 file - is the utf8 content wellformed ( $Text )",
 );
 
-my $FileMTime = $MainObject->FileGetMTime(
-    Location => $Home . '/Kernel/Config.pm',
-);
+# FileGetMTime tests
+{
+    my $FileMTime = $MainObject->FileGetMTime(
+        Location => $Home . '/Kernel/Config.pm',
+    );
 
-$Self->True(
-    int $FileMTime > 1_000_000,
-    'FileGetMTime()',
-);
+    $Self->True(
+        int $FileMTime > 1_000_000,
+        'FileGetMTime()',
+    );
 
-my $FileMTimeNonexisting = $MainObject->FileGetMTime(
-    Location => $Home . '/Kernel/some.nonexisting.file',
-);
+    my $FileMTimeNonexisting = $MainObject->FileGetMTime(
+        Location => $Home . '/Kernel/some.nonexisting.file',
+    );
 
-$Self->False(
-    defined $FileMTimeNonexisting,
-    'FileGetMTime() for nonexisting file',
-);
+    $Self->False(
+        defined $FileMTimeNonexisting,
+        'FileGetMTime() for nonexisting file',
+    );
+}
+
+# testing GetReleaseInfo
+{
+    my $ReleaseInfoByFilename = $MainObject->GetReleaseInfo(
+        Directory => $Home,
+        Filename  => 'RELEASE',
+    );
+    like(
+        $ReleaseInfoByFilename,
+        {
+            Product => 'OTOBO',
+            Version => qr/^10\./,
+        },
+        'release info via file name'
+    );
+
+    my $ReleaseInfoByLocation = $MainObject->GetReleaseInfo(
+        Location => "$Home/RELEASE",
+    );
+    like(
+        $ReleaseInfoByLocation,
+        {
+            Product => 'OTOBO',
+            Version => qr/^10\./,
+        },
+        'release info via location'
+    );
+
+    my $ReleaseInfoNoArgs = $MainObject->GetReleaseInfo(
+    );
+    is(
+        $ReleaseInfoNoArgs,
+        {},
+        'GetReleaseInfo() called with missing args'
+    );
+
+    my $ReleaseInfoDummyLocation = $MainObject->GetReleaseInfo(
+        Location => "$Home/RELIES",
+    );
+    is(
+        $ReleaseInfoNoArgs,
+        {},
+        'GetReleaseInfo() called with non-existing location'
+    );
+}
 
 # testing DirectoryRead function
 my $DirectoryWithFiles    = "$Path/WithFiles";
@@ -713,73 +766,134 @@ for my $Test (@Tests) {
     );
 }
 
-# Generate Random string test
+# Generate Random string tests
+{
+    my $Token = $MainObject->GenerateRandomString();
+    my $Desc  = 'no args';
 
-my $Token  = $MainObject->GenerateRandomString();
-my $Length = length($Token);
+    # '0' is acceptable of For Length =>1, '00' is true already
+    $Self->True(
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
+        "GenerateRandomString - $Desc - generated",
+    );
 
-$Self->True(
-    $Token,
-    "GenerateRandomString - generated",
-);
-
-$Self->Is(
-    $Length,
-    16,
-    "GenerateRandomString - standard size is 16",
-);
-
-$Token = $MainObject->GenerateRandomString(
-    Length => 8,
-);
-$Length = length($Token);
-
-$Self->True(
-    $Token,
-    "GenerateRandomString - 8 - generated",
-);
-
-$Self->Is(
-    $Length,
-    8,
-    "GenerateRandomString - 8 - correct length",
-);
-
-my %Values;
-my $Seen = 0;
-COUNTER:
-for my $Counter ( 1 .. 100_000 ) {
-    my $Random = $MainObject->GenerateRandomString( Length => 16 );
-    if ( $Values{$Random}++ ) {
-        $Seen = 1;
-        last COUNTER;
-    }
+    $Self->Is(
+        length $Token,
+        16,
+        "GenerateRandomString - $Desc - standard size is 16",
+    );
 }
 
-$Self->Is(
-    $Seen,
-    0,
-    "GenerateRandomString - no duplicates in 100k iterations",
-);
+{
+    my $Token = $MainObject->GenerateRandomString( Length => 0 );
+    my $Desc  = 'Length 0';
+
+    $Self->True(
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
+        "GenerateRandomString - $Desc - generated",
+    );
+
+    $Self->Is(
+        length $Token,
+        16,
+        "GenerateRandomString - $Desc - standard size is 16",
+    );
+}
+
+{
+    my $Token = $MainObject->GenerateRandomString( Length => 1 );
+    my $Desc  = 'Length 1';
+
+    $Self->True(
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
+        "GenerateRandomString - $Desc - generated",
+    );
+
+    $Self->Is(
+        length $Token,
+        1,
+        "GenerateRandomString - $Desc - size is 1",
+    );
+}
+
+{
+    my $Token = $MainObject->GenerateRandomString( Length => 8 );
+    my $Desc  = 'Length 8';
+
+    $Self->True(
+        ( ( $Token eq '0' || $Token ) && ref $Token eq '' ),
+        "GenerateRandomString - $Desc - generated",
+    );
+
+    $Self->Is(
+        length $Token,
+        8,
+        "GenerateRandomString - $Desc - size is 8",
+    );
+}
+
+{
+    my %Values;
+    my $Seen = 0;
+    COUNTER:
+    for my $Counter ( 1 .. 100_000 ) {
+        my $Random = $MainObject->GenerateRandomString( Length => 16 );
+        if ( $Values{$Random}++ ) {
+            $Seen = 1;
+
+            last COUNTER;
+        }
+    }
+
+    $Self->False( $Seen, "GenerateRandomString - no duplicates in 100k iterations" );
+}
 
 # test with custom alphabet
-my $NoHexChar;
-COUNTER:
-for my $Counter ( 1 .. 1000 ) {
-    my $HexString = $MainObject->GenerateRandomString(
-        Length     => 32,
-        Dictionary => [ 0 .. 9, 'a' .. 'f' ],
-    );
-    if ( $HexString =~ m{[^0-9a-f]}xms ) {
-        $NoHexChar = $HexString;
-        last COUNTER;
+{
+    my $NoHexChar;
+    COUNTER:
+    for my $Counter ( 1 .. 1000 ) {
+        my $HexString = $MainObject->GenerateRandomString(
+            Length     => 32,
+            Dictionary => [ 0 .. 9, 'a' .. 'f' ],
+        );
+        if ( $HexString =~ m{[^0-9a-f]}xms ) {
+            $NoHexChar = $HexString;
+            last COUNTER;
+        }
     }
+
+    $Self->Is(
+        $NoHexChar,
+        undef,
+        'Test output for hex chars in 1000 generated random strings with hex dictionary',
+    );
 }
 
-$Self->Is(
-    $NoHexChar,
-    undef,
-    'Test output for hex chars in 1000 generated random strings with hex dictionary',
-);
+# test with a stupid alphabet
+{
+    my $XString = $MainObject->GenerateRandomString(
+        Length     => 32,
+        Dictionary => [ 'x', 'x', 'x', 'x' ],
+    );
 
-$Self->DoneTesting();
+    $Self->Is(
+        $XString,
+        'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'Test with dictionary containing only x',
+    );
+}
+
+# verify that irand() is not available as a method
+{
+    $Self->False( $MainObject->can('irand'), 'Kernel::System::Main::irand() is not supported' );
+
+    my $RandonNumber = eval {
+        $MainObject->irand(22);
+    };
+    my $ExceptionMatches = $@ =~ m/Can't locate object method "irand"/ ? 1 : 0;
+    $Self->True( $ExceptionMatches, "Kernel::System::Main::irand() not located" );
+    $Self->False( $RandonNumber, "Kernel::System::Main::irand() did not return anything" );
+}
+
+done_testing();

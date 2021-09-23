@@ -19,8 +19,12 @@ package Kernel::GenericInterface::Transport;
 use strict;
 use warnings;
 
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::ObjectManager;    # avoid warning: Name "Kernel::OM" used only once
 
 our $ObjectManagerDisabled = 1;
 
@@ -62,8 +66,7 @@ create an object.
 sub new {
     my ( $Type, %Param ) = @_;
 
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     for my $Needed (qw( DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || return {
@@ -134,8 +137,9 @@ generate response for an incoming web service request.
     );
 
     $Result = {
-        Success         => 1,                   # 0 or 1
-        ErrorMessage    => '',                  # in case of error
+        Success         => 1,              # 0 or 1
+        Output          => $Content,       # a string
+        ErrorMessage    => '',             # in case of error
     };
 
 =cut

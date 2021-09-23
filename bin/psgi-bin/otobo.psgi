@@ -77,196 +77,15 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
-# This package is used by rpc.pl.
-# NOTE: this is mostly untested
-package OTOBO::RPC {
-
-    use Kernel::System::ObjectManager;
-
-    sub new {
-        my $Self = shift;
-
-        my $Class = ref($Self) || $Self;
-
-        return bless {} => $Class;
-    }
-
-    sub Dispatch {
-        my ( $Self, $User, $Pw, $Object, $Method, %Param ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-
-        # We want to keep providing the TimeObject as legacy API for now.
-        ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-        $CommonObject{TimeObject} = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject} = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        return $CommonObject{$Object}->$Method(%Param);
-    }
-
-=item DispatchMultipleTicketMethods()
-
-to dispatch multiple ticket methods and get the TicketID
-
-    my $TicketID = $RPC->DispatchMultipleTicketMethods(
-        $SOAP_User,
-        $SOAP_Pass,
-        'TicketObject',
-        [ { Method => 'TicketCreate', Parameter => \%TicketData }, { Method => 'ArticleCreate', Parameter => \%ArticleData } ],
-    );
-
-=cut
-
-    sub DispatchMultipleTicketMethods {
-        my ( $Self, $User, $Pw, $Object, $MethodParamArrayRef ) = @_;
-
-        $User ||= '';
-        $Pw   ||= '';
-
-        # common objects
-        local $Kernel::OM = Kernel::System::ObjectManager->new(
-            'Kernel::System::Log' => {
-                LogPrefix => 'OTOBO-RPC',
-            },
-        );
-
-        my %CommonObject;
-
-        $CommonObject{ConfigObject}          = $Kernel::OM->Get('Kernel::Config');
-        $CommonObject{CustomerCompanyObject} = $Kernel::OM->Get('Kernel::System::CustomerCompany');
-        $CommonObject{CustomerUserObject}    = $Kernel::OM->Get('Kernel::System::CustomerUser');
-        $CommonObject{EncodeObject}          = $Kernel::OM->Get('Kernel::System::Encode');
-        $CommonObject{GroupObject}           = $Kernel::OM->Get('Kernel::System::Group');
-        $CommonObject{LinkObject}            = $Kernel::OM->Get('Kernel::System::LinkObject');
-        $CommonObject{LogObject}             = $Kernel::OM->Get('Kernel::System::Log');
-        $CommonObject{PIDObject}             = $Kernel::OM->Get('Kernel::System::PID');
-        $CommonObject{QueueObject}           = $Kernel::OM->Get('Kernel::System::Queue');
-        $CommonObject{SessionObject}         = $Kernel::OM->Get('Kernel::System::AuthSession');
-        $CommonObject{TicketObject}          = $Kernel::OM->Get('Kernel::System::Ticket');
-        $CommonObject{TimeObject}            = $Kernel::OM->Get('Kernel::System::Time');
-        $CommonObject{UserObject}            = $Kernel::OM->Get('Kernel::System::User');
-
-        my $RequiredUser     = $CommonObject{ConfigObject}->Get('SOAP::User');
-        my $RequiredPassword = $CommonObject{ConfigObject}->Get('SOAP::Password');
-
-        if (
-            !defined $RequiredUser
-            || !length $RequiredUser
-            || !defined $RequiredPassword || !length $RequiredPassword
-            )
-        {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "SOAP::User or SOAP::Password is empty, SOAP access denied!",
-            );
-            return;
-        }
-
-        if ( $User ne $RequiredUser || $Pw ne $RequiredPassword ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'notice',
-                Message  => "Auth for user $User (pw $Pw) failed!",
-            );
-            return;
-        }
-
-        if ( !$CommonObject{$Object} ) {
-            $CommonObject{LogObject}->Log(
-                Priority => 'error',
-                Message  => "No such Object $Object!",
-            );
-            return "No such Object $Object!";
-        }
-
-        my $TicketID;
-        my $Counter;
-
-        for my $MethodParamEntry ( @{$MethodParamArrayRef} ) {
-
-            my $Method    = $MethodParamEntry->{Method};
-            my %Parameter = %{ $MethodParamEntry->{Parameter} };
-
-            # push ticket id to params if there is no ticket id
-            if ( !$Parameter{TicketID} && $TicketID ) {
-                $Parameter{TicketID} = $TicketID;
-            }
-
-            my $ReturnValue = $CommonObject{$Object}->$Method(%Parameter);
-
-            # remember ticket id if method was TicketCreate
-            if ( !$Counter && $Object eq 'TicketObject' && $Method eq 'TicketCreate' ) {
-                $TicketID = $ReturnValue;
-            }
-
-            $Counter++;
-        }
-
-        return $TicketID;
-    }
-}
-
 # core modules
 use Data::Dumper;
+use Encode qw(:all);
 
 # CPAN modules
-use DateTime ();
-use Template ();
-use Encode qw(:all);
-use CGI                ();
-use CGI::Carp          ();
-use CGI::Emulate::PSGI ();
+use DateTime 1.08;
+use Template  ();
+use CGI       ();
+use CGI::Carp ();
 use CGI::PSGI;
 use Module::Refresh;
 use Plack::Builder;
@@ -274,6 +93,8 @@ use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
+
+#use Data::Peek; # for development
 
 # OTOBO modules
 use Kernel::GenericInterface::Provider;
@@ -283,6 +104,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use Kernel::System::Web::RPC                      ();    # provides OTOBO::RPC
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -304,9 +126,6 @@ my $NYTProfMiddleWare = sub {
     return sub {
         my $Env = shift;
 
-        # this is used only for Support Data Collection
-        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
-
         # check whether this request runs under Devel::NYTProf
         my $ProfilingIsOn = 0;
         if ( $ENV{NYTPROF} && $Env->{QUERY_STRING} =~ m/NYTProf=([\w-]+)/ ) {
@@ -321,6 +140,28 @@ my $NYTProfMiddleWare = sub {
         DB::finish_profile() if $ProfilingIsOn;
 
         return $Res;
+    };
+};
+
+# Set some entries in %ENV.
+# GATEWAY_INTERFACE is used for determining whether a command runs in a web context
+# Per default it would enable mysql_auto_reconnect.
+# But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
+# OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+my $SetEnvMiddleWare = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # only the side effects are important
+        local $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
+        local $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+
+        # enable for debugging UrlMap
+        #local $ENV{PLACK_URLMAP_DEBUG} = 1;
+
+        return $App->($Env);
     };
 };
 
@@ -420,8 +261,17 @@ my $HelloApp = sub {
 my $DumpEnvApp = sub {
     my $Env = shift;
 
+    # collect some useful info
     local $Data::Dumper::Sortkeys = 1;
-    my $Message = Dumper( [ "DumpEnvApp:", scalar localtime, $Env ] );
+    my $Message = Data::Dumper->Dump(
+        [ "DumpEnvApp:", scalar localtime, $Env, \%ENV, \@INC, \%INC, '🦦' ],
+        [qw(Title Time Env ENV INC_array INC_hash otter)],
+    );
+
+    # add some unicode
+    $Message .= "unicode: 🦦 ⛄ 🥨\n";
+
+    # emit the content as UTF-8
     utf8::encode($Message);
 
     return [
@@ -480,22 +330,19 @@ my $StaticApp = builder {
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
 my $OTOBOApp = builder {
 
-    enable 'Plack::Middleware::ErrorDocument',
-        403 => '/otobo/index.pl';    # forbidden files
+    # compress the output
+    # do not enable 'Plack::Middleware::Deflater', as there were errors with 'Wide characters in print'
+    #enable 'Plack::Middleware::Deflater',
+    #    content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
     # a simplistic detection whether we are behind a revers proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # Per default it would enable mysql_auto_reconnect.
-    # But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-    # OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
-
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
+
+    # set %ENV
+    enable $SetEnvMiddleWare;
 
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
@@ -505,88 +352,112 @@ my $OTOBOApp = builder {
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
-    # Set the appropriate %ENV and file handles
-    CGI::Emulate::PSGI->handler(
+    # No need to set %ENV or redirect STDIN.
+    # But STDOUT and STDERR is still like in CGI scripts.
+    # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
+    sub {
+        my $Env = shift;
 
-        # logic taken from the scripts in bin/cgi-bin
-        sub {
-            my $Env = shift;
+        # make sure to have a clean CGI.pm for each request, see CGI::Compile
+        CGI::initialize_globals() if defined &CGI::initialize_globals;
 
-            # make sure to have a clean CGI.pm for each request, see CGI::Compile
-            CGI::initialize_globals() if defined &CGI::initialize_globals;
+        # this setting is only used by a test page
+        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
-            # 0=off;1=on;
-            my $Debug = 0;
+        # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+        # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+        # The extracted ScriptFileName should be something like:
+        #     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
+        # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+        # are gracefully ignored.
+        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
 
-            # %ENV has to be used here as the PSGI is not passed as an arg to this anonymous sub.
-            # $ENV{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-            # $ENV{PATH_INFO} contains the path after the $ENV{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-            # The extracted ScriptFileName should be something like:
-            #     nph-genericinterface.pl, index.pl, customer.pl, or rpc.pl
-            # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-            # are gracefully ignored.
-            my ($ScriptFileName) = ( ( $ENV{SCRIPT_NAME} // '' ) . ( $ENV{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+        # Fallback to agent login if we could not determine handle...
+        $ScriptFileName //= 'index.pl';
 
-            # Fallback to agent login if we could not determine handle...
-            $ScriptFileName //= 'index.pl';
+        # params for the interface modules
+        my %InterfaceParams = (
+            Debug   => 0,      # pass 1 for enabling debug messages
+            PSGIEnv => $Env,
+        );
 
-            # nph-genericinterface.pl has specific logging
-            my @ObjectManagerArgs;
-            if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                push @ObjectManagerArgs,
-                    'Kernel::System::Log' => {
-                        LogPrefix => 'GenericInterfaceProvider',
-                    },
-                    ;
-            }
+        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
+        # This means that we don't have to capture STDOUT.
+        # Headers are set in the 'Kernel::System::Web::Response' object.
+        {
+            # make sure that the managed objects will be recreated for the current request
+            local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-            local $Kernel::OM = Kernel::System::ObjectManager->new(@ObjectManagerArgs);
+            # do the work, return a not encoded Perl string from the appropriate interface module to Plack
+            my $Content = eval {
 
-            # find the relevant interface class
-            my $Interface;
-            {
+                if ( $ScriptFileName eq 'customer.pl' ) {
+                    return Kernel::System::Web::InterfaceCustomer->new(%InterfaceParams);
+                }
+
                 if ( $ScriptFileName eq 'index.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug => $Debug,
-                    );
+                    return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
                 }
-                elsif ( $ScriptFileName eq 'customer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceCustomer->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'public.pl' ) {
-                    $Interface = Kernel::System::Web::InterfacePublic->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'installer.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceInstaller->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'migration.pl' ) {
-                    $Interface = Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                        Debug => $Debug,
-                    );
-                }
-                elsif ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    $Interface = Kernel::GenericInterface::Provider->new();
-                }
-                else {
 
-                    # fallback
-                    warn " using fallback InterfaceAgeng for ScriptFileName: '$ScriptFileName'\n";
-                    $Interface = Kernel::System::Web::InterfaceAgent->new(
-                        Debug => $Debug,
-                    );
+                if ( $ScriptFileName eq 'installer.pl' ) {
+                    return Kernel::System::Web::InterfaceInstaller->new(%InterfaceParams);
                 }
+
+                if ( $ScriptFileName eq 'migration.pl' ) {
+                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new(%InterfaceParams);
+                }
+
+                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
+                    return Kernel::GenericInterface::Provider->new(%InterfaceParams);
+                }
+
+                if ( $ScriptFileName eq 'public.pl' ) {
+                    return Kernel::System::Web::InterfacePublic->new(%InterfaceParams);
+                }
+
+                # index.pl is the fallback
+                warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
+
+                return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
+            }->Content();
+
+            # Apply output filters for specific interfaces.
+            # The output filters still work with proper Perl strings.
+            my %HasOutputFilter = (
+                'customer.pl' => 1,
+                'index.pl'    => 1,
+                'public.pl'   => 1,
+            );
+
+            if ( $HasOutputFilter{$ScriptFileName} ) {
+                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+                $LayoutObject->ApplyOutputFilters( Output => \$Content );
             }
 
-            # do the work
-            $Interface->Run();
+            # The HTTP headers of the OTOBO web response object already have been set up.
+            # Enhance it with the HTTP status code and the content.
+            my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
+
+            # Keep the HTTP status code when it already was set.
+            # Otherwise assume that the request was successful and set the code to 200.
+            $ResponseObject->Code(200) unless $ResponseObject->Code();
+
+            # The content is UTF-8 encoded when the header Content-Type has been set up like:
+            #   'Content-Type'    => 'text/html; charset=utf-8'
+            # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
+            my $Charset = $ResponseObject->Headers->content_type_charset // '';
+            if ( $Charset eq 'UTF-8' ) {
+                utf8::encode($Content);
+            }
+            $ResponseObject->Content($Content);
+
+            # for debugging: warn DDump( $ResponseObject->{Response}->{body} )
+
+            # return the PSGI response, a funnny unblessed array reference with three elements
+            return $ResponseObject->Finalize();
         }
-    );
+    };
 };
 
 # Port of rpc.pl
@@ -630,12 +501,15 @@ builder {
     # Server the static files in var/httpd/httpd.
     mount '/otobo-web' => $StaticApp;
 
-    # the most basic App
-    mount '/hello' => $HelloApp;
+    # uncomment for trouble shooting
+    #mount '/hello'          => $HelloApp;
+    #mount '/dump_env'       => $DumpEnvApp;
+    #mount '/otobo/hello'    => $HelloApp;
+    #mount '/otobo/dump_env' => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp;    #redirect to /otobo/index.pl when in doubt
+    mount '/otobo'                         => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
     mount '/otobo/customer.pl'             => $OTOBOApp;
     mount '/otobo/index.pl'                => $OTOBOApp;
     mount '/otobo/installer.pl'            => $OTOBOApp;
@@ -651,5 +525,5 @@ builder {
     mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
 };
 
-# for debugging, only dump the PSGI environment
+# enable for debugging: dump debugging info, including the PSGI environment, for any request
 #$DumpEnvApp;

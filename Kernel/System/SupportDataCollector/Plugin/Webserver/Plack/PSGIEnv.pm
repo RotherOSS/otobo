@@ -20,9 +20,18 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Plack::PSGIEnv;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Scalar::Util qw(reftype);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
@@ -39,39 +48,25 @@ sub Run {
     my $Self = shift;
 
     # No web request or no Plack based webserver skip this check.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
-    return $Self->GetResults() if !$ENV{OTOBO_RUNS_UNDER_PSGI};
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+    return $Self->GetResults() unless $ENV{OTOBO_RUNS_UNDER_PSGI};
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    return $Self->GetResults() if !$ParamObject->{Query};
-    return $Self->GetResults() if !$ParamObject->{Query}->can('env');
+    return $Self->GetResults() unless $ParamObject->{Query};
+    return $Self->GetResults() unless $ParamObject->{Query}->can('env');
 
     # Accessing the Query attribute directly is a bit hackish
-    my $PSGIEnv      = $ParamObject->{Query}->env();
-    my %KeyIsIgnored = map { $_ => 1 } qw(
-        HTTP_REFERER
-        HTTP_CACHE_CONTROL
-        HTTP_COOKIE
-        HTTP_USER_AGENT
-        HTTP_ACCEPT_LANGUAGE
-        HTTP_ACCEPT_ENCODING
-        HTTP_ACCEPT
-        QUERY_STRING
-        REQUEST_METHOD REQUEST_URI
-        SCRIPT_NAME
-        REMOTE_PORT
-        ALLUSERSPROFILE      APPDATA        LOCALAPPDATA   COMMONPROGRAMFILES
-        PROGRAMDATA          PROGRAMFILES   PSMODULEPATH   PUBLIC
-        SYSTEMDRIVE          SYSTEMROOT     TEMP           WINDIR
-        USERPROFILE
-    );
-
+    my $PSGIEnv = $ParamObject->{Query}->env();
     KEY:
-    for my $Key ( sort { $a cmp $b } grep { !$KeyIsIgnored{$_} } keys $PSGIEnv->%* ) {
+    for my $Key ( sort { $a cmp $b } keys $PSGIEnv->%* ) {
 
         # avoid confusing stringification
         next KEY if ref $PSGIEnv->{$Key};
+
+        # typeglobs are not reliably cached, so skip those
+        # e.g. 'Label' => 'psgi.errors', 'Value' => *::STDERR,
+        next KEY if reftype( \$PSGIEnv->{$Key} ) eq 'GLOB';
 
         $Self->AddResultInformation(
             Identifier => $Key,

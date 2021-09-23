@@ -18,13 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self (unused) and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -40,7 +42,7 @@ $Selenium->RunTest(
         );
 
         # Defined user language for testing if message is being translated correctly.
-        my $Language = "de";
+        my $Language = 'de';
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
@@ -65,10 +67,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "table tbody tr td", 'css' );
 
         # Check breadcrumb on Overview screen.
-        $Self->True(
-            $Selenium->find_element( '.BreadCrumb', 'css' ),
-            "Breadcrumb is found on Overview screen.",
-        );
+        $Selenium->find_element_ok( '.BreadCrumb', 'css', "Breadcrumb is found on Overview screen." );
 
         # Click 'Add auto response'.
         $Selenium->find_element("//a[contains(\@href, \'Action=AdminAutoResponse;Subaction=Add' )]")->VerifiedClick();
@@ -81,7 +80,7 @@ $Selenium->RunTest(
         my $Count;
         $Count = 1;
         for my $BreadcrumbText ( 'Auto Response Management', 'Add Auto Response' ) {
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $LanguageObject->Translate($BreadcrumbText),
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
@@ -107,7 +106,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->click();
         $Selenium->WaitFor( JavaScript => "return \$('#Name.Error').length" );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#Name').hasClass('Error')"
             ),
@@ -116,7 +115,7 @@ $Selenium->RunTest(
         );
 
         # Check form action.
-        $Self->True(
+        ok(
             $Selenium->find_element( '#Submit', 'css' ),
             "Submit is found on Add screen.",
         );
@@ -152,7 +151,7 @@ $Selenium->RunTest(
             $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
             # Check if test auto response show on AdminAutoResponse screen.
-            $Self->Is(
+            is(
                 $Selenium->execute_script(
                     "return \$('table tbody tr td:contains($AutoResponseName)').length"
                 ),
@@ -173,7 +172,7 @@ $Selenium->RunTest(
             $LanguageObject->Translate('Edit Auto Response') . ': ' . $AutoResponseNames[0]
             )
         {
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),
                 $BreadcrumbText,
                 "Breadcrumb text '$BreadcrumbText' is found on screen"
@@ -184,7 +183,7 @@ $Selenium->RunTest(
 
         # Check form actions.
         for my $Action (qw(Submit SubmitAndContinue)) {
-            $Self->True(
+            ok(
                 $Selenium->find_element( "#$Action", 'css' ),
                 "$Action is found on Edit screen.",
             );
@@ -200,7 +199,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
 
         # Check if edited auto response show on AdminAutoResponse.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('table tbody tr td:contains($AutoResponseNames[0])').length"
             ),
@@ -209,7 +208,7 @@ $Selenium->RunTest(
         );
 
         # Check class of invalid AutoResponse in the overview table.
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('tr.Invalid td a:contains($AutoResponseNames[0])').length"
             ),
@@ -228,7 +227,7 @@ $Selenium->RunTest(
             JavaScript => "return typeof(\$) === 'function' && \$('table tbody tr:visible').length === 1"
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('table tbody tr td:contains($AutoResponseNames[0])').parent().css('display')"
             ),
@@ -236,7 +235,7 @@ $Selenium->RunTest(
             "Auto response '$AutoResponseNames[0]' is found in the table"
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('table tbody tr td:contains($AutoResponseNames[1])').parent().css('display')"
             ),
@@ -248,7 +247,7 @@ $Selenium->RunTest(
         for my $ColumnName (qw(Name Type Comment Validity Changed Created)) {
 
             # Check if column name is translated.
-            $Self->Is(
+            is(
                 $Selenium->execute_script("return \$('#AutoResponses tr th:eq($Count)').text().trim()"),
                 $LanguageObject->Translate($ColumnName),
                 "Column name $ColumnName is translated",
@@ -268,7 +267,7 @@ $Selenium->RunTest(
                 SQL  => "DELETE FROM auto_response WHERE name = ?",
                 Bind => [ \$TestARName ],
             );
-            $Self->True(
+            ok(
                 $Success,
                 "Auto response '$TestARName' is deleted",
             );
@@ -276,4 +275,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();

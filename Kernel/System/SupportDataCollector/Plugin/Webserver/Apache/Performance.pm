@@ -18,12 +18,23 @@ package Kernel::System::SupportDataCollector::Plugin::Webserver::Apache::Perform
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 use parent qw(Kernel::System::SupportDataCollector::PluginBase);
 
+# core modules
+use Module::Loaded qw(is_loaded);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
-our @ObjectDependencies = ();
+our @ObjectDependencies = (
+    'Kernel::System::Main',
+);
 
 sub GetDisplayPath {
     return Translatable('Webserver');
@@ -32,20 +43,27 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no apache webserver, skip this check.
-    if ( !$ENV{GATEWAY_INTERFACE} || !$ENV{SERVER_SOFTWARE} || $ENV{SERVER_SOFTWARE} !~ m{apache}i ) {
-        return $Self->GetResults();
-    }
+    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+
+    # Checking for $ENV{MOD_PERL} is not reliable, see https://github.com/plack/Plack/issues/562.
+    # Check for mod_perl by trying to load Apache2::Module and see whether Apache2::Module::loaded() is available.
+    return $Self->GetResults() unless $MainObject->Require( 'Apache2::Module', Silent => 1 );
+    return $Self->GetResults() unless defined &Apache2::Module::loaded;
 
     # Check for CGI accelerator
-    if ( $ENV{MOD_PERL} ) {
+    # We are a bit sloppy here. If Apache2::Module has been loaded we assume the effectively we have mod_perl.
+    # Checking $ENV{MOD_PERL} here is kind of useless, as Plack::Handler::Apache2 deletes $ENV{MOD_PERL}.
+    if (1) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
-            Value      => $ENV{MOD_PERL},
+            Value      => 'mod_perl, as Apache2::Module is available',
         );
     }
-    elsif ( $INC{'CGI/Fast.pm'} || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
+    elsif ( is_loaded('CGI::Fast') || $ENV{FCGI_ROLE} || $ENV{FCGI_SOCKET_PATH} ) {
         $Self->AddResultOk(
             Identifier => "CGIAcceleratorUsed",
             Label      => Translatable('CGI Accelerator Usage'),
@@ -61,9 +79,9 @@ sub Run {
         );
     }
 
-    if ( $ENV{MOD_PERL} ) {
-        my $ModDeflateLoaded =
-            Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
+    # TODO: this does not really check whether the output filter has been activated
+    if (1) {
+        my $ModDeflateLoaded = Apache2::Module::loaded('mod_deflate.c') || Apache2::Module::loaded('mod_deflate.so');
 
         if ($ModDeflateLoaded) {
             $Self->AddResultOk(
@@ -81,8 +99,7 @@ sub Run {
             );
         }
 
-        my $ModFilterLoaded =
-            Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
+        my $ModFilterLoaded = Apache2::Module::loaded('mod_filter.c') || Apache2::Module::loaded('mod_filter.so');
 
         if ($ModFilterLoaded) {
             $Self->AddResultOk(
@@ -100,8 +117,7 @@ sub Run {
             );
         }
 
-        my $ModHeadersLoaded =
-            Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
+        my $ModHeadersLoaded = Apache2::Module::loaded('mod_headers.c') || Apache2::Module::loaded('mod_headers.so');
 
         if ($ModHeadersLoaded) {
             $Self->AddResultOk(
@@ -118,64 +134,6 @@ sub Run {
                 Message    => Translatable('Please install mod_headers to improve GUI speed.'),
             );
         }
-
-        # check if Apache::Reload is loaded
-        my $ApacheReloadUsed = 0;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::Reload' || $Module eq 'Apache2::Reload' ) {
-                $ApacheReloadUsed = $Module;
-            }
-        }
-
-        if ($ApacheReloadUsed) {
-            $Self->AddResultOk(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'active',
-            );
-        }
-        else {
-            $Self->AddResultWarning(
-                Identifier => "ApacheReloadUsed",
-                Label      => Translatable('Apache::Reload Usage'),
-                Value      => 'not active',
-                Message    =>
-                    Translatable(
-                        'Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules.'
-                    ),
-            );
-        }
-
-        my $ApacheDBIUsed;
-        for my $Module ( sort keys %INC ) {
-            $Module =~ s/\//::/g;
-            $Module =~ s/\.pm$//g;
-            if ( $Module eq 'Apache::DBI' || $Module eq 'Apache2::DBI' ) {
-                $ApacheDBIUsed = $Module;
-            }
-        }
-
-        if ($ApacheDBIUsed) {
-            $Self->AddResultOk(
-                Identifier => "ApacheDBIUsed",
-                Label      => Translatable('Apache2::DBI Usage'),
-                Value      => 'active',
-            );
-        }
-        else {
-            $Self->AddResultWarning(
-                Identifier => "ApacheDBIUsed",
-                Label      => Translatable('Apache2::DBI Usage'),
-                Value      => 'not active',
-                Message    =>
-                    Translatable(
-                        'Apache2::DBI should be used to get a better performance  with pre-established database connections.'
-                    ),
-            );
-        }
-
     }
 
     return $Self->GetResults();

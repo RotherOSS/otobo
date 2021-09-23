@@ -18,10 +18,12 @@ use strict;
 use warnings;
 use utf8;
 
+use CGI;
+
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Get config object.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -161,12 +163,19 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 for my $Test (@Tests) {
 
     # Fake a web request, as Action is used by the LockAfterCreate event.
+    # %ENV will be picked up in CGI->new()
     local %ENV = (
         REQUEST_METHOD => 'GET',
         QUERY_STRING   => $Test->{Request} || '',
     );
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new();
+
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     # Create an unlocked ticket,
     my $TicketID = $TicketObject->TicketCreate(
@@ -185,10 +194,12 @@ for my $Test (@Tests) {
         $Test->{Success},
         "$Test->{Name} TicketLockGet() for Ticket ID $TicketID",
     );
+}
+continue {
 
-    # Discard web request object as it is used by OM in LockAfterCreate event.
+    # Discard web request object as we need a new one in the next iteration.
     $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::Web::Request'],
+        Objects => [ 'Kernel::System::Web::Request', ],
     );
 }
 

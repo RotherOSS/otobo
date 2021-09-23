@@ -1,28 +1,48 @@
 %YAML 1.1
 ---
+# just like syntax_check.yml, only using a different check
 name: 'CodePolicy'
 on: ['pull_request']
+#on: ['push', 'pull_request']
 jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
+        env:
+            PERL5LIB: local/lib/perl5
         steps:
             - id: files
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libcode-tidyall-perl libnamespace-autoclean-perl libxml2-utils libxml-libxslt-perl cpanminus
+              run: sudo apt install -y libcode-tidyall-perl libxml2-utils libxml-libxslt-perl cpanminus
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
 
             # some diagnostics
-            - name: perl -V
-              run: perl -V
-            - name: env
-              run: env | sort
+            - name: diagnostics
+              run: |
+                perl -v
+                printenv | sort
+
+            # no need to reinstall modules from CPAN for every check, cache them
+            # Packages are reinstalled when cpanfile.docker changes.
+            # Set current date for forcing a rebuild. In this reqard, code_policy.yml and syntax_check.yml
+            # should be kept in sync.
+            - name: 'check cache for CPAN modules'
+              uses: actions/cache@v2
+              id: local_lib
+              with:
+                path: local
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923g
 
             - name: 'install from cpanfile.docker'
-              run: cpanm --sudo --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+              if: steps.local_lib.outputs.cache-hit != 'true'
+              run: |
+                cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
+            - name: 'tree local'
+              run: tree local
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2
@@ -33,4 +53,3 @@ jobs:
 
             - name: 'run CodePolicy'
               run: codepolicy/bin/otobo.CodePolicy.pl -l ${{ steps.files.outputs.added_modified }}
-

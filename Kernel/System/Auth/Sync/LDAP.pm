@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::Sync::LDAP;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -28,6 +30,9 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::User',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -108,7 +113,8 @@ sub Sync {
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
 
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
 
     # remove leading and trailing spaces
     $Param{User} =~ s{ \A \s* ( [^\s]+ ) \s* \z }{$1}xms;

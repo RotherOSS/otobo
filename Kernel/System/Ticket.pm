@@ -15,8 +15,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 package Kernel::System::Ticket;
 
 use strict;
@@ -60,7 +58,6 @@ our @ObjectDependencies = (
     'Kernel::System::TemplateGenerator',
     'Kernel::System::DateTime',
     'Kernel::System::Ticket::Article',
-    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::User',
     'Kernel::System::Valid',
@@ -2872,6 +2869,14 @@ END_SQL
     return 1;
 }
 
+=head2 TicketEscalationSuspendCalculate()
+
+consider the suspend states in the escalation computation
+
+Returns: system time for the relevant escalation
+
+=cut
+
 sub TicketEscalationSuspendCalculate {
     my ( $Self, %Param ) = @_;
 
@@ -2891,6 +2896,9 @@ sub TicketEscalationSuspendCalculate {
         UserID => 1,
     );
 
+    # for parsing the dates from the database
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     # check for suspend times
     my @StateHistory;
     $DBObject->Prepare(
@@ -2906,7 +2914,7 @@ sub TicketEscalationSuspendCalculate {
         push @StateHistory, {
             StateID     => $Row[0],
             Created     => $Row[1],
-            CreatedUnix => $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+            CreatedUnix => $DateTimeObject->TimeStamp2SystemTime(
                 String => $Row[1],
             ),
             State => $StateList{ $Row[0] },
@@ -2921,12 +2929,12 @@ sub TicketEscalationSuspendCalculate {
         $UpdateDiffTime += 4 * 60;
     }
 
-    # start time in unix format
-    my $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+    # start time in seconds since 1970
+    my $DestinationTime = $DateTimeObject->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 
-    # loop through state changes
+    # loop through state changes, modifying $DestinationTime
     my $SuspendState = 0;
 
     ROW:
@@ -2949,11 +2957,11 @@ sub TicketEscalationSuspendCalculate {
         else {
 
             # calculate working time if no suspend state
-            my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+            my $WorkingTime = $DateTimeObject->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
-            );
+            )->{AbsoluteSeconds};
             if ( $WorkingTime < $UpdateDiffTime ) {
 
                 # move destination time, substract diff time
@@ -2968,11 +2976,11 @@ sub TicketEscalationSuspendCalculate {
                 my $LoopProtection = 0;
                 UPDATETIME:
                 while ($UpdateDiffTime) {
-                    $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+                    $WorkingTime = $DateTimeObject->WorkingTime(
                         StartTime => $DestinationTime,
                         StopTime  => $DestinationTime + $UpdateDiffTime,
                         Calendar  => $Param{Calendar},
-                    );
+                    )->{AbsoluteSeconds};
 
                     # if we got no working time we are come to an non-working our
                     # so we might want to move in bigger stepts of one hour (3600)
@@ -3037,24 +3045,38 @@ sub TicketEscalationSuspendCalculate {
 
         # use current timestamp if we are suspended
         if ($SuspendState) {
-            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+            $StartTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {},
+            )->ToEpoch();
         }
 
         # some time left? calculate reminder as usual
-        $DestinationTime = $Kernel::OM->Get('Kernel::System::Time')->DestinationTime(
-            StartTime => $StartTime,
-            Time      => $UpdateDiffTime,
-            Calendar  => $Param{Calendar},
+
+        # DateTimeObject using OTOBO time zone per default
+        my $DestinationDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $StartTime,
+            },
         );
+
+        $DestinationDateTimeObject->Add(
+            Seconds       => $UpdateDiffTime,
+            AsWorkingTime => 1,
+            Calendar      => $Param{Calendar},
+        );
+
+        return $DestinationDateTimeObject->ToEpoch();
     }
 
     # If there is no "UpdateDiffTime" left, the ticket is escalated.
     # calculate exact escalation time and also suspend escalation for escalated tickets!
     # This is a special customer wish and can be activated via config. By default this option is inactive.
-    elsif ( !$UpdateDiffTime && $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets') ) {
 
         # start time in unix format
-        my $InterimDestinationTime = $Kernel::OM->Get('Kernel::System::Time')->TimeStamp2SystemTime(
+        my $InterimDestinationTime = $DateTimeObject->TimeStamp2SystemTime(
             String => $Param{StartTime},
         );
 
@@ -3083,11 +3105,11 @@ sub TicketEscalationSuspendCalculate {
             else {
 
                 # calculate working time if state is suspend state
-                my $WorkingTime = $Kernel::OM->Get('Kernel::System::Time')->WorkingTime(
+                my $WorkingTime = $DateTimeObject->WorkingTime(
                     StartTime => $InterimDestinationTime,
                     StopTime  => $Row->{CreatedUnix},
                     Calendar  => $Param{Calendar},
-                );
+                )->{AbsoluteSeconds};
 
                 # count time from unsuspended status
                 $EscalatedTime += $WorkingTime;
@@ -3097,14 +3119,20 @@ sub TicketEscalationSuspendCalculate {
         if ( $Param{Suspended} ) {
 
             # use current timestamp, because current state should be suspended
-            $StartTime = $Kernel::OM->Get('Kernel::System::Time')->SystemTime();
+            $StartTime = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {},
+            )->ToEpoch();
         }
         else {
             # use time of last non-suspend state
             $StartTime = $InterimDestinationTime;
         }
-        $DestinationTime = $StartTime + $ResponseTime - $EscalatedTime;
+
+        return $StartTime + $ResponseTime - $EscalatedTime;
     }
+
+    # neither $UpdateDiffTime nor $Kernel::OM->Get('Kernel::Config')->Get('SuspendEscalatedTickets')
     return $DestinationTime;
 }
 
@@ -3112,8 +3140,7 @@ sub TicketWorkingTimeSuspendCalculate {
     my ( $Self, %Param ) = @_;
 
     # get required objects
-    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
-    my $TimeObject = $Kernel::OM->Get('Kernel::System::Time');
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
     # get states in which to suspend escalations or which are closed
     my @SuspendAndClosedStates;
@@ -3135,6 +3162,9 @@ sub TicketWorkingTimeSuspendCalculate {
         UserID => 1,
     );
 
+    # for parsing the dates from the database
+    my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+
     # check for suspend times
     my @StateHistory;
     $DBObject->Prepare(
@@ -3147,7 +3177,7 @@ sub TicketWorkingTimeSuspendCalculate {
         Bind => [ \$Param{TicketID} ],
     );
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        my $CreatedUnix = $TimeObject->TimeStamp2SystemTime(
+        my $CreatedUnix = $DateTimeObject->TimeStamp2SystemTime(
             String => $Row[1],
         );
         push @StateHistory, {
@@ -3159,7 +3189,7 @@ sub TicketWorkingTimeSuspendCalculate {
     }
 
     # start time in unix format
-    my $DestinationTime = $TimeObject->TimeStamp2SystemTime(
+    my $DestinationTime = $DateTimeObject->TimeStamp2SystemTime(
         String => $Param{StartTime},
     );
 
@@ -3190,11 +3220,11 @@ sub TicketWorkingTimeSuspendCalculate {
         if ( !$SuspendState ) {
 
             # calculate working time if no suspend state
-            my $WorkingTime = $TimeObject->WorkingTime(
+            my $WorkingTime = $DateTimeObject->WorkingTime(
                 StartTime => $DestinationTime,
                 StopTime  => $Row->{CreatedUnix},
                 Calendar  => $Param{Calendar},
-            );
+            )->{AbsoluteSeconds};
 
             $WorkingTimeUnsuspended += $WorkingTime;
         }
@@ -4054,7 +4084,8 @@ sub TicketPendingTimeSet {
                     String => $Param{String}
                 }
             );
-            return if ( !$DateTimeObject );
+
+            return if !$DateTimeObject;
 
             $Time = $DateTimeObject->ToEpoch();
 

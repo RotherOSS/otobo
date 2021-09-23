@@ -92,7 +92,7 @@ sub new {
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     FILENAME:
-    for my $Filename (qw(Framework.pm OTOBOCommunity.pm)) {
+    for my $Filename (qw(Framework.pm SettingHistory.pm UserSetting.pm)) {
         my $BaseFile = $BaseDir . $Filename;
 
         next FILENAME unless -e $BaseFile;

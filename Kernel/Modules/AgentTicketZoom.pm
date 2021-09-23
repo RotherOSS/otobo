@@ -119,7 +119,6 @@ sub new {
         }
     }
 
-    # Please note: ZoomTimeline is an OTOBOCommunity feature
     if ( !$ConfigObject->Get('TimelineViewEnabled') ) {
         $Self->{ZoomTimeline} = 0;
     }

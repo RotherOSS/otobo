@@ -16,6 +16,8 @@
 
 package Kernel::System::CustomerAuth::DB;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -28,6 +30,9 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -111,11 +116,12 @@ sub Auth {
     }
 
     # get params
-    my $User       = $Param{User}      || '';
-    my $Pw         = $Param{Pw}        || '';
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-    my $UserID     = '';
-    my $GetPw      = '';
+    my $User        = $Param{User} || '';
+    my $Pw          = $Param{Pw}   || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $UserID      = '';
+    my $GetPw       = '';
 
     # sql query
     $Self->{DBObject}->Prepare(

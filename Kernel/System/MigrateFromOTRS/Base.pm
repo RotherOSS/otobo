@@ -727,9 +727,9 @@ get a file or directory from remote system, save to tmp directory, return Path.
         FQDN        => "192.68.0.1",
         Path        => "opt/otrs/",
         SSHUser     => "root",
-        Password       => "Pw",
-        ExcludeDirs  => ["var/article"] # Optional
-        Filename    => "RELEASE",       # Optional, if only one file to copy
+        Password    => "Pw",
+        ExcludeDirs => ["var/article"]    # Optional
+        Filename    => "RELEASE",         # Optional, if only one file to copy
         UserID      => 1,
     );
 

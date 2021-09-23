@@ -16,6 +16,8 @@
 
 package Kernel::System::Auth::Radius;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
@@ -24,6 +26,9 @@ use Authen::Radius;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Log',
+);
+our @SoftObjectDependencies = (
+    'Kernel::System::Web::Request',
 );
 
 sub new {
@@ -82,11 +87,12 @@ sub Auth {
     }
 
     # get params
-    my $User       = $Param{User}      || '';
-    my $Pw         = $Param{Pw}        || '';
-    my $RemoteAddr = $ENV{REMOTE_ADDR} || 'Got no REMOTE_ADDR env!';
-    my $UserID     = '';
-    my $GetPw      = '';
+    my $User        = $Param{User} || '';
+    my $Pw          = $Param{Pw}   || '';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RemoteAddr  = $ParamObject->RemoteAddr() || 'Got no REMOTE_ADDR env!';
+    my $UserID      = '';
+    my $GetPw       = '';
 
     # just in case for debug!
     if ( $Self->{Debug} > 0 ) {

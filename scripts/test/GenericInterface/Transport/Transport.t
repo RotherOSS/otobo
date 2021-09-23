@@ -18,13 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+use CGI;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
+
+our $Self;
 
 # get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -36,6 +41,7 @@ $Kernel::OM->ObjectParamAdd(
         SkipSSLVerify => 1,
     },
 );
+
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
@@ -47,9 +53,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => 1,
 );
 
-#
-# failing backend
-#
+note('failing backend');
 
 {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
@@ -76,10 +80,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     );
 }
 
-#
 # test backend
-#
-
 for my $Fail ( 0 .. 1 ) {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
         DebuggerObject  => $DebuggerObject,
@@ -103,7 +104,7 @@ for my $Fail ( 0 .. 1 ) {
 
     my @RPRTestData = (
         {
-            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest()",
+            Name      => "TransportObject RequesterPerformRequest()",
             Operation => 'test_operation',
             Data      => {
                 A => 'A',
@@ -113,7 +114,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name      => "TransportObject (Fail $Fail) RequesterPerformRequest() UTF-8 data",
+            Name      => "TransportObject RequesterPerformRequest() UTF-8 data",
             Operation => 'test_operation',
             Data      => {
                 A                    => 'A',
@@ -124,7 +125,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name => "TransportObject (Fail $Fail) RequesterPerformRequest() missing operation",
+            Name => "TransportObject RequesterPerformRequest() missing operation",
             Data => {
                 A => 'A',
                 b => 'b',
@@ -132,59 +133,64 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 0,
         },
         {
-            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() missing data",
+            Name          => "TransportObject RequesterPerformRequest() missing data",
             Operation     => 'test_operation',
             ResultData    => '',
             ResultSuccess => 1,
         },
         {
-            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data scalar",
+            Name          => "TransportObject RequesterPerformRequest() wrong data scalar",
             Operation     => 'test_operation',
             Data          => 'testdata',
             ResultSuccess => 0,
         },
         {
-            Name          => "TransportObject (Fail $Fail) RequesterPerformRequest() wrong data listref",
+            Name          => "TransportObject RequesterPerformRequest() wrong data listref",
             Operation     => 'test_operation',
             Data          => ['testdata'],
             ResultSuccess => 0,
         },
     );
 
+    note("RequesterPerformRequest() (Fail $Fail)");
+
     for my $TestEntry (@RPRTestData) {
 
-        # discard Web::Request from OM to prevent errors
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+        subtest "$TestEntry->{Name} (Fail $Fail)" => sub {
 
-        my $Result = $TransportObject->RequesterPerformRequest(
-            Operation => $TestEntry->{Operation},
-            Data      => $TestEntry->{Data},
-        );
+            # discard Web::Request from OM to prevent errors
+            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-        if ( !$Fail && $TestEntry->{ResultSuccess} ) {
-            $Self->True(
-                $Result->{Success},
-                "$TestEntry->{Name} success",
+            my $Result = $TransportObject->RequesterPerformRequest(
+                Operation => $TestEntry->{Operation},
+                Data      => $TestEntry->{Data},
             );
 
-            for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
+            if ( !$Fail && $TestEntry->{ResultSuccess} ) {
                 $Self->True(
-                    index( $Result->{Data}->{ResponseContent}, $QueryStringPart ) > -1,
-                    "$TestEntry->{Name} result contains $QueryStringPart",
+                    $Result->{Success},
+                    "success",
+                );
+
+                for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
+                    $Self->True(
+                        index( $Result->{Data}->{ResponseContent}, $QueryStringPart ) > -1,
+                        "result contains $QueryStringPart",
+                    );
+                }
+            }
+            else {
+                $Self->False(
+                    $Result->{Success},
+                    "fail detected",
+                );
+
+                $Self->True(
+                    $Result->{ErrorMessage},
+                    "error message found",
                 );
             }
-        }
-        else {
-            $Self->False(
-                $Result->{Success},
-                "$TestEntry->{Name} fail detected",
-            );
-
-            $Self->True(
-                $Result->{ErrorMessage},
-                "$TestEntry->{Name} error message found",
-            );
-        }
+        };
     }
 
     #
@@ -193,7 +199,7 @@ for my $Fail ( 0 .. 1 ) {
 
     my @PPRTestData = (
         {
-            Name           => "TransportObject (Fail $Fail) ProviderProcessRequest()",
+            Name           => "TransportObject ProviderProcessRequest()",
             RequestContent => 'A=A',
             ResultData     => {
                 A => 'A',
@@ -202,7 +208,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name           => "TransportObject (Fail $Fail) ProviderProcessRequest()",
+            Name           => "TransportObject ProviderProcessRequest()",
             RequestContent => 'A=A&b=b',
             ResultData     => {
                 A => 'A',
@@ -212,7 +218,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name           => "TransportObject (Fail $Fail) ProviderProcessRequest() UTF-8 data",
+            Name           => "TransportObject ProviderProcessRequest() UTF-8 data",
             RequestContent => 'A=A&使用下列语言=معلومات',
             ResultData     => {
                 A                    => 'A',
@@ -222,76 +228,94 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name           => "TransportObject (Fail $Fail) ProviderProcessRequest() empty request",
+            Name           => "TransportObject ProviderProcessRequest() empty request",
             RequestContent => '',
             ResultSuccess  => 0,
         },
     );
 
+    note("ProviderProcessRequest() (Fail $Fail)");
+
     for my $TestEntry (@PPRTestData) {
 
-        my $Result;
+        subtest "$TestEntry->{Name} (Fail $Fail)" => sub {
 
-        {
+            my ( $Result, $WebException );
+            {
+                # prepare CGI environment variables
+                # %ENV will be picked up in CGI->new()
+                local $ENV{REQUEST_METHOD} = 'POST';
+                local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
+                local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
 
-            # prepare CGI environment variables
-            local $ENV{REQUEST_METHOD} = 'POST';
-            local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
-            local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
+                $EncodeObject->EncodeOutput( \$TestEntry->{RequestContent} );
 
-            $EncodeObject->EncodeOutput( \$TestEntry->{RequestContent} );
+                # redirect STDIN from String so that the transport layer will use this data
+                local *STDIN;
+                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen)
 
-            # redirect STDIN from String so that the transport layer will use this data
-            local *STDIN;
-            open STDIN, '<:utf8', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
+                # force the ParamObject to use the new request params
+                CGI::initialize_globals();
+                $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+                $Kernel::OM->ObjectParamAdd(
+                    'Kernel::System::Web::Request' => {
+                        WebRequest => CGI->new(),
+                    }
+                );
 
-            # reset CGI object from previous runs
-            CGI::initialize_globals();
+                $Result = eval {
+                    $TransportObject->ProviderProcessRequest();
+                };
+                $WebException = $@;
+            }
 
-            # discard Web::Request from OM to prevent errors
-            $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+            if ( !$Fail && $TestEntry->{ResultSuccess} ) {
+                is( $WebException, '', 'no exception' );
 
-            $Result = $TransportObject->ProviderProcessRequest();
-        }
+                $Self->True(
+                    $Result->{Success},
+                    "success",
+                );
 
-        if ( !$Fail && $TestEntry->{ResultSuccess} ) {
-            $Self->True(
-                $Result->{Success},
-                "$TestEntry->{Name} success",
-            );
+                $Self->Is(
+                    $Result->{Operation},
+                    $TestEntry->{Operation},
+                    "operation",
+                );
 
-            $Self->Is(
-                $Result->{Operation},
-                $TestEntry->{Operation},
-                "$TestEntry->{Name} operation",
-            );
+                $Self->IsDeeply(
+                    $Result->{Data},
+                    $TestEntry->{ResultData},
+                    "data result",
+                );
+            }
+            else {
+                $Self->False(
+                    $Result->{Success},
+                    "fail detected",
+                );
 
-            $Self->IsDeeply(
-                $Result->{Data},
-                $TestEntry->{ResultData},
-                "$TestEntry->{Name} data result",
-            );
-        }
-        else {
-            $Self->False(
-                $Result->{Success},
-                "$TestEntry->{Name} fail detected",
-            );
+                $Self->True(
+                    $Result->{ErrorMessage},
+                    "error message found",
+                );
+            }
 
-            $Self->True(
-                $Result->{ErrorMessage},
-                "$TestEntry->{Name} error message found",
-            );
-        }
+            #use Data::Dumper;
+            #warn Dumper( 'YYY', $WebException, $Result );
+            #can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
+            #my $PSGIResponse = $WebException->as_psgi();
+            #ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
+            #
+            #ok( $PSGIResponse->[2], "error message found" );
+        };
     }
 
-    #
     # ProviderGenerateResponse()
-    #
 
-    my @PGRTestData = (
+    my @PGRTestEntries = (
         {
-            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse()",
+            Name => "TransportObject ProviderGenerateResponse()",
             Data => {
                 A => 'A',
                 b => 'b',
@@ -300,7 +324,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name => "TransportObject (Fail $Fail) ProviderGenerateResponse() UTF-8 data",
+            Name => "TransportObject ProviderGenerateResponse() UTF-8 data",
             Data => {
                 A                    => 'A',
                 '使用下列语言' => 'معلومات',
@@ -310,82 +334,102 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() missing data",
+            Name          => "TransportObject ProviderGenerateResponse() missing data",
             ResultData    => '',
             ResultSuccess => 1,
         },
         {
-            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data scalar",
+            Name          => "TransportObject ProviderGenerateResponse() wrong data scalar",
             Data          => 'testdata',
             ResultSuccess => 0,
         },
         {
-            Name          => "TransportObject (Fail $Fail) ProviderGenerateResponse() wrong data listref",
+            Name          => "TransportObject ProviderGenerateResponse() wrong data listref",
             Data          => ['testdata'],
             ResultSuccess => 0,
         },
     );
 
     for my $OptionSuccess ( 0 .. 1 ) {
-        for my $TestEntry (@PGRTestData) {
-            my $ResultData = '';
 
-            my $Result;
-            {
+        note("ProviderGenerateResponse() (Fail $Fail) (success $OptionSuccess)");
 
-                # redirect STDOUT from String so that the transport layer will write there
-                local *STDOUT;
-                open STDOUT, '>:utf8', \$ResultData;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
+        for my $TestEntry (@PGRTestEntries) {
 
-                # discard Web::Request from OM to prevent errors
-                $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+            subtest "$TestEntry->{Name} (Fail $Fail) (success $OptionSuccess)" => sub {
+                my $Response = '';
+                my $Result;
+                my $WebException;
+                my $CustomErrorMessage = 'this is a custom error message for HTTP::Test::ProviderGenerateResponse()';
+                {
+                    # discard Web::Request from OM to prevent errors
+                    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                $Result = $TransportObject->ProviderGenerateResponse(
-                    Success      => $OptionSuccess,
-                    ErrorMessage => 'Custom Test Error',
-                    Data         => $TestEntry->{Data},
-                );
-            }
-
-            if ( !$Fail && $TestEntry->{ResultSuccess} ) {
-                $Self->True(
-                    $Result->{Success},
-                    "$TestEntry->{Name} success",
-                );
-
-                if ($OptionSuccess) {
-                    $Self->True(
-                        index( $ResultData, '200 OK' ) > -1,
-                        "$TestEntry->{Name} result status 200",
-                    );
-
-                    for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
-                        $Self->True(
-                            index( $ResultData, $QueryStringPart ) > -1,
-                            "$TestEntry->{Name} result",
+                    $Result = eval {
+                        $TransportObject->ProviderGenerateResponse(
+                            Success      => $OptionSuccess,
+                            ErrorMessage => $CustomErrorMessage,
+                            Data         => $TestEntry->{Data},
                         );
+                    };
+                    $WebException = $@;
+                    $Response     = delete $Result->{Output} if ref $Result eq 'HASH';
+                }
+
+                if ( !$Fail && $TestEntry->{ResultSuccess} ) {
+
+                    if ($OptionSuccess) {
+                        ok("success");
+
+                        $Self->True(
+                            index( $Response, '200 OK' ) > -1,
+                            "result status 200",
+                        );
+
+                        for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
+                            $Self->True(
+                                index( $Response, $QueryStringPart ) > -1,
+                                "result",
+                            );
+                        }
+                    }
+                    else {
+
+                        # HTTP::Test::ProviderGenerateResponse() return a web exception
+                        # when Success = 0 is passed
+                        is( $Result, undef, 'no result as exception is thrown' );
+                        my $PSGIResponse = $WebException->as_psgi;
+                        is( $PSGIResponse->[0], 500,                   'HTTP status 500' );
+                        is( $PSGIResponse->[2], [$CustomErrorMessage], 'custom error message' );
                     }
                 }
+                elsif ( $Fail && $TestEntry->{ResultSuccess} ) {
+
+                    # HTTP::Test::ProviderGenerateResponse() return a web exception
+                    # when Fail = 1 is set in the transporter config.
+                    is( $Result, undef, 'no result as exception is thrown' );
+                    my $PSGIResponse = $WebException->as_psgi;
+                    is( $PSGIResponse->[0], 500,                                 'HTTP status 500' );
+                    is( $PSGIResponse->[2], ['Test response generation failed'], 'error message for Fail = 1' );
+                    use Data::Dumper;
+                    warn Dumper( 'KKK', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
+                }
                 else {
+                    use Data::Dumper;
+                    warn Dumper( 'LLL', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
+                    $Self->False(
+                        $Result->{Success},
+                        "fail detected",
+                    );
+
                     $Self->True(
-                        index( $ResultData, '500 Custom Test Error' ) > -1,
-                        "$TestEntry->{Name} result status 500",
+                        $Result->{ErrorMessage},
+                        "error message found",
                     );
                 }
-            }
-            else {
-                $Self->False(
-                    $Result->{Success},
-                    "$TestEntry->{Name} fail detected",
-                );
-
-                $Self->True(
-                    $Result->{ErrorMessage},
-                    "$TestEntry->{Name} error message found",
-                );
-            }
+            };
         }
     }
 }
 
-$Self->DoneTesting();
+done_testing();

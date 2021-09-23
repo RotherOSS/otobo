@@ -26,7 +26,6 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::SystemData',
     'Kernel::System::SysConfig',
 );
 
@@ -52,8 +51,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get configured session backend
     my $GenericModule = $Kernel::OM->Get('Kernel::Config')->Get('SessionModule');
@@ -72,7 +70,7 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     for my $SessionLimitConfigKey (
-        qw(AgentSessionLimit AgentSessionPerUserLimit CustomerSessionLimit CustomerSessionPerUserLimit)
+        qw(AgentSessionLimitPriorWarning AgentSessionLimit AgentSessionPerUserLimit CustomerSessionLimit CustomerSessionPerUserLimit)
         )
     {
         $Self->{$SessionLimitConfigKey} = $ConfigObject->Get($SessionLimitConfigKey);
@@ -95,6 +93,51 @@ sub CheckSessionID {
     my ( $Self, %Param ) = @_;
 
     return $Self->{Backend}->CheckSessionID(%Param);
+}
+
+=head2 CheckAgentSessionLimitPriorWarning()
+
+Get the agent session limit prior warning message, if the limit is reached.
+
+    my $PriorMessage = $SessionObject->CheckAgentSessionLimitPriorWarning();
+
+ returns the prior warning message (AgentSessionLimitPriorWarning reached) or false (AgentSessionLimitPriorWarning not reached)
+
+=cut
+
+sub CheckAgentSessionLimitPriorWarning {
+    my ( $Self, %Param ) = @_;
+
+    my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CachedMessage = $CacheObject->Get(
+        Type => 'AuthSession',
+        Key  => 'AgentSessionLimitPriorWarningMessage',
+    );
+
+    return $CachedMessage if defined $CachedMessage;
+
+    my $SessionLimitPriorWarning = $Self->{AgentSessionLimitPriorWarning};
+
+    my $PriorWarningMessage = '';
+    if ($SessionLimitPriorWarning) {
+
+        my %ActiveSessions = $Self->GetActiveSessions(
+            UserType => 'User',
+        );
+
+        if ( defined $ActiveSessions{Total} && $ActiveSessions{Total} > $SessionLimitPriorWarning ) {
+            $PriorWarningMessage = Translatable('Please note that the session limit is almost reached.');
+        }
+    }
+
+    $CacheObject->Set(
+        Type  => 'AuthSession',
+        TTL   => 60 * 15,
+        Key   => 'AgentSessionLimitPriorWarningMessage',
+        Value => $PriorWarningMessage,
+    );
+
+    return $PriorWarningMessage;
 }
 
 =head2 SessionIDErrorMessage()
@@ -230,6 +273,12 @@ session can't get deleted)
 
 sub RemoveSessionID {
     my ( $Self, %Param ) = @_;
+
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+    $CacheObject->Delete(
+        Type => 'AuthSession',
+        Key  => 'AgentSessionLimitPriorWarningMessage',
+    );
 
     return $Self->{Backend}->RemoveSessionID(%Param);
 }
@@ -392,6 +441,11 @@ clean-up of sessions in your system
 
 sub CleanUp {
     my ( $Self, %Param ) = @_;
+
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'AuthSession',
+        Key  => 'AgentSessionLimitPriorWarningMessage',
+    );
 
     return $Self->{Backend}->CleanUp(%Param);
 }

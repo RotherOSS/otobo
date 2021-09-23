@@ -16,14 +16,23 @@
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use CGI;
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::ObjectManager;
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport::HTTP::SOAP;
+
+$Kernel::OM = Kernel::System::ObjectManager->new();
+
+my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     DebuggerConfig => {
@@ -91,9 +100,11 @@ my @Tests = (
     },
 );
 
+plan( scalar @Tests );
+
 for my $Test (@Tests) {
 
-    my $Request = << "EOF";
+    my $Request = << "END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
    <soapenv:Body>
@@ -102,28 +113,39 @@ for my $Test (@Tests) {
       </tic:Test>
    </soapenv:Body>
 </soapenv:Envelope>
-EOF
+END_XML
+
+    $EncodeObject->EncodeOutput( \$Request );
 
     # Fake STDIN and fill it with the request.
-    open my $StandardInput, '<', \"$Request";    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-    local *STDIN = $StandardInput;
+    local *STDIN;
+    open STDIN, '<:encoding(UTF-8)', \$Request;    ## no critic qw(OTOBO::ProhibitOpen)
 
     # Fake environment variables as it gets it from the request.
-    local $ENV{'CONTENT_LENGTH'} = length $Request;
-    local $ENV{'CONTENT_TYPE'}   = $Test->{ContentType};
+    # %ENV will be picked up in Kernel::System::Web::Request::new().
+    local $ENV{REQUEST_METHOD} = 'POST';
+    local $ENV{CONTENT_LENGTH} = length $Request;
+    local $ENV{CONTENT_TYPE}   = $Test->{ContentType};
+
+    # force the ParamObject to use the new request params
+    CGI::initialize_globals();
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI->new(),
+        }
+    );
 
     my $Result = $SOAPObject->ProviderProcessRequest();
 
     # Convert original value to UTF-8 (if needed).
     if ( $Test->{ContentType} =~ m{UTF-8}mxsi ) {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Test->{Value} );
+        $EncodeObject->EncodeInput( \$Test->{Value} );
     }
 
-    $Self->Is(
+    is(
         $Result->{Data}->{Test},
         $Test->{Value},
         "$Test->{Name} Result value",
     );
 }
-
-$Self->DoneTesting();

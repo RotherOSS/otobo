@@ -18,11 +18,15 @@ package Kernel::System::Web::Request;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use CGI ();
-use CGI::Carp;
-use File::Path qw();
+# core modules
 
+# CPAN modules
+use CGI;
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -36,11 +40,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Web::Request - global CGI interface
+Kernel::System::Web::Request - an object holding info on the current request
 
 =head1 DESCRIPTION
 
-All cgi param functions.
+Holds the request params and other info on the request.
 
 =head1 PUBLIC INTERFACE
 
@@ -49,15 +53,25 @@ All cgi param functions.
 create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
+    # usually the PSGI env is already available
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
+            PSGIEnv => $PSGIEnv
         }
     );
+
+    # alternatively create a request object when we are in a CGI environment
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
+        'Kernel::System::Web::Request' => {
+            WebRequest => CGI::PSGI->new($env)
+        }
+    );
+
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
-same CGI data (this can be helpful in filters which do not have access to the
+same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
 
 If you need to reset the CGI data before creating a new instance, use
@@ -72,8 +86,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -81,8 +94,22 @@ sub new {
     # max 5 MB posts
     $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi)
-    $Self->{Query} = $Param{WebRequest} || CGI->new();
+    # query object when PSGI env is passed, the recommended usage
+    if ( $Param{PSGIEnv} ) {
+        $Self->{Query} = CGI::PSGI->new( $Param{PSGIEnv} );
+    }
+
+    # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
+    elsif ( $Param{WebRequest} ) {
+        $Self->{Query} = $Param{WebRequest};
+    }
+
+    # Use an empty CGI object as a fallback.
+    # This is needed because the ParamObject is sometimes created outside a web context.
+    # Pass an empty string, in order to avoid that params in %ENV are considered.
+    else {
+        $Self->{Query} = CGI->new('');
+    }
 
     return $Self;
 }
@@ -122,9 +149,11 @@ sub GetParam {
     my $Value = $Self->{Query}->param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod eq 'POST' && !defined $Value ) {
-        $Value = $Self->{Query}->url_param( $Param{Param} );
+    if ( !defined $Value ) {
+        my $RequestMethod = $Self->{Query}->request_method() // '';
+        if ( $RequestMethod eq 'POST' ) {
+            $Value = $Self->{Query}->url_param( $Param{Param} );
+        }
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
@@ -176,8 +205,10 @@ sub GetParamNames {
         my @GetNames = $Self->{Query}->url_param();
         GETNAME:
         for my $GetName (@GetNames) {
-            next GETNAME if !defined $GetName;
-            push @ParamNames, $GetName if !exists $POSTNames{$GetName};
+            next GETNAME unless defined $GetName;
+            next GETNAME if exists $POSTNames{$GetName};
+
+            push @ParamNames, $GetName;
         }
     }
 
@@ -206,9 +237,11 @@ sub GetArray {
     my @Values = $Self->{Query}->multi_param( $Param{Param} );
 
     # Fallback to query string for mixed requests.
-    my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod eq 'POST' && !@Values ) {
-        @Values = $Self->{Query}->url_param( $Param{Param} );
+    if ( !@Values ) {
+        my $RequestMethod = $Self->{Query}->request_method() // '';
+        if ( $RequestMethod eq 'POST' ) {
+            @Values = $Self->{Query}->url_param( $Param{Param} );
+        }
     }
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
@@ -307,15 +340,17 @@ sub _GetUploadInfo {
 
 =head2 SetCookie()
 
-set a cookie
+return a hashref based on the input params. The keys of the returned hashref
+are the keys that are accepted by the second parameter to C<Cookie::Backer::bake_cookie()>.
+An exception is the key I<name> which must be passed as the first parameter.
 
     $ParamObject->SetCookie(
-        Key     => ID,
-        Value   => 123456,
-        Expires => '+3660s',
-        Path    => 'otobo/',     # optional, only allow cookie for given path
-        Secure  => 1,           # optional, set secure attribute to disable cookie on HTTP (HTTPS only)
-        HTTPOnly => 1,          # optional, sets HttpOnly attribute of cookie to prevent access via JavaScript
+        Key     => ID,          # name
+        Value   => 123456,      # value
+        Expires => '+3660s',    # expires
+        Path    => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure  => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly => 1,          # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 =cut
@@ -325,14 +360,14 @@ sub SetCookie {
 
     $Param{Path} ||= '';
 
-    return $Self->{Query}->cookie(
-        -name     => $Param{Key},
-        -value    => $Param{Value},
-        -expires  => $Param{Expires},
-        -secure   => $Param{Secure}   || '',
-        -httponly => $Param{HTTPOnly} || '',
-        -path     => '/' . $Param{Path},
-    );
+    return {
+        name     => $Param{Key},
+        value    => $Param{Value},
+        expires  => $Param{Expires},
+        secure   => $Param{Secure}   || '',
+        httponly => $Param{HTTPOnly} || '',
+        path     => '/' . ( $Param{Path} // '' ),
+    };
 }
 
 =head2 GetCookie()
@@ -460,19 +495,19 @@ sub ContentType {
     return $Self->{Query}->content_type(@Params);
 }
 
-=head2 EnvQueryString()
+=head2 QueryString()
 
-Returns the original query string.
-This is a wrapper around CGI::env_query_string().
+Returns the query string.
+This is a wrapper around CGI::query_string().
 
-    my $QueryString = $ParamObject->EnvQueryString();
+    my $QueryString = $ParamObject->QueryString();
 
 =cut
 
-sub EnvQueryString {
+sub QueryString {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->env_query_string(@Params);
+    return $Self->{Query}->query_string(@Params);
 }
 
 =head2 RequestMethod()
