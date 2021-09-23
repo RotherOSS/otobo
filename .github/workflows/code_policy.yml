@@ -1,10 +1,13 @@
 %YAML 1.1
 ---
 name: 'CodePolicy'
-on: ['pull_request']
+#on: ['pull_request']
+on: ['push']
 jobs:
     CodePolicy:
         runs-on: 'ubuntu-latest'
+        env:
+            PERL5LIB: local
         steps:
             - id: files
               uses: jitterbit/get-changed-files@v1
@@ -19,10 +22,13 @@ jobs:
             - name: perl -V
               run: perl -V
             - name: env
-              run: env | sort
+              run: printenv | sort
 
             - name: 'install from cpanfile.docker'
-              run: cpanm --sudo --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+              run: cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
+            - name: 'tree local'
+              run: pwd; tree local
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2
