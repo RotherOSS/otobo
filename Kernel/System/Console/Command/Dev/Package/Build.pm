@@ -104,7 +104,7 @@ sub Run {
         String => $FileString,
     );
 
-    # just build it if PackageIsDownloadable flag is enable
+    # Don't build the opm if the PackageIsDownloadable flag is explicitly disabled.
     if (
         defined $Structure{PackageIsDownloadable}
         && !$Structure{PackageIsDownloadable}->{Content}
