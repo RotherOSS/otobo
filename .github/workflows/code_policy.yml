@@ -13,7 +13,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libxml2-utils cpanminus
+              run: sudo apt install -y libxml2-utils libxslt1.1 cpanminus
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -21,8 +21,7 @@ jobs:
             # some diagnostics
             - name: diagnostics
               run: |
-                uname -a
-                perl -V
+                perl -v
                 printenv | sort
 
             # no need to reinstall modules from CPAN for every check, cache them
@@ -33,7 +32,7 @@ jobs:
               id: local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923b
+                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923d
 
             - name: 'install from cpanfile.docker'
               if: steps.local_lib.outputs.cache-hit != 'true'
