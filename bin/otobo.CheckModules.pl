@@ -25,6 +25,30 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --help
     bin/otobo.CheckModules.pl -h
 
+    # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    bin/otobo.CheckModules.pl -inst
+
+    # Print a list of those required and most commonly used optional packages for OTOBO.
+    bin/otobo.CheckModules.pl --list
+
+    # Print all required, optional and bundled packages of OTOBO.
+    bin/otobo.CheckModules.pl --all
+
+    # Print a list of all available features.
+    bin/otobo.CheckModules.pl --features
+
+    # Print a list of all packages belonging to at least one of the listed features.
+    bin/otobo.CheckModules.pl --flist <features>
+
+    # Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.
+    bin/otobo.CheckModules.pl --finst <features>
+
+    # Print a cpanfile with the required modules regardless whether they are already available.
+    bin/otobo.CheckModules.pl --cpanfile
+
+    # Print a cpanfile with the required modules for a Docker-based installation.
+    bin/otobo.CheckModules.pl --docker-cpanfile
+
 =cut
 
 use strict;
@@ -219,28 +243,8 @@ elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !
 }
 
 # print help
-# TODO: use Pod::Usage
 if ($DoPrintHelp) {
-    print "\n";
-    print "Print all required and optional packages of OTOBO.\n";
-    print "Optionally limit to the required but missing packages or modules.\n";
-    print "\n";
-    print "Usage:\n";
-    print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile|-docker-cpanfile]\n";
-    print "\n";
-    print "Options:\n";
-    printf " %-22s - %s\n", '[-help]', 'Print this help message.';
-    printf " %-22s - %s\n", '[-h]',    'Same as -help.';
-    printf " %-22s - %s\n", '[-inst]', 'Print the console command to install all missing packages for the standard configuration via the system package manager.';
-    printf " %-22s - %s\n", '[-list]', 'Print a list of those required and most commonly used optional packages for OTOBO.';
-    printf " %-22s - %s\n", '[-all]',  'Print all required, optional and bundled packages of OTOBO.';
-    printf " %-22s - %s\n", '[-features]',         'Print a list of all available features.';
-    printf " %-22s - %s\n", '[-flist <features>]', 'Print a list of all packages belonging to at least one of the listed features.';
-    printf " %-22s - %s\n", '[-finst <features>]',
-        'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
-    printf " %-22s - %s\n", '[-cpanfile]',        'Print a cpanfile with the required modules regardless whether they are already available.';
-    printf " %-22s - %s\n", '[-docker-cpanfile]', 'Print a cpanfile with the required modules for a Docker-based installation.';
-    print "\n";
+    pod2usage(1);
 
     exit 1;
 }
