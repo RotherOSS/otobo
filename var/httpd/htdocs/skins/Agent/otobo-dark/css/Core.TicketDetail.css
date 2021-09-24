@@ -1373,7 +1373,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleAttachments li {
     float: left;
     margin: 0px 10px 10px 0px;
-    background: #e8e8e8;
+    background: #141414;
     padding: 8px 45px 8px 12px;
     font-size: 11px;
     color: #777;
@@ -1402,7 +1402,7 @@ body.TouchDevice #ArticleItems .ArticleMailContentHTMLWrapper {
 .ArticleAttachments li div a {
     height: 50%;
     display: block;
-    background: #eee;
+    background: #555;
     line-height: 250%;
     text-align: center;
     color: #aaa;
