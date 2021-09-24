@@ -3,7 +3,7 @@
 # just like code_policy.yml, only using a different check
 name: 'SyntaxCheck'
 on: ['pull_request']
-#on: ['push', 'pull_request']
+# on: ['push', 'pull_request']
 jobs:
     SyntaxCheck:
         runs-on: 'ubuntu-latest'
@@ -33,23 +33,33 @@ jobs:
             # The rules where the cache is visible are not obvious. Essentially the cache must be created on an ancestor branch.
             # For that there is cache_local_lib.yml.
             # See https://docs.github.com/en/actions/advanced-guides/caching-dependencies-to-speed-up-workflows#restrictions-for-accessing-a-cache
+
+            - name: 'Get SHA of cpanfile.docker'
+              id: get-sha
+              run: |
+                 echo "::set-output name=sha::$(git rev-parse :cpanfile.docker)"
+
+            - name: 'Print SHA of cpanfile.docker'
+              run: |
+                echo '${{steps.get-sha.outputs.sha}}'
+
             - name: 'check cache for CPAN modules'
               uses: actions/cache@v2
-              id: local_lib
+              id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{ hashFiles('cpanfile.docker') }}-local_lib-20210923j
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20210924e
 
             - name: 'install from cpanfile.docker'
-              if: steps.local_lib.outputs.cache-hit != 'true'
+              if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
 
             # the setup is just like otobo.web.dockerfile and .dockerignore
-            - name: set up Kernel/Config.pm
-              run: 'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
-            - name: fix Kernel/Config/Defaults.pm
-              run: "perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm"
+            - name: set up config
+              run: |
+                cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm
+                perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm
 
             # The actual test step.
             # :: tells prove that whatever follows should be passed to the test script
