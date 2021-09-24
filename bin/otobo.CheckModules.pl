@@ -52,6 +52,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
 =head1 DESCRIPTION
 
 This scripts can be used for checking whether required Perl modules are installed.
+Another usage is the generation of cpanfiles.
 
 =cut
 
