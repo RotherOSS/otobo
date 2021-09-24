@@ -58,8 +58,8 @@ jobs:
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up config
               run: |
-                'cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm'
-                "perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm"
+                cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm
+                perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm
 
             # The actual test step.
             # :: tells prove that whatever follows should be passed to the test script
