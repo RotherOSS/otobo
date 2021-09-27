@@ -18,6 +18,7 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
@@ -97,9 +98,11 @@ sub Run {
         Type => 'Webservice',
     );
 
+    # Get configuration for the web service Elasticsearch
     my %Webservices = $Self->_GetWebserviceConfigs();
     my %Result      = (
-        Message => $Self->{LanguageObject}->Translate("Migrate web service configuration."),
+        Message => $Self->{LanguageObject}->Translate('Migrate web service configuration.'),
+        Comment => '',
     );
 
     WEBSERVICE:
