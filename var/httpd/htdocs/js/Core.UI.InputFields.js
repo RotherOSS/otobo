@@ -306,7 +306,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     TextInput = Textarea;
                 }
 
-                if ( TextInput.lenght === 0 ) {
+                if ( TextInput.length === 0 ) {
                     return 1;
                 }
 
