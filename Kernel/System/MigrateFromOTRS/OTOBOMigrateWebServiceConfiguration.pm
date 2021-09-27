@@ -114,7 +114,7 @@ sub Run {
             Key   => 'MigrationState',
             Value => {
                 Task      => 'OTOBOMigrateWebServiceConfiguration',
-                SubTask   => 'Migrate $Name.',
+                SubTask   => "Migrate $Name.",
                 StartTime => $Epoch,
             },
         );
