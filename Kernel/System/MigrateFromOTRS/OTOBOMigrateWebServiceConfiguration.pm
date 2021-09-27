@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DateTime',
+    'Kernel::System::Elasticsearch',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Main',
     'Kernel::System::Package',
@@ -48,6 +49,10 @@ Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration -  Migrate 
 =head1 SYNOPSIS
 
     # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 DESCRIPTION
+
+Currently only the web service I<Elasticsearch> is migrated.
 
 =head1 PUBLIC INTERFACE
 
@@ -105,6 +110,10 @@ sub Run {
         Comment => '',
     );
 
+    # Keep track which web services were migrated,
+    # because we might need to adapt the SysConfig for these services.
+    my %WebserviceWasMigrated;
+
     WEBSERVICE:
     for my $Name ( sort keys %Webservices ) {
 
@@ -126,7 +135,7 @@ sub Run {
             Name => $Name,
         );
 
-        # nothing to do when the webservice is already present
+        # nothing to do when the web service is already present
         if ( IsHashRefWithData($Webservice) ) {
             $Result{Comment} .= 'use existing; ';
 
@@ -147,9 +156,14 @@ sub Run {
         }
 
         $Result{Comment} .= 'added; ';
+        $WebserviceWasMigrated{$Name} = 1;
     }
 
-    $Result{Comment} .= '- please activate needed webservices manually.';
+    # adapt the SysConfig for specific web services
+    if ( $WebserviceWasMigrated{Elasticsearch} ) {
+        $Self->_HandleElasticsearch();
+    }
+
     $Result{Successful} = 1;
 
     return \%Result;
@@ -396,6 +410,38 @@ sub _GetWebserviceConfigs {
                 }
             },
         };
+}
+
+# adapt the SysConfig for Elasticsearch
+# no error handling is implemented
+sub _HandleElasticsearch {
+    my ($Self) = @_;
+
+    # try initializing Elasticsearch
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $ESWebservice     = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
+    );
+
+    # activate it
+    if ($ESWebservice) {
+        my $Success = $WebserviceObject->WebserviceUpdate(
+            %{$ESWebservice},
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        return unless $Success;
+    }
+
+    # test the connection
+    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+    return unless $ESObject->TestConnection();
+
+    # try to set up Elasticsearch, ignoring errors
+    $ESObject->InitialSetup();
+
+    return;
 }
 
 1;
