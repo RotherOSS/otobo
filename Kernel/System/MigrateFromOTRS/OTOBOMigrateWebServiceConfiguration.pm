@@ -123,23 +123,26 @@ sub Run {
 
         # check if Elasticsearch is already present
         my $Webservice = $WebserviceObject->WebserviceGet(
-            Name => 'Elasticsearch',
+            Name => $Name,
         );
 
+        # nothing to do when the webservice is already present
         if ( IsHashRefWithData($Webservice) ) {
             $Result{Comment} .= 'use existing; ';
+
             next WEBSERVICE;
         }
 
         my $ID = $WebserviceObject->WebserviceAdd(
             Name   => $Name,
             UserID => 1,
-            %{ $Webservices{$Name} },
+            $Webservices{$Name}->%*,
         );
 
         if ( !$ID ) {
             $Result{Comment} .= $Self->{LanguageObject}->Translate('Failed - see the log!');
             $Result{Successful} = 0;
+
             return \%Result;
         }
 
@@ -152,6 +155,9 @@ sub Run {
     return \%Result;
 }
 
+# Webservice configuration for Elasticsearch.
+# This config assumes that Elasticsearch in running on the host 'elastic' in the Docker case.
+# Otherwise Elasticsearch is assumed to run on localhost.
 sub _GetWebserviceConfigs {
 
     my %Invoker = (
@@ -357,7 +363,11 @@ sub _GetWebserviceConfigs {
         };
     }
 
-    return (
+    # some heuristics for where Elasticsearch is running.
+    my $ElasticsearchPort = 9200;
+    my $ElasticsearchHost = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? 'elastic' : 'localhost';
+
+    return
         Elasticsearch => {
             ValidID => 2,
             Config  => {
@@ -377,7 +387,7 @@ sub _GetWebserviceConfigs {
                     Transport => {
                         Config => {
                             DefaultCommand           => 'POST',
-                            Host                     => 'http://localhost:9200',
+                            Host                     => "http://$ElasticsearchHost:$ElasticsearchPort",
                             InvokerControllerMapping => $ICMapping{Elasticsearch},
                             Timeout                  => '30',
                         },
@@ -385,9 +395,7 @@ sub _GetWebserviceConfigs {
                     },
                 }
             },
-        },
-    );
-
+        };
 }
 
 1;

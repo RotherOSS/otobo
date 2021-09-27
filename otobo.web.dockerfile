@@ -133,6 +133,7 @@ RUN install -d var/stats var/packages var/article var/tmp \
 WORKDIR $OTOBO_HOME
 
 # Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
+# Note that this setting is essential for a correct migration from OTRS 6.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
 # the entrypoint is not in the volume
