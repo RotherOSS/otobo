@@ -13,7 +13,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libcode-tidyall-perl libxml2-utils libxml-libxslt-perl cpanminus
+              run: sudo apt install -y libxml2-utils libxslt-dev
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
@@ -21,6 +21,7 @@ jobs:
             # some diagnostics
             - name: diagnostics
               run: |
+                pwd
                 perl -v
                 printenv | sort
 
@@ -47,12 +48,25 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20210924e
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.sha}}-local_lib-20210928n
 
-            - name: 'install from cpanfile.docker'
+            # for debugging when there a problems installing a module
+            # - name: 'XML::LibXSLT'
+            #   run: |
+            #     sudo apt install -y cpanminus
+            #     cpanm -l local --notest XML::LibXSLT || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
+            - name: 'install Perl modules from CPAN'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: |
-                cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+              uses: perl-actions/install-with-cpm@v1
+              with:
+                install: |
+                  Code::TidyAll
+                  Perl::Critic
+                cpanfile: cpanfile.docker
+                global: false
+                tests: false
+                sudo: false
 
             # the setup is just like otobo.web.dockerfile and .dockerignore
             - name: set up config
