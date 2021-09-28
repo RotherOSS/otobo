@@ -1,6 +1,5 @@
 %YAML 1.1
 ---
-# just like syntax_check.yml, only using a different check
 name: 'CodePolicy'
 on: ['pull_request']
 # on: ['push', 'pull_request']
@@ -54,6 +53,17 @@ jobs:
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
               run: |
                 cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+
+            # the setup is just like otobo.web.dockerfile and .dockerignore
+            - name: set up config
+              run: |
+                cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm
+                perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm
+
+            # The actual test step.
+            # :: tells prove that whatever follows should be passed to the test script
+            - name: prove
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: ${{ steps.files.outputs.added_modified }}'
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2
