@@ -1298,7 +1298,9 @@ sub DBSkipTables {
         gi_debugger_entry
         package_repository
         process_id
+        scheduler_future_task
         scheduler_recurrent_task
+        scheduler_task
         sessions
         system_data
         web_upload_cache
