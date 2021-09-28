@@ -166,22 +166,6 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS
-    my %OTOBOParams;
-    {
-        # remember the current DB-Settings
-        for my $Key (qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home )) {
-            $OTOBOParams{$Key} = $ConfigObject->Get($Key);
-        }
-
-        # under Docker we also want to keep the log settings
-        if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            for my $Key (qw( LogModule LogModule::LogFile )) {
-                $OTOBOParams{$Key} = $ConfigObject->Get($Key);
-            }
-        }
-    }
-
     # Now we copy and clean the files in for{}
     my $OTOBOHome = $ConfigObject->Get('Home');
     FILE:
@@ -262,9 +246,47 @@ sub Run {
             );
         }
 
-        # At last we need to reconfigure database settings in Kernel Config.pm.
+        # At last we need to reconfigure basic settings in Kernel/Config.pm.
+        # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS.
+        # Note that the original setup with variables won't be preserved. E.g.
+        #     $Self->{'DatabaseDSN'} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}";
+        # in the original OTOBO Kernel/Config.pm will end up as
+        #     $Self->{'DatabaseDSN'} = "DBI:mysql:database=otobo;host=127.0.0.1;"; # from original OTOBO config
+        # after the migration.
         if ( $OTOBOPathFile =~ m/Config\.pm/ ) {
-            $Self->ReConfigure(%OTOBOParams);
+
+            # remember the current basic settings, Database and installation dir
+            my %OTOBOParams = map { $_ => $ConfigObject->Get($_) } qw(DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home);
+
+            # inject extra settings in the Docker case, see also Kernel/Config.pm.dist.docker
+            my $DockerSpecificSettings = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? <<'END_SETTINGS' : undef;
+
+    # ---------------------------------------------------- #
+    # setting for running OTOBO under Docker, injected by OTOBOCopyFilesFromOTRS
+    # ---------------------------------------------------- #
+    $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
+    $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
+    $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
+    $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
+
+    # activate Selenium tests if the the host is available
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'selenium-chrome',
+        check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
+        port                => '4444',
+        browser_name        => 'chrome',
+        platform            => 'ANY',
+    };
+
+END_SETTINGS
+
+            $Self->ReConfigure(
+                %OTOBOParams,
+                ExtraSettings => $DockerSpecificSettings
+            );
         }
     }
 
@@ -277,9 +299,13 @@ sub Run {
     };
 }
 
-# Fix up Kernel/Config.pm
+# Fix up Kernel/Config.pm.
+# Extra settings will be injected after the line that sets 'Home'.
 sub ReConfigure {
     my ( $Self, %Param ) = @_;
+
+    # extract special params
+    my $ExtraSettings = delete $Param{ExtraSettings};
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -346,6 +372,11 @@ sub ReConfigure {
                     s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}"; # from original OTOBO config /g;
             }
             $Config .= $ChangedLine;
+
+            # extra setting are injected after the line with 'Home'
+            if ( $ExtraSettings && $ChangedLine =~ m/(\$Self->\{\s*("|'|)Home("|'|)\s*}\s+=.+?('|"));/ ) {
+                $Config .= $ExtraSettings;
+            }
         }
     }
 
