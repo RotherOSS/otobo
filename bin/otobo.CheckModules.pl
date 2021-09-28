@@ -15,12 +15,53 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+=head1 NAME
+
+bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
+
+=head1 SYNOPSIS
+
+    # print usage information
+    bin/otobo.CheckModules.pl --help
+    bin/otobo.CheckModules.pl -h
+
+    # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    bin/otobo.CheckModules.pl -inst
+
+    # Print a list of those required and most commonly used optional packages for OTOBO.
+    bin/otobo.CheckModules.pl --list
+
+    # Print all required, optional and bundled packages of OTOBO.
+    bin/otobo.CheckModules.pl --all
+
+    # Print a list of all available features.
+    bin/otobo.CheckModules.pl --features
+
+    # Print a list of all packages belonging to at least one of the listed features.
+    bin/otobo.CheckModules.pl --flist <features>
+
+    # Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.
+    bin/otobo.CheckModules.pl --finst <features>
+
+    # Print a cpanfile with the required modules regardless whether they are already available.
+    bin/otobo.CheckModules.pl --cpanfile
+
+    # Print a cpanfile with the required modules for a Docker-based installation.
+    bin/otobo.CheckModules.pl --docker-cpanfile
+
+=head1 DESCRIPTION
+
+This scripts can be used for checking whether required Perl modules are installed.
+Another usage is the generation of cpanfiles.
+
+=cut
+
 use strict;
 use warnings;
 use v5.24;
 use utf8;
 
-use File::Basename;
+use File::Basename qw(dirname);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
@@ -31,6 +72,7 @@ use ExtUtils::MakeMaker;
 use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
+use Pod::Usage;
 
 # CPAN modules
 
@@ -174,6 +216,7 @@ eval {
 };
 $OSDist //= $^O;
 
+# extract command line parameters
 my $DoPrintAllModules;
 my $DoPrintInstCommand;
 my $DoPrintPackageList;
@@ -193,7 +236,7 @@ GetOptions(
     'flist=s{1,}'     => \@FeatureList,
     cpanfile          => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
-);
+) || pod2usage(2);
 
 if (@FeatureList) {
     $DoPrintPackageList = 1;
@@ -205,28 +248,9 @@ elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !
     $DoPrintHelp = 1;
 }
 
-# check needed params
+# print help
 if ($DoPrintHelp) {
-    print "\n";
-    print "Print all required and optional packages of OTOBO.\n";
-    print "Optionally limit to the required but missing packages or modules.\n";
-    print "\n";
-    print "Usage:\n";
-    print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile|-docker-cpanfile]\n";
-    print "\n";
-    print "Options:\n";
-    printf " %-22s - %s\n", '[-help]', 'Print this help message.';
-    printf " %-22s - %s\n", '[-h]',    'Same as -help.';
-    printf " %-22s - %s\n", '[-inst]', 'Print the console command to install all missing packages for the standard configuration via the system package manager.';
-    printf " %-22s - %s\n", '[-list]', 'Print a list of those required and most commonly used optional packages for OTOBO.';
-    printf " %-22s - %s\n", '[-all]',  'Print all required, optional and bundled packages of OTOBO.';
-    printf " %-22s - %s\n", '[-features]',         'Print a list of all available features.';
-    printf " %-22s - %s\n", '[-flist <features>]', 'Print a list of all packages belonging to at least one of the listed features.';
-    printf " %-22s - %s\n", '[-finst <features>]',
-        'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
-    printf " %-22s - %s\n", '[-cpanfile]',        'Print a cpanfile with the required modules regardless whether they are already available.';
-    printf " %-22s - %s\n", '[-docker-cpanfile]', 'Print a cpanfile with the required modules for a Docker-based installation.';
-    print "\n";
+    pod2usage(1);
 
     exit 1;
 }
@@ -240,10 +264,11 @@ if ( $DoPrintCpanfile || $DoPrintDockerCpanfile || $ENV{nocolors} || $Options =~
 
 my $ExitCode = 0;    # success
 
-# This is the reference for Perl modules that are required by OTOBO.
+# This is the reference for Perl modules that are required by OTOBO or are optional.
 # Modules that are required are marked by setting 'Required' to 1.
 # Dependent packages can be declared by setting 'Depends' to a ref to an array of hash refs.
 # The key 'Features' is only used for supporting features when creating a cpanfile.
+# Each module must either have exactly one of the attributes 'Required' or 'Features'.
 #
 # ATTENTION: when makeing changes here then make sure that you also regenerate the cpanfiles:
 #            bin/otobo.CheckModules.pl --cpanfile        > cpanfile
@@ -1051,6 +1076,11 @@ my @NeededModules = (
         },
     },
 );
+
+# Sanity check.
+for my $Module (@NeededModules) {
+    die 'Module must be set!' unless defined $Module->{Module};
+}
 
 # This is a quick hack for looking up the Debian package names that contain the Perl modules.
 # Not removed because it might be useful in the future.
