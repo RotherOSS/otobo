@@ -1283,9 +1283,10 @@ sub ResetConfigOption {
     };
 }
 
-# These tables will either be not  migrated or in some cases truncated.
+# The listed tables will be not  migrated.
 # The table names must be in lower case.
-# The order of the tables is relevant. Truncating must be possible
+# This list is also used for truncating tables in a SQL-script produced by scripts/backup.pl.
+# Therefore is theorder of the tables relevant. Truncating must be possible
 # without violating foreign key constraints.
 sub DBSkipTables {
     return qw(
@@ -1298,7 +1299,9 @@ sub DBSkipTables {
         gi_debugger_entry
         package_repository
         process_id
+        scheduler_future_task
         scheduler_recurrent_task
+        scheduler_task
         sessions
         system_data
         web_upload_cache
