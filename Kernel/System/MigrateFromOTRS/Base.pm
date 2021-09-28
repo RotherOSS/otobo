@@ -1290,12 +1290,12 @@ sub ResetConfigOption {
 sub DBSkipTables {
     return qw(
         cloud_service_config
-        communication_log_obj_lookup
-        communication_log_object_entry
-        communication_log_object
         communication_log
-        gi_debugger_entry_content
+        communication_log_obj_lookup
+        communication_log_object
+        communication_log_object_entry
         gi_debugger_entry
+        gi_debugger_entry_content
         package_repository
         process_id
         scheduler_future_task
