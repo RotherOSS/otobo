@@ -45,7 +45,7 @@ jobs:
               id: cache_local_lib
               with:
                 path: local
-                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20210924e
+                key: ${{ runner.os }}-${{steps.get-sha.outputs.result}}-local_lib-20210928n
 
             - name: 'checkout otobo'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
@@ -66,9 +66,16 @@ jobs:
 
             - name: 'install dependencies'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: sudo apt install -y libcode-tidyall-perl libxml2-utils libxml-libxslt-perl cpanminus
+              run: sudo apt install -y libxml2-utils libxslt-dev
 
-            - name: 'install from cpanfile.docker'
+            - name: 'install Perl modules from CPAN'
               if: steps.cache_local_lib.outputs.cache-hit != 'true'
-              run: |
-                cpanm -l local --quiet --notest --installdeps --cpanfile cpanfile.docker . || sh -xc 'cat ~/.cpanm/work/*/build.log'
+              uses: perl-actions/install-with-cpm@v1
+              with:
+                install: |
+                  Code::TidyAll
+                  Perl::Critic
+                cpanfile: cpanfile.docker
+                global: false
+                tests: false
+                sudo: false
