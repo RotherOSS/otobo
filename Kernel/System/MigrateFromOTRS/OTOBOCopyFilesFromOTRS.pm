@@ -41,9 +41,15 @@ our @ObjectDependencies = (
 
 Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy and migrate OTRS files to OTOBO server
 
+
 =head1 SYNOPSIS
 
     # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 DESCRIPTION
+
+License headers of the copied files are adapted.
+The file F<Kernel/Config.pm> is also adapted for use with OTOBO.
 
 =head1 PUBLIC INTERFACE
 
@@ -114,12 +120,12 @@ sub Run {
                 Message  => "Need OTRSData->$Key!"
             );
 
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate($Message);
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need OTRSData->%s!', $Key );
-            $Result{Successful} = 0;
+            return {
+                Message    => $Self->{LanguageObject}->Translate($Message),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need OTRSData->%s!', $Key ),
+                Successful => 0,
+            };
 
-            return \%Result;
         }
     }
 
