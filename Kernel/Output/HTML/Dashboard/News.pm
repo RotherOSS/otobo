@@ -18,7 +18,13 @@ package Kernel::Output::HTML::Dashboard::News;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -47,11 +53,10 @@ sub Preferences {
 sub Config {
     my ( $Self, %Param ) = @_;
 
-    return (
+    return
         %{ $Self->{Config} },
         CacheKey => 'RSSNewsFeed-'
-            . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage},
-    );
+        . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
 }
 
 sub Run {
@@ -126,9 +131,7 @@ sub Run {
 
         my $Time = $Item->{Time};
         my $Ago;
-
         if ($Time) {
-
             my $SystemDateTimeObject = $Kernel::OM->Create(
                 'Kernel::System::DateTime',
                 ObjectParams => {
