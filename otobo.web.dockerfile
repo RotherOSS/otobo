@@ -26,7 +26,7 @@ RUN apt-get update\
  "less"\
  "nano"\
  "odbcinst1debian2" "libodbc1" "odbcinst" "unixodbc-dev" "unixodbc"\
- "libdbd-sybase-perl"\
+ "freetds-bin" "freetds-common" "tdsodbc"\
  "postgresql-client"\
  "redis-tools"\
  "sqlite3" "libsqliteodbc"\
