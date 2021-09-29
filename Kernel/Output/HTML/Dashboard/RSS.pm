@@ -18,9 +18,15 @@ package Kernel::Output::HTML::Dashboard::RSS;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
 use LWP::UserAgent;
 use XML::FeedPP;
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -48,12 +54,11 @@ sub Preferences {
 sub Config {
     my ( $Self, %Param ) = @_;
 
-    return (
+    return
         %{ $Self->{Config} },
         CacheKey => 'RSS'
-            . $Self->{Config}->{URL} . '-'
-            . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage},
-    );
+        . $Self->{Config}->{URL} . '-'
+        . $Kernel::OM->Get('Kernel::Output::HTML::Layout')->{UserLanguage};
 }
 
 sub Run {
@@ -124,7 +129,9 @@ sub Run {
     ITEM:
     for my $Item ( $Feed->get_item() ) {
         $Count++;
+
         last ITEM if $Count > $Self->{Config}->{Limit};
+
         my $Time = $Item->pubDate();
         my $Ago;
         if ($Time) {
@@ -172,6 +179,7 @@ sub Run {
             );
         }
     }
+
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentDashboardRSSOverview',
         Data         => {
