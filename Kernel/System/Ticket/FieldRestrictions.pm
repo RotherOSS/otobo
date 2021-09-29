@@ -590,7 +590,7 @@ sub SetACLPreselectionCache {
         Service          => 'ServiceID',
         SLA              => 'SLAID',
         StandardTemplate => 'StandardTemplateID',
-        CustomerUser     => 'ServiceID',    # for some unknown reason the changed element upon customer user change is always ServiceID
+        CustomerUser     => 'ServiceID',            # for some unknown reason the changed element upon customer user change is always ServiceID
     );
 
     # dynamic fields
