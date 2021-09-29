@@ -37,8 +37,8 @@ my $MigObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Elast
 my $ESObject  = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
 my $Template = {
-    number_of_shards   => '[% Data.NS | uri %]',
-    number_of_replicas => '[% Data.NR | uri %]',
+    number_of_shards                   => '[% Data.NS | uri %]',
+    number_of_replicas                 => '[% Data.NR | uri %]',
     'index.mapping.total_fields.limit' => 2000,
 };
 
@@ -59,6 +59,7 @@ is(
     $Index1->{number_of_replicas}, 10,
     '#1 number_of_replicas'
 );
+
 # FieldsLimit can not be changed by settings/sysconfig
 is(
     $Index1->{'index.mapping.total_fields.limit'}, 2000,
