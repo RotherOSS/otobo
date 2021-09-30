@@ -1308,13 +1308,14 @@ sub DBSkipTables {
     );
 }
 
-# OTOBO Table Name => OTRS Table Name
+# OTRS table name => OTOBO table name
 sub DBRenameTables {
 
     # the tables must be lower case
     return {
         article_data_otrs_chat => 'article_data_otobo_chat',
-        groups                 => 'groups_table',
+        groups                 => 'groups_table',              # OTRS 6.0, Znuny 6.0
+        permission_groups      => 'groups_table',              # Znuny 6.1
     };
 }
 
