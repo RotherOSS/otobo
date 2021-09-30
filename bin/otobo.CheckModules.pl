@@ -121,7 +121,7 @@ my %InstTypeToCMD = (
         UseModule => 0,
     },
     default => {
-        CMD => 'cpan %s',
+        CMD => 'cpanm %s',
     },
 );
 
