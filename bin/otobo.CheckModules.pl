@@ -87,13 +87,13 @@ my %InstTypeToCMD = (
     #    UseModule => 1/0,
     # }
     # Set UseModule to 1 if you want to use the
-    # cpan module name of the package as replace string.
+    # CPAN module name of the package as replace string.
     # e.g. yum install "perl(Date::Format)"
     # If you set it 0 it will use the name
     # for the InstType of the module
     # e.g. apt-get install -y libtimedate-perl
-    # and as fallback the default cpan install command
-    # e.g. cpan DBD::Oracle
+    # and as fallback the default CPAN install command
+    # e.g. cpanm DBD::Oracle
     aptget => {
         CMD       => 'apt-get install -y %s',
         UseModule => 0,
@@ -121,7 +121,7 @@ my %InstTypeToCMD = (
         UseModule => 0,
     },
     default => {
-        CMD => 'cpan %s',
+        CMD => 'cpanm %s',
     },
 );
 
@@ -1500,8 +1500,8 @@ sub GetInstallCommand {
 
         # gets the install command for installation type
         # e.g. ppm install %s
-        # default is the cpan install command
-        # e.g. cpan %s
+        # default is the CPAN install command
+        # e.g. cpanm %s
         $CMD    = $InstTypeToCMD{$InstType}->{CMD};
         $SubCMD = $InstTypeToCMD{$InstType}->{SubCMD};
 
@@ -1517,7 +1517,7 @@ sub GetInstallCommand {
         }
         elsif ( $InstTypeToCMD{$InstType}->{UseModule} ) {
 
-            # default is the cpan module name
+            # default is the CPAN module name
             $Package = $Module->{Module};
         }
         else {
