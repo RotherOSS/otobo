@@ -174,7 +174,6 @@
             [% Data.Articles %]
 [% END %]
         </ul>
-# Widgets
         <div id='oooTicketInfo' class='oooWidget'>
             <div class='oooWHead'>
                 <h2>[% Translate('Information') | html %]</h2>
@@ -247,6 +246,5 @@
 [% RenderBlockEnd("Print") %]
             </div>
         </div>
-# EO Widgets
     </div>
 </div>
