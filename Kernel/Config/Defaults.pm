@@ -585,6 +585,9 @@ sub LoadDefaults {
 #        'users',
 #    ];
 
+    # Utilize extended nested group search?
+#    $Self->{'AuthSyncModule::LDAP::NestedGroupSearch'} = '1';
+
     # AuthSyncModule::LDAP::UserSyncGroupsDefinition
     # (If "LDAP" was selected for AuthModule and you want to sync LDAP
     # groups to otobo groups, define the following.)
