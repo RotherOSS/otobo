@@ -933,7 +933,7 @@ sub Run {
                                     . "||$ArticleData{From}"
                                     . "||$ArticleData{CreateTime}"
                                     . "||<--------------\n"
-                                    . $Article{Body};
+                                    . $ArticleData{Body};
                             }
                         }
                     }
