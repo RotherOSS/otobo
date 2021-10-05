@@ -27,7 +27,7 @@ use utf8;
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
-use File::Basename;
+use File::Basename qw(basename fileparse);
 use File::Copy qw(move);
 use File::Path qw(make_path);
 
@@ -458,15 +458,16 @@ sub ChangePathFileName {
     $Suffix =~ s/^.*\.//g;
 
     # Read parse content from _ChangeFilePath
-    my @ParserRegEx = $Self->_ChangeFilePath();
+    my @Replacements = $Self->_ChangeFilePath();
 
-    TYPE:
-    for my $Type (@ParserRegEx) {
+    REPLACEMENT:
+    for my $Replacement (@Replacements) {
 
         # TODO: Check if work proper. Check if parse is build for this filetyp || All
-        next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
-        my $Search = $Type->{Search};
-        my $Change = $Type->{Change};
+        next REPLACEMENT if $Suffix !~ /$Replacement->{FileTyp}/ && $Replacement->{FileTyp} ne 'All';
+
+        my $Search = $Replacement->{Search};
+        my $Change = $Replacement->{Change};
 
         $NewFile =~ s/$Search/$Change/g;
     }
