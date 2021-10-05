@@ -27,6 +27,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 # core modules
 
 # CPAN modules
+use File::Spec qw();
 
 # OTOBO modules
 
@@ -40,7 +41,6 @@ our @ObjectDependencies = (
 =head1 NAME
 
 Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy and migrate OTRS files to OTOBO server
-
 
 =head1 SYNOPSIS
 
@@ -171,8 +171,8 @@ sub Run {
     FILE:
     for my $File (@FileList) {
 
-        my $OTOBOPathFile = $OTOBOHome . $File;
-        my $OTRSPathFile  = $OTRS6path . $File;
+        my $OTOBOPathFile = File::Spec->catfile( $OTOBOHome, $File );
+        my $OTRSPathFile  = File::Spec->catfile( $OTRS6path, $File );
 
         # First we copy the file from OTRS HOME to OTOBO HOME
         next FILE unless -e $OTRSPathFile;
