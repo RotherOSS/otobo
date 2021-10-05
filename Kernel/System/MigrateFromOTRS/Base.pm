@@ -27,7 +27,7 @@ use utf8;
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
-use File::Basename;
+use File::Basename qw(basename fileparse);
 use File::Copy qw(move);
 use File::Path qw(make_path);
 
@@ -327,16 +327,8 @@ sub CleanOTRSFileToOTOBOStyle {
     }
 
     my $FilePathAndName = $Param{File};
-    my $Suffix          = $Param{File};
-    $Suffix =~ s/^.*\.//g;
 
-    my ( $Filename, $Dirs, $SuffixNotWork ) = fileparse($FilePathAndName);
-
-    # Read parse content from _ChangeLicenseHeaderRules
-    my @ParserRegEx        = _ChangeFileInfo();
-    my @ParserRegExLicence = _ChangeLicenseHeaderRules();
-
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
@@ -349,20 +341,21 @@ sub CleanOTRSFileToOTOBOStyle {
         return;
     }
 
+    # Read parse content from _ChangeLicenseHeaderRules
+    my @Replacements = _ChangeFileInfo($FilePathAndName);
+
     my $NewContent;
     while ( my $Line = <$FileHandle> ) {
 
-        TYPE:
-        for my $Type (@ParserRegEx) {
+        REPLACEMENT:
+        for my $Replacement (@Replacements) {
 
-            # TODO: Check if work proper. Check if parse is build for this filetyp || All
-            next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
-            my $Search = $Type->{Search};
-            my $Change = $Type->{Change};
+            my $Search = $Replacement->{Search};
+            my $Change = $Replacement->{Change};
 
             $Line =~ s/$Search/$Change/g;
 
-            # If $1 exist, we need to check if we change OTOBO_XXX from ParserRegEx
+            # If $1 exist, we need to check if we change OTOBO_XXX from Replacements
             if ( my $Tmp = $1 ) {
                 $Line =~ s/OTOBO_XXX/$Tmp/g;
             }
@@ -427,7 +420,6 @@ sub CleanOTRSFilesToOTOBOStyleInDir {
     );
 
     for my $File (@UncleanDirAndFileList) {
-
         $Self->CleanOTRSFileToOTOBOStyle(
             File   => $File,
             UserID => 1,
@@ -458,15 +450,16 @@ sub ChangePathFileName {
     $Suffix =~ s/^.*\.//g;
 
     # Read parse content from _ChangeFilePath
-    my @ParserRegEx = $Self->_ChangeFilePath();
+    my @Replacements = $Self->_ChangeFilePath();
 
-    TYPE:
-    for my $Type (@ParserRegEx) {
+    REPLACEMENT:
+    for my $Replacement (@Replacements) {
 
         # TODO: Check if work proper. Check if parse is build for this filetyp || All
-        next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
-        my $Search = $Type->{Search};
-        my $Change = $Type->{Change};
+        next REPLACEMENT if $Suffix !~ /$Replacement->{FileTyp}/ && $Replacement->{FileTyp} ne 'All';
+
+        my $Search = $Replacement->{Search};
+        my $Change = $Replacement->{Change};
 
         $NewFile =~ s/$Search/$Change/g;
     }
@@ -1633,42 +1626,40 @@ sub CopyFileListfromOTRSToOTOBO {
 }
 
 sub DoNotCleanFileList {
-    return (
+    return
         '/var/article',
-    );
+        ;
 }
 
 sub _ChangeFilePath {
 
-    return (
-        (
-            {
-                FileTyp => 'All',
-                Search  => 'OTRSBusiness',
-                Change  => 'OTOBOCommunity',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS',
-                Change  => 'OTOBO',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'otrs',
-                Change  => 'otobo',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'ContactWithData',
-                Change  => 'ContactWD',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'DynamicFieldDatabase',
-                Change  => 'DynamicFieldDB',
-            },
-        ),
-    );
+    return
+        {
+            FileTyp => 'All',
+            Search  => 'OTRSBusiness',
+            Change  => 'OTOBOCommunity',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'OTRS',
+            Change  => 'OTOBO',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'otrs',
+            Change  => 'otobo',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'ContactWithData',
+            Change  => 'ContactWD',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'DynamicFieldDatabase',
+            Change  => 'DynamicFieldDB',
+        },
+        ;
 }
 
 sub IgnorePathList {
@@ -1690,108 +1681,124 @@ sub IgnorePathList {
 }
 
 sub _ChangeFileInfo {
+    my ($FilePathAndName) = @_;
 
-    return (
-        (
+    # /opt/otrs/Kernel/Config.pm would result in '/opt/otrs/Kernel', 'Config', '.pm'
+    my ( $Basename, $Dirs, $Suffix ) = fileparse( $FilePathAndName, qr/\.[^.]*/ );
+    my $FileName = $Basename . $Suffix;
 
-            {
-                FileTyp => 'All',
-                Search  => 'ContactWithData',
-                Change  => 'ContactWD'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'DynamicFieldDatabase',
-                Change  => 'DynamicFieldDB'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
-                Change  => 'Rother OSS GmbH'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTOBO Community Edition',
-                Change  => 'OTOBO Community'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRSBusiness',
-                Change  => 'OTOBOCommunity'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '((OTRS)) Community Edition',
-                Change  => 'OTOBO'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS 6',
-                Change  => 'OTOBO 10'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS Team',
-                Change  => 'OTOBO Team'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS Group',
-                Change  => 'Rother OSS GmbH'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'otrs-web',
-                Change  => 'otobo-web'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'sales@otrs.com',
-                Change  => 'hallo@otobo.de'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, ))https:\/\/otrs\.com',
-                Change  => 'https://otobo.de'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS',
-                Change  => 'OTOBO',
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
-                Change  => 'otobo'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))"otrs"',
-                Change  => '"otobo"'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '\$Self-\>\{\'SecureMode\'\} \=  \'1\'\;',
-                Change  => '$Self->{\'SecureMode\'} =  \'0\';'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '\<Framework.*\>6\..*\<\/Framework\>',
-                Change  => '<Framework>10.0.x</Framework>'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
-                Change  => '<File Location="OTOBO_XXX" Permission="644" ></File>'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
-                Change  => '<File Location="OTOBO_XXX" Permission="660" ></File>'
-            },
-        ),
-
+    # the actual replacement rules depend on the file
+    my @Candidates = (
+        {
+            FileType => 'All',
+            Search   => 'ContactWithData',
+            Change   => 'ContactWD'
+        },
+        {
+            FileType => 'All',
+            Search   => 'DynamicFieldDatabase',
+            Change   => 'DynamicFieldDB'
+        },
+        {
+            FileType => 'All',
+            Search   => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
+            Change   => 'Rother OSS GmbH'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTOBO Community Edition',
+            Change   => 'OTOBO Community'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRSBusiness',
+            Change   => 'OTOBOCommunity'
+        },
+        {
+            FileType => 'All',
+            Search   => '((OTRS)) Community Edition',
+            Change   => 'OTOBO'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS 6',
+            Change   => 'OTOBO 10'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS Team',
+            Change   => 'OTOBO Team'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS Group',
+            Change   => 'Rother OSS GmbH'
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => 'otrs-web',
+            Change            => 'otobo-web'
+        },
+        {
+            FileType => 'All',
+            Search   => 'sales@otrs.com',
+            Change   => 'hallo@otobo.de'
+        },
+        {
+            FileType => 'All',
+            Search   => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, ))https:\/\/otrs\.com',
+            Change   => 'https://otobo.de'
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS',
+            Change            => 'OTOBO',
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
+            Change            => 'otobo'
+        },
+        {
+            # TODO: remove this rule, as it already is included in the preceeding rule
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))"otrs"',
+            Change            => '"otobo"'
+        },
+        {
+            # TODO: why is this included here
+            FileType => 'All',
+            Search   => '\$Self-\>\{\'SecureMode\'\} \=  \'1\'\;',
+            Change   => '$Self->{\'SecureMode\'} =  \'0\';'
+        },
+        {
+            FileType => 'opm',
+            Search   => '\<Framework.*\>6\..*\<\/Framework\>',
+            Change   => '<Framework>10.0.x</Framework>'
+        },
+        {
+            FileType => 'opm',
+            Search   => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
+            Change   => '<File Location="OTOBO_XXX" Permission="644" ></File>'
+        },
+        {
+            FileType => 'opm',
+            Search   => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
+            Change   => '<File Location="OTOBO_XXX" Permission="660" ></File>'
+        },
     );
+
+    return grep
+        {
+            ( $Suffix =~ m/$_->{FileType}/ || $_->{FileTyp} eq 'All' )
+            &&
+            ( !$_->{FileNameBlacklist}->{$FileName} )
+        }
+        @Candidates;
 }
 
 sub _ChangeLicenseHeaderRules {
