@@ -333,8 +333,7 @@ sub CleanOTRSFileToOTOBOStyle {
     my ( $Filename, $Dirs, $SuffixNotWork ) = fileparse($FilePathAndName);
 
     # Read parse content from _ChangeLicenseHeaderRules
-    my @ParserRegEx        = _ChangeFileInfo();
-    my @ParserRegExLicence = _ChangeLicenseHeaderRules();
+    my @ParserRegEx = _ChangeFileInfo();
 
     open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
