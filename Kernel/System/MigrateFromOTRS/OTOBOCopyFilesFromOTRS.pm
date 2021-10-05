@@ -343,10 +343,7 @@ sub ReConfigure {
             # Other lines might be changed
             my $ChangedLine = $Line;
 
-            # Replace old path with OTOBO path
-            $ChangedLine =~ s/$Param{Home}/$ConfigFile/;
-
-            # Need to comment out SecureMode
+            # Need to comment out SecureMode, as it should be configured in the SysConfig
             if ( $ChangedLine =~ m/SecureMode/ ) {
                 chomp $ChangedLine;
                 $Config .= "# $ChangedLine  commented out by OTOBOCopyFilesFromOTRS\n";
