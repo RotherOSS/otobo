@@ -95,7 +95,7 @@ sub Run {
     # Create tempdir to save sysconfig export tmp
     my $TmpDirectory = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
 
-    # Dump only changed SysConfig entrys in string $Export
+    # Dump only changed SysConfig entries in string $Export
     # This is essentially the OTRS config, as the database tables were copied from OTRS.
     my $Export = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
         SkipDefaultSettings => 1,

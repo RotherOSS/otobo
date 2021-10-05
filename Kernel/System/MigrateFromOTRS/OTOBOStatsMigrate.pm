@@ -103,7 +103,7 @@ sub Run {
         Bind => [ \$XMLType, ],
     );
 
-    # get all stats entrys
+    # get all stats entries
     my @StatsEntrys;
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
