@@ -188,7 +188,6 @@ sub Run {
                     Message => $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
         elsif ( $GetParam{Dest} ) {
@@ -539,7 +538,6 @@ sub Run {
                         $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
 
