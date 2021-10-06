@@ -64,6 +64,7 @@ sub Run {
             Message => Translatable('Need CustomerID!'),
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -271,6 +272,7 @@ sub Run {
             Message => $LayoutObject->{LanguageObject}->Translate( 'Invalid Filter: %s!', $FilterCurrent ),
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -653,7 +655,6 @@ sub Run {
     # get page footer
     $Output .= $LayoutObject->CustomerFooter();
 
-    # return page
     return $Output;
 }
 

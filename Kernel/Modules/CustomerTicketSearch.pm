@@ -228,6 +228,7 @@ sub Run {
             TemplateFile => 'CustomerTicketSearchOpenSearchDescription',
             Data         => {%Param},
         );
+
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescription.xml',
             ContentType => 'text/xml',
@@ -755,6 +756,7 @@ sub Run {
                     Head => \@CSVHeadTranslated,
                     Data => \@CSVData,
                 );
+
                 return $LayoutObject->Attachment(
                     Filename    => $FileName . '.csv',
                     ContentType => "text/csv; charset=" . $LayoutObject->{UserCharset},
@@ -1035,6 +1037,7 @@ sub Run {
             );
 
             my $PDFString = $PDFObject->DocumentOutput();
+
             return $LayoutObject->Attachment(
                 Filename    => $Filename,
                 ContentType => "application/pdf",
@@ -1530,6 +1533,7 @@ sub Run {
 
         # build footer
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -1647,6 +1651,7 @@ sub Run {
             %ServerErrors,
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 }

@@ -91,6 +91,7 @@ sub Run {
             Message => Translatable('Need TicketID!'),
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -447,9 +448,10 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
-
             }
 
             %ChangedElements        = %ChangedElementsDFStart;
@@ -632,6 +634,7 @@ sub Run {
                 Comment => Translatable('Create a new ticket!'),
             );
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -769,6 +772,7 @@ sub Run {
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
+
                     return $Output;
                 }
 
@@ -814,6 +818,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -920,6 +925,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -1270,9 +1276,10 @@ sub Run {
                     Priority => 'error',
                     Message  => "Ran into unresolvable loop!",
                 );
+
+                # TODO: is returning an empty list reasonable?
                 return;
             }
-
         }
 
         %ChangedElements        = %ChangedElementsDFStart;
