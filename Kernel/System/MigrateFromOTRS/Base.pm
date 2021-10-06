@@ -1794,9 +1794,9 @@ sub _ChangeFileInfo {
 
     return grep
         {
-            ( $Suffix =~ m/$_->{FileType}/ || $_->{FileTyp} eq 'All' )
+            ( $Suffix =~ m/$_->{FileType}/ || $_->{FileType} eq 'All' )
             &&
-            ( !$_->{FileNameBlacklist}->{$FileName} )
+            !( $_->{FileNameBlacklist} && $_->{FileNameBlacklist}->{$FileName} )
         }
         @Candidates;
 }

@@ -302,7 +302,7 @@ sub RowCount {
 
     # Log info to apache error log and OTOBO log (syslog or file)
     $MigrationBaseObject->MigrationLog(
-        String   => "Count of entrys in Table $Param{Table}: $NumRows.",
+        String   => "Count of entries in Table $Param{Table}: $NumRows.",
         Priority => "debug",
     );
 

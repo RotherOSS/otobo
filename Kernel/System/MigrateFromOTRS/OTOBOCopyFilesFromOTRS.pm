@@ -323,6 +323,7 @@ sub ReConfigure {
 
     # Read config file that was copied from /opt/otrs
     my $ConfigFile = $ConfigObject->Get('Home') . '/Kernel/Config.pm';
+    my $OTRSHomeFromConfigFile;
 
     # content of changed config file
     my $Config = '';
@@ -342,6 +343,22 @@ sub ReConfigure {
 
             # Other lines might be changed
             my $ChangedLine = $Line;
+
+            # Extract the value for OTRSHomeFromConfig from the OTRS file Kernel/Config.pm from a line like:
+            #   $Self->{Home} = '/opt/otrs';
+            # Note that he value OTRSHome can't be used here, as the OTRS home directory might have been copied.
+            if ( $ChangedLine =~ m/\$Self->\{\s*(?:"|'|)Home(?:"|'|)\s*\}\s+=\s+['"]([^'"]+)['"]/ ) {
+                $OTRSHomeFromConfigFile = $1;
+            }
+
+            # Replace OTRS path with OTOBO path, usually /opt/otrs with /opt/otobo.
+            # This can be useful when e.g.  LogModule::LogFile is set to '/opt/otrs/var/log/otrs.log'
+            # Remember that CleanOTRSFileToOTOBOStyle() has an excemption for Config.pm, so that /opt/otrs is still in the file.
+            # Attention: this assumes that custom settings come after the standard settings
+            # Attention: this is an heuristic that won't give useful results for all installations.
+            if ($OTRSHomeFromConfigFile) {
+                $ChangedLine =~ s/$OTRSHomeFromConfigFile/$Param{Home}/;
+            }
 
             # Need to comment out SecureMode, as it should be configured in the SysConfig
             if ( $ChangedLine =~ m/SecureMode/ ) {

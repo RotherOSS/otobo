@@ -101,7 +101,7 @@ sub Run {
         SQL => 'SELECT f_name, f_type, f_key, f_value FROM postmaster_filter',
     );
 
-    # get all stats entrys
+    # get all stats entries
     my @PFEntrys;
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
