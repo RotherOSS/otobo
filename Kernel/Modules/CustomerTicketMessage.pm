@@ -380,6 +380,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 
@@ -1183,6 +1185,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 

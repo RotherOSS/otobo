@@ -448,9 +448,10 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
-
             }
 
             %ChangedElements        = %ChangedElementsDFStart;
@@ -1275,9 +1276,10 @@ sub Run {
                     Priority => 'error',
                     Message  => "Ran into unresolvable loop!",
                 );
+
+                # TODO: is returning an empty list reasonable?
                 return;
             }
-
         }
 
         %ChangedElements        = %ChangedElementsDFStart;
