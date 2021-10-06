@@ -396,11 +396,10 @@ EOF
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        $ErrorMessage = $Param{LayoutObject}->Output(
+        my $ErrorMessage = $Param{LayoutObject}->Output(
             'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
             'Data'      => {
-                'ErrorMessage'  => $ErrorMessage
+                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
             }
         );
         my $DivID = $FieldName . 'ServerError';
