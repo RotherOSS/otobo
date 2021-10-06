@@ -19,7 +19,14 @@ package Kernel::Modules::CustomerDashboardCommon;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
@@ -29,15 +36,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -47,11 +52,11 @@ sub Run {
 
     my $Output = $LayoutObject->CustomerHeader();
 
-    my $TileHTML;
+    my $TileHTML = '';
 
-    # generate the html of the individual tiles
+    # generate the HTML of the individual tiles
     my %OrderUsed;
-    for my $Tile ( sort { $UsedTiles->{$a}{Order} <=> $UsedTiles->{$b}{Order} } keys %{$UsedTiles} ) {
+    for my $Tile ( sort { $UsedTiles->{$a}->{Order} <=> $UsedTiles->{$b}->{Order} } keys $UsedTiles->%* ) {
 
         # check if the registration for each tile is valid
         if ( !$UsedTiles->{$Tile}{Module} ) {
