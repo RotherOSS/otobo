@@ -492,6 +492,7 @@ sub Run {
         );
         $Output .= $LayoutObject->CustomerNavigationBar();
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
@@ -648,6 +649,7 @@ sub Run {
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
+
                     return $Output;
                 }
 
@@ -791,6 +793,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -889,6 +892,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -1323,6 +1327,7 @@ sub Run {
                 @DynamicFieldAJAX,
             ],
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
@@ -1336,7 +1341,6 @@ sub Run {
             Comment => Translatable('Please contact the administrator.'),
         );
     }
-
 }
 
 sub _GetPriorities {
@@ -1354,6 +1358,7 @@ sub _GetPriorities {
             CustomerUserID => $Self->{UserID},
         );
     }
+
     return \%Priorities;
 }
 

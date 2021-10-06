@@ -134,7 +134,6 @@ sub Run {
     $Output .= $LayoutObject->CustomerFooter();
 
     return $Output;
-
 }
 
 1;
