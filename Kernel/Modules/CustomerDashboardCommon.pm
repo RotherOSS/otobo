@@ -61,12 +61,16 @@ sub Run {
         # check if the registration for each tile is valid
         if ( !$UsedTiles->{$Tile}{Module} ) {
             if ( !$UsedTiles->{$Tile}{Template} ) {
+                my $Message = $LayoutObject->{LanguageObject}->Translate(
+                    'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.',
+                    $Tile,
+                );
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  =>
-                        "Registration for tile $Tile of CustomerDashboard is invalid! Either Module or Template needed.",
+                    Message  => $Message,
                 );
-                return;
+
+                return $LayoutObject->ErrorScreen( Message => $Message );
             }
 
             $UsedTiles->{$Tile}{Module} = "Kernel::Output::HTML::CustomerDashboard::TileCommon";
@@ -77,25 +81,34 @@ sub Run {
 
         # check if backend field exists
         if ( !$MainObject->Require($BackendModule) ) {
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                q{Can't load the module for tile %s!},
+                $Tile,
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't load the module for tile $Tile!",
+                Message  => $Message,
             );
-            return;
+
+            return $LayoutObject->ErrorScreen( Message => $Message );
         }
 
         # create a backend object
         my $BackendObject = $BackendModule->new();
 
         # check if the Order is an unique number
-        my $TileID = sprintf( "%02d", $UsedTiles->{$Tile}{Order} );
-        if ( $TileID !~ /^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
+        my $TileID = sprintf '%02d', $UsedTiles->{$Tile}{Order};    # assuming Order being less than 100
+        if ( $TileID !~ m/^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.',
+                $Tile,
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "Registration for tile $Tile of CustomerDashboard is invalid! Order needs to be a unique number.",
+                Message  => $Message,
             );
-            return;
+
+            return $LayoutObject->ErrorScreen( Message => $Message );
         }
 
         # get the HTML
