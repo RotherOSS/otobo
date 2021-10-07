@@ -7471,18 +7471,19 @@ sub TicketArticleStorageSwitch {
         # nothing to transfer
         next ARTICLE if !@Attachments && !$Plain;
 
+        my $ArticleStorageModule = join '::', 'Kernel::System::Ticket::Article::Backend::MIMEBase', $Param{Destination};
+
         my $ArticleObjectDestination = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
-            ArticleStorageModule => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $Param{Destination},
+            ArticleStorageModule => $ArticleStorageModule,
         );
         if (
             !$ArticleObjectDestination
-            || $ArticleObjectDestination->{ArticleStorageModule} ne
-            "Kernel::System::Ticket::Article::Backend::MIMEBase::$Param{Destination}"
+            || $ArticleObjectDestination->{ArticleStorageModule} ne $ArticleStorageModule
             )
         {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Could not create Kernel::System::Ticket::" . $Param{Destination},
+                Message  => "Could not create $ArticleStorageModule",
             );
             die;
         }
