@@ -381,8 +381,12 @@ EOF
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        $ErrorMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
+        my $ErrorMessage = $Param{LayoutObject}->Output(
+            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
+            'Data'      => {
+                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
+            }
+        );
         my $DivID = $FieldName . 'UsedServerError';
 
         # for server side validation
