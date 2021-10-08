@@ -444,7 +444,7 @@ sub Data {
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Если ничего не выбрано, тогда у клиентов в этой группе не будет прав (заявки будут недоступны клиенту).',
         'Search Results' => 'Результаты поиска',
-        'Customers' => 'Клиенты',
+        'Customers' => 'Компании',
         'Groups' => 'Группы',
         'Change Group Relations for Customer' => 'Изменить связи групп с клиентами',
         'Change Customer Relations for Group' => 'Изменить связь клиентов с группой',
