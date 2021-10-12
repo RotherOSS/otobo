@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-07-08 11:22+0000\n"
+"POT-Creation-Date: 2021-08-21 12:47+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Jordi Plana <jplanam@gmail.com>, 2018\n"
 "Language-Team: Catalan (https://translate.otobo.org/projects/otobo10/otobo/ca/)\n"
@@ -14236,10 +14236,6 @@ msgstr ""
 msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
 msgstr ""
@@ -14258,6 +14254,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -19932,7 +19932,7 @@ msgid "Defines the two-factor module to authenticate customers."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the type of protocol, used by the web server, to serve the application. If HTTP protocol will be used instead of secure HTTPS, it must be specified here. Since this has no affect on the web server's settings or behavior, it will not change the method of access to the application and, if it is wrong, it will not prevent you from logging into the application. This setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in all forms of messaging used by the application, to build links to the tickets within your system."
+msgid "Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then 'http' must be specified here. The setting of 'HttpType' has no affect on the web server's settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping 'HttpType' set to 'https' is that the session management cookie will only be set for secure connections."
 msgstr ""
 
 #. SysConfig
@@ -21972,11 +21972,15 @@ msgid "Number of lines (per ticket) that are shown by the search utility in the 
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS) and replicas (NR) for the index."
+msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note: 'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards compatibility use 'Elasticsearch::IndexSettings###Default' instead."
+msgstr ""
+
+#. SysConfig
+msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
 msgstr ""
 
 #. SysConfig
@@ -24711,19 +24715,27 @@ msgstr ""
 #~ msgid "Free Fields"
 #~ msgstr "Camps lliures"
 
-#. SysConfig
-msgid "Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then 'http' must be specified here. The setting of 'HttpType' has no affect on the web server's settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping 'HttpType' set to 'https' is that the session management cookie will only be set for secure connections."
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
 msgstr ""
 
-#. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
 msgstr ""
 
-#. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the index. Note: 'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards compatibility use 'Elasticsearch::IndexSettings###Default' instead."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migrate ITSM database tables."
 msgstr ""
 
-#. SysConfig
-msgid "Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. If both are present and not equal this one has priority. Use 'Elasticsearch::IndexSettings###...' if you want to define special settings for single indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or 'ConfigItem'."
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Nothing to do, as the the table '%s' does not exist."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "UPDATE of the table '%s' failed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migration completed."
 msgstr ""
 
