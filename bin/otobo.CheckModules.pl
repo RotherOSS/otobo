@@ -179,13 +179,14 @@ my %IsDockerFeature = (
     'div:bcrypt'        => 1,
     'div:ldap'          => 1,
     'div:xslt'          => 1,
+    'gazelle'           => 1,
     'mail:imap'         => 1,
     'mail:ntlm'         => 1,
     'mail:sasl'         => 1,
     'performance:csv'   => 1,
     'performance:json'  => 1,
     'performance:redis' => 1,
-    'gazelle'           => 1,
+    'storage:s3'        => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -200,9 +201,10 @@ my %FeatureDescription = (
     'db:sqlite'     => 'Support for database SQLLite',
     'devel'         => 'Features which can be useful in development environments',
     'div'           => 'Various features for additional functionality',
+    'gazelle'       => 'Required packages if you want to use Gazelle webserver',
     'mail'          => 'Features enabling communication with a mail-server',
     'performance'   => 'Optional features which can increase performance',
-    'gazelle'       => 'Required packages if you want to use Gazelle webserver',
+    'storage:s3'    => 'Amazon Web Services, currently only S3',
     'zzznone'       => 'Uncategorized',
 );
 
@@ -572,6 +574,20 @@ my @NeededModules = (
             # This is a core Perl module which should be available on most distributions.
             # Redhat seems to be an exception. See https://github.com/RotherOSS/otobo/issues/219
             yum => 'perl-Unicode-Collate',
+        },
+    },
+
+    # Feature storage:s3
+    {
+        Module    => 'Mojolicious::Plugin::AWS',
+        Features  => ['storage:s3'],
+        Comment   => 'support for S3 using Mojo::UserAgent',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
 
