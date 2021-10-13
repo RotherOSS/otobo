@@ -20,7 +20,6 @@ use strict;
 use warnings;
 
 use File::Path qw();
-use MIME::Base64 qw();
 use Time::HiRes qw();
 use Unicode::Normalize qw();
 
