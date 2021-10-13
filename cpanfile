@@ -242,6 +242,9 @@ feature 'mail:ssl', 'Suppport for mail:ssl' => sub {
 };
 
 feature 'optional', 'Suppport for optional' => sub {
+    # support for S3 using Mojo::UserAgent
+    requires 'Mojolicious::Plugin::AWS';
+
     # Required to connect to a MySQL database.
     requires 'DBD::mysql';
 
@@ -349,5 +352,11 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
+
+};
+
+feature 'storage:s3', 'Amazon Web Services, currently only S3' => sub {
+    # support for S3 using Mojo::UserAgent
+    requires 'Mojolicious::Plugin::AWS';
 
 };

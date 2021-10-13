@@ -36,10 +36,10 @@ sub Configure {
     $Self->Description('Migrate article files from one storage backend to another on the fly.');
     $Self->AddOption(
         Name        => 'target',
-        Description => "Specify the target backend to migrate to (ArticleStorageDB|ArticleStorageFS).",
+        Description => 'Specify the target backend to migrate to. One of ArticleStorageDB, ArticleStorageFS, or ArticleStorageS3.',
         Required    => 1,
         HasValue    => 1,
-        ValueRegex  => qr/^(?:ArticleStorageDB|ArticleStorageFS)$/smx,
+        ValueRegex  => qr/^ArticleStorage(?:DB|FS|S3)$/smx,
     );
     $Self->AddOption(
         Name        => 'tickets-closed-before-date',
@@ -88,6 +88,7 @@ To reduce load on the database for a running system, you can use the <yellow>--m
 
  <green>otobo.Console.pl $Self->{Name} --target ArticleStorageFS --micro-sleep 1000</green>
 EOF
+
     return;
 }
 
@@ -159,6 +160,7 @@ sub Run {
     my %Target2Source = (
         ArticleStorageFS => 'ArticleStorageDB',
         ArticleStorageDB => 'ArticleStorageFS',
+        ArticleStorageS3 => 'ArticleStorageDB',
     );
 
     my $MicroSleep = $Self->GetOption('micro-sleep');

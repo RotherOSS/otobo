@@ -240,3 +240,9 @@ requires 'Const::Fast';
     requires 'Redis::Fast';
 
 # };
+
+# feature 'storage:s3', 'Amazon Web Services, currently only S3' => sub {
+    # support for S3 using Mojo::UserAgent
+    requires 'Mojolicious::Plugin::AWS';
+
+# };
