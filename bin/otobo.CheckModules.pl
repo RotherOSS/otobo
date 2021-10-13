@@ -850,7 +850,7 @@ my @NeededModules = (
     {
         Module    => 'Plack::Middleware::ForceEnv',
         Required  => 1,
-        Comment   => 'Set environment variables',
+        Comment   => 'Support for setting environment variables for the PSGI processes',
         InstTypes => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
