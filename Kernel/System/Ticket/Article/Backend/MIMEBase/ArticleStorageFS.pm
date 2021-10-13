@@ -59,6 +59,7 @@ sub new {
     # Call new() on Base.pm to execute the common code.
     my $Self = $Type->SUPER::new(%Param);
 
+    # create a new directory every new day
     my $ArticleContentPath = $Self->BuildArticleContentPath();
     my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
@@ -76,7 +77,8 @@ sub new {
 
     # Get activated cache backend configuration.
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    return $Self if !$ConfigObject->Get('Cache::ArticleStorageCache');
+
+    return $Self unless $ConfigObject->Get('Cache::ArticleStorageCache');
 
     my $CacheModule            = $ConfigObject->Get('Cache::Module') || '';
     my %CacheModuleIsSupported = (
@@ -86,7 +88,8 @@ sub new {
     return $Self unless $CacheModuleIsSupported{$CacheModule};
 
     # Turn on special cache used for speeding up article storage methods in huge systems with many
-    #   nodes and slow FS access. It will be used only in environments with configured Memcached
+    # nodes and slow FS access. It will be used only in environments
+    # with configured Memcached or Redis.
     #   backend (see config above).
     $Self->{ArticleStorageCache}    = 1;
     $Self->{ArticleStorageCacheTTL} = $ConfigObject->Get('Cache::ArticleStorageCache::TTL') || 60 * 60 * 24;
