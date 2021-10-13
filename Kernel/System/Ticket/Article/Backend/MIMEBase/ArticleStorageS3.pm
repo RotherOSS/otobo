@@ -438,6 +438,7 @@ sub ArticleAttachmentIndexRaw {
     }
 
     # The HTTP headers give the metadata for the found keys
+    my @Promises;
     for my $FileID ( sort { $a <=> $b } keys %Index ) {
         my $Item        = $Index{$FileID};
         my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
@@ -449,36 +450,48 @@ sub ArticleAttachmentIndexRaw {
             url      => $URL,
         );
 
-        # run blocking request, TODO: run requests in parallel
-        $Self->{UserAgent}->start($Transaction);
+        # run non-blocking requests
+        push @Promises, $Self->{UserAgent}->start_p($Transaction)->then(
+            sub {
+                my ($FinishedTransaction) = @_;
 
-        my $Headers = $Transaction->res->headers;
-        $Item->{ContentType} = $Transaction->res->headers->content_type;
+                my $Headers = $Transaction->res->headers;
+                $Item->{ContentType}        = $Headers->content_type;
+                $Item->{ContentID}          = $Headers->header("$Self->{MetadataPrefix}ContentID")          || '';
+                $Item->{ContentAlternative} = $Headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
+
+                my $FullDisposition = $Headers->content_disposition;
+                if ($FullDisposition) {
+                    ( $Item->{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
+                }
+
+                # if no content disposition is set images with content id should be inline
+                elsif ( $Item->{ContentID} && $Item->{ContentTyp} =~ m{image}i ) {
+                    $Item->{Disposition} = 'inline';
+                }
+
+                # converted article body should be inline
+                elsif ( $Item->{Filename} =~ m{file-[12]} ) {
+                    $Item->{Disposition} = 'inline';
+                }
+
+                # all others including attachments with content id that are not images
+                # should NOT be inline
+                else {
+                    $Item->{Disposition} = 'attachment';
+                }
+            }
+        );
+    }
+
+    # wait till all promises were kept or one rejected
+    Mojo::Promise->all(@Promises)->wait if @Promises;
+
+    # sanity check of the Index
+    for my $FileID ( sort { $a <=> $b } keys %Index ) {
+        my $Item = $Index{$FileID};
 
         return unless $Item->{ContentType};
-
-        $Item->{ContentID}          = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentID")          || '';
-        $Item->{ContentAlternative} = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
-        my $FullDisposition = $Transaction->res->headers->content_disposition;
-        if ($FullDisposition) {
-            ( $Item->{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
-        }
-
-        # if no content disposition is set images with content id should be inline
-        elsif ( $Item->{ContentID} && $Item->{ContentTyp} =~ m{image}i ) {
-            $Item->{Disposition} = 'inline';
-        }
-
-        # converted article body should be inline
-        elsif ( $Item->{Filename} =~ m{file-[12]} ) {
-            $Item->{Disposition} = 'inline';
-        }
-
-        # all others including attachments with content id that are not images
-        # should NOT be inline
-        else {
-            $Item->{Disposition} = 'attachment';
-        }
     }
 
     # return existing index
