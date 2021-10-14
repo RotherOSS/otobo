@@ -76,7 +76,7 @@ sub new {
     # make_bucket: otobo-20211010a
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211012d';
+    $Self->{Bucket}         = 'otobo-20211014b';
     $Self->{MetadataPrefix} = 'x-amz-meta-';
     $Self->{UserAgent}      = Mojo::UserAgent->new();
     $Self->{S3Object}       = Mojo::AWS::S3->new(
@@ -488,7 +488,8 @@ sub ArticleAttachmentIndexRaw {
     }
 
     # wait till all promises were kept or one rejected
-    Mojo::Promise->all(@Promises)->wait if @Promises;
+    my @Ret;
+    @Ret = Mojo::Promise->all(@Promises)->wait if @Promises;
 
     # sanity check of the Index
     for my $FileID ( sort { $a <=> $b } keys %Index ) {
