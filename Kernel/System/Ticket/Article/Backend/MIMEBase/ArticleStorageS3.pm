@@ -455,8 +455,11 @@ sub ArticleAttachmentIndexRaw {
             sub {
                 my ($FinishedTransaction) = @_;
 
-                my $Headers = $Transaction->res->headers;
-                $Item->{ContentType}        = $Headers->content_type;
+                my $Headers     = $Transaction->res->headers;
+                my $ContentType = $Headers->content_type;
+
+                # TODO return early: Mojo::Promise->reject('got no content type');
+                $Item->{ContentType}        = $ContentType;
                 $Item->{ContentID}          = $Headers->header("$Self->{MetadataPrefix}ContentID")          || '';
                 $Item->{ContentAlternative} = $Headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
 
@@ -466,7 +469,7 @@ sub ArticleAttachmentIndexRaw {
                 }
 
                 # if no content disposition is set images with content id should be inline
-                elsif ( $Item->{ContentID} && $Item->{ContentTyp} =~ m{image}i ) {
+                elsif ( $Item->{ContentID} && $Item->{ContentType} =~ m{image}i ) {
                     $Item->{Disposition} = 'inline';
                 }
 
@@ -481,7 +484,7 @@ sub ArticleAttachmentIndexRaw {
                     $Item->{Disposition} = 'attachment';
                 }
             }
-        );
+        );    # TODO: finally
     }
 
     # wait till all promises were kept or one rejected
