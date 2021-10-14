@@ -27,11 +27,11 @@ use List::Util();
 # CPAN modules
 use DBI;
 
-# Set a flag indicating the PSGI case.
+# Set a flag indicating whether we are in a web context
 my $DBIxConnectorIsUsed;
 
 BEGIN {
-    $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
+    $DBIxConnectorIsUsed = $ENV{GATEWAY_INTERFACE} ? 1 : 0;
 }
 
 # DBIx::Connector is not used under mod_perl
