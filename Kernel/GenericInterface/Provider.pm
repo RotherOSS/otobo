@@ -630,9 +630,7 @@ Generate a response with code 500 and empty content and throw it as an exception
 sub _ThrowWebException {
     my ($Self) = @_;
 
-    # for OTOBO_RUNS_UNDER_PSGI
-
-    my $RedirectResponse = Plack::Response->new(
+    my $ServerErrorResponse = Plack::Response->new(
         500,
         [],
         ''
@@ -640,7 +638,7 @@ sub _ThrowWebException {
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
-        PlackResponse => $RedirectResponse
+        PlackResponse => $ServerErrorResponse
     );
 }
 

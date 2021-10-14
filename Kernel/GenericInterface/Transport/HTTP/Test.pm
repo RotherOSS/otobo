@@ -142,9 +142,8 @@ sub ProviderGenerateResponse {
 
         my $ErrorMessage = 'Test response generation failed';
 
-        # for OTOBO_RUNS_UNDER_PSGI
         # a response with code 500
-        my $PlackResponse = Plack::Response->new(
+        my $ServerErrorResponse = Plack::Response->new(
             500,
             [],
             $ErrorMessage,
@@ -152,7 +151,7 @@ sub ProviderGenerateResponse {
 
         # The exception is caught be Plack::Middleware::HTTPExceptions
         die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
+            PlackResponse => $ServerErrorResponse
         );
     }
 
@@ -162,7 +161,7 @@ sub ProviderGenerateResponse {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
         # a response with code 500
-        my $PlackResponse = Plack::Response->new(
+        my $ServerErrorResponse = Plack::Response->new(
             500,
             [],
             $ErrorMessage,
@@ -170,7 +169,7 @@ sub ProviderGenerateResponse {
 
         # The exception is caught be Plack::Middleware::HTTPExceptions
         die Kernel::System::Web::Exception->new(
-            PlackResponse => $PlackResponse
+            PlackResponse => $ServerErrorResponse
         );
     }
     else {
