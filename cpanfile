@@ -80,9 +80,6 @@ requires 'Path::Class';
 # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
 requires 'Plack';
 
-# Set environment variables
-requires 'Plack::Middleware::ForceEnv';
-
 # Set HTTP headers
 requires 'Plack::Middleware::Header';
 

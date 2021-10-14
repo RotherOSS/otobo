@@ -848,17 +848,6 @@ my @NeededModules = (
     #    },
     #},
     {
-        Module    => 'Plack::Middleware::ForceEnv',
-        Required  => 1,
-        Comment   => 'Support for setting environment variables for the PSGI processes',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'Plack::Middleware::Header',
         Required  => 1,
         Comment   => 'Set HTTP headers',
