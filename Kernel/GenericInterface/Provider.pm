@@ -620,10 +620,7 @@ sub _HandleError {
 
 =head2 _ThrowWebException()
 
-when not running under PSGI return an empty string, which will be passed on as empty content.
-Apache generates status code 500 for that.
-
-Under PSGI explicitly generate a response with code 500.
+Generate a response with code 500 and empty content and throw it as an exception.
 
     # this sub dies
     $RequesterObject->_ThrowWebException();

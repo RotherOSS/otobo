@@ -945,9 +945,7 @@ sub _ThrowWebException {
         Data       => $Param{Content},
     );
 
-    # Let's try the HTTPExceptions trick again
-    # for OTOBO_RUNS_UNDER_PSGI
-
+    # header for the response that will be thrown
     my @Headers;
     push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
     push @Headers, 'Content-Length' => $ContentLength;

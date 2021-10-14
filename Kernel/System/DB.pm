@@ -27,7 +27,7 @@ use List::Util();
 # CPAN modules
 use DBI;
 
-# Set a flag indicating the PSGI case.
+# Set a flag indicating whether we are in a web context
 my $DBIxConnectorIsUsed;
 
 BEGIN {

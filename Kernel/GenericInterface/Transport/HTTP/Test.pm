@@ -161,7 +161,6 @@ sub ProviderGenerateResponse {
     if ( !$Param{Success} ) {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
-        # for OTOBO_RUNS_UNDER_PSGI
         # a response with code 500
         my $PlackResponse = Plack::Response->new(
             500,
