@@ -31,7 +31,7 @@ use DBI;
 my $DBIxConnectorIsUsed;
 
 BEGIN {
-    $DBIxConnectorIsUsed = $ENV{OTOBO_RUNS_UNDER_PSGI} ? 1 : 0;
+    $DBIxConnectorIsUsed = $ENV{GATEWAY_INTERFACE} ? 1 : 0;
 }
 
 # DBIx::Connector is not used under mod_perl

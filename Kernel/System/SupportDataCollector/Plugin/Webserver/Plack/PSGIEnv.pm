@@ -49,7 +49,6 @@ sub Run {
 
     # nothing to do when we are not in a web context
     return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
-    return $Self->GetResults() unless $ENV{OTOBO_RUNS_UNDER_PSGI};
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 

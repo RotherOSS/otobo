@@ -2010,7 +2010,7 @@ sub new {
             eval {
 
                 # This also adds $RelativeFile to %Module::Refresh::CACHE.
-                if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+                if ( $ENV{GATEWAY_INTERFACE} ) {
                     Module::Refresh->refresh_module_if_modified( $RelativeFile );
                 }
 

@@ -32,9 +32,9 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # No web request or no Plack based webserver skip this check.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
-    return $Self->GetResults() if !$ENV{OTOBO_RUNS_UNDER_PSGI};
+    # nothing to do when we are not in a web context
+    # web context implies PSGI
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
     $Self->AddResultOk(
         Identifier => 'RunsUnderPSGI',

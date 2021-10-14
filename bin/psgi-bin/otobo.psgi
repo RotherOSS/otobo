@@ -154,8 +154,7 @@ my $SetEnvMiddleWare = sub {
         my $Env = shift;
 
         # only the side effects are important
-        local $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
-        local $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+        local $ENV{GATEWAY_INTERFACE} = 'CGI/1.1';
 
         # enable for debugging UrlMap
         #local $ENV{PLACK_URLMAP_DEBUG} = 1;
@@ -469,8 +468,7 @@ my $RPCApp = builder {
 
     # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
     enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
+        GATEWAY_INTERFACE => 'CGI/1.1';
 
     sub {
         my $Env = shift;
