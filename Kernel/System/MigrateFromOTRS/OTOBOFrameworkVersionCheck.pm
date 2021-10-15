@@ -280,13 +280,25 @@ sub _CheckOTRSRelease {
         };
     }
 
-    if ( $ProductName ne 'OTRS' && $ProductName ne 'Znuny LTS' ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("No OTRS system found!");
-        $Result{Successful} = 0;
+    my %ProductNameIsValid = (
+        '((OTRS)) Community Edition' => 'https://otrscommunityedition.com/',
+        'OTRS'                       => 'https://otrs.com/',
+        'Znuny LTS'                  => 'https://www.znuny.org/',
+    );
+    if ( !$ProductNameIsValid{$ProductName} ) {
+        my $ExpectedNames = join ', ', map {"'$_'"} sort keys %ProductNameIsValid;
 
-        return \%Result;
+        return {
+            Message => $Message,
+            Comment => $Self->{LanguageObject}->Translate("No OTRS system found!"),
+            Comment => $Self->{LanguageObject}->Translate(
+                "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.",
+                $OTRSReleasePath,
+                $ExpectedNames
+            ),
+            Successful => 0,
+        };
+    }
 
     if ( !defined $Version ) {
         return {
