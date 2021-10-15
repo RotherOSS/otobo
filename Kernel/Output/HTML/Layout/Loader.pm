@@ -149,6 +149,7 @@ sub LoaderCreateAgentCSSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
         }
 
@@ -326,16 +327,14 @@ sub LoaderCreateJavaScriptTemplateData {
     my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
 
     my @TemplateFolders = (
-        "$JSCustomTemplateDir",
-        "$JSCustomStandardTemplateDir",
-        "$JSTemplateDir",
-        "$JSStandardTemplateDir",
+        $JSCustomTemplateDir,
+        $JSCustomStandardTemplateDir,
+        $JSTemplateDir,
+        $JSStandardTemplateDir,
     );
 
     my $JSHome               = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
     my $TargetFilenamePrefix = "TemplateJS";
-
-    my $TemplateChecksum;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -345,7 +344,7 @@ sub LoaderCreateJavaScriptTemplateData {
 
     # Even getting the list of files recursively from the directories is expensive,
     #   so cache the checksum to avoid that.
-    $TemplateChecksum = $CacheObject->Get(
+    my $TemplateChecksum = $CacheObject->Get(
         Type => $CacheType,
         Key  => $CacheKey,
     );
@@ -755,14 +754,15 @@ sub _HandleCSSList {
         push @Skins, $Param{Skin};
     }
 
-    #load default css files
+    # load default css files
     for my $Skin (@Skins) {
         my @FileList;
 
         CSSFILE:
         for my $CSSFile ( @{ $Param{List} } ) {
             my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
-            next CSSFILE if ( !-e $SkinFile );
+
+            next CSSFILE unless -e $SkinFile;
 
             if ( $Param{DoMinify} ) {
                 push @FileList, $SkinFile;
@@ -808,10 +808,11 @@ sub _HandleJSList {
     return if !$Param{List} && !$Content;
 
     my %UsedFiles;
-
     my @FileList;
     JSFILE:
     for my $JSFile ( @{ $Param{List} // [] } ) {
+
+        # skip duplicates
         next JSFILE if $UsedFiles{$JSFile};
 
         if ( $Param{DoMinify} ) {
