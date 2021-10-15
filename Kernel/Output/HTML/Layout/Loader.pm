@@ -804,8 +804,7 @@ sub _HandleCSSList {
 sub _HandleJSList {
     my ( $Self, %Param ) = @_;
 
-    my $Content = $Param{Content};
-    return if !$Param{List} && !$Content;
+    return unless $Param{List};
 
     my %UsedFiles;
     my @FileList;
@@ -832,36 +831,24 @@ sub _HandleJSList {
         $UsedFiles{$JSFile} = 1;
     }
 
-    return 1 if $Param{List} && !@FileList;
+    return 1 unless @FileList;
 
-    if ( $Param{DoMinify} ) {
-        my $MinifiedFile;
+    # there are files to minify, let's do it
+    my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List                 => \@FileList,
+        Type                 => 'JavaScript',
+        TargetDirectory      => "$Param{JSHome}/js-cache/",
+        TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
+    );
 
-        if (@FileList) {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
-        else {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                Content              => $Content,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
+    $Self->Block(
+        Name => $Param{BlockName},
+        Data => {
+            JSDirectory => 'js-cache/',
+            Filename    => $MinifiedFile,
+        },
+    );
 
-        $Self->Block(
-            Name => $Param{BlockName},
-            Data => {
-                JSDirectory => 'js-cache/',
-                Filename    => $MinifiedFile,
-            },
-        );
-    }
     return 1;
 }
 
