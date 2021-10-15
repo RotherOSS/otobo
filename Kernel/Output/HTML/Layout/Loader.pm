@@ -181,8 +181,6 @@ sub LoaderCreateAgentCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -197,9 +195,6 @@ taking a list from the Loader::Agent::CommonJS config item.
 
 sub LoaderCreateAgentJSCalls {
     my ( $Self, %Param ) = @_;
-
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -682,8 +677,6 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -698,9 +691,6 @@ taking a list from the Loader::Customer::CommonJS config item.
 
 sub LoaderCreateCustomerJSCalls {
     my ( $Self, %Param ) = @_;
-
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -752,7 +742,6 @@ sub LoaderCreateCustomerJSCalls {
 
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
     return;
 }
 
