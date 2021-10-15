@@ -189,10 +189,14 @@ sub _CheckOTOBOVersion {
 
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
     my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
-    if ( !exists $ReleaseInfo->{Product} || !exists $ReleaseInfo->{Version} ) {
+
+    KEY:
+    for my $Key (qw(Product Version)) {
+        next KEY if $ReleaseInfo->{$Key};    # looks good
+
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t read OTOBO RELEASE file: %s', $Location ),
+            Comment    => $Self->{LanguageObject}->Translate( q{Can't find %s in OTOBO RELEASE file: %s}, $Key, $Location ),
             Successful => 0,
         };
     }
