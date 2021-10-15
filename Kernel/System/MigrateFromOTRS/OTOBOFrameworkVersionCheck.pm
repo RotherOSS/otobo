@@ -155,15 +155,15 @@ sub Run {
     my $ResultOTRS = $Self->_CheckOTRSRelease(
         OTRSReleasePath => $ReleasePath,
     );
+
     return $ResultOTRS unless $ResultOTRS->{Successful};
 
-    # Everything if correct, return 1
-    my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS version is correct.");
-    $Result{Comment}    = $ResultOTOBO->{Comment} . ' ' . $ResultOTRS->{Comment};
-    $Result{Successful} = 1;
-
-    return \%Result;
+    # Everything if correct, return success
+    return {
+        Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS version is correct."),
+        Comment    => join( ' ', $ResultOTOBO->{Comment}, $ResultOTRS->{Comment} ),
+        Successful => 1,
+    };
 }
 
 sub _CheckOTOBOVersion {
@@ -181,8 +181,7 @@ sub _CheckOTOBOVersion {
         return \%Result;
     }
 
-    my $ProductName;
-    my $Version;
+    my ( $ProductName, $Version );
     if ( open( my $Product, '<', "$OTOBOHome/RELEASE" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while (<$Product>) {
 
@@ -237,16 +236,16 @@ sub _CheckOTOBOVersion {
 sub _CheckOTRSRelease {
     my ( $Self, %Param ) = @_;
 
+    my $Message         = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
     my $OTRSReleasePath = $Param{OTRSReleasePath};
 
     # load RELEASE file
     if ( !-e $OTRSReleasePath ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! );
-        $Result{Successful} = 0;
-
-        return \%Result;
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! ),
+            Successful => 0,
+        };
     }
 
     my ( $ProductName, $Version );
@@ -266,10 +265,12 @@ sub _CheckOTRSRelease {
         close $Product;
     }
     else {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! );
-        $Result{Successful} = 0;
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! ),
+            Successful => 0,
+        };
+    }
 
         return \%Result;
     }
@@ -284,21 +285,19 @@ sub _CheckOTRSRelease {
     }
 
     if ( $Version !~ m/^6\.0(.*)$/ ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
-        $Result{Successful} = 0;
-
-        return \%Result;
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version ),
+            Successful => 0,
+        };
     }
 
-    # Everything if correct, return %Result
-    my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( 'OTRS Version is correct: %s.', $Version );
-    $Result{Successful} = 1;
-
-    return \%Result;
+    # Everything if correct, report success
+    return {
+        Message    => $Self->{LanguageObject}->Translate("Check if OTRS version is correct."),
+        Comment    => $Self->{LanguageObject}->Translate( 'OTRS Version is correct: %s %s.', $ProductName, $Version ),
+        Successful => 1,
+    };
 }
 
 1;
