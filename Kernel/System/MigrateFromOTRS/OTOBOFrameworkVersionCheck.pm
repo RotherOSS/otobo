@@ -18,6 +18,7 @@ package Kernel::System::MigrateFromOTRS::OTOBOFrameworkVersionCheck;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
@@ -30,9 +31,10 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::Log',
     'Kernel::System::Cache',
     'Kernel::System::DateTime',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
 );
 
 =head1 NAME
@@ -77,12 +79,13 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
-            $Result{Successful} = 0;
 
-            return \%Result;
+            return {
+                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO version is correct."),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+                Successful => 0,
+            };
+
         }
     }
 
@@ -93,12 +96,12 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need OTRSData->$Key!"
             );
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need %s!', $Key );
-            $Result{Successful} = 0;
 
-            return \%Result;
+            return {
+                Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible."),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need %s!', $Key ),
+                Successful => 0,
+            };
         }
     }
 
@@ -139,16 +142,17 @@ sub Run {
             Priority => 'error',
             Message  => "Can't open RELEASE file from OTRSHome: $Param{OTRSData}->{OTRSHome}!",
         );
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} );
-        $Result{Successful} = 0;
 
-        return \%Result;
+        return {
+            Message    => $Self->{LanguageObject}->Translate("Check if OTOBO and OTRS connect is possible."),
+            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t open RELEASE file from OTRSHome: %s!', $Param{OTRSData}->{OTRSHome} ),
+            Successful => 0,
+        };
     }
 
     # Check OTOBO version
     my $ResultOTOBO = $Self->_CheckOTOBOVersion();
+
     return $ResultOTOBO unless $ResultOTOBO->{Successful};
 
     # Check OTRS version
@@ -170,112 +174,79 @@ sub _CheckOTOBOVersion {
     my ( $Self, %Param ) = @_;
 
     my $OTOBOHome = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    my $Message   = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
+    my $Location  = "$OTOBOHome/RELEASE";
 
     # load RELEASE file
-    if ( !-e "$OTOBOHome/RELEASE" ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( '%s does not exist!', "$OTOBOHome/RELEASE" );
-        $Result{Successful} = 0;
-
-        return \%Result;
+    if ( !-e $Location ) {
+        return
+            {
+                Message    => $Message,
+                Comment    => $Self->{LanguageObject}->Translate( '%s does not exist!', $Location ),
+                Successful => 0,
+            };
     }
 
-    my ( $ProductName, $Version );
-    if ( open( my $Product, '<', "$OTOBOHome/RELEASE" ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        while (<$Product>) {
+    my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
+    my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
 
-            # filtering of comment lines
-            if ( $_ !~ /^#/ ) {
-                if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                    $ProductName = $1;
-                }
-                elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                    $Version = $1;
-                }
-            }
-        }
-        close($Product);
-    }
-    else {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Can\'t read OTOBO RELEASE file: %s: %s!', "$OTOBOHome/RELEASE", $! );
-        $Result{Successful} = 0;
+    KEY:
+    for my $Key (qw(Product Version)) {
+        next KEY if $ReleaseInfo->{$Key};    # looks good
 
-        return \%Result;
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( q{Can't find %s in OTOBO RELEASE file: %s}, $Key, $Location ),
+            Successful => 0,
+        };
     }
 
-    if ( $ProductName ne 'OTOBO' ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("No OTOBO system found!");
-        $Result{Successful} = 0;
-
-        return \%Result;
+    if ( $ReleaseInfo->{Product} ne 'OTOBO' ) {
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate("No OTOBO system found!"),
+            Successful => 0,
+        };
     }
-    if ( $Version !~ /^10\.0(.*)$/ ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version );
-        $Result{Successful} = 0;
 
-        return \%Result;
+    if ( $ReleaseInfo->{Version} !~ m/^10\.1(.*)$/ ) {
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $ReleaseInfo->{Version} ),
+            Successful => 0,
+        };
     }
 
     # Everything if correct, return 1
-    my %Result;
-    $Result{Message}    = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
-    $Result{Comment}    = $Self->{LanguageObject}->Translate( 'OTOBO Version is correct: %s.', $Version );
-    $Result{Successful} = 1;
-
-    return \%Result;
+    return {
+        Message    => $Message,
+        Comment    => $Self->{LanguageObject}->Translate( 'OTOBO Version is correct: %s.', $ReleaseInfo->{Version} ),
+        Successful => 1,
+    };
 }
 
 # Znuny LTS is also accepted for migration
 sub _CheckOTRSRelease {
     my ( $Self, %Param ) = @_;
 
-    my $Message         = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
-    my $OTRSReleasePath = $Param{OTRSReleasePath};
+    my $Message  = $Self->{LanguageObject}->Translate("Check if OTRS version is correct.");
+    my $Location = $Param{OTRSReleasePath};
 
     # load RELEASE file
-    if ( !-e $OTRSReleasePath ) {
+    if ( !-e $Location ) {
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist: %s!', $OTRSReleasePath, $! ),
+            Comment    => $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist!', $Location ),
             Successful => 0,
         };
     }
 
-    my ( $ProductName, $Version );
-    if ( open( my $Product, '<', $OTRSReleasePath ) ) {    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
-        while (<$Product>) {
-
-            # filtering of comment lines
-            if ( $_ !~ /^#/ ) {
-                if ( $_ =~ /^PRODUCT\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                    $ProductName = $1;
-                }
-                elsif ( $_ =~ /^VERSION\s{0,2}=\s{0,2}(.*)\s{0,2}$/i ) {
-                    $Version = $1;
-                }
-            }
-        }
-        close $Product;
-    }
-    else {
+    my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
+    my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
+    if ( !exists $ReleaseInfo->{Product} || !exists $ReleaseInfo->{Version} ) {
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s: %s!', $OTRSReleasePath, $! ),
-            Successful => 0,
-        };
-    }
-
-    if ( !defined $ProductName ) {
-        return {
-            Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( "PRODUCT not found in OTRS RELASE file: %s", $OTRSReleasePath ),
+            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t read OTRS RELEASE file: %s', $Location ),
             Successful => 0,
         };
     }
@@ -285,7 +256,7 @@ sub _CheckOTRSRelease {
         'OTRS'                       => 'https://otrs.com/',
         'Znuny LTS'                  => 'https://www.znuny.org/',
     );
-    if ( !$ProductNameIsValid{$ProductName} ) {
+    if ( !$ProductNameIsValid{ $ReleaseInfo->{Product} } ) {
         my $ExpectedNames = join ', ', map {"'$_'"} sort keys %ProductNameIsValid;
 
         return {
@@ -293,33 +264,25 @@ sub _CheckOTRSRelease {
             Comment => $Self->{LanguageObject}->Translate("No OTRS system found!"),
             Comment => $Self->{LanguageObject}->Translate(
                 "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.",
-                $OTRSReleasePath,
+                $Location,
                 $ExpectedNames
             ),
             Successful => 0,
         };
     }
 
-    if ( !defined $Version ) {
+    if ( $ReleaseInfo->{Version} !~ m/^6\.0(.*)$/ ) {
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( "VERSION not found in OTRS RELASE file: %s", $OTRSReleasePath ),
+            Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $ReleaseInfo->{Version} ),
             Successful => 0,
         };
     }
 
-    if ( $Version !~ m/^6\.0(.*)$/ ) {
-        return {
-            Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $Version ),
-            Successful => 0,
-        };
-    }
-
-    # Everything if correct, report success
+    # Everything if correct, return 1
     return {
-        Message    => $Self->{LanguageObject}->Translate("Check if OTRS version is correct."),
-        Comment    => $Self->{LanguageObject}->Translate( 'OTRS Version is correct: %s %s.', $ProductName, $Version ),
+        Message    => $Message,
+        Comment    => $Self->{LanguageObject}->Translate( 'OTRS Version is correct: %s.', $ReleaseInfo->{Version} ),
         Successful => 1,
     };
 }
