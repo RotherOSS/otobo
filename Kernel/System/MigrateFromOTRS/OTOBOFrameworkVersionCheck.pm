@@ -272,7 +272,12 @@ sub _CheckOTRSRelease {
         };
     }
 
-        return \%Result;
+    if ( !defined $ProductName ) {
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( "PRODUCT not found in OTRS RELASE file: %s", $OTRSReleasePath ),
+            Successful => 0,
+        };
     }
 
     if ( $ProductName ne 'OTRS' && $ProductName ne 'Znuny LTS' ) {
@@ -282,6 +287,13 @@ sub _CheckOTRSRelease {
         $Result{Successful} = 0;
 
         return \%Result;
+
+    if ( !defined $Version ) {
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( "VERSION not found in OTRS RELASE file: %s", $OTRSReleasePath ),
+            Successful => 0,
+        };
     }
 
     if ( $Version !~ m/^6\.0(.*)$/ ) {
