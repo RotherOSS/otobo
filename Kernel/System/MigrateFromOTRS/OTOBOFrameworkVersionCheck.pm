@@ -177,7 +177,7 @@ sub _CheckOTOBOVersion {
     my $Message   = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
     my $Location  = "$OTOBOHome/RELEASE";
 
-    # load RELEASE file
+    # check existence of the RELEASE file
     if ( !-e $Location ) {
         return
             {
@@ -187,12 +187,17 @@ sub _CheckOTOBOVersion {
             };
     }
 
+    # parse RELEASE file
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
     my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
-    if ( !exists $ReleaseInfo->{Product} || !exists $ReleaseInfo->{Version} ) {
+
+    KEY:
+    for my $Key (qw(Product Version)) {
+        next KEY if $ReleaseInfo->{$Key};    # looks good
+
         return {
             Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate( 'Can\'t read OTOBO RELEASE file: %s', $Location ),
+            Comment    => $Self->{LanguageObject}->Translate( q{Can't find %s in OTOBO RELEASE file: %s}, $Key, $Location ),
             Successful => 0,
         };
     }
@@ -230,12 +235,11 @@ sub _CheckOTRSRelease {
 
     # load RELEASE file
     if ( !-e $Location ) {
-        return
-            {
-                Message    => $Message,
-                Comment    => $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist!', $Location ),
-                Successful => 0,
-            };
+        return {
+            Message    => $Message,
+            Comment    => $Self->{LanguageObject}->Translate( 'OTRS RELEASE file %s does not exist!', $Location ),
+            Successful => 0,
+        };
     }
 
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
@@ -253,7 +257,8 @@ sub _CheckOTRSRelease {
         'OTRS'                       => 'https://otrs.com/',
         'Znuny LTS'                  => 'https://www.znuny.org/',
     );
-    if ( !$ProductNameIsValid{$ReleaseInfo->{Product}} ) {
+
+    if ( !$ProductNameIsValid{ $ReleaseInfo->{Product} } ) {
         my $ExpectedNames = join ', ', map {"'$_'"} sort keys %ProductNameIsValid;
 
         return {
@@ -261,16 +266,9 @@ sub _CheckOTRSRelease {
             Comment => $Self->{LanguageObject}->Translate("No OTRS system found!"),
             Comment => $Self->{LanguageObject}->Translate(
                 "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.",
-                $OTRSReleasePath,
+                $Location,
                 $ExpectedNames
             ),
-            Successful => 0,
-        };
-    }
-    if ( $ReleaseInfo->{Product} ne 'OTRS' && $ReleaseInfo->{Product} ne 'Znuny LTS' ) {
-        return {
-            Message    => $Message,
-            Comment    => $Self->{LanguageObject}->Translate("No OTRS system found!"),
             Successful => 0,
         };
     }
