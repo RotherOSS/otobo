@@ -30,6 +30,7 @@ use File::Basename qw(basename);
 use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::URL;
+use Mojo::Util qw(xml_escape);
 use Mojo::AWS::S3;
 
 # OTOBO modules
@@ -181,7 +182,7 @@ sub ArticleDeleteAttachment {
 
         # TODO: proper XML quoting
         my @ObjectNodes = map {
-            sprintf <<'END_OBJECT_NODE', $_ } @Keys;
+            sprintf <<'END_OBJECT_NODE', xml_escape($_) } @Keys;
  <Object>
     <Key>%s</Key>
  </Object>
