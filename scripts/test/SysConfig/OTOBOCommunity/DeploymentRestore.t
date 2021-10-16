@@ -607,11 +607,6 @@ for my $ModifiedVersionID ( sort @ModifiedVersions ) {
     );
     @ModifiedVersions = sort keys %ModifiedVersionList;
 
-    use Data::Dumper;
-    print STDERR "Debug - ModuleName - ModifiedVersions = "
-        . Dumper( \%ModifiedVersionList )
-        . "\n";    # TODO: Delete developer comment
-
     # Be sure we have an ordered list.
     @DefaultIDs = sort @DefaultIDs;
 

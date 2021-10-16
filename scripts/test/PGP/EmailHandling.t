@@ -19,13 +19,12 @@ use warnings;
 use utf8;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # set up $Kernel::OM and $Self
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and $Self
 use Kernel::Output::HTML::ArticleCheck::PGP;
 use Kernel::System::PostMaster;
 use Kernel::System::VariableCheck qw(:all);
@@ -344,7 +343,7 @@ for my $Test (@Tests) {
                 next RESULTITEM if $ResultItem->{Key} ne 'Signed';
 
                 ok( $ResultItem->{SignatureFound}, "$Test->{Name} - Signature found with true" );
-                ok( $ResultItem->{Successful}, "$Test->{Name} - Signature verify with true" );
+                ok( $ResultItem->{Successful},     "$Test->{Name} - Signature verify with true" );
 
                 last RESULTITEM;
             }

@@ -1158,9 +1158,6 @@ for my $Test (@Tests) {
             $ModifiedSettingVersionToCompare{$Key} = 1;
         }
     }
-    use Data::Dumper;
-    print STDERR "Debug - ModuleName - ModifiedSettingVersionToCompare = "
-        . Dumper( \%ModifiedSettingVersionToCompare ) . "\n";
     $Self->IsDeeply(
         \%ModifiedSettingVersionToCompare,
         $Test->{Config}->{ModifiedSettingVersionAdd}->{Data},

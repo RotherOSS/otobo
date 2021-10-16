@@ -20,7 +20,6 @@ use v5.24;
 use utf8;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use Test2::V0;
@@ -72,7 +71,6 @@ for my $Test (@TestTrueFalse) {
         $UnitTestObject->False( $Test->{Value}, $Test->{Name} );
     };
 
-    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} ) {
         isa_ok( $Events->[0], ['Test2::Event::Pass'], "True() - $Test->{Name}" );
         isa_ok( $Events->[1], ['Test2::Event::Fail'], "False() - $Test->{Name}" );
@@ -166,7 +164,6 @@ for my $Test (@TestIsIsNot) {
         $UnitTestObject->IsNot( $Test->{ValueX}, $Test->{ValueY}, $Test->{Name} );
     };
 
-    # diag Dumper( $Events->[0], $Events->[1] );
     if ( $Test->{Result} eq 'Is' ) {
         isa_ok( $Events->[0], ['Test2::Event::Pass'], "Is() - $Test->{Name}" );
         isa_ok( $Events->[1], ['Test2::Event::Fail'], "IsNot() - $Test->{Name}" );
