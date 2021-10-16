@@ -271,7 +271,7 @@ sub ArticleWriteAttachment {
     # Perform FilenameCleanup here already to check for
     #   conflicting existing attachment files correctly
     my $NewFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-        Filename  => delete $Param{Filename},
+        Filename  => $Param{Filename},
         Type      => 'Local',
         NoReplace => 1,
     );
