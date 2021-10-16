@@ -76,7 +76,7 @@ sub new {
     # make_bucket: otobo-20211010a
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211014b';
+    $Self->{Bucket}         = 'otobo-20211016e';
     $Self->{MetadataPrefix} = 'x-amz-meta-';
     $Self->{UserAgent}      = Mojo::UserAgent->new();
     $Self->{S3Object}       = Mojo::AWS::S3->new(
@@ -176,7 +176,7 @@ sub ArticleDeleteAttachment {
         my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
         my @Keys;
         for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-            push @Keys, $ArticlePrefix . $AttachmentIndex{$FileID}->{File};
+            push @Keys, $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
         }
 
         # TODO: proper XML quoting
