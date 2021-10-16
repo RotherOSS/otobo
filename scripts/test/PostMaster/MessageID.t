@@ -18,11 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 use Kernel::System::PostMaster;
 
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
@@ -45,78 +47,71 @@ my $RandomID = $Helper->GetRandomID();
 
 for my $File (qw(1 2 3 5 6 11 21)) {
 
-    # create random message ID
-    my $MessageID = '<message' . $RandomID . $File . '@example.com>';
+    subtest "File $File" => sub {
 
-    # new ticket check
-    my $Location = $ConfigObject->Get('Home')
-        . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
+        # create random message ID
+        my $MessageID = '<message' . $RandomID . $File . '@example.com>';
 
-    my $ContentRef = $MainObject->FileRead(
-        Location => $Location,
-        Mode     => 'binmode',
-        Result   => 'ARRAY',
-    );
+        # new ticket check
+        my $Location = $ConfigObject->Get('Home')
+            . "/scripts/test/sample/PostMaster/PostMaster-Test$File.box";
 
-    my @Content;
-    for my $Line ( @{$ContentRef} ) {
+        my $ContentRef = $MainObject->FileRead(
+            Location => $Location,
+            Mode     => 'binmode',
+            Result   => 'ARRAY',
+        );
 
-        # override Message-ID
-        if ( $Line =~ /^Message-ID:/ ) {
-            $Line = "Message-ID: $MessageID\n";
+        my @Content;
+        for my $Line ( @{$ContentRef} ) {
+
+            # override Message-ID
+            if ( $Line =~ /^Message-ID:/ ) {
+                $Line = "Message-ID: $MessageID\n";
+            }
+            push @Content, $Line;
         }
-        push @Content, $Line;
-    }
-    my @Return;
+        my @Return;
 
-    $ConfigObject->Set(
-        Key   => 'PostmasterDefaultState',
-        Value => 'new'
-    );
-
-    {
-        my $CommunicationLogObject = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLog',
-            ObjectParams => {
-                Transport => 'Email',
-                Direction => 'Incoming',
-            },
-        );
-        $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
-
-        my $PostMasterObject = Kernel::System::PostMaster->new(
-            CommunicationLogObject => $CommunicationLogObject,
-            Email                  => \@Content,
+        $ConfigObject->Set(
+            Key   => 'PostmasterDefaultState',
+            Value => 'new'
         );
 
-        @Return = $PostMasterObject->Run();
+        {
+            my $CommunicationLogObject = $Kernel::OM->Create(
+                'Kernel::System::CommunicationLog',
+                ObjectParams => {
+                    Transport => 'Email',
+                    Direction => 'Incoming',
+                },
+            );
+            $CommunicationLogObject->ObjectLogStart( ObjectLogType => 'Message' );
 
-        $CommunicationLogObject->ObjectLogStop(
-            ObjectLogType => 'Message',
-            Status        => 'Successful',
+            my $PostMasterObject = Kernel::System::PostMaster->new(
+                CommunicationLogObject => $CommunicationLogObject,
+                Email                  => \@Content,
+            );
+
+            @Return = $PostMasterObject->Run();
+
+            $CommunicationLogObject->ObjectLogStop(
+                ObjectLogType => 'Message',
+                Status        => 'Successful',
+            );
+            $CommunicationLogObject->CommunicationStop(
+                Status => 'Successful',
+            );
+        }
+
+        is( $Return[0] || 0, 1, ' Run() - NewTicket' );
+
+        my %Article = $ArticleBackendObject->ArticleGetByMessageID(
+            MessageID => $MessageID,
         );
-        $CommunicationLogObject->CommunicationStop(
-            Status => 'Successful',
-        );
-    }
 
-    $Self->Is(
-        $Return[0] || 0,
-        1,
-        ' Run() - NewTicket',
-    );
-
-    my %Article = $ArticleBackendObject->ArticleGetByMessageID(
-        MessageID => $MessageID,
-    );
-
-    $Self->Is(
-        $Article{TicketID},
-        $Return[1],
-        "ArticleGetByMessageID - TicketID for message ID $MessageID"
-    );
+        is( $Article{TicketID}, $Return[1], "ArticleGetByMessageID - TicketID for message ID $MessageID" );
+    };
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
