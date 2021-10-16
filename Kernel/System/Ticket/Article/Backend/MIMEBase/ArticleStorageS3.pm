@@ -196,9 +196,8 @@ END_XML4DELETE
 
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     # delete plain
-    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $Now = Mojo::Date->new(time)->to_datetime;
+    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
     $URL->query('delete=');
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'POST',
