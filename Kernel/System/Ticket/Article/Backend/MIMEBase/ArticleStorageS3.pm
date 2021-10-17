@@ -38,6 +38,7 @@ use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::XML::Simple',
@@ -232,10 +233,15 @@ sub ArticleWritePlain {
     }
 
     # generate Mojo transaction for submitting plain to S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my %Headers     = ( 'Content-Type' => 'text/plain' );
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my %Headers  = ( 'Content-Type' => 'text/plain' );
+
+    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+    # not sure how this works for Perl strings containing binary data
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
+
     my $Transaction = $Self->{S3Object}->signed_request(
         method         => 'PUT',
         datetime       => $Now,
@@ -317,9 +323,14 @@ sub ArticleWriteAttachment {
 
     # TODO: collect the headers
     # generate Mojo transaction for submitting attachment to S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $NewFilename );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, $NewFilename );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+    # not sure how this works for Perl strings containing binary data
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
+
     my $Transaction = $Self->{S3Object}->signed_request(
         method         => 'PUT',
         datetime       => $Now,
