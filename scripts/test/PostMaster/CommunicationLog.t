@@ -24,14 +24,13 @@ use IO::File;
 use File::stat;
 
 # CPAN modules
+use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::MailAccount::POP3;
 use Kernel::System::MailAccount::IMAP;
 use Kernel::System::PostMaster;
-
-our $Self;
 
 ## no critic qw(OTOBO::RequireCamelCase Subroutines::ProhibitBuiltinHomonyms)
 
@@ -442,11 +441,11 @@ for my $MailAccount (@MailAccounts) {
 
         my %CommunicationLogStatus = %{ $Test->{CommunicationLogStatus} };
 
-        $Self->True(
+        ok(
             $CommunicationLogData->{Communication}->{Status} eq $CommunicationLogStatus{Communication},
             sprintf( '%s, communication %s', $TestBaseMessage, $CommunicationLogStatus{Communication}, ),
         );
-        $Self->True(
+        ok(
             $CommunicationLogData->{Connection}->{ObjectLogStatus} eq $CommunicationLogStatus{Connection},
             sprintf( '%s, connection %s', $TestBaseMessage, $CommunicationLogStatus{Connection}, ),
         );
@@ -466,7 +465,7 @@ for my $MailAccount (@MailAccounts) {
                 $ExpectedStatus = $CommunicationLogStatus{Message}->{$MessageIdx};
             }
 
-            $Self->True(
+            ok(
                 $Message->{ObjectLogStatus} eq $ExpectedStatus,
                 sprintf( '%s, message-%s %s', $TestBaseMessage, $MessageIdx, $ExpectedStatus, ),
             );
@@ -477,8 +476,8 @@ for my $MailAccount (@MailAccounts) {
 my $TestsStoppedAt = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # Delete spool files generated during the tests run.
-my @SpoolFilesFailedUnlink = ();
-my @SpoolFiles             = glob "${ OTOBODIR }/var/spool/problem-email-*";
+my @SpoolFilesFailedUnlink;
+my @SpoolFiles = glob "${OTOBODIR}/var/spool/problem-email-*";
 for my $SpoolFile (@SpoolFiles) {
     my $FileStat       = stat $SpoolFile;
     my $FileModifiedAt = $Kernel::OM->Create(
@@ -496,18 +495,10 @@ for my $SpoolFile (@SpoolFiles) {
 }
 
 if (@SpoolFilesFailedUnlink) {
-    $Self->True(
-        0,
-        'Failed to clean some spool files: ' . ( join "\n", @SpoolFilesFailedUnlink )
-    );
+    fail( 'Failed to clean some spool files: ' . ( join "\n", @SpoolFilesFailedUnlink ) );
 }
 else {
-    $Self->True(
-        1,
-        'Cleaned spool files',
-    );
+    pass('Cleaned spool files');
 }
 
-# restore to the previous state is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing();
