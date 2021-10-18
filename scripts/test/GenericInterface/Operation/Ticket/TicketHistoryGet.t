@@ -935,11 +935,6 @@ for my $Test (@Tests) {
             }
         }
 
-        use Data::Dumper;
-        print STDERR "Debug - ModuleName - RequesterResult = "
-            . Dumper($RequesterResult)
-            . "\n";    # TODO: Delete developer comment
-
         if ( ref $RequesterResult->{Data}->{TicketHistory} eq 'HASH' ) {
             my $TicketHistory = $RequesterResult->{Data}->{TicketHistory};
             delete $RequesterResult->{Data}->{TicketHistory};

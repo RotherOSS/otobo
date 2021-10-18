@@ -30,6 +30,7 @@ use File::Basename qw(basename);
 use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::URL;
+use Mojo::Util qw(xml_escape);
 use Mojo::AWS::S3;
 
 # OTOBO modules
@@ -37,6 +38,7 @@ use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::XML::Simple',
@@ -76,7 +78,7 @@ sub new {
     # make_bucket: otobo-20211010a
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211014b';
+    $Self->{Bucket}         = 'otobo-20211016e';
     $Self->{MetadataPrefix} = 'x-amz-meta-';
     $Self->{UserAgent}      = Mojo::UserAgent->new();
     $Self->{S3Object}       = Mojo::AWS::S3->new(
@@ -176,12 +178,12 @@ sub ArticleDeleteAttachment {
         my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
         my @Keys;
         for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-            push @Keys, $ArticlePrefix . $AttachmentIndex{$FileID}->{File};
+            push @Keys, $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
         }
 
         # TODO: proper XML quoting
         my @ObjectNodes = map {
-            sprintf <<'END_OBJECT_NODE', $_ } @Keys;
+            sprintf <<'END_OBJECT_NODE', xml_escape($_) } @Keys;
  <Object>
     <Key>%s</Key>
  </Object>
@@ -196,9 +198,8 @@ END_XML4DELETE
 
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     # delete plain
-    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $Now = Mojo::Date->new(time)->to_datetime;
+    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
     $URL->query('delete=');
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'POST',
@@ -232,10 +233,15 @@ sub ArticleWritePlain {
     }
 
     # generate Mojo transaction for submitting plain to S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my %Headers     = ( 'Content-Type' => 'text/plain' );
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my %Headers  = ( 'Content-Type' => 'text/plain' );
+
+    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+    # not sure how this works for Perl strings containing binary data
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
+
     my $Transaction = $Self->{S3Object}->signed_request(
         method         => 'PUT',
         datetime       => $Now,
@@ -272,7 +278,7 @@ sub ArticleWriteAttachment {
     # Perform FilenameCleanup here already to check for
     #   conflicting existing attachment files correctly
     my $NewFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-        Filename  => delete $Param{Filename},
+        Filename  => $Param{Filename},
         Type      => 'Local',
         NoReplace => 1,
     );
@@ -317,9 +323,14 @@ sub ArticleWriteAttachment {
 
     # TODO: collect the headers
     # generate Mojo transaction for submitting attachment to S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $NewFilename );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, $NewFilename );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+    # not sure how this works for Perl strings containing binary data
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
+
     my $Transaction = $Self->{S3Object}->signed_request(
         method         => 'PUT',
         datetime       => $Now,

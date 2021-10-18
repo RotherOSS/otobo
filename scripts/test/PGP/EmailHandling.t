@@ -18,16 +18,18 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
 
-our $Self;
-
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM and $Self
 use Kernel::Output::HTML::ArticleCheck::PGP;
 use Kernel::System::PostMaster;
-
 use Kernel::System::VariableCheck qw(:all);
+
+our $Self;
 
 # get needed objects
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
@@ -285,7 +287,7 @@ for my $Test (@Tests) {
     );
 
     # sanity check (if postmaster runs correctly)
-    $Self->IsNot(
+    isnt(
         $PostMasterResult[0],
         0,
         "$Test->{Name} - PostMaster result should not be 0"
@@ -293,7 +295,7 @@ for my $Test (@Tests) {
     );
 
     # check if we get a new TicketID
-    $Self->IsNot(
+    isnt(
         $PostMasterResult[1],
         undef,
         "$Test->{Name} - PostMaster TicketID should not be undef",
@@ -340,15 +342,8 @@ for my $Test (@Tests) {
 
                 next RESULTITEM if $ResultItem->{Key} ne 'Signed';
 
-                $Self->True(
-                    $ResultItem->{SignatureFound},
-                    "$Test->{Name} - Signature found with true",
-                );
-
-                $Self->True(
-                    $ResultItem->{Successful},
-                    "$Test->{Name} - Signature verify with true",
-                );
+                ok( $ResultItem->{SignatureFound}, "$Test->{Name} - Signature found with true" );
+                ok( $ResultItem->{Successful},     "$Test->{Name} - Signature verify with true" );
 
                 last RESULTITEM;
             }
@@ -362,13 +357,13 @@ for my $Test (@Tests) {
             ArticleID => $RawArticle{ArticleID},
         );
 
-        $Self->Is(
+        is(
             $Article{Subject},
             $Test->{ArticleSubject},
             "$Test->{Name} - Decrypted article subject",
         );
 
-        $Self->Is(
+        is(
             $Article{Body},
             $Test->{ArticleBody},
             "$Test->{Name} - Decrypted article body",
@@ -402,7 +397,7 @@ for my $Test (@Tests) {
             );
 
             # check actual contents (attachment)
-            $Self->Is(
+            is(
                 $Attachment{Content},
                 ${$FileStringRef},
                 "$Test->{Name} - Decrypted attachment $AtmIndex{$FileID}->{Filename}",
