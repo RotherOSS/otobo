@@ -441,12 +441,14 @@ for my $MailAccount (@MailAccounts) {
 
         my %CommunicationLogStatus = %{ $Test->{CommunicationLogStatus} };
 
-        ok(
-            $CommunicationLogData->{Communication}->{Status} eq $CommunicationLogStatus{Communication},
+        is(
+            $CommunicationLogData->{Communication}->{Status},
+            $CommunicationLogStatus{Communication},
             sprintf( '%s, communication %s', $TestBaseMessage, $CommunicationLogStatus{Communication}, ),
         );
-        ok(
-            $CommunicationLogData->{Connection}->{ObjectLogStatus} eq $CommunicationLogStatus{Connection},
+        is(
+            $CommunicationLogData->{Connection}->{ObjectLogStatus},
+            $CommunicationLogStatus{Connection},
             sprintf( '%s, connection %s', $TestBaseMessage, $CommunicationLogStatus{Connection}, ),
         );
 
@@ -465,8 +467,9 @@ for my $MailAccount (@MailAccounts) {
                 $ExpectedStatus = $CommunicationLogStatus{Message}->{$MessageIdx};
             }
 
-            ok(
-                $Message->{ObjectLogStatus} eq $ExpectedStatus,
+            is(
+                $Message->{ObjectLogStatus},
+                $ExpectedStatus,
                 sprintf( '%s, message-%s %s', $TestBaseMessage, $MessageIdx, $ExpectedStatus, ),
             );
         }
