@@ -7384,7 +7384,7 @@ sub TicketArticleStorageSwitch {
         }
     }
 
-    # check source vs. destination
+    # nothing to do when source is destination
     return 1 if $Param{Source} eq $Param{Destination};
 
     # get config object
@@ -7433,7 +7433,7 @@ sub TicketArticleStorageSwitch {
         }
 
         # read source attachments
-        my %Index = $ArticleObjectSource->ArticleAttachmentIndex(
+        my %InitialSourceAttachmentIndex = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
             OnlyMyBackend => 1,
         );
@@ -7454,7 +7454,7 @@ sub TicketArticleStorageSwitch {
         # read source attachments
         my @Attachments;
         my %MD5Sums;
-        for my $FileID ( sort keys %Index ) {
+        for my $FileID ( sort keys %InitialSourceAttachmentIndex ) {
             my %Attachment = $ArticleObjectSource->ArticleAttachment(
                 ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
@@ -7471,30 +7471,31 @@ sub TicketArticleStorageSwitch {
         # nothing to transfer
         next ARTICLE if !@Attachments && !$Plain;
 
+        my $ArticleStorageModule = join '::', 'Kernel::System::Ticket::Article::Backend::MIMEBase', $Param{Destination};
+
         my $ArticleObjectDestination = Kernel::System::Ticket::Article::Backend::MIMEBase->new(
-            ArticleStorageModule => 'Kernel::System::Ticket::Article::Backend::MIMEBase::' . $Param{Destination},
+            ArticleStorageModule => $ArticleStorageModule,
         );
         if (
             !$ArticleObjectDestination
-            || $ArticleObjectDestination->{ArticleStorageModule} ne
-            "Kernel::System::Ticket::Article::Backend::MIMEBase::$Param{Destination}"
+            || $ArticleObjectDestination->{ArticleStorageModule} ne $ArticleStorageModule
             )
         {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Could not create Kernel::System::Ticket::" . $Param{Destination},
+                Message  => "Could not create $ArticleStorageModule",
             );
             die;
         }
 
         # read destination attachments
-        %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
+        my %DestinationAttachmentIndex = $ArticleObjectDestination->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
             OnlyMyBackend => 1,
         );
 
         # read source attachments
-        if (%Index) {
+        if (%DestinationAttachmentIndex) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  =>
@@ -7542,13 +7543,13 @@ sub TicketArticleStorageSwitch {
             }
 
             # verify destination attachments
-            %Index = $ArticleObjectDestination->ArticleAttachmentIndex(
+            %DestinationAttachmentIndex = $ArticleObjectDestination->ArticleAttachmentIndex(
                 ArticleID     => $Article->{ArticleID},
                 OnlyMyBackend => 1,
             );
         }
 
-        for my $FileID ( sort keys %Index ) {
+        for my $FileID ( sort keys %DestinationAttachmentIndex ) {
             my %Attachment = $ArticleObjectDestination->ArticleAttachment(
                 ArticleID     => $Article->{ArticleID},
                 FileID        => $FileID,
@@ -7650,13 +7651,13 @@ sub TicketArticleStorageSwitch {
         );
 
         # read source attachments
-        %Index = $ArticleObjectSource->ArticleAttachmentIndex(
+        my %FinalSourceAttachmentIndex = $ArticleObjectSource->ArticleAttachmentIndex(
             ArticleID     => $Article->{ArticleID},
             OnlyMyBackend => 1,
         );
 
         # read source attachments
-        if (%Index) {
+        if (%FinalSourceAttachmentIndex) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Attachments still in $Param{Source}!",

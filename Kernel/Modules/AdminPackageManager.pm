@@ -225,6 +225,7 @@ sub Run {
         PACKAGEACTION:
         for my $PackageAction (qw(DownloadLocal Rebuild Reinstall)) {
 
+            # provide local download button on when the package allows it
             if (
                 $PackageAction eq 'DownloadLocal'
                 && (
@@ -402,7 +403,7 @@ sub Run {
                             },
                         );
 
-                        # check if is possible to download files
+                        # check whether it is allowed to download files
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (
@@ -545,7 +546,7 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
 
-        # allow to download only if package is allow to do it
+        # provide remote download button only when the package allows it
         if (
             !defined $Structure{PackageIsDownloadable}
             || (
@@ -703,7 +704,7 @@ sub Run {
                             },
                         );
 
-                        # check if is possible to download files
+                        # check whether it is allowed to download files
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (

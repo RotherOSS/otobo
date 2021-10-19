@@ -45,16 +45,18 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
+    # attributes common to all backends
     $Self->{CacheType} = 'ArticleStorageBase';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
+    # only used in ArticleStorageFS
     $Self->{ArticleDataDir} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::ArticleDataDir')
         || die 'Got no ArticleDataDir!';
 
     # do we need to check all backends, or just one?
+    # only used in ArticleStorageFS and ArticleStorageDB
     $Self->{CheckAllBackends} = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Article::Backend::MIMEBase::CheckAllStorageBackends')
         // 0;
 
@@ -66,6 +68,9 @@ sub new {
 Generate a base article content path for article storage in the file system.
 
     my $ArticleContentPath = $BackendObject->BuildArticleContentPath();
+
+This is useful in file system based storage backends because there should not be too many entries in a directory.
+A different content path, in the form YYYY/MM/DD is generated for every day.
 
 =cut
 

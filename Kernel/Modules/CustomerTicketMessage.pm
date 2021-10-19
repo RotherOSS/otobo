@@ -188,7 +188,6 @@ sub Run {
                     Message => $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
         elsif ( $GetParam{Dest} ) {
@@ -381,6 +380,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 
@@ -493,6 +494,7 @@ sub Run {
         );
         $Output .= $LayoutObject->CustomerNavigationBar();
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
@@ -539,7 +541,6 @@ sub Run {
                         $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
 
@@ -649,6 +650,7 @@ sub Run {
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
+
                     return $Output;
                 }
 
@@ -793,6 +795,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -891,6 +894,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -1183,6 +1187,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 
@@ -1325,6 +1331,7 @@ sub Run {
                 @DynamicFieldAJAX,
             ],
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
@@ -1338,7 +1345,6 @@ sub Run {
             Comment => Translatable('Please contact the administrator.'),
         );
     }
-
 }
 
 sub _GetPriorities {
@@ -1356,6 +1362,7 @@ sub _GetPriorities {
             CustomerUserID => $Self->{UserID},
         );
     }
+
     return \%Priorities;
 }
 

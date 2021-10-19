@@ -1,4 +1,62 @@
 
+# OTOBO 10.0.13 2021-10-08
+- 2021-10-08 16:23:54 +0200 Create new OTOBO language files.
+- 2021-09-08 15:19:44 +0000 Translated using Weblate (Spanish (Mexico))
+- 2021-08-23 14:18:27 +0000 Translated using Weblate (Spanish)
+- 2021-08-21 12:48:29 +0000 Update translation files
+- 2021-10-08 14:06:27 +0200 [Security] Open Redirect in external URL jump. (https://github.com/RotherOSS/otobo/issues/1311)
+- 2021-10-08 10:39:03 +0200 [Security] Possible js injection in dynamic field error messages. (https://github.com/RotherOSS/otobo/issues/1308)
+- 2021-10-06 15:26:55 +0200 [Bugfix]   the same oder of a customer dashboard tile -> internal server error (https://github.com/RotherOSS/otobo/issues/1298)
+- 2021-10-06 11:49:41 +0200 [Bugfix]   Migration: Errors in ConfigurationDeploy() might not show up in migration.pl web interface (https://github.com/RotherOSS/otobo/issues/1216)
+- 2021-10-05 16:41:47 +0200 [Bugfix]   Wrong LogModule::LogFile path after migration from OTRS (https://github.com/RotherOSS/otobo/issues/1297)
+- 2021-10-04 09:54:33 +0200 [Bugfix]   ArticleTree in AgentTicketSearch contains wrong body (https://github.com/RotherOSS/otobo/issues/1292)
+- 2021-10-01 17:21:52 +0200 [Enhanced] Reactivate Support Data Collector plugin OS::DiskSpace (https://github.com/RotherOSS/otobo/issues/1076)
+- 2021-09-30 19:42:07 +0200 [Tidied]   Clean up not needed '# Rother OSS' comments in files. (https://github.com/RotherOSS/otobo/issues/291)
+- 2021-09-30 15:05:43 +0200 [Enhanced] Recommend using cpanm in otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/1057)
+- 2021-09-30 14:23:23 +0200 Migration: also migrate the table permission_groups (https://github.com/RotherOSS/otobo/issues/1283)
+- 2021-09-29 11:15:53 +0200 [Bugfix]   Please change Config Option DashboardBackend###0410-RSS (https://github.com/RotherOSS/otobo/issues/1206)
+- 2021-09-29 10:59:59 +0200 Add Freetds to docker file
+- 2021-09-29 10:08:52 +0200 Accept some suggestions from CodePolicy
+- 2021-09-28 22:02:11 +0200 Github workflow: install Code::TidyAll via cpm (https://github.com/RotherOSS/otobo/issues/1278)
+- 2021-09-28 14:59:55 +0200 Migration: do not migrate the scheduler tables (https://github.com/RotherOSS/otobo/issues/1272)
+- 2021-09-28 14:50:20 +0200 Add DBD::Sybase to docker.file
+- 2021-09-28 13:52:24 +0200 Use caching in the github actions (https://github.com/RotherOSS/otobo/issues/1255)
+- 2021-09-28 11:49:34 +0200 [Bugfix]   Missing Docker options after migration (https://github.com/RotherOSS/otobo/issues/1210)
+- 2021-09-27 13:03:18 +0200 [Enhanced] Implement automatic activation of Elasticsearch for migration. (https://github.com/RotherOSS/otobo/issues/770)
+- 2021-09-27 11:49:51 +0200 Fix type lenght -> length in JS file
+- 2021-09-23 12:05:20 +0200 [Enhanced] Please change the OTOBO package verify logos (https://github.com/RotherOSS/otobo/issues/1207)
+- 2021-09-23 10:25:30 +0200 [Enhanced] Let Dev::Package::Build be more verbose (https://github.com/RotherOSS/otobo/issues/1147)
+- 2021-09-22 13:25:52 +0200 [Tidied]   Clean up references to otrs.com (https://github.com/RotherOSS/otobo/issues/1247)
+- 2021-09-21 23:48:54 +0200 Work on the comments.
+- 2021-09-21 14:18:11 +0200 [Enhanced] Allow to activate ElasticSearch in a quick install environment (https://github.com/RotherOSS/otobo/issues/1234)
+- 2021-09-21 13:49:55 +0200 [Tidied]   Docker: minimize build context when building Docker Images (https://github.com/RotherOSS/otobo/issues/1231)
+- 2021-09-20 16:41:39 +0200 [Bugfix]   Unquoted arguments to 'find' in Dev::Code::CPANUpdate (https://github.com/RotherOSS/otobo/issues/1241)
+- 2021-09-16 15:07:16 +0200 Elasticsearch TicketCreate event handler doesn't check if Ticket still exists (https://github.com/RotherOSS/otobo/issues/1192)
+- 2021-09-13 17:16:43 +0200 Issue RotherOSS/doc-otobo-dev#8: Do not require Class::Method::Modifiers
+- 2021-09-13 16:54:57 +0200 Issue RotherOSS/doc-otobo-dev#8: add an example
+- 2021-09-13 12:09:53 +0200 Selenium: Eliminate TODO tests in CustomerPreferences.t (https://github.com/RotherOSS/otobo/issues/1227)
+- 2021-09-11 16:00:14 +0200 SeleniumTesting: fix TODO tests for setting Owner, Responsible, State  (https://github.com/RotherOSS/otobo/issues/748) - in progress
+- 2021-09-10 20:54:18 +0200 [Tidied]   Docker: No extra RUN command for installing Net::DNS and Gazelle (https://github.com/RotherOSS/otobo/issues/1223)
+- 2021-09-10 14:16:51 +0200 Issue #682: fiddle until test work again (https://github.com/RotherOSS/otobo/issues/866)
+- 2021-09-10 12:55:07 +0200 [Bugfix]   migration.pl ignores OTRS Tags in the ITSM ChangeManagement Notification (https://github.com/RotherOSS/otobo/issues/883)
+- 2021-09-05 16:24:22 +0200 [Bugfix]   bin/otobo.Console.pl does not import customers if the -use-customer-batches flag is not set. (https://github.com/RotherOSS/otobo/issues/1211)
+- 2021-09-03 19:38:55 +0200 SeleniumTesting: test whether password with accents are accepted (https://github.com/RotherOSS/otobo/issues/944)
+- 2021-09-03 18:46:24 +0200 Selenium Testing: no error message when calling an unknown JS function (https://github.com/RotherOSS/otobo/issues/909) - in progress
+- 2021-09-01 11:22:17 +0200 [Bugfix]   Migration: "setval('sequence_name', 0)" not allowed for resetting sequences (https://github.com/RotherOSS/otobo/issues/1212)
+- 2021-08-31 13:46:14 +0200 SeleniumTesting: sporadic errors in some test scripts, maybe missing waits (https://github.com/RotherOSS/otobo/issues/988)
+- 2021-08-28 13:24:29 +0200 [Tidied]   Eliminate references to OTRS domains in the test suite (https://github.com/RotherOSS/otobo/issues/1013)
+- 2021-08-28 00:50:35 +0200 Fix md5 value to check
+- 2021-08-27 10:21:48 +0200 [Enhanced] Update buggy JavaScript::Minifier to version 1.16 (https://github.com/RotherOSS/otobo/issues/771)
+- 2021-08-25 15:51:29 +0200 Update otobo.nginx.dockerfile
+- 2021-08-25 15:47:02 +0200 Update otobo.nginx.dockerfile
+- 2021-06-01 16:50:21 +0200 Restore wrong Copyright change
+- 2021-06-01 15:53:28 +0200 Replace otrs with otobo but currently unable to test them
+- 2021-06-01 15:52:36 +0200 Replace otrs with otobo and all succeed
+- 2021-06-01 16:50:21 +0200 Restore wrong Copyright change
+- 2021-06-01 15:53:28 +0200 Replace otrs with otobo but currently unable to test them
+- 2021-06-01 15:52:36 +0200 Replace otrs with otobo and all succeed
+
+
 # OTOBO 10.0.12 2021-08-21
 - 2021-08-21 14:48:04 +0200 Create new OTOBO language files.
 - 2021-08-21 13:39:55 +0200 [Security] Respect disabling of customer company tickets in Elasticsearch results.
@@ -20,7 +78,7 @@
 - 2021-08-04 11:29:32 +0200 Added permission check to appointment list (CVE-2021-36091). Thanks for hints to Centuran Consulting.
 - 2021-08-04 11:01:52 +0200 Files in configured directories of SysConfig options SMIME::PrivatePath and SMIME::CertPath will now not be included in a support bundle anymore if they are within the Znuny directory (CVE-2021-21440). Thanks for hints to Centuran Consulting.
 - 2021-08-04 10:26:06 +0200 Added safety checks for form/URL parameters to AdminAppointmentCalendarManage, AgentAppointmentEdit and AgentAppointmentList. Thanks for hints to Centuran Consulting.
-- 2021-07-30 11:32:34 +0000 Improved JavaScript recognition in function Kernel::System::HTMLUtils::Safety. Thanks for hints to Tim PÃ¼ttmanns, maxence.
+- 2021-07-30 11:32:34 +0000 Improved JavaScript recognition in function Kernel::System::HTMLUtils::Safety. Thanks for hints to Tim Puettmanns, maxence.
 - 2021-08-16 18:44:48 +0200 Missing Packages in otobo.CheckModules.pl in rel-10_1 (https://github.com/RotherOSS/otobo/issues/1180)
 - 2021-08-13 18:26:38 +0200 [Security] Docker: use the maintenance releases of Perl as base images  (https://github.com/RotherOSS/otobo/issues/1175)
 - 2021-08-11 15:41:40 +0200 Add lets encrypt certbot

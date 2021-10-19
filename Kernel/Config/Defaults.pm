@@ -1910,7 +1910,7 @@ via the Preferences button after logging in.
 
     # Elasticsearch settings needed for installer.pl
     # Default defines settings for all indices. To configure different settings
-    # for a single index  simply add a corresponding definition with the index name 
+    # for a single index  simply add a corresponding definition with the index name
     # ('Customer', 'CustomerUser' or 'Ticket') instead of 'Default'.
     $Self->{'Elasticsearch::ArticleIndexCreationSettings'} = {
         'NS'          => '1',
@@ -2010,7 +2010,7 @@ sub new {
             eval {
 
                 # This also adds $RelativeFile to %Module::Refresh::CACHE.
-                if ( $ENV{OTOBO_RUNS_UNDER_PSGI} ) {
+                if ( $ENV{GATEWAY_INTERFACE} ) {
                     Module::Refresh->refresh_module_if_modified( $RelativeFile );
                 }
 

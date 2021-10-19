@@ -253,7 +253,7 @@ sub EditFieldRender {
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
         my $DivID = $FieldName . 'ServerError';
         
-$FieldTemplateData{ServerError} = $Param{ServerError};
+        $FieldTemplateData{ServerError} = $Param{ServerError};
         $FieldTemplateData{DivID} = $DivID;
         $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }

@@ -354,6 +354,7 @@ sub Run {
             GetParam        => $GetParam,
         );
     }
+
     return $LayoutObject->CustomerErrorScreen(
         Message => Translatable('Subaction is invalid!'),
         Comment => Translatable('Please contact the administrator.'),

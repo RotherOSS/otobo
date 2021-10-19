@@ -15,12 +15,53 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+=head1 NAME
+
+bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
+
+=head1 SYNOPSIS
+
+    # print usage information
+    bin/otobo.CheckModules.pl --help
+    bin/otobo.CheckModules.pl -h
+
+    # Print the console command to install all missing packages for the standard configuration via the system package manager.
+    bin/otobo.CheckModules.pl -inst
+
+    # Print a list of those required and most commonly used optional packages for OTOBO.
+    bin/otobo.CheckModules.pl --list
+
+    # Print all required, optional and bundled packages of OTOBO.
+    bin/otobo.CheckModules.pl --all
+
+    # Print a list of all available features.
+    bin/otobo.CheckModules.pl --features
+
+    # Print a list of all packages belonging to at least one of the listed features.
+    bin/otobo.CheckModules.pl --flist <features>
+
+    # Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.
+    bin/otobo.CheckModules.pl --finst <features>
+
+    # Print a cpanfile with the required modules regardless whether they are already available.
+    bin/otobo.CheckModules.pl --cpanfile
+
+    # Print a cpanfile with the required modules for a Docker-based installation.
+    bin/otobo.CheckModules.pl --docker-cpanfile
+
+=head1 DESCRIPTION
+
+This scripts can be used for checking whether required Perl modules are installed.
+Another usage is the generation of cpanfiles.
+
+=cut
+
 use strict;
 use warnings;
 use v5.24;
 use utf8;
 
-use File::Basename;
+use File::Basename qw(dirname);
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
@@ -31,6 +72,7 @@ use ExtUtils::MakeMaker;
 use File::Path;
 use Getopt::Long;
 use Term::ANSIColor;
+use Pod::Usage;
 
 # CPAN modules
 
@@ -45,13 +87,13 @@ my %InstTypeToCMD = (
     #    UseModule => 1/0,
     # }
     # Set UseModule to 1 if you want to use the
-    # cpan module name of the package as replace string.
+    # CPAN module name of the package as replace string.
     # e.g. yum install "perl(Date::Format)"
     # If you set it 0 it will use the name
     # for the InstType of the module
     # e.g. apt-get install -y libtimedate-perl
-    # and as fallback the default cpan install command
-    # e.g. cpan DBD::Oracle
+    # and as fallback the default CPAN install command
+    # e.g. cpanm DBD::Oracle
     aptget => {
         CMD       => 'apt-get install -y %s',
         UseModule => 0,
@@ -79,7 +121,7 @@ my %InstTypeToCMD = (
         UseModule => 0,
     },
     default => {
-        CMD => 'cpan %s',
+        CMD => 'cpanm %s',
     },
 );
 
@@ -137,13 +179,14 @@ my %IsDockerFeature = (
     'div:bcrypt'        => 1,
     'div:ldap'          => 1,
     'div:xslt'          => 1,
+    'gazelle'           => 1,
     'mail:imap'         => 1,
     'mail:ntlm'         => 1,
     'mail:sasl'         => 1,
     'performance:csv'   => 1,
     'performance:json'  => 1,
     'performance:redis' => 1,
-    'gazelle'           => 1,
+    'storage:s3'        => 1,
 );
 
 # Used for the generation of a cpanfile.
@@ -158,9 +201,10 @@ my %FeatureDescription = (
     'db:sqlite'     => 'Support for database SQLLite',
     'devel'         => 'Features which can be useful in development environments',
     'div'           => 'Various features for additional functionality',
+    'gazelle'       => 'Required packages if you want to use Gazelle webserver',
     'mail'          => 'Features enabling communication with a mail-server',
     'performance'   => 'Optional features which can increase performance',
-    'gazelle'       => 'Required packages if you want to use Gazelle webserver',
+    'storage:s3'    => 'Amazon Web Services, currently only S3',
     'zzznone'       => 'Uncategorized',
 );
 
@@ -173,6 +217,7 @@ eval {
 };
 $OSDist //= $^O;
 
+# extract command line parameters
 my $DoPrintAllModules;
 my $DoPrintInstCommand;
 my $DoPrintPackageList;
@@ -192,7 +237,7 @@ GetOptions(
     'flist=s{1,}'     => \@FeatureList,
     cpanfile          => \$DoPrintCpanfile,
     'docker-cpanfile' => \$DoPrintDockerCpanfile,
-);
+) || pod2usage(2);
 
 if (@FeatureList) {
     $DoPrintPackageList = 1;
@@ -204,28 +249,9 @@ elsif ( !$DoPrintAllModules && !$DoPrintInstCommand && !$DoPrintPackageList && !
     $DoPrintHelp = 1;
 }
 
-# check needed params
+# print help
 if ($DoPrintHelp) {
-    print "\n";
-    print "Print all required and optional packages of OTOBO.\n";
-    print "Optionally limit to the required but missing packages or modules.\n";
-    print "\n";
-    print "Usage:\n";
-    print "  otobo.CheckModules.pl [-help|-inst|-list|-all|-features|-flist <features>|-finst <features>|-cpanfile|-docker-cpanfile]\n";
-    print "\n";
-    print "Options:\n";
-    printf " %-22s - %s\n", '[-help]', 'Print this help message.';
-    printf " %-22s - %s\n", '[-h]',    'Same as -help.';
-    printf " %-22s - %s\n", '[-inst]', 'Print the console command to install all missing packages for the standard configuration via the system package manager.';
-    printf " %-22s - %s\n", '[-list]', 'Print a list of those required and most commonly used optional packages for OTOBO.';
-    printf " %-22s - %s\n", '[-all]',  'Print all required, optional and bundled packages of OTOBO.';
-    printf " %-22s - %s\n", '[-features]',         'Print a list of all available features.';
-    printf " %-22s - %s\n", '[-flist <features>]', 'Print a list of all packages belonging to at least one of the listed features.';
-    printf " %-22s - %s\n", '[-finst <features>]',
-        'Print the console command to install all missing packages belonging to at least one of the listed features via the system package manager.';
-    printf " %-22s - %s\n", '[-cpanfile]',        'Print a cpanfile with the required modules regardless whether they are already available.';
-    printf " %-22s - %s\n", '[-docker-cpanfile]', 'Print a cpanfile with the required modules for a Docker-based installation.';
-    print "\n";
+    pod2usage(1);
 
     exit 1;
 }
@@ -551,6 +577,20 @@ my @NeededModules = (
         },
     },
 
+    # Feature storage:s3
+    {
+        Module    => 'Mojolicious::Plugin::AWS',
+        Features  => ['storage:s3'],
+        Comment   => 'support for S3 using Mojo::UserAgent',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+
     # Feature db
     {
         Module    => 'DBD::mysql',
@@ -807,17 +847,6 @@ my @NeededModules = (
     #        ports  => undef,
     #    },
     #},
-    {
-        Module    => 'Plack::Middleware::ForceEnv',
-        Required  => 1,
-        Comment   => 'Set environment variables',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
     {
         Module    => 'Plack::Middleware::Header',
         Required  => 1,
@@ -1460,8 +1489,8 @@ sub GetInstallCommand {
 
         # gets the install command for installation type
         # e.g. ppm install %s
-        # default is the cpan install command
-        # e.g. cpan %s
+        # default is the CPAN install command
+        # e.g. cpanm %s
         $CMD    = $InstTypeToCMD{$InstType}->{CMD};
         $SubCMD = $InstTypeToCMD{$InstType}->{SubCMD};
 
@@ -1477,7 +1506,7 @@ sub GetInstallCommand {
         }
         elsif ( $InstTypeToCMD{$InstType}->{UseModule} ) {
 
-            # default is the cpan module name
+            # default is the CPAN module name
             $Package = $Module->{Module};
         }
         else {

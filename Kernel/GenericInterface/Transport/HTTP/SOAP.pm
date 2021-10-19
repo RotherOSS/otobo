@@ -139,7 +139,6 @@ sub ProviderProcessRequest {
     }
     else {
 
-        # for OTOBO_RUNS_UNDER_PSGI
         # the CGI::PSGI object already has the POST of GET content
         my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
         $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
@@ -1010,9 +1009,7 @@ sub _ThrowWebException {
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
 
-    # Let's try the HTTPExceptions trick again
-    # for OTOBO_RUNS_UNDER_PSGI
-
+    # header for the response that will be thrown
     my @Headers;
     push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
     push @Headers, 'Content-Length' => $ContentLength;

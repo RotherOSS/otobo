@@ -80,9 +80,6 @@ requires 'Path::Class';
 # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
 requires 'Plack';
 
-# Set environment variables
-requires 'Plack::Middleware::ForceEnv';
-
 # Set HTTP headers
 requires 'Plack::Middleware::Header';
 
@@ -238,5 +235,11 @@ requires 'Const::Fast';
 
     # Recommended for usage with Redis Cache Server. (it`s compatible with `Redis`, but **~2x faster**)
     requires 'Redis::Fast';
+
+# };
+
+# feature 'storage:s3', 'Amazon Web Services, currently only S3' => sub {
+    # support for S3 using Mojo::UserAgent
+    requires 'Mojolicious::Plugin::AWS';
 
 # };

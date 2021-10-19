@@ -32,8 +32,8 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a supported system. See https://perldoc.perl.org/perlport#PLATFORMS.
-    return $Self->GetResults() unless $^O =~ m/(linux|unix|netbsd|freebsd)/i;
+    # Check if used OS is a Linux system
+    return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd|darwin/i;
 
     my $Commandline = "df -lHx tmpfs -x iso9660 -x udf -x squashfs";
 
@@ -46,7 +46,7 @@ sub Run {
     my @Lines;
     if ( open( my $In, '-|', "$Commandline" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
         @Lines = <$In>;
-        close($In);
+        close $In;
     }
 
     # clean results, in some systems when partition is too long it splits the line in two, it is

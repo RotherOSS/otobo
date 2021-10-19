@@ -620,10 +620,7 @@ sub _HandleError {
 
 =head2 _ThrowWebException()
 
-when not running under PSGI return an empty string, which will be passed on as empty content.
-Apache generates status code 500 for that.
-
-Under PSGI explicitly generate a response with code 500.
+Generate a response with code 500 and empty content and throw it as an exception.
 
     # this sub dies
     $RequesterObject->_ThrowWebException();
@@ -633,9 +630,7 @@ Under PSGI explicitly generate a response with code 500.
 sub _ThrowWebException {
     my ($Self) = @_;
 
-    # for OTOBO_RUNS_UNDER_PSGI
-
-    my $RedirectResponse = Plack::Response->new(
+    my $ServerErrorResponse = Plack::Response->new(
         500,
         [],
         ''
@@ -643,7 +638,7 @@ sub _ThrowWebException {
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
-        PlackResponse => $RedirectResponse
+        PlackResponse => $ServerErrorResponse
     );
 }
 

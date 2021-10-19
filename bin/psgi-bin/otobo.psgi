@@ -143,11 +143,11 @@ my $NYTProfMiddleWare = sub {
     };
 };
 
-# Set some entries in %ENV.
-# GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-# Per default it would enable mysql_auto_reconnect.
-# But mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-# OTOBO_RUNS_UNDER_PSGI indicates that PSGI is used.
+# Set a single entry in %ENV.
+# $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
+# This setting is used internally by OTOBO, but also in the CPAN module DBD::mysql.
+# Per default it would enable mysql_auto_reconnect. But acutally mysql_auto_reconnect is not active,
+# as it is explicitly disabled in Kernel::System::DB::mysql.
 my $SetEnvMiddleWare = sub {
     my $App = shift;
 
@@ -155,8 +155,7 @@ my $SetEnvMiddleWare = sub {
         my $Env = shift;
 
         # only the side effects are important
-        local $ENV{OTOBO_RUNS_UNDER_PSGI} = '1';
-        local $ENV{GATEWAY_INTERFACE}     = 'CGI/1.1';
+        local $ENV{GATEWAY_INTERFACE} = 'CGI/1.1';
 
         # enable for debugging UrlMap
         #local $ENV{PLACK_URLMAP_DEBUG} = 1;
@@ -341,7 +340,7 @@ my $OTOBOApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleWare;
 
-    # set %ENV
+    # set up %ENV
     enable $SetEnvMiddleWare;
 
     # Check ever 10s for changed Perl modules.
@@ -468,11 +467,8 @@ my $Soap = SOAP::Transport::HTTP::Plack->new();
 
 my $RPCApp = builder {
 
-    # GATEWAY_INTERFACE is used for determining whether a command runs in a web context
-    # OTOBO_RUNS_UNDER_PSGI is a signal that PSGI is used
-    enable 'Plack::Middleware::ForceEnv',
-        OTOBO_RUNS_UNDER_PSGI => '1',
-        GATEWAY_INTERFACE     => 'CGI/1.1';
+    # set up %ENV
+    enable $SetEnvMiddleWare;
 
     sub {
         my $Env = shift;

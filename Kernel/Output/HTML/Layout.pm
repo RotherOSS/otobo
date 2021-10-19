@@ -961,8 +961,6 @@ sub FatalError {
         $Self->Error(%Param),
         $Self->Footer();
 
-    # for OTOBO_RUNS_UNDER_PSGI
-
     # Modify the output by applying the output filters.
     $Self->ApplyOutputFilters( Output => \$Output );
 
@@ -4467,8 +4465,6 @@ sub CustomerFatalError {
         ),
         $Self->CustomerError(%Param),
         $Self->CustomerFooter();
-
-    # for OTOBO_RUNS_UNDER_PSGI
 
     # Modify the output by applying the output filters.
     $Self->ApplyOutputFilters( Output => \$Output );

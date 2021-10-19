@@ -39,7 +39,7 @@ sub Run {
     my $Self = shift;
 
     # Skip the plugin, if the support data collection isn't running in a web request.
-    return $Self->GetResults() if !$ENV{GATEWAY_INTERFACE};
+    return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
     my $ParamObject    = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ServerSoftware = $ParamObject->ServerSoftware();

@@ -104,13 +104,14 @@ sub Run {
         String => $FileString,
     );
 
-    # just build it if PackageIsDownloadable flag is enable
+    # Don't build the opm if the PackageIsDownloadable flag is explicitly disabled.
     if (
         defined $Structure{PackageIsDownloadable}
         && !$Structure{PackageIsDownloadable}->{Content}
         )
     {
-        $Self->PrintError("Package cannot be built.\n");
+        $Self->PrintError("Package is not built because the flag PackageIsDownloadable is set to 0.\n");
+
         return $Self->ExitCodeError();
     }
 

@@ -301,8 +301,6 @@ for my $Fail ( 0 .. 1 ) {
                 );
             }
 
-            #use Data::Dumper;
-            #warn Dumper( 'YYY', $WebException, $Result );
             #can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );
             #my $PSGIResponse = $WebException->as_psgi();
             #ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
@@ -411,12 +409,8 @@ for my $Fail ( 0 .. 1 ) {
                     my $PSGIResponse = $WebException->as_psgi;
                     is( $PSGIResponse->[0], 500,                                 'HTTP status 500' );
                     is( $PSGIResponse->[2], ['Test response generation failed'], 'error message for Fail = 1' );
-                    use Data::Dumper;
-                    warn Dumper( 'KKK', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
                 }
                 else {
-                    use Data::Dumper;
-                    warn Dumper( 'LLL', $Fail, $OptionSuccess, $TestEntry, $Result, $WebException );
                     $Self->False(
                         $Result->{Success},
                         "fail detected",
