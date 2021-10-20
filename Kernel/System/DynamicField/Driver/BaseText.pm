@@ -243,18 +243,18 @@ sub EditFieldRender {
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
 
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
-        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
+        $FieldTemplateData{DivID}                = $DivID;
         $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID = $FieldName . 'ServerError';
-        
-        $FieldTemplateData{ServerError} = $Param{ServerError};
-        $FieldTemplateData{DivID} = $DivID;
+        my $DivID        = $FieldName . 'ServerError';
+
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{DivID}        = $DivID;
         $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
@@ -266,15 +266,16 @@ sub EditFieldRender {
     );
 
     my $TemplateFile = '';
-    if($Param{CustomerInterface}) {
+    if ( $Param{CustomerInterface} ) {
         $TemplateFile = 'DynamicField/Customer/BaseText';
-    } else {
+    }
+    else {
         $TemplateFile = 'DynamicField/Agent/BaseText';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile'  => $TemplateFile,
-        'Data'          => \%FieldTemplateData
+        'TemplateFile' => $TemplateFile,
+        'Data'         => \%FieldTemplateData
     );
 
     my $Data = {

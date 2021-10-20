@@ -330,13 +330,13 @@ sub EditFieldRender {
     }
 
     my %FieldTemplateData = (
-        'FieldName' => ${FieldName},
-        'FieldLabel' => $FieldLabel,
-        'Value' => $Value,
-        'DetailedSearchMsg' => $DetailedSearchMsg,
-        'FieldClass' => $FieldClass,
-        'DetailsMsg' => $DetailsMsg,
-        'RemoveValueMsg' => $RemoveValueMsg,
+        'FieldName'               => ${FieldName},
+        'FieldLabel'              => $FieldLabel,
+        'Value'                   => $Value,
+        'DetailedSearchMsg'       => $DetailedSearchMsg,
+        'FieldClass'              => $FieldClass,
+        'DetailsMsg'              => $DetailsMsg,
+        'RemoveValueMsg'          => $RemoveValueMsg,
         'DynamicFieldDBContainer' => $DynamicFieldDBContainer
 
     );
@@ -345,23 +345,23 @@ sub EditFieldRender {
         my $DivID = $FieldName . 'Error';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
-        $FieldTemplateData{DivID} = $DivID;
+        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
+        $FieldTemplateData{DivID}                = $DivID;
         $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'      => {
-                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
+            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
+            'Data'     => {
+                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
             }
         );
-        my $DivID        = $FieldName . 'ServerError';
-        
-        $FieldTemplateData{ServerError} = $Param{ServerError};
-        $FieldTemplateData{DivID} = $DivID;
+        my $DivID = $FieldName . 'ServerError';
+
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{DivID}        = $DivID;
         $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
@@ -383,15 +383,16 @@ sub EditFieldRender {
     );
 
     my $TemplateFile = '';
-    if($Param{CustomerInterface}) {
+    if ( $Param{CustomerInterface} ) {
         $TemplateFile = 'DynamicField/Customer/BaseDatabase';
-    } else {
+    }
+    else {
         $TemplateFile = 'DynamicField/Agent/BaseDatabase';
     }
 
-    my$HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile'  => $TemplateFile,
-        'Data'          => \%FieldTemplateData
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $TemplateFile,
+        'Data'         => \%FieldTemplateData
     );
 
     my $Data = {

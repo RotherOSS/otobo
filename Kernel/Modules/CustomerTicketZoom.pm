@@ -791,13 +791,13 @@ sub Run {
                 PossibleValuesFilter => $PossibleValuesFilter,
                 Mandatory            =>
                     $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                ServerError         => $ValidationResult->{ServerError}  || '',
-                ErrorMessage        => $ValidationResult->{ErrorMessage} || '',
-                LayoutObject        => $LayoutObject,
-                ParamObject         => $ParamObject,
-                AJAXUpdate          => 1,
-                UpdatableFields     => $Self->_GetFieldsToUpdate(),
-                CustomerInterface   => 1,
+                ServerError       => $ValidationResult->{ServerError}  || '',
+                ErrorMessage      => $ValidationResult->{ErrorMessage} || '',
+                LayoutObject      => $LayoutObject,
+                ParamObject       => $ParamObject,
+                AJAXUpdate        => 1,
+                UpdatableFields   => $Self->_GetFieldsToUpdate(),
+                CustomerInterface => 1,
             );
         }
 
@@ -1365,13 +1365,13 @@ sub Run {
             ? $DynFieldStates{Fields}{$i}{PossibleValues}
             : undef,
             ,
-            Mandatory           => $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-            LayoutObject        => $LayoutObject,
-            ParamObject         => $ParamObject,
-            AJAXUpdate          => 1,
-            UpdatableFields     => $Self->_GetFieldsToUpdate(),
-            Value               => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
-            CustomerInterface   => 1,
+            Mandatory         => $Config->{FollowUpDynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
+            LayoutObject      => $LayoutObject,
+            ParamObject       => $ParamObject,
+            AJAXUpdate        => 1,
+            UpdatableFields   => $Self->_GetFieldsToUpdate(),
+            Value             => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+            CustomerInterface => 1,
             %UseDefault,
         );
     }

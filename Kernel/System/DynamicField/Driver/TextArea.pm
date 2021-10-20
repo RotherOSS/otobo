@@ -176,8 +176,8 @@ sub EditFieldRender {
     # Notice that some browsers count new lines \n\r as only 1 character. In these cases the
     # validation framework might generate an error while the user is still capable to enter text in the
     # text-area. Otherwise the maxlength property will prevent to enter more text than the maximum.
-    my $MaxLength  = $Param{MaxLength} // $Self->{MaxLength};
-    
+    my $MaxLength = $Param{MaxLength} // $Self->{MaxLength};
+
     # for client side validation
     my $DivID = $FieldName . 'Error';
 
@@ -186,18 +186,18 @@ sub EditFieldRender {
     my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
 
     my %FieldTemplateData = (
-        'FieldClass' => $FieldClass,
-        'FieldName' => $FieldName,
+        'FieldClass'        => $FieldClass,
+        'FieldName'         => $FieldName,
         'FieldLabelEscaped' => $FieldLabelEscaped,
-        'RowsNumber' => $RowsNumber,
-        'ColsNumber' => $ColsNumber,
-        'MaxLength' => $MaxLength,
-        'ValueEscaped' => $ValueEscaped,
-        'DivID' => $DivID,
-        'ErrorMessage1' => $ErrorMessage1,
-        'ErrorMessage2' => $ErrorMessage2,
-        'ErrorMessage3' => $ErrorMessage3
-     );
+        'RowsNumber'        => $RowsNumber,
+        'ColsNumber'        => $ColsNumber,
+        'MaxLength'         => $MaxLength,
+        'ValueEscaped'      => $ValueEscaped,
+        'DivID'             => $DivID,
+        'ErrorMessage1'     => $ErrorMessage1,
+        'ErrorMessage2'     => $ErrorMessage2,
+        'ErrorMessage3'     => $ErrorMessage3
+    );
 
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{Mandatory} = $Param{Mandatory};
@@ -206,15 +206,15 @@ sub EditFieldRender {
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'      => {
-                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
+            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
+            'Data'     => {
+                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
             }
         );
         my $DivID = $FieldName . 'ServerError';
 
-        $FieldTemplateData{'ServerError'} = $Param{ServerError};
-        $FieldTemplateData{'DivID'} = $DivID;
+        $FieldTemplateData{'ServerError'}  = $Param{ServerError};
+        $FieldTemplateData{'DivID'}        = $DivID;
         $FieldTemplateData{'ErrorMessage'} = $ErrorMessage;
     }
 
@@ -226,15 +226,16 @@ sub EditFieldRender {
     );
 
     my $FieldTemplateFile = '';
-    if($Param{CustomerInterface}) {
+    if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/TextArea';
-    } else {
+    }
+    else {
         $FieldTemplateFile = 'DynamicField/Agent/TextArea';
     }
- 
+
     my $HTMLString = $Param{LayoutObject}->Output(
         TemplateFile => $FieldTemplateFile,
-        Data => \%FieldTemplateData
+        Data         => \%FieldTemplateData
     );
 
     my $Data = {

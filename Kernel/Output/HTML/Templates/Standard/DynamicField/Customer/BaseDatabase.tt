@@ -14,8 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
-
 <input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" title="[% Data.FieldLabel %]" value="[% Data.Value %]" />
 <a href="#" id="DynamicFieldDBDetailedSearch_[% Data.FieldName %]" field="[% Data.FieldName %]" alt="[% Data.DetailedSearchMsg %]" title="[% Data.DetailedSearchMsg %]"><i class="fa fa-search"></i></a>
 <input type="hidden" class="[% Data.FieldClass %]" width="100%" id="[% Data.FieldName %]Data" name="[% Data.FieldName %]" title="[%Data.FieldLabel%]" value="[% Data.Value %]" />
