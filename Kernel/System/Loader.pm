@@ -478,20 +478,18 @@ sub CacheDelete {
     # TODO: delete in S3 when OTOBO_SYNC_WITH_S3 is set
 
     my @Result;
-
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    my $JSCacheFolder       = "$Home/var/httpd/htdocs/js/js-cache";
-    my @SkinTypeDirectories = (
-        "$Home/var/httpd/htdocs/skins/Agent",
-        "$Home/var/httpd/htdocs/skins/Customer",
-    );
-
-    my @CacheFoldersList = ($JSCacheFolder);
+    # for JavaScript there is only one cache folder
+    my @CacheFoldersList = ("$Home/var/httpd/htdocs/js/js-cache");
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Looking for all skin folders that may contain a cache folder
+    my @SkinTypeDirectories = (
+        "$Home/var/httpd/htdocs/skins/Agent",
+        "$Home/var/httpd/htdocs/skins/Customer",
+    );
     for my $Folder (@SkinTypeDirectories) {
         my @List = $MainObject->DirectoryRead(
             Directory => $Folder,
@@ -500,23 +498,27 @@ sub CacheDelete {
 
         FOLDER:
         for my $Folder (@List) {
-            next FOLDER if ( !-d $Folder );
-            my @CacheFolder = $MainObject->DirectoryRead(
+
+            next FOLDER unless -d $Folder;
+
+            # there can be no more than one css-cache subfolder
+            my ($CacheFolder) = $MainObject->DirectoryRead(
                 Directory => $Folder,
                 Filter    => 'css-cache',
             );
-            if ( @CacheFolder && -d $CacheFolder[0] ) {
-                push @CacheFoldersList, $CacheFolder[0];
+
+            if ( $CacheFolder && -d $CacheFolder ) {
+                push @CacheFoldersList, $CacheFolder;
             }
         }
     }
 
     # now go through the cache folders and delete all .js and .css files
-    my @FileTypes    = ( "*.js", "*.css" );
+    my @FileTypes    = ( '*.js', '*.css' );
     my $TotalCounter = 0;
     FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {
-        next FOLDERTODELETE if ( !-d $FolderToDelete );
+        next FOLDERTODELETE unless -d $FolderToDelete;
 
         my @FilesList = $MainObject->DirectoryRead(
             Directory => $FolderToDelete,
