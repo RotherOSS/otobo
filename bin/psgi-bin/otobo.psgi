@@ -305,11 +305,10 @@ my $RedirectOtoboApp = sub {
     return $Res->finalize();
 };
 
-# Server the static files in var/httpd/httpd.
-# Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+# Server the files in var/httpd/httpd.
+# When S3 is supported there is a check whether missing files can be fetched from S3.
 # Access is granted for all.
-# Set the Cache-Control headers as in apache2-httpd.include.conf
-my $StaticApp = builder {
+my $HtdocsApp = builder {
 
     # Cache css-cache for 30 days
     enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Plack::Middleware::Header',
@@ -498,8 +497,9 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
-    # Server the static files in var/httpd/httpd.
-    mount '/otobo-web' => $StaticApp;
+    # Server the files in var/httpd/htdocs.
+    # Loader files, js and css, may be synced from S3 storage.
+    mount '/otobo-web' => $HtdocsApp;
 
     # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
