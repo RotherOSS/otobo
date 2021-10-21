@@ -392,10 +392,13 @@ sub ArticleAttachmentIndexRaw {
 
     # the parameters are passed in the Query-URL
     my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
+
+    # For the params see https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html.
     $URL->query(
         [
-            prefix    => $ArticlePrefix,
-            delimiter => '/'
+            'list-type' => 2,
+            prefix      => $ArticlePrefix,
+            delimiter   => '/'
         ]
     );
 
