@@ -2093,7 +2093,7 @@ sub new {
         # glob would see at least two patterns.
         # Note that the order of file names is deterministic as per default
         # glob sorts in ascending ASCII order.
-        my @Files = glob("$Self->{Home}/Kernel/Config/Files/*.pm");
+        my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
 
         # Resorting the filelist.
         # Modules with 'Ticket' in their name have lower priority.
@@ -2168,8 +2168,8 @@ sub new {
         die;
     }
 
-    # Don't use the MainObject here to parse the RELEASE file
-    if ( open( my $Product, '<', "$Self->{Home}/RELEASE" ) ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+    # Do not use the Kernel::System::Main object here to parse the RELEASE file
+    if ( open my $Product, '<', "$Self->{Home}/RELEASE" ) { ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         while ( my $Line = <$Product> ) {
 
             # filtering of comment lines
@@ -2283,22 +2283,22 @@ sub Translatable {
 sub ConfigChecksum {
     my $Self = shift;
 
-    my @Files = glob( $Self->{Home} . "/Kernel/Config/Files/*.pm" );
+    my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
 
     # Ignore ZZZAAuto.pm, because this is only a cached version of the XML files which
     # will be in the checksum. Otherwise the SysConfig cannot use its cache files.
     @Files = grep { $_ !~ m/ZZZAAuto\.pm$/smx } @Files;
 
-    push @Files, glob( $Self->{Home} . "/Kernel/Config/Files/*.xml" );
-    push @Files, $Self->{Home} . "/Kernel/Config/Defaults.pm";
-    push @Files, $Self->{Home} . "/Kernel/Config.pm";
+    push @Files, glob "$Self->{Home}/Kernel/Config/Files/*.xml";
+    push @Files, "$Self->{Home}/Kernel/Config/Defaults.pm";
+    push @Files, "$Self->{Home}/Kernel/Config.pm";
 
     # Create a string with filenames and file mtimes of the config files
     my $ConfigString;
     for my $File (@Files) {
 
         # get file metadata
-        my $Stat = stat($File);
+        my $Stat = stat $File;
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
