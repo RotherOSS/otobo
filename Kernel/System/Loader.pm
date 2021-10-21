@@ -27,6 +27,10 @@ use utf8;
 # CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
 
@@ -34,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
@@ -104,26 +109,38 @@ sub MinifyFiles {
             Priority => 'error',
             Message  => 'Need List or Content!',
         );
+
         return;
     }
+
+    # find out whether loader files are stored in S3 or in the file system
+    my $S3Backend = $ENV{OTOBO_SYNC_WITH_S3} ? 1 : 0;
+    my $FSBackend = !$S3Backend;
 
     my $TargetDirectory = $Param{TargetDirectory};
-    if ( !-e $TargetDirectory ) {
-        if ( !mkdir( $TargetDirectory, 0775 ) ) {
+    $TargetDirectory =~ s!/$!!;
+
+    # create and check the target directory
+    if ($FSBackend) {
+        if ( !-e $TargetDirectory ) {
+            if ( !mkdir( $TargetDirectory, 0775 ) ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory '$TargetDirectory': $!",
+                );
+
+                return;
+            }
+        }
+
+        if ( !$TargetDirectory || !-d $TargetDirectory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't create directory '$TargetDirectory': $!",
+                Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
             );
+
             return;
         }
-    }
-
-    if ( !$TargetDirectory || !-d $TargetDirectory ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
-        );
-        return;
     }
 
     my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
@@ -176,10 +193,49 @@ sub MinifyFiles {
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
         $Filename .= '.js';
-
     }
 
-    if ( !-r "$TargetDirectory/$Filename" ) {
+    # Check whether the loader file already exists
+    my $LoaderFileExists = 0;
+    if ($FSBackend) {
+        $LoaderFileExists = -r "$TargetDirectory/$Filename";
+    }
+    else {
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket = 'otobo-20211018a';
+
+        # the target directory is below the OTOBO home dir, adapt that to S3
+        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $FilePath = join '/', $TargetDirectory, $Filename;
+        $FilePath =~ s!^$Home!$Bucket/OTOBO!;
+        my $Now = Mojo::Date->new(time)->to_datetime;
+        my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+        my $Transaction = $S3Object->signed_request(
+            method   => 'HEAD',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run blocking request
+        $UserAgent->start($Transaction);
+
+        $LoaderFileExists = 1 if $Transaction->res->is_success;
+    }
+
+    if ( !$LoaderFileExists ) {
 
         # no cache available, so loop through all files, get minified version and concatenate
         LOCATION: for my $Location ( @{$List} ) {
@@ -232,11 +288,56 @@ sub MinifyFiles {
             }
         }
 
-        my $FileLocation = $MainObject->FileWrite(
-            Directory => $TargetDirectory,
-            Filename  => $Filename,
-            Content   => \$Content,
-        );
+        if ($S3Backend) {
+
+            # TODO: AWS region must be set up in Kubernetes config map
+            my $Region = 'eu-central-1';
+
+            # generate Mojo transaction for submitting plain to S3
+            # TODO: AWS bucket must be set up in Kubernetes config map
+            my $Bucket = 'otobo-20211018a';
+
+            # the target directory is below the OTOBO home dir, adapt that to S3
+            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $FilePath = join '/', $TargetDirectory, $Filename;
+            $FilePath =~ s!^$Home!$Bucket/OTOBO!;
+            my $Now = Mojo::Date->new(time)->to_datetime;
+            my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+            # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+            # not sure how this works for Perl strings containing binary data
+            my $ContentCopy = $Content;
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ContentCopy );
+
+            my $UserAgent = Mojo::UserAgent->new();
+            my $S3Object  = Mojo::AWS::S3->new(
+                transactor => $UserAgent->transactor,
+                service    => 's3',
+                region     => $Region,
+                access_key => 'test',
+                secret_key => 'test',
+            );
+            my $Transaction = $S3Object->signed_request(
+                method   => 'PUT',
+                datetime => $Now,
+                url      => $URL,
+                payload  => [$ContentCopy],
+            );
+
+            # run blocking request
+            $UserAgent->start($Transaction);
+        }
+
+        # When using SE the loader file is not written to the file system.
+        # The content will be served from S3 directly
+        else {
+
+            my $FileLocation = $MainObject->FileWrite(
+                Directory => $TargetDirectory,
+                Filename  => $Filename,
+                Content   => \$Content,
+            );
+        }
     }
 
     return $Filename;

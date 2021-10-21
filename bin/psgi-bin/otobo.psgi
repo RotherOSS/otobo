@@ -94,6 +94,9 @@ use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
 use SOAP::Transport::HTTP::Plack;
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 #use Data::Peek; # for development
 
@@ -197,6 +200,60 @@ my $ExactlyRootMiddleware = sub {
 
         if ( $Env->{PATH_INFO} eq '' || $Env->{PATH_INFO} eq '/' ) {
             $Env->{PATH_INFO} = '/index.html';
+        }
+
+        return $App->($Env);
+    };
+};
+
+# With S3 support, loader files are initially stored in S3.
+# Sync them to the local file system so that Plack::App::File can deliver them.
+# Checking the namee is sufficient as the loader files contain a checksum.
+my $SyncFromS3Middleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # We need a path like 'skins/Agent/default/css-cache/CommonCSS_1ecc5b62f0219ea138682633a165f251.css'
+        # Double slashes are not ignored in S3.
+        my $PathBelowHtdocs = $Env->{PATH_INFO};
+        $PathBelowHtdocs =~ s!/$!!;
+        $PathBelowHtdocs =~ s!^/!!;
+        my $FilePath = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
+
+        if ( !-e $FilePath ) {
+
+            # TODO: AWS region must be set up in Kubernetes config map
+            my $Region = 'eu-central-1';
+
+            # generate Mojo transaction for submitting plain to S3
+            # TODO: AWS bucket must be set up in Kubernetes config map
+            my $Bucket = 'otobo-20211018a';
+
+            my $UserAgent = Mojo::UserAgent->new();
+            my $S3Object  = Mojo::AWS::S3->new(
+                transactor => $UserAgent->transactor,
+                service    => 's3',
+                region     => $Region,
+                access_key => 'test',
+                secret_key => 'test',
+            );
+
+            my $S3Key       = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            my $Now         = Mojo::Date->new(time)->to_datetime;
+            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($S3Key);    # run within container
+            my $Transaction = $S3Object->signed_request(
+                method   => 'GET',
+                datetime => $Now,
+                url      => $URL,
+            );
+
+            $UserAgent->start($Transaction);
+
+            # save to the file system
+            # TODO: check success before copying
+            my $Ret = $Transaction->result->save_to($FilePath);
         }
 
         return $App->($Env);
@@ -325,6 +382,18 @@ my $HtdocsApp = builder {
     # Cache js thirdparty for 4 hours
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
+
+    # loader files might have to be synced from S3
+    enable_if {
+        $ENV{OTOBO_SYNC_WITH_S3}
+            &&
+            (
+                $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$}
+                ||
+                $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$}
+            )
+    }
+    $SyncFromS3Middleware;
 
     Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
