@@ -34,6 +34,10 @@ use Exporter qw(import);
 
 # CPAN modules
 use Module::Refresh; # located in Kernel/cpan-lib
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
 
@@ -1950,7 +1954,7 @@ sub new {
     # return on clear level
     if ( $Param{Level} && $Param{Level} eq 'Clear' ) {
 
-        # load config
+        # load config from Kernel/Config.pm
         $Self->Load();
 
         return $Self;
@@ -1959,8 +1963,128 @@ sub new {
     # load defaults
     $Self->LoadDefaults();
 
-    # load config
+    # load config from Kernel/Config.pm
     $Self->Load();
+
+    # when in cluster mode, we must consider that files have changes in S3
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket   = 'otobo-20211018a';
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+
+        # REST request to S3
+        # extract the relevant info from the returned XML
+        my (%FileName2Size, %FileName2LastModified);
+        {
+            # use localstack as host, as we run within container
+            my $URL = Mojo::URL->new
+                ->scheme('https')
+                ->host('localstack:4566')
+                ->path( $Bucket );
+
+            # For the params see https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html.
+            my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files';
+            $URL->query(
+                [
+                    'list-type' => 2,
+                    prefix      => $FilesPrefix,
+                    delimiter   => '/'
+                ]
+            );
+
+            my $Now         = Mojo::Date->new(time)->to_datetime;
+            my $Transaction = $S3Object->signed_request(
+                method   => 'GET',
+                datetime => $Now,
+                url      => $URL,
+            );
+
+            # run blocking request
+            $UserAgent->start($Transaction);
+
+            # look at the Contents nodes in the returned XML
+            $Transaction->res->dom->find('Contents')->map(
+                sub {
+                    my ($ContentNode) = @_;
+
+                    my $Filename = $ContentNode->at('Key')->text;
+
+                    return unless $Filename =~ m/\.pm$/;
+
+                    $FileName2Size{$Filename} = $ContentNode->at('Size')->text;
+
+                    # LastModified is actually the time when the file was uploaded
+                    my $ISO8601 = $ContentNode->at('LastModified')->text;
+                    my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
+                    $FileName2LastModified{$Filename} = $Epoch;
+                }
+            );
+        }
+
+        # check the relant files
+        my @OutdatedZZZFilenames;
+        ZZZFILENAME:
+        for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm) ) {
+            my $ZZZPath = "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+
+            next ZZZFILENAME unless exists $FileName2Size{$ZZZFileName};
+            next ZZZFILENAME unless exists $FileName2LastModified{$ZZZFileName};
+
+            # fetch from S3 when container just started
+            my $Stat = stat $ZZZPath;
+
+            if ( ! $Stat ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+
+            # either size of modified time must have changed
+            if (  $Stat->size ne $FileName2Size{$ZZZFileName} ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+
+            # exact timestamp check
+            if ( $Stat->mtime ne $FileName2Size{$ZZZFileName} ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+        }
+
+        # update from S3
+        for my $ZZZFileName ( @OutdatedZZZFilenames ) {
+            my $FilePath    = join '/', $Bucket, 'Kernel', 'Config', 'Files', $ZZZFileName;
+            my $Now         = Mojo::Date->new(time)->to_datetime;
+            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+            my $Transaction = $Self->{S3Object}->signed_request(
+                method   => 'GET',
+                datetime => $Now,
+                url      => $URL,
+            );
+
+            # run blocking request
+            $Self->{UserAgent}->start($Transaction);
+
+            # Do not use the Kernel::System::Main in Kernel/Config/Defaults
+            $Transaction->result->save_to("$Self->{Home}/Kernel/Config/Files/$ZZZFileName");
+        }
+    }
 
     # load extra config files
     if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
@@ -2068,7 +2192,7 @@ sub new {
         die;
     }
 
-    # load config (again)
+    # load config from Kernel/Config.pm (again)
     $Self->Load();
 
     # do not use ZZZ files
