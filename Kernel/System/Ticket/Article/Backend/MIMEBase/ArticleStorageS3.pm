@@ -595,7 +595,7 @@ sub _ArticlePrefix {
         ArticleID => $ArticleID,
     );
 
-    return join '/', 'OTOBO', 'articles', $ContentPath, $ArticleID, '';
+    return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';
 }
 
 # the final delimiter is part of the prefix
