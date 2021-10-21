@@ -29,6 +29,7 @@ use File::Basename qw(basename);
 # CPAN modules
 use Mojo::UserAgent;
 use Mojo::Date;
+use Mojo::DOM;
 use Mojo::URL;
 use Mojo::Util qw(xml_escape);
 use Mojo::AWS::S3;
@@ -41,7 +42,6 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::XML::Simple',
 );
 
 =head1 NAME
@@ -78,7 +78,7 @@ sub new {
     # make_bucket: otobo-20211010a
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211016e';
+    $Self->{Bucket}         = 'otobo-20211018a';
     $Self->{MetadataPrefix} = 'x-amz-meta-';
     $Self->{UserAgent}      = Mojo::UserAgent->new();
     $Self->{S3Object}       = Mojo::AWS::S3->new(
@@ -170,30 +170,22 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # query all attachments so that they can be deleted
-    my $XML4Delete;
+    # create XML for deleteing all attachments
+    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
+    my $DOM = Mojo::DOM->new->xml(1)->parse('<Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/"/>');
     {
+        # first get info about the objects, plain.txt is already excluded
         my %AttachmentIndex = $Self->ArticleAttachmentIndexRaw(%Param);
+        my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
 
-        my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
-        my @Keys;
         for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-            push @Keys, $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
+            my $Key = $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
+            $DOM->append_content(
+                $DOM->new_tag(
+                    Object => $DOM->new_tag( Key => $Key )
+                )
+            );
         }
-
-        # TODO: proper XML quoting
-        my @ObjectNodes = map {
-            sprintf <<'END_OBJECT_NODE', xml_escape($_) } @Keys;
- <Object>
-    <Key>%s</Key>
- </Object>
-END_OBJECT_NODE
-        $XML4Delete = sprintf <<'END_XML4DELETE', join "\n", @ObjectNodes;
-<Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-%s
-  <Quiet>boolean</Quiet>
-</Delete>
-END_XML4DELETE
     }
 
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
@@ -205,7 +197,7 @@ END_XML4DELETE
         method   => 'POST',
         datetime => $Now,
         url      => $URL,
-        payload  => [$XML4Delete],
+        payload  => [ $DOM->to_string ],
     );
 
     # run blocking request
@@ -419,34 +411,26 @@ sub ArticleAttachmentIndexRaw {
     # the S3 backend does not support storing articles in mixed backends
     # TODO: check success
     # parse the returned XML
-    my $Content         = $Transaction->res->body;
-    my $XMLSimpleObject = $Kernel::OM->Get('Kernel::System::XML::Simple');
-    my $ParsedXML       = $XMLSimpleObject->XMLIn(
-        XMLInput => $Content,
-        Options  => {
-            ForceArray   => 1,
-            ForceContent => 1,
-            ContentKey   => 'Content',
-        },
-    );
-
+    # look at the Contents nodes in the returned XML
     my %Index;
-    if ( ref $ParsedXML eq 'HASH' && $ParsedXML->{Contents} && ref $ParsedXML->{Contents} eq 'ARRAY' ) {
-        my $Counter = 0;
-        OBJECT:
-        for my $Object ( $ParsedXML->{Contents}->@* ) {
-            my $Filename = basename( $Object->{Key}->[0]->{Content} // '' );
+    my $Counter;
+    $Transaction->res->dom->find('Contents')->map(
+        sub {
+            my ($ContentNode) = @_;
+
+            my $Filename = basename( $ContentNode->at('Key')->text // 0 );
 
             # plain.txt is written in ArticleWritePlain() and retrieved in ArticlePlain()
-            next OBJECT if $Filename eq 'plain.txt';
+            return if $Filename eq 'plain.txt';
+
+            my $Size = $ContentNode->at('Size')->text;
 
             $Index{ ++$Counter } = {
-                FilesizeRaw => ( $Object->{Size}->[0]->{Content} // 0 ),
+                FilesizeRaw => ( $Size // 0 ),
                 Filename    => $Filename,
-
             };
         }
-    }
+    );
 
     # The HTTP headers give the metadata for the found keys
     my @Promises;
