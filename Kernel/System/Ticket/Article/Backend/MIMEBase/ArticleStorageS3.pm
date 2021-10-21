@@ -170,19 +170,25 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # create XML for deleteing all attachments
+    # Create XML for deleting all attachments besided 'plain.txt'.
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
-    my $DOM = Mojo::DOM->new->xml(1)->parse('<Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/"/>');
+    my $DOM = Mojo::DOM->new->xml(1);
     {
+        # start with the the toplevel Delete tag
+        $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+
         # first get info about the objects, plain.txt is already excluded
         my %AttachmentIndex = $Self->ArticleAttachmentIndexRaw(%Param);
         my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
 
         for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
+
+            # the key which should be deleted
             my $Key = $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
-            $DOM->append_content(
-                $DOM->new_tag(
-                    Object => $DOM->new_tag( Key => $Key )
+
+            $DOM->at('Delete')->append_content(
+                $DOM->new_tag('Object')->at('Object')->append_content(
+                    $DOM->new_tag( Key => $Key )
                 )
             );
         }
