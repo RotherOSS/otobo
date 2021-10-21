@@ -80,6 +80,7 @@ use lib "$Bin/../../Custom";
 # core modules
 use Data::Dumper;
 use Encode qw(:all);
+use Cwd qw(abs_path);
 
 # CPAN modules
 use DateTime 1.08;
@@ -114,6 +115,9 @@ eval {
 
 # this might improve performance
 CGI->compile(':cgi');
+
+# The OTOBO home is determined from the location of otobo.psgi.
+my $Home = abs_path("$Bin/../..");
 
 ################################################################################
 # Middlewares
@@ -323,7 +327,7 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new( root => "$FindBin::Bin/../../var/httpd/htdocs" )->to_app();
+    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
@@ -517,8 +521,8 @@ builder {
     mount '/otobo/rpc.pl' => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt" )->to_app();
-    mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
+    mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
+    mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
 };
 
 # enable for debugging: dump debugging info, including the PSGI environment, for any request
