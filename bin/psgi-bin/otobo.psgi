@@ -124,7 +124,7 @@ my $Home = abs_path("$Bin/../..");
 ################################################################################
 
 # conditionally enable profiling, UNTESTED
-my $NYTProfMiddleWare = sub {
+my $NYTProfMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -152,7 +152,7 @@ my $NYTProfMiddleWare = sub {
 # This setting is used internally by OTOBO, but also in the CPAN module DBD::mysql.
 # Per default it would enable mysql_auto_reconnect. But acutally mysql_auto_reconnect is not active,
 # as it is explicitly disabled in Kernel::System::DB::mysql.
-my $SetEnvMiddleWare = sub {
+my $SetEnvMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -342,10 +342,10 @@ my $OTOBOApp = builder {
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
     # conditionally enable profiling
-    enable $NYTProfMiddleWare;
+    enable $NYTProfMiddleware;
 
     # set up %ENV
-    enable $SetEnvMiddleWare;
+    enable $SetEnvMiddleware;
 
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
@@ -472,7 +472,7 @@ my $Soap = SOAP::Transport::HTTP::Plack->new();
 my $RPCApp = builder {
 
     # set up %ENV
-    enable $SetEnvMiddleWare;
+    enable $SetEnvMiddleware;
 
     sub {
         my $Env = shift;
