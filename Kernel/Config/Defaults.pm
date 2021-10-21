@@ -2087,7 +2087,7 @@ sub new {
     }
 
     # load extra config files
-    if ( -e "$Self->{Home}/Kernel/Config/Files/" ) {
+    if ( -d "$Self->{Home}/Kernel/Config/Files/" ) {
 
         # It is assumed that $Self->{Home} contains no spaces as otherwise
         # glob would see at least two patterns.
