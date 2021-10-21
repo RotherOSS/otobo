@@ -18,9 +18,17 @@ package Kernel::System::Loader;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -52,8 +60,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'Loader';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -66,6 +73,10 @@ sub new {
 takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
 Uses caching internally.
+
+With S3 support the returned value is a key for an object that is stored in S3.
+
+It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
     my $TargetFilename = $LoaderObject->MinifyFiles(
         List  => [                          # optional,  minify list of files
@@ -463,6 +474,8 @@ Returns a list of deleted files.
 
 sub CacheDelete {
     my ( $Self, %Param ) = @_;
+
+    # TODO: delete in S3 when OTOBO_SYNC_WITH_S3 is set
 
     my @Result;
 
