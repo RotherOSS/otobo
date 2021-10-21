@@ -807,7 +807,7 @@ sub _HandleJSList {
     return unless $Param{List};
 
     my %UsedFiles;
-    my @FileList;
+    my @FilesToBeMinified;
     JSFILE:
     for my $JSFile ( @{ $Param{List} // [] } ) {
 
@@ -815,7 +815,7 @@ sub _HandleJSList {
         next JSFILE if $UsedFiles{$JSFile};
 
         if ( $Param{DoMinify} ) {
-            push @FileList, "$Param{JSHome}/$JSFile";
+            push @FilesToBeMinified, "$Param{JSHome}/$JSFile";
         }
         else {
             $Self->Block(
@@ -831,11 +831,11 @@ sub _HandleJSList {
         $UsedFiles{$JSFile} = 1;
     }
 
-    return 1 unless @FileList;
+    return 1 unless @FilesToBeMinified;
 
     # there are files to minify, let's do it
     my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-        List                 => \@FileList,
+        List                 => \@FilesToBeMinified,
         Type                 => 'JavaScript',
         TargetDirectory      => "$Param{JSHome}/js-cache/",
         TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
