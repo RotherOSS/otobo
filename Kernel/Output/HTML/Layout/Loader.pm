@@ -149,6 +149,7 @@ sub LoaderCreateAgentCSSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
         }
 
@@ -181,8 +182,6 @@ sub LoaderCreateAgentCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -197,9 +196,6 @@ taking a list from the Loader::Agent::CommonJS config item.
 
 sub LoaderCreateAgentJSCalls {
     my ( $Self, %Param ) = @_;
-
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -331,16 +327,14 @@ sub LoaderCreateJavaScriptTemplateData {
     my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
 
     my @TemplateFolders = (
-        "$JSCustomTemplateDir",
-        "$JSCustomStandardTemplateDir",
-        "$JSTemplateDir",
-        "$JSStandardTemplateDir",
+        $JSCustomTemplateDir,
+        $JSCustomStandardTemplateDir,
+        $JSTemplateDir,
+        $JSStandardTemplateDir,
     );
 
     my $JSHome               = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
     my $TargetFilenamePrefix = "TemplateJS";
-
-    my $TemplateChecksum;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -350,7 +344,7 @@ sub LoaderCreateJavaScriptTemplateData {
 
     # Even getting the list of files recursively from the directories is expensive,
     #   so cache the checksum to avoid that.
-    $TemplateChecksum = $CacheObject->Get(
+    my $TemplateChecksum = $CacheObject->Get(
         Type => $CacheType,
         Key  => $CacheKey,
     );
@@ -682,8 +676,6 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -698,9 +690,6 @@ taking a list from the Loader::Customer::CommonJS config item.
 
 sub LoaderCreateCustomerJSCalls {
     my ( $Self, %Param ) = @_;
-
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -752,7 +741,6 @@ sub LoaderCreateCustomerJSCalls {
 
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
     return;
 }
 
@@ -766,14 +754,15 @@ sub _HandleCSSList {
         push @Skins, $Param{Skin};
     }
 
-    #load default css files
+    # load default css files
     for my $Skin (@Skins) {
         my @FileList;
 
         CSSFILE:
         for my $CSSFile ( @{ $Param{List} } ) {
             my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
-            next CSSFILE if ( !-e $SkinFile );
+
+            next CSSFILE unless -e $SkinFile;
 
             if ( $Param{DoMinify} ) {
                 push @FileList, $SkinFile;
@@ -815,18 +804,18 @@ sub _HandleCSSList {
 sub _HandleJSList {
     my ( $Self, %Param ) = @_;
 
-    my $Content = $Param{Content};
-    return if !$Param{List} && !$Content;
+    return unless $Param{List};
 
     my %UsedFiles;
-
-    my @FileList;
+    my @FilesToBeMinified;
     JSFILE:
     for my $JSFile ( @{ $Param{List} // [] } ) {
+
+        # skip duplicates
         next JSFILE if $UsedFiles{$JSFile};
 
         if ( $Param{DoMinify} ) {
-            push @FileList, "$Param{JSHome}/$JSFile";
+            push @FilesToBeMinified, "$Param{JSHome}/$JSFile";
         }
         else {
             $Self->Block(
@@ -842,36 +831,24 @@ sub _HandleJSList {
         $UsedFiles{$JSFile} = 1;
     }
 
-    return 1 if $Param{List} && !@FileList;
+    return 1 unless @FilesToBeMinified;
 
-    if ( $Param{DoMinify} ) {
-        my $MinifiedFile;
+    # there are files to minify, let's do it
+    my $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
+        List                 => \@FilesToBeMinified,
+        Type                 => 'JavaScript',
+        TargetDirectory      => "$Param{JSHome}/js-cache/",
+        TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
+    );
 
-        if (@FileList) {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                List                 => \@FileList,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
-        else {
-            $MinifiedFile = $Kernel::OM->Get('Kernel::System::Loader')->MinifyFiles(
-                Content              => $Content,
-                Type                 => 'JavaScript',
-                TargetDirectory      => "$Param{JSHome}/js-cache/",
-                TargetFilenamePrefix => $Param{FilenamePrefix} // $Param{BlockName},
-            );
-        }
+    $Self->Block(
+        Name => $Param{BlockName},
+        Data => {
+            JSDirectory => 'js-cache/',
+            Filename    => $MinifiedFile,
+        },
+    );
 
-        $Self->Block(
-            Name => $Param{BlockName},
-            Data => {
-                JSDirectory => 'js-cache/',
-                Filename    => $MinifiedFile,
-            },
-        );
-    }
     return 1;
 }
 

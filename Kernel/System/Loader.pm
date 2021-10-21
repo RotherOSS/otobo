@@ -238,9 +238,10 @@ sub MinifyFiles {
     if ( !$LoaderFileExists ) {
 
         # no cache available, so loop through all files, get minified version and concatenate
-        LOCATION: for my $Location ( @{$List} ) {
+        LOCATION:
+        for my $Location ( $List->@* ) {
 
-            next LOCATION if ( !-r $Location );
+            next LOCATION unless -r $Location;
 
             # cut out the system specific parts for the comments (for easier testing)
             # for now, only keep filename
