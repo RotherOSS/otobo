@@ -361,12 +361,12 @@ EOF
     if ( $Param{ServerError} ) {
 
         my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'      => {
-                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
+            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
+            'Data'     => {
+                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
             }
         );
-        my $DivID        = $FieldName . 'ServerError';
+        my $DivID = $FieldName . 'ServerError';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
 
