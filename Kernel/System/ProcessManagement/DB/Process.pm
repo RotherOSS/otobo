@@ -1004,11 +1004,10 @@ sub ProcessSearch {
 =head2 ProcessDump()
 
 gets a complete processes information dump from the DB including: Process State, Activities,
-ActivityDialogs, Transitions and TransitionActions
+ActivityDialogs, Transitions and TransitionActions.
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1119,7 +1118,6 @@ Returns:
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'HASH'                       # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1229,13 +1227,18 @@ Returns:
     }
 
     my $ProcessDump = $ProcessObject->ProcessDump(
-        ResultType  => 'Location'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'     # mandatory for ResultType = 'FILE'
+        ResultType  => 'FILE'                                                    # 'SCALAR' || 'HASH' || 'FILE'
+        Location    => '/opt/otobo/Kernel/Config/Files/ZZZProcessManagement.pm', # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
 Returns:
-    $ProcessDump = '/opt/otobo/var/myfile.txt';      # or undef if can't write the file
+
+    $ProcessDump = '/opt/otobo/Kernel/Config/Files/ZZZProcessManagement.pm';     # or undef if can't write the file
+
+or, when S3 is active
+
+    $ProcessDump = 'my_bucket/OTOBO/Kernel/Config/Files/ZZZProcessManagement.pm'; # or undef if can't write to S3
 
 =cut
 
