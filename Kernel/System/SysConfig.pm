@@ -3705,8 +3705,14 @@ sub ConfigurationDeploy {
 
         # run blocking request
         $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        $Result{Success} = $Transaction->result->is_success;
+
+        return %Result;
     }
 
+    # S3 is not active, writing Perl module into the file system
     $Result{Success} = $Self->_FileWriteAtomic(
         Filename => "$Self->{Home}/$TargetPath",
         Content  => \$EffectiveValueStrg,

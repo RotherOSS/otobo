@@ -835,13 +835,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
+        ResultType  => 'FILE'                        # only 'FILE' is supported
         Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
 Returns:
+
     $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+
+or in case of S3 support
+
+    $ACLDump = 'my_bucket/OTOBO/var/myfile.txt';     # or undef if can't write to S3
 
 =cut
 
@@ -857,9 +862,8 @@ sub ACLDump {
         return;
     }
 
-    if ( !defined $Param{ResultType} ) {
-        $Param{ResultType} = 'FILE';
-    }
+    # get defaults
+    $Param{ResultType} //= 'FILE';
 
     if ( $Param{ResultType} eq 'FILE' ) {
         if ( !$Param{Location} ) {
@@ -1003,9 +1007,12 @@ EOF
 
         # run blocking request
         $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        return $FilePath;
     }
 
-    my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
         Content  => \$Output,
         Mode     => 'utf8',
@@ -1015,8 +1022,6 @@ EOF
     # update preselection cache
     #my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
     #$FieldRestrictionsObject->SetACLPreselectionCache();
-
-    return $FileLocation;
 }
 
 =head2 ACLImport()
