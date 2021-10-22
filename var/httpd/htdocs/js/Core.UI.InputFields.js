@@ -278,12 +278,16 @@ Core.UI.InputFields = (function (TargetNS) {
         if ( Config.CustomerInterface ) {
 
             // for the customer interface
-            $('fieldset > .Row').each( function() {
+            $('fieldset > .Row, .RichTextHolder').each( function() {
                 var Label = $(this).children('label').first();
                 var Checkbox = $('.Field > input[type=checkbox]', this);
                 var Select = $('.Field > select', this);
                 var Textarea = $('.Field > textarea', this);
                 var TextInput = $('input[type="text"]', this);
+
+                if(Textarea.length === 0) {
+                    Textarea = $('textarea', this);
+                }
 
                 // move labels for checkboxes
                 if ( Checkbox.length > 0 && Select.length === 0 ) {
