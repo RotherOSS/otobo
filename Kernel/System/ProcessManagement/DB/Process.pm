@@ -18,7 +18,17 @@ package Kernel::System::ProcessManagement::DB::Process;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
+
+# OTOBO modules
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -34,6 +44,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::User',
@@ -1454,7 +1465,43 @@ EOF
 1;
 EOF
 
-            $Output = $FileStart . $Output . $FileEnd;
+            my $Output = $FileStart . $Output . $FileEnd;
+
+            if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+
+                # TODO: AWS region must be set up in Kubernetes config map
+                my $Region = 'eu-central-1';
+
+                # generate Mojo transaction for submitting plain to S3
+                # TODO: AWS bucket must be set up in Kubernetes config map
+                my $Bucket   = 'otobo-20211018a';
+                my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
+                my $Now      = Mojo::Date->new(time)->to_datetime;
+                my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+                # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+                # not sure how this works for Perl strings containing binary data
+                my $Content = $Output;
+                $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
+
+                my $UserAgent = Mojo::UserAgent->new();
+                my $S3Object  = Mojo::AWS::S3->new(
+                    transactor => $UserAgent->transactor,
+                    service    => 's3',
+                    region     => $Region,
+                    access_key => 'test',
+                    secret_key => 'test',
+                );
+                my $Transaction = $S3Object->signed_request(
+                    method   => 'PUT',
+                    datetime => $Now,
+                    url      => $URL,
+                    payload  => [$Content],
+                );
+
+                # run blocking request
+                $UserAgent->start($Transaction);
+            }
 
             my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
                 Location => $Param{Location},

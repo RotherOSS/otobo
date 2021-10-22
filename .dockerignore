@@ -31,6 +31,8 @@
 !Kernel
 !scripts
 !var
+var/httpd/htdocs/skins/Agent/*/css-cache/*
+var/httpd/htdocs/js/js-cache/*
 
 # The dot files in the subdirectories are kept kept per default.
 # The not wanted dot files are listed here explicitly.
