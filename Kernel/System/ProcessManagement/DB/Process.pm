@@ -1253,18 +1253,15 @@ sub ProcessDump {
         return;
     }
 
-    if ( !defined $Param{ResultType} )
-    {
-        $Param{ResultType} = 'SCALAR';
-    }
+    # default valuse
+    my $ResultType = $Param{ResultType} // 'SCALAR';
 
-    if ( $Param{ResultType} eq 'FILE' ) {
+    if ( $ResultType eq 'FILE' ) {
         if ( !$Param{Location} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need Location for ResultType \'FILE\'!',
             );
-
         }
     }
 
@@ -1383,7 +1380,7 @@ sub ProcessDump {
     );
 
     # return Hash useful for JSON
-    if ( $Param{ResultType} eq 'HASH' ) {
+    if ( $ResultType eq 'HASH' ) {
 
         return {
             'Process'          => \%ProcessDump,
@@ -1429,14 +1426,8 @@ sub ProcessDump {
             Value => \%TransitionActionDump,
         );
 
-        # return a scalar variable with all config as test
-        if ( $Param{ResultType} ne 'FILE' ) {
-
-            return $Output;
-        }
-
-        # return a file location
-        else {
+    # $ResultType = 'SCALAR': return a scalar variable with all config as test
+    return $Output unless $ResultType eq 'FILE';
 
             # build comment (therefore we need to trick out the filter)
             my $FileStart = <<'EOF';
