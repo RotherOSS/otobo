@@ -1484,6 +1484,9 @@ EOF
 
                 # run blocking request
                 $UserAgent->start($Transaction);
+
+                # only write to S3, no extra copy in the file system
+                return $FilePath;
             }
 
             my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
