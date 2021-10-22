@@ -835,13 +835,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
+        ResultType  => 'FILE'                        # only 'FILE' is supported
         Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
 Returns:
+
     $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+
+or in case of S3 support
+
+    $ACLDump = 'my_bucket/OTOBO/var/myfile.txt';     # or undef if can't write to S3
 
 =cut
 
@@ -857,9 +862,8 @@ sub ACLDump {
         return;
     }
 
-    if ( !defined $Param{ResultType} ) {
-        $Param{ResultType} = 'FILE';
-    }
+    # get defaults
+    $Param{ResultType} //= 'FILE';
 
     if ( $Param{ResultType} eq 'FILE' ) {
         if ( !$Param{Location} ) {
