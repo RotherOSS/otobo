@@ -253,6 +253,7 @@ sub Start {
     };
 
     # Linux::Inotify2 is not yet required. Therefore it might not be available.
+    # Note: it is not sure whether reloading the config has any effect when %DaemonModules is not updated.
     my $LinuxInotify2IsAvailable = eval {
         require Linux::Inotify2;
         Linux::Inotify2->import();
