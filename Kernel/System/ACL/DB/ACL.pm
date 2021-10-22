@@ -1007,9 +1007,12 @@ EOF
 
         # run blocking request
         $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        return $FilePath;
     }
 
-    my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
         Content  => \$Output,
         Mode     => 'utf8',
@@ -1019,8 +1022,6 @@ EOF
     # update preselection cache
     #my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
     #$FieldRestrictionsObject->SetACLPreselectionCache();
-
-    return $FileLocation;
 }
 
 =head2 ACLImport()
