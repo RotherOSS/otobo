@@ -253,6 +253,7 @@ sub Start {
     };
 
     # Linux::Inotify2 is not yet required. Therefore it might not be available.
+    # Note: it is not sure whether reloading the config has any effect when %DaemonModules is not updated.
     my $LinuxInotify2IsAvailable = eval {
         require Linux::Inotify2;
         Linux::Inotify2->import();
@@ -260,7 +261,7 @@ sub Start {
         return 1;
     };
 
-    # Watch the Config files for modifications and force a reload of the Config.
+    # Watch config files for modifications and force a reload of the config.
     if ($LinuxInotify2IsAvailable) {
 
         my $Inotify  = Linux::Inotify2->new() || die "unable to create new inotify object: $!";
@@ -277,7 +278,7 @@ sub Start {
 
         for my $ConfigFile (
             "$Home/Kernel/Config.pm",
-            map {"$Home/Kernel/$_.pm"} qw(ZZZAuto ZZZAAuto ZZZACL ZZZProcessManagement)
+            map {"$Home/Kernel/$_.pm"} qw(ZZZAAuto ZZZACL ZZZProcessManagement)
             )
         {
             $Inotify->watch( $ConfigFile, Linux::Inotify2::IN_MODIFY(), $Callback );
