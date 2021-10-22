@@ -288,9 +288,6 @@ feature 'optional', 'Suppport for optional' => sub {
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
 
-    # Set environment variables
-    requires 'Plack::Middleware::Rewrite';
-
     # PSGI SOAP adapter
     requires 'SOAP::Transport::HTTP::Plack';
 
@@ -393,9 +390,6 @@ feature 'plack', 'Required packages if you want to use PSGI/Plack (experimental 
 
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
-
-    # Set environment variables
-    requires 'Plack::Middleware::Rewrite';
 
     # PSGI SOAP adapter
     requires 'SOAP::Transport::HTTP::Plack';
