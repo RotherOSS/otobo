@@ -601,14 +601,14 @@ sub _ArticlePrefix {
         ArticleID => $ArticleID,
     );
 
-    return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';
+    return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';    # with trailing slash
 }
 
 # the final delimiter is part of the prefix
 sub _FilePath {
     my ( $Self, $ArticleID, $File ) = @_;
 
-    return join( '/', $Self->{Bucket}, $Self->_ArticlePrefix($ArticleID) ) . $File;
+    return join '/', $Self->{Bucket}, ( $Self->_ArticlePrefix($ArticleID) . $File );    # _ArticlePrefix() already has a trailing '/'
 }
 
 1;
