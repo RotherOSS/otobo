@@ -1392,11 +1392,11 @@ sub ProcessDump {
         };
 
     }
-    else {
 
-        # create output
-
-        my $Output = $Self->_ProcessItemOutput(
+    # create output as Perl code that creates a Perl data structure
+    my $Output = '';
+    {
+        $Output .= $Self->_ProcessItemOutput(
             Key   => "Process",
             Value => \%ProcessDump,
         );
@@ -1425,12 +1425,17 @@ sub ProcessDump {
             Key   => 'Process::TransitionAction',
             Value => \%TransitionActionDump,
         );
+    }
 
     # $ResultType = 'SCALAR': return a scalar variable with all config as test
     return $Output unless $ResultType eq 'FILE';
 
-            # build comment (therefore we need to trick out the filter)
-            my $FileStart = <<'EOF';
+    # Save as a complete Perl module and save either to file or to S3.
+    # Return a location. The location is either a file name or a S3 key.
+    my $PMFileOutput = '';
+    {
+        # build comment (therefore we need to trick out the filter)
+        $PMFileOutput .= <<'EOF';
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZProcessManagement;
@@ -1442,63 +1447,63 @@ sub Load {
     my ($File, $Self) = @_;
 EOF
 
-            my $FileEnd = <<'EOF';
+        # the actually interesting data
+        $PMFileOutput .= $Output;
+
+        # finish the Perl module
+        $PMFileOutput .= <<'EOF';
     return;
 }
 1;
 EOF
-
-            my $Output = $FileStart . $Output . $FileEnd;
-
-            if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-
-                # TODO: AWS region must be set up in Kubernetes config map
-                my $Region = 'eu-central-1';
-
-                # generate Mojo transaction for submitting plain to S3
-                # TODO: AWS bucket must be set up in Kubernetes config map
-                my $Bucket   = 'otobo-20211018a';
-                my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
-                my $Now      = Mojo::Date->new(time)->to_datetime;
-                my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-
-                # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-                # not sure how this works for Perl strings containing binary data
-                my $Content = $Output;
-                $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-
-                my $UserAgent = Mojo::UserAgent->new();
-                my $S3Object  = Mojo::AWS::S3->new(
-                    transactor => $UserAgent->transactor,
-                    service    => 's3',
-                    region     => $Region,
-                    access_key => 'test',
-                    secret_key => 'test',
-                );
-                my $Transaction = $S3Object->signed_request(
-                    method   => 'PUT',
-                    datetime => $Now,
-                    url      => $URL,
-                    payload  => [$Content],
-                );
-
-                # run blocking request
-                $UserAgent->start($Transaction);
-
-                # only write to S3, no extra copy in the file system
-                return $FilePath;
-            }
-
-            my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-                Location => $Param{Location},
-                Content  => \$Output,
-                Mode     => 'utf8',
-                Type     => 'Local',
-            );
-
-            return $FileLocation;
-        }
     }
+
+    # store Perl module in S3 when S3 is active
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket   = 'otobo-20211018a';
+        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
+        my $Now      = Mojo::Date->new(time)->to_datetime;
+        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+        # not sure how this works for Perl strings containing binary data
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$PMFileOutput );
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+        my $Transaction = $S3Object->signed_request(
+            method   => 'PUT',
+            datetime => $Now,
+            url      => $URL,
+            payload  => [$PMFileOutput],
+        );
+
+        # run blocking request
+        $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        return $FilePath;
+    }
+
+    # S3 is not active, writing Perl module into the file system
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+        Location => $Param{Location},
+        Content  => \$PMFileOutput,
+        Mode     => 'utf8',
+        Type     => 'Local',
+    );
 }
 
 =head2 ProcessImport()
