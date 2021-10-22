@@ -893,17 +893,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Plack::Middleware::Rewrite',
-        Required  => 1,
-        Comment   => 'Set environment variables',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'SOAP::Transport::HTTP::Plack',
         Required  => 1,
         Comment   => 'PSGI SOAP adapter',

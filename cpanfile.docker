@@ -89,9 +89,6 @@ requires 'Plack::Middleware::Refresh';
 # Twist some HTTP variables so that the reverse proxy is transparent
 requires 'Plack::Middleware::ReverseProxy';
 
-# Set environment variables
-requires 'Plack::Middleware::Rewrite';
-
 # PSGI SOAP adapter
 requires 'SOAP::Transport::HTTP::Plack';
 
