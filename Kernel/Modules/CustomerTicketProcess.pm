@@ -66,11 +66,11 @@ sub Run {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     my $TicketID               = $ParamObject->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
+    my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
     my $ActivityDialogHashRef;
 
     # get needed objects
-    my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject         = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
 
@@ -1213,10 +1213,10 @@ sub _OutputActivityDialog {
     my $MainBoxClass;
 
     if ( !$Self->{IsMainWindow} ) {
-        $Output = $LayoutObject->CustomerHeader(
-            Type  => 'Small',
-            Value => $Ticket{Number},
-        );
+        #$Output = $LayoutObject->CustomerHeader(
+        #    Type  => 'Small',
+        #    Value => $Ticket{Number},
+        #);
 
         # display given notify messages if this is not an AJAX request
         if ( IsArrayRefWithData( $Param{Notify} ) ) {
@@ -1275,8 +1275,8 @@ sub _OutputActivityDialog {
         }
 
         # display complete header and nav bar in ajax dialogs when there is a server error
-        $Output = $LayoutObject->CustomerHeader();
-        $Output .= $LayoutObject->CustomerNavigationBar();
+        #$Output = $LayoutObject->CustomerHeader();
+        #$Output .= $LayoutObject->CustomerNavigationBar();
 
         # display original header texts (the process list maybe is not necessary)
         $Output .= $LayoutObject->Output(
@@ -4022,8 +4022,8 @@ sub _DisplayProcessList {
             FormID => $Self->{FormID},
         },
     );
-    my $Output = $LayoutObject->CustomerHeader();
-    $Output .= $LayoutObject->CustomerNavigationBar();
+    #my $Output = $LayoutObject->CustomerHeader();
+    #$Output .= $LayoutObject->CustomerNavigationBar();
 
     $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketProcess',
@@ -4038,7 +4038,7 @@ sub _DisplayProcessList {
     # this options in the footer again
     $LayoutObject->{HasDatepicker} = 1;
 
-    $Output .= $LayoutObject->CustomerFooter();
+    #$Output .= $LayoutObject->CustomerFooter();
 
     return $Output;
 }

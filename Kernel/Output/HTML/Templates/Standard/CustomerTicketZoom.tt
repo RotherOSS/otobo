@@ -43,6 +43,11 @@
         <ul id='oooArticleList'>
         </ul>
         <ul id='oooArticleListExpanded'>
+[% RenderBlockStart("ProcessActivity") %]
+            <li id="Process" class="">
+                [% Data.ActivityHTML %]
+            </li>
+[% RenderBlockEnd("ProcessActivity") %]
 [% RenderBlockStart("FollowUp") %]
 <li id="FollowUp" class="[% Data.FollowUpVisible | html %]">
     <form action="[% Env("CGIHandle") %]#FollowUp" method="post" enctype="multipart/form-data" name="compose" id="ReplyCustomerTicket" class="Validate PreventMultipleSubmits">

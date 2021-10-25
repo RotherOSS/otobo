@@ -1701,6 +1701,13 @@ sub _Mask {
                 $NextActivityDialogs = {};
             }
 
+            my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
+                %{ $Self },
+                Action    => 'CustomerTicketProcess',
+                Subaction => 'DisplayActivityDialog',
+                ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+            );
+
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
@@ -1772,6 +1779,16 @@ sub _Mask {
                         Name                   => $ActivityDialogData->{Name},
                         ProcessEntityID        => $Param{$ProcessEntityIDField},
                         TicketID               => $Param{TicketID},
+                    },
+                );
+
+                my $ActivityHTML = $ProcessModule->Run(
+                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                );
+                $LayoutObject->Block(
+                    Name => 'ProcessActivity',
+                    Data => {
+                        ActivityHTML => $ActivityHTML,
                     },
                 );
             }
