@@ -176,7 +176,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID ToolTipValue
         )
         )
     {
@@ -254,6 +254,7 @@ sub _AddAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
+        ToolTipValue             => $GetParam{ToolTipValue},
     };
 
     # Create a new field.
@@ -453,7 +454,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID ToolTipValue
         )
         )
     {
@@ -562,6 +563,7 @@ sub _ChangeAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
+        ToolTipValue             => $GetParam{ToolTipValue},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -809,6 +811,18 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -873,6 +887,7 @@ sub _ShowScreen {
             ValueCounter           => $ValueCounter,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
+            ToolTipValue           => $ToolTipValue,
         },
     );
 

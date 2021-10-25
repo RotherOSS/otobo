@@ -178,7 +178,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID
+            TranslatableValues ValidID ToolTipValue
         )
         )
     {
@@ -245,6 +245,7 @@ sub _AddAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
+        ToolTipValue       => $GetParam{ToolTipValue},
     };
 
     # create a new field
@@ -451,7 +452,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID
+            TranslatableValues ValidID ToolTipValue
         )
         )
     {
@@ -544,6 +545,7 @@ sub _ChangeAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
+        ToolTipValue       => $GetParam{ToolTipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -842,6 +844,18 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{Config}->{ToolTipValue} ? $Param{Config}->{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -911,6 +925,7 @@ sub _ShowScreen {
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
+            ToolTipValue           => $ToolTipValue,
         }
     );
 

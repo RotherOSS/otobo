@@ -171,7 +171,7 @@ sub _AddAction {
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
             DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive
+            SID Driver ResultLimit CaseSensitive ToolTipValue
         )
         )
     {
@@ -229,6 +229,7 @@ sub _AddAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
+        ToolTipValue   => $GetParam{ToolTipValue},
     };
 
     # Create a new field.
@@ -415,7 +416,7 @@ sub _ChangeAction {
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
             DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive
+            SID Driver ResultLimit CaseSensitive ToolTipValue
         )
         )
     {
@@ -503,6 +504,7 @@ sub _ChangeAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
+        ToolTipValue   => $GetParam{ToolTipValue},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -917,6 +919,18 @@ sub _ShowScreen {
         Translation  => 0,
     );
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -982,6 +996,7 @@ sub _ShowScreen {
             DefaultValue          => $DefaultValue,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
+            ToolTipValue          => $ToolTipValue,
         }
     );
 

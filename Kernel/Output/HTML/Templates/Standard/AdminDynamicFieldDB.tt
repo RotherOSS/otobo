@@ -94,6 +94,13 @@
                                 </div>
                                 <div class="Clear"></div>
 
+				<label for="ToolTip">[% Translate("Tooltip message:") | html %]</label>
+				<div class="Field">
+				    <textarea id="ToolTipValue" class="W50pc" rows="10" cols="60" name="ToolTipValue">[% Data.ToolTipValue | html %]</textarea>
+				    <p class="FieldExplanation">[% Translate("This is the tooltip message shown inside the customer interface.") | html %]</p>
+				</div>
+				<div class="Clear"></div>
+
                                 <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> [% Translate("Field order") | html %]:</label>
                                 <div class="Field">
                                     [% Data.DynamicFieldOrderStrg %]

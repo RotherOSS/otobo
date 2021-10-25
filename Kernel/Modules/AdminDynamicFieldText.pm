@@ -167,7 +167,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview ToolTipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -203,6 +203,7 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
+        ToolTipValue => $GetParam{ToolTipValue},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -397,7 +398,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview ToolTipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -484,6 +485,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
+        ToolTipValue => $GetParam{ToolTipValue},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -689,6 +691,18 @@ sub _ShowScreen {
         );
     }
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -824,6 +838,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
+            ToolTipValue          => $ToolTipValue,
         }
     );
 

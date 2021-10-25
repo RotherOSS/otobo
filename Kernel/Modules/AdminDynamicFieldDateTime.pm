@@ -180,7 +180,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview ToolTipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -214,6 +214,7 @@ sub _AddAction {
         YearsInPast     => $GetParam{YearsInPast},
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
+        ToolTipValue    => $GetParam{ToolTipValue},
     };
 
     # create a new field
@@ -425,7 +426,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview ToolTipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -486,6 +487,7 @@ sub _ChangeAction {
         YearsInPast     => $GetParam{YearsInPast},
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
+        ToolTipValue    => $GetParam{ToolTipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -696,6 +698,18 @@ sub _ShowScreen {
         $ClassYearsPeriod = '';
     }
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -768,6 +782,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
+            ToolTipValue          => $ToolTipValue,
         }
     );
 

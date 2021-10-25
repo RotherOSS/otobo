@@ -164,7 +164,7 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID ToolTipValue))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -191,6 +191,7 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
+        ToolTipValue => $GetParam{ToolTipValue},
     };
 
     # create a new field
@@ -373,7 +374,7 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID ToolTipValue))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -427,6 +428,7 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
+        ToolTipValue => $GetParam{ToolTipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -594,6 +596,18 @@ sub _ShowScreen {
         Class        => 'Modernize',
     );
 
+    # define tooltip
+    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'ToolTipValue',
+        Data => {
+            %Param,
+            ToolTipValue => $ToolTipValue,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -659,6 +673,7 @@ sub _ShowScreen {
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValueStrg      => $DefaultValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
+            ToolTipValue          => $ToolTipValue,
         }
     );
 
