@@ -93,7 +93,6 @@ use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
-use SOAP::Transport::HTTP::Plack;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
@@ -531,26 +530,6 @@ my $OTOBOApp = builder {
     };
 };
 
-# Port of rpc.pl
-# See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
-# TODO: this is not tested yet.
-# TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $Soap = SOAP::Transport::HTTP::Plack->new();
-
-my $RPCApp = builder {
-
-    # set up %ENV
-    enable $SetEnvMiddleware;
-
-    sub {
-        my $Env = shift;
-
-        return $Soap->dispatch_to(
-            'OTOBO::RPC'
-        )->handler( Plack::Request->new($Env) );
-    };
-};
-
 ################################################################################
 # finally, the complete PSGI application itself
 ################################################################################
@@ -585,9 +564,6 @@ builder {
     mount '/otobo/migration.pl'            => $OTOBOApp;
     mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
     mount '/otobo/public.pl'               => $OTOBOApp;
-
-    # some SOAP stuff
-    mount '/otobo/rpc.pl' => $RPCApp;
 
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
