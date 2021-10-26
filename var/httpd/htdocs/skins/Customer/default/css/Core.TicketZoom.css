@@ -234,10 +234,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         grid-row-gap: 0px;
     }
 
-    #Activities {
+    #ProcessActivities {
         grid-area: 1 / 1 / 2 / 3;
-        padding: 0;
-        margin: 0;
     }
     
     #oooArticleList {
@@ -443,6 +441,22 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .MessageHeader > span.label:not(:first-of-type) {
     margin-left: 4px;
+}
+
+/* Processes */
+
+#ProcessActivities {
+    padding: 0;
+    margin: 0;
+}
+
+#NextActivities {
+    padding-bottom: 24px;
+    text-align: right;
+}
+
+#NextActivities > button {
+    margin-left: 16px;
 }
 
 /* Follow Up */

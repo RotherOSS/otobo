@@ -40,13 +40,15 @@
         </div>
     </div>
     <div id='oooMainBox' class="Content">
-#[% RenderBlockStart("NextActivities") %]
-        <div id="Activities">
+        <div id="ProcessActivities">
+[% RenderBlockStart("NextActivities") %]
+            <div id="NextActivities">
 [% RenderBlockStart("ActivityDialog") %]
-            <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]">[% Data.Name | html %]</button>
+                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM">[% Data.Name | html %]</button>
 [% RenderBlockEnd("ActivityDialog") %]
+            </div>
+[% RenderBlockEnd("NextActivities") %]
         </div>
-#[% RenderBlockEnd("NextActivities") %]
         <ul id='oooArticleList'>
         </ul>
         <ul id='oooArticleListExpanded'>
