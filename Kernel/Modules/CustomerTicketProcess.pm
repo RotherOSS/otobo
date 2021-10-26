@@ -65,7 +65,7 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $TicketID               = $ParamObject->GetParam( Param => 'TicketID' );
+    my $TicketID               = $Self->{TicketID} || $ParamObject->GetParam( Param => 'TicketID' );
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
     my $ActivityDialogHashRef;
 
@@ -201,7 +201,7 @@ sub Run {
         Interface    => [ 'AgentInterface', 'CustomerInterface' ],
     );
 
-    my $ProcessEntityID = $ParamObject->GetParam( Param => 'ProcessEntityID' );
+    my $ProcessEntityID = $Param{ProcessEntityID} || $ParamObject->GetParam( Param => 'ProcessEntityID' );
 
     if ( !IsHashRefWithData($ProcessList) && !IsHashRefWithData($FollowupProcessList) ) {
         return $LayoutObject->CustomerErrorScreen(
@@ -310,7 +310,9 @@ sub Run {
     # - Parameter checking before storing
     # - will be used for ACL checking later on
     my $GetParam = $Self->_GetParam(
-        ProcessEntityID => $ProcessEntityID,
+        ProcessEntityID        => $ProcessEntityID,
+        TicketID               => $TicketID,
+        ActivityDialogEntityID => $ActivityDialogEntityID,
     );
 
     if ( $Self->{Subaction} eq 'StoreActivityDialog' && $ProcessEntityID ) {
@@ -744,8 +746,8 @@ sub _GetParam {
     my %GetParam;
     my %Ticket;
     my $ProcessEntityID        = $Param{ProcessEntityID};
-    my $TicketID               = $ParamObject->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID = $ParamObject->GetParam(
+    my $TicketID               = $Param{TicketID} || $ParamObject->GetParam( Param => 'TicketID' );
+    my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam(
         Param => 'ActivityDialogEntityID',
     );
     my $ActivityEntityID;
@@ -4025,7 +4027,7 @@ sub _DisplayProcessList {
     #my $Output = $LayoutObject->CustomerHeader();
     #$Output .= $LayoutObject->CustomerNavigationBar();
 
-    $Output .= $LayoutObject->Output(
+    my $Output .= $LayoutObject->Output(
         TemplateFile => 'CustomerTicketProcess',
         Data         => {
             FormID => $Self->{FormID},

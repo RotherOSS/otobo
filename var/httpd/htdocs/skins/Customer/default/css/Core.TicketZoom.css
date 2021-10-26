@@ -230,6 +230,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: grid;
         grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
+        grid-template-rows: auto auto;
+        grid-row-gap: 0px;
+    }
+
+    #Activities {
+        grid-area: 1 / 1 / 2 / 3;
+        padding: 0;
+        margin: 0;
     }
     
     #oooArticleList {

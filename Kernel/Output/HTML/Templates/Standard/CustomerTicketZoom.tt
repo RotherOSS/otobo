@@ -40,11 +40,18 @@
         </div>
     </div>
     <div id='oooMainBox' class="Content">
+#[% RenderBlockStart("NextActivities") %]
+        <div id="Activities">
+[% RenderBlockStart("ActivityDialog") %]
+            <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]">[% Data.Name | html %]</button>
+[% RenderBlockEnd("ActivityDialog") %]
+        </div>
+#[% RenderBlockEnd("NextActivities") %]
         <ul id='oooArticleList'>
         </ul>
         <ul id='oooArticleListExpanded'>
 [% RenderBlockStart("ProcessActivity") %]
-            <li id="Process" class="">
+            <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="">
                 [% Data.ActivityHTML %]
             </li>
 [% RenderBlockEnd("ProcessActivity") %]

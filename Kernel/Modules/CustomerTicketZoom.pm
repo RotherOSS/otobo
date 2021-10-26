@@ -1701,6 +1701,7 @@ sub _Mask {
                 $NextActivityDialogs = {};
             }
 
+            $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
             my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
                 %{ $Self },
                 Action    => 'CustomerTicketProcess',
@@ -1784,6 +1785,7 @@ sub _Mask {
 
                 my $ActivityHTML = $ProcessModule->Run(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                    ProcessEntityID        => $Param{$ProcessEntityIDField},
                 );
                 $LayoutObject->Block(
                     Name => 'ProcessActivity',
