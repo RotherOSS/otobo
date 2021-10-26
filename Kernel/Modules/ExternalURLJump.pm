@@ -52,9 +52,9 @@ sub Run {
     my @URLSets = ( $NavAgent && $NavAgent->{ExternalURLJump} ) ? ( values %{ $NavAgent->{ExternalURLJump} } ) : ();
     push @URLSets, ( $NavCustomer && $NavCustomer->{ExternalURLJump} ) ? ( values %{ $NavCustomer->{ExternalURLJump} } ) : ();
 
-    for my $Set ( @URLSets ) {
+    for my $Set (@URLSets) {
         LINK:
-        for my $Links ( @{ $Set } ) {
+        for my $Links ( @{$Set} ) {
             next LINK if $Links->{Link} !~ /$ExtURL/;
 
             return $LayoutObject->Redirect( ExtURL => $ExtURL );

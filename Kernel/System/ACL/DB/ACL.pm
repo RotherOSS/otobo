@@ -18,7 +18,17 @@ package Kernel::System::ACL::DB::ACL;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
@@ -26,6 +36,7 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
     'Kernel::System::User',
@@ -824,13 +835,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
+        ResultType  => 'FILE'                        # only 'FILE' is supported
         Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
 Returns:
+
     $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+
+or in case of S3 support
+
+    $ACLDump = 'my_bucket/OTOBO/var/myfile.txt';     # or undef if can't write to S3
 
 =cut
 
@@ -846,9 +862,8 @@ sub ACLDump {
         return;
     }
 
-    if ( !defined $Param{ResultType} ) {
-        $Param{ResultType} = 'FILE';
-    }
+    # get defaults
+    $Param{ResultType} //= 'FILE';
 
     if ( $Param{ResultType} eq 'FILE' ) {
         if ( !$Param{Location} ) {
@@ -958,7 +973,46 @@ EOF
 
     $Output = $FileStart . $Output . $FileEnd;
 
-    my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket   = 'otobo-20211018a';
+        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
+        my $Now      = Mojo::Date->new(time)->to_datetime;
+        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+        # not sure how this works for Perl strings containing binary data
+        my $Content = $Output;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+        my $Transaction = $S3Object->signed_request(
+            method   => 'PUT',
+            datetime => $Now,
+            url      => $URL,
+            payload  => [$Content],
+        );
+
+        # run blocking request
+        $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        return $FilePath;
+    }
+
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
         Content  => \$Output,
         Mode     => 'utf8',
@@ -968,8 +1022,6 @@ EOF
     # update preselection cache
     #my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
     #$FieldRestrictionsObject->SetACLPreselectionCache();
-
-    return $FileLocation;
 }
 
 =head2 ACLImport()

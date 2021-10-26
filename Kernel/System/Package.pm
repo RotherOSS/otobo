@@ -2600,6 +2600,7 @@ sub PackageParse {
         'Kernel/Config.pm$',
         'Kernel/Config/Files/ZZZAuto.pm$',
         'Kernel/Config/Files/ZZZAAuto.pm$',
+        'Kernel/Config/Files/ZZZACL.pm$',
         'Kernel/Config/Files/ZZZProcessManagement.pm$',
         'var/tmp/Cache',
         'var/log/',

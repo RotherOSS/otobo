@@ -31,6 +31,8 @@
 !Kernel
 !scripts
 !var
+var/httpd/htdocs/skins/Agent/*/css-cache/*
+var/httpd/htdocs/js/js-cache/*
 
 # The dot files in the subdirectories are kept kept per default.
 # The not wanted dot files are listed here explicitly.
@@ -64,8 +66,7 @@ bin/Cron.sh
 
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
-Kernel/Config/Files/*Auto.pm
-Kernel/Config/Files/ZZZZUnitTest*
+Kernel/Config/Files/*.pm
 var/article/*
 var/log/*
 var/run/

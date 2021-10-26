@@ -18,7 +18,17 @@ package Kernel::System::ProcessManagement::DB::Process;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
+
+# OTOBO modules
 use Kernel::System::ProcessManagement::DB::Entity;
 use Kernel::System::ProcessManagement::DB::Activity;
 use Kernel::System::ProcessManagement::DB::ActivityDialog;
@@ -34,9 +44,9 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DynamicField',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
-    'Kernel::System::User',
     'Kernel::System::YAML',
 );
 
@@ -993,11 +1003,10 @@ sub ProcessSearch {
 =head2 ProcessDump()
 
 gets a complete processes information dump from the DB including: Process State, Activities,
-ActivityDialogs, Transitions and TransitionActions
+ActivityDialogs, Transitions and TransitionActions.
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'SCALAR'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1108,7 +1117,6 @@ Returns:
 
     my $ProcessDump = $ProcessObject->ProcessDump(
         ResultType  => 'HASH'                       # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
@@ -1218,13 +1226,18 @@ Returns:
     }
 
     my $ProcessDump = $ProcessObject->ProcessDump(
-        ResultType  => 'Location'                     # 'SCALAR' || 'HASH' || 'FILE'
-        Location    => '/opt/otobo/var/myfile.txt'     # mandatory for ResultType = 'FILE'
+        ResultType  => 'FILE'                                                    # 'SCALAR' || 'HASH' || 'FILE'
+        Location    => '/opt/otobo/Kernel/Config/Files/ZZZProcessManagement.pm', # mandatory for ResultType = 'FILE'
         UserID      => 1,
     );
 
 Returns:
-    $ProcessDump = '/opt/otobo/var/myfile.txt';      # or undef if can't write the file
+
+    $ProcessDump = '/opt/otobo/Kernel/Config/Files/ZZZProcessManagement.pm';     # or undef if can't write the file
+
+or, when S3 is active
+
+    $ProcessDump = 'my_bucket/OTOBO/Kernel/Config/Files/ZZZProcessManagement.pm'; # or undef if can't write to S3
 
 =cut
 
@@ -1240,18 +1253,15 @@ sub ProcessDump {
         return;
     }
 
-    if ( !defined $Param{ResultType} )
-    {
-        $Param{ResultType} = 'SCALAR';
-    }
+    # default valuse
+    my $ResultType = $Param{ResultType} // 'SCALAR';
 
-    if ( $Param{ResultType} eq 'FILE' ) {
+    if ( $ResultType eq 'FILE' ) {
         if ( !$Param{Location} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Need Location for ResultType \'FILE\'!',
             );
-
         }
     }
 
@@ -1370,7 +1380,7 @@ sub ProcessDump {
     );
 
     # return Hash useful for JSON
-    if ( $Param{ResultType} eq 'HASH' ) {
+    if ( $ResultType eq 'HASH' ) {
 
         return {
             'Process'          => \%ProcessDump,
@@ -1382,11 +1392,11 @@ sub ProcessDump {
         };
 
     }
-    else {
 
-        # create output
-
-        my $Output = $Self->_ProcessItemOutput(
+    # create output as Perl code that creates a Perl data structure
+    my $Output = '';
+    {
+        $Output .= $Self->_ProcessItemOutput(
             Key   => "Process",
             Value => \%ProcessDump,
         );
@@ -1415,28 +1425,17 @@ sub ProcessDump {
             Key   => 'Process::TransitionAction',
             Value => \%TransitionActionDump,
         );
+    }
 
-        # return a scalar variable with all config as test
-        if ( $Param{ResultType} ne 'FILE' ) {
+    # $ResultType = 'SCALAR': return a scalar variable with all config as test
+    return $Output unless $ResultType eq 'FILE';
 
-            return $Output;
-        }
-
-        # return a file location
-        else {
-
-            # get user data of the current user to use for the file comment
-            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $Param{UserID},
-            );
-
-            # remove home from location path to show in file comment
-            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-            my $Location = $Param{Location};
-            $Location =~ s{$Home\/}{}xmsg;
-
-            # build comment (therefore we need to trick out the filter)
-            my $FileStart = <<'EOF';
+    # Save as a complete Perl module and save either to file or to S3.
+    # Return a location. The location is either a file name or a S3 key.
+    my $PMFileOutput = '';
+    {
+        # build comment (therefore we need to trick out the filter)
+        $PMFileOutput .= <<'EOF';
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZProcessManagement;
@@ -1448,24 +1447,63 @@ sub Load {
     my ($File, $Self) = @_;
 EOF
 
-            my $FileEnd = <<'EOF';
+        # the actually interesting data
+        $PMFileOutput .= $Output;
+
+        # finish the Perl module
+        $PMFileOutput .= <<'EOF';
     return;
 }
 1;
 EOF
-
-            $Output = $FileStart . $Output . $FileEnd;
-
-            my $FileLocation = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-                Location => $Param{Location},
-                Content  => \$Output,
-                Mode     => 'utf8',
-                Type     => 'Local',
-            );
-
-            return $FileLocation;
-        }
     }
+
+    # store Perl module in S3 when S3 is active
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket   = 'otobo-20211018a';
+        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
+        my $Now      = Mojo::Date->new(time)->to_datetime;
+        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+        # not sure how this works for Perl strings containing binary data
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$PMFileOutput );
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+        my $Transaction = $S3Object->signed_request(
+            method   => 'PUT',
+            datetime => $Now,
+            url      => $URL,
+            payload  => [$PMFileOutput],
+        );
+
+        # run blocking request
+        $UserAgent->start($Transaction);
+
+        # only write to S3, no extra copy in the file system
+        return $FilePath;
+    }
+
+    # S3 is not active, writing Perl module into the file system
+    return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
+        Location => $Param{Location},
+        Content  => \$PMFileOutput,
+        Mode     => 'utf8',
+        Type     => 'Local',
+    );
 }
 
 =head2 ProcessImport()

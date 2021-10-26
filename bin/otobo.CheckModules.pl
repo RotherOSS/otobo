@@ -204,7 +204,7 @@ my %FeatureDescription = (
     'gazelle'       => 'Required packages if you want to use Gazelle webserver',
     'mail'          => 'Features enabling communication with a mail-server',
     'performance'   => 'Optional features which can increase performance',
-    'storage:s3'    => 'Amazon Web Services, currently only S3',
+    'storage:s3'    => 'AWS S3 compatible storage',
     'zzznone'       => 'Uncategorized',
 );
 
@@ -579,6 +579,18 @@ my @NeededModules = (
 
     # Feature storage:s3
     {
+        Module    => 'Mojolicious',
+        Features  => ['storage:s3'],
+        Comment   => 'support for the REST requests to the S3 storage',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Mojolicious::Plugin::AWS',
         Features  => ['storage:s3'],
         Comment   => 'support for S3 using Mojo::UserAgent',
@@ -875,17 +887,6 @@ my @NeededModules = (
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
         InstTypes => {
             aptget => 'libplack-middleware-reverseproxy-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Plack::Middleware::Rewrite',
-        Required  => 1,
-        Comment   => 'Set environment variables',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
             ports  => undef,

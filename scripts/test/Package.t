@@ -898,6 +898,7 @@ my $FilesNotAllowed = [
     'Kernel/Config.pm',
     'Kernel/Config/Files/ZZZAuto.pm',
     'Kernel/Config/Files/ZZZAAuto.pm',
+    'Kernel/Config/Files/ZZZACL.pm$',
     'Kernel/Config/Files/ZZZProcessManagement.pm',
     'var/tmp/Cache/Tmp.cache',
     'var/log/some_log',
@@ -917,7 +918,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>\n";
-for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+for my $FileNotAllowed ( $FilesNotAllowed->@* ) {
     $FileNotAllowedString .=
         "    <File Location=\"$FileNotAllowed\" Permission=\"644\" Encode=\"Base64\">aGVsbG8K</File>\n";
 }
@@ -932,7 +933,7 @@ $Self->True(
 );
 
 # check content of not allowed files for match against files from package
-for my $FileNotAllowed ( @{$FilesNotAllowed} ) {
+for my $FileNotAllowed ( $FilesNotAllowed->@* ) {
     my $Readfile = $MainObject->FileRead(
         Location => $Home . '/' . $FileNotAllowed,
         Mode     => 'binmode',

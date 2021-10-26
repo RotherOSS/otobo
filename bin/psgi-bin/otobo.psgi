@@ -80,6 +80,7 @@ use lib "$Bin/../../Custom";
 # core modules
 use Data::Dumper;
 use Encode qw(:all);
+use Cwd qw(abs_path);
 
 # CPAN modules
 use DateTime 1.08;
@@ -92,7 +93,9 @@ use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
-use SOAP::Transport::HTTP::Plack;
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 #use Data::Peek; # for development
 
@@ -115,12 +118,15 @@ eval {
 # this might improve performance
 CGI->compile(':cgi');
 
+# The OTOBO home is determined from the location of otobo.psgi.
+my $Home = abs_path("$Bin/../..");
+
 ################################################################################
 # Middlewares
 ################################################################################
 
 # conditionally enable profiling, UNTESTED
-my $NYTProfMiddleWare = sub {
+my $NYTProfMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -148,7 +154,7 @@ my $NYTProfMiddleWare = sub {
 # This setting is used internally by OTOBO, but also in the CPAN module DBD::mysql.
 # Per default it would enable mysql_auto_reconnect. But acutally mysql_auto_reconnect is not active,
 # as it is explicitly disabled in Kernel::System::DB::mysql.
-my $SetEnvMiddleWare = sub {
+my $SetEnvMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -193,6 +199,60 @@ my $ExactlyRootMiddleware = sub {
 
         if ( $Env->{PATH_INFO} eq '' || $Env->{PATH_INFO} eq '/' ) {
             $Env->{PATH_INFO} = '/index.html';
+        }
+
+        return $App->($Env);
+    };
+};
+
+# With S3 support, loader files are initially stored in S3.
+# Sync them to the local file system so that Plack::App::File can deliver them.
+# Checking the namee is sufficient as the loader files contain a checksum.
+my $SyncFromS3Middleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # We need a path like 'skins/Agent/default/css-cache/CommonCSS_1ecc5b62f0219ea138682633a165f251.css'
+        # Double slashes are not ignored in S3.
+        my $PathBelowHtdocs = $Env->{PATH_INFO};
+        $PathBelowHtdocs =~ s!/$!!;
+        $PathBelowHtdocs =~ s!^/!!;
+        my $FilePath = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
+
+        if ( !-e $FilePath ) {
+
+            # TODO: AWS region must be set up in Kubernetes config map
+            my $Region = 'eu-central-1';
+
+            # generate Mojo transaction for submitting plain to S3
+            # TODO: AWS bucket must be set up in Kubernetes config map
+            my $Bucket = 'otobo-20211018a';
+
+            my $UserAgent = Mojo::UserAgent->new();
+            my $S3Object  = Mojo::AWS::S3->new(
+                transactor => $UserAgent->transactor,
+                service    => 's3',
+                region     => $Region,
+                access_key => 'test',
+                secret_key => 'test',
+            );
+
+            my $S3Key       = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            my $Now         = Mojo::Date->new(time)->to_datetime;
+            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($S3Key);    # run within container
+            my $Transaction = $S3Object->signed_request(
+                method   => 'GET',
+                datetime => $Now,
+                url      => $URL,
+            );
+
+            $UserAgent->start($Transaction);
+
+            # save to the file system
+            # TODO: check success before copying
+            my $Ret = $Transaction->result->save_to($FilePath);
         }
 
         return $App->($Env);
@@ -301,11 +361,10 @@ my $RedirectOtoboApp = sub {
     return $Res->finalize();
 };
 
-# Server the static files in var/httpd/httpd.
-# Same as: Alias /otobo-web/ "/opt/otobo/var/httpd/htdocs/"
+# Server the files in var/httpd/httpd.
+# When S3 is supported there is a check whether missing files can be fetched from S3.
 # Access is granted for all.
-# Set the Cache-Control headers as in apache2-httpd.include.conf
-my $StaticApp = builder {
+my $HtdocsApp = builder {
 
     # Cache css-cache for 30 days
     enable_if { $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$} } 'Plack::Middleware::Header',
@@ -323,7 +382,19 @@ my $StaticApp = builder {
     enable_if { $_[0]->{PATH_INFO} =~ m{js/thirdparty/.*\.(?:js|JS)$} } 'Plack::Middleware::Header',
         set => [ 'Cache-Control' => 'max-age=14400 must-revalidate' ];
 
-    Plack::App::File->new( root => "$FindBin::Bin/../../var/httpd/htdocs" )->to_app();
+    # loader files might have to be synced from S3
+    enable_if {
+        $ENV{OTOBO_SYNC_WITH_S3}
+            &&
+            (
+                $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$}
+                ||
+                $_[0]->{PATH_INFO} =~ m{js/js-cache/.*\.(?:js|JS)$}
+            )
+    }
+    $SyncFromS3Middleware;
+
+    Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
 # Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
@@ -338,10 +409,10 @@ my $OTOBOApp = builder {
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
     # conditionally enable profiling
-    enable $NYTProfMiddleWare;
+    enable $NYTProfMiddleware;
 
     # set up %ENV
-    enable $SetEnvMiddleWare;
+    enable $SetEnvMiddleware;
 
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
@@ -459,26 +530,6 @@ my $OTOBOApp = builder {
     };
 };
 
-# Port of rpc.pl
-# See http://blogs.perl.org/users/confuseacat/2012/11/how-to-use-soaptransporthttpplack.html
-# TODO: this is not tested yet.
-# TODO: There can be problems when the wrapped objects expect a CGI environment.
-my $Soap = SOAP::Transport::HTTP::Plack->new();
-
-my $RPCApp = builder {
-
-    # set up %ENV
-    enable $SetEnvMiddleWare;
-
-    sub {
-        my $Env = shift;
-
-        return $Soap->dispatch_to(
-            'OTOBO::RPC'
-        )->handler( Plack::Request->new($Env) );
-    };
-};
-
 ################################################################################
 # finally, the complete PSGI application itself
 ################################################################################
@@ -494,8 +545,9 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
-    # Server the static files in var/httpd/httpd.
-    mount '/otobo-web' => $StaticApp;
+    # Server the files in var/httpd/htdocs.
+    # Loader files, js and css, may be synced from S3 storage.
+    mount '/otobo-web' => $HtdocsApp;
 
     # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
@@ -513,12 +565,9 @@ builder {
     mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
     mount '/otobo/public.pl'               => $OTOBOApp;
 
-    # some SOAP stuff
-    mount '/otobo/rpc.pl' => $RPCApp;
-
     # some static pages, '/' is already translate to '/index.html'
-    mount "/robots.txt" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/robots.txt" )->to_app();
-    mount "/index.html" => Plack::App::File->new( file => "$FindBin::Bin/../../var/httpd/htdocs/index.html" )->to_app();
+    mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
+    mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
 };
 
 # enable for debugging: dump debugging info, including the PSGI environment, for any request

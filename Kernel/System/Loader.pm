@@ -18,14 +18,27 @@ package Kernel::System::Loader;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
+# core modules
+
+# CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
+    'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
 );
@@ -52,8 +65,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{CacheType} = 'Loader';
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
@@ -66,6 +78,10 @@ sub new {
 takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
 Uses caching internally.
+
+With S3 support the returned value is a key for an object that is stored in S3.
+
+It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
     my $TargetFilename = $LoaderObject->MinifyFiles(
         List  => [                          # optional,  minify list of files
@@ -93,26 +109,38 @@ sub MinifyFiles {
             Priority => 'error',
             Message  => 'Need List or Content!',
         );
+
         return;
     }
+
+    # find out whether loader files are stored in S3 or in the file system
+    my $S3Backend = $ENV{OTOBO_SYNC_WITH_S3} ? 1 : 0;
+    my $FSBackend = !$S3Backend;
 
     my $TargetDirectory = $Param{TargetDirectory};
-    if ( !-e $TargetDirectory ) {
-        if ( !mkdir( $TargetDirectory, 0775 ) ) {
+    $TargetDirectory =~ s!/$!!;
+
+    # create and check the target directory
+    if ($FSBackend) {
+        if ( !-e $TargetDirectory ) {
+            if ( !mkdir( $TargetDirectory, 0775 ) ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Can't create directory '$TargetDirectory': $!",
+                );
+
+                return;
+            }
+        }
+
+        if ( !$TargetDirectory || !-d $TargetDirectory ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't create directory '$TargetDirectory': $!",
+                Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
             );
+
             return;
         }
-    }
-
-    if ( !$TargetDirectory || !-d $TargetDirectory ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Need valid TargetDirectory, got '$TargetDirectory'!",
-        );
-        return;
     }
 
     my $TargetFilenamePrefix = $Param{TargetFilenamePrefix} ? "$Param{TargetFilenamePrefix}_" : '';
@@ -165,15 +193,55 @@ sub MinifyFiles {
     }
     elsif ( $Param{Type} eq 'JavaScript' ) {
         $Filename .= '.js';
-
     }
 
-    if ( !-r "$TargetDirectory/$Filename" ) {
+    # Check whether the loader file already exists
+    my $LoaderFileExists = 0;
+    if ($FSBackend) {
+        $LoaderFileExists = -r "$TargetDirectory/$Filename";
+    }
+    else {
+        # TODO: AWS region must be set up in Kubernetes config map
+        my $Region = 'eu-central-1';
+
+        # generate Mojo transaction for submitting plain to S3
+        # TODO: AWS bucket must be set up in Kubernetes config map
+        my $Bucket = 'otobo-20211018a';
+
+        # the target directory is below the OTOBO home dir, adapt that to S3
+        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $FilePath = join '/', $TargetDirectory, $Filename;
+        $FilePath =~ s!^$Home!$Bucket/OTOBO!;
+        my $Now = Mojo::Date->new(time)->to_datetime;
+        my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+        my $UserAgent = Mojo::UserAgent->new();
+        my $S3Object  = Mojo::AWS::S3->new(
+            transactor => $UserAgent->transactor,
+            service    => 's3',
+            region     => $Region,
+            access_key => 'test',
+            secret_key => 'test',
+        );
+        my $Transaction = $S3Object->signed_request(
+            method   => 'HEAD',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run blocking request
+        $UserAgent->start($Transaction);
+
+        $LoaderFileExists = 1 if $Transaction->res->is_success;
+    }
+
+    if ( !$LoaderFileExists ) {
 
         # no cache available, so loop through all files, get minified version and concatenate
-        LOCATION: for my $Location ( @{$List} ) {
+        LOCATION:
+        for my $Location ( $List->@* ) {
 
-            next LOCATION if ( !-r $Location );
+            next LOCATION unless -r $Location;
 
             # cut out the system specific parts for the comments (for easier testing)
             # for now, only keep filename
@@ -221,11 +289,56 @@ sub MinifyFiles {
             }
         }
 
-        my $FileLocation = $MainObject->FileWrite(
-            Directory => $TargetDirectory,
-            Filename  => $Filename,
-            Content   => \$Content,
-        );
+        if ($S3Backend) {
+
+            # TODO: AWS region must be set up in Kubernetes config map
+            my $Region = 'eu-central-1';
+
+            # generate Mojo transaction for submitting plain to S3
+            # TODO: AWS bucket must be set up in Kubernetes config map
+            my $Bucket = 'otobo-20211018a';
+
+            # the target directory is below the OTOBO home dir, adapt that to S3
+            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+            my $FilePath = join '/', $TargetDirectory, $Filename;
+            $FilePath =~ s!^$Home!$Bucket/OTOBO!;
+            my $Now = Mojo::Date->new(time)->to_datetime;
+            my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+
+            # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+            # not sure how this works for Perl strings containing binary data
+            my $ContentCopy = $Content;
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ContentCopy );
+
+            my $UserAgent = Mojo::UserAgent->new();
+            my $S3Object  = Mojo::AWS::S3->new(
+                transactor => $UserAgent->transactor,
+                service    => 's3',
+                region     => $Region,
+                access_key => 'test',
+                secret_key => 'test',
+            );
+            my $Transaction = $S3Object->signed_request(
+                method   => 'PUT',
+                datetime => $Now,
+                url      => $URL,
+                payload  => [$ContentCopy],
+            );
+
+            # run blocking request
+            $UserAgent->start($Transaction);
+        }
+
+        # When using SE the loader file is not written to the file system.
+        # The content will be served from S3 directly
+        else {
+
+            my $FileLocation = $MainObject->FileWrite(
+                Directory => $TargetDirectory,
+                Filename  => $Filename,
+                Content   => \$Content,
+            );
+        }
     }
 
     return $Filename;
@@ -464,21 +577,21 @@ Returns a list of deleted files.
 sub CacheDelete {
     my ( $Self, %Param ) = @_;
 
-    my @Result;
+    # TODO: delete in S3 when OTOBO_SYNC_WITH_S3 is set
 
+    my @Result;
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-    my $JSCacheFolder       = "$Home/var/httpd/htdocs/js/js-cache";
-    my @SkinTypeDirectories = (
-        "$Home/var/httpd/htdocs/skins/Agent",
-        "$Home/var/httpd/htdocs/skins/Customer",
-    );
-
-    my @CacheFoldersList = ($JSCacheFolder);
+    # for JavaScript there is only one cache folder
+    my @CacheFoldersList = ("$Home/var/httpd/htdocs/js/js-cache");
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Looking for all skin folders that may contain a cache folder
+    my @SkinTypeDirectories = (
+        "$Home/var/httpd/htdocs/skins/Agent",
+        "$Home/var/httpd/htdocs/skins/Customer",
+    );
     for my $Folder (@SkinTypeDirectories) {
         my @List = $MainObject->DirectoryRead(
             Directory => $Folder,
@@ -487,23 +600,27 @@ sub CacheDelete {
 
         FOLDER:
         for my $Folder (@List) {
-            next FOLDER if ( !-d $Folder );
-            my @CacheFolder = $MainObject->DirectoryRead(
+
+            next FOLDER unless -d $Folder;
+
+            # there can be no more than one css-cache subfolder
+            my ($CacheFolder) = $MainObject->DirectoryRead(
                 Directory => $Folder,
                 Filter    => 'css-cache',
             );
-            if ( @CacheFolder && -d $CacheFolder[0] ) {
-                push @CacheFoldersList, $CacheFolder[0];
+
+            if ( $CacheFolder && -d $CacheFolder ) {
+                push @CacheFoldersList, $CacheFolder;
             }
         }
     }
 
     # now go through the cache folders and delete all .js and .css files
-    my @FileTypes    = ( "*.js", "*.css" );
+    my @FileTypes    = ( '*.js', '*.css' );
     my $TotalCounter = 0;
     FOLDERTODELETE:
     for my $FolderToDelete (@CacheFoldersList) {
-        next FOLDERTODELETE if ( !-d $FolderToDelete );
+        next FOLDERTODELETE unless -d $FolderToDelete;
 
         my @FilesList = $MainObject->DirectoryRead(
             Directory => $FolderToDelete,

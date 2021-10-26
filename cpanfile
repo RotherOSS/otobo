@@ -89,9 +89,6 @@ requires 'Plack::Middleware::Refresh';
 # Twist some HTTP variables so that the reverse proxy is transparent
 requires 'Plack::Middleware::ReverseProxy';
 
-# Set environment variables
-requires 'Plack::Middleware::Rewrite';
-
 # PSGI SOAP adapter
 requires 'SOAP::Transport::HTTP::Plack';
 
@@ -239,6 +236,9 @@ feature 'mail:ssl', 'Suppport for mail:ssl' => sub {
 };
 
 feature 'optional', 'Suppport for optional' => sub {
+    # support for the REST requests to the S3 storage
+    requires 'Mojolicious';
+
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
@@ -352,7 +352,10 @@ feature 'performance:redis', 'Suppport for performance:redis' => sub {
 
 };
 
-feature 'storage:s3', 'Amazon Web Services, currently only S3' => sub {
+feature 'storage:s3', 'AWS S3 compatible storage' => sub {
+    # support for the REST requests to the S3 storage
+    requires 'Mojolicious';
+
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
