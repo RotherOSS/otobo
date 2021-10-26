@@ -21,6 +21,7 @@ package Kernel::System::DynamicField::Driver::TextArea;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::DynamicField::Driver::BaseText);
@@ -200,22 +201,17 @@ sub EditFieldRender {
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
+        $FieldTemplateData{DivID}                = $FieldName . 'Error';
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
 
-        $FieldTemplateData{'ServerError'}  = $Param{ServerError};
-        $FieldTemplateData{'DivID'}        = $DivID;
-        $FieldTemplateData{'ErrorMessage'} = $ErrorMessage;
+        $FieldTemplateData{ServerError} = $Param{ServerError};
     }
 
     # call EditLabelRender on the common Driver
@@ -225,12 +221,9 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = '';
+    my $FieldTemplateFile = 'DynamicField/Agent/TextArea';
     if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/TextArea';
-    }
-    else {
-        $FieldTemplateFile = 'DynamicField/Agent/TextArea';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(

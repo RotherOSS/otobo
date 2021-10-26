@@ -14,19 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ValueEscaped %]" />
-<input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.VisibleValue %]" />
-[% IF Data.DivID && Data.FieldRequiredMessage %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
-    <p>
-        [% Translate(Data.FieldRequiredMessage) | html %]
-    </p>
-</div>
+[% Data.PredefinedHTML %]
+[% IF Data.Mandatory %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.FieldRequiredMessage) | html %]
+        </p>
+    </div>
 [% END %]
-[% IF Data.DivID && Data.ErrorMessage %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
-    <p>
-        [% Translate(Data.ErrorMessage) | html %]
-    </p>
-</div>
+[% IF Data.ServerError %]
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.ErrorMessage) | html %]
+        </p>
+    </div>
 [% END %]

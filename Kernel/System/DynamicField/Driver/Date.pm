@@ -349,7 +349,7 @@ sub EditFieldRender {
         }
     }
 
-    my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
+    my $PredefinedHTML = $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix                => $FieldName,
         Format                => 'DateInputFormat',
@@ -363,42 +363,32 @@ sub EditFieldRender {
         OverrideTimeZone => 1,
     );
 
+    my %FieldTemplateData = {
+        'PredefinedHTML' => $PredefinedHTML
+    };
+
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'UsedError';
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID}     = $FieldName . 'UsedError';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
-
-        # for client side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
-
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'      => {
-                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'UsedServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'UsedServerError';
     }
+
+    my $FieldTemplateFile = 'DynamicField/Agent/Date';
+    if ( $Param{CustomerInterface} ) {
+        $FieldTemplateFile = 'DynamicField/Customer/Date';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
+    );
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(

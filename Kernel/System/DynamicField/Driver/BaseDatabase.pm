@@ -29,6 +29,7 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
 );
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
@@ -342,37 +343,22 @@ sub EditFieldRender {
     );
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        $FieldTemplateData{DivID} = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivID}                = $DivID;
-        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
-
         $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{DivID}        = $DivID;
-        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
     }
 
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')
         ->{'DynamicFieldDBSearch'};
     my $ActiveAutoComplete = $AutoCompleteConfig->{AutoCompleteActive} || 0;
-
-    $Param{LayoutObject}->AddJSData(
-        Key   => 'ActiveAutoComplete',
-        Value => $ActiveAutoComplete,
-    );
 
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
@@ -382,17 +368,19 @@ sub EditFieldRender {
         FieldName          => $FieldName,
     );
 
-    my $TemplateFile = '';
+    my $FieldTemplateFile = 'DynamicField/Agent/BaseDatabase';
     if ( $Param{CustomerInterface} ) {
-        $TemplateFile = 'DynamicField/Customer/BaseDatabase';
-    }
-    else {
-        $TemplateFile = 'DynamicField/Agent/BaseDatabase';
+        $FieldTemplateFile = 'DynamicField/Customer/BaseDatabase';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $TemplateFile,
+        'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
+    );
+
+    $Param{LayoutObject}->AddJSData(
+        Key   => 'ActiveAutoComplete',
+        Value => $ActiveAutoComplete,
     );
 
     my $Data = {

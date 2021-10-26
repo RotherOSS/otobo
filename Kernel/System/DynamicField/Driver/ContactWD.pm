@@ -21,6 +21,7 @@ package Kernel::System::DynamicField::Driver::ContactWD;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
@@ -249,28 +250,19 @@ sub EditFieldRender {
     };
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        $FieldTemplateData{DivID} = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivID}                = $DivID;
-        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
 
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
-        $FieldTemplateData{DivID}        = $DivID;
+        $FieldTemplateData{ServerError} = $Param{ServerError};
     }
 
     # Get default agent autocomplete config.
@@ -287,12 +279,9 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $FieldTemplateFile = '';
+    my $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
     if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
-    }
-    else {
-        $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(

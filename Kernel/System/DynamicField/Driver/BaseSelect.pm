@@ -21,6 +21,7 @@ package Kernel::System::DynamicField::Driver::BaseSelect;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
@@ -230,7 +231,7 @@ sub EditFieldRender {
         Value              => $Value,
     );
 
-    my $HTMLString = $Param{LayoutObject}->BuildSelection(
+    my $PredefinedHTML = $Param{LayoutObject}->BuildSelection(
         Data        => $DataValues || {},
         Name        => $FieldName,
         SelectedID  => $Value,
@@ -240,51 +241,38 @@ sub EditFieldRender {
         HTMLQuote   => 1,
     );
 
+    my %FieldTemplateData = {
+        'PredefinedHTML' => $PredefinedHTML
+    };
+
     if ( $FieldConfig->{TreeView} ) {
-        my $TreeSelectionMessage = $Param{LayoutObject}->{LanguageObject}->Translate("Show Tree Selection");
-        $HTMLString
-            .= ' <a href="#" title="'
-            . $TreeSelectionMessage
-            . '" class="ShowTreeSelection"><span>'
-            . $TreeSelectionMessage . '</span><i class="fa fa-sitemap"></i></a>';
+        $FieldTemplateData{TreeView}             = $FieldConfig->{TreeView};
+        $FieldTemplateData{TreeSelectionMessage} = Translatable("Show Tree Selection");
     }
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID}     = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
-
-        # for client side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template'  => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'      => {
-                'ErrorMessage'  => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
     }
+
+    my $FieldTemplateFile = 'DynamicField/Agent/BaseSelect';
+    if ( $Param{CustomerInterface} ) {
+        $FieldTemplateFile = 'DynamicField/Customer/BaseSelect';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
+    );
 
     if ( $Param{AJAXUpdate} ) {
 
