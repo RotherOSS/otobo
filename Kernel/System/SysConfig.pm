@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 package Kernel::System::SysConfig;
 
 use strict;
