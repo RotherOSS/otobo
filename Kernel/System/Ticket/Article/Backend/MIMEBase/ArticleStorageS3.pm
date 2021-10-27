@@ -27,11 +27,11 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 use File::Basename qw(basename);
 
 # CPAN modules
-use Mojo::UserAgent;
-use Mojo::Date;
-use Mojo::DOM;
-use Mojo::URL;
 use Mojo::AWS::S3;
+use Mojo::DOM;
+use Mojo::Date;
+use Mojo::URL;
+use Mojo::UserAgent;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
@@ -326,7 +326,6 @@ sub ArticleWriteAttachment {
         $Headers{'Content-Disposition'} = $Param{Disposition};
     }
 
-    # TODO: collect the headers
     # generate Mojo transaction for submitting attachment to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, $UniqueFilename );
     my $Now      = Mojo::Date->new(time)->to_datetime;
