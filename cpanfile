@@ -237,7 +237,7 @@ feature 'mail:ssl', 'Support for feature mail:ssl' => sub {
 
 feature 'optional', 'Support for feature optional' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 9.22";
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';
@@ -360,7 +360,7 @@ feature 'performance:redis', 'Support for feature performance:redis' => sub {
 
 feature 'storage:s3', 'AWS S3 compatible storage' => sub {
     # support for the REST requests to the S3 storage
-    requires 'Mojolicious';
+    requires 'Mojolicious', ">= 9.22";
 
     # correct and fast JSON support, used by Mojo::JSON
     requires 'Cpanel::JSON::XS';

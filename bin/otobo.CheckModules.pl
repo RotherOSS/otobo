@@ -603,10 +603,11 @@ my @NeededModules = (
 
     # Feature storage:s3
     {
-        Module    => 'Mojolicious',
-        Features  => ['storage:s3'],
-        Comment   => 'support for the REST requests to the S3 storage',
-        InstTypes => {
+        Module          => 'Mojolicious',
+        VersionRequired => '9.22',
+        Features        => ['storage:s3'],
+        Comment         => 'support for the REST requests to the S3 storage',
+        InstTypes       => {
             aptget => undef,
             emerge => undef,
             yum    => undef,
