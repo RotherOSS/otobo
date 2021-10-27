@@ -35,6 +35,9 @@ use Mojo::UserAgent;
 # OTOBO modules
 
 our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
 );
 
 sub new {
@@ -60,7 +63,7 @@ sub Run {
     }
 
     # TODO: AWS bucket must be set up in Kubernetes config map
-    my $Bucket    = 'otobo-20211018a';
+    my $Bucket       = 'otobo-20211018a';
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $Region       = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorageS3::Region')
         || die 'Got no AWS Region!';
@@ -72,7 +75,6 @@ sub Run {
         access_key => 'test',
         secret_key => 'test',
     );
-
 
     # generate Mojo transaction for submitting plain to S3
     my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'packages.json';
@@ -89,14 +91,13 @@ sub Run {
         datetime       => $Now,
         url            => $URL,
         signed_headers => \%Headers,
-        payload        => [ $JSONContent ],
+        payload        => [$JSONContent],
     );
 
     # run blocking request
     $UserAgent->start($Transaction);
 
     # TODO: check success
-    return 1;
     return 1;
 }
 
