@@ -47,8 +47,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # create additional objects
     $Self->{CacheType} = 'SystemData';
@@ -162,12 +161,13 @@ sub SystemDataGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
+
     return $Cache if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    return if !$DBObject->Prepare(
+    return unless $DBObject->Prepare(
         SQL => '
             SELECT data_value
             FROM system_data
@@ -223,6 +223,7 @@ sub SystemDataGroupGet {
             Priority => 'error',
             Message  => "Need Group!"
         );
+
         return;
     }
 
@@ -232,7 +233,8 @@ sub SystemDataGroupGet {
         Type => $Self->{CacheType},
         Key  => $CacheKey,
     );
-    return %{$Cache} if $Cache;
+
+    return $Cache->%* if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -318,7 +320,7 @@ sub SystemDataUpdate {
     }
 
     # update system data table
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => '
             UPDATE system_data
             SET data_value = ?, change_time = current_timestamp, change_by = ?
