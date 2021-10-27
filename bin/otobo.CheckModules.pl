@@ -892,17 +892,6 @@ my @NeededModules = (
             ports  => undef,
         },
     },
-    {
-        Module    => 'SOAP::Transport::HTTP::Plack',
-        Required  => 1,
-        Comment   => 'PSGI SOAP adapter',
-        InstTypes => {
-            aptget => undef,    # not in any Debian package
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
 
     # Feature div
     {
