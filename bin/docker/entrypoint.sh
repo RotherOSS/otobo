@@ -111,7 +111,12 @@ function exec_web() {
     #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
 
     # For production use Gazelle, which is implemented in C
-    exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+    # The special loader Plack::Loader::SyncWithS3 checks for updates in S3
+    if [[ -z "${OTOBO_SYNC_WITH_S3}" ]]; then
+        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
+    else
+        exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+    fi
 }
 
 # preserve added files in the previous

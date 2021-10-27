@@ -47,6 +47,7 @@ my %FailureIsAccepted = (
     'Kernel/cpan-lib/Font/TTF/Win32.pm'                                 => 'Win32::Registry is not available, but never mind as Win32 is not supported',
     'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'                             => 'HTTP::GHTTP is not required',
     'Kernel/cpan-lib/PDF/API2/Win32.pm'                                 => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
+    'Kernel/System/Plack/Loader/SyncWithS3.pm'                          => 'Mojolicious and Mojo::AWS::S3 are not required',
     'Kernel/cpan-lib/SOAP/Lite.pm'                                      => 'some strangeness concerning SOAP::Constants',
     'Kernel/cpan-lib/URI/urn/isbn.pm'                                   => 'Business::ISBN is not required',
     'scripts/apache2-perl-preload_otobo_psgi.pl'                        => 'Apache2::ServerUtil::restart_count() only available when running under mod_perl',
