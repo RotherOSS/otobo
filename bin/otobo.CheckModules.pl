@@ -615,6 +615,18 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Cpanel::JSON::XS',
+        Features  => ['storage:s3'],
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Mojolicious::Plugin::AWS',
         Features  => ['storage:s3'],
         Comment   => 'support for S3 using Mojo::UserAgent',

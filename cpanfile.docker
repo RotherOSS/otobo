@@ -239,6 +239,9 @@ requires 'Const::Fast';
     # support for the REST requests to the S3 storage
     requires 'Mojolicious';
 
+    # correct and fast JSON support, used by Mojo::JSON
+    requires 'Cpanel::JSON::XS';
+
     # support for S3 using Mojo::UserAgent
     requires 'Mojolicious::Plugin::AWS';
 
