@@ -344,7 +344,7 @@ Core.Form = (function (TargetNS) {
 
             // get possible values
             $('#' + FieldID + ' option').each(function() {
-                RawValues.push($.trim($(this).text()));
+                RawValues.push($.trim($(this).val()));
             });
 
             // remove possible empty value
