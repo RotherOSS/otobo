@@ -2063,14 +2063,14 @@ sub new {
                 }
 
                 # either size of modified time must have changed
-                if (  $Stat->size ne $FileName2Size{$ZZZFileName} ) {
+                if (  $Stat->size != $FileName2Size{$ZZZFileName} ) {
                     push @OutdatedZZZFilenames, $ZZZFileName;
 
                     next ZZZFILENAME;
                 }
 
                 # exact timestamp check
-                if ( $Stat->mtime ne $FileName2LastModified{$ZZZFileName} ) {
+                if ( $Stat->mtime != $FileName2LastModified{$ZZZFileName} ) {
                     push @OutdatedZZZFilenames, $ZZZFileName;
 
                     next ZZZFILENAME;
