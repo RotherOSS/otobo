@@ -550,10 +550,16 @@ input[readonly=readonly] {
     display: inline-block;
     width: 18px;
     height: 18px;
+    vertical-align: top;
     position: relative;
-    top: 3px;
+    top: 20px;
     left: -32px;
     margin-left: -22px; /* +4px for empty spaces */
+}
+
+.oooCheckboxContainer ~ .Tooltip,
+.oooDateContainer ~ .Tooltip {
+    left: -48px;
 }
 
 .Tooltip i {
@@ -563,9 +569,9 @@ input[readonly=readonly] {
 .Tooltip p {
     z-index: 1;
     display: none;
-    padding: 16px 24px;
-    width: 240px;
-    line-height: 1.2;
+    padding: 24px 32px;
+    width: 280px;
+    line-height: 1.4;
     white-space: normal;
     color: #00023c;
     color: var(--colTextDark);
@@ -578,7 +584,7 @@ input[readonly=readonly] {
 .Tooltip:hover p {
     display: inline;
     position: absolute;
-    left: -220px;
+    left: -260px;
     top: -8px;
 }
 
