@@ -167,7 +167,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview TooltipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -203,7 +203,7 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
-        TooltipValue => $GetParam{TooltipValue},
+        Tooltip => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -398,7 +398,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview TooltipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -485,7 +485,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
-        TooltipValue => $GetParam{TooltipValue},
+        Tooltip => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -692,14 +692,14 @@ sub _ShowScreen {
     }
 
     # define tooltip
-    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'TooltipValue',
+        Name => 'Tooltip',
         Data => {
             %Param,
-            TooltipValue => $TooltipValue,
+            Tooltip => $Tooltip,
         },
     );
 
@@ -838,7 +838,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
-            TooltipValue          => $TooltipValue,
+            Tooltip          => $Tooltip,
         }
     );
 

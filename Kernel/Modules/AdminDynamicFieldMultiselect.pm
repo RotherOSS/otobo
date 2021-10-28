@@ -178,7 +178,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID TooltipValue
+            TranslatableValues ValidID Tooltip
         )
         )
     {
@@ -245,7 +245,7 @@ sub _AddAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        TooltipValue       => $GetParam{TooltipValue},
+        Tooltip       => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -452,7 +452,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID TooltipValue
+            TranslatableValues ValidID Tooltip
         )
         )
     {
@@ -545,7 +545,7 @@ sub _ChangeAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        TooltipValue       => $GetParam{TooltipValue},
+        Tooltip       => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -845,14 +845,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $TooltipValue = ( defined $Param{Config}->{TooltipValue} ? $Param{Config}->{TooltipValue} : '' );
+    my $Tooltip = ( defined $Param{Config}->{Tooltip} ? $Param{Config}->{Tooltip} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'TooltipValue',
+        Name => 'Tooltip',
         Data => {
             %Param,
-            TooltipValue => $TooltipValue,
+            Tooltip => $Tooltip,
         },
     );
 
@@ -925,7 +925,7 @@ sub _ShowScreen {
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            TooltipValue           => $TooltipValue,
+            Tooltip           => $Tooltip,
         }
     );
 

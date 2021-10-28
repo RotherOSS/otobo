@@ -171,7 +171,7 @@ sub _AddAction {
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
             DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive TooltipValue
+            SID Driver ResultLimit CaseSensitive Tooltip
         )
         )
     {
@@ -229,7 +229,7 @@ sub _AddAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
-        TooltipValue   => $GetParam{TooltipValue},
+        Tooltip   => $GetParam{Tooltip},
     };
 
     # Create a new field.
@@ -416,7 +416,7 @@ sub _ChangeAction {
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName ValidID Link LinkPreview DBType Server Port
             DBName DBTable User Password Identifier Multiselect CacheTTL Searchprefix Searchsuffix
-            SID Driver ResultLimit CaseSensitive TooltipValue
+            SID Driver ResultLimit CaseSensitive Tooltip
         )
         )
     {
@@ -504,7 +504,7 @@ sub _ChangeAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
-        TooltipValue   => $GetParam{TooltipValue},
+        Tooltip   => $GetParam{Tooltip},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -920,14 +920,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'TooltipValue',
+        Name => 'Tooltip',
         Data => {
             %Param,
-            TooltipValue => $TooltipValue,
+            Tooltip => $Tooltip,
         },
     );
 
@@ -996,7 +996,7 @@ sub _ShowScreen {
             DefaultValue          => $DefaultValue,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
-            TooltipValue          => $TooltipValue,
+            Tooltip          => $Tooltip,
         }
     );
 

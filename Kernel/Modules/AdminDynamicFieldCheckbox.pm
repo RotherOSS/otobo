@@ -164,7 +164,7 @@ sub _AddAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID TooltipValue))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -191,7 +191,7 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
-        TooltipValue => $GetParam{TooltipValue},
+        Tooltip => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -374,7 +374,7 @@ sub _ChangeAction {
         }
     }
 
-    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID TooltipValue))
+    for my $ConfigParam (qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Tooltip))
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
     }
@@ -428,7 +428,7 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
-        TooltipValue => $GetParam{TooltipValue},
+        Tooltip => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -597,14 +597,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'TooltipValue',
+        Name => 'Tooltip',
         Data => {
             %Param,
-            TooltipValue => $TooltipValue,
+            Tooltip => $Tooltip,
         },
     );
 
@@ -673,7 +673,7 @@ sub _ShowScreen {
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValueStrg      => $DefaultValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
-            TooltipValue          => $TooltipValue,
+            Tooltip          => $Tooltip,
         }
     );
 

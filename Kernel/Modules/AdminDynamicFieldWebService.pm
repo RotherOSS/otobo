@@ -232,7 +232,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
-            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview TooltipValue
+            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview Tooltip
         )
         )
     {
@@ -267,7 +267,7 @@ sub _AddAction {
         TreeView           => $GetParam{TreeView},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        TooltipValue       => $GetParam{TooltipValue},
+        Tooltip       => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -482,7 +482,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
-            PossibleNone TranslatableValues ValidID Link LinkPreview TooltipValue
+            PossibleNone TranslatableValues ValidID Link LinkPreview Tooltip
         )
         )
     {
@@ -546,7 +546,7 @@ sub _ChangeAction {
         PossibleNone       => $GetParam{PossibleNone},
         TreeView           => $GetParam{TreeView},
         TranslatableValues => $GetParam{TranslatableValues},
-        TooltipValue       => $GetParam{TooltipValue},
+        Tooltip       => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -847,14 +847,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'TooltipValue',
+        Name => 'Tooltip',
         Data => {
             %Param,
-            TooltipValue => $TooltipValue,
+            Tooltip => $Tooltip,
         },
     );
 
@@ -934,7 +934,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
-            TooltipValue           => $TooltipValue,
+            Tooltip           => $Tooltip,
         },
     );
 
