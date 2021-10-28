@@ -243,7 +243,7 @@ sub _AddAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -550,7 +550,7 @@ sub _ChangeAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -935,7 +935,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
-            Tooltip           => $Tooltip,
+            Tooltip                => $Tooltip,
         }
     );
 

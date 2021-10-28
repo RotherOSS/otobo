@@ -245,7 +245,7 @@ sub _AddAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -545,7 +545,7 @@ sub _ChangeAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -925,7 +925,7 @@ sub _ShowScreen {
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            Tooltip           => $Tooltip,
+            Tooltip                => $Tooltip,
         }
     );
 

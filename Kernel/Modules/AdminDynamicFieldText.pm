@@ -203,7 +203,7 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
-        Tooltip => $GetParam{Tooltip},
+        Tooltip      => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -485,7 +485,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
-        Tooltip => $GetParam{Tooltip},
+        Tooltip      => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -838,7 +838,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
-            Tooltip          => $Tooltip,
+            Tooltip               => $Tooltip,
         }
     );
 

@@ -229,7 +229,7 @@ sub _AddAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
-        Tooltip   => $GetParam{Tooltip},
+        Tooltip        => $GetParam{Tooltip},
     };
 
     # Create a new field.
@@ -504,7 +504,7 @@ sub _ChangeAction {
         Searchsuffix   => $GetParam{Searchsuffix},
         ResultLimit    => $GetParam{ResultLimit},
         CaseSensitive  => $GetParam{CaseSensitive},
-        Tooltip   => $GetParam{Tooltip},
+        Tooltip        => $GetParam{Tooltip},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -996,7 +996,7 @@ sub _ShowScreen {
             DefaultValue          => $DefaultValue,
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
-            Tooltip          => $Tooltip,
+            Tooltip               => $Tooltip,
         }
     );
 

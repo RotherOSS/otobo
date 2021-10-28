@@ -191,7 +191,7 @@ sub _AddAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
-        Tooltip => $GetParam{Tooltip},
+        Tooltip      => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -428,7 +428,7 @@ sub _ChangeAction {
     # set specific config
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
-        Tooltip => $GetParam{Tooltip},
+        Tooltip      => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -673,7 +673,7 @@ sub _ShowScreen {
             DynamicFieldOrderStrg => $DynamicFieldOrderStrg,
             DefaultValueStrg      => $DefaultValueStrg,
             ReadonlyInternalField => $ReadonlyInternalField,
-            Tooltip          => $Tooltip,
+            Tooltip               => $Tooltip,
         }
     );
 

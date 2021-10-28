@@ -267,7 +267,7 @@ sub _AddAction {
         TreeView           => $GetParam{TreeView},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -546,7 +546,7 @@ sub _ChangeAction {
         PossibleNone       => $GetParam{PossibleNone},
         TreeView           => $GetParam{TreeView},
         TranslatableValues => $GetParam{TranslatableValues},
-        Tooltip       => $GetParam{Tooltip},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -934,7 +934,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
-            Tooltip           => $Tooltip,
+            Tooltip                => $Tooltip,
         },
     );
 

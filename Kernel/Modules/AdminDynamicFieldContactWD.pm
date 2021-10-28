@@ -254,7 +254,7 @@ sub _AddAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
-        Tooltip             => $GetParam{Tooltip},
+        Tooltip                  => $GetParam{Tooltip},
     };
 
     # Create a new field.
@@ -563,7 +563,7 @@ sub _ChangeAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
-        Tooltip             => $GetParam{Tooltip},
+        Tooltip                  => $GetParam{Tooltip},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -887,7 +887,7 @@ sub _ShowScreen {
             ValueCounter           => $ValueCounter,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            Tooltip           => $Tooltip,
+            Tooltip                => $Tooltip,
         },
     );
 

@@ -213,7 +213,7 @@ sub _AddAction {
         CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
         CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
-        Tooltip              => $GetParam{Tooltip},
+        Tooltip                   => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -470,7 +470,7 @@ sub _ChangeAction {
         CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
         CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
-        Tooltip              => $GetParam{Tooltip},
+        Tooltip                   => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -782,7 +782,7 @@ sub _ShowScreen {
             CBFontStyleItalicValue    => $CBFontStyleItalicValue,
             CBFontStyleBoldValue      => $CBFontStyleBoldValue,
             CBFontStyleUnderLineValue => $CBFontStyleUnderLineValue,
-            Tooltip              => $Tooltip,
+            Tooltip                   => $Tooltip,
         }
     );
 
