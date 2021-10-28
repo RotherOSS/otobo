@@ -545,6 +545,43 @@ input[readonly=readonly] {
     cursor: default !important;
 }
 
+/* Tooltips */
+.Tooltip {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    position: relative;
+    top: 3px;
+    left: -32px;
+    margin-left: -22px; /* +4px for empty spaces */
+}
+
+.Tooltip i {
+    font-size: 18px;
+}
+
+.Tooltip p {
+    z-index: 1;
+    display: none;
+    padding: 16px 24px;
+    width: 240px;
+    line-height: 1.2;
+    white-space: normal;
+    color: #00023c;
+    color: var(--colTextDark);
+    background: #fff;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark); 
+    border-radius: 15px;
+}
+
+.Tooltip:hover p {
+    display: inline;
+    position: absolute;
+    left: -220px;
+    top: -8px;
+}
+
 /* jstree stuff */
 
 .jstree-node > .jstree-wholerow {
