@@ -77,7 +77,7 @@ sub Run {
     );
 
     # generate Mojo transaction for submitting plain to S3
-    my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'packages.json';
+    my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'event_package.json';
     my $Now      = Mojo::Date->new(time)->to_datetime;
     my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
     my %Headers  = ( 'Content-Type' => 'application/json' );
