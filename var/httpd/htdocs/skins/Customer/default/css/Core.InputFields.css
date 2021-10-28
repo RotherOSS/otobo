@@ -552,7 +552,7 @@ input[readonly=readonly] {
     height: 18px;
     vertical-align: top;
     position: relative;
-    top: 20px;
+    top: 21px;
     left: -32px;
     margin-left: -22px; /* +4px for empty spaces */
 }
