@@ -92,6 +92,7 @@
                                     <p class="FieldExplanation">[% Translate("This is the name to be shown on the screens where the field is active.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
+
                                 <label class="Mandatory" for="FontTemplate">[% Translate("Template") | html %]<input type="checkbox" id="ActivateTemplate" name="ActivateTemplate" [% Data.ActivateTemplate | html %] > :</label>
                                 <div class="Field">
                                     [% Data.FontTemplate %]
@@ -100,7 +101,6 @@
                                     <p class="FieldExplanation">[% Translate("Template") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
-
 
                                 <label class="Mandatory" for="CBFontStyle"> [% Translate("Style") | html %]:</label>
                                 <div class="Field">
@@ -132,13 +132,19 @@
                                 </div>
                                 <div class="Clear"></div>
 
-
                                 <label class="Mandatory" for="FieldOrder"><span class="Marker">*</span> [% Translate("Field order") | html %]:</label>
                                 <div class="Field">
                                     [% Data.DynamicFieldOrderStrg %]
                                     <div id="FieldOrderError" class="TooltipErrorMessage"><p>[% Translate("This field is required and must be numeric.") | html %]</p></div>
                                     <div id="FieldOrderServerError" class="TooltipErrorMessage"><p>[% Translate(Data.FieldOrderServerErrorMessage) | html %]</p></div>
                                     <p class="FieldExplanation">[% Translate("This is the order in which this field will be shown on the screens where is active.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
+
+                                <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
+                                <div class="Field">
+                                    <textarea id="TooltipValue" class="W75pc" rows="3" cols="80" name="Tooltip">[% Data.Tooltip | html %]</textarea>
+                                    <p class="FieldExplanation">[% Translate("This is the tooltip message shown inside the customer interface.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
                             </fieldset>

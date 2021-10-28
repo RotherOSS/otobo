@@ -2351,9 +2351,10 @@ sub _Mask {
                 $LayoutObject->Block(
                     Name => 'FollowUpDynamicField_' . $DynamicFieldConfig->{Name},
                     Data => {
-                        Name  => $DynamicFieldConfig->{Name},
-                        Label => $DynamicFieldHTML->{Label},
-                        Field => $DynamicFieldHTML->{Field},
+                        Name    => $DynamicFieldConfig->{Name},
+                        Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
+                        Label   => $DynamicFieldHTML->{Label},
+                        Field   => $DynamicFieldHTML->{Field},
                         %Hidden,
                     },
                 );
@@ -2362,9 +2363,10 @@ sub _Mask {
                 $LayoutObject->Block(
                     Name => 'FollowUpDynamicField',
                     Data => {
-                        Name  => $DynamicFieldConfig->{Name},
-                        Label => $DynamicFieldHTML->{Label},
-                        Field => $DynamicFieldHTML->{Field},
+                        Name    => $DynamicFieldConfig->{Name},
+                        Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
+                        Label   => $DynamicFieldHTML->{Label},
+                        Field   => $DynamicFieldHTML->{Field},
                         %Hidden,
                     },
                 );

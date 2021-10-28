@@ -179,7 +179,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview
+            TranslatableValues ValidID Link LinkPreview Tooltip
         )
         )
     {
@@ -243,6 +243,7 @@ sub _AddAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # create a new field
@@ -338,6 +339,8 @@ sub _Change {
         # set Link
         $Config{Link}        = $DynamicFieldData->{Config}->{Link};
         $Config{LinkPreview} = $DynamicFieldData->{Config}->{LinkPreview};
+
+        $Config{Tooltip} = $DynamicFieldData->{Config}->{Tooltip};
     }
 
     return $Self->_ShowScreen(
@@ -456,7 +459,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview
+            TranslatableValues ValidID Link LinkPreview Tooltip
         )
         )
     {
@@ -547,6 +550,7 @@ sub _ChangeAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -848,6 +852,18 @@ sub _ShowScreen {
     my $Link        = $Param{Link}        || '';
     my $LinkPreview = $Param{LinkPreview} || '';
 
+    # define tooltip
+    my $Tooltip = ( defined $Param{Config}->{Tooltip} ? $Param{Config}->{Tooltip} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'Tooltip',
+        Data => {
+            %Param,
+            Tooltip => $Tooltip,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -919,6 +935,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
+            Tooltip                => $Tooltip,
         }
     );
 

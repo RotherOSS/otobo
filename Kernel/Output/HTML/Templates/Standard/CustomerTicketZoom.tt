@@ -60,6 +60,12 @@
                     <div class="Field">
                         [% Data.Field %]
                     </div>
+                    [% IF Data.Tooltip %]
+                        <div class="Tooltip">
+                            <i class="ooofo ooofo-help"></i>
+                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+                        </div>
+                    [% END %]
                     [% Data.Label %]
                     <div class="Clear"></div>
                 </div>
@@ -100,6 +106,12 @@
                     <div class="Field">
                         [% Data.Field %]
                     </div>
+                    [% IF Data.Tooltip %]
+                        <div class="Tooltip">
+                            <i class="ooofo ooofo-help"></i>
+                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+                        </div>
+                    [% END %]
                     [% Data.Label %]
                     <div class="Clear"></div>
                 </div>
@@ -121,6 +133,12 @@
                     <div class="Field">
                         [% Data.Field %]
                     </div>
+                    [% IF Data.Tooltip %]
+                        <div class="Tooltip">
+                            <i class="ooofo ooofo-help"></i>
+                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+                        </div>
+                    [% END %]
                     [% Data.Label %]
                     <div class="Clear"></div>
                 </div>
@@ -131,6 +149,12 @@
                     <div class="Field">
                         [% Data.Field %]
                     </div>
+                    [% IF Data.Tooltip %]
+                        <div class="Tooltip">
+                            <i class="ooofo ooofo-help"></i>
+                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+                        </div>
+                    [% END %]
                     [% Data.Label %]
                     <div class="Clear"></div>
                 </div>
@@ -144,6 +168,12 @@
 #                    <div class="Field">
 #                        [% Data.Field %]
 #                    </div>
+#                    [% IF Data.Tooltip %]
+#                        <div class="Tooltip">
+#                            <i class="ooofo ooofo-help"></i>
+#                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+#                        </div>
+#                    [% END %]
 #                    [% Data.Label %]
 #                    <div class="Clear"></div>
 #                </div>
@@ -153,6 +183,12 @@
 #                    <div class="Field">
 #                        [% Data.Field %]
 #                    </div>
+#                    [% IF Data.Tooltip %]
+#                        <div class="Tooltip">
+#                            <i class="ooofo ooofo-help"></i>
+#                            <p>[% Data.Tooltip | html | html_line_break %]</p>
+#                        </div>
+#                    [% END %]
 #                    [% Data.Label %]
 #                    <div class="Clear"></div>
 #                </div>

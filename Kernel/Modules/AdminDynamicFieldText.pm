@@ -167,7 +167,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -203,6 +203,7 @@ sub _AddAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
+        Tooltip      => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -397,7 +398,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue ValidID Rows Cols Link LinkPreview Tooltip)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -484,6 +485,7 @@ sub _ChangeAction {
     my $FieldConfig = {
         DefaultValue => $GetParam{DefaultValue},
         RegExList    => \@RegExList,
+        Tooltip      => $GetParam{Tooltip},
     };
 
     if ( $GetParam{FieldType} eq 'Text' ) {
@@ -689,6 +691,18 @@ sub _ShowScreen {
         );
     }
 
+    # define tooltip
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'Tooltip',
+        Data => {
+            %Param,
+            Tooltip => $Tooltip,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -824,6 +838,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
+            Tooltip               => $Tooltip,
         }
     );
 
