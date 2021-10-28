@@ -757,7 +757,7 @@ sub LoadDefaults {
 
     # Make sure the daemon is able to deploy the configuration to all cluster nodes that have no ZZZAAuto.pm yet.
     $Self->{DaemonModules}->{SystemConfigurationSyncManager} =  {
-      Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
+        Module => 'Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager'
     };
 
     # --------------------------------------------------- #
@@ -2043,7 +2043,21 @@ sub new {
                 );
             }
 
-            # check the relant files
+            # Package events are not handled here as the whole web server is restarted when
+            # a package has changed. See Plack::Handler::SyncWithS3 which is activated in entrypoint.sh.
+            my $EventFileName = 'event_package.json';
+            if ( exists $FileName2Size{$EventFileName} && exists $FileName2LastModified{$EventFileName} ) {
+
+                # gather info about the local file
+                my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$EventFileName";
+
+                # do not sync ZZZ*.pm files when there was a package event
+                last CHECK_SYNC unless $Stat;
+                last CHECK_SYNC unless $Stat->size == $FileName2Size{$EventFileName};
+                last CHECK_SYNC unless $Stat->mtime == $FileName2LastModified{$EventFileName};
+            }
+
+            # check the relevant ZZZ files
             my @OutdatedZZZFilenames;
             ZZZFILENAME:
             for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm) ) {

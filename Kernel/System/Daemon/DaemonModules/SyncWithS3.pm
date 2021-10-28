@@ -106,7 +106,7 @@ sub Run {
     # generate Mojo transaction for submitting plain to S3
     # TODO: AWS bucket must be set up in Kubernetes config map
     my $Bucket      = 'otobo-20211018a';
-    my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
+    my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
 
     my $UserAgent = Mojo::UserAgent->new();
     my $S3Object  = Mojo::AWS::S3->new(
@@ -123,14 +123,14 @@ sub Run {
     # expect something like:
     #   %FileName2Size         = ( 'ZZZAAuto.pm' => 325269 );
     #   %FileName2LastModified = ( 'ZZZAAuto.pm' => 1634912805 );
-    my (%FileName2Size, %FileName2LastModified);
+    my ( %FileName2Size, %FileName2LastModified );
     {
         # Use localstack as host, as we run within container
         # For the interface see https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html.
         my $URL = Mojo::URL->new
             ->scheme('https')
             ->host('localstack:4566')
-            ->path( $Bucket );
+            ->path($Bucket);
         $URL->query(
             [
                 'list-type' => 2,
@@ -169,7 +169,7 @@ sub Run {
 
     # Only Package events are handled here.
     my $DoReinstallPackages = 0;
-    my $EventFileName = 'event_package.json';
+    my $EventFileName       = 'event_package.json';
 
     return 1 unless exists $FileName2Size{$EventFileName};
     return 1 unless exists $FileName2LastModified{$EventFileName};
@@ -187,7 +187,7 @@ sub Run {
             $Stat->size != $FileName2Size{$EventFileName}
             ||
             $Stat->mtime != $FileName2LastModified{$EventFileName}
-        )
+            )
         {
             $DoReinstallPackages = 1;
         }
@@ -201,13 +201,14 @@ sub Run {
     # Use the console command in order to avoid dependance on OTOBO modules in the watchdog loop
     my $Output = qx{/opt/otobo/bin/otobo.Console.pl Admin::Package::ReinstallAll};
     warn "Admin::Package::ReinstallAll: $Output";
+
     # TODO: $OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild
     # TODO: $OTOBO_HOME/bin/otobo.Console.pl Maint::Cache::Delete
 
     # no locking required as there should be no concurrent access
 
     # update event_package.json from S3
-    my $FilePath    = join '/', $Bucket, ($FilesPrefix . $EventFileName); # $FilesPrefix already has trailing '/'
+    my $FilePath    = join '/', $Bucket, ( $FilesPrefix . $EventFileName );                         # $FilesPrefix already has trailing '/'
     my $Now         = Mojo::Date->new(time)->to_datetime;
     my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
     my $Transaction = $S3Object->signed_request(

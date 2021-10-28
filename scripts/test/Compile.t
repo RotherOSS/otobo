@@ -41,6 +41,7 @@ my @Dirs = qw(Kernel Custom scripts bin);
 my %FailureIsAccepted = (
     'Kernel/System/Auth/Radius.pm'                                      => 'Authen::Radius is not required',
     'Kernel/System/CustomerAuth/Radius.pm'                              => 'Authen::Radius is not required',
+    'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm'                  => 'Mojolicious and Mojo::AWS::S3 are not required',
     'Kernel/System/Package/Event/SyncWithS3.pm'                         => 'Mojolicious and Mojo::AWS::S3 are not required',
     'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm' => 'Mojolicious and Mojo::AWS::S3 are not required',
     'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm'                        => 'Devel::REPL::Plugin is not required',
