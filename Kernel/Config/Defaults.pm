@@ -31,7 +31,6 @@ use utf8;
 use File::stat;
 use Digest::MD5 qw(md5_hex);
 use Exporter qw(import);
-use File::Basename qw(basename);
 use Fcntl qw(:flock);
 
 # CPAN modules
@@ -1988,7 +1987,7 @@ sub new {
             secret_key => 'test',
         );
 
-        # only on process should sync with S3
+        # only a single process should sync with S3 at one time
         CHECK_SYNC:
         while (1) {
 
@@ -2029,7 +2028,8 @@ sub new {
                     sub {
                         my ($ContentNode) = @_;
 
-                        my $Filename = basename( $ContentNode->at('Key')->text );
+                        # also keep the objects in the subdirectories, but relative to the prefix
+                        my $Filename = $ContentNode->at('Key')->text =~ s/^\Q$FilesPrefix\E//r;
 
                         return unless $Filename =~ m/\.pm$/;
 
