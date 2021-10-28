@@ -1656,6 +1656,7 @@ sub _MaskNew {
         if ( $Config->{SLA} ) {
             if ( $Param{ServiceID} ) {
                 %SLA = $TicketObject->TicketSLAList(
+                    QueueID        => 1,    # use default QueueID if none is provided in %Param
                     %Param,
                     Action         => $Self->{Action},
                     CustomerUserID => $Self->{UserID},
