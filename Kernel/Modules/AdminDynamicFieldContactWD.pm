@@ -176,7 +176,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID ToolTipValue
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID TooltipValue
         )
         )
     {
@@ -254,7 +254,7 @@ sub _AddAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
-        ToolTipValue             => $GetParam{ToolTipValue},
+        TooltipValue             => $GetParam{TooltipValue},
     };
 
     # Create a new field.
@@ -454,7 +454,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName
-            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID ToolTipValue
+            TranslatableValues SortOrder MandatoryFields SearchableFields ValidID TooltipValue
         )
         )
     {
@@ -563,7 +563,7 @@ sub _ChangeAction {
         MandatoryFieldsComputed  => $GetParam{MandatoryFieldsComputed},
         SearchableFields         => $GetParam{SearchableFields},
         SearchableFieldsComputed => $GetParam{SearchableFieldsComputed},
-        ToolTipValue             => $GetParam{ToolTipValue},
+        TooltipValue             => $GetParam{TooltipValue},
     };
 
     # Update dynamic field (FieldType and ObjectType cannot be changed; use old values).
@@ -812,14 +812,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -887,7 +887,7 @@ sub _ShowScreen {
             ValueCounter           => $ValueCounter,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            ToolTipValue           => $ToolTipValue,
+            TooltipValue           => $TooltipValue,
         },
     );
 

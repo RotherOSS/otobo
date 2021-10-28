@@ -179,7 +179,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview ToolTipValue
+            TranslatableValues ValidID Link LinkPreview TooltipValue
         )
         )
     {
@@ -243,7 +243,7 @@ sub _AddAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     # create a new field
@@ -340,7 +340,7 @@ sub _Change {
         $Config{Link}        = $DynamicFieldData->{Config}->{Link};
         $Config{LinkPreview} = $DynamicFieldData->{Config}->{LinkPreview};
 
-        $Config{ToolTipValue} = $DynamicFieldData->{Config}->{ToolTipValue};
+        $Config{TooltipValue} = $DynamicFieldData->{Config}->{TooltipValue};
     }
 
     return $Self->_ShowScreen(
@@ -459,7 +459,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName DefaultValue PossibleNone
-            TranslatableValues ValidID Link LinkPreview ToolTipValue
+            TranslatableValues ValidID Link LinkPreview TooltipValue
         )
         )
     {
@@ -550,7 +550,7 @@ sub _ChangeAction {
         TranslatableValues => $GetParam{TranslatableValues},
         Link               => $GetParam{Link},
         LinkPreview        => $GetParam{LinkPreview},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -853,14 +853,14 @@ sub _ShowScreen {
     my $LinkPreview = $Param{LinkPreview} || '';
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{Config}->{ToolTipValue} ? $Param{Config}->{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{Config}->{TooltipValue} ? $Param{Config}->{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -935,7 +935,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
-            ToolTipValue           => $ToolTipValue,
+            TooltipValue           => $TooltipValue,
         }
     );
 

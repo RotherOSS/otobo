@@ -176,7 +176,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue ToolTipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue TooltipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -213,7 +213,7 @@ sub _AddAction {
         CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
         CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
-        ToolTipValue              => $GetParam{ToolTipValue},
+        TooltipValue              => $GetParam{TooltipValue},
     };
 
     # create a new field
@@ -406,7 +406,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue ToolTipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName ValidID FontSize FontColor FontTemplate ActivateTemplate CBFontStyleItalic CBFontStyleBold CBFontStyleUnderLine CBFontStyleItalicValue CBFontStyleBoldValue CBFontStyleUnderLineValue TooltipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -470,7 +470,7 @@ sub _ChangeAction {
         CBFontStyleItalicValue    => $GetParam{CBFontStyleItalicValue},
         CBFontStyleBoldValue      => $GetParam{CBFontStyleBoldValue},
         CBFontStyleUnderLineValue => $GetParam{CBFontStyleUnderLineValue},
-        ToolTipValue              => $GetParam{ToolTipValue},
+        TooltipValue              => $GetParam{TooltipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -667,14 +667,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -782,7 +782,7 @@ sub _ShowScreen {
             CBFontStyleItalicValue    => $CBFontStyleItalicValue,
             CBFontStyleBoldValue      => $CBFontStyleBoldValue,
             CBFontStyleUnderLineValue => $CBFontStyleUnderLineValue,
-            ToolTipValue              => $ToolTipValue,
+            TooltipValue              => $TooltipValue,
         }
     );
 

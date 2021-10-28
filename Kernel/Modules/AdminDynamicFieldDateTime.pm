@@ -180,7 +180,7 @@ sub _AddAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview ToolTipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview TooltipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -214,7 +214,7 @@ sub _AddAction {
         YearsInPast     => $GetParam{YearsInPast},
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
-        ToolTipValue    => $GetParam{ToolTipValue},
+        TooltipValue    => $GetParam{TooltipValue},
     };
 
     # create a new field
@@ -426,7 +426,7 @@ sub _ChangeAction {
     }
 
     for my $ConfigParam (
-        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview ToolTipValue)
+        qw(ObjectType ObjectTypeName FieldType FieldTypeName YearsPeriod DateRestriction ValidID Link LinkPreview TooltipValue)
         )
     {
         $GetParam{$ConfigParam} = $ParamObject->GetParam( Param => $ConfigParam );
@@ -487,7 +487,7 @@ sub _ChangeAction {
         YearsInPast     => $GetParam{YearsInPast},
         Link            => $GetParam{Link},
         LinkPreview     => $GetParam{LinkPreview},
-        ToolTipValue    => $GetParam{ToolTipValue},
+        TooltipValue    => $GetParam{TooltipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -699,14 +699,14 @@ sub _ShowScreen {
     }
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -782,7 +782,7 @@ sub _ShowScreen {
             ReadonlyInternalField => $ReadonlyInternalField,
             Link                  => $Link,
             LinkPreview           => $LinkPreview,
-            ToolTipValue          => $ToolTipValue,
+            TooltipValue          => $TooltipValue,
         }
     );
 

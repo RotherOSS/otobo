@@ -178,7 +178,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID ToolTipValue
+            TranslatableValues ValidID TooltipValue
         )
         )
     {
@@ -245,7 +245,7 @@ sub _AddAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     # create a new field
@@ -452,7 +452,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone
-            TranslatableValues ValidID ToolTipValue
+            TranslatableValues ValidID TooltipValue
         )
         )
     {
@@ -545,7 +545,7 @@ sub _ChangeAction {
         DefaultValue       => $GetParam{DefaultValue},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     # update dynamic field (FieldType and ObjectType cannot be changed; use old values)
@@ -845,14 +845,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{Config}->{ToolTipValue} ? $Param{Config}->{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{Config}->{TooltipValue} ? $Param{Config}->{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -925,7 +925,7 @@ sub _ShowScreen {
             TreeViewStrg           => $TreeViewStrg,
             TranslatableValuesStrg => $TranslatableValuesStrg,
             ReadonlyInternalField  => $ReadonlyInternalField,
-            ToolTipValue           => $ToolTipValue,
+            TooltipValue           => $TooltipValue,
         }
     );
 

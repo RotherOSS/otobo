@@ -92,9 +92,9 @@
                                 </div>
                                 <div class="Clear"></div>
 
-				<label for="ToolTip">[% Translate("Tooltip message:") | html %]</label>
+				<label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
 				<div class="Field">
-				    <textarea id="ToolTipValue" class="W50pc" rows="10" cols="60" name="ToolTipValue">[% Data.ToolTipValue | html %]</textarea>
+				    <textarea id="TooltipValue" class="W50pc" rows="10" cols="60" name="TooltipValue">[% Data.TooltipValue | html %]</textarea>
 				    <p class="FieldExplanation">[% Translate("This is the tooltip message shown inside the customer interface.") | html %]</p>
 				</div>
 				<div class="Clear"></div>

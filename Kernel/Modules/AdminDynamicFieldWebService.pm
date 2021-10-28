@@ -232,7 +232,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
-            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview ToolTipValue
+            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview TooltipValue
         )
         )
     {
@@ -267,7 +267,7 @@ sub _AddAction {
         TreeView           => $GetParam{TreeView},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -482,7 +482,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
-            PossibleNone TranslatableValues ValidID Link LinkPreview ToolTipValue
+            PossibleNone TranslatableValues ValidID Link LinkPreview TooltipValue
         )
         )
     {
@@ -546,7 +546,7 @@ sub _ChangeAction {
         PossibleNone       => $GetParam{PossibleNone},
         TreeView           => $GetParam{TreeView},
         TranslatableValues => $GetParam{TranslatableValues},
-        ToolTipValue       => $GetParam{ToolTipValue},
+        TooltipValue       => $GetParam{TooltipValue},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -847,14 +847,14 @@ sub _ShowScreen {
     );
 
     # define tooltip
-    my $ToolTipValue = ( defined $Param{ToolTipValue} ? $Param{ToolTipValue} : '' );
+    my $TooltipValue = ( defined $Param{TooltipValue} ? $Param{TooltipValue} : '' );
 
     # create the default value element
     $LayoutObject->Block(
-        Name => 'ToolTipValue',
+        Name => 'TooltipValue',
         Data => {
             %Param,
-            ToolTipValue => $ToolTipValue,
+            TooltipValue => $TooltipValue,
         },
     );
 
@@ -934,7 +934,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
-            ToolTipValue           => $ToolTipValue,
+            TooltipValue           => $TooltipValue,
         },
     );
 
