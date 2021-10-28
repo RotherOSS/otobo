@@ -2177,7 +2177,9 @@ sub new {
             eval {
 
                 # This also adds $RelativeFile to %Module::Refresh::CACHE.
-                if ( $ENV{GATEWAY_INTERFACE} ) {
+                # TODO: does this make sense for Console commands?
+                #if ( $ENV{GATEWAY_INTERFACE} )
+                {
                     Module::Refresh->refresh_module_if_modified( $RelativeFile );
                 }
 
