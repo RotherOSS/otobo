@@ -370,9 +370,9 @@ sub EditFieldRender {
         Multiple    => 1,
     );
 
-    my %FieldTemplateData = {
+    my %FieldTemplateData = (
         'PredefinedHTML' => $PredefinedHTML
-    };
+    );
 
     if ( $FieldConfig->{TreeView} ) {
         $FieldTemplateData{TreeView}             = $FieldConfig->{TreeView};

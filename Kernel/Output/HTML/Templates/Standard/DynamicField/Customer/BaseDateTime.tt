@@ -14,18 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-[% Data.PreDefinedHTML %]
+[% Data.PredefinedHTML %]
 [% IF Data.Mandatory %]
-    <div id="[% DivID %]" class="TooltipErrorMessage">
-        <p>
-            [% Translate(Data.FieldRequiredMessage) | html %]
-        </p>
-    </div>
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% Translate(Data.FieldRequiredMessage) | html %]
+    </p>
+</div>
 [% END %]
 [% IF Data.ServerError %]
-    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
-        <p>
-            [% Translate(Data.ErrorMessage) | html %]
-        </p>
-    </div>
+<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <p>
+        [% Translate(Data.ErrorMessage) | html %]
+    </p>
+</div>
 [% END %]

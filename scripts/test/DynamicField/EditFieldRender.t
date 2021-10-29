@@ -242,6 +242,7 @@ my @Tests = (
         },
         ExpectedResults => {
             Field => <<"EOF",
+
 <input type="text" class="DynamicFieldText W50pc MyClass" id="DynamicField_$DynamicFieldConfigs{Text}->{Name}" name="DynamicField_$DynamicFieldConfigs{Text}->{Name}" title="$DynamicFieldConfigs{Text}->{LabelEscaped}" value="" />
 EOF
             Label => <<"EOF",
@@ -3370,9 +3371,14 @@ for my $Test (@Tests) {
     }
     if ( $Test->{Success} ) {
 
+        $FieldHTML->{Field} =~ s/^\n+//;
+        $FieldHTML->{Field} =~ s/\n+$//;
+        $FieldHTML->{Field} =~ s/\n{2,}/\n/g;
+
         # Heredocs always have the newline, even if it is not expected
         if ( $FieldHTML->{Field} !~ m{\n$} ) {
-            chomp $Test->{ExpectedResults}->{Field};
+            $Test->{ExpectedResults}->{Field} =~ s/^\n+//;
+            $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
         }
 
         $Self->IsDeeply(

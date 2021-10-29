@@ -363,9 +363,9 @@ sub EditFieldRender {
         OverrideTimeZone => 1,
     );
 
-    my %FieldTemplateData = {
+    my %FieldTemplateData = (
         'PredefinedHTML' => $PredefinedHTML
-    };
+    );
 
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{Mandatory} = $Param{Mandatory};

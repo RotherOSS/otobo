@@ -286,7 +286,12 @@ sub EditFieldRender {
 
     my $FieldNameUsed = $FieldName . "Used";
 
-    my %FieldTemplateData = {};
+    my %FieldTemplateData = (
+        'FieldNameUsed' => $FieldNameUsed,
+        'FieldClass'    => $FieldClass,
+        'FieldName'     => $FieldName,
+        'FieldChecked'  => $FieldChecked
+    );
 
     if ( $Param{ConfirmationNeeded} ) {
 
@@ -312,6 +317,8 @@ sub EditFieldRender {
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
+
+    $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
 
     if ( $Param{Mandatory} ) {
 

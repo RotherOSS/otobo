@@ -286,9 +286,9 @@ sub EditFieldRender {
         $FieldTemplateData{DivID}        = $FieldName . 'UsedServerError';
     }
 
-    my $FieldTemplateFile = 'DynamicField/Agent/BaseDatabase';
+    my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
     if ( $Param{CustomerInterface} ) {
-        $FieldTemplateFile = 'DynamicField/Customer/BaseDatabase';
+        $FieldTemplateFile = 'DynamicField/Customer/BaseDateTime';
     }
 
     # call EditLabelRender on the common Driver

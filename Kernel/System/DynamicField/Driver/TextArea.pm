@@ -208,8 +208,8 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{ServerErrorDivID} = $FieldName . 'ServerError';
 
         $FieldTemplateData{ServerError} = $Param{ServerError};
     }

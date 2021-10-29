@@ -241,13 +241,13 @@ sub EditFieldRender {
 
     my $VisibleValue = $FieldConfig->{ContactsWithData}->{$Value}->{Name} || '';
 
-    my %FieldTemplateData = {
+    my %FieldTemplateData = (
         'FieldName'         => $FieldName,
         'ValueEscaped'      => $ValueEscaped,
         'FieldClass'        => $FieldClass,
         'FieldLabelEscaped' => $FieldLabelEscaped,
         'VisibleValue'      => $VisibleValue,
-    };
+    );
 
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{DivID} = $FieldName . 'Error';
