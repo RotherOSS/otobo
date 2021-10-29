@@ -82,7 +82,7 @@ END_SAMPLE
         Key => $Key,
     );
 
-    is( $Retrieved{FileSizeRaw}, bytes::length($Content), 'size in bytes' );
+    is( $Retrieved{FilesizeRaw}, bytes::length($Content), 'size in bytes' );
     is( $Retrieved{Content},     $Content,                'Content matches' );
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
 };

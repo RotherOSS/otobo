@@ -283,7 +283,7 @@ sub RetrieveObject {
 
     return unless defined $Data{Content};
 
-    $Data{FileSizeRaw} = $Transaction->res->headers->content_length;
+    $Data{FilesizeRaw} = $Transaction->res->headers->content_length;
 
     return unless defined $Data{Content};
 

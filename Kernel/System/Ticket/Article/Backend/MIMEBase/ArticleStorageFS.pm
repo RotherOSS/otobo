@@ -598,7 +598,7 @@ sub ArticleAttachmentIndexRaw {
 
     FILENAME:
     for my $Filename ( sort @List ) {
-        my $FileSizeRaw = -s $Filename;
+        my $FilesizeRaw = -s $Filename;
 
         # do not use control file
         next FILENAME if $Filename =~ /\.content_alternative$/;
@@ -685,7 +685,7 @@ sub ArticleAttachmentIndexRaw {
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,
-            FilesizeRaw        => $FileSizeRaw,
+            FilesizeRaw        => $FilesizeRaw,
             ContentType        => $ContentType,
             ContentID          => $ContentID,
             ContentAlternative => $Alternative,
