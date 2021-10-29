@@ -74,12 +74,13 @@ sub new {
     my $Host            = $StorageS3Object->{Host};
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = $Bucket;
-    $Self->{Host}           = $Host;
-    $Self->{MetadataPrefix} = 'x-amz-meta-';
-    $Self->{S3Object}       = $S3Object;
-    $Self->{Scheme}         = $Scheme;
-    $Self->{UserAgent}      = $UserAgent;
+    $Self->{StorageS3Object} = $StorageS3Object;
+    $Self->{Bucket}          = $Bucket;
+    $Self->{Host}            = $Host;
+    $Self->{MetadataPrefix}  = 'x-amz-meta-';
+    $Self->{S3Object}        = $S3Object;
+    $Self->{Scheme}          = $Scheme;
+    $Self->{UserAgent}       = $UserAgent;
 
     return $Self;
 }
@@ -135,7 +136,7 @@ sub ArticleDeletePlain {
     my $URL      = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
         ->host( $Self->{Host} )
-        ->path($FilePath);
+        ->path( join '/', $Self->{Bucket}, $FilePath );
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'DELETE',
         datetime => $Now,
@@ -230,30 +231,12 @@ sub ArticleWritePlain {
 
     # generate Mojo transaction for submitting plain to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path($FilePath);
-    my %Headers = ( 'Content-Type' => 'text/plain' );
 
-    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-    # not sure how this works for Perl strings containing binary data
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
-
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method         => 'PUT',
-        datetime       => $Now,
-        url            => $URL,
-        signed_headers => \%Headers,
-        payload        => [ $Param{Email} ],
+    return $Self->{StorageS3Object}->StoreObject(
+        Key     => $FilePath,
+        Headers => { 'Content-Type' => 'text/plain' },
+        Content => $Param{Email},
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # TODO: check success
-    return 1;
 }
 
 sub ArticleWriteAttachment {
@@ -327,31 +310,13 @@ sub ArticleWriteAttachment {
         $Headers{'Content-Disposition'} = $Param{Disposition};
     }
 
-    # generate Mojo transaction for submitting attachment to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, $UniqueFilename );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path($FilePath);
 
-    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-    # not sure how this works for Perl strings containing binary data
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
-
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method         => 'PUT',
-        datetime       => $Now,
-        url            => $URL,
-        signed_headers => \%Headers,
-        payload        => [ $Param{Content} ],
+    return $Self->{StorageS3Object}->StoreObject(
+        Key     => $FilePath,
+        Content => $Param{Content},
+        Headers => \%Headers,
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # TODO: check success
-    return 1;
 }
 
 sub ArticlePlain {
@@ -373,23 +338,12 @@ sub ArticlePlain {
 
     # retrieve plain from S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path($FilePath);
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
+    my %Data     = $Self->{StorageS3Object}->RetrieveObject(
+        Key => $FilePath,
     );
 
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    return $Transaction->res->body;
+    return unless defined $Data{Content};
+    return $Data{Content};
 }
 
 sub ArticleAttachmentIndexRaw {
@@ -556,61 +510,12 @@ sub ArticleAttachment {
 
     my %Data = %{ $Index{ $Param{FileID} } };
 
-    # retrieve plain from S3
+    # retrieve attachment from S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, $Data{Filename} );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path($FilePath);
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
+
+    return $Self->{StorageS3Object}->RetrieveObject(
+        Key => $FilePath,
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    $Data{ContentType} = $Transaction->res->headers->content_type;
-
-    return unless $Data{ContentType};
-
-    $Data{Content} = $Transaction->res->body;
-
-    return unless $Data{Content};
-
-    # ContentID and ContentAlternative are not regular HTTP Headers
-    # They are stored as metadata.
-    my $ContentID = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentID");
-    $Data{ContentID} = $ContentID if $ContentID;
-    my $ContentAlternative = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentAlternative");
-    $Data{ContentAlternative} = $ContentAlternative if $ContentAlternative;
-
-    my $FullDisposition = $Transaction->res->headers->content_disposition;
-    if ($FullDisposition) {
-        ( $Data{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
-    }
-
-    # if no content disposition is set images with content id should be inline
-    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-        $Data{Disposition} = 'inline';
-    }
-
-    # converted article body should be inline
-    elsif ( $Data{Filename} =~ m{file-[12]} ) {
-        $Data{Disposition} = 'inline';
-    }
-
-    # all others including attachments with content id that are not images
-    #   should NOT be inline
-    else {
-        $Data{Disposition} = 'attachment';
-    }
-
-    # the S3 backend does not support storing articles in mixed backends
-    return %Data;
 }
 
 # the final delimiter is part of the prefix
@@ -626,11 +531,12 @@ sub _ArticlePrefix {
     return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';    # with trailing slash
 }
 
+# Bucket is not included
 # the final delimiter is part of the prefix
 sub _FilePath {
     my ( $Self, $ArticleID, $File ) = @_;
 
-    return join '/', $Self->{Bucket}, ( $Self->_ArticlePrefix($ArticleID) . $File );    # _ArticlePrefix() already has a trailing '/'
+    return $Self->_ArticlePrefix($ArticleID) . $File;    # _ArticlePrefix() already has a trailing '/'
 }
 
 1;

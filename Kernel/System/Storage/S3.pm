@@ -21,6 +21,7 @@ use v5.24;
 use utf8;
 
 # core modules
+use File::Basename qw(basename);
 
 # CPAN modules
 use Mojo::UserAgent;
@@ -61,11 +62,12 @@ sub new {
     my ($Class) = @_;
 
     # TODO: get the settings from %Param, the configuration, or the environment
-    my $Region    = 'eu-central-1';
-    my $Bucket    = 'otobo-20211029a';
-    my $AccessKey = 'test';
-    my $SecretKey = 'test';
-    my $Scheme    = 'https';
+    my $Region         = 'eu-central-1';
+    my $Bucket         = 'otobo-20211029a';
+    my $AccessKey      = 'test';
+    my $SecretKey      = 'test';
+    my $Scheme         = 'https';
+    my $MetadataPrefix = 'x-amz-meta-';
 
     # Use localstack as host, as we run within container
     my $Host      = 'localstack:4566';
@@ -81,12 +83,13 @@ sub new {
     );
 
     my $Self = {
-        Bucket    => $Bucket,
-        Delimiter => '/',
-        Host      => $Host,
-        S3Object  => $S3Object,
-        Scheme    => $Scheme,
-        UserAgent => $UserAgent,
+        Bucket         => $Bucket,
+        Delimiter      => '/',
+        Host           => $Host,
+        S3Object       => $S3Object,
+        Scheme         => $Scheme,
+        UserAgent      => $UserAgent,
+        MetadataPrefix => $MetadataPrefix,
     };
 
     return bless $Self, $Class;
@@ -179,6 +182,144 @@ sub ListObjects {
     );
 
     return %Name2Properties;
+}
+
+=head2 StoreObject()
+
+to be documented
+
+=cut
+
+sub StoreObject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key Content)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $Headers       = $Param{Headers} // {};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+
+    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
+    # not sure how this works for Perl strings containing binary data
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
+
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method         => 'PUT',
+        datetime       => $Now,
+        url            => $URL,
+        signed_headers => $Headers,
+        payload        => [ $Param{Content} ],
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    return $Transaction->result->is_success;
+}
+
+=head2 RetrieveObject()
+
+to be documented
+to do: save object to file
+
+=cut
+
+sub RetrieveObject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    # retrieve attachment from S3
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'GET',
+        datetime => $Now,
+        url      => $URL,
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    return unless $Transaction->result->is_success;
+
+    my %Data;
+
+    # the S3 backend does not support storing articles in mixed backends
+    $Data{ContentType} = $Transaction->res->headers->content_type;
+
+    return unless $Data{ContentType};
+
+    $Data{Content} = $Transaction->res->body;
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Data{Content} );
+
+    return unless defined $Data{Content};
+
+    $Data{FileSizeRaw} = $Transaction->res->headers->content_length;
+
+    return unless defined $Data{Content};
+
+    $Data{Filename} = basename( $Param{Key} );
+
+    # TODO: move the special handling to ArticleStorageS3.pm
+    # ContentID and ContentAlternative are not regular HTTP Headers
+    # They are stored as metadata.
+    my $ContentID = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentID");
+    $Data{ContentID} = $ContentID if $ContentID;
+    my $ContentAlternative = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentAlternative");
+    $Data{ContentAlternative} = $ContentAlternative if $ContentAlternative;
+
+    my $FullDisposition = $Transaction->res->headers->content_disposition;
+    if ($FullDisposition) {
+        ( $Data{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
+    }
+
+    # if no content disposition is set images with content id should be inline
+    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
+        $Data{Disposition} = 'inline';
+    }
+
+    # converted article body should be inline
+    elsif ( $Data{Filename} =~ m{file-[12]} ) {
+        $Data{Disposition} = 'inline';
+    }
+
+    # all others including attachments with content id that are not images
+    #   should NOT be inline
+    else {
+        $Data{Disposition} = 'attachment';
+    }
+
+    # the S3 backend does not support storing articles in mixed backends
+    return %Data;
 }
 
 1;
