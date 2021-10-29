@@ -300,7 +300,10 @@ sub Map {
     if ( !$ReturnData ) {
         return $Self->{DebuggerObject}->Error(
             Summary => 'Could not convert data from XML to Perl after mapping',
-            Data    => [ $@, $XMLPost ],
+            Data    => {
+                Message => $@,
+                XMLIn   => $XMLPost,
+            },
         );
     }
 
