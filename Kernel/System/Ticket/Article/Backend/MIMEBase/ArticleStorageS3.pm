@@ -27,14 +27,13 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 use File::Basename qw(basename);
 
 # CPAN modules
-use Mojo::AWS::S3;
 use Mojo::DOM;
 use Mojo::Date;
 use Mojo::URL;
-use Mojo::UserAgent;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
+use Kernel::System::Storage::S3;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,28 +65,21 @@ sub new {
     # Call new() on Base.pm to execute the common code.
     my $Self = $Type->SUPER::new(%Param);
 
-    # get values from SysConfig
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Region       = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorageS3::Region')
-        || die 'Got no AWS Region!';
-
-    # Bucket created on Docker host with:
-    # docker_admin> export AWS_ACCESS_KEY_ID=test
-    # docker_admin> export AWS_SECRET_ACCESS_KEY=test
-    # docker_admin> aws --endpoint-url=http://localhost:4566 s3 mb s3://otobo-20211010a
-    # make_bucket: otobo-20211010a
+    # TODO: don't access attributes directly
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $UserAgent       = $StorageS3Object->{UserAgent};
+    my $S3Object        = $StorageS3Object->{S3Object};
+    my $Bucket          = $StorageS3Object->{Bucket};
+    my $Scheme          = $StorageS3Object->{Scheme};
+    my $Host            = $StorageS3Object->{Host};
 
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211018a';
+    $Self->{Bucket}         = $Bucket;
+    $Self->{Host}           = $Host;
     $Self->{MetadataPrefix} = 'x-amz-meta-';
-    $Self->{UserAgent}      = Mojo::UserAgent->new();
-    $Self->{S3Object}       = Mojo::AWS::S3->new(
-        transactor => $Self->{UserAgent}->transactor,
-        service    => 's3',
-        region     => $Region,
-        access_key => 'test',
-        secret_key => 'test',
-    );
+    $Self->{S3Object}       = $S3Object;
+    $Self->{Scheme}         = $Scheme;
+    $Self->{UserAgent}      = $UserAgent;
 
     return $Self;
 }
@@ -138,9 +130,12 @@ sub ArticleDeletePlain {
     }
 
     # delete plain
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($FilePath);
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'DELETE',
         datetime => $Now,
@@ -197,7 +192,10 @@ sub ArticleDeleteAttachment {
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     # delete plain
     my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
     $URL->query('delete=');
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'POST',
@@ -233,8 +231,11 @@ sub ArticleWritePlain {
     # generate Mojo transaction for submitting plain to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
     my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my %Headers  = ( 'Content-Type' => 'text/plain' );
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($FilePath);
+    my %Headers = ( 'Content-Type' => 'text/plain' );
 
     # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
     # not sure how this works for Perl strings containing binary data
@@ -329,7 +330,10 @@ sub ArticleWriteAttachment {
     # generate Mojo transaction for submitting attachment to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, $UniqueFilename );
     my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($FilePath);
 
     # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
     # not sure how this works for Perl strings containing binary data
@@ -368,9 +372,12 @@ sub ArticlePlain {
     $Param{ArticleID} =~ s/\0//g;
 
     # retrieve plain from S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($FilePath);
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'GET',
         datetime => $Now,
@@ -400,7 +407,10 @@ sub ArticleAttachmentIndexRaw {
 
     # retrieve file list from S3
     my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
 
     # the parameters are passed in the Query-URL
     my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
@@ -450,10 +460,13 @@ sub ArticleAttachmentIndexRaw {
     # The HTTP headers give the metadata for the found keys
     my @Promises;
     for my $FileID ( sort { $a <=> $b } keys %Index ) {
-        my $Item        = $Index{$FileID};
-        my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
-        my $Now         = Mojo::Date->new(time)->to_datetime;
-        my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+        my $Item     = $Index{$FileID};
+        my $FilePath = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
+        my $Now      = Mojo::Date->new(time)->to_datetime;
+        my $URL      = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path($FilePath);
         my $Transaction = $Self->{S3Object}->signed_request(
             method   => 'HEAD',
             datetime => $Now,
@@ -544,9 +557,12 @@ sub ArticleAttachment {
     my %Data = %{ $Index{ $Param{FileID} } };
 
     # retrieve plain from S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $Data{Filename} );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, $Data{Filename} );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($FilePath);
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'GET',
         datetime => $Now,

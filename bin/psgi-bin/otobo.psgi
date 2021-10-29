@@ -93,7 +93,6 @@ use Plack::Response;
 use Plack::App::File;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 #use Data::Peek; # for development
 
@@ -105,6 +104,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -217,25 +217,18 @@ my $SyncFromS3Middleware = sub {
 
         if ( !-e $FilePath ) {
 
-            # TODO: AWS region must be set up in Kubernetes config map
-            my $Region = 'eu-central-1';
+            # TODO: don't access attributes directly
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $UserAgent       = $StorageS3Object->{UserAgent};
+            my $S3Object        = $StorageS3Object->{S3Object};
+            my $Bucket          = $StorageS3Object->{Bucket};
 
-            # generate Mojo transaction for submitting plain to S3
-            # TODO: AWS bucket must be set up in Kubernetes config map
-            my $Bucket = 'otobo-20211018a';
-
-            my $UserAgent = Mojo::UserAgent->new();
-            my $S3Object  = Mojo::AWS::S3->new(
-                transactor => $UserAgent->transactor,
-                service    => 's3',
-                region     => $Region,
-                access_key => 'test',
-                secret_key => 'test',
-            );
-
-            my $S3Key       = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
-            my $Now         = Mojo::Date->new(time)->to_datetime;
-            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($S3Key);    # run within container
+            my $S3Key = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            my $Now   = Mojo::Date->new(time)->to_datetime;
+            my $URL   = Mojo::URL->new
+                ->scheme( $StorageS3Object->{Scheme} )
+                ->host( $StorageS3Object->{Host} )
+                ->path($S3Key);
             my $Transaction = $S3Object->signed_request(
                 method   => 'GET',
                 datetime => $Now,

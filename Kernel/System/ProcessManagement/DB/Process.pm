@@ -23,10 +23,8 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
 use Kernel::System::ProcessManagement::DB::Entity;
@@ -35,7 +33,7 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
-
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -1461,28 +1459,24 @@ EOF
     # store Perl module in S3 when S3 is active
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-        # TODO: AWS region must be set up in Kubernetes config map
-        my $Region = 'eu-central-1';
+        # TODO: don't access attributes directly
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $UserAgent       = $StorageS3Object->{UserAgent};
+        my $S3Object        = $StorageS3Object->{S3Object};
+        my $Bucket          = $StorageS3Object->{Bucket};
 
         # generate Mojo transaction for submitting plain to S3
-        # TODO: AWS bucket must be set up in Kubernetes config map
-        my $Bucket   = 'otobo-20211018a';
         my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
         my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+        my $URL      = Mojo::URL->new
+            ->scheme( $StorageS3Object->{Scheme} )
+            ->host( $StorageS3Object->{Host} )
+            ->path($FilePath);
 
         # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
         # not sure how this works for Perl strings containing binary data
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$PMFileOutput );
 
-        my $UserAgent = Mojo::UserAgent->new();
-        my $S3Object  = Mojo::AWS::S3->new(
-            transactor => $UserAgent->transactor,
-            service    => 's3',
-            region     => $Region,
-            access_key => 'test',
-            secret_key => 'test',
-        );
         my $Transaction = $S3Object->signed_request(
             method   => 'PUT',
             datetime => $Now,

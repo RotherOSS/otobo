@@ -27,12 +27,11 @@ use utf8;
 # CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -200,28 +199,22 @@ sub MinifyFiles {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
-        # TODO: AWS region must be set up in Kubernetes config map
-        my $Region = 'eu-central-1';
-
-        # generate Mojo transaction for submitting plain to S3
-        # TODO: AWS bucket must be set up in Kubernetes config map
-        my $Bucket = 'otobo-20211018a';
+        # TODO: don't access attributes directly
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $UserAgent       = $StorageS3Object->{UserAgent};
+        my $S3Object        = $StorageS3Object->{S3Object};
+        my $Bucket          = $StorageS3Object->{Bucket};
 
         # the target directory is below the OTOBO home dir, adapt that to S3
         my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         my $FilePath = join '/', $TargetDirectory, $Filename;
         $FilePath =~ s!^$Home!$Bucket/OTOBO!;
         my $Now = Mojo::Date->new(time)->to_datetime;
-        my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+        my $URL = Mojo::URL->new
+            ->scheme( $StorageS3Object->{Scheme} )
+            ->host( $StorageS3Object->{Host} )
+            ->path($FilePath);
 
-        my $UserAgent = Mojo::UserAgent->new();
-        my $S3Object  = Mojo::AWS::S3->new(
-            transactor => $UserAgent->transactor,
-            service    => 's3',
-            region     => $Region,
-            access_key => 'test',
-            secret_key => 'test',
-        );
         my $Transaction = $S3Object->signed_request(
             method   => 'HEAD',
             datetime => $Now,
@@ -292,33 +285,27 @@ sub MinifyFiles {
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ($S3Backend) {
 
-            # TODO: AWS region must be set up in Kubernetes config map
-            my $Region = 'eu-central-1';
-
-            # generate Mojo transaction for submitting plain to S3
-            # TODO: AWS bucket must be set up in Kubernetes config map
-            my $Bucket = 'otobo-20211018a';
+            # TODO: don't access attributes directly
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $UserAgent       = $StorageS3Object->{UserAgent};
+            my $S3Object        = $StorageS3Object->{S3Object};
+            my $Bucket          = $StorageS3Object->{Bucket};
 
             # the target directory is below the OTOBO home dir, adapt that to S3
             my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $FilePath = join '/', $TargetDirectory, $Filename;
             $FilePath =~ s!^$Home!$Bucket/OTOBO!;
             my $Now = Mojo::Date->new(time)->to_datetime;
-            my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+            my $URL = Mojo::URL->new
+                ->scheme( $StorageS3Object->{Scheme} )
+                ->host( $StorageS3Object->{Host} )
+                ->path($FilePath);
 
             # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
             # not sure how this works for Perl strings containing binary data
             my $ContentCopy = $Content;
             $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ContentCopy );
 
-            my $UserAgent = Mojo::UserAgent->new();
-            my $S3Object  = Mojo::AWS::S3->new(
-                transactor => $UserAgent->transactor,
-                service    => 's3',
-                region     => $Region,
-                access_key => 'test',
-                secret_key => 'test',
-            );
             my $Transaction = $S3Object->signed_request(
                 method   => 'PUT',
                 datetime => $Now,

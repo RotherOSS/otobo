@@ -25,14 +25,12 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Mojo::AWS::S3;
-use Mojo::DOM;
 use Mojo::Date;
 use Mojo::JSON qw(encode_json);
 use Mojo::URL;
-use Mojo::UserAgent;
 
 # OTOBO modules
+use Kernel::System::Storage::S3;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -62,25 +60,20 @@ sub Run {
         }
     }
 
-    # TODO: AWS bucket must be set up in Kubernetes config map
-    my $Bucket       = 'otobo-20211018a';
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Region       = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorageS3::Region')
-        || die 'Got no AWS Region!';
-    my $UserAgent = Mojo::UserAgent->new();
-    my $S3Object  = Mojo::AWS::S3->new(
-        transactor => $UserAgent->transactor,
-        service    => 's3',
-        region     => $Region,
-        access_key => 'test',
-        secret_key => 'test',
-    );
+    # TODO: don't access attributes directly
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $UserAgent       = $StorageS3Object->{UserAgent};
+    my $S3Object        = $StorageS3Object->{S3Object};
+    my $Bucket          = $StorageS3Object->{Bucket};
 
     # generate Mojo transaction for submitting plain to S3
     my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'event_package.json';
     my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my %Headers  = ( 'Content-Type' => 'application/json' );
+    my $URL      = Mojo::URL->new
+        ->scheme( $StorageS3Object->{Scheme} )
+        ->host( $StorageS3Object->{Host} )
+        ->path($FilePath);
+    my %Headers = ( 'Content-Type' => 'application/json' );
 
     # TODO: get a more sensible content
     my $JSONContent = encode_json( \%Param );

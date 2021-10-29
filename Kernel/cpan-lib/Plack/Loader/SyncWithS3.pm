@@ -27,13 +27,11 @@ use parent qw(Plack::Loader);
 use File::stat;
 
 # CPAN modules
-use Mojo::AWS::S3;
-use Mojo::DOM;
 use Mojo::Date;
 use Mojo::URL;
-use Mojo::UserAgent;
 
 # OTOBO modules
+use Kernel::System::Storage::S3;
 
 =head1 NAME
 
@@ -80,91 +78,41 @@ sub run {
 
     return unless $Self->{pid};
 
-    # TODO: AWS region must be set up in Kubernetes config map
-    my $Region = 'eu-central-1';
+    # TODO: don't access attributes directly
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $UserAgent       = $StorageS3Object->{UserAgent};
+    my $S3Object        = $StorageS3Object->{S3Object};
+    my $Bucket          = $StorageS3Object->{Bucket};
 
     # generate Mojo transaction for submitting plain to S3
-    # TODO: AWS bucket must be set up in Kubernetes config map
-    my $Bucket      = 'otobo-20211018a';
     my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
-
-    my $UserAgent = Mojo::UserAgent->new();
-    my $S3Object  = Mojo::AWS::S3->new(
-        transactor => $UserAgent->transactor,
-        service    => 's3',
-        region     => $Region,
-        access_key => 'test',
-        secret_key => 'test',
-    );
 
     CHECK_SYNC:
     while (1) {
 
-        # TODO: AWS region must be set up in Kubernetes config map
-        # REST request to S3
-        # extract the relevant info from the returned XML
-        # expect something like:
-        #   %FileName2Size         = ( 'ZZZAAuto.pm' => 325269 );
-        #   %FileName2LastModified = ( 'ZZZAAuto.pm' => 1634912805 );
-        my (%FileName2Size, %FileName2LastModified);
-        {
-            # Use localstack as host, as we run within container
-            # For the interface see https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html.
-            my $URL = Mojo::URL->new
-                ->scheme('https')
-                ->host('localstack:4566')
-                ->path( $Bucket );
-            $URL->query(
-                [
-                    'list-type' => 2,
-                    prefix      => $FilesPrefix,
-                    delimiter   => '/'
-                ]
-            );
-
-            my $Now         = Mojo::Date->new(time)->to_datetime;
-            my $Transaction = $S3Object->signed_request(
-                method   => 'GET',
-                datetime => $Now,
-                url      => $URL,
-            );
-
-            # run blocking request
-            $UserAgent->start($Transaction);
-
-            # look at the Contents nodes in the returned XML
-            $Transaction->res->dom->find('Contents')->map(
-                sub {
-                    my ($ContentNode) = @_;
-
-                    # also keep the objects in the subdirectories, but relative to the prefix
-                    my $Filename = $ContentNode->at('Key')->text =~ s/^\Q$FilesPrefix\E//r;
-
-                    $FileName2Size{$Filename} = $ContentNode->at('Size')->text;
-
-                    # LastModified is actually the time when the file was uploaded
-                    my $ISO8601 = $ContentNode->at('LastModified')->text;
-                    my $Epoch   = Mojo::Date->new($ISO8601)->epoch;
-                    $FileName2LastModified{$Filename} = $Epoch;
-                }
-            );
-        }
+        # run a blocking GET request to S3
+        my %Name2Properties = $StorageS3Object->ListObjects(
+            Prefix => $FilesPrefix,
+        );
 
         # Only Package events are handled here.
         my $DoReinstallPackages = 0;
         my $EventFileName = 'event_package.json';
-        if ( exists $FileName2Size{$EventFileName} && exists $FileName2LastModified{$EventFileName} ) {
+        if ( exists $Name2Properties{$EventFileName} ) {
 
-            # gather info about the local file
+            # gather info about the local event file
             my $Stat = stat "/opt/otobo/Kernel/Config/Files/$EventFileName";
+
+            # info about the event file in S3
+            my $Properties = $Name2Properties{$EventFileName};
 
             # reinstall packages when there is a unhandled package event
             if (
                 !$Stat
                 ||
-                $Stat->size != $FileName2Size{$EventFileName}
+                $Stat->size != $Properties->{Size}
                 ||
-                $Stat->mtime != $FileName2LastModified{$EventFileName}
+                $Stat->mtime != $Properties->{Mtime}
             )
             {
                 $DoReinstallPackages = 1;
@@ -201,7 +149,10 @@ sub run {
         {
             my $FilePath    = join '/', $Bucket, ($FilesPrefix . $EventFileName); # $FilesPrefix already has trailing '/'
             my $Now         = Mojo::Date->new(time)->to_datetime;
-            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+            my $URL         = Mojo::URL->new
+                ->scheme( $StorageS3Object->{Scheme} )
+                ->host( $StorageS3Object->{Host} )
+                ->path($FilePath);
             my $Transaction = $S3Object->signed_request(
                 method   => 'GET',
                 datetime => $Now,
@@ -216,7 +167,7 @@ sub run {
 
             # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
             # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
-            # $FileName2LastModified{$EventFileName} can't be used here as the file could have changed since the last check.
+            # $Name2Properties{$EventFileName} can't be used here as the file could have changed since the last check.
             my $LastModified = $Transaction->result->headers->last_modified;
             my $Epoch        = Mojo::Date->new($LastModified)->epoch;
             utime $Epoch, $Epoch, "/opt/otobo/Kernel/Config/Files/$EventFileName";
