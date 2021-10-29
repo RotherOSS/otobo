@@ -2023,7 +2023,7 @@ sub new {
                 }
 
                 # either size of modified time must have changed
-                my $Properties = $Name2Properties{$EventFileName};
+                my $Properties = $Name2Properties{$ZZZFileName};
                 if ( $Stat->size != $Properties->{Size} ) {
                     push @OutdatedZZZFilenames, $ZZZFileName;
 
