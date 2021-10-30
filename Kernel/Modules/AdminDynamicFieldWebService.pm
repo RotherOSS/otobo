@@ -232,7 +232,7 @@ sub _AddAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName PossibleNone TranslatableValues
-            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview
+            ValidID WebserviceID Invoker Multiselect CacheTTL Link LinkPreview Tooltip
         )
         )
     {
@@ -267,6 +267,7 @@ sub _AddAction {
         TreeView           => $GetParam{TreeView},
         PossibleNone       => $GetParam{PossibleNone},
         TranslatableValues => $GetParam{TranslatableValues},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -481,7 +482,7 @@ sub _ChangeAction {
     for my $ConfigParam (
         qw(
             ObjectType ObjectTypeName FieldType FieldTypeName WebserviceID Invoker Multiselect CacheTTL
-            PossibleNone TranslatableValues ValidID Link LinkPreview
+            PossibleNone TranslatableValues ValidID Link LinkPreview Tooltip
         )
         )
     {
@@ -545,6 +546,7 @@ sub _ChangeAction {
         PossibleNone       => $GetParam{PossibleNone},
         TreeView           => $GetParam{TreeView},
         TranslatableValues => $GetParam{TranslatableValues},
+        Tooltip            => $GetParam{Tooltip},
     };
 
     if ( $GetParam{Multiselect} eq '0' ) {
@@ -844,6 +846,18 @@ sub _ShowScreen {
         Class      => 'Modernize W50pc',
     );
 
+    # define tooltip
+    my $Tooltip = ( defined $Param{Tooltip} ? $Param{Tooltip} : '' );
+
+    # create the default value element
+    $LayoutObject->Block(
+        Name => 'Tooltip',
+        Data => {
+            %Param,
+            Tooltip => $Tooltip,
+        },
+    );
+
     my $ReadonlyInternalField = '';
 
     # Internal fields can not be deleted and name should not change.
@@ -920,6 +934,7 @@ sub _ShowScreen {
             ReadonlyInternalField  => $ReadonlyInternalField,
             Link                   => $Link,
             LinkPreview            => $LinkPreview,
+            Tooltip                => $Tooltip,
         },
     );
 

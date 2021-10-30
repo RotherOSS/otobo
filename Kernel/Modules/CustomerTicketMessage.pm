@@ -1750,9 +1750,10 @@ sub _MaskNew {
             $LayoutObject->Block(
                 Name => 'DynamicField_' . $DynamicFieldConfig->{Name},
                 Data => {
-                    Name  => $DynamicFieldConfig->{Name},
-                    Label => $DynamicFieldHTML->{Label},
-                    Field => $DynamicFieldHTML->{Field},
+                    Name    => $DynamicFieldConfig->{Name},
+                    Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
+                    Label   => $DynamicFieldHTML->{Label},
+                    Field   => $DynamicFieldHTML->{Field},
                     %Hidden,
                 },
             );
@@ -1761,9 +1762,10 @@ sub _MaskNew {
             $LayoutObject->Block(
                 Name => 'DynamicField',
                 Data => {
-                    Name  => $DynamicFieldConfig->{Name},
-                    Label => $DynamicFieldHTML->{Label},
-                    Field => $DynamicFieldHTML->{Field},
+                    Name    => $DynamicFieldConfig->{Name},
+                    Tooltip => $DynamicFieldConfig->{Config}{Tooltip},
+                    Label   => $DynamicFieldHTML->{Label},
+                    Field   => $DynamicFieldHTML->{Field},
                     %Hidden,
                 },
             );

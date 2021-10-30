@@ -125,6 +125,13 @@
                                     <p class="FieldExplanation">[% Translate("This is the order in which this field will be shown on the screens where is active.") | html %]</p>
                                 </div>
                                 <div class="Clear"></div>
+
+                                <label for="TooltipValue">[% Translate("Tooltip message:") | html %]</label>
+                                <div class="Field">
+                                    <textarea id="TooltipValue" class="W75pc" rows="3" cols="80" name="Tooltip">[% Data.Tooltip | html %]</textarea>
+                                    <p class="FieldExplanation">[% Translate("This is the tooltip message shown inside the customer interface.") | html %]</p>
+                                </div>
+                                <div class="Clear"></div>
                             </fieldset>
                         </div>
                         <div class="Size1of2">

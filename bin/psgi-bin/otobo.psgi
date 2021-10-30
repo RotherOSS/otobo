@@ -107,7 +107,6 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
-use Kernel::System::Web::RPC                      ();    # provides OTOBO::RPC
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
