@@ -4270,12 +4270,33 @@ sub TicketLockSet {
     );
     return 1 if $Ticket{Lock} eq $Param{Lock};
 
-    # db update
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-        SQL => 'UPDATE ticket SET ticket_lock_id = ?, '
-            . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
-        Bind => [ \$Param{LockID}, \$Param{UserID}, \$Param{TicketID} ],
-    );
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    if ( $ConfigObject->Get('Ticket::OwnerResetOnUnlock') eq 1 && lc $Param{Lock} eq "unlock" ) {
+
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => 'UPDATE ticket SET ticket_lock_id = ?, user_id = ?,'
+                . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+            Bind => [ \$Param{LockID}, \'1', \$Param{UserID}, \$Param{TicketID} ],
+        );
+
+        # add history for special case unlock user change back to root@localhost
+        $Self->HistoryAdd(
+            TicketID     => $Param{TicketID},
+            CreateUserID => $Param{UserID},
+            HistoryType  => 'OwnerUpdate',
+            Name         => "Reset owner to root\@localhost.",
+        );
+
+    } else {
+
+        return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+            SQL => 'UPDATE ticket SET ticket_lock_id = ?, '
+                . ' change_time = current_timestamp, change_by = ? WHERE id = ?',
+            Bind => [ \$Param{LockID}, \$Param{UserID}, \$Param{TicketID} ],
+        );
+
+    }
 
     # clear ticket cache
     $Self->_TicketCacheClear( TicketID => $Param{TicketID} );
