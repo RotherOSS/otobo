@@ -1,0 +1,81 @@
+/*
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2021-2022 Rother OSS GmbH, https://rother-oss.com/
+
+This software comes with ABSOLUTELY NO WARRANTY. For details, see
+the enclosed file COPYING for license information (GPL). If you
+did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Application
+ * @subsection  GenericInterface
+ */
+
+@media screen,projection,tv,handheld {
+
+/**
+ * @subsubsection     Additional headers
+ */
+
+.HeaderContainer .Item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    max-width: 70%;
+    position: relative;
+}
+
+.HeaderContainer .Item .OutboundHeaderKey,
+.HeaderContainer .Item .OutboundHeaderValue {
+    display: block;
+    width: 350px;
+}
+
+.HeaderContainer .Item .OutboundHeaderValue {
+    margin-top: 5px;
+}
+
+.HeaderContainer .Item .ValueRows > div {
+    position: relative;
+}
+
+.HeaderContainer .Item > .RemoveButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 0px;
+    top: 0px;
+    background: #eee;
+    line-height: 25px;
+    text-align: center;
+}
+
+.HeaderContainer .Item .ValueRows > div:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.HeaderContainer .Item .ValueRows > div .RemoveButton {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: 350px;
+    right: auto;
+    margin-top: -12px;
+    top: 50%;
+    color: #ccc;
+    background: none;
+    line-height: 25px;
+    text-align: center;
+}
+
+.HeaderContainer .Item > .RemoveButton:hover {
+    background: #ddd;
+}
+
+.HeaderContainer .Item .ValueRows > div .RemoveButton:hover {
+    color: #fff;
+}
+
+}/* end @media */

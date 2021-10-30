@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -12,6 +12,9 @@
 // FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
+// This software comes with ABSOLUTELY NO WARRANTY. For details, see
+// the enclosed file COPYING for license information (GPL). If you
+// did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 // --
 
 "use strict";
@@ -23,7 +26,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 /**
  * @namespace Core.Agent.Admin.GenericInterfaceInvoker
  * @memberof Core.Agent.Admin
- * @author
+ * @author Rother OSS GmbH
  * @description
  *      This namespace contains the special module functions for the GenericInterface invoker module.
  */
@@ -53,7 +56,12 @@ Core.Agent.Admin.GenericInterfaceInvoker = (function (TargetNS) {
 
         TargetNS.WebserviceID = parseInt(Core.Config.Get('WebserviceID'), 10);
         TargetNS.Invoker = Core.Config.Get('Invoker');
+// # ---
+// # OTOBOTicketInvoker
+// # ---
+//        TargetNS.Action = Core.Config.Get('Action');
         TargetNS.Action = Core.Config.Get('Action');
+// # ---
 
         $('#MappingOutboundConfigureButton').on('click', function() {
             TargetNS.Redirect('MappingOutbound');

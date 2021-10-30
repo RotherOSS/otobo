@@ -947,4 +947,212 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="GenericInterface::Invoker::Module###Ticket::TicketUpdate" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the TicketUpdate invoker layer.</Description>
+        <Navigation>GenericInterface::Invoker::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">TicketUpdate</Item>
+                <Item Key="Controller">Ticket</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTicket</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Invoker::Module###Ticket::TicketCreate" Required="0" Valid="1">
+        <Description Translatable="1">GenericInterface module registration for the TicketCreate invoker layer.</Description>
+        <Navigation>GenericInterface::Invoker::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Name">TicketCreate</Item>
+                <Item Key="Controller">Ticket</Item>
+                <Item Key="ConfigDialog">AdminGenericInterfaceInvokerTicket</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Invoker::Settings::ResponseDynamicField" Required="0" Valid="1">
+        <Description Translatable="1">Define a result field for the TicketID of the invoker response per web service (WebserviceID => DynamicFieldName).</Description>
+        <Navigation>GenericInterface::Invoker::Settings</Navigation>
+        <Value>
+            <Hash>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Module###AdminGenericInterfaceInvokerTicket" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">This module is part of the admin area of OTOBO.</Item>
+                    <Item Key="Title" Translatable="1">GenericInterface Invoker GUI</Item>
+                    <Item Key="NavBarName"></Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminGenericInterfaceInvokerTicket###004-WebserviceTicketInvoker" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterface.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterfaceInvoker.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Invoker::Config###Ticket" Required="0" Valid="1">
+        <Description Translatable="1">Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).</Description>
+        <Navigation>GenericInterface::Invoker</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Age">0</Item>
+                <Item Key="ArchiveFlag">0</Item>
+                <Item Key="Changed">0</Item>
+                <Item Key="ChangeBy">0</Item>
+                <Item Key="Created">0</Item>
+                <Item Key="CreateBy">0</Item>
+                <Item Key="CustomerID">0</Item>
+                <Item Key="CustomerUser">1</Item>
+                <Item Key="CustomerUserID">0</Item>
+                <Item Key="EscalationResponseTime">0</Item>
+                <Item Key="EscalationSolutionTime">0</Item>
+                <Item Key="EscalationTime">0</Item>
+                <Item Key="EscalationUpdateTime">0</Item>
+                <Item Key="Lock">1</Item>
+                <Item Key="LockID">0</Item>
+                <Item Key="Owner">1</Item>
+                <Item Key="OwnerID">0</Item>
+                <Item Key="PendingTime">1</Item>
+                <Item Key="Priority">1</Item>
+                <Item Key="PriorityID">0</Item>
+                <Item Key="Queue">1</Item>
+                <Item Key="QueueID">0</Item>
+                <Item Key="Responsible">1</Item>
+                <Item Key="ResponsibleID">0</Item>
+                <Item Key="Service">1</Item>
+                <Item Key="ServiceID">0</Item>
+                <Item Key="SLA">1</Item>
+                <Item Key="SLAID">0</Item>
+                <Item Key="State">1</Item>
+                <Item Key="StateID">0</Item>
+                <Item Key="TicketID">0</Item>
+                <Item Key="TicketNumber">0</Item>
+                <Item Key="Title">1</Item>
+                <Item Key="Type">1</Item>
+                <Item Key="TypeID">0</Item>
+                <Item Key="UntilTime">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Invoker::Config###Article" Required="0" Valid="1">
+        <Description Translatable="1">Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).</Description>
+        <Navigation>GenericInterface::Invoker</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="ArticleTypeID">0</Item>
+                <Item Key="Attachment">1</Item>
+                <Item Key="Body">1</Item>
+                <Item Key="Cc">0</Item>
+                <Item Key="ChangeBy">0</Item>
+                <Item Key="ChangeTime">0</Item>
+                <Item Key="Charset">1</Item>
+                <Item Key="CommunicationChannel">1</Item>
+                <Item Key="CommunicationChannelID">0</Item>
+                <Item Key="ContentType">1</Item>
+                <Item Key="CreateBy">0</Item>
+                <Item Key="CreateTime">0</Item>
+                <Item Key="From">1</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
+                <Item Key="MimeType">1</Item>
+                <Item Key="SenderType">1</Item>
+                <Item Key="SenderTypeID">0</Item>
+                <Item Key="Subject">1</Item>
+                <Item Key="TicketID">0</Item>
+                <Item Key="TimeUnit">1</Item>
+                <Item Key="To">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Invoker::OutboundHeaderBlacklist" Required="0" Valid="1">
+        <Description Translatable="1">Outbound request headers not allowed to be used in frontend configuration.</Description>
+        <Navigation>GenericInterface::Transport::HTTP</Navigation>
+        <Value>
+            <Array>
+                <Item>Content-Length</Item>
+                <Item>Content-MD5</Item>
+                <Item>Host</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="GenericInterface::Operation::OutboundHeaderBlacklist" Required="0" Valid="1">
+        <Description Translatable="1">Outbound response headers not allowed to be used in frontend configuration.</Description>
+        <Navigation>GenericInterface::Transport::HTTP</Navigation>
+        <Value>
+            <Array>
+                <Item>Connection</Item>
+                <Item>Content-Disposition</Item>
+                <Item>Content-Length</Item>
+                <Item>Content-MD5</Item>
+                <Item>Status</Item>
+                <Item>Transfer-Encoding</Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminGenericInterfaceTransportHTTPREST###002-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterface.css</Item>
+                        <Item>Core.Agent.Admin.GenericInterfaceWebserviceTicketInvoker.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterfaceTransportHTTPRESTWebserviceTicketInvoker.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminGenericInterfaceTransportHTTPSOAP###002-GenericInterface" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterface.css</Item>
+                        <Item>Core.Agent.SortedTree.css</Item>
+                        <Item>Core.Agent.Admin.GenericInterfaceWebserviceTicketInvoker.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.GenericInterfaceTransportHTTPSOAPWebserviceTicketInvoker.js</Item>
+                        <Item>Core.Agent.SortedTree.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
 </otobo_config>

@@ -29,6 +29,24 @@ use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+# ---
+# OTOBOTicketInvoker
+# ---
+
+# Set fixed header blacklists.
+for my $Type (qw(Invoker Operation)) {
+    $ConfigObject->Set(
+        Key   => 'GenericInterface::' . $Type . '::OutboundHeaderBlacklist',
+        Value => [
+            'Connection',
+            'Content-Type',
+
+            # Only for UnitTest
+            'NotAllowed',
+        ],
+    );
+}
+# ---
 
 # Skip SSL certificate verification.
 $Kernel::OM->ObjectParamAdd(
@@ -76,7 +94,7 @@ my $BaseURL =
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . 'nph-genericinterface.pl/WebserviceID/'
+    . '/nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
 my @Tests = (
@@ -1362,27 +1380,201 @@ for my $Test (@Tests) {
     );
 }
 
-# Check headers.
-my @CheckHeadersTests = (
+# ---
+# OTOBOTicketInvoker
+# ---
+## Check headers.
+#@Tests = (
+#    {
+#        Name   => 'Standard response header',
+#        Config => {},
+#        Header => {
+#            'Content-Type' => 'application/json; charset=UTF-8',
+#        },
+#    },
+#    {
+#        Name   => 'Additional response headers',
+#        Config => {
+#            AdditionalHeaders => {
+#                Key1 => 'Value1',
+#                Key2 => 'Value2',
+#            },
+#        },
+#        Header => {
+#            'Content-Type' => 'application/json; charset=UTF-8',
+#            Key1           => 'Value1',
+#            Key2           => 'Value2',
+#        },
+#    },
+#);
+#
+## Create debugger object.
+#my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
+#    DebuggerConfig => {
+#        DebugThreshold => 'debug',
+#        TestMode       => 1,
+#    },
+#    CommunicationType => 'Provider',
+#    WebserviceID      => $WebserviceID,
+#);
+#
+#for my $Test (@Tests) {
+#
+#    # Create REST transport object with test configuration.
+#    my $TransportObject = Kernel::GenericInterface::Transport->new(
+#        DebuggerObject  => $DebuggerObject,
+#        TransportConfig => {
+#            Type   => 'HTTP::REST',
+#            Config => $Test->{Config},
+#        },
+#    );
+#    $Self->Is(
+#        ref $TransportObject,
+#        'Kernel::GenericInterface::Transport',
+#        "$Test->{Name} - TransportObject instantiated with REST backend"
+#    );
+#
+#    my $Response = '';
+#    my $Result;
+#    {
+#
+#        # Redirect STDOUT from string so that the transport layer will write there.
+#        local *STDOUT;
+#        open STDOUT, '>:utf8', \$Response;    ## no critic
+#
+#        # Discard request object to prevent errors.
+#        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
+#
+#        # Create response.
+#        $Result = $TransportObject->ProviderGenerateResponse(
+#            Success => 1,
+#            Data    => {},
+#        );
+#    }
+#    $Self->True(
+#        $Result,
+#        "$Test->{Name} - Response created"
+#    );
+#
+#    # Analyze headers.
+#    for my $Key ( sort keys %{ $Test->{Header} } ) {
+#        $Self->True(
+#            index( $Response, "$Key: $Test->{Header}->{$Key}\r\n" ) != -1,
+#            "$Test->{Name} - Found header '$Key' with value '$Test->{Header}->{$Key}'"
+#        );
+#    }
+#}
+
+my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
+@Tests = (
     {
-        Name   => 'Standard response header',
-        Config => {},
-        Header => {
-            'Content-Type' => 'application/json; charset=UTF-8',
+        Name   => 'Standard headers',
+        Config => {
+            DefaultCommand           => 'GET',
+            Host                     => $BaseURL,
+            Timeout                  => 120,
+            InvokerControllerMapping => {
+                TestSimple => {
+                    Controller => '/Test',
+                },
+            },
+            UnitTestHeaders => $ResponseHeaderPrefix,
+        },
+        ExpectedHeaders => {},
+    },
+    {
+        Name   => 'Additional common headers',
+        Config => {
+            DefaultCommand           => 'GET',
+            Host                     => $BaseURL,
+            Timeout                  => 120,
+            InvokerControllerMapping => {
+                TestSimple => {
+                    Controller => '/Test',
+                },
+            },
+            UnitTestHeaders => $ResponseHeaderPrefix,
+            OutboundHeaders => {
+                Common => {
+                    Key1           => 'Value1',
+                    Key2           => 'Value2',
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
+                },
+            },
+        },
+        ExpectedHeaders => {
+            Key1 => 'Value1',
+            Key2 => 'Value2',
         },
     },
     {
-        Name   => 'Additional response headers',
+        Name   => 'Additional operation specific headers',
         Config => {
-            AdditionalHeaders => {
-                Key1 => 'Value1',
-                Key2 => 'Value2',
+            DefaultCommand           => 'GET',
+            Host                     => $BaseURL,
+            Timeout                  => 120,
+            InvokerControllerMapping => {
+                TestSimple => {
+                    Controller => '/Test',
+                },
+            },
+            UnitTestHeaders => $ResponseHeaderPrefix,
+            OutboundHeaders => {
+                Specific => {
+                    TestSimple => {
+                        Key1           => 'Value3',
+                        Key2           => 'Value4',
+                        'Content-Type' => 'Invalid',    # should be filtered
+                        NotAllowed     => 'Invalid',    # should be filtered
+                    },
+                    OtherOperation => {                 # should be ignored
+                        Key1 => 'Invalid',
+                    },
+                },
             },
         },
-        Header => {
-            'Content-Type' => 'application/json; charset=UTF-8',
-            Key1           => 'Value1',
-            Key2           => 'Value2',
+        ExpectedHeaders => {
+            Key1 => 'Value3',
+            Key2 => 'Value4',
+        },
+    },
+    {
+        Name   => 'Additional mixed headers',
+        Config => {
+            DefaultCommand           => 'GET',
+            Host                     => $BaseURL,
+            Timeout                  => 120,
+            InvokerControllerMapping => {
+                TestSimple => {
+                    Controller => '/Test',
+                },
+            },
+            UnitTestHeaders => $ResponseHeaderPrefix,
+            OutboundHeaders => {
+                Common => {
+                    Key1           => 'Value5',
+                    Key2           => 'Value6',
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
+                },
+                Specific => {
+                    TestSimple => {
+                        Key1         => 'Value7',     # should override common value
+                        Key3         => 'Value8',
+                        'Connection' => 'Invalid',    # should be filtered
+                        NotAllowed   => 'Invalid',    # should be filtered
+                    },
+                    OtherOperation => {               # should be ignored
+                        Key1 => 'Invalid',
+                    },
+                },
+            },
+        },
+        ExpectedHeaders => {
+            Key1 => 'Value7',
+            Key2 => 'Value6',
+            Key3 => 'Value8',
         },
     },
 );
@@ -1397,46 +1589,109 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
 );
 
-for my $Test (@CheckHeadersTests) {
+for my $Test (@Tests) {
 
-    subtest $Test->{Name} => sub {
+    # Create REST transport object with test configuration.
+    my $TransportObject = Kernel::GenericInterface::Transport->new(
+        DebuggerObject  => $DebuggerObject,
+        TransportConfig => {
+            Type   => 'HTTP::REST',
+            Config => $Test->{Config},
+        },
+    );
+    $Self->Is(
+        ref $TransportObject,
+        'Kernel::GenericInterface::Transport',
+        "$Test->{Name} - TransportObject instantiated with REST backend"
+    );
 
-        # Create REST transport object with test configuration.
-        my $TransportObject = Kernel::GenericInterface::Transport->new(
-            DebuggerObject  => $DebuggerObject,
-            TransportConfig => {
-                Type   => 'HTTP::REST',
-                Config => $Test->{Config},
-            },
+    my $RequestResult;
+    {
+        $RequestResult = $TransportObject->RequesterPerformRequest(
+            Operation => 'TestSimple',
+            Data      => {},
         );
+    }
+    $Self->True(
+        $RequestResult,
+        "$Test->{Name} - Request created"
+    );
 
-        isa_ok( $TransportObject, 'Kernel::GenericInterface::Transport' );
+    # Retrieve all headers from request and remove unused standard headers.
+    my %AllRequestHeaders = %{ $RequestResult->{UnitTestHeaders} // {} };
+    delete $AllRequestHeaders{HOST};
+    delete $AllRequestHeaders{TE};
+    delete $AllRequestHeaders{'USER-AGENT'};
+
+    # Analyze headers.
+    for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
+        $Self->Is(
+            delete $AllRequestHeaders{ uc($Key) },
+            $Test->{ExpectedHeaders}->{$Key},
+            "$Test->{Name} - Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+        );
+    }
+
+    $Self->Is(
+        scalar %AllRequestHeaders,
+        0,
+        "$Test->{Name} - Only expected request headers have been found"
+    );
+
+    my $Response = '';
+    my $ResponseResult;
+    {
+
+        # Redirect STDOUT from string so that the transport layer will write there.
+        local *STDOUT;
+        open STDOUT, '>:utf8', \$Response;    ## no critic
 
         # Discard request object to prevent errors.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
         # Create response.
-        my $Response = eval {
-            $TransportObject->ProviderGenerateResponse(
-                Success => 1,
-                Data    => {},
-            );
-        };
-        my $WebException = $@;
-        can_ok( $WebException, ['as_psgi'], 'exception with as_psgi() method' );
-        my $PSGIResponse = $WebException->as_psgi();
-        ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
+        $ResponseResult = $TransportObject->ProviderGenerateResponse(
+            Success => 1,
+            Data    => {},
+            Operation  => 'TestSimple',
+        );
+    }
+    $Self->True(
+        $ResponseResult,
+        "$Test->{Name} - Response created"
+    );
 
-        # Analyze headers.
-        my $Headers = HTTP::Headers::Fast->new( $PSGIResponse->[1]->@* );
-        for my $Key ( sort keys %{ $Test->{Header} } ) {
-            is(
-                $Headers->header($Key),
-                $Test->{Header}->{$Key},
-                "Found header '$Key' with value '$Test->{Header}->{$Key}'"
-            );
-        }
-    };
+    # Retrieve all headers from response.
+    my %AllResponseHeaders;
+    LINE:
+    for my $Line ( split '\r\n', $Response ) {
+        last LINE if $Line eq '';
+
+        # Skip HTTP declaration.
+        next LINE if substr( $Line, 0, 4 ) eq 'HTTP';
+
+        my ( $Key, $Value ) = split ': ', $Line;
+
+        # Responses also contain some extra headers (that's ok).
+        next LINE if $Key eq 'Connection' || $Key eq 'Content-Type' || $Key eq 'Content-Length';
+
+        $AllResponseHeaders{$Key} = $Value;
+    }
+
+    # Analyze headers.
+    for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
+        $Self->Is(
+            delete $AllResponseHeaders{$Key},
+            $Test->{ExpectedHeaders}->{$Key},
+            "$Test->{Name} - Found response header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+        );
+    }
+
+    $Self->Is(
+        scalar %AllResponseHeaders,
+        0,
+        "$Test->{Name} - Only expected response headers have been found"
+    );
 }
 
 # Cleanup test web service.
@@ -1444,6 +1699,9 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
+$Self->True(
+    $WebserviceDelete,
+    "Deleted Web service $WebserviceID"
+);
 
-done_testing();
+1;

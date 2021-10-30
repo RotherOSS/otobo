@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -12,6 +12,10 @@
 # FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPREST">
     <h1 class="InvisibleText">[% Translate( "GenericInterface Web Service Management" ) | html %]</h1>
@@ -173,7 +177,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to indicate specific location for accessing a web service.") | html %]
                                     <br/>
-                                    [% Translate("e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)") | html %]
+                                    [% Translate("e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -344,15 +348,6 @@
                                         </p>
                                     </div>
                                     <div class="Clear"></div>
-
-                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification.") | html %]:</label>
-                                    <div class="Field">
-                                        [% Data.SSLVerifyHostStrg %]
-                                        <p class="FieldExplanation">
-                                            [% Translate("Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
-                                        </p>
-                                    </div>
-                                    <div class="Clear"></div>
                                 </fieldset>
                             </div>
 
@@ -386,6 +381,169 @@
                             <div class="Clear"></div>
 
 [% END %]
+# ---
+# OTOBOTicketInvoker
+# ---
+
+[% IF Data.CommunicationType == 'Requester' %]
+[% USE HeadersTitleCommon    = String(Translate("Additional request headers (all invokers)")) %]
+[% USE HeadersTitleSpecific  = String(Translate("Additional request headers (invoker specific)")) %]
+[% USE HeadersRemoveSpecific = String(Translate("Remove all headers for this invoker")) %]
+[% USE HeadersInfoSpecific   = String(Translate("Headers for invoker")) %]
+[% ELSE %]
+[% USE HeadersTitleCommon    = String(Translate("Additional response headers (all operations)")) %]
+[% USE HeadersTitleSpecific  = String(Translate("Additional response headers (operation specific)")) %]
+[% USE HeadersRemoveSpecific = String(Translate("Remove all headers for this operation")) %]
+[% USE HeadersInfoSpecific   = String(Translate("Headers for operation")) %]
+[% END %]
+
+[% RenderBlockStart("OutboundHeaders") %]
+                            <label>[% HeadersTitleCommon | html %]:</label>
+                            <div class="Field">
+
+                                <div class="HeaderContainer">
+
+                                    <div class="Item ValueInsert">
+                                        <input type="hidden" name="OutboundHeadersValueCounter" value="[% Data.OutboundHeadersValueCounter | html %]" id="OutboundHeadersValueCounter" class="ValueCounter" />
+                                        <strong>[% Translate("Common headers") | html %]</strong>
+
+                                        <div class="ValueRows">
+[% RenderBlockStart("OutboundHeadersValueRow") %]
+                                            <div>
+                                                <input name="OutboundHeadersKey_[% Data.ValueCounter | html %]" id="OutboundHeadersKey_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeadersKey_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %]" placeholder="[% Translate("Header Name") | html %]"/>
+                                                <div id="OutboundHeadersKey_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                                <div id="OutboundHeadersKey_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.item( 'OutboundHeadersKey_' _ Data.ValueCounter _ 'ServerErrorMessage' ) | Translate | html %]</p></div>
+
+                                                <input name="OutboundHeadersValue_[% Data.ValueCounter | html %]" id="OutboundHeadersValue_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderValue [% Data.item( 'OutboundHeadersValue_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="1536" value="[% Data.Value | html %]" placeholder="[% Translate("Value") | html %]"/>
+                                                <div id="OutboundHeadersValue_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                                <div id="OutboundHeadersValue_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                                <a href="#" id="OutboundHeadersValueRemove_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove header") | html %]</span></a>
+                                            </div>
+[% RenderBlockEnd("OutboundHeadersValueRow") %]
+                                        </div>
+
+                                        <a href="#" id="OutboundHeadersAddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+
+                                    </div>
+
+                                    <div class="ValueTemplate Hidden">
+                                        <input id="OutboundHeadersKey" class="OutboundHeaderKey" type="text" maxlength="150" value="[% Data.Key | html %]" placeholder="[% Translate("Header Name") | html %]"/>
+                                        <div id="KeyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="KeyServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                        <input id="OutboundHeadersValue" class="OutboundHeaderValue" type="text" maxlength="1536" value="[% Data.Value | html %]" placeholder="[% Translate("Value") | html %]"/>
+                                        <div id="OutboundHeadersValueError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="OutboundHeadersValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                        <a href="#" id="OutboundHeadersValueRemove" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
+                                        <div class="SpacingTopMini" ></div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div class="Clear SpacingBottom"></div>
+
+[% RenderBlockStart("OutboundHeadersOperationSpecific") %]
+
+                            <label>[% HeadersTitleSpecific | html %]:</label>
+                            <div class="Field MetaHeaderContainer">
+
+[% RenderBlockStart("OutboundHeadersOperationSelection") %]
+
+                                [% Data.OutboundHeadersOperationSelectionStrg %]
+
+[% RenderBlockEnd("OutboundHeadersOperationSelection") %]
+
+[% RenderBlockStart("OutboundHeadersOperationSpecificEntry") %]
+
+                                <div class="HeaderContainer [% Data.Active | html %]" id="OperationOutboundHeaders[% Data.Operation | html %]">
+[% RenderBlockStart("OutboundHeadersOperationSpecificEntryValue") %]
+                                    <input type="hidden" name="OperationOutboundHeadersActive" value="[% Data.Operation | html %]" id="OperationOutboundHeadersActive[% Data.Operation | html %]"/>
+
+                                    <div class="Item ValueInsert">
+                                        <input type="hidden" name="OutboundHeaders[% Data.Operation | html %]ValueCounter" value="[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]ValueCounter" class="ValueCounter" />
+                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemoveAll" class="RemoveButton ValueRemoveAll SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% HeadersRemoveSpecific | html %]</span></a>
+                                        [% HeadersInfoSpecific | html %] '<strong class="Operation">[% Data.Operation | html %]</strong>'
+
+
+                                        <div class="ValueRows">
+[% RenderBlockStart("OutboundHeadersOperationSpecificEntryValueRow") %]
+                                            <div>
+                                                <input name="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderKey [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="150" value="[% Data.Key | html %] placeholder="[% Translate("Header Name") | html %]""/>
+                                                <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                                <div id="OutboundHeaders[% Data.Operation | html %]Key_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Data.item(  'OutboundHeaders' _ Data.Operation _ 'Key_' _ Data.ValueCounter _ 'ServerErrorMessage' ) | Translate | html %]</p></div>
+
+                                                <input name="OutboundHeaders[% Data.Operation | html %]Value_[% Data.ValueCounter | html %]" id="OutboundHeaders[% Data.Operation | html %]Value_[% Data.ValueCounter | html %]" class="Validate_Required OutboundHeaderValue [% Data.item( 'OutboundHeaders' _ Data.Operation _ 'Value_' _ Data.ValueCounter _ 'ServerError' ) | html %]" type="text" maxlength="1536" value="[% Data.Value | html %]" placeholder="[% Translate("Value") | html %]"/>
+                                                <div id="OutboundHeaders[% Data.Operation | html %]Value_[% Data.ValueCounter | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                                <div id="OutboundHeaders[% Data.Operation | html %]Value_[% Data.ValueCounter | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                                <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemove_[% Data.ValueCounter | html %]" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove header") | html %]</span></a>
+                                            </div>
+[% RenderBlockEnd("OutboundHeadersOperationSpecificEntryValueRow") %]
+                                        </div>
+
+                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+
+                                    </div>
+
+                                    <div class="ValueTemplate Hidden">
+                                        <input id="OutboundHeaders[% Data.Operation | html %]Key" class="OutboundHeaderKey" type="text" maxlength="150" placeholder="[% Translate("Header Name") | html %]"/>
+                                        <div id="KeyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="KeyServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                        <input id="OutboundHeaders[% Data.Operation | html %]Value" class="OutboundHeaderValue" type="text" maxlength="1536" placeholder="[% Translate("Value") | html %]"/>
+                                        <div id="ValueError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="ValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                        <a href="#" id="OutboundHeaders[% Data.Operation | html %]ValueRemove" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
+                                        <div class="SpacingTopMini" ></div>
+                                    </div>
+
+[% RenderBlockEnd("OutboundHeadersOperationSpecificEntryValue") %]
+
+                                </div>
+
+[% RenderBlockEnd("OutboundHeadersOperationSpecificEntry") %]
+
+                                <div class="HeaderContainer Hidden ContainerValueTemplate">
+                                    <input type="hidden" class="OperationOutboundHeadersActiveTemplate"/>
+
+                                    <div class="Item ValueInsert">
+                                        <input type="hidden" id="ValueCounter" class="ValueCounter" />
+                                        <a href="#" id="ValueRemoveAll" class="RemoveButton ValueRemoveAll SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% HeadersRemoveSpecific | html %]</span></a>
+                                        [% HeadersInfoSpecific | html %] '<strong class="Operation"></strong>'
+
+                                        <div class="ValueRows"></div>
+
+                                        <a href="#" id="AddValue" class="CallForAction AddValue Inline SpacingTopSmall"><span><i class="fa fa-plus-square-o">&nbsp;</i>[% Translate("Add header") | html %]</span></a>
+
+                                    </div>
+
+                                    <div class="ValueTemplate Hidden">
+                                        <input id="Key" class="OutboundHeaderKey" type="text" maxlength="150" placeholder="[% Translate("Header Name") | html %]"/>
+                                        <div id="KeyError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="KeyServerError" class="TooltipErrorMessage"><p>[% Translate(Data.KeyErrorStrg) | html %]</p></div>
+
+                                        <input id="Value" class="OutboundHeaderValue" type="text" maxlength="1536" placeholder="[% Translate("Value") | html %]"/>
+                                        <div id="ValueError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                                        <div id="ValueServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                                        <a href="#" id="ValueRemove" class="RemoveButton ValueRemove SpacingLeft"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove value") | html %]</span></a>
+                                        <div class="SpacingTopMini" ></div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="Clear"></div>
+
+[% RenderBlockEnd("OutboundHeadersOperationSpecific") %]
+
+[% RenderBlockEnd("OutboundHeaders") %]
+# ---
 
                             <div class="Field SpacingTop">
                                 [% IF Data.Action == 'Change' %]

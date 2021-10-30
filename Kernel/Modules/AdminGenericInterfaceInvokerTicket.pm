@@ -18,7 +18,12 @@
 # did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
-package Kernel::Modules::AdminGenericInterfaceInvokerDefault;
+# ---
+# OTOBOTicketInvoker
+# ---
+#package Kernel::Modules::AdminGenericInterfaceInvokerDefault;
+package Kernel::Modules::AdminGenericInterfaceInvokerTicket;
+# ---
 
 use strict;
 use warnings;
@@ -199,6 +204,53 @@ sub _AddAction {
                 Type  => 'String',
                 Check => 'MappingType',
             },
+# ---
+# OTOBOTicketInvoker
+# ---
+            {
+                Name    => 'CountLastArticle',
+                Type    => 'String',
+                Default => '',
+            },
+            {
+                Name    => 'TicketIdToDynamicField',
+                Type    => 'String',
+                Default => '',
+            },
+            {
+                Name => 'CommunicationChannel',
+                Type => 'Array',
+            },
+            {
+                Name    => 'CustomerVisibility',
+                Type    => 'String',
+                Default => 2,
+            },
+            {
+                Name => 'ArticleSenderType',
+                Type => 'Array',
+            },
+            {
+                Name => 'DynamicFieldList',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestDynamicFieldsArticle',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestDynamicFieldsTicket',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestArticleFields',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestTicketFields',
+                Type => 'Array',
+            },
+# ---
         ],
     );
 
@@ -219,10 +271,33 @@ sub _AddAction {
     elsif ( IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{Invoker} } ) ) {
         $Errors{InvokerServerError} = 'ServerError';
     }
+# ---
+# OTOBOTicketInvoker
+# ---
+
+    # Field for remote ticket id must not be used for writing incoming dynamic field data.
+    if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
+        $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
+    }
+# ---
 
     my $InvokerConfig = {
         Description => $GetParam->{Description},
         Type        => $GetParam->{InvokerType},
+# ---
+# OTOBOTicketInvoker
+# ---
+        CountLastArticle            => $GetParam->{CountLastArticle},
+        TicketIdToDynamicField      => $GetParam->{TicketIdToDynamicField},
+        CommunicationChannel        => $GetParam->{CommunicationChannel},
+        CustomerVisibility          => $GetParam->{CustomerVisibility},
+        ArticleSenderType           => $GetParam->{ArticleSenderType},
+        DynamicFieldList            => $GetParam->{DynamicFieldList},
+        RequestDynamicFieldsArticle => $GetParam->{RequestDynamicFieldsArticle},
+        RequestDynamicFieldsTicket  => $GetParam->{RequestDynamicFieldsTicket},
+        RequestArticleFields        => $GetParam->{RequestArticleFields},
+        RequestTicketFields         => $GetParam->{RequestTicketFields},
+# ---
     };
 
     # Validation errors.
@@ -358,6 +433,53 @@ sub _ChangeAction {
                 Type    => 'String',
                 Default => 'Ticket',
             },
+# ---
+# OTOBOTicketInvoker
+# ---
+            {
+                Name    => 'CountLastArticle',
+                Type    => 'String',
+                Default => '',
+            },
+            {
+                Name    => 'TicketIdToDynamicField',
+                Type    => 'String',
+                Default => '',
+            },
+            {
+                Name => 'CommunicationChannel',
+                Type => 'Array',
+            },
+            {
+                Name    => 'CustomerVisibility',
+                Type    => 'String',
+                Default => 2,
+            },
+            {
+                Name => 'ArticleSenderType',
+                Type => 'Array',
+            },
+            {
+                Name => 'DynamicFieldList',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestDynamicFieldsArticle',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestDynamicFieldsTicket',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestArticleFields',
+                Type => 'Array',
+            },
+            {
+                Name => 'RequestTicketFields',
+                Type => 'Array',
+            },
+# ---
         ],
     );
 
@@ -390,8 +512,31 @@ sub _ChangeAction {
     {
         $Errors{InvokerServerError} = 'ServerError';
     }
+# ---
+# OTOBOTicketInvoker
+# ---
+
+    # Field for remote ticket id must not be used for writing incoming dynamic field data.
+    if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
+        $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
+    }
+# ---
 
     $InvokerConfig->{Description} = $GetParam->{Description};
+# ---
+# OTOBOTicketInvoker
+# ---
+    $InvokerConfig->{CountLastArticle}            = $GetParam->{CountLastArticle};
+    $InvokerConfig->{TicketIdToDynamicField}      = $GetParam->{TicketIdToDynamicField};
+    $InvokerConfig->{CommunicationChannel}        = $GetParam->{CommunicationChannel};
+    $InvokerConfig->{CustomerVisibility}          = $GetParam->{CustomerVisibility};
+    $InvokerConfig->{ArticleSenderType}           = $GetParam->{ArticleSenderType};
+    $InvokerConfig->{DynamicFieldList}            = $GetParam->{DynamicFieldList};
+    $InvokerConfig->{RequestDynamicFieldsArticle} = $GetParam->{RequestDynamicFieldsArticle};
+    $InvokerConfig->{RequestDynamicFieldsTicket}  = $GetParam->{RequestDynamicFieldsTicket};
+    $InvokerConfig->{RequestArticleFields}        = $GetParam->{RequestArticleFields};
+    $InvokerConfig->{RequestTicketFields}         = $GetParam->{RequestTicketFields};
+# ---
 
     if (%Errors) {
         return $Self->_ShowScreen(
@@ -746,6 +891,11 @@ sub _ShowScreen {
         InvokerType => $Param{InvokerConfig}->{Type},
         Invoker     => $Param{Invoker},
         NewInvoker  => $Param{NewInvoker} // $Param{Invoker},
+# ---
+# OTOBOTicketInvoker
+# ---
+        CountLastArticle => $Param{InvokerConfig}->{CountLastArticle},
+# ---
     );
 
     # Handle mapping.
@@ -778,6 +928,158 @@ sub _ShowScreen {
             },
         );
     }
+# ---
+# OTOBOTicketInvoker
+# ---
+
+    my $DynamicFieldTicketList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+        ObjectType => 'Ticket',
+        ResultType => 'HASH',
+    );
+    my @DynamicFieldTicketNames = sort values %{$DynamicFieldTicketList};
+
+    $TemplateData{RequestDynamicFieldsTicketStrg} = $LayoutObject->BuildSelection(
+        Data       => \@DynamicFieldTicketNames,
+        Name       => 'RequestDynamicFieldsTicket',
+        SelectedID => $Param{InvokerConfig}->{RequestDynamicFieldsTicket}
+            // \@DynamicFieldTicketNames,    # default is to select all fields
+        PossibleNone => 0,
+        Class        => 'Modernize',
+        Multiple     => 1,
+        Translation  => 0,
+        Sort         => 'AlphanumericValue',
+    );
+
+    my $DynamicFieldArticleList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
+        ObjectType => 'Article',
+        ResultType => 'HASH',
+    );
+    my @DynamicFieldArticleNames = sort values %{$DynamicFieldArticleList};
+
+    $TemplateData{RequestDynamicFieldsArticleStrg} = $LayoutObject->BuildSelection(
+        Data         => \@DynamicFieldArticleNames,
+        Name         => 'RequestDynamicFieldsArticle',
+        SelectedID   => $Param{InvokerConfig}->{RequestDynamicFieldsArticle},
+        PossibleNone => 1,
+        Class        => 'Modernize',
+        Multiple     => 1,
+        Translation  => 0,
+        Sort         => 'AlphanumericValue',
+    );
+
+    # Prepare list of available and default-selected ticket fields.
+    my $RequestFieldConfig = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Invoker::Config');
+    my @RequestTicketFields;
+    my @RequestTicketFieldsDefaultSelected;
+    REQUESTTICKETFIELD:
+    for my $RequestTicketField ( sort keys %{ $RequestFieldConfig->{Ticket} } ) {
+        next REQUESTTICKETFIELD if !$RequestTicketField;
+        push @RequestTicketFields, $RequestTicketField;
+
+        next REQUESTTICKETFIELD if !$RequestFieldConfig->{Ticket}->{$RequestTicketField};
+        push @RequestTicketFieldsDefaultSelected, $RequestTicketField;
+    }
+
+    $TemplateData{RequestTicketFieldsStrg} = $LayoutObject->BuildSelection(
+        Data         => \@RequestTicketFields,
+        Name         => 'RequestTicketFields',
+        SelectedID   => $Param{InvokerConfig}->{RequestTicketFields} // \@RequestTicketFieldsDefaultSelected,
+        PossibleNone => 0,
+        Class        => 'Modernize',
+        Multiple     => 1,
+        Translation  => 0,
+        Sort         => 'AlphanumericValue',
+    );
+
+    # Prepare list of available and default-selected article fields.
+    my @RequestArticleFields;
+    my @RequestArticleFieldsDefaultSelected;
+    REQUESTARTICLEFIELD:
+    for my $RequestArticleField ( sort keys %{ $RequestFieldConfig->{Article} } ) {
+        next REQUESTARTICLEFIELD if !$RequestArticleField;
+        push @RequestArticleFields, $RequestArticleField;
+
+        next REQUESTARTICLEFIELD if !$RequestFieldConfig->{Article}->{$RequestArticleField};
+        push @RequestArticleFieldsDefaultSelected, $RequestArticleField;
+    }
+
+    $TemplateData{RequestArticleFieldsStrg} = $LayoutObject->BuildSelection(
+        Data         => \@RequestArticleFields,
+        Name         => 'RequestArticleFields',
+        SelectedID   => $Param{InvokerConfig}->{RequestArticleFields} // \@RequestArticleFieldsDefaultSelected,
+        PossibleNone => 0,
+        Class        => 'Modernize',
+        Multiple     => 1,
+        Translation  => 0,
+        Sort         => 'AlphanumericValue',
+    );
+
+    $TemplateData{DynamicFieldListStrg} = $LayoutObject->BuildSelection(
+        Data          => \@DynamicFieldTicketNames,
+        Name          => 'DynamicFieldList',
+        SelectedValue => $Param{InvokerConfig}->{DynamicFieldList},
+        PossibleNone  => 1,
+        Class         => 'Modernize',
+        Multiple      => 1,
+        Translation   => 0,
+        Sort          => 'AlphanumericValue',
+    );
+
+    $TemplateData{TicketIdToDynamicFieldStrg} = $LayoutObject->BuildSelection(
+        Data          => \@DynamicFieldTicketNames,
+        Name          => 'TicketIdToDynamicField',
+        SelectedValue => $Param{InvokerConfig}->{TicketIdToDynamicField},
+        PossibleNone  => 1,
+        Class         => 'Modernize ' . ( $Param{TicketIdToDynamicFieldServerError} || '' ),
+        Multiple      => 0,
+        Translation   => 0,
+        Sort          => 'AlphanumericValue',
+    );
+
+    # Build communication channel list.
+    my @CommunicationChannels = $Kernel::OM->Get('Kernel::System::CommunicationChannel')->ChannelList(
+        ValidID => 1,
+    );
+    my @Channels = map { $_->{DisplayName} } @CommunicationChannels;
+    $TemplateData{CommunicationChannelStrg} = $LayoutObject->BuildSelection(
+        Data        => \@Channels,
+        SelectedID  => $Param{InvokerConfig}->{CommunicationChannel},
+        Translation => 1,
+        Multiple    => 1,
+        Sort        => 'AlphanumericValue',
+        Name        => 'CommunicationChannel',
+        Class       => 'Modernize',
+    );
+
+    # Build customer visibility list.
+    $TemplateData{CustomerVisibilityStrg} = $LayoutObject->BuildSelection(
+        Data => {
+            0 => Translatable('Invisible only'),
+            1 => Translatable('Visible only'),
+            2 => Translatable('Visible and invisible'),
+        },
+        SelectedID  => $Param{InvokerConfig}->{CustomerVisibility} // 2,
+        Translation => 1,
+        Sort        => 'NumericKey',
+        Name        => 'CustomerVisibility',
+        Class       => 'Modernize',
+    );
+
+    # Build article sender type list.
+    my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList(
+        Result => 'HASH',
+    );
+    my @ArticleSenderTypeNames = sort values %ArticleSenderTypeList;
+    $TemplateData{ArticleSenderTypeStrg} = $LayoutObject->BuildSelection(
+        Data         => \@ArticleSenderTypeNames,
+        SelectedID   => $Param{InvokerConfig}->{ArticleSenderType},
+        Multiple     => 1,
+        Sort         => 'AlphanumericValue',
+        Name         => 'ArticleSenderType',
+        Class        => 'Modernize',
+        PossibleNone => 1,
+    );
+# ---
 
     if ( $Param{Mode} eq 'Change' ) {
 
@@ -907,6 +1209,19 @@ sub _ParamsGet {
             $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Name );
             return \%GetParam;
         }
+# ---
+# OTOBOTicketInvoker
+# ---
+
+        if ( $Definition->{Type} eq 'Array' ) {
+            $GetParam{$Name} = [ $ParamObject->GetArray( Param => $Name ) ];
+            next DEFINITION if IsArrayRefWithData( $GetParam{$Name} );
+
+            next DEFINITION if !$Definition->{Mandatory};
+            $GetParam{Error} = Translatable( 'Need %s', $Name );
+            return \%GetParam;
+        }
+# ---
     }
 
     # Type checks.

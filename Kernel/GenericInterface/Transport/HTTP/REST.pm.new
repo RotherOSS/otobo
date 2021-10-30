@@ -525,16 +525,6 @@ sub RequesterPerformRequest {
     # Create header container and add proper content type
     my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
 
-    # Add AdditionalHeaders, don't overwrite existing ones
-    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
-        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            if ( !IsStringWithData( $Headers->{$AdditionalHeader} )) {
-                $Headers->{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
-            }
-        }
-    }
-
     # set up a REST session
     my $RestClient = REST::Client->new(
         {
