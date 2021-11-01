@@ -191,7 +191,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: var(--colBGLight);
 }
 
-#FollowUp {
+.Activity {
     display: none;
 }
 

@@ -190,7 +190,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * This function activates attachments, replybutton, info, and builds the article list.
      */
     function BuildArticles(){
-        $('#oooArticleListExpanded > li:not(#FollowUp)').each( function() {
+        $('#oooArticleListExpanded > li:not(.Activity)').each( function() {
             var Article = $(this);
             var Header  = Article.children('.MessageHeader').first();
 
@@ -252,7 +252,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             ZoomExpand = $('#ZoomExpand').val(),
             $Form,
             FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
+            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
+            ActivityCount = $('#oooArticleListExpanded > .Activity').length;
+
 
         // otobo
         BuildArticles();
@@ -267,12 +269,27 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 $('#ReplyButton').hide();
             }
         });
-        $('#CloseButton').on('click', function(Event){
+
+        $('.ActivityStartButton').on('click', function(Event){
             Event.preventDefault();
-            $FollowUp.hide();
-            $FollowUp.removeClass('Visible');
+            var DialogEntityID = $(this).attr('id').replace( /^Button_/, '' ),
+                $DialogWidget  = $( '#Process_' + DialogEntityID );
+
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
-            $('#ReplyButton').show();
+        });
+
+        $('.CloseButton').on('click', function(Event){
+            Event.preventDefault();
+            var ParentWidget = $(this).closest('li');
+            ParentWidget.hide();
+            ParentWidget.removeClass('Visible');
+            $('html').css({scrollTop: $('#Body').height()});
+            if ( ParentWidget.attr('id') === 'FollowUp' ) {
+                $('#ReplyButton').show();
+            }
         });
 
         // scroll events
@@ -292,7 +309,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             }
 
             // track active article
-            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 2,
+            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 1 + ActivityCount,
                 StartIndex  = ActiveIndex,
                 ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
 
@@ -318,8 +335,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                         PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
                     }
                 }
-
-                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - 1 ) +')').addClass('oooActive');
+                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - ActivityCount ) +')').addClass('oooActive');
                 if ( ActiveIndex !== StartIndex ) {
                     $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
                 }

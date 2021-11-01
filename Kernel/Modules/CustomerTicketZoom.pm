@@ -1790,7 +1790,8 @@ sub _Mask {
                 $LayoutObject->Block(
                     Name => 'ProcessActivity',
                     Data => {
-                        ActivityHTML => $ActivityHTML,
+                        ActivityHTML           => $ActivityHTML,
+                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     },
                 );
             }

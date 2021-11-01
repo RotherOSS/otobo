@@ -44,7 +44,7 @@
 [% RenderBlockStart("NextActivities") %]
             <div id="NextActivities">
 [% RenderBlockStart("ActivityDialog") %]
-                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM">[% Data.Name | html %]</button>
+                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM ActivityStartButton">[% Data.Name | html %]</button>
 [% RenderBlockEnd("ActivityDialog") %]
             </div>
 [% RenderBlockEnd("NextActivities") %]
@@ -53,12 +53,12 @@
         </ul>
         <ul id='oooArticleListExpanded'>
 [% RenderBlockStart("ProcessActivity") %]
-            <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="">
+            <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="Activity">
                 [% Data.ActivityHTML %]
             </li>
 [% RenderBlockEnd("ProcessActivity") %]
 [% RenderBlockStart("FollowUp") %]
-<li id="FollowUp" class="[% Data.FollowUpVisible | html %]">
+<li id="FollowUp" class="[% Data.FollowUpVisible | html %] Activity">
     <form action="[% Env("CGIHandle") %]#FollowUp" method="post" enctype="multipart/form-data" name="compose" id="ReplyCustomerTicket" class="Validate PreventMultipleSubmits">
         <input type="hidden" name="Action" value="CustomerTicketZoom" />
         <input type="hidden" name="Subaction" value="Store" />
