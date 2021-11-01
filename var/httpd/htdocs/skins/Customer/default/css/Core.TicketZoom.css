@@ -463,18 +463,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (max-width: 767px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 8px;
         padding-right: 8px;
         overflow: hidden;
     }
 
-    #Messenger > .ActionRow {
+    .Messenger > .ActionRow {
         padding-left: 24px;
         padding-right: 24px;
     }
 
-    #CloseButton {
+    .CloseButton {
         float: left;
     }
 
@@ -482,14 +482,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (min-width: 768px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 56px;
         padding-right: 56px;
     }
 
 }
 
-#Messenger > fieldset > .Row:first-child {
+.Messenger > fieldset > .Row:first-child {
     margin-top: 32px;
 }
 
@@ -523,13 +523,13 @@ iframe {
     text-align: right;
 }
 
-#CloseButton {
+.CloseButton {
     margin-right: 24px;
     background-color: #bfbfce;
     background-color: var(--colBGDark);
 }
 
-#CloseButton:hover {
+.CloseButton:hover {
     background-color: #000099;
     background-color: var(--colHoverDark);
 }

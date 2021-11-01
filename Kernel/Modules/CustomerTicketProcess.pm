@@ -1779,10 +1779,10 @@ sub _OutputActivityDialog {
         Data         => {},
     );
 
-    # display regular footer only in non-ajax case
-    if ( !$Self->{IsAjaxRequest} ) {
-        $Output .= $LayoutObject->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
-    }
+#    # display regular footer only in non-ajax case
+#    if ( !$Self->{IsAjaxRequest} ) {
+#        $Output .= $LayoutObject->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
+#    }
 
     return $Output;
 }
@@ -4609,9 +4609,9 @@ sub _ShowDialogError {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $Output = $LayoutObject->CustomerHeader( Type => 'Small' );
+#    my $Output = $LayoutObject->CustomerHeader( Type => 'Small' );
     $Output .= $LayoutObject->CustomerError(%Param);
-    $Output .= $LayoutObject->CustomerFooter( Type => 'Small' );
+#    $Output .= $LayoutObject->CustomerFooter( Type => 'Small' );
     return $Output;
 }
 
