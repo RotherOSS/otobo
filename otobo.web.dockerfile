@@ -57,10 +57,10 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
-RUN cpanm --local-lib local Carton
 COPY cpanfile.docker cpanfile
-RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
-RUN rm -rf "$HOME/.cpanm"
+RUN cpanm --local-lib local Carton \
+    && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
+    && rm -rf "$HOME/.cpanm"
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
