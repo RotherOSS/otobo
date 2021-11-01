@@ -1966,132 +1966,7 @@ sub new {
     $Self->Load();
 
     # when in cluster mode, we must consider that files have changes in S3
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-
-        # TODO: don't access attributes directly
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $UserAgent = $StorageS3Object->{UserAgent};
-        my $S3Object  = $StorageS3Object->{S3Object};
-        my $Bucket    = $StorageS3Object->{Bucket};
-
-        my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
-
-        # only a single process should sync with S3 at one time
-        CHECK_SYNC:
-        while (1) {
-
-            # run a blocking GET request to S3
-            my %Name2Properties = $StorageS3Object->ListObjects(
-                Prefix => $FilesPrefix,
-            );
-
-            # Package events are not handled here as the whole web server is restarted when
-            # a package has changed. See Plack::Handler::SyncWithS3 which is activated in entrypoint.sh.
-            my $EventFileName = 'event_package.json';
-            if ( exists $Name2Properties{$EventFileName} ) {
-
-                # gather info about the local event file
-                my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$EventFileName";
-
-                # do not sync ZZZ*.pm files when there was a package event and the local event file does not exist
-                last CHECK_SYNC unless $Stat;
-
-                # info about the event file in S3
-                my $Properties = $Name2Properties{$EventFileName};
-
-                # do not sync ZZZ*.pm files when the local event file differs from the version in S3
-                last CHECK_SYNC unless $Stat->size == $Properties->{Size};
-                last CHECK_SYNC unless $Stat->mtime == $Properties->{Mtime};
-            }
-
-            # check the fixed list of ZZZ files
-            my @OutdatedZZZFilenames;
-            ZZZFILENAME:
-            for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm) ) {
-
-                # nothing to sync when the object does not exist in S3
-                next ZZZFILENAME unless exists $Name2Properties{$ZZZFileName};
-
-                # gather info about the local file
-                my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
-
-                # fetch from S3 when container just started, and the files don't exist yet in the file system
-                if ( ! $Stat ) {
-                    push @OutdatedZZZFilenames, $ZZZFileName;
-
-                    next ZZZFILENAME;
-                }
-
-                # either size of modified time must have changed
-                my $Properties = $Name2Properties{$ZZZFileName};
-                if ( $Stat->size != $Properties->{Size} ) {
-                    push @OutdatedZZZFilenames, $ZZZFileName;
-
-                    next ZZZFILENAME;
-                }
-
-                # timestamp check does not consider differences within one second
-                if ( $Stat->mtime != $Properties->{Mtime} ) {
-                    push @OutdatedZZZFilenames, $ZZZFileName;
-
-                    next ZZZFILENAME;
-                }
-            }
-
-            # go on reading the config files when all files are up to date
-            last CHECK_SYNC unless @OutdatedZZZFilenames;
-
-            # not sure whether flock is the best choice here, especially when running in Gazelle
-            # https://www.perl.com/article/2/2015/11/4/Run-only-one-instance-of-a-program-at-a-time/
-            # assuming that we are not on a NFS mount
-            ## no critic qw(OTOBO::ProhibitOpen)
-            ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
-            ## no critic qw(InputOutput::RequireBriefOpen)
-            my $LockFile = "$Self->{Home}/Kernel/Config/Files/.s3_sync.lock";
-            open my $LockFH, '>', $LockFile or die "unable to open file $LockFile: $!";
-            my $LockAquired = flock $LockFH, LOCK_EX|LOCK_NB;
-
-            if ( ! $LockAquired ) {
-                # sombody else is already syncing the files from S3
-                # wait a bit and check whether files are up to date now
-                sleep 1;
-
-                next CHECK_SYNC;
-            }
-
-            # we got an exclusive lock, now do the work and update from S3
-            for my $ZZZFileName ( @OutdatedZZZFilenames ) {
-                my $FilePath    = join '/', $Bucket, ($FilesPrefix . $ZZZFileName); # $FilesPrefix already has trailing '/'
-                my $Now         = Mojo::Date->new(time)->to_datetime;
-                my $URL         = Mojo::URL->new
-                    ->scheme( $StorageS3Object->{Scheme} )
-                    ->host( $StorageS3Object->{Host} )
-                    ->path($FilePath);
-                my $Transaction = $S3Object->signed_request(
-                    method   => 'GET',
-                    datetime => $Now,
-                    url      => $URL,
-                );
-
-                # run blocking request
-                $UserAgent->start($Transaction);
-
-                # Do not use the Kernel::System::Main in Kernel/Config/Defaults
-                $Transaction->result->save_to("$Self->{Home}/Kernel/Config/Files/$ZZZFileName");
-
-                # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
-                # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
-                # $Name2Properties{$ZZZFileName} can't be used here as the file could have changed since the last check.
-                my $LastModified = $Transaction->result->headers->last_modified;
-                my $Epoch        = Mojo::Date->new($LastModified)->epoch;
-                utime $Epoch, $Epoch, "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
-            }
-
-            # Doublecheck whether deployment wasn't still ongoing,
-            # or whether a new deployment had beed done in the meantime.
-            next CHECK_SYNC;
-        }
-    }
+    $Self->SyncWithS3();
 
     # load extra config files
     if ( -d "$Self->{Home}/Kernel/Config/Files/" ) {
@@ -2351,6 +2226,139 @@ sub AutoloadPerlPackages {
                 require $FileName . '.pm'; ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
             };
         }
+    }
+
+    return 1;
+}
+
+sub SyncWithS3 {
+    my ($Self) = @_;
+
+    # nothing to do when S3 backend is not enabled
+    return unless $ENV{OTOBO_SYNC_WITH_S3};
+
+    # TODO: don't access attributes directly
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $UserAgent = $StorageS3Object->{UserAgent};
+    my $S3Object  = $StorageS3Object->{S3Object};
+    my $Bucket    = $StorageS3Object->{Bucket};
+
+    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
+
+    # only a single process should sync with S3 at one time
+    CHECK_SYNC:
+    while (1) {
+
+        # run a blocking GET request to S3
+        my %Name2Properties = $StorageS3Object->ListObjects(
+            Prefix => $FilesPrefix,
+        );
+
+        # Package events are not handled here as the whole web server is restarted when
+        # a package has changed. See Plack::Handler::SyncWithS3 which is activated in entrypoint.sh.
+        my $EventFileName = 'event_package.json';
+        if ( exists $Name2Properties{$EventFileName} ) {
+
+            # gather info about the local event file
+            my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$EventFileName";
+
+            # do not sync ZZZ*.pm files when there was a package event and the local event file does not exist
+            last CHECK_SYNC unless $Stat;
+
+            # info about the event file in S3
+            my $Properties = $Name2Properties{$EventFileName};
+
+            # do not sync ZZZ*.pm files when the local event file differs from the version in S3
+            last CHECK_SYNC unless $Stat->size == $Properties->{Size};
+            last CHECK_SYNC unless $Stat->mtime == $Properties->{Mtime};
+        }
+
+        # check the fixed list of ZZZ files
+        my @OutdatedZZZFilenames;
+        ZZZFILENAME:
+        for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm) ) {
+
+            # nothing to sync when the object does not exist in S3
+            next ZZZFILENAME unless exists $Name2Properties{$ZZZFileName};
+
+            # gather info about the local file
+            my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+
+            # fetch from S3 when container just started, and the files don't exist yet in the file system
+            if ( ! $Stat ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+
+            # either size of modified time must have changed
+            my $Properties = $Name2Properties{$ZZZFileName};
+            if ( $Stat->size != $Properties->{Size} ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+
+            # timestamp check does not consider differences within one second
+            if ( $Stat->mtime != $Properties->{Mtime} ) {
+                push @OutdatedZZZFilenames, $ZZZFileName;
+
+                next ZZZFILENAME;
+            }
+        }
+
+        # go on reading the config files when all files are up to date
+        last CHECK_SYNC unless @OutdatedZZZFilenames;
+
+        # not sure whether flock is the best choice here, especially when running in Gazelle
+        # https://www.perl.com/article/2/2015/11/4/Run-only-one-instance-of-a-program-at-a-time/
+        # assuming that we are not on a NFS mount
+        ## no critic qw(OTOBO::ProhibitOpen)
+        ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
+        ## no critic qw(InputOutput::RequireBriefOpen)
+        my $LockFile = "$Self->{Home}/Kernel/Config/Files/.s3_sync.lock";
+        open my $LockFH, '>', $LockFile or die "unable to open file $LockFile: $!";
+        my $LockAquired = flock $LockFH, LOCK_EX|LOCK_NB;
+
+        if ( ! $LockAquired ) {
+            # sombody else is already syncing the files from S3
+            # wait a bit and check whether files are up to date now
+            sleep 1;
+
+            next CHECK_SYNC;
+        }
+
+        # we got an exclusive lock, now do the work and update from S3
+        for my $ZZZFileName ( @OutdatedZZZFilenames ) {
+            my $FilePath    = join '/', $Bucket, ($FilesPrefix . $ZZZFileName); # $FilesPrefix already has trailing '/'
+            my $Now         = Mojo::Date->new(time)->to_datetime;
+            my $URL         = Mojo::URL->new
+                ->scheme( $StorageS3Object->{Scheme} )
+                ->host( $StorageS3Object->{Host} )
+                ->path($FilePath);
+            my $Transaction = $S3Object->signed_request(
+                method   => 'GET',
+                datetime => $Now,
+                url      => $URL,
+            );
+
+            # run blocking request
+            $UserAgent->start($Transaction);
+
+            # Do not use the Kernel::System::Main in Kernel/Config/Defaults
+            $Transaction->result->save_to("$Self->{Home}/Kernel/Config/Files/$ZZZFileName");
+
+            # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
+            # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
+            # $Name2Properties{$ZZZFileName} can't be used here as the file could have changed since the last check.
+            my $LastModified = $Transaction->result->headers->last_modified;
+            my $Epoch        = Mojo::Date->new($LastModified)->epoch;
+            utime $Epoch, $Epoch, "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+        }
+
+        # Doublecheck whether deployment wasn't still ongoing,
+        # or whether a new deployment had beed done in the meantime.
+        next CHECK_SYNC;
     }
 
     return 1;
