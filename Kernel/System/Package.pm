@@ -18,10 +18,13 @@ package Kernel::System::Package;
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
+use parent qw(Kernel::System::EventHandler);
+
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64 decode_base64);
 use File::Copy qw(copy move);
 
 # CPAN modules
@@ -32,8 +35,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-
-use parent qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -77,8 +78,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get needed objects
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
@@ -108,16 +108,6 @@ sub new {
         PackageIsDownloadable    => 'SCALAR',
         PackageIsRemovable       => 'SCALAR',
         PackageAllowDirectUpdate => 'SCALAR',
-
-        # *(Pre|Post) - just for compat. to 2.2
-        IntroInstallPre    => 'ARRAY',
-        IntroInstallPost   => 'ARRAY',
-        IntroUninstallPre  => 'ARRAY',
-        IntroUninstallPost => 'ARRAY',
-        IntroUpgradePre    => 'ARRAY',
-        IntroUpgradePost   => 'ARRAY',
-        IntroReinstallPre  => 'ARRAY',
-        IntroReinstallPost => 'ARRAY',
 
         CodeInstall   => 'ARRAY',
         CodeUpgrade   => 'ARRAY',
@@ -984,7 +974,7 @@ sub PackageUpgrade {
         my $NotUseTag;
         my $NotUseTagLevel;
         PARTDB:
-        for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
+        for my $Part ( $Structure{DatabaseUpgrade}->{pre}->@* ) {
 
             if ( !$UseInstalled ) {
 
@@ -2251,21 +2241,6 @@ sub PackageBuild {
         }
     }
 
-    # find framework, may we need do some things different to be compat. to 2.2
-    my $Framework;
-    if ( $Param{Framework} ) {
-
-        FW:
-        for my $FW ( @{ $Param{Framework} } ) {
-
-            next FW if $FW->{Content} !~ /2\.2\./;
-
-            $Framework = '2.2';
-
-            last FW;
-        }
-    }
-
     # build xml
     if ( !$Param{Type} ) {
         $XML .= '<?xml version="1.0" encoding="utf-8" ?>';
@@ -2284,9 +2259,7 @@ sub PackageBuild {
     {
 
         # don't use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
-        if ( $Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ ) {
-            next TAG;
-        }
+        next TAG if ( $Param{Type} && $Tag =~ m/(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ );
 
         if ( ref $Param{$Tag} eq 'HASH' ) {
 
@@ -2319,18 +2292,6 @@ sub PackageBuild {
                 {
                     $OldParam{$HashParam} = $Hash{$HashParam} || '';
                     delete $Hash{$HashParam};
-                }
-
-                # compat. to 2.2
-                if ( $Framework && $Tag =~ /^Intro/ ) {
-                    if ( $Hash{Type} eq 'pre' ) {
-                        $Hash{Type} = 'Pre';
-                    }
-                    else {
-                        $Hash{Type} = 'Post';
-                    }
-                    $TagSub = $Tag . $Hash{Type};
-                    delete $Hash{Type};
                 }
 
                 $XML .= "    <$TagSub";
@@ -2567,7 +2528,7 @@ sub PackageParse {
     my %Package;
 
     # parse package
-    my %PackageMap = %{ $Self->{PackageMap} };
+    my %PackageMap = $Self->{PackageMap}->%*;
 
     TAG:
     for my $Tag (@XMLARRAY) {
@@ -2579,19 +2540,12 @@ sub PackageParse {
         }
         elsif ( $PackageMap{ $Tag->{Tag} } && $PackageMap{ $Tag->{Tag} } eq 'ARRAY' ) {
 
-            # For compat. to 2.2 - convert Intro(Install|Upgrade|Unintall)(Pre|Post) to
-            # e. g. <IntroInstall Type="post">.
-            if ( $Tag->{Tag} =~ /^(Intro(Install|Upgrade|Uninstall))(Pre|Post)/ ) {
-                $Tag->{Tag}  = $1;
-                $Tag->{Type} = lc $3;
-            }
-
             # Set default type of Code* and Intro* to post.
-            elsif ( $Tag->{Tag} =~ /^(Code|Intro)/ && !$Tag->{Type} ) {
-                $Tag->{Type} = 'post';
+            if ( $Tag->{Tag} =~ m/^(?:Code|Intro)/ ) {
+                $Tag->{Type} ||= 'post';
             }
 
-            push @{ $Package{ $Tag->{Tag} } }, $Tag;
+            push $Package{ $Tag->{Tag} }->@*, $Tag;
         }
     }
 
