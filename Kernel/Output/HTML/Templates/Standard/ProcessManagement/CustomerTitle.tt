@@ -1,0 +1,40 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+[% RenderBlockStart("rw:Title") %]
+<div class="Row">
+    <div class="Field">
+        <input class="W50pc DynamicFieldText [% Data.ValidateRequired | html %] [% Data.ServerError | html %]" type="text" name="[% Data.FieldID | html %]" id="[% Data.FieldID | html %]" value="[% Data.Value | html %]"/>
+    </div>
+[% RenderBlockStart("rw:Title:DescriptionLong") %]
+    <div class="Tooltip">
+        <i class="ooofo ooofo-help"></i>
+        <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+    </div>
+[% RenderBlockEnd("rw:Title:DescriptionLong") %]
+    <label for="[% Data.FieldID | html %]" class="[% Data.MandatoryClass | html %]">
+[% RenderBlockStart("LabelSpan") %]
+        <span class="Marker">*</span>
+[% RenderBlockEnd("LabelSpan") %]
+        [% Data.Label | html %]:
+    </label>
+[% RenderBlockStart("rw:Title:DescriptionShort") %]
+    <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
+[% RenderBlockEnd("rw:Title:DescriptionShort") %]
+    <div id="[% Data.FieldID | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="[% Data.FieldID | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("rw:Title") %]

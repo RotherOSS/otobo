@@ -2034,7 +2034,7 @@ sub _RenderTitle {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Title' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerTitle' ),
     };
 
 }
@@ -2190,7 +2190,7 @@ sub _RenderArticle {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Article' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerArticle' ),
     };
 }
 
@@ -2304,7 +2304,7 @@ sub _RenderCustomer {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Customer' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerCustomer' ),
     };
 }
 
@@ -2458,7 +2458,7 @@ sub _RenderSLA {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/SLA' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerSLA' ),
     };
 }
 
@@ -2616,7 +2616,7 @@ sub _RenderService {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Service' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerService' ),
     };
 
 }
@@ -2753,7 +2753,7 @@ sub _RenderPriority {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Priority' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerPriority' ),
     };
 }
 
@@ -2898,7 +2898,7 @@ sub _RenderQueue {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Queue' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerQueue' ),
     };
 }
 
@@ -3029,7 +3029,7 @@ sub _RenderState {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/State' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerState' ),
     };
 }
 
@@ -3180,7 +3180,7 @@ sub _RenderType {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Type' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerType' ),
     };
 }
 
