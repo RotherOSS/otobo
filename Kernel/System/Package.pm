@@ -109,16 +109,6 @@ sub new {
         PackageIsRemovable       => 'SCALAR',
         PackageAllowDirectUpdate => 'SCALAR',
 
-        # *(Pre|Post) - just for compat. to 2.2
-        IntroInstallPre    => 'ARRAY',
-        IntroInstallPost   => 'ARRAY',
-        IntroUninstallPre  => 'ARRAY',
-        IntroUninstallPost => 'ARRAY',
-        IntroUpgradePre    => 'ARRAY',
-        IntroUpgradePost   => 'ARRAY',
-        IntroReinstallPre  => 'ARRAY',
-        IntroReinstallPost => 'ARRAY',
-
         CodeInstall   => 'ARRAY',
         CodeUpgrade   => 'ARRAY',
         CodeUninstall => 'ARRAY',
@@ -2251,21 +2241,6 @@ sub PackageBuild {
         }
     }
 
-    # find framework, may we need do some things different to be compat. to 2.2
-    my $Framework;
-    if ( $Param{Framework} ) {
-
-        FW:
-        for my $FW ( @{ $Param{Framework} } ) {
-
-            next FW if $FW->{Content} !~ /2\.2\./;
-
-            $Framework = '2.2';
-
-            last FW;
-        }
-    }
-
     # build xml
     if ( !$Param{Type} ) {
         $XML .= '<?xml version="1.0" encoding="utf-8" ?>';
@@ -2317,18 +2292,6 @@ sub PackageBuild {
                 {
                     $OldParam{$HashParam} = $Hash{$HashParam} || '';
                     delete $Hash{$HashParam};
-                }
-
-                # compat. to 2.2
-                if ( $Framework && $Tag =~ /^Intro/ ) {
-                    if ( $Hash{Type} eq 'pre' ) {
-                        $Hash{Type} = 'Pre';
-                    }
-                    else {
-                        $Hash{Type} = 'Post';
-                    }
-                    $TagSub = $Tag . $Hash{Type};
-                    delete $Hash{Type};
                 }
 
                 $XML .= "    <$TagSub";
@@ -2577,16 +2540,9 @@ sub PackageParse {
         }
         elsif ( $PackageMap{ $Tag->{Tag} } && $PackageMap{ $Tag->{Tag} } eq 'ARRAY' ) {
 
-            # For compat. to 2.2 - convert Intro(Install|Upgrade|Unintall)(Pre|Post) to
-            # e. g. <IntroInstall Type="post">.
-            if ( $Tag->{Tag} =~ /^(Intro(Install|Upgrade|Uninstall))(Pre|Post)/ ) {
-                $Tag->{Tag}  = $1;
-                $Tag->{Type} = lc $3;
-            }
-
             # Set default type of Code* and Intro* to post.
-            elsif ( $Tag->{Tag} =~ /^(Code|Intro)/ && !$Tag->{Type} ) {
-                $Tag->{Type} = 'post';
+            if ( $Tag->{Tag} =~ m/^(?:Code|Intro)/ ) {
+                $Tag->{Type} ||= 'post';
             }
 
             push $Package{ $Tag->{Tag} }->@*, $Tag;
