@@ -903,12 +903,20 @@ p.IntroInstall {
 
 .OTOBOVerifyLogoBig {
     float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 40px;
+    margin-left: 10px;
+    width: 200px;
+    height: 45px;
 }
 
 .OTOBOVerifyLogo {
     display: block;
     float: right;
     margin: 3px 0px 0px 3px;
+    width: 76px;
+    height: 16px;
 }
 
 /**
