@@ -285,36 +285,16 @@ sub MinifyFiles {
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ($S3Backend) {
 
-            # TODO: don't access attributes directly
             my $StorageS3Object = Kernel::System::Storage::S3->new();
-            my $UserAgent       = $StorageS3Object->{UserAgent};
-            my $S3Object        = $StorageS3Object->{S3Object};
-            my $Bucket          = $StorageS3Object->{Bucket};
 
             # the target directory is below the OTOBO home dir, adapt that to S3
             my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $FilePath = join '/', $TargetDirectory, $Filename;
-            $FilePath =~ s!^$Home!$Bucket/OTOBO!;
-            my $Now = Mojo::Date->new(time)->to_datetime;
-            my $URL = Mojo::URL->new
-                ->scheme( $StorageS3Object->{Scheme} )
-                ->host( $StorageS3Object->{Host} )
-                ->path($FilePath);
-
-            # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-            # not sure how this works for Perl strings containing binary data
-            my $ContentCopy = $Content;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ContentCopy );
-
-            my $Transaction = $S3Object->signed_request(
-                method   => 'PUT',
-                datetime => $Now,
-                url      => $URL,
-                payload  => [$ContentCopy],
+            $FilePath =~ s!^$Home!OTOBO!;
+            $StorageS3Object->StoreObject(
+                Key     => $FilePath,
+                Content => $Content,
             );
-
-            # run blocking request
-            $UserAgent->start($Transaction);
         }
         else {
 

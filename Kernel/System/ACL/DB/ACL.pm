@@ -23,8 +23,6 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
@@ -925,11 +923,11 @@ sub ACLDump {
         Type => 'ACLEditor_ACL',
     );
 
-    my $Output = '';
+    my $PMFileOutput = '';
     for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
-        $Output .= $Self->_ACLItemOutput(
+        $PMFileOutput .= $Self->_ACLItemOutput(
             Key        => $ACLName,
             Value      => $ACLDump{$ACLName}{Values},
             Comment    => $ACLDump{$ACLName}{Comment},
@@ -970,45 +968,23 @@ EOF
 1;
 EOF
 
-    $Output = $FileStart . $Output . $FileEnd;
+    $PMFileOutput = $FileStart . $PMFileOutput . $FileEnd;
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-        # TODO: don't access attributes directly
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $UserAgent       = $StorageS3Object->{UserAgent};
-        my $S3Object        = $StorageS3Object->{S3Object};
-        my $Bucket          = $StorageS3Object->{Bucket};
-
-        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
-        my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new
-            ->scheme( $StorageS3Object->{Scheme} )
-            ->host( $StorageS3Object->{Host} )
-            ->path($FilePath);
-
-        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-        # not sure how this works for Perl strings containing binary data
-        my $Content = $Output;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-
-        my $Transaction = $S3Object->signed_request(
-            method   => 'PUT',
-            datetime => $Now,
-            url      => $URL,
-            payload  => [$Content],
-        );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
+        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
 
         # only write to S3, no extra copy in the file system
-        return $FilePath;
+        return $StorageS3Object->StoreObject(
+            Key     => $ZZZFilePath,
+            Content => $PMFileOutput,
+        );
     }
 
     return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
-        Content  => \$Output,
+        Content  => \$PMFileOutput,
         Mode     => 'utf8',
         Type     => 'Local',
     );

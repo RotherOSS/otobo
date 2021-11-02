@@ -23,8 +23,6 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 
 # OTOBO modules
 use Kernel::System::ProcessManagement::DB::Entity;
@@ -1235,7 +1233,7 @@ Returns:
 
 or, when S3 is active
 
-    $ProcessDump = 'my_bucket/OTOBO/Kernel/Config/Files/ZZZProcessManagement.pm'; # or undef if can't write to S3
+    $ProcessDump = 'OTOBO/Kernel/Config/Files/ZZZProcessManagement.pm';          # or undef if can't write to S3
 
 =cut
 
@@ -1456,42 +1454,20 @@ EOF
 EOF
     }
 
-    # store Perl module in S3 when S3 is active
+    # store the Perl module in S3 when S3 is active
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-        # TODO: don't access attributes directly
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $UserAgent       = $StorageS3Object->{UserAgent};
-        my $S3Object        = $StorageS3Object->{S3Object};
-        my $Bucket          = $StorageS3Object->{Bucket};
-
-        # generate Mojo transaction for submitting plain to S3
-        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
-        my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new
-            ->scheme( $StorageS3Object->{Scheme} )
-            ->host( $StorageS3Object->{Host} )
-            ->path($FilePath);
-
-        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-        # not sure how this works for Perl strings containing binary data
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$PMFileOutput );
-
-        my $Transaction = $S3Object->signed_request(
-            method   => 'PUT',
-            datetime => $Now,
-            url      => $URL,
-            payload  => [$PMFileOutput],
-        );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
+        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
 
         # only write to S3, no extra copy in the file system
-        return $FilePath;
+        return $StorageS3Object->StoreObject(
+            Key     => $ZZZFilePath,
+            Content => $PMFileOutput,
+        );
     }
 
-    # S3 is not active, writing Perl module into the file system
+    # S3 is not active, writing the Perl module into the file system
     return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
         Content  => \$PMFileOutput,

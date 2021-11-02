@@ -228,7 +228,8 @@ sub StoreObject {
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
-    return $Transaction->result->is_success;
+    return $Param{Key} if $Transaction->result->is_success;
+    return;
 }
 
 =head2 RetrieveObject()

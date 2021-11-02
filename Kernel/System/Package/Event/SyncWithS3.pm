@@ -25,9 +25,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use Mojo::Date;
 use Mojo::JSON qw(encode_json);
-use Mojo::URL;
 
 # OTOBO modules
 use Kernel::System::Storage::S3;
@@ -60,38 +58,18 @@ sub Run {
         }
     }
 
-    # TODO: don't access attributes directly
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $UserAgent       = $StorageS3Object->{UserAgent};
-    my $S3Object        = $StorageS3Object->{S3Object};
-    my $Bucket          = $StorageS3Object->{Bucket};
-
-    # generate Mojo transaction for submitting plain to S3
-    my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'event_package.json';
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $StorageS3Object->{Scheme} )
-        ->host( $StorageS3Object->{Host} )
-        ->path($FilePath);
-    my %Headers = ( 'Content-Type' => 'application/json' );
-
+    # submitting JSON to S3
     # TODO: get a more sensible content
-    my $JSONContent = encode_json( \%Param );
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$JSONContent );
+    my $JSONContent     = encode_json( \%Param );
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $EventFilePath   = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'event_package.json';
 
-    my $Transaction = $S3Object->signed_request(
-        method         => 'PUT',
-        datetime       => $Now,
-        url            => $URL,
-        signed_headers => \%Headers,
-        payload        => [$JSONContent],
+    # only write to S3, no extra copy in the file system
+    return $StorageS3Object->StoreObject(
+        Key     => $EventFilePath,
+        Headers => { 'Content-Type' => 'application/json' },
+        Content => $JSONContent,
     );
-
-    # run blocking request
-    $UserAgent->start($Transaction);
-
-    # TODO: check success
-    return 1;
 }
 
 1;

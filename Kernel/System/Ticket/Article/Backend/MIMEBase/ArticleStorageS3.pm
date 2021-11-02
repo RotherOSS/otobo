@@ -229,7 +229,7 @@ sub ArticleWritePlain {
         }
     }
 
-    # generate Mojo transaction for submitting plain to S3
+    # store plain message to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
 
     return $Self->{StorageS3Object}->StoreObject(
