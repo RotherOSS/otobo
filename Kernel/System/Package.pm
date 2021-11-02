@@ -18,10 +18,13 @@ package Kernel::System::Package;
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
+use parent qw(Kernel::System::EventHandler);
+
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64 decode_base64);
 use File::Copy qw(copy move);
 
 # CPAN modules
@@ -32,8 +35,6 @@ use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-
-use parent qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -77,8 +78,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get needed objects
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
@@ -2284,9 +2284,7 @@ sub PackageBuild {
     {
 
         # don't use CodeInstall CodeUpgrade CodeUninstall CodeReinstall in index mode
-        if ( $Param{Type} && $Tag =~ /(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ ) {
-            next TAG;
-        }
+        next TAG if ( $Param{Type} && $Tag =~ m/(Code|Intro)(Install|Upgrade|Uninstall|Reinstall)/ );
 
         if ( ref $Param{$Tag} eq 'HASH' ) {
 
