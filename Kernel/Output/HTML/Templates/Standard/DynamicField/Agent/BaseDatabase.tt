@@ -28,7 +28,7 @@
 [% IF Data.Mandatory %]
     <div id="[% Data.DivID %]" class="TooltipErrorMessage">
         <p>
-            [% Data.FieldRequiredMessage %]
+            [% Translate(Data.FieldRequiredMessage) | html %]
         </p>
     </div>
 [% END %]

@@ -21,6 +21,7 @@ package Kernel::System::DynamicField::Driver::Checkbox;
 use strict;
 use warnings;
 
+use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::DynamicField::Driver::Base);
@@ -285,80 +286,65 @@ sub EditFieldRender {
 
     my $FieldNameUsed = $FieldName . "Used";
 
-    my $HTMLString = <<"EOF";
-<input type="hidden" id="$FieldNameUsed" name="$FieldNameUsed" value="1" />
-EOF
+    my %FieldTemplateData = (
+        'FieldNameUsed' => $FieldNameUsed,
+        'FieldClass'    => $FieldClass,
+        'FieldName'     => $FieldName,
+        'FieldChecked'  => $FieldChecked
+    );
 
     if ( $Param{ConfirmationNeeded} ) {
 
+        $FieldTemplateData{ConfirmationNeeded} = $Param{ConfirmationNeeded};
+
         # set checked property
-        my $FieldUsedChecked0 = '';
-        my $FieldUsedChecked1 = '';
+        $FieldTemplateData{FieldUsedChecked0} = '';
+        $FieldTemplateData{FieldUsedChecked1} = '';
         if ( $FieldValue->{UsedValue} ) {
-            $FieldUsedChecked1 = 'checked="checked"';
+            $FieldTemplateData{FieldUsedChecked1} = 'checked="checked"';
         }
         else {
-            $FieldUsedChecked0 = 'checked="checked"';
+            $FieldTemplateData{FieldUsedChecked0} = 'checked="checked"';
         }
 
-        my $FieldNameUsed0 = $FieldNameUsed . '0';
-        my $FieldNameUsed1 = $FieldNameUsed . '1';
-        my $TranslatedDesc = $Param{LayoutObject}->{LanguageObject}->Translate(
-            'Ignore this field.',
-        );
+        $FieldTemplateData{FieldNameUsed0} = $FieldNameUsed . '0';
+        $FieldTemplateData{FieldNameUsed1} = $FieldNameUsed . '1';
+        $FieldTemplateData{Description}    = Translatable('Ignore this field.');
 
-        if ( !$Param{NoIgnoreField} ) {
-            $HTMLString = <<"EOF";
-<input type="radio" id="$FieldNameUsed0" name="$FieldNameUsed" value="" $FieldUsedChecked0 />
-$TranslatedDesc
-<div class="clear"></div>
-<input type="radio" id="$FieldNameUsed1" name="$FieldNameUsed" value="1" $FieldUsedChecked1 />
-EOF
-        }
+        $FieldTemplateData{NoIgnoreField} = $Param{NoIgnoreField};
     }
 
     my $FieldLabelEscaped = $Param{LayoutObject}->Ascii2Html(
         Text => $FieldLabel,
     );
 
-    $HTMLString .= <<"EOF";
-<input type="checkbox" class="$FieldClass" id="$FieldName" name="$FieldName" title="$FieldLabelEscaped" $FieldChecked value="1" />
-EOF
+    $FieldTemplateData{FieldLabelEscaped} = $FieldLabelEscaped;
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
+        $FieldTemplateData{DivID}     = $FieldName . 'Error';
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
+
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'ServerError';
-
-        # for server side validation
-        $HTMLString .= <<"EOF";
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
     }
+
+    my $FieldTemplateFile = 'DynamicField/Agent/Checkbox';
+    if ( $Param{CustomerInterface} ) {
+        $FieldTemplateFile = 'DynamicField/Customer/Checkbox';
+    }
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
+    );
 
     if ( $Param{AJAXUpdate} ) {
 

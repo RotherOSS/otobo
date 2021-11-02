@@ -239,22 +239,17 @@ sub EditFieldRender {
     );
 
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'Error';
+        $FieldTemplateData{DivID} = $FieldName . 'Error';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
-        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivID}                = $DivID;
-        $FieldTemplateData{FieldRequiredMessage} = $FieldRequiredMessage;
+        $FieldTemplateData{Mandatory} = $Param{Mandatory};
     }
 
     if ( $Param{ServerError} ) {
-        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID        = $FieldName . 'ServerError';
-
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
         $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{DivID}        = $DivID;
-        $FieldTemplateData{ErrorMessage} = $ErrorMessage;
     }
 
     # call EditLabelRender on the common Driver
@@ -264,16 +259,13 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    my $TemplateFile = '';
+    my $FieldTemplateFile = 'DynamicField/Agent/BaseText';
     if ( $Param{CustomerInterface} ) {
-        $TemplateFile = 'DynamicField/Customer/BaseText';
-    }
-    else {
-        $TemplateFile = 'DynamicField/Agent/BaseText';
+        $FieldTemplateFile = 'DynamicField/Customer/BaseText';
     }
 
     my $HTMLString = $Param{LayoutObject}->Output(
-        'TemplateFile' => $TemplateFile,
+        'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
     );
 
