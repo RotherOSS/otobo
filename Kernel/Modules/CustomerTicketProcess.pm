@@ -1954,7 +1954,7 @@ sub _RenderDynamicField {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerDynamicField' ),
     };
 }
 
