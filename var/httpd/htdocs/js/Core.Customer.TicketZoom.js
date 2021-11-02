@@ -329,7 +329,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 else {
                     $('#oooArticleList > .oooActive').removeClass('oooActive');
                     var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
-                    while ( ActiveIndex > 2 && ActiveChild.offset().top > $(window).scrollTop() + 240) {
+                    while ( ActiveIndex > 1 + ActivityCount && ActiveChild.offset().top > $(window).scrollTop() + 240) {
                         ActiveChild = PrevChild;
                         ActiveIndex--;
                         PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
