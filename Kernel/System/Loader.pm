@@ -27,8 +27,6 @@ use utf8;
 # CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 
 # OTOBO modules
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -199,32 +197,16 @@ sub MinifyFiles {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
-        # TODO: don't access attributes directly
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $UserAgent       = $StorageS3Object->{UserAgent};
-        my $S3Object        = $StorageS3Object->{S3Object};
-        my $Bucket          = $StorageS3Object->{Bucket};
 
         # the target directory is below the OTOBO home dir, adapt that to S3
-        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $FilePath = join '/', $TargetDirectory, $Filename;
-        $FilePath =~ s!^$Home!$Bucket/OTOBO!;
-        my $Now = Mojo::Date->new(time)->to_datetime;
-        my $URL = Mojo::URL->new
-            ->scheme( $StorageS3Object->{Scheme} )
-            ->host( $StorageS3Object->{Host} )
-            ->path($FilePath);
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $FilePath        = join '/', $TargetDirectory, $Filename;
+        $FilePath =~ s!^$Home!OTOBO!;
 
-        my $Transaction = $S3Object->signed_request(
-            method   => 'HEAD',
-            datetime => $Now,
-            url      => $URL,
+        $LoaderFileExists = $StorageS3Object->ObjectExists(
+            Key => $FilePath,
         );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
-
-        $LoaderFileExists = 1 if $Transaction->res->is_success;
     }
 
     if ( !$LoaderFileExists ) {

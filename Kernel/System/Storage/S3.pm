@@ -232,6 +232,47 @@ sub StoreObject {
     return;
 }
 
+=head2 ObjectExists()
+
+to be documented
+
+=cut
+
+sub ObjectExists {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    # retrieve attachment from S3
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'HEAD',
+        datetime => $Now,
+        url      => $URL,
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    return $Transaction->res->is_success;
+}
+
 =head2 RetrieveObject()
 
 to be documented
