@@ -34,8 +34,6 @@ use Fcntl qw(:flock);
 
 # CPAN modules
 use Module::Refresh; # located in Kernel/cpan-lib
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 
 # OTOBO modules
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -2237,12 +2235,7 @@ sub SyncWithS3 {
     # nothing to do when S3 backend is not enabled
     return unless $ENV{OTOBO_SYNC_WITH_S3};
 
-    # TODO: don't access attributes directly
     my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $UserAgent = $StorageS3Object->{UserAgent};
-    my $S3Object  = $StorageS3Object->{S3Object};
-    my $Bucket    = $StorageS3Object->{Bucket};
-
     my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
 
     # only a single process should sync with S3 at one time
@@ -2330,30 +2323,12 @@ sub SyncWithS3 {
 
         # we got an exclusive lock, now do the work and update from S3
         for my $ZZZFileName ( @OutdatedZZZFilenames ) {
-            my $FilePath    = join '/', $Bucket, ($FilesPrefix . $ZZZFileName); # $FilesPrefix already has trailing '/'
-            my $Now         = Mojo::Date->new(time)->to_datetime;
-            my $URL         = Mojo::URL->new
-                ->scheme( $StorageS3Object->{Scheme} )
-                ->host( $StorageS3Object->{Host} )
-                ->path($FilePath);
-            my $Transaction = $S3Object->signed_request(
-                method   => 'GET',
-                datetime => $Now,
-                url      => $URL,
+            my $FilePath    = $FilesPrefix . $ZZZFileName; # $FilesPrefix already has trailing '/'
+            my $Location    = "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+            $StorageS3Object->SaveObjectToFile(
+                Key      => $FilePath,
+                Location => $Location,
             );
-
-            # run blocking request
-            $UserAgent->start($Transaction);
-
-            # Do not use the Kernel::System::Main in Kernel/Config/Defaults
-            $Transaction->result->save_to("$Self->{Home}/Kernel/Config/Files/$ZZZFileName");
-
-            # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
-            # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
-            # $Name2Properties{$ZZZFileName} can't be used here as the file could have changed since the last check.
-            my $LastModified = $Transaction->result->headers->last_modified;
-            my $Epoch        = Mojo::Date->new($LastModified)->epoch;
-            utime $Epoch, $Epoch, "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
         }
 
         # Doublecheck whether deployment wasn't still ongoing,

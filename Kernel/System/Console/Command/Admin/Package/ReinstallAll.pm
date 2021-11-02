@@ -18,6 +18,7 @@ package Kernel::System::Console::Command::Admin::Package::ReinstallAll;
 
 use strict;
 use warnings;
+use v5.24;
 
 use parent qw(Kernel::System::Console::BaseCommand);
 

@@ -26,13 +26,12 @@ use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonM
 use File::stat;
 
 # CPAN modules
-use Mojo::Date;
-use Mojo::URL;
 
 # OTOBO modules
 use Kernel::System::Storage::S3;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
 );
 
 =head1 NAME
@@ -58,6 +57,7 @@ sub new {
     my $Self = bless {}, $Type;
 
     # Get objects in constructor to save performance.
+    $Self->{Home} = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # Disable in memory cache to be clusterable.
 
@@ -98,13 +98,8 @@ sub Run {
         print "    $Self->{DaemonName} Executes function: SyncWithS3\n";
     }
 
-    # TODO: don't access attributes directly
     my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $UserAgent       = $StorageS3Object->{UserAgent};
-    my $S3Object        = $StorageS3Object->{S3Object};
-    my $Bucket          = $StorageS3Object->{Bucket};
-
-    my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
+    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
 
     # run a blocking GET request to S3
     my %Name2Properties = $StorageS3Object->ListObjects(
@@ -112,16 +107,18 @@ sub Run {
     );
 
     # Only Package events are handled here.
-    my $DoReinstallPackages = 0;
-    my $EventFileName       = 'event_package.json';
+    my $EventFileName = 'event_package.json';
 
     return 1 unless exists $Name2Properties{$EventFileName};
+
+    my $DoReinstallPackages = 0;
+    my $EventFileLocation   = "$Self->{Home}/Kernel/Config/Files/$EventFileName";
 
     {
         my $DoReinstallPackages = 0;
 
         # gather info about the local file
-        my $Stat = stat "/opt/otobo/Kernel/Config/Files/$EventFileName";
+        my $Stat = stat $EventFileLocation;
 
         # info about the event file in S3
         my $Properties = $Name2Properties{$EventFileName};
@@ -145,7 +142,7 @@ sub Run {
 
     # reinstall packages
     # Use the console command in order to avoid dependance on OTOBO modules in the watchdog loop
-    my $Output = qx{/opt/otobo/bin/otobo.Console.pl Admin::Package::ReinstallAll};
+    my $Output = qx{$Self->{Home}/bin/otobo.Console.pl Admin::Package::ReinstallAll};
     warn "Admin::Package::ReinstallAll: $Output";
 
     # TODO: $OTOBO_HOME/bin/otobo.Console.pl Maint::Config::Rebuild
@@ -154,30 +151,11 @@ sub Run {
     # no locking required as there should be no concurrent access
 
     # update event_package.json from S3
-    my $FilePath = join '/', $Bucket, ( $FilesPrefix . $EventFileName );    # $FilesPrefix already has trailing '/'
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $StorageS3Object->{Scheme} )
-        ->host( $StorageS3Object->{Host} )
-        ->path($FilePath);
-    my $Transaction = $S3Object->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
+    my $FilePath = $FilesPrefix . $EventFileName;    # $FilesPrefix already has trailing '/'
+    $StorageS3Object->SaveObjectToFile(
+        Key      => $FilePath,
+        Location => $EventFileLocation,
     );
-
-    # run blocking request
-    $UserAgent->start($Transaction);
-
-    # Do not use the Kernel::System::Main in Kernel/Config/Defaults
-    $Transaction->result->save_to("/opt/otobo/Kernel/Config/Files/$EventFileName");
-
-    # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
-    # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
-    # $Name2Properties{$EventFileName} can't be used here as the file could have changed since the last check.
-    my $LastModified = $Transaction->result->headers->last_modified;
-    my $Epoch        = Mojo::Date->new($LastModified)->epoch;
-    utime $Epoch, $Epoch, "/opt/otobo/Kernel/Config/Files/$EventFileName";
 
     # Stop all daemons and reload configuration from main daemon.
     kill 'HUP', getppid;

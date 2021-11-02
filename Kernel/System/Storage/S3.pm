@@ -234,7 +234,6 @@ sub StoreObject {
 =head2 RetrieveObject()
 
 to be documented
-to do: save object to file
 
 =cut
 
@@ -320,6 +319,56 @@ sub RetrieveObject {
 
     # the S3 backend does not support storing articles in mixed backends
     return %Data;
+}
+
+=head2 SaveObjectToFile()
+
+to be documented
+
+=cut
+
+sub SaveObjectToFile {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key Location)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    # retrieve object and save it to file
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'GET',
+        datetime => $Now,
+        url      => $URL,
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    # Do not use the Kernel::System::Main in Kernel/Config/Defaults
+    $Transaction->result->save_to( $Param{Location} );
+
+    # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
+    # This is useful because the mtime is used in the comparison whether a new version of the file must be downloaded.
+    # $Name2Properties{$EventFileName} can't be used here as the file could have changed since the last check.
+    my $LastModified = $Transaction->result->headers->last_modified;
+    my $Epoch        = Mojo::Date->new($LastModified)->epoch;
+    utime $Epoch, $Epoch, $Param{Location};
+
+    return 1;
 }
 
 1;
