@@ -4610,7 +4610,7 @@ sub _ShowDialogError {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
 #    my $Output = $LayoutObject->CustomerHeader( Type => 'Small' );
-    $Output .= $LayoutObject->CustomerError(%Param);
+    my $Output .= $LayoutObject->CustomerError(%Param);
 #    $Output .= $LayoutObject->CustomerFooter( Type => 'Small' );
     return $Output;
 }
