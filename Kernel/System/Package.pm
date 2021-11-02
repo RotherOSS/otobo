@@ -984,7 +984,7 @@ sub PackageUpgrade {
         my $NotUseTag;
         my $NotUseTagLevel;
         PARTDB:
-        for my $Part ( @{ $Structure{DatabaseUpgrade}->{pre} } ) {
+        for my $Part ( $Structure{DatabaseUpgrade}->{pre}->@* ) {
 
             if ( !$UseInstalled ) {
 
@@ -2565,7 +2565,7 @@ sub PackageParse {
     my %Package;
 
     # parse package
-    my %PackageMap = %{ $Self->{PackageMap} };
+    my %PackageMap = $Self->{PackageMap}->%*;
 
     TAG:
     for my $Tag (@XMLARRAY) {
@@ -2589,7 +2589,7 @@ sub PackageParse {
                 $Tag->{Type} = 'post';
             }
 
-            push @{ $Package{ $Tag->{Tag} } }, $Tag;
+            push $Package{ $Tag->{Tag} }->@*, $Tag;
         }
     }
 
