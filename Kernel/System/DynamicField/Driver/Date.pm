@@ -349,7 +349,7 @@ sub EditFieldRender {
         }
     }
 
-    my $PredefinedHTML = $Param{LayoutObject}->BuildDateSelection(
+    my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix                => $FieldName,
         Format                => 'DateInputFormat',
@@ -364,7 +364,7 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = (
-        'PredefinedHTML' => $PredefinedHTML
+        'DateSelectionHTML' => $DateSelectionHTML
     );
 
     if ( $Param{Mandatory} ) {

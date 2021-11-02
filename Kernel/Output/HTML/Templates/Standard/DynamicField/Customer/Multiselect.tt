@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-[% Data.PredefinedHTML %]
+[% Data.SelectionHTML %]
 [% IF Data.TreeView %]
 <a href="#" title="[% Translate(Data.TreeSelectionMessage) | html %]" class="ShowTreeSelection">
     <span>

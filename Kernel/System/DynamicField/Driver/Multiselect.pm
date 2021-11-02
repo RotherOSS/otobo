@@ -360,7 +360,7 @@ sub EditFieldRender {
         Value              => $Value,
     );
 
-    my $PredefinedHTML = $Param{LayoutObject}->BuildSelection(
+    my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
         Data        => $DataValues || {},
         Name        => $FieldName,
         SelectedID  => $SelectedValuesArrayRef,
@@ -371,7 +371,7 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = (
-        'PredefinedHTML' => $PredefinedHTML
+        'SelectionHTML' => $SelectionHTML
     );
 
     if ( $FieldConfig->{TreeView} ) {
