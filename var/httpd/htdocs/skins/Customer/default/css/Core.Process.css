@@ -17,3 +17,23 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @package     Skin "Default"
  * @section     Process ticket
  */
+
+/* Layout */
+
+.DescriptionLong {
+    padding-top: 4px;
+}
+
+.AdviceText {
+    padding-bottom: 16px;
+}
+
+/* Fields */
+
+ .FieldExplanation {
+    padding-left: 24px;
+    padding-top: 4px;
+    height: 18px;
+    margin-bottom: -22px;
+ }
+

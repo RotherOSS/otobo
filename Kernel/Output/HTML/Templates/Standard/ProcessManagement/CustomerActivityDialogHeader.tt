@@ -16,14 +16,14 @@
 
 [% RenderBlockStart("Header") %]
 <div class="MessageHeader">
-    <h1>
+    <h2>
         [% Translate(Data.Name) | html %]
 [% RenderBlockStart("DescriptionShort") %]
         - [% Translate(Data.DescriptionShort) | html %]
 [% RenderBlockEnd("DescriptionShort") %]
-    </h1>
+    </h2>
 [% RenderBlockStart("DescriptionLong") %]
-    <p class="DescriptionLong">[% Translate(Data.DescriptionLong) | html %]</p>
+    <p class="DescriptionLong ooog">[% Translate(Data.DescriptionLong) | html %]</p>
 [% RenderBlockEnd("DescriptionLong") %]
 </div>
 [% RenderBlockEnd("Header") %]

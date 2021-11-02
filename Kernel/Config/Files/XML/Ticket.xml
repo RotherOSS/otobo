@@ -11179,6 +11179,7 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.TicketZoom.css</Item>
+                        <Item>Core.Process.css</Item>
                         <Item>Core.Widget.css</Item>
                     </Array>
                 </Item>

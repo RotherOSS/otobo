@@ -19,7 +19,7 @@
 [% RenderBlockStart("Footer") %]
         <div class="ActionRow">
 [% RenderBlockStart("SubmitAdviceText") %]
-            <span class="AdviceText">[% Translate(Data.AdviceText) | html %]</span>
+            <p class="AdviceText">[% Translate(Data.AdviceText) | html %]</p>
 [% RenderBlockEnd("SubmitAdviceText") %]
             <button class="oooXS CloseButton">[% Translate("Discard") | html %]</button><!--
             --><button class="Primary oooXS" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
