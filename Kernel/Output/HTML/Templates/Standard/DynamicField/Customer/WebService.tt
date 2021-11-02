@@ -14,18 +14,26 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]" />
+[% Data.SelectionHTML %]
+[% IF Data.TreeView %]
+    <a href="#" title="[% Translate(Data.TreeSelectionMessage) | html %]" class="ShowTreeSelection">
+        <span>
+            [% Translate(Data.TreeSelectionMessage) | html %]
+        </span>
+        <i class="fa fa-sitemap"></i>
+    </a>
+[% END %]
 [% IF Data.Mandatory %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
-    <p>
-        [% Translate(Data.FieldRequiredMessage) | html %]
-    </p>
-</div>
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.FieldReuqiredMessage) | html %]
+        </p>
+    </div>
 [% END %]
 [% IF Data.ServerError %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
-    <p>
-        [% Translate(Data.ErrorMessage) | html %]
-    </p>
-</div>
+    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+        <p>
+            [% Translate(Data.ErrorMessage) | html %]
+        </p>
+    </div>
 [% END %]

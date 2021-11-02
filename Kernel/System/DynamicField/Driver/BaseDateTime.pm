@@ -254,7 +254,7 @@ sub EditFieldRender {
         }
     }
 
-    my $HTMLString = $Param{LayoutObject}->BuildDateSelection(
+    my $DateSelectionHTML = $Param{LayoutObject}->BuildDateSelection(
         %Param,
         Prefix                => $FieldName,
         Format                => 'DateInputFormatLong',
@@ -267,41 +267,28 @@ sub EditFieldRender {
         %YearsPeriodRange,
     );
 
+    my %FieldTemplateData = (
+        'DateSelectionHTML' => $DateSelectionHTML
+    );
+
     if ( $Param{Mandatory} ) {
-        my $DivID = $FieldName . 'UsedError';
 
-        my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required.");
+        $FieldTemplateData{Mandatory}            = $Param{Mandatory};
+        $FieldTemplateData{DivID}                = $FieldName . 'UsedError';
+        $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
-        # for client side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $FieldRequiredMessage
-    </p>
-</div>
-EOF
     }
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{LayoutObject}->Output(
-            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
-            'Data'     => {
-                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
-            }
-        );
-        my $DivID = $FieldName . 'UsedServerError';
+        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivID}        = $FieldName . 'UsedServerError';
+    }
 
-        # for server side validation
-        $HTMLString .= <<"EOF";
-
-<div id="$DivID" class="TooltipErrorMessage">
-    <p>
-        $ErrorMessage
-    </p>
-</div>
-EOF
+    my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
+    if ( $Param{CustomerInterface} ) {
+        $FieldTemplateFile = 'DynamicField/Customer/BaseDateTime';
     }
 
     # call EditLabelRender on the common Driver
@@ -309,6 +296,11 @@ EOF
         %Param,
         Mandatory => $Param{Mandatory} || '0',
         FieldName => $FieldName . 'Used',
+    );
+
+    my $HTMLString = $Param{LayoutObject}->Output(
+        'TemplateFile' => $FieldTemplateFile,
+        'Data'         => \%FieldTemplateData
     );
 
     my $Data = {
