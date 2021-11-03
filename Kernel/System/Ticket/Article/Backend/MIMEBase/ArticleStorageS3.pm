@@ -414,7 +414,7 @@ sub ArticleAttachmentIndexRaw {
         my $URL      = Mojo::URL->new
             ->scheme( $Self->{Scheme} )
             ->host( $Self->{Host} )
-            ->path($FilePath);
+            ->path( join '/', $Self->{Bucket}, $FilePath );
         my $Transaction = $Self->{S3Object}->signed_request(
             method   => 'HEAD',
             datetime => $Now,
