@@ -65,7 +65,7 @@
 </div>
 
 <div class="Row">
-    <div id="oooAttachments_[% Data.IDSuffix | html %]" class="Field">
+    <div id="oooAttachments_[% Data.IDSuffix | html %]" class="Field DnDUploadContainer">
         <div class="DnDUploadBox">
 [% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
         </div>

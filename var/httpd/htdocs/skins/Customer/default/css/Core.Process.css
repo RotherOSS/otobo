@@ -28,6 +28,11 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     padding-bottom: 16px;
 }
 
+#oooArticleListExpanded > li > div + form {
+    position: relative;
+    top: -24px;
+}
+
 /* Fields */
 
  .FieldExplanation {
@@ -49,3 +54,8 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     border-radius: 10px;
     width: calc( 100% - 32px);
 }
+
+.DnDUploadContainer {
+    height: auto !important;
+}
+
