@@ -14,17 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 [% RenderBlockStart("rw:Article") %]
-
-[% RenderBlockStart("rw:Article:InformAgent") %]
-<div class="Row">
-    <div class="Field">
-        [% Data.OptionStrg %]
-    </div>
-    <label for="InformUserID">[% Translate("Inform Agent") | html %]</label>
-    <div class="Clear"></div>
-</div>
-[% RenderBlockEnd("rw:Article:InformAgent") %]
-
 <div class="Row">
     <div class="Field">
         <input type="text" id="Subject_[% Data.IDSuffix | html %]" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentExists Validate_Depending_TimeUnits"/>
