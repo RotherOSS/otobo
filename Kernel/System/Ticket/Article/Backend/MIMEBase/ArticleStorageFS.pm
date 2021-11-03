@@ -898,8 +898,29 @@ sub ArticleAttachment {
                 }
             }
 
-                return %Data;
+            if (
+                $Data{ContentType} =~ /plain\/text/i
+                && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                )
+            {
+                $EncodeObject->EncodeInput( \$Data{Content} );
             }
+
+            chomp $Data{ContentType};
+
+            # Write to special article storage cache.
+            if ( $Self->{ArticleStorageCache} ) {
+                $CacheObject->Set(
+                    Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+                    TTL            => $Self->{ArticleStorageCacheTTL},
+                    Key            => 'ArticleAttachment' . $Param{FileID},
+                    Value          => \%Data,
+                    CacheInMemory  => 0,
+                    CacheInBackend => 1,
+                );
+            }
+
+            return %Data;
         }
     }
 

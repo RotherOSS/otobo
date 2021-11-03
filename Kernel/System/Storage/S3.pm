@@ -320,7 +320,6 @@ sub RetrieveObject {
     return unless $Data{ContentType};
 
     $Data{Content} = $Transaction->res->body;
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Data{Content} );
 
     return unless defined $Data{Content};
 
