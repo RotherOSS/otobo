@@ -28,7 +28,7 @@
 [% RenderBlockStart("LabelSpan") %]
         <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
-        [% Data.Label | html %]:
+        [% Data.Label | html %]
     </label>
 [% RenderBlockStart("rw:Title:DescriptionShort") %]
     <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>

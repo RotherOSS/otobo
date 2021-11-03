@@ -20,7 +20,7 @@
     <div class="Field">
         [% Data.OptionStrg %]
     </div>
-    <label for="InformUserID">[% Translate("Inform Agent") | html %]:</label>
+    <label for="InformUserID">[% Translate("Inform Agent") | html %]</label>
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("rw:Article:InformAgent") %]
@@ -39,7 +39,7 @@
 [% RenderBlockStart("LabelSpanSubject") %]
         <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpanSubject") %]
-        [% Data.LabelSubject | html %]:
+        [% Data.LabelSubject | html %]
     </label>
 [% RenderBlockStart("rw:Article:DescriptionShort") %]
     <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
@@ -50,14 +50,12 @@
 </div>
 
 <div class="RichTextHolder">
-    <div class="RichTextField">
-        <textarea id="RichText_[% Data.IDSuffix | html %]" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentExists Validate_Depending_TimeUnits" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
-    </div>
+    <textarea id="RichText_[% Data.IDSuffix | html %]" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentExists Validate_Depending_TimeUnits" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
     <label class="[% Data.MandatoryClass | html %]" for="RichText_[% Data.IDSuffix | html %]">
 [% RenderBlockStart("LabelSpanBody") %]
         <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpanBody") %]
-        [% Data.LabelBody | html %]:
+        [% Data.LabelBody | html %]
     </label>
     <div id="RichText_[% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div id="RichText_[% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>

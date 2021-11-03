@@ -159,7 +159,7 @@ label {
     color: var(--colTextLight);
 }
 
-label[for='RichText'] {
+.RichTextHolder > label {
     display: inline-block;
     vertical-align: top;
     top: 98px;

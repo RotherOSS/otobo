@@ -475,7 +475,6 @@ sub Run {
                 AJAXUpdate        => 1,
                 UpdatableFields   => $Self->_GetFieldsToUpdate(),
                 Mandatory         => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
-                CustomerLabel     => 1,
                 CustomerInterface => 1,
                 %UseDefault,
             );
@@ -673,7 +672,6 @@ sub Run {
                     ParamObject       => $ParamObject,
                     AJAXUpdate        => 1,
                     UpdatableFields   => $Self->_GetFieldsToUpdate(),
-                    CustomerLabel     => 1,
                     CustomerInterface => 1,
                 );
         }
