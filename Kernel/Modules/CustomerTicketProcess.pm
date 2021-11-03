@@ -69,6 +69,9 @@ sub Run {
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
     my $ActivityDialogHashRef;
 
+    # extend used ids in html to enable multiple dialogs per page
+    $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-//r : '';
+
     # get needed objects
     my $LayoutObject         = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -1930,6 +1933,10 @@ sub _RenderDynamicField {
         Content => $DynamicFieldHTML->{Field},
     );
 
+    # extend IDs to enable simultaneous activities; might be done directly in the dynamic fields if important at any other place, somewhen
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Label}   =~ s/(id|for)="([\w\s_]+)"/$1="$2_$Self->{IDSuffix}"/;
+
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
         Data => \%Data,
@@ -1987,6 +1994,7 @@ sub _RenderTitle {
         Name             => 'Title',
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix} || '',
     );
 
     # If field is required put in the necessary variables for
@@ -2089,9 +2097,10 @@ sub _RenderArticle {
         Body             => $Param{GetParam}{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
             || $LayoutObject->{LanguageObject}->Translate("Subject"),
-        LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
+        LabelBody        => $Param{ActivityDialogField}->{Config}->{LabelBody}
             || $LayoutObject->{LanguageObject}->Translate("Text"),
-        AttachmentList => $Param{AttachmentList},
+        AttachmentList   => $Param{AttachmentList},
+        IDSuffix         => $Self->{IDSuffix} || '',
     );
 
     # If field is required put in the necessary variables for
@@ -2343,6 +2352,7 @@ sub _RenderSLA {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2419,6 +2429,9 @@ sub _RenderSLA {
         Max           => 200,
     );
 
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+
     # send data to JS
     $LayoutObject->AddJSData(
         Key   => 'SLAFieldsToUpdate',
@@ -2493,6 +2506,7 @@ sub _RenderService {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2577,6 +2591,9 @@ sub _RenderService {
         Max           => 200,
     );
 
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+
     # send data to JS
     $LayoutObject->AddJSData(
         Key   => 'ServiceFieldsToUpdate',
@@ -2652,6 +2669,7 @@ sub _RenderPriority {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2713,6 +2731,9 @@ sub _RenderPriority {
         SelectedValue => $SelectedValue,
         Class         => "Modernize $ServerError",
     );
+
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2788,6 +2809,7 @@ sub _RenderQueue {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2858,6 +2880,9 @@ sub _RenderQueue {
         Sort          => 'TreeView',
         PossibleNone  => 1,
     );
+
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2931,6 +2956,7 @@ sub _RenderState {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2989,6 +3015,9 @@ sub _RenderState {
         SelectedValue => $SelectedValue,
         Class         => "Modernize $ServerError",
     );
+
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -3064,6 +3093,7 @@ sub _RenderType {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -3140,6 +3170,9 @@ sub _RenderType {
         Translation   => 0,
         Max           => 200,
     );
+
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(

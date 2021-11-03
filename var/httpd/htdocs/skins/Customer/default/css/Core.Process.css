@@ -37,3 +37,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-bottom: -22px;
  }
 
+.Row input[name=Subject] {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    height: 56px;
+    padding: 0px;
+    padding-left: 32px;
+    border-radius: 10px;
+    width: calc( 100% - 32px);
+}

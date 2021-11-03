@@ -27,7 +27,7 @@
 
 <div class="Row">
     <div class="Field">
-        <input type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentExists Validate_Depending_TimeUnits"/>
+        <input type="text" id="Subject_[% Data.IDSuffix | html %]" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentExists Validate_Depending_TimeUnits"/>
     </div>
 [% RenderBlockStart("rw:Article:DescriptionLong") %]
     <div class="Tooltip">
@@ -44,28 +44,28 @@
 [% RenderBlockStart("rw:Article:DescriptionShort") %]
     <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
 [% RenderBlockEnd("rw:Article:DescriptionShort") %]
-    <div id="SubjectError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="SubjectServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="Subject_[% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="Subject_[% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div class="Clear"></div>
 </div>
 
 <div class="RichTextHolder">
     <div class="RichTextField">
-        <textarea id="RichText" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentExists Validate_Depending_TimeUnits" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+        <textarea id="RichText_[% Data.IDSuffix | html %]" class="RichText [% Data.ValidateRequired | html %] [% Data.BodyServerError | html %] Validate_DependingRequiredAND Validate_Depending_Subject Validate_Depending_AttachmentExists Validate_Depending_TimeUnits" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
     </div>
-    <label class="[% Data.MandatoryClass | html %]" for="RichText">
+    <label class="[% Data.MandatoryClass | html %]" for="RichText_[% Data.IDSuffix | html %]">
 [% RenderBlockStart("LabelSpanBody") %]
         <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpanBody") %]
         [% Data.LabelBody | html %]:
     </label>
-    <div id="RichTextError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="RichTextServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="RichText_[% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="RichText_[% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div class="Clear"></div>
 </div>
 
 <div class="Row">
-    <div id="oooAttachments" class="Field">
+    <div id="oooAttachments_[% Data.IDSuffix | html %]" class="Field">
         <div class="DnDUploadBox">
 [% INCLUDE "FormElements/CustomerAttachmentList.tt" %]
         </div>

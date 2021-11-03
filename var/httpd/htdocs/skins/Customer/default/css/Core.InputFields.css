@@ -57,7 +57,7 @@ fieldset.Columns .Column .InputField_ListContainer div {
     height: 56px;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     display: inline-block;
     height: auto;
 }
@@ -331,19 +331,19 @@ label.oooFocus.LabelError {
     background-color: transparent;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     border: none;
 }
-#cke_RichText > .cke_inner {
+.RichTextHolder .cke > .cke_inner {
     border-radius: 10px;
     background-color: #f7f7f9;
     background-color: var(--colBGLight);
 }
-#cke_1_contents {
+.RichTextHolder .cke_contents {
     border: solid 1px #e5e5eb;
 }
-#cke_1_bottom,
-#cke_1_top {
+.RichTextHolder .cke_bottom,
+.RichTextHolder .cke_top {
     background: none;
     border: none;
 }

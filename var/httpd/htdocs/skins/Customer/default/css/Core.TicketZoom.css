@@ -499,7 +499,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 100%;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     width: 100% !important;
 }
 
