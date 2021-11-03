@@ -326,17 +326,14 @@ sub RetrieveObject {
 
     $Data{FilesizeRaw} = $Transaction->res->headers->content_length;
 
-    return unless defined $Data{Content};
-
     $Data{Filename} = basename( $Param{Key} );
 
-    # TODO: move the special handling to ArticleStorageS3.pm
-    # ContentID and ContentAlternative are not regular HTTP Headers
-    # They are stored as metadata.
+    # ContentID and ContentAlternative are not regular HTTP Headers.
+    # They are stored as metadata. Default is an empty string as in ArticleStorageFS.
     my $ContentID = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentID");
-    $Data{ContentID} = $ContentID if $ContentID;
+    $Data{ContentID} = $ContentID // '';
     my $ContentAlternative = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentAlternative");
-    $Data{ContentAlternative} = $ContentAlternative if $ContentAlternative;
+    $Data{ContentAlternative} = $ContentAlternative // '';
 
     my $FullDisposition = $Transaction->res->headers->content_disposition;
     if ($FullDisposition) {
