@@ -3501,6 +3501,7 @@ Depending on the SysConfig settings the controls to set the date could be multip
                                                   #   client side with JS
         Disabled => 1,                            # optional (1 or 0), when active select and checkbox controls gets the
                                                   #   disabled attribute and input fields gets the read only attribute
+        IDSuffix => '...',                        # optional, used by CustomerTicketProcess to enable several activities
     );
 
 =cut
@@ -3834,14 +3835,17 @@ sub BuildDateSelection {
         Data => $VacationDays,
     );
 
+    # special suffix for CustomerTicketProcess
+    my $Suffix = $Param{IDSuffix} ? ' + Core.App.EscapeSelector("_' . $Param{IDSuffix} . '")' : '';
+
     # Add Datepicker JS to output.
     my $DatepickerJS = '
     Core.UI.Datepicker.Init({
-        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"),
-        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"),
-        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"),
-        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"),
-        Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"),
+        Day: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Day"' . $Suffix . '),
+        Month: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Month"' . $Suffix . '),
+        Year: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Year"' . $Suffix . '),
+        Hour: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Hour"' . $Suffix . '),
+        Minute: $("#" + Core.App.EscapeSelector("' . $Prefix . '") + "Minute"' . $Suffix . '),
         VacationDays: ' . $VacationDaysJSON . ',
         DateInFuture: ' .    ( $ValidateDateInFuture    ? 'true' : 'false' ) . ',
         DateNotInFuture: ' . ( $ValidateDateNotInFuture ? 'true' : 'false' ) . ',

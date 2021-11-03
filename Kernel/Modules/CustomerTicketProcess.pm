@@ -1921,6 +1921,7 @@ sub _RenderDynamicField {
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         CustomerInterface    => 1,
+        IDSuffix             => $Self->{IDSuffix},
     );
 
     my %Data = (
@@ -1930,8 +1931,10 @@ sub _RenderDynamicField {
     );
 
     # extend IDs to enable simultaneous activities; might be done directly in the dynamic fields if important at any other place, somewhen
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
-    $Data{Label}   =~ s/(id|for)="([\w\s_]+)"/$1="$2_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/g;
+    if ( $Data{Label} ) {
+        $Data{Label}   =~ s/(id|for)="([\w\s_]+)"/$1="$2_$Self->{IDSuffix}"/g;
+    }
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
