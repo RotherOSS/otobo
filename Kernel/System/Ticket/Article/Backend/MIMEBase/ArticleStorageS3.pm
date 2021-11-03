@@ -66,21 +66,15 @@ sub new {
     my $Self = $Type->SUPER::new(%Param);
 
     # TODO: don't access attributes directly
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $UserAgent       = $StorageS3Object->{UserAgent};
-    my $S3Object        = $StorageS3Object->{S3Object};
-    my $Bucket          = $StorageS3Object->{Bucket};
-    my $Scheme          = $StorageS3Object->{Scheme};
-    my $Host            = $StorageS3Object->{Host};
-
     # TODO: eliminate hardcoded values
-    $Self->{StorageS3Object} = $StorageS3Object;
-    $Self->{Bucket}          = $Bucket;
-    $Self->{Host}            = $Host;
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    $Self->{Bucket}          = $StorageS3Object->{Bucket};
+    $Self->{Host}            = $StorageS3Object->{Host};
     $Self->{MetadataPrefix}  = 'x-amz-meta-';
-    $Self->{S3Object}        = $S3Object;
-    $Self->{Scheme}          = $Scheme;
-    $Self->{UserAgent}       = $UserAgent;
+    $Self->{S3Object}        = $StorageS3Object->{S3Object};
+    $Self->{Scheme}          = $StorageS3Object->{Scheme};
+    $Self->{StorageS3Object} = $StorageS3Object;
+    $Self->{UserAgent}       = $StorageS3Object->{UserAgent};
 
     return $Self;
 }
@@ -482,6 +476,7 @@ sub ArticleAttachmentIndexRaw {
     return;
 }
 
+# TODO: optionally allow to pass in the file name
 sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
@@ -498,7 +493,7 @@ sub ArticleAttachment {
     }
 
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
+    $Param{ArticleID} = quotemeta $Param{ArticleID};
     $Param{ArticleID} =~ s/\0//g;
 
     # get attachment index
