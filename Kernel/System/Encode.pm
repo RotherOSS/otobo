@@ -267,7 +267,7 @@ into Perl strings with the proper semantics.
 
 Should be used on all I/O interfaces if data is already utf-8 to set the UTF8 flag.
 
-Note that the method name is a misnomer. The method should be DecodeInput().
+Note that the method name is a misnomer. The method should be called C<DecodeInput()>.
 
     $EncodeObject->EncodeInput( \$String );
 
