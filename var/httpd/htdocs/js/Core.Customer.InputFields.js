@@ -47,6 +47,7 @@ Core.Customer.InputFields = (function (TargetNS) {
             // fields already filled
             if ( $.trim(TextInput.value).length ) {
                 $(this).addClass('oooFull');
+                $(".Field", this).addClass('oooFull');
             }
 
             TextInput.blur( function() {

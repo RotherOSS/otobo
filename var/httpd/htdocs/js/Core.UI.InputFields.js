@@ -318,7 +318,7 @@ Core.UI.InputFields = (function (TargetNS) {
                 if ( TextInput.attr('value') && $.trim(TextInput.attr('value')).length ) {
                     TextInput.addClass('oooFull');
                     $(this).addClass('oooFull');
-                    $(this).parent('.Field').addClass('oooFull');
+                    $(".Field", this).addClass('oooFull');
                 }
 
                 var Label = $(this).children('label').first();
