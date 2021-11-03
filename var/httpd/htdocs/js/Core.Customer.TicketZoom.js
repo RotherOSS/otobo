@@ -417,22 +417,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TicketID'].concat(DynamicFieldNames));
         });
 
-        // Bind event to AttachmentUpload button.
-        $('#Attachment').on('change', function () {
-            var $Form = $('#Attachment').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
-        // Bind event to AttachmentDelete button.
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
-        });
-
         $('a.AsPopup').on('click', function () {
             Core.UI.Popup.OpenPopup($(this).attr('href'), 'TicketAction');
             return false;
