@@ -40,7 +40,7 @@
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
-# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020.
+# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
 # Grit Rother <mr@otobo.de>, 2020, 2021.
 # svo <svo@otrs.ch>, 2021.
 msgid ""
@@ -48,8 +48,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
-"PO-Revision-Date: 2021-06-30 19:43+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2021-11-03 17:35+0000\n"
+"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -19382,8 +19382,7 @@ msgstr ""
 "\n"
 "Sehr geehrter Kunde,\n"
 "\n"
-"leider enthält der von Ihnen verwendete Betreff keine gültige "
-"Ticketnummer, \n"
+"leider enthält der von Ihnen verwendete Betreff keine gültige Ticketnummer,\n"
 "so dass diese E-Mail nicht automatisch verarbeitet werden kann.\n"
 "\n"
 "Bitte erstellen Sie ein neues Ticket im Kundenbereich.\n"
