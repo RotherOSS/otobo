@@ -510,6 +510,18 @@ sub ArticleAttachment {
     my %Attachment = $Self->{StorageS3Object}->RetrieveObject(
         Key => $FilePath,
     );
+
+    # set the UTF-8 flag for UTF-8 attachments
+    if (
+        $Attachment{ContentType} =~ m/plain\/text/i
+        &&
+        $Attachment{ContentType} =~ m/utf-?8/i    # match utf8, utf-8, UTF8, UTF-8
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Attachment{Content} );
+    }
+
+    return %Attachment;
 }
 
 # the final delimiter is part of the prefix
