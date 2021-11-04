@@ -31,7 +31,6 @@ use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::DOM;
 use Mojo::URL;
-use Mojo::Util qw(xml_escape);
 use Mojo::AWS::S3;
 
 # OTOBO modules
@@ -50,7 +49,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageS3 - S3 based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles in a S3 compatible storage.
+This class provides functions to manipulate ticket articles
+in a S3 compatible storage.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.

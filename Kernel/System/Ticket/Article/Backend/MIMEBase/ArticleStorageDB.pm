@@ -18,13 +18,17 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB;
 
 use strict;
 use warnings;
-
-use MIME::Base64;
-use MIME::Words qw(:all);
+use v5.24;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use MIME::Base64 qw(encode_base64 decode_base64);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -42,7 +46,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB - DB based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles in the database.
+This class provides functions to manipulate ticket articles
+in the database.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
