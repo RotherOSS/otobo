@@ -24,7 +24,7 @@
         <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
     </div>
 [% RenderBlockEnd("rw:Priority:DescriptionLong") %]
-    <label for="[% Data.FieldID | html %]_[% Data.IDSuffix | html %]" class="[% Data.MandatoryClass | html %]">
+    <label for="[% Data.FieldID | html %][% Data.IDSuffix | html %]" class="[% Data.MandatoryClass | html %]">
 [% RenderBlockStart("LabelSpan") %]
         <span class="Marker">*</span>
 [% RenderBlockEnd("LabelSpan") %]
@@ -33,8 +33,8 @@
 [% RenderBlockStart("rw:Priority:DescriptionShort") %]
     <p class="FieldExplanation ooo12g">[% Data.DescriptionShort | html %]</p>
 [% RenderBlockEnd("rw:Priority:DescriptionShort") %]
-    <div id="[% Data.FieldID | html %]_[% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-    <div id="[% Data.FieldID | html %]_[% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]Error" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+    <div id="[% Data.FieldID | html %][% Data.IDSuffix | html %]ServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
     <div class="Clear"></div>
 </div>
 [% RenderBlockEnd("rw:Priority") %]

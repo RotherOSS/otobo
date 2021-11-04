@@ -70,7 +70,7 @@ sub Run {
     my $ActivityDialogHashRef;
 
     # extend used ids in html to enable multiple dialogs per page
-    $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-//r : '';
+    $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-/_/r : '';
 
     # get needed objects
     my $LayoutObject         = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
@@ -448,7 +448,10 @@ sub _RenderAjax {
 
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
+            DynamicFieldConfig => {
+                %{ $DynamicFieldConfig },
+                Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+            },
             ParamObject        => $ParamObject,
             LayoutObject       => $LayoutObject,
         );
@@ -896,7 +899,10 @@ sub _GetParam {
 
             # Get DynamicField Values
             $Value = $BackendObject->EditFieldValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
+                DynamicFieldConfig => {
+                    %{ $DynamicFieldConfig },
+                    Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                },
                 ParamObject        => $ParamObject,
                 LayoutObject       => $LayoutObject,
             );
@@ -1910,7 +1916,10 @@ sub _RenderDynamicField {
     }
 
     my $DynamicFieldHTML = $BackendObject->EditFieldRender(
-        DynamicFieldConfig   => $DynamicFieldConfig,
+        DynamicFieldConfig => {
+            %{ $DynamicFieldConfig },
+            Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+        },
         PossibleValuesFilter => $PossibleValuesFilter,
         Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
         LayoutObject         => $LayoutObject,
@@ -1921,7 +1930,6 @@ sub _RenderDynamicField {
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
         CustomerInterface    => 1,
-        IDSuffix             => $Self->{IDSuffix},
     );
 
     my %Data = (
@@ -1929,12 +1937,6 @@ sub _RenderDynamicField {
         Label   => $DynamicFieldHTML->{Label},
         Content => $DynamicFieldHTML->{Field},
     );
-
-    # extend IDs to enable simultaneous activities; might be done directly in the dynamic fields if important at any other place, somewhen
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/g;
-    if ( $Data{Label} ) {
-        $Data{Label}   =~ s/(id|for)="([\w\s_]+)"/$1="$2_$Self->{IDSuffix}"/g;
-    }
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
@@ -3179,7 +3181,10 @@ sub _StoreActivityDialog {
             else {
                 # Check DynamicField Values
                 my $ValidationResult = $BackendObject->EditFieldValueValidate(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    DynamicFieldConfig => {
+                        %{ $DynamicFieldConfig },
+                        Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                    },
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
@@ -3201,7 +3206,10 @@ sub _StoreActivityDialog {
 
                 $TicketParam{$CurrentField} =
                     $BackendObject->EditFieldValueGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
+                        DynamicFieldConfig => {
+                            %{ $DynamicFieldConfig },
+                            Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                        },
                         ParamObject        => $ParamObject,
                         LayoutObject       => $LayoutObject,
                     );
