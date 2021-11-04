@@ -91,8 +91,6 @@ use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
 
 #use Data::Peek; # for development
 
@@ -213,33 +211,15 @@ my $SyncFromS3Middleware = sub {
         my $PathBelowHtdocs = $Env->{PATH_INFO};
         $PathBelowHtdocs =~ s!/$!!;
         $PathBelowHtdocs =~ s!^/!!;
-        my $FilePath = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
+        my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
-        if ( !-e $FilePath ) {
-
-            # TODO: don't access attributes directly
+        if ( !-e $Location ) {
             my $StorageS3Object = Kernel::System::Storage::S3->new();
-            my $UserAgent       = $StorageS3Object->{UserAgent};
-            my $S3Object        = $StorageS3Object->{S3Object};
-            my $Bucket          = $StorageS3Object->{Bucket};
-
-            my $S3Key = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
-            my $Now   = Mojo::Date->new(time)->to_datetime;
-            my $URL   = Mojo::URL->new
-                ->scheme( $StorageS3Object->{Scheme} )
-                ->host( $StorageS3Object->{Host} )
-                ->path($S3Key);
-            my $Transaction = $S3Object->signed_request(
-                method   => 'GET',
-                datetime => $Now,
-                url      => $URL,
+            my $FilePath        = join '/', 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            $StorageS3Object->SaveObjectToFile(
+                Key      => $FilePath,
+                Location => $Location,
             );
-
-            $UserAgent->start($Transaction);
-
-            # save to the file system
-            # TODO: check success before copying
-            my $Ret = $Transaction->result->save_to($FilePath);
         }
 
         return $App->($Env);
