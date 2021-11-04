@@ -85,7 +85,6 @@ use Cwd qw(abs_path);
 # CPAN modules
 use DateTime 1.08;
 use Template  ();
-use CGI       ();
 use CGI::Carp ();
 use Module::Refresh;
 use Plack::Builder;
@@ -422,9 +421,6 @@ my $OTOBOApp = builder {
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
     sub {
         my $Env = shift;
-
-        # make sure to have a clean CGI.pm for each request, see CGI::Compile
-        CGI::initialize_globals() if defined &CGI::initialize_globals;
 
         # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
