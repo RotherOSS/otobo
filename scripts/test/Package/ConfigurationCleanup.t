@@ -67,7 +67,7 @@ sub CheckSettingValue {
 sub AddSetting {
 
     # Add a setting without an XML counterpart
-    my $ValidSettingXML = <<'EOF',
+    my $ValidSettingXML = <<'EOF';
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test1" Required="1" Valid="1">
