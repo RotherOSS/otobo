@@ -85,9 +85,7 @@ use Cwd qw(abs_path);
 # CPAN modules
 use DateTime 1.08;
 use Template  ();
-use CGI       ();
 use CGI::Carp ();
-use CGI::PSGI;
 use Module::Refresh;
 use Plack::Builder;
 use Plack::Request;
@@ -113,9 +111,6 @@ use Kernel::System::Web::InterfacePublic          ();
 eval {
     require Net::DNS;
 };
-
-# this might improve performance
-CGI->compile(':cgi');
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
@@ -206,7 +201,7 @@ my $ExactlyRootMiddleware = sub {
 
 # With S3 support, loader files are initially stored in S3.
 # Sync them to the local file system so that Plack::App::File can deliver them.
-# Checking the namee is sufficient as the loader files contain a checksum.
+# Checking the name is sufficient as the loader files contain a checksum.
 my $SyncFromS3Middleware = sub {
     my $App = shift;
 
@@ -426,9 +421,6 @@ my $OTOBOApp = builder {
     # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
     sub {
         my $Env = shift;
-
-        # make sure to have a clean CGI.pm for each request, see CGI::Compile
-        CGI::initialize_globals() if defined &CGI::initialize_globals;
 
         # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
