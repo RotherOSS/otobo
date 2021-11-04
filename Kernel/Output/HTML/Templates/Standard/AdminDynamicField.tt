@@ -59,7 +59,7 @@
 
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>[% Translate("Add Dynamic Field") | html %]</h2>
+                <h2>[% Translate("New Dynamic Fields") | html %]</h2>
             </div>
             <div class="Content">
                 <div class="FieldExplanation">
