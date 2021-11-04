@@ -210,34 +210,39 @@ sub ArticleWriteAttachment {
         }
     }
 
-    $Param{Filename} = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+    # Perform FilenameCleanUp here already to check for
+    #   conflicting existing attachment files correctly
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $OrigFilename = $MainObject->FilenameCleanUp(
         Filename  => $Param{Filename},
         Type      => 'Local',
         NoReplace => 1,
     );
 
-    my $NewFileName = $Param{Filename};
-    my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
-    );
+    # check for conflicts in the attachment file names
+    my $UniqueFilename = $OrigFilename;
+    {
+        my %Index = $Self->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+        );
 
-    for my $IndexFile ( sort keys %Index ) {
-        $UsedFile{ $Index{$IndexFile}->{Filename} } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFileName} ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
+        my %UsedFile = map
+            { $_->{Filename} => 1 }
+            values %Index;
+
+        NAME_CHECK:
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            next NAME_CHECK unless $UsedFile{$UniqueFilename};
+
+            # keep the extension when renaming
+            if ( $OrigFilename =~ m/^(.*)\.(.+?)$/ ) {
+                $UniqueFilename = "$1-$i.$2";
             }
             else {
-                $NewFileName = "$Param{Filename}-$i";
+                $UniqueFilename = "$OrigFilename-$i";
             }
         }
     }
-
-    # get file name
-    $Param{Filename} = $NewFileName;
 
     # get attachment size
     $Param{Filesize} = bytes::length( $Param{Content} );
@@ -273,7 +278,7 @@ sub ArticleWriteAttachment {
                 change_time, change_by)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{ArticleID}, \$Param{Filename},  \$Param{ContentType}, \$Param{Filesize},
+            \$Param{ArticleID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
             \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
             \$Disposition,      \$Param{UserID},    \$Param{UserID},
         ],

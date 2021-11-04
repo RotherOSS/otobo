@@ -387,13 +387,14 @@ sub ArticleWriteAttachment {
     # write attachment content type to fs
     my $SuccessContentType = $MainObject->FileWrite(
         Directory       => $Param{Path},
-        Filename        => "$Param{Filename}.content_type",
+        Filename        => "$UniqueFilename.content_type",
         Mode            => 'binmode',
         Content         => \$Param{ContentType},
         Permission      => 660,
         NoFilenameClean => 1,
     );
-    return if !$SuccessContentType;
+
+    return unless $SuccessContentType;
 
     # set content id in angle brackets
     if ( $Param{ContentID} ) {
@@ -404,7 +405,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentID} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_id",
+            Filename        => "$UniqueFilename.content_id",
             Mode            => 'binmode',
             Content         => \$Param{ContentID},
             Permission      => 660,
@@ -416,7 +417,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentAlternative} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_alternative",
+            Filename        => "$UniqueFilename.content_alternative",
             Mode            => 'binmode',
             Content         => \$Param{ContentAlternative},
             Permission      => 660,
@@ -432,7 +433,7 @@ sub ArticleWriteAttachment {
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.disposition",
+            Filename        => "$UniqueFilename.disposition",
             Mode            => 'binmode',
             Content         => \$Disposition || '',
             Permission      => 660,
@@ -443,13 +444,13 @@ sub ArticleWriteAttachment {
     # write attachment content to fs
     my $SuccessContent = $MainObject->FileWrite(
         Directory  => $Param{Path},
-        Filename   => $Param{Filename},
+        Filename   => $UniqueFilename,
         Mode       => 'binmode',
         Content    => \$Param{Content},
         Permission => 660,
     );
 
-    return if !$SuccessContent;
+    return unless $SuccessContent;
 
     # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
