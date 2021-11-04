@@ -112,6 +112,7 @@ sub ArticleDelete {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -154,6 +155,7 @@ sub ArticleDeletePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -200,6 +202,7 @@ sub ArticleDeleteAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -258,6 +261,7 @@ sub ArticleWritePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -465,6 +469,7 @@ sub ArticlePlain {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -554,6 +559,7 @@ sub ArticleAttachmentIndexRaw {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -735,6 +741,7 @@ sub ArticleAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }

@@ -517,7 +517,7 @@ sub ArticleAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
 
             return;

@@ -64,8 +64,9 @@ sub ArticleDelete {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -99,8 +100,9 @@ sub ArticleDeletePlain {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -131,8 +133,9 @@ sub ArticleDeleteAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -163,8 +166,9 @@ sub ArticleWritePlain {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -199,8 +203,9 @@ sub ArticleWriteAttachment {
         if ( !IsStringWithData( $Param{$Item} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -283,8 +288,9 @@ sub ArticlePlain {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need ArticleID!"
+            Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -334,8 +340,9 @@ sub ArticleAttachmentIndexRaw {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ArticleID!'
+            Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -413,8 +420,9 @@ sub ArticleAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
