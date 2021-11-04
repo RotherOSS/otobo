@@ -113,9 +113,6 @@ eval {
     require Net::DNS;
 };
 
-# this might improve performance
-CGI->compile(':cgi');
-
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
 
