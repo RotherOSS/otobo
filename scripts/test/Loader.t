@@ -120,14 +120,19 @@ my $Home = $ConfigObject->Get('Home');
     ok( $MinifiedJSFilename2, 'MinifyFiles() - with cache' );
     is( $MinifiedJSFilename, $MinifiedJSFilename2, 'MinifyFiles() - compare cache and no cache' );
 
-    $Self->Is(
-        $MinifiedJSFilename,
-        $MinifiedJSFilename2,
-        'MinifyFiles() - compare cache and no cache',
-    );
+    my $Location = $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename";
+
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $FilePath        = $Location =~ s!^$Home!OTOBO!r;
+        $StorageS3Object->SaveObjectToFile(
+            Key      => $FilePath,
+            Location => $Location,
+        );
+    }
 
     my $MinifiedJS = $MainObject->FileRead(
-        Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
+        Location => $Location
     );
     $MinifiedJS = ${$MinifiedJS};
     $MinifiedJS =~ s{\r\n}{\n}xmsg;
