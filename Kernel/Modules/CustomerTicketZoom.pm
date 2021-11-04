@@ -117,12 +117,24 @@ sub Run {
         my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
             %{ $Self },
             Action    => 'CustomerTicketProcess',
-            Subaction => 'StoreActivityDialog',
+            Subaction => $Self->{Subaction},
             ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
         );
 
         my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
         $ActivityErrorHTML{ $ActivityDialogEntityID } = $ProcessModule->Run(%Param);
+    }
+
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' && $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) ) {
+        $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
+        my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
+            %{ $Self },
+            Action    => 'CustomerTicketProcess',
+            Subaction => $Self->{Subaction},
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+        );
+
+        return $ProcessModule->Run(%Param);
     }
 
     # get ticket data

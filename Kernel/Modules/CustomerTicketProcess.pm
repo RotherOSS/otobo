@@ -538,7 +538,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
                     Data        => $DataValues,
                     SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
@@ -557,7 +557,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
@@ -580,7 +580,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => 'StateID',
+                    Name        => 'StateID' . $Self->{IDSuffix},
                     Data        => $Data,
                     SelectedID  => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     Translation => 1,
@@ -600,7 +600,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => $Self->{NameToID}{$CurrentField},
+                    Name        => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data        => $Data,
                     SelectedID  => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     Translation => 1,
@@ -621,7 +621,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
@@ -653,7 +653,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
@@ -674,7 +674,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
                     PossibleNone => 1,
@@ -1367,6 +1367,7 @@ sub _OutputActivityDialog {
     my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
         ActivityDialogFields => $ActivityDialog->{Fields},
     );
+    $AJAXUpdatableFields = [ map { $_ . $Self->{IDSuffix} } $AJAXUpdatableFields->@* ];
 
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
@@ -2286,7 +2287,7 @@ sub _RenderSLA {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2448,7 +2449,7 @@ sub _RenderService {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2589,7 +2590,7 @@ sub _RenderPriority {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2738,7 +2739,7 @@ sub _RenderQueue {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -2873,7 +2874,7 @@ sub _RenderState {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
@@ -3028,7 +3029,7 @@ sub _RenderType {
     );
 
     # extend IDs to enable simultaneous activities
-    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1_$Self->{IDSuffix}"/;
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     # send data to JS
     $LayoutObject->AddJSData(
