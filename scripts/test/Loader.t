@@ -59,7 +59,7 @@ my $Home = $ConfigObject->Get('Home');
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
-    is( $MinifiedCSS || '', $ExpectedCSS, 'MinifyCSS()');
+    is( $MinifiedCSS || '', $ExpectedCSS, 'MinifyCSS()' );
 
     # empty cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -76,8 +76,8 @@ my $Home = $ConfigObject->Get('Home');
         Type     => 'CSS',
     );
 
-    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache');
-    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache');
+    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache' );
+    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache' );
 }
 
 {
@@ -97,26 +97,22 @@ my $Home = $ConfigObject->Get('Home');
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
 
-    is( $MinifiedJS || '', $ExpectedJS, 'MinifyJavaScript()');
+    is( $MinifiedJS || '', $ExpectedJS, 'MinifyJavaScript()' );
 }
 
 {
+    my @List               = map {"$Home/scripts/test/sample/Loader/OTOBO.Agent.App.$_.js"} qw(Login Dashboard);
     my $MinifiedJSFilename = $LoaderObject->MinifyFiles(
-        List => [
-            $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js',
-            $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Dashboard.js',
-        ],
+        List            => \@List,
         Type            => 'JavaScript',
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
 
     ok( $MinifiedJSFilename, 'MinifyFiles() - no cache' );
 
+    # minify the same files a second time
     my $MinifiedJSFilename2 = $LoaderObject->MinifyFiles(
-        List => [
-            $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js',
-            $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Dashboard.js',
-        ],
+        List            => \@List,
         Type            => 'JavaScript',
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
@@ -143,7 +139,7 @@ my $Home = $ConfigObject->Get('Home');
     $Expected = ${$Expected};
     $Expected =~ s{\r\n}{\n}xmsg;
 
-    is( $MinifiedJS, $Expected, 'MinifyFiles() result content');
+    is( $MinifiedJS, $Expected, 'MinifyFiles() result content' );
 
     $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
@@ -165,7 +161,7 @@ for my $Test (@JSTests) {
     my $Result = $LoaderObject->MinifyJavaScript(
         Code => $Test->{Source},
     );
-    is( $Result, $Test->{Result}, $Test->{Name});
+    is( $Result, $Test->{Result}, $Test->{Name} );
 }
 
 # cleanup cache is done by RestoreDatabase
