@@ -16,12 +16,17 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -43,7 +48,7 @@ my $Home = $ConfigObject->Get('Home');
         Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.css',
     );
 
-    $CSS = ${$CSS};
+    $CSS = $CSS->$*;
 
     my $ExpectedCSS = $MainObject->FileRead(
         Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.min.css',
@@ -54,11 +59,7 @@ my $Home = $ConfigObject->Get('Home');
 
     my $MinifiedCSS = $LoaderObject->MinifyCSS( Code => $CSS );
 
-    $Self->Is(
-        $MinifiedCSS || '',
-        $ExpectedCSS,
-        'MinifyCSS()',
-    );
+    is( $MinifiedCSS || '', $ExpectedCSS, 'MinifyCSS()');
 
     # empty cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
@@ -75,24 +76,15 @@ my $Home = $ConfigObject->Get('Home');
         Type     => 'CSS',
     );
 
-    $Self->Is(
-        $MinifiedCSSFile,
-        $ExpectedCSS,
-        'GetMinifiedFile() for CSS, no cache',
-    );
-
-    $Self->Is(
-        $MinifiedCSSFile,
-        $ExpectedCSS,
-        'GetMinifiedFile() for CSS, with cache',
-    );
+    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, no cache');
+    is( $MinifiedCSSFile, $ExpectedCSS, 'GetMinifiedFile() for CSS, with cache');
 }
 
 {
     my $JavaScript = $MainObject->FileRead(
         Location => $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js',
     );
-    $JavaScript = ${$JavaScript};
+    $JavaScript = $JavaScript->$*;
 
     # make sure line endings are standardized
     $JavaScript =~ s{\r\n}{\n}xmsg;
@@ -105,13 +97,7 @@ my $Home = $ConfigObject->Get('Home');
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
 
-    #chomp $ExpectedJS;
-
-    $Self->Is(
-        $MinifiedJS || '',
-        $ExpectedJS,
-        'MinifyJavaScript()',
-    );
+    is( $MinifiedJS || '', $ExpectedJS, 'MinifyJavaScript()');
 }
 
 {
@@ -124,10 +110,7 @@ my $Home = $ConfigObject->Get('Home');
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
 
-    $Self->True(
-        $MinifiedJSFilename,
-        'MinifyFiles() - no cache',
-    );
+    ok( $MinifiedJSFilename, 'MinifyFiles() - no cache' );
 
     my $MinifiedJSFilename2 = $LoaderObject->MinifyFiles(
         List => [
@@ -138,10 +121,8 @@ my $Home = $ConfigObject->Get('Home');
         TargetDirectory => $ConfigObject->Get('TempDir'),
     );
 
-    $Self->True(
-        $MinifiedJSFilename2,
-        'MinifyFiles() - with cache',
-    );
+    ok( $MinifiedJSFilename2, 'MinifyFiles() - with cache' );
+    is( $MinifiedJSFilename, $MinifiedJSFilename2, 'MinifyFiles() - compare cache and no cache' );
 
     $Self->Is(
         $MinifiedJSFilename,
@@ -162,11 +143,7 @@ my $Home = $ConfigObject->Get('Home');
     $Expected = ${$Expected};
     $Expected =~ s{\r\n}{\n}xmsg;
 
-    $Self->Is(
-        $MinifiedJS,
-        $Expected,
-        'MinifyFiles() result content',
-    );
+    is( $MinifiedJS, $Expected, 'MinifyFiles() result content');
 
     $MainObject->FileDelete(
         Location => $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename",
@@ -188,13 +165,8 @@ for my $Test (@JSTests) {
     my $Result = $LoaderObject->MinifyJavaScript(
         Code => $Test->{Source},
     );
-    $Self->Is(
-        $Result,
-        $Test->{Result},
-        $Test->{Name},
-    );
+    is( $Result, $Test->{Result}, $Test->{Name});
 }
 
 # cleanup cache is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing();
