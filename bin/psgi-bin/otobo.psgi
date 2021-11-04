@@ -206,7 +206,7 @@ my $ExactlyRootMiddleware = sub {
 
 # With S3 support, loader files are initially stored in S3.
 # Sync them to the local file system so that Plack::App::File can deliver them.
-# Checking the namee is sufficient as the loader files contain a checksum.
+# Checking the name is sufficient as the loader files contain a checksum.
 my $SyncFromS3Middleware = sub {
     my $App = shift;
 
