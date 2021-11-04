@@ -258,10 +258,10 @@ sub ArticleWriteAttachment {
         $Param{ContentID} =~ s/^([^<].*[^>])$/<$1>/;
     }
 
+    # Remove the file name from the disposition
     my $Disposition;
-    my $Filename;
     if ( $Param{Disposition} ) {
-        ( $Disposition, $Filename ) = split ';', $Param{Disposition};
+        ($Disposition) = split ';', $Param{Disposition}, 2;
     }
     $Disposition //= '';
 

@@ -424,10 +424,11 @@ sub ArticleWriteAttachment {
         );
     }
 
-    # write attachment disposition to fs
+    # Remove the file name from the disposition
+    # Write attachment disposition to the file system.
     if ( $Param{Disposition} ) {
 
-        my ( $Disposition, $FileName ) = split ';', $Param{Disposition};
+        my ($Disposition) = split ';', $Param{Disposition}, 2;
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},
