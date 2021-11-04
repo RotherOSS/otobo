@@ -26,7 +26,8 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use CGI;
+use CGI;    # must be loaded before $CGI::POST_MAX is set
+use CGI::PSGI;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);

@@ -87,7 +87,6 @@ use DateTime 1.08;
 use Template  ();
 use CGI       ();
 use CGI::Carp ();
-use CGI::PSGI;
 use Module::Refresh;
 use Plack::Builder;
 use Plack::Request;
