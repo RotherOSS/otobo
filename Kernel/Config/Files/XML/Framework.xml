@@ -2756,20 +2756,6 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="SOAP::User" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
-        <Navigation>Core::SOAP</Navigation>
-        <Value>
-            <Item ValueType="String" ValueRegex="">some_user</Item>
-        </Value>
-    </Setting>
-    <Setting Name="SOAP::Password" Required="0" Valid="0" ConfigLevel="200">
-        <Description Translatable="1">Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl).</Description>
-        <Navigation>Core::SOAP</Navigation>
-        <Value>
-            <Item ValueType="Password">some_pass</Item>
-        </Value>
-    </Setting>
     <Setting Name="SOAP::Keep-Alive" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Enable keep-alive connection header for SOAP responses.</Description>
         <Navigation>Core::SOAP</Navigation>

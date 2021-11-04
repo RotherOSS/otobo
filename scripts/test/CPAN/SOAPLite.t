@@ -39,26 +39,7 @@ $Kernel::OM->ObjectParamAdd(
 );
 
 # get needed objects
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $RandomID = $Helper->GetRandomID();
-
-# define SOAP variables
-my $SOAPUser     = 'User' . $RandomID;
-my $SOAPPassword = $RandomID;
-
-# update sysconfig settings, but do not deploy them
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'SOAP::User',
-    Value => $SOAPUser,
-);
-$Helper->ConfigSettingChange(
-    Valid => 1,
-    Key   => 'SOAP::Password',
-    Value => $SOAPPassword,
-);
+my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get remote host with some precautions for certain unit test systems
 my $Host = $Helper->GetTestHTTPHostname();
@@ -66,12 +47,30 @@ my $Host = $Helper->GetTestHTTPHostname();
 ok( $Host, 'got the test hostname' );
 
 # Create SOAP Object and use RPC interface to test SOAP Lite
-my $SOAPObject;
+my ( $SOAPUser, $SOAPPassword, $SOAPObject );
 SKIP:
 {
     skip "rpc.pl is no longer supported";
 
-    my $Proxy = $ConfigObject->Get('HttpType')
+    # define SOAP variables
+    my $RandomID     = $Helper->GetRandomID();
+    my $SOAPUser     = 'User' . $RandomID;
+    my $SOAPPassword = $RandomID;
+
+    # update sysconfig settings, but do not deploy them
+    $Helper->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'SOAP::User',
+        Value => $SOAPUser,
+    );
+    $Helper->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'SOAP::Password',
+        Value => $SOAPPassword,
+    );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Proxy        = $ConfigObject->Get('HttpType')
         . '://'
         . $Host
         . '/'
