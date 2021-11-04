@@ -18,20 +18,24 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS;
 
 use strict;
 use warnings;
-
-use File::Path qw();
-use Time::HiRes qw();
-use Unicode::Normalize qw();
+use v5.24;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use File::Path qw(mkpath);
+use Time::HiRes qw();
+use Unicode::Normalize qw();
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
-    'Kernel::System::DynamicFieldValue',
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -44,7 +48,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS - FS based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles on the file system.
+This class provides functions to manipulate ticket articles
+in the file system.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
@@ -63,7 +68,7 @@ sub new {
     my $ArticleContentPath = $Self->BuildArticleContentPath();
     my $ArticleDir         = "$Self->{ArticleDataDir}/$ArticleContentPath/";
 
-    File::Path::mkpath( $ArticleDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+    mkpath( $ArticleDir, 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # Check write permissions.
     if ( !-w $ArticleDir ) {
@@ -107,6 +112,7 @@ sub ArticleDelete {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -149,6 +155,7 @@ sub ArticleDeletePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -195,6 +202,7 @@ sub ArticleDeleteAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -253,6 +261,7 @@ sub ArticleWritePlain {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -273,7 +282,7 @@ sub ArticleWritePlain {
     }
 
     # write article to fs 1:1
-    File::Path::mkpath( [$Path], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+    mkpath( [$Path], 0, 0770 );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 
     # write article to fs
     my $Success = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
@@ -310,58 +319,63 @@ sub ArticleWriteAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }
 
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
+    $Param{ArticleID} = quotemeta $Param{ArticleID};
     $Param{ArticleID} =~ s/\0//g;
+
     my $ContentPath = $Self->_ArticleContentPathGet(
         ArticleID => $Param{ArticleID},
     );
 
     # define path
-    $Param{Path} = $Self->{ArticleDataDir} . '/' . $ContentPath . '/' . $Param{ArticleID};
+    $Param{Path} = join '/', $Self->{ArticleDataDir}, $ContentPath, $Param{ArticleID};
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # Perform FilenameCleanup here already to check for
+    # Perform FilenameCleanUp here already to check for
     #   conflicting existing attachment files correctly
-    $Param{Filename} = $MainObject->FilenameCleanUp(
-        Filename => $Param{Filename},
-        Type     => 'Local',
+    #   Special chars in file names are replaced only on ArticleStorageFS.
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $OrigFilename = $MainObject->FilenameCleanUp(
+        Filename  => $Param{Filename},
+        Type      => 'Local',
+        NoReplace => 0,
     );
 
-    my $NewFileName = $Param{Filename};
-    my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
-    );
+    # check for conflicts in the attachment file names
+    my $UniqueFilename = $OrigFilename;
+    {
+        my %Index = $Self->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+        );
 
-    # Normalize filenames to find file names which are identical but in a different unicode form.
-    #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
-    #   Without this, the same file might be overwritten because the strings are not equal.
-    for my $Position ( sort keys %Index ) {
-        $UsedFile{ Unicode::Normalize::NFC( $Index{$Position}->{Filename} ) } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{ Unicode::Normalize::NFC($NewFileName) } ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
+        # Normalize filenames to find file names which are identical but in a different unicode form.
+        #   This is needed because Mac OS (HFS+) converts all filenames to NFD internally.
+        #   Without this, the same file might be overwritten because the strings are not equal.
+        my %UsedFile = map
+            { Unicode::Normalize::NFC( $_->{Filename} ) => 1 }
+            values %Index;
+
+        NAME_CHECK:
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            next NAME_CHECK unless $UsedFile{ Unicode::Normalize::NFC($UniqueFilename) };
+
+            # keep the extension when renaming
+            if ( $OrigFilename =~ m/^(.*)\.(.+?)$/ ) {
+                $UniqueFilename = "$1-$i.$2";
             }
             else {
-                $NewFileName = "$Param{Filename}-$i";
+                $UniqueFilename = "$OrigFilename-$i";
             }
         }
     }
 
-    $Param{Filename} = $NewFileName;
-
     # write attachment to backend
     if ( !-d $Param{Path} ) {
-        if ( !File::Path::mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+        if ( !mkpath( [ $Param{Path} ], 0, 0770 ) ) {    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Can't create $Param{Path}: $!",
@@ -373,13 +387,14 @@ sub ArticleWriteAttachment {
     # write attachment content type to fs
     my $SuccessContentType = $MainObject->FileWrite(
         Directory       => $Param{Path},
-        Filename        => "$Param{Filename}.content_type",
+        Filename        => "$UniqueFilename.content_type",
         Mode            => 'binmode',
         Content         => \$Param{ContentType},
         Permission      => 660,
         NoFilenameClean => 1,
     );
-    return if !$SuccessContentType;
+
+    return unless $SuccessContentType;
 
     # set content id in angle brackets
     if ( $Param{ContentID} ) {
@@ -390,7 +405,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentID} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_id",
+            Filename        => "$UniqueFilename.content_id",
             Mode            => 'binmode',
             Content         => \$Param{ContentID},
             Permission      => 660,
@@ -402,7 +417,7 @@ sub ArticleWriteAttachment {
     if ( $Param{ContentAlternative} ) {
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.content_alternative",
+            Filename        => "$UniqueFilename.content_alternative",
             Mode            => 'binmode',
             Content         => \$Param{ContentAlternative},
             Permission      => 660,
@@ -410,14 +425,15 @@ sub ArticleWriteAttachment {
         );
     }
 
-    # write attachment disposition to fs
+    # Remove the file name from the disposition
+    # Write attachment disposition to the file system.
     if ( $Param{Disposition} ) {
 
-        my ( $Disposition, $FileName ) = split ';', $Param{Disposition};
+        my ($Disposition) = split ';', $Param{Disposition}, 2;
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},
-            Filename        => "$Param{Filename}.disposition",
+            Filename        => "$UniqueFilename.disposition",
             Mode            => 'binmode',
             Content         => \$Disposition || '',
             Permission      => 660,
@@ -428,13 +444,13 @@ sub ArticleWriteAttachment {
     # write attachment content to fs
     my $SuccessContent = $MainObject->FileWrite(
         Directory  => $Param{Path},
-        Filename   => $Param{Filename},
+        Filename   => $UniqueFilename,
         Mode       => 'binmode',
         Content    => \$Param{Content},
         Permission => 660,
     );
 
-    return if !$SuccessContent;
+    return unless $SuccessContent;
 
     # Delete special article storage cache.
     if ( $Self->{ArticleStorageCache} ) {
@@ -455,6 +471,7 @@ sub ArticlePlain {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -544,6 +561,7 @@ sub ArticleAttachmentIndexRaw {
             Priority => 'error',
             Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -725,6 +743,7 @@ sub ArticleAttachment {
                 Priority => 'error',
                 Message  => "Need $Item!",
             );
+
             return;
         }
     }

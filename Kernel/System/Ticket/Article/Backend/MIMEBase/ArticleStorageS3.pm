@@ -31,7 +31,6 @@ use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::DOM;
 use Mojo::URL;
-use Mojo::Util qw(xml_escape);
 use Mojo::AWS::S3;
 
 # OTOBO modules
@@ -50,7 +49,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageS3 - S3 based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles in a S3 compatible storage.
+This class provides functions to manipulate ticket articles
+in a S3 compatible storage.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
@@ -270,29 +270,36 @@ sub ArticleWriteAttachment {
         }
     }
 
-    # get main object
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    # Perform FilenameCleanup here already to check for
+    # Perform FilenameCleanUp here already to check for
     #   conflicting existing attachment files correctly
-    my $NewFilename = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $OrigFilename = $MainObject->FilenameCleanUp(
         Filename  => $Param{Filename},
         Type      => 'Local',
         NoReplace => 1,
     );
 
-    # find an unique file name, that is an unique S3 key
-    my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
-    );
-    my %UsedFile = map { $_->{Filename} => 1 } values %Index;
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFilename} ) {
-            if ( $Param{Filename} =~ m/^(.*)\.(.+?)$/ ) {
-                $NewFilename = "$1-$i.$2";
+    # check for conflicts in the attachment file names
+    my $UniqueFilename = $OrigFilename;
+    {
+        my %Index = $Self->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+        );
+
+        my %UsedFile = map
+            { $_->{Filename} => 1 }
+            values %Index;
+
+        NAME_CHECK:
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            next NAME_CHECK unless $UsedFile{$UniqueFilename};
+
+            # keep the extension when renaming
+            if ( $OrigFilename =~ m/^(.*)\.(.+?)$/ ) {
+                $UniqueFilename = "$1-$i.$2";
             }
             else {
-                $NewFilename = "$Param{Filename}-$i";
+                $UniqueFilename = "$OrigFilename-$i";
             }
         }
     }
@@ -321,7 +328,7 @@ sub ArticleWriteAttachment {
 
     # TODO: collect the headers
     # generate Mojo transaction for submitting attachment to S3
-    my $FilePath = $Self->_FilePath( $Param{ArticleID}, $NewFilename );
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, $UniqueFilename );
     my $Now      = Mojo::Date->new(time)->to_datetime;
     my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
 
@@ -517,7 +524,7 @@ sub ArticleAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
 
             return;

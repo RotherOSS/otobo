@@ -18,13 +18,17 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB;
 
 use strict;
 use warnings;
-
-use MIME::Base64;
-use MIME::Words qw(:all);
+use v5.24;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
+use MIME::Base64 qw(encode_base64 decode_base64);
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(IsStringWithData);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -42,7 +46,8 @@ Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB - DB based 
 
 =head1 DESCRIPTION
 
-This class provides functions to manipulate ticket articles in the database.
+This class provides functions to manipulate ticket articles
+in the database.
 The methods are currently documented in L<Kernel::System::Ticket::Article::Backend::MIMEBase>.
 
 Inherits from L<Kernel::System::Ticket::Article::Backend::MIMEBase::Base>.
@@ -59,8 +64,9 @@ sub ArticleDelete {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -94,8 +100,9 @@ sub ArticleDeletePlain {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -126,8 +133,9 @@ sub ArticleDeleteAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -158,8 +166,9 @@ sub ArticleWritePlain {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
@@ -194,40 +203,46 @@ sub ArticleWriteAttachment {
         if ( !IsStringWithData( $Param{$Item} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
 
-    $Param{Filename} = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+    # Perform FilenameCleanUp here already to check for
+    #   conflicting existing attachment files correctly
+    my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $OrigFilename = $MainObject->FilenameCleanUp(
         Filename  => $Param{Filename},
         Type      => 'Local',
         NoReplace => 1,
     );
 
-    my $NewFileName = $Param{Filename};
-    my %UsedFile;
-    my %Index = $Self->ArticleAttachmentIndex(
-        ArticleID => $Param{ArticleID},
-    );
+    # check for conflicts in the attachment file names
+    my $UniqueFilename = $OrigFilename;
+    {
+        my %Index = $Self->ArticleAttachmentIndex(
+            ArticleID => $Param{ArticleID},
+        );
 
-    for my $IndexFile ( sort keys %Index ) {
-        $UsedFile{ $Index{$IndexFile}->{Filename} } = 1;
-    }
-    for ( my $i = 1; $i <= 50; $i++ ) {
-        if ( exists $UsedFile{$NewFileName} ) {
-            if ( $Param{Filename} =~ /^(.*)\.(.+?)$/ ) {
-                $NewFileName = "$1-$i.$2";
+        my %UsedFile = map
+            { $_->{Filename} => 1 }
+            values %Index;
+
+        NAME_CHECK:
+        for ( my $i = 1; $i <= 50; $i++ ) {
+            next NAME_CHECK unless $UsedFile{$UniqueFilename};
+
+            # keep the extension when renaming
+            if ( $OrigFilename =~ m/^(.*)\.(.+?)$/ ) {
+                $UniqueFilename = "$1-$i.$2";
             }
             else {
-                $NewFileName = "$Param{Filename}-$i";
+                $UniqueFilename = "$OrigFilename-$i";
             }
         }
     }
-
-    # get file name
-    $Param{Filename} = $NewFileName;
 
     # get attachment size
     $Param{Filesize} = bytes::length( $Param{Content} );
@@ -248,10 +263,10 @@ sub ArticleWriteAttachment {
         $Param{ContentID} =~ s/^([^<].*[^>])$/<$1>/;
     }
 
+    # Remove the file name from the disposition
     my $Disposition;
-    my $Filename;
     if ( $Param{Disposition} ) {
-        ( $Disposition, $Filename ) = split ';', $Param{Disposition};
+        ($Disposition) = split ';', $Param{Disposition}, 2;
     }
     $Disposition //= '';
 
@@ -263,7 +278,7 @@ sub ArticleWriteAttachment {
                 change_time, change_by)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{ArticleID}, \$Param{Filename},  \$Param{ContentType}, \$Param{Filesize},
+            \$Param{ArticleID}, \$UniqueFilename,   \$Param{ContentType}, \$Param{Filesize},
             \$Param{Content},   \$Param{ContentID}, \$Param{ContentAlternative},
             \$Disposition,      \$Param{UserID},    \$Param{UserID},
         ],
@@ -278,8 +293,9 @@ sub ArticlePlain {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Need ArticleID!"
+            Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -329,8 +345,9 @@ sub ArticleAttachmentIndexRaw {
     if ( !$Param{ArticleID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Need ArticleID!'
+            Message  => 'Need ArticleID!',
         );
+
         return;
     }
 
@@ -408,8 +425,9 @@ sub ArticleAttachment {
         if ( !$Param{$Item} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Need $Item!"
+                Message  => "Need $Item!",
             );
+
             return;
         }
     }
