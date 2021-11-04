@@ -107,6 +107,24 @@ sub Run {
         return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # process management
+    my %ActivityErrorHTML;
+    if ( $Self->{Subaction} eq 'StoreActivityDialog' ) {
+        $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
+        my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
+            %{ $Self },
+            Action    => 'CustomerTicketProcess',
+            Subaction => 'StoreActivityDialog',
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+        );
+
+        my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
+        $ActivityErrorHTML{ $ActivityDialogEntityID } = $ProcessModule->Run(%Param);
+    }
+
     # get ticket data
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
@@ -116,9 +134,6 @@ sub Run {
     # get ACL restrictions
     my %PossibleActions;
     my $Counter = 0;
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get all registered Actions
     if ( ref $ConfigObject->Get('CustomerFrontend::Module') eq 'HASH' ) {
@@ -1393,12 +1408,13 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
-        StateID          => $GetParam{NextStateID},
-        TicketStateID    => $GetParam{NextStateID},        # TODO: check whether this right
-        AclAction        => \%AclAction,
-        DynamicFieldHTML => \%DynamicFieldHTML,
-        HideAutoselected => $HideAutoselectedJSON,
-        Visibility       => $DynFieldStates{Visibility},
+        StateID           => $GetParam{NextStateID},
+        TicketStateID     => $GetParam{NextStateID},        # TODO: check whether this right
+        AclAction         => \%AclAction,
+        DynamicFieldHTML  => \%DynamicFieldHTML,
+        HideAutoselected  => $HideAutoselectedJSON,
+        Visibility        => $DynFieldStates{Visibility},
+        ActivityErrorHTML => \%ActivityErrorHTML,
     );
 
     # return if HTML email
@@ -1768,6 +1784,8 @@ sub _Mask {
                 Name => 'NextActivities',
             );
 
+            $Param{ActivityErrorHTML} //= {};
+
             for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1783,7 +1801,7 @@ sub _Mask {
                     },
                 );
 
-                my $ActivityHTML = $ProcessModule->Run(
+                my $ActivityHTML = $Param{ActivityErrorHTML}{ $NextActivityDialogs->{$NextActivityDialogKey} } // $ProcessModule->Run(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     ProcessEntityID        => $Param{$ProcessEntityIDField},
                 );
