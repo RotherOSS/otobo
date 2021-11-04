@@ -76,7 +76,7 @@ takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
 Uses caching internally.
 
-With S3 support the returned value is a key for an object that is stored in S3.
+With S3 support the returned value is the last part of the key of the object that is stored in S3.
 
 It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
