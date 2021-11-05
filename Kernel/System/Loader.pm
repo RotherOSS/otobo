@@ -329,12 +329,13 @@ sub MinifyFiles {
             # run blocking request
             $UserAgent->start($Transaction);
         }
-
-        # When using SE the loader file is not written to the file system.
-        # The content will be served from S3 directly
         else {
 
-            my $FileLocation = $MainObject->FileWrite(
+            # FileWrite() tries to get an exclusive lock on the target file.
+            # It is OK when the lock can't be obtained. In that case we assume
+            # that another process writes the same content to that file.
+            # Bad luck, when the file is requested before the other process has finished writing.
+            $MainObject->FileWrite(
                 Directory => $TargetDirectory,
                 Filename  => $Filename,
                 Content   => \$Content,
