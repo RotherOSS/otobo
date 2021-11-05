@@ -268,6 +268,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             if ( $(window).width() < 768 ) {
                 $('#ReplyButton').hide();
             }
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
         });
 
         $('.ActivityStartButton').on('click', function(Event){
@@ -279,6 +281,8 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             $DialogWidget.addClass('Visible');
             Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
         });
 
         $('.CloseButton').on('click', function(Event){

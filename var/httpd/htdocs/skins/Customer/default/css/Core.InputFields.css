@@ -141,6 +141,7 @@ textarea {
     padding: 16px 24px 16px 24px;
     border-radius: 10px;
     outline: none;
+    resize: vertical;
 }
 
 label {
@@ -210,7 +211,7 @@ textarea.oooFull,
 }
 
 .Row > input:hover ~ label,
-.RichTextHolder > textarea:hover ~label,
+.RichTextHolder > textarea:hover ~ label,
 textarea.oooFull ~ label,
 input.oooFull ~ label,
 .Field:hover ~ label,
@@ -225,16 +226,6 @@ input.oooFull ~ label,
     color: #7f809d;
     color: var(--colTextLight);
     background-color:#ffffff;
-}
-
-.RichTextHolder > textarea:hover ~ label {
-    top: -29px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    color: #7f809d;
-    color: var(--colTextLight);
-    background-color: #ffffff;
 }
 
 /* focus */

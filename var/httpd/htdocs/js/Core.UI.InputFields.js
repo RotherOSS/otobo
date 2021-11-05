@@ -278,16 +278,13 @@ Core.UI.InputFields = (function (TargetNS) {
         if ( Config.CustomerInterface ) {
 
             // for the customer interface
-            $('fieldset > .Row, .RichTextHolder').each( function() {
-                var Label = $(this).children('label').first();
-                var Checkbox = $('.Field > input[type=checkbox]', this);
-                var Select = $('.Field > select', this);
-                var Textarea = $('.Field > textarea', this);
-                var TextInput = $('input[type="text"]', this);
-
-                if(Textarea.length === 0) {
-                    Textarea = $('textarea', this);
-                }
+            $('fieldset > .Row, fieldset > .RichTextHolder').each( function() {
+                var Label = $(this).children('label').first(),
+                    Checkbox = $('.Field > input[type=checkbox]', this),
+                    Select = $('.Field > select', this),
+                    Textarea = $('textarea:not(.HasCKEInstance)', this),
+                    TextInput = $('input[type="text"]', this),
+                    TextValue;
 
                 // move labels for checkboxes
                 if ( Checkbox.length > 0 && Select.length === 0 ) {
@@ -303,19 +300,21 @@ Core.UI.InputFields = (function (TargetNS) {
                     Label.css({
                         'display': 'inline-block',
                         'vertical-align': 'top',
-                        'padding-top': '23px',
-                        'border-top': 'solid 1px #fff'
+                        'margin-top': '24px',
                     });
 
                     TextInput = Textarea;
+                    TextValue = Textarea.text();
                 }
 
                 if ( TextInput.length === 0 ) {
                     return 1;
                 }
 
+                TextValue ||= TextInput.attr('value');
+
                 // fields already filled
-                if ( TextInput.attr('value') && $.trim(TextInput.attr('value')).length ) {
+                if ( TextValue && $.trim(TextValue).length ) {
                     TextInput.addClass('oooFull');
                     $(this).addClass('oooFull');
                     $(".Field", this).addClass('oooFull');
