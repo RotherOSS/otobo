@@ -96,7 +96,7 @@ my $RemoteSystem =
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . '/nph-genericinterface.pl/WebserviceID/'
+    . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
 my $Home  = $ConfigObject->Get('Home');
@@ -361,7 +361,7 @@ my @Tests = (
             Data    => {},
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Test with empty data for provider and requester using SOAP transport backend.',
             Debugger => {
@@ -728,7 +728,7 @@ my @Tests = (
             ErrorMessage => 'faultcode: Server, faultstring: Error message for error code: 123',
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Operation handling errors test for provider and requester using SOAP transport backend.',
             Debugger => {
@@ -2218,7 +2218,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2274,7 +2274,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2330,7 +2330,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2385,7 +2385,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
@@ -2551,7 +2551,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction '#PriorityIDName' does not match "
@@ -2607,7 +2607,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'PriorityIDName' does not match "
@@ -2662,7 +2662,7 @@ my @Tests = (
             Key => 'Value',
         },
         ExpectedReturnData => {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'SoapTestInterface' does not match "
@@ -2724,7 +2724,7 @@ my @Tests = (
             },
         },
         WebserviceConfig => {
-            Name => 'SOAPTest1',
+            Name        => 'SOAPTest1',
             Description =>
                 'Test for SOAPAction validation (SoapActionScheme NameSpaceSeparatorOperation Requester&Provider).',
             Debugger => {
@@ -3184,8 +3184,8 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
                 Common => {
                     Key1           => 'Value1',
                     Key2           => 'Value2',
-                    'Content-Type' => 'Invalid',        # should be filtered
-                    NotAllowed     => 'Invalid',        # should be filtered
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
                 },
             },
         },
@@ -3233,8 +3233,8 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
                 Common => {
                     Key1           => 'Value5',
                     Key2           => 'Value6',
-                    'Content-Type' => 'Invalid',        # should be filtered
-                    NotAllowed     => 'Invalid',        # should be filtered
+                    'Content-Type' => 'Invalid',    # should be filtered
+                    NotAllowed     => 'Invalid',    # should be filtered
                 },
                 Specific => {
                     PriorityIDName => {
@@ -3243,7 +3243,7 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
                         'Connection' => 'Invalid',    # should be filtered
                         NotAllowed   => 'Invalid',    # should be filtered
                     },
-                    OtherOperation => {                 # should be ignored
+                    OtherOperation => {               # should be ignored
                         Key1 => 'Invalid',
                     },
                 },
@@ -3377,9 +3377,6 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $WebserviceDelete,
-    "Deleted web service $WebserviceID",
-);
+ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
 
-1;
+done_testing();

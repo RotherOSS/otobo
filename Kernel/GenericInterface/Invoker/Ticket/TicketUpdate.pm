@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,15 +18,12 @@ package Kernel::GenericInterface::Invoker::Ticket::TicketUpdate;
 
 use strict;
 use warnings;
+use v5.24;
 
 use Kernel::GenericInterface::Invoker::Ticket::Common;
-
-# prevent 'Used once' warning for Kernel::OM
-use Kernel::System::ObjectManager;
+use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
-
-use Kernel::System::VariableCheck qw(:all);
 
 =head1 NAME
 
@@ -91,13 +88,3 @@ sub HandleError {
 }
 
 1;
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
-=cut

@@ -94,7 +94,7 @@ my $BaseURL =
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . '/nph-genericinterface.pl/WebserviceID/'
+    . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
 my @Tests = (
@@ -1699,9 +1699,6 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $WebserviceDelete,
-    "Deleted Web service $WebserviceID"
-);
+ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
 
-1;
+done_testing();

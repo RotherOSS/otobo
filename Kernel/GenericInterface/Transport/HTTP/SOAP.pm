@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,23 +13,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::clean;
 
-use Encode;
-use HTTP::Status;
+# core modules
 use MIME::Base64;
 use PerlIO;
-use SOAP::Lite;
 
+# CPAN modules
+use HTTP::Status;
+use Plack::Response;
+use SOAP::Lite;    # for enabling debugging import +trace => 'all'
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -50,8 +53,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
@@ -138,8 +140,8 @@ sub ProviderProcessRequest {
     # No length provided.
     if ( !$Length ) {
         return $Self->_Error(
-            Summary   => HTTP::Status::status_message(411),
-            HTTPError => 411,
+            Summary   => HTTP::Status::status_message(411),    # 'Length required'
+            HTTPError => 411,                                  # HTTP_LENGTH_REQUIRED
         );
     }
 
@@ -147,11 +149,12 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            HTTPError => 413,                                  # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
     # In case client requests to continue submission, tell it to continue.
+    # TODO: does this work under PSGI ?
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
         $Self->_Output(
             HTTPCode => 100,
@@ -178,7 +181,7 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
@@ -475,7 +478,7 @@ sub ProviderGenerateResponse {
         my %AllRequestHeaders;
         ENVKEY:
         for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5) ne 'HTTP_';
+            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
             my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
             $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
         }
@@ -1541,14 +1544,14 @@ sub _SOAPOutputTypesGet {
             my @SortArrayElementKeys = sort keys %{$SortArrayElement};
             if ( scalar @SortArrayElementKeys != 1 ) {
                 return {
-                    Success => 0,
+                    Success      => 0,
                     ErrorMessage =>
                         'Sort array element hash reference must contain exactly one key/value pair',
                 };
             }
             if ( !IsStringWithData( $SortArrayElementKeys[0] ) ) {
                 return {
-                    Success => 0,
+                    Success      => 0,
                     ErrorMessage =>
                         'Key of sort array element hash reference must be a non zero-length string',
                 };
@@ -1584,8 +1587,10 @@ sub _HeadersGet {
     # Common headers.
     # These come first as specific headers might override them.
     my @HeaderBlacklist
-        = @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
-            // [] };
+        = @{
+            $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
+            // []
+        };
     my %Headers;
     if ( IsHashRefWithData( $Config->{Common} ) ) {
         HEADER:
@@ -1610,17 +1615,8 @@ sub _HeadersGet {
     return %Headers;
 }
 
-# ---
-1;
-
 =end Internal:
 
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
 =cut
+
+1;

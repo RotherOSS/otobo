@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,23 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use HTTP::Status;
+# core modules
 use MIME::Base64;
+
+# CPAN modules
+use HTTP::Status;
 use REST::Client;
 use URI::Escape;
-use Kernel::Config;
+use Plack::Response;
 
+# OTOBO modules
+use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -231,7 +235,7 @@ sub ProviderProcessRequest {
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
-    # For more information, see https://bugs.otobo.org/show_bug.cgi?id=14203.
+    # For more information, see https://bugs.otrs.org/show_bug.cgi?id=14203.
     if ( !$Length || $RequestMethod eq 'GET' ) {
         return {
             Success   => 1,
@@ -423,7 +427,7 @@ sub ProviderGenerateResponse {
         my %AllRequestHeaders;
         ENVKEY:
         for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5) ne 'HTTP_';
+            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
             my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
             $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
         }
@@ -529,7 +533,7 @@ sub RequesterPerformRequest {
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
         my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            if ( !IsStringWithData( $Headers->{$AdditionalHeader} )) {
+            if ( !IsStringWithData( $Headers->{$AdditionalHeader} ) ) {
                 $Headers->{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
             }
         }
@@ -893,7 +897,7 @@ sub RequesterPerformRequest {
             $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data =>
+                Data    =>
                     'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }
@@ -1182,17 +1186,8 @@ sub _HeadersGet {
     return %Headers;
 }
 
-# ---
-1;
-
 =end Internal:
 
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
 =cut
+
+1;

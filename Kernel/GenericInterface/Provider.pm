@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,30 +13,35 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 package Kernel::GenericInterface::Provider;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use URI::Escape;
+# core modules
 use Storable;
 
+# CPAN modules
+use URI::Escape;
+use Plack::Response;
+
+# OTOBO modules
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::Web::Exception;
 
 our @ObjectDependencies = (
-    'Kernel::System::Log',
-    'Kernel::System::GenericInterface::Webservice',
     'Kernel::GenericInterface::ErrorHandling',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -49,7 +54,7 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+    my $Interface = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut
 
@@ -79,9 +84,7 @@ sub Run {
     # On Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
     my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
 
-    #
     # Locate and verify the desired web service based on the request URI and load its configuration data.
-    #
 
     # Check RequestURI for a web service by id or name.
     my %WebserviceGetData;
@@ -184,6 +187,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
@@ -224,7 +228,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
@@ -251,6 +255,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -313,6 +318,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -347,7 +353,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 
@@ -372,6 +378,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -601,8 +608,8 @@ sub _HandleError {
 
 This software is part of the OTOBO project (L<https://otobo.org/>).
 
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
+=end Internal:
 
 =cut
+
+1;
