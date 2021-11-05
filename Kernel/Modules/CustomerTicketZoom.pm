@@ -586,7 +586,7 @@ sub Run {
         my %Diversity = reverse %Uniformity;
         for my $Field ( sort keys %StdFieldValues ) {
             push @StdFieldAJAX, {
-                Name       => $Diversity{$Field},
+                Name       => $Diversity{$Field} || $Field,
                 Data       => $StdFieldValues{$Field},
                 SelectedID => $GetParam{$Field},
                 %{ $Attributes{$Field} },
