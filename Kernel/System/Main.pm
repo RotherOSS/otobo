@@ -511,19 +511,10 @@ sub FileWrite {
     }
 
     # set open mode (if file exists, lock it on open, done by '+<')
-    my $Exists;
-    if ( -f $Param{Location} ) {
-        $Exists = 1;
-    }
-    my $Mode = '>';
-    if ($Exists) {
-        $Mode = '+<';
-    }
-    if ( $Param{Mode} && $Param{Mode} =~ /^(utf8|utf\-8)/i ) {
-        $Mode = '>:utf8';
-        if ($Exists) {
-            $Mode = '+<:utf8';
-        }
+    my $Exists = -f $Param{Location} ? 1    : 0;
+    my $Mode   = $Exists             ? '+<' : '>';
+    if ( $Param{Mode} && $Param{Mode} =~ m/^(utf8|utf\-8)/i ) {
+        $Mode = $Exists ? '+<:utf8' : '>:utf8';
     }
 
     # return if file can not open
@@ -559,8 +550,8 @@ sub FileWrite {
     }
 
     # write file if content is not undef
-    if ( defined ${ $Param{Content} } ) {
-        print $FH ${ $Param{Content} };
+    if ( defined $Param{Content}->$* ) {
+        print $FH $Param{Content}->$*;
     }
 
     # write empty file if content is undef
@@ -576,7 +567,7 @@ sub FileWrite {
         if ( length $Param{Permission} == 3 ) {
             $Param{Permission} = "0$Param{Permission}";
         }
-        chmod( oct( $Param{Permission} ), $Param{Location} );
+        chmod oct( $Param{Permission} ), $Param{Location};
     }
 
     return $Param{Filename} if $Param{Filename};
@@ -693,7 +684,7 @@ sub FileGetMTime {
     }
 
     # get file metadata
-    my $Stat = stat( $Param{Location} );
+    my $Stat = stat $Param{Location};
 
     if ( !$Stat ) {
         my $Error = $!;
@@ -714,10 +705,11 @@ sub FileGetMTime {
                 );
             }
         }
+
         return;
     }
 
-    return $Stat->mtime();
+    return $Stat->mtime;
 }
 
 =head2 GetReleaseInfo()

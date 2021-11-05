@@ -84,15 +84,15 @@ With S3 support the returned value is a key for an object that is stored in S3.
 It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
     my $TargetFilename = $LoaderObject->MinifyFiles(
-        List  => [                          # optional,  minify list of files
+        List  => [                                 # optional,  minify list of files
             $Filename,
             $Filename2,
         ],
-        Checksum             => '...'       # optional, pass a checksum for the minified file
-        Content              => '...'       # optional, pass direct (already minified) content instead of a file list
-        Type                 => 'CSS',      # CSS | JavaScript
+        Checksum             => '...'              # optional, pass a checksum for the minified file
+        Content              => '...'              # optional, pass direct (already minified) content instead of a file list
+        Type                 => 'CSS',             # CSS | JavaScript
         TargetDirectory      => $TargetDirectory,
-        TargetFilenamePrefix => 'CommonCSS',    # optional, prefix for the target filename
+        TargetFilenamePrefix => 'CommonCSS',       # optional, prefix for the target filename
     );
 
 =cut
@@ -170,9 +170,8 @@ sub MinifyFiles {
         if ( $Param{List} ) {
             LOCATION:
             for my $Location ( @{$List} ) {
-                if ( !-e $Location ) {
-                    next LOCATION;
-                }
+                next LOCATION unless -e $Location;
+
                 my $FileMTime = $MainObject->FileGetMTime(
                     Location => $Location
                 );
@@ -289,6 +288,8 @@ sub MinifyFiles {
             }
         }
 
+        # When the S3 backend is active the loader file is not written to the file system.
+        # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ($S3Backend) {
 
             # TODO: AWS region must be set up in Kubernetes config map
@@ -328,12 +329,13 @@ sub MinifyFiles {
             # run blocking request
             $UserAgent->start($Transaction);
         }
-
-        # When using SE the loader file is not written to the file system.
-        # The content will be served from S3 directly
         else {
 
-            my $FileLocation = $MainObject->FileWrite(
+            # FileWrite() tries to get an exclusive lock on the target file.
+            # It is OK when the lock can't be obtained. In that case we assume
+            # that another process writes the same content to that file.
+            # Bad luck, when the file is requested before the other process has finished writing.
+            $MainObject->FileWrite(
                 Directory => $TargetDirectory,
                 Filename  => $Filename,
                 Content   => \$Content,
@@ -401,9 +403,7 @@ sub GetMinifiedFile {
         Key  => $CacheKey,
     );
 
-    if ( ref $CacheContent eq 'SCALAR' ) {
-        return ${$CacheContent};
-    }
+    return $CacheContent->$* if ref $CacheContent eq 'SCALAR';
 
     # no cache available, read and minify file
     my $FileContents = $MainObject->FileRead(
@@ -415,9 +415,7 @@ sub GetMinifiedFile {
         #Mode     => 'utf8',
     );
 
-    if ( ref $FileContents ne 'SCALAR' ) {
-        return;
-    }
+    return unless ref $FileContents eq 'SCALAR';
 
     my $Result;
     if ( $Param{Type} eq 'CSS' ) {
