@@ -1737,6 +1737,8 @@ sub _Mask {
                 ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
             );
 
+            my @AJAXUpdatableFieldList;
+
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
@@ -1824,12 +1826,24 @@ sub _Mask {
                         ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
                     },
                 );
+
+                push @AJAXUpdatableFieldList, $ProcessModule->GetAJAXUpdatableFields(
+                    ActivityDialogFields   => $ActivityDialogData->{Fields},
+                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                );
             }
 
             if ( !IsHashRefWithData($NextActivityDialogs) ) {
                 $LayoutObject->Block(
                     Name => 'NoActivityDialog',
                     Data => {},
+                );
+            }
+
+            if ( @AJAXUpdatableFieldList ) {
+                $LayoutObject->AddJSData(
+                    Key   => 'ProcessAJAXFieldList',
+                    Value => \@AJAXUpdatableFieldList,
                 );
             }
         }

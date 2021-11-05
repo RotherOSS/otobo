@@ -73,7 +73,7 @@ sub Run {
     $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-/_/r : '';
 
     # get needed objects
-    my $LayoutObject         = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
+    my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
     my $ActivityDialogObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog');
 
@@ -1066,7 +1066,10 @@ sub _OutputActivityDialog {
     my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # CustomerTicketProcess gets only called by CustomerTicketZoom and returns its HTML to there
+    # for HTML generation a separate LayoutObject is created; all JS-stuff has to be done with the one of CustomerTicketZoom (e.g. in dynamic fields)
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
 
     # Check needed parameters:
     # ProcessEntityID only
@@ -1226,13 +1229,13 @@ sub _OutputActivityDialog {
         #    Value => $Ticket{Number},
         #);
 
-        # display given notify messages if this is not an AJAX request
-        if ( IsArrayRefWithData( $Param{Notify} ) ) {
+        ## display given notify messages if this is not an AJAX request
+        #if ( IsArrayRefWithData( $Param{Notify} ) ) {
 
-            for my $NotifyData ( @{ $Param{Notify} } ) {
-                $Output .= $LayoutObject->Notify( %{$NotifyData} );
-            }
-        }
+        #    for my $NotifyData ( @{ $Param{Notify} } ) {
+        #        $Output .= $LayoutObject->Notify( %{$NotifyData} );
+        #    }
+        #}
 
         $LayoutObject->Block(
             Name => 'Header',
@@ -1364,10 +1367,9 @@ sub _OutputActivityDialog {
 
     # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
     # by ActivityDialog fields
-    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
+    my $AJAXUpdatableFields = $Self->GetAJAXUpdatableFields(
         ActivityDialogFields => $ActivityDialog->{Fields},
     );
-    $AJAXUpdatableFields = [ map { $_ . $Self->{IDSuffix} } $AJAXUpdatableFields->@* ];
 
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
@@ -1416,6 +1418,7 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
                 AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1455,7 +1458,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1491,7 +1494,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1527,7 +1530,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1563,7 +1566,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1599,7 +1602,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1634,6 +1637,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1671,6 +1675,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1709,7 +1714,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1797,7 +1802,8 @@ sub _RenderDynamicField {
     my ( $Self, %Param ) = @_;
 
     # get layout objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Param{LayoutObject};
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     for my $Needed (qw(FormID FieldName)) {
         if ( !$Param{$Needed} ) {
@@ -1923,7 +1929,7 @@ sub _RenderDynamicField {
         },
         PossibleValuesFilter => $PossibleValuesFilter,
         Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
-        LayoutObject         => $LayoutObject,
+        LayoutObject         => $LayoutObjectZoom,
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
@@ -1971,7 +1977,7 @@ sub _RenderTitle {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2052,8 +2058,9 @@ sub _RenderTitle {
 sub _RenderArticle {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # get layout objects
+    my $LayoutObject     = $Param{LayoutObject};
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     for my $Needed (qw(FormID Ticket)) {
         if ( !$Param{$Needed} ) {
@@ -2080,7 +2087,7 @@ sub _RenderArticle {
     for my $Attachment (@Attachments) {
         if (
             $Attachment->{ContentID}
-            && $LayoutObject->{BrowserRichText}
+            && $LayoutObjectZoom->{BrowserRichText}
             && ( $Attachment->{ContentType} =~ /image/i )
             && ( $Attachment->{Disposition} eq 'inline' )
             )
@@ -2138,14 +2145,14 @@ sub _RenderArticle {
     }
 
     # add rich text editor
-    if ( $LayoutObject->{BrowserRichText} ) {
+    if ( $LayoutObjectZoom->{BrowserRichText} ) {
 
         # use height/width defined for this screen
         $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
         $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
 
         # set up customer rich text editor
-        $LayoutObject->CustomerSetRichTextParameters(
+        $LayoutObjectZoom->CustomerSetRichTextParameters(
             Data => \%Param,
         );
     }
@@ -2178,7 +2185,7 @@ sub _RenderSLA {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2194,6 +2201,7 @@ sub _RenderSLA {
             Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderSLA' ),
         };
     }
+
     my $Services = $Self->_GetServices(
         %{ $Param{GetParam} },
     );
@@ -2289,12 +2297,6 @@ sub _RenderSLA {
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'SLAFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
-
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA',
         Data => \%Data,
@@ -2336,7 +2338,7 @@ sub _RenderService {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2451,12 +2453,6 @@ sub _RenderService {
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ServiceFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
-
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service',
         Data => \%Data,
@@ -2499,7 +2495,7 @@ sub _RenderPriority {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2592,12 +2588,6 @@ sub _RenderPriority {
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'PriorityFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
-
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority',
         Data => \%Data,
@@ -2639,7 +2629,7 @@ sub _RenderQueue {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2741,12 +2731,6 @@ sub _RenderQueue {
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'QueueFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
-
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue',
         Data => \%Data,
@@ -2788,7 +2772,7 @@ sub _RenderState {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2876,12 +2860,6 @@ sub _RenderState {
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'StateFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
-
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State',
         Data => \%Data,
@@ -2923,7 +2901,7 @@ sub _RenderType {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -3030,12 +3008,6 @@ sub _RenderType {
 
     # extend IDs to enable simultaneous activities
     $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'TypeFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Type',
@@ -4388,18 +4360,17 @@ sub _GetTypes {
     return \%Type;
 }
 
-sub _GetAJAXUpdatableFields {
+sub GetAJAXUpdatableFields {
     my ( $Self, %Param ) = @_;
+
+    $Self->{IDSuffix} //= $Param{ActivityDialogEntityID} ? $Param{ActivityDialogEntityID} =~ s/^ActivityDialog-/_/r : '';
 
     my %DefaultUpdatableFields = (
         PriorityID    => 1,
         QueueID       => 1,
-        ResponsibleID => 1,
         ServiceID     => 1,
         SLAID         => 1,
         StateID       => 1,
-        OwnerID       => 1,
-        LockID        => 1,
         TypeID        => 1,
     );
 
@@ -4454,7 +4425,7 @@ sub _GetAJAXUpdatableFields {
             );
             next FIELD if !$IsACLReducible;
 
-            push @UpdatableFields, $Field;
+            push @UpdatableFields, $Field . $Self->{IDSuffix};
         }
 
         # for all others use %DefaultUpdatableFields table
@@ -4469,7 +4440,7 @@ sub _GetAJAXUpdatableFields {
             # skip if the field is not updatable via ajax
             next FIELD if !$DefaultUpdatableFields{$FieldName};
 
-            push @UpdatableFields, $FieldName;
+            push @UpdatableFields, $FieldName . $Self->{IDSuffix};
         }
     }
 

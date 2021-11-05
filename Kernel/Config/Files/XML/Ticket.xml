@@ -11186,6 +11186,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Customer.TicketZoom.js</Item>
+                        <Item>Core.Customer.TicketProcess.js</Item>
                         <Item>Core.UI.Popup.js</Item>
                         <Item>Core.UI.oooWidget.js</Item>
                     </Array>
