@@ -411,6 +411,19 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             });
         }
 
+        /*
+         * If on document load there are Error classes present, there were validation errors on server side.
+         * Open the respective activity dialogs..
+         */
+        var $ServerErrors = $('input.ServerError, textarea.ServerError, select.ServerError');
+
+        if ($ServerErrors.length) {
+            var $DialogWidget = $ServerErrors.first().closest('li.Activity');
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
+        }
+
         // Bind event to State field.
         $('#StateID').on('change', function () {
             Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', ['PriorityID', 'TicketID'].concat(DynamicFieldNames));
