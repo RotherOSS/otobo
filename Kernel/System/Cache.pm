@@ -186,10 +186,10 @@ The Key identifies the entry (together with the type) for retrieval and deletion
 The C<TTL> controls when the cache will expire. Please note that the in-memory cache is not persistent
 and thus has no C<TTL>/expiry mechanism.
 
-Please note that if you store complex data, you have to make sure that the data is not modified
-in other parts of the code as the in-memory cache only refers to it. Otherwise also the cache would
-contain the modifications. If you cannot avoid this, you can disable the in-memory cache for this
-value:
+Please note that if you store complex data you have to make sure that the data is not modified
+in other parts of the code. This is because the in-memory cache stores the passed references as references.
+Otherwise the cache would also contain the modifications. An example for such complex data is a reference to a scalar.
+If you cannot avoid this, you can disable the in-memory cache for this particular value.
 
     $CacheObject->Set(
         Type  => 'ObjectName',
@@ -271,16 +271,15 @@ fetch a value from the cache.
         Key  => 'SomeKey',
     );
 
-Please note that if you store complex data, you have to make sure that the data is not modified
-in other parts of the code as the in-memory cache only refers to it. Otherwise also the cache would
-contain the modifications. If you cannot avoid this, you can disable the in-memory cache for this
-value:
+Please note that if you store complex data you have to make sure that the data is not modified
+in other parts of the code. This is because the in-memory cache stores the passed references as references.
+Otherwise the cache would also contain the modifications. An example for such complex data is a reference to a scalar.
+If you cannot avoid this, you can disable the in-memory cache for this particular value.
 
     my $Value = $CacheObject->Get(
-        Type => 'ObjectName',
-        Key  => 'SomeKey',
-
-        CacheInMemory => 0,     # optional, defaults to 1
+        Type           => 'ObjectName',
+        Key            => 'SomeKey',
+        CacheInMemory  => 0,    # optional, defaults to 1
         CacheInBackend => 1,    # optional, defaults to 1
     );
 
