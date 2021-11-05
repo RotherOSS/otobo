@@ -84,15 +84,15 @@ With S3 support the returned value is a key for an object that is stored in S3.
 It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
     my $TargetFilename = $LoaderObject->MinifyFiles(
-        List  => [                          # optional,  minify list of files
+        List  => [                                 # optional,  minify list of files
             $Filename,
             $Filename2,
         ],
-        Checksum             => '...'       # optional, pass a checksum for the minified file
-        Content              => '...'       # optional, pass direct (already minified) content instead of a file list
-        Type                 => 'CSS',      # CSS | JavaScript
+        Checksum             => '...'              # optional, pass a checksum for the minified file
+        Content              => '...'              # optional, pass direct (already minified) content instead of a file list
+        Type                 => 'CSS',             # CSS | JavaScript
         TargetDirectory      => $TargetDirectory,
-        TargetFilenamePrefix => 'CommonCSS',    # optional, prefix for the target filename
+        TargetFilenamePrefix => 'CommonCSS',       # optional, prefix for the target filename
     );
 
 =cut
