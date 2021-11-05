@@ -170,9 +170,8 @@ sub MinifyFiles {
         if ( $Param{List} ) {
             LOCATION:
             for my $Location ( @{$List} ) {
-                if ( !-e $Location ) {
-                    next LOCATION;
-                }
+                next LOCATION unless -e $Location;
+
                 my $FileMTime = $MainObject->FileGetMTime(
                     Location => $Location
                 );
@@ -289,6 +288,8 @@ sub MinifyFiles {
             }
         }
 
+        # When the S3 backend is active the loader file is not written to the file system.
+        # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ($S3Backend) {
 
             # TODO: AWS region must be set up in Kubernetes config map
@@ -401,9 +402,7 @@ sub GetMinifiedFile {
         Key  => $CacheKey,
     );
 
-    if ( ref $CacheContent eq 'SCALAR' ) {
-        return ${$CacheContent};
-    }
+    return $CacheContent->$* if ref $CacheContent eq 'SCALAR';
 
     # no cache available, read and minify file
     my $FileContents = $MainObject->FileRead(
@@ -415,9 +414,7 @@ sub GetMinifiedFile {
         #Mode     => 'utf8',
     );
 
-    if ( ref $FileContents ne 'SCALAR' ) {
-        return;
-    }
+    return unless ref $FileContents eq 'SCALAR';
 
     my $Result;
     if ( $Param{Type} eq 'CSS' ) {
