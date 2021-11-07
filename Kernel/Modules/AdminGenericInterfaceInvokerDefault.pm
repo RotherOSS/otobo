@@ -445,9 +445,8 @@ sub _ChangeAction {
 
         $WebserviceData->{Config}->{Requester}->{ErrorHandling} = $ErrorHandlingConfig;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Take care of invoker dependent configuration if invoker was renamed.
     if ( $GetParam->{OldInvoker} ne $GetParam->{Invoker} ) {
@@ -499,7 +498,6 @@ sub _ChangeAction {
         }
 
     }
-# ---
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},

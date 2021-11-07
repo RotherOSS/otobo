@@ -195,9 +195,8 @@ sub _AddAction {
                 Type  => 'String',
                 Check => 'MappingType',
             },
-# ---
-# OTOBOTicketInvoker
-# ---
+
+            # added for OTOBOTicketInvoker
             {
                 Name    => 'CountLastArticle',
                 Type    => 'String',
@@ -241,7 +240,6 @@ sub _AddAction {
                 Name => 'RequestTicketFields',
                 Type => 'Array',
             },
-# ---
         ],
     );
 
@@ -262,22 +260,19 @@ sub _AddAction {
     elsif ( IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{Invoker} } ) ) {
         $Errors{InvokerServerError} = 'ServerError';
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Field for remote ticket id must not be used for writing incoming dynamic field data.
     if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
         $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
     }
-# ---
 
     my $InvokerConfig = {
         Description => $GetParam->{Description},
         Type        => $GetParam->{InvokerType},
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
         CountLastArticle            => $GetParam->{CountLastArticle},
         TicketIdToDynamicField      => $GetParam->{TicketIdToDynamicField},
         CommunicationChannel        => $GetParam->{CommunicationChannel},
@@ -288,7 +283,6 @@ sub _AddAction {
         RequestDynamicFieldsTicket  => $GetParam->{RequestDynamicFieldsTicket},
         RequestArticleFields        => $GetParam->{RequestArticleFields},
         RequestTicketFields         => $GetParam->{RequestTicketFields},
-# ---
     };
 
     # Validation errors.
@@ -423,9 +417,8 @@ sub _ChangeAction {
                 Type    => 'String',
                 Default => 'Ticket',
             },
-# ---
-# OTOBOTicketInvoker
-# ---
+
+            # added for OTOBOTicketInvoker
             {
                 Name    => 'CountLastArticle',
                 Type    => 'String',
@@ -469,7 +462,6 @@ sub _ChangeAction {
                 Name => 'RequestTicketFields',
                 Type => 'Array',
             },
-# ---
         ],
     );
 
@@ -501,20 +493,17 @@ sub _ChangeAction {
     {
         $Errors{InvokerServerError} = 'ServerError';
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Field for remote ticket id must not be used for writing incoming dynamic field data.
     if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
         $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
     }
-# ---
 
     $InvokerConfig->{Description} = $GetParam->{Description};
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
     $InvokerConfig->{CountLastArticle}            = $GetParam->{CountLastArticle};
     $InvokerConfig->{TicketIdToDynamicField}      = $GetParam->{TicketIdToDynamicField};
     $InvokerConfig->{CommunicationChannel}        = $GetParam->{CommunicationChannel};
@@ -525,7 +514,6 @@ sub _ChangeAction {
     $InvokerConfig->{RequestDynamicFieldsTicket}  = $GetParam->{RequestDynamicFieldsTicket};
     $InvokerConfig->{RequestArticleFields}        = $GetParam->{RequestArticleFields};
     $InvokerConfig->{RequestTicketFields}         = $GetParam->{RequestTicketFields};
-# ---
 
     if (%Errors) {
         return $Self->_ShowScreen(
@@ -585,9 +573,8 @@ sub _ChangeAction {
 
         $WebserviceData->{Config}->{Requester}->{ErrorHandling} = $ErrorHandlingConfig;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Take care of invoker dependent configuration if invoker was renamed.
     if ( $GetParam->{OldInvoker} ne $GetParam->{Invoker} ) {
@@ -639,7 +626,6 @@ sub _ChangeAction {
         }
 
     }
-# ---
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},
@@ -879,11 +865,9 @@ sub _ShowScreen {
         InvokerType => $Param{InvokerConfig}->{Type},
         Invoker     => $Param{Invoker},
         NewInvoker  => $Param{NewInvoker} // $Param{Invoker},
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
         CountLastArticle => $Param{InvokerConfig}->{CountLastArticle},
-# ---
     );
 
     # Handle mapping.
@@ -916,9 +900,8 @@ sub _ShowScreen {
             },
         );
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     my $DynamicFieldTicketList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         ObjectType => 'Ticket',
@@ -1067,7 +1050,6 @@ sub _ShowScreen {
         Class        => 'Modernize',
         PossibleNone => 1,
     );
-# ---
 
     if ( $Param{Mode} eq 'Change' ) {
 
@@ -1197,9 +1179,8 @@ sub _ParamsGet {
             $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Name );
             return \%GetParam;
         }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
 
         if ( $Definition->{Type} eq 'Array' ) {
             $GetParam{$Name} = [ $ParamObject->GetArray( Param => $Name ) ];
@@ -1209,7 +1190,6 @@ sub _ParamsGet {
             $GetParam{Error} = Translatable( 'Need %s', $Name );
             return \%GetParam;
         }
-# ---
     }
 
     # Type checks.

@@ -418,16 +418,14 @@ sub _ChangeAction {
             next ERRORHANDLING if !grep { $_ eq $GetParam->{OldOperation} } @{$OperationFilter};
 
             # Rename operation in error handling operation filter to keep consistency.
-            my @NewOperationFilter
-                = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
+            my @NewOperationFilter = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
             $ErrorHandlingConfig->{$ErrorHandling}->{OperationFilter} = \@NewOperationFilter;
         }
 
         $WebserviceData->{Config}->{Provider}->{ErrorHandling} = $ErrorHandlingConfig;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Take care of operation dependent configuration if operation was renamed.
     if ( $GetParam->{OldOperation} ne $GetParam->{Operation} ) {
@@ -477,7 +475,6 @@ sub _ChangeAction {
         }
 
     }
-# ---
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},

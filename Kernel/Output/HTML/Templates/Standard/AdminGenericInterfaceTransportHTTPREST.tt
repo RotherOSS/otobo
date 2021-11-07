@@ -344,6 +344,15 @@
                                         </p>
                                     </div>
                                     <div class="Clear"></div>
+
+                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification.") | html %]:</label>
+                                    <div class="Field">
+                                        [% Data.SSLVerifyHostStrg %]
+                                        <p class="FieldExplanation">
+                                            [% Translate("Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
                                 </fieldset>
                             </div>
 
@@ -377,9 +386,8 @@
                             <div class="Clear"></div>
 
 [% END %]
-# ---
-# OTOBOTicketInvoker
-# ---
+
+# added for OTOBOTicketInvoker
 
 [% IF Data.CommunicationType == 'Requester' %]
 [% USE HeadersTitleCommon    = String(Translate("Additional request headers (all invokers)")) %]
@@ -539,7 +547,6 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecific") %]
 
 [% RenderBlockEnd("OutboundHeaders") %]
-# ---
 
                             <div class="Field SpacingTop">
                                 [% IF Data.Action == 'Change' %]

@@ -60,10 +60,6 @@ sub new {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
 
-    # Set binary mode for STDIN and STDOUT (normally is the same as :raw).
-    binmode STDIN;
-    binmode STDOUT;
-
     return $Self;
 }
 
@@ -117,16 +113,21 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Check basic stuff.
-    my $Length = $ENV{'CONTENT_LENGTH'} || 0;
+    # get singletons
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    # Check the input length
+    my $Content = q{};
+    my $Length;
 
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
-    my $Chunked = (
-        defined $ENV{'HTTP_TRANSFER_ENCODING'}
-            && $ENV{'HTTP_TRANSFER_ENCODING'} =~ /^chunked.*$/
-    ) || 0;
-
-    my $Content = q{};
+    my $Chunked = 0;
+    {
+        my $TransferEncoding = $ParamObject->HTTP('TRANSFER_ENCODING') // '';
+        if ( $TransferEncoding =~ m/^chunked/ ) {
+            $Chunked = 1;
+        }
+    }
 
     # If chunked transfer encoding is used, read request from chunks and calculate its length afterwards
     if ($Chunked) {
@@ -134,7 +135,16 @@ sub ProviderProcessRequest {
         while ( read( STDIN, $Buffer, 1024 ) ) {
             $Content .= $Buffer;
         }
-        $Length = length($Content);
+        $Length = length $Content;
+    }
+    else {
+
+        # the CGI::PSGI object already has the POST of GET content
+        my $RequestMethod = $ParamObject->RequestMethod() // 'POST';
+        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+            Param => "${RequestMethod}DATA",    # e.g. POSTDATA
+        );
+        $Length = length $Content;
     }
 
     # No length provided.
@@ -156,25 +166,10 @@ sub ProviderProcessRequest {
     # In case client requests to continue submission, tell it to continue.
     # TODO: does this work under PSGI ?
     if ( IsStringWithData( $ENV{EXPECT} ) && $ENV{EXPECT} =~ m{ \b 100-Continue \b }xmsi ) {
-        $Self->_Output(
+        $Self->_ThrowWebException(
             HTTPCode => 100,
             Content  => '',
         );
-    }
-
-    # If no chunked transfer encoding was used, read request directly.
-    if ( !$Chunked ) {
-        read STDIN, $Content, $Length;
-
-        # If there is no STDIN data it might be caused by fastcgi already having read the request.
-        # In this case we need to get the data from CGI.
-        my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
-        if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
-            my $ParamName = $RequestMethod . 'DATA';
-            $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
-                Param => $ParamName,
-            );
-        }
     }
 
     # Check if we have content.
@@ -186,22 +181,26 @@ sub ProviderProcessRequest {
     }
 
     # Convert charset if necessary.
-    my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my $ContentCharset;
+        if ( $ContentType =~ m{ \A ( .+ ) ;\s*charset= ["']{0,1} ( .+? ) ["']{0,1} (;|\z) }xmsi ) {
 
-        # Remember content type for the response.
-        $Self->{ContentType} = $1;
+            # Remember content type for the response.
+            $Self->{ContentType} = $1;
 
-        $ContentCharset = $2;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+            $ContentCharset = $2;
+        }
+
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
@@ -260,8 +259,14 @@ sub ProviderProcessRequest {
         $Config->{SOAPAction} = 'Yes';
     }
 
-    # Check SOAPAction if configured and necessary.
-    my $SOAPAction = $ENV{HTTP_SOAPACTION};
+    # SOAPAction is for SOAP requests a mandatory header field.
+    # Under CGI the value is made available by the webserver as $ENV{HTTP_SOAPACTION}
+    # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
+    # The Perl module CGI::PSGI takes the setting and
+    # make it available via the method HTTP().
+    my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
+
+    # Check whether SOAPAction is configured and necessary.
     if (
         $Config->{SOAPAction} eq 'Yes'
         && IsStringWithData($SOAPAction)
@@ -355,8 +360,9 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,   # 0 or 1
-        ErrorMessage => '',  # in case of error
+        Success      => 1,          # 0 or 1
+        Output       => $Content,   # a string
+        ErrorMessage => '',         # in case of error
     };
 
 =cut
@@ -366,7 +372,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -374,7 +380,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -435,7 +441,7 @@ sub ProviderGenerateResponse {
 
         # Check output of recursion.
         if ( !$SOAPData->{Success} ) {
-            return $Self->_Output(
+            return $Self->_ThrowWebException(
                 HTTPCode => 500,
                 Content  => "Error in SOAPOutputRecursion: " . $SOAPData->{ErrorMessage},
             );
@@ -443,7 +449,7 @@ sub ProviderGenerateResponse {
         $SOAPResult = SOAP::Data->value( @{ $SOAPData->{Data} } );
 
         if ( ref $SOAPResult ne 'SOAP::Data' ) {
-            return $Self->_Output(
+            return $Self->_ThrowWebException(
                 HTTPCode => 500,
                 Content  => 'Error in SOAP result',
             );
@@ -458,14 +464,13 @@ sub ProviderGenerateResponse {
     my $Serialized      = SOAP::Serializer->autotype(0)->default_ns( $Config->{NameSpace} )->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error serializing message:' . $SerializedFault,
         );
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Gather additional headers.
     my %Headers = $Self->_HeadersGet(
@@ -497,17 +502,12 @@ sub ProviderGenerateResponse {
             }
         }
     }
-# ---
 
     # No error - return output.
-    return $Self->_Output(
+    return $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $Serialized,
-# ---
-# OTOBOTicketInvoker
-# ---
-        Headers  => \%Headers,
-# ---
+        Headers  => \%Headers,     # added for OTOBOTicketInvoker
     );
 }
 
@@ -803,9 +803,8 @@ sub RequesterPerformRequest {
             push @CallData, $SOAPData->{Data};
         }
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Gather additional headers.
     my $Headers = {
@@ -827,7 +826,6 @@ sub RequesterPerformRequest {
     if ($Headers) {
         $SOAPHandle->transport()->proxy()->http_request()->push_header( %{$Headers} );
     }
-# ---
 
     my $SOAPResult = eval {
         $SOAPHandle->call(@CallData);
@@ -945,15 +943,14 @@ sub RequesterPerformRequest {
     # Check if we have response data for the specified operation in the soap result.
     if ( !exists $Body->{$OperationResponse} ) {
         return {
-            Success => 0,
+            Success      => 0,
             ErrorMessage =>
                 "No response data found for specified operation '$Param{Operation}'"
                 . " in soap response",
         };
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Export mirrored headers (only used for UnitTests)
     my %UnitTestHeaders;
@@ -968,17 +965,12 @@ sub RequesterPerformRequest {
             $UnitTestHeaders{ substr( $Header, 25 ) } = $AllResponseHeaders{$Header};
         }
     }
-# ---
 
     # All OK - return result.
     return {
-        Success => 1,
-        Data    => $Body->{$OperationResponse} || undef,
-# ---
-# OTOBOTicketInvoker
-# ---
-        UnitTestHeaders => \%UnitTestHeaders,
-# ---
+        Success         => 1,
+        Data            => $Body->{$OperationResponse} || undef,
+        UnitTestHeaders => \%UnitTestHeaders,                      # added for OTOBOTicketInvoker
     };
 }
 
@@ -1031,25 +1023,20 @@ sub _Error {
     };
 }
 
-=head2 _Output()
+=head2 _ThrowWebException()
 
-Generate http response for provider and send it back to remote system.
-Environment variables are checked for potential error messages.
-Returns structure to be passed to provider.
+creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
+and throw the exception object.
 
-    my $Result = $TransportObject->_Output(
-        HTTPCode => 200,           # http code to be returned, optional
-        Content  => 'response',    # message content, XML response on normal execution
+    # this sub dies
+    $TransportObject->_ThrowWebException(
+        HTTPCode => 200,     # http code to be returned, optional
+        Content  => $XML,    # message content, XML response on normal execution
     );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'Message', # error message from given summary
-    };
 
 =cut
 
-sub _Output {
+sub _ThrowWebException {
     my ( $Self, %Param ) = @_;
 
     # Check params.
@@ -1069,34 +1056,24 @@ sub _Output {
     }
 
     # prepare protocol
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $Protocol    = $ParamObject->ServerProtocol() // 'HTTP/1.0';
 
-    # FIXME: according to SOAP::Transport::HTTP the previous should only be used for IIS to imitate nph- behavior
-    #   for all other browser 'Status:' should be used here this breaks apache though prepare data.
+    # FIXME: according to SOAP::Transport::HTTP the previous should not be used
+    #   for all supported browsers 'Status:' should be used here
+    #   this breaks apache though
+
+    # prepare data
     $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 500;
-    my $ContentType;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'text/xml';
-        if ( $Self->{ContentType} ) {
-            $ContentType = $Self->{ContentType};
-        }
-    }
-    else {
-        $ContentType = 'text/plain';
-    }
+
+    my $ContentType = $Param{HTTPCode} eq 200 ? ( $Self->{ContentType} || 'text/xml' ) : 'text/plain';
 
     # Calculate content length (based on the bytes length not on the characters length).
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $DebugLevel = 'debug';
-    }
-    else {
-        $DebugLevel = 'error';
-    }
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
@@ -1105,61 +1082,40 @@ sub _Output {
 
     # Set keep-alive.
     my $ConfigKeepAlive = $Kernel::OM->Get('Kernel::Config')->Get('SOAP::Keep-Alive');
-    my $Connection      = $ConfigKeepAlive ? 'Keep-Alive' : 'close';
 
-# ---
-# OTOBOTicketInvoker
-# ---
-#    # Prepare additional headers.
-#    my $AdditionalHeaderStrg = '';
-#    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-#        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
-#        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-#            $AdditionalHeaderStrg
-#                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
-#        }
-#    }
-#
-# ---
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
+    # header for the response that will be thrown
+    my @Headers;
+    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+    push @Headers, 'Content-Length' => $ContentLength;
+    push @Headers, 'Connection'     => ( $ConfigKeepAlive ? 'Keep-Alive' : 'close' );
 
-    # Print data to http - '\r' is required according to HTTP RFCs.
-    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-# ---
-# OTOBOTicketInvoker
-# ---
-#    print STDOUT $AdditionalHeaderStrg;
-
-    # Set additional headers.
-    if ( $Param{Headers} ) {
-        for my $Header ( sort keys %{ $Param{Headers} } ) {
-            print STDOUT "$Header: $Param{Headers}->{$Header}\r\n";
+    # Prepare additional headers.
+    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+            push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
         }
     }
 
-# ---
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    # added for OTOBOTicketInvoker
+    # Set additional headers.
+    if ( $Param{Headers} ) {
+        for my $Header ( sort keys %{ $Param{Headers} } ) {
+            push @Headers, $Header => $Param{Headers}->{$Header};
+        }
+    }
 
-    return {
-        Success      => $Success,
-        ErrorMessage => $ErrorMessage,
-    };
+    # generate the response
+    my $PlackResponse = Plack::Response->new(
+        $Param{HTTPCode},
+        \@Headers,
+        $Param{Content}
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 =head2 _SOAPOutputRecursion()
@@ -1567,9 +1523,7 @@ sub _SOAPOutputTypesGet {
     };
 }
 
-# ---
-# OTOBOTicketInvoker
-# ---
+# introduced for OTOBOTicketInvoker
 sub _HeadersGet {
     my ( $Self, %Param ) = @_;
 

@@ -487,9 +487,8 @@
                             </div>
 
 [% END %]
-# ---
-# OTOBOTicketInvoker
-# ---
+
+# added for OTOBOTicketInvoker
 
 [% IF Data.CommunicationType == 'Requester' %]
 [% USE HeadersTitleCommon    = String(Translate("Additional request headers (all invokers)")) %]
@@ -649,7 +648,6 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecific") %]
 
 [% RenderBlockEnd("OutboundHeaders") %]
-# ---
 
                             <label for="Sort">[% Translate("Sort options") | html %]:</label>
                             <div class="Field">
