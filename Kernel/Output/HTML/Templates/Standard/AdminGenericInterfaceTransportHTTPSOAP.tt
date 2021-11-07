@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -12,10 +12,6 @@
 # FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPSOAP">
     <h1 class="InvisibleText">[% Translate( "GenericInterface Web Service Management" ) | html %]</h1>
@@ -88,7 +84,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to indicate specific location for accessing a web service.") | html %]
                                     <br/>
-                                    [% Translate("e.g. https://local.otobo.com:8000/Webservice/Example") | html %]
+                                    [% Translate("e.g. https://local.otobo.de:8000/Webservice/Example") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -193,7 +189,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to give SOAP methods a context, reducing ambiguities.") | html %]
                                     <br/>
-                                    [% Translate("e.g urn:otobo-com:soap:functions or http://www.otobo.com/GenericInterface/actions") | html %]
+                                    [% Translate("e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -491,9 +487,8 @@
                             </div>
 
 [% END %]
-# ---
-# OTOBOTicketInvoker
-# ---
+
+# added for OTOBOTicketInvoker
 
 [% IF Data.CommunicationType == 'Requester' %]
 [% USE HeadersTitleCommon    = String(Translate("Additional request headers (all invokers)")) %]
@@ -653,7 +648,6 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecific") %]
 
 [% RenderBlockEnd("OutboundHeaders") %]
-# ---
 
                             <label for="Sort">[% Translate("Sort options") | html %]:</label>
                             <div class="Field">

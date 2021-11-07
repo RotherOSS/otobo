@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,17 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
-# ---
-# OTOBOTicketInvoker
-# ---
-#package Kernel::Modules::AdminGenericInterfaceInvokerDefault;
 package Kernel::Modules::AdminGenericInterfaceInvokerTicket;
-# ---
 
 use strict;
 use warnings;
@@ -204,9 +195,8 @@ sub _AddAction {
                 Type  => 'String',
                 Check => 'MappingType',
             },
-# ---
-# OTOBOTicketInvoker
-# ---
+
+            # added for OTOBOTicketInvoker
             {
                 Name    => 'CountLastArticle',
                 Type    => 'String',
@@ -250,7 +240,6 @@ sub _AddAction {
                 Name => 'RequestTicketFields',
                 Type => 'Array',
             },
-# ---
         ],
     );
 
@@ -271,22 +260,19 @@ sub _AddAction {
     elsif ( IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{Invoker} } ) ) {
         $Errors{InvokerServerError} = 'ServerError';
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Field for remote ticket id must not be used for writing incoming dynamic field data.
     if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
         $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
     }
-# ---
 
     my $InvokerConfig = {
         Description => $GetParam->{Description},
         Type        => $GetParam->{InvokerType},
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
         CountLastArticle            => $GetParam->{CountLastArticle},
         TicketIdToDynamicField      => $GetParam->{TicketIdToDynamicField},
         CommunicationChannel        => $GetParam->{CommunicationChannel},
@@ -297,7 +283,6 @@ sub _AddAction {
         RequestDynamicFieldsTicket  => $GetParam->{RequestDynamicFieldsTicket},
         RequestArticleFields        => $GetParam->{RequestArticleFields},
         RequestTicketFields         => $GetParam->{RequestTicketFields},
-# ---
     };
 
     # Validation errors.
@@ -377,8 +362,7 @@ sub _Change {
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
         );
     }
 
@@ -433,9 +417,8 @@ sub _ChangeAction {
                 Type    => 'String',
                 Default => 'Ticket',
             },
-# ---
-# OTOBOTicketInvoker
-# ---
+
+            # added for OTOBOTicketInvoker
             {
                 Name    => 'CountLastArticle',
                 Type    => 'String',
@@ -479,7 +462,6 @@ sub _ChangeAction {
                 Name => 'RequestTicketFields',
                 Type => 'Array',
             },
-# ---
         ],
     );
 
@@ -494,8 +476,7 @@ sub _ChangeAction {
     my $InvokerConfig  = delete $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{OldInvoker} };
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{OldInvoker} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{OldInvoker} ),
         );
     }
 
@@ -512,20 +493,17 @@ sub _ChangeAction {
     {
         $Errors{InvokerServerError} = 'ServerError';
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Field for remote ticket id must not be used for writing incoming dynamic field data.
     if ( grep { $_ eq $GetParam->{TicketIdToDynamicField} } @{ $GetParam->{DynamicFieldList} } ) {
         $Errors{TicketIdToDynamicFieldServerError} = 'ServerError';
     }
-# ---
 
     $InvokerConfig->{Description} = $GetParam->{Description};
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
     $InvokerConfig->{CountLastArticle}            = $GetParam->{CountLastArticle};
     $InvokerConfig->{TicketIdToDynamicField}      = $GetParam->{TicketIdToDynamicField};
     $InvokerConfig->{CommunicationChannel}        = $GetParam->{CommunicationChannel};
@@ -536,7 +514,6 @@ sub _ChangeAction {
     $InvokerConfig->{RequestDynamicFieldsTicket}  = $GetParam->{RequestDynamicFieldsTicket};
     $InvokerConfig->{RequestArticleFields}        = $GetParam->{RequestArticleFields};
     $InvokerConfig->{RequestTicketFields}         = $GetParam->{RequestTicketFields};
-# ---
 
     if (%Errors) {
         return $Self->_ShowScreen(
@@ -596,9 +573,8 @@ sub _ChangeAction {
 
         $WebserviceData->{Config}->{Requester}->{ErrorHandling} = $ErrorHandlingConfig;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Take care of invoker dependent configuration if invoker was renamed.
     if ( $GetParam->{OldInvoker} ne $GetParam->{Invoker} ) {
@@ -650,7 +626,6 @@ sub _ChangeAction {
         }
 
     }
-# ---
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},
@@ -768,8 +743,7 @@ sub _AddEvent {
     my $InvokerConfig  = $WebserviceData->{Config}->{Requester}->{Invoker}->{ $GetParam->{Invoker} };
     if ( !IsHashRefWithData($InvokerConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for invoker %s', $GetParam->{Invoker} ),
         );
     }
 
@@ -891,11 +865,9 @@ sub _ShowScreen {
         InvokerType => $Param{InvokerConfig}->{Type},
         Invoker     => $Param{Invoker},
         NewInvoker  => $Param{NewInvoker} // $Param{Invoker},
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
         CountLastArticle => $Param{InvokerConfig}->{CountLastArticle},
-# ---
     );
 
     # Handle mapping.
@@ -928,9 +900,8 @@ sub _ShowScreen {
             },
         );
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     my $DynamicFieldTicketList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldList(
         ObjectType => 'Ticket',
@@ -1079,7 +1050,6 @@ sub _ShowScreen {
         Class        => 'Modernize',
         PossibleNone => 1,
     );
-# ---
 
     if ( $Param{Mode} eq 'Change' ) {
 
@@ -1122,7 +1092,7 @@ sub _ShowScreen {
                     Invoker      => $Param{Invoker},
                     Event        => $Event->{Event},
                     Type         => $EventType // '-',
-                    Asynchronous => $Event->{Asynchronous} ? Translatable('Yes') : Translatable('No'),
+                    Asynchronous => $Event->{Asynchronous}                   ? Translatable('Yes') : Translatable('No'),
                     Condition    => IsHashRefWithData( $Event->{Condition} ) ? Translatable('Yes') : Translatable('No'),
                 },
             );
@@ -1209,9 +1179,8 @@ sub _ParamsGet {
             $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'Need %s', $Name );
             return \%GetParam;
         }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+        # added for OTOBOTicketInvoker
 
         if ( $Definition->{Type} eq 'Array' ) {
             $GetParam{$Name} = [ $ParamObject->GetArray( Param => $Name ) ];
@@ -1221,7 +1190,6 @@ sub _ParamsGet {
             $GetParam{Error} = Translatable( 'Need %s', $Name );
             return \%GetParam;
         }
-# ---
     }
 
     # Type checks.
@@ -1235,8 +1203,7 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'InvokerType' ) {
             next DEFINITION if $Self->_InvokerTypeCheck( InvokerType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'InvokerType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'InvokerType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -1244,8 +1211,7 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }

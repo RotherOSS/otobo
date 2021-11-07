@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,23 +13,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 package Kernel::GenericInterface::Transport::HTTP::REST;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use HTTP::Status;
+# core modules
 use MIME::Base64;
+
+# CPAN modules
+use HTTP::Status;
 use REST::Client;
 use URI::Escape;
-use Kernel::Config;
+use Plack::Response;
 
+# OTOBO modules
+use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::Web::Exception;
 
 our $ObjectManagerDisabled = 1;
 
@@ -110,11 +114,15 @@ sub ProviderProcessRequest {
         );
     }
 
+    # The HTTP::REST support works with a request object.
+    # Just like Kernel::System::Web::InterfaceAgent.
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     my $Operation;
     my %URIData;
-    my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+    my $RequestURI = $ParamObject->RequestURI();
     $RequestURI =~ s{.*Webservice(?:ID)?\/[^\/]+(\/.*)$}{$1}xms;
 
     # Remove any query parameter from the URL
@@ -165,7 +173,7 @@ sub ProviderProcessRequest {
         }
     }
 
-    my $RequestMethod = $ENV{'REQUEST_METHOD'} || 'GET';
+    my $RequestMethod = $ParamObject->RequestMethod() || 'GET';
     ROUTE:
     for my $CurrentOperation ( sort keys %{ $Config->{RouteOperationMapping} } ) {
 
@@ -227,11 +235,15 @@ sub ProviderProcessRequest {
         );
     }
 
-    my $Length = $ENV{'CONTENT_LENGTH'};
+    # The post data has already been read in. This should be safe
+    # as $CGI::POST_MAX has been set as an emergency brake.
+    # For Checking the length we can therefor use the actual length.
+    my $Content = $ParamObject->GetParam( Param => 'POSTDATA' );
+    my $Length  = length $Content;
 
     # No length provided, return the information we have.
     # Also return for 'GET' method because it does not allow sending an entity-body in requests.
-    # For more information, see https://bugs.otobo.org/show_bug.cgi?id=14203.
+    # For more information, see https://bugs.otrs.org/show_bug.cgi?id=14203.
     if ( !$Length || $RequestMethod eq 'GET' ) {
         return {
             Success   => 1,
@@ -251,15 +263,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # Read request.
-    my $Content;
-    read STDIN, $Content, $Length;
-
-    # If there is no STDIN data it might be caused by fastcgi already having read the request.
-    # In this case we need to get the data from CGI.
+    # There might be a different request method.
+    # NOTE: this is kept only for compatability with older versions
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
-        $Content = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam(
+        $Content = $ParamObject->GetParam(
             Param => $ParamName,
         );
     }
@@ -273,18 +281,18 @@ sub ProviderProcessRequest {
     }
 
     # Convert char-set if necessary.
-    my $ContentCharset;
-    if ( $ENV{'CONTENT_TYPE'} =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi ) {
-        $ContentCharset = $1;
-    }
-    if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-        $Content = $EncodeObject->Convert2CharsetInternal(
-            Text => $Content,
-            From => $ContentCharset,
-        );
-    }
-    else {
-        $EncodeObject->EncodeInput( \$Content );
+    {
+        my $ContentType = $ParamObject->ContentType();
+        my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
+        if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
+            $Content = $EncodeObject->Convert2CharsetInternal(
+                Text => $Content,
+                From => $ContentCharset,
+            );
+        }
+        else {
+            $EncodeObject->EncodeInput( \$Content );
+        }
     }
 
     # Send received data to debugger.
@@ -357,8 +365,9 @@ The HTTP code is set accordingly
     );
 
     $Result = {
-        Success      => 1,   # 0 or 1
-        ErrorMessage => '',  # in case of error
+        Success      => 1,          # 0 or 1
+        Output       => $Content,   # a string
+        ErrorMessage => '',         # in case of error
     };
 
 =cut
@@ -368,7 +377,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -376,7 +385,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -403,14 +412,13 @@ sub ProviderGenerateResponse {
     );
 
     if ( !$JSONString ) {
-        return $Self->_Output(
+        return $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error while encoding return JSON structure.',
         );
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # Support for OTOBOTicketInvoker
 
     # Gather additional headers.
     my %Headers = $Self->_HeadersGet(
@@ -423,7 +431,7 @@ sub ProviderGenerateResponse {
         my %AllRequestHeaders;
         ENVKEY:
         for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5) ne 'HTTP_';
+            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
             my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
             $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
         }
@@ -442,17 +450,12 @@ sub ProviderGenerateResponse {
             }
         }
     }
-# ---
 
     # No error - return output.
-    return $Self->_Output(
+    return $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
-# ---
-# OTOBOTicketInvoker
-# ---
-        Headers  => \%Headers,
-# ---
+        Headers  => \%Headers,     # introduced by OTOBOTicketInvoker
     );
 }
 
@@ -529,7 +532,7 @@ sub RequesterPerformRequest {
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
         my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            if ( !IsStringWithData( $Headers->{$AdditionalHeader} )) {
+            if ( !IsStringWithData( $Headers->{$AdditionalHeader} ) ) {
                 $Headers->{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
             }
         }
@@ -588,6 +591,16 @@ sub RequesterPerformRequest {
                 $SSLOptionsMap{$SSLOption} => sub { $Config->{SSL}->{$SSLOption} },
             );
         }
+
+        # skip hostname verification
+        if (
+            IsStringWithData( $Config->{SSL}->{SSLVerifyHostname} )
+            && $Config->{SSL}->{SSLVerifyHostname} eq 'No'
+            )
+        {
+            $RestClient->getUseragent()->ssl_opts( verify_hostname => 0 );
+        }
+
     }
 
     # Add proxy options if configured.
@@ -804,13 +817,22 @@ sub RequesterPerformRequest {
     }
     push @RequestParam, $Controller;
 
-    if ( IsStringWithData( $Param{Data} ) ) {
-        $Body = $Param{Data};
+    # Only POST, PUT or PATCH have a body. If it is empty
+    # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
+    if (
+        $RestCommand eq 'POST'
+        || $RestCommand eq 'PUT'
+        || $RestCommand eq 'PATCH'
+        )
+    {
+        if ( IsStringWithData( $Param{Data} ) ) {
+            $Body = $Param{Data};
+        }
+
         push @RequestParam, $Body;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # introduced for OTOBOTicketInvoker
 
     # Gather additional headers.
     $Headers = {
@@ -828,7 +850,6 @@ sub RequesterPerformRequest {
             = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
         $Headers->{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
     }
-# ---
 
     # Add headers to request
     push @RequestParam, $Headers;
@@ -893,7 +914,7 @@ sub RequesterPerformRequest {
             $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data =>
+                Data    =>
                     'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }
@@ -926,9 +947,8 @@ sub RequesterPerformRequest {
             };
         }
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # introduced for OTOBOTicketInvoker
 
     # Export mirrored headers (only used for UnitTests)
     my %UnitTestHeaders;
@@ -941,152 +961,101 @@ sub RequesterPerformRequest {
             $UnitTestHeaders{ substr( $Header, 25 ) } = $RestClient->responseHeader($Header);
         }
     }
-# ---
 
     # All OK - return result.
     return {
-        Success     => 1,
-        Data        => $Result || undef,
-        SizeExeeded => $SizeExeeded,
-# ---
-# OTOBOTicketInvoker
-# ---
-        UnitTestHeaders => \%UnitTestHeaders,
-# ---
+        Success         => 1,
+        Data            => $Result || undef,
+        SizeExeeded     => $SizeExeeded,
+        UnitTestHeaders => \%UnitTestHeaders,    # added by OTOBOTicketInvoker
     };
 }
 
 =begin Internal:
 
-=head2 _Output()
+=head2 _ThrowWebException()
 
-Generate http response for provider and send it back to remote system.
-Environment variables are checked for potential error messages.
-Returns structure to be passed to provider.
+creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
+and throw the exception object.
 
-    my $Result = $TransportObject->_Output(
-        HTTPCode => 200,           # http code to be returned, optional
-        Content  => 'response',    # message content, XML response on normal execution
+    # the sub dies
+    $TransportObject->_ThrowWebException(
+        HTTPCode => 500,               # http code to be returned, optional
+        Content  => 'error message',   # message content
     );
-
-    $Result = {
-        Success      => 0,
-        ErrorMessage => 'Message', # error message from given summary
-    };
 
 =cut
 
-sub _Output {
+sub _ThrowWebException {
     my ( $Self, %Param ) = @_;
 
     # Check params.
-    my $Success = 1;
     my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid internal HTTPCode';
-        $Success         = 0;
         $ErrorMessage    = 'Invalid internal HTTPCode';
     }
     elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid Content';
-        $Success         = 0;
         $ErrorMessage    = 'Invalid Content';
     }
 
-    # Prepare protocol.
-    my $Protocol = defined $ENV{SERVER_PROTOCOL} ? $ENV{SERVER_PROTOCOL} : 'HTTP/1.0';
-
-    # FIXME: according to SOAP::Transport::HTTP the previous should only be used
-    #   for IIS to imitate nph- behavior
-    #   for all other browser 'Status:' should be used here
+    # FIXME: according to SOAP::Transport::HTTP the previous should not be used
+    #   for all supported browsers 'Status:' should be used here
     #   this breaks apache though
 
     # prepare data
     $Param{Content}  ||= '';
     $Param{HTTPCode} ||= 500;
-    my $ContentType;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $ContentType = 'application/json';
-    }
-    else {
-        $ContentType = 'text/plain';
-    }
+
+    my $ContentType = $Param{HTTPCode} eq 200 ? 'application/json' : 'text/plain';
 
     # Calculate content length (based on the bytes length not on the characters length).
     my $ContentLength = bytes::length( $Param{Content} );
 
     # Log to debugger.
-    my $DebugLevel;
-    if ( $Param{HTTPCode} eq 200 ) {
-        $DebugLevel = 'debug';
-    }
-    else {
-        $DebugLevel = 'error';
-    }
+    my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
         DebugLevel => $DebugLevel,
         Summary    => "Returning provider data to remote system (HTTP Code: $Param{HTTPCode})",
         Data       => $Param{Content},
     );
 
-    # Set keep-alive.
-    my $Connection = $Self->{KeepAlive} ? 'Keep-Alive' : 'close';
+    # header for the response that will be thrown
+    my @Headers;
+    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
+    push @Headers, 'Content-Length' => $ContentLength;
+    push @Headers, 'Connection'     => ( $Self->{KeepAlive} ? 'Keep-Alive' : 'close' );
 
-# ---
-# OTOBOTicketInvoker
-# ---
-#    # prepare additional headers
-#    my $AdditionalHeaderStrg = '';
-#    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-#        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
-#        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-#            $AdditionalHeaderStrg
-#                .= $AdditionalHeader . ': ' . ( $AdditionalHeaders{$AdditionalHeader} || '' ) . "\r\n";
-#        }
-#    }
-#
-# ---
-    # In the constructor of this module STDIN and STDOUT are set to binmode without any additional
-    #   layer (according to the documentation this is the same as set :raw). Previous solutions for
-    #   binary responses requires the set of :raw or :utf8 according to IO layers.
-    #   with that solution Windows OS requires to set the :raw layer in binmode, see #bug#8466.
-    #   while in *nix normally was better to set :utf8 layer in binmode, see bug#8558, otherwise
-    #   XML parser complains about it... ( but under special circumstances :raw layer was needed
-    #   instead ).
-    #
-    # This solution to set the binmode in the constructor and then :utf8 layer before the response
-    #   is sent  apparently works in all situations. ( Linux circumstances to requires :raw was no
-    #   reproducible, and not tested in this solution).
-    binmode STDOUT, ':utf8';    ## no critic
-
-    # Print data to http - '\r' is required according to HTTP RFCs.
-    my $StatusMessage = HTTP::Status::status_message( $Param{HTTPCode} );
-    print STDOUT "$Protocol $Param{HTTPCode} $StatusMessage\r\n";
-    print STDOUT "Content-Type: $ContentType; charset=UTF-8\r\n";
-    print STDOUT "Content-Length: $ContentLength\r\n";
-    print STDOUT "Connection: $Connection\r\n";
-# ---
-# OTOBOTicketInvoker
-# ---
-#    print STDOUT $AdditionalHeaderStrg;
-
-    # Set additional headers.
-    if ( $Param{Headers} ) {
-        for my $Header ( sort keys %{ $Param{Headers} } ) {
-            print STDOUT "$Header: $Param{Headers}->{$Header}\r\n";
+    # Prepare additional headers.
+    if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
+        for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
+            push @Headers, $AdditionalHeader => ( $AdditionalHeaders{$AdditionalHeader} || '' );
         }
     }
 
-# ---
-    print STDOUT "\r\n";
-    print STDOUT $Param{Content};
+    # introduced by OTOBOTicketInvoker
+    # Set additional headers.
+    if ( $Param{Headers} ) {
+        for my $Header ( sort keys $Param{Headers}->%* ) {
+            push @Headers, $Header => $Param{Headers}->{$Header};
+        }
+    }
 
-    return {
-        Success      => $Success,
-        ErrorMessage => $ErrorMessage,
-    };
+    # create the response
+    my $PlackResponse = Plack::Response->new(
+        $Param{HTTPCode},
+        \@Headers,
+        $Param{Content}
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
 }
 
 =head2 _Error()
@@ -1136,9 +1105,7 @@ sub _Error {
     };
 }
 
-# ---
-# OTOBOTicketInvoker
-# ---
+# Introduced by OTOBOTicketInvoker
 sub _HeadersGet {
     my ( $Self, %Param ) = @_;
 
@@ -1156,8 +1123,10 @@ sub _HeadersGet {
     # Common headers.
     # These come first as specific headers might override them.
     my @HeaderBlacklist
-        = @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
-            // [] };
+        = @{
+            $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
+            // []
+        };
     my %Headers;
     if ( IsHashRefWithData( $Config->{Common} ) ) {
         HEADER:
@@ -1182,17 +1151,8 @@ sub _HeadersGet {
     return %Headers;
 }
 
-# ---
-1;
-
 =end Internal:
 
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
 =cut
+
+1;

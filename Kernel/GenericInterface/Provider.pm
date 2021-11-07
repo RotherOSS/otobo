@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,30 +13,35 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 package Kernel::GenericInterface::Provider;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
-use URI::Escape;
+# core modules
 use Storable;
 
+# CPAN modules
+use URI::Escape;
+use Plack::Response;
+
+# OTOBO modules
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
 use Kernel::GenericInterface::Mapping;
 use Kernel::GenericInterface::Operation;
 use Kernel::System::GenericInterface::Webservice;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
+use Kernel::System::Web::Exception;
 
 our @ObjectDependencies = (
-    'Kernel::System::Log',
-    'Kernel::System::GenericInterface::Webservice',
     'Kernel::GenericInterface::ErrorHandling',
+    'Kernel::System::GenericInterface::Webservice',
+    'Kernel::System::Log',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -49,39 +54,46 @@ Kernel::GenericInterface::Provider - handler for incoming web service requests.
 
 Don't use the constructor directly, use the ObjectManager instead:
 
-    my $ProviderObject = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
+    my $Interface = $Kernel::OM->Get('Kernel::GenericInterface::Provider');
 
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ( $Class, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    # register object params
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Log' => {
+            LogPrefix => 'GenericInterfaceProvider',
+        },
+        'Kernel::System::Web::Request' => {
+            PSGIEnv => $Param{PSGIEnv} || 0,
+        },
+    );
 
-    return $Self;
+    # start with an empty hash for the new object
+    return bless {}, $Class;
 }
 
-=head2 Run()
+=head2 Content()
 
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
+Set headers in Kernels::System::Web::Request singleton as side effect.
+Can die and throw an exception to be caught be Plack::Middleware::HTTPExceptions.
 
     # put this in the handler script
-    $ProviderObject->Run();
+    my $Content = $Interface->Content();
 
 =cut
 
-sub Run {
-    my ( $Self, %Param ) = @_;
+sub Content {
+    my ($Self) = @_;
 
-    # On Microsoft IIS 7.0, $ENV{REQUEST_URI} is not set. See bug#9172.
-    my $RequestURI = $ENV{REQUEST_URI} || $ENV{PATH_INFO};
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $RequestURI  = $ParamObject->RequestURI();
 
-    #
     # Locate and verify the desired web service based on the request URI and load its configuration data.
-    #
 
     # Check RequestURI for a web service by id or name.
     my %WebserviceGetData;
@@ -103,7 +115,10 @@ sub Run {
             Priority => 'error',
             Message  => "Could not determine WebserviceID or Webservice from query string '$RequestURI'",
         );
-        return;    # bail out without Transport, Apache will generate 500 Error
+
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_ThrowWebException();
     }
 
     # Check if requested web service exists and is valid.
@@ -119,17 +134,23 @@ sub Run {
             Priority => 'error',
             Message  => "Could not find valid web service for query string '$RequestURI'",
         );
-        return;    # bail out without Transport, Apache will generate 500 Error
+
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_ThrowWebException();
     }
 
     my $Webservice = $WebserviceObject->WebserviceGet(%WebserviceGetData);
     if ( !IsHashRefWithData($Webservice) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message =>
+            Message  =>
                 "Could not load web service configuration for query string '$RequestURI'",
         );
-        return;    # bail out without Transport, Apache will generate 500 Error
+
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_ThrowWebException();
     }
 
     # Create a debugger instance which will log the details of this communication entry.
@@ -137,12 +158,14 @@ sub Run {
         DebuggerConfig    => $Webservice->{Config}->{Debugger},
         WebserviceID      => $Webservice->{ID},
         CommunicationType => 'Provider',
-        RemoteIP          => $ENV{REMOTE_ADDR},
+        RemoteIP          => $ParamObject->RemoteAddr(),
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
 
-        return;    # bail out without Transport, Apache will generate 500 Error
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_ThrowWebException();
     }
 
     $DebuggerObject->Debug(
@@ -164,10 +187,14 @@ sub Run {
     # Bail out if transport initialization failed.
     if ( ref $Self->{TransportObject} ne 'Kernel::GenericInterface::Transport' ) {
 
-        return $DebuggerObject->Error(
+        $DebuggerObject->Error(
             Summary => 'TransportObject could not be initialized',
             Data    => $Self->{TransportObject},
         );
+
+        # generate status 500 response under PSGI
+        # otherwise return undef and Apache will generate 500 Error
+        return $Self->_ThrowWebException();
     }
 
     # Combine all data for error handler we got so far.
@@ -184,6 +211,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
@@ -224,7 +252,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
@@ -238,7 +266,7 @@ sub Run {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         # add operation to data for error handler
@@ -251,6 +279,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -300,7 +329,7 @@ sub Run {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $DebuggerObject,
             ErrorMessage   => $ErrorMessage,
-        );
+        ) // '';
     }
 
     # add operation object to data for error handler
@@ -313,6 +342,7 @@ sub Run {
     if ( !$FunctionResult->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -347,7 +377,7 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig =>
+            MappingConfig  =>
                 $ProviderConfig->{Operation}->{$Operation}->{MappingOutbound},
         );
 
@@ -361,7 +391,7 @@ sub Run {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
                 ErrorMessage   => $FunctionResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         $FunctionResult = $MappingOutObject->Map(
@@ -372,6 +402,7 @@ sub Run {
         if ( !$FunctionResult->{Success} ) {
 
             my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -396,20 +427,17 @@ sub Run {
     # Generate the actual response.
     #
 
-    $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
-        Success => 1,
-        Data    => $DataOut,
-# ---
-# OTOBOTicketInvoker
-# ---
-        Operation  => $Operation,
-# ---
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
+        Success   => 1,
+        Data      => $DataOut,
+        Operation => $Operation,    # introduced by OTOBOTicketInvoker
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$Response->{Success} ) {
 
         my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-        $Self->_HandleError(
+
+        return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderResponseTransmit',
@@ -418,37 +446,39 @@ sub Run {
         );
     }
 
-    return;
+    return $Response->{Output};
 }
 
 =begin Internal:
 
 =head2 _GenerateErrorResponse()
 
-returns an error message to the client.
+prepares header and content for an error response
 
-    $ProviderObject->_GenerateErrorResponse(
-        ErrorMessage => $ErrorMessage,
-    );
+    my $Output = $Self->_GenerateErrorResponse(
+        DebuggerObject => $DebuggerObject,
+        ErrorMessage   => $ErrorMessage,
+    ) // '';
+    print STDOUT $Output;
 
 =cut
 
 sub _GenerateErrorResponse {
     my ( $Self, %Param ) = @_;
 
-    my $FunctionResult = $Self->{TransportObject}->ProviderGenerateResponse(
+    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$Response->{Success} ) {
         $Param{DebuggerObject}->Error(
             Summary => 'Error response could not be sent',
-            Data    => $FunctionResult->{ErrorMessage},
+            Data    => $Response->{ErrorMessage},
         );
     }
 
-    return;
+    return $Response->{Output};
 }
 
 =head2 _HandleError()
@@ -457,7 +487,7 @@ handles errors by
 - informing operation about it (if supported)
 - calling an error handling layer
 
-    my $ReturnData = $RequesterObject->_HandleError(
+    my $Output = $RequesterObject->_HandleError(
         DebuggerObject   => $DebuggerObject,
         WebserviceID     => 1,
         WebserviceConfig => $WebserviceConfig,
@@ -468,11 +498,7 @@ handles errors by
         OperationObject  => $OperationObject,        # optional
         Operation        => 'OperationName',         # optional
     );
-
-    my $ReturnData = {
-        Success      => 0,
-        ErrorMessage => $Param{Summary},
-    };
+    print STDOUT $Output;
 
 =cut
 
@@ -490,7 +516,7 @@ sub _HandleError {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => "Got no $Needed!",
-        );
+        ) // '';
     }
 
     my $ErrorHandlingResult = $Kernel::OM->Get('Kernel::GenericInterface::ErrorHandling')->HandleError(
@@ -513,7 +539,7 @@ sub _HandleError {
         return $Self->_GenerateErrorResponse(
             DebuggerObject => $Param{DebuggerObject},
             ErrorMessage   => $Param{Summary},
-        );
+        ) // '';
     }
 
     my $HandleErrorData;
@@ -549,7 +575,7 @@ sub _HandleError {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => 'MappingErr could not be initialized',
-            );
+            ) // '';
         }
 
         # Map error data.
@@ -566,7 +592,7 @@ sub _HandleError {
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $Param{DebuggerObject},
                 ErrorMessage   => $MappingErrorResult->{ErrorMessage},
-            );
+            ) // '';
         }
 
         $HandleErrorData = $MappingErrorResult->{Data};
@@ -590,19 +616,35 @@ sub _HandleError {
     return $Self->_GenerateErrorResponse(
         DebuggerObject => $Param{DebuggerObject},
         ErrorMessage   => $Param{Summary},
+    ) // '';
+}
+
+=head2 _ThrowWebException()
+
+Generate a response with code 500 and empty content and throw it as an exception.
+
+    # this sub dies
+    $RequesterObject->_ThrowWebException();
+
+=cut
+
+sub _ThrowWebException {
+    my ($Self) = @_;
+
+    my $ServerErrorResponse = Plack::Response->new(
+        500,
+        [],
+        ''
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $ServerErrorResponse
     );
 }
 
-1;
-
 =end Internal:
 
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTOBO project (L<https://otobo.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
 =cut
+
+1;

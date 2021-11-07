@@ -1,21 +1,36 @@
 # --
-# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# OTOBO is a web-based ticketing system for service organisations.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
 use strict;
 use warnings;
-use vars (qw($Self));
+use v5.24;
+
+# core modules
 use Storable;
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
 use Kernel::GenericInterface::Operation::Ticket::TicketUpdate;
 use Kernel::GenericInterface::Operation::Ticket::TicketCreate;
-
 use Kernel::System::VariableCheck qw(:all);
 
 $Kernel::OM->ObjectParamAdd(
@@ -27,7 +42,7 @@ $Kernel::OM->ObjectParamAdd(
 # prepare data for tests
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID     = $HelperObject->GetRandomID();
-$HelperObject->FixedTimeSet();
+FixedTimeSet();
 
 my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
@@ -105,7 +120,6 @@ my $WebserviceID     = $WebserviceObject->WebserviceAdd(
 );
 
 my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-    %{$Self},
     DebuggerConfig => {
         DebugThreshold => 'debug',
         TestMode       => 1,
@@ -213,7 +227,7 @@ if ( $ConfigObject->Get('DynamicFields::Driver')->{Attachment} ) {
         ValidID    => 1,
         UserID     => 1,
     );
-    $Self->True(
+    ok(
         $AttachmentDynamicFieldID,
         'Attachment dynamic field created.'
     );
@@ -923,7 +937,7 @@ my @Tests = (
             TicketUpdate => {},
         },
         TestOTOBODynamicField => 1,
-        TicketCreate         => {
+        TicketCreate          => {
             ExpectedInvokerPrepareRequestResult => {
                 'Article' => {
                     'Body'                 => $Article{Body},
@@ -1048,7 +1062,7 @@ for my $Test (@Tests) {
         Value              => "test",
         UserID             => 1,
     );
-    $Self->True(
+    ok(
         $DynamicFieldSuccess,
         "Dynamic field 'DynamicField$RandomID' is set.",
     );
@@ -1066,7 +1080,7 @@ for my $Test (@Tests) {
             Disposition => 'inline',
         );
 
-        $Self->True(
+        ok(
             $UploadSuccess,
             'Attachment added to the upload cache.'
         );
@@ -1079,7 +1093,7 @@ for my $Test (@Tests) {
             },
             UserID => 1,
         );
-        $Self->True(
+        ok(
             $AttachmentDynamicFieldSuccess,
             "Dynamic field 'DynamicFieldAttachemt$RandomID' is set.",
         );
@@ -1096,9 +1110,9 @@ for my $Test (@Tests) {
             WebserviceID   => $WebserviceID,
         );
 
-        $Self->Is(
-            ref $InvokerObject,
-            'Kernel::GenericInterface::Invoker',
+        isa_ok(
+            $InvokerObject,
+            ['Kernel::GenericInterface::Invoker'],
             'InvokerObject was correctly instantiated',
         );
 
@@ -1110,24 +1124,24 @@ for my $Test (@Tests) {
             },
         );
 
-        $Self->True(
+        ok(
             IsHashRefWithData($InvokerResult),
             "Invoker $InvokerType - Invoker PrepareRequest() return data is HASH",
         );
 
-        $Self->True(
+        ok(
             $InvokerResult->{Success},
             "Invoker $InvokerType - PrepareRequest() ok"
                 . (
-                $InvokerResult->{ErrorMessage}
-                ? "(Error: "
+                    $InvokerResult->{ErrorMessage}
+                    ? "(Error: "
                     . $InvokerResult->{ErrorMessage} . ")"
-                : ""
+                    : ""
                 ),
         );
 
         # check content of invoker result
-        $Self->IsDeeply(
+        is(
             Storable::dclone( $InvokerResult->{Data} ),
             $Test->{$InvokerType}->{ExpectedInvokerPrepareRequestResult},
             "Invoker $InvokerType - Invoker PrepareRequest() return data matches expected result",
@@ -1139,9 +1153,9 @@ for my $Test (@Tests) {
             WebserviceID   => $WebserviceID,
         );
 
-        $Self->Is(
-            "Kernel::GenericInterface::Operation::Ticket::$InvokerType",
-            ref $OperatorObject,
+        isa_ok(
+            $OperatorObject,
+            ["Kernel::GenericInterface::Operation::Ticket::$InvokerType"],
             "OperatorObject - Create local object",
         );
 
@@ -1173,19 +1187,19 @@ for my $Test (@Tests) {
             },
         );
 
-        $Self->True(
+        ok(
             IsHashRefWithData($OperatorResult),
             "Operator $InvokerType - Invoker <--> Operation return data is HASH",
         );
 
-        $Self->True(
+        ok(
             $OperatorResult->{Success},
             "Operator $InvokerType - Invoker <--> Operation OK "
                 . (
-                $OperatorResult->{Errormessage}
-                ? "(Error: "
+                    $OperatorResult->{Errormessage}
+                    ? "(Error: "
                     . $OperatorResult->{Errormessage} . ")"
-                : ""
+                    : ""
                 ),
         );
 
@@ -1216,24 +1230,23 @@ for my $Test (@Tests) {
             );
         }
 
-        $Self->True(
+        ok(
             IsHashRefWithData($InvokerResult),
             "Operator $InvokerType - Invoker HandleResponse() return data is HASH",
         );
 
-        $Self->True(
+        ok(
             $InvokerResult->{Success},
             "Invoker $InvokerType - HandleResponse() ok"
                 . (
-                $InvokerResult->{ErrorMessage}
-                ? "(Error: "
+                    $InvokerResult->{ErrorMessage}
+                    ? "(Error: "
                     . $InvokerResult->{ErrorMessage} . ")"
-                : ""
+                    : ""
                 ),
         );
     }
 }
 
 # cleanup is done by RestoreDatabase
-
-1;
+done_testing();

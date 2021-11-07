@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -12,10 +12,6 @@
 # FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 
 package Kernel::Modules::AdminGenericInterfaceOperationDefault;
@@ -281,8 +277,7 @@ sub _Change {
     if ( !IsHashRefWithData($OperationConfig) ) {
         return $LayoutObject->ErrorScreen(
             Message =>
-                $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for operation %s', $GetParam->{Operation} ),
+                $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for operation %s', $GetParam->{Operation} ),
         );
     }
 
@@ -350,8 +345,7 @@ sub _ChangeAction {
     my $OperationConfig = delete $WebserviceData->{Config}->{Provider}->{Operation}->{ $GetParam->{OldOperation} };
     if ( !IsHashRefWithData($OperationConfig) ) {
         return $LayoutObject->ErrorScreen(
-            Message => $LayoutObject->{LanguageObject}
-                ->Translate( 'Could not determine config for operation %s', $GetParam->{OldOperation} ),
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not determine config for operation %s', $GetParam->{OldOperation} ),
         );
     }
 
@@ -424,16 +418,14 @@ sub _ChangeAction {
             next ERRORHANDLING if !grep { $_ eq $GetParam->{OldOperation} } @{$OperationFilter};
 
             # Rename operation in error handling operation filter to keep consistency.
-            my @NewOperationFilter
-                = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
+            my @NewOperationFilter = map { $_ eq $GetParam->{OldOperation} ? $GetParam->{Operation} : $_ } @{$OperationFilter};
             $ErrorHandlingConfig->{$ErrorHandling}->{OperationFilter} = \@NewOperationFilter;
         }
 
         $WebserviceData->{Config}->{Provider}->{ErrorHandling} = $ErrorHandlingConfig;
     }
-# ---
-# OTOBOTicketInvoker
-# ---
+
+    # added for OTOBOTicketInvoker
 
     # Take care of operation dependent configuration if operation was renamed.
     if ( $GetParam->{OldOperation} ne $GetParam->{Operation} ) {
@@ -483,7 +475,6 @@ sub _ChangeAction {
         }
 
     }
-# ---
 
     my $UpdateSuccess = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceUpdate(
         %{$WebserviceData},
@@ -672,8 +663,7 @@ sub _ParamsGet {
         if ( $Definition->{Check} eq 'OperationType' ) {
             next DEFINITION if $Self->_OperationTypeCheck( OperationType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'OperationType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
 
@@ -681,8 +671,7 @@ sub _ParamsGet {
             next DEFINITION if !IsStringWithData( $GetParam{Name} );
             next DEFINITION if $Self->_MappingTypeCheck( MappingType => $GetParam{$Name} );
 
-            $GetParam{Error}
-                = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
+            $GetParam{Error} = $LayoutObject->{LanguageObject}->Translate( 'MappingType %s is not registered', $GetParam{$Name} );
             return \%GetParam;
         }
     }

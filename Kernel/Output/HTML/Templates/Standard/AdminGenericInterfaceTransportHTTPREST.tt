@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -12,10 +12,6 @@
 # FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
-# --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
 # --
 <div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst AdminGenericInterfaceTransportHTTPREST">
     <h1 class="InvisibleText">[% Translate( "GenericInterface Web Service Management" ) | html %]</h1>
@@ -177,7 +173,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to indicate specific location for accessing a web service.") | html %]
                                     <br/>
-                                    [% Translate("e.g https://www.otobo.com:10745/api/v1.0 (without trailing backslash)") | html %]
+                                    [% Translate("e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -348,6 +344,15 @@
                                         </p>
                                     </div>
                                     <div class="Clear"></div>
+
+                                    <label for="SSLVerifyHostname">[% Translate("SSL hostname verification.") | html %]:</label>
+                                    <div class="Field">
+                                        [% Data.SSLVerifyHostStrg %]
+                                        <p class="FieldExplanation">
+                                            [% Translate("Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.") | html %]
+                                        </p>
+                                    </div>
+                                    <div class="Clear"></div>
                                 </fieldset>
                             </div>
 
@@ -381,9 +386,8 @@
                             <div class="Clear"></div>
 
 [% END %]
-# ---
-# OTOBOTicketInvoker
-# ---
+
+# added for OTOBOTicketInvoker
 
 [% IF Data.CommunicationType == 'Requester' %]
 [% USE HeadersTitleCommon    = String(Translate("Additional request headers (all invokers)")) %]
@@ -543,7 +547,6 @@
 [% RenderBlockEnd("OutboundHeadersOperationSpecific") %]
 
 [% RenderBlockEnd("OutboundHeaders") %]
-# ---
 
                             <div class="Field SpacingTop">
                                 [% IF Data.Action == 'Change' %]

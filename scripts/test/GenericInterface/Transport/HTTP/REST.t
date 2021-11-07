@@ -29,10 +29,8 @@ use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
 our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-# ---
-# OTOBOTicketInvoker
-# ---
 
+# added for OTOBOTicketInvoker
 # Set fixed header blacklists.
 for my $Type (qw(Invoker Operation)) {
     $ConfigObject->Set(
@@ -46,9 +44,8 @@ for my $Type (qw(Invoker Operation)) {
         ],
     );
 }
-# ---
 
-# Skip SSL certificate verification.
+# Skip SSL certificate verification
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         SkipSSLVerify => 1,
@@ -58,11 +55,7 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # Add web service to be used (empty config).
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
-$Self->Is(
-    'Kernel::System::GenericInterface::Webservice',
-    ref $WebserviceObject,
-    'Create web service object'
-);
+isa_ok( $WebserviceObject, 'Kernel::System::GenericInterface::Webservice' );
 my $WebserviceName = 'REST' . $Helper->GetRandomID();
 my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     Name   => $WebserviceName,
@@ -79,29 +72,26 @@ my $WebserviceID   = $WebserviceObject->WebserviceAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->True(
-    $WebserviceID,
-    'Added Web service'
-);
+ok( $WebserviceID, 'Added Web service' );
 
 # Get remote host with some precautions for certain unit test systems.
 my $Host = $Helper->GetTestHTTPHostname();
 
-# Prepare web service config.
-my $BaseURL =
+# prepare web service config
+my $RemoteSystem =
     $ConfigObject->Get('HttpType')
     . '://'
     . $Host
     . '/'
     . $ConfigObject->Get('ScriptAlias')
-    . '/nph-genericinterface.pl/WebserviceID/'
+    . 'nph-genericinterface.pl/WebserviceID/'
     . $WebserviceID;
 
-my @Tests = (
+my @BasicTests = (
     {
-        Name        => 'Wrong Path Name Provider - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong Path Name Provider - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -111,8 +101,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -144,7 +133,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -162,9 +151,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Wrong Path Extra \'/\' Provider - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong Path Extra \'/\' Provider - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -174,8 +163,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -207,7 +195,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -225,9 +213,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Wrong HTTP method Provider - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong HTTP method Provider - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -237,8 +225,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -270,7 +257,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -288,9 +275,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Wrong Path Name Requester - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong Path Name Requester - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -300,8 +287,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -333,7 +319,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -351,9 +337,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Wrong Path Extra \'/\' Requester - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong Path Extra \'/\' Requester - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -363,8 +349,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -396,7 +381,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -414,9 +399,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Wrong HTTP command Requester - Basic Transport Mapping',
-        Success     => '0',
-        RequestData => {
+        Name           => 'Wrong HTTP command Requester - Basic Transport Mapping',
+        SuccessRequest => 0,
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -426,8 +411,7 @@ my @Tests = (
                 ComplexData => 'Data',
             },
         },
-        ExpectedReturnData => undef,
-        WebserviceConfig   => {
+        WebserviceConfig => {
             Name        => 'TestSimple1',
             Description => '',
             Debugger    => {
@@ -459,7 +443,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'GET',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -477,9 +461,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Basic Transport Mapping POST',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Basic Transport Mapping POST',
+        SuccessRequest => '1',
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -531,7 +515,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -549,9 +533,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Basic Transport Mapping GET',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Basic Transport Mapping GET',
+        SuccessRequest => '1',
+        RequestData    => {
             Other  => 'Data',
             Other1 => 'One',
             Other2 => 'Two',
@@ -597,7 +581,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'GET',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -615,9 +599,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Complex Transport Mapping URIParams 1 POST',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Complex Transport Mapping URIParams 1 POST',
+        SuccessRequest => '1',
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -669,7 +653,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -687,9 +671,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Complex Transport Mapping URIParams POST 2',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Complex Transport Mapping URIParams POST 2',
+        SuccessRequest => '1',
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -741,7 +725,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -759,9 +743,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Complex Transport Mapping URIParams QueryParams POST',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Complex Transport Mapping URIParams QueryParams POST',
+        SuccessRequest => '1',
+        RequestData    => {
             Other   => 'Data',
             Other1  => 'One',
             Other2  => 'Two',
@@ -813,7 +797,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -831,9 +815,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'Correct Complex Transport Mapping URIParams QueryParams GET',
-        Success     => '1',
-        RequestData => {
+        Name           => 'Correct Complex Transport Mapping URIParams QueryParams GET',
+        SuccessRequest => '1',
+        RequestData    => {
             Other  => 'Data',
             Other1 => 'One',
             Other2 => 'Two',
@@ -879,7 +863,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'GET',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -899,9 +883,9 @@ my @Tests = (
 
     # tests for bug #12049
     {
-        Name        => 'UTF8 test GET',
-        Success     => '1',
-        RequestData => {
+        Name           => 'UTF8 test GET',
+        SuccessRequest => '1',
+        RequestData    => {
             Other => 'äöüß€ÄÖÜ',
         },
         ExpectedReturnData => {
@@ -939,7 +923,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'GET',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -957,9 +941,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'UTF8 test POST',
-        Success     => '1',
-        RequestData => {
+        Name           => 'UTF8 test POST',
+        SuccessRequest => '1',
+        RequestData    => {
             Other => 'äöüß€ÄÖÜ',
         },
         ExpectedReturnData => {
@@ -997,7 +981,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -1015,9 +999,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'UTF8 test POST mixed with GET params',
-        Success     => '1',
-        RequestData => {
+        Name           => 'UTF8 test POST mixed with GET params',
+        SuccessRequest => '1',
+        RequestData    => {
             Other  => 'äöüß€ÄÖÜ',
             Other1 => 'ÄÖÜß€äöü',
         },
@@ -1057,7 +1041,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -1075,9 +1059,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'UTF8 test GET with URI params',
-        Success     => '1',
-        RequestData => {
+        Name           => 'UTF8 test GET with URI params',
+        SuccessRequest => '1',
+        RequestData    => {
             Other => 'äöüß€ÄÖÜ',
         },
         ExpectedReturnData => {
@@ -1116,7 +1100,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'GET',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -1134,9 +1118,9 @@ my @Tests = (
         },
     },
     {
-        Name        => 'UTF8 test POST with URI params',
-        Success     => '1',
-        RequestData => {
+        Name           => 'UTF8 test POST with URI params',
+        SuccessRequest => '1',
+        RequestData    => {
             Other => 'äöüß€ÄÖÜ',
         },
         ExpectedReturnData => {
@@ -1175,7 +1159,7 @@ my @Tests = (
                     Type   => 'HTTP::REST',
                     Config => {
                         DefaultCommand           => 'POST',
-                        Host                     => $BaseURL,
+                        Host                     => $RemoteSystem,
                         Timeout                  => 120,
                         InvokerControllerMapping => {
                             TestSimple => {
@@ -1196,77 +1180,71 @@ my @Tests = (
 
 # Create requester object.
 my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-$Self->Is(
-    'Kernel::GenericInterface::Requester',
-    ref $RequesterObject,
-    'Create requester object'
-);
+isa_ok( $RequesterObject, 'Kernel::GenericInterface::Requester' );
 
-TEST:
-for my $Test (@Tests) {
+for my $Test (@BasicTests) {
 
-    # Update web service with real config.
-    my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-        ID      => $WebserviceID,
-        Name    => $WebserviceName,
-        Config  => $Test->{WebserviceConfig},
-        ValidID => 1,
-        UserID  => 1,
-    );
-    $Self->True(
-        $WebserviceUpdate,
-        "$Test->{Name} - Updated Web service $WebserviceID"
-    );
+    subtest $Test->{Name} => sub {
 
-    # start requester with our web service
-    my $RequesterResult = $RequesterObject->Run(
-        WebserviceID => $WebserviceID,
-        Invoker      => 'TestSimple',
-        Data         => $Test->{RequestData},
-    );
+        diag "Running basic test: $Test->{Name}";
 
-    # check result
-    $Self->Is(
-        'HASH',
-        ref $RequesterResult,
-        "$Test->{Name} - Requester result structure is valid"
-    );
-
-    if ( !$Test->{Success} ) {
-
-        # check result
-        $Self->False(
-            $RequesterResult->{Success},
-            "$Test->{Name} - Requester unsuccessful result"
+        # Update web service with real config.
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $Test->{WebserviceConfig},
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $WebserviceUpdate,
+            "Updated Web service $WebserviceID"
         );
 
-        if ( $Test->{ExpectedReturnData} ) {
-            $Self->IsNot(
-                $RequesterResult->{Message},
-                $Test->{ExpectedReturnData},
-                "$Test->{Name} - Requester unsuccessful status (needs configured and running web server)"
-            );
+        # start requester with our web service
+        my $RequesterResult = $RequesterObject->Run(
+            WebserviceID => $WebserviceID,
+            Invoker      => 'TestSimple',
+            Data         => $Test->{RequestData},
+        );
+
+        # check result
+        is( ref $RequesterResult, 'HASH', "Requester result structure is valid" );
+
+        # check success of result
+        if ( $Test->{SuccessRequest} ) {
+            ok( $RequesterResult->{Success}, 'request was successfull' );
+        }
+        else {
+            ok( !$RequesterResult->{Success}, 'request was not successfull' );
         }
 
-        next TEST;
-    }
+        # for example:
+        # ExpectedReturnData => {
+        #     Other  => 'äöüß€ÄÖÜ',
+        #     Other1 => 'ÄÖÜß€äöü',
+        # },
+        if ( $Test->{ExpectedReturnData} ) {
 
-    $Self->True(
-        $RequesterResult->{Success},
-        "$Test->{Name} - Requester successful result"
-    );
+            # The RequestMethod is set when the request method is GET or when
+            # the POST content is empty. For some reason the RequestMethod is not
+            # set up in the expected data.
+            delete $RequesterResult->{Data}->{RequestMethod};
 
-    delete $RequesterResult->{Data}->{RequestMethod};
-
-    $Self->IsDeeply(
-        $RequesterResult->{Data},
-        $Test->{ExpectedReturnData},
-        "$Test->{Name} - Requester success status (needs configured and running web server)"
-    );
+            is(
+                $RequesterResult->{Data},
+                $Test->{ExpectedReturnData},
+                'request result data'
+            );
+        }
+        else {
+            note('check of request result data was not set up');
+        }
+    };
 }
 
 # Check direct requests.
-@Tests = (
+my @DirectTests = (
     {
         Name        => 'Correct Direct Request GET Special Chars',
         Success     => '1',
@@ -1318,160 +1296,81 @@ for my $Test (@Tests) {
 # Get JSON object.
 my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
-TEST:
-for my $Test (@Tests) {
+for my $Test (@DirectTests) {
 
-    # Update web service with real config.
-    my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
-        ID      => $WebserviceID,
-        Name    => $WebserviceName,
-        Config  => $Test->{WebserviceConfig},
-        ValidID => 1,
-        UserID  => 1,
-    );
-    $Self->True(
-        $WebserviceUpdate,
-        "$Test->{Name} - Updated Web service $WebserviceID"
-    );
+    subtest $Test->{Name} => sub {
 
-    my $RequestParams;
-    for my $DataKey ( sort keys %{ $Test->{RequestData} } ) {
-        $RequestParams .= "$DataKey=$Test->{RequestData}->{$DataKey}&";
-    }
+        diag "Running direct test: $Test->{Name}";
 
-    # Perform request.
-    my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
-        Type => 'GET',
-        URL  => $BaseURL
-            . $Test->{WebserviceConfig}->{Provider}->{Transport}->{Config}->{RouteOperationMapping}->{TestSimple}
-            ->{Route}
-            . '?'
-            . $RequestParams,
-    );
-
-    if ( !$Test->{Success} ) {
-
-        # Check result.
-        $Self->IsNot(
-            $Response{Status},
-            '200 OK',
-            "$Test->{Name} - Response unsuccessful result"
+        # Update web service with real config.
+        my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
+            ID      => $WebserviceID,
+            Name    => $WebserviceName,
+            Config  => $Test->{WebserviceConfig},
+            ValidID => 1,
+            UserID  => 1,
+        );
+        $Self->True(
+            $WebserviceUpdate,
+            "Updated Web service $WebserviceID"
         );
 
-        next TEST;
-    }
+        my $RequestParams;
+        for my $DataKey ( sort keys %{ $Test->{RequestData} } ) {
+            $RequestParams .= "$DataKey=$Test->{RequestData}->{$DataKey}&";
+        }
 
-    $Self->Is(
-        $Response{Status},
-        '200 OK',
-        "$Test->{Name} - Response successful result"
-    );
+        # Perform request.
+        my %Response = $Kernel::OM->Get('Kernel::System::WebUserAgent')->Request(
+            Type => 'GET',
+            URL  => $RemoteSystem
+                . $Test->{WebserviceConfig}->{Provider}->{Transport}->{Config}->{RouteOperationMapping}->{TestSimple}
+                ->{Route}
+                . '?'
+                . $RequestParams,
+        );
 
-    my $ReturnData = $JSONObject->Decode(
-        Data => ${ $Response{Content} },
-    );
+        if ( !$Test->{Success} ) {
 
-    delete $ReturnData->{RequestMethod};
+            # Check result.
+            $Self->IsNot(
+                $Response{Status},
+                '200 OK',
+                "Response unsuccessful result"
+            );
 
-    $Self->IsDeeply(
-        $ReturnData,
-        $Test->{ExpectedReturnData},
-        "$Test->{Name} - Response data (needs configured and running web server)"
-    );
+            return;
+        }
+
+        $Self->Is(
+            $Response{Status},
+            '200 OK',
+            "$Test->{Name} - Response successful result"
+        );
+
+        my $ReturnData = $JSONObject->Decode(
+            Data => ${ $Response{Content} },
+        );
+
+        delete $ReturnData->{RequestMethod};
+
+        $Self->IsDeeply(
+            $ReturnData,
+            $Test->{ExpectedReturnData},
+            "Response data (needs configured and running web server)"
+        );
+    };
 }
 
-# ---
-# OTOBOTicketInvoker
-# ---
-## Check headers.
-#@Tests = (
-#    {
-#        Name   => 'Standard response header',
-#        Config => {},
-#        Header => {
-#            'Content-Type' => 'application/json; charset=UTF-8',
-#        },
-#    },
-#    {
-#        Name   => 'Additional response headers',
-#        Config => {
-#            AdditionalHeaders => {
-#                Key1 => 'Value1',
-#                Key2 => 'Value2',
-#            },
-#        },
-#        Header => {
-#            'Content-Type' => 'application/json; charset=UTF-8',
-#            Key1           => 'Value1',
-#            Key2           => 'Value2',
-#        },
-#    },
-#);
-#
-## Create debugger object.
-#my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
-#    DebuggerConfig => {
-#        DebugThreshold => 'debug',
-#        TestMode       => 1,
-#    },
-#    CommunicationType => 'Provider',
-#    WebserviceID      => $WebserviceID,
-#);
-#
-#for my $Test (@Tests) {
-#
-#    # Create REST transport object with test configuration.
-#    my $TransportObject = Kernel::GenericInterface::Transport->new(
-#        DebuggerObject  => $DebuggerObject,
-#        TransportConfig => {
-#            Type   => 'HTTP::REST',
-#            Config => $Test->{Config},
-#        },
-#    );
-#    $Self->Is(
-#        ref $TransportObject,
-#        'Kernel::GenericInterface::Transport',
-#        "$Test->{Name} - TransportObject instantiated with REST backend"
-#    );
-#
-#    my $Response = '';
-#    my $Result;
-#    {
-#
-#        # Redirect STDOUT from string so that the transport layer will write there.
-#        local *STDOUT;
-#        open STDOUT, '>:utf8', \$Response;    ## no critic
-#
-#        # Discard request object to prevent errors.
-#        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
-#
-#        # Create response.
-#        $Result = $TransportObject->ProviderGenerateResponse(
-#            Success => 1,
-#            Data    => {},
-#        );
-#    }
-#    $Self->True(
-#        $Result,
-#        "$Test->{Name} - Response created"
-#    );
-#
-#    # Analyze headers.
-#    for my $Key ( sort keys %{ $Test->{Header} } ) {
-#        $Self->True(
-#            index( $Response, "$Key: $Test->{Header}->{$Key}\r\n" ) != -1,
-#            "$Test->{Name} - Found header '$Key' with value '$Test->{Header}->{$Key}'"
-#        );
-#    }
-#}
-
+# adapted for OTOBOTicketInvoker
+# Check operation request and response headers.
 my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
-@Tests = (
+my @CheckHeadersTests    = (
     {
         Name   => 'Standard headers',
         Config => {
             DefaultCommand           => 'GET',
-            Host                     => $BaseURL,
+            Host                     => $RemoteSystem,
             Timeout                  => 120,
             InvokerControllerMapping => {
                 TestSimple => {
@@ -1486,7 +1385,7 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
         Name   => 'Additional common headers',
         Config => {
             DefaultCommand           => 'GET',
-            Host                     => $BaseURL,
+            Host                     => $RemoteSystem,
             Timeout                  => 120,
             InvokerControllerMapping => {
                 TestSimple => {
@@ -1512,7 +1411,7 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
         Name   => 'Additional operation specific headers',
         Config => {
             DefaultCommand           => 'GET',
-            Host                     => $BaseURL,
+            Host                     => $RemoteSystem,
             Timeout                  => 120,
             InvokerControllerMapping => {
                 TestSimple => {
@@ -1543,7 +1442,7 @@ my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
         Name   => 'Additional mixed headers',
         Config => {
             DefaultCommand           => 'GET',
-            Host                     => $BaseURL,
+            Host                     => $RemoteSystem,
             Timeout                  => 120,
             InvokerControllerMapping => {
                 TestSimple => {
@@ -1589,109 +1488,75 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
     WebserviceID      => $WebserviceID,
 );
 
-for my $Test (@Tests) {
+for my $Test (@CheckHeadersTests) {
 
-    # Create REST transport object with test configuration.
-    my $TransportObject = Kernel::GenericInterface::Transport->new(
-        DebuggerObject  => $DebuggerObject,
-        TransportConfig => {
-            Type   => 'HTTP::REST',
-            Config => $Test->{Config},
-        },
-    );
-    $Self->Is(
-        ref $TransportObject,
-        'Kernel::GenericInterface::Transport',
-        "$Test->{Name} - TransportObject instantiated with REST backend"
-    );
+    subtest $Test->{Name} => sub {
 
-    my $RequestResult;
-    {
-        $RequestResult = $TransportObject->RequesterPerformRequest(
+        diag "Running check header test: $Test->{Name}";
+
+        # Create REST transport object with test configuration.
+        my $TransportObject = Kernel::GenericInterface::Transport->new(
+            DebuggerObject  => $DebuggerObject,
+            TransportConfig => {
+                Type   => 'HTTP::REST',
+                Config => $Test->{Config},
+            },
+        );
+
+        isa_ok( $TransportObject, 'Kernel::GenericInterface::Transport' );
+
+        # check the result before a response is generated
+        my $RequestResult = $TransportObject->RequesterPerformRequest(
             Operation => 'TestSimple',
             Data      => {},
         );
-    }
-    $Self->True(
-        $RequestResult,
-        "$Test->{Name} - Request created"
-    );
+        ok( $RequestResult, 'Request result created' );
 
-    # Retrieve all headers from request and remove unused standard headers.
-    my %AllRequestHeaders = %{ $RequestResult->{UnitTestHeaders} // {} };
-    delete $AllRequestHeaders{HOST};
-    delete $AllRequestHeaders{TE};
-    delete $AllRequestHeaders{'USER-AGENT'};
+        # Retrieve all headers from request and remove unused standard headers.
+        my %RequestResultHeaders = %{ $RequestResult->{UnitTestHeaders} // {} };
+        delete @RequestResultHeaders{qw(HOST TE USER-AGENT)};
 
-    # Analyze headers.
-    for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
-        $Self->Is(
-            delete $AllRequestHeaders{ uc($Key) },
-            $Test->{ExpectedHeaders}->{$Key},
-            "$Test->{Name} - Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
-        );
-    }
+        # Analyze headers.
+        for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
+            is(
+                delete $RequestResultHeaders{ uc($Key) },
+                $Test->{ExpectedHeaders}->{$Key},
+                "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+            );
+        }
 
-    $Self->Is(
-        scalar %AllRequestHeaders,
-        0,
-        "$Test->{Name} - Only expected request headers have been found"
-    );
-
-    my $Response = '';
-    my $ResponseResult;
-    {
-
-        # Redirect STDOUT from string so that the transport layer will write there.
-        local *STDOUT;
-        open STDOUT, '>:utf8', \$Response;    ## no critic
+        ok( !scalar %RequestResultHeaders, "Only expected request headers have been found" );
 
         # Discard request object to prevent errors.
         $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
         # Create response.
-        $ResponseResult = $TransportObject->ProviderGenerateResponse(
-            Success => 1,
-            Data    => {},
-            Operation  => 'TestSimple',
-        );
-    }
-    $Self->True(
-        $ResponseResult,
-        "$Test->{Name} - Response created"
-    );
+        my $Response = eval {
+            $TransportObject->ProviderGenerateResponse(
+                Success => 1,
+                Data    => {},
+            );
+        };
+        my $WebException = $@;
+        can_ok( $WebException, ['as_psgi'], 'exception with as_psgi() method' );
+        my $PSGIResponse = $WebException->as_psgi();
+        ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
 
-    # Retrieve all headers from response.
-    my %AllResponseHeaders;
-    LINE:
-    for my $Line ( split '\r\n', $Response ) {
-        last LINE if $Line eq '';
+        # Retrieve all headers from request and remove unused standard headers.
+        my %ResponseHeaders = $PSGIResponse->[1]->@*;
+        delete @ResponseHeaders{qw(HOST TE USER-AGENT)};
 
-        # Skip HTTP declaration.
-        next LINE if substr( $Line, 0, 4 ) eq 'HTTP';
+        # Analyze headers.
+        for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
+            is(
+                delete $ResponseHeaders{ uc($Key) },
+                $Test->{ExpectedHeaders}->{$Key},
+                "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
+            );
+        }
 
-        my ( $Key, $Value ) = split ': ', $Line;
-
-        # Responses also contain some extra headers (that's ok).
-        next LINE if $Key eq 'Connection' || $Key eq 'Content-Type' || $Key eq 'Content-Length';
-
-        $AllResponseHeaders{$Key} = $Value;
-    }
-
-    # Analyze headers.
-    for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
-        $Self->Is(
-            delete $AllResponseHeaders{$Key},
-            $Test->{ExpectedHeaders}->{$Key},
-            "$Test->{Name} - Found response header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
-        );
-    }
-
-    $Self->Is(
-        scalar %AllResponseHeaders,
-        0,
-        "$Test->{Name} - Only expected response headers have been found"
-    );
+        ok( !scalar %ResponseHeaders, "Only expected request headers have been found" );
+    };
 }
 
 # Cleanup test web service.
@@ -1699,9 +1564,6 @@ my $WebserviceDelete = $WebserviceObject->WebserviceDelete(
     ID     => $WebserviceID,
     UserID => 1,
 );
-$Self->True(
-    $WebserviceDelete,
-    "Deleted Web service $WebserviceID"
-);
+ok( $WebserviceDelete, "Deleted Web service $WebserviceID" );
 
-1;
+done_testing();
