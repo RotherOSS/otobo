@@ -113,7 +113,12 @@ sub Run {
     # process management
     my %ActivityErrorHTML;
     if ( $Self->{Subaction} eq 'StoreActivityDialog' ) {
-        $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+            return $LayoutObject->FatalError(
+                Message => Translatable('Could not load process module.'),
+            );
+        }
+
         my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
             %{ $Self },
             Action    => 'CustomerTicketProcess',
@@ -123,10 +128,20 @@ sub Run {
 
         my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
         $ActivityErrorHTML{ $ActivityDialogEntityID } = $ProcessModule->Run(%Param);
+
+        # return directly in case of an error dialog
+        return $ActivityErrorHTML{ $ActivityDialogEntityID } if $ActivityErrorHTML{ $ActivityDialogEntityID } =~ /^<!DOCTYPE html>/;
     }
 
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' && $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) ) {
-        $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not load process module."
+            );
+            return;
+        }
+
         my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
             %{ $Self },
             Action    => 'CustomerTicketProcess',
@@ -1729,7 +1744,11 @@ sub _Mask {
                 $NextActivityDialogs = {};
             }
 
-            $Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess");
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+                return $LayoutObject->FatalError(
+                    Message => Translatable('Could not load process module.'),
+                );
+            }
             my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
                 %{ $Self },
                 Action    => 'CustomerTicketProcess',
