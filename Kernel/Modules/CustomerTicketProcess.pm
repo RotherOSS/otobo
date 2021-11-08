@@ -3399,18 +3399,9 @@ sub _StoreActivityDialog {
 
     # Transitions will be handled by ticket event module (TicketProcessTransitions.pm).
 
-    # if we were updating a ticket, close the popup and return to zoom
-    # else (new ticket) just go to zoom to show the new ticket
-    if ($UpdateTicketID) {
-
-        # load new URL in parent window and close popup
-        return $LayoutObject->PopupClose(
-            URL => "Action=CustomerTicketZoom;TicketID=$UpdateTicketID",
-        );
-    }
-
+    my $NextScreen = $Self->{NextScreen} || $ConfigObject->Get('Ticket::Frontend::CustomerTicketProcess')->{'NextScreenAfterFollowUp'};
     return $LayoutObject->Redirect(
-        OP => "Action=CustomerTicketZoom;TicketID=$TicketID",
+        OP => "Action=$NextScreen;TicketID=$TicketID",
     );
 }
 
