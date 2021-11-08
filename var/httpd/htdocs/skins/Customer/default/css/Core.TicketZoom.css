@@ -191,7 +191,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: var(--colBGLight);
 }
 
-#FollowUp {
+.Activity {
     display: none;
 }
 
@@ -230,6 +230,12 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         display: grid;
         grid-template-columns: minmax(0px, 32.6fr) minmax(0px, 67.4fr);
         grid-column-gap: 24px;
+        grid-template-rows: auto auto;
+        grid-row-gap: 0px;
+    }
+
+    #ProcessActivities {
+        grid-area: 1 / 1 / 2 / 3;
     }
     
     #oooArticleList {
@@ -437,22 +443,38 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     margin-left: 4px;
 }
 
+/* Processes */
+
+#ProcessActivities {
+    padding: 0;
+    margin: 0;
+}
+
+#NextActivities {
+    padding-bottom: 24px;
+    text-align: right;
+}
+
+#NextActivities > button {
+    margin-left: 16px;
+}
+
 /* Follow Up */
 
 @media only screen and (max-width: 767px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 8px;
         padding-right: 8px;
         overflow: hidden;
     }
 
-    #Messenger > .ActionRow {
+    .Messenger > .ActionRow {
         padding-left: 24px;
         padding-right: 24px;
     }
 
-    #CloseButton {
+    .CloseButton {
         float: left;
     }
 
@@ -460,14 +482,14 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (min-width: 768px) {
 
-    #Messenger {
+    .Messenger {
         padding-left: 56px;
         padding-right: 56px;
     }
 
 }
 
-#Messenger > fieldset > .Row:first-child {
+.Messenger > fieldset > .Row:first-child {
     margin-top: 32px;
 }
 
@@ -477,7 +499,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 100%;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     width: 100% !important;
 }
 
@@ -501,13 +523,13 @@ iframe {
     text-align: right;
 }
 
-#CloseButton {
+.CloseButton {
     margin-right: 24px;
     background-color: #bfbfce;
     background-color: var(--colBGDark);
 }
 
-#CloseButton:hover {
+.CloseButton:hover {
     background-color: #000099;
     background-color: var(--colHoverDark);
 }

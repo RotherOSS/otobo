@@ -107,6 +107,51 @@ sub Run {
         return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # process management
+    my %ActivityErrorHTML;
+    if ( $Self->{Subaction} eq 'StoreActivityDialog' ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+            return $LayoutObject->FatalError(
+                Message => Translatable('Could not load process module.'),
+            );
+        }
+
+        my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+            %{$Self},
+            Action    => 'CustomerTicketProcess',
+            Subaction => $Self->{Subaction},
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
+        );
+
+        my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
+        $ActivityErrorHTML{$ActivityDialogEntityID} = $ProcessModule->Run(%Param);
+
+        # return directly in case of an error dialog
+        return $ActivityErrorHTML{$ActivityDialogEntityID} if $ActivityErrorHTML{$ActivityDialogEntityID} =~ /^<!DOCTYPE html>/;
+    }
+
+    elsif ( $Self->{Subaction} eq 'AJAXUpdate' && $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Could not load process module."
+            );
+            return;
+        }
+
+        my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+            %{$Self},
+            Action    => 'CustomerTicketProcess',
+            Subaction => $Self->{Subaction},
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
+        );
+
+        return $ProcessModule->Run(%Param);
+    }
+
     # get ticket data
     my %Ticket = $TicketObject->TicketGet(
         TicketID      => $Self->{TicketID},
@@ -116,9 +161,6 @@ sub Run {
     # get ACL restrictions
     my %PossibleActions;
     my $Counter = 0;
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get all registered Actions
     if ( ref $ConfigObject->Get('CustomerFrontend::Module') eq 'HASH' ) {
@@ -559,7 +601,7 @@ sub Run {
         my %Diversity = reverse %Uniformity;
         for my $Field ( sort keys %StdFieldValues ) {
             push @StdFieldAJAX, {
-                Name       => $Diversity{$Field},
+                Name       => $Diversity{$Field} || $Field,
                 Data       => $StdFieldValues{$Field},
                 SelectedID => $GetParam{$Field},
                 %{ $Attributes{$Field} },
@@ -1393,12 +1435,13 @@ sub Run {
         TicketState   => $Ticket{State},
         TicketStateID => $Ticket{StateID},
         %GetParam,
-        StateID          => $GetParam{NextStateID},
-        TicketStateID    => $GetParam{NextStateID},        # TODO: check whether this right
-        AclAction        => \%AclAction,
-        DynamicFieldHTML => \%DynamicFieldHTML,
-        HideAutoselected => $HideAutoselectedJSON,
-        Visibility       => $DynFieldStates{Visibility},
+        StateID           => $GetParam{NextStateID},
+        TicketStateID     => $GetParam{NextStateID},        # TODO: check whether this right
+        AclAction         => \%AclAction,
+        DynamicFieldHTML  => \%DynamicFieldHTML,
+        HideAutoselected  => $HideAutoselectedJSON,
+        Visibility        => $DynFieldStates{Visibility},
+        ActivityErrorHTML => \%ActivityErrorHTML,
     );
 
     # return if HTML email
@@ -1701,6 +1744,20 @@ sub _Mask {
                 $NextActivityDialogs = {};
             }
 
+            if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::CustomerTicketProcess") ) {
+                return $LayoutObject->FatalError(
+                    Message => Translatable('Could not load process module.'),
+                );
+            }
+            my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+                %{$Self},
+                Action    => 'CustomerTicketProcess',
+                Subaction => 'DisplayActivityDialog',
+                ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
+            );
+
+            my @AJAXUpdatableFieldList;
+
             # we have to check if the current user has the needed permissions to view the
             # different activity dialogs, so we loop over every activity dialog and check if there
             # is a permission configured. If there is a permission configured we check this
@@ -1760,6 +1817,8 @@ sub _Mask {
                 Name => 'NextActivities',
             );
 
+            $Param{ActivityErrorHTML} //= {};
+
             for my $NextActivityDialogKey ( sort { $a <=> $b } keys %{$NextActivityDialogs} ) {
                 my $ActivityDialogData = $ActivityDialogObject->ActivityDialogGet(
                     ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
@@ -1774,12 +1833,36 @@ sub _Mask {
                         TicketID               => $Param{TicketID},
                     },
                 );
+
+                my $ActivityHTML = $Param{ActivityErrorHTML}{ $NextActivityDialogs->{$NextActivityDialogKey} } // $ProcessModule->Run(
+                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                    ProcessEntityID        => $Param{$ProcessEntityIDField},
+                );
+                $LayoutObject->Block(
+                    Name => 'ProcessActivity',
+                    Data => {
+                        ActivityHTML           => $ActivityHTML,
+                        ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                    },
+                );
+
+                push @AJAXUpdatableFieldList, $ProcessModule->GetAJAXUpdatableFields(
+                    ActivityDialogFields   => $ActivityDialogData->{Fields},
+                    ActivityDialogEntityID => $NextActivityDialogs->{$NextActivityDialogKey},
+                );
             }
 
             if ( !IsHashRefWithData($NextActivityDialogs) ) {
                 $LayoutObject->Block(
                     Name => 'NoActivityDialog',
                     Data => {},
+                );
+            }
+
+            if (@AJAXUpdatableFieldList) {
+                $LayoutObject->AddJSData(
+                    Key   => 'ProcessAJAXFieldList',
+                    Value => \@AJAXUpdatableFieldList,
                 );
             }
         }

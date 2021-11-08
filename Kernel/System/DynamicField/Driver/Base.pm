@@ -147,7 +147,7 @@ sub EditLabelRender {
     my $LabelID    = 'Label' . $Param{FieldName};
     my $HTMLString = '';
 
-    if ( !$Param{CustomerLabel} ) {
+    if ( !$Param{CustomerInterface} ) {
         if ( $Param{Mandatory} ) {
 
             # opening tag

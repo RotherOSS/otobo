@@ -283,12 +283,15 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             };
             /* eslint-enable no-unused-vars */
 
+            var $RTHolder = $EditorArea.closest('.RichTextHolder');
+            var $RTELabel = $RTHolder.children('label').first();
+
             // Needed for clientside validation of RTE
             CKEDITOR.instances[EditorID].on('blur', function () {
                 CKEDITOR.instances[EditorID].updateElement();
                 Core.Form.Validate.ValidateElement($EditorArea);
-                if ( CustomerInterface ) {
-                    $('label[for="RichText"].LabelError').show();
+                if ( CustomerInterface && $RTELabel.hasClass('LabelError') ) {
+                    $RTELabel.show();
                 }
             });
 
@@ -296,7 +299,7 @@ Core.UI.RichTextEditor = (function (TargetNS) {
             CKEDITOR.instances[EditorID].on('focus', function () {
 
                 if ( CustomerInterface ) {
-                    $('label[for="RichText"]').hide();
+                    $RTELabel.hide();
                 }
                 Core.App.Publish('Event.UI.RichTextEditor.Focus', [Editor]);
 
@@ -311,18 +314,18 @@ Core.UI.RichTextEditor = (function (TargetNS) {
 
             // move the label if needed
             if ( CustomerInterface ) {
-                var ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
-                $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+                var ToolBarHeight = $('.cke_top', $RTHolder).outerHeight(true) + 32;
+                $RTELabel.css( 'top', ToolBarHeight + 'px' );
 
                 $(window).on('resize', function () {
-                    ToolBarHeight = $('#cke_1_top').outerHeight(true) + 32;
-                    $('label[for="RichText"]').css( 'top', ToolBarHeight + 'px' );
+                    ToolBarHeight = $('.cke_top', $RTHolder).outerHeight(true) + 32;
+                    $RTELabel.css( 'top', ToolBarHeight + 'px' );
                 });
             }
 
             $EditorArea.focus(function () {
                 TargetNS.Focus($EditorArea);
-                Core.UI.ScrollTo( $EditorArea.closest('.RichTextHolder') );
+                Core.UI.ScrollTo( $RTHolder );
             });
         }
     };

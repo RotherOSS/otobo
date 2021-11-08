@@ -11179,12 +11179,14 @@
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.TicketZoom.css</Item>
+                        <Item>Core.Process.css</Item>
                         <Item>Core.Widget.css</Item>
                     </Array>
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Customer.TicketZoom.js</Item>
+                        <Item>Core.Customer.TicketProcess.js</Item>
                         <Item>Core.UI.Popup.js</Item>
                         <Item>Core.UI.oooWidget.js</Item>
                     </Array>

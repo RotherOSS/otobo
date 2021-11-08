@@ -47,7 +47,7 @@
     <input
         class="AjaxDnDUpload [% IF Mandatory %]Validate_DnDUpload[% END %]"
         [% IF !Single %] multiple="multiple"[% END %]
-        id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %]"
+        id="[% IF FieldID %][% FieldID | html %][% ELSE %]FileUpload[% END %][% IF Data.IDSuffix %]_[% Data.IDSuffix | html %][% END %]"
         name="[% IF FieldName %][% FieldName | html %][% ELSE %]FileUpload[% END %]"
         data-max-files="[% MaxFiles | html %]"
         data-file-types="[% FileTypes | html %]"

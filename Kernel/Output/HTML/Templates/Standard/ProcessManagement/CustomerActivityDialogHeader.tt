@@ -14,41 +14,32 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<div id="MainBox" class="TicketZoom ARIARoleMain">
-    <div class="ContentColumn">
-        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="[% Data.FormName %]" id="[% Data.FormID %]" class="Validate PreventMultipleSubmits">
-            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-            <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
-            <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
-            <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
-            <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
-            <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
-            <input type="hidden" name="IsMainWindow" id="IsMainWindow" value="[% IF !Data.TicketID %]1[% END %]"/>
-            <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
-            <div class="LayoutPopup">
 [% RenderBlockStart("Header") %]
-                <div class="PopupHeader">
-                    <h1>
-                        [% Translate(Data.Name) | html %]
+<div class="MessageHeader">
+    <h2>
+        [% Translate(Data.Name) | html %]
 [% RenderBlockStart("DescriptionShort") %]
-                        - [% Translate(Data.DescriptionShort) | html %]
+        - [% Translate(Data.DescriptionShort) | html %]
 [% RenderBlockEnd("DescriptionShort") %]
-                    </h1>
+    </h2>
 [% RenderBlockStart("DescriptionLong") %]
-                    <p class="DescriptionLong">[% Translate(Data.DescriptionLong) | html %]</p>
+    <p class="DescriptionLong ooog">[% Translate(Data.DescriptionLong) | html %]</p>
 [% RenderBlockEnd("DescriptionLong") %]
-[% RenderBlockStart("CancelLink") %]
-                    <p>
-                        <a class="CancelClosePopup" href="#">[% Translate("Cancel & close") | html %]</a>
-                    </p>
-[% RenderBlockEnd("CancelLink") %]
-                </div>
+</div>
 [% RenderBlockEnd("Header") %]
-                <div class="Content">
-                    <fieldset class="TableLike">
+<form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" name="[% Data.FormName %]" id="[% Data.FormID %]" class="Validate PreventMultipleSubmits">
+    <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+    <input type="hidden" name="Subaction" value="[% Data.Subaction | html %]"/>
+    <input type="hidden" name="TicketID" value="[% Data.TicketID | html %]"/>
+    <input type="hidden" name="ProcessEntityID" value="[% Data.ProcessEntityID | html %]"/>
+    <input type="hidden" name="ActivityDialogEntityID" value="[% Data.ActivityDialogEntityID | html %]"/>
+    <input type="hidden" name="AJAXDialog" id="AJAXDialog" value="[% Data.AJAXDialog | html %]"/>
+    <input type="hidden" name="FormID" value="[% Data.FormID | html %]"/>
+    <div class="Messenger">
+        <fieldset class="TableLike">
 [% RenderBlockStart("DescriptionShortAlt") %]
-                        <h2>[% Data.DescriptionShort | html %]</h2>
+            <h2>[% Data.DescriptionShort | html %]</h2>
 [% RenderBlockEnd("DescriptionShortAlt") %]
 [% RenderBlockStart("DescriptionLongAlt") %]
-                        <p class="Description DescriptionLong">[% Data.DescriptionLong | html %]</p>
+            <p class="Description DescriptionLong">[% Data.DescriptionLong | html %]</p>
 [% RenderBlockEnd("DescriptionLongAlt") %]

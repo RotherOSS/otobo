@@ -13,17 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-## nofilter(TidyAll::Plugin::OTOBO::TT::Format)
-## nofilter(TidyAll::Plugin::OTOBO::TT::ScriptUsage)
-        </fieldset>
-[% RenderBlockStart("Footer") %]
-        <div class="ActionRow">
-[% RenderBlockStart("SubmitAdviceText") %]
-            <p class="AdviceText">[% Translate(Data.AdviceText) | html %]</p>
-[% RenderBlockEnd("SubmitAdviceText") %]
-            <button class="oooXS CloseButton">[% Translate("Discard") | html %]</button><!--
-            --><button class="Primary oooXS" id="[% Data.ButtonID | html %]" accesskey="g" title="[% Translate(Data.ButtonTitle) | html %] (g)" type="submit" value="[% Translate(Data.ButtonText) | html %]">[% Translate(Data.ButtonText) | html %]</button>
-        </div>
-[% RenderBlockEnd("Footer") %]
+
+[% RenderBlockStart("rw:DynamicField") %]
+<div class="Row Row_DynamicField_[% Data.Name %]">
+    <div class="Field">
+        [% Data.Content %]
     </div>
-</form>
+[% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
+    <div class="Tooltip">
+        <i class="ooofo ooofo-help"></i>
+        <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+    </div>
+[% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
+    [% Data.Label %]
+[% RenderBlockStart("rw:DynamicField:DescriptionShort") %]
+        <p class="FieldExplanation ooo12g">[% Translate(Data.DescriptionShort) | html %]</p>
+[% RenderBlockEnd("rw:DynamicField:DescriptionShort") %]
+    <div class="Clear"></div>
+</div>
+[% RenderBlockEnd("rw:DynamicField") %]

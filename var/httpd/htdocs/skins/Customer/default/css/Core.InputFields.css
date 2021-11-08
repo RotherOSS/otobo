@@ -57,7 +57,7 @@ fieldset.Columns .Column .InputField_ListContainer div {
     height: 56px;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     display: inline-block;
     height: auto;
 }
@@ -141,6 +141,7 @@ textarea {
     padding: 16px 24px 16px 24px;
     border-radius: 10px;
     outline: none;
+    resize: vertical;
 }
 
 label {
@@ -159,7 +160,7 @@ label {
     color: var(--colTextLight);
 }
 
-label[for='RichText'] {
+.RichTextHolder > label {
     display: inline-block;
     vertical-align: top;
     top: 98px;
@@ -210,7 +211,7 @@ textarea.oooFull,
 }
 
 .Row > input:hover ~ label,
-.RichTextHolder > textarea:hover ~label,
+.RichTextHolder > textarea:hover ~ label,
 textarea.oooFull ~ label,
 input.oooFull ~ label,
 .Field:hover ~ label,
@@ -225,16 +226,6 @@ input.oooFull ~ label,
     color: #7f809d;
     color: var(--colTextLight);
     background-color:#ffffff;
-}
-
-.RichTextHolder > textarea:hover ~ label {
-    top: -29px;
-    font-size: 10px;
-    line-height: 1.3;
-    letter-spacing: 0.5px;
-    color: #7f809d;
-    color: var(--colTextLight);
-    background-color: #ffffff;
 }
 
 /* focus */
@@ -331,19 +322,19 @@ label.oooFocus.LabelError {
     background-color: transparent;
 }
 
-#cke_RichText {
+.RichTextHolder .cke {
     border: none;
 }
-#cke_RichText > .cke_inner {
+.RichTextHolder .cke > .cke_inner {
     border-radius: 10px;
     background-color: #f7f7f9;
     background-color: var(--colBGLight);
 }
-#cke_1_contents {
+.RichTextHolder .cke_contents {
     border: solid 1px #e5e5eb;
 }
-#cke_1_bottom,
-#cke_1_top {
+.RichTextHolder .cke_bottom,
+.RichTextHolder .cke_top {
     background: none;
     border: none;
 }

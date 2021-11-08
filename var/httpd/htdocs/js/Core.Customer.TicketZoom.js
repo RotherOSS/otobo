@@ -190,7 +190,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * This function activates attachments, replybutton, info, and builds the article list.
      */
     function BuildArticles(){
-        $('#oooArticleListExpanded > li:not(#FollowUp)').each( function() {
+        $('#oooArticleListExpanded > li:not(.Activity)').each( function() {
             var Article = $(this);
             var Header  = Article.children('.MessageHeader').first();
 
@@ -252,7 +252,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             ZoomExpand = $('#ZoomExpand').val(),
             $Form,
             FieldID,
-            DynamicFieldNames = Core.Config.Get('DynamicFieldNames');
+            DynamicFieldNames = Core.Config.Get('DynamicFieldNames'),
+            ActivityCount = $('#oooArticleListExpanded > .Activity').length;
+
 
         // otobo
         BuildArticles();
@@ -266,13 +268,32 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             if ( $(window).width() < 768 ) {
                 $('#ReplyButton').hide();
             }
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
         });
-        $('#CloseButton').on('click', function(Event){
+
+        $('.ActivityStartButton').on('click', function(Event){
             Event.preventDefault();
-            $FollowUp.hide();
-            $FollowUp.removeClass('Visible');
+            var DialogEntityID = $(this).attr('id').replace( /^Button_/, '' ),
+                $DialogWidget  = $( '#Process_' + DialogEntityID );
+
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
             $('html').css({scrollTop: $('#Body').height()});
-            $('#ReplyButton').show();
+            // set the position of the RTE label (Core.UI.RichTextEditor.js)
+            $(window).trigger('resize');
+        });
+
+        $('.CloseButton').on('click', function(Event){
+            Event.preventDefault();
+            var ParentWidget = $(this).closest('li');
+            ParentWidget.hide();
+            ParentWidget.removeClass('Visible');
+            $('html').css({scrollTop: $('#Body').height()});
+            if ( ParentWidget.attr('id') === 'FollowUp' ) {
+                $('#ReplyButton').show();
+            }
         });
 
         // scroll events
@@ -292,7 +313,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             }
 
             // track active article
-            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 2,
+            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 1 + ActivityCount,
                 StartIndex  = ActiveIndex,
                 ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
 
@@ -312,14 +333,13 @@ Core.Customer.TicketZoom = (function (TargetNS) {
                 else {
                     $('#oooArticleList > .oooActive').removeClass('oooActive');
                     var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
-                    while ( ActiveIndex > 2 && ActiveChild.offset().top > $(window).scrollTop() + 240) {
+                    while ( ActiveIndex > 1 + ActivityCount && ActiveChild.offset().top > $(window).scrollTop() + 240) {
                         ActiveChild = PrevChild;
                         ActiveIndex--;
                         PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
                     }
                 }
-
-                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - 1 ) +')').addClass('oooActive');
+                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - ActivityCount ) +')').addClass('oooActive');
                 if ( ActiveIndex !== StartIndex ) {
                     $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
                 }
@@ -391,6 +411,19 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             });
         }
 
+        /*
+         * If on document load there are Error classes present, there were validation errors on server side.
+         * Open the respective activity dialogs..
+         */
+        var $ServerErrors = $('input.ServerError, textarea.ServerError, select.ServerError');
+
+        if ($ServerErrors.length) {
+            var $DialogWidget = $ServerErrors.first().closest('li.Activity');
+            $DialogWidget.show();
+            $DialogWidget.addClass('Visible');
+            Core.UI.InputFields.Activate();
+        }
+
         // Bind event to State field.
         $('#StateID').on('change', function () {
             Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'StateID', ['PriorityID', 'TicketID'].concat(DynamicFieldNames));
@@ -399,22 +432,6 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         // Bind event to Priority field.
         $('#PriorityID').on('change', function () {
             Core.AJAX.FormUpdate($('#ReplyCustomerTicket'), 'AJAXUpdate', 'PriorityID', ['StateID', 'TicketID'].concat(DynamicFieldNames));
-        });
-
-        // Bind event to AttachmentUpload button.
-        $('#Attachment').on('change', function () {
-            var $Form = $('#Attachment').closest('form');
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.find('#AttachmentUpload').val('1').end().submit();
-        });
-
-        // Bind event to AttachmentDelete button.
-        $('button[id*=AttachmentDeleteButton]').on('click', function () {
-            $Form = $(this).closest('form');
-            FieldID = $(this).attr('id').split('AttachmentDeleteButton')[1];
-            $('#AttachmentDelete' + FieldID).val(1);
-            Core.Form.Validate.DisableValidation($Form);
-            $Form.trigger('submit');
         });
 
         $('a.AsPopup').on('click', function () {

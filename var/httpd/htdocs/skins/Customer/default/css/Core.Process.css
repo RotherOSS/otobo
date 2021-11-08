@@ -17,3 +17,45 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
  * @package     Skin "Default"
  * @section     Process ticket
  */
+
+/* Layout */
+
+.DescriptionLong {
+    padding-top: 4px;
+}
+
+.AdviceText {
+    padding-bottom: 16px;
+}
+
+#oooArticleListExpanded > li > div + form {
+    position: relative;
+    top: -24px;
+}
+
+/* Fields */
+
+ .FieldExplanation {
+    padding-left: 24px;
+    padding-top: 4px;
+    height: 18px;
+    margin-bottom: -22px;
+ }
+
+.Row input[name=Subject] {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.4px;
+    text-align: left;
+    height: 56px;
+    padding: 0px;
+    padding-left: 32px;
+    border-radius: 10px;
+    width: calc( 100% - 32px);
+}
+
+.DnDUploadContainer {
+    height: auto !important;
+}
+

@@ -65,9 +65,39 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $TicketID               = $ParamObject->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
+    my $TicketID               = $Self->{TicketID}              || $ParamObject->GetParam( Param => 'TicketID' );
+    my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
+    my $ProcessEntityID        = $Param{ProcessEntityID}        || $ParamObject->GetParam( Param => 'ProcessEntityID' );
+
     my $ActivityDialogHashRef;
+
+    if ( !$TicketID ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need TicketID',
+        );
+
+        return;
+    }
+    if ( !$ActivityDialogEntityID ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ActivityDialogEntityID',
+        );
+
+        return;
+    }
+    if ( !$ProcessEntityID ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need ProcessEntityID',
+        );
+
+        return;
+    }
+
+    # extend used ids in html to enable multiple dialogs per page
+    $Self->{IDSuffix} = $ActivityDialogEntityID ? $ActivityDialogEntityID =~ s/^ActivityDialog-/_/r : '';
 
     # get needed objects
     my $LayoutObject         = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
@@ -77,162 +107,40 @@ sub Run {
     # some fields should be skipped for the customer interface
     my $SkipFields = [ 'Owner', 'Responsible', 'Lock', 'PendingTime', 'CustomerID' ];
 
-    if ($TicketID) {
-
-        # include extra fields should be skipped
-        for my $Item (qw(Service SLA Queue)) {
-            push @{$SkipFields}, $Item;
-        }
-
-        # check if there is a configured required permission
-        # for the ActivityDialog (if there is one)
-        my $ActivityDialogPermission = 'rw';
-        if ($ActivityDialogEntityID) {
-            $ActivityDialogHashRef = $ActivityDialogObject->ActivityDialogGet(
-                ActivityDialogEntityID => $ActivityDialogEntityID,
-                Interface              => 'CustomerInterface',
-            );
-
-            if ( !IsHashRefWithData($ActivityDialogHashRef) ) {
-                return $LayoutObject->CustomerErrorScreen(
-                    Message => $LayoutObject->{LanguageObject}->Translate( 'Couldn\'t get ActivityDialogEntityID "%s"!', $ActivityDialogEntityID ),
-                    Comment => Translatable('Please contact the administrator.'),
-                );
-            }
-
-            if ( $ActivityDialogHashRef->{Permission} ) {
-                $ActivityDialogPermission = $ActivityDialogHashRef->{Permission};
-            }
-        }
-
-        # check permissions
-        my $Access = $TicketObject->TicketCustomerPermission(
-            Type     => $ActivityDialogPermission,
-            TicketID => $Self->{TicketID},
-            UserID   => $Self->{UserID}
-        );
-
-        # error screen, don't show ticket
-        if ( !$Access ) {
-            return $LayoutObject->CustomerNoPermission(
-                Message =>
-                    $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $ActivityDialogPermission ),
-                WithHeader => 'yes',
-            );
-        }
-
-        # get ACL restrictions
-        my %PossibleActions = ( 1 => $Self->{Action} );
-
-        my $ACL = $TicketObject->TicketAcl(
-            Data           => \%PossibleActions,
-            Action         => $Self->{Action},
-            TicketID       => $Self->{TicketID},
-            ReturnType     => 'Action',
-            ReturnSubType  => '-',
-            CustomerUserID => $Self->{UserID},
-        );
-        my %AclAction = $TicketObject->TicketAclActionData();
-
-        # check if ACL restrictions exist
-        if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
-
-            my %AclActionLookup = reverse %AclAction;
-
-            # show error screen if ACL prohibits this action
-            if ( !$AclActionLookup{ $Self->{Action} } ) {
-                return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
-            }
-        }
-
-        if ( IsHashRefWithData($ActivityDialogHashRef) ) {
-
-            my $PossibleActivityDialogs = { 1 => $ActivityDialogEntityID };
-
-            # get ACL restrictions
-            my $ACL = $TicketObject->TicketAcl(
-                Data                   => $PossibleActivityDialogs,
-                ActivityDialogEntityID => $ActivityDialogEntityID,
-                TicketID               => $TicketID,
-                ReturnType             => 'ActivityDialog',
-                ReturnSubType          => '-',
-                Action                 => $Self->{Action},
-                CustomerUserID         => $Self->{UserID},
-            );
-
-            if ($ACL) {
-                %{$PossibleActivityDialogs} = $TicketObject->TicketAclData();
-            }
-
-            # check if ACL resctictions exist
-            if ( !IsHashRefWithData($PossibleActivityDialogs) )
-            {
-                return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
-            }
-        }
+    # include extra fields should be skipped for follow ups
+    for my $Item (qw(Service SLA Queue)) {
+        push @{$SkipFields}, $Item;
     }
 
-    # list only Active processes by default
-    my @ProcessStates = ('Active');
-
-    # set IsMainWindow and IsAjaxRequest for proper error responses, screen display and process list
-    $Self->{IsMainWindow}  = $ParamObject->GetParam( Param => 'IsMainWindow' )  || '';
-    $Self->{IsAjaxRequest} = $ParamObject->GetParam( Param => 'IsAjaxRequest' ) || '';
-
-    # fetch also FadeAway processes to continue working with existing tickets, but not to start new
-    #    ones
-    if ( !$Self->{IsMainWindow} && $Self->{Subaction} ) {
-        push @ProcessStates, 'FadeAway';
-    }
+    # list Active processes, fetch also FadeAway processes to continue working with existing tickets
+    my @ProcessStates = ( 'Active', 'FadeAway' );
 
     # get process object
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
 
-    # get the list of processes that customer can start
-    my $ProcessList = $ProcessObject->ProcessList(
-        ProcessState => \@ProcessStates,
-        Interface    => ['CustomerInterface'],
-    );
-
-    # also get the list of processes initiated by agents, as an activity dialog might be configured
-    # for the customer interface
+    # get all follow up processes
     my $FollowupProcessList = $ProcessObject->ProcessList(
         ProcessState => \@ProcessStates,
         Interface    => [ 'AgentInterface', 'CustomerInterface' ],
     );
 
-    my $ProcessEntityID = $ParamObject->GetParam( Param => 'ProcessEntityID' );
-
-    if ( !IsHashRefWithData($ProcessList) && !IsHashRefWithData($FollowupProcessList) ) {
-        return $LayoutObject->CustomerErrorScreen(
-            Message => Translatable('No Process configured!'),
-            Comment => Translatable('Please contact the administrator.'),
+    if ( !IsHashRefWithData($FollowupProcessList) ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'No follow up process configured!',
         );
+
+        return;
     }
 
-    # prepare process list for ACLs, use only entities instead of names, convert from
-    #   P1 => Name to P1 => P1. As ACLs should work only against entities
-    my %ProcessListACL = map { $_ => $_ } sort keys %{$ProcessList};
+    # we need a subaction as of OTOBO 10.1
+    if ( !$Self->{Subaction} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need Subaction!',
+        );
 
-    # validate the ProcessList with stored ACLs
-    my $ACL = $TicketObject->TicketAcl(
-        ReturnType     => 'Process',
-        ReturnSubType  => '-',
-        Data           => \%ProcessListACL,
-        Action         => $Self->{Action},
-        CustomerUserID => $Self->{UserID},
-    );
-
-    if ( IsHashRefWithData($ProcessList) && $ACL ) {
-
-        # get ACL results
-        my %ACLData = $TicketObject->TicketAclData();
-
-        # recover process names
-        my %ReducedProcessList = map { $_ => $ProcessList->{$_} } sort keys %ACLData;
-
-        # replace original process list with the reduced one
-        $ProcessList = \%ReducedProcessList;
+        return;
     }
 
     # get form id
@@ -243,63 +151,18 @@ sub Run {
         $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
     }
 
-    # if we have no subaction display the process list to start a new one
-    if ( !$Self->{Subaction} ) {
-
-        # to display the process list is mandatory to have processes that customer can start
-        if ( !IsHashRefWithData($ProcessList) ) {
-            return $LayoutObject->CustomerErrorScreen(
-                Message => Translatable('No Process configured!'),
-                Comment => Translatable('Please contact the administrator.'),
-            );
-        }
-
-        # get process id (if any, a process should be pre-selected)
-        $Param{ProcessID} = $ParamObject->GetParam( Param => 'ID' );
-        if ( $Param{ProcessID} ) {
-            $Param{PreSelectProcess} = 1;
-        }
-
-        return $Self->_DisplayProcessList(
-            %Param,
-            ProcessList     => $ProcessList,
-            ProcessEntityID => $ProcessEntityID || $Param{ProcessID}
-        );
-    }
-
-    # check if the selected process from the list is valid, prevent tamper with process selection
-    #    list (not existing, invalid an fade away processes must not be able to start a new process
-    #    ticket)
-    elsif (
-        $Self->{Subaction} eq 'DisplayActivityDialogAJAX'
-        && !$ProcessList->{$ProcessEntityID}
-        && $Self->{IsMainWindow}
-        )
-    {
-
-        # translate the error message (as it will be injected in the HTML)
-        my $ErrorMessage = $LayoutObject->{LanguageObject}->Translate("The selected process is invalid!");
-
-        # return a predefined HTML sctructure as the AJAX call is expecting and HTML response
-        return $LayoutObject->Attachment(
-            ContentType => 'text/html; charset=' . $LayoutObject->{Charset},
-            Content     => '<div class="ServerError" data-message="' . $ErrorMessage . '"></div>',
-            Type        => 'inline',
-            NoCache     => 1,
-        );
-    }
-
     # if invalid process is detected on a ActivityDilog popup screen show an error message
-    elsif (
+    if (
         $Self->{Subaction} eq 'DisplayActivityDialog'
         && !$FollowupProcessList->{$ProcessEntityID}
-        && !$Self->{IsMainWindow}
         )
     {
-        $LayoutObject->CustomerFatalError(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Process %s is invalid!', $ProcessEntityID ),
-            Comment => Translatable('Please contact the administrator.'),
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Process $ProcessEntityID is invalid!",
         );
+
+        return;
     }
 
     # Get the necessary parameters
@@ -310,7 +173,9 @@ sub Run {
     # - Parameter checking before storing
     # - will be used for ACL checking later on
     my $GetParam = $Self->_GetParam(
-        ProcessEntityID => $ProcessEntityID,
+        ProcessEntityID        => $ProcessEntityID,
+        TicketID               => $TicketID,
+        ActivityDialogEntityID => $ActivityDialogEntityID,
     );
 
     if ( $Self->{Subaction} eq 'StoreActivityDialog' && $ProcessEntityID ) {
@@ -318,33 +183,18 @@ sub Run {
 
         return $Self->_StoreActivityDialog(
             %Param,
-            ProcessName     => $ProcessList->{$ProcessEntityID},
+            ProcessName     => $FollowupProcessList->{$ProcessEntityID},
             ProcessEntityID => $ProcessEntityID,
             GetParam        => $GetParam,
         );
     }
-    if ( $Self->{Subaction} eq 'DisplayActivityDialog' && $ProcessEntityID ) {
+    elsif ( $Self->{Subaction} eq 'DisplayActivityDialog' && $ProcessEntityID ) {
 
         return $Self->_OutputActivityDialog(
             %Param,
             ProcessEntityID => $ProcessEntityID,
             GetParam        => $GetParam,
         );
-    }
-    if ( $Self->{Subaction} eq 'DisplayActivityDialogAJAX' && $ProcessEntityID ) {
-
-        my $ActivityDialogHTML = $Self->_OutputActivityDialog(
-            %Param,
-            ProcessEntityID => $ProcessEntityID,
-            GetParam        => $GetParam,
-        );
-        return $LayoutObject->Attachment(
-            ContentType => 'text/html; charset=' . $LayoutObject->{Charset},
-            Content     => $ActivityDialogHTML,
-            Type        => 'inline',
-            NoCache     => 1,
-        );
-
     }
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
@@ -355,10 +205,12 @@ sub Run {
         );
     }
 
-    return $LayoutObject->CustomerErrorScreen(
-        Message => Translatable('Subaction is invalid!'),
-        Comment => Translatable('Please contact the administrator.'),
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => 'Subaction is invalid',
     );
+
+    return;
 }
 
 sub _RenderAjax {
@@ -443,9 +295,12 @@ sub _RenderAjax {
 
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
+            DynamicFieldConfig => {
+                %{$DynamicFieldConfig},
+                Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+            },
+            ParamObject  => $ParamObject,
+            LayoutObject => $LayoutObject,
         );
     }
 
@@ -530,7 +385,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
                     Data        => $DataValues,
                     SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                     Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
@@ -549,7 +404,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
@@ -572,7 +427,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => 'StateID',
+                    Name        => 'StateID' . $Self->{IDSuffix},
                     Data        => $Data,
                     SelectedID  => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     Translation => 1,
@@ -592,7 +447,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name        => $Self->{NameToID}{$CurrentField},
+                    Name        => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data        => $Data,
                     SelectedID  => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     Translation => 1,
@@ -613,7 +468,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
@@ -645,7 +500,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
@@ -666,7 +521,7 @@ sub _RenderAjax {
             push(
                 @JSONCollector,
                 {
-                    Name         => $Self->{NameToID}{$CurrentField},
+                    Name         => $Self->{NameToID}{$CurrentField} . $Self->{IDSuffix},
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
                     PossibleNone => 1,
@@ -744,8 +599,8 @@ sub _GetParam {
     my %GetParam;
     my %Ticket;
     my $ProcessEntityID        = $Param{ProcessEntityID};
-    my $TicketID               = $ParamObject->GetParam( Param => 'TicketID' );
-    my $ActivityDialogEntityID = $ParamObject->GetParam(
+    my $TicketID               = $Param{TicketID}               || $ParamObject->GetParam( Param => 'TicketID' );
+    my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam(
         Param => 'ActivityDialogEntityID',
     );
     my $ActivityEntityID;
@@ -891,9 +746,12 @@ sub _GetParam {
 
             # Get DynamicField Values
             $Value = $BackendObject->EditFieldValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ParamObject        => $ParamObject,
-                LayoutObject       => $LayoutObject,
+                DynamicFieldConfig => {
+                    %{$DynamicFieldConfig},
+                    Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                },
+                ParamObject  => $ParamObject,
+                LayoutObject => $LayoutObject,
             );
 
             # If we got a submitted param, take it and next out
@@ -955,9 +813,6 @@ sub _GetParam {
 
             $GetParam{Subject} = $ParamObject->GetParam( Param => 'Subject' );
             $GetParam{Body}    = $ParamObject->GetParam( Param => 'Body' );
-            @{ $GetParam{InformUserID} } = $ParamObject->GetArray(
-                Param => 'InformUserID',
-            );
 
             $ValuesGotten{Article} = 1 if ( $GetParam{Subject} && $GetParam{Body} );
         }
@@ -1058,7 +913,10 @@ sub _OutputActivityDialog {
     my $ActivityDialogEntityID = $Param{GetParam}{ActivityDialogEntityID};
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # CustomerTicketProcess gets only called by CustomerTicketZoom and returns its HTML to there
+    # for HTML generation a separate LayoutObject is created; all JS-stuff has to be done with the one of CustomerTicketZoom (e.g. in dynamic fields)
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Kernel::OM->Create('Kernel::Output::HTML::Layout');
 
     # Check needed parameters:
     # ProcessEntityID only
@@ -1212,124 +1070,51 @@ sub _OutputActivityDialog {
     my $Output;
     my $MainBoxClass;
 
-    if ( !$Self->{IsMainWindow} ) {
-        $Output = $LayoutObject->CustomerHeader(
-            Type  => 'Small',
-            Value => $Ticket{Number},
-        );
+    $LayoutObject->Block(
+        Name => 'Header',
+        Data => {
+            Name =>
+                $LayoutObject->{LanguageObject}->Translate( $ActivityDialog->{Name} )
+                || '',
+        },
+    );
 
-        # display given notify messages if this is not an AJAX request
-        if ( IsArrayRefWithData( $Param{Notify} ) ) {
-
-            for my $NotifyData ( @{ $Param{Notify} } ) {
-                $Output .= $LayoutObject->Notify( %{$NotifyData} );
-            }
-        }
-
+    # show descriptions
+    if ( $ActivityDialog->{DescriptionShort} ) {
         $LayoutObject->Block(
-            Name => 'Header',
+            Name => 'DescriptionShort',
             Data => {
-                Name =>
-                    $LayoutObject->{LanguageObject}->Translate( $ActivityDialog->{Name} )
-                    || '',
+                DescriptionShort
+                    => $LayoutObject->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionShort},
+                    ),
             },
         );
-
-        # show descriptions
-        if ( $ActivityDialog->{DescriptionShort} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionShort',
-                Data => {
-                    DescriptionShort
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionShort},
-                        ),
-                },
-            );
-        }
-        if ( $ActivityDialog->{DescriptionLong} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionLong',
-                Data => {
-                    DescriptionLong
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionLong},
-                        ),
-                },
-            );
-        }
     }
-    elsif ( $Self->{IsMainWindow} && IsHashRefWithData( \%Error ) ) {
-
-        # add rich text editor
-        if ( $LayoutObject->{BrowserRichText} ) {
-
-            # use height/width defined for this screen
-            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-            # set up customer rich text editor
-            $LayoutObject->CustomerSetRichTextParameters(
-                Data => \%Param,
-            );
-        }
-
-        # display complete header and nav bar in ajax dialogs when there is a server error
-        $Output = $LayoutObject->CustomerHeader();
-        $Output .= $LayoutObject->CustomerNavigationBar();
-
-        # display original header texts (the process list maybe is not necessary)
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'CustomerTicketProcess',
-            Data         => {},
+    if ( $ActivityDialog->{DescriptionLong} ) {
+        $LayoutObject->Block(
+            Name => 'DescriptionLong',
+            Data => {
+                DescriptionLong
+                    => $LayoutObject->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionLong},
+                    ),
+            },
         );
-
-        # set the MainBox class to add correct borders to the screen
-        $MainBoxClass = 'MainBox';
     }
-
-    # Show descriptions if activity is a first screen. See bug#12649 for more information.
-    if ( $Self->{IsMainWindow} ) {
-        if ( $ActivityDialog->{DescriptionShort} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionShortAlt',
-                Data => {
-                    DescriptionShort
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionShort},
-                        ),
-                },
-            );
-        }
-        if ( $ActivityDialog->{DescriptionLong} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionLongAlt',
-                Data => {
-                    DescriptionLong
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionLong},
-                        ),
-                },
-            );
-        }
+    if ( $Param{RenderLocked} ) {
+        $LayoutObject->Block(
+            Name => 'PropertiesLock',
+            Data => {
+                %Param,
+                TicketID => $TicketID,
+            },
+        );
     }
-
-    # show close & cancel link if necessary
-    if ( !$Self->{IsMainWindow} ) {
-        if ( $Param{RenderLocked} ) {
-            $LayoutObject->Block(
-                Name => 'PropertiesLock',
-                Data => {
-                    %Param,
-                    TicketID => $TicketID,
-                },
-            );
-        }
-        else {
-            $LayoutObject->Block(
-                Name => 'CancelLink',
-            );
-        }
+    else {
+        $LayoutObject->Block(
+            Name => 'CancelLink',
+        );
     }
 
     $Output .= $LayoutObject->Output(
@@ -1356,7 +1141,7 @@ sub _OutputActivityDialog {
 
     # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
     # by ActivityDialog fields
-    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
+    my $AJAXUpdatableFields = $Self->GetAJAXUpdatableFields(
         ActivityDialogFields => $ActivityDialog->{Fields},
     );
 
@@ -1407,6 +1192,7 @@ sub _OutputActivityDialog {
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
                 AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1446,7 +1232,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1482,7 +1268,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1518,7 +1304,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1554,7 +1340,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1590,7 +1376,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1625,6 +1411,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1662,7 +1449,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                InformAgents        => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents},
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1701,7 +1488,7 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                LayoutObject        => $LayoutObject,
             );
 
             if ( !$Response->{Success} ) {
@@ -1724,25 +1511,6 @@ sub _OutputActivityDialog {
         }
     }
 
-    my $FooterCSSClass = 'Footer';
-
-    if ( $Self->{IsAjaxRequest} ) {
-
-        # Due to the initial loading of
-        # the first ActivityDialog after Process selection
-        # we have to bind the AjaxUpdate Function on
-        # the selects, so we get the complete JSOnDocumentComplete code
-        # and deliver it in the FooterJS block.
-        # This Javascript Part is executed in
-        # CustomerTicketProcess.tt
-        $LayoutObject->Block(
-            Name => 'FooterJS',
-            Data => {},
-        );
-
-        $FooterCSSClass = 'Centered';
-    }
-
     # set submit button data
     my $ButtonText  = 'Submit';
     my $ButtonTitle = 'Save';
@@ -1755,10 +1523,9 @@ sub _OutputActivityDialog {
     $LayoutObject->Block(
         Name => 'Footer',
         Data => {
-            FooterCSSClass => $FooterCSSClass,
-            ButtonText     => $ButtonText,
-            ButtonTitle    => $ButtonTitle,
-            ButtonID       => $ButtonID
+            ButtonText  => $ButtonText,
+            ButtonTitle => $ButtonTitle,
+            ButtonID    => $ButtonID
         },
     );
 
@@ -1777,11 +1544,6 @@ sub _OutputActivityDialog {
         Data         => {},
     );
 
-    # display regular footer only in non-ajax case
-    if ( !$Self->{IsAjaxRequest} ) {
-        $Output .= $LayoutObject->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
-    }
-
     return $Output;
 }
 
@@ -1789,7 +1551,8 @@ sub _RenderDynamicField {
     my ( $Self, %Param ) = @_;
 
     # get layout objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject     = $Param{LayoutObject};
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     for my $Needed (qw(FormID FieldName)) {
         if ( !$Param{$Needed} ) {
@@ -1909,10 +1672,13 @@ sub _RenderDynamicField {
     }
 
     my $DynamicFieldHTML = $BackendObject->EditFieldRender(
-        DynamicFieldConfig   => $DynamicFieldConfig,
+        DynamicFieldConfig => {
+            %{$DynamicFieldConfig},
+            Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+        },
         PossibleValuesFilter => $PossibleValuesFilter,
         Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
-        LayoutObject         => $LayoutObject,
+        LayoutObject         => $LayoutObjectZoom,
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
@@ -1952,7 +1718,7 @@ sub _RenderDynamicField {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerDynamicField' ),
     };
 }
 
@@ -1960,7 +1726,7 @@ sub _RenderTitle {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -1985,6 +1751,7 @@ sub _RenderTitle {
         Name             => 'Title',
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix} || '',
     );
 
     # If field is required put in the necessary variables for
@@ -2032,7 +1799,7 @@ sub _RenderTitle {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Title' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerTitle' ),
     };
 
 }
@@ -2040,8 +1807,9 @@ sub _RenderTitle {
 sub _RenderArticle {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # get layout objects
+    my $LayoutObject     = $Param{LayoutObject};
+    my $LayoutObjectZoom = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     for my $Needed (qw(FormID Ticket)) {
         if ( !$Param{$Needed} ) {
@@ -2068,7 +1836,7 @@ sub _RenderArticle {
     for my $Attachment (@Attachments) {
         if (
             $Attachment->{ContentID}
-            && $LayoutObject->{BrowserRichText}
+            && $LayoutObjectZoom->{BrowserRichText}
             && ( $Attachment->{ContentType} =~ /image/i )
             && ( $Attachment->{Disposition} eq 'inline' )
             )
@@ -2090,6 +1858,7 @@ sub _RenderArticle {
         LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
             || $LayoutObject->{LanguageObject}->Translate("Text"),
         AttachmentList => $Param{AttachmentList},
+        IDSuffix       => $Self->{IDSuffix} || '',
     );
 
     # If field is required put in the necessary variables for
@@ -2125,14 +1894,14 @@ sub _RenderArticle {
     }
 
     # add rich text editor
-    if ( $LayoutObject->{BrowserRichText} ) {
+    if ( $LayoutObjectZoom->{BrowserRichText} ) {
 
         # use height/width defined for this screen
         $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
         $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
 
         # set up customer rich text editor
-        $LayoutObject->CustomerSetRichTextParameters(
+        $LayoutObjectZoom->CustomerSetRichTextParameters(
             Data => \%Param,
         );
     }
@@ -2155,154 +1924,9 @@ sub _RenderArticle {
         );
     }
 
-    if ( $Param{InformAgents} ) {
-
-        my %ShownUsers;
-        my %AllGroupsMembers = $Kernel::OM->Get('Kernel::System::User')->UserList(
-            Type  => 'Long',
-            Valid => 1,
-        );
-        my $GID        = $Kernel::OM->Get('Kernel::System::Queue')->GetQueueGroupID( QueueID => $Param{Ticket}->{QueueID} );
-        my %MemberList = $Kernel::OM->Get('Kernel::System::Group')->GroupMemberList(
-            GroupID => $GID,
-            Type    => 'note',
-            Result  => 'HASH',
-            Cached  => 1,
-        );
-        for my $UserID ( sort keys %MemberList ) {
-            $ShownUsers{$UserID} = $AllGroupsMembers{$UserID};
-        }
-        $Param{OptionStrg} = $LayoutObject->BuildSelection(
-            Data       => \%ShownUsers,
-            SelectedID => '',
-            Name       => 'InformUserID',
-            Multiple   => 1,
-            Size       => 3,
-            Class      => 'Modernize',
-        );
-        $LayoutObject->Block(
-            Name => 'rw:Article:InformAgent',
-            Data => \%Param,
-        );
-    }
-
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Article' ),
-    };
-}
-
-sub _RenderCustomer {
-    my ( $Self, %Param ) = @_;
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    for my $Needed (qw(FormID)) {
-        if ( !$Param{$Needed} ) {
-            return {
-                Success => 0,
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing in %s.', $Needed, '_RenderResponsible' ),
-            };
-        }
-    }
-    if ( !IsHashRefWithData( $Param{ActivityDialogField} ) ) {
-        return {
-            Success => 0,
-            Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderCustomer' ),
-        };
-    }
-
-    my %CustomerUserData = ();
-
-    my $SubmittedCustomerUserID = $Param{GetParam}{CustomerUserID};
-
-    my %Data = (
-        LabelCustomerUser => $LayoutObject->{LanguageObject}->Translate("Customer user"),
-        LabelCustomerID   => $LayoutObject->{LanguageObject}->Translate("CustomerID"),
-        FormID            => $Param{FormID},
-        MandatoryClass    => '',
-        ValidateRequired  => '',
-    );
-
-    # If field is required put in the necessary variables for
-    # ValidateRequired class input field, Mandatory class for the label
-    if ( $Param{ActivityDialogField}->{Display} && $Param{ActivityDialogField}->{Display} == 2 ) {
-        $Data{ValidateRequired} = 'Validate_Required';
-        $Data{MandatoryClass}   = 'Mandatory';
-    }
-
-    # output server errors
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerUserID} ) {
-        $Data{CustomerUserIDServerError} = 'ServerError';
-    }
-    if ( IsHashRefWithData( $Param{Error} ) && $Param{Error}->{CustomerID} ) {
-        $Data{CustomerIDServerError} = 'ServerError';
-    }
-
-    if (
-        ( IsHashRefWithData( $Param{Ticket} ) && $Param{Ticket}->{CustomerUserID} )
-        || $SubmittedCustomerUserID
-        )
-    {
-        %CustomerUserData = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-            User => $SubmittedCustomerUserID
-                || $Param{Ticket}{CustomerUserID},
-        );
-    }
-
-    # show customer field as "FirstName Lastname" <MailAddress>
-    if ( IsHashRefWithData( \%CustomerUserData ) ) {
-        $Data{CustomerUserID}       = "\"$CustomerUserData{UserFullname}" . "\" <$CustomerUserData{UserEmail}>";
-        $Data{CustomerID}           = $CustomerUserData{UserCustomerID} || '';
-        $Data{SelectedCustomerUser} = $CustomerUserData{UserID}         || '';
-    }
-
-    # set fields that will get an AJAX loader icon when this field changes
-    my $JSON = $LayoutObject->JSONEncode(
-        Data     => $Param{AJAXUpdatableFields},
-        NoQuotes => 0,
-    );
-    $Data{FieldsToUpdate} = $JSON;
-
-    $LayoutObject->Block(
-        Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer',
-        Data => \%Data,
-    );
-
-    # set mandatory label marker
-    if ( $Data{MandatoryClass} && $Data{MandatoryClass} ne '' ) {
-        $LayoutObject->Block(
-            Name => 'LabelSpanCustomerUser',
-            Data => {},
-        );
-        $LayoutObject->Block(
-            Name => 'LabelSpanCustomerID',
-            Data => {},
-        );
-    }
-
-    if ( $Param{DescriptionShort} ) {
-        $LayoutObject->Block(
-            Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Customer:DescriptionShort',
-            Data => {
-                DescriptionShort => $Param{DescriptionShort},
-            },
-        );
-    }
-
-    if ( $Param{DescriptionLong} ) {
-        $LayoutObject->Block(
-            Name => 'rw:Customer:DescriptionLong',
-            Data => {
-                DescriptionLong => $Param{DescriptionLong},
-            },
-        );
-    }
-
-    return {
-        Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Customer' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerArticle' ),
     };
 }
 
@@ -2310,7 +1934,7 @@ sub _RenderSLA {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2326,6 +1950,7 @@ sub _RenderSLA {
             Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing in %s.', 'ActivityDialogField', '_RenderSLA' ),
         };
     }
+
     my $Services = $Self->_GetServices(
         %{ $Param{GetParam} },
     );
@@ -2341,6 +1966,7 @@ sub _RenderSLA {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2417,11 +2043,8 @@ sub _RenderSLA {
         Max           => 200,
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'SLAFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:SLA',
@@ -2456,7 +2079,7 @@ sub _RenderSLA {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/SLA' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerSLA' ),
     };
 }
 
@@ -2464,7 +2087,7 @@ sub _RenderService {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2491,6 +2114,7 @@ sub _RenderService {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2575,11 +2199,8 @@ sub _RenderService {
         Max           => 200,
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ServiceFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Service',
@@ -2614,7 +2235,7 @@ sub _RenderService {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Service' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerService' ),
     };
 
 }
@@ -2623,7 +2244,7 @@ sub _RenderPriority {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2650,6 +2271,7 @@ sub _RenderPriority {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2712,11 +2334,8 @@ sub _RenderPriority {
         Class         => "Modernize $ServerError",
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'PriorityFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Priority',
@@ -2751,7 +2370,7 @@ sub _RenderPriority {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Priority' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerPriority' ),
     };
 }
 
@@ -2759,7 +2378,7 @@ sub _RenderQueue {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2786,6 +2405,7 @@ sub _RenderQueue {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2857,11 +2477,8 @@ sub _RenderQueue {
         PossibleNone  => 1,
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'QueueFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Queue',
@@ -2896,7 +2513,7 @@ sub _RenderQueue {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Queue' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerQueue' ),
     };
 }
 
@@ -2904,7 +2521,7 @@ sub _RenderState {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -2929,6 +2546,7 @@ sub _RenderState {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -2988,11 +2606,8 @@ sub _RenderState {
         Class         => "Modernize $ServerError",
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'StateFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:State',
@@ -3027,7 +2642,7 @@ sub _RenderState {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/State' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerState' ),
     };
 }
 
@@ -3035,7 +2650,7 @@ sub _RenderType {
     my ( $Self, %Param ) = @_;
 
     # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LayoutObject = $Param{LayoutObject};
 
     for my $Needed (qw(FormID)) {
         if ( !$Param{$Needed} ) {
@@ -3062,6 +2677,7 @@ sub _RenderType {
         FormID           => $Param{FormID},
         MandatoryClass   => '',
         ValidateRequired => '',
+        IDSuffix         => $Self->{IDSuffix},
     );
 
     # If field is required put in the necessary variables for
@@ -3139,11 +2755,8 @@ sub _RenderType {
         Max           => 200,
     );
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'TypeFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
-    );
+    # extend IDs to enable simultaneous activities
+    $Data{Content} =~ s/id="([\w\s_]+)"/id="$1$Self->{IDSuffix}"/;
 
     $LayoutObject->Block(
         Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:Type',
@@ -3178,7 +2791,7 @@ sub _RenderType {
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/Type' ),
+        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/CustomerType' ),
     };
 }
 
@@ -3290,7 +2903,10 @@ sub _StoreActivityDialog {
             else {
                 # Check DynamicField Values
                 my $ValidationResult = $BackendObject->EditFieldValueValidate(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
+                    DynamicFieldConfig => {
+                        %{$DynamicFieldConfig},
+                        Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                    },
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
                     Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
@@ -3312,9 +2928,12 @@ sub _StoreActivityDialog {
 
                 $TicketParam{$CurrentField} =
                     $BackendObject->EditFieldValueGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        ParamObject        => $ParamObject,
-                        LayoutObject       => $LayoutObject,
+                        DynamicFieldConfig => {
+                            %{$DynamicFieldConfig},
+                            Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
+                        },
+                        ParamObject  => $ParamObject,
+                        LayoutObject => $LayoutObject,
                     );
             }
 
@@ -3394,245 +3013,71 @@ sub _StoreActivityDialog {
 
     my @Notify;
 
-    my $NewTicketID;
-    if ( !$TicketID ) {
+    # Get Ticket to check TicketID was valid
+    %Ticket = $TicketObject->TicketGet(
+        TicketID      => $TicketID,
+        UserID        => $ConfigObject->Get('CustomerPanelUserID'),
+        DynamicFields => 1,
+    );
 
-        $ProcessEntityID = $Param{GetParam}->{ProcessEntityID};
-        if ( !$ProcessEntityID )
-        {
-            return $LayoutObject->CustomerFatalError(
-                Message => Translatable('Missing ProcessEntityID, check your ActivityDialogHeader.tt!'),
-            );
-        }
-
-        $ProcessStartpoint = $ProcessObject->ProcessStartpointGet(
-            ProcessEntityID => $Param{ProcessEntityID},
+    if ( !IsHashRefWithData( \%Ticket ) ) {
+        $LayoutObject->CustomerFatalError(
+            Message => $LayoutObject->{LanguageObject}->Translate( 'Could not store ActivityDialog, invalid TicketID: %s!', $TicketID ),
         );
-
-        if (
-            !$ProcessStartpoint
-            || !IsHashRefWithData($ProcessStartpoint)
-            || !$ProcessStartpoint->{Activity} || !$ProcessStartpoint->{ActivityDialog}
-            )
-        {
-            $LayoutObject->CustomerFatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate(
-                    'No StartActivityDialog or StartActivityDialog for Process "%s" configured!',
-                    $Param{ProcessEntityID}
-                ),
-            );
-        }
-
-        $ActivityEntityID = $ProcessStartpoint->{Activity};
-
-        NEEDEDLOOP:
-        for my $Needed (qw(Queue State Lock Priority)) {
-
-            if ( !$TicketParam{ $Self->{NameToID}->{$Needed} } ) {
-
-                # if a required field has no value call _CheckField as filed is hidden
-                # (No Display param = Display => 0) and no DefaultValue, to use global default as
-                # fall-back. One reason for this to happen is that ActivityDialog DefaultValue tried
-                # to set before, was not valid.
-                my $Result = $Self->_CheckField(
-                    Field => $Self->{NameToID}->{$Needed},
-                );
-
-                if ( !$Result ) {
-                    $Error{ $Self->{NameToID}->{$Needed} } = ' ServerError';
-                }
-                elsif ($Result) {
-                    $TicketParam{ $Self->{NameToID}->{$Needed} } = $Result;
-                }
-            }
-        }
-
-        # If we had no Errors, we can create the Ticket and Set ActivityEntityID as well as
-        # ProcessEntityID
-        if ( !IsHashRefWithData( \%Error ) ) {
-
-            $TicketParam{UserID} = $Self->{UserID};
-
-            $TicketParam{CustomerID}   = $Self->{UserCustomerID};
-            $TicketParam{CustomerUser} = $Self->{UserLogin};
-            $TicketParam{OwnerID}      = $ConfigObject->Get('CustomerPanelUserID');
-            $TicketParam{UserID}       = $ConfigObject->Get('CustomerPanelUserID');
-
-            if ( !$TicketParam{OwnerID} ) {
-
-                $TicketParam{OwnerID} = $Param{GetParam}->{OwnerID} || 1;
-            }
-
-            # if StartActivityDialog does not provide a ticket title set a default value
-            if ( !$TicketParam{Title} ) {
-
-                # get the current server Timestamp
-                my $CurrentTimeStamp = $Kernel::OM->Create('Kernel::System::DateTime')->ToString();
-                $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp";
-
-                # use article subject from the web request if any
-                if ( IsStringWithData( $Param{GetParam}->{Subject} ) ) {
-                    $TicketParam{Title} = $Param{GetParam}->{Subject};
-                }
-            }
-
-            # create a new ticket
-            $TicketID = $TicketObject->TicketCreate(%TicketParam);
-
-            if ( !$TicketID ) {
-                $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Couldn\'t create ticket for Process with ProcessEntityID "%s"!',
-                        $Param{ProcessEntityID}
-                    ),
-                );
-            }
-
-            my $Success = $ProcessObject->ProcessTicketProcessSet(
-                ProcessEntityID => $Param{ProcessEntityID},
-                TicketID        => $TicketID,
-                UserID          => $ConfigObject->Get('CustomerPanelUserID'),
-            );
-            if ( !$Success ) {
-                $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Couldn\'t set ProcessEntityID "%s" on TicketID "%s"!',
-                        $Param{ProcessEntityID}, $TicketID
-                    ),
-                );
-            }
-
-            $Success = undef;
-
-            $Success = $ProcessObject->ProcessTicketActivitySet(
-                ProcessEntityID  => $Param{ProcessEntityID},
-                ActivityEntityID => $ProcessStartpoint->{Activity},
-                TicketID         => $TicketID,
-                UserID           => $ConfigObject->Get('CustomerPanelUserID'),
-            );
-
-            if ( !$Success ) {
-                $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Couldn\'t set ActivityEntityID "%s" on TicketID "%s"!',
-                        $Param{ProcessEntityID}, $TicketID
-                    ),
-                    Comment => Translatable('Please contact the administrator.'),
-                );
-            }
-
-            %Ticket = $TicketObject->TicketGet(
-                TicketID      => $TicketID,
-                UserID        => $ConfigObject->Get('CustomerPanelUserID'),
-                DynamicFields => 1,
-            );
-
-            if ( !IsHashRefWithData( \%Ticket ) ) {
-                $LayoutObject->CustomerFatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate( 'Could not store ActivityDialog, invalid TicketID: %s!', $TicketID ),
-                    Comment => Translatable('Please contact the administrator.'),
-                );
-            }
-            for my $DynamicFieldConfig (
-
-                # 2. remove "DynamicField_" from string
-                map {
-                    my $Field = $_;
-                    $Field =~ s{^DynamicField_(.*)}{$1}xms;
-
-                    # 3. grep from the DynamicFieldConfigs the resulting DynamicFields without
-                    # "DynamicField_"
-                    grep { $_->{Name} eq $Field } @{$DynamicField}
-                }
-
-                # 1. grep all DynamicFields
-                grep {m{^DynamicField_(.*)}xms} @{ $ActivityDialog->{FieldOrder} }
-                )
-            {
-
-                # and now it's easy, just store the dynamic Field Values ;)
-                $BackendObject->ValueSet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $TicketID,
-                    Value              => $TicketParam{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                    UserID             => $ConfigObject->Get('CustomerPanelUserID'),
-                );
-            }
-
-            # remember new created TicketID
-            $NewTicketID = $TicketID;
-        }
     }
 
-    # If we had a TicketID, get the Ticket
-    else {
+    $ActivityEntityID = $Ticket{
+        'DynamicField_'
+            . $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+    };
+    if ( !$ActivityEntityID )
+    {
 
-        # Get Ticket to check TicketID was valid
-        %Ticket = $TicketObject->TicketGet(
-            TicketID      => $TicketID,
-            UserID        => $ConfigObject->Get('CustomerPanelUserID'),
-            DynamicFields => 1,
+        return $Self->_ShowDialogError(
+            Message => $LayoutObject->{LanguageObject}->Translate(
+                'Missing ActivityEntityID in Ticket %s!',
+                $Ticket{TicketID},
+            ),
+            Comment => Translatable('Please contact the administrator.'),
         );
+    }
 
-        if ( !IsHashRefWithData( \%Ticket ) ) {
-            $LayoutObject->CustomerFatalError(
-                Message => $LayoutObject->{LanguageObject}->Translate( 'Could not store ActivityDialog, invalid TicketID: %s!', $TicketID ),
-            );
-        }
+    # Make sure the activity dialog to save is still the correct activity
+    my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
+        ActivityEntityID => $ActivityEntityID,
+        Interface        => ['CustomerInterface'],
+    );
+    my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
+    if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
+        my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
+        my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
 
-        $ActivityEntityID = $Ticket{
-            'DynamicField_'
-                . $ConfigObject->Get('Process::DynamicFieldProcessManagementActivityID')
+        $Error{WrongActivity} = 1;
+        push @Notify, {
+            Priority => 'Error',
+            Data     => $LayoutObject->{LanguageObject}->Translate(
+                'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.',
+                $TicketHook,
+                $TicketHookDivider,
+                $Ticket{TicketNumber},
+            ),
         };
-        if ( !$ActivityEntityID )
-        {
+    }
 
-            return $Self->_ShowDialogError(
-                Message => $LayoutObject->{LanguageObject}->Translate(
-                    'Missing ActivityEntityID in Ticket %s!',
-                    $Ticket{TicketID},
-                ),
-                Comment => Translatable('Please contact the administrator.'),
-            );
-        }
+    $ProcessEntityID = $Ticket{
+        'DynamicField_'
+            . $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
+    };
 
-        # Make sure the activity dialog to save is still the correct activity
-        my $Activity = $Kernel::OM->Get('Kernel::System::ProcessManagement::Activity')->ActivityGet(
-            ActivityEntityID => $ActivityEntityID,
-            Interface        => ['CustomerInterface'],
+    if ( !$ProcessEntityID )
+    {
+        return $Self->_ShowDialogError(
+            Message => $LayoutObject->{LanguageObject}->Translate(
+                'Missing ProcessEntityID in Ticket %s!',
+                $Ticket{TicketID},
+            ),
+            Comment => Translatable('Please contact the administrator.'),
         );
-        my %ActivityDialogs = reverse %{ $Activity->{ActivityDialog} // {} };
-        if ( !$ActivityDialogs{$ActivityDialogEntityID} ) {
-            my $TicketHook        = $ConfigObject->Get('Ticket::Hook');
-            my $TicketHookDivider = $ConfigObject->Get('Ticket::HookDivider');
-
-            $Error{WrongActivity} = 1;
-            push @Notify, {
-                Priority => 'Error',
-                Data     => $LayoutObject->{LanguageObject}->Translate(
-                    'This step does not belong anymore to the current activity in process for ticket \'%s%s%s\'! Another user changed this ticket in the meantime. Please close this window and reload the ticket.',
-                    $TicketHook,
-                    $TicketHookDivider,
-                    $Ticket{TicketNumber},
-                ),
-            };
-        }
-
-        $ProcessEntityID = $Ticket{
-            'DynamicField_'
-                . $ConfigObject->Get('Process::DynamicFieldProcessManagementProcessID')
-        };
-
-        if ( !$ProcessEntityID )
-        {
-            return $Self->_ShowDialogError(
-                Message => $LayoutObject->{LanguageObject}->Translate(
-                    'Missing ProcessEntityID in Ticket %s!',
-                    $Ticket{TicketID},
-                ),
-                Comment => Translatable('Please contact the administrator.'),
-            );
-        }
     }
 
     # if we got errors go back to displaying the ActivityDialog
@@ -3703,9 +3148,9 @@ sub _StoreActivityDialog {
                 );
             }
         }
-        elsif ( $CurrentField eq 'Article' && ( $UpdateTicketID || $NewTicketID ) ) {
+        elsif ( $CurrentField eq 'Article' && $UpdateTicketID ) {
 
-            my $TicketID = $UpdateTicketID || $NewTicketID;
+            my $TicketID = $UpdateTicketID;
 
             if ( $Param{GetParam}->{Subject} && $Param{GetParam}->{Body} ) {
 
@@ -3741,20 +3186,17 @@ sub _StoreActivityDialog {
 
                 my $From = "$Self->{UserFullname} <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
-                    TicketID                  => $TicketID,
-                    SenderType                => 'customer',
-                    IsVisibleForCustomer      => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} // 0,
-                    From                      => $From,
-                    MimeType                  => $MimeType,
-                    Charset                   => $LayoutObject->{UserCharset},
-                    UserID                    => $ConfigObject->Get('CustomerPanelUserID'),
-                    HistoryType               => $HistoryType,
-                    HistoryComment            => $HistoryComment,
-                    Body                      => $Param{GetParam}->{Body},
-                    Subject                   => $Param{GetParam}->{Subject},
-                    ForceNotificationToUserID => $ActivityDialog->{Fields}->{Article}->{Config}->{InformAgents}
-                    ? $Param{GetParam}{InformUserID}
-                    : [],
+                    TicketID             => $TicketID,
+                    SenderType           => 'customer',
+                    IsVisibleForCustomer => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} // 0,
+                    From                 => $From,
+                    MimeType             => $MimeType,
+                    Charset              => $LayoutObject->{UserCharset},
+                    UserID               => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType          => $HistoryType,
+                    HistoryComment       => $HistoryComment,
+                    Body                 => $Param{GetParam}->{Body},
+                    Subject              => $Param{GetParam}->{Subject},
                 );
                 if ( !$ArticleID ) {
                     return $LayoutObject->CustomerErrorScreen();
@@ -3957,90 +3399,10 @@ sub _StoreActivityDialog {
 
     # Transitions will be handled by ticket event module (TicketProcessTransitions.pm).
 
-    # if we were updating a ticket, close the popup and return to zoom
-    # else (new ticket) just go to zoom to show the new ticket
-    if ($UpdateTicketID) {
-
-        # load new URL in parent window and close popup
-        return $LayoutObject->PopupClose(
-            URL => "Action=CustomerTicketZoom;TicketID=$UpdateTicketID",
-        );
-    }
-
+    my $NextScreen = $Self->{NextScreen} || $ConfigObject->Get('Ticket::Frontend::CustomerTicketProcess')->{'NextScreenAfterFollowUp'};
     return $LayoutObject->Redirect(
-        OP => "Action=CustomerTicketZoom;TicketID=$TicketID",
+        OP => "Action=$NextScreen;TicketID=$TicketID",
     );
-}
-
-sub _DisplayProcessList {
-    my ( $Self, %Param ) = @_;
-
-    # If we have a ProcessEntityID
-    $Param{Errors}->{ProcessEntityIDInvalid} = ' ServerError'
-        if ( $Param{ProcessEntityID} && !$Param{ProcessList}->{ $Param{ProcessEntityID} } );
-
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    $Param{ProcessList} = $LayoutObject->BuildSelection(
-        Class        => 'Modernize Validate_Required' . ( $Param{Errors}->{ProcessEntityIDInvalid} || ' ' ),
-        Data         => $Param{ProcessList},
-        Name         => 'ProcessEntityID',
-        SelectedID   => $Param{ProcessEntityID},
-        PossibleNone => 1,
-        Sort         => 'AlphanumericValue',
-        Translation  => 0,
-        AutoComplete => 'off',
-    );
-
-    # add rich text editor
-    if ( $LayoutObject->{BrowserRichText} ) {
-
-        # use height/width defined for this screen
-        $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-        $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-        # set up customer rich text editor
-        $LayoutObject->CustomerSetRichTextParameters(
-            Data => \%Param,
-        );
-    }
-
-    if ( $Param{PreSelectProcess} && $Param{ProcessID} ) {
-
-        # send data to JS
-        $LayoutObject->AddJSData(
-            Key   => 'PreSelectedProcessID',
-            Value => $Param{ProcessID},
-        );
-    }
-
-    $LayoutObject->Block(
-        Name => 'ProcessList',
-        Data => {
-            %Param,
-            FormID => $Self->{FormID},
-        },
-    );
-    my $Output = $LayoutObject->CustomerHeader();
-    $Output .= $LayoutObject->CustomerNavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'CustomerTicketProcess',
-        Data         => {
-            FormID => $Self->{FormID},
-            %Param,
-        },
-    );
-
-    # workaround when activity dialog is loaded by AJAX as first activity dialog, if there is
-    # a date field like Pending Time or Dynamic Fields Date/Time or Date, there is no way to set
-    # this options in the footer again
-    $LayoutObject->{HasDatepicker} = 1;
-
-    $Output .= $LayoutObject->CustomerFooter();
-
-    return $Output;
 }
 
 # =item _CheckField()
@@ -4493,19 +3855,18 @@ sub _GetTypes {
     return \%Type;
 }
 
-sub _GetAJAXUpdatableFields {
+sub GetAJAXUpdatableFields {
     my ( $Self, %Param ) = @_;
 
+    $Self->{IDSuffix} //= $Param{ActivityDialogEntityID} ? $Param{ActivityDialogEntityID} =~ s/^ActivityDialog-/_/r : '';
+
     my %DefaultUpdatableFields = (
-        PriorityID    => 1,
-        QueueID       => 1,
-        ResponsibleID => 1,
-        ServiceID     => 1,
-        SLAID         => 1,
-        StateID       => 1,
-        OwnerID       => 1,
-        LockID        => 1,
-        TypeID        => 1,
+        PriorityID => 1,
+        QueueID    => 1,
+        ServiceID  => 1,
+        SLAID      => 1,
+        StateID    => 1,
+        TypeID     => 1,
     );
 
     # get backend object
@@ -4559,7 +3920,7 @@ sub _GetAJAXUpdatableFields {
             );
             next FIELD if !$IsACLReducible;
 
-            push @UpdatableFields, $Field;
+            push @UpdatableFields, $Field . $Self->{IDSuffix};
         }
 
         # for all others use %DefaultUpdatableFields table
@@ -4574,32 +3935,11 @@ sub _GetAJAXUpdatableFields {
             # skip if the field is not updatable via ajax
             next FIELD if !$DefaultUpdatableFields{$FieldName};
 
-            push @UpdatableFields, $FieldName;
+            push @UpdatableFields, $FieldName . $Self->{IDSuffix};
         }
     }
 
     return \@UpdatableFields;
-}
-
-sub _GetFieldsToUpdateStrg {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldsToUpdate = '';
-    if ( IsArrayRefWithData( $Param{AJAXUpdatableFields} ) ) {
-        my $FirstItem = 1;
-        FIELD:
-        for my $Field ( @{ $Param{AJAXUpdatableFields} } ) {
-            next FIELD if $Field eq $Param{TriggerField};
-            if ($FirstItem) {
-                $FirstItem = 0;
-            }
-            else {
-                $FieldsToUpdate .= ', ';
-            }
-            $FieldsToUpdate .= "'" . $Field . "'";
-        }
-    }
-    return $FieldsToUpdate;
 }
 
 sub _ShowDialogError {

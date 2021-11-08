@@ -40,11 +40,25 @@
         </div>
     </div>
     <div id='oooMainBox' class="Content">
+        <div id="ProcessActivities">
+[% RenderBlockStart("NextActivities") %]
+            <div id="NextActivities">
+[% RenderBlockStart("ActivityDialog") %]
+                <button id="Button_[% Data.ActivityDialogEntityID | uri %]" title="[% Data.Name | html %]" class="oooM ActivityStartButton">[% Data.Name | html %]</button>
+[% RenderBlockEnd("ActivityDialog") %]
+            </div>
+[% RenderBlockEnd("NextActivities") %]
+        </div>
         <ul id='oooArticleList'>
         </ul>
         <ul id='oooArticleListExpanded'>
+[% RenderBlockStart("ProcessActivity") %]
+            <li id="Process_[% Data.ActivityDialogEntityID | uri %]" class="Activity">
+                [% Data.ActivityHTML %]
+            </li>
+[% RenderBlockEnd("ProcessActivity") %]
 [% RenderBlockStart("FollowUp") %]
-<li id="FollowUp" class="[% Data.FollowUpVisible | html %]">
+<li id="FollowUp" class="[% Data.FollowUpVisible | html %] Activity">
     <form action="[% Env("CGIHandle") %]#FollowUp" method="post" enctype="multipart/form-data" name="compose" id="ReplyCustomerTicket" class="Validate PreventMultipleSubmits">
         <input type="hidden" name="Action" value="CustomerTicketZoom" />
         <input type="hidden" name="Subaction" value="Store" />
@@ -53,7 +67,7 @@
         <input type="hidden" name="FormID" value="[% Data.FormID | html %]" />
         <input type="hidden" name="FromChatID" value="[% Data.FromChatID | html %]" />
 
-        <div id="Messenger">
+        <div class="Messenger">
             <fieldset class="DontPrint">
 [% RenderBlockStart("DynamicField_TitleMessage") %]
                 <div class="Row Row_DynamicField_[% Data.Name | html %][% Data.HiddenClass | html %]" [% Data.HiddenStyle | html %]>
@@ -196,7 +210,7 @@
 
             </fieldset>
             <div class="ActionRow">
-                <button id="CloseButton" class="oooXS">[% Translate("Discard") | html %]</button><button type="submit" value="[% Translate("Submit") | html %]" class="oooXS">[% Translate("Submit") | html %]</button>
+                <button class="CloseButton oooXS">[% Translate("Discard") | html %]</button><button type="submit" value="[% Translate("Submit") | html %]" class="oooXS">[% Translate("Submit") | html %]</button>
             </div>
         </div>
     </form>
