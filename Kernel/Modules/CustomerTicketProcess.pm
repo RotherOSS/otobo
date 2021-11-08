@@ -65,9 +65,9 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $TicketID               = $Self->{TicketID} || $ParamObject->GetParam( Param => 'TicketID' );
+    my $TicketID               = $Self->{TicketID}              || $ParamObject->GetParam( Param => 'TicketID' );
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
-    my $ProcessEntityID        = $Param{ProcessEntityID} || $ParamObject->GetParam( Param => 'ProcessEntityID' );
+    my $ProcessEntityID        = $Param{ProcessEntityID}        || $ParamObject->GetParam( Param => 'ProcessEntityID' );
 
     my $ActivityDialogHashRef;
 
@@ -113,7 +113,7 @@ sub Run {
     }
 
     # list Active processes, fetch also FadeAway processes to continue working with existing tickets
-    my @ProcessStates = ('Active', 'FadeAway');
+    my @ProcessStates = ( 'Active', 'FadeAway' );
 
     # get process object
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
@@ -296,11 +296,11 @@ sub _RenderAjax {
         # extract the dynamic field value from the web request
         $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $BackendObject->EditFieldValueGet(
             DynamicFieldConfig => {
-                %{ $DynamicFieldConfig },
+                %{$DynamicFieldConfig},
                 Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
             },
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
+            ParamObject  => $ParamObject,
+            LayoutObject => $LayoutObject,
         );
     }
 
@@ -599,7 +599,7 @@ sub _GetParam {
     my %GetParam;
     my %Ticket;
     my $ProcessEntityID        = $Param{ProcessEntityID};
-    my $TicketID               = $Param{TicketID} || $ParamObject->GetParam( Param => 'TicketID' );
+    my $TicketID               = $Param{TicketID}               || $ParamObject->GetParam( Param => 'TicketID' );
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam(
         Param => 'ActivityDialogEntityID',
     );
@@ -747,11 +747,11 @@ sub _GetParam {
             # Get DynamicField Values
             $Value = $BackendObject->EditFieldValueGet(
                 DynamicFieldConfig => {
-                    %{ $DynamicFieldConfig },
+                    %{$DynamicFieldConfig},
                     Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
                 },
-                ParamObject        => $ParamObject,
-                LayoutObject       => $LayoutObject,
+                ParamObject  => $ParamObject,
+                LayoutObject => $LayoutObject,
             );
 
             # If we got a submitted param, take it and next out
@@ -1523,9 +1523,9 @@ sub _OutputActivityDialog {
     $LayoutObject->Block(
         Name => 'Footer',
         Data => {
-            ButtonText     => $ButtonText,
-            ButtonTitle    => $ButtonTitle,
-            ButtonID       => $ButtonID
+            ButtonText  => $ButtonText,
+            ButtonTitle => $ButtonTitle,
+            ButtonID    => $ButtonID
         },
     );
 
@@ -1673,7 +1673,7 @@ sub _RenderDynamicField {
 
     my $DynamicFieldHTML = $BackendObject->EditFieldRender(
         DynamicFieldConfig => {
-            %{ $DynamicFieldConfig },
+            %{$DynamicFieldConfig},
             Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
         },
         PossibleValuesFilter => $PossibleValuesFilter,
@@ -1855,10 +1855,10 @@ sub _RenderArticle {
         Body             => $Param{GetParam}{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
             || $LayoutObject->{LanguageObject}->Translate("Subject"),
-        LabelBody        => $Param{ActivityDialogField}->{Config}->{LabelBody}
+        LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
             || $LayoutObject->{LanguageObject}->Translate("Text"),
-        AttachmentList   => $Param{AttachmentList},
-        IDSuffix         => $Self->{IDSuffix} || '',
+        AttachmentList => $Param{AttachmentList},
+        IDSuffix       => $Self->{IDSuffix} || '',
     );
 
     # If field is required put in the necessary variables for
@@ -2904,7 +2904,7 @@ sub _StoreActivityDialog {
                 # Check DynamicField Values
                 my $ValidationResult = $BackendObject->EditFieldValueValidate(
                     DynamicFieldConfig => {
-                        %{ $DynamicFieldConfig },
+                        %{$DynamicFieldConfig},
                         Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
                     },
                     PossibleValuesFilter => $PossibleValuesFilter,
@@ -2929,11 +2929,11 @@ sub _StoreActivityDialog {
                 $TicketParam{$CurrentField} =
                     $BackendObject->EditFieldValueGet(
                         DynamicFieldConfig => {
-                            %{ $DynamicFieldConfig },
+                            %{$DynamicFieldConfig},
                             Name => $DynamicFieldConfig->{Name} . $Self->{IDSuffix},
                         },
-                        ParamObject        => $ParamObject,
-                        LayoutObject       => $LayoutObject,
+                        ParamObject  => $ParamObject,
+                        LayoutObject => $LayoutObject,
                     );
             }
 
@@ -3186,17 +3186,17 @@ sub _StoreActivityDialog {
 
                 my $From = "$Self->{UserFullname} <$Self->{UserEmail}>";
                 $ArticleID = $ArticleBackendObject->ArticleCreate(
-                    TicketID                  => $TicketID,
-                    SenderType                => 'customer',
-                    IsVisibleForCustomer      => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} // 0,
-                    From                      => $From,
-                    MimeType                  => $MimeType,
-                    Charset                   => $LayoutObject->{UserCharset},
-                    UserID                    => $ConfigObject->Get('CustomerPanelUserID'),
-                    HistoryType               => $HistoryType,
-                    HistoryComment            => $HistoryComment,
-                    Body                      => $Param{GetParam}->{Body},
-                    Subject                   => $Param{GetParam}->{Subject},
+                    TicketID             => $TicketID,
+                    SenderType           => 'customer',
+                    IsVisibleForCustomer => $ActivityDialog->{Fields}->{Article}->{Config}->{IsVisibleForCustomer} // 0,
+                    From                 => $From,
+                    MimeType             => $MimeType,
+                    Charset              => $LayoutObject->{UserCharset},
+                    UserID               => $ConfigObject->Get('CustomerPanelUserID'),
+                    HistoryType          => $HistoryType,
+                    HistoryComment       => $HistoryComment,
+                    Body                 => $Param{GetParam}->{Body},
+                    Subject              => $Param{GetParam}->{Subject},
                 );
                 if ( !$ArticleID ) {
                     return $LayoutObject->CustomerErrorScreen();
@@ -3861,12 +3861,12 @@ sub GetAJAXUpdatableFields {
     $Self->{IDSuffix} //= $Param{ActivityDialogEntityID} ? $Param{ActivityDialogEntityID} =~ s/^ActivityDialog-/_/r : '';
 
     my %DefaultUpdatableFields = (
-        PriorityID    => 1,
-        QueueID       => 1,
-        ServiceID     => 1,
-        SLAID         => 1,
-        StateID       => 1,
-        TypeID        => 1,
+        PriorityID => 1,
+        QueueID    => 1,
+        ServiceID  => 1,
+        SLAID      => 1,
+        StateID    => 1,
+        TypeID     => 1,
     );
 
     # get backend object

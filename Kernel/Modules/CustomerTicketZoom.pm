@@ -119,18 +119,18 @@ sub Run {
             );
         }
 
-        my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
-            %{ $Self },
+        my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+            %{$Self},
             Action    => 'CustomerTicketProcess',
             Subaction => $Self->{Subaction},
-            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
         );
 
         my $ActivityDialogEntityID = $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
-        $ActivityErrorHTML{ $ActivityDialogEntityID } = $ProcessModule->Run(%Param);
+        $ActivityErrorHTML{$ActivityDialogEntityID} = $ProcessModule->Run(%Param);
 
         # return directly in case of an error dialog
-        return $ActivityErrorHTML{ $ActivityDialogEntityID } if $ActivityErrorHTML{ $ActivityDialogEntityID } =~ /^<!DOCTYPE html>/;
+        return $ActivityErrorHTML{$ActivityDialogEntityID} if $ActivityErrorHTML{$ActivityDialogEntityID} =~ /^<!DOCTYPE html>/;
     }
 
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' && $ParamObject->GetParam( Param => 'ActivityDialogEntityID' ) ) {
@@ -142,11 +142,11 @@ sub Run {
             return;
         }
 
-        my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
-            %{ $Self },
+        my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+            %{$Self},
             Action    => 'CustomerTicketProcess',
             Subaction => $Self->{Subaction},
-            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+            ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
         );
 
         return $ProcessModule->Run(%Param);
@@ -1749,11 +1749,11 @@ sub _Mask {
                     Message => Translatable('Could not load process module.'),
                 );
             }
-            my $ProcessModule = ( 'Kernel::Modules::CustomerTicketProcess' )->new(
-                %{ $Self },
+            my $ProcessModule = ('Kernel::Modules::CustomerTicketProcess')->new(
+                %{$Self},
                 Action    => 'CustomerTicketProcess',
                 Subaction => 'DisplayActivityDialog',
-                ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{ 'CustomerTicketProcess' },
+                ModuleReg => $ConfigObject->Get('CustomerFrontend::Module')->{'CustomerTicketProcess'},
             );
 
             my @AJAXUpdatableFieldList;
@@ -1859,7 +1859,7 @@ sub _Mask {
                 );
             }
 
-            if ( @AJAXUpdatableFieldList ) {
+            if (@AJAXUpdatableFieldList) {
                 $LayoutObject->AddJSData(
                     Key   => 'ProcessAJAXFieldList',
                     Value => \@AJAXUpdatableFieldList,
