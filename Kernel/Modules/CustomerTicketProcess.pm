@@ -1070,124 +1070,51 @@ sub _OutputActivityDialog {
     my $Output;
     my $MainBoxClass;
 
-    if ( !$Self->{IsMainWindow} ) {
-        #$Output = $LayoutObject->CustomerHeader(
-        #    Type  => 'Small',
-        #    Value => $Ticket{Number},
-        #);
+    $LayoutObject->Block(
+        Name => 'Header',
+        Data => {
+            Name =>
+                $LayoutObject->{LanguageObject}->Translate( $ActivityDialog->{Name} )
+                || '',
+        },
+    );
 
-        ## display given notify messages if this is not an AJAX request
-        #if ( IsArrayRefWithData( $Param{Notify} ) ) {
-
-        #    for my $NotifyData ( @{ $Param{Notify} } ) {
-        #        $Output .= $LayoutObject->Notify( %{$NotifyData} );
-        #    }
-        #}
-
+    # show descriptions
+    if ( $ActivityDialog->{DescriptionShort} ) {
         $LayoutObject->Block(
-            Name => 'Header',
+            Name => 'DescriptionShort',
             Data => {
-                Name =>
-                    $LayoutObject->{LanguageObject}->Translate( $ActivityDialog->{Name} )
-                    || '',
+                DescriptionShort
+                    => $LayoutObject->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionShort},
+                    ),
             },
         );
-
-        # show descriptions
-        if ( $ActivityDialog->{DescriptionShort} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionShort',
-                Data => {
-                    DescriptionShort
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionShort},
-                        ),
-                },
-            );
-        }
-        if ( $ActivityDialog->{DescriptionLong} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionLong',
-                Data => {
-                    DescriptionLong
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionLong},
-                        ),
-                },
-            );
-        }
     }
-    elsif ( $Self->{IsMainWindow} && IsHashRefWithData( \%Error ) ) {
-
-        # add rich text editor
-        if ( $LayoutObject->{BrowserRichText} ) {
-
-            # use height/width defined for this screen
-            $Param{RichTextHeight} = $Self->{Config}->{RichTextHeight} || 0;
-            $Param{RichTextWidth}  = $Self->{Config}->{RichTextWidth}  || 0;
-
-            # set up customer rich text editor
-            $LayoutObject->CustomerSetRichTextParameters(
-                Data => \%Param,
-            );
-        }
-
-        # display complete header and nav bar in ajax dialogs when there is a server error
-        #$Output = $LayoutObject->CustomerHeader();
-        #$Output .= $LayoutObject->CustomerNavigationBar();
-
-        # display original header texts (the process list maybe is not necessary)
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'CustomerTicketProcess',
-            Data         => {},
+    if ( $ActivityDialog->{DescriptionLong} ) {
+        $LayoutObject->Block(
+            Name => 'DescriptionLong',
+            Data => {
+                DescriptionLong
+                    => $LayoutObject->{LanguageObject}->Translate(
+                        $ActivityDialog->{DescriptionLong},
+                    ),
+            },
         );
-
-        # set the MainBox class to add correct borders to the screen
-        $MainBoxClass = 'MainBox';
     }
-
-    # Show descriptions if activity is a first screen. See bug#12649 for more information.
-    if ( $Self->{IsMainWindow} ) {
-        if ( $ActivityDialog->{DescriptionShort} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionShortAlt',
-                Data => {
-                    DescriptionShort
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionShort},
-                        ),
-                },
-            );
-        }
-        if ( $ActivityDialog->{DescriptionLong} ) {
-            $LayoutObject->Block(
-                Name => 'DescriptionLongAlt',
-                Data => {
-                    DescriptionLong
-                        => $LayoutObject->{LanguageObject}->Translate(
-                            $ActivityDialog->{DescriptionLong},
-                        ),
-                },
-            );
-        }
+    if ( $Param{RenderLocked} ) {
+        $LayoutObject->Block(
+            Name => 'PropertiesLock',
+            Data => {
+                %Param,
+                TicketID => $TicketID,
+            },
+        );
     }
-
-    # show close & cancel link if necessary
-    if ( !$Self->{IsMainWindow} ) {
-        if ( $Param{RenderLocked} ) {
-            $LayoutObject->Block(
-                Name => 'PropertiesLock',
-                Data => {
-                    %Param,
-                    TicketID => $TicketID,
-                },
-            );
-        }
-        else {
-            $LayoutObject->Block(
-                Name => 'CancelLink',
-            );
-        }
+    else {
+        $LayoutObject->Block(
+            Name => 'CancelLink',
+        );
     }
 
     $Output .= $LayoutObject->Output(
@@ -1584,25 +1511,6 @@ sub _OutputActivityDialog {
         }
     }
 
-    my $FooterCSSClass = 'Footer';
-
-    if ( $Self->{IsAjaxRequest} ) {
-
-        # Due to the initial loading of
-        # the first ActivityDialog after Process selection
-        # we have to bind the AjaxUpdate Function on
-        # the selects, so we get the complete JSOnDocumentComplete code
-        # and deliver it in the FooterJS block.
-        # This Javascript Part is executed in
-        # CustomerTicketProcess.tt
-        $LayoutObject->Block(
-            Name => 'FooterJS',
-            Data => {},
-        );
-
-        $FooterCSSClass = 'Centered';
-    }
-
     # set submit button data
     my $ButtonText  = 'Submit';
     my $ButtonTitle = 'Save';
@@ -1615,7 +1523,6 @@ sub _OutputActivityDialog {
     $LayoutObject->Block(
         Name => 'Footer',
         Data => {
-            FooterCSSClass => $FooterCSSClass,
             ButtonText     => $ButtonText,
             ButtonTitle    => $ButtonTitle,
             ButtonID       => $ButtonID
@@ -1636,11 +1543,6 @@ sub _OutputActivityDialog {
         TemplateFile => 'ProcessManagement/CustomerActivityDialogFooter',
         Data         => {},
     );
-
-#    # display regular footer only in non-ajax case
-#    if ( !$Self->{IsAjaxRequest} ) {
-#        $Output .= $LayoutObject->CustomerFooter( Type => $Self->{IsMainWindow} ? '' : 'Small' );
-#    }
 
     return $Output;
 }

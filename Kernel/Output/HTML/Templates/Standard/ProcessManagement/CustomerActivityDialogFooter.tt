@@ -27,10 +27,3 @@
 [% RenderBlockEnd("Footer") %]
     </div>
 </form>
-
-[% RenderBlockStart("FooterJS") %]
-<script type="text/javascript">
-[% PROCESS JSDataInsert %]
-[% PROCESS JSOnDocumentCompleteInsert %]
-</script>
-[% RenderBlockEnd("FooterJS") %]
