@@ -152,11 +152,11 @@ for my $Fail ( 0 .. 1 ) {
         },
     );
 
-    note("RequesterPerformRequest() (Fail $Fail)");
+    note("RequesterPerformRequest() (Fail: $Fail)");
 
     for my $TestEntry (@RPRTestData) {
 
-        subtest "$TestEntry->{Name} (Fail $Fail)" => sub {
+        subtest "$TestEntry->{Name} (Fail: $Fail)" => sub {
 
             # discard Web::Request from OM to prevent errors
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
@@ -167,10 +167,7 @@ for my $Fail ( 0 .. 1 ) {
             );
 
             if ( !$Fail && $TestEntry->{ResultSuccess} ) {
-                $Self->True(
-                    $Result->{Success},
-                    "success",
-                );
+                ok( $Result->{Success}, "success" );
 
                 for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
                     $Self->True(
@@ -376,18 +373,27 @@ for my $Fail ( 0 .. 1 ) {
 
                 if ( !$Fail && $TestEntry->{ResultSuccess} ) {
 
+                    ok( $WebException, 'always an exception on success' );
+                    isa_ok( $WebException, 'Kernel::System::Web::Exception' );
                     if ($OptionSuccess) {
-                        ok("success");
+                        pass('success');
+                        can_ok( $WebException, ['as_psgi'], 'sane exception' );
 
-                        $Self->True(
-                            index( $Response, '200 OK' ) > -1,
-                            "result status 200",
-                        );
+                        # status 200 is expected
+                        my $PSGIResponse = $WebException->as_psgi();
+                        ok( $PSGIResponse, 'got a PSGI response' );
+                        ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
+                        is( $PSGIResponse->[0], 200, 'HTTP status 200' );
+                        ref_ok( $PSGIResponse->[1], 'ARRAY', 'got array for the headers' );
+                        ref_ok( $PSGIResponse->[2], 'ARRAY', 'got array for the body' );
 
-                        for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
-                            $Self->True(
-                                index( $Response, $QueryStringPart ) > -1,
-                                "result",
+                        my $Body = join '', $PSGIResponse->[2]->@*;
+                        $TestEntry->{ResponseData} //= {};
+
+                        for my $QueryStringPart ( split /&/, $TestEntry->{ResultData} ) {
+                            ok(
+                                index( $Body, $QueryStringPart ) > -1,
+                                "result body contains '$QueryStringPart'",
                             );
                         }
                     }

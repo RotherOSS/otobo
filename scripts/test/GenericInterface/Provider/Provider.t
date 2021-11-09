@@ -351,11 +351,23 @@ for my $Test (@Tests) {
                     $WebException = $@;    # assign '' in case of success
                 }
 
+                ok( $WebException, 'always an exception' );
+                isa_ok( $WebException, 'Kernel::System::Web::Exception' );
                 if ( $Test->{ResponseSuccess} ) {
 
-                    is( $WebException, '', "$RequestMethod $WebserviceAccess: no exception for ResponseSuccess" );
+                    can_ok( $WebException, ['as_psgi'], 'sane exception' );
 
-                    for my $Key ( sort keys %{ $Test->{ResponseData} || {} } ) {
+                    # status 200 is expected
+                    my $PSGIResponse = $WebException->as_psgi();
+                    ok( $PSGIResponse, 'got a PSGI response' );
+                    ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
+                    is( $PSGIResponse->[0], 200, 'HTTP status 200' );
+                    ref_ok( $PSGIResponse->[1], 'ARRAY', 'got array for the headers' );
+                    ref_ok( $PSGIResponse->[2], 'ARRAY', 'got array for the body' );
+
+                    my $Body = join '', $PSGIResponse->[2]->@*;
+                    $Test->{ResponseData} //= {};
+                    for my $Key ( sort keys $Test->{ResponseData}->%* ) {
                         my $QueryStringPart = URI::Escape::uri_escape_utf8($Key);
                         if ( $Test->{ResponseData}->{$Key} ) {
                             $QueryStringPart
@@ -363,15 +375,10 @@ for my $Test (@Tests) {
                         }
 
                         ok(
-                            index( $ResponseData, $QueryStringPart ) > -1,
-                            "$RequestMethod $PathInfo Run() HTTP $RequestMethod result data contains $QueryStringPart",
+                            index( $Body, $QueryStringPart ) > -1,
+                            "$RequestMethod $PathInfo result body contains '$QueryStringPart'",
                         );
                     }
-
-                    ok(
-                        index( $ResponseData, 'HTTP/1.0 200 OK' ) > -1,
-                        "$RequestMethod $PathInfo Run() HTTP $RequestMethod result success status",
-                    );
                 }
                 else {
 
