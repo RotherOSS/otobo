@@ -16,6 +16,7 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 # core modules
@@ -39,7 +40,7 @@ for my $Type (qw(Invoker Operation)) {
             'Connection',
             'Content-Type',
 
-            # Only for UnitTest
+            # Only for UnitTest on the client side
             'NotAllowed',
         ],
     );
@@ -52,6 +53,13 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# activate support for mirroring HTTP headers in the transport backends
+$Helper->ConfigSettingChange(
+    Valid => 1,
+    Key   => 'GenericInterface::Transport::MirrorUnitTestHTTPHeaders',
+    Value => 1,
+);
 
 # Add web service to be used (empty config).
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -2978,7 +2986,10 @@ for my $Test (@BasicTests) {
         #     },
         # },
         if ( $Test->{ExpectedReturn} ) {
-            is(
+
+            # using Test2::V0::is() is not trivial here,
+            # as is() and IsDeeply() diverge on how undefined values are treated
+            $Self->IsDeeply(
                 $RequesterResult,
                 $Test->{ExpectedReturn},
                 'request result'
@@ -2992,6 +3003,7 @@ for my $Test (@BasicTests) {
 
 # adapted for OTOBOTicketInvoker
 # Check operation request and response headers.
+# The string $ResponseHeaderPrefix is 25 chars long. It marks the headers that should be returned by RequesterPerformRequest()
 my $ResponseHeaderPrefix = 'Unittest' . $Helper->GetRandomNumber() . '-';
 my %DefaultConfig        = (
     NameSpace       => 'http://otobo.org/SoapTestInterface/',
@@ -3108,7 +3120,7 @@ for my $Test (@CheckHeadersTests) {
 
         isa_ok( $TransportObject, 'Kernel::GenericInterface::Transport' );
 
-        # check the result before a response is generated
+        # check the result of a complete cycle
         {
             my $Result = $TransportObject->RequesterPerformRequest(
                 Operation => 'PriorityIDName',
@@ -3117,20 +3129,24 @@ for my $Test (@CheckHeadersTests) {
             ok( $Result, 'Request result created' );
             is( ref $Result, 'HASH', 'Request result is a hashref' );
 
-            # Retrieve all headers from result and remove unused standard headers.
-            my %ResultHeaders = %{ $Result->{UnitTestHeaders} // {} };
-            delete @ResultHeaders{qw(ACCEPT HOST SOAPACTION TE USER-AGENT)};
+            # Retrieve the request headers that were mirrored in the response.
+            my %MirroredHeaders = ( $Result->{UnitTestHeaders} // {} )->%*;
+
+            # Ignore standard headers.
+            # Note that CONNECTION is mirrored even though it is blacklisted.
+            delete @MirroredHeaders{qw(CONNECTION ACCEPT HOST SOAPACTION TE USER-AGENT)};
 
             # Analyze headers.
+            # Keys were uppercase by CGI::PSGI in nph-genericinterface.pl
             for my $Key ( sort keys $Test->{ExpectedHeaders}->%* ) {
                 is(
-                    delete $ResultHeaders{ uc($Key) },
+                    delete $MirroredHeaders{ uc $Key },
                     $Test->{ExpectedHeaders}->{$Key},
                     "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
                 );
             }
 
-            ok( !%ResultHeaders, 'Only expected request result headers have been found' );
+            ok( !%MirroredHeaders, 'Only expected request result headers have been found' );
         }
 
         # Create and check the PSGI response. The response is acutually thrown as an exception.
@@ -3141,8 +3157,9 @@ for my $Test (@CheckHeadersTests) {
             # Create response. The response is acutually thrown as an exception.
             my $Response = eval {
                 $TransportObject->ProviderGenerateResponse(
-                    Success => 1,
-                    Data    => {},
+                    Success   => 1,
+                    Data      => {},
+                    Operation => 'PriorityIDName',
                 );
             };
             my $WebException = $@;
@@ -3150,14 +3167,16 @@ for my $Test (@CheckHeadersTests) {
             my $PSGIResponse = $WebException->as_psgi();
             ref_ok( $PSGIResponse, 'ARRAY', 'PSGI response is an array ref' );
 
-            # Retrieve all headers from request and remove unused standard headers.
+            # Retrieve all headers from response.
             my %ResponseHeaders = $PSGIResponse->[1]->@*;
+
+            # Remove unused standard headers.
             delete @ResponseHeaders{qw(Connection Content-Type Content-Length)};
 
             # Analyze headers.
-            for my $Key ( sort keys %{ $Test->{ExpectedHeaders} } ) {
+            for my $Key ( sort keys $Test->{ExpectedHeaders}->%* ) {
                 is(
-                    delete $ResponseHeaders{ uc($Key) },
+                    delete $ResponseHeaders{$Key},
                     $Test->{ExpectedHeaders}->{$Key},
                     "Found request header '$Key' with value '$Test->{ExpectedHeaders}->{$Key}'"
                 );

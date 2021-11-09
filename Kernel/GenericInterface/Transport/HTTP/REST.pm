@@ -31,7 +31,6 @@ use URI::Escape;
 use Plack::Response;
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Exception;
 
@@ -259,7 +258,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            HTTPError => 413,                                 # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
@@ -276,11 +275,11 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
-    # Convert char-set if necessary.
+    # Convert charset if necessary.
     {
         my $ContentType = $ParamObject->ContentType();
         my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
@@ -839,7 +838,7 @@ sub RequesterPerformRequest {
         push @RequestParam, $Body;
     }
 
-    # introduced for OTOBOTicketInvoker
+    # added for OTOBOTicketInvoker
 
     # Gather additional headers.
     %Headers = (
