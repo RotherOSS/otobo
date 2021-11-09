@@ -423,30 +423,15 @@ sub Content {
         );
     }
 
-    #
-    # Generate the actual response.
-    #
-
-    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
+    # Generate the actual response and throw it in an
+    # Kernel::System::Web::Exception.
+    $Self->{TransportObject}->ProviderGenerateResponse(
         Success   => 1,
         Data      => $DataOut,
         Operation => $Operation,    # introduced by OTOBOTicketInvoker
     );
 
-    if ( !$Response->{Success} ) {
-
-        my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-
-        return $Self->_HandleError(
-            %HandleErrorData,
-            DataInclude => \%DataInclude,
-            ErrorStage  => 'ProviderResponseTransmit',
-            Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
-        );
-    }
-
-    return $Response->{Output};
+    return; # actually not reached
 }
 
 =begin Internal:
@@ -455,30 +440,24 @@ sub Content {
 
 prepares header and content for an error response
 
-    my $Output = $Self->_GenerateErrorResponse(
+Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
+
+    $Self->_GenerateErrorResponse(
         DebuggerObject => $DebuggerObject,
         ErrorMessage   => $ErrorMessage,
-    ) // '';
-    print STDOUT $Output;
+    );
 
 =cut
 
 sub _GenerateErrorResponse {
     my ( $Self, %Param ) = @_;
 
-    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
+    $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
 
-    if ( !$Response->{Success} ) {
-        $Param{DebuggerObject}->Error(
-            Summary => 'Error response could not be sent',
-            Data    => $Response->{ErrorMessage},
-        );
-    }
-
-    return $Response->{Output};
+    return; # actually not reached
 }
 
 =head2 _HandleError()

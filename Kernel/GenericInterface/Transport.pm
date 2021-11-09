@@ -126,6 +126,7 @@ sub ProviderProcessRequest {
 =head2 ProviderGenerateResponse()
 
 generate response for an incoming web service request.
+Throws a L<Kernel::System::Web::Exception>.
 
     my $Result = $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
@@ -161,6 +162,7 @@ sub ProviderGenerateResponse {
         );
     }
 
+    # throws an exception
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }
 

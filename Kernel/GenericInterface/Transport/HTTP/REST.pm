@@ -54,9 +54,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
+    # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
@@ -349,26 +349,19 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-In case of an error, error code and message are taken from environment
-(previously set on request processing).
+Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
 
-The HTTP code is set accordingly
+The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
 - C<4xx> for http errors
 - C<500> for content syntax errors
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+    $TransportObject->ProviderGenerateResponse(
         Success => 1
         Data    => { # data payload for response, optional
             ...
         },
     );
-
-    $Result = {
-        Success      => 1,          # 0 or 1
-        Output       => $Content,   # a string
-        ErrorMessage => '',         # in case of error
-    };
 
 =cut
 
@@ -377,7 +370,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -385,7 +378,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -412,14 +405,13 @@ sub ProviderGenerateResponse {
     );
 
     if ( !$JSONString ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error while encoding return JSON structure.',
         );
     }
 
-    # Support for OTOBOTicketInvoker
-
+    # added for OTOBOTicketInvoker
     # Gather additional headers.
     my %Headers = $Self->_HeadersGet(
         Type      => 'Operation',
@@ -451,12 +443,14 @@ sub ProviderGenerateResponse {
         }
     }
 
-    # No error - return output.
-    return $Self->_ThrowWebException(
+    # No error, still throw an exception
+    $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
         Headers  => \%Headers,     # introduced by OTOBOTicketInvoker
     );
+
+    return; # actually not reached
 }
 
 =head2 RequesterPerformRequest()
