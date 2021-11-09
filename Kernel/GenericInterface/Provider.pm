@@ -431,7 +431,7 @@ sub Content {
         Operation => $Operation,    # introduced by OTOBOTicketInvoker
     );
 
-    return; # actually not reached
+    return;                         # actually not reached
 }
 
 =begin Internal:
@@ -457,7 +457,7 @@ sub _GenerateErrorResponse {
         ErrorMessage => $Param{ErrorMessage},
     );
 
-    return; # actually not reached
+    return;    # actually not reached
 }
 
 =head2 _HandleError()
