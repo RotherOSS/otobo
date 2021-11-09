@@ -133,6 +133,8 @@ Throws a L<Kernel::System::Web::Exception>.
 This will generate a query string from the passed data hash.
 and generate an HTTP response with this string as the body.
 
+The response will be thrown as an exception.
+
 =cut
 
 sub ProviderGenerateResponse {
@@ -167,16 +169,20 @@ sub ProviderGenerateResponse {
         # generate a request string from the data
         my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
-        $PlackResponse = Plack::Response->new( 200 => "OK" );
-        $PlackResponse->protocol('HTTP/1.0');
-        $PlackResponse->content_type("text/plain; charset=UTF-8");
-        $PlackResponse->add_content_utf8( $Request->content() );
-        $PlackResponse->date(time);
+        $PlackResponse = Plack::Response->new(
+            200,
+            [ 'Content-Type' => 'text/plain; charset=UTF-8' ],
+            $Request->content,
+        );
     }
 
+    my $SerialisedResponse = join "\n",
+        $PlackResponse->code,
+        $PlackResponse->headers->as_string,
+        $PlackResponse->body;
     $Self->{DebuggerObject}->Debug(
         Summary => 'Sending HTTP response',
-        Data    => $PlackResponse->as_string(),
+        Data    => $SerialisedResponse,
     );
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
