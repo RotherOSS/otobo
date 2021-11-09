@@ -803,7 +803,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         my $Success = 0;
 
         # activate it
-        if ($ESWebservice) {
+        if ( $ESWebservice ) {
             $Success = $WebserviceObject->WebserviceUpdate(
                 %{$ESWebservice},
                 ValidID => 1,
@@ -817,10 +817,19 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # try to set up Elasticsearch
-        if ($Success) {
+        if ( $Success ) {
             ( $Success, my $FatalError ) = $ESObject->InitialSetup();
 
             $LayoutObject->FatalError() if $FatalError;
+        }
+
+        # deactivate the webservice again in case of no success
+        else {
+            $WebserviceObject->WebserviceUpdate(
+                %{$ESWebservice},
+                ValidID => 2,
+                UserID  => 1,
+            );
         }
 
         # show the status in the GUI
