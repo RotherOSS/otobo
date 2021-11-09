@@ -145,12 +145,17 @@ sub GetRandomID {
 
 =head2 GetRandomNumber()
 
-creates a random Number that can be used in tests as a unique identifier.
+creates a random number that can be used in tests as a unique identifier.
+The creates random number always has 16 digits.
 
 It is guaranteed that within a test this function will never return a duplicate.
 
 Please note that these numbers are not really random and should only be used
 to create test data.
+
+Returns:
+
+    my $UniqueNumber = '8800007901000000';
 
 =cut
 
