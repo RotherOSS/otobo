@@ -128,48 +128,38 @@ sub ProviderProcessRequest {
 
 =head2 ProviderGenerateResponse()
 
-this will generate a query string from the passed data hash
+Throws a L<Kernel::System::Web::Exception>.
+
+This will generate a query string from the passed data hash.
 and generate an HTTP response with this string as the body.
-This response will be printed so that the web server will
-send it to the client.
 
 =cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    my $PlackResponse;
+
     if ( $Self->{TransportConfig}->{Config}->{Fail} ) {
 
         my $ErrorMessage = 'Test response generation failed';
 
         # a response with code 500
-        my $ServerErrorResponse = Plack::Response->new(
+        $PlackResponse = Plack::Response->new(
             500,
             [],
             $ErrorMessage,
         );
 
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $ServerErrorResponse
-        );
     }
-
-    my $Response;
-
-    if ( !$Param{Success} ) {
+    elsif ( !$Param{Success} ) {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
 
         # a response with code 500
-        my $ServerErrorResponse = Plack::Response->new(
+        $PlackResponse = Plack::Response->new(
             500,
             [],
             $ErrorMessage,
-        );
-
-        # The exception is caught be Plack::Middleware::HTTPExceptions
-        die Kernel::System::Web::Exception->new(
-            PlackResponse => $ServerErrorResponse
         );
     }
     else {
@@ -177,22 +167,22 @@ sub ProviderGenerateResponse {
         # generate a request string from the data
         my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
-        $Response = HTTP::Response->new( 200 => "OK" );
-        $Response->protocol('HTTP/1.0');
-        $Response->content_type("text/plain; charset=UTF-8");
-        $Response->add_content_utf8( $Request->content() );
-        $Response->date(time);
+        $PlackResponse = Plack::Response->new( 200 => "OK" );
+        $PlackResponse->protocol('HTTP/1.0');
+        $PlackResponse->content_type("text/plain; charset=UTF-8");
+        $PlackResponse->add_content_utf8( $Request->content() );
+        $PlackResponse->date(time);
     }
 
     $Self->{DebuggerObject}->Debug(
         Summary => 'Sending HTTP response',
-        Data    => $Response->as_string(),
+        Data    => $PlackResponse->as_string(),
     );
 
-    return {
-        Success => 1,
-        Output  => $Response->as_string(),
-    };
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse,
+    );
 }
 
 =head2 RequesterPerformRequest()

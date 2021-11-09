@@ -99,8 +99,8 @@ sub Content {
     my %WebserviceGetData;
     if (
         $RequestURI
-        && $RequestURI
-        =~ m{ nph-genericinterface[.]pl/ (?: WebserviceID/ (?<ID> \d+ ) | Webservice/ (?<Name> [^/?]+ ) ) }smx
+        &&
+        $RequestURI =~ m{ nph-genericinterface[.]pl/ (?: WebserviceID/ (?<ID> \d+ ) | Webservice/ (?<Name> [^/?]+ ) ) }smx
         )
     {
         %WebserviceGetData = (
@@ -205,28 +205,28 @@ sub Content {
     );
 
     # Read request content.
-    my $FunctionResult = $Self->{TransportObject}->ProviderProcessRequest();
+    my $ProcessRequestResult = $Self->{TransportObject}->ProviderProcessRequest();
 
     # If the request was not processed correctly, send error to client.
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$ProcessRequestResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
+        my $Summary = $ProcessRequestResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
 
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => {},
             ErrorStage  => 'ProviderRequestReceive',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $ProcessRequestResult->{Data} // $Summary,
         );
     }
 
     # prepare the data include configuration and payload
     my %DataInclude = (
-        ProviderRequestInput => $FunctionResult->{Data},
+        ProviderRequestInput => $ProcessRequestResult->{Data},
     );
 
-    my $Operation = $FunctionResult->{Operation};
+    my $Operation = $ProcessRequestResult->{Operation};
 
     $DebuggerObject->Debug(
         Summary => "Detected operation '$Operation'",
@@ -236,7 +236,7 @@ sub Content {
     # Map the incoming data based on the configured mapping.
     #
 
-    my $DataIn = $FunctionResult->{Data};
+    my $DataIn = $ProcessRequestResult->{Data};
 
     $DebuggerObject->Debug(
         Summary => "Incoming data before mapping",
@@ -252,8 +252,7 @@ sub Content {
             DebuggerObject => $DebuggerObject,
             Operation      => $Operation,
             OperationType  => $ProviderConfig->{Operation}->{$Operation}->{Type},
-            MappingConfig  =>
-                $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
+            MappingConfig  => $ProviderConfig->{Operation}->{$Operation}->{MappingInbound},
         );
 
         # If mapping initialization failed, bail out.
@@ -265,34 +264,34 @@ sub Content {
 
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
-                ErrorMessage   => $FunctionResult->{ErrorMessage},
+                ErrorMessage   => $ProcessRequestResult->{ErrorMessage},
             ) // '';
         }
 
         # add operation to data for error handler
         $HandleErrorData{Operation} = $Operation;
 
-        $FunctionResult = $MappingInObject->Map(
+        my $MappingInResult = $MappingInObject->Map(
             Data => $DataIn,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MappingInResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+            my $Summary = $MappingInResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
 
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderRequestMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MappingInResult->{Data} // $Summary,
             );
         }
 
         # extend the data include payload
-        $DataInclude{ProviderRequestMapOutput} = $FunctionResult->{Data};
+        $DataInclude{ProviderRequestMapOutput} = $MappingInResult->{Data};
 
-        $DataIn = $FunctionResult->{Data};
+        $DataIn = $MappingInResult->{Data};
 
         $DebuggerObject->Debug(
             Summary => "Incoming data after mapping",
@@ -335,31 +334,31 @@ sub Content {
     # add operation object to data for error handler
     $HandleErrorData{OperationObject} = $OperationObject;
 
-    $FunctionResult = $OperationObject->Run(
+    my $OperationResult = $OperationObject->Run(
         Data => $DataIn,
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$OperationResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
+        my $Summary = $OperationResult->{ErrorMessage} // 'OperationObject returned an error, cancelling Request';
 
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'ProviderRequestProcess',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $OperationResult->{Data} // $Summary,
         );
     }
 
     # extend the data include payload
-    $DataInclude{ProviderResponseInput} = $FunctionResult->{Data};
+    $DataInclude{ProviderResponseInput} = $OperationResult->{Data};
 
     #
     # Map the outgoing data based on configured mapping.
     #
 
-    my $DataOut = $FunctionResult->{Data};
+    my $DataOut = $OperationResult->{Data};
 
     $DebuggerObject->Debug(
         Summary => "Outgoing data before mapping",
@@ -390,32 +389,32 @@ sub Content {
 
             return $Self->_GenerateErrorResponse(
                 DebuggerObject => $DebuggerObject,
-                ErrorMessage   => $FunctionResult->{ErrorMessage},
+                ErrorMessage   => $OperationResult->{ErrorMessage},
             ) // '';
         }
 
-        $FunctionResult = $MappingOutObject->Map(
+        my $MappingOutResult = $MappingOutObject->Map(
             Data        => $DataOut,
             DataInclude => \%DataInclude,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MappingOutResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+            my $Summary = $MappingOutResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
 
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'ProviderResponseMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MappingOutResult->{Data} // $Summary,
             );
         }
 
         # extend the data include payload
-        $DataInclude{ProviderResponseMapOutput} = $FunctionResult->{Data};
+        $DataInclude{ProviderResponseMapOutput} = $MappingOutResult->{Data};
 
-        $DataOut = $FunctionResult->{Data};
+        $DataOut = $MappingOutResult->{Data};
 
         $DebuggerObject->Debug(
             Summary => "Outgoing data after mapping",
@@ -423,30 +422,15 @@ sub Content {
         );
     }
 
-    #
-    # Generate the actual response.
-    #
-
-    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
+    # Generate the actual response and throw it in an
+    # Kernel::System::Web::Exception.
+    $Self->{TransportObject}->ProviderGenerateResponse(
         Success   => 1,
         Data      => $DataOut,
         Operation => $Operation,    # introduced by OTOBOTicketInvoker
     );
 
-    if ( !$Response->{Success} ) {
-
-        my $Summary = $FunctionResult->{ErrorMessage} // 'TransportObject returned an error, cancelling Request';
-
-        return $Self->_HandleError(
-            %HandleErrorData,
-            DataInclude => \%DataInclude,
-            ErrorStage  => 'ProviderResponseTransmit',
-            Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
-        );
-    }
-
-    return $Response->{Output};
+    return;                         # actually not reached
 }
 
 =begin Internal:
@@ -455,30 +439,24 @@ sub Content {
 
 prepares header and content for an error response
 
-    my $Output = $Self->_GenerateErrorResponse(
+Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
+
+    $Self->_GenerateErrorResponse(
         DebuggerObject => $DebuggerObject,
         ErrorMessage   => $ErrorMessage,
-    ) // '';
-    print STDOUT $Output;
+    );
 
 =cut
 
 sub _GenerateErrorResponse {
     my ( $Self, %Param ) = @_;
 
-    my $Response = $Self->{TransportObject}->ProviderGenerateResponse(
+    $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},
     );
 
-    if ( !$Response->{Success} ) {
-        $Param{DebuggerObject}->Error(
-            Summary => 'Error response could not be sent',
-            Data    => $Response->{ErrorMessage},
-        );
-    }
-
-    return $Response->{Output};
+    return;    # actually not reached
 }
 
 =head2 _HandleError()

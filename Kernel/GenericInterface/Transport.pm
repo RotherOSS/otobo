@@ -18,6 +18,7 @@ package Kernel::GenericInterface::Transport;
 
 use strict;
 use warnings;
+use v5.24;
 
 # core modules
 
@@ -81,7 +82,8 @@ sub new {
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Backend) ) {
         return $Self->{DebuggerObject}->Error( Summary => "Backend $Backend not found." );
     }
-    $Self->{BackendObject} = $Backend->new( %{$Self} );
+
+    $Self->{BackendObject} = $Backend->new( $Self->%* );
 
     # if the backend constructor failed, it returns an error hash, pass it on in this case
     return $Self->{BackendObject} if ref $Self->{BackendObject} ne $Backend;
@@ -126,6 +128,7 @@ sub ProviderProcessRequest {
 =head2 ProviderGenerateResponse()
 
 generate response for an incoming web service request.
+Throws a L<Kernel::System::Web::Exception>.
 
     my $Result = $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
@@ -161,6 +164,7 @@ sub ProviderGenerateResponse {
         );
     }
 
+    # throws an exception
     return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
 }
 

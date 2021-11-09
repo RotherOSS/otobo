@@ -31,7 +31,6 @@ use URI::Escape;
 use Plack::Response;
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::Web::Exception;
 
@@ -54,9 +53,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
+    # Check needed objects.
     for my $Needed (qw(DebuggerObject TransportConfig)) {
         $Self->{$Needed} = $Param{$Needed} || die "Got no $Needed!";
     }
@@ -259,7 +258,7 @@ sub ProviderProcessRequest {
     if ( IsInteger( $Config->{MaxLength} ) && $Length > $Config->{MaxLength} ) {
         return $Self->_Error(
             Summary   => HTTP::Status::status_message(413),
-            HTTPError => 413,
+            HTTPError => 413,                                 # HTTP_PAYLOAD_TOO_LARGE
         );
     }
 
@@ -276,11 +275,11 @@ sub ProviderProcessRequest {
     if ( !IsStringWithData($Content) ) {
         return $Self->_Error(
             Summary   => 'Could not read input data',
-            HTTPError => 500,
+            HTTPError => 500,                           # HTTP_INTERNAL_SERVER_ERROR
         );
     }
 
-    # Convert char-set if necessary.
+    # Convert charset if necessary.
     {
         my $ContentType = $ParamObject->ContentType();
         my ($ContentCharset) = $ContentType =~ m{ \A .* charset= ["']? ( [^"']+ ) ["']? \z }xmsi;
@@ -349,26 +348,20 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-In case of an error, error code and message are taken from environment
-(previously set on request processing).
+Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
 
-The HTTP code is set accordingly
+The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
 - C<4xx> for http errors
 - C<500> for content syntax errors
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+    $TransportObject->ProviderGenerateResponse(
         Success => 1
-        Data    => { # data payload for response, optional
+        Operation => 'TicketUpdate', # needed for determining outbound headers
+        Data      => { # data payload for response, optional
             ...
         },
     );
-
-    $Result = {
-        Success      => 1,          # 0 or 1
-        Output       => $Content,   # a string
-        ErrorMessage => '',         # in case of error
-    };
 
 =cut
 
@@ -377,7 +370,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -385,7 +378,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -412,51 +405,63 @@ sub ProviderGenerateResponse {
     );
 
     if ( !$JSONString ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error while encoding return JSON structure.',
         );
     }
 
-    # Support for OTOBOTicketInvoker
-
+    # added for OTOBOTicketInvoker
     # Gather additional headers.
-    my %Headers = $Self->_HeadersGet(
+    my %ResponseHeaders = $Self->_HeadersGet(
         Type      => 'Operation',
         Operation => $Param{Operation},
     );
 
-    # Check if we are in a real request environment (UnitTests may call this function directly).
-    if ( $ENV{HTTP_UNITTESTHEADERS} ) {
-        my %AllRequestHeaders;
-        ENVKEY:
-        for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
-            my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
-            $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
+    # Mirror some HTTP headers when the request comes from a test script
+    # that has temporarily set GenericInterface::Transport::UnitTestHeaders.
+    # This feature allows to check outgoing HTTP headers of the generic interface.
+    # It was introduced by OTOBOTicketInvoker.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Transport::MirrorUnitTestHTTPHeaders') ) {
+
+        # The HTTP::REST support works with a request object.
+        # Just like Kernel::System::Web::InterfaceAgent.
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        my %RequestHeaders;
+        for my $EnvKey ( sort $ParamObject->HTTP() ) {
+            my $HeaderKey = substr $EnvKey, 5;    # remove leading HTTP_
+            $HeaderKey =~ s{_}{-}xmsg;
+            $RequestHeaders{$HeaderKey} = $ParamObject->HTTP($EnvKey);
         }
 
-        # If we are in UnitTest header check mode, mirror request headers in response.
-        if ( my $MirrorHeaderPrefix = delete $AllRequestHeaders{UNITTESTHEADERS} ) {
-            my @HeaderBlacklist = split ':', delete $AllRequestHeaders{UNITTESTHEADERBLACKLIST};
+        # If we are in UnitTest header check mode, mirror all request headers in response.
+        # The blacklist is not considered here, as we want to verify that the blacklisted headers
+        # were not sent in the first place.
+        if ( my $MirrorHeaderPrefix = delete $RequestHeaders{UNITTESTHEADERS} ) {
+
+            # Attention: CGI::PSGI and CGI use all-uppercase names for headers.
+            my %IsBlacklisted = map { uc($_) => 1 } split ':', delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
 
             HEADER:
-            for my $Header ( sort keys %AllRequestHeaders ) {
+            for my $Header ( sort keys %RequestHeaders ) {
 
-                # Attention: CGI uses all-uppercase names for headers.
-                next HEADER if grep { uc($_) eq $Header } @HeaderBlacklist;
+                next HEADER if $IsBlacklisted{$Header};
 
-                $Headers{ $MirrorHeaderPrefix . $Header } = $AllRequestHeaders{$Header};
+                # the mirrored header are marked with a random prefix
+                $ResponseHeaders{ $MirrorHeaderPrefix . $Header } = $RequestHeaders{$Header};
             }
         }
     }
 
-    # No error - return output.
-    return $Self->_ThrowWebException(
+    # No error, still throw an exception
+    $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
-        Headers  => \%Headers,     # introduced by OTOBOTicketInvoker
+        Headers  => \%ResponseHeaders,    # added by OTOBOTicketInvoker
     );
+
+    return;                               # actually not reached
 }
 
 =head2 RequesterPerformRequest()
@@ -491,6 +496,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'REST Transport: Have no TransportConfig',
         };
     }
+
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
@@ -526,14 +532,14 @@ sub RequesterPerformRequest {
     }
 
     # Create header container and add proper content type
-    my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
+    my %Headers = ( 'Content-Type' => 'application/json; charset=UTF-8' );
 
-    # Add AdditionalHeaders, don't overwrite existing ones
+    # Add AdditionalHeaders, but do not overwrite existing headers
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            if ( !IsStringWithData( $Headers->{$AdditionalHeader} ) ) {
-                $Headers->{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
+            if ( !IsStringWithData( $Headers{$AdditionalHeader} ) ) {
+                $Headers{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
             }
         }
     }
@@ -635,7 +641,7 @@ sub RequesterPerformRequest {
                 && IsStringWithData( $Config->{Proxy}->{ProxyPassword} )
                 )
             {
-                $Headers->{'Proxy-Authorization'} = 'Basic ' . encode_base64(
+                $Headers{'Proxy-Authorization'} = 'Basic ' . encode_base64(
                     $Config->{Proxy}->{ProxyUser} . ':' . $Config->{Proxy}->{ProxyPassword}
                 );
             }
@@ -651,7 +657,7 @@ sub RequesterPerformRequest {
         && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
         )
     {
-        $Headers->{Authorization} = 'Basic ' . encode_base64(
+        $Headers{Authorization} = 'Basic ' . encode_base64(
             $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
         );
     }
@@ -698,7 +704,6 @@ sub RequesterPerformRequest {
         };
     }
 
-    my @RequestParam;
     my $Controller = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Controller};
 
     # Remove any query parameters that might be in the config,
@@ -765,7 +770,6 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Body;
     if ( IsHashRefWithData( $Param{Data} ) ) {
 
         # POST, PUT and PATCH can have Data in the Body.
@@ -815,7 +819,8 @@ sub RequesterPerformRequest {
             );
         }
     }
-    push @RequestParam, $Controller;
+
+    my @RequestParam = ($Controller);
 
     # Only POST, PUT or PATCH have a body. If it is empty
     # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
@@ -825,6 +830,7 @@ sub RequesterPerformRequest {
         || $RestCommand eq 'PATCH'
         )
     {
+        my $Body;
         if ( IsStringWithData( $Param{Data} ) ) {
             $Body = $Param{Data};
         }
@@ -832,27 +838,24 @@ sub RequesterPerformRequest {
         push @RequestParam, $Body;
     }
 
-    # introduced for OTOBOTicketInvoker
+    # added for OTOBOTicketInvoker
 
     # Gather additional headers.
-    $Headers = {
-        %{$Headers},
+    %Headers = (
+        %Headers,
         $Self->_HeadersGet(
             Type      => 'Invoker',
             Operation => $Param{Operation},
         ),
-    };
+    );
 
     # Trigger mirror mode for headers (undocumented - only for UnitTests)
     if ( $Config->{UnitTestHeaders} ) {
-        $Headers->{Unittestheaders} = $Config->{UnitTestHeaders};
-        my @HeaderBlacklist
-            = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
-        $Headers->{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
+        $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
     }
 
     # Add headers to request
-    push @RequestParam, $Headers;
+    push @RequestParam, \%Headers;
 
     $RestClient->$RestCommand(@RequestParam);
 
@@ -914,8 +917,7 @@ sub RequesterPerformRequest {
             $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data    =>
-                    'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
+                Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }
     }
@@ -950,11 +952,11 @@ sub RequesterPerformRequest {
 
     # introduced for OTOBOTicketInvoker
 
-    # Export mirrored headers (only used for UnitTests)
+    # Report mirrored headers, only used for UnitTests
     my %UnitTestHeaders;
     if ( $Config->{UnitTestHeaders} ) {
         HEADER:
-        for my $Header ( $RestClient->responseHeaders() ) {
+        for my $Header ( $RestClient->responseHeaders ) {
             next HEADER if length($Header) < 25;
             next HEADER if substr( $Header, 0, 25 ) ne $Config->{UnitTestHeaders};
 
@@ -982,6 +984,7 @@ and throw the exception object.
     $TransportObject->_ThrowWebException(
         HTTPCode => 500,               # http code to be returned, optional
         Content  => 'error message',   # message content
+        Headers  => { Key => 'Val' }   # additional headers, optional
     );
 
 =cut
@@ -1105,7 +1108,7 @@ sub _Error {
     };
 }
 
-# Introduced by OTOBOTicketInvoker
+# introduced for OTOBOTicketInvoker
 sub _HeadersGet {
     my ( $Self, %Param ) = @_;
 
@@ -1118,34 +1121,35 @@ sub _HeadersGet {
         };
     }
 
-    return () if !IsHashRefWithData($Config);
+    return unless IsHashRefWithData($Config);
+
+    # the blacklisted headers are not sent
+    my %IsBlacklisted = map
+        { uc($_) => 1 }
+        @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' ) // [] };
 
     # Common headers.
     # These come first as specific headers might override them.
-    my @HeaderBlacklist
-        = @{
-            $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
-            // []
-        };
     my %Headers;
     if ( IsHashRefWithData( $Config->{Common} ) ) {
         HEADER:
-        for my $Header ( sort keys %{ $Config->{Common} } ) {
-            next HEADER if grep { $_ eq $Header } @HeaderBlacklist;
+        for my $Header ( sort keys $Config->{Common}->%* ) {
+            next HEADER if $IsBlacklisted{ uc $Header };
 
             $Headers{$Header} = $Config->{Common}->{$Header};
         }
     }
 
     # Operation/Invoker specific headers.
-    return %Headers if !$Param{Operation};
-    if ( IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } ) ) {
-        HEADER:
-        for my $Header ( sort keys %{ $Config->{Specific}->{ $Param{Operation} } } ) {
-            next HEADER if grep { $_ eq $Header } @HeaderBlacklist;
+    return %Headers unless $Param{Operation};
+    return %Headers unless ref $Config->{Specific} eq 'HASH';
+    return %Headers unless IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } );
 
-            $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
-        }
+    HEADER:
+    for my $Header ( sort keys $Config->{Specific}->{ $Param{Operation} }->%* ) {
+        next HEADER if $IsBlacklisted{ uc $Header };
+
+        $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
     }
 
     return %Headers;

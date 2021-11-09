@@ -19,7 +19,7 @@ package Kernel::GenericInterface::Transport::HTTP::SOAP;
 use strict;
 use warnings;
 use v5.24;
-use namespace::clean;
+use namespace::autoclean;
 
 # core modules
 use MIME::Base64;
@@ -113,8 +113,11 @@ sub ProviderProcessRequest {
         );
     }
 
-    # get singletons
+    # The HTTP::REST support works with a request object.
+    # Just like Kernel::System::Web::InterfaceAgent.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     # Check the input length
     my $Content = q{};
@@ -193,13 +196,13 @@ sub ProviderProcessRequest {
         }
 
         if ( $ContentCharset && $ContentCharset !~ m{ \A utf [-]? 8 \z }xmsi ) {
-            $Content = $Kernel::OM->Get('Kernel::System::Encode')->Convert2CharsetInternal(
+            $Content = $EncodeObject->Convert2CharsetInternal(
                 Text => $Content,
                 From => $ContentCharset,
             );
         }
         else {
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Content );
+            $EncodeObject->EncodeInput( \$Content );
         }
     }
 
@@ -332,7 +335,7 @@ sub ProviderProcessRequest {
         }
     }
 
-    # All OK - return data.
+    # All OK - return data
     return {
         Success   => 1,
         Operation => $LocalOperation,
@@ -344,26 +347,20 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-In case of an error, error code and message are taken from environment
-(previously set on request processing).
+Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
 
-The HTTP code is set accordingly
+The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
 - C<4xx> for http errors
 - C<500> for content syntax errors
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+    $TransportObject->ProviderGenerateResponse(
         Success => 1
-        Data    => { # data payload for response, optional
+        Operation => 'TicketUpdate', # needed for determining outbound headers
+        Data      => { # data payload for response, optional
             ...
         },
     );
-
-    $Result = {
-        Success      => 1,          # 0 or 1
-        Output       => $Content,   # a string
-        ErrorMessage => '',         # in case of error
-    };
 
 =cut
 
@@ -372,7 +369,7 @@ sub ProviderGenerateResponse {
 
     # Do we have a http error message to return.
     if ( IsStringWithData( $Self->{HTTPError} ) && IsStringWithData( $Self->{HTTPMessage} ) ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => $Self->{HTTPError},
             Content  => $Self->{HTTPMessage},
         );
@@ -380,7 +377,7 @@ sub ProviderGenerateResponse {
 
     # Check data param.
     if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' ) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Invalid data',
         );
@@ -464,51 +461,63 @@ sub ProviderGenerateResponse {
     my $Serialized      = SOAP::Serializer->autotype(0)->default_ns( $Config->{NameSpace} )->envelope(@CallData);
     my $SerializedFault = $@ || '';
     if ($SerializedFault) {
-        return $Self->_ThrowWebException(
+        $Self->_ThrowWebException(
             HTTPCode => 500,
             Content  => 'Error serializing message:' . $SerializedFault,
         );
     }
 
     # added for OTOBOTicketInvoker
-
     # Gather additional headers.
-    my %Headers = $Self->_HeadersGet(
+    my %ResponseHeaders = $Self->_HeadersGet(
         Type      => 'Operation',
         Operation => $Param{Operation},
     );
 
-    # Check if we are in a real request environment (UnitTests may call this function directly).
-    if ( $ENV{HTTP_UNITTESTHEADERS} ) {
-        my %AllRequestHeaders;
-        ENVKEY:
-        for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
-            my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
-            $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
+    # Mirror some HTTP headers when the request comes from a test script
+    # that has temporarily set GenericInterface::Transport::UnitTestHeaders.
+    # This feature allows to check outgoing HTTP headers of the generic interface.
+    # It was introduced by OTOBOTicketInvoker.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Transport::MirrorUnitTestHTTPHeaders') ) {
+
+        # The HTTP::REST support works with a request object.
+        # Just like Kernel::System::Web::InterfaceAgent.
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        my %RequestHeaders;
+        for my $EnvKey ( sort $ParamObject->HTTP() ) {
+            my $HeaderKey = substr $EnvKey, 5;    # remove leading HTTP_
+            $HeaderKey =~ s{_}{-}xmsg;
+            $RequestHeaders{$HeaderKey} = $ParamObject->HTTP($EnvKey);
         }
 
-        # If we are in UnitTest header check mode, mirror request headers in response.
-        if ( my $MirrorHeaderPrefix = delete $AllRequestHeaders{UNITTESTHEADERS} ) {
-            my @HeaderBlacklist = split ':', delete $AllRequestHeaders{UNITTESTHEADERBLACKLIST};
+        # If we are in UnitTest header check mode, mirror all request headers in response.
+        # The blacklist is not considered here, as we want to verify that the blacklisted headers
+        # were not sent in the first place.
+        if ( my $MirrorHeaderPrefix = delete $RequestHeaders{UNITTESTHEADERS} ) {
+
+            # Attention: CGI::PSGI and CGI use all-uppercase names for headers.
+            my %IsBlacklisted = map { uc($_) => 1 } split ':', delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
 
             HEADER:
-            for my $Header ( sort keys %AllRequestHeaders ) {
+            for my $Header ( sort keys %RequestHeaders ) {
 
-                # Attention: CGI uses all-uppercase names for headers.
-                next HEADER if grep { uc($_) eq $Header } @HeaderBlacklist;
+                next HEADER if $IsBlacklisted{$Header};
 
-                $Headers{ $MirrorHeaderPrefix . $Header } = $AllRequestHeaders{$Header};
+                # the mirrored header are marked with a random prefix
+                $ResponseHeaders{ $MirrorHeaderPrefix . $Header } = $RequestHeaders{$Header};
             }
         }
     }
 
-    # No error - return output.
-    return $Self->_ThrowWebException(
+    # No error, still throw an exception
+    $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $Serialized,
-        Headers  => \%Headers,     # added for OTOBOTicketInvoker
+        Headers  => \%ResponseHeaders,    # added by OTOBOTicketInvoker
     );
+
+    return;                               # actually not reached
 }
 
 =head2 RequesterPerformRequest()
@@ -543,6 +552,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'SOAP Transport: Have no TransportConfig',
         };
     }
+
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
@@ -807,24 +817,21 @@ sub RequesterPerformRequest {
     # added for OTOBOTicketInvoker
 
     # Gather additional headers.
-    my $Headers = {
+    my %Headers = (
         $Self->_HeadersGet(
             Type      => 'Invoker',
             Operation => $Param{Operation},
         ),
-    };
+    );
 
     # Trigger mirror mode for headers (undocumented - only for UnitTests)
     if ( $Config->{UnitTestHeaders} ) {
-        $Headers->{Unittestheaders} = $Config->{UnitTestHeaders};
-        my @HeaderBlacklist
-            = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
-        $Headers->{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
+        $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
     }
 
     # Set additional http headers.
-    if ($Headers) {
-        $SOAPHandle->transport()->proxy()->http_request()->push_header( %{$Headers} );
+    if (%Headers) {
+        $SOAPHandle->transport()->proxy()->http_request()->push_header(%Headers);
     }
 
     my $SOAPResult = eval {
