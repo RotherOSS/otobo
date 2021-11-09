@@ -538,6 +538,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'SOAP Transport: Have no TransportConfig',
         };
     }
+
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
@@ -802,24 +803,24 @@ sub RequesterPerformRequest {
     # added for OTOBOTicketInvoker
 
     # Gather additional headers.
-    my $Headers = {
+    my %Headers = (
         $Self->_HeadersGet(
             Type      => 'Invoker',
             Operation => $Param{Operation},
         ),
-    };
+    );
 
     # Trigger mirror mode for headers (undocumented - only for UnitTests)
     if ( $Config->{UnitTestHeaders} ) {
-        $Headers->{Unittestheaders} = $Config->{UnitTestHeaders};
+        $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
         my @HeaderBlacklist
             = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
-        $Headers->{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
+        $Headers{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
     }
 
     # Set additional http headers.
-    if ($Headers) {
-        $SOAPHandle->transport()->proxy()->http_request()->push_header( %{$Headers} );
+    if (%Headers) {
+        $SOAPHandle->transport()->proxy()->http_request()->push_header(%Headers);
     }
 
     my $SOAPResult = eval {

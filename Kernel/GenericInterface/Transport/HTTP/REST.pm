@@ -22,6 +22,7 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
+use List::Util qw(any);
 use MIME::Base64;
 
 # CPAN modules
@@ -423,7 +424,8 @@ sub ProviderGenerateResponse {
         my %AllRequestHeaders;
         ENVKEY:
         for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY if substr( $EnvKey, 0, 5 ) ne 'HTTP_';
+            next ENVKEY unless substr( $EnvKey, 0, 5 ) eq 'HTTP_';
+
             my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
             $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
         }
@@ -485,6 +487,7 @@ sub RequesterPerformRequest {
             ErrorMessage => 'REST Transport: Have no TransportConfig',
         };
     }
+
     if ( !IsHashRefWithData( $Self->{TransportConfig}->{Config} ) ) {
         return {
             Success      => 0,
@@ -520,14 +523,14 @@ sub RequesterPerformRequest {
     }
 
     # Create header container and add proper content type
-    my $Headers = { 'Content-Type' => 'application/json; charset=UTF-8' };
+    my %Headers = ( 'Content-Type' => 'application/json; charset=UTF-8' );
 
-    # Add AdditionalHeaders, don't overwrite existing ones
+    # Add AdditionalHeaders, but do not overwrite existing headers
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {
-        my %AdditionalHeaders = %{ $Self->{TransportConfig}->{Config}->{AdditionalHeaders} };
+        my %AdditionalHeaders = $Self->{TransportConfig}->{Config}->{AdditionalHeaders}->%*;
         for my $AdditionalHeader ( sort keys %AdditionalHeaders ) {
-            if ( !IsStringWithData( $Headers->{$AdditionalHeader} ) ) {
-                $Headers->{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
+            if ( !IsStringWithData( $Headers{$AdditionalHeader} ) ) {
+                $Headers{$AdditionalHeader} = $AdditionalHeaders{$AdditionalHeader};
             }
         }
     }
@@ -629,7 +632,7 @@ sub RequesterPerformRequest {
                 && IsStringWithData( $Config->{Proxy}->{ProxyPassword} )
                 )
             {
-                $Headers->{'Proxy-Authorization'} = 'Basic ' . encode_base64(
+                $Headers{'Proxy-Authorization'} = 'Basic ' . encode_base64(
                     $Config->{Proxy}->{ProxyUser} . ':' . $Config->{Proxy}->{ProxyPassword}
                 );
             }
@@ -645,7 +648,7 @@ sub RequesterPerformRequest {
         && IsStringWithData( $Config->{Authentication}->{BasicAuthPassword} )
         )
     {
-        $Headers->{Authorization} = 'Basic ' . encode_base64(
+        $Headers{Authorization} = 'Basic ' . encode_base64(
             $Config->{Authentication}->{BasicAuthUser} . ':' . $Config->{Authentication}->{BasicAuthPassword}
         );
     }
@@ -692,7 +695,6 @@ sub RequesterPerformRequest {
         };
     }
 
-    my @RequestParam;
     my $Controller = $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Controller};
 
     # Remove any query parameters that might be in the config,
@@ -759,7 +761,6 @@ sub RequesterPerformRequest {
     my $JSONObject   = $Kernel::OM->Get('Kernel::System::JSON');
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
-    my $Body;
     if ( IsHashRefWithData( $Param{Data} ) ) {
 
         # POST, PUT and PATCH can have Data in the Body.
@@ -809,7 +810,8 @@ sub RequesterPerformRequest {
             );
         }
     }
-    push @RequestParam, $Controller;
+
+    my @RequestParam = ($Controller);
 
     # Only POST, PUT or PATCH have a body. If it is empty
     # (i. e. $Param{Data} = {}), undef is passed to REST::Client.
@@ -819,6 +821,7 @@ sub RequesterPerformRequest {
         || $RestCommand eq 'PATCH'
         )
     {
+        my $Body;
         if ( IsStringWithData( $Param{Data} ) ) {
             $Body = $Param{Data};
         }
@@ -829,24 +832,25 @@ sub RequesterPerformRequest {
     # introduced for OTOBOTicketInvoker
 
     # Gather additional headers.
-    $Headers = {
-        %{$Headers},
+    %Headers = (
+        %Headers,
         $Self->_HeadersGet(
             Type      => 'Invoker',
             Operation => $Param{Operation},
         ),
-    };
+    );
 
     # Trigger mirror mode for headers (undocumented - only for UnitTests)
+    # TODO: looks like this is no longer supported by the test web service
     if ( $Config->{UnitTestHeaders} ) {
-        $Headers->{Unittestheaders} = $Config->{UnitTestHeaders};
+        $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
         my @HeaderBlacklist
             = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
-        $Headers->{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
+        $Headers{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
     }
 
     # Add headers to request
-    push @RequestParam, $Headers;
+    push @RequestParam, \%Headers;
 
     $RestClient->$RestCommand(@RequestParam);
 
@@ -908,8 +912,7 @@ sub RequesterPerformRequest {
             $SizeExeeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
-                Data    =>
-                    'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
+                Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
             );
         }
     }
@@ -948,7 +951,7 @@ sub RequesterPerformRequest {
     my %UnitTestHeaders;
     if ( $Config->{UnitTestHeaders} ) {
         HEADER:
-        for my $Header ( $RestClient->responseHeaders() ) {
+        for my $Header ( $RestClient->responseHeaders ) {
             next HEADER if length($Header) < 25;
             next HEADER if substr( $Header, 0, 25 ) ne $Config->{UnitTestHeaders};
 
@@ -1099,7 +1102,7 @@ sub _Error {
     };
 }
 
-# Introduced by OTOBOTicketInvoker
+# introduced for OTOBOTicketInvoker
 sub _HeadersGet {
     my ( $Self, %Param ) = @_;
 
@@ -1112,7 +1115,7 @@ sub _HeadersGet {
         };
     }
 
-    return () if !IsHashRefWithData($Config);
+    return unless IsHashRefWithData($Config);
 
     # Common headers.
     # These come first as specific headers might override them.
@@ -1124,19 +1127,20 @@ sub _HeadersGet {
     my %Headers;
     if ( IsHashRefWithData( $Config->{Common} ) ) {
         HEADER:
-        for my $Header ( sort keys %{ $Config->{Common} } ) {
-            next HEADER if grep { $_ eq $Header } @HeaderBlacklist;
+        for my $Header ( sort keys $Config->{Common}->%* ) {
+            next HEADER if any { $_ eq $Header } @HeaderBlacklist;
 
             $Headers{$Header} = $Config->{Common}->{$Header};
         }
     }
 
     # Operation/Invoker specific headers.
-    return %Headers if !$Param{Operation};
+    return %Headers unless $Param{Operation};
+
     if ( IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } ) ) {
         HEADER:
         for my $Header ( sort keys %{ $Config->{Specific}->{ $Param{Operation} } } ) {
-            next HEADER if grep { $_ eq $Header } @HeaderBlacklist;
+            next HEADER if any { $_ eq $Header } @HeaderBlacklist;
 
             $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
         }
