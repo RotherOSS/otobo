@@ -22,7 +22,6 @@ use v5.24;
 use namespace::autoclean;
 
 # core modules
-use List::Util qw(any);
 use MIME::Base64;
 
 # CPAN modules
@@ -359,7 +358,8 @@ The HTTP code of the response object is set accordingly
 
     $TransportObject->ProviderGenerateResponse(
         Success => 1
-        Data    => { # data payload for response, optional
+        Operation => 'TicketUpdate', # needed for determining outbound headers
+        Data      => { # data payload for response, optional
             ...
         },
     );
@@ -414,33 +414,43 @@ sub ProviderGenerateResponse {
 
     # added for OTOBOTicketInvoker
     # Gather additional headers.
-    my %Headers = $Self->_HeadersGet(
+    my %ResponseHeaders = $Self->_HeadersGet(
         Type      => 'Operation',
         Operation => $Param{Operation},
     );
 
-    # Check if we are in a real request environment (UnitTests may call this function directly).
-    if ( $ENV{HTTP_UNITTESTHEADERS} ) {
-        my %AllRequestHeaders;
-        ENVKEY:
-        for my $EnvKey ( sort keys %ENV ) {
-            next ENVKEY unless substr( $EnvKey, 0, 5 ) eq 'HTTP_';
+    # Mirror some HTTP headers when the request comes from a test script
+    # that has temporarily set GenericInterface::Transport::UnitTestHeaders.
+    # This feature allows to check outgoing HTTP headers of the generic interface.
+    # It was introduced by OTOBOTicketInvoker.
+    if ( $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Transport::MirrorUnitTestHTTPHeaders') ) {
 
-            my $HeaderKey = substr( $EnvKey, 5 ) =~ s{_}{-}xmsgr;
-            $AllRequestHeaders{$HeaderKey} = $ENV{$EnvKey};
+        # The HTTP::REST support works with a request object.
+        # Just like Kernel::System::Web::InterfaceAgent.
+        my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+        my %RequestHeaders;
+        for my $EnvKey ( sort $ParamObject->HTTP() ) {
+            my $HeaderKey = substr $EnvKey, 5;    # remove leading HTTP_
+            $HeaderKey =~ s{_}{-}xmsg;
+            $RequestHeaders{$HeaderKey} = $ParamObject->HTTP($EnvKey);
         }
 
-        # If we are in UnitTest header check mode, mirror request headers in response.
-        if ( my $MirrorHeaderPrefix = delete $AllRequestHeaders{UNITTESTHEADERS} ) {
-            my @HeaderBlacklist = split ':', delete $AllRequestHeaders{UNITTESTHEADERBLACKLIST};
+        # If we are in UnitTest header check mode, mirror all request headers in response.
+        # The blacklist is not considered here, as we want to verify that the blacklisted headers
+        # were not sent in the first place.
+        if ( my $MirrorHeaderPrefix = delete $RequestHeaders{UNITTESTHEADERS} ) {
+
+            # Attention: CGI::PSGI and CGI use all-uppercase names for headers.
+            my %IsBlacklisted = map { uc($_) => 1 } split ':', delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
 
             HEADER:
-            for my $Header ( sort keys %AllRequestHeaders ) {
+            for my $Header ( sort keys %RequestHeaders ) {
 
-                # Attention: CGI uses all-uppercase names for headers.
-                next HEADER if grep { uc($_) eq $Header } @HeaderBlacklist;
+                next HEADER if $IsBlacklisted{$Header};
 
-                $Headers{ $MirrorHeaderPrefix . $Header } = $AllRequestHeaders{$Header};
+                # the mirrored header are marked with a random prefix
+                $ResponseHeaders{ $MirrorHeaderPrefix . $Header } = $RequestHeaders{$Header};
             }
         }
     }
@@ -449,10 +459,10 @@ sub ProviderGenerateResponse {
     $Self->_ThrowWebException(
         HTTPCode => $HTTPCode,
         Content  => $JSONString,
-        Headers  => \%Headers,     # introduced by OTOBOTicketInvoker
+        Headers  => \%ResponseHeaders,    # added by OTOBOTicketInvoker
     );
 
-    return;                        # actually not reached
+    return;                               # actually not reached
 }
 
 =head2 RequesterPerformRequest()
@@ -841,12 +851,8 @@ sub RequesterPerformRequest {
     );
 
     # Trigger mirror mode for headers (undocumented - only for UnitTests)
-    # TODO: looks like this is no longer supported by the test web service
     if ( $Config->{UnitTestHeaders} ) {
         $Headers{Unittestheaders} = $Config->{UnitTestHeaders};
-        my @HeaderBlacklist
-            = @{ $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::OutboundHeaderBlacklist') // [] };
-        $Headers{Unittestheaderblacklist} = join ':', @HeaderBlacklist;
     }
 
     # Add headers to request
@@ -947,7 +953,7 @@ sub RequesterPerformRequest {
 
     # introduced for OTOBOTicketInvoker
 
-    # Export mirrored headers (only used for UnitTests)
+    # Report mirrored headers, only used for UnitTests
     my %UnitTestHeaders;
     if ( $Config->{UnitTestHeaders} ) {
         HEADER:
@@ -979,6 +985,7 @@ and throw the exception object.
     $TransportObject->_ThrowWebException(
         HTTPCode => 500,               # http code to be returned, optional
         Content  => 'error message',   # message content
+        Headers  => { Key => 'Val' }   # additional headers, optional
     );
 
 =cut
@@ -1117,18 +1124,18 @@ sub _HeadersGet {
 
     return unless IsHashRefWithData($Config);
 
+    # the blacklisted headers are not sent
+    my %IsBlacklisted = map
+        { uc($_) => 1 }
+        @{ $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' ) // [] };
+
     # Common headers.
     # These come first as specific headers might override them.
-    my @HeaderBlacklist
-        = @{
-            $Kernel::OM->Get('Kernel::Config')->Get( 'GenericInterface::' . $Param{Type} . '::OutboundHeaderBlacklist' )
-            // []
-        };
     my %Headers;
     if ( IsHashRefWithData( $Config->{Common} ) ) {
         HEADER:
         for my $Header ( sort keys $Config->{Common}->%* ) {
-            next HEADER if any { $_ eq $Header } @HeaderBlacklist;
+            next HEADER if $IsBlacklisted{ uc $Header };
 
             $Headers{$Header} = $Config->{Common}->{$Header};
         }
@@ -1136,14 +1143,14 @@ sub _HeadersGet {
 
     # Operation/Invoker specific headers.
     return %Headers unless $Param{Operation};
+    return %Headers unless ref $Config->{Specific} eq 'HASH';
+    return %Headers unless IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } );
 
-    if ( IsHashRefWithData( $Config->{Specific}->{ $Param{Operation} } ) ) {
-        HEADER:
-        for my $Header ( sort keys %{ $Config->{Specific}->{ $Param{Operation} } } ) {
-            next HEADER if any { $_ eq $Header } @HeaderBlacklist;
+    HEADER:
+    for my $Header ( sort keys $Config->{Specific}->{ $Param{Operation} }->%* ) {
+        next HEADER if $IsBlacklisted{ uc $Header };
 
-            $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
-        }
+        $Headers{$Header} = $Config->{Specific}->{ $Param{Operation} }->{$Header};
     }
 
     return %Headers;
