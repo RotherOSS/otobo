@@ -43,7 +43,7 @@ Core.Agent.Admin.ACL = (function (TargetNS) {
      * @description
      *      KeysWithoutSubkeys
      */
-    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Action', 'Process', 'Form' ];
+    var KeysWithoutSubkeys = [ 'ActivityDialog', 'Action', 'Process', 'Form', 'FormStd' ];
 
     /**
      * @name Init

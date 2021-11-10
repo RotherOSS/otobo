@@ -348,6 +348,11 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            if (DataKey === 'Restrictions_Visibility_Std') {
+                HideShowFieldsStd(DataValue);
+                return;
+            }
+
             // special case to update ticket attachments
             if (DataKey === 'TicketAttachments') {
                 UpdateTicketAttachments(DataValue);
@@ -498,6 +503,87 @@ Core.AJAX = (function (TargetNS) {
                     Field.trigger('redraw.InputField');
                 }
 
+            }
+        }
+    }
+
+    /**
+     * @private
+     * @name HideShowFieldsStd
+     * @memberof Core.AJAX
+     * @function
+     * @param {Object} Data - The field data. The keys are the IDs of the fields to be updated.
+     * @description
+     *      Toggles visibility of Standardfields
+     */
+    function HideShowFieldsStd(Visibility) {
+        for ( var i = 0; i < Visibility.length; i++ ) {
+            var FieldInfo = Visibility[i];
+
+            if ( FieldInfo[1] == 0 ) {
+
+                if (FieldInfo[0] === 'Subject') {
+                    $('#Subject').parent('div.Row').hide();
+                    $('#Subject').parent('div.Row').addClass("ooo.ACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required") == true ) {
+                        $('#Subject').removeClass("Validate_Required");
+                        $('#Subject').addClass("Validate_Required_IfVisible");
+                    }
+                }
+                if (FieldInfo[0] === 'Body') {
+                    $('#RichText').parent('div.RichTextHolder').hide();
+                    $('#RichText').parent('div.RichTextHolder').addClass("ooo.ACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required") == true ) {
+                        $('#RichText').removeClass("Validate_Required");
+                        $('#RichText').addClass("Validate_Required_IfVisible");
+                    }
+                }
+                if (FieldInfo[0] === 'Attachment') {
+                    $('#oooAttachments').parent('div.Row').hide();
+                    $('#oooAttachments').parent('div.Row').addClass("ooo.ACLHidden");
+                }
+
+                if (FieldInfo[0] === 'Queue') {
+                    $('#Dest').parent('div.Row').hide();
+                    $('#Dest').parent('div.Row').addClass("ooo.ACLHidden");
+                    if ( $('#Dest').hasClass("Validate_Required") == true ) {
+                        $('#Dest').removeClass("Validate_Required");
+                        $('#Dest').addClass("Validate_Required_IfVisible");
+                    }
+                }
+
+            } else {
+                if (FieldInfo[0] === 'Subject') {
+                    $('#Subject').parent('div.Row').show();
+                    $('#Subject').parent('div.Row').removeClass("ooo.ACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required_IfVisible") == true ) {
+                        $('#Subject').removeClass("Validate_Required_IfVisible");
+                        $('#Subject').addClass("Validate_Required");
+                    }
+                }
+                if (FieldInfo[0] === 'Body') {
+                    $('#RichText').parent('div.RichTextHolder').show();
+                    $('#RichText').parent('div.RichTextHolder').removeClass("ooo.ACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required_IfVisible") == true ) {
+                        $('#RichText').removeClass("Validate_Required_IfVisible");
+                        $('#RichText').addClass("Validate_Required");
+                    }
+                }
+                if (FieldInfo[0] === 'Attachment') {
+                    $('#oooAttachments').parent('div.Row').show();
+                    $('#oooAttachments').parent('div.Row').removeClass("ooo.ACLHidden");
+                }
+                if (FieldInfo[0] === 'Queue') {
+                    $('#Dest').parent('div.Row').show();
+                    $('#Dest').parent('div.Row').removeClass("ooo.ACLHidden");
+                    if ( $('#Dest').hasClass("Validate_Required_IfVisible") == true ) {
+                        $('#Dest').removeClass("Validate_Required_IfVisible");
+                        $('#Dest').addClass("Validate_Required");
+                    }
+                    $('#Dest').parent('div.Row').find('a').hide();
+                    Core.UI.InputFields.InitSelect( $('select#Dest') );
+                    $('#Dest').trigger('redraw.InputField');
+                }
             }
         }
     }

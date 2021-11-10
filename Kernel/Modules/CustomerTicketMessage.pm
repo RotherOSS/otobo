@@ -732,6 +732,51 @@ sub Run {
             }
         }
 
+        my $ACLResultStd = $TicketObject->TicketAcl(
+            %GetParam,
+            CustomerUserID => $Self->{UserID},
+            Action         => $Self->{Action},
+            TicketID       => $Self->{TicketID},
+            ReturnType     => 'FormStd',
+            ReturnSubType  => '-',
+            Data           => {
+                Test       => 'Test',
+                Subject    => 'Subject',
+                Body       => 'Body',
+                Attachment => 'Attachment',
+                Queue      => 'Queue',
+            },
+        );
+
+        my %VisibilityStd = (
+            Test => 0,
+            Subject => 0,
+            Body => 0,
+            Attachment => 0,
+            Queue => 0,
+        );
+        if ($ACLResultStd) {
+            my %AclData = $TicketObject->TicketAclData();
+            for my $Field ( sort keys %AclData ) {
+                $VisibilityStd{ $Field } = 1;
+            }
+        } else {
+            %VisibilityStd = (
+                Test  => 1,
+                Subject  => 1,
+                Body  => 1,
+                Attachment  => 1,
+                Queue  => 1,
+            );
+        }
+
+        if ($VisibilityStd{Subject} == 0) {
+            $GetParam{Subject} = $ConfigObject->Get('FormStdACL::DefaultSubject') || 'Ticket created';
+        }
+        if ($VisibilityStd{Body} == 0) {
+            $GetParam{Body} = $ConfigObject->Get('FormStdACL::DefaultBody') || 'Ticket created';
+        }
+
         # check subject
         if ( !$GetParam{Subject} ) {
             $Error{SubjectInvalid} = 'ServerError';
@@ -1284,6 +1329,49 @@ sub Run {
             };
         }
 
+        my $ACLResultStd = $TicketObject->TicketAcl(
+            %GetParam,
+            CustomerUserID => $Self->{UserID},
+            Action         => $Self->{Action},
+            TicketID       => $Self->{TicketID},
+            ReturnType     => 'FormStd',
+            ReturnSubType  => '-',
+            Data           => {
+                Test       => 'Test',
+                Subject    => 'Subject',
+                Body       => 'Body',
+                Attachment => 'Attachment',
+                Queue      => 'Queue',
+            },
+        );
+
+        my %VisibilityStd = (
+            Test       => 0,
+            Subject    => 0,
+            Body       => 0,
+            Attachment => 0,
+            Queue      => 0,
+        );
+
+        if ($ACLResultStd) {
+            my %AclData = $TicketObject->TicketAclData();
+            for my $Field ( sort keys %AclData ) {
+                $VisibilityStd{ $Field } = 1;
+            }
+        } else {
+            %VisibilityStd = (
+                Test       => 1,
+                Subject    => 1,
+                Body       => 1,
+                Attachment => 1,
+                Queue      => 1,
+            );
+        }
+        push @DynamicFieldAJAX, {
+            Name => 'Restrictions_Visibility_Std',
+            Data => \%VisibilityStd,
+        };
+
         # build AJAX return for the standard fields
         my @StdFieldAJAX;
         my %Attributes = (
@@ -1489,6 +1577,25 @@ sub _MaskNew {
         $TreeView = 1;
     }
 
+    $Param{SubjectValidate} = "Validate_Required";
+    if ($Param{VisibilityStd}->{Subject} == 0) {
+        $Param{SubjectValidate} = "Validate_Required_IfVisible";
+        $Param{SubjectHiddenClass} = ' ooo.ACLHidden';
+        $Param{SubjectHiddenStyle} = 'style=display:none;';
+    }
+
+    $Param{RichTextHolderValidate} = "Validate_Required";
+    if ($Param{VisibilityStd}->{Body} == 0) {
+        $Param{RichTextHolderHiddenClass} = ' ooo.ACLHidden';
+        $Param{RichTextHolderHiddenStyle} = 'style=display:none;';
+        $Param{RichTextHolderValidate} = 'Validate_Required_IfVisible';
+    }
+
+    if ($Param{VisibilityStd}->{Attachment} == 0) {
+        $Param{AttachmentsHiddenClass} = ' ooo.ACLHidden';
+        $Param{AttachmentsHiddenStyle} = 'style=display:none;';
+    }
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $Config       = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}");
 
@@ -1531,15 +1638,36 @@ sub _MaskNew {
                 delete $NewTos{$_};
             }
         }
-        $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
-            Data       => \%NewTos,
-            Multiple   => 0,
-            Size       => 0,
-            Name       => 'Dest',
-            Class      => "Validate_Required Modernize " . $Param{Errors}->{QueueInvalid},
-            SelectedID => $Param{ToSelected} || $Param{QueueID},
-            TreeView   => $TreeView,
-        );
+
+        $Param{QueueHiddenClass} = '';
+        $Param{QueueHiddenStyle} = '';
+        if ($Param{VisibilityStd}->{Queue} == 0) {
+            $Param{QueueHiddenClass} = ' ooo.ACLHidden';
+            $Param{QueueHiddenStyle} = 'style=display:none;';
+        }
+
+        if ($Param{VisibilityStd}->{Queue} != 0) {
+            $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
+                Data       => \%NewTos,
+                Multiple   => 0,
+                Size       => 0,
+                Name       => 'Dest',
+                Class      => "Validate_Required Modernize " . $Param{Errors}->{QueueInvalid},
+                SelectedID => $Param{ToSelected} || $Param{QueueID},
+                TreeView   => $TreeView,
+            );
+        } else {
+            $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
+                Data       => \%NewTos,
+                Multiple   => 0,
+                Size       => 0,
+                Name       => 'Dest',
+                Class      => "Validate_Required_IfVisible Modernize " . $Param{Errors}->{QueueInvalid},
+                SelectedID => $Param{ToSelected} || $Param{QueueID},
+                TreeView   => $TreeView,
+            );
+        }
+
         $LayoutObject->Block(
             Name => 'Queue',
             Data => {
