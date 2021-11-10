@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otobo_config version="2.0" init="Application">
+    <Setting Name="ACLKeysLevel2::Possible" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Navigation>Core::Ticket::ACL</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Process">Process</Item>
+                <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ACLKeysLevel2::PossibleAdd" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Navigation>Core::Ticket::ACL</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Process">Process</Item>
+                <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="ACLKeysLevel2::PossibleNot" Required="0" Valid="1">
+        <Description Translatable="1">Defines which items are available in second level of the ACL structure.</Description>
+        <Navigation>Core::Ticket::ACL</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Ticket">Ticket</Item>
+                <Item Key="Action">Action</Item>
+                <Item Key="ActivityDialog">ActivityDialog</Item>
+                <Item Key="Process">Process</Item>
+                <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="FormStdACL::DefaultSubject" Required="1" Valid="1">
+        <Description Translatable="1">Default subject to set if the subject field is marked as 'not Required'</Description>
+        <Navigation>Addons::FormStdACL</Navigation>
+        <Value>
+            <Item ValueType="String">Ticket created</Item>
+        </Value>
+    </Setting>
+    <Setting Name="FormStdACL::DefaultBody" Required="1" Valid="1">
+        <Description Translatable="1">Default body to set if the body field is marked as 'not Required'</Description>
+        <Navigation>Addons::FormStdACL</Navigation>
+        <Value>
+            <Item ValueType="String">Ticket created</Item>
+        </Value>
+    </Setting>
+</otobo_config>
