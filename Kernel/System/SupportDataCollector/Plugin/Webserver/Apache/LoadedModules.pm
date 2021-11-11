@@ -42,7 +42,7 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # the plugin makes only sense in a web context, $ENV{GATEWAY_INTERFACE} is set for example in otobo.psgi
+    # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
