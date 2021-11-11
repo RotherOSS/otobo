@@ -93,7 +93,7 @@ sub Header {
 
 =head2 Cookies()
 
-a wrapper of Plack::Response::header().
+a wrapper of Plack::Response::cookies().
 
 =cut
 
