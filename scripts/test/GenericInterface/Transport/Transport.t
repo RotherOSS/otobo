@@ -367,24 +367,26 @@ for my $Fail ( 0 .. 1 ) {
                         );
                     };
                     $WebException = $@;
-                    $Response     = delete $Result->{Output} if ref $Result eq 'HASH';
                 }
+
+                ok( $WebException, 'always an exception on success' );
+                isa_ok( $WebException, 'Kernel::System::Web::Exception' );
+                can_ok( $WebException, ['as_psgi'], 'sane exception' );
+
+                # the payload of the exception is a PSGI response
+                my $PSGIResponse = $WebException->as_psgi();
+                ok( $PSGIResponse, 'got a PSGI response' );
+                ref_ok( $PSGIResponse,      'ARRAY', 'got array ref as PSGI response' );
+                ref_ok( $PSGIResponse->[1], 'ARRAY', 'got array for the headers' );
+                ref_ok( $PSGIResponse->[2], 'ARRAY', 'got array for the body' );
 
                 if ( !$Fail && $TestEntry->{ResultSuccess} ) {
 
-                    ok( $WebException, 'always an exception on success' );
-                    isa_ok( $WebException, 'Kernel::System::Web::Exception' );
                     if ($OptionSuccess) {
-                        pass('success');
-                        can_ok( $WebException, ['as_psgi'], 'sane exception' );
 
-                        # status 200 is expected
-                        my $PSGIResponse = $WebException->as_psgi();
-                        ok( $PSGIResponse, 'got a PSGI response' );
-                        ref_ok( $PSGIResponse, 'ARRAY', 'got array ref as PSGI response' );
+                        # HTTP status 200 is expected
+                        note('expecting a successful response');
                         is( $PSGIResponse->[0], 200, 'HTTP status 200' );
-                        ref_ok( $PSGIResponse->[1], 'ARRAY', 'got array for the headers' );
-                        ref_ok( $PSGIResponse->[2], 'ARRAY', 'got array for the body' );
 
                         my $Body = join '', $PSGIResponse->[2]->@*;
                         $TestEntry->{ResponseData} //= {};
@@ -397,11 +399,8 @@ for my $Fail ( 0 .. 1 ) {
                         }
                     }
                     else {
-
-                        # HTTP::Test::ProviderGenerateResponse() return a web exception
-                        # when Success = 0 is passed
-                        is( $Result, undef, 'no result as exception is thrown' );
-                        my $PSGIResponse = $WebException->as_psgi;
+                        # HTTP status 500 is expected
+                        note('expecting a failing response');
                         is( $PSGIResponse->[0], 500,                   'HTTP status 500' );
                         is( $PSGIResponse->[2], [$CustomErrorMessage], 'custom error message' );
                     }
@@ -410,21 +409,16 @@ for my $Fail ( 0 .. 1 ) {
 
                     # HTTP::Test::ProviderGenerateResponse() return a web exception
                     # when Fail = 1 is set in the transporter config.
-                    is( $Result, undef, 'no result as exception is thrown' );
-                    my $PSGIResponse = $WebException->as_psgi;
+
+                    # HTTP status 500 is expected
+                    note('expecting a failing response');
                     is( $PSGIResponse->[0], 500,                                 'HTTP status 500' );
                     is( $PSGIResponse->[2], ['Test response generation failed'], 'error message for Fail = 1' );
                 }
                 else {
-                    $Self->False(
-                        $Result->{Success},
-                        "fail detected",
-                    );
-
-                    $Self->True(
-                        $Result->{ErrorMessage},
-                        "error message found",
-                    );
+                    # no success expected
+                    isnt( $PSGIResponse->[0], 200, 'HTTP status is not 200' );
+                    ok( scalar $PSGIResponse->[2]->@*, "error message found" );
                 }
             };
         }

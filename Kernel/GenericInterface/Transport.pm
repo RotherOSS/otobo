@@ -144,22 +144,38 @@ Throws a L<Kernel::System::Web::Exception> which contains the response.
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
     if ( !defined $Param{Success} ) {
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Missing parameter Success.',
-        );
+        $ErrorMessage = 'Missing parameter Success.';
+    }
+    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        $ErrorMessage = 'Data is not a hash reference.';
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # throw errors as an exception
+    if ($ErrorMessage) {
 
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
+        );
+
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse,
         );
     }
 
     # throws an exception
-    return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+    $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+
+    return;    # actually not reached
 }
 
 =head2 RequesterPerformRequest()
