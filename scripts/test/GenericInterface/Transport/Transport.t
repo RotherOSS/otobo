@@ -351,15 +351,13 @@ for my $Fail ( 0 .. 1 ) {
         for my $TestEntry (@PGRTestEntries) {
 
             subtest "$TestEntry->{Name} (Fail $Fail) (success $OptionSuccess)" => sub {
-                my $Response = '';
-                my $Result;
                 my $WebException;
                 my $CustomErrorMessage = 'this is a custom error message for HTTP::Test::ProviderGenerateResponse()';
                 {
                     # discard Web::Request from OM to prevent errors
                     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
-                    $Result = eval {
+                    eval {
                         $TransportObject->ProviderGenerateResponse(
                             Success      => $OptionSuccess,
                             ErrorMessage => $CustomErrorMessage,
