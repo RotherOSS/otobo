@@ -307,7 +307,6 @@ for my $Fail ( 0 .. 1 ) {
     }
 
     # ProviderGenerateResponse()
-
     my @PGRTestEntries = (
         {
             Name => "TransportObject ProviderGenerateResponse()",

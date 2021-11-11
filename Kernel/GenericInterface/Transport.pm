@@ -128,22 +128,16 @@ sub ProviderProcessRequest {
 =head2 ProviderGenerateResponse()
 
 generate response for an incoming web service request.
-Throws a L<Kernel::System::Web::Exception>.
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+Throws a L<Kernel::System::Web::Exception> which contains the response.
+
+    $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
         ErrorMessage    => '',      # in case of an error, optional
         Data            => {        # data payload for response, optional
             ...
         },
-
     );
-
-    $Result = {
-        Success         => 1,              # 0 or 1
-        Output          => $Content,       # a string
-        ErrorMessage    => '',             # in case of error
-    };
 
 =cut
 
