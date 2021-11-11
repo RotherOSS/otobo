@@ -451,6 +451,8 @@ Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
 sub _GenerateErrorResponse {
     my ( $Self, %Param ) = @_;
 
+    # Generate the error response and throw it in an
+    # Kernel::System::Web::Exception.
     $Self->{TransportObject}->ProviderGenerateResponse(
         Success      => 0,
         ErrorMessage => $Param{ErrorMessage},

@@ -128,44 +128,54 @@ sub ProviderProcessRequest {
 =head2 ProviderGenerateResponse()
 
 generate response for an incoming web service request.
-Throws a L<Kernel::System::Web::Exception>.
 
-    my $Result = $TransportObject->ProviderGenerateResponse(
+Throws a L<Kernel::System::Web::Exception> which contains the response.
+
+    $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
         ErrorMessage    => '',      # in case of an error, optional
         Data            => {        # data payload for response, optional
             ...
         },
-
     );
-
-    $Result = {
-        Success         => 1,              # 0 or 1
-        Output          => $Content,       # a string
-        ErrorMessage    => '',             # in case of error
-    };
 
 =cut
 
 sub ProviderGenerateResponse {
     my ( $Self, %Param ) = @_;
 
+    my $ErrorMessage;
     if ( !defined $Param{Success} ) {
-
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Missing parameter Success.',
-        );
+        $ErrorMessage = 'Missing parameter Success.';
+    }
+    elsif ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+        $ErrorMessage = 'Data is not a hash reference.';
     }
 
-    if ( $Param{Data} && ref $Param{Data} ne 'HASH' ) {
+    # throw errors as an exception
+    if ($ErrorMessage) {
 
-        return $Self->{DebuggerObject}->Error(
-            Summary => 'Data is not a hash reference.',
+        $Self->{DebuggerObject}->Error(
+            Summary => $ErrorMessage,
+        );
+
+        # a response with code 500
+        my $PlackResponse = Plack::Response->new(
+            500,
+            [],
+            $ErrorMessage,
+        );
+
+        # The exception is caught be Plack::Middleware::HTTPExceptions
+        die Kernel::System::Web::Exception->new(
+            PlackResponse => $PlackResponse,
         );
     }
 
     # throws an exception
-    return $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+    $Self->{BackendObject}->ProviderGenerateResponse(%Param);
+
+    return;    # actually not reached
 }
 
 =head2 RequesterPerformRequest()

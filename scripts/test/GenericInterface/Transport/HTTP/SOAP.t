@@ -3155,7 +3155,7 @@ for my $Test (@CheckHeadersTests) {
             $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
 
             # Create response. The response is acutually thrown as an exception.
-            my $Response = eval {
+            eval {
                 $TransportObject->ProviderGenerateResponse(
                     Success   => 1,
                     Data      => {},
