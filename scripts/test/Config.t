@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OK and the test driver $Self
+
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -48,17 +53,11 @@ $Self->True(
     'check for configuration setting "Home"',
 );
 
-my $ConfigChecksum  = $ConfigObject->ConfigChecksum();
+my $ConfigChecksum = $ConfigObject->ConfigChecksum();
+ok( $ConfigChecksum, 'ConfigChecksum()' );
+
 my $ConfigChecksum2 = $ConfigObject->ConfigChecksum();
-$Self->True(
-    $ConfigChecksum,
-    'ConfigChecksum()',
-);
-$Self->Is(
-    $ConfigChecksum,
-    $ConfigChecksum2,
-    'ConfigChecksum()',
-);
+is( $ConfigChecksum, $ConfigChecksum2, 'ConfigChecksum() with unchanged config', );
 
 # loads the defaults values
 $ConfigObject->LoadDefaults();

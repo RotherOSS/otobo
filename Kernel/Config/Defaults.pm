@@ -29,7 +29,7 @@ use utf8;
 
 # core modules
 use File::stat;
-use Digest::MD5;
+use Digest::MD5 qw(md5_hex);
 use Exporter qw(import);
 use File::Basename qw(basename);
 use Fcntl qw(:flock);
@@ -2326,13 +2326,9 @@ sub Translatable {
 sub ConfigChecksum {
     my $Self = shift;
 
+    # Collect the relevant file names.
+    # The order of the files is determined, as glob returns a sorted list.
     my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
-
-    # Ignore ZZZAAuto.pm, because this is only a cached version of the XML files which
-    # will be in the checksum. Otherwise the SysConfig cannot use its cache files.
-    @Files = grep { $_ !~ m/ZZZAAuto\.pm$/smx } @Files;
-
-    push @Files, glob "$Self->{Home}/Kernel/Config/Files/*.xml";
     push @Files, "$Self->{Home}/Kernel/Config/Defaults.pm";
     push @Files, "$Self->{Home}/Kernel/Config.pm";
 
@@ -2352,7 +2348,7 @@ sub ConfigChecksum {
         $ConfigString .= $File . $Stat->mtime();
     }
 
-    return Digest::MD5::md5_hex($ConfigString);
+    return md5_hex($ConfigString);
 }
 
 sub AutoloadPerlPackages {
