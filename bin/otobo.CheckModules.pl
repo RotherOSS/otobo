@@ -349,6 +349,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'CGI::PSGI',
+        Required  => 1,
+        Comment   => 'Adapt CGI.pm to the PSGI protocol',
+        InstTypes => {
+            aptget => 'libcgi-psgi-perl',
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
@@ -356,6 +367,17 @@ my @NeededModules = (
             emerge => 'dev-perl/DBI',
             zypper => 'perl-DBI',
             ports  => 'databases/p5-DBI',
+        },
+    },
+    {
+        Module    => 'DBIx::Connector',
+        Required  => 1,
+        Comment   => 'Sane persistent database connection',
+        InstTypes => {
+            aptget => 'libdbix-connector-perl',
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
     {
@@ -779,28 +801,6 @@ my @NeededModules = (
     },
 
     # Feature gazelle
-    {
-        Module    => 'CGI::PSGI',
-        Required  => 1,
-        Comment   => 'Adapt CGI.pm to the PSGI protocol',
-        InstTypes => {
-            aptget => 'libcgi-psgi-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'DBIx::Connector',
-        Required  => 1,
-        Comment   => 'Sane persistent database connection',
-        InstTypes => {
-            aptget => 'libdbix-connector-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
     {
         Module    => 'Gazelle',
         Features  => ['gazelle'],

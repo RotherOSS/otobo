@@ -145,9 +145,9 @@ my $NYTProfMiddleware = sub {
 
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
-# This setting is used internally by OTOBO, but also in the CPAN module DBD::mysql.
-# Per default it would enable mysql_auto_reconnect. But acutally mysql_auto_reconnect is not active,
-# as it is explicitly disabled in Kernel::System::DB::mysql.
+# This setting is used internally by Kernel::System::Log, Kernel::Config::Defaults and in the support data collector.
+# In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
+# In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
 my $SetEnvMiddleware = sub {
     my $App = shift;
 

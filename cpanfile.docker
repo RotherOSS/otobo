@@ -14,7 +14,13 @@ requires 'DateTime', ">= 1.08";
 
 requires 'Convert::BinHex';
 
+# Adapt CGI.pm to the PSGI protocol
+requires 'CGI::PSGI';
+
 requires 'DBI';
+
+# Sane persistent database connection
+requires 'DBIx::Connector';
 
 requires 'Digest::SHA';
 
@@ -68,12 +74,6 @@ requires 'YAML::XS';
 # For internationalised sorting
 requires 'Unicode::Collate';
 
-# Adapt CGI.pm to the PSGI protocol
-requires 'CGI::PSGI';
-
-# Sane persistent database connection
-requires 'DBIx::Connector';
-
 # Neater path manipulation and some utils
 requires 'Path::Class';
 
@@ -88,9 +88,6 @@ requires 'Plack::Middleware::Refresh';
 
 # Twist some HTTP variables so that the reverse proxy is transparent
 requires 'Plack::Middleware::ReverseProxy';
-
-# PSGI SOAP adapter
-requires 'SOAP::Transport::HTTP::Plack';
 
 # Support for readonly Perl variables
 requires 'Const::Fast';

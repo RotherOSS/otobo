@@ -27,15 +27,8 @@ use List::Util();
 # CPAN modules
 use DBI;
 
-# Set a flag indicating whether we are in a web context
-my $DBIxConnectorIsUsed;
-
-BEGIN {
-    $DBIxConnectorIsUsed = $ENV{GATEWAY_INTERFACE} ? 1 : 0;
-}
-
-# DBIx::Connector is not used under mod_perl
-use if $DBIxConnectorIsUsed, 'DBIx::Connector';
+# DBIx::Connector is used for all database connections
+use DBIx::Connector;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -185,37 +178,23 @@ sub new {
 
 =head2 Connect()
 
-to connect to a database
+to connect to a database. Connections are managed with DBIx::Connector.
 
-    $DBObject->Connect();
+    my $ConnectSuccess = $DBObject->Connect();
+
+Return an empty list when the connection fails.
+
+When connection succeeds than a L<DBI> database handle is returned.
+
+    my $DatabaseHandle = $DBObject->Connect();
+
+This feature should be used only in exceptional cases, as usually all access to the database
+should be handled by the instance on L<Kernel::System::DB>.
 
 =cut
 
 sub Connect {
     my $Self = shift;
-
-    # Primarily trust that an existing DB-connection is still alive.
-    # But ping the connection once in a while.
-    # Under PSGI we rely on DBI-Connector.
-    if ( !$DBIxConnectorIsUsed && $Self->{dbh} ) {
-
-        my $PingTimeout = 10;     # Only ping every 10 seconds (see bug#12383).
-        my $CurrentTime = time;
-
-        if ( $CurrentTime - ( $Self->{LastPingTime} // 0 ) < $PingTimeout ) {
-            return $Self->{dbh};
-        }
-
-        # Ping to see if the connection is still alive.
-        if ( $Self->{dbh}->ping() ) {
-            $Self->{LastPingTime} = $CurrentTime;
-
-            return $Self->{dbh};
-        }
-
-        # Ping failed: cause a reconnect.
-        delete $Self->{dbh};
-    }
 
     # debug
     if ( $Self->{Debug} > 2 ) {
@@ -228,7 +207,7 @@ sub Connect {
     }
 
     # db connect
-    if ($DBIxConnectorIsUsed) {
+    {
 
         # Attribute for callbacks. See https://metacpan.org/pod/DBI#Callbacks
         my %Callbacks;
@@ -324,15 +303,6 @@ sub Connect {
         # this method reuses an existing connection when it is still pinging
         $Self->{dbh} = $Cache{$CacheKey}->dbh();
     }
-    else {
-        # use a connection that is not cached
-        $Self->{dbh} = DBI->connect(
-            $Self->{DSN},
-            $Self->{USER},
-            $Self->{PW},
-            $Self->{Backend}->{'DB::Attribute'},
-        );
-    }
 
     if ( !$Self->{dbh} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -342,27 +312,6 @@ sub Connect {
         );
 
         return;
-    }
-
-    # In the PSGI case this is included in the connection attributes
-    if ( !$DBIxConnectorIsUsed ) {
-        if ( $Self->{Backend}->{'DB::Connect'} ) {
-            $Self->Do( SQL => $Self->{Backend}->{'DB::Connect'} );
-        }
-
-        # maybe deactivate foreign key checks
-        if ( $Self->{DeactivateForeignKeyChecks} ) {
-            my $DeactivateSQL = $Self->GetDatabaseFunction('DeactivateForeignKeyChecks');
-            if ($DeactivateSQL) {
-                $Self->Do( SQL => $DeactivateSQL );
-            }
-        }
-
-        # set utf-8 on for PostgreSQL
-        # Note: This is untested for the PSGI-case
-        if ( $Self->{Backend}->{'DB::Type'} eq 'postgresql' ) {
-            $Self->{dbh}->{pg_enable_utf8} = 1;
-        }
     }
 
     if ( $Self->{SlaveDBObject} ) {

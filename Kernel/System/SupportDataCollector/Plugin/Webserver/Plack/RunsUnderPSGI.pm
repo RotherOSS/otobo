@@ -32,10 +32,10 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # nothing to do when we are not in a web context
-    # web context implies PSGI
+    # Skip the plugin, if the support data collection isn't running in a web request.
     return $Self->GetResults() unless $ENV{GATEWAY_INTERFACE};
 
+    # GATEWAY_INTERFACE implies PSGI, as since OTOBO 10.1.1 only PSGI is supported
     $Self->AddResultOk(
         Identifier => 'RunsUnderPSGI',
         Label      => Translatable('Runs under PSGI'),
