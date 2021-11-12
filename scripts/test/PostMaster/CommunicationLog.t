@@ -62,7 +62,8 @@ package FakeClient {
 
     sub new {
         my $Class = shift;
-        return bless( {}, $Class, );
+
+        return bless {}, $Class;
     }
 
     sub AUTOLOAD {
@@ -72,7 +73,7 @@ package FakeClient {
             return;
         }
 
-        return 1 if !( exists $FakeClientEnv{$Method} );
+        return 1 unless exists $FakeClientEnv{$Method};
         return $FakeClientEnv{$Method};
     }
 
@@ -194,7 +195,7 @@ $HelperObject->ConfigSettingChange(
     Value => 100,
 );
 
-my $GetMailAcountLastCommunicationLog = sub {
+sub GetMailAcountLastCommunicationLog {
     my %Param = @_;
 
     my $MailAccount = $Param{MailAccount};
@@ -224,6 +225,7 @@ my $GetMailAcountLastCommunicationLog = sub {
 
         if ( $Object->{ObjectLogType} eq 'Connection' ) {
             $Connection = $Object;
+
             next OBJECT;
         }
 
@@ -241,17 +243,21 @@ my $GetMailAcountLastCommunicationLog = sub {
         Messages      => \@Messages,
     };
 
-};
+}
 
-# Get postmaster sample emails.
-my $OTOBODIR = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-my @FileList = glob "${ OTOBODIR }/scripts/test/sample/PostMaster/*.box";
-my %Emails   = ();
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-my $EmailIdx = 0;
-for my $Item (@FileList) {
-    $EmailIdx += 1;
-    $Emails{$EmailIdx} = $Item;
+# Get postmaster sample emails in a hash.
+# This hash will be used for the fake environments and for diagnostics.
+my %EmailIdx2Filename;
+{
+    my @BoxFilenames = glob "$Home/scripts/test/sample/PostMaster/*[12]3*.box";
+
+    my $EmailIdx = 0;
+    for my $Filename (@BoxFilenames) {
+        $EmailIdx++;
+        $EmailIdx2Filename{$EmailIdx} = $Filename;
+    }
 }
 
 # Type of emails accounts to test.
@@ -301,13 +307,13 @@ my @Tests = (
                     20 => 1,
                 },
             },
-            'emails' => {%Emails},
+            'emails' => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Failed',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -323,13 +329,13 @@ my @Tests = (
                     17 => 1,
                 },
             },
-            'emails' => {%Emails},
+            'emails' => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Failed',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -339,13 +345,13 @@ my @Tests = (
         FakeClientEnv => {
             'connect'         => 1,
             'fail_postmaster' => 'error',
-            'emails'          => {%Emails},
+            'emails'          => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Failed',    # expected status for all messages
+                Default => 'Failed',    # expected status for all messages
             },
         },
     },
@@ -355,13 +361,13 @@ my @Tests = (
         FakeClientEnv => {
             'connect'         => 1,
             'fail_postmaster' => 'exception',
-            'emails'          => {%Emails},
+            'emails'          => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Failed',    # expected status for all messages
+                Default => 'Failed',    # expected status for all messages
             },
         },
     },
@@ -370,13 +376,13 @@ my @Tests = (
         Name          => 'Everything successfull',
         FakeClientEnv => {
             'connect' => 1,
-            'emails'  => {%Emails},
+            'emails'  => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Successful',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -480,7 +486,7 @@ my $TestsStoppedAt = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # Delete spool files generated during the tests run.
 my @SpoolFilesFailedUnlink;
-my @SpoolFiles = glob "${OTOBODIR}/var/spool/problem-email-*";
+my @SpoolFiles = glob "$Home/var/spool/problem-email-*";
 for my $SpoolFile (@SpoolFiles) {
     my $FileStat       = stat $SpoolFile;
     my $FileModifiedAt = $Kernel::OM->Create(
