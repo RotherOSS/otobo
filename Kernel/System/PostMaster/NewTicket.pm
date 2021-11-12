@@ -611,6 +611,7 @@ Message
             TicketID => $TicketID,
             UserID   => $Param{InmailUserID},
         );
+
         return;
     }
 
