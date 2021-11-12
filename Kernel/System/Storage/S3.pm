@@ -217,6 +217,15 @@ sub StoreObject {
     # not sure how this works for Perl strings containing binary data
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
 
+    # The header fields of MIME message and of HTTP headers treat encodings differently.
+    # MIME headers support fields in different encodings. HTTP headers seem to support only iso-8859-1.
+    # But there is RFC 8187 which might do the right thing.
+    # For now we simply store the UTF8-bytes.
+    # See scripts/test/sample/Postmaster/Postmaster-Test13.box for an example that uses kyrillic koi8 encoded headers.
+    for my $Key ( keys $Headers->%* ) {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Headers->{$Key} );
+    }
+
     my $Transaction = $Self->{S3Object}->signed_request(
         method         => 'PUT',
         datetime       => $Now,
