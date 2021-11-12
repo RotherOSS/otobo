@@ -251,7 +251,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 # This hash will be used for the fake environments and for diagnostics.
 my %EmailIdx2Filename;
 {
-    my @BoxFilenames = glob "$Home/scripts/test/sample/PostMaster/*[12]3*.box";
+    my @BoxFilenames = glob "$Home/scripts/test/sample/PostMaster/*.box";
 
     my $EmailIdx = 0;
     for my $Filename (@BoxFilenames) {
