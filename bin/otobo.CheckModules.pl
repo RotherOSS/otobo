@@ -191,21 +191,23 @@ my %IsDockerFeature = (
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
-    'aaacore'       => 'Required packages',
-    'apache'        => 'Recommended features for setups using apache',
-    'db'            => 'Database support (installing one is required)',
-    'db:mysql'      => 'Support for database MySQL',
-    'db:odbc'       => 'Support for database access via ODBC',
-    'db:oracle'     => 'Support for database Oracle',
-    'db:postgresql' => 'Support for database PostgreSQL',
-    'db:sqlite'     => 'Support for database SQLLite',
-    'devel'         => 'Features which can be useful in development environments',
-    'div'           => 'Various features for additional functionality',
-    'gazelle'       => 'Required packages if you want to use Gazelle webserver',
-    'mail'          => 'Features enabling communication with a mail-server',
-    'performance'   => 'Optional features which can increase performance',
-    'storage:s3'    => 'AWS S3 compatible storage',
-    'zzznone'       => 'Uncategorized',
+    'aaacore'        => 'Required packages',
+    'apache'         => 'Recommended features for setups using apache',
+    'db'             => 'Database support (installing one is required)',
+    'db:mysql'       => 'Support for database MySQL',
+    'db:odbc'        => 'Support for database access via ODBC',
+    'db:oracle'      => 'Support for database Oracle',
+    'db:postgresql'  => 'Support for database PostgreSQL',
+    'db:sqlite'      => 'Support for database SQLLite',
+    'devel'          => 'Features which can be useful in development environments',
+    'devel:encoding' => 'Modules for debugging encoding issues',
+    'devel:test'     => 'Modules for running the test suite',
+    'div'            => 'Various features for additional functionality',
+    'gazelle'        => 'Required packages if you want to use Gazelle webserver',
+    'mail'           => 'Features enabling communication with a mail-server',
+    'performance'    => 'Optional features which can increase performance',
+    'storage:s3'     => 'AWS S3 compatible storage',
+    'zzznone'        => 'Uncategorized',
 );
 
 my $OSDist;
@@ -979,14 +981,13 @@ my @NeededModules = (
         },
     },
 
-    # Feature devel
+    # Feature devel:encoding
     {
-        Module          => 'Selenium::Remote::Driver',
-        VersionRequired => '1.40',
-        Features        => ['devel:test'],
-        Comment         => 'used by Kernel::System::UnitTest::Selenium',
-        InstTypes       => {
-            aptget => undef,    # not in any Debian package
+        Module    => 'Data::Peek',
+        Features  => ['devel:encoding'],
+        Comment   => 'for deeply inspecting scalars, especially strings',
+        InstTypes => {
+            aptget => undef,
             emerge => undef,
             zypper => undef,
             ports  => undef,
@@ -997,6 +998,20 @@ my @NeededModules = (
         Features  => ['devel:encoding'],
         Comment   => 'for deeply inspecting strings',
         InstTypes => {
+            aptget => undef,    # not in any Debian package
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+
+    # Feature devel:test
+    {
+        Module          => 'Selenium::Remote::Driver',
+        VersionRequired => '1.40',
+        Features        => ['devel:test'],
+        Comment         => 'used by Kernel::System::UnitTest::Selenium',
+        InstTypes       => {
             aptget => undef,    # not in any Debian package
             emerge => undef,
             zypper => undef,
