@@ -155,7 +155,7 @@ $Selenium->RunTest(
                     Priority      => 'Error',
                     Key           => 'Kernel::System::MailAccount::' . $MailAccounts{$MailAccountID}->{Type},
                     Value         =>
-                        "Could not process message. Raw mail saved (report it on http://bugs.otobo.org/)!",
+                        "Could not process message. Raw mail saved (report it on https://github.com/RotherOSS/otobo/issues)!",
                 );
 
                 $MessageStatus = 'Failed';
