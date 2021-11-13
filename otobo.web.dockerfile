@@ -44,8 +44,8 @@ ENV LANG C.UTF-8
 
 # required modules are installed in /opt/otobo_install/local
 # additional local modules might be installed in /opt/otobo/local
-ENV PERL5LIB "/opt/otobo_install/local/lib/perl5:/opt/otobo/local/lib/perl5"
-ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
+ENV PERL5LIB "/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
+ENV PATH "/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 
 # Install packages from CPAN into the local lib /opt/otobo_install/local.
 #
