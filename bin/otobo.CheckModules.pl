@@ -1615,7 +1615,7 @@ sub PrintCpanfile {
 
         # Don't declare the features in the Docker case
         my $PoundOrEmpty = $ForDocker ? '# ' : '';
-        my $Desc         = $FeatureDescription{$Feature} // "Suppport for $Feature";
+        my $Desc         = $FeatureDescription{$Feature} // "Support for feature $Feature";
         say "${PoundOrEmpty}feature '$Feature', '$Desc' => sub {";
         PrintCpanfile( $ModulesForFeature{$Feature}, 0, 0, $ForDocker );
         say "${PoundOrEmpty}};";
