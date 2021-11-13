@@ -58,7 +58,6 @@ my %FakeClientEnv = (
 #   name and returns it, otherwise always returns True to ensure that the code
 #   that will use this object continues as everything is ok.
 package FakeClient {
-    our $AUTOLOAD;
 
     sub new {
         my $Class = shift;
@@ -68,11 +67,12 @@ package FakeClient {
 
     sub AUTOLOAD {
         my $Self = shift;
-        my ($Method) = ( $AUTOLOAD =~ m/::([^:]+)$/i );
-        if ( !$Method || $Method eq 'DESTROY' ) {
-            return;
-        }
 
+        our $AUTOLOAD;
+        my ($Method) = ( $AUTOLOAD =~ m/::([^:]+)$/i );
+
+        return unless $Method;
+        return if $Method eq 'DESTROY';
         return 1 unless exists $FakeClientEnv{$Method};
         return $FakeClientEnv{$Method};
     }
