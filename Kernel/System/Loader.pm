@@ -27,12 +27,9 @@ use utf8;
 # CPAN modules
 use CSS::Minifier qw();
 use JavaScript::Minifier qw();
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -79,7 +76,7 @@ takes a list of files and returns a filename in the target directory
 which holds the minified and concatenated content of the files.
 Uses caching internally.
 
-With S3 support the returned value is a key for an object that is stored in S3.
+With S3 support the returned value is the last part of the key of the object that is stored in S3.
 
 It is expected that the TargetDirectory is a directory below the OTOBO home directory.
 
@@ -200,38 +197,16 @@ sub MinifyFiles {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
-        # TODO: AWS region must be set up in Kubernetes config map
-        my $Region = 'eu-central-1';
-
-        # generate Mojo transaction for submitting plain to S3
-        # TODO: AWS bucket must be set up in Kubernetes config map
-        my $Bucket = 'otobo-20211018a';
 
         # the target directory is below the OTOBO home dir, adapt that to S3
-        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $FilePath = join '/', $TargetDirectory, $Filename;
-        $FilePath =~ s!^$Home!$Bucket/OTOBO!;
-        my $Now = Mojo::Date->new(time)->to_datetime;
-        my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $FilePath        = join '/', $TargetDirectory, $Filename;
+        $FilePath =~ s!^$Home!OTOBO!;
 
-        my $UserAgent = Mojo::UserAgent->new();
-        my $S3Object  = Mojo::AWS::S3->new(
-            transactor => $UserAgent->transactor,
-            service    => 's3',
-            region     => $Region,
-            access_key => 'test',
-            secret_key => 'test',
+        $LoaderFileExists = $StorageS3Object->ObjectExists(
+            Key => $FilePath,
         );
-        my $Transaction = $S3Object->signed_request(
-            method   => 'HEAD',
-            datetime => $Now,
-            url      => $URL,
-        );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
-
-        $LoaderFileExists = 1 if $Transaction->res->is_success;
     }
 
     if ( !$LoaderFileExists ) {
@@ -292,42 +267,16 @@ sub MinifyFiles {
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ($S3Backend) {
 
-            # TODO: AWS region must be set up in Kubernetes config map
-            my $Region = 'eu-central-1';
-
-            # generate Mojo transaction for submitting plain to S3
-            # TODO: AWS bucket must be set up in Kubernetes config map
-            my $Bucket = 'otobo-20211018a';
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
 
             # the target directory is below the OTOBO home dir, adapt that to S3
             my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $FilePath = join '/', $TargetDirectory, $Filename;
-            $FilePath =~ s!^$Home!$Bucket/OTOBO!;
-            my $Now = Mojo::Date->new(time)->to_datetime;
-            my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-
-            # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-            # not sure how this works for Perl strings containing binary data
-            my $ContentCopy = $Content;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ContentCopy );
-
-            my $UserAgent = Mojo::UserAgent->new();
-            my $S3Object  = Mojo::AWS::S3->new(
-                transactor => $UserAgent->transactor,
-                service    => 's3',
-                region     => $Region,
-                access_key => 'test',
-                secret_key => 'test',
+            $FilePath =~ s!^$Home!OTOBO!;
+            $StorageS3Object->StoreObject(
+                Key     => $FilePath,
+                Content => $Content,
             );
-            my $Transaction = $S3Object->signed_request(
-                method   => 'PUT',
-                datetime => $Now,
-                url      => $URL,
-                payload  => [$ContentCopy],
-            );
-
-            # run blocking request
-            $UserAgent->start($Transaction);
         }
         else {
 

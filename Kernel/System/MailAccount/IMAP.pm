@@ -18,8 +18,14 @@ package Kernel::System::MailAccount::IMAP;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
 use Net::IMAP::Simple;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -33,10 +39,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Connect {
@@ -114,7 +117,7 @@ sub Fetch {
             $CommunicationLogStatus = 'Failed';
         }
 
-        last COUNT if !$Self->{Reconnect};
+        last COUNT unless $Self->{Reconnect};
     }
 
     $CommunicationLogObject->CommunicationStop(
@@ -194,7 +197,7 @@ sub _Fetch {
         Value         => "Open connection to '$Param{Host}' ($Param{Login}).",
     );
 
-    my %Connect = ();
+    my %Connect;
     eval {
         %Connect = $Self->Connect(
             Host     => $Param{Host},
@@ -431,7 +434,7 @@ sub _Fetch {
                     my $PostMasterObject = $Kernel::OM->Create(
                         'Kernel::System::PostMaster',
                         ObjectParams => {
-                            %{$Self},
+                            $Self->%*,
                             Email                  => \@Lines,
                             Trusted                => $Param{Trusted} || 0,
                             Debug                  => $Debug,
@@ -462,8 +465,7 @@ sub _Fetch {
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::IMAP',
-                            Value         =>
-                                "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
+                            Value         => "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
                         );
 
                         $MessageStatus = 'Failed';

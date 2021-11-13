@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use File::stat;
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use File::stat();
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $Self
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -31,30 +33,22 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
+
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $ZZZAAuto = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZAAuto.pm';
-my $Before   = File::stat::stat($ZZZAAuto);
+my $Before   = stat $ZZZAAuto;
 sleep 2;
 
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Rebuild');
 my $ExitCode      = $CommandObject->Execute();
 
-my $After = File::stat::stat($ZZZAAuto);
+my $After = stat $ZZZAAuto;
 
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code",
-);
+is( $ExitCode, 0, "Exit code" );
 
-$Self->IsNot(
-    $Before->ctime(),
-    $After->ctime(),
-    "ZZZAAuto ctime",
-);
+isnt( $Before->ctime, $After->ctime, 'ZZZAAuto ctime' );
 
 # cleanup cache is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing();

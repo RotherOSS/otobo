@@ -39,17 +39,29 @@ my @Dirs = qw(Kernel Custom scripts bin);
 # NOTE: Please create an issue when adding to this list
 #    and the reason is not really acceptable.
 my %FailureIsAccepted = (
-    'Kernel/System/Auth/Radius.pm'                                      => 'Authen::Radius is not required',
-    'Kernel/System/CustomerAuth/Radius.pm'                              => 'Authen::Radius is not required',
-    'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm' => 'Amazon::S3::Thin is not required',
-    'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm'                        => 'Devel::REPL::Plugin is not required',
-    'Kernel/cpan-lib/Font/TTF/Win32.pm'                                 => 'Win32::Registry is not available, but never mind as Win32 is not supported',
-    'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'                             => 'HTTP::GHTTP is not required',
-    'Kernel/cpan-lib/PDF/API2/Win32.pm'                                 => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
-    'Kernel/cpan-lib/SOAP/Lite.pm'                                      => 'some strangeness concerning SOAP::Constants',
-    'Kernel/cpan-lib/URI/urn/isbn.pm'                                   => 'Business::ISBN is not required',
-    'scripts/apache2-perl-preload_otobo_psgi.pl'                        => 'Apache2::ServerUtil::restart_count() only available when running under mod_perl',
+    'Kernel/System/Auth/Radius.pm'               => 'Authen::Radius is not required',
+    'Kernel/System/CustomerAuth/Radius.pm'       => 'Authen::Radius is not required',
+    'Kernel/cpan-lib/Devel/REPL/Plugin/OTOBO.pm' => 'Devel::REPL::Plugin is not required',
+    'Kernel/cpan-lib/Font/TTF/Win32.pm'          => 'Win32::Registry is not available, but never mind as Win32 is not supported',
+    'Kernel/cpan-lib/LWP/Protocol/GHTTP.pm'      => 'HTTP::GHTTP is not required',
+    'Kernel/cpan-lib/PDF/API2/Win32.pm'          => 'Win32::TieRegistry is not available, but never mind as Win32 is not supported',
+    'Kernel/cpan-lib/SOAP/Lite.pm'               => 'some strangeness concerning SOAP::Constants',
+    'Kernel/cpan-lib/URI/urn/isbn.pm'            => 'Business::ISBN is not required',
+    'scripts/apache2-perl-preload_otobo_psgi.pl' => 'Apache2::ServerUtil::restart_count() only available when running under mod_perl',
 );
+
+# some modules are only expected to compile when the S3 backend is active
+if ( !$ENV{OTOBO_SYNC_WITH_S3} ) {
+    for my $File (
+        'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm',
+        'Kernel/System/Package/Event/SyncWithS3.pm',
+        'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm',
+        'Kernel/System/Plack/Loader/SyncWithS3.pm',
+        )
+    {
+        $FailureIsAccepted{$File} = 'Mojolicious and Mojo::AWS::S3 are not required when S3 is not active';
+    }
+}
 
 # object for doing the actual check
 my $Internal = Test::Compile::Internal->new();
@@ -67,7 +79,7 @@ note('check syntax of the Perl modules');
         # in proper OTOBO. Therefore the modules in Kernel/TidyAll are skipped here.
         next FILE if $File =~ m{^Kernel/TidyAll/};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
@@ -81,7 +93,7 @@ note('check syntax of the Perl scripts');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -99,7 +111,7 @@ note('look at Perl code with an unusual extension');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }

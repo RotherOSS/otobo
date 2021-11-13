@@ -23,14 +23,11 @@ use v5.24;
 # core modules
 
 # CPAN modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -926,11 +923,11 @@ sub ACLDump {
         Type => 'ACLEditor_ACL',
     );
 
-    my $Output = '';
+    my $PMFileOutput = '';
     for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
-        $Output .= $Self->_ACLItemOutput(
+        $PMFileOutput .= $Self->_ACLItemOutput(
             Key        => $ACLName,
             Value      => $ACLDump{$ACLName}{Values},
             Comment    => $ACLDump{$ACLName}{Comment},
@@ -971,50 +968,23 @@ EOF
 1;
 EOF
 
-    $Output = $FileStart . $Output . $FileEnd;
+    $PMFileOutput = $FileStart . $PMFileOutput . $FileEnd;
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-        # TODO: AWS region must be set up in Kubernetes config map
-        my $Region = 'eu-central-1';
-
-        # generate Mojo transaction for submitting plain to S3
-        # TODO: AWS bucket must be set up in Kubernetes config map
-        my $Bucket   = 'otobo-20211018a';
-        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
-        my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-
-        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-        # not sure how this works for Perl strings containing binary data
-        my $Content = $Output;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-
-        my $UserAgent = Mojo::UserAgent->new();
-        my $S3Object  = Mojo::AWS::S3->new(
-            transactor => $UserAgent->transactor,
-            service    => 's3',
-            region     => $Region,
-            access_key => 'test',
-            secret_key => 'test',
-        );
-        my $Transaction = $S3Object->signed_request(
-            method   => 'PUT',
-            datetime => $Now,
-            url      => $URL,
-            payload  => [$Content],
-        );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
 
         # only write to S3, no extra copy in the file system
-        return $FilePath;
+        return $StorageS3Object->StoreObject(
+            Key     => $ZZZFilePath,
+            Content => $PMFileOutput,
+        );
     }
 
     return $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
         Location => $Param{Location},
-        Content  => \$Output,
+        Content  => \$PMFileOutput,
         Mode     => 'utf8',
         Type     => 'Local',
     );

@@ -2688,17 +2688,6 @@
             <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
-    <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
-        <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
-        <Navigation>Core::Event::Package</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
-                <Item Key="Event">(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)</Item>
-                <Item Key="Transaction">1</Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="Events###Package" Required="1" Valid="1">
         <Description Translatable="1">List of all Package events to be displayed in the GUI.</Description>
         <Navigation>Frontend::Admin</Navigation>
@@ -2709,6 +2698,28 @@
                 <Item>PackageUpgrade</Item>
                 <Item>PackageUninstall</Item>
             </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Package::EventModulePost###9000-SupportDataSend" Required="0" Valid="1">
+        <Description Translatable="1">Package event module file a scheduler task for update registration.</Description>
+        <Navigation>Core::Event::Package</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::SupportDataSend</Item>
+                <Item Key="Event">Package(?:Install|Reinstall|Upgrade|Uninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Package::EventModulePost###9000-SyncWithS3" Required="0" Valid="0">
+        <Description Translatable="1">Package event module trigger package reinstall in containers.</Description>
+        <Navigation>Core::Event::Package</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Package::Event::SyncWithS3</Item>
+                <Item Key="Event">Package(?:Install|Reinstall|Upgrade|Uninstall)</Item>
+                <Item Key="Transaction">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Events###DynamicField" Required="1" Valid="1">

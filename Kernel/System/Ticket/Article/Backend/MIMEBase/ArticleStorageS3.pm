@@ -27,14 +27,13 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 use File::Basename qw(basename);
 
 # CPAN modules
-use Mojo::UserAgent;
-use Mojo::Date;
 use Mojo::DOM;
+use Mojo::Date;
 use Mojo::URL;
-use Mojo::AWS::S3;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
+use Kernel::System::Storage::S3;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,28 +65,16 @@ sub new {
     # Call new() on Base.pm to execute the common code.
     my $Self = $Type->SUPER::new(%Param);
 
-    # get values from SysConfig
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Region       = $ConfigObject->Get('Ticket::Article::Backend::MIMEBase::ArticleStorageS3::Region')
-        || die 'Got no AWS Region!';
-
-    # Bucket created on Docker host with:
-    # docker_admin> export AWS_ACCESS_KEY_ID=test
-    # docker_admin> export AWS_SECRET_ACCESS_KEY=test
-    # docker_admin> aws --endpoint-url=http://localhost:4566 s3 mb s3://otobo-20211010a
-    # make_bucket: otobo-20211010a
-
+    # TODO: don't access attributes directly
     # TODO: eliminate hardcoded values
-    $Self->{Bucket}         = 'otobo-20211018a';
-    $Self->{MetadataPrefix} = 'x-amz-meta-';
-    $Self->{UserAgent}      = Mojo::UserAgent->new();
-    $Self->{S3Object}       = Mojo::AWS::S3->new(
-        transactor => $Self->{UserAgent}->transactor,
-        service    => 's3',
-        region     => $Region,
-        access_key => 'test',
-        secret_key => 'test',
-    );
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    $Self->{Bucket}          = $StorageS3Object->{Bucket};
+    $Self->{Host}            = $StorageS3Object->{Host};
+    $Self->{MetadataPrefix}  = 'x-amz-meta-';
+    $Self->{S3Object}        = $StorageS3Object->{S3Object};
+    $Self->{Scheme}          = $StorageS3Object->{Scheme};
+    $Self->{StorageS3Object} = $StorageS3Object;
+    $Self->{UserAgent}       = $StorageS3Object->{UserAgent};
 
     return $Self;
 }
@@ -138,9 +125,12 @@ sub ArticleDeletePlain {
     }
 
     # delete plain
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my $Now      = Mojo::Date->new(time)->to_datetime;
+    my $URL      = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( join '/', $Self->{Bucket}, $FilePath );
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'DELETE',
         datetime => $Now,
@@ -197,7 +187,10 @@ sub ArticleDeleteAttachment {
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     # delete plain
     my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
     $URL->query('delete=');
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'POST',
@@ -230,29 +223,14 @@ sub ArticleWritePlain {
         }
     }
 
-    # generate Mojo transaction for submitting plain to S3
+    # store plain message to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my %Headers  = ( 'Content-Type' => 'text/plain' );
 
-    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-    # not sure how this works for Perl strings containing binary data
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Email} );
-
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method         => 'PUT',
-        datetime       => $Now,
-        url            => $URL,
-        signed_headers => \%Headers,
-        payload        => [ $Param{Email} ],
+    return $Self->{StorageS3Object}->StoreObject(
+        Key     => $FilePath,
+        Headers => { 'Content-Type' => 'text/plain' },
+        Content => $Param{Email},
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # TODO: check success
-    return 1;
 }
 
 sub ArticleWriteAttachment {
@@ -326,29 +304,13 @@ sub ArticleWriteAttachment {
         $Headers{'Content-Disposition'} = $Param{Disposition};
     }
 
-    # TODO: collect the headers
-    # generate Mojo transaction for submitting attachment to S3
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, $UniqueFilename );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
 
-    # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-    # not sure how this works for Perl strings containing binary data
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
-
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method         => 'PUT',
-        datetime       => $Now,
-        url            => $URL,
-        signed_headers => \%Headers,
-        payload        => [ $Param{Content} ],
+    return $Self->{StorageS3Object}->StoreObject(
+        Key     => $FilePath,
+        Content => $Param{Content},
+        Headers => \%Headers,
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # TODO: check success
-    return 1;
 }
 
 sub ArticlePlain {
@@ -369,21 +331,13 @@ sub ArticlePlain {
     $Param{ArticleID} =~ s/\0//g;
 
     # retrieve plain from S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
+    my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
+    my %Data     = $Self->{StorageS3Object}->RetrieveObject(
+        Key => $FilePath,
     );
 
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    return $Transaction->res->body;
+    return unless defined $Data{Content};
+    return $Data{Content};
 }
 
 sub ArticleAttachmentIndexRaw {
@@ -401,7 +355,10 @@ sub ArticleAttachmentIndexRaw {
 
     # retrieve file list from S3
     my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new->scheme('https')->host('localstack:4566')->path( $Self->{Bucket} );    # run within container
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
 
     # the parameters are passed in the Query-URL
     my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
@@ -451,10 +408,13 @@ sub ArticleAttachmentIndexRaw {
     # The HTTP headers give the metadata for the found keys
     my @Promises;
     for my $FileID ( sort { $a <=> $b } keys %Index ) {
-        my $Item        = $Index{$FileID};
-        my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
-        my $Now         = Mojo::Date->new(time)->to_datetime;
-        my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
+        my $Item     = $Index{$FileID};
+        my $FilePath = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
+        my $Now      = Mojo::Date->new(time)->to_datetime;
+        my $URL      = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path( join '/', $Self->{Bucket}, $FilePath );
         my $Transaction = $Self->{S3Object}->signed_request(
             method   => 'HEAD',
             datetime => $Now,
@@ -516,6 +476,7 @@ sub ArticleAttachmentIndexRaw {
     return;
 }
 
+# TODO: optionally allow to pass in the file name
 sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 
@@ -532,7 +493,7 @@ sub ArticleAttachment {
     }
 
     # prepare/filter ArticleID
-    $Param{ArticleID} = quotemeta( $Param{ArticleID} );
+    $Param{ArticleID} = quotemeta $Param{ArticleID};
     $Param{ArticleID} =~ s/\0//g;
 
     # get attachment index
@@ -542,60 +503,25 @@ sub ArticleAttachment {
 
     return unless $Index{ $Param{FileID} };
 
-    my %Data = %{ $Index{ $Param{FileID} } };
+    my %DataFromIndex = %{ $Index{ $Param{FileID} } };
 
-    # retrieve plain from S3
-    my $FilePath    = $Self->_FilePath( $Param{ArticleID}, $Data{Filename} );
-    my $Now         = Mojo::Date->new(time)->to_datetime;
-    my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
+    # retrieve attachment from S3, including the metadata
+    my $FilePath   = $Self->_FilePath( $Param{ArticleID}, $DataFromIndex{Filename} );
+    my %Attachment = $Self->{StorageS3Object}->RetrieveObject(
+        Key => $FilePath,
     );
 
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    $Data{ContentType} = $Transaction->res->headers->content_type;
-
-    return unless $Data{ContentType};
-
-    $Data{Content} = $Transaction->res->body;
-
-    return unless $Data{Content};
-
-    # ContentID and ContentAlternative are not regular HTTP Headers
-    # They are stored as metadata.
-    my $ContentID = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentID");
-    $Data{ContentID} = $ContentID if $ContentID;
-    my $ContentAlternative = $Transaction->res->headers->header("$Self->{MetadataPrefix}ContentAlternative");
-    $Data{ContentAlternative} = $ContentAlternative if $ContentAlternative;
-
-    my $FullDisposition = $Transaction->res->headers->content_disposition;
-    if ($FullDisposition) {
-        ( $Data{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
+    # set the UTF-8 flag for UTF-8 attachments
+    if (
+        $Attachment{ContentType} =~ m/plain\/text/i
+        &&
+        $Attachment{ContentType} =~ m/utf-?8/i    # match utf8, utf-8, UTF8, UTF-8
+        )
+    {
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Attachment{Content} );
     }
 
-    # if no content disposition is set images with content id should be inline
-    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-        $Data{Disposition} = 'inline';
-    }
-
-    # converted article body should be inline
-    elsif ( $Data{Filename} =~ m{file-[12]} ) {
-        $Data{Disposition} = 'inline';
-    }
-
-    # all others including attachments with content id that are not images
-    #   should NOT be inline
-    else {
-        $Data{Disposition} = 'attachment';
-    }
-
-    # the S3 backend does not support storing articles in mixed backends
-    return %Data;
+    return %Attachment;
 }
 
 # the final delimiter is part of the prefix
@@ -611,11 +537,12 @@ sub _ArticlePrefix {
     return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';    # with trailing slash
 }
 
+# Bucket is not included
 # the final delimiter is part of the prefix
 sub _FilePath {
     my ( $Self, $ArticleID, $File ) = @_;
 
-    return join '/', $Self->{Bucket}, ( $Self->_ArticlePrefix($ArticleID) . $File );    # _ArticlePrefix() already has a trailing '/'
+    return $Self->_ArticlePrefix($ArticleID) . $File;    # _ArticlePrefix() already has a trailing '/'
 }
 
 1;

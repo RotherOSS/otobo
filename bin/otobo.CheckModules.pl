@@ -603,9 +603,22 @@ my @NeededModules = (
 
     # Feature storage:s3
     {
-        Module    => 'Mojolicious',
+        Module          => 'Mojolicious',
+        VersionRequired => '9.22',
+        Features        => ['storage:s3'],
+        Comment         => 'support for the REST requests to the S3 storage',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            yum    => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module    => 'Cpanel::JSON::XS',
         Features  => ['storage:s3'],
-        Comment   => 'support for the REST requests to the S3 storage',
+        Comment   => 'correct and fast JSON support, used by Mojo::JSON',
         InstTypes => {
             aptget => undef,
             emerge => undef,

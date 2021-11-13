@@ -564,9 +564,7 @@ sub MailAccountFetch {
     my $GenericModule = "Kernel::System::MailAccount::$Param{Type}";
 
     # try to load module $GenericModule
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule) ) {
-        return;
-    }
+    return unless $Kernel::OM->Get('Kernel::System::Main')->Require($GenericModule);
 
     # fetch mails
     my $Backend = $GenericModule->new();

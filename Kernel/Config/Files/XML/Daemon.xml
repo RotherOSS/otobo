@@ -132,6 +132,15 @@
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="DaemonModules###SyncWithS3" Required="1" Valid="0">
+        <Description Translatable="1">The daemon registration for sync with S3.</Description>
+        <Navigation>Daemon::ModuleRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Daemon::DaemonModules::SyncWithS3</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="Daemon::SchedulerTaskWorker::MaximumWorkers" Required="1" Valid="1">
         <Description Translatable="1">Defines the maximum number of tasks to be executed as the same time.</Description>
         <Navigation>Daemon::SchedulerTaskWorker</Navigation>

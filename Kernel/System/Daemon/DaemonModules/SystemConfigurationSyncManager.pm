@@ -214,7 +214,7 @@ sub Run {
     return 1 if ( !$ConfigChange && !$ConfigFileChanged );
 
     # Stop all daemons and reload configuration from main daemon.
-    kill 1, getppid;
+    kill 'HUP', getppid;
 
     return 1;
 }

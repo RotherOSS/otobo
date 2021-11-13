@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::LayoutObject)
 package Kernel::System::SysConfig;
 
 use strict;
@@ -29,15 +28,12 @@ use parent qw(Kernel::System::AsynchronousExecutor);
 use Time::HiRes();
 
 # CPAN modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::UserAgent';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 use Kernel::Config;
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -3366,7 +3362,7 @@ sub ConfigurationDeploy {
     my $BasePath = 'Kernel/Config/Files/';
 
     # Parameter 'FileName' is intentionally not documented in the API as it is only used for testing.
-    my $TargetPath = $BasePath . ( $Param{FileName} || "ZZZAAuto.pm" );
+    my $TargetPath = $BasePath . ( $Param{FileName} || 'ZZZAAuto.pm' );
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -3673,41 +3669,14 @@ sub ConfigurationDeploy {
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-        # TODO: AWS region must be set up in Kubernetes config map
-        my $Region = 'eu-central-1';
-
-        # generate Mojo transaction for submitting plain to S3
-        # TODO: AWS bucket must be set up in Kubernetes config map
-        my $Bucket   = 'otobo-20211018a';
-        my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
-        my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-
-        # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-        # not sure how this works for Perl strings containing binary data
-        my $Content = $EffectiveValueStrg;
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-
-        my $UserAgent = Mojo::UserAgent->new();
-        my $S3Object  = Mojo::AWS::S3->new(
-            transactor => $UserAgent->transactor,
-            service    => 's3',
-            region     => $Region,
-            access_key => 'test',
-            secret_key => 'test',
-        );
-        my $Transaction = $S3Object->signed_request(
-            method   => 'PUT',
-            datetime => $Now,
-            url      => $URL,
-            payload  => [$Content],
-        );
-
-        # run blocking request
-        $UserAgent->start($Transaction);
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
 
         # only write to S3, no extra copy in the file system
-        $Result{Success} = $Transaction->result->is_success;
+        $Result{Success} = $StorageS3Object->StoreObject(
+            Key     => $ZZZFilePath,
+            Content => $EffectiveValueStrg,
+        );
 
         return %Result;
     }
@@ -3758,6 +3727,7 @@ sub ConfigurationDeployList {
 }
 
 =head2 ConfigurationDeploySync()
+
 Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
 
     my $Success = $SysConfigObject->ConfigurationDeploySync();
@@ -3820,53 +3790,36 @@ sub ConfigurationDeploySync {
     if ( $CurrentDeploymentID ne $LastDeployment{DeploymentID} ) {
 
         # Write latest deployment to ZZZAAuto.pm
-        my $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
+        my $PMFileContent = $LastDeployment{EffectiveValueStrg};
         if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
-            # TODO: AWS region must be set up in Kubernetes config map
-            my $Region = 'eu-central-1';
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
 
-            # generate Mojo transaction for submitting plain to S3
-            # TODO: AWS bucket must be set up in Kubernetes config map
-            my $Bucket   = 'otobo-20211018a';
-            my $FilePath = join '/', $Bucket, 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
-            my $Now      = Mojo::Date->new(time)->to_datetime;
-            my $URL      = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($FilePath);    # run within container
-
-            # In ArticleStorageFS this is done implicitly in Kernel::System::Main::FileWrite().
-            # not sure how this works for Perl strings containing binary data
-            my $Content = $EffectiveValueStrg;
-            $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
-
-            my $UserAgent = Mojo::UserAgent->new();
-            my $S3Object  = Mojo::AWS::S3->new(
-                transactor => $UserAgent->transactor,
-                service    => 's3',
-                region     => $Region,
-                access_key => 'test',
-                secret_key => 'test',
-            );
-            my $Transaction = $S3Object->signed_request(
-                method   => 'PUT',
-                datetime => $Now,
-                url      => $URL,
-                payload  => [$Content],
+            # only write to S3, no extra copy in the file system
+            my $Success = $StorageS3Object->StoreObject(
+                Key     => $ZZZFilePath,
+                Content => $PMFileContent,
             );
 
-            # run blocking request
-            $UserAgent->start($Transaction);
+            return unless $Success;
+
+            $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
         }
+        else {
 
-        my $Success = $Self->_FileWriteAtomic(
-            Filename => $TargetPath,
-            Content  => \$EffectiveValueStrg,
-        );
+            my $Success = $Self->_FileWriteAtomic(
+                Filename => $TargetPath,
+                Content  => \$PMFileContent,
+            );
 
-        return if !$Success;
+            return unless $Success;
+        }
     }
 
     # Sync also user specific settings (if available).
-    return 1 if !$Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
+    return 1 unless $Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
+
     $Self->UserConfigurationDeploySync();
 
     return 1;

@@ -509,7 +509,7 @@ sub ArticlePlain {
             Mode      => 'binmode',
         );
 
-        return if !$Data;
+        return unless $Data;
 
         # Write to special article storage cache.
         if ( $Self->{ArticleStorageCache} ) {
@@ -523,11 +523,11 @@ sub ArticlePlain {
             );
         }
 
-        return ${$Data};
+        return $Data->$*;
     }
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};
@@ -598,7 +598,7 @@ sub ArticleAttachmentIndexRaw {
 
     FILENAME:
     for my $Filename ( sort @List ) {
-        my $FileSizeRaw = -s $Filename;
+        my $FilesizeRaw = -s $Filename;
 
         # do not use control file
         next FILENAME if $Filename =~ /\.content_alternative$/;
@@ -672,9 +672,9 @@ sub ArticleAttachmentIndexRaw {
                 Location => $Filename,
                 Result   => 'ARRAY',
             );
-            if ( !$Content ) {
-                return;
-            }
+
+            return unless $Content;
+
             $ContentType = $Content->[0];
         }
 
@@ -685,7 +685,7 @@ sub ArticleAttachmentIndexRaw {
         $Counter++;
         $Index{$Counter} = {
             Filename           => $Filename,
-            FilesizeRaw        => $FileSizeRaw,
+            FilesizeRaw        => $FilesizeRaw,
             ContentType        => $ContentType,
             ContentID          => $ContentID,
             ContentAlternative => $Alternative,
@@ -708,7 +708,7 @@ sub ArticleAttachmentIndexRaw {
     return %Index if %Index;
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return %Index if $Param{OnlyMyBackend};
@@ -767,16 +767,16 @@ sub ArticleAttachment {
         return %{$Cache} if $Cache;
     }
 
-    # get attachment index
+    # get some data from the attachment index
     my %Index = $Self->ArticleAttachmentIndex(
         ArticleID => $Param{ArticleID},
     );
+    my %Data = %{ $Index{ $Param{FileID} } // {} };
 
     # get content path
     my $ContentPath = $Self->_ArticleContentPathGet(
         ArticleID => $Param{ArticleID},
     );
-    my %Data    = %{ $Index{ $Param{FileID} } // {} };
     my $Counter = 0;
 
     # get main object
@@ -795,126 +795,137 @@ sub ArticleAttachment {
 
         FILENAME:
         for my $Filename (@List) {
-            next FILENAME if $Filename =~ /\.content_alternative$/;
-            next FILENAME if $Filename =~ /\.content_id$/;
-            next FILENAME if $Filename =~ /\.content_type$/;
-            next FILENAME if $Filename =~ /\/plain.txt$/;
-            next FILENAME if $Filename =~ /\.disposition$/;
+            next FILENAME if $Filename =~ m/\.content_alternative$/;
+            next FILENAME if $Filename =~ m/\.content_id$/;
+            next FILENAME if $Filename =~ m/\.content_type$/;
+            next FILENAME if $Filename =~ m/\/plain.txt$/;
+            next FILENAME if $Filename =~ m/\.disposition$/;
 
-            # add the info the the hash
+            # we have a content file
             $Counter++;
-            if ( $Counter == $Param{FileID} ) {
 
-                if ( -e "$Filename.content_type" ) {
+            # handle only the relevant content file
+            next FILENAME unless $Counter == $Param{FileID};
 
-                    # read content type
+            if ( -e "$Filename.content_type" ) {
+
+                # read content type
+                my $Content = $MainObject->FileRead(
+                    Location => "$Filename.content_type",
+                );
+
+                return unless $Content;
+
+                $Data{ContentType} = $Content->$*;
+
+                # slurp in the bytes of the content
+                $Content = $MainObject->FileRead(
+                    Location => $Filename,
+                    Mode     => 'binmode',
+                );
+
+                return unless $Content;
+
+                $Data{Content} = $Content->$*;
+
+                # content id (optional)
+                if ( -e "$Filename.content_id" ) {
                     my $Content = $MainObject->FileRead(
-                        Location => "$Filename.content_type",
+                        Location => "$Filename.content_id",
                     );
-                    return if !$Content;
-                    $Data{ContentType} = ${$Content};
-
-                    # read content
-                    $Content = $MainObject->FileRead(
-                        Location => $Filename,
-                        Mode     => 'binmode',
-                    );
-                    return if !$Content;
-                    $Data{Content} = ${$Content};
-
-                    # content id (optional)
-                    if ( -e "$Filename.content_id" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_id",
-                        );
-                        if ($Content) {
-                            $Data{ContentID} = ${$Content};
-                        }
-                    }
-
-                    # alternative (optional)
-                    if ( -e "$Filename.content_alternative" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.content_alternative",
-                        );
-                        if ($Content) {
-                            $Data{Alternative} = ${$Content};
-                        }
-                    }
-
-                    # disposition
-                    if ( -e "$Filename.disposition" ) {
-                        my $Content = $MainObject->FileRead(
-                            Location => "$Filename.disposition",
-                        );
-                        if ($Content) {
-                            $Data{Disposition} = ${$Content};
-                        }
-                    }
-
-                    # if no content disposition is set images with content id should be inline
-                    elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
-                        $Data{Disposition} = 'inline';
-                    }
-
-                    # converted article body should be inline
-                    elsif ( $Filename =~ m{file-[12]} ) {
-                        $Data{Disposition} = 'inline';
-                    }
-
-                    # all others including attachments with content id that are not images
-                    #   should NOT be inline
-                    else {
-                        $Data{Disposition} = 'attachment';
+                    if ($Content) {
+                        $Data{ContentID} = $Content->$*;
                     }
                 }
+
+                # alternative (optional)
+                if ( -e "$Filename.content_alternative" ) {
+                    my $Content = $MainObject->FileRead(
+                        Location => "$Filename.content_alternative",
+                    );
+                    if ($Content) {
+                        $Data{Alternative} = $Content->$*;
+                    }
+                }
+
+                # disposition
+                if ( -e "$Filename.disposition" ) {
+                    my $Content = $MainObject->FileRead(
+                        Location => "$Filename.disposition",
+                    );
+                    if ($Content) {
+                        $Data{Disposition} = $Content->$*;
+                    }
+                }
+
+                # if no content disposition is set images with content id should be inline
+                elsif ( $Data{ContentID} && $Data{ContentType} =~ m{image}i ) {
+                    $Data{Disposition} = 'inline';
+                }
+
+                # converted article body should be inline
+                elsif ( $Filename =~ m{file-[12]} ) {
+                    $Data{Disposition} = 'inline';
+                }
+
+                # all others including attachments with content id that are not images
+                #   should NOT be inline
                 else {
-
-                    # read content
-                    my $Content = $MainObject->FileRead(
-                        Location => $Filename,
-                        Mode     => 'binmode',
-                        Result   => 'ARRAY',
-                    );
-                    return if !$Content;
-                    $Data{ContentType} = $Content->[0];
-                    my $Counter = 0;
-                    for my $Line ( @{$Content} ) {
-                        if ($Counter) {
-                            $Data{Content} .= $Line;
-                        }
-                        $Counter++;
-                    }
+                    $Data{Disposition} = 'attachment';
                 }
-                if (
-                    $Data{ContentType} =~ /plain\/text/i
-                    && $Data{ContentType} =~ /(utf\-8|utf8)/i
-                    )
-                {
-                    $EncodeObject->EncodeInput( \$Data{Content} );
-                }
-
-                chomp $Data{ContentType};
-
-                # Write to special article storage cache.
-                if ( $Self->{ArticleStorageCache} ) {
-                    $CacheObject->Set(
-                        Type           => 'ArticleStorageFS_' . $Param{ArticleID},
-                        TTL            => $Self->{ArticleStorageCacheTTL},
-                        Key            => 'ArticleAttachment' . $Param{FileID},
-                        Value          => \%Data,
-                        CacheInMemory  => 0,
-                        CacheInBackend => 1,
-                    );
-                }
-
-                return %Data;
             }
+            else {
+
+                # read content
+                my $Content = $MainObject->FileRead(
+                    Location => $Filename,
+                    Mode     => 'binmode',
+                    Result   => 'ARRAY',
+                );
+
+                return unless $Content;
+
+                # The content type is in the first line of the content
+                $Data{ContentType} = $Content->[0];
+
+                # skip the first line when reading in the actual content
+                my $Counter = 0;
+                for my $Line ( $Content->@* ) {
+                    if ($Counter) {
+                        $Data{Content} .= $Line;
+                    }
+                    $Counter++;
+                }
+            }
+
+            if (
+                $Data{ContentType} =~ /plain\/text/i
+                && $Data{ContentType} =~ /(utf\-8|utf8)/i
+                )
+            {
+                $EncodeObject->EncodeInput( \$Data{Content} );
+            }
+
+            chomp $Data{ContentType};
+
+            # Write to special article storage cache.
+            if ( $Self->{ArticleStorageCache} ) {
+                $CacheObject->Set(
+                    Type           => 'ArticleStorageFS_' . $Param{ArticleID},
+                    TTL            => $Self->{ArticleStorageCacheTTL},
+                    Key            => 'ArticleAttachment' . $Param{FileID},
+                    Value          => \%Data,
+                    CacheInMemory  => 0,
+                    CacheInBackend => 1,
+                );
+            }
+
+            return %Data;
         }
     }
 
     # return if we only need to check one backend
-    return if !$Self->{CheckAllBackends};
+    return unless $Self->{CheckAllBackends};
 
     # return if only delete in my backend
     return if $Param{OnlyMyBackend};

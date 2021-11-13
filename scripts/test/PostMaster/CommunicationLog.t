@@ -62,7 +62,8 @@ package FakeClient {
 
     sub new {
         my $Class = shift;
-        return bless( {}, $Class, );
+
+        return bless {}, $Class;
     }
 
     sub AUTOLOAD {
@@ -72,7 +73,7 @@ package FakeClient {
             return;
         }
 
-        return 1 if !( exists $FakeClientEnv{$Method} );
+        return 1 unless exists $FakeClientEnv{$Method};
         return $FakeClientEnv{$Method};
     }
 
@@ -194,7 +195,7 @@ $HelperObject->ConfigSettingChange(
     Value => 100,
 );
 
-my $GetMailAcountLastCommunicationLog = sub {
+sub GetMailAcountLastCommunicationLog {
     my %Param = @_;
 
     my $MailAccount = $Param{MailAccount};
@@ -224,6 +225,7 @@ my $GetMailAcountLastCommunicationLog = sub {
 
         if ( $Object->{ObjectLogType} eq 'Connection' ) {
             $Connection = $Object;
+
             next OBJECT;
         }
 
@@ -241,17 +243,21 @@ my $GetMailAcountLastCommunicationLog = sub {
         Messages      => \@Messages,
     };
 
-};
+}
 
-# Get postmaster sample emails.
-my $OTOBODIR = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-my @FileList = glob "${ OTOBODIR }/scripts/test/sample/PostMaster/*.box";
-my %Emails   = ();
+my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
-my $EmailIdx = 0;
-for my $Item (@FileList) {
-    $EmailIdx += 1;
-    $Emails{$EmailIdx} = $Item;
+# Get postmaster sample emails in a hash.
+# This hash will be used for the fake environments and for diagnostics.
+my %EmailIdx2Filename;
+{
+    my @BoxFilenames = glob "$Home/scripts/test/sample/PostMaster/*.box";
+
+    my $EmailIdx = 0;
+    for my $Filename (@BoxFilenames) {
+        $EmailIdx++;
+        $EmailIdx2Filename{$EmailIdx} = $Filename;
+    }
 }
 
 # Type of emails accounts to test.
@@ -301,13 +307,13 @@ my @Tests = (
                     20 => 1,
                 },
             },
-            'emails' => {%Emails},
+            'emails' => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Failed',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -323,13 +329,13 @@ my @Tests = (
                     17 => 1,
                 },
             },
-            'emails' => {%Emails},
+            'emails' => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Failed',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -339,13 +345,13 @@ my @Tests = (
         FakeClientEnv => {
             'connect'         => 1,
             'fail_postmaster' => 'error',
-            'emails'          => {%Emails},
+            'emails'          => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Failed',    # expected status for all messages
+                Default => 'Failed',    # expected status for all messages
             },
         },
     },
@@ -355,13 +361,13 @@ my @Tests = (
         FakeClientEnv => {
             'connect'         => 1,
             'fail_postmaster' => 'exception',
-            'emails'          => {%Emails},
+            'emails'          => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Failed',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Failed',    # expected status for all messages
+                Default => 'Failed',    # expected status for all messages
             },
         },
     },
@@ -370,13 +376,13 @@ my @Tests = (
         Name          => 'Everything successfull',
         FakeClientEnv => {
             'connect' => 1,
-            'emails'  => {%Emails},
+            'emails'  => {%EmailIdx2Filename},
         },
         CommunicationLogStatus => {
             Communication => 'Successful',
             Connection    => 'Successful',
             Message       => {
-                -1 => 'Successful',    # expected status for all messages
+                Default => 'Successful',    # expected status for all messages
             },
         },
     },
@@ -397,82 +403,85 @@ for my $MailAccount (@MailAccounts) {
     );
 
     # Run the tests.
-    TEST:
     for my $Test (@Tests) {
-        my $TestBaseMessage = sprintf( '[%s], %s', $MailAccount->{Type}, $Test->{Name}, );
 
-        # Set fake email type environment.
-        my %TestFakeClientEnv = (
-            %FakeClientEnv,
-            %{ $Test->{FakeClientEnv} || {} },
-        );
+        subtest "$MailAccount->{Type}: $Test->{Name}" => sub {
 
-        # Because the test is run per email account type, and the email stack is changed during
-        #   the run, we want to use a copy and not the original.
-        my %TestEmails = %{ $TestFakeClientEnv{'emails'} };
+            # Set fake email type environment.
+            my %TestFakeClientEnv = (
+                %FakeClientEnv,
+                %{ $Test->{FakeClientEnv} || {} },
+            );
 
-        # Change the client environment according to the test,
-        #   these changes are local to the current scope (the for).
-        local $FakeClientEnv{'connect'}         = $TestFakeClientEnv{'connect'};
-        local $FakeClientEnv{'emails'}          = \%TestEmails;
-        local $FakeClientEnv{'fail_fetch'}      = $TestFakeClientEnv{'fail_fetch'};
-        local $FakeClientEnv{'fail_postmaster'} = $TestFakeClientEnv{'fail_postmaster'};
+            # Because the test is run per email account type, and the email stack is changed during
+            #   the run, we want to use a copy and not the original.
+            my %TestEmails = %{ $TestFakeClientEnv{'emails'} };
 
-        no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
+            # Change the client environment according to the test,
+            #   these changes are local to the current scope (the for).
+            local $FakeClientEnv{'connect'}         = $TestFakeClientEnv{'connect'};
+            local $FakeClientEnv{'emails'}          = \%TestEmails;
+            local $FakeClientEnv{'fail_fetch'}      = $TestFakeClientEnv{'fail_fetch'};
+            local $FakeClientEnv{'fail_postmaster'} = $TestFakeClientEnv{'fail_postmaster'};
 
-        # Postfix if is required in next line to ensure right scope of function override.
-        local *{'Kernel::System::PostMaster::Run'} = sub {
-            if ( $TestFakeClientEnv{'fail_postmaster'} eq 'exception' ) {
-                die "dummy exception";
+            no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
+
+            # Postfix if is required in next line to ensure right scope of function override.
+            local *{'Kernel::System::PostMaster::Run'} = sub {
+                if ( $TestFakeClientEnv{'fail_postmaster'} eq 'exception' ) {
+                    die "dummy exception";
+                }
+
+                return;
             }
+                if $TestFakeClientEnv{'fail_postmaster'};
 
-            return;
-            }
-            if $TestFakeClientEnv{'fail_postmaster'};
-        use strict 'refs';
+            use strict 'refs';
 
-        # Run mail-account-fetch.
-        my $Result = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountFetch( %{$MailAccount} );
+            # Run mail-account-fetch.
+            my $Result = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountFetch( %{$MailAccount} );
 
-        # Get last communication log for the mail-account.
-        my $CommunicationLogData = $GetMailAcountLastCommunicationLog->(
-            MailAccount => $MailAccount,
-        );
+            # Get last communication log for the mail-account.
+            my $CommunicationLogData = GetMailAcountLastCommunicationLog(
+                MailAccount => $MailAccount,
+            );
 
-        my %CommunicationLogStatus = %{ $Test->{CommunicationLogStatus} };
-
-        is(
-            $CommunicationLogData->{Communication}->{Status},
-            $CommunicationLogStatus{Communication},
-            sprintf( '%s, communication %s', $TestBaseMessage, $CommunicationLogStatus{Communication}, ),
-        );
-        is(
-            $CommunicationLogData->{Connection}->{ObjectLogStatus},
-            $CommunicationLogStatus{Connection},
-            sprintf( '%s, connection %s', $TestBaseMessage, $CommunicationLogStatus{Connection}, ),
-        );
-
-        next TEST if !$CommunicationLogStatus{Message};
-
-        # Check the messages status.
-
-        my $MessageIdx = 0;
-        MESSAGE:
-        for my $Message ( @{ $CommunicationLogData->{Messages} } ) {
-            $MessageIdx += 1;
-            next MESSAGE if !$Message;
-
-            my $ExpectedStatus = $CommunicationLogStatus{Message}->{-1};
-            if ( $CommunicationLogStatus{Message}->{$MessageIdx} ) {
-                $ExpectedStatus = $CommunicationLogStatus{Message}->{$MessageIdx};
-            }
+            my %CommunicationLogStatus = $Test->{CommunicationLogStatus}->%*;
 
             is(
-                $Message->{ObjectLogStatus},
-                $ExpectedStatus,
-                sprintf( '%s, message-%s %s', $TestBaseMessage, $MessageIdx, $ExpectedStatus, ),
+                $CommunicationLogData->{Communication}->{Status},
+                $CommunicationLogStatus{Communication},
+                sprintf( 'communication %s', $CommunicationLogStatus{Communication} ),
             );
-        }
+            is(
+                $CommunicationLogData->{Connection}->{ObjectLogStatus},
+                $CommunicationLogStatus{Connection},
+                sprintf( 'connection %s', $CommunicationLogStatus{Connection} ),
+            );
+
+            return unless $CommunicationLogStatus{Message};
+
+            # Check the messages status.
+
+            my $MessageIdx = 0;
+            MESSAGE:
+            for my $Message ( $CommunicationLogData->{Messages}->@* ) {
+                $MessageIdx++;
+
+                if ( !$Message ) {
+                    pass("no message for message-$MessageIdx but that is accepted");
+
+                    next MESSAGE;
+                }
+
+                my $ExpectedStatus = $CommunicationLogStatus{Message}->{$MessageIdx} || $CommunicationLogStatus{Message}->{Default};
+                is(
+                    $Message->{ObjectLogStatus},
+                    $ExpectedStatus,
+                    sprintf( q{message-%s %s}, $MessageIdx, $ExpectedStatus ),
+                );
+            }
+        };
     }
 }
 
@@ -480,7 +489,7 @@ my $TestsStoppedAt = $Kernel::OM->Create('Kernel::System::DateTime');
 
 # Delete spool files generated during the tests run.
 my @SpoolFilesFailedUnlink;
-my @SpoolFiles = glob "${OTOBODIR}/var/spool/problem-email-*";
+my @SpoolFiles = glob "$Home/var/spool/problem-email-*";
 for my $SpoolFile (@SpoolFiles) {
     my $FileStat       = stat $SpoolFile;
     my $FileModifiedAt = $Kernel::OM->Create(

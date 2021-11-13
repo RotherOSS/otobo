@@ -19,6 +19,7 @@ package Kernel::System::Package;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 use parent qw(Kernel::System::EventHandler);
@@ -56,13 +57,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Package - to manage application packages/modules
+Kernel::System::Package - to manage OTOBO packages and repositories
 
 =head1 DESCRIPTION
 
-All functions to manage application packages/modules.
-
-=encoding utf-8
+All functions to manage OTOBO packages and repositories.
 
 =head1 PUBLIC INTERFACE
 
@@ -163,7 +162,8 @@ sub RepositoryList {
         Type => "RepositoryList",
         Key  => $Result . 'List',
     );
-    return @{$Cache} if $Cache;
+
+    return $Cache->@* if $Cache;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
@@ -262,6 +262,7 @@ sub RepositoryGet {
                 Priority => 'error',
                 Message  => "$Needed not defined!",
             );
+
             return;
         }
     }
@@ -275,6 +276,7 @@ sub RepositoryGet {
         Type => 'RepositoryGet',
         Key  => $CacheKey,
     );
+
     return $Cache    if $Cache && $Param{Result} && $Param{Result} eq 'SCALAR';
     return ${$Cache} if $Cache;
 
@@ -298,6 +300,7 @@ sub RepositoryGet {
 
         # Backwards compatibility: don't decode existing values that were not yet properly Base64 encoded.
         next ROW if $Package !~ m{ \A [a-zA-Z0-9+/\n]+ ={0,2} [\n]? \z }smx;    # looks like Base64?
+
         $Package = decode_base64($Package);
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Package );
     }
@@ -367,13 +370,16 @@ sub RepositoryAdd {
             Priority => 'error',
             Message  => 'Need Name!',
         );
+
         return;
     }
+
     if ( !$Structure{Version} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Need Version!',
         );
+
         return;
     }
 
@@ -404,7 +410,7 @@ sub RepositoryAdd {
         $Content = encode_base64($Content);
     }
 
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'INSERT INTO package_repository (name, version, vendor, filename, '
             . ' content_type, content, install_status, '
             . ' create_time, create_by, change_time, change_by)'
@@ -456,7 +462,7 @@ sub RepositoryRemove {
         push @Bind, \$Param{Version};
     }
 
-    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+    return unless $Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => $SQL,
         Bind => \@Bind,
     );
@@ -516,7 +522,7 @@ sub PackageInstall {
     }
 
     # write permission check
-    return if !$Self->_FileSystemCheck();
+    return unless $Self->_FileSystemCheck();
 
     # check OS
     if ( $Structure{OS} && !$Param{Force} ) {

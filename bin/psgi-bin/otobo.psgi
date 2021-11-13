@@ -91,9 +91,6 @@ use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
 use Plack::App::File;
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::Date';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::URL';
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Mojo::AWS::S3';
 
 #use Data::Peek; # for development
 
@@ -105,6 +102,7 @@ use Kernel::System::Web::InterfaceCustomer        ();
 use Kernel::System::Web::InterfaceInstaller       ();
 use Kernel::System::Web::InterfaceMigrateFromOTRS ();
 use Kernel::System::Web::InterfacePublic          ();
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -213,40 +211,15 @@ my $SyncFromS3Middleware = sub {
         my $PathBelowHtdocs = $Env->{PATH_INFO};
         $PathBelowHtdocs =~ s!/$!!;
         $PathBelowHtdocs =~ s!^/!!;
-        my $FilePath = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
+        my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
-        if ( !-e $FilePath ) {
-
-            # TODO: AWS region must be set up in Kubernetes config map
-            my $Region = 'eu-central-1';
-
-            # generate Mojo transaction for submitting plain to S3
-            # TODO: AWS bucket must be set up in Kubernetes config map
-            my $Bucket = 'otobo-20211018a';
-
-            my $UserAgent = Mojo::UserAgent->new();
-            my $S3Object  = Mojo::AWS::S3->new(
-                transactor => $UserAgent->transactor,
-                service    => 's3',
-                region     => $Region,
-                access_key => 'test',
-                secret_key => 'test',
+        if ( !-e $Location ) {
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $FilePath        = join '/', 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            $StorageS3Object->SaveObjectToFile(
+                Key      => $FilePath,
+                Location => $Location,
             );
-
-            my $S3Key       = join '/', $Bucket, 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
-            my $Now         = Mojo::Date->new(time)->to_datetime;
-            my $URL         = Mojo::URL->new->scheme('https')->host('localstack:4566')->path($S3Key);    # run within container
-            my $Transaction = $S3Object->signed_request(
-                method   => 'GET',
-                datetime => $Now,
-                url      => $URL,
-            );
-
-            $UserAgent->start($Transaction);
-
-            # save to the file system
-            # TODO: check success before copying
-            my $Ret = $Transaction->result->save_to($FilePath);
         }
 
         return $App->($Env);
@@ -411,7 +384,7 @@ my $OTOBOApp = builder {
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
-    enable $ModuleRefreshMiddleware;
+    enable_if { !$ENV{OTOBO_SYNC_WITH_S3} } $ModuleRefreshMiddleware;
 
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
