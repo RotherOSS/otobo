@@ -58,7 +58,6 @@ my %FakeClientEnv = (
 #   name and returns it, otherwise always returns True to ensure that the code
 #   that will use this object continues as everything is ok.
 package FakeClient {
-    our $AUTOLOAD;
 
     sub new {
         my $Class = shift;
@@ -68,11 +67,12 @@ package FakeClient {
 
     sub AUTOLOAD {
         my $Self = shift;
-        my ($Method) = ( $AUTOLOAD =~ m/::([^:]+)$/i );
-        if ( !$Method || $Method eq 'DESTROY' ) {
-            return;
-        }
 
+        our $AUTOLOAD;
+        my ($Method) = ( $AUTOLOAD =~ m/::([^:]+)$/i );
+
+        return unless $Method;
+        return if $Method eq 'DESTROY';
         return 1 unless exists $FakeClientEnv{$Method};
         return $FakeClientEnv{$Method};
     }
@@ -103,78 +103,83 @@ package FakeClient {
     }
 }
 
-no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
+# This class extends the 'FakeClient' class.
+# We aren't using 'use parent' because the 'FakeClient' is a
+# package defined in this test file, there's no pm file.
+# Another possible solution would be "use parent -norequire, 'FakeClient'".
+package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
+    our @ISA = ('FakeClient');
+
+    sub select {
+        my $Self = shift;
+
+        return scalar keys $FakeClientEnv{'emails'}->%*;
+    }
+}
 
 # Overwrite the OTOBO MailAccount::IMAP connect method to use our fake imap client,
-#   but make this change local to the unit test scope, as you can see, it also
-#   makes use of the %FakeClientEnv.
-local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
+# but make this change local to the unit test scope.
+# It also makes use of %FakeClientEnv.
+my $MockIMAP = mock 'Kernel::System::MailAccount::IMAP' => (
+    set => [
+        'Connect' => sub {
 
-    package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-                                # Make this object extend the 'FakeClient' object,
-                                #   we aren't using 'use parent' because the 'FakeClient' is also a
-                                #   package defined in this test file, there's no pm file.
-                                #   Another possible solution would be "use parent -norequire, 'FakeClient'".
-        our @ISA = ('FakeClient');
+            if ( !$FakeClientEnv{'connect'} ) {
+                return (
+                    Successful => 0,
+                    Message    => "can't connect",
+                );
+            }
 
-        sub select {
-            my $Self = shift;
+            return (
+                Successful => 1,
+                IMAPObject => FakeIMAPClient->new(),
+                Type       => 'IMAP',
+            );
+        },
+    ],
+);
 
-            return scalar( keys %{ $FakeClientEnv{'emails'} } );
-        }
+# This class extends the 'FakeClient' class.
+# We aren't using 'use parent' because the 'FakeClient' is a
+# package defined in this test file, there's no pm file.
+# Another possible solution would be "use parent -norequire, 'FakeClient'".
+package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
+    our @ISA = ('FakeClient');
+
+    sub list {
+        my $Self = shift;
+
+        return {
+            map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
+        };
     }
-
-    if ( !$FakeClientEnv{'connect'} ) {
-        return (
-            Successful => 0,
-            Message    => "can't connect",
-        );
-    }
-
-    return (
-        Successful => 1,
-        IMAPObject => FakeIMAPClient->new(),
-        Type       => 'IMAP',
-    );
-};
+}
 
 # Overwrite the OTOBO MailAccount::POP3 connect method to use our fake pop3 client,
-#   but make this change local to the unit test scope, as you can see, it also
-#   makes use of the %FakeClientEnv.
-local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
+# but make this change local to the unit test scope.
+# It also makes use of %FakeClientEnv.
+my $MockPOP3 = mock 'Kernel::System::MailAccount::POP3' => (
 
-    package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-                               # Make this object extend the 'FakeClient' object,
-                               #   we aren't using 'use parent' because the 'FakeClient' is also a
-                               #   package defined in this test file, there's no pm file.
-                               #   Another possible solution would be "use parent -norequire, 'FakeClient'".
-        our @ISA = ('FakeClient');
+    set => [
+        'Connect' => sub {
 
-        sub list {
-            my $Self = shift;
+            if ( !$FakeClientEnv{'connect'} ) {
+                return (
+                    Successful => 0,
+                    Message    => "can't connect",
+                );
+            }
 
-            return {
-                map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
-            };
-        }
-    }
-
-    if ( !$FakeClientEnv{'connect'} ) {
-        return (
-            Successful => 0,
-            Message    => "can't connect",
-        );
-    }
-
-    return (
-        Successful => 1,
-        PopObject  => FakePOPClient->new(),
-        Type       => 'POP3',
-        NOM        => scalar( keys %{ $FakeClientEnv{'emails'} } ),
-    );
-};
-
-use strict 'refs';
+            return (
+                Successful => 1,
+                PopObject  => FakePOPClient->new(),
+                Type       => 'POP3',
+                NOM        => scalar( keys %{ $FakeClientEnv{'emails'} } ),
+            );
+        },
+    ]
+);
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
