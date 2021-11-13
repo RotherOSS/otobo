@@ -108,71 +108,80 @@ no strict 'refs';    ## no critic (TestingAndDebugging::ProhibitNoStrict)
 # Overwrite the OTOBO MailAccount::IMAP connect method to use our fake imap client,
 #   but make this change local to the unit test scope, as you can see, it also
 #   makes use of the %FakeClientEnv.
-local *{'Kernel::System::MailAccount::IMAP::Connect'} = sub {
+my $MockIMAP = mock 'Kernel::System::MailAccount::IMAP' => (
+    set => [
+        'Connect' => sub {
 
-    package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-                                # Make this object extend the 'FakeClient' object,
-                                #   we aren't using 'use parent' because the 'FakeClient' is also a
-                                #   package defined in this test file, there's no pm file.
-                                #   Another possible solution would be "use parent -norequire, 'FakeClient'".
-        our @ISA = ('FakeClient');
+            package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
+                                        # Make this object extend the 'FakeClient' object,
+                                        #   we aren't using 'use parent' because the 'FakeClient' is also a
+                                        #   package defined in this test file, there's no pm file.
+                                        #   Another possible solution would be "use parent -norequire, 'FakeClient'".
+                our @ISA = ('FakeClient');
 
-        sub select {
-            my $Self = shift;
+                sub select {
+                    my $Self = shift;
 
-            return scalar( keys %{ $FakeClientEnv{'emails'} } );
-        }
-    }
+                    return scalar keys $FakeClientEnv{'emails'}->%*;
+                }
+            }
 
-    if ( !$FakeClientEnv{'connect'} ) {
-        return (
-            Successful => 0,
-            Message    => "can't connect",
-        );
-    }
+            if ( !$FakeClientEnv{'connect'} ) {
+                return (
+                    Successful => 0,
+                    Message    => "can't connect",
+                );
+            }
 
-    return (
-        Successful => 1,
-        IMAPObject => FakeIMAPClient->new(),
-        Type       => 'IMAP',
-    );
-};
+            return (
+                Successful => 1,
+                IMAPObject => FakeIMAPClient->new(),
+                Type       => 'IMAP',
+            );
+        },
+    ],
+);
 
 # Overwrite the OTOBO MailAccount::POP3 connect method to use our fake pop3 client,
 #   but make this change local to the unit test scope, as you can see, it also
 #   makes use of the %FakeClientEnv.
-local *{'Kernel::System::MailAccount::POP3::Connect'} = sub {
+my $MockPOP3 = mock 'Kernel::System::MailAccount::POP3' => (
 
-    package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-                               # Make this object extend the 'FakeClient' object,
-                               #   we aren't using 'use parent' because the 'FakeClient' is also a
-                               #   package defined in this test file, there's no pm file.
-                               #   Another possible solution would be "use parent -norequire, 'FakeClient'".
-        our @ISA = ('FakeClient');
+    set => [
+        'Connect' => sub {
 
-        sub list {
-            my $Self = shift;
+            package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
+                                       # Make this object extend the 'FakeClient' object,
+                                       #   we aren't using 'use parent' because the 'FakeClient' is also a
+                                       #   package defined in this test file, there's no pm file.
+                                       #   Another possible solution would be "use parent -norequire, 'FakeClient'".
+                our @ISA = ('FakeClient');
 
-            return {
-                map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
-            };
-        }
-    }
+                sub list {
+                    my $Self = shift;
 
-    if ( !$FakeClientEnv{'connect'} ) {
-        return (
-            Successful => 0,
-            Message    => "can't connect",
-        );
-    }
+                    return {
+                        map { $_ => 1 } keys $FakeClientEnv{'emails'}->%*
+                    };
+                }
+            }
 
-    return (
-        Successful => 1,
-        PopObject  => FakePOPClient->new(),
-        Type       => 'POP3',
-        NOM        => scalar( keys %{ $FakeClientEnv{'emails'} } ),
-    );
-};
+            if ( !$FakeClientEnv{'connect'} ) {
+                return (
+                    Successful => 0,
+                    Message    => "can't connect",
+                );
+            }
+
+            return (
+                Successful => 1,
+                PopObject  => FakePOPClient->new(),
+                Type       => 'POP3',
+                NOM        => scalar( keys %{ $FakeClientEnv{'emails'} } ),
+            );
+        },
+    ]
+);
 
 use strict 'refs';
 
