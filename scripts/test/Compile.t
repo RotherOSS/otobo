@@ -79,7 +79,7 @@ note('check syntax of the Perl modules');
         # in proper OTOBO. Therefore the modules in Kernel/TidyAll are skipped here.
         next FILE if $File =~ m{^Kernel/TidyAll/};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pm_file_compiles($File), "$File compiles" );
     }
@@ -93,7 +93,7 @@ note('check syntax of the Perl scripts');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
@@ -111,7 +111,7 @@ note('look at Perl code with an unusual extension');
         # check only files that were passed via the command line
         next FILE if $CheckOnlyChangedFiles && !$FileIsChanged{$File};
 
-        my $ToDo = $FailureIsAccepted{$File} ? todo("$File: $FailureIsAccepted{$File}") : undef;
+        my $ToDo = $FailureIsAccepted{$File} ? todo( $FailureIsAccepted{$File} ) : undef;
 
         ok( $Internal->pl_file_compiles($File), "$File compiles" );
     }
