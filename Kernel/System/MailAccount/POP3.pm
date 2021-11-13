@@ -426,15 +426,14 @@ sub Fetch {
 
                         my $File = $Self->_ProcessFailed( Email => $Lines );
 
-                        my $ErrorMessage = "$AuthType: Can't process mail, mail saved ("
-                            . "$File, report it on http://bugs.otobo.org/)!";
+                        my $ErrorMessage = "$AuthType: Can't process mail, mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!";
 
                         $CommunicationLogObject->ObjectLog(
                             ObjectLogType => 'Message',
                             Priority      => 'Error',
                             Key           => 'Kernel::System::MailAccount::POP3',
                             Value         =>
-                                "Could not process message. Raw mail saved ($File, report it on http://bugs.otobo.org/)!",
+                                "Could not process message. Raw mail saved ($File, report it on https://github.com/RotherOSS/otobo/issues)!",
                         );
 
                         $MessageStatus = 'Failed';
