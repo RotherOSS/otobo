@@ -457,6 +457,7 @@ for my $Test (@Tests1) {
             next TEST;
         }
 
+        # The param FileName overrides the default file name ZZZAAuto.pm
         $SysConfigObject->ConfigurationDeploy(
             %{ $Test->{Config} },
             Force    => 1,

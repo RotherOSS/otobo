@@ -2117,10 +2117,9 @@ sub Get {
 sub Set {
     my ( $Self, %Param ) = @_;
 
-    for (qw(Key)) {
-        if ( !defined $Param{$_} ) {
-            $Param{$_} = '';
-        }
+    # assign default values
+    for my $Key (qw(Key)) {
+        $Param{$Key} //= '';
     }
 
     # debug

@@ -3361,11 +3361,11 @@ sub ConfigurationDeploy {
 
     $Param{NoValidation} //= 0;
 
-    # TODO: use the absolute path
     my $BasePath = 'Kernel/Config/Files/';
 
     # Parameter 'FileName' is intentionally not documented in the API as it is only used for testing.
-    my $TargetPath = $BasePath . ( $Param{FileName} || 'ZZZAAuto.pm' );
+    my $FileName   = $Param{FileName} || 'ZZZAAuto.pm';
+    my $TargetPath = $BasePath . $FileName;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
