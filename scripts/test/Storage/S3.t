@@ -82,6 +82,10 @@ END_SAMPLE
         Key => $Key,
     );
 
+    # RetrieveObject() does not consider the read in content as UTF-8, as the encoding is usually not known.
+    # Here we decode explicitly, as we know that UTF-8 encoded string was stored.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Retrieved{Content} );
+
     is( $Retrieved{FilesizeRaw}, bytes::length($Content), 'size in bytes' );
     is( $Retrieved{Content},     $Content,                'Content matches' );
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
