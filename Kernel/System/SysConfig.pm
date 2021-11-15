@@ -26,6 +26,7 @@ use parent qw(Kernel::System::AsynchronousExecutor);
 
 # core modules
 use Time::HiRes();
+use File::Path qw(make_path);
 
 # CPAN modules
 
@@ -3683,11 +3684,8 @@ sub ConfigurationDeploy {
     }
 
     # S3 is not active, writing Perl module into the file system
-    # Base folder for deployment could be not present.
-    # TODO: calling make_path() might be a better choice, as intermediated dirs might not exists
-    if ( !-d $BasePath ) {
-        mkdir $BasePath;
-    }
+    # Create Kernel/Config/Files in case that is missing. Should never happen, but who knows.
+    make_path("$Self->{Home}/$BasePath");
 
     # Success must be indicated with '1', as Core.Agent.Admin.SystemConfiguration.js checks for the exact value
     $Result{Success} = $Self->_FileWriteAtomic(
