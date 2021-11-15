@@ -487,7 +487,8 @@ for my $Test (@Tests1) {
             fail("$Home$FilePath does not exist");
         }
 
-        ok( !defined $Config{CurrentDeploymentID}, "CurrentDeploymentID" );
+        ok( defined $Config{CurrentDeploymentID}, "CurrentDeploymentID" );
+        note("deployment ID: $Config{CurrentDeploymentID}");
         delete $Config{CurrentDeploymentID};
 
         is(
