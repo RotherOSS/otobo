@@ -3668,7 +3668,7 @@ sub ConfigurationDeploy {
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
+        my $ZZZFilePath     = join '/', 'OTOBO', $TargetPath;
 
         # only write to S3, no extra copy in the file system
         my $S3Key = $StorageS3Object->StoreObject(
