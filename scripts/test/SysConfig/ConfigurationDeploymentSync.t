@@ -196,7 +196,7 @@ for my $Test (@Tests) {
         UpdateFile( $Test->{Config}->%* );
 
         my $IDBefore = ReadDeploymentID( $Test->{Config}->%* );
-        note( "DeploymentID before sync: @{[ $IDBefore // 'undef' ]}");
+        note("DeploymentID before sync: @{[ $IDBefore // 'undef' ]}");
         is( $IDBefore, $Test->{DeploymentIDBefore}, "DeploymentID before ConfigurationDeploymentSync()" );
 
         my $Success = $SysConfigObject->ConfigurationDeploySync();
@@ -207,7 +207,7 @@ for my $Test (@Tests) {
         }
 
         my $IDAfter = ReadDeploymentID( $Test->{Config}->%* );
-        note( "DeploymentID after sync: @{[ $IDAfter // 'undef' ]}");
+        note("DeploymentID after sync: @{[ $IDAfter // 'undef' ]}");
         is( $IDAfter, $Test->{DeploymentIDAfter}, "DeploymentID after ConfigurationDeploymentSync()" );
     };
 }
