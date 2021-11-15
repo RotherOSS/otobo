@@ -407,9 +407,9 @@ sub LoadDefaults {
 
     # --------------------------------------------------- #
     # authentication settings                             #
-    # (enable what you need, auth against otobo db,        #
-    # against LDAP directory, against HTTP basic auth     #
-    # or against Radius server)                           #
+    # (enable what you need, auth against otobo db,       #
+    # against LDAP directory, against HTTP basic auth,    #
+    # against Radius server or against OpenIDConnect)     #
     # --------------------------------------------------- #
     # This is the auth. module against the otobo db
     $Self->{AuthModule} = 'Kernel::System::Auth::DB';
@@ -478,6 +478,62 @@ sub LoadDefaults {
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthModule::LDAP::Die'} = 1;
+
+    # This is an example configuration for authorization via OpenIDConnect
+    # see https://openid.net/specs/openid-connect-core-1_0.html
+#    $Self->{AuthModule} = 'Kernel::System::Auth::OpenIDConnect';
+    # Define the authentication flow, currently supported are the authorization code flow...
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'code' ];
+    # ...and the implicit flow (choose one - currently no hybrid flow is implemented)
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'id_token' ];
+    # Define the additional scope (openid is added automatically and does not need to be
+    # defined here). Make sure to add everything you want to interpret later.
+#    $Self->{'AuthModule::OpenIDConnect::AuthRequest'}->{AdditionalScope} = [
+#        qw/profile email/
+#    ];
+    # Set the ClientID and Redirect URI exactly as defined on the authorization server
+    # for the latter the Action must be "Login"
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings} = {
+#        ClientID    => 'abc123',
+#        RedirectURI => 'https://my.otobo.server/otobo/index.pl?Action=Login',
+#    };
+    # For the authorization code flow the client secret has to be provided
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ClientSettings}{ClientSecret} = 's3cr3t';
+    # Provide the URL of the well-known openid-configuration of the OpenID provider
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{ProviderSettings} = {
+#        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
+#        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
+#        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#    };
+    # Set the token claim to be used as identifier
+#    $Self->{'AuthModule::OpenIDConnect::UID'} = 'sub';
+    # Some optional additional settings
+#    $Self->{'AuthModule::OpenIDConnect::Config'}{Misc} = {
+#        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
+#        RandLength => 22,     # length for state and nonce random strings - default: 22
+#        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#    };
+    # Optionally enable user authorization via the id token - hashes can be used for complex claims
+#    $Self->{'AuthModule::OpenIDConnect::RoleMap'} = {
+#        TokenAttribute => {
+#            TokenRole1 => 'OTOBORole1',
+#            TokenRole2 => 'OTOBORole2',
+#        },
+#        TokenAttribute2 => {
+#            abc123 => {
+#                TokenRole1 => 'OTOBORole1',
+#                TokenRole3 => 'OTOBORole3',
+#            }
+#        },
+#    };
+    # Optionally enable user creation - this currently does not support complex claims; email is mandatory
+#    $Self->{'AuthModule::OpenIDConnect::UserMap'} = {
+#        email       => 'UserEmail',
+#        given_name  => 'UserFirstname',
+#        family_name => 'UserLastname',
+#    };
+
+
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through

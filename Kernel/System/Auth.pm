@@ -359,6 +359,24 @@ sub Auth {
     return $User;
 }
 
+=head2 PreAuth()
+
+Call the PreAuth method of the AuthBackend
+
+    my $PreAuthInfo = $AuthObject->PreAuth(
+        RequestedURL => $RequestedURL,
+    );
+
+=cut
+
+sub PreAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PreAuth');
+
+    return $Self->{AuthBackend}->PreAuth( %Param );
+}
+
 =head2 GetLastErrorMessage()
 
 Retrieve $Self->{LastErrorMessage} content.

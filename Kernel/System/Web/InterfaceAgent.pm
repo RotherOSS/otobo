@@ -265,7 +265,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         my $PreventBruteForceConfig = $ConfigObject->Get('SimpleBruteForceProtection::GeneralSettings');
 
         # if simplebruteforceconfig is valid
-        if ($PreventBruteForceConfig) {
+        if ( $PreventBruteForceConfig && $PostUser ) {
 
             # check if the login is banned
             my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
@@ -873,8 +873,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+            my $PreAuth = $AuthObject->PreAuth(
+                RequestedURL => $Param{RequestedURL},
+            );
+
+            my $RedirectURL = $PreAuth && $PreAuth->{RedirectURL} ? $PreAuth->{RedirectURL} : "Action=PreLogin&RequestedURL=$Param{RequestedURL}";
+
             $LayoutObject->Redirect(
-                OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
+                ExtURL => $RedirectURL,
             );    # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
@@ -961,8 +967,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+                my $PreAuth = $AuthObject->PreAuth(
+                    RequestedURL => $Param{RequestedURL},
+                );
+
+                my $RedirectURL = $PreAuth && $PreAuth->{RedirectURL} ? $PreAuth->{RedirectURL} : "Action=PreLogin&RequestedURL=$Param{RequestedURL}";
+
                 $LayoutObject->Redirect(
-                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
+                    OP => $RedirectURL,
                 );    # throws a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {

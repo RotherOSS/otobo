@@ -6494,4 +6494,43 @@ sub UserInitialsGet {
     return $UserInitials;
 }
 
+=head2 SetCookie()
+
+Set a cookie using the syntax of Kernel/System/Request.pm
+
+    $ResponseObject->SetCookie(
+        Key     => ID,          # name
+        Value   => 123456,      # value
+        Expires => '+3660s',    # expires
+        Path    => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure  => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly => 1,          # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
+    );
+
+=cut
+
+sub SetCookie {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed ( qw/Key/ ) {
+        if ( !$Param{ $Needed } ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed",
+            );
+
+            return;
+        }
+    }
+
+    $Self->{SetCookies}{ $Param{Key} } = {
+        name     => $Param{Key},
+        value    => $Param{Value},
+        expires  => $Param{Expires},
+        secure   => $Param{Secure}   || '',
+        httponly => $Param{HTTPOnly} || '',
+        path     => '/' . ( $Param{Path} // '' ),
+    }
+}
+
 1;

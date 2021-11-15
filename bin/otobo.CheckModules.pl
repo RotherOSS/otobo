@@ -910,6 +910,17 @@ my @NeededModules = (
 
     # Feature div
     {
+        Module          => 'Crypt::JWT',
+        Features        => ['div:openidconnect'],
+        Comment         => 'Required for authentication via OpenIDConnect.',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module          => 'Encode::HanExtra',
         VersionRequired => '0.23',
         Features        => ['div:hanextra'],
