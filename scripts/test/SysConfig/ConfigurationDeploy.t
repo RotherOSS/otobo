@@ -475,10 +475,16 @@ for my $Test (@Tests1) {
         $FileClass->Load( \%Config );
 
         # Delete the created file as it is not needed anymore
-        if ( -e $Home . $FilePath ) {
+        if ( -e "$Home$FilePath" ) {
             if ( !unlink $Home . $FilePath ) {
                 fail("could not delete $Home$FilePath");
             }
+            else {
+                pass("deleted $Home$FilePath");
+            }
+        }
+        else {
+            fail("$Home$FilePath does not exist");
         }
 
         ok( !defined $Config{CurrentDeploymentID}, "CurrentDeploymentID" );
