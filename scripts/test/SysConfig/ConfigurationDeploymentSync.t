@@ -31,6 +31,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
 #   transaction mode
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -189,23 +190,26 @@ TEST:
 for my $Test (@Tests) {
     subtest $Test->{Name} => sub {
 
-    my $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-    $Self->Is(
-        $FileDeploymentID // '',
-        $Test->{DeploymentIDBefore},
-        "$Test->{Name} DeploymentID before ConfigurationDeploymentSync()",
-    );
+        # wait a bit, so that the newly written file doesn't have the same timestamp
+        # as the file from the previous iteration
+        sleep 1;
+        UpdateFile( $Test->{Config}->%* );
 
         my $IDBefore = ReadDeploymentID( $Test->{Config}->%* );
         note( "DeploymentID before sync: @{[ $IDBefore // 'undef' ]}");
         is( $IDBefore, $Test->{DeploymentIDBefore}, "DeploymentID before ConfigurationDeploymentSync()" );
 
-    $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-    $Self->Is(
-        $FileDeploymentID,
-        $Test->{DeploymentIDAfter},
-        "$Test->{Name} DeploymentID after ConfigurationDeploymentSync()",
-    );
+        my $Success = $SysConfigObject->ConfigurationDeploySync();
+        is( $Success, $Test->{Success}, "ConfigurationDeploymentSync() result" );
+
+        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+            $ConfigObject->SyncWithS3();
+        }
+
+        my $IDAfter = ReadDeploymentID( $Test->{Config}->%* );
+        note( "DeploymentID after sync: @{[ $IDAfter // 'undef' ]}");
+        is( $IDAfter, $Test->{DeploymentIDAfter}, "DeploymentID after ConfigurationDeploymentSync()" );
+    };
 }
 
 $Success = $SysConfigObject->ConfigurationDeploySync();
