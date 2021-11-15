@@ -81,10 +81,6 @@ sub new {
     # get home directory
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
-    # set utf-8 if used
-    $Self->{utf8}     = 1;
-    $Self->{FileMode} = ':utf8';
-
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( Level => 'Clear' );
@@ -5155,7 +5151,7 @@ sub _FileWriteAtomic {
     # write to a temp file
     my $TempFilename = $Param{Filename} . '.' . $$;    # append the processs id
     {
-        my $Success = open( my $FH, ">$Self->{FileMode}", $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
+        my $Success = open( my $FH, '>:uf8', $TempFilename );    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen)
         if ( !$Success ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -5708,30 +5704,22 @@ sub _EffectiveValues2PerlFile {
     $TargetPath =~ s{(.*)\.(?:.*)}{$1}msx;
     $TargetPath =~ s{ / }{::}msxg;
 
-    # Write default config file.
-    my $FileStrg = <<"EOF";
+    # return content of Perl file that contain the SysConfig
+    return <<"END_PERL_FILE";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package $TargetPath;
 use strict;
 use warnings;
 no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-EOF
-
-    if ( $Self->{utf8} ) {
-        $FileStrg .= "use utf8;\n";
-    }
-
-    $FileStrg .= <<"EOF";
+use utf8;
 sub Load {
     my (\$File, \$Self) = \@_;
 $PerlHashStrg
     return;
 }
 1;
-EOF
-
-    return $FileStrg;
+END_PERL_FILE
 }
 
 =head2 _SettingEffectiveValueCheck()
