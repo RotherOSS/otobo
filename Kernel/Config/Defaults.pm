@@ -2229,10 +2229,16 @@ sub AutoloadPerlPackages {
 }
 
 sub SyncWithS3 {
-    my ($Self) = @_;
+    my ( $Self, %Param ) = @_;
 
     # nothing to do when S3 backend is not enabled
     return unless $ENV{OTOBO_SYNC_WITH_S3};
+
+
+    # assign default values
+    for my $Key (qw(ExtraFileNames)) {
+        $Param{$Key} //= [];
+    }
 
     my $StorageS3Object = Kernel::System::Storage::S3->new();
     my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
@@ -2268,7 +2274,7 @@ sub SyncWithS3 {
         # check the fixed list of ZZZ files
         my @OutdatedZZZFilenames;
         ZZZFILENAME:
-        for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm) ) {
+        for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* ) {
 
             # nothing to sync when the object does not exist in S3
             next ZZZFILENAME unless exists $Name2Properties{$ZZZFileName};
