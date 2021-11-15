@@ -3338,11 +3338,13 @@ sub ConfigurationDeploy {
 
         return %Result;
     }
+
     if ( !IsPositiveInteger( $Param{UserID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "UserID is invalid!",
         );
+
         return %Result;
     }
 
@@ -3362,7 +3364,8 @@ sub ConfigurationDeploy {
     my $BasePath = 'Kernel/Config/Files/';
 
     # Parameter 'FileName' is intentionally not documented in the API as it is only used for testing.
-    my $TargetPath = $BasePath . ( $Param{FileName} || 'ZZZAAuto.pm' );
+    my $FileName   = $Param{FileName} || 'ZZZAAuto.pm';
+    my $TargetPath = $BasePath . $FileName;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -3662,26 +3665,31 @@ sub ConfigurationDeploy {
         $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
     }
 
-    # Base folder for deployment could be not present.
-    if ( !-d $BasePath ) {
-        mkdir $BasePath;
-    }
-
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
+        my $ZZZFilePath     = join '/', 'OTOBO', $TargetPath;
 
         # only write to S3, no extra copy in the file system
-        $Result{Success} = $StorageS3Object->StoreObject(
+        my $S3Key = $StorageS3Object->StoreObject(
             Key     => $ZZZFilePath,
             Content => $EffectiveValueStrg,
         );
+
+        # Success must be indicated with '1', as Core.Agent.Admin.SystemConfiguration.js checks for the exact value
+        $Result{Success} = $S3Key ? 1 : 0;
 
         return %Result;
     }
 
     # S3 is not active, writing Perl module into the file system
+    # Base folder for deployment could be not present.
+    # TODO: calling make_path() might be a better choice, as intermediated dirs might not exists
+    if ( !-d $BasePath ) {
+        mkdir $BasePath;
+    }
+
+    # Success must be indicated with '1', as Core.Agent.Admin.SystemConfiguration.js checks for the exact value
     $Result{Success} = $Self->_FileWriteAtomic(
         Filename => "$Self->{Home}/$TargetPath",
         Content  => \$EffectiveValueStrg,

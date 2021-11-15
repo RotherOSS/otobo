@@ -19,10 +19,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -36,10 +39,7 @@ my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 # own deployments, therefore we must handle DB Restore on our own
 # (we need to do a deployment after DB is restored).
 my $StartedTransaction = $HelperObject->BeginWork();
-$Self->True(
-    $StartedTransaction,
-    'Started database transaction.',
-);
+ok( $StartedTransaction, 'Started database transaction.' );
 
 my $Home = $ConfigObject->Get('Home') . '/';
 
@@ -53,10 +53,7 @@ my $FileLocation = $MainObject->FileWrite(
     Location => "$Home/Kernel/Config/Files/TempFile.txt",
     Content  => \'Some content',
 );
-$Self->True(
-    $FileLocation,
-    'Temp file created.'
-);
+ok( $FileLocation, 'Temp file created.' );
 my $FileLocation2 = "$Home/Kernel/Config/Files/TempFile2.txt";
 
 my $TestUserLogin = $HelperObject->TestUserCreate();
@@ -64,7 +61,7 @@ my $UserID        = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-my $CleanUp = sub {
+sub CleanUp {
     my %Param = @_;
 
     # Delete sysconfig_modified_version
@@ -96,9 +93,7 @@ my $CleanUp = sub {
         Type => 'SysConfigModified',
     );
 
-    #
     # Prepare valid config XML and Perl
-    #
     my $ValidSettingXML = <<'EOF',
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
@@ -145,10 +140,7 @@ EOF
         EffectiveValue           => 'Test setting 1',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID1,
-        "Default setting added - $SettingName1",
-    );
+    ok( $DefaultSettingID1, "Default setting added - $SettingName1" );
 
     my $DefaultSettingID2 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName2,
@@ -167,10 +159,7 @@ EOF
         EffectiveValue           => 'Test setting 2',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID2,
-        "Default setting added - $SettingName2",
-    );
+    ok( $DefaultSettingID2, "Default setting added - $SettingName2" );
 
     my $DefaultSettingID3 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName3,
@@ -189,10 +178,7 @@ EOF
         EffectiveValue           => 'Test setting 3',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID3,
-        "Default setting added - $SettingName3",
-    );
+    ok( $DefaultSettingID3, "Default setting added - $SettingName3" );
 
     my $DefaultSettingID4 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName4,
@@ -211,10 +197,7 @@ EOF
         EffectiveValue           => 'Test setting 4',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID4,
-        "Default setting added - $SettingName4",
-    );
+    ok( $DefaultSettingID4, "Default setting added - $SettingName4" );
 
     my $DefaultSettingID5 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName5,
@@ -233,10 +216,7 @@ EOF
         EffectiveValue           => $FileLocation,
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID5,
-        "Default setting added - $SettingName5",
-    );
+    ok( $DefaultSettingID5, "Default setting added - $SettingName5" );
 
     my $ExclusiveLockGUID = $SysConfigDBObject->DefaultSettingLock(
         LockAll => 1,
@@ -262,10 +242,7 @@ EOF
     my %DefaultSettingVersionGetLast1 = $SysConfigDBObject->DefaultSettingVersionGetLast(
         DefaultID => $DefaultSettingID1,
     );
-    $Self->True(
-        \%DefaultSettingVersionGetLast1,
-        'DefaultSettingVersionGetLast get version for default.',
-    );
+    ok( \%DefaultSettingVersionGetLast1, 'DefaultSettingVersionGetLast get version for default.' );
 
     my $DefaultSettingVersionID1 = $DefaultSettingVersionGetLast1{DefaultVersionID};
 
@@ -299,10 +276,7 @@ EOF
     my %DefaultSettingVersionGetLast2 = $SysConfigDBObject->DefaultSettingVersionGetLast(
         DefaultID => $DefaultSettingID2,
     );
-    $Self->True(
-        \%DefaultSettingVersionGetLast2,
-        'DefaultSettingVersionGetLast get version for default.',
-    );
+    ok( \%DefaultSettingVersionGetLast2, 'DefaultSettingVersionGetLast get version for default.' );
 
     my $DefaultSettingVersionID2 = $DefaultSettingVersionGetLast2{DefaultVersionID};
 
@@ -370,9 +344,11 @@ EOF
             UserID            => 1,
         );
     }
-};
 
-my @Tests = (
+    return;
+}
+
+my @Tests1 = (
     {
         Name   => 'NotDirty',
         Config => {
@@ -465,61 +441,65 @@ my @Tests = (
 );
 
 TEST:
-for my $Test (@Tests) {
-    $CleanUp->();
+for my $Test (@Tests1) {
+    subtest $Test->{Name} => sub {
+        CleanUp();
 
-    # Calculate the correct file to be loader later:
-    my $FilePath;
-    my $FileClass;
-    if ( $Test->{Config}->{FileName} ) {
-        $FileClass = 'Kernel::Config::Files::AAAUnitTest';
-        $FilePath  = 'Kernel/Config/Files/AAAUnitTest.pm';
-    }
-    else {
-        $Self->False(
-            1,
-            "WRONG test $Test->{Name}",
-        );
-        next TEST;
-    }
-
-    $SysConfigObject->ConfigurationDeploy(
-        %{ $Test->{Config} },
-        Force    => 1,
-        Comments => "Some comments",
-    );
-
-    # Load the configuration file (but remove it from INC first to get always a fresh copy)
-    my %Config;
-    delete $INC{$FilePath};
-    $MainObject->Require($FileClass);
-    $FileClass->Load( \%Config );
-
-    # Delete the created file as it is not needed anymore
-    if ( -e $Home . $FilePath ) {
-        if ( !unlink $Home . $FilePath ) {
-            $Self->False(
-                1,
-                "$Test->{Name} - could not delete $Home$FilePath",
-            );
+        # Calculate the correct file to be loader later:
+        my ( $FilePath, $FileClass );
+        if ( $Test->{Config}->{FileName} ) {
+            $FileClass = 'Kernel::Config::Files::AAAUnitTest';
+            $FilePath  = 'Kernel/Config/Files/AAAUnitTest.pm';
         }
-    }
+        else {
+            fail("WRONG test");
 
-    $Self->IsNot(
-        $Config{CurrentDeploymentID},
-        undef,
-        "$Test->{Name} - CurrentDeploymentID",
-    );
-    delete $Config{CurrentDeploymentID};
+            next TEST;
+        }
 
-    $Self->IsDeeply(
-        \%Config,
-        $Test->{ExpectedValues},
-        "$Test->{Name} - ConfigurationDeploy()",
-    );
+        # The param FileName overrides the default file name ZZZAAuto.pm
+        $SysConfigObject->ConfigurationDeploy(
+            %{ $Test->{Config} },
+            Force    => 1,
+            Comments => "Some comments",
+        );
+
+        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+            $ConfigObject->SyncWithS3( ExtraFileNames => [ $Test->{Config}->{FileName} ] );
+        }
+
+        # Load the configuration file (but remove it from INC first to get always a fresh copy)
+        my %Config;
+        delete $INC{$FilePath};
+        $MainObject->Require($FileClass);
+        $FileClass->Load( \%Config );
+
+        # Delete the created file as it is not needed anymore
+        if ( -e "$Home$FilePath" ) {
+            if ( !unlink $Home . $FilePath ) {
+                fail("could not delete $Home$FilePath");
+            }
+            else {
+                pass("deleted $Home$FilePath");
+            }
+        }
+        else {
+            fail("$Home$FilePath does not exist");
+        }
+
+        ok( defined $Config{CurrentDeploymentID}, "CurrentDeploymentID" );
+        note("deployment ID: $Config{CurrentDeploymentID}");
+        delete $Config{CurrentDeploymentID};
+
+        is(
+            \%Config,
+            $Test->{ExpectedValues},
+            "ConfigurationDeploy()",
+        );
+    };
 }
 
-$CleanUp->();
+CleanUp();
 
 # Set effective value to the existing file.
 my $SettingUpdated = $SysConfigObject->SettingsSet(
@@ -533,10 +513,7 @@ my $SettingUpdated = $SysConfigObject->SettingsSet(
     ],
 );
 
-$Self->True(
-    $SettingUpdated,
-    'Settings deployed properly.'
-);
+ok( $SettingUpdated, 'Settings deployed properly.' );
 
 # Move file to another localtion. At this point $SettingName5 is invalid, make sure deployment fails.
 `mv $FileLocation $FileLocation2`;
@@ -548,7 +525,7 @@ my %Result = $SysConfigObject->ConfigurationDeploy(
     Force       => 1,
 );
 
-$Self->IsDeeply(
+is(
     \%Result,
     {
         'Error'   => "Invalid setting: $SettingName5",
@@ -571,7 +548,7 @@ $HelperObject->ConfigSettingChange(
     Force       => 1,
 );
 
-$Self->IsDeeply(
+is(
     \%Result,
     {
         'Success' => 1,
@@ -579,7 +556,7 @@ $Self->IsDeeply(
     'Make sure that deployment passed for invalid settings overridden in perl file.',
 );
 
-@Tests = (
+my @Tests2 = (
     {
         Name         => 'AddInvalid Without Validation',
         AddInvalid   => 1,
@@ -595,61 +572,58 @@ $Self->IsDeeply(
 );
 
 TEST:
-for my $Test (@Tests) {
-    $CleanUp->( AddInvalid => $Test->{AddInvalid} );
+for my $Test (@Tests2) {
+    subtest $Test->{Name} => sub {
 
-    # Calculate the correct file to be loader later:
-    my $FileClass = 'Kernel::Config::Files::AAAUnitTest';
-    my $FilePath  = 'Kernel/Config/Files/AAAUnitTest.pm';
+        CleanUp( AddInvalid => $Test->{AddInvalid} );
 
-    if ( -e $Home . $FilePath ) {
-        if ( !unlink $Home . $FilePath ) {
-            $Self->False(
-                1,
-                "$Test->{Name} - could not delete $Home$FilePath",
-            );
+        # Calculate the correct file to be loaded later:
+        my $FileClass = 'Kernel::Config::Files::AAAUnitTest';
+        my $FilePath  = 'Kernel/Config/Files/AAAUnitTest.pm';
+
+        if ( -e $Home . $FilePath ) {
+            if ( !unlink $Home . $FilePath ) {
+                fail("could not delete $Home$FilePath");
+            }
+            else {
+                pass("deleted $Home$FilePath");
+            }
         }
-    }
 
-    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
-        AllSettings  => 1,
-        Force        => 1,
-        Comments     => "Some comments",
-        NoValidation => $Test->{NoValidation},
-        UserID       => 1,
-    );
+        my %DeployResult = $SysConfigObject->ConfigurationDeploy(
+            AllSettings  => 1,
+            Force        => 1,
+            Comments     => "Some comments",
+            NoValidation => $Test->{NoValidation},
+            UserID       => 1,
+        );
 
-    $Self->Is(
-        $DeployResult{Success} // 0,
-        $Test->{Success},
-        "$Test->{Name} ConfigurationDeploy()",
-    );
+        is(
+            $DeployResult{Success} // 0,
+            $Test->{Success},
+            "ConfigurationDeploy()",
+        );
 
-    # Delete the created file as it is not needed anymore
-    if ( -e $Home . $FilePath ) {
-        if ( !unlink $Home . $FilePath ) {
-            $Self->False(
-                1,
-                "$Test->{Name} - could not delete $Home$FilePath",
-            );
+        # Delete the created file as it is not needed anymore
+        if ( -e $Home . $FilePath ) {
+            if ( !unlink $Home . $FilePath ) {
+                fail("could not delete $Home$FilePath");
+            }
+            else {
+                pass("deleted $Home$FilePath");
+            }
         }
-    }
+    };
 }
 
 my $TempFileDeleted = $MainObject->FileDelete(
     Location => $FileLocation2,
 );
-$Self->True(
-    $TempFileDeleted,
-    'Temp file deleted.',
-);
+ok( $TempFileDeleted, 'Temp file deleted.' );
 
 my $RollbackSuccess = $HelperObject->Rollback();
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-$Self->True(
-    $RollbackSuccess,
-    'Rolled back all database changes and cleaned up the cache.',
-);
+ok( $RollbackSuccess, 'Rolled back all database changes and cleaned up the cache.' );
 
 %Result = $SysConfigObject->ConfigurationDeploy(
     Comments    => "Revert changes.",
@@ -658,9 +632,6 @@ $Self->True(
     AllSettings => 1,
 );
 
-$Self->True(
-    $Result{Success},
-    'Configuration restored.',
-);
+ok( $Result{Success}, 'Configuration restored.' );
 
-$Self->DoneTesting();
+done_testing();

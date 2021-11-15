@@ -17,16 +17,21 @@
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
 #   transaction mode
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
@@ -36,7 +41,7 @@ my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-my $UpdateFile = sub {
+sub UpdateFile {
     my %Param = @_;
 
     my $ContentSCALARRef = $MainObject->FileRead(
@@ -47,11 +52,7 @@ my $UpdateFile = sub {
         DisableWarnings => 1,
     );
 
-    $Self->Is(
-        ref $ContentSCALARRef,
-        'SCALAR',
-        "$Location FileRead() for UpdateFile() is SCALAR ref",
-    );
+    ref_ok( $ContentSCALARRef, 'SCALAR', "$Location FileRead() for UpdateFile() is SCALAR ref" );
 
     my $Content = ${ $ContentSCALARRef || \'' };
 
@@ -68,9 +69,10 @@ my $UpdateFile = sub {
         Mode     => 'utf8',
     );
 
-};
+    return;
+}
 
-my $ReadDeploymentID = sub {
+sub ReadDeploymentID {
     my %Param = @_;
 
     my $ContentSCALARRef = $MainObject->FileRead(
@@ -81,11 +83,7 @@ my $ReadDeploymentID = sub {
         DisableWarnings => 1,
     );
 
-    $Self->Is(
-        ref $ContentSCALARRef,
-        'SCALAR',
-        "$Location FileRead() for ReadDeploymentID() is SCALAR ref",
-    );
+    ref_ok( $ContentSCALARRef, 'SCALAR', "$Location FileRead() for ReadDeploymentID() is SCALAR ref" );
 
     my $Content = ${$ContentSCALARRef};
 
@@ -95,17 +93,14 @@ my $ReadDeploymentID = sub {
     }
 
     return $CurrentDeploymentID;
-};
+}
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 # Check system, provide more visibility to unit tests.
-$Self->True(
-    -e "$Home/Kernel/Config/Files/ZZZAAuto.pm" ? 1 : 0,
-    "ZZZAAUto.pm exists",
-);
+ok( -e "$Home/Kernel/Config/Files/ZZZAAuto.pm", "ZZZAAUto.pm exists" );
 my @List = $SysConfigDBObject->DeploymentListGet();
-$Self->IsNotDeeply(
+isnt(
     \@List,
     [],
     "Initial DeploymentListGet() is not empty",
@@ -116,11 +111,7 @@ my $LastDeploymentID = $LastDeployment{DeploymentID};
 
 # Make sure deployment is in sync before tests.
 my $Success = $SysConfigObject->ConfigurationDeploySync();
-$Self->Is(
-    $Success // 0,
-    1,
-    "Initial ConfigurationDeploymentSync() result",
-);
+is( $Success, 1, "Initial ConfigurationDeploymentSync() result" );
 
 my @Tests = (
     {
@@ -159,7 +150,7 @@ my @Tests = (
             Value => '',
             Type  => 'Global',
         },
-        DeploymentIDBefore => '',
+        DeploymentIDBefore => undef,
         DeploymentIDAfter  => $LastDeploymentID,
         Success            => 1,
     },
@@ -169,7 +160,7 @@ my @Tests = (
             Remove => 1,
             Type   => 'Global',
         },
-        DeploymentIDBefore => '',
+        DeploymentIDBefore => undef,
         DeploymentIDAfter  => $LastDeploymentID,
         Success            => 1,
     },
@@ -197,35 +188,31 @@ my @Tests = (
 
 TEST:
 for my $Test (@Tests) {
-    $UpdateFile->( %{ $Test->{Config} } );
+    subtest $Test->{Name} => sub {
 
-    my $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-    $Self->Is(
-        $FileDeploymentID // '',
-        $Test->{DeploymentIDBefore},
-        "$Test->{Name} DeploymentID before ConfigurationDeploymentSync()",
-    );
+        # wait a bit, so that the newly written file doesn't have the same timestamp
+        # as the file from the previous iteration
+        sleep 1;
+        UpdateFile( $Test->{Config}->%* );
 
-    my $Success = $SysConfigObject->ConfigurationDeploySync();
-    $Self->Is(
-        $Success // 0,
-        $Test->{Success},
-        "$Test->{Name} ConfigurationDeploymentSync() result",
-    );
+        my $IDBefore = ReadDeploymentID( $Test->{Config}->%* );
+        note("DeploymentID before sync: @{[ $IDBefore // 'undef' ]}");
+        is( $IDBefore, $Test->{DeploymentIDBefore}, "DeploymentID before ConfigurationDeploymentSync()" );
 
-    $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-    $Self->Is(
-        $FileDeploymentID,
-        $Test->{DeploymentIDAfter},
-        "$Test->{Name} DeploymentID after ConfigurationDeploymentSync()",
-    );
+        my $Success = $SysConfigObject->ConfigurationDeploySync();
+        is( $Success, $Test->{Success}, "ConfigurationDeploymentSync() result" );
+
+        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+            $ConfigObject->SyncWithS3();
+        }
+
+        my $IDAfter = ReadDeploymentID( $Test->{Config}->%* );
+        note("DeploymentID after sync: @{[ $IDAfter // 'undef' ]}");
+        is( $IDAfter, $Test->{DeploymentIDAfter}, "DeploymentID after ConfigurationDeploymentSync()" );
+    };
 }
 
 $Success = $SysConfigObject->ConfigurationDeploySync();
-$Self->Is(
-    $Success // 0,
-    1,
-    "Finish ConfigurationDeploymentSync() result",
-);
+is( $Success, 1, "Finish ConfigurationDeploymentSync() result" );
 
-$Self->DoneTesting();
+done_testing();
