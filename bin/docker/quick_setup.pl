@@ -79,16 +79,18 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my $HelpFlag;                      # print help
-    my $DBPassword;                    # required
-    my $HTTPPort              = 80;    # only used for success message
-    my $ActivateElasticsearch = 0;     # must be explicitly enabled
+    my $HelpFlag;                                            # print help
+    my $DBPassword;                                          # required
+    my $HTTPPort              = 80;                          # only used for success message
+    my $ActivateElasticsearch = 0;                           # must be explicitly enabled
+    my $ActivateSyncWithS3    = $ENV{OTOBO_SYNC_WITH_S3};    # activate S3 in the SysConfig
 
     Getopt::Long::GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'activate-elasticsearch' => \$ActivateElasticsearch,
+        'activate-sync-with-S3'  => \$ActivateSyncWithS3,
         )
         || pod2usage(
             {
@@ -187,15 +189,44 @@ sub Main {
         return 0 unless $Success;
     }
 
+    # create SysConfig and adapt some settings
     {
         # These setting are required for running the test suite
-        my @NewSettings = (
+        my @Settings = (
             [ 'DefaultLanguage' => 'en' ],
             [ 'HttpType'        => 'http' ],
             [ 'SecureMode'      => 1 ],
         );
 
-        my ( $Success, $Message ) = AdaptSettings( Settings => \@NewSettings );
+        if ($ActivateSyncWithS3) {
+
+            # override some settings for running with S3 storage
+            push @Settings,
+
+                # activate article storage in S3
+                [ 'Ticket::Article::Backend::MIMEBase::ArticleStorage' => 'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageS3' ],
+
+                # activate notifications about package events via S3
+                [
+                    'Package::EventModulePost###9000-SyncWithS3' =>
+                    {
+                        Event       => '(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)',
+                        Module      => 'Kernel::System::Package::Event::SyncWithS3',
+                        Transaction => '1',
+                    }
+                ],
+
+                # with S3 sync there is no need to check the database
+                [
+                    'DaemonModules###SystemConfigurationSyncManager' =>
+                    {
+                        Module => 'Kernel::System::Daemon::DaemonModules::SyncWithS3',
+                    }
+                ],
+                ;
+        }
+
+        my ( $Success, $Message ) = AdaptSettings( Settings => \@Settings );
 
         say $Message if defined $Message;
 
@@ -209,8 +240,7 @@ sub Main {
 
         return 0 unless $Success;
     }
-    else
-    {
+    else {
         my ( $Success, $Message ) = DeactivateElasticsearch();
 
         say $Message if defined $Message;
@@ -523,13 +553,29 @@ sub AdaptSettings {
         my ( $Key, $Value ) = $KeyValue->@*;
 
         # Update config item via sys config object.
-        $SysConfigObject->SettingUpdate(
-            Name              => $Key,
-            IsValid           => 1,
-            EffectiveValue    => $Value,
-            UserID            => 1,
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-        );
+        if ( defined $Value ) {
+            $SysConfigObject->SettingUpdate(
+                Name              => $Key,
+                IsValid           => 1,
+                EffectiveValue    => $Value,
+                UserID            => 1,
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+            );
+        }
+        else {
+            # Get current setting value.
+            my %Setting = $SysConfigObject->SettingGet(
+                Name => $Key,
+            );
+
+            $SysConfigObject->SettingUpdate(
+                Name              => $Key,
+                IsValid           => 0,
+                UserID            => 1,
+                EffectiveValue    => $Setting{EffectiveValue},
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+            );
+        }
     }
 
     $SysConfigObject->SettingUnlock( UnlockAll => 1 );

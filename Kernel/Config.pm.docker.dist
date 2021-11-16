@@ -131,26 +131,6 @@ sub Load {
         platform            => 'ANY',
     };
 
-    # override some settings for running with S3 storage
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-
-        # activate article storage in S3
-        $Self->{'Ticket::Article::Backend::MIMEBase::ArticleStorage'} =  'Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageS3';
-
-        # activate notifications about package events via S3
-        $Self->{'Package::EventModulePost'}->{'9000-SyncWithS3'} =  {
-            'Event'       => '(PackageInstall|PackageReinstall|PackageUpgrade|PackageUninstall)',
-            'Module'      => 'Kernel::System::Package::Event::SyncWithS3',
-            'Transaction' => '1'
-        };
-
-        # with S3 sync there is no need to check the database
-        delete $Self->{DaemonModules}->{SystemConfigurationSyncManager};
-        $Self->{DaemonModules}->{SyncWithS3} =  {
-            Module => 'Kernel::System::Daemon::DaemonModules::SyncWithS3'
-        };
-    }
-
     # ---------------------------------------------------- #
     # insert your own config settings "here"               #
     # config settings taken from Kernel/Config/Defaults.pm #
