@@ -383,9 +383,9 @@ sub _ExtractMap {
 
     KEY:
     for my $Key ( %{ $Param{Map} } ) {
-        next KEY if !defined $Param{Data}{$Key};
-
         if ( IsHashRefWithData( $Param{Map}{$Key} ) ) {
+            next KEY if !defined $Param{Data}{$Key};
+
             %Return = (
                 %Return,
                 $Self->_ExtractMap(
@@ -397,8 +397,8 @@ sub _ExtractMap {
 
         next KEY if ref $Param{Map}{$Key};
 
-        my @Data = IsArrayRefWithData( $Param{Data}{$Key} ) ? @{ $Param{Data}{$Key} } :
-            !ref $Param{Data}{$Key} ? ( $Param{Data}{$Key} ) : ();
+        my @Data = IsArrayRefWithData( $Param{Data} ) ? @{ $Param{Data} } :
+            !ref $Param{Data} ? ( $Param{Data} ) : ();
         
         for my $OpenIDAttribute ( @Data ) {
             my $OTOBOAttribute = $Param{Map}{ $OpenIDAttribute };
