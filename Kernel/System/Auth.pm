@@ -153,7 +153,7 @@ sub Auth {
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        # return on no config setting
+        # next on no config setting
         next COUNT if !$Self->{"AuthBackend$Count"};
 
         # check auth backend

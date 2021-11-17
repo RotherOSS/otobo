@@ -56,30 +56,36 @@ sub new {
     bless( $Self, $Type );
 
     # get needed objects
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # load auth modules
-    SOURCE:
+    COUNT:
     for my $Count ( '', 1 .. 10 ) {
+
         my $GenericModule = $ConfigObject->Get("Customer::AuthModule$Count");
-        next SOURCE if !$GenericModule;
+
+        next COUNT if !$GenericModule;
 
         if ( !$MainObject->Require($GenericModule) ) {
             $MainObject->Die("Can't load backend module $GenericModule! $@");
         }
-        $Self->{"Backend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
+
+        $Self->{"AuthBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
     # load 2factor auth modules
-    SOURCE:
+    COUNT:
     for my $Count ( '', 1 .. 10 ) {
+
         my $GenericModule = $ConfigObject->Get("Customer::AuthTwoFactorModule$Count");
-        next SOURCE if !$GenericModule;
+
+        next COUNT if !$GenericModule;
 
         if ( !$MainObject->Require($GenericModule) ) {
             $MainObject->Die("Can't load backend module $GenericModule! $@");
         }
+
         $Self->{"AuthTwoFactorBackend$Count"} = $GenericModule->new( %{$Self}, Count => $Count );
     }
 
@@ -93,8 +99,8 @@ sub new {
 
 Get module options. Currently there is just one option, "PreAuth".
 
-    if ($AuthObject->GetOption(What => 'PreAuth')) {
-        print "No login screen is needed. Authentication is based on other options. E. g. $ENV{REMOTE_USER}\n";
+    if ( $AuthObject->GetOption( What => 'PreAuth' ) ) {
+        print "No login screen is needed. Authentication is based on some other options. E. g. $ENV{REMOTE_USER}\n";
     }
 
 =cut
@@ -102,14 +108,14 @@ Get module options. Currently there is just one option, "PreAuth".
 sub GetOption {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Backend}->GetOption(%Param);
+    return $Self->{AuthBackend}->GetOption(%Param);
 }
 
 =head2 Auth()
 
 The authentication function.
 
-    if ($AuthObject->Auth(User => $User, Pw => $Pw)) {
+    if ( $AuthObject->Auth( User => $User, Pw => $Pw ) ) {
         print "Auth ok!\n";
     }
     else {
@@ -122,19 +128,19 @@ sub Auth {
     my ( $Self, %Param ) = @_;
 
     # get customer user object
-    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
 
-    # use all 11 backends and return on first auth
+    # use all 11 auth backends and return on first true
     my $User;
     COUNT:
-    for ( '', 1 .. 10 ) {
+    for my $Count ( '', 1 .. 10 ) {
 
         # next on no config setting
-        next COUNT if !$Self->{"Backend$_"};
+        next COUNT if !$Self->{"AuthBackend$Count"};
 
         # check auth backend
-        $User = $Self->{"Backend$_"}->Auth(%Param);
+        $User = $Self->{"AuthBackend$Count"}->Auth(%Param);
 
         # next on no success
         next COUNT if !$User;
@@ -168,9 +174,10 @@ sub Auth {
         if ($User) {
             $CustomerUserObject->SetPreferences(
                 Key    => 'UserAuthBackend',
-                Value  => $_,
+                Value  => $Count,
                 UserID => $User,
             );
+
             last COUNT;
         }
     }
@@ -233,6 +240,56 @@ sub Auth {
     );
 
     return $User;
+}
+
+=head2 PreAuth()
+
+Call the PreAuth method of the AuthBackend
+
+    my $PreAuthInfo = $AuthObject->PreAuth(
+        RequestedURL => $RequestedURL,
+    );
+
+=cut
+
+sub PreAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PreAuth');
+
+    return $Self->{AuthBackend}->PreAuth(%Param);
+}
+
+=head2 PostAuth()
+
+Call the PostAuth method of the AuthBackend
+
+    my $PostAuthInfo = $AuthObject->PostAuth();
+
+=cut
+
+sub PostAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PostAuth');
+
+    return $Self->{AuthBackend}->PostAuth(%Param);
+}
+
+=head2 Logout()
+
+Call the Logout method of the AuthBackend
+
+    my $LogoutInfo = $AuthObject->Logout();
+
+=cut
+
+sub Logout {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('Logout');
+
+    return $Self->{AuthBackend}->Logout(%Param);
 }
 
 =head2 GetLastErrorMessage()
