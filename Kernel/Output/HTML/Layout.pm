@@ -6512,8 +6512,8 @@ Set a cookie using the syntax of Kernel/System/Request.pm
 sub SetCookie {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/Key/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/Key/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed",
@@ -6530,7 +6530,9 @@ sub SetCookie {
         secure   => $Param{Secure}   || '',
         httponly => $Param{HTTPOnly} || '',
         path     => '/' . ( $Param{Path} // '' ),
-    }
+    };
+
+    return 1;
 }
 
 1;

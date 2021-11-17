@@ -1,7 +1,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,17 +15,32 @@
 
 package Kernel::System::Auth::OpenIDConnect;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
+
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
+# core modules
 use List::Util qw(none);
+
+# CPAN modules
 use URI::Escape;
 
-#use Kernel::System::VariableCheck qw(all);
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
+    'Kernel::Language',
+    'Kernel::Output::HTML::Layout',
+    'Kernel::System::Cache',
+    'Kernel::System::Group',
+    'Kernel::System::Log',
+    'Kernel::System::Main',
+    'Kernel::System::OpenIDConnect',
+    'Kernel::System::User',
+    'Kernel::System::Web::Request',
 );
 
 =head1 NAME
@@ -111,18 +126,18 @@ sub Auth {
     if ( $GetParam{Error} ) {
         my $Message = $GetParam{Error};
         $Message .= $ParamObject->GetParam( Param => 'error_description' ) ? "\n$ParamObject->GetParam( Param => 'error_description' )" : '';
-        $Message .= $ParamObject->GetParam( Param => 'error_uri' ) ? "\nsee $ParamObject->GetParam( Param => 'error_uri' )" : '';
+        $Message .= $ParamObject->GetParam( Param => 'error_uri' )         ? "\nsee $ParamObject->GetParam( Param => 'error_uri' )"     : '';
 
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $Message,
         );
 
-	    return;
+        return;
     }
 
     # not a redirect from an OpenID provider
-    return if none { $GetParam{ $_ } } qw(State Code IDToken);
+    return if none { $GetParam{$_} } qw(State Code IDToken);
 
     if ( !$GetParam{State} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -130,7 +145,7 @@ sub Auth {
             Message  => 'Need state!',
         );
 
-	    return;
+        return;
     }
 
     # check the state
@@ -153,7 +168,8 @@ sub Auth {
             Priority => 'info',
             Message  => 'OpenID Connect authentication error: ' . $ErrorMessage,
         );
-        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')->Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
+        $Self->{AuthError} = $Kernel::OM->Get('Kernel::Language')
+            ->Translatable('Invalid response from the authentication server. Maybe the process took too long. Please retry once.');
 
         return;
     }
@@ -192,12 +208,12 @@ sub Auth {
 
     return if !$Return->{Success};
 
-    my $TokenData  = $Return->{TokenData};
+    my $TokenData = $Return->{TokenData};
 
     my $Debug = $ConfigObject->Get('AuthModule::OpenIDConnect::Debug');
     if ( $Debug && $Debug->{LogIDToken} ) {
         my $TokenString = $Kernel::OM->Get('Kernel::System::Main')->Dump($TokenData);
-        
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
             Message  => "Received Token: $TokenString",
@@ -205,7 +221,7 @@ sub Auth {
     }
 
     my $Identifier = $ConfigObject->Get('AuthModule::OpenIDConnect::UID');
-    my $UserLogin  = $TokenData->{ $Identifier };
+    my $UserLogin  = $TokenData->{$Identifier};
     if ( !$UserLogin ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -216,11 +232,11 @@ sub Auth {
     }
 
     # store originally requested URL to return it via PostAuth
-    $Self->{RequestedURL}  = uri_unescape( substr $GetParam{State}, $RandLength );
+    $Self->{RequestedURL} = uri_unescape( substr $GetParam{State}, $RandLength );
 
     my %Roles;
     my $RoleMap = $ConfigObject->Get('AuthModule::OpenIDConnect::RoleMap');
-    if ( $RoleMap ) {
+    if ($RoleMap) {
         %Roles = $Self->_ExtractMap(
             Map  => $RoleMap,
             Data => $TokenData,
@@ -228,7 +244,7 @@ sub Auth {
     }
 
     # if OpenIDConnect is configured to provide authorization but the user has no rights return
-    if ( $RoleMap  && !%Roles ) {
+    if ( $RoleMap && !%Roles ) {
         $Self->{AuthError} = 'You have no access to this application.';
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'info',
@@ -244,8 +260,8 @@ sub Auth {
     my $UserID;
 
     # create and edit users
-    if ( $UserMap ) {
-        my %UserData = map { $UserMap->{$_} => $TokenData->{$_} } keys %{ $UserMap };
+    if ($UserMap) {
+        my %UserData = map { $UserMap->{$_} => $TokenData->{$_} } keys %{$UserMap};
 
         # don't mess with some data here
         delete $UserData{UserID};
@@ -261,9 +277,9 @@ sub Auth {
                 UserFirstname => '-',
                 UserLastname  => '-',
                 %UserData,
-                UserLogin     => $UserLogin,
-                ValidID       => 1,
-                ChangeUserID  => 1,
+                UserLogin    => $UserLogin,
+                ValidID      => 1,
+                ChangeUserID => 1,
             );
         }
 
@@ -271,14 +287,14 @@ sub Auth {
             my $Update;
             KEY:
             for my $Key ( keys %UserData ) {
-                if ( $UserData{ $Key } ne $User{ $Key } ) {
+                if ( $UserData{$Key} ne $User{$Key} ) {
                     $Update = 1;
-                    
+
                     last KEY;
                 }
             }
 
-            if ( $Update ) {
+            if ($Update) {
                 $UserObject->UserUpdate(
                     %User,
                     %UserData,
@@ -304,7 +320,7 @@ sub Auth {
 
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
 
-    if ( $RoleMap ) {
+    if ($RoleMap) {
         my %AllRoles = reverse $GroupObject->RoleList(
             Valid => 1,
         );
@@ -313,8 +329,8 @@ sub Auth {
         for my $RoleName ( keys %AllRoles ) {
             $GroupObject->PermissionRoleUserAdd(
                 UID    => $UserID,
-                RID    => $AllRoles{ $RoleName },
-                Active => $Roles{ $RoleName } || 0,
+                RID    => $AllRoles{$RoleName},
+                Active => $Roles{$RoleName} || 0,
                 UserID => 1,
             );
         }
@@ -336,18 +352,18 @@ sub PreAuth {
     my $OpenIDConfig  = $ConfigObject->Get('AuthModule::OpenIDConnect::Config');
     my $Misc          = $OpenIDConfig->{Misc} // {};
 
-    my $TTL = $Misc->{RandTTL} // 300; # 60 * 5
+    my $TTL = $Misc->{RandTTL} // 300;    # 60 * 5
 
     # set the state
     my $RandomString = $MainObject->GenerateRandomString(
         Length => $Misc->{RandLength} // $Self->{DefaultRandLength},
     );
     $CacheObject->Set(
-        Type           => 'OpenIDConnect_State',
-        Key            => $RandomString,
-        Value          => 1,
-        TTL            => $TTL,
-        CacheInMemory  => 0, # important for distributed systems
+        Type          => 'OpenIDConnect_State',
+        Key           => $RandomString,
+        Value         => 1,
+        TTL           => $TTL,
+        CacheInMemory => 0,                       # important for distributed systems
     );
     my %Data = (
         State => $RandomString . $LayoutObject->LinkEncode( $Param{RequestedURL} // '' ),
@@ -360,7 +376,7 @@ sub PreAuth {
         Path     => $ConfigObject->Get('ScriptAlias'),
         Secure   => $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef,
         HTTPOnly => 1,
-        Expires  => '+'. $TTL .'s',
+        Expires  => '+' . $TTL . 's',
     );
 
     # add a nonce if configured
@@ -369,11 +385,11 @@ sub PreAuth {
             Length => $Misc->{RandLength} // $Self->{DefaultRandLength},
         );
         $CacheObject->Set(
-            Type           => 'OpenIDConnect_Nonce',
-            Key            => $RandomString,
-            Value          => 1,
-            TTL            => $TTL,
-            CacheInMemory  => 0, # important for distributed systems
+            Type          => 'OpenIDConnect_Nonce',
+            Key           => $RandomString,
+            Value         => 1,
+            TTL           => $TTL,
+            CacheInMemory => 0,                       # important for distributed systems
         );
         $Data{Nonce} = $RandomString . $LayoutObject->LinkEncode( $Param{RequestedURL} // '' );
     }
@@ -409,7 +425,7 @@ sub Logout {
     my $OpenIDConnectObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect');
 
     my $LogoutURL = $OpenIDConnectObject->GetLogoutURL(
-        ProviderSettings  => $OpenIDConfig->{ProviderSettings},
+        ProviderSettings => $OpenIDConfig->{ProviderSettings},
     );
 
     return if !$LogoutURL;
@@ -441,12 +457,12 @@ sub _ExtractMap {
 
         my @Data = IsArrayRefWithData( $Param{Data} ) ? @{ $Param{Data} } :
             !ref $Param{Data} ? ( $Param{Data} ) : ();
-        
-        for my $OpenIDAttribute ( @Data ) {
-            my $OTOBOAttribute = $Param{Map}{ $OpenIDAttribute };
 
-            if ( $OTOBOAttribute ) {
-                $Return{ $OTOBOAttribute } = 1;
+        for my $OpenIDAttribute (@Data) {
+            my $OTOBOAttribute = $Param{Map}{$OpenIDAttribute};
+
+            if ($OTOBOAttribute) {
+                $Return{$OTOBOAttribute} = 1;
             }
         }
     }

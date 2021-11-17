@@ -323,7 +323,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         # additional tasks / info
         my $PostAuth = $AuthObject->PostAuth();
 
-        if ( $PostAuth ) {
+        if ($PostAuth) {
             $Param{RequestedURL} = $PostAuth->{RequestedURL} // $Param{RequestedURL};
         }
 
@@ -900,7 +900,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
             $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-            );    # throws a Kernel::System::Web::Exception
+            );        # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -910,7 +910,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
-            );    # throws a Kernel::System::Web::Exception
+            );        # throws a Kernel::System::Web::Exception
         }
 
         # login screen
@@ -998,7 +998,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
                 $LayoutObject->Redirect(
                     OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-                );    # throws a Kernel::System::Web::Exception
+                );        # throws a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -1008,7 +1008,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                );    # throws a Kernel::System::Web::Exception
+                );        # throws a Kernel::System::Web::Exception
             }
 
             # show login

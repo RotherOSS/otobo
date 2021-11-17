@@ -33,6 +33,9 @@ use Kernel::System::VariableCheck qw(:all);
 use namespace::autoclean;
 
 our @ObjectDependencies = (
+    'Kernel::System::Cache',
+    'Kernel::System::JSON',
+    'Kernel::System::Log',
 );
 
 =head1 NAME
@@ -69,7 +72,7 @@ sub new {
 
 Build the redirect url to the authorization endpoint of the OpenID provider
 
-    my $RedirectURL = OpenIDConnectObject->BuildRedirectURL(
+    my $RedirectURL = $OpenIDConnectObject->BuildRedirectURL(
         AuthRequest => {
             %Data,
             %{$RequestConfig},
@@ -83,14 +86,14 @@ Build the redirect url to the authorization endpoint of the OpenID provider
 sub BuildRedirectURL {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/AuthRequest ClientSettings ProviderSettings/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/AuthRequest ClientSettings ProviderSettings/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
 
-	        return;
+            return;
         }
     }
 
@@ -103,8 +106,8 @@ sub BuildRedirectURL {
         return;
     }
 
-    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $ProviderKey        = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{$ProviderKey} // $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'OpenIDConnect',
         Key  => $ProviderKey,
     );
@@ -126,14 +129,14 @@ sub BuildRedirectURL {
     }
 
     my $RedirectURL = $OpenIDProviderData->{OpenIDConfiguration}{authorization_endpoint};
-    $RedirectURL   .= '?response_type=' . join( '%20', @{ $Param{AuthRequest}{ResponseType} } );
-    $RedirectURL   .= '&scope='         . join( '%20', ( 'openid', @{ $Param{AuthRequest}{AdditionalScope} // [] } ) );
-    $RedirectURL   .= '&client_id='     . $Param{ClientSettings}{ClientID};
-    $RedirectURL   .= '&state='         . $Param{AuthRequest}{State};
-    $RedirectURL   .= '&redirect_uri='  . URI::Escape::uri_escape_utf8( $Param{ClientSettings}{RedirectURI} );
-    
+    $RedirectURL .= '?response_type=' . join( '%20', @{ $Param{AuthRequest}{ResponseType} } );
+    $RedirectURL .= '&scope=' . join( '%20', ( 'openid', @{ $Param{AuthRequest}{AdditionalScope} // [] } ) );
+    $RedirectURL .= '&client_id=' . $Param{ClientSettings}{ClientID};
+    $RedirectURL .= '&state=' . $Param{AuthRequest}{State};
+    $RedirectURL .= '&redirect_uri=' . URI::Escape::uri_escape_utf8( $Param{ClientSettings}{RedirectURI} );
+
     if ( $Param{AuthRequest}{Nonce} ) {
-        $RedirectURL .= '&nonce='       . $Param{AuthRequest}{Nonce};
+        $RedirectURL .= '&nonce=' . $Param{AuthRequest}{Nonce};
     }
 
     return $RedirectURL;
@@ -143,7 +146,7 @@ sub BuildRedirectURL {
 
 Build the redirect url to the authorization endpoint of the OpenID provider
 
-    my $IDToken = OpenIDConnectObject->RequestIDToken(
+    my $IDToken = $OpenIDConnectObject->RequestIDToken(
         AuthorizationCode => $GetParam{Code},
         ProviderSettings  => $ProviderSettings,
         ClientSettings    => $ClientSettings,
@@ -154,19 +157,19 @@ Build the redirect url to the authorization endpoint of the OpenID provider
 sub RequestIDToken {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/AuthorizationCode ClientSettings ProviderSettings/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/AuthorizationCode ClientSettings ProviderSettings/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
 
-	        return;
+            return;
         }
-    } 
+    }
 
-    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $ProviderKey        = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{$ProviderKey} // $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'OpenIDConnect',
         Key  => $ProviderKey,
     );
@@ -184,17 +187,20 @@ sub RequestIDToken {
             Message  => 'Could not get the token_endpoint',
         );
 
-	    return;
+        return;
     }
 
     my $UserAgent = LWP::UserAgent->new();
 
     # send the data form-encoded
-    my $Request = POST $OpenIDProviderData->{OpenIDConfiguration}{token_endpoint}, [
-        grant_type   => 'authorization_code',
-        code         => $Param{AuthorizationCode},
-        redirect_uri => $Param{ClientSettings}{RedirectURI},
-    ];
+    my $Request = POST(
+        $OpenIDProviderData->{OpenIDConfiguration}{token_endpoint},
+        [
+            grant_type   => 'authorization_code',
+            code         => $Param{AuthorizationCode},
+            redirect_uri => $Param{ClientSettings}{RedirectURI},
+        ]
+    );
 
     if ( !$Param{ClientSettings}{ClientID} || !$Param{ClientSettings}{ClientSecret} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -202,12 +208,12 @@ sub RequestIDToken {
             Message  => 'Need ClientID and ClientSecret!',
         );
 
-	    return;
+        return;
     }
 
     $Request->authorization_basic( $Param{ClientSettings}{ClientID}, $Param{ClientSettings}{ClientSecret} );
- 
-    my $Response = $UserAgent->request( $Request );
+
+    my $Response = $UserAgent->request($Request);
     my $Content  = $Response->content();
 
     if ( !$Content ) {
@@ -216,7 +222,7 @@ sub RequestIDToken {
             Message  => "Got no content when requesting IDToken. Response Code: $Response->code();",
         );
 
-	    return;
+        return;
     }
 
     my $DecodedContent = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -229,7 +235,7 @@ sub RequestIDToken {
             Message  => "Got error when requesting IDToken. Error: $DecodedContent->{error}; Description: $DecodedContent->{error_description};",
         );
 
-	    return;
+        return;
     }
 
     return $DecodedContent->{id_token};
@@ -239,7 +245,7 @@ sub RequestIDToken {
 
 Extracts IDToken data and validates it
 
-    my $Return = OpenIDConnectObject->ValidateIDToken(
+    my $Return = $OpenIDConnectObject->ValidateIDToken(
         IDToken          => $IDToken,
         ProviderSettings => $ProviderSettings,
         ClientSettings   => $ClientSettings,
@@ -250,24 +256,24 @@ Extracts IDToken data and validates it
 sub ValidateIDToken {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/IDToken ProviderSettings ClientSettings/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/IDToken ProviderSettings ClientSettings/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
 
-	        return;
+            return;
         }
     }
 
     my $Return    = { Success => 0 };
-    my $TokenData = $Self->DecodeIDToken( %Param );
+    my $TokenData = $Self->DecodeIDToken(%Param);
 
     return $Return if !$TokenData;
 
-    for my $Needed ( qw/iss sub aud exp iat/ ) {
-        if ( !$TokenData->{ $Needed } ) {
+    for my $Needed (qw/iss sub aud exp iat/) {
+        if ( !$TokenData->{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "IDToken invalid: <$Needed> not included.",
@@ -277,8 +283,8 @@ sub ValidateIDToken {
         }
     }
 
-    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $ProviderKey        = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{$ProviderKey} // $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'OpenIDConnect',
         Key  => $ProviderKey,
     );
@@ -374,7 +380,7 @@ sub ValidateIDToken {
                 Message  => "<nonce> invalid.",
             );
             $Return->{Error} = 'nonce';
-            
+
             return $Return;
         }
     }
@@ -382,14 +388,14 @@ sub ValidateIDToken {
     return {
         Success   => 1,
         TokenData => $TokenData,
-    }
+    };
 }
 
 =head2 DecodeIDToken()
 
 Returns the decoded token
 
-    my $TokenData = OpenIDConnectObject->DecodeIDToken(
+    my $TokenData = $OpenIDConnectObject->DecodeIDToken(
         IDToken          => $IDToken,
         ProviderSettings => $ProviderSettings,
     );
@@ -399,20 +405,20 @@ Returns the decoded token
 sub DecodeIDToken {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/IDToken ProviderSettings/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/IDToken ProviderSettings/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
-	        return;
+            return;
         }
     }
 
     # get the OpenIDConfiguration and Keys
-    my $Try = 0;
-    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $Try                = 0;
+    my $ProviderKey        = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{$ProviderKey} // $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'OpenIDConnect',
         Key  => $ProviderKey,
     );
@@ -467,7 +473,7 @@ sub DecodeIDToken {
         Priority => 'error',
         Message  => 'Failed to decode id_token!',
     );
-    
+
     return;
 }
 
@@ -475,7 +481,7 @@ sub DecodeIDToken {
 
 Return the logout url of the OpenID provider
 
-    my $RedirectURL = OpenIDConnectObject->GetLogoutURL(
+    my $RedirectURL = $OpenIDConnectObject->GetLogoutURL(
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
     );
 
@@ -484,19 +490,19 @@ Return the logout url of the OpenID provider
 sub GetLogoutURL {
     my ( $Self, %Param ) = @_;
 
-    for my $Needed ( qw/ProviderSettings/ ) {
-        if ( !$Param{ $Needed } ) {
+    for my $Needed (qw/ProviderSettings/) {
+        if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
 
-	        return;
+            return;
         }
     }
 
-    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+    my $ProviderKey        = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{$ProviderKey} // $Kernel::OM->Get('Kernel::System::Cache')->Get(
         Type => 'OpenIDConnect',
         Key  => $ProviderKey,
     );
@@ -571,17 +577,17 @@ sub _ProviderDataGet {
 
     my $Return = {
         OpenIDConfiguration => $OpenIDConfiguration,
-        KeyData => $KeyData,
+        KeyData             => $KeyData,
     };
 
     # store in $Self
     my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
-    $Self->{OpenIDProviderData}{ $ProviderKey } = $Return;
+    $Self->{OpenIDProviderData}{$ProviderKey} = $Return;
 
     # set cache for 30 minutes or configured time
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
-        Type => 'OpenIDConnect',
-        Key  => 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' ),
+        Type  => 'OpenIDConnect',
+        Key   => 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' ),
         Value => $Return,
         TTL   => $Param{ProviderSettings}{Name} // 1800,
     );

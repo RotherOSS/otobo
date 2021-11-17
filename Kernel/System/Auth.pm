@@ -374,7 +374,7 @@ sub PreAuth {
 
     return if !$Self->{AuthBackend}->can('PreAuth');
 
-    return $Self->{AuthBackend}->PreAuth( %Param );
+    return $Self->{AuthBackend}->PreAuth(%Param);
 }
 
 =head2 PostAuth()
@@ -390,7 +390,7 @@ sub PostAuth {
 
     return if !$Self->{AuthBackend}->can('PostAuth');
 
-    return $Self->{AuthBackend}->PostAuth( %Param );
+    return $Self->{AuthBackend}->PostAuth(%Param);
 }
 
 =head2 Logout()
@@ -406,7 +406,7 @@ sub Logout {
 
     return if !$Self->{AuthBackend}->can('Logout');
 
-    return $Self->{AuthBackend}->Logout( %Param );
+    return $Self->{AuthBackend}->Logout(%Param);
 }
 
 =head2 GetLastErrorMessage()
