@@ -402,6 +402,23 @@ sub PostAuth {
     };
 }
 
+sub Logout {
+    my ( $Self, %Param ) = @_;
+
+    my $OpenIDConfig        = $Kernel::OM->Get('Kernel::Config')->Get('AuthModule::OpenIDConnect::Config');
+    my $OpenIDConnectObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect');
+
+    my $LogoutURL = $OpenIDConnectObject->GetLogoutURL(
+        ProviderSettings  => $OpenIDConfig->{ProviderSettings},
+    );
+
+    return if !$LogoutURL;
+
+    return {
+        LogoutURL => $LogoutURL,
+    };
+}
+
 sub _ExtractMap {
     my ( $Self, %Param ) = @_;
     my %Return = ();

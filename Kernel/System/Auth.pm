@@ -393,6 +393,22 @@ sub PostAuth {
     return $Self->{AuthBackend}->PostAuth( %Param );
 }
 
+=head2 Logout()
+
+Call the Logout method of the AuthBackend
+
+    my $LogoutInfo = $AuthObject->Logout();
+
+=cut
+
+sub Logout {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('Logout');
+
+    return $Self->{AuthBackend}->Logout( %Param );
+}
+
 =head2 GetLastErrorMessage()
 
 Retrieve $Self->{LastErrorMessage} content.

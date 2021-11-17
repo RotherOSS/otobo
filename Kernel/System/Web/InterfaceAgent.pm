@@ -682,6 +682,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );    # throws a Kernel::System::Web::Exception
         }
 
+        # try auth module specific logout
+        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout();
+        if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
+            $LayoutObject->Redirect(
+                ExtURL => $LogoutInfo->{LogoutURL},
+            );    # throws a Kernel::System::Web::Exception
+        }
+
         # show logout screen
         return $LayoutObject->Login(
             Title       => 'Logout',

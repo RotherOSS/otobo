@@ -471,6 +471,55 @@ sub DecodeIDToken {
     return;
 }
 
+=head2 GetLogoutURL()
+
+Return the logout url of the OpenID provider
+
+    my $RedirectURL = OpenIDConnectObject->GetLogoutURL(
+        ProviderSettings => $OpenIDConfig->{ProviderSettings},
+    );
+
+=cut
+
+sub GetLogoutURL {
+    my ( $Self, %Param ) = @_;
+
+    for my $Needed ( qw/ProviderSettings/ ) {
+        if ( !$Param{ $Needed } ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+	        return;
+        }
+    }
+
+    my $ProviderKey = 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' );
+    my $OpenIDProviderData = $Self->{OpenIDProviderData}{ $ProviderKey } // $Kernel::OM->Get('Kernel::System::Cache')->Get(
+        Type => 'OpenIDConnect',
+        Key  => $ProviderKey,
+    );
+
+    # if nothing is cached, get the data
+    if ( !$OpenIDProviderData ) {
+        $OpenIDProviderData = $Self->_ProviderDataGet(
+            ProviderSettings => $Param{ProviderSettings},
+        );
+    }
+
+    if ( !$OpenIDProviderData->{OpenIDConfiguration} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Could not retrieve OpenIDConfiguration!",
+        );
+
+        return;
+    }
+
+    return $OpenIDProviderData->{OpenIDConfiguration}{end_session_endpoint};
+}
+
 sub _ProviderDataGet {
     my ( $Self, %Param ) = @_;
 
