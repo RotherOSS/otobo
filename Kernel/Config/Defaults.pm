@@ -535,8 +535,6 @@ sub LoadDefaults {
     # For debugging purposes and to help with building the RoleMap e.g. you can dump all IDTokens received to the log
 #    $Self->{'AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
 
-
-
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through
     # apache http-basic-auth.
@@ -1397,9 +1395,10 @@ via the Preferences button after logging in.
 
     # --------------------------------------------------- #
     # customer authentication settings                    #
-    # (enable what you need, auth against otobo db,        #
+    # (enable what you need, auth against otobo db,       #
     # against a LDAP directory, against HTTP basic        #
-    # authentication and against Radius server)           #
+    # authentication, using OpenIDConnect,                #
+    # and against Radius server)                          #
     # --------------------------------------------------- #
     # This is the auth. module for the otobo db
     # you can also configure it using a remote database
@@ -1458,6 +1457,43 @@ via the Preferences button after logging in.
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;
+
+    # This is an example configuration for authorization via OpenIDConnect
+    # see https://openid.net/specs/openid-connect-core-1_0.html
+#    $Self->{'Customer::AuthModule'} = 'Kernel::System::CustomerAuth::OpenIDConnect';
+    # Define the authentication flow, currently supported are the authorization code flow...
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'code' ];
+    # ...and the implicit flow (choose one - currently no hybrid flow is implemented)
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{ResponseType} = [ 'id_token' ];
+    # Define the additional scope (openid is added automatically and does not need to be
+    # defined here). Make sure to add everything you want to interpret later.
+#    $Self->{'Customer::AuthModule::OpenIDConnect::AuthRequest'}->{AdditionalScope} = [
+#        qw/profile email/
+#    ];
+    # Set the ClientID and Redirect URI exactly as defined on the authorization server
+    # for the latter the Action must be "Login"
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ClientSettings} = {
+#        ClientID    => 'abc123',
+#        RedirectURI => 'https://my.otobo.server/otobo/customer.pl?Action=Login',
+#    };
+    # For the authorization code flow the client secret has to be provided
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ClientSettings}{ClientSecret} = 's3cr3t';
+    # Provide the URL of the well-known openid-configuration of the OpenID provider
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{ProviderSettings} = {
+#        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
+#        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
+#        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#    };
+    # Set the token claim to be used as identifier
+#    $Self->{'Customer::AuthModule::OpenIDConnect::UID'} = 'sub';
+    # Some optional additional settings
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Config'}{Misc} = {
+#        UseNonce   => 1,      # add a nonce to request and token (this is primarily important for the implicit flow where it is enabled by default)
+#        RandLength => 22,     # length for state and nonce random strings - default: 22
+#        RandTTL    => 60 * 5, # valid time period for state and nonce (roughly the time a user can take to authenticate) - default: 300 s
+#    };
+    # For debugging purposes you can dump all IDTokens received to the log
+#    $Self->{'Customer::AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
 
     # This is an example configuration for an apache ($ENV{REMOTE_USER})
     # auth. backend. Use it if you want to have a singe login through

@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package Kernel::System::Auth::OpenIDConnect;
+package Kernel::System::CustomerAuth::OpenIDConnect;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
@@ -45,7 +45,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Auth::OpenIDConnect - Auth via OpenID Connect
+Kernel::System::CustomerAuth::OpenIDConnect - Auth via OpenID Connect
 
 =head1 SYNOPSIS
 
@@ -57,7 +57,7 @@ create an object
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $BackendObject = $Kernel::OM->Get('Kernel::System::Auth::OpenIDConnect');
+    my $BackendObject = $Kernel::OM->Get('Kernel::System::CustomerAuth::OpenIDConnect');
 
 =cut
 
@@ -103,8 +103,8 @@ sub Auth {
     my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
     my $ParamObject         = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    my $RequestConfig = $ConfigObject->Get('AuthModule::OpenIDConnect::AuthRequest');
-    my $OpenIDConfig  = $ConfigObject->Get('AuthModule::OpenIDConnect::Config');
+    my $RequestConfig = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::AuthRequest');
+    my $OpenIDConfig  = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::Config');
     my $Misc          = $OpenIDConfig->{Misc} // {};
 
     if ( !$RequestConfig || !$RequestConfig->{ResponseType} || !$OpenIDConfig ) {
@@ -211,7 +211,7 @@ sub Auth {
 
     my $TokenData = $Return->{TokenData};
 
-    my $Debug = $ConfigObject->Get('AuthModule::OpenIDConnect::Debug');
+    my $Debug = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::Debug');
     if ( $Debug && $Debug->{LogIDToken} ) {
         my $TokenString = $Kernel::OM->Get('Kernel::System::Main')->Dump($TokenData);
 
@@ -221,7 +221,7 @@ sub Auth {
         );
     }
 
-    my $Identifier = $ConfigObject->Get('AuthModule::OpenIDConnect::UID');
+    my $Identifier = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::UID');
     my $UserLogin  = $TokenData->{$Identifier};
     if ( !$UserLogin ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -235,106 +235,16 @@ sub Auth {
     # store originally requested URL to return it via PostAuth
     $Self->{RequestedURL} = uri_unescape( substr $GetParam{State}, $RandLength );
 
-    my %Roles;
-    my $RoleMap = $ConfigObject->Get('AuthModule::OpenIDConnect::RoleMap');
-    if ($RoleMap) {
-        %Roles = $Self->_ExtractMap(
-            Map  => $RoleMap,
-            Data => $TokenData,
-        );
-    }
+    my $UserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my %User       = $UserObject->CustomerUserDataGet( User => $UserLogin );
 
-    # if OpenIDConnect is configured to provide authorization but the user has no rights return
-    if ( $RoleMap && !%Roles ) {
-        $Self->{AuthError} = 'You have no access to this application.';
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'info',
-            Message  => "Attempted unauthorized access by '$UserLogin'.",
-        );
-
-        return;
-    }
-
-    my $UserObject = $Kernel::OM->Get('Kernel::System::User');
-    my %User       = $UserObject->GetUserData( User => $UserLogin );
-    my $UserMap    = $ConfigObject->Get('AuthModule::OpenIDConnect::UserMap');
-    my $UserID;
-
-    # create and edit users
-    if ($UserMap) {
-        my %UserData = map { $UserMap->{$_} => $TokenData->{$_} } keys %{$UserMap};
-
-        # don't mess with some data here
-        delete $UserData{UserID};
-        delete $UserData{UserPw};
-
-        if ( !%User ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'info',
-                Message  => "Adding '$UserLogin' as user agent.",
-            );
-
-            $UserID = $UserObject->UserAdd(
-                UserFirstname => '-',
-                UserLastname  => '-',
-                %UserData,
-                UserLogin    => $UserLogin,
-                ValidID      => 1,
-                ChangeUserID => 1,
-            );
-        }
-
-        else {
-            my $Update;
-            KEY:
-            for my $Key ( keys %UserData ) {
-                if ( $UserData{$Key} ne $User{$Key} ) {
-                    $Update = 1;
-
-                    last KEY;
-                }
-            }
-
-            if ($Update) {
-                $UserObject->UserUpdate(
-                    %User,
-                    %UserData,
-                    ChangeUserID => 1,
-                );
-            }
-        }
-    }
-
-    $UserID //= $User{UserID};
-
-    if ( !$UserID ) {
+    if ( !$User{UserID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'notice',
             Message  => "No UserID for '$UserLogin'.",
         );
 
         return;
-    }
-
-    # successful return if no authorization has to be done
-    return $UserLogin if !$RoleMap;
-
-    my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
-
-    if ($RoleMap) {
-        my %AllRoles = reverse $GroupObject->RoleList(
-            Valid => 1,
-        );
-
-        # update user roles
-        for my $RoleName ( keys %AllRoles ) {
-            $GroupObject->PermissionRoleUserAdd(
-                UID    => $UserID,
-                RID    => $AllRoles{$RoleName},
-                Active => $Roles{$RoleName} || 0,
-                UserID => 1,
-            );
-        }
     }
 
     return $UserLogin;
@@ -349,8 +259,8 @@ sub PreAuth {
     my $MainObject          = $Kernel::OM->Get('Kernel::System::Main');
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    my $RequestConfig = $ConfigObject->Get('AuthModule::OpenIDConnect::AuthRequest');
-    my $OpenIDConfig  = $ConfigObject->Get('AuthModule::OpenIDConnect::Config');
+    my $RequestConfig = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::AuthRequest');
+    my $OpenIDConfig  = $ConfigObject->Get('Customer::AuthModule::OpenIDConnect::Config');
     my $Misc          = $OpenIDConfig->{Misc} // {};
 
     my $TTL = $Misc->{RandTTL} // 300;    # 60 * 5
@@ -422,7 +332,7 @@ sub PostAuth {
 sub Logout {
     my ( $Self, %Param ) = @_;
 
-    my $OpenIDConfig        = $Kernel::OM->Get('Kernel::Config')->Get('AuthModule::OpenIDConnect::Config');
+    my $OpenIDConfig        = $Kernel::OM->Get('Kernel::Config')->Get('Customer::AuthModule::OpenIDConnect::Config');
     my $OpenIDConnectObject = $Kernel::OM->Get('Kernel::System::OpenIDConnect');
 
     my $LogoutURL = $OpenIDConnectObject->GetLogoutURL(
@@ -434,41 +344,6 @@ sub Logout {
     return {
         LogoutURL => $LogoutURL,
     };
-}
-
-sub _ExtractMap {
-    my ( $Self, %Param ) = @_;
-    my %Return = ();
-
-    KEY:
-    for my $Key ( %{ $Param{Map} } ) {
-        if ( IsHashRefWithData( $Param{Map}{$Key} ) ) {
-            next KEY if !defined $Param{Data}{$Key};
-
-            %Return = (
-                %Return,
-                $Self->_ExtractMap(
-                    Map  => $Param{Map}{$Key},
-                    Data => $Param{Data}{$Key},
-                ),
-            );
-        }
-
-        next KEY if ref $Param{Map}{$Key};
-
-        my @Data = IsArrayRefWithData( $Param{Data} ) ? @{ $Param{Data} } :
-            !ref $Param{Data} ? ( $Param{Data} ) : ();
-
-        for my $OpenIDAttribute (@Data) {
-            my $OTOBOAttribute = $Param{Map}{$OpenIDAttribute};
-
-            if ($OTOBOAttribute) {
-                $Return{$OTOBOAttribute} = 1;
-            }
-        }
-    }
-
-    return %Return;
 }
 
 1;
