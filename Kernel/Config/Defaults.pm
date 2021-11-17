@@ -532,6 +532,8 @@ sub LoadDefaults {
 #        given_name  => 'UserFirstname',
 #        family_name => 'UserLastname',
 #    };
+    # For debugging purposes and to help with building the RoleMap e.g. you can dump all IDTokens received to the log
+#    $Self->{'AuthModule::OpenIDConnect::Debug'}->{'LogIDToken'} = 1;
 
 
 

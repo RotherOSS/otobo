@@ -532,7 +532,7 @@ sub _ProviderDataGet {
     # set cache for 30 minutes or configured time
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type => 'OpenIDConnect',
-        Key  => 'ProviderData' . $Param{ProviderSettings}{Name} // '',
+        Key  => 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' ),
         Value => $Return,
         TTL   => $Param{ProviderSettings}{Name} // 1800,
     );

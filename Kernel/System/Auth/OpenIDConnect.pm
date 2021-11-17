@@ -192,6 +192,17 @@ sub Auth {
     return if !$Return->{Success};
 
     my $TokenData  = $Return->{TokenData};
+
+    my $Debug = $ConfigObject->Get('AuthModule::OpenIDConnect::Debug');
+    if ( $Debug && $Debug->{LogIDToken} ) {
+        my $TokenString = $Kernel::OM->Get('Kernel::System::Main')->Dump($TokenData);
+        
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'debug',
+            Message  => "Received Token: $TokenString",
+        );
+    }
+
     my $Identifier = $ConfigObject->Get('AuthModule::OpenIDConnect::UID');
     my $UserLogin  = $TokenData->{ $Identifier };
     if ( !$UserLogin ) {
