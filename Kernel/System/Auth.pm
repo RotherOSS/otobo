@@ -377,6 +377,22 @@ sub PreAuth {
     return $Self->{AuthBackend}->PreAuth( %Param );
 }
 
+=head2 PostAuth()
+
+Call the PostAuth method of the AuthBackend
+
+    my $PostAuthInfo = $AuthObject->PostAuth();
+
+=cut
+
+sub PostAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PostAuth');
+
+    return $Self->{AuthBackend}->PostAuth( %Param );
+}
+
 =head2 GetLastErrorMessage()
 
 Retrieve $Self->{LastErrorMessage} content.

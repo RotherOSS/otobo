@@ -20,6 +20,7 @@ use warnings;
 
 use Kernel::System::VariableCheck qw(:all);
 use List::Util qw(none);
+use URI::Escape;
 
 #use Kernel::System::VariableCheck qw(all);
 
@@ -214,6 +215,9 @@ sub Auth {
         return;
     }
 
+    # store originally requested URL to return it via PostAuth
+    $Self->{RequestedURL}  = uri_unescape( substr $GetParam{State}, $RandLength );
+
     my %Roles;
     my $RoleMap = $ConfigObject->Get('AuthModule::OpenIDConnect::RoleMap');
     if ( $RoleMap ) {
@@ -385,6 +389,16 @@ sub PreAuth {
 
     return {
         RedirectURL => $RedirectURL,
+    };
+}
+
+sub PostAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{RequestedURL};
+
+    return {
+        RequestedURL => $Self->{RequestedURL},
     };
 }
 

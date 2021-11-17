@@ -320,6 +320,13 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             TwoFactorToken => $PostTwoFactorToken,
         );
 
+        # additional tasks / info
+        my $PostAuth = $AuthObject->PostAuth();
+
+        if ( $PostAuth ) {
+            $Param{RequestedURL} = $PostAuth->{RequestedURL} // $Param{RequestedURL};
+        }
+
         # login is invalid
         if ( !$User ) {
 
@@ -877,10 +884,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 RequestedURL => $Param{RequestedURL},
             );
 
-            my $RedirectURL = $PreAuth && $PreAuth->{RedirectURL} ? $PreAuth->{RedirectURL} : "Action=PreLogin&RequestedURL=$Param{RequestedURL}";
+            if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                $LayoutObject->Redirect(
+                    ExtURL => $PreAuth->{RedirectURL},
+                );    # throws a Kernel::System::Web::Exception
+            }
 
             $LayoutObject->Redirect(
-                ExtURL => $RedirectURL,
+                OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
             );    # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
@@ -971,10 +982,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                     RequestedURL => $Param{RequestedURL},
                 );
 
-                my $RedirectURL = $PreAuth && $PreAuth->{RedirectURL} ? $PreAuth->{RedirectURL} : "Action=PreLogin&RequestedURL=$Param{RequestedURL}";
+                if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                    $LayoutObject->Redirect(
+                        ExtURL => $PreAuth->{RedirectURL},
+                    );    # throws a Kernel::System::Web::Exception
+                }
 
                 $LayoutObject->Redirect(
-                    OP => $RedirectURL,
+                    OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
                 );    # throws a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {
