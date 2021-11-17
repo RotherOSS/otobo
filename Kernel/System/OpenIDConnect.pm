@@ -590,7 +590,7 @@ sub _ProviderDataGet {
         Type  => 'OpenIDConnect',
         Key   => 'ProviderData' . ( $Param{ProviderSettings}{Name} // '' ),
         Value => $Return,
-        TTL   => $Param{ProviderSettings}{Name} // 1800,
+        TTL   => $Param{ProviderSettings}{TTL} // 1800,
     );
 
     return $Return;
