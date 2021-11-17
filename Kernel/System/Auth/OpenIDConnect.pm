@@ -198,6 +198,7 @@ sub Auth {
         IDToken          => $GetParam{IDToken},
         ProviderSettings => $OpenIDConfig->{ProviderSettings},
         ClientSettings   => $OpenIDConfig->{ClientSettings},
+        UseNonce         => ( $Misc->{UseNonce} || grep { $_ eq 'id_token' } @{ $RequestConfig->{ResponseType} // [] } ),
     );
 
     return if !$Return;
@@ -380,7 +381,7 @@ sub PreAuth {
     );
 
     # add a nonce if configured
-    if ( $Misc->{Nonce} || grep { $_ eq 'id_token' } @{ $RequestConfig->{ResponseType} // [] } ) {
+    if ( $Misc->{UseNonce} || grep { $_ eq 'id_token' } @{ $RequestConfig->{ResponseType} // [] } ) {
         $RandomString = $MainObject->GenerateRandomString(
             Length => $Misc->{RandLength} // $Self->{DefaultRandLength},
         );

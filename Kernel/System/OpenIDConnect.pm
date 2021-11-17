@@ -356,7 +356,7 @@ sub ValidateIDToken {
         return $Return;
     }
 
-    if ( $Param{Nonce} ) {
+    if ( $Param{UseNonce} ) {
         if ( !$TokenData->{nonce} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -366,13 +366,14 @@ sub ValidateIDToken {
             return $Return;
         }
 
-        my %Nonce = (
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        my %Nonce       = (
             Type => 'OpenIDConnect_Nonce',
             Key  => $TokenData->{nonce},
         );
 
-        if ( $Self->{CacheObject}->Get(%Nonce) ) {
-            $Self->{CacheObject}->Delete(%Nonce);
+        if ( $CacheObject->Get(%Nonce) ) {
+            $CacheObject->Delete(%Nonce);
         }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
