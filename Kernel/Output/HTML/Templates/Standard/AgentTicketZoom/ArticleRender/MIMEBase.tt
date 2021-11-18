@@ -31,7 +31,12 @@
 [% END %]
             </h2>
             <div class="ActionMenu Visible">
-                [% Data.Crypt %]
+[% IF Data.Crypt.Signed %]
+                <i title="[% Data.Crypt.Signed | html %]" class="WidgetAction fa [% IF Data.Crypt.SignedOK %]fa-certificate oooCryptOK[% ELSE %]fa-ban oooCryptNOK[% END %]"></i>
+[% END %]
+[% IF Data.Crypt.Crypted %]
+                <i title="[% Data.Crypt.Crypted | html %]" class="fa fa-lock WidgetAction [% IF Data.Crypt.CryptedOK %]oooCryptOK[% ELSE %]oooCryptNOK[% END %]"></i>
+[% END %]
                 <div class="WidgetAction Expand">
                     <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-info"></i></a>
                 </div>

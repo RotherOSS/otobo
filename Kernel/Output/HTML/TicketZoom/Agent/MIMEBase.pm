@@ -238,26 +238,6 @@ sub ArticleRender {
         ArticleID => $Article{ArticleID},
         UserID    => 1,
     );
-    my $CryptHTML = $Flags{Signed}
-        ?
-        (
-            $Flags{SignedOK}
-            ? '<i title="'
-            . $Flags{Signed}
-            . '" class="fa fa-certificate WidgetAction" style="color:#c4cdfa;font-size:14px;margin-top:2px;"></i>'
-            : '<i title="' . $Flags{Signed} . '" class="fa fa-ban WidgetAction" style="color:#f9bcb2;font-size:14px;margin-top:2px;"></i>'
-        )
-        : '';
-    $CryptHTML .= $Flags{Crypted}
-        ?
-        (
-            $Flags{CryptedOK}
-            ? '<i title="'
-            . $Flags{Crypted}
-            . '" class="fa fa-lock WidgetAction" style="color:#c4cdfa;font-size:14px;margin-top:2px;"></i>'
-            : '<i title="' . $Flags{Crypted} . '" class="fa fa-lock WidgetAction" style="color:#f9bcb2;font-size:14px;margin-top:2px;"></i>'
-        )
-        : '';
 
     my $Content = $LayoutObject->Output(
         TemplateFile => 'AgentTicketZoom/ArticleRender/MIMEBase',
@@ -279,7 +259,7 @@ sub ArticleRender {
             SenderInitials => $LayoutObject->UserInitialsGet(
                 Fullname => $Article{FromRealname},
             ),
-            Crypt => $CryptHTML,
+            Crypt => \%Flags,
         },
     );
 

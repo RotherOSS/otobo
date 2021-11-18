@@ -583,6 +583,20 @@ ul.WidgetTooltip li a:hover i {
     font-size: 11px;
 }
 
+.oooCryptOK,
+.oooCryptNOK {
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.oooCryptOK {
+    color: #c4cdfa;
+}
+
+.oooCryptNOK {
+    color: #f9bcb2;
+}
+
 /**
  * @subsection      Call for action buttons and search form
  */
