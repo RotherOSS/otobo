@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 use Kernel::System::EmailParser;
+use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -280,8 +281,10 @@ sub _DecryptSMIME {
 
         # ok, decryption went fine
         if ( $Decrypt{Successful} ) {
-            my $Flag = $Decrypt{Message} ?
-                ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} ) : Translatable('Successful decryption');
+            my $Flag = $Decrypt{Message}
+                ?
+                ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} )
+                : Translatable('Successful decryption');
             $Param{GetParam}{Crypted}   = $Flag;
             $Param{GetParam}{CryptedOK} = 1;
 
@@ -299,6 +302,7 @@ sub _DecryptSMIME {
             elsif ( $SignCheck{SignatureFound} && $SignCheck{Content} ) {
                 $EmailContent = $SignCheck{Content};
             }
+
             # not signed at all
             elsif ( $SignCheck{Message} =~ /^OpenSSL: Error reading S\/MIME message/ ) {
                 %SignCheck = ();
@@ -317,11 +321,11 @@ sub _DecryptSMIME {
             $Self->{ParserObject}{MessageBody}      = $Param{GetParam}{Body};
 
             my @Attachments = $ParserObject->GetAttachments();
-            if ( @Attachments ) {
-                $Param{GetParam}{Attachment}       = \@Attachments;
+            if (@Attachments) {
+                $Param{GetParam}{Attachment} = \@Attachments;
                 $Self->{ParserObject}{Attachments} = \@Attachments;
             }
-            $Self->{ParserObject}{MimeEmail}   = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
+            $Self->{ParserObject}{MimeEmail} = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
         }
 
         # unsuccessful decrypt
@@ -362,11 +366,11 @@ sub _DecryptSMIME {
             $Self->{ParserObject}{MessageBody}      = $Param{GetParam}{Body};
 
             my @Attachments = $ParserObject->GetAttachments();
-            if ( @Attachments ) {
-                $Param{GetParam}{Attachment}       = \@Attachments;
+            if (@Attachments) {
+                $Param{GetParam}{Attachment} = \@Attachments;
                 $Self->{ParserObject}{Attachments} = \@Attachments;
             }
-            $Self->{ParserObject}{MimeEmail}   = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
+            $Self->{ParserObject}{MimeEmail} = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
 
         }
 
@@ -385,7 +389,7 @@ sub _DecryptSMIME {
     }
 
     # evaluate verification output
-    if ( %SignCheck ) {
+    if (%SignCheck) {
 
         if ( $SignCheck{SignatureFound} && $SignCheck{Successful} ) {
 
@@ -432,14 +436,18 @@ sub _DecryptSMIME {
                     . ")"
                     . ", but sender address $OrigSender: does not match certificate address!";
 
-                my $Flag = $SignCheck{Message} ?
-                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ).'... (see info)' : $SignCheck{Message} ) : 'Verification OK.';
+                my $Flag = $SignCheck{Message}
+                    ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ) . '... (see info)' : $SignCheck{Message} )
+                    : 'Verification OK.';
                 $Param{GetParam}{Signed} = $Flag;
                 return;
             }
             else {
-                my $Flag = $SignCheck{Message} ?
-                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} ) : 'Verification OK.';
+                my $Flag = $SignCheck{Message}
+                    ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} )
+                    : 'Verification OK.';
                 $Param{GetParam}{Signed}   = $Flag;
                 $Param{GetParam}{SignedOK} = 1;
             }

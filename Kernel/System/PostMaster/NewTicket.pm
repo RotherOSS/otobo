@@ -615,13 +615,13 @@ Message
         return;
     }
 
-    for my $Flag ( qw/Crypted CryptedOK Signed SignedOK/ ) {
-        if ( $GetParam{ $Flag } ) {
+    for my $Flag (qw/Crypted CryptedOK Signed SignedOK/) {
+        if ( $GetParam{$Flag} ) {
             my $Success = $ArticleObject->ArticleFlagSet(
                 TicketID  => $TicketID,
                 ArticleID => $ArticleID,
                 Key       => $Flag,
-                Value     => $GetParam{ $Flag },
+                Value     => $GetParam{$Flag},
                 UserID    => 1,
             );
         }
