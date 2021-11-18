@@ -233,20 +233,22 @@ my $SyncFromS3Middleware = sub {
 # for every request in Kernel::Config::Defaults::new().
 my $ModuleRefreshMiddleware;
 {
-    my $RefreshCooldown = 10;
-    my $LastRefreshTime = time - 10;
-    Module::Refresh->new();
-
     $ModuleRefreshMiddleware = sub {
         my $App = shift;
 
         return sub {
             my $Env = shift;
 
-            # don't do work for every request, just every $RefreshCooldown secondes
-            if ( time > $LastRefreshTime + $RefreshCooldown ) {
+            # make sure that there is a refresh in the first iteration
+            state $LastRefreshTime = 0;
 
-                $LastRefreshTime = time;
+            # don't do work for every request, just every $RefreshCooldown secondes
+            my $Now = time;
+            my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
+            my $RefreshCooldown = 10;
+            if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
+
+                $LastRefreshTime = $Now;
 
                 # refresh modules, igoring the files in Kernel/Config/Files
                 MODULE:
