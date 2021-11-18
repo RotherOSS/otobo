@@ -71,7 +71,7 @@ sub Check {
     return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
     my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
-    my %Flags = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
+    my %Flags         = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
         ArticleID => $Param{Article}{ArticleID},
         UserID    => 1,
     );
@@ -81,16 +81,17 @@ sub Check {
     my $Completed = 1;
     FLAG:
     for my $Flag (qw/Crypted Signed/) {
-        if ( $Flags{ $Flag } ) {
+        if ( $Flags{$Flag} ) {
+
             # don't return early if something didn't work before
-            if ( !$Flags{ $Flag.'OK' } ) {
+            if ( !$Flags{ $Flag . 'OK' } ) {
                 $Completed = 0;
                 last FLAG;
             }
             push @Early, {
-                    Key        => $Flag,
-                    Value      => $Flags{ $Flag },
-                    Successful => 1,
+                Key        => $Flag,
+                Value      => $Flags{$Flag},
+                Successful => 1,
             };
         }
     }
@@ -273,8 +274,10 @@ sub Check {
             # ok, decryption went fine
             if ( $Decrypt{Successful} ) {
 
-                my $Flag = $Decrypt{Message} ?
-                    ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} ) : Translatable('Successful decryption');
+                my $Flag = $Decrypt{Message}
+                    ?
+                    ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} )
+                    : Translatable('Successful decryption');
                 $ArticleObject->ArticleFlagSet(
                     TicketID  => $Param{Article}{TicketID},
                     ArticleID => $Param{Article}{ArticleID},
@@ -340,7 +343,6 @@ sub Check {
                     Email => $EmailContent
                 );
                 my $Body = $ParserObject->GetMessageBody();
-
 
                 # Determine if we have decrypted article and attachments before.
                 my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
@@ -426,7 +428,6 @@ sub Check {
                 );
                 my $Body = $ParserObject->GetMessageBody();
 
-
                 # Determine if we have decrypted article and attachments before.
                 my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
@@ -483,7 +484,7 @@ sub Check {
         }
     }
 
-    if ( %SignCheck ) {
+    if (%SignCheck) {
 
         if ( $SignCheck{SignatureFound} && $SignCheck{Successful} ) {
 
@@ -547,8 +548,10 @@ sub Check {
                     Value     => 0,
                     UserID    => 1,
                 );
-                my $Flag = $SignCheck{Message} ?
-                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ).'... (see info)' : $SignCheck{Message} ) : 'Verification OK.';
+                my $Flag = $SignCheck{Message}
+                    ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ) . '... (see info)' : $SignCheck{Message} )
+                    : 'Verification OK.';
                 $ArticleObject->ArticleFlagSet(
                     TicketID  => $Param{Article}{TicketID},
                     ArticleID => $Param{Article}{ArticleID},
@@ -565,8 +568,10 @@ sub Check {
                     Value     => 1,
                     UserID    => 1,
                 );
-                my $Flag = $SignCheck{Message} ?
-                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} ) : 'Verification OK.';
+                my $Flag = $SignCheck{Message}
+                    ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} )
+                    : 'Verification OK.';
                 $ArticleObject->ArticleFlagSet(
                     TicketID  => $Param{Article}{TicketID},
                     ArticleID => $Param{Article}{ArticleID},
@@ -616,7 +621,7 @@ sub Check {
             );
         }
 
-    }    
+    }
 
     return @Return;
 }
