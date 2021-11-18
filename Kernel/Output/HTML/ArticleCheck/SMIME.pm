@@ -70,6 +70,33 @@ sub Check {
     my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle( %{ $Param{Article} // {} } );
     return if $ArticleBackendObject->ChannelNameGet() ne 'Email';
 
+    my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my %Flags = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleFlagGet(
+        ArticleID => $Param{Article}{ArticleID},
+        UserID    => 1,
+    );
+
+    # check if everything is done already
+    my @Early;
+    my $Completed = 1;
+    FLAG:
+    for my $Flag (qw/Crypted Signed/) {
+        if ( $Flags{ $Flag } ) {
+            # don't return early if something didn't work before
+            if ( !$Flags{ $Flag.'OK' } ) {
+                $Completed = 0;
+                last FLAG;
+            }
+            push @Early, {
+                    Key        => $Flag,
+                    Value      => $Flags{ $Flag },
+                    Successful => 1,
+            };
+        }
+    }
+
+    return @Early if ( @Early && $Completed );
+
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
     # check inline smime
@@ -87,8 +114,22 @@ sub Check {
                 @Return,
                 {
                     Key   => Translatable('Signed'),
-                    Value => Translatable('"S/MIME SIGNED MESSAGE" header found, but invalid!'),
+                    Value => Translatable('Internal error during verification!'),
                 }
+            );
+            $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{Article}{TicketID},
+                ArticleID => $Param{Article}{ArticleID},
+                Key       => 'Signed',
+                Value     => 'Internal error during verification!',
+                UserID    => 1,
+            );
+            $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{Article}{TicketID},
+                ArticleID => $Param{Article}{ArticleID},
+                Key       => 'SignedOK',
+                Value     => 0,
+                UserID    => 1,
             );
         }
     }
@@ -132,20 +173,23 @@ sub Check {
             )
         {
 
-            # check if article is already decrypted
-            if ( $Param{Article}->{Body} && $Param{Article}->{Body} ne '- no text message => see attachment -' ) {
-                push(
-                    @Return,
-                    {
-                        Key        => Translatable('Crypted'),
-                        Value      => Translatable('Ticket decrypted before'),
-                        Successful => 1,
-                    }
-                );
-            }
-
             # check sender (don't decrypt sent emails)
             if ( $Param{Article}->{SenderType} && $Param{Article}->{SenderType} =~ /(agent|system)/i ) {
+
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Crypted',
+                    Value     => Translatable('Sent message encrypted to recipient!'),
+                    UserID    => 1,
+                );
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'CryptedOK',
+                    Value     => 1,
+                    UserID    => 1,
+                );
 
                 # return info
                 return (
@@ -188,6 +232,21 @@ sub Check {
 
             # search private cert to decrypt email
             if ( !%PrivateKeys ) {
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Crypted',
+                    Value     => Translatable('Impossible to decrypt: private key not found!'),
+                    UserID    => 1,
+                );
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'CryptedOK',
+                    Value     => 0,
+                    UserID    => 1,
+                );
+
                 push(
                     @Return,
                     {
@@ -214,6 +273,23 @@ sub Check {
             # ok, decryption went fine
             if ( $Decrypt{Successful} ) {
 
+                my $Flag = $Decrypt{Message} ?
+                    ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} ) : Translatable('Successful decryption');
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Crypted',
+                    Value     => $Flag,
+                    UserID    => 1,
+                );
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'CryptedOK',
+                    Value     => 1,
+                    UserID    => 1,
+                );
+
                 push(
                     @Return,
                     {
@@ -231,20 +307,32 @@ sub Check {
                     Message => $Decrypt{Data},
                 );
 
+                if ( !%SignCheck ) {
+                    $ArticleObject->ArticleFlagSet(
+                        TicketID  => $Param{Article}{TicketID},
+                        ArticleID => $Param{Article}{ArticleID},
+                        Key       => 'Signed',
+                        Value     => 'Internal error during verification!',
+                        UserID    => 1,
+                    );
+                    $ArticleObject->ArticleFlagSet(
+                        TicketID  => $Param{Article}{TicketID},
+                        ArticleID => $Param{Article}{ArticleID},
+                        Key       => 'SignedOK',
+                        Value     => 0,
+                        UserID    => 1,
+                    );
+                }
+
                 if ( $SignCheck{SignatureFound} ) {
 
-                    # If the signature was verified well, use the stripped content to store the email.
-                    #   Now it contains only the email without other SMIME generated data.
-                    $EmailContent = $SignCheck{Content} if $SignCheck{Successful};
+                    # Show the content even if verification failed
+                    $EmailContent = $SignCheck{Content} if $SignCheck{Content};
+                }
 
-                    push(
-                        @Return,
-                        {
-                            Key   => Translatable('Signed'),
-                            Value => $SignCheck{Message},
-                            %SignCheck,
-                        }
-                    );
+                # not signed at all
+                elsif ( $SignCheck{Message} =~ /^OpenSSL: Error reading S\/MIME message/ ) {
+                    %SignCheck = ();
                 }
 
                 # parse the decrypted email body
@@ -253,94 +341,55 @@ sub Check {
                 );
                 my $Body = $ParserObject->GetMessageBody();
 
-                # from RFC 3850
-                # 3.  Using Distinguished Names for Internet Mail
-                #
-                #   End-entity certificates MAY contain ...
-                #
-                #    ...
-                #
-                #   Sending agents SHOULD make the address in the From or Sender header
-                #   in a mail message match an Internet mail address in the signer's
-                #   certificate.  Receiving agents MUST check that the address in the
-                #   From or Sender header of a mail message matches an Internet mail
-                #   address, if present, in the signer's certificate, if mail addresses
-                #   are present in the certificate.  A receiving agent SHOULD provide
-                #   some explicit alternate processing of the message if this comparison
-                #   fails, which may be to display a message that shows the recipient the
-                #   addresses in the certificate or other certificate details.
-
-                # as described in bug#5098 and RFC 3850 an alternate mail handling should be
-                # made if sender and signer addresses does not match
-
-                # get original sender from email
-                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
-                my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                    Email => \@OrigEmail,
-                );
-
-                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-                my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
-
-                # compare sender email to signer email
-                my $SignerSenderMatch = 0;
-                SIGNER:
-                for my $Signer ( @{ $SignCheck{Signers} } ) {
-                    if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
-                        $SignerSenderMatch = 1;
-                        last SIGNER;
-                    }
-                }
-
-                # sender email does not match signing certificate!
-                if ( !$SignerSenderMatch ) {
-                    $SignCheck{Successful} = 0;
-                    $SignCheck{Message} =~ s/successful/failed!/;
-                    $SignCheck{Message} .= " (signed by "
-                        . join( ' | ', @{ $SignCheck{Signers} } )
-                        . ")"
-                        . ", but sender address $OrigSender: does not match certificate address!";
-                }
 
                 # Determine if we have decrypted article and attachments before.
                 my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
                     ArticleID => $Self->{ArticleID},
                 );
 
-                if (
-                    !grep { $Index{$_}->{ContentType} =~ m{ application/ (?: x- )? pkcs7-mime }xms } sort keys %Index
-                    )
-                {
-                    return @Return;
-                }
+                if ( grep { $Index{$_}->{ContentType} =~ m{ application/ (?: x- )? pkcs7-mime }xms } sort keys %Index ) {
 
-                # updated article body
-                $ArticleBackendObject->ArticleUpdate(
-                    TicketID  => $Param{Article}->{TicketID},
-                    ArticleID => $Self->{ArticleID},
-                    Key       => 'Body',
-                    Value     => $Body,
-                    UserID    => $ChangeUserID,
-                );
+                    # updated article body
+                    $ArticleBackendObject->ArticleUpdate(
+                        TicketID  => $Param{Article}->{TicketID},
+                        ArticleID => $Self->{ArticleID},
+                        Key       => 'Body',
+                        Value     => $Body,
+                        UserID    => $ChangeUserID,
+                    );
 
-                # delete crypted attachments
-                $ArticleBackendObject->ArticleDeleteAttachment(
-                    ArticleID => $Self->{ArticleID},
-                    UserID    => $ChangeUserID,
-                );
-
-                # write attachments to the storage
-                for my $Attachment ( $ParserObject->GetAttachments() ) {
-                    $ArticleBackendObject->ArticleWriteAttachment(
-                        %{$Attachment},
+                    # delete crypted attachments
+                    $ArticleBackendObject->ArticleDeleteAttachment(
                         ArticleID => $Self->{ArticleID},
                         UserID    => $ChangeUserID,
                     );
-                }
 
-                return @Return;
+                    # write attachments to the storage
+                    for my $Attachment ( $ParserObject->GetAttachments() ) {
+                        $ArticleBackendObject->ArticleWriteAttachment(
+                            %{$Attachment},
+                            ArticleID => $Self->{ArticleID},
+                            UserID    => $ChangeUserID,
+                        );
+                    }
+
+                }
             }
             else {
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Crypted',
+                    Value     => 'Error while decrypting message!',
+                    UserID    => 1,
+                );
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'CryptedOK',
+                    Value     => 0,
+                    UserID    => 1,
+                );
                 push(
                     @Return,
                     {
@@ -352,7 +401,7 @@ sub Check {
             }
         }
 
-        if (
+        elsif (
             $ContentType
             && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i
             && $ContentType =~ /signed/i
@@ -365,7 +414,7 @@ sub Check {
             );
 
             # parse and update clear content
-            if ( %SignCheck && $SignCheck{Successful} && $SignCheck{Content} ) {
+            if ( %SignCheck && $SignCheck{Content} ) {
 
                 my @Email = ();
                 my @Lines = split( /\n/, $SignCheck{Content} );
@@ -377,54 +426,6 @@ sub Check {
                 );
                 my $Body = $ParserObject->GetMessageBody();
 
-                # from RFC 3850
-                # 3.  Using Distinguished Names for Internet Mail
-                #
-                #   End-entity certificates MAY contain ...
-                #
-                #    ...
-                #
-                #   Sending agents SHOULD make the address in the From or Sender header
-                #   in a mail message match an Internet mail address in the signer's
-                #   certificate.  Receiving agents MUST check that the address in the
-                #   From or Sender header of a mail message matches an Internet mail
-                #   address, if present, in the signer's certificate, if mail addresses
-                #   are present in the certificate.  A receiving agent SHOULD provide
-                #   some explicit alternate processing of the message if this comparison
-                #   fails, which may be to display a message that shows the recipient the
-                #   addresses in the certificate or other certificate details.
-
-                # as described in bug#5098 and RFC 3850 an alternate mail handling should be
-                # made if sender and signer addresses does not match
-
-                # get original sender from email
-                my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
-                my $ParserObjectOrig = Kernel::System::EmailParser->new(
-                    Email => \@OrigEmail,
-                );
-
-                my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
-                my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
-
-                # compare sender email to signer email
-                my $SignerSenderMatch = 0;
-                SIGNER:
-                for my $Signer ( @{ $SignCheck{Signers} } ) {
-                    if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
-                        $SignerSenderMatch = 1;
-                        last SIGNER;
-                    }
-                }
-
-                # sender email does not match signing certificate!
-                if ( !$SignerSenderMatch ) {
-                    $SignCheck{Successful} = 0;
-                    $SignCheck{Message} =~ s/successful/failed!/;
-                    $SignCheck{Message} .= " (signed by "
-                        . join( ' | ', @{ $SignCheck{Signers} } )
-                        . ")"
-                        . ", but sender address $OrigSender: does not match certificate address!";
-                }
 
                 # Determine if we have decrypted article and attachments before.
                 my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
@@ -463,40 +464,160 @@ sub Check {
 
             }
 
-            # output signature verification errors
-            elsif (
-                %SignCheck
-                && !$SignCheck{SignatureFound}
-                && !$SignCheck{Successful}
-                && !$SignCheck{Content}
-                )
-            {
-
-                # return result
-                push(
-                    @Return,
-                    {
-                        Key   => Translatable('Signed'),
-                        Value => $SignCheck{Message},
-                        %SignCheck,
-                    }
+            elsif ( !%SignCheck ) {
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Signed',
+                    Value     => 'Internal error during verification!',
+                    UserID    => 1,
+                );
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'SignedOK',
+                    Value     => 0,
+                    UserID    => 1,
                 );
             }
         }
     }
 
-    if ( $SignCheck{SignatureFound} ) {
+    if ( %SignCheck ) {
 
-        # return result
-        push(
-            @Return,
-            {
-                Key   => Translatable('Signed'),
-                Value => $SignCheck{Message},
-                %SignCheck,
+        if ( $SignCheck{SignatureFound} && $SignCheck{Successful} ) {
+
+            # from RFC 3850
+            # 3.  Using Distinguished Names for Internet Mail
+            #
+            #   End-entity certificates MAY contain ...
+            #
+            #    ...
+            #
+            #   Sending agents SHOULD make the address in the From or Sender header
+            #   in a mail message match an Internet mail address in the signer's
+            #   certificate.  Receiving agents MUST check that the address in the
+            #   From or Sender header of a mail message matches an Internet mail
+            #   address, if present, in the signer's certificate, if mail addresses
+            #   are present in the certificate.  A receiving agent SHOULD provide
+            #   some explicit alternate processing of the message if this comparison
+            #   fails, which may be to display a message that shows the recipient the
+            #   addresses in the certificate or other certificate details.
+
+            # as described in bug#5098 and RFC 3850 an alternate mail handling should be
+            # made if sender and signer addresses does not match
+
+            # get original sender from email
+            my $Message = $ArticleBackendObject->ArticlePlain(
+                TicketID  => $Param{Article}->{TicketID},
+                ArticleID => $Self->{ArticleID},
+                UserID    => $Self->{UserID},
+            );
+            my @OrigEmail        = map {"$_\n"} split( /\n/, $Message );
+            my $ParserObjectOrig = Kernel::System::EmailParser->new(
+                Email => \@OrigEmail,
+            );
+
+            my $OrigFrom   = $ParserObjectOrig->GetParam( WHAT => 'From' );
+            my $OrigSender = $ParserObjectOrig->GetEmailAddress( Email => $OrigFrom );
+
+            # compare sender email to signer email
+            my $SignerSenderMatch = 0;
+            SIGNER:
+            for my $Signer ( @{ $SignCheck{Signers} } ) {
+                if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
+                    $SignerSenderMatch = 1;
+                    last SIGNER;
+                }
             }
-        );
-    }
+
+            # sender email does not match signing certificate!
+            if ( !$SignerSenderMatch ) {
+                $SignCheck{Successful} = 0;
+                $SignCheck{Message} =~ s/successful/failed!/;
+                $SignCheck{Message} .= " (signed by "
+                    . join( ' | ', @{ $SignCheck{Signers} } )
+                    . ")"
+                    . ", but sender address $OrigSender: does not match certificate address!";
+
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'SignedOK',
+                    Value     => 0,
+                    UserID    => 1,
+                );
+                my $Flag = $SignCheck{Message} ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ).'... (see info)' : $SignCheck{Message} ) : 'Verification OK.';
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Signed',
+                    Value     => $Flag,
+                    UserID    => 1,
+                );
+            }
+            else {
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'SignedOK',
+                    Value     => 1,
+                    UserID    => 1,
+                );
+                my $Flag = $SignCheck{Message} ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} ) : 'Verification OK.';
+                $ArticleObject->ArticleFlagSet(
+                    TicketID  => $Param{Article}{TicketID},
+                    ArticleID => $Param{Article}{ArticleID},
+                    Key       => 'Signed',
+                    Value     => $Flag,
+                    UserID    => 1,
+                );
+            }
+
+            # return result
+            push(
+                @Return,
+                {
+                    Key   => Translatable('Signed'),
+                    Value => $SignCheck{Message} || 'Verification OK.',
+                    %SignCheck,
+                }
+            );
+        }
+
+        # some errors occured
+        else {
+
+            $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{Article}{TicketID},
+                ArticleID => $Param{Article}{ArticleID},
+                Key       => 'Signed',
+                Value     => 'Signed message, but unable to verify!',
+                UserID    => 1,
+            );
+            $ArticleObject->ArticleFlagSet(
+                TicketID  => $Param{Article}{TicketID},
+                ArticleID => $Param{Article}{ArticleID},
+                Key       => 'SignedOK',
+                Value     => 0,
+                UserID    => 1,
+            );
+
+            # return result
+            push(
+                @Return,
+                {
+                    Key   => Translatable('Signed'),
+                    Value => $SignCheck{Message} || 'Signed message, but unable to verify!',
+                    %SignCheck,
+                }
+            );
+        }
+
+    }    
+
     return @Return;
 }
 

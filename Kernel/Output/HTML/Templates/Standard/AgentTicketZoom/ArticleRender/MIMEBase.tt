@@ -31,6 +31,7 @@
 [% END %]
             </h2>
             <div class="ActionMenu Visible">
+                [% Data.Crypt %]
                 <div class="WidgetAction Expand">
                     <a href="#" title="[% Translate("Toggle article details") | html %]"><i class="fa fa-info"></i></a>
                 </div>

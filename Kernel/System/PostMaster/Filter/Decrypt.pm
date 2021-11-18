@@ -70,7 +70,7 @@ sub Run {
         $ContentType      = $Param{GetParam}->{'Content-Type'} || '';
         $EncryptionMethod = 'PGP';
     }
-    elsif ( $Param{GetParam}->{'Content-Type'} =~ /application\/(x-pkcs7|pkcs7)-mime/i ) {
+    elsif ( $Param{GetParam}->{'Content-Type'} =~ /application\/(x-pkcs7|pkcs7)/i ) {
         $EncryptionMethod = 'SMIME';
         $ContentType      = $Param{GetParam}->{'Content-Type'} || '';
     }
@@ -209,9 +209,9 @@ sub _DecryptSMIME {
     }
 
     # SMIME crypt object
-    my $CryptObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-    if ( !$CryptObject ) {
+    if ( !$SMIMEObject ) {
         $Self->{CommunicationLogObject}->ObjectLog(
             ObjectLogType => 'Message',
             Priority      => 'Error',
@@ -221,54 +221,239 @@ sub _DecryptSMIME {
         return;
     }
 
-    my $IncomingMailAddress;
-    for my $Email (qw(From)) {
+    my %SignCheck;
 
-        my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
-            Line => $Self->{ParserObject}->GetParam( WHAT => $Email ),
-        );
+    if (
+        $ContentType
+        && $ContentType =~ /application\/(x-pkcs7|pkcs7)-mime/i
+        && $ContentType !~ /signed/i
+        )
+    {
 
-        for my $EmailAddress (@EmailAddressOnField) {
-            $IncomingMailAddress = $Self->{ParserObject}->GetEmailAddress(
-                Email => $EmailAddress,
+        # get all email addresses on article
+        my %EmailsToSearch;
+        for my $Email (qw(Resent-To Envelope-To To Cc Delivered-To X-Original-To)) {
+
+            my @EmailAddressOnField = $Self->{ParserObject}->SplitAddressLine(
+                Line => $Self->{ParserObject}->GetParam( WHAT => $Email ),
             );
+
+            # filter email addresses avoiding repeated and save on hash to search
+            for my $EmailAddress (@EmailAddressOnField) {
+                my $CleanEmailAddress = $Self->{ParserObject}->GetEmailAddress(
+                    Email => $EmailAddress,
+                );
+                $EmailsToSearch{$CleanEmailAddress} = '1';
+            }
+        }
+
+        # look for private keys for every email address
+        # extract every resulting cert and put it into an hash of hashes avoiding repeated
+        my %PrivateKeys;
+        for my $EmailAddress ( sort keys %EmailsToSearch ) {
+            my @PrivateKeysResult = $SMIMEObject->PrivateSearch(
+                Search => $EmailAddress,
+            );
+            for my $Cert (@PrivateKeysResult) {
+                $PrivateKeys{ $Cert->{Filename} } = $Cert;
+            }
+        }
+
+        # search private cert to decrypt email
+        if ( !%PrivateKeys ) {
+            $Param{GetParam}{Crypted} = 'Impossible to decrypt: private key not found!';
+            return;
+        }
+
+        my %Decrypt;
+        PRIVATESEARCH:
+        for my $CertResult ( values %PrivateKeys ) {
+
+            # decrypt
+            %Decrypt = $SMIMEObject->Decrypt(
+                Message            => $DecryptBody,
+                SearchingNeededKey => 1,
+                %{$CertResult},
+            );
+            last PRIVATESEARCH if ( $Decrypt{Successful} );
+        }
+
+        # ok, decryption went fine
+        if ( $Decrypt{Successful} ) {
+            my $Flag = $Decrypt{Message} ?
+                ( length( $Decrypt{Message} ) > 50 ? substr( $Decrypt{Message}, 0, 50 ) : $Decrypt{Message} ) : Translatable('Successful decryption');
+            $Param{GetParam}{Crypted}   = $Flag;
+            $Param{GetParam}{CryptedOK} = 1;
+
+            # store decrypted data
+            my $EmailContent = $Decrypt{Data};
+
+            # now check if the data contains a signature too
+            %SignCheck = $SMIMEObject->Verify(
+                Message => $Decrypt{Data},
+            );
+
+            if ( !%SignCheck ) {
+                $Param{GetParam}{Signed} = 'Internal error during verification!';
+            }
+            elsif ( $SignCheck{SignatureFound} && $SignCheck{Content} ) {
+                $EmailContent = $SignCheck{Content};
+            }
+            # not signed at all
+            elsif ( $SignCheck{Message} =~ /^OpenSSL: Error reading S\/MIME message/ ) {
+                %SignCheck = ();
+            }
+
+            # parse the decrypted email body
+            my $ParserObject = Kernel::System::EmailParser->new(
+                Email => $EmailContent
+            );
+
+            # overwrite the old content
+            $Param{GetParam}{Body}                  = $ParserObject->GetMessageBody();
+            $Param{GetParam}{'Content-Type'}        = $ParserObject->GetReturnContentType();
+            $Param{GetParam}{'Content-Disposition'} = $ParserObject->GetContentDisposition();
+            $Param{GetParam}{Charset}               = $ParserObject->GetReturnCharset();
+            $Self->{ParserObject}{MessageBody}      = $Param{GetParam}{Body};
+
+            my @Attachments = $ParserObject->GetAttachments();
+            if ( @Attachments ) {
+                $Param{GetParam}{Attachment}       = \@Attachments;
+                $Self->{ParserObject}{Attachments} = \@Attachments;
+            }
+            $Self->{ParserObject}{MimeEmail}   = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
+        }
+
+        # unsuccessful decrypt
+        else {
+            $Param{GetParam}{Crypted} = 'Error while decrypting message!';
+            return;
         }
     }
 
-    my @PrivateList = $CryptObject->PrivateSearch(
-        Search => $IncomingMailAddress,
-    );
+    elsif (
+        $ContentType
+        && $ContentType =~ /application\/(x-pkcs7|pkcs7)/i
+        && $ContentType =~ /signed/i
+        )
+    {
 
-    my %Decrypt;
-    PRIVATESEARCH:
-    for my $PrivateFilename (@PrivateList) {
-
-        # Try to decrypt
-        %Decrypt = $CryptObject->Decrypt(
-            Message            => $DecryptBody,
-            SearchingNeededKey => 1,
-            Filename           => $PrivateFilename->{Filename},
+        # check sign and get clear content
+        %SignCheck = $SMIMEObject->Verify(
+            Message => $DecryptBody,
         );
 
-        # Stop loop if successful
-        last PRIVATESEARCH if ( $Decrypt{Successful} );
+        if ( %SignCheck && $SignCheck{Content} ) {
+
+            my @Email = ();
+            my @Lines = split( /\n/, $SignCheck{Content} );
+            for (@Lines) {
+                push( @Email, $_ . "\n" );
+            }
+            my $ParserObject = Kernel::System::EmailParser->new(
+                Email => \@Email,
+            );
+
+            # overwrite the old content
+            $Param{GetParam}{Body}                  = $ParserObject->GetMessageBody();
+            $Param{GetParam}{'Content-Type'}        = $ParserObject->GetReturnContentType();
+            $Param{GetParam}{'Content-Disposition'} = $ParserObject->GetContentDisposition();
+            $Param{GetParam}{Charset}               = $ParserObject->GetReturnCharset();
+            $Self->{ParserObject}{MessageBody}      = $Param{GetParam}{Body};
+
+            my @Attachments = $ParserObject->GetAttachments();
+            if ( @Attachments ) {
+                $Param{GetParam}{Attachment}       = \@Attachments;
+                $Self->{ParserObject}{Attachments} = \@Attachments;
+            }
+            $Self->{ParserObject}{MimeEmail}   = ( $ParserObject->{ParserParts}->parts() > 0 ? 1 : 0 );
+
+        }
+
+        elsif ( !%SignCheck ) {
+            $Param{GetParam}{Signed} = 'Internal error during verification!';
+            return;
+        }
     }
 
-    return if !$Decrypt{Successful};
+    elsif ( $DecryptBody =~ m{^-----BEGIN PKCS7-----}i ) {
+        %SignCheck = $SMIMEObject->Verify( Message => $DecryptBody );
+        if ( !%SignCheck ) {
+            $Param{GetParam}{Signed} = 'Internal error during verification!';
+            return;
+        }
+    }
 
-    my $ParserObject = Kernel::System::EmailParser->new(
-        %{$Self},
-        Email => $Decrypt{Data},
-    );
-    $DecryptBody = $ParserObject->GetMessageBody();
+    # evaluate verification output
+    if ( %SignCheck ) {
 
-    if ( $Param{JobConfig}->{StoreDecryptedBody} ) {
-        $Param{GetParam}->{Body}           = $DecryptBody;
-        $Param{GetParam}->{'Content-Type'} = 'text/html';
+        if ( $SignCheck{SignatureFound} && $SignCheck{Successful} ) {
+
+            # from RFC 3850
+            # 3.  Using Distinguished Names for Internet Mail
+            #
+            #   End-entity certificates MAY contain ...
+            #
+            #    ...
+            #
+            #   Sending agents SHOULD make the address in the From or Sender header
+            #   in a mail message match an Internet mail address in the signer's
+            #   certificate.  Receiving agents MUST check that the address in the
+            #   From or Sender header of a mail message matches an Internet mail
+            #   address, if present, in the signer's certificate, if mail addresses
+            #   are present in the certificate.  A receiving agent SHOULD provide
+            #   some explicit alternate processing of the message if this comparison
+            #   fails, which may be to display a message that shows the recipient the
+            #   addresses in the certificate or other certificate details.
+
+            # as described in bug#5098 and RFC 3850 an alternate mail handling should be
+            # made if sender and signer addresses does not match
+
+            # get original sender from email
+            my $OrigFrom   = $Self->{ParserObject}->GetParam( WHAT => 'From' );
+            my $OrigSender = $Self->{ParserObject}->GetEmailAddress( Email => $OrigFrom );
+
+            # compare sender email to signer email
+            my $SignerSenderMatch = 0;
+            SIGNER:
+            for my $Signer ( @{ $SignCheck{Signers} } ) {
+                if ( $OrigSender =~ m{\A \Q$Signer\E \z}xmsi ) {
+                    $SignerSenderMatch = 1;
+                    last SIGNER;
+                }
+            }
+
+            # sender email does not match signing certificate!
+            if ( !$SignerSenderMatch ) {
+                $SignCheck{Successful} = 0;
+                $SignCheck{Message} =~ s/successful/failed!/;
+                $SignCheck{Message} .= " (signed by "
+                    . join( ' | ', @{ $SignCheck{Signers} } )
+                    . ")"
+                    . ", but sender address $OrigSender: does not match certificate address!";
+
+                my $Flag = $SignCheck{Message} ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 30 ).'... (see info)' : $SignCheck{Message} ) : 'Verification OK.';
+                $Param{GetParam}{Signed} = $Flag;
+                return;
+            }
+            else {
+                my $Flag = $SignCheck{Message} ?
+                    ( length( $SignCheck{Message} ) > 50 ? substr( $SignCheck{Message}, 0, 50 ) : $SignCheck{Message} ) : 'Verification OK.';
+                $Param{GetParam}{Signed}   = $Flag;
+                $Param{GetParam}{SignedOK} = 1;
+            }
+        }
+
+        # some errors occured
+        else {
+            $Param{GetParam}{Signed} = 'Signed message, but unable to verify!';
+            return;
+        }
     }
 
     # Return content if successful
-    return $DecryptBody;
+    return $Param{GetParam}{Body};
 }
 
 1;
