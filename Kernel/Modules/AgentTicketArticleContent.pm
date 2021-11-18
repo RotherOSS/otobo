@@ -15,10 +15,12 @@
 # --
 
 package Kernel::Modules::AgentTicketArticleContent;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
+use utf8;
 
 our $ObjectManagerDisabled = 1;
 
@@ -26,10 +28,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -38,7 +37,7 @@ sub Run {
     # get param object
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    # get ArticleID
+    # get IDs
     my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
 
@@ -52,6 +51,7 @@ sub Run {
             Message  => 'TicketID and ArticleID are needed!',
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 
@@ -91,6 +91,7 @@ sub Run {
             Message  => 'No such article!',
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 

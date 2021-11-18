@@ -231,36 +231,45 @@ my $SyncFromS3Middleware = sub {
 # The modules in Kernel/Config/Files must be exempted from the reloading
 # as it is OK when they are removed. These not removed modules are reloaded
 # for every request in Kernel::Config::Defaults::new().
-my $ModuleRefreshMiddleware;
-{
-    my $RefreshCooldown = 10;
-    my $LastRefreshTime = time - 10;
-    Module::Refresh->new();
+my $ModuleRefreshMiddleware = sub {
+    my $App = shift;
 
-    $ModuleRefreshMiddleware = sub {
-        my $App = shift;
+    return sub {
+        my $Env = shift;
 
-        return sub {
-            my $Env = shift;
+        # make sure that there is a refresh in the first iteration
+        state $LastRefreshTime = 0;
 
-            # don't do work for every request, just every $RefreshCooldown secondes
-            if ( time > $LastRefreshTime + $RefreshCooldown ) {
+        # don't do work for every request, just every $RefreshCooldown secondes
+        my $Now                     = time;
+        my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
+        my $RefreshCooldown         = 10;
 
-                $LastRefreshTime = time;
+        # Maybe useful for debugging, these vars can be printed out in frontend modules
+        # See https://github.com/RotherOSS/otobo/issues/1422
+        #$Kernel::Now = $Now;
+        #$Kernel::SecondsSinceLastRefresh = $SecondsSinceLastRefresh;
+        #$Kernel::LastRefreshTime         = $LastRefreshTime;
 
-                # refresh modules, igoring the files in Kernel/Config/Files
-                MODULE:
-                for my $Module ( sort keys %INC ) {
-                    next MODULE if $Module =~ m[^Kernel/Config/Files/];
+        if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
 
-                    Module::Refresh->refresh_module_if_modified($Module);
-                }
+            $LastRefreshTime = $Now;
+
+            # refresh modules, igoring the files in Kernel/Config/Files
+            MODULE:
+            for my $Module ( sort keys %INC ) {
+                next MODULE if $Module =~ m[^Kernel/Config/Files/];
+
+                Module::Refresh->refresh_module_if_modified($Module);
             }
 
-            return $App->($Env);
-        };
+            # for debugging
+            #$Kernel::RefreshDone = 1;
+        }
+
+        return $App->($Env);
     };
-}
+};
 
 ################################################################################
 # Apps

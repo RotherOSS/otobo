@@ -752,7 +752,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             }
         }
 
-        my @SystemIDs = map { sprintf "%02d", $_ } ( 0 .. 99 );
+        my @SystemIDs = map { sprintf '%02d', $_ } ( 0 .. 99 );
 
         $Param{SystemIDString} = $LayoutObject->BuildSelection(
             Data       => \@SystemIDs,
@@ -803,7 +803,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         my $Success = 0;
 
         # activate it
-        if ( $ESWebservice ) {
+        if ($ESWebservice) {
             $Success = $WebserviceObject->WebserviceUpdate(
                 %{$ESWebservice},
                 ValidID => 1,
@@ -817,7 +817,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         }
 
         # try to set up Elasticsearch
-        if ( $Success ) {
+        if ($Success) {
             ( $Success, my $FatalError ) = $ESObject->InitialSetup();
 
             $LayoutObject->FatalError() if $FatalError;
@@ -1120,7 +1120,7 @@ sub ReConfigure {
     close $In;
 
     # Write new config file.
-    open( my $Out, '>:utf8', $ConfigFile )                                          ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
+    open my $Out, '>:utf8', $ConfigFile                                             ## no critic qw(InputOutput::RequireEncodingWithUTF8Layer OTOBO::ProhibitOpen)
         or $LayoutObject->FatalError( Message => "Can't open $ConfigFile: $!" );    ## no critic qw(OTOBO::ProhibitLowPrecedenceOps)
     print $Out $Config;
     close $Out;
