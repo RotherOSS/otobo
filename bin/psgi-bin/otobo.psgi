@@ -231,38 +231,35 @@ my $SyncFromS3Middleware = sub {
 # The modules in Kernel/Config/Files must be exempted from the reloading
 # as it is OK when they are removed. These not removed modules are reloaded
 # for every request in Kernel::Config::Defaults::new().
-my $ModuleRefreshMiddleware;
-{
-    $ModuleRefreshMiddleware = sub {
-        my $App = shift;
+my $ModuleRefreshMiddleware = sub {
+    my $App = shift;
 
-        return sub {
-            my $Env = shift;
+    return sub {
+        my $Env = shift;
 
-            # make sure that there is a refresh in the first iteration
-            state $LastRefreshTime = 0;
+        # make sure that there is a refresh in the first iteration
+        state $LastRefreshTime = 0;
 
-            # don't do work for every request, just every $RefreshCooldown secondes
-            my $Now = time;
-            my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
-            my $RefreshCooldown = 10;
-            if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
+        # don't do work for every request, just every $RefreshCooldown secondes
+        my $Now = time;
+        my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
+        my $RefreshCooldown = 10;
+        if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
 
-                $LastRefreshTime = $Now;
+            $LastRefreshTime = $Now;
 
-                # refresh modules, igoring the files in Kernel/Config/Files
-                MODULE:
-                for my $Module ( sort keys %INC ) {
-                    next MODULE if $Module =~ m[^Kernel/Config/Files/];
+            # refresh modules, igoring the files in Kernel/Config/Files
+            MODULE:
+            for my $Module ( sort keys %INC ) {
+                next MODULE if $Module =~ m[^Kernel/Config/Files/];
 
-                    Module::Refresh->refresh_module_if_modified($Module);
-                }
+                Module::Refresh->refresh_module_if_modified($Module);
             }
+        }
 
-            return $App->($Env);
-        };
+        return $App->($Env);
     };
-}
+};
 
 ################################################################################
 # Apps
