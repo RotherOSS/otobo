@@ -241,9 +241,16 @@ my $ModuleRefreshMiddleware = sub {
         state $LastRefreshTime = 0;
 
         # don't do work for every request, just every $RefreshCooldown secondes
-        my $Now = time;
+        my $Now                     = time;
         my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
-        my $RefreshCooldown = 10;
+        my $RefreshCooldown         = 10;
+
+        # Maybe useful for debugging, these vars can be printed out in frontend modules
+        # See https://github.com/RotherOSS/otobo/issues/1422
+        #$Kernel::Now = $Now;
+        #$Kernel::SecondsSinceLastRefresh = $SecondsSinceLastRefresh;
+        #$Kernel::LastRefreshTime         = $LastRefreshTime;
+
         if ( $SecondsSinceLastRefresh > $RefreshCooldown ) {
 
             $LastRefreshTime = $Now;
@@ -255,6 +262,9 @@ my $ModuleRefreshMiddleware = sub {
 
                 Module::Refresh->refresh_module_if_modified($Module);
             }
+
+            # for debugging
+            #$Kernel::RefreshDone = 1;
         }
 
         return $App->($Env);
