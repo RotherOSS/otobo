@@ -96,6 +96,12 @@ requires 'Const::Fast';
 # Feature 'apache:mod_perl' is not needed for Docker
 
 
+# feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
+
+# };
+
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
     requires 'DBD::mysql';
