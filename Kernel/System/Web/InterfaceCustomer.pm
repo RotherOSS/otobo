@@ -265,7 +265,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         my $PreventBruteForceConfig = $ConfigObject->Get('SimpleBruteForceProtection::GeneralSettings');
 
         # if simplebruteforceconfig is valid
-        if ($PreventBruteForceConfig) {
+        if ( $PreventBruteForceConfig && $PostUser ) {
 
             # check if the login is banned
             my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
@@ -319,6 +319,13 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             Pw             => $PostPw,
             TwoFactorToken => $PostTwoFactorToken,
         );
+
+        # additional tasks / info
+        my $PostAuth = $AuthObject->PostAuth();
+
+        if ($PostAuth) {
+            $Param{RequestedURL} = $PostAuth->{RequestedURL} // $Param{RequestedURL};
+        }
 
         # login is invalid
         if ( !$User ) {
@@ -631,6 +638,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         if ( $ConfigObject->Get('CustomerPanelLogoutURL') ) {
             $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('CustomerPanelLogoutURL'),
+            );    # throws a Kernel::System::Web::Exception
+        }
+
+        # try auth module specific logout
+        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::CustomerAuth')->Logout();
+        if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
+            $LayoutObject->Redirect(
+                ExtURL => $LogoutInfo->{LogoutURL},
             );    # throws a Kernel::System::Web::Exception
         }
 
@@ -1035,6 +1050,16 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+            my $PreAuth = $AuthObject->PreAuth(
+                RequestedURL => $Param{RequestedURL},
+            );
+
+            if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                $LayoutObject->Redirect(
+                    ExtURL => $PreAuth->{RedirectURL},
+                );    # throws a Kernel::System::Web::Exception
+            }
+
             $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
             );    # throws a Kernel::System::Web::Exception
@@ -1122,6 +1147,16 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
+
+                my $PreAuth = $AuthObject->PreAuth(
+                    RequestedURL => $Param{RequestedURL},
+                );
+
+                if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                    $LayoutObject->Redirect(
+                        ExtURL => $PreAuth->{RedirectURL},
+                    );    # throws a Kernel::System::Web::Exception
+                }
 
                 $LayoutObject->Redirect(
                     OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",

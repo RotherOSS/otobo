@@ -153,7 +153,7 @@ sub Auth {
     COUNT:
     for my $Count ( '', 1 .. 10 ) {
 
-        # return on no config setting
+        # next on no config setting
         next COUNT if !$Self->{"AuthBackend$Count"};
 
         # check auth backend
@@ -357,6 +357,56 @@ sub Auth {
     );
 
     return $User;
+}
+
+=head2 PreAuth()
+
+Call the PreAuth method of the AuthBackend
+
+    my $PreAuthInfo = $AuthObject->PreAuth(
+        RequestedURL => $RequestedURL,
+    );
+
+=cut
+
+sub PreAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PreAuth');
+
+    return $Self->{AuthBackend}->PreAuth(%Param);
+}
+
+=head2 PostAuth()
+
+Call the PostAuth method of the AuthBackend
+
+    my $PostAuthInfo = $AuthObject->PostAuth();
+
+=cut
+
+sub PostAuth {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('PostAuth');
+
+    return $Self->{AuthBackend}->PostAuth(%Param);
+}
+
+=head2 Logout()
+
+Call the Logout method of the AuthBackend
+
+    my $LogoutInfo = $AuthObject->Logout();
+
+=cut
+
+sub Logout {
+    my ( $Self, %Param ) = @_;
+
+    return if !$Self->{AuthBackend}->can('Logout');
+
+    return $Self->{AuthBackend}->Logout(%Param);
 }
 
 =head2 GetLastErrorMessage()

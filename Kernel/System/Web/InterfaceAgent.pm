@@ -265,7 +265,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         my $PreventBruteForceConfig = $ConfigObject->Get('SimpleBruteForceProtection::GeneralSettings');
 
         # if simplebruteforceconfig is valid
-        if ($PreventBruteForceConfig) {
+        if ( $PreventBruteForceConfig && $PostUser ) {
 
             # check if the login is banned
             my $CacheObject   = $Kernel::OM->Get('Kernel::System::Cache');
@@ -319,6 +319,13 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             Pw             => $PostPw,
             TwoFactorToken => $PostTwoFactorToken,
         );
+
+        # additional tasks / info
+        my $PostAuth = $AuthObject->PostAuth();
+
+        if ($PostAuth) {
+            $Param{RequestedURL} = $PostAuth->{RequestedURL} // $Param{RequestedURL};
+        }
 
         # login is invalid
         if ( !$User ) {
@@ -675,6 +682,14 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );    # throws a Kernel::System::Web::Exception
         }
 
+        # try auth module specific logout
+        my $LogoutInfo = $Kernel::OM->Get('Kernel::System::Auth')->Logout();
+        if ( $LogoutInfo && $LogoutInfo->{LogoutURL} ) {
+            $LayoutObject->Redirect(
+                ExtURL => $LogoutInfo->{LogoutURL},
+            );    # throws a Kernel::System::Web::Exception
+        }
+
         # show logout screen
         return $LayoutObject->Login(
             Title       => 'Logout',
@@ -873,9 +888,19 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             # automatic login
             $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+            my $PreAuth = $AuthObject->PreAuth(
+                RequestedURL => $Param{RequestedURL},
+            );
+
+            if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                $LayoutObject->Redirect(
+                    ExtURL => $PreAuth->{RedirectURL},
+                );    # throws a Kernel::System::Web::Exception
+            }
+
             $LayoutObject->Redirect(
                 OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-            );    # throws a Kernel::System::Web::Exception
+            );        # throws a Kernel::System::Web::Exception
         }
         elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -885,7 +910,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             $LayoutObject->Redirect(
                 ExtURL => $ConfigObject->Get('LoginURL')
                     . "?RequestedURL=$Param{RequestedURL}",
-            );    # throws a Kernel::System::Web::Exception
+            );        # throws a Kernel::System::Web::Exception
         }
 
         # login screen
@@ -961,9 +986,19 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 # automatic re-login
                 $Param{RequestedURL} = $LayoutObject->LinkEncode( $Param{RequestedURL} );
 
+                my $PreAuth = $AuthObject->PreAuth(
+                    RequestedURL => $Param{RequestedURL},
+                );
+
+                if ( $PreAuth && $PreAuth->{RedirectURL} ) {
+                    $LayoutObject->Redirect(
+                        ExtURL => $PreAuth->{RedirectURL},
+                    );    # throws a Kernel::System::Web::Exception
+                }
+
                 $LayoutObject->Redirect(
-                    OP => "?Action=PreLogin&RequestedURL=$Param{RequestedURL}",
-                );    # throws a Kernel::System::Web::Exception
+                    OP => "Action=PreLogin&RequestedURL=$Param{RequestedURL}",
+                );        # throws a Kernel::System::Web::Exception
             }
             elsif ( $ConfigObject->Get('LoginURL') ) {
 
@@ -973,7 +1008,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $LayoutObject->Redirect(
                     ExtURL => $ConfigObject->Get('LoginURL')
                         . "?Reason=InvalidSessionID&RequestedURL=$Param{RequestedURL}",
-                );    # throws a Kernel::System::Web::Exception
+                );        # throws a Kernel::System::Web::Exception
             }
 
             # show login
