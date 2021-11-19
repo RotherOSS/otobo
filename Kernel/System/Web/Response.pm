@@ -60,16 +60,16 @@ sub new {
     my ( $Class, @Args ) = @_;
 
     # wrap an instance of Plack::Response
-    my $Self = {
-        Response => Plack::Response->new(@Args),
-    };
-
-    return bless $Self, $Class;
+    return bless
+        {
+            Response => Plack::Response->new(@Args),
+        },
+        $Class;
 }
 
 =head2 Headers()
 
-a wrapper of Plack::Response::headers().
+a wrapper around Plack::Response::headers().
 
 =cut
 
@@ -81,7 +81,7 @@ sub Headers {
 
 =head2 Header()
 
-a wrapper of Plack::Response::header().
+a wrapper around Plack::Response::header().
 
 =cut
 
@@ -93,7 +93,7 @@ sub Header {
 
 =head2 Cookies()
 
-a wrapper of Plack::Response::cookies().
+a wrapper around Plack::Response::cookies().
 
 =cut
 
@@ -105,7 +105,7 @@ sub Cookies {
 
 =head2 Code()
 
-a wrapper of Plack::Response::code().
+a wrapper around Plack::Response::code().
 
 =cut
 
@@ -117,24 +117,24 @@ sub Code {
 
 =head2 Content()
 
-a wrapper of Plack::Response::content().
+a wrapper around Plack::Response::content().
 
 =cut
 
 sub Content {
     my ( $Self, @Args ) = @_;
 
-    return $Self->{Response}->content(@Args);
+    return $Self->{Response}->body(@Args);
 }
 
 =head2 Finalize()
 
-a wrapper of Plack::Response::finalize().
+a wrapper around Plack::Response::finalize().
 
 =cut
 
 sub Finalize {
-    my $Self = shift;
+    my ($Self) = @_;
 
     return $Self->{Response}->finalize();
 }
