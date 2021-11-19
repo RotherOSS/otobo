@@ -94,6 +94,7 @@ sub Run {
             Message  => "No such attachment ($FileID).",
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 

@@ -431,7 +431,9 @@ my $OTOBOApp = builder {
             # make sure that the managed objects will be recreated for the current request
             local $Kernel::OM = Kernel::System::ObjectManager->new();
 
-            # do the work, return a not encoded Perl string from the appropriate interface module to Plack
+            # do the work, return one of:
+            # - a not encoded Perl string from the appropriate interface module to Plack
+            # - a file handle
             my $Content = eval {
 
                 if ( $ScriptFileName eq 'customer.pl' ) {
@@ -475,6 +477,7 @@ my $OTOBOApp = builder {
             if ( $HasOutputFilter{$ScriptFileName} ) {
                 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
+                # the content generators are responsible for that Content is really a string
                 $LayoutObject->ApplyOutputFilters( Output => \$Content );
             }
 
@@ -493,9 +496,7 @@ my $OTOBOApp = builder {
             if ( $Charset eq 'UTF-8' ) {
                 utf8::encode($Content);
             }
-            $ResponseObject->Content($Content);
-
-            # for debugging: warn DDump( $ResponseObject->{Response}->{body} )
+            $ResponseObject->Content($Content);    # a file handle is acceptable here
 
             # return the PSGI response, a funnny unblessed array reference with three elements
             return $ResponseObject->Finalize();
