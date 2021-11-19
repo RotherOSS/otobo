@@ -30,7 +30,7 @@ use Unicode::Normalize qw();
 use Cwd qw(realpath);
 
 # CPAN modules
-use Plack::Util qw(set_io_path);
+use Plack::Util;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
@@ -828,7 +828,7 @@ sub ArticleAttachment {
                     ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
                     open my $ContentFH, '<:raw', $Filename
                         or return;
-                    set_io_path( $ContentFH, realpath($Filename) );
+                    Plack::Util::set_io_path( $ContentFH, realpath($Filename) );
                     $Data{Content} = $ContentFH;
                 }
                 else {

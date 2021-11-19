@@ -30,7 +30,7 @@ use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::URL;
 use Mojo::AWS::S3;
-use Plack::Util qw(set_io_path);
+use Plack::Util;
 
 # OTOBO modules
 
@@ -349,7 +349,7 @@ sub RetrieveObject {
         open my $ContentFH, '<:raw', $Location
             or return;
 
-        set_io_path( $ContentFH, realpath($Location) );
+        Plack::Util::set_io_path( $ContentFH, realpath($Location) );
 
         $Data{Content} = $ContentFH;
     }
