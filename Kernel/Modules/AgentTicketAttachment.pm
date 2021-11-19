@@ -94,8 +94,9 @@ sub Run {
 
     # get a attachment
     my %Data = $ArticleBackendObject->ArticleAttachment(
-        ArticleID => $ArticleID,
-        FileID    => $FileID,
+        ArticleID              => $ArticleID,
+        FileID                 => $FileID,
+        ContentMayBeFilehandle => $ContentMayBeFilehandle,
     );
     if ( !%Data ) {
         $LogObject->Log(

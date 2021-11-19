@@ -21,13 +21,16 @@ use v5.24;
 use utf8;
 
 # core modules
-use File::Basename qw(basename);
+use File::Basename qw(basename dirname);
+use File::Path qw(make_path);
+use Cwd qw(realpath);
 
 # CPAN modules
 use Mojo::UserAgent;
 use Mojo::Date;
 use Mojo::URL;
 use Mojo::AWS::S3;
+use Plack::Util qw(set_io_path);
 
 # OTOBO modules
 
@@ -328,7 +331,31 @@ sub RetrieveObject {
 
     return unless $Data{ContentType};
 
-    $Data{Content} = $Transaction->res->body;
+    if ( $Param{ContentMayBeFilehandle} && $Transaction->res->content->asset->is_file ) {
+
+        # Mojo::UserAgent has written the response conten to a temporary file.
+        # Move that file to the same location where ArticleStorageFS would put it.
+        # Then proceed like in ArticleStorageFS.
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        my $Home         = $ConfigObject->Get('Home');
+        my $Location     = $Param{Key} =~ s!^OTOBO/!$Home/!r;    # same location as in ArticleStorageFS
+                                                                 # inject PID to avoid interaction between different processes
+        $Location = join '/', dirname($Location), "pid-$$", basename($Location);
+        unlink $Location;                                        # for now we don't want any caching,
+        make_path( dirname($Location) );
+        $Transaction->res->content->asset->move_to($Location);    # moved file won't be cleaned up
+
+        ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
+        open my $ContentFH, '<:raw', $Location
+            or return;
+
+        set_io_path( $ContentFH, realpath($Location) );
+
+        $Data{Content} = $ContentFH;
+    }
+    else {
+        $Data{Content} = $Transaction->res->body;
+    }
 
     return unless defined $Data{Content};
 
