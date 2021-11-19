@@ -492,9 +492,11 @@ my $OTOBOApp = builder {
             # The content is UTF-8 encoded when the header Content-Type has been set up like:
             #   'Content-Type'    => 'text/html; charset=utf-8'
             # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
-            my $Charset = $ResponseObject->Headers->content_type_charset // '';
-            if ( $Charset eq 'UTF-8' ) {
-                utf8::encode($Content);
+            if ( !ref $Content || ref $Content eq 'ARRAY' ) {
+                my $Charset = $ResponseObject->Headers->content_type_charset // '';
+                if ( $Charset eq 'UTF-8' ) {
+                    utf8::encode($Content);
+                }
             }
             $ResponseObject->Content($Content);    # a file handle is acceptable here
 
