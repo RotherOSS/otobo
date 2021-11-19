@@ -19,14 +19,17 @@ package Kernel::Output::HTML::Layout;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
 use Digest::MD5 qw(md5_hex);
+use Scalar::Util qw(blessed);
 
 # CPAN modules
-use URI::Escape qw();
+use URI::Escape qw(uri_escape_utf8);
 use Plack::Response;
+use Plack::Util;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -2211,7 +2214,7 @@ sub LinkEncode {
 
     return if !defined $Link;
 
-    return URI::Escape::uri_escape_utf8($Link);
+    return uri_escape_utf8($Link);
 }
 
 sub CustomerAgeInHours {
@@ -2712,19 +2715,27 @@ sub Attachment {
         if ( $Param{Filename} ) {
 
             # IE 10+ supports this
-            my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+            my $URLEncodedFilename = uri_escape_utf8( $Param{Filename} );
             $ContentDisposition .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
         }
         $Headers{'Content-Disposition'} = $ContentDisposition;
     }
-
-    # Content-Length will be added in Finalize()
 
     # add no cache headers
     if ( $Param{NoCache} ) {
         $Headers{'Expires'}       = 'Tue, 1 Jan 1980 12:00:00 GMT';
         $Headers{'Cache-Control'} = 'no-cache';
         $Headers{'Pragma'}        = 'no-cache';
+    }
+
+    # Add Content-Length for attachments.
+    # The content is either a IO::Handle like object or a string.
+    # TODO: why is Content-Length added only for attachments?
+    if ( Scalar::Util::blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
+        $Headers{'Content-Length'} = Plack::Util::content_length( $Param{Content} );
+    }
+    else {
+        $Headers{'Content-Length'} = Plack::Util::content_length( [ $Param{Content} ] );
     }
 
     $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
