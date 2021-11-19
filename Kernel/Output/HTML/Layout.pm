@@ -19,13 +19,15 @@ package Kernel::Output::HTML::Layout;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 use utf8;
 
 # core modules
 use Digest::MD5 qw(md5_hex);
+use Scalar::Util qw(blessed);
 
 # CPAN modules
-use URI::Escape qw();
+use URI::Escape qw(uri_escape_utf8);
 use Plack::Response;
 
 # OTOBO modules
@@ -2211,7 +2213,7 @@ sub LinkEncode {
 
     return if !defined $Link;
 
-    return URI::Escape::uri_escape_utf8($Link);
+    return uri_escape_utf8($Link);
 }
 
 sub CustomerAgeInHours {
@@ -2712,7 +2714,7 @@ sub Attachment {
         if ( $Param{Filename} ) {
 
             # IE 10+ supports this
-            my $URLEncodedFilename = URI::Escape::uri_escape_utf8( $Param{Filename} );
+            my $URLEncodedFilename = uri_escape_utf8( $Param{Filename} );
             $ContentDisposition .= " filename=\"$Param{Filename}\"; filename*=utf-8''$URLEncodedFilename";
         }
         $Headers{'Content-Disposition'} = $ContentDisposition;
