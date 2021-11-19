@@ -84,6 +84,14 @@ sub Run {
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
+    # Check whether potentially the content should be converted for in browser viewing
+    my $ViewerActive = $ParamObject->GetParam( Param => 'Viewer' ) || 0;
+
+    # In most cases we can handle IO-Handle like objects as content.
+    # But require a string when the content is possible transformed by a viewer.
+    # TODO: check for output filter on AgentTicketAttachment or on ALL
+    my $ContentMayBeFilehandle = $ViewerActive ? 0 : 1;
+
     # get a attachment
     my %Data = $ArticleBackendObject->ArticleAttachment(
         ArticleID => $ArticleID,
@@ -98,24 +106,25 @@ sub Run {
         return $LayoutObject->ErrorScreen();
     }
 
-    my $Viewers = $ParamObject->GetParam( Param => 'Viewer' ) || 0;
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
     # find viewer for ContentType
-    my $Viewer = '';
-    if ( $Viewers && $ConfigObject->Get('MIME-Viewer') ) {
-        for ( sort keys %{ $ConfigObject->Get('MIME-Viewer') } ) {
-            if ( $Data{ContentType} =~ /^$_/i ) {
-                $Viewer = $ConfigObject->Get('MIME-Viewer')->{$_};
-                $Viewer =~ s/\<OTOBO_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
+    my $Viewer;
+    if ($ViewerActive) {
+
+        # get config object
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+        if ( $ConfigObject->Get('MIME-Viewer') ) {
+            for ( sort keys $ConfigObject->Get('MIME-Viewer')->%* ) {
+                if ( $Data{ContentType} =~ m/^$_/i ) {
+                    $Viewer = $ConfigObject->Get('MIME-Viewer')->{$_};
+                    $Viewer =~ s/\<OTOBO_CONFIG_(.+?)\>/$ConfigObject->{$1}/g;
+                }
             }
         }
     }
 
     # show with viewer
-    if ( $Viewers && $Viewer ) {
+    if ($Viewer) {
 
         # write tmp file
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');

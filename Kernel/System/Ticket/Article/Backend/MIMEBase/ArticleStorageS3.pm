@@ -503,7 +503,7 @@ sub ArticleAttachment {
 
     return unless $Index{ $Param{FileID} };
 
-    my %DataFromIndex = %{ $Index{ $Param{FileID} } };
+    my %DataFromIndex = $Index{ $Param{FileID} }->%*;
 
     # retrieve attachment from S3, including the metadata
     my $FilePath   = $Self->_FilePath( $Param{ArticleID}, $DataFromIndex{Filename} );
