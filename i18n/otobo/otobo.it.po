@@ -18,13 +18,14 @@
 # Antonio Marchignoli <antonio@marchignoli.com>, 2019
 # catelotti remo <catelotti.remo@gmail.com>, 2019
 # Denis Renzi <itis05@virgilio.it>, 2020
-#
+# niccord <cordioli.nicola@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
-"PO-Revision-Date: 2020-02-04 09:51+0000\n"
-"Last-Translator: Giuseppe Defina <defina@coreinformatica.it>\n"
+"PO-Revision-Date: 2021-11-19 16:30+0000\n"
+"Last-Translator: niccord <cordioli.nicola@gmail.com>\n"
 "Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/"
 "it/>\n"
 "Language: it\n"
@@ -32,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.10\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -15851,7 +15852,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
 msgid "Ignore this field."
-msgstr ""
+msgstr "Ignora questo campo."
 
 #. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
 msgid "This field is required or"
