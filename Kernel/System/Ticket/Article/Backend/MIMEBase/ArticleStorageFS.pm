@@ -19,6 +19,7 @@ package Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageFS;
 use strict;
 use warnings;
 use v5.24;
+use namespace::autoclean;
 
 use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
@@ -26,8 +27,10 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 use File::Path qw(mkpath);
 use Time::HiRes qw();
 use Unicode::Normalize qw();
+use Cwd qw(realpath);
 
 # CPAN modules
+use Plack::Util;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(IsStringWithData);
@@ -529,7 +532,7 @@ sub ArticlePlain {
     # return if we only need to check one backend
     return unless $Self->{CheckAllBackends};
 
-    # return if only delete in my backend
+    # return if only retrieve in my backend
     return if $Param{OnlyMyBackend};
 
     my $Data = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::MIMEBase::ArticleStorageDB')->ArticlePlain(
@@ -818,15 +821,28 @@ sub ArticleAttachment {
 
                 $Data{ContentType} = $Content->$*;
 
-                # slurp in the bytes of the content
-                $Content = $MainObject->FileRead(
-                    Location => $Filename,
-                    Mode     => 'binmode',
-                );
+                # The content does not necessarily have to be read into memory.
+                # Returning an open file handle suffices for a Plack application.
+                if ( $Param{ContentMayBeFilehandle} ) {
 
-                return unless $Content;
+                    ## no critic qw(InputOutput::RequireBriefOpen OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
+                    open my $ContentFH, '<:raw', $Filename
+                        or return;
+                    Plack::Util::set_io_path( $ContentFH, realpath($Filename) );
+                    $Data{Content} = $ContentFH;
+                }
+                else {
 
-                $Data{Content} = $Content->$*;
+                    # slurp in the bytes of the content
+                    my $Content = $MainObject->FileRead(
+                        Location => $Filename,
+                        Mode     => 'binmode',
+                    );
+
+                    return unless $Content;
+
+                    $Data{Content} = $Content->$*;
+                }
 
                 # content id (optional)
                 if ( -e "$Filename.content_id" ) {

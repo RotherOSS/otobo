@@ -1253,7 +1253,8 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );
         }
 
-        # ->Run $Action with $FrontendObject
+        # Run $Action with $FrontendObject.
+        # The output is either a string or a IO::Handle like object.
         my $Output = $FrontendObject->Run();
 
         # log request time

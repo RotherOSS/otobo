@@ -503,12 +503,13 @@ sub ArticleAttachment {
 
     return unless $Index{ $Param{FileID} };
 
-    my %DataFromIndex = %{ $Index{ $Param{FileID} } };
+    my %DataFromIndex = $Index{ $Param{FileID} }->%*;
 
     # retrieve attachment from S3, including the metadata
     my $FilePath   = $Self->_FilePath( $Param{ArticleID}, $DataFromIndex{Filename} );
     my %Attachment = $Self->{StorageS3Object}->RetrieveObject(
-        Key => $FilePath,
+        Key                    => $FilePath,
+        ContentMayBeFilehandle => $Param{ContentMayBeFilehandle},
     );
 
     # set the UTF-8 flag for UTF-8 attachments
