@@ -29,6 +29,7 @@ use Scalar::Util qw(blessed);
 # CPAN modules
 use URI::Escape qw(uri_escape_utf8);
 use Plack::Response;
+use Plack::Util;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -2720,13 +2721,21 @@ sub Attachment {
         $Headers{'Content-Disposition'} = $ContentDisposition;
     }
 
-    # Content-Length will be added in Finalize()
-
     # add no cache headers
     if ( $Param{NoCache} ) {
         $Headers{'Expires'}       = 'Tue, 1 Jan 1980 12:00:00 GMT';
         $Headers{'Cache-Control'} = 'no-cache';
         $Headers{'Pragma'}        = 'no-cache';
+    }
+
+    # Add Content-Length for attachments.
+    # The content is either a IO::Handle like object or a string.
+    # TODO: why is Content-Length added only for attachments?
+    if ( Scalar::Util::blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
+        $Headers{'Content-Length'} = Plack::Util::content_length( $Param{Content} );
+    }
+    else {
+        $Headers{'Content-Length'} = Plack::Util::content_length( [ $Param{Content} ] );
     }
 
     $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
