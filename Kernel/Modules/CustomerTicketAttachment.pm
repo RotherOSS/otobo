@@ -123,8 +123,9 @@ sub Run {
 
     # get an attachment
     my %Data = $ArticleBackendObject->ArticleAttachment(
-        ArticleID => $ArticleID,
-        FileID    => $FileID,
+        ArticleID              => $ArticleID,
+        FileID                 => $FileID,
+        ContentMayBeFilehandle => 1,
     );
     if ( !%Data ) {
         my $Output = $LayoutObject->CustomerHeader(
