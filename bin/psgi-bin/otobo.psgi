@@ -496,7 +496,14 @@ my $OTOBOApp = builder {
             if ( !ref $Content || ref $Content eq 'ARRAY' ) {
                 my $Charset = $ResponseObject->Headers->content_type_charset // '';
                 if ( $Charset eq 'UTF-8' ) {
-                    utf8::encode($Content);
+                    if ( ref $Content eq 'ARRAY' ) {
+                        for my $Item ( $Content->@* ) {
+                            utf8::encode($Item);
+                        }
+                    }
+                    else {
+                        utf8::encode($Content);
+                    }
                 }
             }
             $ResponseObject->Content($Content);    # a file handle is acceptable here
