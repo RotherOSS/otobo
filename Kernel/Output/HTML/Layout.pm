@@ -965,7 +965,7 @@ sub FatalError {
         $Self->Footer();
 
     # Modify the output by applying the output filters.
-    $Self->ApplyOutputFilters( Output => \$Output );
+    $Output = $Self->ApplyOutputFilters( Output => $Output );
 
     # The OTOBO response object already has the HTPP headers.
     # Enhance it with the HTTP status code and the content.
@@ -1820,30 +1820,33 @@ sub Footer {
 sub ApplyOutputFilters {
     my ( $Self, %Param ) = @_;
 
-    # return early when there is nothing to do
-    return 1 if !$Self->{FilterContent};
-    return 1 if ref $Self->{FilterContent} ne 'HASH';
+    # The param Output may be anything that may be passed to Plack::Response::body().
+    my $Output = $Param{Output};
+
+    # Return early when there is nothing to do.
+    # This should be cheap, as Perl has copy on write.
+    return $Output unless $Self->{FilterContent};
+    return $Output unless ref $Self->{FilterContent} eq 'HASH';
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # extract filter list
-    my %FilterList = %{ $Self->{FilterContent} };
-
-    # apply the filters
+    # apply the filters, explicitly track whether there actually was a modification
+    my %FilterList = $Self->{FilterContent}->%*;
+    my ( $NumAppliedFilters, $ModifiedOutput ) = ( 0, '' );
     FILTER:
     for my $Filter ( sort keys %FilterList ) {
 
         # extract filter config
         my $FilterConfig = $FilterList{$Filter};
 
-        next FILTER if !$FilterConfig;
-        next FILTER if ref $FilterConfig ne 'HASH';
+        next FILTER unless $FilterConfig;
+        next FILTER unless ref $FilterConfig eq 'HASH';
 
         # extract template list
         my $TemplateList = $FilterConfig->{Templates};
 
         # check template list
-        if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+        if ( !$TemplateList || ref $TemplateList ne 'HASH' || !$TemplateList->%* ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1856,10 +1859,10 @@ sub ApplyOutputFilters {
 
         # check template list
         if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-            next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            next FILTER unless $TemplateList->{ $Param{TemplateFile} };
         }
 
-        next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
+        next FILTER unless $MainObject->Require( $FilterConfig->{Module} );
 
         # create new instance
         my $Object = $FilterConfig->{Module}->new(
@@ -1867,17 +1870,49 @@ sub ApplyOutputFilters {
             LayoutObject => $Self,
         );
 
-        next FILTER if !$Object;
+        next FILTER unless $Object;
+
+        # The output filters operate on strings.
+        # Lazily generate the string only when it is needed for the first filter.
+        if ( !$NumAppliedFilters ) {
+
+            # Using Plack::Util::foreach() in order to cover all cases, e.g. when $Output is a file handle.
+            # The logic is inspired by Plack::Response::_body().
+            my $PSGIBody;
+            if ( !ref $Output ) {
+                $PSGIBody = [$Output];
+            }
+            elsif ( blessed($Output) && overload::Method( $Output, q("") ) && !$Output->can('getline') ) {
+                $PSGIBody = [$Output];
+            }
+            else {
+                $PSGIBody = $Output;
+            }
+
+            Plack::Util::foreach(
+                $PSGIBody,
+                sub {
+                    my ($Line) = @_;
+
+                    $ModifiedOutput .= $Line;
+
+                    return;
+                }
+            );
+        }
 
         # run output filter
         $Object->Run(
             %{$FilterConfig},
-            Data         => $Param{Output},
+            Data         => \$ModifiedOutput,
             TemplateFile => $Param{TemplateFile} || '',
         );
+
+        $NumAppliedFilters++;
     }
 
-    return 1;
+    # return the original output when no filters ran
+    return $NumAppliedFilters ? $ModifiedOutput : $Output;
 }
 
 =head2 Ascii2Html()
@@ -2731,7 +2766,7 @@ sub Attachment {
     # Add Content-Length for attachments.
     # The content is either a IO::Handle like object or a string.
     # TODO: why is Content-Length added only for attachments?
-    if ( Scalar::Util::blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
+    if ( blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
         $Headers{'Content-Length'} = Plack::Util::content_length( $Param{Content} );
     }
     else {
@@ -4478,7 +4513,7 @@ sub CustomerFatalError {
         $Self->CustomerFooter();
 
     # Modify the output by applying the output filters.
-    $Self->ApplyOutputFilters( Output => \$Output );
+    $Output = $Self->ApplyOutputFilters( Output => $Output );
 
     # The OTOBO response object already has the HTPP headers.
     # Enhance it with the HTTP status code and the content.

@@ -18,7 +18,13 @@ package Kernel::Modules::CustomerTicketAttachment;
 
 use strict;
 use warnings;
+use v5.24;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -28,19 +34,18 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
+    # get IDs
     my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
@@ -59,6 +64,7 @@ sub Run {
             Priority => 'error',
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -75,6 +81,7 @@ sub Run {
             Priority => 'error',
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -108,18 +115,18 @@ sub Run {
     my $Access = $Kernel::OM->Get('Kernel::System::Ticket')->TicketCustomerPermission(
         Type     => 'ro',
         TicketID => $TicketID,
-        UserID   => $Self->{UserID}
+        UserID   => $Self->{UserID},
     );
     if ( !$Access ) {
         return $LayoutObject->CustomerNoPermission( WithHeader => 'yes' );
     }
 
-    # get attachment
+    # get an attachment
     my %Data = $ArticleBackendObject->ArticleAttachment(
-        ArticleID => $ArticleID,
-        FileID    => $FileID,
+        ArticleID              => $ArticleID,
+        FileID                 => $FileID,
+        ContentMayBeFilehandle => 1,
     );
-
     if ( !%Data ) {
         my $Output = $LayoutObject->CustomerHeader(
             Title => Translatable('Error'),
@@ -133,6 +140,7 @@ sub Run {
             Priority => 'error',
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
