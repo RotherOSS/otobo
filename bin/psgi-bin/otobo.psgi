@@ -477,8 +477,9 @@ my $OTOBOApp = builder {
             if ( $HasOutputFilter{$ScriptFileName} ) {
                 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-                # the content generators are responsible for that Content is really a string
-                $LayoutObject->ApplyOutputFilters( Output => \$Content );
+                # The filtered content is a string, regardless of whether the original content is
+                # a string, an array reference, or a file handle.
+                $Content = $LayoutObject->ApplyOutputFilters( Output => $Content );
             }
 
             # The HTTP headers of the OTOBO web response object already have been set up.

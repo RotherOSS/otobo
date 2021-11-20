@@ -19,6 +19,13 @@ package Kernel::Modules::AgentTicketAttachment;
 
 use strict;
 use warnings;
+use v5.24;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -26,26 +33,21 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    # get param object
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    # get needed objects
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
-    # get ArticleID
+    # get IDs
     my $TicketID  = $ParamObject->GetParam( Param => 'TicketID' );
     my $ArticleID = $ParamObject->GetParam( Param => 'ArticleID' );
     my $FileID    = $ParamObject->GetParam( Param => 'FileID' );
-
-    # get needed objects
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $LogObject    = $Kernel::OM->Get('Kernel::System::Log');
 
     # check params
     if ( !$FileID || !$ArticleID || !$TicketID ) {
@@ -53,6 +55,7 @@ sub Run {
             Message  => 'FileID, TicketID and ArticleID are needed!',
             Priority => 'error',
         );
+
         return $LayoutObject->ErrorScreen();
     }
 
@@ -80,7 +83,6 @@ sub Run {
         UserID   => $Self->{UserID},
     );
     if ( !$Access ) {
-
         return $LayoutObject->NoPermission( WithHeader => 'yes' );
     }
 
@@ -92,7 +94,7 @@ sub Run {
     # TODO: check for output filter on AgentTicketAttachment or on ALL
     my $ContentMayBeFilehandle = $ViewerActive ? 0 : 1;
 
-    # get a attachment
+    # get an attachment
     my %Data = $ArticleBackendObject->ArticleAttachment(
         ArticleID              => $ArticleID,
         FileID                 => $FileID,
@@ -110,10 +112,7 @@ sub Run {
     # find viewer for ContentType
     my $Viewer;
     if ($ViewerActive) {
-
-        # get config object
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
         if ( $ConfigObject->Get('MIME-Viewer') ) {
             for ( sort keys $ConfigObject->Get('MIME-Viewer')->%* ) {
                 if ( $Data{ContentType} =~ m/^$_/i ) {

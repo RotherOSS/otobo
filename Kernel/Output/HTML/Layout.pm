@@ -1843,7 +1843,7 @@ sub ApplyOutputFilters {
         my $TemplateList = $FilterConfig->{Templates};
 
         # check template list
-        if ( !$TemplateList || ref $TemplateList ne 'HASH' || !%{$TemplateList} ) {
+        if ( !$TemplateList || ref $TemplateList ne 'HASH' || !$TemplateList->%* ) {
 
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -1856,10 +1856,10 @@ sub ApplyOutputFilters {
 
         # check template list
         if ( $Param{TemplateFile} && ref $TemplateList eq 'HASH' && !$TemplateList->{ALL} ) {
-            next FILTER if !$TemplateList->{ $Param{TemplateFile} };
+            next FILTER unless $TemplateList->{ $Param{TemplateFile} };
         }
 
-        next FILTER if !$MainObject->Require( $FilterConfig->{Module} );
+        next FILTER unless $MainObject->Require( $FilterConfig->{Module} );
 
         # create new instance
         my $Object = $FilterConfig->{Module}->new(
@@ -2731,7 +2731,7 @@ sub Attachment {
     # Add Content-Length for attachments.
     # The content is either a IO::Handle like object or a string.
     # TODO: why is Content-Length added only for attachments?
-    if ( Scalar::Util::blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
+    if ( blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
         $Headers{'Content-Length'} = Plack::Util::content_length( $Param{Content} );
     }
     else {
