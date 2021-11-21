@@ -130,12 +130,38 @@ sub Content {
 =head2 Finalize()
 
 a wrapper around Plack::Response::finalize().
+Also set default status and the passed in content.
 
 =cut
 
 sub Finalize {
-    my ($Self) = @_;
+    my ( $Self, %Param ) = @_;
 
+    my $Content = $Param{Content} // '';
+
+    # Keep the HTTP status code when it already was set.
+    # Otherwise assume that the request was successful and set the code to 200.
+    $Self->Code(200) unless $Self->Code();
+
+    # The content is UTF-8 encoded when the header Content-Type has been set up like:
+    #   'Content-Type'    => 'text/html; charset=utf-8'
+    # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
+    if ( !ref $Content || ref $Content eq 'ARRAY' ) {
+        my $Charset = $Self->Headers->content_type_charset // '';
+        if ( $Charset eq 'UTF-8' ) {
+            if ( ref $Content eq 'ARRAY' ) {
+                for my $Item ( $Content->@* ) {
+                    utf8::encode($Item);
+                }
+            }
+            else {
+                utf8::encode($Content);
+            }
+        }
+    }
+    $Self->Content($Content);    # a file handle is acceptable here
+
+    # return the PSGI response, a funnny unblessed array reference with three elements
     return $Self->{Response}->finalize();
 }
 

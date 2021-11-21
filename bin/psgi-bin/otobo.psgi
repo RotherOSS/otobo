@@ -162,6 +162,47 @@ my $SetEnvMiddleware = sub {
     };
 };
 
+# Determine, and possibly munge, the script name.
+# This needs to be done early, as access checking middlewares need that info.
+my $DetermineScriptFileNameMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+        # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+        # The extracted ScriptFileName should be something like:
+        #     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
+        # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+        # are gracefully ignored.
+        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+
+        # Fallback to agent login if we could not determine handle...
+        $Env->{'otobo.x.script_file_name'} = $ScriptFileName // 'index.pl';
+
+        return $App->($Env);
+    };
+};
+
+# Force a new manifestation of $Kernel::OM.
+# This middleware must be enabled before there is any access to the classes that are
+# managed by the OTOBO object manager.
+# Completion of the middleware destroys the localised $Kernel::OM, thus
+# triggering event handlers.
+my $ManageObjectsMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # make sure that the managed objects will be recreated for the current request
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+        return $App->($Env);
+    };
+};
+
 # Fix for environment settings in the FCGI-Proxy case.
 # E.g. when apaches2-httpd-fcgi.include.conf is used.
 my $FixFCGIProxyMiddleware = sub {
@@ -398,25 +439,41 @@ my $OTOBOApp = builder {
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
-    # No need to set %ENV or redirect STDIN.
-    # But STDOUT and STDERR is still like in CGI scripts.
-    # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
+    # force destruction and recreation of managed objects
+    enable $ManageObjectsMiddleware;
+
+    # determine the script file name
+    enable $DetermineScriptFileNameMiddleware;
+
+    # check the SecureMode
+    # Alternatively we could use Plack::Middleware::Access, but that modules is not available as a Debian package
+    enable 'OTOBO::SecureModeAccessFilter',
+        rules => [
+
+            # filter for which scripts SecureMode is checked
+            allow => sub {
+                my ($Env) = @_;
+
+                return if $Env->{'otobo.x.script_file_name'} eq 'installer.pl';
+                return if $Env->{'otobo.x.script_file_name'} eq 'migration.pl';
+                return 1;    # grant access to everbody else
+            },
+
+            # deny access when SecureMode is activated
+            deny => 'securemode_is_on',
+        ];
+
+    # The actual functionality of OTOBO implemented as a Plack app.
+    # TODO: It might be more flexible if the interface modules and the generic provider were specific apps.
+    # This would allow for using URL maps and specific setup of middlewares.
     sub {
         my $Env = shift;
 
         # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
-        # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-        # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-        # The extracted ScriptFileName should be something like:
-        #     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
-        # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-        # are gracefully ignored.
-        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
-
-        # Fallback to agent login if we could not determine handle...
-        $ScriptFileName //= 'index.pl';
+        # Determined in $DetermineScriptFileNameMiddleware.
+        my $ScriptFileName = $Env->{'otobo.x.script_file_name'};
 
         # params for the interface modules
         my %InterfaceParams = (
@@ -424,13 +481,10 @@ my $OTOBOApp = builder {
             PSGIEnv => $Env,
         );
 
-        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
+        # The interface modules have been converted to returning a string or file handle instead of printing the STDOUT.
         # This means that we don't have to capture STDOUT.
         # Headers are set in the 'Kernel::System::Web::Response' object.
         {
-            # make sure that the managed objects will be recreated for the current request
-            local $Kernel::OM = Kernel::System::ObjectManager->new();
-
             # do the work, return one of:
             # - a not encoded Perl string from the appropriate interface module to Plack
             # - a file handle
@@ -484,32 +538,7 @@ my $OTOBOApp = builder {
 
             # The HTTP headers of the OTOBO web response object already have been set up.
             # Enhance it with the HTTP status code and the content.
-            my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-
-            # Keep the HTTP status code when it already was set.
-            # Otherwise assume that the request was successful and set the code to 200.
-            $ResponseObject->Code(200) unless $ResponseObject->Code();
-
-            # The content is UTF-8 encoded when the header Content-Type has been set up like:
-            #   'Content-Type'    => 'text/html; charset=utf-8'
-            # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
-            if ( !ref $Content || ref $Content eq 'ARRAY' ) {
-                my $Charset = $ResponseObject->Headers->content_type_charset // '';
-                if ( $Charset eq 'UTF-8' ) {
-                    if ( ref $Content eq 'ARRAY' ) {
-                        for my $Item ( $Content->@* ) {
-                            utf8::encode($Item);
-                        }
-                    }
-                    else {
-                        utf8::encode($Content);
-                    }
-                }
-            }
-            $ResponseObject->Content($Content);    # a file handle is acceptable here
-
-            # return the PSGI response, a funnny unblessed array reference with three elements
-            return $ResponseObject->Finalize();
+            return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
         }
     };
 };
