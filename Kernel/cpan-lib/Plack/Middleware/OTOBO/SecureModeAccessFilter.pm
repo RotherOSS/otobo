@@ -134,7 +134,9 @@ sub call {
 
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
-    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
+    my $Response = $Kernel::OM->Get('Kernel::System::Web::Response');
+    $Response->Code(403);
+    $Response->Finalize( Content => $Content );
 }
 
 1;
