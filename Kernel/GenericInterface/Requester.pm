@@ -233,6 +233,13 @@ sub Run {
     # Extend the data include payload/
     $DataInclude{RequesterRequestPrepareOutput} = $FunctionResult->{Data};
 
+    my %CustomHeader;
+    if ( $FunctionResult->{Header} ) {
+        %CustomHeader = (
+            CustomHeader => $FunctionResult->{Header},
+        );
+    }
+
     #
     # Map the outgoing data.
     #
@@ -317,6 +324,7 @@ sub Run {
     $FunctionResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
+        %CustomHeader,
     );
 
     my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
