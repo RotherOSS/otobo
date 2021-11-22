@@ -560,9 +560,6 @@ builder {
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
     mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
-
-    # agent interface is the default
-    mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
 };
 
 # enable for debugging: dump debugging info, including the PSGI environment, for any request
