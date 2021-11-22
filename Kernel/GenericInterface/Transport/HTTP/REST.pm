@@ -663,14 +663,14 @@ sub RequesterPerformRequest {
     }
 
     if ( $Param{CustomHeader} ) {
-        $Headers = {
-            %{$Headers},
+        %Headers = (
+            %Headers,
             %{ $Param{CustomHeader} },
-        };
+        );
 
         $Self->{DebuggerObject}->Debug(
             Summary => "Custom headers used (might overwrite authorization)",
-            Data    => join( '; ', keys %{ $Param{CustomHeader} } ),
+            Data    => join( '; ', keys $Param{CustomHeader}->%* ),
         );
     }
 
