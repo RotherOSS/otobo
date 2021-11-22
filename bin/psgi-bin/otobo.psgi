@@ -225,7 +225,7 @@ my $FixFCGIProxyMiddleware = sub {
     };
 };
 
-# Translate '/' is translated to '/index.html'
+# '/' is translated to '/index.html', just like Apache DirectoryIndex
 my $ExactlyRootMiddleware = sub {
     my $App = shift;
 
@@ -537,8 +537,7 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
-    # fiddling with '/'
-    # TODO: is this still needed ?
+    # '/' is translated to '/index.html', just like Apache DirectoryIndex
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
