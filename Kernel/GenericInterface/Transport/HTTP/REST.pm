@@ -599,6 +599,18 @@ sub RequesterPerformRequest {
         );
     }
 
+    if ( $Param{CustomHeader} ) {
+        $Headers = {
+            %{$Headers},
+            %{ $Param{CustomHeader} },
+        };
+
+        $Self->{DebuggerObject}->Debug(
+            Summary => "Custom headers used (might overwrite authorization)",
+            Data    => join( '; ', keys %{ $Param{CustomHeader} } ),
+        );
+    }
+
     my $RestCommand = $Config->{DefaultCommand};
     if ( IsStringWithData( $Config->{InvokerControllerMapping}->{ $Param{Operation} }->{Command} ) )
     {
