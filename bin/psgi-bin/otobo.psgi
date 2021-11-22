@@ -146,7 +146,7 @@ my $NYTProfMiddleware = sub {
 # This setting is used internally by Kernel::System::Log, Kernel::Config::Defaults and in the support data collector.
 # In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
 # In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-my $SetEnvMiddleware = sub {
+my $SetSystemEnvMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -157,6 +157,49 @@ my $SetEnvMiddleware = sub {
 
         # enable for debugging UrlMap
         #local $ENV{PLACK_URLMAP_DEBUG} = 1;
+
+        return $App->($Env);
+    };
+};
+
+# Set a single entry in the PSGI environment.
+my $SetPSGIEnvMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # this setting is only used by a test page
+        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
+
+        return $App->($Env);
+    };
+};
+
+# Determine, and possibly munge, the script name.
+# This needs to be done early, as access checking middlewares need that info.
+
+# TODO: is this still relevant ?
+# $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
+# $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
+# The extracted ScriptFileName should be something like:
+#     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
+# Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
+# are gracefully ignored.
+
+# Force a new manifestation of $Kernel::OM.
+# This middleware must be enabled before there is any access to the classes that are
+# managed by the OTOBO object manager.
+# Completion of the middleware destroys the localised $Kernel::OM, thus
+# triggering event handlers.
+my $ManageObjectsMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # make sure that the managed objects will be recreated for the current request
+        local $Kernel::OM = Kernel::System::ObjectManager->new();
 
         return $App->($Env);
     };
@@ -182,7 +225,7 @@ my $FixFCGIProxyMiddleware = sub {
     };
 };
 
-# Translate '/' is translated to '/index.html'
+# '/' is translated to '/index.html', just like Apache DirectoryIndex
 my $ExactlyRootMiddleware = sub {
     my $App = shift;
 
@@ -387,9 +430,6 @@ my $OTOBOApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleware;
 
-    # set up %ENV
-    enable $SetEnvMiddleware;
-
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
@@ -398,120 +438,94 @@ my $OTOBOApp = builder {
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
-    # No need to set %ENV or redirect STDIN.
-    # But STDOUT and STDERR is still like in CGI scripts.
-    # logic taken from the scripts in bin/cgi-bin and from CGI::Emulate::PSGI
-    sub {
-        my $Env = shift;
+    # set up %ENV
+    enable $SetSystemEnvMiddleware;
 
-        # this setting is only used by a test page
-        $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
+    # set up $Env
+    enable $SetPSGIEnvMiddleware;
 
-        # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
-        # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
-        # The extracted ScriptFileName should be something like:
-        #     customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, or public.pl
-        # Note the only the last part of the mount is considered. This means that e.g. duplicated '/'
-        # are gracefully ignored.
-        my ($ScriptFileName) = ( ( $Env->{SCRIPT_NAME} // '' ) . ( $Env->{PATH_INFO} // '' ) ) =~ m{/([A-Za-z\-_]+\.pl)};
+    # force destruction and recreation of managed objects
+    enable $ManageObjectsMiddleware;
 
-        # Fallback to agent login if we could not determine handle...
-        $ScriptFileName //= 'index.pl';
+    # The actual functionality of OTOBO is implemented as a set of Plack apps.
+    # Dispatching is done with an URL map.
 
-        # params for the interface modules
-        my %InterfaceParams = (
+    mount '/customer.pl' => sub {
+        my ($Env) = @_;
+
+        return Kernel::System::Web::InterfaceCustomer->new(
             Debug   => 0,      # pass 1 for enabling debug messages
             PSGIEnv => $Env,
-        );
-
-        # InterfaceInstaller has been converted to returning a string instead of printing the STDOUT.
-        # This means that we don't have to capture STDOUT.
-        # Headers are set in the 'Kernel::System::Web::Response' object.
-        {
-            # make sure that the managed objects will be recreated for the current request
-            local $Kernel::OM = Kernel::System::ObjectManager->new();
-
-            # do the work, return one of:
-            # - a not encoded Perl string from the appropriate interface module to Plack
-            # - a file handle
-            my $Content = eval {
-
-                if ( $ScriptFileName eq 'customer.pl' ) {
-                    return Kernel::System::Web::InterfaceCustomer->new(%InterfaceParams);
-                }
-
-                if ( $ScriptFileName eq 'index.pl' ) {
-                    return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
-                }
-
-                if ( $ScriptFileName eq 'installer.pl' ) {
-                    return Kernel::System::Web::InterfaceInstaller->new(%InterfaceParams);
-                }
-
-                if ( $ScriptFileName eq 'migration.pl' ) {
-                    return Kernel::System::Web::InterfaceMigrateFromOTRS->new(%InterfaceParams);
-                }
-
-                if ( $ScriptFileName eq 'nph-genericinterface.pl' ) {
-                    return Kernel::GenericInterface::Provider->new(%InterfaceParams);
-                }
-
-                if ( $ScriptFileName eq 'public.pl' ) {
-                    return Kernel::System::Web::InterfacePublic->new(%InterfaceParams);
-                }
-
-                # index.pl is the fallback
-                warn " using fallback InterfaceAgent for ScriptFileName: '$ScriptFileName'\n";
-
-                return Kernel::System::Web::InterfaceAgent->new(%InterfaceParams);
-            }->Content();
-
-            # Apply output filters for specific interfaces.
-            # The output filters still work with proper Perl strings.
-            my %HasOutputFilter = (
-                'customer.pl' => 1,
-                'index.pl'    => 1,
-                'public.pl'   => 1,
-            );
-
-            if ( $HasOutputFilter{$ScriptFileName} ) {
-                my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-                # The filtered content is a string, regardless of whether the original content is
-                # a string, an array reference, or a file handle.
-                $Content = $LayoutObject->ApplyOutputFilters( Output => $Content );
-            }
-
-            # The HTTP headers of the OTOBO web response object already have been set up.
-            # Enhance it with the HTTP status code and the content.
-            my $ResponseObject = $Kernel::OM->Get('Kernel::System::Web::Response');
-
-            # Keep the HTTP status code when it already was set.
-            # Otherwise assume that the request was successful and set the code to 200.
-            $ResponseObject->Code(200) unless $ResponseObject->Code();
-
-            # The content is UTF-8 encoded when the header Content-Type has been set up like:
-            #   'Content-Type'    => 'text/html; charset=utf-8'
-            # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
-            if ( !ref $Content || ref $Content eq 'ARRAY' ) {
-                my $Charset = $ResponseObject->Headers->content_type_charset // '';
-                if ( $Charset eq 'UTF-8' ) {
-                    if ( ref $Content eq 'ARRAY' ) {
-                        for my $Item ( $Content->@* ) {
-                            utf8::encode($Item);
-                        }
-                    }
-                    else {
-                        utf8::encode($Content);
-                    }
-                }
-            }
-            $ResponseObject->Content($Content);    # a file handle is acceptable here
-
-            # return the PSGI response, a funnny unblessed array reference with three elements
-            return $ResponseObject->Finalize();
-        }
+        )->Response;
     };
+
+    mount '/index.pl' => sub {
+        my ($Env) = @_;
+
+        return Kernel::System::Web::InterfaceAgent->new(
+            Debug   => 0,      # pass 1 for enabling debug messages
+            PSGIEnv => $Env,
+        )->Response;
+    };
+
+    mount '/installer.pl' => builder {
+
+        # check the SecureMode
+        # Alternatively we could use Plack::Middleware::Access, but that modules is not available as a Debian package
+        enable 'OTOBO::SecureModeAccessFilter',
+            rules => [
+                deny => 'securemode_is_on',
+            ];
+
+        sub {
+            my ($Env) = @_;
+
+            return Kernel::System::Web::InterfaceInstaller->new(
+                Debug   => 0,      # pass 1 for enabling debug messages
+                PSGIEnv => $Env,
+            )->Response;
+        };
+    };
+
+    mount '/migration.pl' => builder {
+
+        # check the SecureMode
+        # Alternatively we could use Plack::Middleware::Access, but that modules is not available as a Debian package
+        enable 'OTOBO::SecureModeAccessFilter',
+            rules => [
+                deny => 'securemode_is_on',
+            ];
+
+        sub {
+            my ($Env) = @_;
+
+            return Kernel::System::Web::InterfaceMigrateFromOTRS->new(
+                Debug   => 0,      # pass 1 for enabling debug messages
+                PSGIEnv => $Env,
+            )->Response;
+        };
+    };
+
+    mount '/nph-genericinterface.pl' => sub {
+        my ($Env) = @_;
+
+        return Kernel::GenericInterface::Provider->new(
+            Debug   => 0,      # pass 1 for enabling debug messages
+            PSGIEnv => $Env,
+        )->Response;
+    };
+
+    mount '/public.pl' => sub {
+        my ($Env) = @_;
+
+        return Kernel::System::Web::InterfacePublic->new(
+            Debug   => 0,      # pass 1 for enabling debug messages
+            PSGIEnv => $Env,
+        )->Response;
+    };
+
+    # agent interface is the default
+    mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
 };
 
 ################################################################################
@@ -523,7 +537,7 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
-    # fiddling with '/'
+    # '/' is translated to '/index.html', just like Apache DirectoryIndex
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
@@ -541,13 +555,7 @@ builder {
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
-    mount '/otobo'                         => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
-    mount '/otobo/customer.pl'             => $OTOBOApp;
-    mount '/otobo/index.pl'                => $OTOBOApp;
-    mount '/otobo/installer.pl'            => $OTOBOApp;
-    mount '/otobo/migration.pl'            => $OTOBOApp;
-    mount '/otobo/nph-genericinterface.pl' => $OTOBOApp;
-    mount '/otobo/public.pl'               => $OTOBOApp;
+    mount '/otobo' => $OTOBOApp;
 
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
