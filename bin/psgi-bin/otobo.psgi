@@ -146,7 +146,7 @@ my $NYTProfMiddleware = sub {
 # This setting is used internally by Kernel::System::Log, Kernel::Config::Defaults and in the support data collector.
 # In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
 # In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
-my $SetEnvMiddleware = sub {
+my $SetSystemEnvMiddleware = sub {
     my $App = shift;
 
     return sub {
@@ -158,6 +158,17 @@ my $SetEnvMiddleware = sub {
         # enable for debugging UrlMap
         #local $ENV{PLACK_URLMAP_DEBUG} = 1;
 
+        return $App->($Env);
+    };
+};
+
+# Set a single entry in the PSGI environment.
+my $SetPSGIEnvMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
         # this setting is only used by a test page
         $Env->{SERVER_SOFTWARE} //= 'otobo.psgi';
 
@@ -168,7 +179,7 @@ my $SetEnvMiddleware = sub {
 # Determine, and possibly munge, the script name.
 # This needs to be done early, as access checking middlewares need that info.
 
-# TODO:
+# TODO: is this still relevant ?
 # $Env->{SCRIPT_NAME} contains the matching mountpoint. Can be e.g. '/otobo' or '/otobo/index.pl'
 # $Env->{PATH_INFO} contains the path after the $Env->{SCRIPT_NAME}. Can be e.g. '/index.pl' or ''
 # The extracted ScriptFileName should be something like:
@@ -419,9 +430,6 @@ my $OTOBOApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleware;
 
-    # set up %ENV and PSGI Env
-    enable $SetEnvMiddleware;
-
     # Check ever 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
@@ -430,10 +438,17 @@ my $OTOBOApp = builder {
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
+    # set up %ENV
+    enable $SetSystemEnvMiddleware;
+
+    # set up $Env
+    enable $SetPSGIEnvMiddleware;
+
     # force destruction and recreation of managed objects
     enable $ManageObjectsMiddleware;
 
-    # The actual functionality of OTOBO is implemented as a list of Plack apps.
+    # The actual functionality of OTOBO is implemented as a set of Plack apps.
+    # Dispatching is done with an URL map.
 
     mount '/customer.pl' => sub {
         my ($Env) = @_;
