@@ -55,14 +55,14 @@ sub prepare_app {
         $Self->rules( [] );
     }
 
-    my @NewRules;
+    my @ActualRules;
     RULE:
     for my $Rule ( pairs $Self->rules->@* ) {
         my ( $Allowing, $Condition ) = $Rule->@*;
 
         # deny access in case of misconfiguration
         if ( !$Allowing || !$Rule || ( $Allowing ne 'allow' && $Allowing ne 'deny' ) ) {
-            @NewRules = ( [ sub { return 1 } => 0 ] );
+            @ActualRules = ( [ sub { return 1 } => 0 ] );
 
             last RULE;
         }
@@ -70,14 +70,14 @@ sub prepare_app {
         my $Decision = ( $Allowing eq 'allow' ) ? 1 : 0;
 
         if ( ref $Condition eq 'CODE' ) {
-            push @NewRules, [ $Condition => $Decision ];
+            push @ActualRules, [ $Condition => $Decision ];
 
             next RULE;
         }
 
         # check SecureMode
         if ( $Condition eq 'securemode_is_on' ) {
-            push @NewRules, [
+            push @ActualRules, [
                 sub {
                     return 1 if $Kernel::OM->Get('Kernel::Config')->Get('SecureMode');
                     return 0;
@@ -89,10 +89,10 @@ sub prepare_app {
         }
 
         # say no when in doubt
-        push @NewRules, [ sub { return 0 } => $Decision ];
+        push @ActualRules, [ sub { return 0 } => $Decision ];
     }
 
-    $Self->rules( \@NewRules );
+    $Self->rules( \@ActualRules );
 
     return;
 }
@@ -120,9 +120,10 @@ sub call {
     # access is granted when it wasn't explicitly denied
     $AccessAllowed //= 1;
 
+    # continue when access is denied
     return $Self->app->($Env) if $AccessAllowed;
 
-    # access is denied
+    # access is denied, print the message
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $Content      = join '',
         $LayoutObject->Header(),
@@ -135,8 +136,12 @@ sub call {
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
     my $Response = $Kernel::OM->Get('Kernel::System::Web::Response');
+
+    # HTTP status 403: access denied
     $Response->Code(403);
-    $Response->Finalize( Content => $Content );
+
+    # return a PSGI result
+    return $Response->Finalize( Content => $Content );
 }
 
 1;
