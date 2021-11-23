@@ -2420,7 +2420,7 @@ sub _Mask {
             # hide field
             if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
                 %Hidden = (
-                    HiddenClass => ' ooo.ACLHidden',
+                    HiddenClass => ' oooACLHidden',
                     HiddenStyle => 'style=display:none;',
                 );
 

@@ -11389,6 +11389,7 @@
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Process">Process</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
             </Hash>
         </Value>
     </Setting>
@@ -11402,6 +11403,7 @@
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Process">Process</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
             </Hash>
         </Value>
     </Setting>
@@ -11415,6 +11417,7 @@
                 <Item Key="ActivityDialog">ActivityDialog</Item>
                 <Item Key="Process">Process</Item>
                 <Item Key="Form">Form</Item>
+                <Item Key="FormStd">FormStd</Item>
             </Hash>
         </Value>
     </Setting>

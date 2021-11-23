@@ -2753,7 +2753,7 @@ sub _Mask {
 
         # hide field
         if ( !$Param{Visibility}{"DynamicField_$TicketTypeDynamicField->{Name}"} ) {
-            $TicketTypeDynamicField->{HiddenClass} = ' ooo.ACLHidden';
+            $TicketTypeDynamicField->{HiddenClass} = ' oooACLHidden';
             $TicketTypeDynamicField->{HiddenStyle} = 'style=display:none;';
 
             # ACL hidden fields cannot be mandatory
@@ -3145,7 +3145,7 @@ sub _Mask {
 
             # hide field
             if ( !$Param{Visibility}{"DynamicField_$ArticleTypeDynamicField->{Name}"} ) {
-                $ArticleTypeDynamicField->{HiddenClass} = ' ooo.ACLHidden';
+                $ArticleTypeDynamicField->{HiddenClass} = ' oooACLHidden';
                 $ArticleTypeDynamicField->{HiddenStyle} = 'style=display:none;';
 
                 # ACL hidden fields cannot be mandatory

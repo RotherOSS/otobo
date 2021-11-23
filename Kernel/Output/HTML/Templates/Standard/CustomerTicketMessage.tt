@@ -53,7 +53,7 @@
 [% RenderBlockEnd("TicketType") %]
 
 [% RenderBlockStart("Queue") %]
-                <div class="Row [% Data.QueueHiddenClass | html %]" [% Data.QueueHiddenStyle | html %]>
+                <div class="Row">
                     [% Data.ToStrg %]
                     <label for="Dest" class="Mandatory">
                         [% Translate("To") | html %] <span class="Marker">*</span>
@@ -145,7 +145,7 @@
                 </div>
 [% RenderBlockEnd("DynamicField_TitleMessage") %]
 
-                <div class="Row [% Data.SubjectHiddenClass | html %]" [% Data.SubjectHiddenStyle | html %]>
+                <div class="Row [% Data.SubjectHiddenClass | html %]">
                     <input title="[% Translate("Subject") | html %]" type="text" id="Subject" name="Subject" value="[% Data.Subject | html %]" class="[% Data.SubjectValidate | html %] [% Data.SubjectInvalid | html %]" />
                     <label for="Subject" class="Mandatory">
                         [% Translate("Subject") | html %] <span class="Marker">*</span>
@@ -155,8 +155,8 @@
                     <div class="Clear"></div>
                 </div>
 
-                <div class="RichTextHolder [% Data.RichTextHolderHiddenClass | html %]" [% Data.RichTextHolderHiddenStyle | html %]>
-                    <textarea id="RichText" class="RichText [% Data.RichTextHolderValidate | html %] [% Data.BodyInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
+                <div class="RichTextHolder [% Data.BodyHiddenClass | html %]">
+                    <textarea id="RichText" class="RichText [% Data.BodyValidate | html %] [% Data.BodyInvalid | html %]" name="Body" rows="15" cols="[% Config("Ticket::Frontend::TextAreaNote") %]">[% Data.Body | html %]</textarea>
                     <label for="RichText" class="Mandatory">
                         [% Translate("Text") | html %] <span class="Marker">*</span>
                     </label>
@@ -165,7 +165,7 @@
                     <div class="Clear"></div>
                 </div>
 
-                <div class="Row [% Data.AttachmentsHiddenClass | html %]" [% Data.AttachmentsHiddenStyle | html %]>
+                <div class="Row [% Data.AttachmentsHiddenClass | html %]">
                     <div id="oooAttachments" class="Field">
                         <div class="DnDUploadBox">
 [% INCLUDE "FormElements/CustomerAttachmentList.tt" %]

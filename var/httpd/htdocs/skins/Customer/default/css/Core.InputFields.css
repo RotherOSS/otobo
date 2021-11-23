@@ -44,6 +44,10 @@ fieldset.Columns .Column .InputField_ListContainer div {
     overflow: visible;
 }
 
+.oooACLHidden {
+    display: none !important;
+}
+
 .Row,
 .RichTextHolder {
     margin-top: 40px;
