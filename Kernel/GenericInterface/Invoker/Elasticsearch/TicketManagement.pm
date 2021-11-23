@@ -207,7 +207,7 @@ sub PrepareRequest {
             my $FileType = $ArticleAttachment{ContentType};
             my $FileSize = $ArticleAttachment{FilesizeRaw};
 
-            # Ingest attachment if only filesize less than defined in sysconfig
+            # Ingest attachment only if files ize is less than the max size defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
 
             $FileType =~ /^.*?\/([\d\w]+)/;
