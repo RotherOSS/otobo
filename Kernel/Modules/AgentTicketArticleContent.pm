@@ -108,7 +108,6 @@ sub Run {
         ContentID          => '',
         ContentType        => 'text/html; charset="utf-8"',
         Disposition        => 'inline',
-        FilesizeRaw        => bytes::length($Content),
     );
 
     # get config object
