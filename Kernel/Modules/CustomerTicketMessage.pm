@@ -456,7 +456,7 @@ sub Run {
         if ($ACLResultStd) {
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( sort keys %AclData ) {
-                $VisibilityStd{ $Field } = 1;
+                $VisibilityStd{$Field} = 1;
             }
         }
 
@@ -773,7 +773,7 @@ sub Run {
         if ($ACLResultStd) {
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( sort keys %AclData ) {
-                $VisibilityStd{ $Field } = 1;
+                $VisibilityStd{$Field} = 1;
             }
         }
 
@@ -782,6 +782,7 @@ sub Run {
         }
 
         if ( $VisibilityStd{Article} ) {
+
             # check subject
             if ( !$GetParam{Subject} ) {
                 $Error{SubjectInvalid} = 'ServerError';
@@ -894,6 +895,7 @@ sub Run {
 
         # if no article has to be created clean up and return
         if ( !$VisibilityStd{Article} ) {
+
             # remove pre submitted attachments
             $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
 
@@ -1371,7 +1373,7 @@ sub Run {
         if ($ACLResultStd) {
             my %AclData = $TicketObject->TicketAclData();
             for my $Field ( sort keys %AclData ) {
-                $VisibilityStd{ $Field } = 1;
+                $VisibilityStd{$Field} = 1;
             }
         }
 
@@ -1756,7 +1758,7 @@ sub _MaskNew {
         if ( $Config->{SLA} ) {
             if ( $Param{ServiceID} ) {
                 %SLA = $TicketObject->TicketSLAList(
-                    QueueID        => 1,    # use default QueueID if none is provided in %Param
+                    QueueID => 1,    # use default QueueID if none is provided in %Param
                     %Param,
                     Action         => $Self->{Action},
                     CustomerUserID => $Self->{UserID},
