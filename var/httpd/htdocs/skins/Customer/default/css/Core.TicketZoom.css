@@ -195,6 +195,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     display: none;
 }
 
+.EmptyMessage {
+    padding: 24px;
+}
+
 .oooAvatar {
     height: 32px;
 }

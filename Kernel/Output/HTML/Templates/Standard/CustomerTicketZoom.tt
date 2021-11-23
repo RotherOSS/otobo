@@ -217,7 +217,7 @@
 </li>
 [% RenderBlockEnd("FollowUp") %]
 [% IF Data.NoArticles %]
-            <li>
+            <li class='EmptyMessage'>
                 [% Translate("This item has no articles yet.") | html %]
             </li>
 [% ELSE %]
