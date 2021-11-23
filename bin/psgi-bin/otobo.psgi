@@ -95,13 +95,8 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-use Kernel::GenericInterface::Provider;
 use Kernel::System::ObjectManager;
-use Kernel::System::Web::InterfaceAgent           ();
-use Kernel::System::Web::InterfaceCustomer        ();
-use Kernel::System::Web::InterfaceInstaller       ();
-use Kernel::System::Web::InterfaceMigrateFromOTRS ();
-use Kernel::System::Web::InterfacePublic          ();
+use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
@@ -449,24 +444,16 @@ my $OTOBOApp = builder {
 
     # The actual functionality of OTOBO is implemented as a set of Plack apps.
     # Dispatching is done with an URL map.
+    # Kernel::System::Web::App loads the interface modules and calls the Response() method.
+    # Add "Debug => 1" in order to enable debugging.
 
-    mount '/customer.pl' => sub {
-        my ($Env) = @_;
+    mount '/customer.pl' => Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceCustomer',
+    )->to_app;
 
-        return Kernel::System::Web::InterfaceCustomer->new(
-            Debug   => 0,      # pass 1 for enabling debug messages
-            PSGIEnv => $Env,
-        )->Response;
-    };
-
-    mount '/index.pl' => sub {
-        my ($Env) = @_;
-
-        return Kernel::System::Web::InterfaceAgent->new(
-            Debug   => 0,      # pass 1 for enabling debug messages
-            PSGIEnv => $Env,
-        )->Response;
-    };
+    mount '/index.pl' => Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceAgent',
+    )->to_app;
 
     mount '/installer.pl' => builder {
 
@@ -477,14 +464,9 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        sub {
-            my ($Env) = @_;
-
-            return Kernel::System::Web::InterfaceInstaller->new(
-                Debug   => 0,      # pass 1 for enabling debug messages
-                PSGIEnv => $Env,
-            )->Response;
-        };
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceInstaller',
+        )->to_app;
     };
 
     mount '/migration.pl' => builder {
@@ -496,33 +478,18 @@ my $OTOBOApp = builder {
                 deny => 'securemode_is_on',
             ];
 
-        sub {
-            my ($Env) = @_;
-
-            return Kernel::System::Web::InterfaceMigrateFromOTRS->new(
-                Debug   => 0,      # pass 1 for enabling debug messages
-                PSGIEnv => $Env,
-            )->Response;
-        };
+        Kernel::System::Web::App->new(
+            Interface => 'Kernel::System::Web::InterfaceMigrateFromOTRS',
+        )->to_app;
     };
 
-    mount '/nph-genericinterface.pl' => sub {
-        my ($Env) = @_;
+    mount "/nph-genericinterface.pl" => Kernel::System::Web::App->new(
+        Interface => 'Kernel::GenericInterface::Provider',
+    )->to_app;
 
-        return Kernel::GenericInterface::Provider->new(
-            Debug   => 0,      # pass 1 for enabling debug messages
-            PSGIEnv => $Env,
-        )->Response;
-    };
-
-    mount '/public.pl' => sub {
-        my ($Env) = @_;
-
-        return Kernel::System::Web::InterfacePublic->new(
-            Debug   => 0,      # pass 1 for enabling debug messages
-            PSGIEnv => $Env,
-        )->Response;
-    };
+    mount "/public.pl" => Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfacePublic',
+    )->to_app;
 
     # agent interface is the default
     mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
