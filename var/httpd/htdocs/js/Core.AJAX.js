@@ -348,6 +348,11 @@ Core.AJAX = (function (TargetNS) {
                 return;
             }
 
+            if (DataKey === 'Restrictions_Visibility_Std') {
+                HideShowFieldsStd(DataValue);
+                return;
+            }
+
             // special case to update ticket attachments
             if (DataKey === 'TicketAttachments') {
                 UpdateTicketAttachments(DataValue);
@@ -438,7 +443,7 @@ Core.AJAX = (function (TargetNS) {
             // field has to be hidden
             if ( FieldInfo[1] == 0 ) {
                 Field.parent().parent('div.Row').hide();
-                Field.parent().parent('div.Row').addClass("ooo.ACLHidden");
+                Field.parent().parent('div.Row').addClass("oooACLHidden");
 
                 // hidden fields cannot be mandatory
                 if ( Field.hasClass("Validate_Required") ) {
@@ -462,12 +467,12 @@ Core.AJAX = (function (TargetNS) {
                 }
             }
             // field has to be shown again
-            else if ( Field.parent().parent('div.Row').hasClass("ooo.ACLHidden") ) {
+            else if ( Field.parent().parent('div.Row').hasClass("oooACLHidden") ) {
                 Field.parent().parent('div.Row').show();
                 // if it was hidden via autoselect before
                 Field.parent().show();
                 $("label[for='" + Field[0] + "']").show();
-                Field.parent().parent('div.Row').removeClass("ooo.ACLHidden");
+                Field.parent().parent('div.Row').removeClass("oooACLHidden");
 
                 // restore validation on mandatory fields
                 if ( Field.hasClass("Validate_Required_IfVisible") ) {
@@ -498,6 +503,53 @@ Core.AJAX = (function (TargetNS) {
                     Field.trigger('redraw.InputField');
                 }
 
+            }
+        }
+    }
+
+    /**
+     * @private
+     * @name HideShowFieldsStd
+     * @memberof Core.AJAX
+     * @function
+     * @param {Object} Data - The field data. Currently only can include Article.
+     * @description
+     *      Toggles visibility of Standardfields
+     */
+    function HideShowFieldsStd(Visibility) {
+        for ( var i = 0; i < Visibility.length; i++ ) {
+            var FieldInfo = Visibility[i];
+
+            if ( FieldInfo[1] == 0 ) {
+                if (FieldInfo[0] === 'Article') {
+                    $('#Subject').parent('div.Row').addClass("oooACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required") ) {
+                        $('#Subject').removeClass("Validate_Required");
+                        $('#Subject').addClass("Validate_Required_IfVisible");
+                    }
+                    $('#RichText').parent('div.RichTextHolder').addClass("oooACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required") ) {
+                        $('#RichText').removeClass("Validate_Required");
+                        $('#RichText').addClass("Validate_Required_IfVisible");
+                    }
+                    $('#oooAttachments').parent('div.Row').addClass("oooACLHidden");
+                }
+            }
+
+            else {
+                if (FieldInfo[0] === 'Article') {
+                    $('#Subject').parent('div.Row').removeClass("oooACLHidden");
+                    if ( $('#Subject').hasClass("Validate_Required_IfVisible") ) {
+                        $('#Subject').removeClass("Validate_Required_IfVisible");
+                        $('#Subject').addClass("Validate_Required");
+                    }
+                    $('#RichText').parent('div.RichTextHolder').removeClass("oooACLHidden");
+                    if ( $('#RichText').hasClass("Validate_Required_IfVisible") ) {
+                        $('#RichText').removeClass("Validate_Required_IfVisible");
+                        $('#RichText').addClass("Validate_Required");
+                    }
+                    $('#oooAttachments').parent('div.Row').removeClass("oooACLHidden");
+                }
             }
         }
     }

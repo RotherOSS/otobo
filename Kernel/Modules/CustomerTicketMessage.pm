@@ -440,6 +440,30 @@ sub Run {
 
         }
 
+        my $ACLResultStd = $TicketObject->TicketAcl(
+            %GetParam,
+            CustomerUserID => $Self->{UserID},
+            Action         => $Self->{Action},
+            ReturnType     => 'FormStd',
+            ReturnSubType  => '-',
+            Data           => {
+                Article => 'Article',
+            },
+        );
+
+        my %VisibilityStd;
+
+        if ($ACLResultStd) {
+            my %AclData = $TicketObject->TicketAclData();
+            for my $Field ( sort keys %AclData ) {
+                $VisibilityStd{$Field} = 1;
+            }
+        }
+
+        else {
+            $VisibilityStd{Article} = 1;
+        }
+
         # create html strings for all dynamic fields
         my %DynamicFieldHTML;
 
@@ -490,6 +514,7 @@ sub Run {
             FromChatID       => $GetParam{FromChatID} || '',
             HideAutoselected => $HideAutoselectedJSON,
             Visibility       => $DynFieldStates{Visibility},
+            VisibilityStd    => \%VisibilityStd,
         );
         $Output .= $LayoutObject->CustomerNavigationBar();
         $Output .= $LayoutObject->CustomerFooter();
@@ -732,14 +757,41 @@ sub Run {
             }
         }
 
-        # check subject
-        if ( !$GetParam{Subject} ) {
-            $Error{SubjectInvalid} = 'ServerError';
+        my $ACLResultStd = $TicketObject->TicketAcl(
+            %GetParam,
+            CustomerUserID => $Self->{UserID},
+            Action         => $Self->{Action},
+            ReturnType     => 'FormStd',
+            ReturnSubType  => '-',
+            Data           => {
+                Article => 'Article',
+            },
+        );
+
+        my %VisibilityStd;
+
+        if ($ACLResultStd) {
+            my %AclData = $TicketObject->TicketAclData();
+            for my $Field ( sort keys %AclData ) {
+                $VisibilityStd{$Field} = 1;
+            }
         }
 
-        # check body
-        if ( !$GetParam{Body} ) {
-            $Error{BodyInvalid} = 'ServerError';
+        else {
+            $VisibilityStd{Article} = 1;
+        }
+
+        if ( $VisibilityStd{Article} ) {
+
+            # check subject
+            if ( !$GetParam{Subject} ) {
+                $Error{SubjectInvalid} = 'ServerError';
+            }
+
+            # check body
+            if ( !$GetParam{Body} ) {
+                $Error{BodyInvalid} = 'ServerError';
+            }
         }
 
         # check mandatory service
@@ -790,6 +842,7 @@ sub Run {
                 DynamicFieldHTML => \%DynamicFieldHTML,
                 Errors           => \%Error,
                 Visibility       => \%Visibility,
+                VisibilityStd    => \%VisibilityStd,
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
@@ -837,6 +890,24 @@ sub Run {
                 ObjectID           => $TicketID,
                 Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
                 UserID             => $ConfigObject->Get('CustomerPanelUserID'),
+            );
+        }
+
+        # if no article has to be created clean up and return
+        if ( !$VisibilityStd{Article} ) {
+
+            # remove pre submitted attachments
+            $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+
+            # delete hidden fields cache
+            $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+                Type => 'HiddenFields',
+                Key  => $Self->{FormID},
+            );
+
+            # redirect
+            return $LayoutObject->Redirect(
+                OP => "Action=$NextScreen;TicketID=$TicketID",
             );
         }
 
@@ -1284,6 +1355,37 @@ sub Run {
             };
         }
 
+        my $ACLResultStd = $TicketObject->TicketAcl(
+            %GetParam,
+            CustomerUserID => $Self->{UserID},
+            Action         => $Self->{Action},
+            ReturnType     => 'FormStd',
+            ReturnSubType  => '-',
+            Data           => {
+                Article => 'Article',
+            },
+        );
+
+        my %VisibilityStd = (
+            Article => 0,
+        );
+
+        if ($ACLResultStd) {
+            my %AclData = $TicketObject->TicketAclData();
+            for my $Field ( sort keys %AclData ) {
+                $VisibilityStd{$Field} = 1;
+            }
+        }
+
+        else {
+            $VisibilityStd{Article} = 1;
+        }
+
+        push @DynamicFieldAJAX, {
+            Name => 'Restrictions_Visibility_Std',
+            Data => \%VisibilityStd,
+        };
+
         # build AJAX return for the standard fields
         my @StdFieldAJAX;
         my %Attributes = (
@@ -1531,6 +1633,7 @@ sub _MaskNew {
                 delete $NewTos{$_};
             }
         }
+
         $Param{ToStrg} = $LayoutObject->AgentQueueListOption(
             Data       => \%NewTos,
             Multiple   => 0,
@@ -1540,6 +1643,7 @@ sub _MaskNew {
             SelectedID => $Param{ToSelected} || $Param{QueueID},
             TreeView   => $TreeView,
         );
+
         $LayoutObject->Block(
             Name => 'Queue',
             Data => {
@@ -1654,7 +1758,7 @@ sub _MaskNew {
         if ( $Config->{SLA} ) {
             if ( $Param{ServiceID} ) {
                 %SLA = $TicketObject->TicketSLAList(
-                    QueueID        => 1,    # use default QueueID if none is provided in %Param
+                    QueueID => 1,    # use default QueueID if none is provided in %Param
                     %Param,
                     Action         => $Self->{Action},
                     CustomerUserID => $Self->{UserID},
@@ -1734,7 +1838,7 @@ sub _MaskNew {
         # hide field
         if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
             %Hidden = (
-                HiddenClass => ' ooo.ACLHidden',
+                HiddenClass => ' oooACLHidden',
                 HiddenStyle => 'style=display:none;',
             );
 
@@ -1768,6 +1872,19 @@ sub _MaskNew {
                 },
             );
         }
+    }
+
+    if ( !$Param{VisibilityStd}{Article} ) {
+        $Param{SubjectValidate}        = 'Validate_Required_IfVisible';
+        $Param{BodyValidate}           = 'Validate_Required_IfVisible';
+        $Param{SubjectHiddenClass}     = ' oooACLHidden';
+        $Param{BodyHiddenClass}        = ' oooACLHidden';
+        $Param{AttachmentsHiddenClass} = ' oooACLHidden';
+    }
+
+    else {
+        $Param{SubjectValidate} = 'Validate_Required_IfVisible';
+        $Param{BodyValidate}    = 'Validate_Required_IfVisible';
     }
 
     # show attachments

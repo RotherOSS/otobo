@@ -190,7 +190,7 @@ Core.Customer.TicketZoom = (function (TargetNS) {
      * This function activates attachments, replybutton, info, and builds the article list.
      */
     function BuildArticles(){
-        $('#oooArticleListExpanded > li:not(.Activity)').each( function() {
+        $('#oooArticleListExpanded > li:not(.Activity):not(.EmptyMessage)').each( function() {
             var Article = $(this);
             var Header  = Article.children('.MessageHeader').first();
 
@@ -297,54 +297,56 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         });
 
         // scroll events
-        $(window).scroll( function() {
-            // change Header on scroll
-            if ( $(window).width() > 767 ) {
-                if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
-                    $("#oooHeader").height( '56px' );
-                    $("#oooHeader").css( 'padding-top', '8px' );
-                    $("#oooHeader .oooCategory").fadeOut(200);
-                }
-                else if ( $(window).scrollTop() < 8 ) {
-                    $("#oooHeader").height( '123px' );
-                    $("#oooHeader").css( 'padding-top', '22px' );
-                    $("#oooHeader .oooCategory").fadeIn(200);
-                }
-            }
-
-            // track active article
-            var ActiveIndex = $('#oooArticleList > .oooActive').index() + 1 + ActivityCount,
-                StartIndex  = ActiveIndex,
-                ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
-
-            if ( ActiveChild.length ) {
-                $('#oooArticleList > .oooActive').removeClass('oooActive');
-
-                // scroll down
-                if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
-                    var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
-                    while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
-                        ActiveChild = NextChild;
-                        ActiveIndex++;
-                        NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+        if ( $('#oooArticleList > li').length ) {
+            $(window).scroll( function() {
+                // change Header on scroll
+                if ( $(window).width() > 767 ) {
+                    if ( $(window).scrollTop() > 90 && $("#oooHeader").height() > 56 ) {
+                        $("#oooHeader").height( '56px' );
+                        $("#oooHeader").css( 'padding-top', '8px' );
+                        $("#oooHeader .oooCategory").fadeOut(200);
+                    }
+                    else if ( $(window).scrollTop() < 8 ) {
+                        $("#oooHeader").height( '123px' );
+                        $("#oooHeader").css( 'padding-top', '22px' );
+                        $("#oooHeader .oooCategory").fadeIn(200);
                     }
                 }
-                // scroll up
-                else {
+
+                // track active article
+                var ActiveIndex = $('#oooArticleList > .oooActive').index() + 1 + ActivityCount,
+                    StartIndex  = ActiveIndex,
+                    ActiveChild = $('#oooArticleListExpanded > li:nth-child(' + ActiveIndex + ')');
+
+                if ( ActiveChild.length ) {
                     $('#oooArticleList > .oooActive').removeClass('oooActive');
-                    var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
-                    while ( ActiveIndex > 1 + ActivityCount && ActiveChild.offset().top > $(window).scrollTop() + 240) {
-                        ActiveChild = PrevChild;
-                        ActiveIndex--;
-                        PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+
+                    // scroll down
+                    if ( ActiveChild.offset().top < $(window).scrollTop() + 240 ) {
+                        var NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                        while ( NextChild.length && NextChild.offset().top < $(window).scrollTop() + 240 ) {
+                            ActiveChild = NextChild;
+                            ActiveIndex++;
+                            NextChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex + 1 ) + ')');
+                        }
+                    }
+                    // scroll up
+                    else {
+                        $('#oooArticleList > .oooActive').removeClass('oooActive');
+                        var PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                        while ( ActiveIndex > 1 + ActivityCount && ActiveChild.offset().top > $(window).scrollTop() + 240) {
+                            ActiveChild = PrevChild;
+                            ActiveIndex--;
+                            PrevChild = $('#oooArticleListExpanded > li:nth-child(' + ( ActiveIndex - 1 ) + ')');
+                        }
+                    }
+                    $('#oooArticleList > li:nth-child(' + ( ActiveIndex - ActivityCount ) +')').addClass('oooActive');
+                    if ( ActiveIndex !== StartIndex ) {
+                        $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
                     }
                 }
-                $('#oooArticleList > li:nth-child(' + ( ActiveIndex - ActivityCount ) +')').addClass('oooActive');
-                if ( ActiveIndex !== StartIndex ) {
-                    $('#oooArticleList').scrollTop( $('#oooArticleList > .oooActive').position().top );
-                }
-            }
-        });
+            });
+        }
 
         // TODO: connect to scrollevent
         $('#oooArticleListExpanded .MessageBody').each( function() {
@@ -378,15 +380,17 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Event.preventDefault();
         });*/
         /* Set statuses saved in the hidden fields for all visible messages if ZoomExpand is present */
-        if (!ZoomExpand || isNaN(ZoomExpand)) {
-            $('#Messages > li').attr('data-articlestate', "true");
-            ResizeIframe($VisibleIframe);
-        }
-        else {
-            /* Set statuses saved in the hidden fields for all messages */
-            $('#Messages > li:not(:last)').attr('data-articlestate', "untouched");
-            $('#Messages > li:last').attr('data-articlestate', "true");
-            ResizeIframe($VisibleIframe.get(0));
+        if ( $VisibleIframe.length ) {
+            if (!ZoomExpand || isNaN(ZoomExpand)) {
+                $('#Messages > li').attr('data-articlestate', "true");
+                ResizeIframe($VisibleIframe);
+            }
+            else {
+                /* Set statuses saved in the hidden fields for all messages */
+                $('#Messages > li:not(:last)').attr('data-articlestate', "untouched");
+                $('#Messages > li:last').attr('data-articlestate', "true");
+                ResizeIframe($VisibleIframe.get(0));
+            }
         }
 
         // init browser link message close button
