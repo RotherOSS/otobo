@@ -110,7 +110,7 @@ sub new {
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
         my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
-        my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
+        my %Data = $ConfigObject->Get('DefaultUsedLanguages')->%*;
 
         LANGUAGE:
         for my $BrowserLang (@BrowserLanguages) {
@@ -208,11 +208,9 @@ EOF
     # check Frontend::Output::FilterText
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
-    # check browser
-    $Self->{Browser}        = 'Unknown';
-    $Self->{BrowserVersion} = 0;
-    $Self->{Platform}       = '';
-    $Self->{IsMobile}       = 0;
+    # check browser features relying on the user agent as transmitted by the client
+    $Self->{Platform} = '';
+    $Self->{IsMobile} = 0;
 
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
@@ -220,7 +218,8 @@ EOF
     my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
-        $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
+
+        # give up when we have no user agent
     }
     else {
 
@@ -238,16 +237,17 @@ EOF
 
         # edge / spartan
         if ( $HttpUserAgent =~ /edge/ ) {
-            $Self->{Browser} = 'Edge';
+
+            # standard features are supported
         }
 
         # msie
         elsif (
             $HttpUserAgent =~ /msie\s([0-9.]+)/
-            || $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
+            ||
+            $HttpUserAgent =~ /internet\sexplorer\/([0-9.]+)/
             )
         {
-            $Self->{Browser} = 'MSIE';
 
             if ( $1 =~ /(\d+)\.(\d+)/ ) {
                 $Self->{BrowserMajorVersion} = $1;
@@ -262,13 +262,11 @@ EOF
 
         # mobile ie
         elsif ( $HttpUserAgent =~ /iemobile/ ) {
-            $Self->{Browser}  = 'MSIE';
             $Self->{Platform} = 'Windows Phone';
         }
 
         # mobile ie (second try)
         elsif ( $HttpUserAgent =~ /trident/ ) {
-            $Self->{Browser} = 'MSIE';
 
             if ( $HttpUserAgent =~ /rv:([0-9])+\.([0-9])+/ ) {
                 $Self->{BrowserMajorVersion} = $2;
@@ -279,40 +277,29 @@ EOF
         # iOS
         elsif ( $HttpUserAgent =~ /(ipad|iphone|ipod)/ ) {
             $Self->{Platform} = 'iOS';
-            $Self->{Browser}  = 'Safari';
 
+            my $BrowserVersion = 0;
             if ( $HttpUserAgent =~ /(ipad|iphone|ipod);.*cpu.*os ([0-9]+)_/ ) {
-                $Self->{BrowserVersion} = $2;
+                $BrowserVersion = $2;
             }
 
             if ( $HttpUserAgent =~ /crios/ ) {
-                $Self->{Browser} = 'Chrome';
+
+                # standard features are supported
             }
 
             # RichText is supported in iOS6+.
-            if ( $Self->{BrowserVersion} >= 6 ) {
-                $Self->{BrowserRichText} = 1;
-            }
-            else {
-                $Self->{BrowserRichText} = 0;
-            }
+            $Self->{BrowserRichText} = $BrowserVersion >= 6 ? 1 : 0;
         }
 
         # safari
         elsif ( $HttpUserAgent =~ /safari/ ) {
 
-            # chrome
-            if ( $HttpUserAgent =~ /chrome/ ) {
-                $Self->{Browser} = 'Chrome';
-            }
-            else {
-                $Self->{Browser} = 'Safari';
-            }
+            # standard features are supported
         }
 
         # konqueror
         elsif ( $HttpUserAgent =~ /konqueror/ ) {
-            $Self->{Browser} = 'Konqueror';
 
             # on konquerer disable rich text editor
             $Self->{BrowserRichText} = 0;
@@ -320,37 +307,39 @@ EOF
 
         # firefox
         elsif ( $HttpUserAgent =~ /firefox/ ) {
-            $Self->{Browser} = 'Firefox';
+
+            # standard features are supported
         }
 
         # opera
         elsif ( $HttpUserAgent =~ /^opera.*/ ) {
-            $Self->{Browser} = 'Opera';
+
+            # standard features are supported
         }
 
         # netscape
         elsif ( $HttpUserAgent =~ /netscape/ ) {
-            $Self->{Browser} = 'Netscape';
+
+            # standard features are supported
         }
 
         # w3m
         elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
-            $Self->{Browser}                  = 'w3m';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
 
         # lynx
         elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
-            $Self->{Browser}                  = 'Lynx';
             $Self->{BrowserJavaScriptSupport} = 0;
         }
 
         # links
         elsif ( $HttpUserAgent =~ /^links.*/ ) {
-            $Self->{Browser} = 'Links';
+
+            # standard features are supported
         }
         else {
-            $Self->{Browser} = 'Unknown - ' . $HttpUserAgent;
+            # let's be optimistic and assume that the standard features are supported
         }
     }
 
