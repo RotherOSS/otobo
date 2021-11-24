@@ -314,8 +314,7 @@ for my $Test (@Tests) {
                             Data   => $Test->{RequestData},
                             Encode => 0,
                         );
-                        use bytes;
-                        $ENV{CONTENT_LENGTH} = length($RequestData);
+                        $ENV{CONTENT_LENGTH} = bytes::length($RequestData);
                     }
                     else {    # GET
 

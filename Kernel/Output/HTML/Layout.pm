@@ -548,7 +548,7 @@ sub JSONEncode {
 
 =head2 Redirect()
 
-throw a Kernel::System::Web::Exception that triggers a redirect to the redirect URL
+throw a L<Kernel::System::Web::Exception> that triggers a redirect to the redirect URL
 
     # internal redirects
     $LayoutObject->Redirect(
@@ -647,8 +647,8 @@ sub Redirect {
     }
 
     # create an response object we can work with
-    my $ResponseObject = Plack::Response->new();
-    $ResponseObject->redirect($RedirectURL);
+    my $RedirectResponse = Plack::Response->new();
+    $RedirectResponse->redirect($RedirectURL);
 
     # Add the cookies that had been set in the constructor.
     # The values of $Self->{SetCookies} are plain hash references.
@@ -667,13 +667,13 @@ sub Redirect {
             my $Name        = delete $Ingredients{name};
 
             # the method 'cookies' is in lower case because we use Plack::Response directly
-            $ResponseObject->cookies->{$Name} = \%Ingredients;
+            $RedirectResponse->cookies->{$Name} = \%Ingredients;
         }
     }
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
-        PlackResponse => $ResponseObject
+        PlackResponse => $RedirectResponse
     );
 }
 
@@ -967,9 +967,14 @@ sub FatalError {
     # Modify the output by applying the output filters.
     $Output = $Self->ApplyOutputFilters( Output => $Output );
 
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Output );
+
     # The OTOBO response object already has the HTPP headers.
     # Enhance it with the HTTP status code and the content.
-    my $PlackResponse = Plack::Response->new(
+    my $ErrorResponse = Plack::Response->new(
         200,
         $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
         $Output
@@ -977,7 +982,7 @@ sub FatalError {
 
     # The exception is caught be Plack::Middleware::HTTPExceptions
     die Kernel::System::Web::Exception->new(
-        PlackResponse => $PlackResponse
+        PlackResponse => $ErrorResponse
     );
 }
 
@@ -2763,16 +2768,6 @@ sub Attachment {
         $Headers{'Pragma'}        = 'no-cache';
     }
 
-    # Add Content-Length for attachments.
-    # The content is either a IO::Handle like object or a string.
-    # TODO: why is Content-Length added only for attachments?
-    if ( blessed( $Param{Content} ) && $Param{Content}->can('getline') ) {
-        $Headers{'Content-Length'} = Plack::Util::content_length( $Param{Content} );
-    }
-    else {
-        $Headers{'Content-Length'} = Plack::Util::content_length( [ $Param{Content} ] );
-    }
-
     $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
 
     if ( !$ConfigObject->Get('DisableIFrameOriginRestricted') ) {
@@ -4514,6 +4509,11 @@ sub CustomerFatalError {
 
     # Modify the output by applying the output filters.
     $Output = $Self->ApplyOutputFilters( Output => $Output );
+
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Output );
 
     # The OTOBO response object already has the HTPP headers.
     # Enhance it with the HTTP status code and the content.

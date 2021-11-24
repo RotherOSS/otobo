@@ -348,7 +348,7 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
 The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
@@ -915,9 +915,7 @@ sub RequesterPerformRequest {
         my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
         $MaxSize = $MaxSize * 1024;
-        use bytes;
-
-        my $ByteSize = length($ResponseContent);
+        my $ByteSize = bytes::length($ResponseContent);
 
         if ( $ByteSize < $MaxSize ) {
             $Self->{DebuggerObject}->Debug(
@@ -989,8 +987,8 @@ sub RequesterPerformRequest {
 
 =head2 _ThrowWebException()
 
-creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
-and throw the exception object.
+creates a M<Plack::Response> object, wrap it into a M<Kernel::System::Web::Exception>
+and throw that object as an exception.
 
     # the sub dies
     $TransportObject->_ThrowWebException(
@@ -1027,9 +1025,6 @@ sub _ThrowWebException {
 
     my $ContentType = $Param{HTTPCode} eq 200 ? 'application/json' : 'text/plain';
 
-    # Calculate content length (based on the bytes length not on the characters length).
-    my $ContentLength = bytes::length( $Param{Content} );
-
     # Log to debugger.
     my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
@@ -1040,9 +1035,13 @@ sub _ThrowWebException {
 
     # header for the response that will be thrown
     my @Headers;
-    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
-    push @Headers, 'Content-Length' => $ContentLength;
-    push @Headers, 'Connection'     => ( $Self->{KeepAlive} ? 'Keep-Alive' : 'close' );
+    push @Headers, 'Content-Type' => "$ContentType; charset=UTF-8";
+    push @Headers, 'Connection'   => ( $Self->{KeepAlive} ? 'Keep-Alive' : 'close' );
+
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
 
     # Prepare additional headers.
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {

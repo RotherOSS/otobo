@@ -129,7 +129,7 @@ sub ProviderProcessRequest {
 
 generate response for an incoming web service request.
 
-Throws a L<Kernel::System::Web::Exception> which contains the response.
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
     $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0
@@ -158,6 +158,11 @@ sub ProviderGenerateResponse {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
 
         # a response with code 500
         my $PlackResponse = Plack::Response->new(

@@ -82,7 +82,7 @@ sub new {
 Receives the current incoming web service request, handles it,
 and returns an appropriate answer based on the requested web service.
 Set headers in Kernels::System::Web::Request singleton as side effect.
-Can die and throw an exception to be caught be Plack::Middleware::HTTPExceptions.
+Can die and throw Kernel::System::Web::Exception which is expected to be caught by Plack::Middleware::HTTPExceptions.
 
     # put this in the handler script
     my $Content = $Interface->Content();
@@ -424,8 +424,7 @@ sub Content {
         );
     }
 
-    # Generate the actual response and throw it in an
-    # Kernel::System::Web::Exception.
+    # Generate the actual response and throw it in an Kernel::System::Web::Exception.
     $Self->{TransportObject}->ProviderGenerateResponse(
         Success   => 1,
         Data      => $DataOut,
