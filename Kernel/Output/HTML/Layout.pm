@@ -6570,7 +6570,7 @@ sub SetCookie {
         }
     }
 
-    $Self->{SetCookies}{ $Param{Key} } = {
+    $Self->{SetCookies}->{ $Param{Key} } = {
         name     => $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},
