@@ -33,6 +33,18 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     top: -24px;
 }
 
+/* icons, buttons,... */
+
+.Activity button.oooXS {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+    min-width: 106px;
+    max-width: 300px;
+    padding: 1px 16px;
+}
+
 /* Fields */
 
  .FieldExplanation {

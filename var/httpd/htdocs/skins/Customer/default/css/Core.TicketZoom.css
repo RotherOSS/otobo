@@ -191,14 +191,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     background-color: var(--colBGLight);
 }
 
-.Activity {
-    display: none;
-}
-
-.EmptyMessage {
-    padding: 24px;
-}
-
 .oooAvatar {
     height: 32px;
 }
@@ -226,6 +218,24 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 #oooHeader .ooofo-more_v {
     text-align: right;
+}
+
+.Activity {
+    display: none;
+}
+
+.EmptyMessage {
+    padding: 24px;
+}
+
+button.oooM.ActivityStartButton {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: auto;
+    min-width: 162px;
+    max-width: 240px;
+    padding: 1px 16px;
 }
 
 @media only screen and (min-width: 1024px) {
