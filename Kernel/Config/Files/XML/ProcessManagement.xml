@@ -335,6 +335,7 @@
                         <Item>Core.Agent.TicketAction.js</Item>
                         <Item>Core.Agent.TicketProcess.js</Item>
                         <Item>Core.TicketProcess.js</Item>
+                        <Item>Core.TicketProcessAcl.js</Item>
                     </Array>
                 </Item>
             </Hash>
