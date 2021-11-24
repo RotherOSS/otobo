@@ -6546,12 +6546,12 @@ sub UserInitialsGet {
 Set a cookie using the syntax of Kernel/System/Request.pm
 
     $ResponseObject->SetCookie(
-        Key     => ID,          # name
-        Value   => 123456,      # value
-        Expires => '+3660s',    # expires
-        Path    => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
-        Secure  => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,          # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
+        Key      => 'ID',        # name
+        Value    => 123456,      # value
+        Expires  => '+3660s',    # expires
+        Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly => 1,           # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 =cut
