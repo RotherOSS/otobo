@@ -260,6 +260,10 @@ Core.Customer.TicketZoom = (function (TargetNS) {
         BuildArticles();
         $('#ReplyButton').on('click', function(Event){
             Event.preventDefault();
+
+            // hide all open activities
+            $('.Activity.Visible .CloseButton').trigger('click');
+
             $FollowUp.show();
             $FollowUp.addClass('Visible');
             Core.UI.InputFields.Activate();
@@ -276,6 +280,9 @@ Core.Customer.TicketZoom = (function (TargetNS) {
             Event.preventDefault();
             var DialogEntityID = $(this).attr('id').replace( /^Button_/, '' ),
                 $DialogWidget  = $( '#Process_' + DialogEntityID );
+
+            // hide all open activities
+            $('.Activity.Visible .CloseButton').trigger('click');
 
             $DialogWidget.show();
             $DialogWidget.addClass('Visible');
