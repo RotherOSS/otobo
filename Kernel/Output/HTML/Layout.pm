@@ -91,8 +91,9 @@ sub new {
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
 
-    # set debug
+    # set defaults
     $Self->{Debug} = 0;
+    $Self->{SetCookies} //= {};
 
     # reset block data
     delete $Self->{BlockData};
