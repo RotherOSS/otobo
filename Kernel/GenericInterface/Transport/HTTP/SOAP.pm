@@ -1076,9 +1076,6 @@ sub _ThrowWebException {
 
     my $ContentType = $Param{HTTPCode} eq 200 ? ( $Self->{ContentType} || 'text/xml' ) : 'text/plain';
 
-    # Calculate content length (based on the bytes length not on the characters length).
-    my $ContentLength = bytes::length( $Param{Content} );
-
     # Log to debugger.
     my $DebugLevel = $Param{HTTPCode} eq 200 ? 'debug' : 'error';
     $Self->{DebuggerObject}->DebugLog(
@@ -1092,9 +1089,13 @@ sub _ThrowWebException {
 
     # header for the response that will be thrown
     my @Headers;
-    push @Headers, 'Content-Type'   => "$ContentType; charset=UTF-8";
-    push @Headers, 'Content-Length' => $ContentLength;
-    push @Headers, 'Connection'     => ( $ConfigKeepAlive ? 'Keep-Alive' : 'close' );
+    push @Headers, 'Content-Type' => "$ContentType; charset=UTF-8";
+    push @Headers, 'Connection'   => ( $ConfigKeepAlive ? 'Keep-Alive' : 'close' );
+
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Content} );
 
     # Prepare additional headers.
     if ( IsHashRefWithData( $Self->{TransportConfig}->{Config}->{AdditionalHeaders} ) ) {

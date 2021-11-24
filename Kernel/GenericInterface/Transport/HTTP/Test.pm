@@ -146,6 +146,11 @@ sub ProviderGenerateResponse {
 
         my $ErrorMessage = 'Test response generation failed';
 
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
+
         # a response with code 500
         $PlackResponse = Plack::Response->new(
             500,
@@ -156,6 +161,11 @@ sub ProviderGenerateResponse {
     }
     elsif ( !$Param{Success} ) {
         my $ErrorMessage = $Param{ErrorMessage} || 'Internal Server Error';
+
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
 
         # a response with code 500
         $PlackResponse = Plack::Response->new(
@@ -169,10 +179,16 @@ sub ProviderGenerateResponse {
         # generate a request string from the data
         my $Request = HTTP::Request::Common::POST( 'http://testhost.local/', Content => $Param{Data} );
 
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        my $Content = $Request->content;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Content );
+
         $PlackResponse = Plack::Response->new(
             200,
             [ 'Content-Type' => 'text/plain; charset=UTF-8' ],
-            $Request->content,
+            $Content
         );
     }
 

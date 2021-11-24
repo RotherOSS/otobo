@@ -159,6 +159,11 @@ sub ProviderGenerateResponse {
             Summary => $ErrorMessage,
         );
 
+        # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+        # there are no multi-byte characters in the delivered content. This is because the middleware
+        # uses core::length() for determining the content length.
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$ErrorMessage );
+
         # a response with code 500
         my $PlackResponse = Plack::Response->new(
             500,

@@ -430,6 +430,10 @@ my $OTOBOApp = builder {
     # are already reloaded Kernel::Config::Defaults::new().
     enable_if { !$ENV{OTOBO_SYNC_WITH_S3} } $ModuleRefreshMiddleware;
 
+    # add the Content-Length header, unless it already is set
+    # this applies also to content from Kernel::System::Web::Exception
+    enable 'Plack::Middleware::ContentLength';
+
     # we might catch an instance of Kernel::System::Web::Exception
     enable 'Plack::Middleware::HTTPExceptions';
 
