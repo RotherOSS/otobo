@@ -548,7 +548,7 @@ sub JSONEncode {
 
 =head2 Redirect()
 
-throw a Kernel::System::Web::Exception that triggers a redirect to the redirect URL
+throw a L<Kernel::System::Web::Exception> that triggers a redirect to the redirect URL
 
     # internal redirects
     $LayoutObject->Redirect(

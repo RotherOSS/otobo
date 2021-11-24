@@ -1032,8 +1032,8 @@ sub _Error {
 
 =head2 _ThrowWebException()
 
-creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
-and throw the exception object.
+creates a M<Plack::Response> object, wrap it into a M<Kernel::System::Web::Exception> object
+and throw that object as an exception.
 
     # this sub dies
     $TransportObject->_ThrowWebException(

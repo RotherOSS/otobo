@@ -128,7 +128,7 @@ sub ProviderProcessRequest {
 
 =head2 ProviderGenerateResponse()
 
-Throws a L<Kernel::System::Web::Exception>.
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
 This will generate a query string from the passed data hash.
 and generate an HTTP response with this string as the body.

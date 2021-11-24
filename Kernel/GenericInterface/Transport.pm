@@ -129,7 +129,7 @@ sub ProviderProcessRequest {
 
 generate response for an incoming web service request.
 
-Throws a L<Kernel::System::Web::Exception> which contains the response.
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
     $TransportObject->ProviderGenerateResponse(
         Success         => 1,       # 1 or 0

@@ -348,7 +348,7 @@ sub ProviderProcessRequest {
 
 Generates response for an incoming web service request.
 
-Throws a L<Kernel::System::Web::Exception> containing a Plack response object.
+Throws a L<Kernel::System::Web::Exception> which contains a Plack response object.
 
 The HTTP code of the response object is set accordingly
 - C<200> for (syntactically) correct messages
@@ -987,8 +987,8 @@ sub RequesterPerformRequest {
 
 =head2 _ThrowWebException()
 
-creates a M<Plack::Request> object, wrap it into a M<Kernel::System::Web::Exception> object
-and throw the exception object.
+creates a M<Plack::Response> object, wrap it into a M<Kernel::System::Web::Exception>
+and throw that object as an exception.
 
     # the sub dies
     $TransportObject->_ThrowWebException(
