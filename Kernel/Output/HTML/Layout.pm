@@ -222,7 +222,7 @@ EOF
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
     # check browser features relying on the user agent as transmitted by the client
-    $Self->{Platform}        = '';
+    my $Platform = '';
     $Self->{IsMobile}        = 0;
     $Self->{BrowserRichText} = 1;
 
@@ -243,7 +243,7 @@ EOF
 
         # android
         if ( $HttpUserAgent =~ /android/ ) {
-            $Self->{Platform} = 'Android';
+            $Platform = 'Android';
         }
 
         # edge / spartan
@@ -266,13 +266,13 @@ EOF
 
             # older windows mobile phones (until IE9), that still have 'MSIE' in the user agent string
             if ( $Self->{IsMobile} ) {
-                $Self->{Platform} = 'Windows Phone';
+                $Platform = 'Windows Phone';
             }
         }
 
         # mobile ie
         elsif ( $HttpUserAgent =~ /iemobile/ ) {
-            $Self->{Platform} = 'Windows Phone';
+            $Platform = 'Windows Phone';
         }
 
         # mobile ie (second try)
@@ -286,7 +286,7 @@ EOF
 
         # iOS
         elsif ( $HttpUserAgent =~ /(ipad|iphone|ipod)/ ) {
-            $Self->{Platform} = 'iOS';
+            $Platform = 'iOS';
 
             my $BrowserVersion = 0;
             if ( $HttpUserAgent =~ /(ipad|iphone|ipod);.*cpu.*os ([0-9]+)_/ ) {
@@ -356,9 +356,9 @@ EOF
     # check mobile devices to disable richtext support
     if (
         $Self->{IsMobile}
-        && $Self->{Platform} ne 'iOS'
-        && $Self->{Platform} ne 'Android'
-        && $Self->{Platform} ne 'Windows Phone'
+        && $Platform ne 'iOS'
+        && $Platform ne 'Android'
+        && $Platform ne 'Windows Phone'
         )
     {
         $Self->{BrowserRichText} = 0;
