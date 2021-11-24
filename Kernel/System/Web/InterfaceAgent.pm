@@ -336,24 +336,16 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $Expires = '';
             }
 
-            $Kernel::OM->ObjectParamAdd(
-                'Kernel::Output::HTML::Layout' => {
-                    SetCookies => {
-
-                        # tentatively set an useless cookie, for checking cookie support
-                        OTOBOBrowserHasCookie => $ParamObject->SetCookie(
-                            Key      => 'OTOBOBrowserHasCookie',
-                            Value    => 1,
-                            Expires  => $Expires,
-                            Path     => $ConfigObject->Get('ScriptAlias'),
-                            Secure   => $CookieSecureAttribute,
-                            HTTPOnly => 1,
-                        ),
-                    },
-                }
-            );
-
+            # tentatively set an useless cookie, for checking cookie support
             my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+            $LayoutObject->SetCookie(
+                Key      => 'OTOBOBrowserHasCookie',
+                Value    => 1,
+                Expires  => $Expires,
+                Path     => $ConfigObject->Get('ScriptAlias'),
+                Secure   => $CookieSecureAttribute,
+                HTTPOnly => 1,
+            );
 
             # redirect to alternate login
             if ( $ConfigObject->Get('LoginURL') ) {
