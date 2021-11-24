@@ -209,17 +209,18 @@ EOF
     $Self->{FilterText} = $ConfigObject->Get('Frontend::Output::FilterText');
 
     # check browser features relying on the user agent as transmitted by the client
-    my $Platform = '';
-    $Self->{IsMobile} = 0;
+    # The finally relevant settings are:
+    #   - 'Frontend::RichText' in the SysConfig
+    #   - the attribute BrowserRichText in this object.
+    $Self->{BrowserRichText} = 1;
 
-    $Self->{BrowserJavaScriptSupport} = 1;
-    $Self->{BrowserRichText}          = 1;
-
+    my $Platform      = '';
+    my $IsMobile      = 0;
     my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
 
     if ( !$HttpUserAgent ) {
 
-        # give up when we have no user agent
+        # give up when we have no user agent, assume that we have the standard features
     }
     else {
 
@@ -227,7 +228,7 @@ EOF
         # tablets are handled like desktops
         # only phones are "mobile"
         if ( $HttpUserAgent =~ /mobile/ ) {
-            $Self->{IsMobile} = 1;
+            $IsMobile = 1;
         }
 
         # android
@@ -255,7 +256,7 @@ EOF
             }
 
             # older windows mobile phones (until IE9), that still have 'MSIE' in the user agent string
-            if ( $Self->{IsMobile} ) {
+            if ($IsMobile) {
                 $Platform = 'Windows Phone';
             }
         }
@@ -325,12 +326,12 @@ EOF
 
         # w3m
         elsif ( $HttpUserAgent =~ /^w3m.*/ ) {
-            $Self->{BrowserJavaScriptSupport} = 0;
+            $Self->{BrowserRichText} = 0;
         }
 
         # lynx
         elsif ( $HttpUserAgent =~ /^lynx.*/ ) {
-            $Self->{BrowserJavaScriptSupport} = 0;
+            $Self->{BrowserRichText} = 0;
         }
 
         # links
@@ -345,7 +346,7 @@ EOF
 
     # check mobile devices to disable richtext support
     if (
-        $Self->{IsMobile}
+        $IsMobile
         && $Platform ne 'iOS'
         && $Platform ne 'Android'
         && $Platform ne 'Windows Phone'
@@ -354,15 +355,15 @@ EOF
         $Self->{BrowserRichText} = 0;
     }
 
-    # check if rich text can be active
-    if ( !$Self->{BrowserJavaScriptSupport} || !$Self->{BrowserRichText} ) {
+    # check if rich text can be active, if not adapt the config just for this requests
+    if ( !$Self->{BrowserRichText} ) {
         $ConfigObject->Set(
             Key   => 'Frontend::RichText',
             Value => 0,
         );
     }
 
-    # check if rich text is active
+    # check if rich text is has been deactivated in the SysConfig
     if ( !$ConfigObject->Get('Frontend::RichText') ) {
         $Self->{BrowserRichText} = 0;
     }
