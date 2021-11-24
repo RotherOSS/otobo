@@ -915,9 +915,7 @@ sub RequesterPerformRequest {
         my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
         $MaxSize = $MaxSize * 1024;
-        use bytes;
-
-        my $ByteSize = length($ResponseContent);
+        my $ByteSize = bytes::length($ResponseContent);
 
         if ( $ByteSize < $MaxSize ) {
             $Self->{DebuggerObject}->Debug(
