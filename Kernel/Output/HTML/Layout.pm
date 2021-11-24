@@ -91,8 +91,9 @@ sub new {
     # %Param often has a entry for 'SetCookies'
     my $Self = bless {%Param}, $Type;
 
-    # set debug
+    # set defaults
     $Self->{Debug} = 0;
+    $Self->{SetCookies} //= {};
 
     # reset block data
     delete $Self->{BlockData};
@@ -702,7 +703,7 @@ sub Login {
         }
 
         # set a cookie tentatively for checking cookie support
-        $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
+        $Self->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
             Value    => 1,
             Expires  => $Expires,
@@ -6545,12 +6546,12 @@ sub UserInitialsGet {
 Set a cookie using the syntax of Kernel/System/Request.pm
 
     $ResponseObject->SetCookie(
-        Key     => ID,          # name
-        Value   => 123456,      # value
-        Expires => '+3660s',    # expires
-        Path    => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
-        Secure  => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
-        HTTPOnly => 1,          # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
+        Key      => 'ID',        # name
+        Value    => 123456,      # value
+        Expires  => '+3660s',    # expires
+        Path     => 'otobo/',    # path optional, only allow cookie for given path, '/' will be prepended
+        Secure   => 1,           # secure optional, set secure attribute to disable cookie on HTTP (HTTPS only), default is off
+        HTTPOnly => 1,           # httponly optional, sets HttpOnly attribute of cookie to prevent access via JavaScript, default is off
     );
 
 =cut
@@ -6569,7 +6570,7 @@ sub SetCookie {
         }
     }
 
-    $Self->{SetCookies}{ $Param{Key} } = {
+    $Self->{SetCookies}->{ $Param{Key} } = {
         name     => $Param{Key},
         value    => $Param{Value},
         expires  => $Param{Expires},

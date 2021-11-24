@@ -130,36 +130,45 @@ sub Content {
 =head2 Finalize()
 
 a wrapper around Plack::Response::finalize().
-Also set default status and the passed in content.
+
+Set HTTP status 200 when no status was set yet. as the default status and the passed in content. The pa
 
 =cut
 
 sub Finalize {
     my ( $Self, %Param ) = @_;
 
-    my $Content = $Param{Content} // '';
-
     # Keep the HTTP status code when it already was set.
     # Otherwise assume that the request was successful and set the code to 200.
     $Self->Code(200) unless $Self->Code();
 
-    # The content is UTF-8 encoded when the header Content-Type has been set up like:
-    #   'Content-Type'    => 'text/html; charset=utf-8'
-    # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
-    if ( !ref $Content || ref $Content eq 'ARRAY' ) {
-        my $Charset = $Self->Headers->content_type_charset // '';
-        if ( $Charset eq 'UTF-8' ) {
-            if ( ref $Content eq 'ARRAY' ) {
-                for my $Item ( $Content->@* ) {
-                    utf8::encode($Item);
+    # The content has either been set by the Content() method or here as the param Content.
+    # The param has precedence.
+    if ( exists $Param{Content} ) {
+
+        my $Content = $Param{Content} // '';
+
+        # The content is UTF-8 encoded when the header Content-Type has been set up like:
+        #   'Content-Type'    => 'text/html; charset=utf-8'
+        # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
+        if ( !ref $Content || ref $Content eq 'ARRAY' ) {
+            my $Charset = $Self->Headers->content_type_charset // '';
+            if ( $Charset eq 'UTF-8' ) {
+                if ( ref $Content eq 'ARRAY' ) {
+                    for my $Item ( $Content->@* ) {
+                        utf8::encode($Item);
+                    }
+                }
+                else {
+                    utf8::encode($Content);
                 }
             }
-            else {
-                utf8::encode($Content);
-            }
         }
+        $Self->Content($Content);
     }
-    $Self->Content($Content);    # a file handle is acceptable here
+    else {
+        # Content must have been set via the method Content().
+    }
 
     # return the PSGI response, a funnny unblessed array reference with three elements
     return $Self->{Response}->finalize();

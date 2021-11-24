@@ -450,9 +450,12 @@ sub Response {
     # A notable example is the SetCookies parameter.
     my $Content = $Self->Content();
 
+    # This code is usually never called, as Content() usually throws an exceptiom.
     # The HTTP headers of the OTOBO web response object already have been set up.
     # Enhance it with the HTTP status code and the content.
-    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize( Content => $Content );
+    return $Kernel::OM->Get('Kernel::System::Web::Response')->Finalize(
+        Content => $Content
+    );
 }
 
 =begin Internal:
