@@ -703,7 +703,7 @@ sub Login {
         }
 
         # set a cookie tentatively for checking cookie support
-        $Self->{SetCookies}->{OTOBOBrowserHasCookie} = $Kernel::OM->Get('Kernel::System::Web::Request')->SetCookie(
+        $Self->SetCookie(
             Key      => 'OTOBOBrowserHasCookie',
             Value    => 1,
             Expires  => $Expires,
