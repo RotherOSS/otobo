@@ -2478,6 +2478,15 @@ Core.UI.InputFields = (function (TargetNS) {
                         ) {
                         $ListContainerObj.fadeIn(Config.FadeDuration);
                     }
+
+                    // Expand disabled nodes on click
+                    setTimeout( function() {
+                        $('.Disabled > a.jstree-anchor').on('click', function() {
+                            $(this).prev('.jstree-icon').trigger('click');
+
+                            return false;
+                        });
+                    }, 200 );
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
