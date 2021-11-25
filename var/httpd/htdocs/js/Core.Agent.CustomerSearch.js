@@ -673,6 +673,46 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
             return false;
         }
 
+        var CurrentQuotation,
+            MultiEntry = [''],
+            SeenAt     = 0,
+            n          = 0;
+
+        // do a manual split that keeps track of quotation
+        for ( var i = 0; i < CustomerValue.length; i++ ) {
+            var Char = CustomerValue.charAt(i);
+
+            if ( CurrentQuotation ) {
+                MultiEntry[n] += Char;
+                if ( Char === CurrentQuotation ) {
+                    CurrentQuotation = undefined;
+                }
+            }
+            else if ( Char === '"' || Char === "'" ) {
+                MultiEntry[n]    += Char;
+                CurrentQuotation  = Char;
+            }
+            else if ( SeenAt === 1 && ( Char === ',' || Char === ";" ) ) {
+                n++;
+                SeenAt        = 0;
+                MultiEntry[n] = '';
+            }
+            else {
+                if ( Char === '@' ) {
+                    SeenAt = 1;
+                }
+                MultiEntry[n] += Char;
+            }
+        }
+
+        if ( n > 0 ) {
+            for ( var m = 0; m <= n; m++ ) {
+                TargetNS.AddTicketCustomer( Field, MultiEntry[m].trim() );
+            }
+
+            return true;
+        }
+
         // check for duplicated entries
         $('[class*=CustomerTicketText]').each(function() {
             if ($(this).val() === CustomerValue) {
@@ -748,6 +788,22 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 $(this).val(CustomerValue);
             }
 
+            if($(this).hasClass('MoveCustomerButton')) {
+                $(this).on('click', function () {
+                    var MoveCustomerKey = $('.CustomerKey', $(this).parent()).val(),
+                        MoveCustomerVal = $('.CustomerTicketText', $(this).parent()).val(),
+                        TargetField     =
+                            $(this).hasClass('ToMove')  ? 'ToCustomer'  :
+                            $(this).hasClass('CcMove')  ? 'CcCustomer'  :
+                            $(this).hasClass('BccMove') ? 'BccCustomer' : '';
+
+                    // remove the current entry
+                    $('.RemoveButton', $(this).parent()).click();
+
+                    // add the customer to the target field
+                    TargetNS.AddTicketCustomer(TargetField, MoveCustomerVal, MoveCustomerKey);
+                });
+            }
         });
         // show container
         $('#TicketCustomerContent' + Field).parent().removeClass('Hidden');

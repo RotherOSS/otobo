@@ -88,6 +88,8 @@
                             <i class="fa fa-minus-square-o"></i>
                             <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
                         </a>
+                        <a href="#" id="MoveCustomerTicketToCc" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]"><span>Cc</span></a>
+                        <a href="#" id="MoveCustomerTicketToBcc" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]"><span>Bcc</span></a>
                     </div>
 
                     <div id="TicketCustomerContentToCustomer" class="CustomerContainer">
@@ -163,6 +165,8 @@
                             <i class="fa fa-minus-square-o"></i>
                             <span class="InvisibleText">[% Translate("Remove Cc") | html %]</span>
                         </a>
+                        <a href="#" id="MoveCustomerTicketCcTo" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]"><span>To</span></a>
+                        <a href="#" id="MoveCustomerTicketCcBcc" class="MoveCustomerButton BccMove" title="[% Translate("Move to Bcc") | html %]"><span>Bcc</span></a>
                     </div>
 
                     <div id="TicketCustomerContentCcCustomer" class="CcCustomerContainer">
@@ -239,6 +243,8 @@
                             <i class="fa fa-minus-square-o"></i>
                             <span class="InvisibleText">[% Translate("Remove Bcc") | html %]</span>
                         </a>
+                        <a href="#" id="MoveCustomerTicketBccTo" class="MoveCustomerButton ToMove" title="[% Translate("Move to To") | html %]"><span>To</span></a>
+                        <a href="#" id="MoveCustomerTicketBccCc" class="MoveCustomerButton CcMove" title="[% Translate("Move to Cc") | html %]"><span>Cc</span></a>
                     </div>
 
                     <div id="TicketCustomerContentBccCustomer" class="BccCustomerContainer">
