@@ -43,13 +43,14 @@
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
 # Grit Rother <mr@otobo.de>, 2020, 2021.
 # svo <svo@otrs.ch>, 2021.
+# Andreas Erhard <erhard@wor.net>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-10-08 14:22+0000\n"
-"PO-Revision-Date: 2021-11-03 17:35+0000\n"
-"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"PO-Revision-Date: 2021-11-26 10:14+0000\n"
+"Last-Translator: Andreas Erhard <erhard@wor.net>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -16341,7 +16342,7 @@ msgstr "OTRS-Version ist korrekt: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migrate ITSM database tables."
-msgstr ""
+msgstr "Migration von ITSM Datenbanktabellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
