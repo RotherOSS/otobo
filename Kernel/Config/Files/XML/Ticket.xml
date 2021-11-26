@@ -7235,13 +7235,9 @@
                         <Item Key="25">25</Item>
                         <Item Key="30">30</Item>
                         <Item Key="35">35</Item>
-                        <Item Key="50">50</Item>
-                        <Item Key="100">100</Item>
-                        <Item Key="250">250</Item>
-                        <Item Key="500">500</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">100</Item>
+                <Item Key="DataSelected">20</Item>
                 <Item Key="PrefKey">UserTicketOverviewMediumPageShown</Item>
                 <Item Key="Prio">8100</Item>
                 <Item Key="Active">0</Item>
@@ -12304,9 +12300,13 @@ Thanks for your help!
                         <Item Key="25">25</Item>
                         <Item Key="30">30</Item>
                         <Item Key="35">35</Item>
+                        <Item Key="50">50</Item>
+                        <Item Key="100">100</Item>
+                        <Item Key="250">250</Item>
+                        <Item Key="500">500</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">25</Item>
+                <Item Key="DataSelected">100</Item>
                 <Item Key="PrefKey">AdminDynamicFieldsOverviewPageShown</Item>
                 <Item Key="Prio">8000</Item>
                 <Item Key="Active">0</Item>
