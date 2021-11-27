@@ -66,8 +66,9 @@ Set to I<localhost:5000> for running the test scripts in the otobo_web_1 contain
 
 =cut
 
-use v5.24;
+use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 sub Load {
@@ -107,7 +108,7 @@ sub Load {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 
     # ---------------------------------------------------- #
-    # fs root directory
+    # fs root directory, without trailing slash            #
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otobo';
 
@@ -140,9 +141,7 @@ sub Load {
     # $Self->{CheckMXRecord} = 0;
 
     # ---------------------------------------------------- #
-    #                                                      #
     # end of your own config options!!!                    #
-    #                                                      #
     # ---------------------------------------------------- #
 
     return 1;
