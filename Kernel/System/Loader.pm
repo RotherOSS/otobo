@@ -111,14 +111,14 @@ sub MinifyFiles {
     }
 
     # find out whether loader files are stored in S3 or in the file system
-    my $S3Backend = $ENV{OTOBO_SYNC_WITH_S3} ? 1 : 0;
-    my $FSBackend = !$S3Backend;
+    my $UseS3Backend = $ENV{OTOBO_SYNC_WITH_S3} ? 1 : 0;
+    my $UseFSBackend = !$UseS3Backend;
 
     my $TargetDirectory = $Param{TargetDirectory};
     $TargetDirectory =~ s!/$!!;
 
     # create and check the target directory
-    if ($FSBackend) {
+    if ($UseFSBackend) {
         if ( !-e $TargetDirectory ) {
             if ( !mkdir( $TargetDirectory, 0775 ) ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -193,7 +193,7 @@ sub MinifyFiles {
 
     # Check whether the loader file already exists
     my $LoaderFileExists = 0;
-    if ($FSBackend) {
+    if ($UseFSBackend) {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
@@ -265,7 +265,7 @@ sub MinifyFiles {
 
         # When the S3 backend is active the loader file is not written to the file system.
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
-        if ($S3Backend) {
+        if ($UseS3Backend) {
 
             my $StorageS3Object = Kernel::System::Storage::S3->new();
 
