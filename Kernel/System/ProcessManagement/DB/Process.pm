@@ -1233,7 +1233,7 @@ Returns:
 
 or, when S3 is active
 
-    $ProcessDump = 'OTOBO/Kernel/Config/Files/ZZZProcessManagement.pm';          # or undef if can't write to S3
+    $ProcessDump = 'Kernel/Config/Files/ZZZProcessManagement.pm';                # or undef if can't write to S3
 
 =cut
 
@@ -1458,7 +1458,7 @@ EOF
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
+        my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
 
         # only write to S3, no extra copy in the file system
         return $StorageS3Object->StoreObject(

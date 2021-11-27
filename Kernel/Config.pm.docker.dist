@@ -62,6 +62,10 @@ Use Redis for caching.
 
 Set to I<localhost:5000> for running the test scripts in the otobo_web_1 container.
 
+=item S3 specific settings
+
+These are only enabled when the environmen variable B<OTOBO_SYNC_WITH_S3> is set.
+
 =back
 
 =cut
@@ -115,6 +119,18 @@ sub Load {
     # ---------------------------------------------------- #
     # setting for running OTOBO under Docker, see the POD  #
     # ---------------------------------------------------- #
+
+    # These settings are used only when the env var OTOBO_SYNC_WITH_S3 ist set
+    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+        $Self->{'Storage::S3::Host'}       = 'localstack:4566';
+        $Self->{'Storage::S3::Region'}     = 'eu-central-1';
+        $Self->{'Storage::S3::Bucket'}     = 'otobo-20211127a';
+        $Self->{'Storage::S3::HomePrefix'} = 'OTOBO';
+        $Self->{'Storage::S3::AccessKey'}  = 'test';
+        $Self->{'Storage::S3::SecretKey'}  = 'test';
+        $Self->{'Storage::S3::Scheme'}     = 'https';
+    }
+
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';

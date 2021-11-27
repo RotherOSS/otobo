@@ -55,26 +55,33 @@ Create bucket on Docker host with:
 
 =head2 new()
 
-create a new object. Do not use it directly, instead use:
+create a new object.
 
-    my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+
+But syncing from S3 is also required in the constructor of Kernel::Config object. And this constructor wants to use the config object,
+meaning that we have a bootstrapping problem. Therefore we have the parameter ConfigObject, where we can pass in a partly built Kernel::Config object.
+
+    # in Kernel::Config::Defaults::new()
+    my $StorageS3Object = Kernel::System::Storage::S3->new(
+        ConfigObject => $Self,
+    );
 
 =cut
 
 sub new {
-    my ($Class) = @_;
+    my ( $Class, %Param ) = @_;
 
-    # TODO: get the settings from %Param, the configuration, or the environment
-    my $Region         = 'eu-central-1';
-    my $Bucket         = 'otobo-20211029a';
-    my $AccessKey      = 'test';
-    my $SecretKey      = 'test';
-    my $Scheme         = 'https';
-    my $MetadataPrefix = 'x-amz-meta-';
+    # handle config bootstrap problem
+    my $ConfigObject = $Param{ConfigObject} // $Kernel::OM->Get('Kernel::Config');
 
-    # Use localstack as host, as we run within container
-    my $Host      = 'localstack:4566';
-    my $Delimiter = '/';
+    my $Scheme     = $ConfigObject->Get('Storage::S3::Scheme');
+    my $Host       = $ConfigObject->Get('Storage::S3::Host');
+    my $Region     = $ConfigObject->Get('Storage::S3::Region');
+    my $Bucket     = $ConfigObject->Get('Storage::S3::Bucket');
+    my $HomePrefix = $ConfigObject->Get('Storage::S3::HomePrefix');
+    my $AccessKey  = $ConfigObject->Get('Storage::S3::AccessKey');
+    my $SecretKey  = $ConfigObject->Get('Storage::S3::SecretKey');
 
     my $UserAgent = Mojo::UserAgent->new();
     my $S3Object  = Mojo::AWS::S3->new(
@@ -86,13 +93,14 @@ sub new {
     );
 
     my $Self = {
-        Bucket         => $Bucket,
-        Delimiter      => '/',
-        Host           => $Host,
-        S3Object       => $S3Object,
         Scheme         => $Scheme,
+        Host           => $Host,
+        Bucket         => $Bucket,
+        HomePrefix     => $HomePrefix,
         UserAgent      => $UserAgent,
-        MetadataPrefix => $MetadataPrefix,
+        S3Object       => $S3Object,
+        Delimiter      => '/',
+        MetadataPrefix => 'x-amz-meta-',
     };
 
     return bless $Self, $Class;
@@ -142,13 +150,15 @@ sub ListObjects {
         ->scheme( $Self->{Scheme} )
         ->host( $Self->{Host} )
         ->path( $Self->{Bucket} );
+    my $CompletePrefix = join '/', $Self->{HomePrefix}, $Param{Prefix};
     $URL->query(
         [
             'list-type' => 2,
-            prefix      => $Param{Prefix},
+            prefix      => $CompletePrefix,
             delimiter   => '/'
         ]
     );
+
     my $Now         = Mojo::Date->new(time)->to_datetime;
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'GET',
@@ -171,7 +181,7 @@ sub ListObjects {
             $Properties{Key} = $Key;
 
             # also keep the objects in the subdirectories, but relative to the prefix
-            my $Name = $Key =~ s/^\Q$Param{Prefix}\E//r;
+            my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
 
             $Properties{Size} = $ContentNode->at('Size')->text;
 
@@ -208,7 +218,7 @@ sub StoreObject {
         }
     }
 
-    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
     my $Headers       = $Param{Headers} // {};
     my $Now           = Mojo::Date->new(time)->to_datetime;
     my $URL           = Mojo::URL->new
@@ -266,7 +276,7 @@ sub ObjectExists {
     }
 
     # retrieve attachment from S3
-    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
     my $Now           = Mojo::Date->new(time)->to_datetime;
     my $URL           = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
@@ -307,7 +317,7 @@ sub RetrieveObject {
     }
 
     # retrieve attachment from S3
-    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
     my $Now           = Mojo::Date->new(time)->to_datetime;
     my $URL           = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
@@ -417,7 +427,7 @@ sub SaveObjectToFile {
     }
 
     # retrieve object and save it to file
-    my $KeyWithBucket = join '/', $Self->{Bucket}, $Param{Key};
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
     my $Now           = Mojo::Date->new(time)->to_datetime;
     my $URL           = Mojo::URL->new
         ->scheme( $Self->{Scheme} )

@@ -43,7 +43,7 @@ isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
 subtest 'ZZZAAuto.pm' => sub {
 
     # run a blocking GET request to S3
-    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
     my %Name2Properties = $StorageS3Object->ListObjects(
         Prefix => $FilesPrefix,
     );
@@ -69,7 +69,7 @@ uni book
 📙 - U+1F4D9 - ORANGE BOOK
 END_SAMPLE
 
-    my $Key = join '/', 'OTOBO', 'test', 'Storage', 'S3', 'uni_book.txt';
+    my $Key = join '/', 'test', 'Storage', 'S3', 'uni_book.txt';
     my $WriteSuccess = $StorageS3Object->StoreObject(
         Key     => $Key,
         Content => $Content,

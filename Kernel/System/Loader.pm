@@ -197,15 +197,15 @@ sub MinifyFiles {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
 
         # the target directory is below the OTOBO home dir, adapt that to S3
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-        my $FilePath        = join '/', $TargetDirectory, $Filename;
-        $FilePath =~ s!^$Home!OTOBO!;
+        my $FilePath = join '/', $TargetDirectory, $Filename;
+        my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');    # without trailing slash
+        my $Key      = $FilePath =~ s!^$Home/!!r;                          # /opt/otobo/var/httpd becomes var/httpd
 
         $LoaderFileExists = $StorageS3Object->ObjectExists(
-            Key => $FilePath,
+            Key => $Key,
         );
     }
 
@@ -270,11 +270,11 @@ sub MinifyFiles {
             my $StorageS3Object = Kernel::System::Storage::S3->new();
 
             # the target directory is below the OTOBO home dir, adapt that to S3
-            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
             my $FilePath = join '/', $TargetDirectory, $Filename;
-            $FilePath =~ s!^$Home!OTOBO!;
+            my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');    # without trailing slash
+            my $Key      = $FilePath =~ s!^$Home/!!r;                          # /opt/otobo/var/httpd becomes var/httpd
             $StorageS3Object->StoreObject(
-                Key     => $FilePath,
+                Key     => $Key,
                 Content => $Content,
             );
         }

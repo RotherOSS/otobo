@@ -29,6 +29,7 @@ use File::stat;
 # CPAN modules
 
 # OTOBO modules
+use Kernel::Config;
 use Kernel::System::Storage::S3;
 
 =head1 NAME
@@ -76,9 +77,13 @@ sub run {
 
     return unless $Self->{pid};
 
-    # generate Mojo transaction for submitting plain to S3
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $FilesPrefix = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
+    # Create storage S3 object for getting the Kernel/Config/Files/*.pm files.
+    # For bootstrapping, pass in the values set up in Kernel/Config.pm,
+    # disregarding the values from Kernel/Config/Defaults.pm and Kernel/Config/Files/*.pm.
+    my $StorageS3Object = Kernel::System::Storage::S3->new(
+        ConfigObject => Kernel::Config->new( Level => 'Clear' ),
+    );
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
 
     CHECK_SYNC:
     while (1) {
@@ -142,7 +147,7 @@ sub run {
         my $FilePath       = $FilesPrefix . $EventFileName; # $FilesPrefix already has trailing '/'
         my $TargetLocation = "/opt/otobo/Kernel/Config/Files/$EventFileName";
         $StorageS3Object->SaveObjectToFile(
-            Key => $FilePath,
+            Key      => $FilePath,
             Location => $TargetLocation,
         );
 

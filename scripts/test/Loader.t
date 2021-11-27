@@ -124,7 +124,7 @@ my $Home = $ConfigObject->Get('Home');
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $FilePath        = $Location =~ s!^$Home!OTOBO!r;
+        my $FilePath        = $Location =~ s!^$Home/!!r;
         $StorageS3Object->SaveObjectToFile(
             Key      => $FilePath,
             Location => $Location,
