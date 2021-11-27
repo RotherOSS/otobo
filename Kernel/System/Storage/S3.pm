@@ -75,14 +75,10 @@ sub new {
     # handle config bootstrap problem
     my $ConfigObject = $Param{ConfigObject} // $Kernel::OM->Get('Kernel::Config');
 
-    my $Scheme     = $ConfigObject->Get('Storage::S3::Scheme');
-    my $Host       = $ConfigObject->Get('Storage::S3::Host');
-    my $Region     = $ConfigObject->Get('Storage::S3::Region');
-    my $Bucket     = $ConfigObject->Get('Storage::S3::Bucket');
-    my $HomePrefix = $ConfigObject->Get('Storage::S3::HomePrefix');
-    my $AccessKey  = $ConfigObject->Get('Storage::S3::AccessKey');
-    my $SecretKey  = $ConfigObject->Get('Storage::S3::SecretKey');
-
+    # create an UserAgent and S3Object
+    my $Region    = $ConfigObject->Get('Storage::S3::Region');
+    my $AccessKey = $ConfigObject->Get('Storage::S3::AccessKey');
+    my $SecretKey = $ConfigObject->Get('Storage::S3::SecretKey');
     my $UserAgent = Mojo::UserAgent->new();
     my $S3Object  = Mojo::AWS::S3->new(
         transactor => $UserAgent->transactor,
@@ -93,10 +89,10 @@ sub new {
     );
 
     my $Self = {
-        Scheme         => $Scheme,
-        Host           => $Host,
-        Bucket         => $Bucket,
-        HomePrefix     => $HomePrefix,
+        Scheme         => $ConfigObject->Get('Storage::S3::Scheme'),
+        Host           => $ConfigObject->Get('Storage::S3::Host'),
+        Bucket         => $ConfigObject->Get('Storage::S3::Bucket'),
+        HomePrefix     => $ConfigObject->Get('Storage::S3::HomePrefix'),
         UserAgent      => $UserAgent,
         S3Object       => $S3Object,
         Delimiter      => '/',
