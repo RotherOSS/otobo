@@ -68,11 +68,12 @@ sub new {
     # TODO: don't access attributes directly
     # TODO: eliminate hardcoded values
     my $StorageS3Object = Kernel::System::Storage::S3->new();
-    $Self->{Bucket}          = $StorageS3Object->{Bucket};
+    $Self->{Scheme}          = $StorageS3Object->{Scheme};
     $Self->{Host}            = $StorageS3Object->{Host};
+    $Self->{Bucket}          = $StorageS3Object->{Bucket};
+    $Self->{HomePrefix}      = $StorageS3Object->{HomePrefix};
     $Self->{MetadataPrefix}  = 'x-amz-meta-';
     $Self->{S3Object}        = $StorageS3Object->{S3Object};
-    $Self->{Scheme}          = $StorageS3Object->{Scheme};
     $Self->{StorageS3Object} = $StorageS3Object;
     $Self->{UserAgent}       = $StorageS3Object->{UserAgent};
 
@@ -130,7 +131,7 @@ sub ArticleDeletePlain {
     my $URL      = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
         ->host( $Self->{Host} )
-        ->path( join '/', $Self->{Bucket}, $FilePath );
+        ->path( join '/', $Self->{Bucket}, $Self->{HomePrefix}, $FilePath );
     my $Transaction = $Self->{S3Object}->signed_request(
         method   => 'DELETE',
         datetime => $Now,
@@ -174,7 +175,7 @@ sub ArticleDeleteAttachment {
         for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
 
             # the key which should be deleted
-            my $Key = $ArticlePrefix . $AttachmentIndex{$FileID}->{Filename};
+            my $Key = join '/', $Self->{HomePrefix}, $ArticlePrefix, $AttachmentIndex{$FileID}->{Filename};
 
             $DOM->at('Delete')->append_content(
                 $DOM->new_tag('Object')->at('Object')->append_content(
@@ -367,7 +368,7 @@ sub ArticleAttachmentIndexRaw {
     $URL->query(
         [
             'list-type' => 2,
-            prefix      => $ArticlePrefix,
+            prefix      => "$Self->{HomePrefix}/$ArticlePrefix/",
             delimiter   => '/'
         ]
     );
@@ -414,7 +415,7 @@ sub ArticleAttachmentIndexRaw {
         my $URL      = Mojo::URL->new
             ->scheme( $Self->{Scheme} )
             ->host( $Self->{Host} )
-            ->path( join '/', $Self->{Bucket}, $FilePath );
+            ->path( join '/', $Self->{Bucket}, $Self->{HomePrefix}, $FilePath );
         my $Transaction = $Self->{S3Object}->signed_request(
             method   => 'HEAD',
             datetime => $Now,
@@ -525,7 +526,9 @@ sub ArticleAttachment {
     return %Attachment;
 }
 
-# the final delimiter is part of the prefix
+# Bucket is not included
+# Home prefix is not included.
+# No trailing slash.
 sub _ArticlePrefix {
     my ( $Self, $ArticleID ) = @_;
 
@@ -535,15 +538,16 @@ sub _ArticlePrefix {
         ArticleID => $ArticleID,
     );
 
-    return join '/', 'OTOBO', 'var', 'article', $ContentPath, $ArticleID, '';    # with trailing slash
+    return join '/', 'var', 'article', $ContentPath, $ArticleID;
 }
 
 # Bucket is not included
-# the final delimiter is part of the prefix
+# Home prefix is not included.
+# No trailing slash.
 sub _FilePath {
     my ( $Self, $ArticleID, $File ) = @_;
 
-    return $Self->_ArticlePrefix($ArticleID) . $File;    # _ArticlePrefix() already has a trailing '/'
+    return join '/', $Self->_ArticlePrefix($ArticleID), $File;
 }
 
 1;

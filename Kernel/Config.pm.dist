@@ -13,20 +13,38 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-#  Note:
-#
-#  -->> Most OTOBO configuration should be done via the OTOBO web interface
-#       and the SysConfig. Only for some configuration, such as database
-#       credentials and customer data source changes, you should edit this
-#       file. For changes do customer data sources you can copy the definitions
-#       from Kernel/Config/Defaults.pm and paste them in this file.
-#       Config.pm will not be overwritten when updating OTOBO.
-# --
 
 package Kernel::Config;
 
+=head1 NAME
+
+Kernel::Config - settings that can be adapted by the user
+
+=head1 SYNOPSIS
+
+    use Kernel::System::ObjectManager;
+
+    local $Kernel::OM = Kernel::System::ObjectManager->new();
+
+    my $Config = $Kernel::OM->Get('Kernel::Config');
+    my $Home   = $Config->Get('Home');
+
+=head1 DESCRIPTION
+
+Most OTOBO configuration should be done via the OTOBO web interface
+and the SysConfig. Only for some configuration, such as database
+credentials and customer data source changes, you should edit this
+file. For changes do customer data sources you can copy the definitions
+from F<Kernel/Config/Defaults.pm> and paste them into this file.
+The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
+
+=back
+
+=cut
+
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
 sub Load {
@@ -66,7 +84,7 @@ sub Load {
 #    $ENV{NLS_LANG}        = 'AMERICAN_AMERICA.AL32UTF8';
 
     # ---------------------------------------------------- #
-    # fs root directory
+    # fs root directory, without trailing slash            #
     # ---------------------------------------------------- #
     $Self->{Home} = '/opt/otobo';
 
@@ -74,15 +92,14 @@ sub Load {
     # insert your own config settings "here"               #
     # config settings taken from Kernel/Config/Defaults.pm #
     # ---------------------------------------------------- #
+
     # $Self->{SessionUseCookie} = 0;
     # $Self->{CheckMXRecord} = 0;
 
     # ---------------------------------------------------- #
-    # ---------------------------------------------------- #
     #                                                      #
     # end of your own config options!!!                    #
     #                                                      #
-    # ---------------------------------------------------- #
     # ---------------------------------------------------- #
 
     return 1;

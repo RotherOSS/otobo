@@ -43,9 +43,9 @@ isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
 subtest 'ZZZAAuto.pm' => sub {
 
     # run a blocking GET request to S3
-    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
     my %Name2Properties = $StorageS3Object->ListObjects(
-        Prefix => $FilesPrefix,
+        Prefix => "$FilesPrefix/",
     );
 
     ok( exists $Name2Properties{'ZZZAAuto.pm'}, 'ZZZAAuto.pm found' );
@@ -55,7 +55,7 @@ subtest 'ZZZAAuto.pm' => sub {
     ref_ok( $Properties, 'HASH' );
     ok( $Properties->{Size},  'got Size for ZZZAAuto.pm' );
     ok( $Properties->{Mtime}, 'got Mtime for ZZZAAuto.pm' );
-    is( $Properties->{Key}, "${FilesPrefix}ZZZAAuto.pm", 'Key for ZZZAAuto.pm' );
+    is( $Properties->{Key}, "OTOBO/$FilesPrefix/ZZZAAuto.pm", 'Key for ZZZAAuto.pm' );
 };
 
 # Store and retrieve an object
@@ -69,7 +69,7 @@ uni book
 📙 - U+1F4D9 - ORANGE BOOK
 END_SAMPLE
 
-    my $Key = join '/', 'OTOBO', 'test', 'Storage', 'S3', 'uni_book.txt';
+    my $Key = join '/', 'test', 'Storage', 'S3', 'uni_book.txt';
     my $WriteSuccess = $StorageS3Object->StoreObject(
         Key     => $Key,
         Content => $Content,

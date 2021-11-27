@@ -249,7 +249,7 @@ sub Main {
     }
 
     # looks good
-    say 'For running the unit tests please stop the container otobo_daemon_1';
+    say 'For running the unit tests please stop the OTOBO Daemon.';
     say "Finished running $0";
 
     return 0;
@@ -523,6 +523,7 @@ sub SetRootAtLocalhostPassword {
     return 1, "URL: http://localhost:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
 }
 
+# update sysconfig settings in the database and deploy these settings
 sub AdaptSettings {
     my %Param = @_;
 
@@ -580,9 +581,9 @@ sub AdaptSettings {
 
     $SysConfigObject->SettingUnlock( UnlockAll => 1 );
 
-    # 'Rebuild' the configuration.
+    # Rebuild the configuration, writing a ZZZAAuto.pm file or a ZZZAAuto.pm S3 object
     $SysConfigObject->ConfigurationDeploy(
-        Comments    => "Quick setup deployment",
+        Comments    => 'Quick setup deployment',
         AllSettings => 1,
         Force       => 1,
         UserID      => 1,
@@ -616,6 +617,7 @@ sub DeactivateElasticsearch {
     return 1;
 }
 
+# set up the ElasticSearch webservice, perform another SysConfig deployment
 sub ActivateElasticsearch {
 
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');

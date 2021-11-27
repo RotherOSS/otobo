@@ -45,13 +45,13 @@ my $Home = $ConfigObject->Get('Home');
 
 {
     my $CSS = $MainObject->FileRead(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.css',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
     );
 
     $CSS = $CSS->$*;
 
     my $ExpectedCSS = $MainObject->FileRead(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.min.css',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.min.css",
     );
 
     $ExpectedCSS = ${$ExpectedCSS};
@@ -67,12 +67,12 @@ my $Home = $ConfigObject->Get('Home');
     );
 
     my $MinifiedCSSFile = $LoaderObject->GetMinifiedFile(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.css',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
         Type     => 'CSS',
     );
 
     my $MinifiedCSSFileCached = $LoaderObject->GetMinifiedFile(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Reset.css',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Reset.css",
         Type     => 'CSS',
     );
 
@@ -82,7 +82,7 @@ my $Home = $ConfigObject->Get('Home');
 
 {
     my $JavaScript = $MainObject->FileRead(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.js",
     );
     $JavaScript = $JavaScript->$*;
 
@@ -92,7 +92,7 @@ my $Home = $ConfigObject->Get('Home');
     my $MinifiedJS = $LoaderObject->MinifyJavaScript( Code => $JavaScript );
 
     my $ExpectedJS = $MainObject->FileRead(
-        Location => $Home . '/scripts/test/sample/Loader/OTOBO.Agent.App.Login.min.js',
+        Location => "$Home/scripts/test/sample/Loader/OTOBO.Agent.App.Login.min.js",
     );
     $ExpectedJS = ${$ExpectedJS};
     $ExpectedJS =~ s{\r\n}{\n}xmsg;
@@ -124,7 +124,7 @@ my $Home = $ConfigObject->Get('Home');
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $FilePath        = $Location =~ s!^$Home!OTOBO!r;
+        my $FilePath        = $Location =~ s!^$Home/!!r;
         $StorageS3Object->SaveObjectToFile(
             Key      => $FilePath,
             Location => $Location,
@@ -139,7 +139,7 @@ my $Home = $ConfigObject->Get('Home');
     chomp $MinifiedJS;
 
     my $Expected = $MainObject->FileRead(
-        Location => $Home . '/scripts/test/sample/Loader/CombinedJavaScript.min.js',
+        Location => "$Home/scripts/test/sample/Loader/CombinedJavaScript.min.js",
     );
     $Expected = ${$Expected};
     $Expected =~ s{\r\n}{\n}xmsg;

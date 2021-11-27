@@ -95,6 +95,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
+use Kernel::Config;
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -252,8 +253,10 @@ my $SyncFromS3Middleware = sub {
         my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
         if ( !-e $Location ) {
-            my $StorageS3Object = Kernel::System::Storage::S3->new();
-            my $FilePath        = join '/', 'OTOBO', 'var/httpd/htdocs', $PathBelowHtdocs;
+            my $StorageS3Object = Kernel::System::Storage::S3->new(
+                ConfigObject => Kernel::Config->new( Level => 'Clear' ),
+            );
+            my $FilePath = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
             $StorageS3Object->SaveObjectToFile(
                 Key      => $FilePath,
                 Location => $Location,

@@ -99,7 +99,7 @@ sub Run {
     }
 
     my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files', '';    # no bucket, with trailing '/'
 
     # run a blocking GET request to S3
     my %Name2Properties = $StorageS3Object->ListObjects(

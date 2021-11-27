@@ -3290,7 +3290,7 @@ sub ConfigurationInvalidList {
 
 =head2 ConfigurationDeploy()
 
-Write configuration items from database into a perl module file.
+Write configuration settings from database into a Perl module file.
 
     my %Result = $SysConfigObject->ConfigurationDeploy(
         Comments            => "Some comments",     # (optional)
@@ -3311,7 +3311,7 @@ Returns:
         Success => 1,           # Deployment successful.
     );
 
-    or
+or
 
     %Result = (
         Success => 0,           # Deployment failed.
@@ -3665,11 +3665,10 @@ sub ConfigurationDeploy {
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'OTOBO', $TargetPath;
 
         # only write to S3, no extra copy in the file system
         my $S3Key = $StorageS3Object->StoreObject(
-            Key     => $ZZZFilePath,
+            Key     => $TargetPath,
             Content => $EffectiveValueStrg,
         );
 
@@ -3796,7 +3795,7 @@ sub ConfigurationDeploySync {
         if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
             my $StorageS3Object = Kernel::System::Storage::S3->new();
-            my $ZZZFilePath     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
+            my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
 
             # only write to S3, no extra copy in the file system
             my $Success = $StorageS3Object->StoreObject(

@@ -2335,14 +2335,16 @@ sub SyncWithS3 {
     # nothing to do when S3 backend is not enabled
     return unless $ENV{OTOBO_SYNC_WITH_S3};
 
-
     # assign default values
     for my $Key (qw(ExtraFileNames)) {
         $Param{$Key} //= [];
     }
 
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $FilesPrefix     = join '/', 'OTOBO', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
+    # pass in a unfinished config object for bootstrapping
+    my $StorageS3Object = Kernel::System::Storage::S3->new(
+        ConfigObject => $Self
+    );
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
 
     # only a single process should sync with S3 at one time
     CHECK_SYNC:
