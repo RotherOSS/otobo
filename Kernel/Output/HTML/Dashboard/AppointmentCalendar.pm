@@ -270,11 +270,10 @@ sub Run {
         # (today, tomorrow and soon - which means the next 5 days
         # except today and tomorrow counted from current timestamp)
         my %DateOffset = (
-            Today     => 0,
-            Tomorrow  => 86400,
-            PlusTwo   => 172800,
-            PlusThree => 259200,
-            PlusFour  => 345600,
+            Today    => 0,
+            Tomorrow => 86400,
+            PlusTwo  => 172800,
+            PlusFour => 345600,
         );
 
         my %Dates;
@@ -310,6 +309,7 @@ sub Run {
             next APPOINTMENTID if !$AppointmentID;
             next APPOINTMENTID if !IsHashRefWithData( $AppointmentsUnsorted{$AppointmentID} );
             next APPOINTMENTID if !$AppointmentsUnsorted{$AppointmentID}->{StartTime};
+            next APPOINTMENTID if !$AppointmentsUnsorted{$AppointmentID}->{EndTime};
 
             # Extract current date (without time).
             my $StartTimeObject = $Kernel::OM->Create(
@@ -319,16 +319,29 @@ sub Run {
                 },
             );
             my $StartTimeSettings = $StartTimeObject->Get();
-
-            my $StartDate = sprintf(
+            my $StartDate         = sprintf(
                 "%02d-%02d-%02d",
                 $StartTimeSettings->{Year},
                 $StartTimeSettings->{Month},
                 $StartTimeSettings->{Day}
             );
 
+            my $EndTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $AppointmentsUnsorted{$AppointmentID}->{EndTime},
+                },
+            );
+            my $EndTimeSettings = $EndTimeObject->Get();
+            my $EndDate         = sprintf(
+                "%02d-%02d-%02d",
+                $EndTimeSettings->{Year},
+                $EndTimeSettings->{Month},
+                $EndTimeSettings->{Day}
+            );
+
             # today
-            if ( $StartDate eq $Dates{Today} ) {
+            if ( $StartDate le $Dates{Today} && $EndDate ge $Dates{Today} ) {
 
                 $AppointmentsCount{Today}++;
 
@@ -338,7 +351,7 @@ sub Run {
             }
 
             # tomorrow
-            elsif ( $StartDate eq $Dates{Tomorrow} ) {
+            elsif ( $StartDate le $Dates{Tomorrow} && $EndDate ge $Dates{Tomorrow} ) {
 
                 $AppointmentsCount{Tomorrow}++;
 
@@ -348,12 +361,7 @@ sub Run {
             }
 
             # soon
-            elsif (
-                $StartDate eq $Dates{PlusTwo}
-                || $StartDate eq $Dates{PlusThree}
-                || $StartDate eq $Dates{PlusFour}
-                )
-            {
+            elsif ( $StartDate le $Dates{PlusFour} && $EndDate ge $Dates{PlusTwo} ) {
                 $AppointmentsCount{Soon}++;
 
                 if ( $Self->{Filter} eq 'Soon' ) {
@@ -423,9 +431,33 @@ sub Run {
         }
 
         my $StartTimeSettings = $StartTimeObject->Get();
+        my $StartDate         = sprintf(
+            "%02d-%02d-%02d",
+            $StartTimeSettings->{Year},
+            $StartTimeSettings->{Month},
+            $StartTimeSettings->{Day}
+        );
 
-        # prepare dates and times
-        my $StartTime     = sprintf( "%02d:%02d", $StartTimeSettings->{Hour}, $StartTimeSettings->{Minute} );
+        my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+        my $TodayTimeObject   = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                Epoch => $CurrentSystemTime,
+            },
+        );
+        my $TodayTimeSettings = $TodayTimeObject->Get();
+        my $TodayDate         = sprintf(
+            "%02d-%02d-%02d",
+            $TodayTimeSettings->{Year},
+            $TodayTimeSettings->{Month},
+            $TodayTimeSettings->{Day}
+        );
+
+        my $StartTime = sprintf( "%02d:%02d", $StartTimeSettings->{Hour}, $StartTimeSettings->{Minute} );
+        if ( $TodayDate ne $StartDate ) {
+            $StartTime = $LayoutObject->{LanguageObject}->FormatTimeString( $Appointments{$AppointmentID}->{StartTime}, 'DateFormatLong' );
+        }
         my $StartTimeLong = $LayoutObject->{LanguageObject}->FormatTimeString( $Appointments{$AppointmentID}->{StartTime}, 'DateFormatLong' );
 
         $LayoutObject->Block(
