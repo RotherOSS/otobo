@@ -240,6 +240,7 @@ sub Run {
 
             my @Appointments = $AppointmentObject->AppointmentList(
                 CalendarID => $CalendarID,
+                StartTime  => $DateTimeObject->ToString(),
                 Result     => 'HASH',
             );
 
@@ -272,7 +273,6 @@ sub Run {
             Today     => 0,
             Tomorrow  => 86400,
             PlusTwo   => 172800,
-            PlusThree => 259200,
             PlusFour  => 345600,
         );
 
@@ -361,12 +361,7 @@ sub Run {
             }
 
             # soon
-            elsif (
-                ( $StartDate le $Dates{PlusTwo} && $EndDate ge $Dates{PlusTwo} )
-                || ( $StartDate le $Dates{PlusThree} && $EndDate ge $Dates{PlusThree} )
-                || ( $StartDate le $Dates{PlusFour} && $EndDate ge $Dates{PlusFour} )
-                )
-            {
+            elsif ( $StartDate le $Dates{PlusFour} && $EndDate ge $Dates{PlusTwo} ) {
                 $AppointmentsCount{Soon}++;
 
                 if ( $Self->{Filter} eq 'Soon' ) {
