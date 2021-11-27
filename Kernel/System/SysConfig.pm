@@ -3290,7 +3290,7 @@ sub ConfigurationInvalidList {
 
 =head2 ConfigurationDeploy()
 
-Write configuration items from database into a perl module file.
+Write configuration settings from database into a Perl module file.
 
     my %Result = $SysConfigObject->ConfigurationDeploy(
         Comments            => "Some comments",     # (optional)
@@ -3311,7 +3311,7 @@ Returns:
         Success => 1,           # Deployment successful.
     );
 
-    or
+or
 
     %Result = (
         Success => 0,           # Deployment failed.
