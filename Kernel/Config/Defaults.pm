@@ -475,6 +475,8 @@ sub LoadDefaults {
 #        async   => 0,
 #        version => 3,
 #    };
+    # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
+#    $Self->{'AuthModule::LDAP::StartTLS'} = 'required';
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthModule::LDAP::Die'} = 1;
@@ -624,6 +626,9 @@ sub LoadDefaults {
 #        async   => 0,
 #        version => 3,
 #    };
+    # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
+#    $Self->{'AuthSyncModule::LDAP::StartTLS'} = 'required';
+
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'AuthSyncModule::LDAP::Die'} = 1;
@@ -1454,6 +1459,8 @@ via the Preferences button after logging in.
 #        async   => 0,
 #        version => 3,
 #    };
+    # Net::LDAP::start_tls verify type (if needed - for more info see Net::LDAP::start_tls)
+#    $Self->{'Customer::AuthModule::LDAP::StartTLS'} = 'required';
 
     # Die if backend can't work, e. g. can't connect to server.
 #    $Self->{'Customer::AuthModule::LDAP::Die'} = 1;

@@ -3864,6 +3864,13 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Customer::AuthModule::LDAP::StartTLS" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and you wish to use TLS security to communicate with the LDAP server, the "verify" parameter can be specified here. See Net::LDAP::start_tls for more information about the parameter.</Description>
+        <Navigation>Core::Auth::Customer</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">required</Item>
+        </Value>
+    </Setting>
     <Setting Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Navigation>Core::Auth::Customer</Navigation>
