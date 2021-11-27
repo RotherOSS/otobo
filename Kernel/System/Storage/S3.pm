@@ -451,4 +451,44 @@ sub SaveObjectToFile {
     return 1;
 }
 
+=head2 DiscardObject()
+
+Remove an object from the S3 storage.
+
+=cut
+
+sub DiscardObject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'DELETE',
+        datetime => $Now,
+        url      => $URL,
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    return 1 if $Transaction->result->is_success;
+    return;
+}
+
 1;

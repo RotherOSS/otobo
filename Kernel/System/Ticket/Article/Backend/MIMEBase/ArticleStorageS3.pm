@@ -127,23 +127,10 @@ sub ArticleDeletePlain {
 
     # delete plain
     my $FilePath = $Self->_FilePath( $Param{ArticleID}, 'plain.txt' );
-    my $Now      = Mojo::Date->new(time)->to_datetime;
-    my $URL      = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path( join '/', $Self->{Bucket}, $Self->{HomePrefix}, $FilePath );
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'DELETE',
-        datetime => $Now,
-        url      => $URL,
+
+    return $Self->{StorageS3Object}->DiscardObject(
+        Key => $FilePath,
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    return 1;
 }
 
 sub ArticleDeleteAttachment {
