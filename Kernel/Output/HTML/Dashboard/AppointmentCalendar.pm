@@ -270,10 +270,10 @@ sub Run {
         # (today, tomorrow and soon - which means the next 5 days
         # except today and tomorrow counted from current timestamp)
         my %DateOffset = (
-            Today     => 0,
-            Tomorrow  => 86400,
-            PlusTwo   => 172800,
-            PlusFour  => 345600,
+            Today    => 0,
+            Tomorrow => 86400,
+            PlusTwo  => 172800,
+            PlusFour => 345600,
         );
 
         my %Dates;
@@ -319,7 +319,7 @@ sub Run {
                 },
             );
             my $StartTimeSettings = $StartTimeObject->Get();
-            my $StartDate = sprintf(
+            my $StartDate         = sprintf(
                 "%02d-%02d-%02d",
                 $StartTimeSettings->{Year},
                 $StartTimeSettings->{Month},
@@ -333,7 +333,7 @@ sub Run {
                 },
             );
             my $EndTimeSettings = $EndTimeObject->Get();
-            my $EndDate = sprintf(
+            my $EndDate         = sprintf(
                 "%02d-%02d-%02d",
                 $EndTimeSettings->{Year},
                 $EndTimeSettings->{Month},
@@ -351,7 +351,7 @@ sub Run {
             }
 
             # tomorrow
-            elsif ( $StartDate le $Dates{Tomorrow} && $EndDate ge $Dates{Tomorrow}  ) {
+            elsif ( $StartDate le $Dates{Tomorrow} && $EndDate ge $Dates{Tomorrow} ) {
 
                 $AppointmentsCount{Tomorrow}++;
 
@@ -431,24 +431,23 @@ sub Run {
         }
 
         my $StartTimeSettings = $StartTimeObject->Get();
-        my $StartDate = sprintf(
+        my $StartDate         = sprintf(
             "%02d-%02d-%02d",
             $StartTimeSettings->{Year},
             $StartTimeSettings->{Month},
             $StartTimeSettings->{Day}
         );
 
-
-        my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
+        my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
         my $CurrentSystemTime = $DateTimeObject->ToEpoch();
-        my $TodayTimeObject = $Kernel::OM->Create(
+        my $TodayTimeObject   = $Kernel::OM->Create(
             'Kernel::System::DateTime',
             ObjectParams => {
                 Epoch => $CurrentSystemTime,
             },
         );
         my $TodayTimeSettings = $TodayTimeObject->Get();
-        my $TodayDate = sprintf(
+        my $TodayDate         = sprintf(
             "%02d-%02d-%02d",
             $TodayTimeSettings->{Year},
             $TodayTimeSettings->{Month},
