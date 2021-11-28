@@ -295,6 +295,7 @@ sub ArticleAttachmentIndexRaw {
     }
 
     # find the file names and initial properties
+    # TODO: actually, we don't really need the properties, just the file list
     my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
     my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
         Prefix => "$ArticlePrefix/",
@@ -353,6 +354,10 @@ sub ArticleAttachmentIndexRaw {
         $Name2Properties{$Filename}->{Filename}    = $Filename;
         $Name2Properties{$Filename}->{FilesizeRaw} = delete $Name2Properties{$Filename}->{Size};
         $Name2Properties{$Filename}->{FilesizeRaw} //= 0;
+
+        # remove extra properties that were collected by ListObjects()
+        delete $Name2Properties{$Filename}->{Key};
+        delete $Name2Properties{$Filename}->{Mtime};
 
         $Index{ ++$Counter } = $Name2Properties{$Filename};
     }
