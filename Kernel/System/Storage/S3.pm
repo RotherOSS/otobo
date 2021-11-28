@@ -553,7 +553,7 @@ sub DiscardObjects {
         $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
 
         # first get info about the objects with the relevant prefix
-        my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
+        my %Name2Properties = $Self->ListObjects(
             Prefix => $Param{Prefix},
         );
 
