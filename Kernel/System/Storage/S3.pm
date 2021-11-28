@@ -94,10 +94,10 @@ sub new {
         Host           => $ConfigObject->Get('Storage::S3::Host'),
         Bucket         => $ConfigObject->Get('Storage::S3::Bucket'),
         HomePrefix     => $ConfigObject->Get('Storage::S3::HomePrefix'),
+        MetadataPrefix => $ConfigObject->Get('Storage::S3::MetadataPrefix'),
         UserAgent      => $UserAgent,
         S3Object       => $S3Object,
         Delimiter      => '/',
-        MetadataPrefix => 'x-amz-meta-',
     };
 
     return bless $Self, $Class;
