@@ -143,7 +143,7 @@ sub ArticleDeleteAttachment {
     my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
 
     return $Self->{StorageS3Object}->DiscardObjects(
-        Prefix => $ArticlePrefix,
+        Prefix => "$ArticlePrefix/",
         Keep   => qr/^plain\.txt$/,
     );
 }
@@ -303,7 +303,7 @@ sub ArticleAttachmentIndexRaw {
 
     # enhance the properties returned by ListObjects() with information from the headers
     $Self->{StorageS3Object}->ProcessHeaders(
-        Prefix    => $ArticlePrefix, # this time without the trailing slash
+        Prefix    => $ArticlePrefix,                   # this time without the trailing slash
         Filenames => [ sort keys %Name2Properties ],
         Callback  => sub {
             my ($FinishedTransaction) = @_;

@@ -107,6 +107,7 @@ sub new {
 
 return a hash with information about objects with a specific prefix.
 The prefix will be removed from the keys of the returned hash.
+Note the trailing slash.
 
     my %Name2Properties = $StorageS3Object->ListObjects(
         Prefix => 'Kernel/Config/Files/',

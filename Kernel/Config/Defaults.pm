@@ -2344,7 +2344,7 @@ sub SyncWithS3 {
     my $StorageS3Object = Kernel::System::Storage::S3->new(
         ConfigObject => $Self
     );
-    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files', '';  # no bucket, with trailing '/'
+    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
 
     # only a single process should sync with S3 at one time
     CHECK_SYNC:
@@ -2352,7 +2352,7 @@ sub SyncWithS3 {
 
         # run a blocking GET request to S3
         my %Name2Properties = $StorageS3Object->ListObjects(
-            Prefix => $FilesPrefix,
+            Prefix => "$FilesPrefix/",
         );
 
         # Package events are not handled here as the whole web server is restarted when
@@ -2431,7 +2431,7 @@ sub SyncWithS3 {
 
         # we got an exclusive lock, now do the work and update from S3
         for my $ZZZFileName ( @OutdatedZZZFilenames ) {
-            my $FilePath    = $FilesPrefix . $ZZZFileName; # $FilesPrefix already has trailing '/'
+            my $FilePath    = join '/', $FilesPrefix, $ZZZFileName;
             my $Location    = "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
             $StorageS3Object->SaveObjectToFile(
                 Key      => $FilePath,
