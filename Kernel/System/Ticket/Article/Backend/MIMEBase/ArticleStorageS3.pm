@@ -296,31 +296,37 @@ sub ArticleAttachmentIndexRaw {
 
     # find the file names and initial properties
     # TODO: actually, we don't really need the properties, just the file list
-    my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
-    my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
-        Prefix => "$ArticlePrefix/",
-    );
-    delete $Name2Properties{'plain.txt'};
+    my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
+    my @Filenames;
+    {
+        my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
+            Prefix => "$ArticlePrefix/",
+        );
+        @Filenames = grep { $_ ne 'plain.txt' } keys %Name2Properties;
+    }
+
+    # for collection the info gathered from the headers of the HEAD requests
+    my %Name2Item;
 
     # enhance the properties returned by ListObjects() with information from the headers
     $Self->{StorageS3Object}->ProcessHeaders(
-        Prefix    => $ArticlePrefix,                   # this time without the trailing slash
-        Filenames => [ sort keys %Name2Properties ],
+        Prefix    => $ArticlePrefix,    # this time without the trailing slash
+        Filenames => \@Filenames,
         Callback  => sub {
             my ($FinishedTransaction) = @_;
 
-            my $Filename = $FinishedTransaction->req->url->path->parts->[-1];
-            $Name2Properties{$Filename} //= {};
-
             # make the findings available outside the sub
-            my $Item = $Name2Properties{$Filename};
+            my $Filename = $FinishedTransaction->req->url->path->parts->[-1];
+            my $Item     = {};
+            $Name2Item{$Filename} = $Item;
 
-            # store the file name
+            # keep track of the file name
             $Item->{Filename} = $Filename;
 
             # TODO return early: Mojo::Promise->reject('got no content type');
             my $Headers = $FinishedTransaction->res->headers;
             $Item->{ContentType}        = $Headers->content_type;
+            $Item->{FilesizeRaw}        = $Headers->content_length;
             $Item->{ContentID}          = $Headers->header("$Self->{MetadataPrefix}ContentID")          || '';
             $Item->{ContentAlternative} = $Headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
 
@@ -347,19 +353,13 @@ sub ArticleAttachmentIndexRaw {
         },
     );
 
+    # the hash that is returned is indexed by integers starting at 1
     my %Index;
-    my $Counter = 0;
-    for my $Filename ( sort keys %Name2Properties ) {
-        $Name2Properties{$Filename} //= {};
-        $Name2Properties{$Filename}->{Filename}    = $Filename;
-        $Name2Properties{$Filename}->{FilesizeRaw} = delete $Name2Properties{$Filename}->{Size};
-        $Name2Properties{$Filename}->{FilesizeRaw} //= 0;
-
-        # remove extra properties that were collected by ListObjects()
-        delete $Name2Properties{$Filename}->{Key};
-        delete $Name2Properties{$Filename}->{Mtime};
-
-        $Index{ ++$Counter } = $Name2Properties{$Filename};
+    {
+        my $Counter = 0;
+        for my $Filename ( sort keys %Name2Item ) {
+            $Index{ ++$Counter } = $Name2Item{$Filename};
+        }
     }
 
     # sanity check of the Index
