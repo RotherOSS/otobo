@@ -180,6 +180,7 @@ sub ListObjects {
             # also keep the objects in the subdirectories, but relative to the prefix
             my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
 
+            # TODO: maybe rename to FilesizeRaw
             $Properties{Size} = $ContentNode->at('Size')->text;
 
             # LastModified is actually the time when the file was uploaded
@@ -290,6 +291,42 @@ sub ObjectExists {
     $Self->{UserAgent}->start($Transaction);
 
     return $Transaction->res->is_success;
+}
+
+=head2 ProcessHeaders()
+
+fetch headers in parallel and call the callback
+to be documented
+
+=cut
+
+sub ProcessHeaders {
+    my ( $Self, %Param ) = @_;
+
+    # The HTTP headers give the metadata for the found keys
+    my @Promises;
+    for my $Filename ( $Param{Filenames}->@* ) {
+        my $Path = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Prefix}, $Filename;
+        my $Now  = Mojo::Date->new(time)->to_datetime;
+        my $URL  = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path($Path);
+
+        my $Transaction = $Self->{S3Object}->signed_request(
+            method   => 'HEAD',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run non-blocking requests
+        push @Promises, $Self->{UserAgent}->start_p($Transaction)->then( $Param{Callback} );
+    }
+
+    # wait till all promises were kept or one rejected
+    Mojo::Promise->all(@Promises)->wait if @Promises;
+
+    return;
 }
 
 =head2 RetrieveObject()
@@ -507,14 +544,14 @@ sub DiscardObjects {
         }
     }
 
-    # Create XML for deleting all attachments besided 'plain.txt'.
+    # Create XML for deleting objects with the to be deleted prefix
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     my $DOM = Mojo::DOM->new->xml(1);
     {
         # start with the the toplevel Delete tag
         $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
 
-        # first get info about the objects, plain.txt is already excluded
+        # first get info about the objects with the relevant prefix
         my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
             Prefix => $Param{Prefix},
         );

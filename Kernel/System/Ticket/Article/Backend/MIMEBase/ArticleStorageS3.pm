@@ -64,17 +64,10 @@ sub new {
     # Call new() on Base.pm to execute the common code.
     my $Self = $Type->SUPER::new(%Param);
 
-    # TODO: don't access attributes directly
-    # TODO: eliminate hardcoded values
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
-    $Self->{Scheme}          = $StorageS3Object->{Scheme};
-    $Self->{Host}            = $StorageS3Object->{Host};
-    $Self->{Bucket}          = $StorageS3Object->{Bucket};
-    $Self->{HomePrefix}      = $StorageS3Object->{HomePrefix};
-    $Self->{MetadataPrefix}  = 'x-amz-meta-';
-    $Self->{S3Object}        = $StorageS3Object->{S3Object};
-    $Self->{StorageS3Object} = $StorageS3Object;
-    $Self->{UserAgent}       = $StorageS3Object->{UserAgent};
+    $Self->{StorageS3Object} = Kernel::System::Storage::S3->new();
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    $Self->{MetadataPrefix} = $ConfigObject->Get('Storage::S3::MetadataPrefix');
 
     return $Self;
 }
@@ -301,114 +294,65 @@ sub ArticleAttachmentIndexRaw {
         return;
     }
 
-    # retrieve file list from S3
-    my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path( $Self->{Bucket} );
-
-    # the parameters are passed in the Query-URL
-    my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
-
-    # For the params see https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html.
-    $URL->query(
-        [
-            'list-type' => 2,
-            prefix      => "$Self->{HomePrefix}/$ArticlePrefix/",
-            delimiter   => '/'
-        ]
+    # find the file names and initial properties
+    my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
+    my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
+        Prefix => $ArticlePrefix,
     );
+    delete $Name2Properties{'plain.txt'};
 
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'GET',
-        datetime => $Now,
-        url      => $URL,
-    );
+    # enhance the properties returned by ListObjects() with information from the headers
+    $Self->{StorageS3Object}->ProcessHeaders(
+        Prefix     => $ArticlePrefix,
+        Filennames => [ sort keys %Name2Properties ],
+        Callback   => sub {
+            my ($FinishedTransaction) = @_;
 
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
+            my $Filename = $FinishedTransaction->req->url->path->parts->[-1];
+            $Name2Properties{$Filename} //= {};
 
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    # parse the returned XML
-    # look at the Contents nodes in the returned XML
-    my %Index;
-    my $Counter;
-    $Transaction->res->dom->find('Contents')->map(
-        sub {
-            my ($ContentNode) = @_;
+            # make the findings available outside the sub
+            my $Item = $Name2Properties{$Filename};
 
-            my $Filename = basename( $ContentNode->at('Key')->text // 0 );
+            # TODO return early: Mojo::Promise->reject('got no content type');
+            my $Headers = $FinishedTransaction->res->headers;
+            $Item->{ContentType}        = $Headers->content_type;
+            $Item->{ContentID}          = $Headers->header("$Self->{MetadataPrefix}ContentID")          || '';
+            $Item->{ContentAlternative} = $Headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
 
-            # plain.txt is written in ArticleWritePlain() and retrieved in ArticlePlain()
-            return if $Filename eq 'plain.txt';
-
-            my $Size = $ContentNode->at('Size')->text;
-
-            $Index{ ++$Counter } = {
-                FilesizeRaw => ( $Size // 0 ),
-                Filename    => $Filename,
-            };
-        }
-    );
-
-    # The HTTP headers give the metadata for the found keys
-    my @Promises;
-    for my $FileID ( sort { $a <=> $b } keys %Index ) {
-        my $Item     = $Index{$FileID};
-        my $FilePath = $Self->_FilePath( $Param{ArticleID}, $Item->{Filename} );
-        my $Now      = Mojo::Date->new(time)->to_datetime;
-        my $URL      = Mojo::URL->new
-            ->scheme( $Self->{Scheme} )
-            ->host( $Self->{Host} )
-            ->path( join '/', $Self->{Bucket}, $Self->{HomePrefix}, $FilePath );
-        my $Transaction = $Self->{S3Object}->signed_request(
-            method   => 'HEAD',
-            datetime => $Now,
-            url      => $URL,
-        );
-
-        # run non-blocking requests
-        push @Promises, $Self->{UserAgent}->start_p($Transaction)->then(
-            sub {
-                my ($FinishedTransaction) = @_;
-
-                my $Headers     = $Transaction->res->headers;
-                my $ContentType = $Headers->content_type;
-
-                # TODO return early: Mojo::Promise->reject('got no content type');
-                $Item->{ContentType}        = $ContentType;
-                $Item->{ContentID}          = $Headers->header("$Self->{MetadataPrefix}ContentID")          || '';
-                $Item->{ContentAlternative} = $Headers->header("$Self->{MetadataPrefix}ContentAlternative") || '';
-
-                my $FullDisposition = $Headers->content_disposition;
-                if ($FullDisposition) {
-                    ( $Item->{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
-                }
-
-                # if no content disposition is set images with content id should be inline
-                elsif ( $Item->{ContentID} && $Item->{ContentType} =~ m{image}i ) {
-                    $Item->{Disposition} = 'inline';
-                }
-
-                # converted article body should be inline
-                elsif ( $Item->{Filename} =~ m{file-[12]} ) {
-                    $Item->{Disposition} = 'inline';
-                }
-
-                # all others including attachments with content id that are not images
-                # should NOT be inline
-                else {
-                    $Item->{Disposition} = 'attachment';
-                }
+            my $FullDisposition = $Headers->content_disposition;
+            if ($FullDisposition) {
+                ( $Item->{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
             }
-        );    # TODO: finally
-    }
 
-    # wait till all promises were kept or one rejected
-    my @Ret;
-    @Ret = Mojo::Promise->all(@Promises)->wait if @Promises;
+            # if no content disposition is set images with content id should be inline
+            elsif ( $Item->{ContentID} && $Item->{ContentType} =~ m{image}i ) {
+                $Item->{Disposition} = 'inline';
+            }
+
+            # converted article body should be inline
+            elsif ( $Item->{Filename} =~ m{file-[12]} ) {
+                $Item->{Disposition} = 'inline';
+            }
+
+            # all others including attachments with content id that are not images
+            # should NOT be inline
+            else {
+                $Item->{Disposition} = 'attachment';
+            }
+        },
+    );
+
+    my %Index;
+    my $Counter = 0;
+    for my $Filename ( sort keys %Name2Properties ) {
+        $Name2Properties{$Filename} //= {};
+        $Name2Properties{$Filename}->{Filename}    = $Filename;
+        $Name2Properties{$Filename}->{FilesizeRaw} = delete $Name2Properties{$Filename}->{Size};
+        $Name2Properties{$Filename}->{FilesizeRaw} //= 0;
+
+        $Index{ ++$Counter } = $Name2Properties{$Filename};
+    }
 
     # sanity check of the Index
     for my $FileID ( sort { $a <=> $b } keys %Index ) {
@@ -424,7 +368,6 @@ sub ArticleAttachmentIndexRaw {
     return;
 }
 
-# TODO: optionally allow to pass in the file name
 sub ArticleAttachment {
     my ( $Self, %Param ) = @_;
 

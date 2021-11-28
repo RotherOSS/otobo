@@ -32,7 +32,7 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(4);
+plan(5);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
@@ -89,4 +89,60 @@ END_SAMPLE
     is( $Retrieved{FilesizeRaw}, bytes::length($Content), 'size in bytes' );
     is( $Retrieved{Content},     $Content,                'Content matches' );
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
+};
+
+subtest 'ProcessHeaders' => sub {
+
+    # store two objects and process the headers of the two objects
+    my $Prefix = join '/', 'test', 'Storage', 'S3', 'panda_bear';
+    my %ExpectedSize;
+
+    # panda
+    {
+        my $Content = <<'END_SAMPLE';
+uni panda
+🐼 - U+1F43C - PANDA FACE
+END_SAMPLE
+        $ExpectedSize{'uni_panda.txt'} = bytes::length($Content);
+        my $Key = join '/', $Prefix, 'uni_panda.txt';
+        my $WriteSuccess = $StorageS3Object->StoreObject(
+            Key     => $Key,
+            Content => $Content,
+            Headers => { 'Content-Type' => 'text/plain' },
+        );
+        ok( $WriteSuccess, 'writing succeeded' );
+    }
+
+    # bear
+    {
+        my $Content = <<'END_SAMPLE';
+uni bear
+🐻 - U+1F43B - BEAR FACE
+🧸 - U+1F9F8 - TEDDY BEAR
+END_SAMPLE
+        $ExpectedSize{'uni_bear.txt'} = bytes::length($Content);
+        my $Key = join '/', $Prefix, 'uni_bear.txt';
+        my $WriteSuccess = $StorageS3Object->StoreObject(
+            Key     => $Key,
+            Content => $Content,
+            Headers => { 'Content-Type' => 'text/plain' },
+        );
+        ok( $WriteSuccess, 'writing succeeded' );
+    }
+
+    my %FoundSize;
+    $StorageS3Object->ProcessHeaders(
+        Prefix    => $Prefix,
+        Filenames => [ keys %ExpectedSize ],
+        Callback  => sub {
+            my ($FinishedTransaction) = @_;
+
+            # extract and store the file size
+            my $Filename    = $FinishedTransaction->req->url->path->parts->[-1];
+            my $FilesizeRaw = $FinishedTransaction->res->headers->content_length;
+            $FoundSize{$Filename} = $FilesizeRaw;
+        },
+    );
+
+    is( \%FoundSize, \%ExpectedSize, 'sizes match' );
 };
