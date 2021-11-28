@@ -297,15 +297,15 @@ sub ArticleAttachmentIndexRaw {
     # find the file names and initial properties
     my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
     my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
-        Prefix => $ArticlePrefix,
+        Prefix => "$ArticlePrefix/",
     );
     delete $Name2Properties{'plain.txt'};
 
     # enhance the properties returned by ListObjects() with information from the headers
     $Self->{StorageS3Object}->ProcessHeaders(
-        Prefix     => $ArticlePrefix,
-        Filennames => [ sort keys %Name2Properties ],
-        Callback   => sub {
+        Prefix    => $ArticlePrefix, # this time without the trailing slash
+        Filenames => [ sort keys %Name2Properties ],
+        Callback  => sub {
             my ($FinishedTransaction) = @_;
 
             my $Filename = $FinishedTransaction->req->url->path->parts->[-1];
