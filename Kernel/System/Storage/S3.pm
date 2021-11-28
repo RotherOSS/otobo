@@ -95,9 +95,9 @@ sub new {
         Bucket         => $ConfigObject->Get('Storage::S3::Bucket'),
         HomePrefix     => $ConfigObject->Get('Storage::S3::HomePrefix'),
         MetadataPrefix => $ConfigObject->Get('Storage::S3::MetadataPrefix'),
+        Delimiter      => $ConfigObject->Get('Storage::S3::Delimiter'),
         UserAgent      => $UserAgent,
         S3Object       => $S3Object,
-        Delimiter      => '/',
     };
 
     return bless $Self, $Class;
@@ -152,7 +152,7 @@ sub ListObjects {
         [
             'list-type' => 2,
             prefix      => $CompletePrefix,
-            delimiter   => '/'
+            delimiter   => $Self->{Delimiter},
         ]
     );
 

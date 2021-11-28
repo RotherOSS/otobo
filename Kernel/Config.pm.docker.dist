@@ -130,6 +130,7 @@ sub Load {
         $Self->{'Storage::S3::AccessKey'}      = 'test';
         $Self->{'Storage::S3::SecretKey'}      = 'test';
         $Self->{'Storage::S3::MetadataPrefix'} = 'x-amz-meta-';
+        $Self->{'Storage::S3::Delimiter'}      = '/'; # do not change this, as OTOBO relies on the delimiter being '/'
     }
 
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
