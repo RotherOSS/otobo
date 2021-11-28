@@ -28,6 +28,7 @@ use Cwd qw(realpath);
 # CPAN modules
 use Mojo::UserAgent;
 use Mojo::Date;
+use Mojo::DOM;
 use Mojo::URL;
 use Mojo::AWS::S3;
 use Plack::Util;
@@ -489,6 +490,74 @@ sub DiscardObject {
 
     return 1 if $Transaction->result->is_success;
     return;
+}
+
+sub DiscardObjects {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Item (qw(Prefix)) {
+        if ( !$Param{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Item!",
+            );
+
+            return;
+        }
+    }
+
+    # Create XML for deleting all attachments besided 'plain.txt'.
+    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
+    my $DOM = Mojo::DOM->new->xml(1);
+    {
+        # start with the the toplevel Delete tag
+        $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+
+        # first get info about the objects, plain.txt is already excluded
+        my %Name2Properties = $Self->{StorageS3Object}->ListObjects(
+            Prefix => $Param{Prefix},
+        );
+
+        FILENAME:
+        for my $Filename ( sort keys %Name2Properties ) {
+
+            if ( $Param{Keep} ) {
+                next FILENAME if $Filename =~ $Param{Keep};
+            }
+
+            # the key which should be deleted
+            my $Key = join '/', $Self->{HomePrefix}, $Param{Prefix}, $Filename;
+
+            $DOM->at('Delete')->append_content(
+                $DOM->new_tag('Object')->at('Object')->append_content(
+                    $DOM->new_tag( Key => $Key )
+                )
+            );
+        }
+    }
+
+    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
+    # delete plain
+    my $Now = Mojo::Date->new(time)->to_datetime;
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
+    $URL->query('delete=');
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'POST',
+        datetime => $Now,
+        url      => $URL,
+        payload  => [ $DOM->to_string ],
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    # the S3 backend does not support storing articles in mixed backends
+    # TODO: check success
+    return 1;
 }
 
 1;

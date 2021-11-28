@@ -27,7 +27,6 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 use File::Basename qw(basename);
 
 # CPAN modules
-use Mojo::DOM;
 use Mojo::Date;
 use Mojo::URL;
 
@@ -148,51 +147,12 @@ sub ArticleDeleteAttachment {
         }
     }
 
-    # Create XML for deleting all attachments besided 'plain.txt'.
-    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
-    my $DOM = Mojo::DOM->new->xml(1);
-    {
-        # start with the the toplevel Delete tag
-        $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+    my $ArticlePrefix = $Self->_ArticlePrefix( $Param{ArticleID} );
 
-        # first get info about the objects, plain.txt is already excluded
-        my %AttachmentIndex = $Self->ArticleAttachmentIndexRaw(%Param);
-        my $ArticlePrefix   = $Self->_ArticlePrefix( $Param{ArticleID} );
-
-        for my $FileID ( sort { $a <=> $b } keys %AttachmentIndex ) {
-
-            # the key which should be deleted
-            my $Key = join '/', $Self->{HomePrefix}, $ArticlePrefix, $AttachmentIndex{$FileID}->{Filename};
-
-            $DOM->at('Delete')->append_content(
-                $DOM->new_tag('Object')->at('Object')->append_content(
-                    $DOM->new_tag( Key => $Key )
-                )
-            );
-        }
-    }
-
-    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
-    # delete plain
-    my $Now = Mojo::Date->new(time)->to_datetime;
-    my $URL = Mojo::URL->new
-        ->scheme( $Self->{Scheme} )
-        ->host( $Self->{Host} )
-        ->path( $Self->{Bucket} );
-    $URL->query('delete=');
-    my $Transaction = $Self->{S3Object}->signed_request(
-        method   => 'POST',
-        datetime => $Now,
-        url      => $URL,
-        payload  => [ $DOM->to_string ],
+    return $Self->{StorageS3Object}->DiscardObjects(
+        Prefix => $ArticlePrefix,
+        Keep   => qr/^plain\.txt$/,
     );
-
-    # run blocking request
-    $Self->{UserAgent}->start($Transaction);
-
-    # the S3 backend does not support storing articles in mixed backends
-    # TODO: check success
-    return 1;
 }
 
 # no metadata is added
