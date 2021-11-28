@@ -40,7 +40,7 @@ my $StorageS3Object = Kernel::System::Storage::S3->new();
 isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
 
 # ZZZAAuto.pm should already exist
-subtest 'ZZZAAuto.pm' => sub {
+subtest 'ListObjects' => sub {
 
     # run a blocking GET request to S3
     my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
