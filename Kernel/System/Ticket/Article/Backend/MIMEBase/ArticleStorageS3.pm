@@ -314,6 +314,9 @@ sub ArticleAttachmentIndexRaw {
             # make the findings available outside the sub
             my $Item = $Name2Properties{$Filename};
 
+            # store the file name
+            $Item->{Filename} = $Filename;
+
             # TODO return early: Mojo::Promise->reject('got no content type');
             my $Headers = $FinishedTransaction->res->headers;
             $Item->{ContentType}        = $Headers->content_type;
