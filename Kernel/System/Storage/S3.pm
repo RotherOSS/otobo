@@ -522,9 +522,8 @@ sub DiscardObjects {
         FILENAME:
         for my $Filename ( sort keys %Name2Properties ) {
 
-            if ( $Param{Keep} ) {
-                next FILENAME if $Filename =~ $Param{Keep};
-            }
+            # keep files matching a regex
+            next FILENAME if $Param{Keep} && $Filename =~ $Param{Keep};
 
             # the key which should be deleted
             my $Key = join '/', $Self->{HomePrefix}, $Param{Prefix}, $Filename;
