@@ -459,9 +459,9 @@ for my $Test (@Tests1) {
 
         # The param FileName overrides the default file name ZZZAAuto.pm
         $SysConfigObject->ConfigurationDeploy(
-            %{ $Test->{Config} },
+            $Test->{Config}->%*,
             Force    => 1,
-            Comments => "Some comments",
+            Comments => 'Some comments',
         );
 
         if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
