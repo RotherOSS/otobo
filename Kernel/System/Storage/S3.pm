@@ -563,8 +563,8 @@ sub DiscardObjects {
             # keep files matching a regex
             next FILENAME if $Param{Keep} && $Filename =~ $Param{Keep};
 
-            # the key which should be deleted
-            my $Key = join '/', $Self->{HomePrefix}, $Param{Prefix}, $Filename;
+            # the key which should be deleted, note that that prefix already has a trailing slash
+            my $Key = join '/', $Self->{HomePrefix}, "$Param{Prefix}$Filename";
 
             $DOM->at('Delete')->append_content(
                 $DOM->new_tag('Object')->at('Object')->append_content(
