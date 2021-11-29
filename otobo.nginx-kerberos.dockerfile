@@ -21,10 +21,10 @@ RUN apt-get update\
         libc-dev \
         make \
         libpcre3-dev \
-	libpcre++-dev \
+        libpcre++-dev \
         zlib1g-dev \
         libkrb5-dev \
-	wget
+        wget
 
 RUN set -x && \
     cd /usr/src \
