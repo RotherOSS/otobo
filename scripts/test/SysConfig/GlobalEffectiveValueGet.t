@@ -16,12 +16,16 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -68,23 +72,10 @@ my @Tests = (
 for my $Test (@Tests) {
 
     my $EffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
-        %{ $Test->{Params} },
+        $Test->{Params}->%*,
     );
 
-    if ( defined $Test->{ExpectedResult} ) {
-        $Self->IsDeeply(
-            $EffectiveValue,
-            $Test->{ExpectedResult},
-            "$Test->{Title} - check expected result.",
-        );
-    }
-    else {
-        $Self->Is(
-            $EffectiveValue,
-            undef,
-            "$Test->{Title} - check expected result.",
-        );
-    }
+    is( $EffectiveValue, $Test->{ExpectedResult}, "$Test->{Title} - check expected result." );
 }
 
-$Self->DoneTesting();
+done_testing();
