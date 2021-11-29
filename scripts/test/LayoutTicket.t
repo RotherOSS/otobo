@@ -16,12 +16,16 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self %Param));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -51,10 +55,7 @@ my $TicketID = $TicketObject->TicketCreate(
     OwnerID      => 1,
     UserID       => 1,
 );
-$Self->True(
-    $TicketID,
-    'TicketCreate()',
-);
+ok( $TicketID, 'TicketCreate()' );
 
 # add HTML
 my $HTML = '<html>
@@ -243,79 +244,63 @@ my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 my $FormID = $UploadCacheObject->FormIDCreate();
 
 # execute tests
+my $TestCount = 0;
 for my $Test (@Tests) {
+    $TestCount++;
 
-    # set config settings
-    for my $Key ( sort keys %{ $Test->{Config} } ) {
-        $ConfigObject->Set(
-            Key   => $Key,
-            Value => $Test->{Config}->{$Key},
+    subtest "Test $TestCount" => sub {
+
+        # set config settings
+        for my $Key ( sort keys $Test->{Config}->%* ) {
+            $ConfigObject->Set(
+                Key   => $Key,
+                Value => $Test->{Config}->{$Key},
+            );
+        }
+
+        # quote article
+        my $HTMLBody = $LayoutObject->ArticleQuote(
+            TicketID           => $TicketID,
+            ArticleID          => $ArticleID,
+            FormID             => $FormID,
+            UploadCacheObject  => $UploadCacheObject,
+            AttachmentsInclude => $Test->{AttachmentsInclude},
         );
-    }
 
-    # quote article
-    my $HTMLBody = $LayoutObject->ArticleQuote(
-        TicketID           => $TicketID,
-        ArticleID          => $ArticleID,
-        FormID             => $FormID,
-        UploadCacheObject  => $UploadCacheObject,
-        AttachmentsInclude => $Test->{AttachmentsInclude},
-    );
-
-    # check body
-    for my $RegExp ( @{ $Test->{BodyRegExp} } ) {
-        if ( $HTMLBody =~ /$RegExp/ ) {
-            $Self->True(
-                1,
-                "BodyRegExp - $RegExp",
-            );
+        # check body
+        for my $RegExp ( $Test->{BodyRegExp}->@* ) {
+            like( $HTMLBody, qr{$RegExp}, "BodyRegExp - $RegExp" );
         }
-        else {
-            $Self->True(
-                0,
-                "BodyRegExp - $RegExp",
-            );
-        }
-    }
 
-    # check attachments
-    my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
-        FormID => $FormID,
-    );
-    ATTACHMENT:
-    for my $Filename ( sort keys %{ $Test->{Attachment} } ) {
-        for my $Attachment (@Attachments) {
-            if ( $Attachment->{Filename} eq $Filename && $Test->{Attachment}->{$Filename} ) {
-                $Self->True(
-                    1,
-                    "Attachment is included as expected - $Filename",
-                );
-                next ATTACHMENT;
+        # check attachments
+        my @Attachments = $UploadCacheObject->FormIDGetAllFilesMeta(
+            FormID => $FormID,
+        );
+        ATTACHMENT:
+        for my $Filename ( sort keys $Test->{Attachment}->%* ) {
+            for my $Attachment (@Attachments) {
+                if ( $Attachment->{Filename} eq $Filename && $Test->{Attachment}->{$Filename} ) {
+                    pass("Attachment is included as expected - $Filename");
+
+                    next ATTACHMENT;
+                }
+                elsif ( $Attachment->{Filename} eq $Filename && !$Test->{Attachment}->{$Filename} ) {
+                    fail("Attachment is included, but it is not expected - $Filename");
+
+                    next ATTACHMENT;
+                }
             }
-            elsif ( $Attachment->{Filename} eq $Filename && !$Test->{Attachment}->{$Filename} ) {
-                $Self->True(
-                    0,
-                    "Attachment is included, but it is not expected - $Filename",
-                );
-                next ATTACHMENT;
+
+            if ( $Test->{Attachment}->{$Filename} ) {
+                fail("Attachment is not included, but it is not expected - $Filename");
+            }
+            else {
+                pass("Attachment is not included as expected - $Filename");
             }
         }
-        if ( $Test->{Attachment}->{$Filename} ) {
-            $Self->True(
-                0,
-                "Attachment is not included, but it is not expected - $Filename",
-            );
-        }
-        else {
-            $Self->True(
-                1,
-                "Attachment is not included as expected - $Filename",
-            );
-        }
-
-    }
+    };
 }
 
 # cleanup is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing();

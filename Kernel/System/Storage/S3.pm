@@ -28,6 +28,7 @@ use Cwd qw(realpath);
 # CPAN modules
 use Mojo::UserAgent;
 use Mojo::Date;
+use Mojo::DOM;
 use Mojo::URL;
 use Mojo::AWS::S3;
 use Plack::Util;
@@ -75,14 +76,10 @@ sub new {
     # handle config bootstrap problem
     my $ConfigObject = $Param{ConfigObject} // $Kernel::OM->Get('Kernel::Config');
 
-    my $Scheme     = $ConfigObject->Get('Storage::S3::Scheme');
-    my $Host       = $ConfigObject->Get('Storage::S3::Host');
-    my $Region     = $ConfigObject->Get('Storage::S3::Region');
-    my $Bucket     = $ConfigObject->Get('Storage::S3::Bucket');
-    my $HomePrefix = $ConfigObject->Get('Storage::S3::HomePrefix');
-    my $AccessKey  = $ConfigObject->Get('Storage::S3::AccessKey');
-    my $SecretKey  = $ConfigObject->Get('Storage::S3::SecretKey');
-
+    # create an UserAgent and S3Object
+    my $Region    = $ConfigObject->Get('Storage::S3::Region');
+    my $AccessKey = $ConfigObject->Get('Storage::S3::AccessKey');
+    my $SecretKey = $ConfigObject->Get('Storage::S3::SecretKey');
     my $UserAgent = Mojo::UserAgent->new();
     my $S3Object  = Mojo::AWS::S3->new(
         transactor => $UserAgent->transactor,
@@ -93,14 +90,14 @@ sub new {
     );
 
     my $Self = {
-        Scheme         => $Scheme,
-        Host           => $Host,
-        Bucket         => $Bucket,
-        HomePrefix     => $HomePrefix,
+        Scheme         => $ConfigObject->Get('Storage::S3::Scheme'),
+        Host           => $ConfigObject->Get('Storage::S3::Host'),
+        Bucket         => $ConfigObject->Get('Storage::S3::Bucket'),
+        HomePrefix     => $ConfigObject->Get('Storage::S3::HomePrefix'),
+        MetadataPrefix => $ConfigObject->Get('Storage::S3::MetadataPrefix'),
+        Delimiter      => $ConfigObject->Get('Storage::S3::Delimiter'),
         UserAgent      => $UserAgent,
         S3Object       => $S3Object,
-        Delimiter      => '/',
-        MetadataPrefix => 'x-amz-meta-',
     };
 
     return bless $Self, $Class;
@@ -110,6 +107,7 @@ sub new {
 
 return a hash with information about objects with a specific prefix.
 The prefix will be removed from the keys of the returned hash.
+Note the trailing slash.
 
     my %Name2Properties = $StorageS3Object->ListObjects(
         Prefix => 'Kernel/Config/Files/',
@@ -155,7 +153,7 @@ sub ListObjects {
         [
             'list-type' => 2,
             prefix      => $CompletePrefix,
-            delimiter   => '/'
+            delimiter   => $Self->{Delimiter},
         ]
     );
 
@@ -183,6 +181,7 @@ sub ListObjects {
             # also keep the objects in the subdirectories, but relative to the prefix
             my $Name = $Key =~ s/^\Q$CompletePrefix\E//r;
 
+            # TODO: maybe rename to FilesizeRaw
             $Properties{Size} = $ContentNode->at('Size')->text;
 
             # LastModified is actually the time when the file was uploaded
@@ -293,6 +292,42 @@ sub ObjectExists {
     $Self->{UserAgent}->start($Transaction);
 
     return $Transaction->res->is_success;
+}
+
+=head2 ProcessHeaders()
+
+fetch headers in parallel and call the callback
+to be documented
+
+=cut
+
+sub ProcessHeaders {
+    my ( $Self, %Param ) = @_;
+
+    # The HTTP headers give the metadata for the found keys
+    my @Promises;
+    for my $Filename ( $Param{Filenames}->@* ) {
+        my $Path = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Prefix}, $Filename;
+        my $Now  = Mojo::Date->new(time)->to_datetime;
+        my $URL  = Mojo::URL->new
+            ->scheme( $Self->{Scheme} )
+            ->host( $Self->{Host} )
+            ->path($Path);
+
+        my $Transaction = $Self->{S3Object}->signed_request(
+            method   => 'HEAD',
+            datetime => $Now,
+            url      => $URL,
+        );
+
+        # run non-blocking requests
+        push @Promises, $Self->{UserAgent}->start_p($Transaction)->then( $Param{Callback} );
+    }
+
+    # wait till all promises were kept or one rejected
+    Mojo::Promise->all(@Promises)->wait if @Promises;
+
+    return;
 }
 
 =head2 RetrieveObject()
@@ -452,6 +487,113 @@ sub SaveObjectToFile {
     my $Epoch        = Mojo::Date->new($LastModified)->epoch;
     utime $Epoch, $Epoch, $Param{Location};
 
+    return 1;
+}
+
+=head2 DiscardObject()
+
+Remove an object from the S3 storage.
+
+=cut
+
+sub DiscardObject {
+    my ( $Self, %Param ) = @_;
+
+    # check needed params
+    for my $Needed (qw(Key)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Message  => "Needed $Needed: $!",
+                Priority => 'error',
+            );
+
+            return;
+        }
+    }
+
+    my $KeyWithBucket = join '/', $Self->{Bucket}, $Self->{HomePrefix}, $Param{Key};
+    my $Now           = Mojo::Date->new(time)->to_datetime;
+    my $URL           = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path($KeyWithBucket);
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'DELETE',
+        datetime => $Now,
+        url      => $URL,
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    return 1 if $Transaction->result->is_success;
+    return;
+}
+
+sub DiscardObjects {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Item (qw(Prefix)) {
+        if ( !$Param{$Item} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Item!",
+            );
+
+            return;
+        }
+    }
+
+    # Create XML for deleting objects with the to be deleted prefix
+    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
+    my $DOM = Mojo::DOM->new->xml(1);
+    {
+        # start with the the toplevel Delete tag
+        $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
+
+        # first get info about the objects with the relevant prefix
+        my %Name2Properties = $Self->ListObjects(
+            Prefix => $Param{Prefix},
+        );
+
+        FILENAME:
+        for my $Filename ( sort keys %Name2Properties ) {
+
+            # keep files matching a regex
+            next FILENAME if $Param{Keep} && $Filename =~ $Param{Keep};
+
+            # the key which should be deleted, note that that prefix already has a trailing slash
+            my $Key = join '/', $Self->{HomePrefix}, "$Param{Prefix}$Filename";
+
+            $DOM->at('Delete')->append_content(
+                $DOM->new_tag('Object')->at('Object')->append_content(
+                    $DOM->new_tag( Key => $Key )
+                )
+            );
+        }
+    }
+
+    # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
+    # delete plain
+    my $Now = Mojo::Date->new(time)->to_datetime;
+    my $URL = Mojo::URL->new
+        ->scheme( $Self->{Scheme} )
+        ->host( $Self->{Host} )
+        ->path( $Self->{Bucket} );
+    $URL->query('delete=');
+    my $Transaction = $Self->{S3Object}->signed_request(
+        method   => 'POST',
+        datetime => $Now,
+        url      => $URL,
+        payload  => [ $DOM->to_string ],
+    );
+
+    # run blocking request
+    $Self->{UserAgent}->start($Transaction);
+
+    # the S3 backend does not support storing articles in mixed backends
+    # TODO: check success
     return 1;
 }
 
