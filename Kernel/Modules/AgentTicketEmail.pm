@@ -3421,7 +3421,7 @@ sub _MaskEmailNew {
             Name => 'TicketSLA',
             Data => {
                 SLAMandatory => $Config->{SLAMandatory} || 0,
-                %Param
+                %Param,
             },
         );
     }

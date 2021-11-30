@@ -21,10 +21,10 @@ RUN apt-get update\
         libc-dev \
         make \
         libpcre3-dev \
-	libpcre++-dev \
+        libpcre++-dev \
         zlib1g-dev \
         libkrb5-dev \
-	wget
+        wget
 
 RUN set -x && \
     cd /usr/src \
@@ -98,8 +98,11 @@ WORKDIR /etc/nginx
 RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
-# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
+# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
 COPY templates/ templates
+RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
 COPY snippets/  snippets
 
 # Copy text to line 4 - load Kerberos module in nginx.conf
