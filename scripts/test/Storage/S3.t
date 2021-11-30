@@ -32,7 +32,7 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(7);
+plan(8);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
@@ -245,5 +245,195 @@ END_SAMPLE
     is( \%FoundSize, \%ExpectedSize, 'sizes match' );
 };
 
-#TODO: DiscardObject
-#TODO: DiscardObjects
+subtest 'DiscardObject() and DiscardObjects()' => sub {
+
+    # store two objects and process the headers of the two objects
+    my $Prefix = join '/', 'test', 'Storage', 'S3', 'ελληνικό αλφάβητο';
+    my %ExpectedSize;
+
+    # set up test content
+    my %Alphabet = ( 'uni_alpha.txt', <<'EOT', 'uni_beta.txt', <<'EOT', 'uni_gamma', <<'EOT', 'uni_delta.txt', <<'EOT' );
+uni alpha
+ɑ - U+00251 - LATIN SMALL LETTER ALPHA
+ɒ - U+00252 - LATIN SMALL LETTER TURNED ALPHA
+Ά - U+00386 - GREEK CAPITAL LETTER ALPHA WITH TONOS
+Α - U+00391 - GREEK CAPITAL LETTER ALPHA
+ά - U+003AC - GREEK SMALL LETTER ALPHA WITH TONOS
+α - U+003B1 - GREEK SMALL LETTER ALPHA
+ᵅ - U+01D45 - MODIFIER LETTER SMALL ALPHA
+ᶐ - U+01D90 - LATIN SMALL LETTER ALPHA WITH RETROFLEX HOOK
+ᶛ - U+01D9B - MODIFIER LETTER SMALL TURNED ALPHA
+EOT
+uni beta
+Β - U+00392 - GREEK CAPITAL LETTER BETA
+β - U+003B2 - GREEK SMALL LETTER BETA
+ϐ - U+003D0 - GREEK BETA SYMBOL
+ᵝ - U+01D5D - MODIFIER LETTER SMALL BETA
+ᵦ - U+01D66 - GREEK SUBSCRIPT SMALL LETTER BETA
+EOT
+uni gamma
+Ɣ - U+00194 - LATIN CAPITAL LETTER GAMMA
+ɣ - U+00263 - LATIN SMALL LETTER GAMMA
+ˠ - U+002E0 - MODIFIER LETTER SMALL GAMMA
+Γ - U+00393 - GREEK CAPITAL LETTER GAMMA
+γ - U+003B3 - GREEK SMALL LETTER GAMMA
+ᴦ - U+01D26 - GREEK LETTER SMALL CAPITAL GAMMA
+ᵞ - U+01D5E - MODIFIER LETTER SMALL GREEK GAMMA
+ᵧ - U+01D67 - GREEK SUBSCRIPT SMALL LETTER GAMMA
+ℽ - U+0213D - DOUBLE-STRUCK SMALL GAMMA
+ℾ - U+0213E - DOUBLE-STRUCK CAPITAL GAMMA
+Ⲅ - U+02C84 - COPTIC CAPITAL LETTER GAMMA
+ⲅ - U+02C85 - COPTIC SMALL LETTER GAMMA
+𝚪 - U+1D6AA - MATHEMATICAL BOLD CAPITAL GAMMA
+𝛄 - U+1D6C4 - MATHEMATICAL BOLD SMALL GAMMA
+𝛤 - U+1D6E4 - MATHEMATICAL ITALIC CAPITAL GAMMA
+𝛾 - U+1D6FE - MATHEMATICAL ITALIC SMALL GAMMA
+𝜞 - U+1D71E - MATHEMATICAL BOLD ITALIC CAPITAL GAMMA
+𝜸 - U+1D738 - MATHEMATICAL BOLD ITALIC SMALL GAMMA
+𝝘 - U+1D758 - MATHEMATICAL SANS-SERIF BOLD CAPITAL GAMMA
+𝝲 - U+1D772 - MATHEMATICAL SANS-SERIF BOLD SMALL GAMMA
+𝞒 - U+1D792 - MATHEMATICAL SANS-SERIF BOLD ITALIC CAPITAL GAMMA
+𝞬 - U+1D7AC - MATHEMATICAL SANS-SERIF BOLD ITALIC SMALL GAMMA
+EOT
+uni delta
+ƍ - U+0018D - LATIN SMALL LETTER TURNED DELTA
+Δ - U+00394 - GREEK CAPITAL LETTER DELTA
+δ - U+003B4 - GREEK SMALL LETTER DELTA
+ᵟ - U+01D5F - MODIFIER LETTER SMALL DELTA
+ẟ - U+01E9F - LATIN SMALL LETTER DELTA
+≜ - U+0225C - DELTA EQUAL TO
+⍋ - U+0234B - APL FUNCTIONAL SYMBOL DELTA STILE
+⍍ - U+0234D - APL FUNCTIONAL SYMBOL QUAD DELTA
+⍙ - U+02359 - APL FUNCTIONAL SYMBOL DELTA UNDERBAR
+𐎄 - U+10384 - UGARITIC LETTER DELTA
+𝚫 - U+1D6AB - MATHEMATICAL BOLD CAPITAL DELTA
+𝛅 - U+1D6C5 - MATHEMATICAL BOLD SMALL DELTA
+𝛥 - U+1D6E5 - MATHEMATICAL ITALIC CAPITAL DELTA
+𝛿 - U+1D6FF - MATHEMATICAL ITALIC SMALL DELTA
+𝜟 - U+1D71F - MATHEMATICAL BOLD ITALIC CAPITAL DELTA
+𝜹 - U+1D739 - MATHEMATICAL BOLD ITALIC SMALL DELTA
+𝝙 - U+1D759 - MATHEMATICAL SANS-SERIF BOLD CAPITAL DELTA
+𝝳 - U+1D773 - MATHEMATICAL SANS-SERIF BOLD SMALL DELTA
+𝞓 - U+1D793 - MATHEMATICAL SANS-SERIF BOLD ITALIC CAPITAL DELTA
+𝞭 - U+1D7AD - MATHEMATICAL SANS-SERIF BOLD ITALIC SMALL DELTA
+EOT
+
+    # submit test content to S3
+    for my $Filename ( sort keys %Alphabet ) {
+
+        my $Key = join '/', $Prefix, $Filename;
+        my $WriteSuccess = $StorageS3Object->StoreObject(
+            Key     => $Key,
+            Content => $Alphabet{$Filename},
+            Headers => { 'Content-Type' => 'text/plain' },
+        );
+        ok( $WriteSuccess, "writing $Filename succeeded" );
+    }
+
+    # check the submission
+    my %Name2Properties1 = $StorageS3Object->ListObjects(
+        Prefix => "$Prefix/",
+    );
+    like(
+        \%Name2Properties1,
+        {
+            'uni_delta.txt' => {
+                'Size'  => '1002',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_delta.txt",
+            },
+            'uni_beta.txt' => {
+                'Size'  => '215',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_beta.txt"
+            },
+            'uni_alpha.txt' => {
+                'Size'  => '439',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_alpha.txt",
+            },
+            'uni_gamma' => {
+                'Size'  => '1095',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_gamma",
+            }
+        },
+        'all files'
+    );
+
+    # discard uni_alpha.txt
+    my $DiscardAlphaSuccess = $StorageS3Object->DiscardObject(
+        Key => "$Prefix/uni_alpha.txt"
+    );
+    is( $DiscardAlphaSuccess, 1, 'uni_alpha.txt discarded' );
+
+    my $DiscardNonExistingSuccess = $StorageS3Object->DiscardObject(
+        Key => "$Prefix/uni_alpha.txt"
+    );
+    is( $DiscardNonExistingSuccess, 1, 'uni_alpha.txt was already discarded, still successfull' );
+
+    my %Name2Properties2 = $StorageS3Object->ListObjects(
+        Prefix => "$Prefix/",
+    );
+    like(
+        \%Name2Properties1,
+        {
+            'uni_delta.txt' => {
+                'Size'  => '1002',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_delta.txt",
+            },
+            'uni_beta.txt' => {
+                'Size'  => '215',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_beta.txt"
+            },
+            'uni_gamma' => {
+                'Size'  => '1095',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_gamma",
+            }
+        },
+        'without uni_alpha.txt'
+    );
+
+    # discard uni_beta.txt and uni_gamma.txt
+    my $DiscardAllButDeltaSuccess = $StorageS3Object->DiscardObjects(
+        Prefix => "$Prefix/",
+        Keep   => qr/delta/,
+    );
+    is( $DiscardAllButDeltaSuccess, 1, 'two more files discarded' );
+
+    my %Name2Properties3 = $StorageS3Object->ListObjects(
+        Prefix => "$Prefix/",
+    );
+    like(
+        \%Name2Properties3,
+        {
+            'uni_delta.txt' => {
+                'Size'  => '1002',
+                'Mtime' => qr/^\d+$/,
+                'Key'   =>
+                    "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_delta.txt",
+            },
+        },
+        'all but uni_delta.txt discarded'
+    );
+
+    my $DiscardDeltaSuccess = $StorageS3Object->DiscardObject(
+        Key => "$Prefix/uni_delta.txt"
+    );
+    is( $DiscardDeltaSuccess, 1, 'uni_delta discarded' );
+
+    my %Name2Properties4 = $StorageS3Object->ListObjects(
+        Prefix => "$Prefix/",
+    );
+    is( \%Name2Properties4, {}, 'all discarded' );
+};
