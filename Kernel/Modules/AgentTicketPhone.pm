@@ -3258,7 +3258,7 @@ sub _MaskPhoneNew {
     # get output back
     return $LayoutObject->Output(
         TemplateFile => 'AgentTicketPhone',
-        Data         => \%Param
+        Data         => \%Param,
     );
 }
 
