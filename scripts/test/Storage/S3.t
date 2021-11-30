@@ -32,7 +32,7 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(6);
+plan(7);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
@@ -58,7 +58,6 @@ subtest 'ListObjects' => sub {
     is( $Properties->{Key}, "OTOBO/$FilesPrefix/ZZZAAuto.pm", 'Key for ZZZAAuto.pm' );
 };
 
-# Store and retrieve an object
 subtest 'Store and retrieve object' => sub {
     my $Content = <<'END_SAMPLE';
 uni book
@@ -91,7 +90,50 @@ END_SAMPLE
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
 };
 
-# Store and retrieve an object
+subtest 'SaveObjectToFile()' => sub {
+    my $Content = <<'END_SAMPLE';
+uni snow
+⛄ - U+026C4 - SNOWMAN WITHOUT SNOW
+🌨 - U+1F328 - CLOUD WITH SNOW
+🏔 - U+1F3D4 - SNOW CAPPED MOUNTAIN
+END_SAMPLE
+
+    my $Key = join '/', 'test', 'Storage', 'S3', 'uni_snow.txt';
+    my $WriteSuccess = $StorageS3Object->StoreObject(
+        Key     => $Key,
+        Content => $Content,
+        Headers => { 'Content-Type' => 'text/plain' },
+    );
+
+    ok( $WriteSuccess, 'writing succeeded' );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $TempDir      = $ConfigObject->Get('TempDir');
+    my $Location     = "$TempDir/uni_snow.txt";
+    unlink $Location;
+    ok( !-e $Location, "$Location does not exist before SaveObjectToFile()" );
+
+    my $Saved = $StorageS3Object->SaveObjectToFile(
+        Key      => $Key,
+        Location => $Location,
+    );
+    ok( $Saved, 1, 'object was saved' );
+    ok( -e $Location, "$Location exists after SaveObjectToFile()" );
+    is( -s $Location, bytes::length($Content), 'size in bytes of saved file' );
+
+    my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
+    my $FileContent = $MainObject->FileRead(
+        Location => $Location,
+    )->$*;
+
+    # the read in content is UTF-8 encoded
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$FileContent );
+    is( bytes::length($FileContent), bytes::length($Content), 'size in bytes' );
+    is( length($FileContent),        length($Content),        'size in code points' );
+    ok( bytes::length($FileContent) > length($Content), 'there are multi byte chars' );
+    is( $FileContent, $Content, 'Content matches' );
+};
+
 subtest 'ObjectExists' => sub {
     my $Content = <<'END_SAMPLE';
 uni omicron
@@ -202,3 +244,6 @@ END_SAMPLE
 
     is( \%FoundSize, \%ExpectedSize, 'sizes match' );
 };
+
+#TODO: DiscardObject
+#TODO: DiscardObjects
