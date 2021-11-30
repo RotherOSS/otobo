@@ -32,14 +32,14 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(5);
+plan(6);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
 my $StorageS3Object = Kernel::System::Storage::S3->new();
 isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
 
-# ZZZAAuto.pm should already exist
+# expecting that ZZZAAuto.pm already exists
 subtest 'ListObjects' => sub {
 
     # run a blocking GET request to S3
@@ -59,7 +59,7 @@ subtest 'ListObjects' => sub {
 };
 
 # Store and retrieve an object
-subtest 'uni book' => sub {
+subtest 'Store and retrieve object' => sub {
     my $Content = <<'END_SAMPLE';
 uni book
 📕 - U+1F4D5 - CLOSED BOOK
@@ -89,6 +89,62 @@ END_SAMPLE
     is( $Retrieved{FilesizeRaw}, bytes::length($Content), 'size in bytes' );
     is( $Retrieved{Content},     $Content,                'Content matches' );
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
+};
+
+# Store and retrieve an object
+subtest 'ObjectExists' => sub {
+    my $Content = <<'END_SAMPLE';
+uni omicron
+Ό - U+0038C - GREEK CAPITAL LETTER OMICRON WITH TONOS
+Ο - U+0039F - GREEK CAPITAL LETTER OMICRON
+ο - U+003BF - GREEK SMALL LETTER OMICRON
+ό - U+003CC - GREEK SMALL LETTER OMICRON WITH TONOS
+ὀ - U+01F40 - GREEK SMALL LETTER OMICRON WITH PSILI
+ὁ - U+01F41 - GREEK SMALL LETTER OMICRON WITH DASIA
+ὂ - U+01F42 - GREEK SMALL LETTER OMICRON WITH PSILI AND VARIA
+ὃ - U+01F43 - GREEK SMALL LETTER OMICRON WITH DASIA AND VARIA
+ὄ - U+01F44 - GREEK SMALL LETTER OMICRON WITH PSILI AND OXIA
+ὅ - U+01F45 - GREEK SMALL LETTER OMICRON WITH DASIA AND OXIA
+Ὀ - U+01F48 - GREEK CAPITAL LETTER OMICRON WITH PSILI
+Ὁ - U+01F49 - GREEK CAPITAL LETTER OMICRON WITH DASIA
+Ὂ - U+01F4A - GREEK CAPITAL LETTER OMICRON WITH PSILI AND VARIA
+Ὃ - U+01F4B - GREEK CAPITAL LETTER OMICRON WITH DASIA AND VARIA
+Ὄ - U+01F4C - GREEK CAPITAL LETTER OMICRON WITH PSILI AND OXIA
+Ὅ - U+01F4D - GREEK CAPITAL LETTER OMICRON WITH DASIA AND OXIA
+ὸ - U+01F78 - GREEK SMALL LETTER OMICRON WITH VARIA
+ό - U+01F79 - GREEK SMALL LETTER OMICRON WITH OXIA
+Ὸ - U+01FF8 - GREEK CAPITAL LETTER OMICRON WITH VARIA
+Ό - U+01FF9 - GREEK CAPITAL LETTER OMICRON WITH OXIA
+𝚶 - U+1D6B6 - MATHEMATICAL BOLD CAPITAL OMICRON
+𝛐 - U+1D6D0 - MATHEMATICAL BOLD SMALL OMICRON
+𝛰 - U+1D6F0 - MATHEMATICAL ITALIC CAPITAL OMICRON
+𝜊 - U+1D70A - MATHEMATICAL ITALIC SMALL OMICRON
+𝜪 - U+1D72A - MATHEMATICAL BOLD ITALIC CAPITAL OMICRON
+𝝄 - U+1D744 - MATHEMATICAL BOLD ITALIC SMALL OMICRON
+𝝤 - U+1D764 - MATHEMATICAL SANS-SERIF BOLD CAPITAL OMICRON
+𝝾 - U+1D77E - MATHEMATICAL SANS-SERIF BOLD SMALL OMICRON
+𝞞 - U+1D79E - MATHEMATICAL SANS-SERIF BOLD ITALIC CAPITAL OMICRON
+𝞸 - U+1D7B8 - MATHEMATICAL SANS-SERIF BOLD ITALIC SMALL OMICRON
+END_SAMPLE
+
+    my $Key = join '/', 'test', 'Storage', 'S3', 'uni_omicron.txt';
+    my $WriteSuccess = $StorageS3Object->StoreObject(
+        Key     => $Key,
+        Content => $Content,
+        Headers => { 'Content-Type' => 'text/plain' },
+    );
+
+    ok( $WriteSuccess, 'writing succeeded' );
+
+    my $FoundExisting = $StorageS3Object->ObjectExists(
+        Key => $Key,
+    );
+    is( $FoundExisting, 1, 'found uni_omicron.txt' );
+
+    my $FoundNonExisting = $StorageS3Object->ObjectExists(
+        Key => $Key . '.non_existing',
+    );
+    is( $FoundNonExisting, '', 'did not find uni_omicron.txt.non_existing' );
 };
 
 subtest 'ProcessHeaders' => sub {
