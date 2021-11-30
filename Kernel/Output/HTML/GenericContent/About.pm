@@ -14,14 +14,29 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<div id='oooContent'>
-    <div id='oooHeader'>
-        <h1>[% Translate("Privacy Policy") | html %]</h1>
-    </div>
-    <div id='oooMainBox'>
-        <iframe src="[% Env("Baselink") %]Action=CustomerGenericContent&Key=Accept"></iframe>
-[% IF Data.AcceptButton %]
-        <h2 id='AcceptButton'><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1" id="AcceptGDPR">[% Translate("Mit einem Klick erkläre ich meine Zustimmung.") | html %]<img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo-signet.svg" height="30" alt="OTOBO Signet"/></a></h2>
-[% END %]
-    </div>
-</div>
+package Kernel::Output::HTML::GenericContent::Aboutt;
+
+use strict;
+use warnings;
+
+our $ObjectManagerDisabled = 1;
+
+sub new {
+    my ( $Type, %Param ) = @_;
+
+    my $Self = {};
+    bless( $Self, $Type );
+
+    return $Self;
+}
+
+sub Run {
+    my ( $Self, %Param ) = @_;
+
+    return $Kernel::OM->Get('Kernel::System::DataStorage')->Get(
+        Type => 'Core',
+        Key  => 'About',
+    );
+}
+
+1;

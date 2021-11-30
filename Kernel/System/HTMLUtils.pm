@@ -656,8 +656,15 @@ sub DocumentComplete {
 
     return $Param{String} if $Param{String} =~ /<html>/i;
 
-    my $Css = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::RichText::DefaultCSS')
-        || 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $Css = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+
+    if ( $Param{CustomerInterface} ) {
+        $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
+    }
+    else {
+        $Css = $ConfigObject->Get('Frontend::RichText::DefaultCSS') // $Css;
+    }
 
     # escape special characters like double-quotes, e.g. used in font names with spaces
     $Css = $Self->ToHTML( String => $Css );
@@ -667,6 +674,11 @@ sub DocumentComplete {
     my $Body = '<!DOCTYPE html><html><head>';
     $Body
         .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
+    if ( $Param{CustomerInterface} ) {
+        # include quicksand and default css
+        $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
+        $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';
+    }
     $Body .= '</head><body style="' . $Css . '">' . $Param{String} . '</body></html>';
     return $Body;
 }

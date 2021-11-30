@@ -30,7 +30,6 @@ sub new {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     $Self->{InfoKey}  = $ConfigObject->Get('CustomerPanel::InfoKey');
-    $Self->{InfoFile} = $ConfigObject->Get('CustomerPanel::InfoFile');
 
     return $Self;
 }
@@ -111,12 +110,13 @@ sub Run {
     else {
 
         # show info
-        $Output = $LayoutObject->CustomerHeader();
-        $Output
-            .= $LayoutObject->Output(
-                TemplateFile => $Self->{InfoFile},
-                Data         => \%Param
-            );
+        $Output  = $LayoutObject->CustomerHeader();
+        $Output .= $LayoutObject->Output(
+            TemplateFile => 'CustomerAccept',
+            Data         => {
+                AcceptButton => 1,
+            }
+        );
         $Output .= $LayoutObject->CustomerFooter();
         return $Output;
     }

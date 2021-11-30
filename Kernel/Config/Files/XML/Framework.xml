@@ -397,6 +397,13 @@
             <Item ValueType="String" ValueRegex="">font-family:Geneva,Helvetica,Arial,sans-serif; font-size: 12px;</Item>
         </Value>
     </Setting>
+    <Setting Name="CustomerFrontend::RichText::DefaultCSS" Required="1" Valid="1">
+        <Description Translatable="1">Defines the default CSS used in rich text editors.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">font-family:'Quicksand', sans-serif; font-size: 14px; line-height: 1.5; color: #00023c;</Item>
+        </Value>
+    </Setting>
     <Setting Name="Frontend::RichText::EnhancedMode" Required="1" Valid="1">
         <Description Translatable="1">Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).</Description>
         <Navigation>Frontend::Base</Navigation>
@@ -6900,6 +6907,77 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Frontend::Module###AdminCustomerAccept" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>admin</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Admin</Item>
+                    <Item Key="Title" Translatable="1">Privacy Policy</Item>
+                    <Item Key="NavBarName">Admin</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AdminCustomerAccept###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.Admin.CustomerAccept.js</Item>
+                    </Array>
+                </Item>
+
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AdminCustomerAccept###001-Framework" Required="0" Valid="0">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::NavigationModule###AdminCustomerAccept" Required="0" Valid="1">
+        <Description Translatable="1">Admin area navigation for the agent interface.</Description>
+        <Navigation>Frontend::Admin::ModuleRegistration::AdminOverview</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Group">
+                    <Array>
+                        <Item>admin</Item>
+                    </Array>
+                </Item>
+                <Item Key="GroupRo">
+                    <Array>
+                    </Array>
+                </Item>
+                <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
+                <Item Key="Name" Translatable="1">Privacy Policy</Item>
+                <Item Key="Block">Customer Frontend</Item>
+                <Item Key="Description" Translatable="1">Configure the privacy policy.</Item>
+                <Item Key="IconBig">fa-file-text-o</Item>
+                <Item Key="IconSmall"></Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="CustomerFrontend::Module###CustomerDashboard" Required="0" Valid="1">
         <Description Translatable="1">Frontend module registration for the customer interface.</Description>
         <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
@@ -6917,6 +6995,27 @@ via the Preferences button after logging in.
                     <Item Key="Description">Customer Dashboard</Item>
                     <Item Key="Title"></Item>
                     <Item Key="NavBarName">Dashboard</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Module###CustomerGenericContent" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description">Generic Content</Item>
+                    <Item Key="Title"></Item>
+                    <Item Key="NavBarName">GenericContent</Item>
                 </Hash>
             </Item>
         </Value>
@@ -6963,6 +7062,19 @@ via the Preferences button after logging in.
                 <Item Key="CSS">
                     <Array>
                         <Item>Core.Preferences.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::CustomerAccept###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the customer interface.</Description>
+        <Navigation>Frontend::Customer::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Accept.css</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -9041,15 +9153,25 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
+    <Setting Name="CustomerGenericHTMLContent::ModuleMap###01-Framework" Required="0" Valid="1">
+        <Description Translatable="1"></Description>
+        <Navigation>Frontend::Customer::View::CustomerGenericHTMLContent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Accept">Accept</Item>
+                <Item Key="About">About</Item>
+            </Hash>
+        </Value>
+    </Setting>
     <Setting Name="SimpleBruteForceProtection::GeneralSettings" Required="0" Valid="1">
         <Description Translatable="1">Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.</Description>
         <Navigation>Core::Auth</Navigation>
         <Value>
-                <Hash>
-                    <Item Key="KeepCacheDuration">60</Item>
-                    <Item Key="MaxAttempt">3</Item>
-                    <Item Key="BanDuration">30</Item>
-                </Hash>
+            <Hash>
+                <Item Key="KeepCacheDuration">60</Item>
+                <Item Key="MaxAttempt">3</Item>
+                <Item Key="BanDuration">30</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Elasticsearch::ExcludedQueues" Required="0" Valid="1">
