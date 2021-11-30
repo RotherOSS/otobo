@@ -49,8 +49,8 @@ Create bucket on Docker host with:
 
     docker_admin> export AWS_ACCESS_KEY_ID=test
     docker_admin> export AWS_SECRET_ACCESS_KEY=test
-    docker_admin> aws --endpoint-url=http://localhost:4566 s3 mb s3://otobo-20211010a
-    make_bucket: otobo-20211029a
+    docker_admin> aws --endpoint-url=http://localhost:4566 s3 mb s3://otobo-bucket-20211128a
+    make_bucket: otobo-bucket-20211128a
 
 =head1 PUBLIC INTERFACE
 
@@ -526,7 +526,7 @@ sub DiscardObject {
     # run blocking request
     $Self->{UserAgent}->start($Transaction);
 
-    return 1 if $Transaction->result->is_success;
+    return 1 if $Transaction->result->is_success;    # success is indicated even when no object was deleted
     return;
 }
 
@@ -574,6 +574,9 @@ sub DiscardObjects {
         }
     }
 
+    my $SerialisedDOM = $DOM->to_string;
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$SerialisedDOM );
+
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     # delete plain
     my $Now = Mojo::Date->new(time)->to_datetime;
@@ -586,7 +589,7 @@ sub DiscardObjects {
         method   => 'POST',
         datetime => $Now,
         url      => $URL,
-        payload  => [ $DOM->to_string ],
+        payload  => [$SerialisedDOM],
     );
 
     # run blocking request
