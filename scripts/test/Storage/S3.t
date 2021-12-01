@@ -99,31 +99,31 @@ END_SAMPLE
 
     {
         my %Name2Properties = $StorageS3Object->ListObjects(
-            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', ''),
+            Prefix => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
         );
-        is( [ keys %Name2Properties], [], 'delimeter after sub2' );
+        is( [ keys %Name2Properties ], [], 'delimeter after sub2' );
     }
 
     {
         my %Name2Properties = $StorageS3Object->ListObjects(
-            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', ''),
+            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
             Delimiter => 'ề',
         );
         is(
-            [sort keys %Name2Properties],
-            ['sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt'],
+            [ sort keys %Name2Properties ],
+            [ 'sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt' ],
             'non-occuring delimiter'
         );
     }
 
     {
         my %Name2Properties = $StorageS3Object->ListObjects(
-            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', ''),
+            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
             Delimiter => '',
         );
         is(
-            [sort keys %Name2Properties],
-            ['sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt'],
+            [ sort keys %Name2Properties ],
+            [ 'sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt' ],
             'empty delimiter'
         );
     }
