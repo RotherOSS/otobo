@@ -143,6 +143,9 @@ sub ListObjects {
         }
     }
 
+    # get defaults, emptry string as delimiter is allowed
+    my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter},
+
     my %Name2Properties;
     my $URL = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
@@ -153,7 +156,7 @@ sub ListObjects {
         [
             'list-type' => 2,
             prefix      => $CompletePrefix,
-            delimiter   => $Self->{Delimiter},
+            delimiter   => $Delimiter,
         ]
     );
 
