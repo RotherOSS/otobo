@@ -522,11 +522,9 @@ Returns a list of deleted files.
 =cut
 
 sub CacheDelete {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    # TODO: delete in S3 when OTOBO_SYNC_WITH_S3 is set
-
-    my @Result;
+    # the file system cache files are located below the OTOBO home dir
     my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
     # for JavaScript there is only one cache folder
@@ -563,6 +561,7 @@ sub CacheDelete {
     }
 
     # now go through the cache folders and delete all .js and .css files
+    my @Result;
     my @FileTypes    = ( '*.js', '*.css' );
     my $TotalCounter = 0;
     FOLDERTODELETE:
@@ -586,12 +585,38 @@ sub CacheDelete {
         }
     }
 
+    $DB::single = 1;
+    if ( $Self->{UseS3Backend} ) {
+        $Self->_S3CacheDelete();
+    }
+
     # finally, also clean up the internal perl cache files
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
         Type => $Self->{CacheType},
     );
 
     return @Result;
+}
+
+=head2 _S3CacheDelete()
+
+deletes all the loader cache files. That is all files with the prefix I<var/httpd/htdocs>
+where the key contains neither I</js-cache/> nor I</css-cache>.
+
+Returns the success of the the discard operations.
+
+    my $Success = $LoaderObject->_S3CacheDelete();
+
+=cut
+
+sub _S3CacheDelete {
+    my $StorageS3Object = Kernel::System::Storage::S3->new();
+
+    return $StorageS3Object->DiscardObjects(
+        Prefix      => 'var/httpd/htdocs/',
+        Delimiter   => '',
+        DiscardOnly => qr!/(?:css|js)-cache/!,
+    );
 }
 
 1;

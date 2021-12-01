@@ -498,8 +498,10 @@ EOT
         'all but uni_delta.txt discarded'
     );
 
-    my $DiscardDeltaSuccess = $StorageS3Object->DiscardObject(
-        Key => "$Prefix/uni_delta.txt"
+    my $DiscardDeltaSuccess = $StorageS3Object->DiscardObjects(
+        Prefix      => "test/Stor",
+        DiscardOnly => qr{delt},
+        Delimiter   => '',
     );
     is( $DiscardDeltaSuccess, 1, 'uni_delta discarded' );
 
