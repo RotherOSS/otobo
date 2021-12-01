@@ -122,6 +122,7 @@ sub Load {
 
     # These settings are used only when the env var OTOBO_SYNC_WITH_S3 ist set
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+        $Self->{'Storage::S3::Active'}         = 1;
         $Self->{'Storage::S3::Scheme'}         = 'https';
         $Self->{'Storage::S3::Host'}           = 'localstack:4566';
         $Self->{'Storage::S3::Region'}         = 'eu-central-1';

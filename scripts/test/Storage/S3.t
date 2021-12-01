@@ -32,7 +32,7 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(8);
+plan(9);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
@@ -40,7 +40,7 @@ my $StorageS3Object = Kernel::System::Storage::S3->new();
 isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
 
 # expecting that ZZZAAuto.pm already exists
-subtest 'ListObjects' => sub {
+subtest 'ListObjects() ZZZAAuto.pm' => sub {
 
     # run a blocking GET request to S3
     my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
@@ -56,6 +56,77 @@ subtest 'ListObjects' => sub {
     ok( $Properties->{Size},  'got Size for ZZZAAuto.pm' );
     ok( $Properties->{Mtime}, 'got Mtime for ZZZAAuto.pm' );
     is( $Properties->{Key}, "OTOBO/$FilesPrefix/ZZZAAuto.pm", 'Key for ZZZAAuto.pm' );
+};
+
+subtest 'ListObjects() with Delimiter' => sub {
+
+    # store two objects and process the headers of the two objects
+    my $Prefix = join '/', 'test', 'Storage', 'S3', 'sub1', 'sub2', 'panda_bear';
+    my %ExpectedSize;
+
+    # panda
+    {
+        my $Content = <<'END_SAMPLE';
+uni panda
+🐼 - U+1F43C - PANDA FACE
+END_SAMPLE
+        $ExpectedSize{'uni_panda.txt'} = bytes::length($Content);
+        my $Key = join '/', $Prefix, 'uni_panda.txt';
+        my $WriteSuccess = $StorageS3Object->StoreObject(
+            Key     => $Key,
+            Content => $Content,
+            Headers => { 'Content-Type' => 'text/plain' },
+        );
+        ok( $WriteSuccess, 'writing succeeded' );
+    }
+
+    # bear
+    {
+        my $Content = <<'END_SAMPLE';
+uni bear
+🐻 - U+1F43B - BEAR FACE
+🧸 - U+1F9F8 - TEDDY BEAR
+END_SAMPLE
+        $ExpectedSize{'uni_bear.txt'} = bytes::length($Content);
+        my $Key = join '/', $Prefix, 'uni_bear.txt';
+        my $WriteSuccess = $StorageS3Object->StoreObject(
+            Key     => $Key,
+            Content => $Content,
+            Headers => { 'Content-Type' => 'text/plain' },
+        );
+        ok( $WriteSuccess, 'writing succeeded' );
+    }
+
+    {
+        my %Name2Properties = $StorageS3Object->ListObjects(
+            Prefix => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
+        );
+        is( [ keys %Name2Properties ], [], 'delimeter after sub2' );
+    }
+
+    {
+        my %Name2Properties = $StorageS3Object->ListObjects(
+            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
+            Delimiter => 'ề',
+        );
+        is(
+            [ sort keys %Name2Properties ],
+            [ 'sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt' ],
+            'non-occuring delimiter'
+        );
+    }
+
+    {
+        my %Name2Properties = $StorageS3Object->ListObjects(
+            Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
+            Delimiter => '',
+        );
+        is(
+            [ sort keys %Name2Properties ],
+            [ 'sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt' ],
+            'empty delimiter'
+        );
+    }
 };
 
 subtest 'Store and retrieve object' => sub {
@@ -427,8 +498,10 @@ EOT
         'all but uni_delta.txt discarded'
     );
 
-    my $DiscardDeltaSuccess = $StorageS3Object->DiscardObject(
-        Key => "$Prefix/uni_delta.txt"
+    my $DiscardDeltaSuccess = $StorageS3Object->DiscardObjects(
+        Prefix      => "test/Stor",
+        DiscardOnly => qr{delt},
+        Delimiter   => '',
     );
     is( $DiscardDeltaSuccess, 1, 'uni_delta discarded' );
 

@@ -143,6 +143,9 @@ sub ListObjects {
         }
     }
 
+    # get defaults, emptry string as delimiter is allowed
+    my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter},
+
     my %Name2Properties;
     my $URL = Mojo::URL->new
         ->scheme( $Self->{Scheme} )
@@ -153,7 +156,7 @@ sub ListObjects {
         [
             'list-type' => 2,
             prefix      => $CompletePrefix,
-            delimiter   => $Self->{Delimiter},
+            delimiter   => $Delimiter,
         ]
     );
 
@@ -555,13 +558,15 @@ sub DiscardObjects {
         # first get info about the objects with the relevant prefix
         my %Name2Properties = $Self->ListObjects(
             Prefix => $Param{Prefix},
+            ( exists $Param{Delimiter} ? ( Delimiter => $Param{Delimiter} ) : () ),
         );
 
         FILENAME:
         for my $Filename ( sort keys %Name2Properties ) {
 
             # keep files matching a regex
-            next FILENAME if $Param{Keep} && $Filename =~ $Param{Keep};
+            next FILENAME if $Param{Keep}        && $Filename =~ $Param{Keep};
+            next FILENAME if $Param{DiscardOnly} && $Filename !~ $Param{DiscardOnly};
 
             # the key which should be deleted, note that that prefix already has a trailing slash
             my $Key = join '/', $Self->{HomePrefix}, "$Param{Prefix}$Filename";
