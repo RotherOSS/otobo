@@ -193,23 +193,22 @@ sub OverviewScreen {
     }
 
     # build output
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Overview'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        Data => {
-            %Pagination,
-            %Param,
-            AccessRw       => $Self->{AccessRw},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-        TemplateFile => 'AgentStatisticsOverview',
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Overview'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            Data => {
+                %Pagination,
+                %Param,
+                AccessRw       => $Self->{AccessRw},
+                BreadcrumbPath => $Self->{BreadcrumbPath},
+            },
+            TemplateFile => 'AgentStatisticsOverview',
+        ),
+        $LayoutObject->Footer();
 }
 
 sub ImportScreen {
@@ -219,20 +218,20 @@ sub ImportScreen {
 
     my %Errors = %{ $Param{Errors} // {} };
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Import'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsImport',
-        Data         => {
-            %Errors,
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Import'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsImport',
+            Data         => {
+                %Errors,
+                BreadcrumbPath => $Self->{BreadcrumbPath},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub ImportAction {
@@ -375,22 +374,21 @@ sub EditScreen {
         );
     }
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Edit'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsEdit',
-        Data         => {
-            %Frontend,
-            %{$Stat},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Edit'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsEdit',
+            Data         => {
+                %Frontend,
+                %{$Stat},
+                BreadcrumbPath => $Self->{BreadcrumbPath},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub EditAction {
@@ -757,24 +755,23 @@ sub ViewScreen {
         UserID => $Self->{UserID},
     );
 
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('View'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsView',
-        Data         => {
-            AccessRw => $Self->{AccessRw},
-            Errors   => \@Errors,
-            %Frontend,
-            %{$Stat},
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('View'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsView',
+            Data         => {
+                AccessRw => $Self->{AccessRw},
+                Errors   => \@Errors,
+                %Frontend,
+                %{$Stat},
+                BreadcrumbPath => $Self->{BreadcrumbPath},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddScreen {
@@ -830,22 +827,22 @@ sub AddScreen {
     $ManualVersion = $1;
 
     # build output
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Add New Statistic'),
-        Area  => 'Statistics',
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsAdd',
-        Data         => {
-            %Frontend,
-            %Errors,
-            ManualVersion  => $ManualVersion,
-            BreadcrumbPath => $Self->{BreadcrumbPath},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Add New Statistic'),
+            Area  => 'Statistics',
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsAdd',
+            Data         => {
+                %Frontend,
+                %Errors,
+                ManualVersion  => $ManualVersion,
+                BreadcrumbPath => $Self->{BreadcrumbPath},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddAction {
@@ -1059,8 +1056,10 @@ sub GeneralSpecificationsWidgetAJAX {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => 'utf-8',
         Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
         Type        => 'inline',
         NoCache     => 1,
