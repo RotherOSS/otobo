@@ -1623,6 +1623,7 @@ basically the same thing as executing the formerly used template HTTPHeaders.tt
     );
 
 The cookies are also added here.
+The previously set headers are discarded.
 
 =cut
 
