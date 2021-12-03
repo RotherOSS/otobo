@@ -410,6 +410,8 @@ sub Run {
             my $Output = $LayoutObject->JSONEncode(
                 Data => \@CustomerUserLoginList,
             );
+
+            # TODO: why is the content type not 'application/json'
             return $LayoutObject->Attachment(
                 NoCache     => 1,
                 ContentType => 'text/html',

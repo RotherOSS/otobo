@@ -1448,6 +1448,8 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => 1,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
@@ -1478,6 +1480,8 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => $StopWordCheckResult,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',

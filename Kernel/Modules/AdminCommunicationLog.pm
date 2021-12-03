@@ -775,6 +775,7 @@ sub _GetObjectLog {
         },
     );
 
+    # TODO: why ContentType application/json
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $Output,
@@ -905,6 +906,7 @@ sub _GetCommunicationLog {
         },
     );
 
+    # TODO: why ContentType application/json
     return $LayoutObject->Attachment(
         ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
         Content     => $Output,
