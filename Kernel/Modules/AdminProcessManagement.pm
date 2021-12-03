@@ -1533,6 +1533,7 @@ sub Run {
         # send HTML response
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
             NoCache     => 1,

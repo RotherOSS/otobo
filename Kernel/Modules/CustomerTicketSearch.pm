@@ -232,6 +232,7 @@ sub Run {
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescription.xml',
             ContentType => 'text/xml',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );

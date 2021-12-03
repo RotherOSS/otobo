@@ -76,9 +76,11 @@ sub Run {
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionTicketNumber',
             Data         => \%Param,
         );
+
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionTicketNumber.xml',
             ContentType => 'application/opensearchdescription+xml',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );
@@ -88,9 +90,11 @@ sub Run {
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionFulltext',
             Data         => \%Param,
         );
+
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionFulltext.xml',
             ContentType => 'application/opensearchdescription+xml',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );
@@ -1485,6 +1489,7 @@ sub Run {
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline'
         );

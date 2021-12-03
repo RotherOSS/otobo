@@ -162,6 +162,7 @@ sub Run {
         return $LayoutObject->Attachment(
             %Data,
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Content,
             Type        => 'inline',
             Sandbox     => 1,
