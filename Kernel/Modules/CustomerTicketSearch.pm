@@ -775,9 +775,8 @@ sub Run {
 
                 return $LayoutObject->Attachment(
                     Filename    => $FileName . '.xlsx',
-                    ContentType =>
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    Content => $Excel,
+                    ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    Content     => $Excel,
                 );
             }
         }

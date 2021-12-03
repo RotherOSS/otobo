@@ -83,6 +83,7 @@ sub Encode {
     # As a fallback the backend JSON::PP is used.
     my $JSONObject = JSON->new();
 
+    # grudgingly accept data that is neither a hash- nor an array reference
     $JSONObject->allow_nonref(1);
 
     # sort the keys of the JSON data

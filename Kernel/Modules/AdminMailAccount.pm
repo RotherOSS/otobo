@@ -107,6 +107,7 @@ sub Run {
         if ( !$Delete ) {
             return $LayoutObject->ErrorScreen();
         }
+
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $Delete,

@@ -1331,6 +1331,7 @@ sub Run {
             );
 
             my $PDFString = $PDFObject->DocumentOutput();
+
             return $LayoutObject->Attachment(
                 Filename    => $Filename,
                 ContentType => "application/pdf",
@@ -2628,6 +2629,7 @@ sub Run {
             Data         => \%Param,
             AJAX         => 1,
         );
+
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',

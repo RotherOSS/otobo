@@ -465,7 +465,7 @@ sub Run {
             Data => $DynamicFieldHTML,
         );
 
-        # Send JSON response.
+        # Send JSON response, $LayoutObject->{Charset} is actually 'utf-8'
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $Output,
