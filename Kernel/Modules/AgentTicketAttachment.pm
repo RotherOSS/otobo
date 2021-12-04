@@ -15,6 +15,7 @@
 # --
 
 package Kernel::Modules::AgentTicketAttachment;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Print)
 
 use strict;
@@ -126,43 +127,32 @@ sub Run {
     # show with viewer
     if ($Viewer) {
 
-        # write tmp file
+        # Write temporary file for the HTML generating command.
+        # The file will be cleaned up at the end of the current request.
         my $FileTempObject = $Kernel::OM->Get('Kernel::System::FileTemp');
-        my ( $FH, $Filename ) = $FileTempObject->TempFile();
-        if ( open my $ViewerDataFH, '>', $Filename ) {    ## no critic qw(OTOBO::ProhibitOpen)
-            print $ViewerDataFH $Data{Content};
-            close $ViewerDataFH;
-        }
-        else {
+        my ( $FHContent, $FilenameContent ) = $FileTempObject->TempFile();
+        print $FHContent $Data{Content};
+        close $FHContent;
 
-            # log error
-            $LogObject->Log(
-                Priority => 'error',
-                Message  => "Cant write $Filename: $!",
-            );
-
-            return $LayoutObject->ErrorScreen();
-        }
-
-        # use viewer
-        my $Content = '';
-        if ( open my $ViewerFH, '-|', "$Viewer $Filename" ) {    ## no critic qw(OTOBO::ProhibitOpen)
+        # generate HTML
+        my $GeneratedHTML = '';
+        if ( open my $ViewerFH, '-|', "$Viewer $FilenameContent" ) {    ## no critic qw(OTOBO::ProhibitOpen)
             while (<$ViewerFH>) {
-                $Content .= $_;
+                $GeneratedHTML .= $_;
             }
             close $ViewerFH;
         }
         else {
             return $LayoutObject->FatalError(
-                Message => "Can't open: $Viewer $Filename: $!",
+                Message => "Can't open: $Viewer $FilenameContent: $!",
             );
         }
 
-        # return new page
+        # return the generated HTML
         return $LayoutObject->Attachment(
             %Data,
             ContentType => 'text/html',
-            Content     => $Content,
+            Content     => $GeneratedHTML,
             Type        => 'inline',
             Sandbox     => 1,
         );
