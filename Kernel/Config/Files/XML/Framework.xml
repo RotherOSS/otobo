@@ -533,7 +533,7 @@
         <Description Translatable="1">Determines the way the linked objects are displayed in each zoom mask.</Description>
         <Navigation>Core::LinkObject</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="Simple">
+            <Item ValueType="Select" SelectedID="Complex">
                 <Item ValueType="Option" Value="Simple" Translatable="1">Simple</Item>
                 <Item ValueType="Option" Value="Complex" Translatable="1">Complex</Item>
             </Item>
@@ -8607,7 +8607,7 @@ via the Preferences button after logging in.
         <Description Translatable="1">Sets the minutes a notification is shown for notice about upcoming system maintenance period.</Description>
         <Navigation>Core::SystemMaintenance</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">30</Item>
+            <Item ValueType="String" ValueRegex="^[0-9]{1,8}$">120</Item>
         </Value>
     </Setting>
     <Setting Name="SystemMaintenance::IsActiveDefaultNotification" Required="0" Valid="1">
