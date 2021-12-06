@@ -374,10 +374,6 @@ sub StateGetStatesByType {
         if ( $ConfigObject->Get( 'Ticket::' . $Param{Type} . 'StateType' ) ) {
             @StateType = @{ $ConfigObject->Get( 'Ticket::' . $Param{Type} . 'StateType' ) };
         }
-        # Need Ticket::ViewableStateTypecause we like to see new tickets to!
-        elsif ( $ConfigObject->Get( 'Ticket::' . $Param{Type} ) ) {
-            @StateType = @{ $ConfigObject->Get( 'Ticket::' . $Param{Type} ) };
-        }
         else {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
