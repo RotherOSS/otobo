@@ -1059,7 +1059,7 @@ sub GeneralSpecificationsWidgetAJAX {
 
     return $LayoutObject->Attachment(
         ContentType => 'text/html',
-        Charset     => 'utf-8',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->GeneralSpecificationsWidget( UserID => $Self->{UserID} ),
         Type        => 'inline',
         NoCache     => 1,

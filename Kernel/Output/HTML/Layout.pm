@@ -152,8 +152,8 @@ sub new {
     }
 
     # set charset if there is no charset given
-    $Self->{UserCharset} = 'utf-8';
-    $Self->{Charset}     = $Self->{UserCharset};    # just for compat.
+    $Self->{UserCharset} = 'utf-8';                 # used directly by frontend modules
+    $Self->{Charset}     = $Self->{UserCharset};    # just for compat, used directly by frontend modules
     $Self->{SessionID}   = $Param{SessionID}          || '';
     $Self->{SessionName} = $Param{SessionName}        || 'SessionID';
     $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
@@ -539,7 +539,7 @@ sub JSONEncode {
         Data => $Param{Data},
     ) || '""';
 
-    # remove trailing and trailing double quotes if requested
+    # remove leading and trailing double quotes if requested
     if ( $Param{NoQuotes} ) {
         $JSON =~ s{ \A "(.*)" \z }{$1}smx;
     }

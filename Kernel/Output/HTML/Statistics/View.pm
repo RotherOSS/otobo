@@ -840,7 +840,7 @@ sub GeneralSpecificationsWidget {
         );
     }
 
-    my $Output = $LayoutObject->Output(
+    return $LayoutObject->Output(
         TemplateFile => 'Statistics/GeneralSpecificationsWidget',
         Data         => {
             %Frontend,
@@ -849,7 +849,6 @@ sub GeneralSpecificationsWidget {
             %Errors,
         },
     );
-    return $Output;
 }
 
 sub XAxisWidget {

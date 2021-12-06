@@ -229,6 +229,8 @@ sub Run {
             Data         => {%Param},
         );
 
+        # TODO: why not ContentType => 'application/opensearchdescription+xml',
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescription.xml',
             ContentType => 'text/xml',
@@ -775,9 +777,8 @@ sub Run {
 
                 return $LayoutObject->Attachment(
                     Filename    => $FileName . '.xlsx',
-                    ContentType =>
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    Content => $Excel,
+                    ContentType => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    Content     => $Excel,
                 );
             }
         }

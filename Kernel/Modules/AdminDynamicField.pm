@@ -108,6 +108,7 @@ sub _DynamicFieldDelete {
         );
     }
 
+    # encoding does not matter, as $Success is either undef or an integer
     return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
         ContentType => 'text/html',
         Content     => $Success,

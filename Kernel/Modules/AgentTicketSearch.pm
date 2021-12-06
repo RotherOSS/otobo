@@ -76,6 +76,8 @@ sub Run {
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionTicketNumber',
             Data         => \%Param,
         );
+
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionTicketNumber.xml',
             ContentType => 'application/opensearchdescription+xml',
@@ -83,11 +85,14 @@ sub Run {
             Type        => 'inline',
         );
     }
+
     if ( $Self->{Subaction} eq 'OpenSearchDescriptionFulltext' ) {
         my $Output = $LayoutObject->Output(
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionFulltext',
             Data         => \%Param,
         );
+
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionFulltext.xml',
             ContentType => 'application/opensearchdescription+xml',
@@ -1331,6 +1336,7 @@ sub Run {
             );
 
             my $PDFString = $PDFObject->DocumentOutput();
+
             return $LayoutObject->Attachment(
                 Filename    => $Filename,
                 ContentType => "application/pdf",
@@ -1447,6 +1453,8 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => 1,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
@@ -1477,9 +1485,12 @@ sub Run {
         my $Output = $LayoutObject->JSONEncode(
             Data => $StopWordCheckResult,
         );
+
+        # TODO: why not application/json
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',
+            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline'
         );
@@ -2628,6 +2639,7 @@ sub Run {
             Data         => \%Param,
             AJAX         => 1,
         );
+
         return $LayoutObject->Attachment(
             NoCache     => 1,
             ContentType => 'text/html',

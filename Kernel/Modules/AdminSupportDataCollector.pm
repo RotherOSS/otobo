@@ -18,6 +18,7 @@ package Kernel::Modules::AdminSupportDataCollector;
 
 use strict;
 use warnings;
+use v5.24;
 
 use Kernel::System::SupportDataCollector::PluginBase;
 
@@ -347,8 +348,11 @@ sub _GenerateSupportBundle {
         },
     );
 
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $JSONString,
         Type        => 'inline',
         NoCache     => 1,
@@ -413,8 +417,8 @@ sub _DownloadSupportBundle {
 
     return $LayoutObject->Attachment(
         Filename    => $Filename,
-        ContentType => 'application/octet-stream; charset=' . $LayoutObject->{UserCharset},
-        Content     => $$Content,
+        ContentType => 'application/octet-stream',
+        Content     => $Content->$*,
     );
 }
 
@@ -567,8 +571,11 @@ sub _SendSupportBundle {
         },
     );
 
-    return $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Attachment(
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    return $LayoutObject->Attachment(
         ContentType => 'text/html',
+        Charset     => $LayoutObject->{UserCharset},
         Content     => $JSONString,
         Type        => 'inline',
         NoCache     => 1,

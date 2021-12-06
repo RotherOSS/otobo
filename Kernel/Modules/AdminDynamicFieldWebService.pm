@@ -123,6 +123,7 @@ sub Run {
                 },
             ],
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,

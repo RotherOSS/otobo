@@ -107,6 +107,7 @@ sub Run {
         return $LayoutObject->Attachment(
             ContentType => 'text/html',
             Content     => $LinkTableStrg,
+            Charset     => $LayoutObject->{UserCharset},
             Type        => 'inline',
             NoCache     => 1,
         );

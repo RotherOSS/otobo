@@ -156,6 +156,7 @@ sub Run {
                 my $Output = $LayoutObject->Error(
                     Message => Translatable('Appointment not found!'),
                 );
+
                 return $LayoutObject->Attachment(
                     NoCache     => 1,
                     ContentType => 'text/html',
