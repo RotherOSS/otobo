@@ -56,14 +56,14 @@ sub Run {
         );
     }
 
-    if ( !$ModuleMap{ $ModuleKey } ) {
+    if ( !$ModuleMap{$ModuleKey} ) {
         return $LayoutObject->FatalError(
             Message => Translatable('Invalid Key!'),
         );
     }
 
-    my $Module = 'Kernel::Output::HTML::GenericContent::' . $ModuleMap{ $ModuleKey };
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( $Module ) ) {
+    my $Module = 'Kernel::Output::HTML::GenericContent::' . $ModuleMap{$ModuleKey};
+    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Failed to require '$Module' defined for '$ModuleKey'!",

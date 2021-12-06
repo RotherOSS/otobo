@@ -52,5 +52,3 @@ local $Kernel::OM = Kernel::System::ObjectManager->new(
 $Kernel::OM->Create('scripts::DBUpdateTo10_1')->Run();
 
 exit 0;
-
-1;

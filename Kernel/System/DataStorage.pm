@@ -23,7 +23,8 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
-    'Kernel::System::DateTime',
+    'Kernel::System::Log',
+    'Kernel::System::Storable',
 );
 
 =head1 NAME
@@ -137,8 +138,8 @@ sub Get {
     my $SQL = "SELECT ds_key, ds_value FROM data_storage WHERE ds_type = ?";
 
     return if !$DBObject->Prepare(
-        SQL   => $SQL,
-        Bind  => [ \$Param{Type} ],
+        SQL  => $SQL,
+        Bind => [ \$Param{Type} ],
     );
 
     my %Data;
@@ -148,7 +149,7 @@ sub Get {
                 Data => $Row[1],
             );
         };
-        
+
         if ( !$Data{ $Row[0] } ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
@@ -198,7 +199,7 @@ sub Set {
         return;
     }
 
-    $Self->Delete( %Param );
+    $Self->Delete(%Param);
 
     $Param{UserID} //= 1;
 
@@ -210,7 +211,7 @@ sub Set {
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => "INSERT INTO data_storage (ds_type, ds_key, ds_value, create_time, create_by) VALUES (?, ?, ?, current_timestamp, ?)",
-        Bind => [ \$Param{Type}, \$Param{Key}, \$Dump, \$Param{UserID}],
+        Bind => [ \$Param{Type}, \$Param{Key}, \$Dump, \$Param{UserID} ],
     );
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(

@@ -657,7 +657,7 @@ sub DocumentComplete {
     return $Param{String} if $Param{String} =~ /<html>/i;
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $Css = 'font-size: 12px; font-family:Courier,monospace,fixed;';
+    my $Css          = 'font-size: 12px; font-family:Courier,monospace,fixed;';
 
     if ( $Param{CustomerInterface} ) {
         $Css = $ConfigObject->Get('CustomerFrontend::RichText::DefaultCSS') // $Css;
@@ -675,6 +675,7 @@ sub DocumentComplete {
     $Body
         .= '<meta http-equiv="Content-Type" content="text/html; charset=' . $Param{Charset} . '"/>';
     if ( $Param{CustomerInterface} ) {
+
         # include quicksand and default css
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'common/css/quicksand.css">';
         $Body .= '<link rel="stylesheet" type="text/css" href="' . $ConfigObject->Get('Frontend::WebPath') . 'skins/Customer/default/css/Core.Default.css">';

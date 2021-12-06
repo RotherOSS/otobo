@@ -29,7 +29,7 @@ sub new {
     bless( $Self, $Type );
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    $Self->{InfoKey}  = $ConfigObject->Get('CustomerPanel::InfoKey');
+    $Self->{InfoKey} = $ConfigObject->Get('CustomerPanel::InfoKey');
 
     return $Self;
 }
@@ -110,7 +110,7 @@ sub Run {
     else {
 
         # show info
-        $Output  = $LayoutObject->CustomerHeader();
+        $Output = $LayoutObject->CustomerHeader();
         $Output .= $LayoutObject->Output(
             TemplateFile => 'CustomerAccept',
             Data         => {

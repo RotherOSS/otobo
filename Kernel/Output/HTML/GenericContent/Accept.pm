@@ -51,7 +51,7 @@ sub Content {
     );
 
     LANGUAGE:
-    for my $Language ( @Languages ) {
+    for my $Language (@Languages) {
         next LANGUAGE if !$Language;
 
         my $Content = $DataStorageObject->Get(

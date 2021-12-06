@@ -51,7 +51,7 @@ sub Run {
     my $DataStorageObject = $Kernel::OM->Get('Kernel::System::DataStorage');
 
     my $Output = $LayoutObject->Header();
-    $Output   .= $LayoutObject->NavigationBar();
+    $Output .= $LayoutObject->NavigationBar();
 
     my %GetParam;
     my %Data = $DataStorageObject->Get(
@@ -67,7 +67,7 @@ sub Run {
             Type => 'CustomerAccept',
         );
 
-        my @LanguageIDs       = $ParamObject->GetArray( Param => 'LanguageID' );
+        my @LanguageIDs = $ParamObject->GetArray( Param => 'LanguageID' );
         $GetParam{LanguageID} = \@LanguageIDs;
 
         my $Error;
@@ -94,7 +94,7 @@ sub Run {
                     UserID => $Self->{UserID},
                 );
 
-                if ( $Success ) {
+                if ($Success) {
                     $Data{$LanguageID} = $GetParam{Message}->{$LanguageID};
                 }
                 else {
@@ -117,7 +117,8 @@ sub Run {
     }
 
     # add rich text editor
-    if ( $RichText ) {
+    if ($RichText) {
+
         # set up rich text editor
         $LayoutObject->SetRichTextParameters(
             Data => \%Param,
@@ -130,7 +131,7 @@ sub Run {
     # get language ids from message parameter, use English if no message is given
     # make sure English is the first language
     my @LanguageIDs;
-    if ( %Data ) {
+    if (%Data) {
         if ( $Data{en} ) {
             push @LanguageIDs, 'en';
         }
@@ -185,7 +186,7 @@ sub Run {
     for my $LanguageID (@LanguageIDs) {
 
         # format the content according to the content type
-        if ( $RichText ) {
+        if ($RichText) {
 
             # make sure body is rich text (if body is based on config)
             if (
@@ -218,10 +219,10 @@ sub Run {
             Name => 'PrivacyPolicyLanguage',
             Data => {
                 %Param,
-                Body               => $Data{$LanguageID}->{Body}    || '',
-                LanguageID         => $LanguageID,
-                Language           => $Languages{$LanguageID},
-                BodyServerError    => $GetParam{ $LanguageID . '_BodyServerError' }    || '',
+                Body            => $Data{$LanguageID}->{Body} || '',
+                LanguageID      => $LanguageID,
+                Language        => $Languages{$LanguageID},
+                BodyServerError => $GetParam{ $LanguageID . '_BodyServerError' } || '',
             },
         );
 

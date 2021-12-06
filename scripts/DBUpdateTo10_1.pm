@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo10_1;    ## no critic
+package scripts::DBUpdateTo10_1;
 
 use strict;
 use warnings;
@@ -25,7 +25,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo10_1 - Perform system upgrade from OTOBO 10.0 to 10.1
+_1 - Perform system upgrade from OTOBO 10.0 to 10.1
 
 =head1 PUBLIC INTERFACE
 
@@ -51,7 +51,7 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # Enable auto-flushing of STDOUT.
-    $| = 1;    ## no critic
+    $| = 1;    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     print "\n Migration started ... \n";
 
@@ -65,15 +65,15 @@ sub Run {
     );
 
     TASK:
-    for my $Task ( @Tasks ) {
+    for my $Task (@Tasks) {
         print "\tExecuting task '$Task->{Name}' ... \n";
 
-        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require('scripts::DBUpdateTo10_1::' . $Task->{Module}) ) {
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'scripts::DBUpdateTo10_1::' . $Task->{Module} ) ) {
             $SuccessfulMigration = 0;
             last TASK;
         }
 
-        my $Success = $Kernel::OM->Create('scripts::DBUpdateTo10_1::' . $Task->{Module})->Run();
+        my $Success = $Kernel::OM->Create( 'scripts::DBUpdateTo10_1::' . $Task->{Module} )->Run();
 
         if ( !$Success ) {
             $SuccessfulMigration = 0;
@@ -83,6 +83,5 @@ sub Run {
 
     return $SuccessfulMigration;
 }
-
 
 1;

@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-package scripts::DBUpdateTo10_1::DBAddDataStorage;    ## no critic
+package scripts::DBUpdateTo10_1::DBAddDataStorage;
 
 use strict;
 use warnings;
@@ -26,7 +26,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-scripts::DBUpdateTo10_1::DBAddDataStorage - Adds new table data_storage.
+_1::DBAddDataStorage - Adds new table data_storage.
 
 =cut
 
@@ -62,13 +62,3 @@ sub Run {
 }
 
 1;
-
-=head1 TERMS AND CONDITIONS
-
-This software is part of the OTRS project (L<https://otrs.org/>).
-
-This software comes with ABSOLUTELY NO WARRANTY. For details, see
-the enclosed file COPYING for license information (GPL). If you
-did not receive this file, see L<https://www.gnu.org/licenses/gpl-3.0.txt>.
-
-=cut

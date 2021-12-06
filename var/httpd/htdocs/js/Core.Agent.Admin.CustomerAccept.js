@@ -27,7 +27,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
  * @description
  *      This namespace contains the special module functions for the Notification Event module.
  */
-Core.Agent.Admin.NotificationEvent = (function (TargetNS) {
+Core.Agent.Admin.CustomerAccept = (function (TargetNS) {
 
     /**
      * @name Init
