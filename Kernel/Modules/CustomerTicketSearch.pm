@@ -229,10 +229,11 @@ sub Run {
             Data         => {%Param},
         );
 
+        # TODO: why not ContentType => 'application/opensearchdescription+xml',
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescription.xml',
             ContentType => 'text/xml',
-            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );

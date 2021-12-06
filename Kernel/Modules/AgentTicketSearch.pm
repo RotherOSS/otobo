@@ -77,10 +77,10 @@ sub Run {
             Data         => \%Param,
         );
 
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionTicketNumber.xml',
             ContentType => 'application/opensearchdescription+xml',
-            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );
@@ -92,10 +92,10 @@ sub Run {
             Data         => \%Param,
         );
 
+        # TODO: maybe declare as UTF-8
         return $LayoutObject->Attachment(
             Filename    => 'OpenSearchDescriptionFulltext.xml',
             ContentType => 'application/opensearchdescription+xml',
-            Charset     => $LayoutObject->{UserCharset},
             Content     => $Output,
             Type        => 'inline',
         );
