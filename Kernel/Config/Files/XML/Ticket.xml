@@ -5061,7 +5061,6 @@
                 <Item Translatable="1">new</Item>
                 <Item Translatable="1">open</Item>
                 <Item Translatable="1">pending reminder</Item>
-                <Item Translatable="1">pending auto</Item>
             </Array>
         </Value>
     </Setting>
@@ -5422,7 +5421,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###16-OpenTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###16-OpenTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -5442,7 +5441,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###17-ClosedTickets" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###17-ClosedTickets" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
@@ -5462,7 +5461,7 @@
                 </Hash>
             </Value>
     </Setting>
-    <Setting Name="Frontend::CustomerUser::Item###18-ClosedTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="0">
+    <Setting Name="Frontend::CustomerUser::Item###18-ClosedTicketsForCustomerUserLogin" UserPreferencesGroup="Advanced" UserModificationPossible="1" Required="0" Valid="1">
         <Description Translatable="1">Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.</Description>
         <Navigation>Frontend::Customer</Navigation>
             <Value>
