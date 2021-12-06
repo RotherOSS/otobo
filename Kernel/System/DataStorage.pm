@@ -23,8 +23,8 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
     'Kernel::System::DB',
+    'Kernel::System::JSON',
     'Kernel::System::Log',
-    'Kernel::System::Storable',
 );
 
 =head1 NAME
@@ -105,20 +105,9 @@ sub Get {
 
         my $Value;
         while ( my @Row = $DBObject->FetchrowArray() ) {
-            $Value = eval {
-                $Kernel::OM->Get('Kernel::System::Storable')->Deserialize(
-                    Data => $Row[0],
-                );
-            };
-
-            if ( !$Value ) {
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => "Error when deserializing value for $Param{Type} - $Param{Key}: $@"
-                );
-
-                return;
-            }
+            $Value = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
+                Data => $Row[0],
+            );
         }
 
         return if !$Value;
@@ -132,8 +121,8 @@ sub Get {
         return $Value;
     }
 
-    my $DBObject       = $Kernel::OM->Get('Kernel::System::DB');
-    my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
+    my $DBObject   = $Kernel::OM->Get('Kernel::System::DB');
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
 
     my $SQL = "SELECT ds_key, ds_value FROM data_storage WHERE ds_type = ?";
 
@@ -144,20 +133,9 @@ sub Get {
 
     my %Data;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Data{ $Row[0] } = eval {
-            $StorableObject->Deserialize(
-                Data => $Row[1],
-            );
-        };
-
-        if ( !$Data{ $Row[0] } ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Error when deserializing value for $Param{Type} - $Row[1]: $@"
-            );
-
-            return;
-        }
+        $Data{ $Row[0] } = $JSONObject->Decode(
+            Data => $Row[1],
+        );
     }
 
     return %Data;
@@ -203,15 +181,15 @@ sub Set {
 
     $Param{UserID} //= 1;
 
-    my $Dump = $Kernel::OM->Get('Kernel::System::Storable')->Serialize(
+    my $JSON = $Kernel::OM->Get('Kernel::System::JSON')->Encode(
         Data => $Param{Value},
     );
 
-    return if !$Dump;
+    return if !$JSON;
 
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => "INSERT INTO data_storage (ds_type, ds_key, ds_value, create_time, create_by) VALUES (?, ?, ?, current_timestamp, ?)",
-        Bind => [ \$Param{Type}, \$Param{Key}, \$Dump, \$Param{UserID} ],
+        Bind => [ \$Param{Type}, \$Param{Key}, \$JSON, \$Param{UserID} ],
     );
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
