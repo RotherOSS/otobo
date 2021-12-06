@@ -112,7 +112,7 @@ function exec_web() {
 
     # For production use Gazelle, which is implemented in C
     # The special loader Plack::Loader::SyncWithS3 checks for updates in S3
-    if [[ -z "${OTOBO_SYNC_WITH_S3}" ]]; then
+    if [[ -z "$OTOBO_SYNC_WITH_S3" || "$OTOBO_SYNC_WITH_S3" -eq "0" ]]; then
         exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
     else
         exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi

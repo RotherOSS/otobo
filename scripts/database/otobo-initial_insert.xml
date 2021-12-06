@@ -1952,11 +1952,6 @@ Your OTOBO Team
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">11</Data>
-        <Data Key="event_key" Type="Quote">Recipients</Data>
-        <Data Key="event_value" Type="Quote">AgentWritePermissions</Data>
-    </Insert>
-    <Insert Table="notification_event_item">
-        <Data Key="notification_id">11</Data>
         <Data Key="event_key" Type="Quote">SendOnOutOfOffice</Data>
         <Data Key="event_value" Type="Quote">1</Data>
     </Insert>
@@ -1990,11 +1985,6 @@ Your OTOBO Team
         <Data Key="notification_id">12</Data>
         <Data Key="event_key" Type="Quote">Recipients</Data>
         <Data Key="event_value" Type="Quote">AgentMyQueues</Data>
-    </Insert>
-    <Insert Table="notification_event_item">
-        <Data Key="notification_id">12</Data>
-        <Data Key="event_key" Type="Quote">Recipients</Data>
-        <Data Key="event_value" Type="Quote">AgentWritePermissions</Data>
     </Insert>
     <Insert Table="notification_event_item">
         <Data Key="notification_id">12</Data>

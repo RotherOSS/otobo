@@ -35,7 +35,7 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::Web::Middleware::SecureModeAccessFilter - access checks based on the secure flag
+Plack::Middleware::OTOBO::SecureModeAccessFilter - access checks based on the secure flag
 
 =head1 SYNOPSIS
 
