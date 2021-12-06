@@ -539,7 +539,7 @@ sub JSONEncode {
         Data => $Param{Data},
     ) || '""';
 
-    # remove trailing and trailing double quotes if requested
+    # remove leading and trailing double quotes if requested
     if ( $Param{NoQuotes} ) {
         $JSON =~ s{ \A "(.*)" \z }{$1}smx;
     }

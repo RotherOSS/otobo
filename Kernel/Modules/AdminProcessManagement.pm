@@ -15,12 +15,20 @@
 # --
 
 package Kernel::Modules::AdminProcessManagement;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
+
+# core modules
 use Data::Dumper;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -1526,7 +1534,7 @@ sub Run {
         }
 
         my $Output = $LayoutObject->Output(
-            TemplateFile => "AdminProcessManagementProcessAccordion",
+            TemplateFile => 'AdminProcessManagementProcessAccordion',
             Data         => {},
         );
 

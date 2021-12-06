@@ -85,6 +85,7 @@ sub Run {
             Type        => 'inline',
         );
     }
+
     if ( $Self->{Subaction} eq 'OpenSearchDescriptionFulltext' ) {
         my $Output = $LayoutObject->Output(
             TemplateFile => 'AgentTicketSearchOpenSearchDescriptionFulltext',
