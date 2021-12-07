@@ -47,10 +47,6 @@ sub Run {
             <ForeignKey ForeignTable="users">
                 <Reference Local="create_by" Foreign="id"/>
             </ForeignKey>
-            <Unique Name="type_key">
-                <UniqueColumn Name="ds_type"/>
-                <UniqueColumn Name="ds_key"/>
-            </Unique>
         </Table>',
     );
 
