@@ -901,7 +901,7 @@ sub _ShowEdit {
 
         my %Frontend;
 
-        if ( %ExampleWebServicesData ) {    # OTOBOCommunity installed
+        if ( %ExampleWebServicesData ) { 
             $Frontend{ExampleWebServiceList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Name         => 'ExampleWebService',
                 Data         => \%ExampleWebServicesData,
