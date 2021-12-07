@@ -311,7 +311,7 @@ Core.UI.InputFields = (function (TargetNS) {
                     return 1;
                 }
 
-                TextValue ||= TextInput.attr('value');
+                TextValue = TextValue.length ? TextValue : TextInput.attr('value');
 
                 // fields already filled
                 if ( TextValue && $.trim(TextValue).length ) {
