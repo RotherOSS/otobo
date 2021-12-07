@@ -4288,7 +4288,8 @@ sub TicketLockSet {
             Name         => "Reset owner to root\@localhost.",
         );
 
-    } else {
+    }
+    else {
 
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
             SQL => 'UPDATE ticket SET ticket_lock_id = ?, '

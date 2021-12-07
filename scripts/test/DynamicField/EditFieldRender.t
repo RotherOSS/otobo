@@ -3378,9 +3378,10 @@ for my $Test (@Tests) {
 
         # Heredocs always have the newline, even if it is not expected
         if ( $FieldHTML->{Field} !~ m{\n$} ) {
-            # chomp $Test->{ExpectedResults}->{Field};        
-            
-            # TODO Have a look at the newlines produced during template rendering. See Issue #1135 
+
+            # chomp $Test->{ExpectedResults}->{Field};
+
+            # TODO Have a look at the newlines produced during template rendering. See Issue #1135
             $Test->{ExpectedResults}->{Field} =~ s/^\n+//;
             $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
         }
