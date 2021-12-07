@@ -100,6 +100,7 @@ sub Run {
         Type        => 'inline',
         ContentType => 'text/html',
         Content     => $Content,
+        Charset     => 'utf-8',
     );
 }
 

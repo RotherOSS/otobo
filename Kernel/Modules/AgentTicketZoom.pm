@@ -467,6 +467,7 @@ sub Run {
                 Content     => $WidgetOutput->{Output} // ' ',
                 Type        => 'inline',
                 NoCache     => 1,
+                Charset     => 'utf-8',
             );
         }
         else {
