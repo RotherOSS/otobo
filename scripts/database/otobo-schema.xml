@@ -1842,6 +1842,32 @@
     </Index>
 </Table>
 
+<!-- report - stats_report-->
+<Table Name="stats_report">
+    <Column AutoIncrement="true" Name="id" PrimaryKey="true" Required="true" Type="INTEGER"></Column>
+    <Column Name="name" Required="true" Size="200" Type="VARCHAR"></Column>
+    <Column Name="config" Required="true" Type="LONGBLOB"></Column>
+    <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"></Column>
+    <Column Name="valid_id" Required="true" Type="SMALLINT"></Column>
+    <Column Name="create_time" Required="true" Type="DATE"></Column>
+    <Column Name="create_by" Required="true" Type="INTEGER"></Column>
+    <Column Name="change_time" Required="true" Type="DATE"></Column>
+    <Column Name="change_by" Required="true" Type="INTEGER"></Column>
+    <Unique Name="stats_report_name">
+        <UniqueColumn Name="name"/>
+    </Unique>
+    <Unique Name="stats_report_config_md5">
+        <UniqueColumn Name="config_md5"/>
+    </Unique>
+    <ForeignKey ForeignTable="valid">
+        <Reference Local="valid_id" Foreign="id"/>
+    </ForeignKey>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+        <Reference Local="change_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
 <!-- virtual_fs -->
 <Table Name="virtual_fs">
     <Column Name="id" Required="true" PrimaryKey="true" AutoIncrement="true" Type="BIGINT"/>
