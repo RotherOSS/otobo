@@ -2741,4 +2741,17 @@
     </ForeignKey>
 </Table>
 
+<!-- data_storage -->
+<Table Name="data_storage">
+    <Column Name="ds_type" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="ds_key" Required="true" Type="VARCHAR" Size="191"/>
+    <Column Name="ds_value" Required="false" Type="LONGBLOB"/>
+    <Column Name="create_time" Required="true" Type="DATE"/>
+    <Column Name="create_by" Required="true" Type="INTEGER"/>
+    <ForeignKey ForeignTable="users">
+        <Reference Local="create_by" Foreign="id"/>
+    </ForeignKey>
+</Table>
+
+
 </database>

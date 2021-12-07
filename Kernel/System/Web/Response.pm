@@ -151,9 +151,12 @@ sub Finalize {
         # The content is UTF-8 encoded when the header Content-Type has been set up like:
         #   'Content-Type'    => 'text/html; charset=utf-8'
         # This is the regular case, see Kernel::Output::HTML::Layout::_AddHeadersToResponseOBject().
+        # RFC8259 states that the Charset declaration is superflous for 'application/json'. So let's encode
+        # all 'application/json' responses.
         if ( !ref $Content || ref $Content eq 'ARRAY' ) {
-            my $Charset = $Self->Headers->content_type_charset // '';
-            if ( $Charset eq 'UTF-8' ) {
+            my $Charset     = $Self->Headers->content_type_charset // '';
+            my $ContentType = $Self->Headers->content_type         // '';
+            if ( $Charset eq 'UTF-8' || $ContentType eq 'application/json' ) {
                 if ( ref $Content eq 'ARRAY' ) {
                     for my $Item ( $Content->@* ) {
                         utf8::encode($Item);
@@ -164,13 +167,14 @@ sub Finalize {
                 }
             }
         }
+
         $Self->Content($Content);
     }
     else {
-        # Content must have been set via the method Content().
+        # Content must have been set via the method Content(). This is fine.
     }
 
-    # return the PSGI response, a funnny unblessed array reference with three elements
+    # return the PSGI response, an unblessed array reference with three elements
     return $Self->{Response}->finalize();
 }
 

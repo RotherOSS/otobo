@@ -1356,7 +1356,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         # pre application module
         my $PreModule = $ConfigObject->Get('CustomerPanelPreApplicationModule');
-        if ($PreModule) {
+        if ( $Param{Action} ne 'CustomerGenericContent' && $PreModule ) {
             my %PreModuleList;
             if ( ref $PreModule eq 'HASH' ) {
                 %PreModuleList = %{$PreModule};
