@@ -307,11 +307,14 @@ Core.UI.InputFields = (function (TargetNS) {
                     TextValue = Textarea.text();
                 }
 
+                // standard text input
+                else {
+                    TextValue = TextInput.attr('value');
+                }
+
                 if ( TextInput.length === 0 ) {
                     return 1;
                 }
-
-                TextValue = TextValue.length ? TextValue : TextInput.attr('value');
 
                 // fields already filled
                 if ( TextValue && $.trim(TextValue).length ) {
