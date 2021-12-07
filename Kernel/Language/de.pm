@@ -1282,13 +1282,9 @@ sub Data {
         'Delete web service' => 'Webservice löschen',
         'Do you really want to delete this web service?' => 'Wollen Sie diesen Webservice wirklich löschen?',
         'Ready2Adopt Web Services' => 'Ready2Adopt-Webservices',
-        'Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.' =>
-            'Hier können Sie Ready2Adopt-Webservices aktivieren, die Teil der %s sind und nach unseren Best-Practices erstellt wurden.',
-        'Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).' =>
-            'Bitte beachten Sie, dass diese Webservices von anderen Modulen abhängen können, die nur in bestimmten Vertragsstufen der %s verfügbar sind (Ihnen wird beim Importieren ein entsprechender Hinweis angezeigt).',
+        'Here you can activate Ready2Adopt web services showcasing our best practices.' =>
+            'Hier können Sie Ready2Adopt-Webservices aktivieren, die nach unseren Best-Practices erstellt wurden.',
         'Import Ready2Adopt web service' => 'Ready2Adopt-Webservices importieren',
-        'Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.' =>
-            'Möchten Sie von Webservices profitieren, die von Experten erstellt wurden? Dann wechseln Sie auf die %s, um ausgefeilte Ready2Adopt-Webservices importieren zu können.',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Nach dem Speichern der Konfiguration werden Sie wieder auf den Bearbeitungsbildschirm geleitet.',
         'If you want to return to overview please click the "Go to overview" button.' =>

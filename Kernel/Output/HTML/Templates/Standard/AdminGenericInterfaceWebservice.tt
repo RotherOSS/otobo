@@ -174,40 +174,32 @@
             </div>
         </div>
 [% RenderBlockEnd("ActionList") %]
-# Svencheck
 [% RenderBlockStart("ExampleWebServices") %]
-#        <div class="WidgetSimple" id="ExampleWebServices">
-#            <div class="Header">
-#                <h2>[% Translate("Ready2Adopt Web Services") | html %]</h2>
-#            </div>
-#            <div class="Content">
-#            [% IF Data.ExampleWebServiceList %]
-#                <p class="FieldExplanation">
-#                    [% Translate("Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s.") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]
-#                    [% Translate("Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing).") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]
-#                </p>
-#                <ul class="ActionList SpacingTop">
-#                    <li>
-#                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
-#                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-#                            <input type="hidden" name="Subaction" value="Import"/>
-#                            [% Data.ExampleWebServiceList %]
-#                            <div id="ExampleWebServiceError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-#                            <div id="ExampleWebServiceServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
-#
-#                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import Ready2Adopt web service") | html %]">
-#                                <span><i class="fa fa-upload"></i>[% Translate("Import Ready2Adopt web service") | html %]</span>
-#                            </button>
-#                        </form>
-#                    </li>
-#                </ul>
-#            [% ELSE %]
-#                <p class="FieldExplanation">
-#                    [% Translate("Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services.") | html | ReplacePlaceholders(OTOBOCommunityLinkLabelWithContractLevel) %]
-#                </p>
-#            [% END %]
-#            </div>
-#        </div>
+        <div class="WidgetSimple" id="ExampleWebServices">
+            <div class="Header">
+                <h2>[% Translate("Ready2Adopt Web Services") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate("Here you can activate Ready2Adopt web services showcasing our best practices.") | html %] 
+                </p>
+                <ul class="ActionList SpacingTop">
+                    <li>
+                        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate PreventMultipleSubmits">
+                            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+                            <input type="hidden" name="Subaction" value="Import"/>
+                            [% Data.ExampleWebServiceList %]
+                            <div id="ExampleWebServiceError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+                            <div id="ExampleWebServiceServerError" class="TooltipErrorMessage"><p>[% Translate("This field is required.") | html %]</p></div>
+
+                            <button class="CallForAction Fullsize Center SpacingTop" type="submit" value="[% Translate("Import Ready2Adopt web service") | html %]">
+                                <span><i class="fa fa-upload"></i>[% Translate("Import Ready2Adopt web service") | html %]</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
 [% RenderBlockEnd("ExampleWebServices") %]
 [% RenderBlockStart("Hint") %]
         <div class="WidgetSimple">

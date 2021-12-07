@@ -529,18 +529,6 @@ sub Run {
                     $BackendName,
                 );
 
-                if ( $BackendPre->can('DependencyCheck') ) {
-                    my %Result = $BackendPre->DependencyCheck();
-                    if ( !$Result{Success} && $Result{ErrorMessage} ) {
-
-                        return $Self->_ShowEdit(
-                            DependencyErrorMessage => $Result{ErrorMessage},
-                            %Param,
-                            Action => 'Add',
-                        );
-                    }
-                }
-
                 my %Status = $BackendPre->Run();
                 if ( !$Status{Success} ) {
 
@@ -913,7 +901,7 @@ sub _ShowEdit {
 
         my %Frontend;
 
-        if ( 0 && %ExampleWebServicesData ) {    # OTOBOCommunity installed
+        if ( %ExampleWebServicesData ) {    # OTOBOCommunity installed
             $Frontend{ExampleWebServiceList} = $Kernel::OM->Get('Kernel::Output::HTML::Layout')->BuildSelection(
                 Name         => 'ExampleWebService',
                 Data         => \%ExampleWebServicesData,
