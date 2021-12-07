@@ -275,7 +275,7 @@ $Selenium->RunTest(
         # Update TimeNotifyUpcomingMaintenance config.
         $Helper->ConfigSettingChange(
             Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
-            Value => 61,
+            Value => 120,
         );
 
         # Refresh screen.
