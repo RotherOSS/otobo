@@ -144,7 +144,7 @@ sub ListObjects {
     }
 
     # get defaults, emptry string as delimiter is allowed
-    my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter},
+    my $Delimiter = exists $Param{Delimiter} ? $Param{Delimiter} : $Self->{Delimiter};
 
     my %Name2Properties;
     my $URL = Mojo::URL->new
