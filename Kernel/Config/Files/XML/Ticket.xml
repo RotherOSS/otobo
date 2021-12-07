@@ -1809,7 +1809,7 @@
         <Description Translatable="1">Controls if customers have the ability to sort their tickets.</Description>
         <Navigation>Frontend::Customer::View::TicketOverview</Navigation>
         <Value>
-            <Item ValueType="Select" SelectedID="1">
+            <Item ValueType="Select" SelectedID="Sortable">
                 <Item ValueType="Option" Value="0" Translatable="1">No</Item>
                 <Item ValueType="Option" Value="Sortable" Translatable="1">Yes</Item>
             </Item>
