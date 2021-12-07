@@ -84,6 +84,13 @@ $Selenium->RunTest(
             UserID => $UserID,
         );
 
+        # Intialize TimeNotifyUpcomingMaintenance config to a small value,
+        # so that the notification is initially not emitted.
+        $Helper->ConfigSettingChange(
+            Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
+            Value => 30,
+        );
+
         # Login test user
         $Selenium->Login(
             Type     => 'Agent',
@@ -268,7 +275,7 @@ $Selenium->RunTest(
         # Update TimeNotifyUpcomingMaintenance config.
         $Helper->ConfigSettingChange(
             Key   => "SystemMaintenance::TimeNotifyUpcomingMaintenance",
-            Value => 61,
+            Value => 120,
         );
 
         # Refresh screen.
