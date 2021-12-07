@@ -1,0 +1,430 @@
+---
+Activities:
+  Activity-1b7e6b0ef15e22595a03da137642c2c0:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-1b7e6b0ef15e22595a03da137642c2c0
+    ID: '94'
+    Name: Problem Resolution
+  Activity-4437abf7b1c5fc8213b1487e748f4025:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-4437abf7b1c5fc8213b1487e748f4025
+    ID: '95'
+    Name: ITSM Request for Change Management
+  Activity-7489ab43195abbf8f295c26dad68f86f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-7489ab43195abbf8f295c26dad68f86f
+    ID: '96'
+    Name: Problem Known Error Recording
+  Activity-9bbcad8dbba6c693ba0463e647f1dc8f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-9bbcad8dbba6c693ba0463e647f1dc8f
+    ID: '97'
+    Name: Problem Recording
+  Activity-b1468d64a4266ef324014ca3a5508051:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-b1468d64a4266ef324014ca3a5508051
+    ID: '98'
+    Name: Problem Review (Major Problem)
+  Activity-c1969b01cf7b14295dac68c65fa17e48:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-c1969b01cf7b14295dac68c65fa17e48
+    ID: '99'
+    Name: Problem Categorization
+  Activity-c31bd69e6a3544ef07b93bfa0628431c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-c31bd69e6a3544ef07b93bfa0628431c
+    ID: '100'
+    Name: Problem Workaround Implementation
+  Activity-c60d47bf1946d539ed18677a90763e98:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-c60d47bf1946d539ed18677a90763e98
+    ID: '101'
+    Name: Problem Priotization
+  Activity-cd14ff2919a7668e0e63c0eaeee5be20:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-cd14ff2919a7668e0e63c0eaeee5be20
+    ID: '102'
+    Name: Problem Finalization
+  Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-03 22:42:31
+    Config: {}
+    CreateTime: 2017-10-03 22:42:31
+    EntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+    ID: '15'
+    Name: Process completed
+  Activity-ec38eb8e7443709f16ea0c0ead29db50:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-ec38eb8e7443709f16ea0c0ead29db50
+    ID: '103'
+    Name: ITSM Continual Service Improvement
+  Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:38
+    Config: {}
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012
+    ID: '104'
+    Name: Problem Investigation and Diagnosis
+Process:
+  Activities:
+  - Activity-1b7e6b0ef15e22595a03da137642c2c0
+  - Activity-4437abf7b1c5fc8213b1487e748f4025
+  - Activity-7489ab43195abbf8f295c26dad68f86f
+  - Activity-9bbcad8dbba6c693ba0463e647f1dc8f
+  - Activity-b1468d64a4266ef324014ca3a5508051
+  - Activity-c1969b01cf7b14295dac68c65fa17e48
+  - Activity-c31bd69e6a3544ef07b93bfa0628431c
+  - Activity-c60d47bf1946d539ed18677a90763e98
+  - Activity-cd14ff2919a7668e0e63c0eaeee5be20
+  - Activity-e3328a82c9e4efffe0d75d4b97371dbe
+  - Activity-ec38eb8e7443709f16ea0c0ead29db50
+  - Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012
+  ChangeTime: 2017-11-01 00:06:33
+  Config:
+    Description: "Best practice IT Service Management Problem Management process inspired
+      by ITIL®.\r\n\r\nConfiguration: The functional and hierarchical escalation transitions
+      are not configured. They should be modified to fulfil your business rules."
+    Path:
+      Activity-1b7e6b0ef15e22595a03da137642c2c0:
+        Transition-048f567a07481397f4edf38441395520:
+          ActivityEntityID: Activity-c60d47bf1946d539ed18677a90763e98
+        Transition-c07e05790b3555b08a1a41a5dd3e5ab5:
+          ActivityEntityID: Activity-cd14ff2919a7668e0e63c0eaeee5be20
+      Activity-4437abf7b1c5fc8213b1487e748f4025:
+        Transition-bd31dbe73856a8cc1030bdbf77cd9fc1:
+          ActivityEntityID: Activity-1b7e6b0ef15e22595a03da137642c2c0
+      Activity-7489ab43195abbf8f295c26dad68f86f:
+        Transition-22739a3513e72b89ffc537e6c10ef187:
+          ActivityEntityID: Activity-1b7e6b0ef15e22595a03da137642c2c0
+        Transition-8f70c7a8027bd13992ee95073589192f:
+          ActivityEntityID: Activity-4437abf7b1c5fc8213b1487e748f4025
+      Activity-9bbcad8dbba6c693ba0463e647f1dc8f:
+        Transition-2a82949ceba2580b428ee9211cead802:
+          ActivityEntityID: Activity-c1969b01cf7b14295dac68c65fa17e48
+      Activity-b1468d64a4266ef324014ca3a5508051:
+        Transition-2c56d80bc584160498b1a9e576873fef:
+          ActivityEntityID: Activity-ec38eb8e7443709f16ea0c0ead29db50
+      Activity-c1969b01cf7b14295dac68c65fa17e48:
+        Transition-b8793aacd9ca7f629ae6139bc5e7b437:
+          ActivityEntityID: Activity-c60d47bf1946d539ed18677a90763e98
+      Activity-c31bd69e6a3544ef07b93bfa0628431c:
+        Transition-26c890d19562a492bb87c41fd406c617:
+          ActivityEntityID: Activity-7489ab43195abbf8f295c26dad68f86f
+      Activity-c60d47bf1946d539ed18677a90763e98:
+        Transition-cc6e0b071430813cbf0d5559f0a09c1f:
+          ActivityEntityID: Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012
+      Activity-cd14ff2919a7668e0e63c0eaeee5be20:
+        Transition-a545e79653ba8acf169f06ed2990d959:
+          ActivityEntityID: Activity-b1468d64a4266ef324014ca3a5508051
+        Transition-f868aa107e8c9fa2730e02ab7ce11950:
+          ActivityEntityID: Activity-e3328a82c9e4efffe0d75d4b97371dbe
+      Activity-e3328a82c9e4efffe0d75d4b97371dbe: {}
+      Activity-ec38eb8e7443709f16ea0c0ead29db50: {}
+      Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012:
+        Transition-95efa74a199dd98d87df302188f9522c:
+          ActivityEntityID: Activity-7489ab43195abbf8f295c26dad68f86f
+        Transition-d9ca2310595aff97742f0e44da0257ef:
+          ActivityEntityID: Activity-c31bd69e6a3544ef07b93bfa0628431c
+    StartActivity: Activity-9bbcad8dbba6c693ba0463e647f1dc8f
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:37
+  EntityID: Process-415ddc83fda24ff8bb180be03a51dc6c
+  ID: '17'
+  Layout:
+    Activity-1b7e6b0ef15e22595a03da137642c2c0:
+      left: '1452'
+      top: '213'
+    Activity-4437abf7b1c5fc8213b1487e748f4025:
+      left: '1851'
+      top: '370'
+    Activity-7489ab43195abbf8f295c26dad68f86f:
+      left: '1456'
+      top: '566'
+    Activity-9bbcad8dbba6c693ba0463e647f1dc8f:
+      left: '180'
+      top: '207'
+    Activity-b1468d64a4266ef324014ca3a5508051:
+      left: '1850'
+      top: '161'
+    Activity-c1969b01cf7b14295dac68c65fa17e48:
+      left: '498'
+      top: '210'
+    Activity-c31bd69e6a3544ef07b93bfa0628431c:
+      left: '1157'
+      top: '355'
+    Activity-c60d47bf1946d539ed18677a90763e98:
+      left: '845'
+      top: '212'
+    Activity-cd14ff2919a7668e0e63c0eaeee5be20:
+      left: '1450'
+      top: '0'
+    Activity-e3328a82c9e4efffe0d75d4b97371dbe:
+      left: '1848'
+      top: '0'
+    Activity-ec38eb8e7443709f16ea0c0ead29db50:
+      left: '2173'
+      top: '162'
+    Activity-fafbbc0b3ce51982f6ef2f1ef1bd3012:
+      left: '846'
+      top: '566'
+  Name: Service Operation::Problem Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-048f567a07481397f4edf38441395520
+  - Transition-c07e05790b3555b08a1a41a5dd3e5ab5
+  - Transition-bd31dbe73856a8cc1030bdbf77cd9fc1
+  - Transition-22739a3513e72b89ffc537e6c10ef187
+  - Transition-8f70c7a8027bd13992ee95073589192f
+  - Transition-2a82949ceba2580b428ee9211cead802
+  - Transition-2c56d80bc584160498b1a9e576873fef
+  - Transition-b8793aacd9ca7f629ae6139bc5e7b437
+  - Transition-26c890d19562a492bb87c41fd406c617
+  - Transition-cc6e0b071430813cbf0d5559f0a09c1f
+  - Transition-a545e79653ba8acf169f06ed2990d959
+  - Transition-f868aa107e8c9fa2730e02ab7ce11950
+  - Transition-95efa74a199dd98d87df302188f9522c
+  - Transition-d9ca2310595aff97742f0e44da0257ef
+Transitions:
+  Transition-048f567a07481397f4edf38441395520:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-048f567a07481397f4edf38441395520
+    ID: '97'
+    Name: Problem not resolved
+  Transition-22739a3513e72b89ffc537e6c10ef187:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-22739a3513e72b89ffc537e6c10ef187
+    ID: '98'
+    Name: Problem change not required
+  Transition-26c890d19562a492bb87c41fd406c617:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-26c890d19562a492bb87c41fd406c617
+    ID: '99'
+    Name: Problem workaround implemented
+  Transition-2a82949ceba2580b428ee9211cead802:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            TicketType:
+              Match: Problem
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-2a82949ceba2580b428ee9211cead802
+    ID: '100'
+    Name: Problem recorded
+  Transition-2c56d80bc584160498b1a9e576873fef:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-2c56d80bc584160498b1a9e576873fef
+    ID: '101'
+    Name: Problem reviewed
+  Transition-8f70c7a8027bd13992ee95073589192f:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-8f70c7a8027bd13992ee95073589192f
+    ID: '102'
+    Name: Problem change required
+  Transition-95efa74a199dd98d87df302188f9522c:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-95efa74a199dd98d87df302188f9522c
+    ID: '103'
+    Name: Problem workaround not required
+  Transition-a545e79653ba8acf169f06ed2990d959:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-a545e79653ba8acf169f06ed2990d959
+    ID: '104'
+    Name: Problem is major problem
+  Transition-b8793aacd9ca7f629ae6139bc5e7b437:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:37
+    EntityID: Transition-b8793aacd9ca7f629ae6139bc5e7b437
+    ID: '105'
+    Name: Problem categorized
+  Transition-bd31dbe73856a8cc1030bdbf77cd9fc1:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:38
+    EntityID: Transition-bd31dbe73856a8cc1030bdbf77cd9fc1
+    ID: '106'
+    Name: ITSM Change Management completed
+  Transition-c07e05790b3555b08a1a41a5dd3e5ab5:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:38
+    EntityID: Transition-c07e05790b3555b08a1a41a5dd3e5ab5
+    ID: '107'
+    Name: Problem resolved
+  Transition-cc6e0b071430813cbf0d5559f0a09c1f:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:38
+    EntityID: Transition-cc6e0b071430813cbf0d5559f0a09c1f
+    ID: '108'
+    Name: Problem prioritised
+  Transition-d9ca2310595aff97742f0e44da0257ef:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:38
+    EntityID: Transition-d9ca2310595aff97742f0e44da0257ef
+    ID: '109'
+    Name: Problem workaround required
+  Transition-f868aa107e8c9fa2730e02ab7ce11950:
+    ChangeTime: 2017-10-31 22:39:38
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:38
+    EntityID: Transition-f868aa107e8c9fa2730e02ab7ce11950
+    ID: '110'
+    Name: Problem is not major problem

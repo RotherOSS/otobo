@@ -1,0 +1,223 @@
+---
+Activities:
+  Activity-3215874e8b90ec51b66baf84b3cd3186:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:12
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-3215874e8b90ec51b66baf84b3cd3186
+    ID: '123'
+    Name: Service knowledge data and information requirement analysis
+  Activity-3e8caf47741b38989cc962d117513f55:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:12
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-3e8caf47741b38989cc962d117513f55
+    ID: '124'
+    Name: Service knowledge strategy design
+  Activity-622d4ed14b836d713056fd7665a247d8:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:12
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-622d4ed14b836d713056fd7665a247d8
+    ID: '125'
+    Name: Service knowledge transfer
+  Activity-71a0a6adf6df57cecf537f64758d6de7:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:13
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-71a0a6adf6df57cecf537f64758d6de7
+    ID: '126'
+    Name: Service knowledge SKMS update
+  Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:13
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad
+    ID: '127'
+    Name: Service knowledge evaluation and improvement
+  Activity-c6dccdc42a34f11c392abc4bb3009326:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:13
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-c6dccdc42a34f11c392abc4bb3009326
+    ID: '128'
+    Name: Service knowledge data and information procedure design
+  Activity-dc5e55a851375f71651f8d1af4230571:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:40:13
+    Config: {}
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Activity-dc5e55a851375f71651f8d1af4230571
+    ID: '129'
+    Name: Service knowledge information architecture design
+Process:
+  Activities:
+  - Activity-3215874e8b90ec51b66baf84b3cd3186
+  - Activity-3e8caf47741b38989cc962d117513f55
+  - Activity-622d4ed14b836d713056fd7665a247d8
+  - Activity-71a0a6adf6df57cecf537f64758d6de7
+  - Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad
+  - Activity-c6dccdc42a34f11c392abc4bb3009326
+  - Activity-dc5e55a851375f71651f8d1af4230571
+  ChangeTime: 2017-10-31 22:40:12
+  Config:
+    Description: "Best practice IT Service Management Knowledge Management process
+      inspired by ITIL®.\r\n\r\nThe knowledge management process ensures that the
+      quality and quantity of information about services is always available and up-to-date.\r\n\r\nConfiguration:
+      The functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-3215874e8b90ec51b66baf84b3cd3186:
+        Transition-55235604d10efde4908e4cb654979fab:
+          ActivityEntityID: Activity-dc5e55a851375f71651f8d1af4230571
+      Activity-3e8caf47741b38989cc962d117513f55:
+        Transition-4cbc795e6c969b99404b244019922aa3:
+          ActivityEntityID: Activity-622d4ed14b836d713056fd7665a247d8
+      Activity-622d4ed14b836d713056fd7665a247d8:
+        Transition-0725ed7b5a622298a876aa33ae909a54:
+          ActivityEntityID: Activity-3215874e8b90ec51b66baf84b3cd3186
+      Activity-71a0a6adf6df57cecf537f64758d6de7: {}
+      Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad:
+        Transition-8aa9c688ff64c5c01a36510c5d3a4330:
+          ActivityEntityID: Activity-71a0a6adf6df57cecf537f64758d6de7
+      Activity-c6dccdc42a34f11c392abc4bb3009326:
+        Transition-afa45d881828d6d345cfc259c11887bf:
+          ActivityEntityID: Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad
+      Activity-dc5e55a851375f71651f8d1af4230571:
+        Transition-3bb76c6705d1dd3d576ca65bce1204b9:
+          ActivityEntityID: Activity-c6dccdc42a34f11c392abc4bb3009326
+    StartActivity: Activity-3e8caf47741b38989cc962d117513f55
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:40:12
+  EntityID: Process-241de90156ae7a41f6394e080b09622e
+  ID: '21'
+  Layout:
+    Activity-3215874e8b90ec51b66baf84b3cd3186:
+      left: '1000'
+      top: '150'
+    Activity-3e8caf47741b38989cc962d117513f55:
+      left: '200'
+      top: '150'
+    Activity-622d4ed14b836d713056fd7665a247d8:
+      left: '600'
+      top: '150'
+    Activity-71a0a6adf6df57cecf537f64758d6de7:
+      left: '2600'
+      top: '150'
+    Activity-b2789a5a1fc89c32c9d2b35fdca9e6ad:
+      left: '2200'
+      top: '150'
+    Activity-c6dccdc42a34f11c392abc4bb3009326:
+      left: '1800'
+      top: '150'
+    Activity-dc5e55a851375f71651f8d1af4230571:
+      left: '1400'
+      top: '150'
+  Name: Service Transition::Knowledge Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-55235604d10efde4908e4cb654979fab
+  - Transition-4cbc795e6c969b99404b244019922aa3
+  - Transition-0725ed7b5a622298a876aa33ae909a54
+  - Transition-8aa9c688ff64c5c01a36510c5d3a4330
+  - Transition-afa45d881828d6d345cfc259c11887bf
+  - Transition-3bb76c6705d1dd3d576ca65bce1204b9
+Transitions:
+  Transition-0725ed7b5a622298a876aa33ae909a54:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-0725ed7b5a622298a876aa33ae909a54
+    ID: '137'
+    Name: Service knowledge transferred
+  Transition-3bb76c6705d1dd3d576ca65bce1204b9:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-3bb76c6705d1dd3d576ca65bce1204b9
+    ID: '138'
+    Name: Service knowledge information architecture implemented
+  Transition-4cbc795e6c969b99404b244019922aa3:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-4cbc795e6c969b99404b244019922aa3
+    ID: '139'
+    Name: Service knowledge strategy designed
+  Transition-55235604d10efde4908e4cb654979fab:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-55235604d10efde4908e4cb654979fab
+    ID: '140'
+    Name: Service knowledge data and information requirement analysed
+  Transition-8aa9c688ff64c5c01a36510c5d3a4330:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-8aa9c688ff64c5c01a36510c5d3a4330
+    ID: '141'
+    Name: Service knowledge evaluated and improved
+  Transition-afa45d881828d6d345cfc259c11887bf:
+    ChangeTime: 2017-10-31 22:40:13
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:40:12
+    EntityID: Transition-afa45d881828d6d345cfc259c11887bf
+    ID: '142'
+    Name: Service knowledge data and information procedure implemented

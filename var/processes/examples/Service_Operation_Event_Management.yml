@@ -1,0 +1,452 @@
+---
+Activities:
+  Activity-0d216138ad4c3a271ce706eca00eee14:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-10-31 22:39:16
+    EntityID: Activity-0d216138ad4c3a271ce706eca00eee14
+    ID: '85'
+    Name: Event second level correlation filter
+  Activity-2ba57ba7bcb5fe702877ce52d45dd212:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-2ba57ba7bcb5fe702877ce52d45dd212
+    ID: '87'
+    Name: Event completion
+  Activity-38c0bada10b98774d8d968fc371c2d56:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:17
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-38c0bada10b98774d8d968fc371c2d56
+    ID: '88'
+    Name: Event Review
+  Activity-427879c69b6594c93a7329252b31513a:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-11-01 00:03:23
+    EntityID: Activity-427879c69b6594c93a7329252b31513a
+    ID: '140'
+    Name: Event request requirement analysis
+  Activity-464174eb5741d24817bb17c8a2a4b05c:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-464174eb5741d24817bb17c8a2a4b05c
+    ID: '89'
+    Name: Event response
+  Activity-518834eb77e997b7b2642d42885061cb:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:04:52
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-518834eb77e997b7b2642d42885061cb
+    ID: '90'
+    Name: ITSM Problem Management
+  Activity-6199e29c931976c3ab5e9a99f400bf08:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-10-03 22:42:31
+    EntityID: Activity-6199e29c931976c3ab5e9a99f400bf08
+    ID: '9'
+    Name: ITSM Request Fulfilment Management
+  Activity-7a1df51901e5f6c261cc2d8f0544535f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:17
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+    ID: '91'
+    Name: ITSM Change Management
+  Activity-9d87f20b9d5897536c78e812522d7334:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:17
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-9d87f20b9d5897536c78e812522d7334
+    ID: '92'
+    Name: Event Recording
+  Activity-b379f111026b5ad0cc2253267305a9ae:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+    ID: '76'
+    Name: ITSM Incident Management
+  Activity-c0394bea00cf11df27a2acdbdb92288a:
+    ActivityDialogs: []
+    ChangeTime: 2017-11-01 00:03:24
+    Config: {}
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Activity-c0394bea00cf11df27a2acdbdb92288a
+    ID: '93'
+    Name: Event first level correlation filter
+Process:
+  Activities:
+  - Activity-0d216138ad4c3a271ce706eca00eee14
+  - Activity-2ba57ba7bcb5fe702877ce52d45dd212
+  - Activity-38c0bada10b98774d8d968fc371c2d56
+  - Activity-427879c69b6594c93a7329252b31513a
+  - Activity-464174eb5741d24817bb17c8a2a4b05c
+  - Activity-518834eb77e997b7b2642d42885061cb
+  - Activity-6199e29c931976c3ab5e9a99f400bf08
+  - Activity-7a1df51901e5f6c261cc2d8f0544535f
+  - Activity-9d87f20b9d5897536c78e812522d7334
+  - Activity-b379f111026b5ad0cc2253267305a9ae
+  - Activity-c0394bea00cf11df27a2acdbdb92288a
+  ChangeTime: 2017-11-01 00:03:24
+  Config:
+    Description: "Best practice IT Service Management Event Management process inspired
+      by ITIL®.\r\n\r\nConfiguration: The functional and hierarchical escalation transitions
+      are not configured. They should be modified to fulfil your business rules."
+    Path:
+      Activity-0d216138ad4c3a271ce706eca00eee14:
+        Transition-4ec7644fddf2ebd755b39efcd201ecd0:
+          ActivityEntityID: Activity-464174eb5741d24817bb17c8a2a4b05c
+          TransitionAction: []
+      Activity-2ba57ba7bcb5fe702877ce52d45dd212: {}
+      Activity-38c0bada10b98774d8d968fc371c2d56:
+        Transition-413849a4352523909f17b9d8dec5e2d3:
+          ActivityEntityID: Activity-464174eb5741d24817bb17c8a2a4b05c
+          TransitionAction: []
+        Transition-ed623bfea0c56992a975a3eb24a93c36:
+          ActivityEntityID: Activity-2ba57ba7bcb5fe702877ce52d45dd212
+      Activity-427879c69b6594c93a7329252b31513a:
+        Transition-9e8d79bf86141796d937cffda0491565:
+          ActivityEntityID: Activity-6199e29c931976c3ab5e9a99f400bf08
+      Activity-464174eb5741d24817bb17c8a2a4b05c:
+        Transition-3391d9b03050a4cc0aff7500ec2fcebb:
+          ActivityEntityID: Activity-518834eb77e997b7b2642d42885061cb
+        Transition-351e2dc879b89a1e98a2510eaf92bcc2:
+          ActivityEntityID: Activity-38c0bada10b98774d8d968fc371c2d56
+          TransitionAction: []
+        Transition-a811c43de73ed653003ab0f9fb57d5f5:
+          ActivityEntityID: Activity-7a1df51901e5f6c261cc2d8f0544535f
+        Transition-ca12e4e1ca84b00f4253a1dbd8aede30:
+          ActivityEntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+        Transition-e4b40486017be91829d91b1498205091:
+          ActivityEntityID: Activity-427879c69b6594c93a7329252b31513a
+          TransitionAction: []
+      Activity-518834eb77e997b7b2642d42885061cb:
+        Transition-0b3e76eb58cbdcf864f5977b6a92a7a2:
+          ActivityEntityID: Activity-427879c69b6594c93a7329252b31513a
+      Activity-6199e29c931976c3ab5e9a99f400bf08:
+        Transition-e2b3ac364a2b77a6005b025ce09b5e17:
+          ActivityEntityID: Activity-38c0bada10b98774d8d968fc371c2d56
+      Activity-7a1df51901e5f6c261cc2d8f0544535f:
+        Transition-734c799ba0984b3434f13d58beac409f:
+          ActivityEntityID: Activity-427879c69b6594c93a7329252b31513a
+      Activity-9d87f20b9d5897536c78e812522d7334:
+        Transition-293cf06d6337906cbe156f95d602788a:
+          ActivityEntityID: Activity-c0394bea00cf11df27a2acdbdb92288a
+      Activity-b379f111026b5ad0cc2253267305a9ae:
+        Transition-68dc0efc90bcd936885c2ef4b6f396a6:
+          ActivityEntityID: Activity-427879c69b6594c93a7329252b31513a
+      Activity-c0394bea00cf11df27a2acdbdb92288a:
+        Transition-a91d1c2a27969eadc29b9d8a60c43e7f:
+          ActivityEntityID: Activity-0d216138ad4c3a271ce706eca00eee14
+          TransitionAction: []
+    StartActivity: Activity-9d87f20b9d5897536c78e812522d7334
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:16
+  EntityID: Process-d24cc0978f39ccfe1ef7b929dcd19ae8
+  ID: '16'
+  Layout:
+    Activity-0d216138ad4c3a271ce706eca00eee14:
+      left: '798'
+      top: '156'
+    Activity-2ba57ba7bcb5fe702877ce52d45dd212:
+      left: '2163'
+      top: '160'
+    Activity-38c0bada10b98774d8d968fc371c2d56:
+      left: '1802'
+      top: '161'
+    Activity-427879c69b6594c93a7329252b31513a:
+      left: '1441'
+      top: '497'
+    Activity-464174eb5741d24817bb17c8a2a4b05c:
+      left: '1122'
+      top: '161'
+    Activity-518834eb77e997b7b2642d42885061cb:
+      left: '1123'
+      top: '499'
+    Activity-6199e29c931976c3ab5e9a99f400bf08:
+      left: '1803'
+      top: '497'
+    Activity-7a1df51901e5f6c261cc2d8f0544535f:
+      left: '1300'
+      top: '0'
+    Activity-9d87f20b9d5897536c78e812522d7334:
+      left: '203'
+      top: '151'
+    Activity-b379f111026b5ad0cc2253267305a9ae:
+      left: '1662'
+      top: '0'
+    Activity-c0394bea00cf11df27a2acdbdb92288a:
+      left: '483'
+      top: '156'
+  Name: Service Operation::Event Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-4ec7644fddf2ebd755b39efcd201ecd0
+  - Transition-413849a4352523909f17b9d8dec5e2d3
+  - Transition-ed623bfea0c56992a975a3eb24a93c36
+  - Transition-9e8d79bf86141796d937cffda0491565
+  - Transition-3391d9b03050a4cc0aff7500ec2fcebb
+  - Transition-351e2dc879b89a1e98a2510eaf92bcc2
+  - Transition-a811c43de73ed653003ab0f9fb57d5f5
+  - Transition-ca12e4e1ca84b00f4253a1dbd8aede30
+  - Transition-e4b40486017be91829d91b1498205091
+  - Transition-0b3e76eb58cbdcf864f5977b6a92a7a2
+  - Transition-e2b3ac364a2b77a6005b025ce09b5e17
+  - Transition-734c799ba0984b3434f13d58beac409f
+  - Transition-293cf06d6337906cbe156f95d602788a
+  - Transition-68dc0efc90bcd936885c2ef4b6f396a6
+  - Transition-a91d1c2a27969eadc29b9d8a60c43e7f
+Transitions:
+  Transition-0b3e76eb58cbdcf864f5977b6a92a7a2:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-0b3e76eb58cbdcf864f5977b6a92a7a2
+    ID: '83'
+    Name: Event Problem solved
+  Transition-293cf06d6337906cbe156f95d602788a:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            CustomerID:
+              Match: .+
+              Type: Regexp
+            CustomerUserID:
+              Match: .+
+              Type: Regexp
+            Lock:
+              Match: unlock
+              Type: String
+            State:
+              Match: new|open
+              Type: Regexp
+            Type:
+              Match: Incident
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-293cf06d6337906cbe156f95d602788a
+    ID: '84'
+    Name: Event recorded
+  Transition-3391d9b03050a4cc0aff7500ec2fcebb:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-3391d9b03050a4cc0aff7500ec2fcebb
+    ID: '85'
+    Name: Event Problem detected
+  Transition-351e2dc879b89a1e98a2510eaf92bcc2:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-351e2dc879b89a1e98a2510eaf92bcc2
+    ID: '86'
+    Name: Event request not required
+  Transition-413849a4352523909f17b9d8dec5e2d3:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-413849a4352523909f17b9d8dec5e2d3
+    ID: '87'
+    Name: Event review ineffective
+  Transition-4ec7644fddf2ebd755b39efcd201ecd0:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-4ec7644fddf2ebd755b39efcd201ecd0
+    ID: '88'
+    Name: Event requires action
+  Transition-68dc0efc90bcd936885c2ef4b6f396a6:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-68dc0efc90bcd936885c2ef4b6f396a6
+    ID: '89'
+    Name: Event Incident solved
+  Transition-734c799ba0984b3434f13d58beac409f:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-734c799ba0984b3434f13d58beac409f
+    ID: '90'
+    Name: Event Chance accomplished
+  Transition-9e8d79bf86141796d937cffda0491565:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-11-01 00:03:24
+    EntityID: Transition-9e8d79bf86141796d937cffda0491565
+    ID: '151'
+    Name: Event request required
+  Transition-a811c43de73ed653003ab0f9fb57d5f5:
+    ChangeTime: 2017-10-31 22:39:17
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-a811c43de73ed653003ab0f9fb57d5f5
+    ID: '91'
+    Name: Event Change needed
+  Transition-a91d1c2a27969eadc29b9d8a60c43e7f:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-a91d1c2a27969eadc29b9d8a60c43e7f
+    ID: '92'
+    Name: Event is warning
+  Transition-ca12e4e1ca84b00f4253a1dbd8aede30:
+    ChangeTime: 2017-10-31 22:39:18
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: .+
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-ca12e4e1ca84b00f4253a1dbd8aede30
+    ID: '93'
+    Name: Event Incident detected
+  Transition-e2b3ac364a2b77a6005b025ce09b5e17:
+    ChangeTime: 2017-10-31 22:39:18
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_Request:
+              Match: clarified
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-e2b3ac364a2b77a6005b025ce09b5e17
+    ID: '94'
+    Name: Event Request(s) clarified
+  Transition-e4b40486017be91829d91b1498205091:
+    ChangeTime: 2017-11-01 00:03:24
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-e4b40486017be91829d91b1498205091
+    ID: '95'
+    Name: Event Request assumed
+  Transition-ed623bfea0c56992a975a3eb24a93c36:
+    ChangeTime: 2017-10-31 22:39:18
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_EventReview:
+              Match: effective
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:17
+    EntityID: Transition-ed623bfea0c56992a975a3eb24a93c36
+    ID: '96'
+    Name: Event Review effective

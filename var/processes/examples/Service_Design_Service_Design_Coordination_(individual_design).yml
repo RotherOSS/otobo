@@ -1,0 +1,184 @@
+---
+Activities:
+  Activity-9052fcab6a93f02bf4c536e53e6a1e15:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:21
+    Config: {}
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Activity-9052fcab6a93f02bf4c536e53e6a1e15
+    ID: '55'
+    Name: Service individual design coordination
+  Activity-975a8f5c7a6de7f59cfeaa8110d543e0:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:21
+    Config: {}
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Activity-975a8f5c7a6de7f59cfeaa8110d543e0
+    ID: '56'
+    Name: Service individual design planning
+  Activity-b5edfe86d5f477dbdb4b617ac6247d3c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:21
+    Config: {}
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Activity-b5edfe86d5f477dbdb4b617ac6247d3c
+    ID: '57'
+    Name: Service individual design review
+  Activity-ea25df4ce4b32287b1cca35467fdfe4c:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:21
+    Config: {}
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Activity-ea25df4ce4b32287b1cca35467fdfe4c
+    ID: '58'
+    Name: Service individual design SDP handover
+  Activity-f97bd8272dacd991007e7e78cfded3bc:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:38:21
+    Config: {}
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Activity-f97bd8272dacd991007e7e78cfded3bc
+    ID: '59'
+    Name: Service individual design monitoring
+Process:
+  Activities:
+  - Activity-9052fcab6a93f02bf4c536e53e6a1e15
+  - Activity-975a8f5c7a6de7f59cfeaa8110d543e0
+  - Activity-b5edfe86d5f477dbdb4b617ac6247d3c
+  - Activity-ea25df4ce4b32287b1cca35467fdfe4c
+  - Activity-f97bd8272dacd991007e7e78cfded3bc
+  ChangeTime: 2017-10-31 22:38:21
+  Config:
+    Description: "Best practice IT Service Management Service Design Coordination
+      process inspired by ITIL®.\r\n\r\nThe design coordination is the fundamental
+      base for a consistent and practical realization of all service design phases.\r\n\r\nIn
+      terms of an individual design, the goal of design coordination is to ensure
+      that all measures for a new service design (project, change, etc,) follows the
+      guidelines and principles of the service design discipline. (e.g. a change manager
+      is supported by an design coordination process manager).\r\n\r\nConfiguration:
+      The functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-9052fcab6a93f02bf4c536e53e6a1e15:
+        Transition-c6bd3972e3c34771329b6435ed7a7b8d:
+          ActivityEntityID: Activity-f97bd8272dacd991007e7e78cfded3bc
+      Activity-975a8f5c7a6de7f59cfeaa8110d543e0:
+        Transition-380fe109b718b4d3ee8149a15b9a73fa:
+          ActivityEntityID: Activity-9052fcab6a93f02bf4c536e53e6a1e15
+      Activity-b5edfe86d5f477dbdb4b617ac6247d3c:
+        Transition-8b7d63e650de327772c2a81a3a75a62d:
+          ActivityEntityID: Activity-9052fcab6a93f02bf4c536e53e6a1e15
+        Transition-e1607390de064e726ff2f230982561b9:
+          ActivityEntityID: Activity-ea25df4ce4b32287b1cca35467fdfe4c
+          TransitionAction: []
+      Activity-ea25df4ce4b32287b1cca35467fdfe4c: {}
+      Activity-f97bd8272dacd991007e7e78cfded3bc:
+        Transition-9ad526f373690c8ccd95901d2ce7b4ef:
+          ActivityEntityID: Activity-b5edfe86d5f477dbdb4b617ac6247d3c
+    StartActivity: Activity-975a8f5c7a6de7f59cfeaa8110d543e0
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:38:21
+  EntityID: Process-a0dea78aa98159a4e9bc7b9683b0b5ff
+  ID: '12'
+  Layout:
+    Activity-9052fcab6a93f02bf4c536e53e6a1e15:
+      left: '493'
+      top: '248'
+    Activity-975a8f5c7a6de7f59cfeaa8110d543e0:
+      left: '192'
+      top: '124'
+    Activity-b5edfe86d5f477dbdb4b617ac6247d3c:
+      left: '787'
+      top: '397'
+    Activity-ea25df4ce4b32287b1cca35467fdfe4c:
+      left: '1212'
+      top: '395'
+    Activity-f97bd8272dacd991007e7e78cfded3bc:
+      left: '787'
+      top: '95'
+  Name: Service Design::Service Design Coordination (individual design)
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-c6bd3972e3c34771329b6435ed7a7b8d
+  - Transition-380fe109b718b4d3ee8149a15b9a73fa
+  - Transition-8b7d63e650de327772c2a81a3a75a62d
+  - Transition-e1607390de064e726ff2f230982561b9
+  - Transition-9ad526f373690c8ccd95901d2ce7b4ef
+Transitions:
+  Transition-380fe109b718b4d3ee8149a15b9a73fa:
+    ChangeTime: 2017-10-31 22:38:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            '?':
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Transition-380fe109b718b4d3ee8149a15b9a73fa
+    ID: '53'
+    Name: Service individual design planned
+  Transition-8b7d63e650de327772c2a81a3a75a62d:
+    ChangeTime: 2017-10-31 22:38:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Transition-8b7d63e650de327772c2a81a3a75a62d
+    ID: '54'
+    Name: Service individual design review NOT okay
+  Transition-9ad526f373690c8ccd95901d2ce7b4ef:
+    ChangeTime: 2017-10-31 22:38:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Transition-9ad526f373690c8ccd95901d2ce7b4ef
+    ID: '55'
+    Name: Service individual design created
+  Transition-c6bd3972e3c34771329b6435ed7a7b8d:
+    ChangeTime: 2017-10-31 22:38:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            '?':
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Transition-c6bd3972e3c34771329b6435ed7a7b8d
+    ID: '56'
+    Name: Service individual design coordinated
+  Transition-e1607390de064e726ff2f230982561b9:
+    ChangeTime: 2017-10-31 22:38:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:38:21
+    EntityID: Transition-e1607390de064e726ff2f230982561b9
+    ID: '57'
+    Name: Service individual design review okay

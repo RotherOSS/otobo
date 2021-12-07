@@ -1,0 +1,426 @@
+---
+Activities:
+  Activity-308135de70bad697eced5a51aef3c762:
+    ActivityDialogs: []
+    ChangeTime: 2016-08-09 16:52:01
+    Config: {}
+    CreateTime: 2016-08-09 16:52:01
+    EntityID: Activity-308135de70bad697eced5a51aef3c762
+    ID: '3'
+    Name: Process End
+  Activity-6e425342d76c8b46902b8ca0ba1a24cc:
+    ActivityDialogs:
+    - ActivityDialog-165656d2c3d6837b9b44d42bd93c8f6d
+    ChangeTime: 2016-08-16 20:48:28
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-165656d2c3d6837b9b44d42bd93c8f6d
+    CreateTime: 2016-08-16 20:32:52
+    EntityID: Activity-6e425342d76c8b46902b8ca0ba1a24cc
+    ID: '9'
+    Name: Record General Information
+  Activity-900af4c8beaaa0e8988e14bf314a4594:
+    ActivityDialogs:
+    - ActivityDialog-eaf461c90501c9f2c19b38004c4918a5
+    ChangeTime: 2016-08-16 21:09:08
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-eaf461c90501c9f2c19b38004c4918a5
+    CreateTime: 2016-08-16 20:33:47
+    EntityID: Activity-900af4c8beaaa0e8988e14bf314a4594
+    ID: '10'
+    Name: Specify Travel Information
+  Activity-be7378f69cdfba6e3648cc8cc9649d12:
+    ActivityDialogs:
+    - ActivityDialog-e210e8a6504995c2168f7ba667c98f11
+    ChangeTime: 2016-08-16 21:05:32
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-e210e8a6504995c2168f7ba667c98f11
+    CreateTime: 2016-08-16 20:34:23
+    EntityID: Activity-be7378f69cdfba6e3648cc8cc9649d12
+    ID: '11'
+    Name: Approve Travel Information
+ActivityDialogs:
+  ActivityDialog-165656d2c3d6837b9b44d42bd93c8f6d:
+    ChangeTime: 2016-08-22 20:38:15
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Record General Travel Expenses Information
+      FieldOrder:
+      - CustomerID
+      - DynamicField_PreProcTravelPerDiem
+      - DynamicField_PreProcExpenseReceiptsRequired
+      - DynamicField_PreProcTravelExpensesProcessState
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcExpenseReceiptsRequired:
+          DefaultValue: ''
+          DescriptionLong: Please select yes, if original receipts are requried
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcTravelExpensesProcessState:
+          DefaultValue: General Travel Information Recorded
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+        DynamicField_PreProcTravelPerDiem:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-16 20:47:35
+    EntityID: ActivityDialog-165656d2c3d6837b9b44d42bd93c8f6d
+    ID: '8'
+    Name: Record General Travel Expenses Information
+  ActivityDialog-e210e8a6504995c2168f7ba667c98f11:
+    ChangeTime: 2016-08-22 20:26:39
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Check and Approve/Deny Travel Expenses
+      FieldOrder:
+      - Article
+      - DynamicField_PreProcTravelApprovalYesNo
+      Fields:
+        Article:
+          Config:
+            CommunicationChannel: Internal
+            IsVisibleForCustomer: '0'
+            TimeUnits: '0'
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcTravelApprovalYesNo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-16 21:03:15
+    EntityID: ActivityDialog-e210e8a6504995c2168f7ba667c98f11
+    ID: '10'
+    Name: Check and Approve/Deny Travel Expenses
+  ActivityDialog-eaf461c90501c9f2c19b38004c4918a5:
+    ChangeTime: 2016-08-22 20:40:47
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Record Detailed Travel Expenses Information
+      FieldOrder:
+      - DynamicField_PreProcFlightClass
+      - DynamicField_PreProcFlightDepartureLocationFromTo
+      - DynamicField_PreProcFlightStopoverLocation
+      - DynamicField_PreProcFlightReturnLocationFromTo
+      - DynamicField_PreProcFlightTotalCosts
+      - DynamicField_PreProcLocalTravelReimbursementPerKm
+      - DynamicField_PreProcLocalDepartureLocationFromTo
+      - DynamicField_PreProcLocalReturnLocationFromTo
+      - DynamicField_PreProcLocalTotalCosts
+      - DynamicField_PreProcAccommodationDatesFrom
+      - DynamicField_PreProcAccommodationDatesTo
+      - DynamicField_PreProcAccomodationTotalCosts
+      - DynamicField_PreProcTravelExpensesInformationComplete
+      - DynamicField_PreProcTravelExpensesProcessState
+      Fields:
+        DynamicField_PreProcAccommodationDatesFrom:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcAccommodationDatesTo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcAccomodationTotalCosts:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFlightClass:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFlightDepartureLocationFromTo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFlightReturnLocationFromTo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFlightStopoverLocation:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcFlightTotalCosts:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcLocalDepartureLocationFromTo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcLocalReturnLocationFromTo:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcLocalTotalCosts:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcLocalTravelReimbursementPerKm:
+          DefaultValue: ''
+          DescriptionLong: Please specify your reimbursement rate per km
+          DescriptionShort: ''
+          Display: '1'
+        DynamicField_PreProcTravelExpensesInformationComplete:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_PreProcTravelExpensesProcessState:
+          DefaultValue: Detailed Travel Information Recorded
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '0'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2016-08-16 20:53:34
+    EntityID: ActivityDialog-eaf461c90501c9f2c19b38004c4918a5
+    ID: '9'
+    Name: Record Detailed Travel Expenses Information
+Process:
+  Activities:
+  - Activity-308135de70bad697eced5a51aef3c762
+  - Activity-6e425342d76c8b46902b8ca0ba1a24cc
+  - Activity-900af4c8beaaa0e8988e14bf314a4594
+  - Activity-be7378f69cdfba6e3648cc8cc9649d12
+  ChangeTime: 2016-08-22 20:20:56
+  Config:
+    Description: Travel Expense
+    Path:
+      Activity-308135de70bad697eced5a51aef3c762: {}
+      Activity-6e425342d76c8b46902b8ca0ba1a24cc:
+        Transition-9f3f4dc321605471351427b925293f6e:
+          ActivityEntityID: Activity-900af4c8beaaa0e8988e14bf314a4594
+          TransitionAction: []
+      Activity-900af4c8beaaa0e8988e14bf314a4594:
+        Transition-51eb4a8d9dc100c48cbc8f25418101b4:
+          ActivityEntityID: Activity-be7378f69cdfba6e3648cc8cc9649d12
+          TransitionAction:
+          - TransitionAction-0a02b371c2fc5214132860757c887db2
+      Activity-be7378f69cdfba6e3648cc8cc9649d12:
+        Transition-679bd5f7e1b264b32a9b9b54ee958390:
+          ActivityEntityID: Activity-308135de70bad697eced5a51aef3c762
+          TransitionAction:
+          - TransitionAction-b78ba6ba5b36631a18541c3867e65ae0
+        Transition-69a0b0e0cbe4318cd37171ae08f1099e:
+          ActivityEntityID: Activity-308135de70bad697eced5a51aef3c762
+          TransitionAction:
+          - TransitionAction-c73471e663ce273575e9ec8bdd1290c7
+        Transition-da3e7102cadce3c1f3a9e91c0df963e2:
+          ActivityEntityID: Activity-900af4c8beaaa0e8988e14bf314a4594
+          TransitionAction:
+          - TransitionAction-ffdf440fac8fca4ea42c2ee5a07634c9
+          - TransitionAction-74eea7774d10d2979eca215864afd5fb
+          - TransitionAction-92f13c65d6165f1ce6584482151f14db
+    StartActivity: Activity-6e425342d76c8b46902b8ca0ba1a24cc
+    StartActivityDialog: ActivityDialog-165656d2c3d6837b9b44d42bd93c8f6d
+  CreateTime: 2016-08-16 20:32:05
+  EntityID: Process-7618259c4b11174a32cf35e973431291
+  ID: '4'
+  Layout:
+    Activity-308135de70bad697eced5a51aef3c762:
+      left: '809'
+      top: '31'
+    Activity-6e425342d76c8b46902b8ca0ba1a24cc:
+      left: '67'
+      top: '105'
+    Activity-900af4c8beaaa0e8988e14bf314a4594:
+      left: '204'
+      top: '40'
+    Activity-be7378f69cdfba6e3648cc8cc9649d12:
+      left: '582'
+      top: '45'
+  Name: Travel Expense
+  State: Active
+  StateEntityID: S1
+  TransitionActions:
+  - TransitionAction-0a02b371c2fc5214132860757c887db2
+  - TransitionAction-b78ba6ba5b36631a18541c3867e65ae0
+  - TransitionAction-c73471e663ce273575e9ec8bdd1290c7
+  - TransitionAction-74eea7774d10d2979eca215864afd5fb
+  - TransitionAction-92f13c65d6165f1ce6584482151f14db
+  - TransitionAction-ffdf440fac8fca4ea42c2ee5a07634c9
+  Transitions:
+  - Transition-9f3f4dc321605471351427b925293f6e
+  - Transition-51eb4a8d9dc100c48cbc8f25418101b4
+  - Transition-679bd5f7e1b264b32a9b9b54ee958390
+  - Transition-69a0b0e0cbe4318cd37171ae08f1099e
+  - Transition-da3e7102cadce3c1f3a9e91c0df963e2
+TransitionActions:
+  TransitionAction-0a02b371c2fc5214132860757c887db2:
+    ChangeTime: 2016-08-22 20:29:16
+    Config:
+      Config:
+        PreProcTravelExpensesProcessState: Detailed Travel Information Recorded
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-16 21:01:34
+    EntityID: TransitionAction-0a02b371c2fc5214132860757c887db2
+    ID: '7'
+    Name: set TravelExpensesProcessState to Detailed Travel Information Recorded
+  TransitionAction-74eea7774d10d2979eca215864afd5fb:
+    ChangeTime: 2016-08-22 20:29:04
+    Config:
+      Config:
+        PreProcTravelExpensesInformationComplete: otobo5s-No
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-22 20:18:55
+    EntityID: TransitionAction-74eea7774d10d2979eca215864afd5fb
+    ID: '11'
+    Name: set PreProcTravelExpensesInformationComplete to No
+  TransitionAction-92f13c65d6165f1ce6584482151f14db:
+    ChangeTime: 2016-08-22 20:20:43
+    Config:
+      Config:
+        PreProcTravelApprovalYesNo: ''
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-22 20:20:43
+    EntityID: TransitionAction-92f13c65d6165f1ce6584482151f14db
+    ID: '12'
+    Name: Reset PreProcTravelApprovalYesNo
+  TransitionAction-b78ba6ba5b36631a18541c3867e65ae0:
+    ChangeTime: 2016-08-22 20:29:40
+    Config:
+      Config:
+        PreProcTravelExpensesProcessState: Travel Information Approved
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-16 21:07:25
+    EntityID: TransitionAction-b78ba6ba5b36631a18541c3867e65ae0
+    ID: '8'
+    Name: set TravelExpensesProcessState to Travel Information Approved
+  TransitionAction-c73471e663ce273575e9ec8bdd1290c7:
+    ChangeTime: 2016-08-22 20:29:53
+    Config:
+      Config:
+        "set TravelExpensesProcessState to Travel information Not Approved\tPreProcTravelExpansesProcessState": Travel
+          information Not Approved
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-16 21:07:45
+    EntityID: TransitionAction-c73471e663ce273575e9ec8bdd1290c7
+    ID: '9'
+    Name: set TravelExpensesProcessState to Travel information Not Approved
+  TransitionAction-ffdf440fac8fca4ea42c2ee5a07634c9:
+    ChangeTime: 2016-08-22 20:29:26
+    Config:
+      Config:
+        PreProcTravelExpensesProcessState: otobo5s-BackToSpecifiedRecording
+      Module: Kernel::System::ProcessManagement::TransitionAction::DynamicFieldSet
+    CreateTime: 2016-08-22 20:14:00
+    EntityID: TransitionAction-ffdf440fac8fca4ea42c2ee5a07634c9
+    ID: '10'
+    Name: set TravelExpensesProcessState to Hand Over from Approval
+Transitions:
+  Transition-51eb4a8d9dc100c48cbc8f25418101b4:
+    ChangeTime: 2016-08-22 20:28:21
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcTravelExpensesInformationComplete:
+              Match: otobo5s-Yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-16 20:59:23
+    EntityID: Transition-51eb4a8d9dc100c48cbc8f25418101b4
+    ID: '9'
+    Name: Detailed Travel Information Recorded
+  Transition-679bd5f7e1b264b32a9b9b54ee958390:
+    ChangeTime: 2016-08-22 20:27:33
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcTravelApprovalYesNo:
+              Match: otobo5s-Yes
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-16 21:06:17
+    EntityID: Transition-679bd5f7e1b264b32a9b9b54ee958390
+    ID: '10'
+    Name: Travel Expenses approved
+  Transition-69a0b0e0cbe4318cd37171ae08f1099e:
+    ChangeTime: 2016-08-22 20:27:45
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcTravelApprovalYesNo:
+              Match: otobo5s-No
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-16 21:06:56
+    EntityID: Transition-69a0b0e0cbe4318cd37171ae08f1099e
+    ID: '11'
+    Name: Travel Expenses denied
+  Transition-9f3f4dc321605471351427b925293f6e:
+    ChangeTime: 2016-08-22 20:27:20
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcTravelExpensesProcessState:
+              Match: General Travel Information Recorded
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-16 20:49:09
+    EntityID: Transition-9f3f4dc321605471351427b925293f6e
+    ID: '8'
+    Name: General Travel Expenses Information Recorded
+  Transition-da3e7102cadce3c1f3a9e91c0df963e2:
+    ChangeTime: 2016-08-22 20:16:28
+    Config:
+      Condition:
+        '1':
+          Fields:
+            DynamicField_PreProcTravelApprovalYesNo:
+              Match: otobo5s-Back
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2016-08-22 20:10:47
+    EntityID: Transition-da3e7102cadce3c1f3a9e91c0df963e2
+    ID: '12'
+    Name: Back to specification recording

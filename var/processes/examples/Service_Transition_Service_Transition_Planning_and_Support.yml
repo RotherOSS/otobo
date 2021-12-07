@@ -1,0 +1,162 @@
+---
+Activities:
+  Activity-3d0dccc45e7ae3e5f808ed5db0a52b65:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:07
+    Config: {}
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Activity-3d0dccc45e7ae3e5f808ed5db0a52b65
+    ID: '135'
+    Name: Service transition strategy development
+  Activity-7f762882a6a6c20845af34d165ca648b:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:07
+    Config: {}
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Activity-7f762882a6a6c20845af34d165ca648b
+    ID: '136'
+    Name: Service transition planning and coordination
+  Activity-8517aabeeb792918a8f257501fb9dc87:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:07
+    Config: {}
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Activity-8517aabeeb792918a8f257501fb9dc87
+    ID: '137'
+    Name: Service transition support
+  Activity-9e877db00f0d62ca324e0477659f935e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:07
+    Config: {}
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Activity-9e877db00f0d62ca324e0477659f935e
+    ID: '138'
+    Name: Service transition preparation
+  Activity-e6d7cd6333ff9e0be9c3975acb00479e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:07
+    Config: {}
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Activity-e6d7cd6333ff9e0be9c3975acb00479e
+    ID: '139'
+    Name: Service transition design package
+Process:
+  Activities:
+  - Activity-3d0dccc45e7ae3e5f808ed5db0a52b65
+  - Activity-7f762882a6a6c20845af34d165ca648b
+  - Activity-8517aabeeb792918a8f257501fb9dc87
+  - Activity-9e877db00f0d62ca324e0477659f935e
+  - Activity-e6d7cd6333ff9e0be9c3975acb00479e
+  ChangeTime: 2017-10-31 22:41:07
+  Config:
+    Description: "Best practice IT Service Management Service Transition Planning
+      and Support process inspired by ITIL®.\r\n\r\nThe service transition planning
+      and support process ensures the save transition of a new or modified service
+      into a production environment.\r\n\r\nConfiguration: The functional and hierarchical
+      escalation transitions are not configured. They should be modified to fulfil
+      your business rules."
+    Path:
+      Activity-3d0dccc45e7ae3e5f808ed5db0a52b65:
+        Transition-76ee6e66f2db4d481827fe41e104c25c:
+          ActivityEntityID: Activity-e6d7cd6333ff9e0be9c3975acb00479e
+      Activity-7f762882a6a6c20845af34d165ca648b:
+        Transition-63d7c4f60a1d6ec2030298c9e7326818:
+          ActivityEntityID: Activity-8517aabeeb792918a8f257501fb9dc87
+      Activity-8517aabeeb792918a8f257501fb9dc87: {}
+      Activity-9e877db00f0d62ca324e0477659f935e:
+        Transition-9deb943676b5818cd145eebdc93c24b4:
+          ActivityEntityID: Activity-7f762882a6a6c20845af34d165ca648b
+      Activity-e6d7cd6333ff9e0be9c3975acb00479e:
+        Transition-e2fffcd3882e22f7b46022111d6cff41:
+          ActivityEntityID: Activity-9e877db00f0d62ca324e0477659f935e
+    StartActivity: Activity-3d0dccc45e7ae3e5f808ed5db0a52b65
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:41:07
+  EntityID: Process-470ea9c2b71a01d83d4f40062e0385ac
+  ID: '23'
+  Layout:
+    Activity-3d0dccc45e7ae3e5f808ed5db0a52b65:
+      left: '200'
+      top: '150'
+    Activity-7f762882a6a6c20845af34d165ca648b:
+      left: '1400'
+      top: '150'
+    Activity-8517aabeeb792918a8f257501fb9dc87:
+      left: '1800'
+      top: '150'
+    Activity-9e877db00f0d62ca324e0477659f935e:
+      left: '1000'
+      top: '150'
+    Activity-e6d7cd6333ff9e0be9c3975acb00479e:
+      left: '600'
+      top: '150'
+  Name: Service Transition::Service Transition Planning and Support
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-76ee6e66f2db4d481827fe41e104c25c
+  - Transition-63d7c4f60a1d6ec2030298c9e7326818
+  - Transition-9deb943676b5818cd145eebdc93c24b4
+  - Transition-e2fffcd3882e22f7b46022111d6cff41
+Transitions:
+  Transition-63d7c4f60a1d6ec2030298c9e7326818:
+    ChangeTime: 2017-10-31 22:41:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Transition-63d7c4f60a1d6ec2030298c9e7326818
+    ID: '147'
+    Name: Service transition planned and coordinated
+  Transition-76ee6e66f2db4d481827fe41e104c25c:
+    ChangeTime: 2017-10-31 22:41:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Transition-76ee6e66f2db4d481827fe41e104c25c
+    ID: '148'
+    Name: Service transition strategy developed
+  Transition-9deb943676b5818cd145eebdc93c24b4:
+    ChangeTime: 2017-10-31 22:41:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Transition-9deb943676b5818cd145eebdc93c24b4
+    ID: '149'
+    Name: Service transition prepared
+  Transition-e2fffcd3882e22f7b46022111d6cff41:
+    ChangeTime: 2017-10-31 22:41:07
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:07
+    EntityID: Transition-e2fffcd3882e22f7b46022111d6cff41
+    ID: '150'
+    Name: Service transition design package created

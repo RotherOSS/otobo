@@ -1,0 +1,291 @@
+---
+Activities:
+  Activity-0d5bb241b14148da35dd5875714f0494:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:38
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-0d5bb241b14148da35dd5875714f0494
+    ID: '32'
+    Name: Service availability risk mitigation implementation
+  Activity-67cfca7024ada8ddc78d0aa97630a89e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:38
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-67cfca7024ada8ddc78d0aa97630a89e
+    ID: '33'
+    Name: Service availability planning and conceptual design
+  Activity-6c92b56f91b15a730fdc9ea5eec626ca:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:38
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-6c92b56f91b15a730fdc9ea5eec626ca
+    ID: '34'
+    Name: Service availability review and fail-safety testing
+  Activity-919c0f9b0331c43ba4935bea0b283efb:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:38
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-919c0f9b0331c43ba4935bea0b283efb
+    ID: '35'
+    Name: Service availability continual review and improvement implementation
+  Activity-9354a65289c8b3d748d7fd712ea2109d:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:38
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-9354a65289c8b3d748d7fd712ea2109d
+    ID: '36'
+    Name: Service availability niveau design (e.g. high availability design)
+  Activity-b948903cee1499ae7cecea81516ff0ce:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:39
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-b948903cee1499ae7cecea81516ff0ce
+    ID: '37'
+    Name: Service availability risk analysis and management
+  Activity-d732ae4c6a58cbbe483f14a08c8f8bce:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:39
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-d732ae4c6a58cbbe483f14a08c8f8bce
+    ID: '38'
+    Name: Service availability modelling, simulation and testing
+  Activity-df306330715991cc1917e3f94d84a12e:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:39
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-df306330715991cc1917e3f94d84a12e
+    ID: '39'
+    Name: Service availability business requirement analysis
+  Activity-f11f20a8eebbffab5275c3cc4e805dc5:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:39
+    Config: {}
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Activity-f11f20a8eebbffab5275c3cc4e805dc5
+    ID: '40'
+    Name: Service availability vital business function identification
+Process:
+  Activities:
+  - Activity-0d5bb241b14148da35dd5875714f0494
+  - Activity-67cfca7024ada8ddc78d0aa97630a89e
+  - Activity-6c92b56f91b15a730fdc9ea5eec626ca
+  - Activity-919c0f9b0331c43ba4935bea0b283efb
+  - Activity-9354a65289c8b3d748d7fd712ea2109d
+  - Activity-b948903cee1499ae7cecea81516ff0ce
+  - Activity-d732ae4c6a58cbbe483f14a08c8f8bce
+  - Activity-df306330715991cc1917e3f94d84a12e
+  - Activity-f11f20a8eebbffab5275c3cc4e805dc5
+  ChangeTime: 2017-10-31 22:37:38
+  Config:
+    Description: "Best practice IT Service Management proactive Availability Management
+      process inspired by ITIL®.\r\n\r\nThe availability of a service is a crucial
+      factor for a holistic service acceptance and thus for a good service experience.
+      The service availability management ensures that a service is available within
+      the agreed service availability level.\r\n\r\nCalculation rules:\r\n((Availability
+      - Downtime) / Availability) * 100 = % Availability\r\n\r\nCalculation example:\r\n((365
+      days - 0,365 days) / 365 days) * 100 = 99,9 % Availability\r\n0,365 days = allowed
+      8,76 hours per year\r\n\r\nConfiguration: The functional and hierarchical escalation
+      transitions are not configured. They should be modified to fulfil your business
+      rules."
+    Path:
+      Activity-0d5bb241b14148da35dd5875714f0494:
+        Transition-a8f975b6e6593b083024d1b8829183d4:
+          ActivityEntityID: Activity-6c92b56f91b15a730fdc9ea5eec626ca
+      Activity-67cfca7024ada8ddc78d0aa97630a89e:
+        Transition-54b96fb17fa5c0ad21de8e7aed59c3b4:
+          ActivityEntityID: Activity-df306330715991cc1917e3f94d84a12e
+          TransitionAction: []
+      Activity-6c92b56f91b15a730fdc9ea5eec626ca:
+        Transition-4a2c26ba2ae104532b45cc8d4491a88d:
+          ActivityEntityID: Activity-919c0f9b0331c43ba4935bea0b283efb
+      Activity-919c0f9b0331c43ba4935bea0b283efb: {}
+      Activity-9354a65289c8b3d748d7fd712ea2109d:
+        Transition-e30a5debe20876475e9cc51d5d993b89:
+          ActivityEntityID: Activity-d732ae4c6a58cbbe483f14a08c8f8bce
+      Activity-b948903cee1499ae7cecea81516ff0ce:
+        Transition-7f16f6a3c0be1c71f7b2952b06db222a:
+          ActivityEntityID: Activity-0d5bb241b14148da35dd5875714f0494
+      Activity-d732ae4c6a58cbbe483f14a08c8f8bce:
+        Transition-0c31d4011c0fa70206d29356c8234d48:
+          ActivityEntityID: Activity-b948903cee1499ae7cecea81516ff0ce
+      Activity-df306330715991cc1917e3f94d84a12e:
+        Transition-d18b18cee62bdc0e1b14ddb656674988:
+          ActivityEntityID: Activity-f11f20a8eebbffab5275c3cc4e805dc5
+      Activity-f11f20a8eebbffab5275c3cc4e805dc5:
+        Transition-297f95749ba130eb9ba724505a9e1288:
+          ActivityEntityID: Activity-9354a65289c8b3d748d7fd712ea2109d
+    StartActivity: Activity-67cfca7024ada8ddc78d0aa97630a89e
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:37:38
+  EntityID: Process-874b2f80b584b0d0d8d5240893e20e28
+  ID: '8'
+  Layout:
+    Activity-0d5bb241b14148da35dd5875714f0494:
+      left: '2600'
+      top: '150'
+    Activity-67cfca7024ada8ddc78d0aa97630a89e:
+      left: '200'
+      top: '150'
+    Activity-6c92b56f91b15a730fdc9ea5eec626ca:
+      left: '3000'
+      top: '150'
+    Activity-919c0f9b0331c43ba4935bea0b283efb:
+      left: '3400'
+      top: '150'
+    Activity-9354a65289c8b3d748d7fd712ea2109d:
+      left: '1400'
+      top: '150'
+    Activity-b948903cee1499ae7cecea81516ff0ce:
+      left: '2200'
+      top: '150'
+    Activity-d732ae4c6a58cbbe483f14a08c8f8bce:
+      left: '1800'
+      top: '150'
+    Activity-df306330715991cc1917e3f94d84a12e:
+      left: '600'
+      top: '150'
+    Activity-f11f20a8eebbffab5275c3cc4e805dc5:
+      left: '1000'
+      top: '150'
+  Name: Service Design::Availability Management (proactive)
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-a8f975b6e6593b083024d1b8829183d4
+  - Transition-54b96fb17fa5c0ad21de8e7aed59c3b4
+  - Transition-4a2c26ba2ae104532b45cc8d4491a88d
+  - Transition-e30a5debe20876475e9cc51d5d993b89
+  - Transition-7f16f6a3c0be1c71f7b2952b06db222a
+  - Transition-0c31d4011c0fa70206d29356c8234d48
+  - Transition-d18b18cee62bdc0e1b14ddb656674988
+  - Transition-297f95749ba130eb9ba724505a9e1288
+Transitions:
+  Transition-0c31d4011c0fa70206d29356c8234d48:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-0c31d4011c0fa70206d29356c8234d48
+    ID: '33'
+    Name: Service availability modelled, simulated and tested
+  Transition-297f95749ba130eb9ba724505a9e1288:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-297f95749ba130eb9ba724505a9e1288
+    ID: '34'
+    Name: Service availability vital business function identified
+  Transition-4a2c26ba2ae104532b45cc8d4491a88d:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-4a2c26ba2ae104532b45cc8d4491a88d
+    ID: '35'
+    Name: Service availability reviewed and fail-safety tested
+  Transition-54b96fb17fa5c0ad21de8e7aed59c3b4:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-54b96fb17fa5c0ad21de8e7aed59c3b4
+    ID: '36'
+    Name: Service availability planned and concept designed
+  Transition-7f16f6a3c0be1c71f7b2952b06db222a:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-7f16f6a3c0be1c71f7b2952b06db222a
+    ID: '37'
+    Name: Service availability risk analysed and management implemented
+  Transition-a8f975b6e6593b083024d1b8829183d4:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-a8f975b6e6593b083024d1b8829183d4
+    ID: '38'
+    Name: Service availability risk mitigation implemented
+  Transition-d18b18cee62bdc0e1b14ddb656674988:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-d18b18cee62bdc0e1b14ddb656674988
+    ID: '39'
+    Name: Service availability business requirement analysed
+  Transition-e30a5debe20876475e9cc51d5d993b89:
+    ChangeTime: 2017-10-31 22:37:39
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:38
+    EntityID: Transition-e30a5debe20876475e9cc51d5d993b89
+    ID: '40'
+    Name: Service availability niveau designed

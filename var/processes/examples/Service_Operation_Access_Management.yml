@@ -1,0 +1,314 @@
+---
+Activities:
+  Activity-44f6ef689020619ac1eec14a576406cb:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-44f6ef689020619ac1eec14a576406cb
+    ID: '71'
+    Name: Access Request Recording
+  Activity-544547428f8b3cf76e60717559172748:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-544547428f8b3cf76e60717559172748
+    ID: '72'
+    Name: Access Right Creation
+  Activity-5cb1f97a2e5fd2e4f1c0ec06af301282:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-5cb1f97a2e5fd2e4f1c0ec06af301282
+    ID: '73'
+    Name: Security Management Information System
+  Activity-9370cbc1f96156332e24d6e62ab21712:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-9370cbc1f96156332e24d6e62ab21712
+    ID: '74'
+    Name: Access Checking and monitoring of the identity status
+  Activity-ad680028606af726955d1dc341c2d51b:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-ad680028606af726955d1dc341c2d51b
+    ID: '75'
+    Name: Access Configuration and modification of access right(s)
+  Activity-b379f111026b5ad0cc2253267305a9ae:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+    ID: '76'
+    Name: ITSM Incident Management
+  Activity-c5f0e8307328388435acddb500a366de:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-c5f0e8307328388435acddb500a366de
+    ID: '77'
+    Name: Access Request Verification
+  Activity-ef4297132eedc2a4934cf10b8ea98ba2:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:39:00
+    Config: {}
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Activity-ef4297132eedc2a4934cf10b8ea98ba2
+    ID: '78'
+    Name: Access Logging and Monitoring
+Process:
+  Activities:
+  - Activity-44f6ef689020619ac1eec14a576406cb
+  - Activity-544547428f8b3cf76e60717559172748
+  - Activity-5cb1f97a2e5fd2e4f1c0ec06af301282
+  - Activity-9370cbc1f96156332e24d6e62ab21712
+  - Activity-ad680028606af726955d1dc341c2d51b
+  - Activity-b379f111026b5ad0cc2253267305a9ae
+  - Activity-c5f0e8307328388435acddb500a366de
+  - Activity-ef4297132eedc2a4934cf10b8ea98ba2
+  ChangeTime: 2017-10-31 22:39:00
+  Config:
+    Description: "Best practice IT Service Management Access Management process inspired
+      by ITIL®.\r\n\r\nThis Ready2Adopt process requires Ticket::Type to be enabled
+      in SysConfig. It requires the following ticket types: Service Request, Incident.\r\n\r\nConfiguration:
+      The functional and hierarchical escalation transitions are not configured. They
+      should be modified to fulfil your business rules."
+    Path:
+      Activity-44f6ef689020619ac1eec14a576406cb:
+        Transition-32a28889e2dbdb068a864b120b1907ed:
+          ActivityEntityID: Activity-c5f0e8307328388435acddb500a366de
+      Activity-544547428f8b3cf76e60717559172748:
+        Transition-21454e506322c701f778b19658406f76:
+          ActivityEntityID: Activity-ef4297132eedc2a4934cf10b8ea98ba2
+        Transition-5e600cc1d604fdba912d821754a5376d:
+          ActivityEntityID: Activity-5cb1f97a2e5fd2e4f1c0ec06af301282
+      Activity-5cb1f97a2e5fd2e4f1c0ec06af301282: {}
+      Activity-9370cbc1f96156332e24d6e62ab21712:
+        Transition-5e600cc1d604fdba912d821754a5376d:
+          ActivityEntityID: Activity-5cb1f97a2e5fd2e4f1c0ec06af301282
+      Activity-ad680028606af726955d1dc341c2d51b:
+        Transition-167bd3dfc00a68f9d4874da85085f02d:
+          ActivityEntityID: Activity-ef4297132eedc2a4934cf10b8ea98ba2
+      Activity-b379f111026b5ad0cc2253267305a9ae: {}
+      Activity-c5f0e8307328388435acddb500a366de:
+        Transition-5e600cc1d604fdba912d821754a5376d:
+          ActivityEntityID: Activity-5cb1f97a2e5fd2e4f1c0ec06af301282
+        Transition-757fe6236ef0cbcf015b880971d9390c:
+          ActivityEntityID: Activity-ef4297132eedc2a4934cf10b8ea98ba2
+        Transition-8d188685c51b5cb12ea44de8827a39c7:
+          ActivityEntityID: Activity-9370cbc1f96156332e24d6e62ab21712
+        Transition-b276f6919ab81ee4a4eae9b113bd8cd9:
+          ActivityEntityID: Activity-ef4297132eedc2a4934cf10b8ea98ba2
+        Transition-b5782d05bca5003c4a14af2dfd978432:
+          ActivityEntityID: Activity-544547428f8b3cf76e60717559172748
+        Transition-c1b53101a3b8ac19be35201a9ec8bc9a:
+          ActivityEntityID: Activity-ad680028606af726955d1dc341c2d51b
+      Activity-ef4297132eedc2a4934cf10b8ea98ba2:
+        Transition-ee5bb8a70f345f9711f510b58be45101:
+          ActivityEntityID: Activity-b379f111026b5ad0cc2253267305a9ae
+    StartActivity: Activity-44f6ef689020619ac1eec14a576406cb
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:39:00
+  EntityID: Process-3fb35ca70512567ea3389f3b182322e5
+  ID: '14'
+  Layout:
+    Activity-44f6ef689020619ac1eec14a576406cb:
+      left: '121'
+      top: '4'
+    Activity-544547428f8b3cf76e60717559172748:
+      left: '745'
+      top: '457'
+    Activity-5cb1f97a2e5fd2e4f1c0ec06af301282:
+      left: '443'
+      top: '463'
+    Activity-9370cbc1f96156332e24d6e62ab21712:
+      left: '111'
+      top: '463'
+    Activity-ad680028606af726955d1dc341c2d51b:
+      left: '444'
+      top: '0'
+    Activity-b379f111026b5ad0cc2253267305a9ae:
+      left: '1126'
+      top: '125'
+    Activity-c5f0e8307328388435acddb500a366de:
+      left: '275'
+      top: '194'
+    Activity-ef4297132eedc2a4934cf10b8ea98ba2:
+      left: '742'
+      top: '127'
+  Name: Service Operation::Access Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-32a28889e2dbdb068a864b120b1907ed
+  - Transition-21454e506322c701f778b19658406f76
+  - Transition-5e600cc1d604fdba912d821754a5376d
+  - Transition-5e600cc1d604fdba912d821754a5376d
+  - Transition-167bd3dfc00a68f9d4874da85085f02d
+  - Transition-5e600cc1d604fdba912d821754a5376d
+  - Transition-757fe6236ef0cbcf015b880971d9390c
+  - Transition-8d188685c51b5cb12ea44de8827a39c7
+  - Transition-b276f6919ab81ee4a4eae9b113bd8cd9
+  - Transition-b5782d05bca5003c4a14af2dfd978432
+  - Transition-c1b53101a3b8ac19be35201a9ec8bc9a
+  - Transition-ee5bb8a70f345f9711f510b58be45101
+Transitions:
+  Transition-167bd3dfc00a68f9d4874da85085f02d:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-167bd3dfc00a68f9d4874da85085f02d
+    ID: '68'
+    Name: Access Rights modified
+  Transition-21454e506322c701f778b19658406f76:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-21454e506322c701f778b19658406f76
+    ID: '69'
+    Name: Access New Access-Rights granted
+  Transition-32a28889e2dbdb068a864b120b1907ed:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-32a28889e2dbdb068a864b120b1907ed
+    ID: '70'
+    Name: Access Request recorded
+  Transition-5e600cc1d604fdba912d821754a5376d:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-5e600cc1d604fdba912d821754a5376d
+    ID: '71'
+    Name: ((via Webservice))
+  Transition-757fe6236ef0cbcf015b880971d9390c:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-757fe6236ef0cbcf015b880971d9390c
+    ID: '72'
+    Name: Access Valid Request = NO
+  Transition-8d188685c51b5cb12ea44de8827a39c7:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Module
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-8d188685c51b5cb12ea44de8827a39c7
+    ID: '73'
+    Name: Access-Request-Type = Other
+  Transition-b276f6919ab81ee4a4eae9b113bd8cd9:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-b276f6919ab81ee4a4eae9b113bd8cd9
+    ID: '74'
+    Name: Access Valid User = NO
+  Transition-b5782d05bca5003c4a14af2dfd978432:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-b5782d05bca5003c4a14af2dfd978432
+    ID: '75'
+    Name: Access-Request-Type = New Access-Rights
+  Transition-c1b53101a3b8ac19be35201a9ec8bc9a:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-c1b53101a3b8ac19be35201a9ec8bc9a
+    ID: '76'
+    Name: Access-Request-Type = Modify or Delete Access-Rights
+  Transition-ee5bb8a70f345f9711f510b58be45101:
+    ChangeTime: 2017-10-31 22:39:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            PLACEHOLDER:
+              Match: PLACEHOLDER
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:39:00
+    EntityID: Transition-ee5bb8a70f345f9711f510b58be45101
+    ID: '77'
+    Name: Access-Request-Type = Incident

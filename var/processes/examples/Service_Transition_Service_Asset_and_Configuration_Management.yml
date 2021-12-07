@@ -1,0 +1,164 @@
+---
+Activities:
+  Activity-0259419dbfb41f4a1c1a341bb5c3bc8f:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:00
+    Config: {}
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Activity-0259419dbfb41f4a1c1a341bb5c3bc8f
+    ID: '130'
+    Name: Service asset and configuration status reporting implementation
+  Activity-029eff7ff47ef1e4083819a9ed879a76:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:00
+    Config: {}
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Activity-029eff7ff47ef1e4083819a9ed879a76
+    ID: '131'
+    Name: Service asset and configuration control mechanism implementation
+  Activity-31461110056c44b1732645e392f85942:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:00
+    Config: {}
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Activity-31461110056c44b1732645e392f85942
+    ID: '132'
+    Name: Service asset and configuration structure and relation identification
+  Activity-b9a6017ccfaba24e403f902003fd9393:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:00
+    Config: {}
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Activity-b9a6017ccfaba24e403f902003fd9393
+    ID: '133'
+    Name: Service asset analysis of information, tools, resources and interfaces
+  Activity-cc03b83e391143cb7ad10bb7d9de01b9:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:41:00
+    Config: {}
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Activity-cc03b83e391143cb7ad10bb7d9de01b9
+    ID: '134'
+    Name: Service asset and configuration verification and audit implementation
+Process:
+  Activities:
+  - Activity-0259419dbfb41f4a1c1a341bb5c3bc8f
+  - Activity-029eff7ff47ef1e4083819a9ed879a76
+  - Activity-31461110056c44b1732645e392f85942
+  - Activity-b9a6017ccfaba24e403f902003fd9393
+  - Activity-cc03b83e391143cb7ad10bb7d9de01b9
+  ChangeTime: 2017-10-31 22:41:00
+  Config:
+    Description: "Best practice IT Service Management Service Asset and Configuration
+      Management process inspired by ITIL®.\r\n\r\nThe service asset and configuration
+      management process ensures that the organization can always access the up-to-date
+      and correct information about all assets and configuration items and their relations
+      to each other, services, customers, etc.\r\n\r\nConfiguration: The functional
+      and hierarchical escalation transitions are not configured. They should be modified
+      to fulfil your business rules."
+    Path:
+      Activity-0259419dbfb41f4a1c1a341bb5c3bc8f:
+        Transition-b30fdd006f205e7335428c3e41778552:
+          ActivityEntityID: Activity-cc03b83e391143cb7ad10bb7d9de01b9
+      Activity-029eff7ff47ef1e4083819a9ed879a76:
+        Transition-d8cfaa65fa45a41295ec8c2681bdf010:
+          ActivityEntityID: Activity-0259419dbfb41f4a1c1a341bb5c3bc8f
+      Activity-31461110056c44b1732645e392f85942:
+        Transition-31ce44d64dd743e9c2ae75a40ebaff59:
+          ActivityEntityID: Activity-029eff7ff47ef1e4083819a9ed879a76
+          TransitionAction: []
+      Activity-b9a6017ccfaba24e403f902003fd9393:
+        Transition-c995fd952ac057f7b4a3119710c66c06:
+          ActivityEntityID: Activity-31461110056c44b1732645e392f85942
+      Activity-cc03b83e391143cb7ad10bb7d9de01b9: {}
+    StartActivity: Activity-b9a6017ccfaba24e403f902003fd9393
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:40:59
+  EntityID: Process-0565245d73de13284420859536861558
+  ID: '22'
+  Layout:
+    Activity-0259419dbfb41f4a1c1a341bb5c3bc8f:
+      left: '1400'
+      top: '150'
+    Activity-029eff7ff47ef1e4083819a9ed879a76:
+      left: '1000'
+      top: '150'
+    Activity-31461110056c44b1732645e392f85942:
+      left: '600'
+      top: '150'
+    Activity-b9a6017ccfaba24e403f902003fd9393:
+      left: '200'
+      top: '150'
+    Activity-cc03b83e391143cb7ad10bb7d9de01b9:
+      left: '1800'
+      top: '150'
+  Name: Service Transition::Service Asset and Configuration Management
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-b30fdd006f205e7335428c3e41778552
+  - Transition-d8cfaa65fa45a41295ec8c2681bdf010
+  - Transition-31ce44d64dd743e9c2ae75a40ebaff59
+  - Transition-c995fd952ac057f7b4a3119710c66c06
+Transitions:
+  Transition-31ce44d64dd743e9c2ae75a40ebaff59:
+    ChangeTime: 2017-10-31 22:41:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Transition-31ce44d64dd743e9c2ae75a40ebaff59
+    ID: '143'
+    Name: Service asset and configuration structure and relation identified
+  Transition-b30fdd006f205e7335428c3e41778552:
+    ChangeTime: 2017-10-31 22:41:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Transition-b30fdd006f205e7335428c3e41778552
+    ID: '144'
+    Name: Service asset and configuration status reporting implemented
+  Transition-c995fd952ac057f7b4a3119710c66c06:
+    ChangeTime: 2017-10-31 22:41:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Transition-c995fd952ac057f7b4a3119710c66c06
+    ID: '145'
+    Name: Service asset information, tools, resources and interfaces analysed
+  Transition-d8cfaa65fa45a41295ec8c2681bdf010:
+    ChangeTime: 2017-10-31 22:41:00
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:41:00
+    EntityID: Transition-d8cfaa65fa45a41295ec8c2681bdf010
+    ID: '146'
+    Name: Service asset and configuration control mechanism implemented

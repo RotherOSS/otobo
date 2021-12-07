@@ -1,0 +1,104 @@
+---
+Activities:
+  Activity-0c76b9480c4efcbfecc5b1b225b2b8ef:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:53
+    Config: {}
+    CreateTime: 2017-10-31 22:37:53
+    EntityID: Activity-0c76b9480c4efcbfecc5b1b225b2b8ef
+    ID: '41'
+    Name: Service availability monitoring, measurement, analysis and reporting
+  Activity-2ed165c52a5bdac634d870ae7f92c206:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:53
+    Config: {}
+    CreateTime: 2017-10-31 22:37:53
+    EntityID: Activity-2ed165c52a5bdac634d870ae7f92c206
+    ID: '42'
+    Name: Service non-availability analysis and measure investigation
+  Activity-721f257bd0f3521924a8327b566ecf19:
+    ActivityDialogs: []
+    ChangeTime: 2017-10-31 22:37:53
+    Config: {}
+    CreateTime: 2017-10-31 22:37:53
+    EntityID: Activity-721f257bd0f3521924a8327b566ecf19
+    ID: '43'
+    Name: Service availability service failure analysis (SFA)
+Process:
+  Activities:
+  - Activity-0c76b9480c4efcbfecc5b1b225b2b8ef
+  - Activity-2ed165c52a5bdac634d870ae7f92c206
+  - Activity-721f257bd0f3521924a8327b566ecf19
+  ChangeTime: 2017-10-31 22:37:53
+  Config:
+    Description: "Best practice IT Service Management reactive Availability Management
+      process inspired by ITIL®.\r\n\r\nThe availability of a service is a crucial
+      factor for a holistic service acceptance and thus for a good service experience.
+      The service availability management ensures that a service is available within
+      the agreed service availability level.\r\n\r\nCalculation rules:\r\n((Availability
+      - Downtime) / Availability) * 100 = % Availability\r\n\r\nCalculation example:\r\n((365
+      days - 0,365 days) / 365 days) * 100 = 99,9 % Availability\r\n0,365 days = allowed
+      8,76 hours per year\r\n\r\nConfiguration: The functional and hierarchical escalation
+      transitions are not configured. They should be modified to fulfil your business
+      rules."
+    Path:
+      Activity-0c76b9480c4efcbfecc5b1b225b2b8ef:
+        Transition-6ceed883cb6c2f24791a22e7fedc64ce:
+          ActivityEntityID: Activity-2ed165c52a5bdac634d870ae7f92c206
+      Activity-2ed165c52a5bdac634d870ae7f92c206:
+        Transition-f322d3117404b53143bcb2811480bcf4:
+          ActivityEntityID: Activity-721f257bd0f3521924a8327b566ecf19
+      Activity-721f257bd0f3521924a8327b566ecf19: {}
+    StartActivity: Activity-0c76b9480c4efcbfecc5b1b225b2b8ef
+    StartActivityDialog: ''
+  CreateTime: 2017-10-31 22:37:53
+  EntityID: Process-dcaa9af1127f244880fd0a167ef985d9
+  ID: '9'
+  Layout:
+    Activity-0c76b9480c4efcbfecc5b1b225b2b8ef:
+      left: '200'
+      top: '150'
+    Activity-2ed165c52a5bdac634d870ae7f92c206:
+      left: '600'
+      top: '150'
+    Activity-721f257bd0f3521924a8327b566ecf19:
+      left: '1000'
+      top: '150'
+  Name: Service Design::Availability Management (reactive)
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-6ceed883cb6c2f24791a22e7fedc64ce
+  - Transition-f322d3117404b53143bcb2811480bcf4
+Transitions:
+  Transition-6ceed883cb6c2f24791a22e7fedc64ce:
+    ChangeTime: 2017-10-31 22:37:53
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:53
+    EntityID: Transition-6ceed883cb6c2f24791a22e7fedc64ce
+    ID: '41'
+    Name: Service availability monitored, measured, analysed and reported
+  Transition-f322d3117404b53143bcb2811480bcf4:
+    ChangeTime: 2017-10-31 22:37:53
+    Config:
+      Condition:
+        '1':
+          Fields:
+            ???:
+              Match: ???
+              Type: String
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2017-10-31 22:37:53
+    EntityID: Transition-f322d3117404b53143bcb2811480bcf4
+    ID: '42'
+    Name: Service non-availability analysed and measures investigated
