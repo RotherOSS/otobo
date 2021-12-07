@@ -1,0 +1,75 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Report Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Report Management'),
+                Link => Env("Action"),
+            },
+            {
+                Name => Translate("Add Report"),
+            }
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+            <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+            <input type="hidden" name="Subaction" value="AddAction"/>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Add Report") | html %]</h2>
+                </div>
+                <div class="Content">
+                    [% PROCESS StatisticsReports/GeneralConfigurationWidget.tt %]
+
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]">
+                                <span>[% Translate("Save") | html %]</span>
+                            </button>
+                            [% Translate('or') | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                                [% Translate('Cancel') | html %]
+                            </a>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

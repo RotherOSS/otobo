@@ -1,0 +1,72 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="WidgetSimple SpacingBottomMedium Stat [% IF Env('Subaction') == 'Edit' %]Collapsed[% END %]">
+    <div class="Header">
+        <div class="WidgetAction Toggle">
+            <a href="#" title="[% Translate("Toggle this widget") | html %]"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i></a>
+        </div>
+
+        <h2>[% Config('Stats::StatsHook') %][% Data.StatNumber %] — [% Data.Title | html %]</h2>
+        <div class="AdditionalInformation">
+            <a class="StatRemove" href="#"><i class="fa fa-minus-square-o"></i><span class="InvisibleText">[% Translate("Remove statistic") | html %]</span></a>
+        </div>
+    </div>
+    <div class="Content">
+
+    [% FOR Error IN Data.Errors %]
+        <div class="MessageBox Error">
+            <p>[% Error | html %]</p>
+        </div>
+    [% END %]
+
+        <div class="StatGetParams">
+            <input type="hidden" name="StatID" value="[% Data.StatID | html %]" />
+            [% IF Data.StatsParamsWidget %]
+                [% Data.StatsParamsWidget %]
+            [% ELSE %]
+            <div class="MessageBox Error">
+                <p>[% Translate('This statistic can currently not be used because its configuration needs to be corrected by the statistics administrator.') | html %]</p>
+            </div>
+            [% END %]
+        </div>
+        <div class="StatReportSettings">
+            <fieldset class="TableLike">
+                <legend><span>[% Translate('Output settings') | html %]<span></legend>
+
+                <label for="Title">[% Translate('Title') | html %]:</label>
+                <div class="Field">
+                    <input type="text" name="Title" class="W50pc" value="[% Data.StatReportSettings.Title | html %]" />
+                    <p class="FieldExplanation">[% Translate("If you don't specify a title here, the title of the statistic will be used." ) | html %]</p>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="Preface">[% Translate('Preface') | html %]:</label>
+                <div class="Field">
+                    <textarea name="Preface" class="W50pc" rows="5">[% Data.StatReportSettings.Preface | html %]</textarea>
+                </div>
+                <div class="Clear"></div>
+
+                <label for="Postface">[% Translate('Postface') | html %]:</label>
+                <div class="Field">
+                    <textarea name="Postface" class="W50pc" rows="5">[% Data.StatReportSettings.Postface | html %]</textarea>
+                </div>
+                <div class="Clear"></div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>

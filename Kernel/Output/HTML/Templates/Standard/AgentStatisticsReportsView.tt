@@ -1,0 +1,100 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Report Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Report Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE EditTitle = String(Translate("View Report")) %]
+    [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    [% IF Data.AccessRw %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=AgentStatisticsReports;Subaction=Edit;StatsReportID=[% Data.ID | uri %]" class="CallForAction Fullsize Center"><span><i class="fa fa-edit"></i>[% Translate("Edit Report") | html %]</span></a>
+                    </li>
+                    [% END %]
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Settings") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form id="MainForm" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+                    <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="Run"/>
+                    <input type="hidden" name="StatsReportID" value="[% Data.ID %]"/>
+
+                    [% IF Data.Errors %]
+                    <div class="MessageBox Warning">
+                        <p>[% Translate('This statistics report contains configuration errors and can currently not be used.') | html %]</p>
+                    </div>
+                    [% ELSE %]
+                    <fieldset class="TableLike">
+                        <label>[% Translate('Name') | html %]:</label>
+                        <div class="Value">
+                            [% Data.Name | html %]
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label>[% Translate('Statistics') | html %]:</label>
+                        <div class="Value">
+                            <ul>
+                                [% FOR Stat IN Data.Stats %]
+                                <li>[% Stat %]</li>
+                                [% END %]
+                            </ul>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <div class="Field SpacingTop">
+                            <button class="Primary CallForAction" type="submit" name="Start" value="[% Translate("Run now") | html %]">
+                                <span><i class="fa fa-caret-square-o-right"></i> [% Translate("Run now") | html %]</span>
+                            </button>
+                        [% Translate('or') | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                            [% Translate('Cancel') | html %]
+                            </a>
+                        </div>
+                    </fieldset>
+                    [% END %]
+                </form>
+            </div>
+        </div>
+    </div>

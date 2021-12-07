@@ -1,0 +1,114 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Report Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Report Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    [% IF Data.AccessRw %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Add" class="CallForAction Fullsize Center"><span><i class="fa fa-plus-square"></i>[% Translate("Add Report") | html %]</span></a>
+                    </li>
+                    [% ELSE %]
+#                   <!-- placeholder action for readonly view -->
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i> [% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    [% END %]
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Statistics Reports") | html %]</h2>
+            </div>
+            <div class="Content">
+                <span class="Pagination">
+                    [% Data.ResultLong %]
+                    [% Data.SiteNavBarLong %]
+                </span>
+
+                <table class="DataTable">
+                    <thead>
+                        <tr [% IF !Data.Valid %]class="Invalid"[% END %]>
+                            <th>[% Translate("Name") | html %]</th>
+                            <th>[% Translate('Description') | html %]</th>
+                            [% IF Data.AccessRw %]
+                            <th>[% Translate('Delete') | html %]</th>
+                            [% END %]
+                            <th>[% Translate('Run') | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("Result") %]
+                        <tr[% IF Data.ValidID != 1  %] class="Invalid"[% END %]>
+                        <td>
+                            [% IF Data.AccessRw %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Edit;StatsReportID=[% Data.ID | uri %]" class="AsBlock" title="[% Translate('Edit statistics report "%s".', Data.Name) | html %]">
+                                [% Data.Name | html %]
+
+                            </a>
+                            [% ELSE %]
+                            [% Data.Name | html %]
+                            [% END %]
+                        </td>
+                        <td title="[% Data.Config.Description | html %]">[% Data.Config.Description | truncate(60) | html %]</td>
+                        [% IF Data.AccessRw %]
+                        <td class="Center" title="[% Translate('Delete statistics report "%s"', Data.Title) | html %]">
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=DeleteAction;StatsReportID=[% Data.ID | uri %];[% Env('ChallengeTokenParam') %]" class="AsBlock StatDelete" data-stat-report-name="[% Data.Name | html %]">
+                                <i class="fa fa-trash"></i>
+                                <span class="InvisibleText">[% Translate('Delete statistics report "%s"', Data.Name) | html %]</span>
+                            </a>
+                        </td>
+                            [% END %]
+                        <td class="Center">
+                            [% IF Data.ValidID == 1 %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;StatsReportID=[% Data.ID | uri %]" class="AsBlock">
+                                <i class="fa fa-caret-square-o-right"></i>
+                                    [% Translate('Run now') | html %]
+                            </a>
+                            [% END %]
+                        </td>
+                    </tr>
+[% RenderBlockEnd("Result") %]
+[% RenderBlockStart("NoDataFound") %]
+                    <tr><td colspan="4">[% Translate('No data found.') | html %]</td></tr>
+[% RenderBlockEnd("NoDataFound") %]
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

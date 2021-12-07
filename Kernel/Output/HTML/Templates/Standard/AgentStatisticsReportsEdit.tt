@@ -1,0 +1,271 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
+    <h1 class="InvisibleText">[% Translate("Report Management") | html %]</h1>
+
+    [% BreadcrumbPath = [
+            {
+                Name => Translate('Report Management'),
+                Link => Env("Action"),
+            },
+        ]
+    %]
+
+    [% USE EditTitle = String(Translate("Edit Report")) %]
+    [% BreadcrumbPath.push({ Name => EditTitle.append( ': ', Data.Name ) }) %]
+
+    [% INCLUDE "Breadcrumb.tt" Path = BreadcrumbPath Type = "Agent" %]
+
+    <div class="SidebarColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Actions") | html %]</h2>
+            </div>
+            <div class="Content">
+                <ul class="ActionList">
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview;" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-left"></i>[% Translate("Go to overview") | html %]</span></a>
+                    </li>
+                    [% IF Data.ValidID == 1 && !Data.StatisticConfigInvalid %]
+                    <li>
+                        <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=View;StatsReportID=[% Data.ID | html %]" class="CallForAction Fullsize Center"><span><i class="fa fa-caret-square-o-right"></i>[% Translate("Run now") | html %]</span></a>
+                    </li>
+                    [% END %]
+                </ul>
+            </div>
+        </div>
+
+        <div class="WidgetSimple SpacingTop">
+            <div class="Header">
+                <h2>[% Translate("Note") | html %]</h2>
+            </div>
+            <div class="Content">
+                <p class="FieldExplanation">
+                    [% Translate('Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.') | html %]
+                </p>
+            [% IF !Data.BrowserFound %]
+                <p class="FieldExplanation">
+                    [% Translate('Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.') | html %]
+                </p>
+                <div>
+                    <a class="CallForAction" href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=Core::PhantomJS">
+                        <span>[% Translate('Configure PhantomJS') | html %]</span>
+                    </a>
+                    <a class="CallForAction" href="[% Env("Baselink") %]Action=AdminSystemConfigurationGroup;RootNavigation=Core::GoogleChrome">
+                        <span>[% Translate('Configure GoogleChrome') | html %]</span>
+                    </a>
+                </div>
+            [% END %]
+            </div>
+        </div>
+    </div>
+
+    <div class="ContentColumn">
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Settings") | html %]</h2>
+            </div>
+            <div class="Content">
+                <form id="MainForm" action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" class="Validate">
+                    <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
+                    <input type="hidden" name="Subaction" value="EditAction"/>
+                    <input type="hidden" name="StatsReportID" value="[% Data.ID %]"/>
+                    <input type="hidden" name="SaveAndFinish" id="SaveAndFinish" value=""/>
+                    <input type="hidden" name="StatsConfiguration" id="StatsConfiguration" value=""/>
+
+                    <fieldset class="TableLike">
+                        <legend><span>[% Translate('General settings') | html %]</span></legend>
+                    </fieldset>
+
+                    [% PROCESS StatisticsReports/GeneralConfigurationWidget.tt %]
+
+                    <fieldset class="TableLike">
+                        <legend><span>[% Translate('Automatic generation settings') | html %]</span></legend>
+
+                        <label for="CronDefinition">[% Translate('Automatic generation times (cron)') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="CronDefinition" id="CronDefinition" class="W50pc [% Data.CronDefinitionServerError %]" value="[% Data.CronDefinition || Data.Config.CronDefinition | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate('Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.') | html %]
+                            </p>
+                            <p class="FieldExplanation">
+                                [% Translate('Times are in the system timezone.') | html %]
+                            </p>
+                            <div id="CronDefinitionServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.CronDefinitionServerErrorText) | html %]</p>
+                            </div>
+
+                        </div>
+                        <div class="Clear"></div>
+
+                        [% IF Data.CronLastRunTimeStamp %]
+                        <label for="CronLastRunTimeStamp">[% Translate('Last automatic generation time') | html %]:</label>
+                        <div class="Value">
+                            [% Data.CronLastRunTimeStamp | Localize('TimeShort') | html %]
+                        </div>
+                        <div class="Clear"></div>
+                        [% END %]
+
+                        [% IF Data.CronNextRunTimeStamp %]
+                        <label for="CronNextRunTimeStamp">[% Translate('Next planned automatic generation time') | html %]:</label>
+                        <div class="Value">
+                            [% Data.CronNextRunTimeStamp | Localize('TimeShort') | html %]
+                        </div>
+                        <div class="Clear"></div>
+                        [% END %]
+
+                        <label for="LanguageID">[% Translate('Automatic generation language') | html %]:</label>
+                        <div class="Field">
+                            [% Data.LanguageOption %]
+                            <p class="FieldExplanation">
+                                [% Translate('The language to be used when the report is automatically generated.') | html %]
+                            </p>
+                            <div id="LanguageIDError" class="TooltipErrorMessage">
+                                <p>[% Translate('This field is required.') | html %]</p>
+                            </div>
+                            <div id="LanguageIDServerError" class="TooltipErrorMessage">
+                                <p>[% Translate('This field is required.') | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="EmailSubject">[% Translate('Email subject') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="EmailSubject" id="EmailSubject" class="W50pc Validate_DependingRequiredAND Validate_Depending_CronDefinition [% Data.EmailSubjectServerError %]" value="[% Data.EmailSubject || Data.Config.EmailSubject | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate('Specify the subject for the automatically generated email.') | html %]
+                            </p>
+                            <div id="EmailSubjectServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.EmailSubjectServerErrorText) | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="EmailBody">[% Translate('Email body') | html %]:</label>
+                        <div class="Field">
+                            <textarea name="EmailBody" id="EmailBody" class="W50pc Validate_DependingRequiredAND Validate_Depending_CronDefinition [% Data.EmailBodyServerError %]" rows="5">[% Data.EmailBody || Data.Config.EmailBody | html %]</textarea>
+                            <p class="FieldExplanation">
+                                [% Translate('Specify the text for the automatically generated email.') | html %]
+                            </p>
+                            <div id="EmailBodyServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.EmailBodyServerErrorText) | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="EmailRecipients">[% Translate('Email recipients') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="EmailRecipients" id="EmailRecipients" class="W50pc Validate_DependingRequiredAND Validate_Depending_CronDefinition [% Data.EmailRecipientsServerError %]" value="[% Data.EmailRecipients || Data.Config.EmailRecipients | html %]" />
+                            <p class="FieldExplanation">
+                                [% Translate('Specify recipient email addresses (comma separated).') | html %]
+                            </p>
+                            <div id="EmailRecipientsServerError" class="TooltipErrorMessage">
+                                <p>[% Translate(Data.EmailRecipientsServerErrorText) | html %]</p>
+                            </div>
+                        </div>
+                        <div class="Clear"></div>
+
+                    </fieldset>
+
+                    <fieldset class="TableLike">
+                        <legend><span>[% Translate('Output settings') | html %]</span></legend>
+
+                        <label for="Headline">[% Translate('Headline') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Headline" class="W50pc" value="[% Data.Config.Headline | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Title">[% Translate('Title') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="Title" class="W50pc" value="[% Data.Config.Title | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="PreambleCaption">[% Translate('Caption for preamble') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="PreambleCaption" class="W50pc" value="[% Data.Config.PreambleCaption | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Preamble">[% Translate('Preamble') | html %]:</label>
+                        <div class="Field">
+                            <textarea name="Preamble" class="W50pc" rows="5">[% Data.Config.Preamble | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="EpilogueCaption">[% Translate('Caption for epilogue') | html %]:</label>
+                        <div class="Field">
+                            <input type="text" name="EpilogueCaption" class="W50pc" value="[% Data.Config.EpilogueCaption | html %]" />
+                        </div>
+                        <div class="Clear"></div>
+
+                        <label for="Epilogue">[% Translate('Epilogue') | html %]:</label>
+                        <div class="Field">
+                            <textarea name="Epilogue" class="W50pc" rows="5">[% Data.Config.Epilogue | html %]</textarea>
+                        </div>
+                        <div class="Clear"></div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate("Statistics") | html %]</h2>
+            </div>
+            <div class="Content">
+
+                <div id="StatsContainer">
+                    [% FOR StatsWidget IN Data.StatsWidgets %][% StatsWidget %][% END %]
+                </div>
+
+                <fieldset class="TableLike">
+                    <label for="StatsAdd">[% Translate('Add statistic to report') | html %]:</label>
+                    <div class="Field">
+                        [% Data.StatAddOption %]
+                    </div>
+                    <div class="Clear"></div>
+
+                </div>
+            </div>
+
+            <div class="WidgetSimple">
+                <div class="Header">
+                    <h2>[% Translate("Save") | html %]</h2>
+                </div>
+                <div class="Content">
+                    <fieldset class="TableLike">
+                        <div class="Field SpacingTop">
+                            <button id="SaveButton" class="Primary CallForAction" type="submit" value="[% Translate("Save") | html %]">
+                                <span>[% Translate("Save") | html %]</span>
+                            </button>
+                        [% Translate('or') | html %]
+                            <button id="SaveAndFinishButton" class="Primary CallForAction" type="submit" name="SaveAndFinish" value="[% Translate("Save and finish") | html %]" data-save-and-finish="1">
+                                <span>[% Translate("Save and finish") | html %]</span>
+                            </button>
+                        [% Translate('or') | html %]
+                            <a href="[% Env("Baselink") %]Action=[% Env("Action") %];Subaction=Overview">
+                            [% Translate('Cancel') | html %]
+                            </a>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+    </div>

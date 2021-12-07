@@ -9662,4 +9662,120 @@ via the Preferences button after logging in.
             </Array>
         </Value>
     </Setting>
+    <!-- Begin Statistic Reports -->
+    <Setting Name="Frontend::Module###AgentStatisticsReports" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Title" Translatable="1">Statistics Reports</Item>
+                    <Item Key="Group">
+                        <Array>
+                            <Item>stats</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                            <Item>stats</Item>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Statistics reports.</Item>
+                    <Item Key="NavBarName">Statistics Reports</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+    <Setting Name="Loader::Module::AgentStatisticsReports###004" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>thirdparty/nvd3-1.7.1/nv.d3.css</Item>
+                        <Item>Core.Agent.StatisticsReports.css</Item>
+                    </Array>
+                </Item>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOLineChart.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOMultiBarChart.js</Item>
+                        <Item>thirdparty/nvd3-1.7.1/models/OTOBOStackedAreaChart.js</Item>
+                        <Item>Core.UI.AdvancedChart.js</Item>
+                        <Item>Core.Agent.StatisticsReports.js</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Navigation###AgentStatisticsReports###004" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                                <Item>stats</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                                <Item>stats</Item>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1"></Item>
+                        <Item Key="Name" Translatable="1">Reports</Item>
+                        <Item Key="Link">Action=AgentStatisticsReports;Subaction=Overview</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Reports</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block"></Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">100</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+    <Setting Name="Daemon::SchedulerCronTaskManager::Task###StatsReportsGenerateCron" Required="1" Valid="1" ReadOnly="1">
+        <Description Translatable="1">Cleans up old chat logs.</Description>
+        <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="TaskName">StatsReportsGenerateCron</Item>
+                <Item Key="Schedule">*/10 * * * *</Item>
+                <Item Key="Module">Kernel::System::Console::Command::Maint::Stats::Reports::GenerateCron</Item>
+                <Item Key="Function">Execute</Item>
+                <Item Key="MaximumParallelInstances">1</Item>
+                <Item Key="Params">
+                    <Array>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="PhantomJS::Bin" Required="0" Valid="0">
+        <Description Translatable="1">Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.</Description>
+        <Navigation>Core::PhantomJS</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="File">/usr/bin/phantomjs</Item>
+        </Value>
+    </Setting>
+    <Setting Name="GoogleChrome::Bin" Required="0" Valid="0">
+        <Description Translatable="1">Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.</Description>
+        <Navigation>Core::GoogleChrome</Navigation>
+        <Value>
+            <Item ValueRegex="" ValueType="File">/usr/bin/chromium</Item>
+        </Value>
+    </Setting>
+    <!-- End Statistic Reports -->
 </otobo_config>
