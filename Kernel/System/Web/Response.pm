@@ -22,6 +22,7 @@ use namespace::clean;
 use utf8;
 
 # core modules
+use Encode qw();
 
 # CPAN modules
 use Plack::Response;
@@ -164,6 +165,20 @@ sub Finalize {
                 }
                 else {
                     utf8::encode($Content);
+                }
+            }
+
+            # the above if fine when the Charset is declared correctly.
+            # But in all other cases we can assume that the internal encoding is the correct encoding,
+            # so let's turn the UTF8-flag off.
+            {
+                if ( ref $Content eq 'ARRAY' ) {
+                    for my $Item ( $Content->@* ) {
+                        Encode::_utf8_off($Item);
+                    }
+                }
+                else {
+                    Encode::_utf8_off($Content);
                 }
             }
         }
