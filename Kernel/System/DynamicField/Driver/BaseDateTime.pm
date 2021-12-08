@@ -304,8 +304,6 @@ sub EditFieldRender {
         'Data'         => \%FieldTemplateData
     );
 
-    print STDERR "BaseDateTime.pm, L.306: " . $HTMLString . "\n";
-
     my $Data = {
         Field => $HTMLString,
         Label => $LabelString,

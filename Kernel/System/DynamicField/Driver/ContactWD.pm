@@ -258,8 +258,6 @@ sub EditFieldRender {
         $FieldTemplateData{Mandatory} = $Param{Mandatory};
     }
 
-    print STDERR "ContactWD.pm, L.261: " . $FieldTemplateData{DivIDMandatory} . "\n";
-
     if ( $Param{ServerError} ) {
 
         $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
@@ -282,21 +280,15 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
-    print STDERR "ContactWD.pm, L.285: " . $LabelString . "\n";
-
     my $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
     if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
     }
 
-    print STDERR "ContactWD.pm, L.290: " . $FieldTemplateFile . "\n";
-
     my $HTMLString = $Param{LayoutObject}->Output(
         'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
     );
-
-    print STDERR "ContactWD.pm, L.297: " . $HTMLString . "\n";
 
     my $Data = {
         Field => $HTMLString,

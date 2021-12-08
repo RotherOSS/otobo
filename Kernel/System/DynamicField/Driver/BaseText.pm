@@ -270,8 +270,6 @@ sub EditFieldRender {
         'Data'         => \%FieldTemplateData
     );
 
-    print STDERR "BaseText.pm, L.272: " . $HTMLString . "\n";
-
     my $Data = {
         Field => $HTMLString,
         Label => $LabelString,

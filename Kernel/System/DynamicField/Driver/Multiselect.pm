@@ -360,8 +360,6 @@ sub EditFieldRender {
         Value              => $Value,
     );
 
-    print STDERR "Multiselect.pm, L.363: " . $FieldClass . "\n";
-
     my $SelectionHTML = $Param{LayoutObject}->BuildSelection(
         Data        => $DataValues || {},
         Name        => $FieldName,

@@ -303,8 +303,6 @@ Core.App.Subscribe('Event.AJAX.FormUpdate.Callback', function(Data) {
 EOF
     }
 
-    print STDERR "BaseSelect.pm, L.305: " . $HTMLString . "\n";
-
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,

@@ -391,8 +391,6 @@ sub EditFieldRender {
         'Data'         => \%FieldTemplateData
     );
 
-    print STDERR "Date.pm, L.393: " . $HTMLString . "\n";
-
     # call EditLabelRender on the common Driver
     my $LabelString = $Self->EditLabelRender(
         %Param,
