@@ -16,15 +16,20 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -74,7 +79,7 @@ $Selenium->RunTest(
         }
 
         # Create test dynamic field, the link to github issues is just an example
-        my $RandomNumber     = $Helper->GetRandomNumber();
+        my $RandomNumber     = $Helper->GetRandomNumber();                                              # 16 characters
         my $DynamicFieldName = 'LinkPreview';
         my $DynamicFieldLink = "https://github.com/RotherOSS/otobo/issues/[% Data.TicketID | uri %]";
         my $DynamicFieldID   = $DynamicFieldObject->DynamicFieldAdd(
@@ -96,7 +101,7 @@ $Selenium->RunTest(
         );
 
         # Set dynamic field value.
-        my $ValueText = 'Click on Link' . $RandomNumber;
+        my $ValueText = 'Click on Link012345678901' . $RandomNumber;    # 41 characters, max size is 40
         $Success = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ValueSet(
             FieldID    => $DynamicFieldID,
             ObjectType => 'Ticket',
@@ -108,10 +113,7 @@ $Selenium->RunTest(
             ],
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldID $DynamicFieldID is set to '$ValueText' successfully",
-        );
+        ok( $Success, "DynamicFieldID $DynamicFieldID is set to '$ValueText' successfully" );
 
         # Set SysConfig to show dynamic field in CustomerTicketZoom screen.
         $Helper->ConfigSettingChange(
@@ -146,7 +148,8 @@ $Selenium->RunTest(
         );
 
         # Check dynamic field text.
-        my $ValueTextShortened = substr $ValueText, 0, 13;
+        # The shortend link has the max size, the last 5 chars are replaced
+        my $ValueTextShortened = substr $ValueText, 0, ( 40 - 5 );
         $ValueTextShortened .= '[...]';
         $Self->Is(
             $Selenium->execute_script(
@@ -226,4 +229,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
