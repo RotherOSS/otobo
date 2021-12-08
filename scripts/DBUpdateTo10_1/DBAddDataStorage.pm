@@ -37,7 +37,7 @@ sub Run {
 
     my @XMLStrings = (
 
-        # article data for Chat based backend
+        # New table data_storage
         '<Table Name="data_storage">
             <Column Name="ds_type" Required="true" Type="VARCHAR" Size="191"/>
             <Column Name="ds_key" Required="true" Type="VARCHAR" Size="191"/>
@@ -46,6 +46,30 @@ sub Run {
             <Column Name="create_by" Required="true" Type="INTEGER"/>
             <ForeignKey ForeignTable="users">
                 <Reference Local="create_by" Foreign="id"/>
+            </ForeignKey>
+        </Table>',
+        '<Table Name="stats_report">
+            <Column AutoIncrement="true" Name="id" PrimaryKey="true" Required="true" Type="INTEGER"></Column>
+            <Column Name="name" Required="true" Size="200" Type="VARCHAR"></Column>
+            <Column Name="config" Required="true" Type="LONGBLOB"></Column>
+            <Column Name="config_md5" Required="true" Size="32" Type="VARCHAR"></Column>
+            <Column Name="valid_id" Required="true" Type="SMALLINT"></Column>
+            <Column Name="create_time" Required="true" Type="DATE"></Column>
+            <Column Name="create_by" Required="true" Type="INTEGER"></Column>
+            <Column Name="change_time" Required="true" Type="DATE"></Column>
+            <Column Name="change_by" Required="true" Type="INTEGER"></Column>
+            <Unique Name="stats_report_name">
+                <UniqueColumn Name="name"/>
+            </Unique>
+            <Unique Name="stats_report_config_md5">
+                <UniqueColumn Name="config_md5"/>
+            </Unique>
+            <ForeignKey ForeignTable="valid">
+                <Reference Local="valid_id" Foreign="id"/>
+            </ForeignKey>
+            <ForeignKey ForeignTable="users">
+                <Reference Local="create_by" Foreign="id"/>
+                <Reference Local="change_by" Foreign="id"/>
             </ForeignKey>
         </Table>',
     );
