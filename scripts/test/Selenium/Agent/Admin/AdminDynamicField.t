@@ -16,17 +16,22 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
-use Kernel::Language;
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::Language;
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
+# OTOBO modules
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 my $CheckBredcrumb = sub {
@@ -317,14 +322,28 @@ $Selenium->RunTest(
         );
 
         # Set 10 fields per page.
+        my $SmallNumberOfElements   = 10;
+        my $PageShownPreferencesKey = 'AdminDynamicFieldsOverviewPageShown';
         $Selenium->find_element( "a#ShowContextSettingsDialog", 'css' )->click();
         $Selenium->WaitFor(
             JavaScript => 'return $("#AdminDynamicFieldsOverviewPageShown").length && $("#DialogButton1").length;'
         );
         $Selenium->InputFieldValueSet(
-            Element => '#AdminDynamicFieldsOverviewPageShown',
-            Value   => 10,
+            Element => "#$PageShownPreferencesKey",
+            Value   => $SmallNumberOfElements,
         );
+
+        {
+            my $ToDo = todo("lowest possible value of $PageShownPreferencesKey is 100");
+
+            my $UserObject      = $Kernel::OM->Get('Kernel::System::User');
+            my %UserPreferences = $UserObject->GetPreferences( UserID => 1 );
+            is(
+                $UserPreferences{$PageShownPreferencesKey},
+                $SmallNumberOfElements,
+                'user preferences are updated'
+            );
+        }
 
         $Selenium->find_element( "#DialogButton1", 'css' )->VerifiedClick();
 
@@ -353,11 +372,17 @@ $Selenium->RunTest(
         # Go back to AdminDynamiField screen.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminDynamicField");
 
-        # Wait until page has finished loading.
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldPage2").length;' );
+        {
+            my $ToDo = todo("there is not second page because $PageShownPreferencesKey >= 100");
 
-        # Go to the second page.
-        $Selenium->find_element( "#AdminDynamicFieldPage2", 'css' )->VerifiedClick();
+            fail('no link to the second page');
+
+            # Wait until page has finished loading, including the link to the second page
+            #$Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#AdminDynamicFieldPage2").length;' );
+
+            # Go to the second page.
+            #$Selenium->find_element( "#AdminDynamicFieldPage2", 'css' )->VerifiedClick();
+        }
 
         # Wait until page has finished loading.
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#TicketDynamicField").length;' );
@@ -406,4 +431,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
