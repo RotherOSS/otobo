@@ -14,19 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.FieldLabelEscaped %]" />
+<input type="text" class="[% Data.FieldClass %]" id="[% Data.FieldName %]" name="[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.ValueEscaped %]" />
  <div id="[% Data.DivID %]" class="TooltipErrorMessage">
      <p>
-         [% IF Data.Mandatory %][% Data.ErrorMessage1 %] [% END %][% Data.ErrorMessage2 %] [% Data.ErrorMessage3     %]
+         [% IF Data.Mandatory %][% Data.ErrorMessage1 %] [% END %][% Data.ErrorMessage2 %] [% Data.ErrorMessage3 %]
      </p>
  </div>
 [% IF Data.ServerError %]
+<div id="[% Data.DivIDServerError %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.ErrorMessage) | html %]
     </p>
+</div>
 [% END %]
 [% IF Data.Mandatory %]
-    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
         <p>
             [% Translate(Data.FieldRequiredMessage) | html %]
         </p>

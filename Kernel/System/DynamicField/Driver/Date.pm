@@ -364,20 +364,21 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = (
-        'DateSelectionHTML' => $DateSelectionHTML
+        'DateSelectionHTML' => $DateSelectionHTML,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
-        $FieldTemplateData{DivID}     = $FieldName . 'UsedError';
+        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'UsedError';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'UsedServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError';
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/Date';

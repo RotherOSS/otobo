@@ -290,7 +290,8 @@ sub EditFieldRender {
         'FieldNameUsed' => $FieldNameUsed,
         'FieldClass'    => $FieldClass,
         'FieldName'     => $FieldName,
-        'FieldChecked'  => $FieldChecked
+        'FieldChecked'  => $FieldChecked,
+        'DivID'         => $FieldName,
     );
 
     if ( $Param{ConfirmationNeeded} ) {
@@ -322,8 +323,8 @@ sub EditFieldRender {
 
     if ( $Param{Mandatory} ) {
 
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
-        $FieldTemplateData{DivID}     = $FieldName . 'Error';
+        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
@@ -331,9 +332,9 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/Checkbox';

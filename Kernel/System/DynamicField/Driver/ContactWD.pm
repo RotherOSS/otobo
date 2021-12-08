@@ -247,10 +247,11 @@ sub EditFieldRender {
         'FieldClass'        => $FieldClass,
         'FieldLabelEscaped' => $FieldLabelEscaped,
         'VisibleValue'      => $VisibleValue,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivID} = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
@@ -259,8 +260,8 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
 
         $FieldTemplateData{ServerError} = $Param{ServerError};
     }
