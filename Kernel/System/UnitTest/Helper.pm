@@ -130,9 +130,10 @@ sub new {
 
 creates a random ID that can be used in tests as a unique identifier.
 
-It is guaranteed that within a test this function will never return a duplicate.
+The random ID is 20 characters long and starts with I<test>. It is guaranteed that within a test script
+this function will never return a duplicate.
 
-Please note that these numbers are not really random and should only be used
+Please note that these IDs are not really random and should only be used
 to create test data.
 
 =cut
