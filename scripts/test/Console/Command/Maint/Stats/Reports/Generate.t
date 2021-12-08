@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,12 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-## no critic (Modules::RequireExplicitPackage)
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-use vars (qw($Self));
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and $Self
+
+our $Self;
 
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Stats::Reports::Generate');
 
@@ -31,4 +38,4 @@ $Self->Is(
     "Maint::Stats::Reports::Generate exit code without arguments",
 );
 
-1;
+$Self->DoneTesting();
