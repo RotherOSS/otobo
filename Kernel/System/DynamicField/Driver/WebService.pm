@@ -334,7 +334,8 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = {
-        'SelectionHTML' => $SelectionHTML
+        'SelectionHTML' => $SelectionHTML,
+        'DivID'         => $FieldName,
     };
 
     if ( $FieldConfig->{TreeView} ) {
@@ -343,17 +344,17 @@ sub EditFieldRender {
     }
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{Mandatory} = $Param{Mandatory};
-        $FieldTemplateData{DivID}     = $FieldName . 'Error';
+        $FieldTemplateData{Mandatory}      = $Param{Mandatory};
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/WebService.tt';

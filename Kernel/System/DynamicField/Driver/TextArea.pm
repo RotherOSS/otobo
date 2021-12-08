@@ -179,9 +179,6 @@ sub EditFieldRender {
     # text-area. Otherwise the maxlength property will prevent to enter more text than the maximum.
     my $MaxLength = $Param{MaxLength} // $Self->{MaxLength};
 
-    # for client side validation
-    my $DivID = $FieldName . 'Error';
-
     my $ErrorMessage1 = $Param{LayoutObject}->{LanguageObject}->Translate("This field is required or");
     my $ErrorMessage2 = $Param{LayoutObject}->{LanguageObject}->Translate("The field content is too long!");
     my $ErrorMessage3 = $Param{LayoutObject}->{LanguageObject}->Translate( "Maximum size is %s characters.", $MaxLength );
@@ -194,22 +191,22 @@ sub EditFieldRender {
         'ColsNumber'        => $ColsNumber,
         'MaxLength'         => $MaxLength,
         'ValueEscaped'      => $ValueEscaped,
-        'DivID'             => $DivID,
         'ErrorMessage1'     => $ErrorMessage1,
         'ErrorMessage2'     => $ErrorMessage2,
-        'ErrorMessage3'     => $ErrorMessage3
+        'ErrorMessage3'     => $ErrorMessage3,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivID}                = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'Error';
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
     }
 
     if ( $Param{ServerError} ) {
 
         $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{ServerErrorDivID} = $FieldName . 'ServerError';
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
 
         $FieldTemplateData{ServerError} = $Param{ServerError};
     }

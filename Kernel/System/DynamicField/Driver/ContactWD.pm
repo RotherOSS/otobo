@@ -247,20 +247,23 @@ sub EditFieldRender {
         'FieldClass'        => $FieldClass,
         'FieldLabelEscaped' => $FieldLabelEscaped,
         'VisibleValue'      => $VisibleValue,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivID} = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
         $FieldTemplateData{Mandatory} = $Param{Mandatory};
     }
 
+    print STDERR "ContactWD.pm, L.261: " . $FieldTemplateData{DivIDMandatory} . "\n";
+
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
 
         $FieldTemplateData{ServerError} = $Param{ServerError};
     }
@@ -279,15 +282,21 @@ sub EditFieldRender {
         FieldName => $FieldName,
     );
 
+    print STDERR "ContactWD.pm, L.285: " . $LabelString . "\n";
+
     my $FieldTemplateFile = 'DynamicField/Agent/ContactWD';
     if ( $Param{CustomerInterface} ) {
         $FieldTemplateFile = 'DynamicField/Customer/ContactWD';
     }
 
+    print STDERR "ContactWD.pm, L.290: " . $FieldTemplateFile . "\n";
+
     my $HTMLString = $Param{LayoutObject}->Output(
         'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
     );
+
+    print STDERR "ContactWD.pm, L.297: " . $HTMLString . "\n";
 
     my $Data = {
         Field => $HTMLString,

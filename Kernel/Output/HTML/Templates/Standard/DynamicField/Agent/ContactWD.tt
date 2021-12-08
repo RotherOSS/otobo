@@ -17,14 +17,14 @@
 <input type="hidden" id="[% Data.FieldName %]" name="[% Data.FieldName %]" value="[% Data.ValueEscaped %]" />
 <input type="text" class="[% Data.FieldClass %]" id="Autocomplete_[% Data.FieldName %]" name="Autocomplete_[% Data.FieldName %]" title="[% Data.FieldLabelEscaped %]" value="[% Data.VisibleValue %]" />
 [% IF Data.Mandatory %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+<div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.FieldRequiredMessage) | html %]
     </p>
 </div>
 [% END %]
 [% IF Data.ServerError %]
-<div id="[% Data.DivID %]" class="TooltipErrorMessage">
+<div id="[% Data.DivIDServerError %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.ErrorMessage) | html %]
     </p>

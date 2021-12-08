@@ -268,22 +268,23 @@ sub EditFieldRender {
     );
 
     my %FieldTemplateData = (
-        'DateSelectionHTML' => $DateSelectionHTML
+        'DateSelectionHTML' => $DateSelectionHTML,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
 
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
-        $FieldTemplateData{DivID}                = $FieldName . 'UsedError';
+        $FieldTemplateData{DivIDMandatory}       = $FieldName . 'UsedError';
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
     }
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'UsedServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'UsedServerError';
     }
 
     my $FieldTemplateFile = 'DynamicField/Agent/BaseDateTime';
@@ -302,6 +303,8 @@ sub EditFieldRender {
         'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
     );
+
+    print STDERR "BaseDateTime.pm, L.306: " . $HTMLString . "\n";
 
     my $Data = {
         Field => $HTMLString,

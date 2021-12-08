@@ -24,14 +24,14 @@
     </a>
 [% END %]
 [% IF Data.Mandatory %]
-    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <div id="[% Data.DivIDMandatory %]" class="TooltipErrorMessage">
         <p>
             [% Translate(Data.FieldRequiredMessage) | html %]
         </p>
     </div>
 [% END %]
 [% IF Data.ServerError %]
-    <div id="[% Data.DivID %]" class="TooltipErrorMessage">
+    <div id="[% Data.DivIDServerError %]" class="TooltipErrorMessage">
         <p>
             [% Translate(Data.ErrorMessage) | html %]
         </p>

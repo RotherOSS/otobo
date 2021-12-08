@@ -235,11 +235,12 @@ sub EditFieldRender {
         'FieldClass'        => $FieldClass,
         'FieldName'         => $FieldName,
         'FieldLabelEscaped' => $FieldLabelEscaped,
-        'ValueEscaped'      => $ValueEscaped
+        'ValueEscaped'      => $ValueEscaped,
+        'DivID'             => $FieldName,
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivID} = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
 
@@ -247,9 +248,9 @@ sub EditFieldRender {
     }
 
     if ( $Param{ServerError} ) {
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
     }
 
     # call EditLabelRender on the common Driver
@@ -268,6 +269,8 @@ sub EditFieldRender {
         'TemplateFile' => $FieldTemplateFile,
         'Data'         => \%FieldTemplateData
     );
+
+    print STDERR "BaseText.pm, L.272: " . $HTMLString . "\n";
 
     my $Data = {
         Field => $HTMLString,

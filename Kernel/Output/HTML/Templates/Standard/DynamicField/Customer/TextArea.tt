@@ -21,7 +21,7 @@
     </p>
 </div>
 [% IF Data.ServerError %]
-<div id="[% Data.ServerErrorDivID %]" class="TooltipErrorMessage">
+<div id="[% Data.DivIDServerError %]" class="TooltipErrorMessage">
     <p>
         [% Translate(Data.ErrorMessage) | html %]
     </p>

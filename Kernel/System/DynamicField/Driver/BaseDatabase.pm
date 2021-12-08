@@ -338,12 +338,13 @@ sub EditFieldRender {
         'FieldClass'              => $FieldClass,
         'DetailsMsg'              => $DetailsMsg,
         'RemoveValueMsg'          => $RemoveValueMsg,
-        'DynamicFieldDBContainer' => $DynamicFieldDBContainer
+        'DynamicFieldDBContainer' => $DynamicFieldDBContainer,
+        'DivID'                   => $FieldName,
 
     );
 
     if ( $Param{Mandatory} ) {
-        $FieldTemplateData{DivID} = $FieldName . 'Error';
+        $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
         $FieldTemplateData{FieldRequiredMessage} = Translatable("This field is required.");
         $FieldTemplateData{Mandatory}            = $Param{Mandatory};
@@ -351,9 +352,9 @@ sub EditFieldRender {
 
     if ( $Param{ServerError} ) {
 
-        $FieldTemplateData{ServerError}  = $Param{ServerError};
-        $FieldTemplateData{ErrorMessage} = Translatable( $Param{ErrorMessage} || 'This field is required.' );
-        $FieldTemplateData{DivID}        = $FieldName . 'ServerError';
+        $FieldTemplateData{ServerError}      = $Param{ServerError};
+        $FieldTemplateData{ErrorMessage}     = Translatable( $Param{ErrorMessage} || 'This field is required.' );
+        $FieldTemplateData{DivIDServerError} = $FieldName . 'ServerError';
     }
 
     my $AutoCompleteConfig = $Kernel::OM->Get('Kernel::Config')->Get('AutoComplete::Agent')
