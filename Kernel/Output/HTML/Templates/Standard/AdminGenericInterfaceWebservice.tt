@@ -181,7 +181,7 @@
             </div>
             <div class="Content">
                 <p class="FieldExplanation">
-                    [% Translate("Here you can activate Ready2Adopt web services showcasing our best practices.") | html %] 
+                    [% Translate("Here you can activate Ready2Adopt web services showcasing our best practices.") | html %]
                 </p>
                 <ul class="ActionList SpacingTop">
                     <li>

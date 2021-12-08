@@ -141,7 +141,7 @@ sub StatsReportAdd {
             . ' create_time, create_by, change_time, change_by)'
             . ' VALUES (?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
-            \$Param{Name}, \$Config, \$MD5, \$Param{ValidID},
+            \$Param{Name},   \$Config, \$MD5, \$Param{ValidID},
             \$Param{UserID}, \$Param{UserID},
         ],
     );

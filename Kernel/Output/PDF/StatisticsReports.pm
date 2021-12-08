@@ -419,8 +419,8 @@ sub GeneratePDF {
                 Content  => \$Output,
             );
 
-            my $TempPNGDir = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
-            my $TempPNGFilename = "$TempPNGDir/screenshot.png";    # Chrome requires this file name
+            my $TempPNGDir      = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
+            my $TempPNGFilename = "$TempPNGDir/screenshot.png";                              # Chrome requires this file name
 
             my $CommandOutput;
 

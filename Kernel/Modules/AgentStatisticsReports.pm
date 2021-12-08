@@ -640,8 +640,8 @@ sub ViewScreen {
 
         my $StatsConfigurationValid
             = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsConfigurationValidate(
-            Stat   => $Stat,
-            Errors => {},
+                Stat   => $Stat,
+                Errors => {},
             );
         if ( !$StatsConfigurationValid ) {
             $Frontend{Errors} = 1;
@@ -725,8 +725,8 @@ sub RunAction {
 
         my $StatsConfigurationValid
             = $Kernel::OM->Get('Kernel::Output::HTML::Statistics::View')->StatsConfigurationValidate(
-            Stat   => $Stat,
-            Errors => {},
+                Stat   => $Stat,
+                Errors => {},
             );
         if ( !$StatsConfigurationValid ) {
             $Frontend{Errors} = 1;
