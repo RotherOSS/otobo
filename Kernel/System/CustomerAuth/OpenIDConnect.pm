@@ -35,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::Language',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Cache',
+    'Kernel::System::CustomerUser',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',

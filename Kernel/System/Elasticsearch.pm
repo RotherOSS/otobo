@@ -26,6 +26,7 @@ use Kernel::System::VariableCheck qw( :all );
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::GenericInterface::Requester',
+    'Kernel::Output::HTML::Layout',
     'Kernel::System::CustomerCompany',
     'Kernel::System::CustomerGroup',
     'Kernel::System::CustomerUser',
@@ -33,6 +34,7 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Group',
     'Kernel::System::Log',
+    'Kernel::System::SysConfig',
     'Kernel::System::Ticket',
     'Kernel::System::User',
 );
