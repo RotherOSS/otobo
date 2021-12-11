@@ -209,10 +209,10 @@ sub Run {
                     Name => 'ViewRow',
                     Data => {
                         %{ $Action{$Minute} },
-                        Sum       => sprintf( '%.3f', $Action{$Minute}->{Sum} || '0' ),
-                        Max       => sprintf( '%.3f', $Action{$Minute}->{Max} || '0' ),
-                        Min       => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
-                        Average   => sprintf( '%.3f', $Average ),
+                        Sum     => sprintf( '%.3f', $Action{$Minute}->{Sum} || '0' ),
+                        Max     => sprintf( '%.3f', $Action{$Minute}->{Max} || '0' ),
+                        Min     => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
+                        Average => sprintf( '%.3f', $Average ),
                         Date    => $DateTimeObject->ToString(),
                         Width   => $Width . '%',
                     },
@@ -258,18 +258,19 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'Reset',
                     Data => {
-                        Size => sprintf "%.1f MB",
+                        Size => sprintf '%.1f MB',
                         ( $Self->_DatabaseCheck() / ( 1024 * 1024 ) ),
                     },
                 );
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminPerformanceLog',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                return join '',
+                    $LayoutObject->Header(),
+                    $LayoutObject->NavigationBar(),
+                    $LayoutObject->Output(
+                        TemplateFile => 'AdminPerformanceLog',
+                        Data         => \%Param,
+                    ),
+                    $LayoutObject->Footer();
             }
             else {
                 $Data = $Self->_DatabaseRead();
