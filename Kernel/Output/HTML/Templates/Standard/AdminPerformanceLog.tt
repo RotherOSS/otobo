@@ -158,9 +158,9 @@
                                 </a>
                             </td>
                             <td>[% Data.Count | html %]</td>
-                            <td>[% Data.Min | html %]s</td>
-                            <td>[% Data.Max | html %]s</td>
-                            <td>[% Data.Average | html %]s</td>
+                            <td>[% Data.Min | html %] s</td>
+                            <td>[% Data.Max | html %] s</td>
+                            <td>[% Data.Average | html %] s</td>
                         </tr>
 [% RenderBlockStart("OverviewRow") %]
                         <tr>
@@ -172,9 +172,9 @@
                                 </em>
                             </td>
                             <td><em>[% Data.Count | html %]</em></td>
-                            <td><em>[% Data.Min | html %]s</em></td>
-                            <td><em>[% Data.Max | html %]s</em></td>
-                            <td><em>[% Data.Average | html %]s</em></td>
+                            <td><em>[% Data.Min | html %] s</em></td>
+                            <td><em>[% Data.Max | html %] s</em></td>
+                            <td><em>[% Data.Average | html %] s</em></td>
                         </tr>
 [% RenderBlockEnd("OverviewRow") %]
 [% RenderBlockEnd("OverviewInterface") %]
@@ -214,9 +214,9 @@
                         <tr>
                             <td><em>[% Data.Date | Localize("TimeShort") %]</em></td>
                             <td><em>[% Data.Count | html %]</em></td>
-                            <td><em>[% Data.Min | html %]s</em></td>
-                            <td><em>[% Data.Max | html %]s</em></td>
-                            <td><em>[% Data.Average | html %]s</em></td>
+                            <td><em>[% Data.Min | html %] s</em></td>
+                            <td><em>[% Data.Max | html %] s</em></td>
+                            <td><em>[% Data.Average | html %] s</em></td>
                             <td><div class="Progressbar" style="width:[% Data.Width | html %];">&nbsp;</div></td>
                         </tr>
 [% RenderBlockEnd("ViewRow") %]

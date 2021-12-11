@@ -23,6 +23,7 @@ use namespace::autoclean;
 use utf8;
 
 # core modules
+use Time::HiRes qw();
 
 # CPAN modules
 
@@ -101,8 +102,8 @@ sub new {
     # set debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # performance log
-    $Self->{PerformanceLogStart} = time();
+    # performance log based on high resolution timestamps
+    $Self->{PerformanceLogStart} = Time::HiRes::time();
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -182,7 +183,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         delete $Param{Lang};
     }
 
-    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
@@ -1419,31 +1420,46 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         # ->Run $Action with $FrontendObject
         my $Output = $FrontendObject->Run();
 
-        # log request time
+        # log request time for AdminPerformanceLog
         if ( $ConfigObject->Get('PerformanceLog') ) {
-            if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
-                $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
-            }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
-                print $Out time()
-                    . '::Customer::'
-                    . ( time() - $Self->{PerformanceLogStart} )
-                    . "::$UserData{UserLogin}::$QueryString\n";
-                close $Out;
+            # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
+            if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
+                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
 
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'debug',
-                    Message  => 'Response::Customer: '
-                        . ( time() - $Self->{PerformanceLogStart} )
-                        . "s taken (URL:$QueryString:$UserData{UserLogin})",
-                );
+                    # a fallback for the query string when the action is missing
+                    if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
+                        $QueryString = 'Action=' . $Param{Action} . ';Subaction=' . $Param{Subaction};
+                    }
+
+                    my $Now = Time::HiRes::time();
+                    print $Out join '::',
+                        $Now,
+                        'Customer',
+                        ( $Now - $Self->{PerformanceLogStart} ),
+                        $UserData{UserLogin},    # not used in the AdminPerformanceLog frontend
+                        "$QueryString\n";
+                    close $Out;
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'debug',
+                        Message  => 'Response::Customer: '
+                            . ( $Now - $Self->{PerformanceLogStart} )
+                            . "s taken (URL:$QueryString:$UserData{UserLogin})",
+                    );
+                }
+                else {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Can't write $File: $!",
+                    );
+                }
             }
             else {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  => "Can't write $File: $!",
+                    Message  => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
                 );
             }
         }

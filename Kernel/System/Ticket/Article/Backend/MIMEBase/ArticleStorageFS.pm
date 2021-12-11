@@ -25,7 +25,6 @@ use parent qw(Kernel::System::Ticket::Article::Backend::MIMEBase::Base);
 
 # core modules
 use File::Path qw(mkpath);
-use Time::HiRes qw();
 use Unicode::Normalize qw();
 use Cwd qw(realpath);
 

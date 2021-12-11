@@ -23,7 +23,7 @@ use v5.24;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 # core modules
-use Time::HiRes qw(sleep);
+use Time::HiRes qw();
 
 # CPAN modules
 

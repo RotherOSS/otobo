@@ -21,7 +21,7 @@ use warnings;
 use utf8;
 
 use File::Path qw();
-use Time::HiRes qw(sleep);
+use Time::HiRes qw();
 
 use parent qw(Kernel::System::Daemon::BaseDaemon);
 
@@ -129,7 +129,7 @@ sub PreRun {
     # Check if database is on-line.
     return 1 if $Self->{DBObject}->Ping();
 
-    sleep 10;
+    Time::HiRes::sleep 10;
 
     return;
 }
@@ -277,7 +277,7 @@ sub Run {
 sub PostRun {
     my ( $Self, %Param ) = @_;
 
-    sleep $Self->{SleepPost};
+    Time::HiRes::sleep $Self->{SleepPost};
 
     # Check pid hash and pid file after sleep time to give the workers time to finish.
     return if !$Self->_WorkerPIDsCheck();

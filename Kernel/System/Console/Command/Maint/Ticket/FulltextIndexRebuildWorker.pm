@@ -24,7 +24,7 @@ use warnings;
 use parent qw(Kernel::System::Console::BaseCommand);
 
 use POSIX ":sys_wait_h";
-use Time::HiRes qw(sleep);
+use Time::HiRes qw();
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -225,7 +225,7 @@ sub ArticleIndexRebuild {
 
         last WAIT if !%ActiveChildPID;
 
-        sleep 0.1;
+        Time::HiRes::sleep 0.1;
 
         PID:
         for my $PID ( sort keys %ActiveChildPID ) {

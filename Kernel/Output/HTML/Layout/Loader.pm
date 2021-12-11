@@ -217,6 +217,7 @@ sub LoaderCreateAgentJSCalls {
         KEY:
         for my $Key ( sort keys %{$CommonJSList} ) {
             next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
+
             push @FileList, @{ $CommonJSList->{$Key} };
         }
 
@@ -249,6 +250,7 @@ sub LoaderCreateAgentJSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
         }
 
@@ -499,6 +501,7 @@ sub LoaderCreateJavaScriptTranslationData {
     STRING:
     for my $String ( @{ $LanguageObject->{JavaScriptStrings} // [] } ) {
         next STRING if $TranslationData{$String};
+
         $TranslationData{$String} = $LanguageObject->{Translation}->{$String};
     }
 
@@ -621,6 +624,7 @@ sub LoaderCreateCustomerCSSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
         }
 
@@ -682,6 +686,7 @@ sub LoaderCreateCustomerJSCalls {
         KEY:
         for my $Key ( sort keys %{$CommonJSList} ) {
             next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
+
             push @FileList, @{ $CommonJSList->{$Key} };
         }
 
@@ -706,6 +711,7 @@ sub LoaderCreateCustomerJSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
         }
 
@@ -849,6 +855,7 @@ sub SkinValidate {
                 Message  => "Needed param: $Needed!",
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -871,12 +878,14 @@ sub SkinValidate {
             my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
             if ( -d $SkinDir ) {
                 $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = 1;
+
                 return 1;
             }
         }
     }
 
     $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = undef;
+
     return;
 }
 

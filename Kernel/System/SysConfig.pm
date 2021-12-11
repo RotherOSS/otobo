@@ -25,7 +25,6 @@ use utf8;
 use parent qw(Kernel::System::AsynchronousExecutor);
 
 # core modules
-use Time::HiRes();
 use File::Path qw(make_path);
 
 # CPAN modules
