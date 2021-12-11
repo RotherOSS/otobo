@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use Time::HiRes qw();
 
 # CPAN modules
 
@@ -80,8 +81,8 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # performance log
-    $Self->{PerformanceLogStart} = time();
+    # performance log based on high resolution timestamps
+    $Self->{PerformanceLogStart} = Time::HiRes::time();
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -108,7 +109,7 @@ sub new {
 
 execute the object
 
-    $InterfaceAgent->Run();
+    $Interface->Run();
 
 =cut
 
@@ -1256,27 +1257,29 @@ sub Run {
         # ->Run $Action with $FrontendObject
         $Kernel::OM->Get('Kernel::Output::HTML::Layout')->Print( Output => \$FrontendObject->Run() );
 
-        # log request time
+        # log request time for AdminPerformanceLog
         if ( $ConfigObject->Get('PerformanceLog') ) {
             if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
-                $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
+                $QueryString = 'Action=' . $Param{Action} . ';Subaction=' . $Param{Subaction};
             }
             my $File = $ConfigObject->Get('PerformanceLog::File');
 
             # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
             if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
-
                 if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
-                    print $Out time()
-                        . '::Agent::'
-                        . ( time() - $Self->{PerformanceLogStart} )
-                        . "::$UserData{UserLogin}::$QueryString\n";
+                    my $Now = Time::HiRes::time();
+                    say $Out join '::',
+                        $Now,
+                        'Agent',
+                        ( $Now - $Self->{PerformanceLogStart} ),
+                        $UserData{UserLogin},         # not used in the AdminPerformanceLog frontend
+                        "$QueryString\n";
                     close $Out;
 
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "Response::Agent: "
-                            . ( time() - $Self->{PerformanceLogStart} )
+                            . ( $Now - $Self->{PerformanceLogStart} )
                             . "s taken (URL:$QueryString:$UserData{UserLogin})",
                     );
                 }
@@ -1294,6 +1297,7 @@ sub Run {
                 );
             }
         }
+
         return 1;
     }
 
@@ -1308,9 +1312,12 @@ sub Run {
             %Data,
         },
     );
-    $Kernel::OM->Get('Kernel::Output::HTML::Layout')->FatalError(
+
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    $LayoutObject->FatalError(
         Comment => Translatable('Please contact the administrator.'),
     );
+
     return;
 }
 
