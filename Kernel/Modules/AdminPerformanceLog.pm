@@ -102,16 +102,16 @@ sub Run {
         my $Module    = $ParamObject->GetParam( Param => 'Module' );
 
         if ( $MinuteSlot < 31 ) {
-            $Slot = 1;
+            $Slot = 1;    # aggregate by 1 m when showing only the last half hour
         }
         elsif ( $MinuteSlot < 61 ) {
-            $Slot = 2;
+            $Slot = 2;    # aggregate by 2 m
         }
         elsif ( $MinuteSlot < 121 ) {
-            $Slot = 5;
+            $Slot = 5;    # aggregate by 5 m
         }
         elsif ( $MinuteSlot < 1141 ) {
-            $Slot = 30;
+            $Slot = 30;    # aggregate by half hour
         }
         my $Data = $Self->_DatabaseRead();
         $LayoutObject->Block(
@@ -134,6 +134,7 @@ sub Run {
         $Param{Interface} = $Interface;
         $Param{Module}    = $Module;
 
+        # Collect data per aggregation slot
         my $Minute = 0;
         my $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
@@ -192,6 +193,8 @@ sub Run {
             $Minute = $Minute + $Slot;
             $Count  = $Count + $Slot;
         }
+
+        # display data per aggregation slot
         $Minute = 0;
         $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
@@ -340,6 +343,7 @@ sub Run {
                     last ROW;
                 }
             }
+
             if (%Sum) {
                 $LayoutObject->Block(
                     Name => 'OverviewTable',
@@ -352,6 +356,7 @@ sub Run {
                     },
                 );
             }
+
             for my $Interface (qw(Agent Customer Public)) {
                 if ( defined $Sum{$Interface} ) {
 
@@ -369,6 +374,7 @@ sub Run {
                             Min       => $Min{$Interface} || '0',
                         },
                     );
+
                     for my $Module ( sort keys %Action ) {
                         if ( defined $Action{$Module}->{Sum}->{$Interface} ) {
 
@@ -404,7 +410,8 @@ sub Run {
         $Output .= $LayoutObject->Footer();
         return $Output;
     }
-    return;
+
+    return;    # never reached
 }
 
 sub _DatabaseCheck {
@@ -452,6 +459,7 @@ sub _DatabaseRead {
             push( @Data, \@Row );
         }
     }
+
     return \@Data;
 }
 
