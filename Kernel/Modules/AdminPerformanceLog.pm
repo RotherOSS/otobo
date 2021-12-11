@@ -18,6 +18,14 @@ package Kernel::Modules::AdminPerformanceLog;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
