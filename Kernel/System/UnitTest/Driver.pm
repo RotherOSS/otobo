@@ -23,7 +23,6 @@ use utf8;
 use namespace::autoclean;
 
 # core modules
-use Time::HiRes qw();
 
 # CPAN modules
 use Text::Diff;
