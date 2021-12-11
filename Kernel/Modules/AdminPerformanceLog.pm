@@ -189,7 +189,7 @@ sub Run {
         while ( $Count <= $MinuteSlot ) {
 
             my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-            $DateTimeObject->Subtract( Minutes => $Minute * 60 );
+            $DateTimeObject->Subtract( Minutes => $Minute );
 
             # set output class
             if ( $Action{$Minute} ) {
