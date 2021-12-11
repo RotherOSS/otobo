@@ -33,10 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -53,14 +50,14 @@ sub Run {
         );
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
 
     $LayoutObject->Block(
@@ -93,14 +90,14 @@ sub Run {
         $LayoutObject->Block( Name => 'ActionOverview' );
 
         my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my %Action      = ();
-        my $MaxRequest  = 0;
-        my $Slot        = 60;
-        my $MinuteSlot  = $ParamObject->GetParam( Param => 'Minute' );
+        my %Action;
+        my $MaxRequest = 0;
+        my $MinuteSlot = $ParamObject->GetParam( Param => 'Minute' );
         $Param{Minute} = $MinuteSlot;
         my $Interface = $ParamObject->GetParam( Param => 'Interface' );
         my $Module    = $ParamObject->GetParam( Param => 'Module' );
 
+        my $Slot = 60;    # aggregate by 1 h when showing long long periods
         if ( $MinuteSlot < 31 ) {
             $Slot = 1;    # aggregate by 1 m when showing only the last half hour
         }
@@ -190,8 +187,8 @@ sub Run {
                     last ROW;
                 }
             }
-            $Minute = $Minute + $Slot;
-            $Count  = $Count + $Slot;
+            $Minute += $Slot;
+            $Count  += $Slot;
         }
 
         # display data per aggregation slot
@@ -232,19 +229,19 @@ sub Run {
                     },
                 );
             }
-            $Minute = $Minute + $Slot;
-            $Count  = $Count + $Slot;
+            $Minute += $Slot;
+            $Count  += $Slot;
         }
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
 
     # show overview
@@ -282,11 +279,11 @@ sub Run {
         );
 
         for my $Minute ( 5, 30, 60, 2 * 60, 24 * 60, 2 * 24 * 60 ) {
-            my %Count  = ();
-            my %Action = ();
-            my %Sum    = ();
-            my %Max    = ();
-            my %Min    = ();
+            my %Count;
+            my %Action;
+            my %Sum;
+            my %Max;
+            my %Min;
             ROW:
             for my $Row ( reverse @{$Data} ) {
                 if ( $Row->[0] > time() - ( 60 * $Minute ) ) {
@@ -401,14 +398,14 @@ sub Run {
         }
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
 
     return;    # never reached
@@ -445,7 +442,7 @@ sub _DatabaseReset {
 sub _DatabaseRead {
     my ( $Self, %Param ) = @_;
 
-    my @Data     = ();
+    my @Data;
     my $File     = $Kernel::OM->Get('Kernel::Config')->Get('PerformanceLog::File');
     my $ArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
@@ -456,7 +453,7 @@ sub _DatabaseRead {
         for ( @{$ArrayRef} ) {
             my $Line = $_;
             my @Row  = split( /::/, $Line );
-            push( @Data, \@Row );
+            push @Data, \@Row;
         }
     }
 
