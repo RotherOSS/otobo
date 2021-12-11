@@ -25,7 +25,6 @@ use namespace::autoclean;
 use parent qw(Kernel::System::AsynchronousExecutor);
 
 # core modules
-use Time::HiRes();
 
 # CPAN modules
 

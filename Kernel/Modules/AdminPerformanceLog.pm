@@ -202,17 +202,19 @@ sub Run {
             # set output class
             if ( $Action{$Minute} ) {
                 my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
-                $Average =~ s/^(.*\.\d\d).+?$/$1/g;
-                my $I = 100 / $MaxRequest;
-                my $W = $Action{$Minute}->{Count} * $I || 1;
+                my $I       = 100 / $MaxRequest;
+                my $Width   = $Action{$Minute}->{Count} * $I || 1;
 
                 $LayoutObject->Block(
                     Name => 'ViewRow',
                     Data => {
                         %{ $Action{$Minute} },
-                        Average => $Average,
+                        Sum     => sprintf( '%.3f', $Action{$Minute}->{Sum} || '0' ),
+                        Max     => sprintf( '%.3f', $Action{$Minute}->{Max} || '0' ),
+                        Min     => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
+                        Average => sprintf( '%.3f', $Average ),
                         Date    => $DateTimeObject->ToString(),
-                        Width   => $W . "%",
+                        Width   => $Width . '%',
                     },
                 );
             }
@@ -256,18 +258,19 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'Reset',
                     Data => {
-                        Size => sprintf "%.1f MB",
+                        Size => sprintf '%.1f MB',
                         ( $Self->_DatabaseCheck() / ( 1024 * 1024 ) ),
                     },
                 );
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminPerformanceLog',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                return join '',
+                    $LayoutObject->Header(),
+                    $LayoutObject->NavigationBar(),
+                    $LayoutObject->Output(
+                        TemplateFile => 'AdminPerformanceLog',
+                        Data         => \%Param,
+                    ),
+                    $LayoutObject->Footer();
             }
             else {
                 $Data = $Self->_DatabaseRead();
@@ -358,17 +361,16 @@ sub Run {
                 if ( defined $Sum{$Interface} ) {
 
                     my $Average = $Sum{$Interface} / $Count{$Interface};
-                    $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $LayoutObject->Block(
                         Name => 'OverviewInterface',
                         Data => {
                             Interface => $Interface,
-                            Average   => $Average,
+                            Average   => sprintf( '%.3f', $Average ),
                             Count     => $Count{$Interface} || 0,
                             Minute    => $Minute,
-                            Sum       => $Sum{$Interface} || '0',
-                            Max       => $Max{$Interface} || '0',
-                            Min       => $Min{$Interface} || '0',
+                            Sum       => sprintf( '%.3f', $Sum{$Interface} || '0' ),
+                            Max       => sprintf( '%.3f', $Max{$Interface} || '0' ),
+                            Min       => sprintf( '%.3f', $Min{$Interface} || '0' ),
                         },
                     );
 
@@ -377,18 +379,17 @@ sub Run {
 
                             my $Average = $Action{$Module}->{Sum}->{$Interface}
                                 / $Action{$Module}->{Count}->{$Interface};
-                            $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                             $LayoutObject->Block(
                                 Name => 'OverviewRow',
                                 Data => {
                                     Interface => $Interface,
                                     Module    => $Module,
-                                    Average   => $Average,
+                                    Average   => sprintf( '%.3f', $Average ),
                                     Minute    => $Minute,
                                     Count     => $Action{$Module}->{Count}->{$Interface} || '0',
-                                    Sum       => $Action{$Module}->{Sum}->{$Interface}   || '0',
-                                    Max       => $Action{$Module}->{Max}->{$Interface}   || '0',
-                                    Min       => $Action{$Module}->{Min}->{$Interface}   || '0',
+                                    Sum       => sprintf( '%.3f', $Action{$Module}->{Sum}->{$Interface} || '0' ),
+                                    Max       => sprintf( '%.3f', $Action{$Module}->{Max}->{$Interface} || '0' ),
+                                    Min       => sprintf( '%.3f', $Action{$Module}->{Min}->{$Interface} || '0' ),
                                 },
                             );
                         }
