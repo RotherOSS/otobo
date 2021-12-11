@@ -270,7 +270,7 @@ sub Run {
                     }
 
                     my $Now = Time::HiRes::time();
-                    say $Out join '::',
+                    print $Out join '::',
                         $Now,
                         'Public',
                         ( $Now - $Self->{PerformanceLogStart} ),

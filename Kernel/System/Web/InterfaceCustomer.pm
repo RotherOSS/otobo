@@ -1458,7 +1458,7 @@ sub Run {
                     }
 
                     my $Now = Time::HiRes::time();
-                    say $Out join '::',
+                    print $Out join '::',
                         $Now,
                         'Customer',
                         ( $Now - $Self->{PerformanceLogStart} ),
