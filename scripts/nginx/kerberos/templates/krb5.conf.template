@@ -1,5 +1,5 @@
 [libdefaults]
-        default_realm = ${OTOBO_NGINX_KERBEROS_REALM:?err}
+        default_realm = ${OTOBO_NGINX_KERBEROS_REALM}
 
 # The following krb5.conf variables are only for MIT Kerberos.
         kdc_timesync = 1
@@ -28,12 +28,12 @@
         fcc-mit-ticketflags = true
 
 [realms]
-        ${OTOBO_NGINX_KERBEROS_REALM:?err} = {
-                kdc = ${OTOBO_NGINX_KERBEROS_KDC:?err}
-                admin_server = ${OTOBO_NGINX_KERBEROS_ADMIN_SERVER:?err}
-                default_domain = ${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN:?err}
+        ${OTOBO_NGINX_KERBEROS_REALM} = {
+                kdc = ${OTOBO_NGINX_KERBEROS_KDC}
+                admin_server = ${OTOBO_NGINX_KERBEROS_ADMIN_SERVER}
+                default_domain = ${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN}
         }
 
 [domain_realm]
-        .${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN:?err}     = ${OTOBO_NGINX_KERBEROS_REALM:?err}
-        ${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN:?err}      = ${OTOBO_NGINX_KERBEROS_REALM:?err}
+        .${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN}     = ${OTOBO_NGINX_KERBEROS_REALM}
+        ${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN}      = ${OTOBO_NGINX_KERBEROS_REALM}

@@ -105,6 +105,10 @@ COPY templates/ templates
 RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
 COPY snippets/  snippets
 
+# When Kerberos is active we also generate /etc/krb5.conf from the template in templates/kerberos
+COPY kerberos/templates/ kerberos/templates
+COPY docker-entrypoint.d/21-envsubst-on-krb5-conf.sh /docker-entrypoint.d/
+
 # Copy text to line 4 - load Kerberos module in nginx.conf
 RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf
 
