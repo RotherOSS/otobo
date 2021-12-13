@@ -97,7 +97,7 @@ WORKDIR /etc/nginx
 # move the old config out of the way
 RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
-# new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
+# The new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh.
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
 # Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
 # Kerberos support. The not needed template is moved out of the way.
