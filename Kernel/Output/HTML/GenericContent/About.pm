@@ -30,13 +30,46 @@ sub new {
     return $Self;
 }
 
-sub Run {
+sub Content {
     my ( $Self, %Param ) = @_;
 
-    return $Kernel::OM->Get('Kernel::System::DataStorage')->Get(
-        Type => 'Core',
-        Key  => 'About',
+    if ( !$Param{LayoutObject} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Need LayoutObject!',
+        );
+
+        return;
+    }
+
+    my $DataStorageObject = $Kernel::OM->Get('Kernel::System::DataStorage');
+
+    my @Languages = (
+        $Param{LayoutObject}{UserLanguage},
+        $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage'),
+        'en',
     );
+
+    LANGUAGE:
+    for my $Language (@Languages) {
+        next LANGUAGE if !$Language;
+
+        my $Content = $DataStorageObject->Get(
+            Type => 'AboutMessage',
+            Key  => $Language,
+        );
+
+        next LANGUAGE if !$Content;
+
+        return $Content->{Body} if $Content->{Body};
+    }
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'error',
+        Message  => "No Content found for @Languages!",
+    );
+
+    return;
 }
 
 1;
