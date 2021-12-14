@@ -7,13 +7,15 @@
 # This image is based on CentOS 7. The User is root.
 FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.1
 
-# install system tools
-# hadolint ignore=DL3008
-RUN apt-get install -y\
+# Install system tools
+# Hadolint ignore=DL3008
+RUN apt-get update \
+ && apt-get -y --no-install-recommends install -y\
  "less"\
  "nano"\
  "tree"\
- "vim"
+ "vim"\
+ && rm -rf /var/lib/apt/lists/*
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment
