@@ -36,10 +36,9 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject     = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $LayoutObject    = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
-    my $ModuleKey       = $ParamObject->GetParam( Param => 'Key' ) // '';
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ModuleKey    = $ParamObject->GetParam( Param => 'Key' ) // '';
 
     if ( !$ModuleKey ) {
         return $LayoutObject->FatalError(
@@ -47,60 +46,96 @@ sub Run {
         );
     }
 
-    my %ModuleMap;
-    my $ModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerGenericHTMLContent::ModuleMap');
-    for my $Entry ( sort keys $ModuleConfig->%* ) {
-        %ModuleMap = (
-            %ModuleMap,
-            $ModuleConfig->{$Entry}->%*,
+    if ( !$Self->{Subaction} ) {
+        my %HeaderMap;
+        my $HeaderConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerGenericHTMLContent::HeaderMap') // {};
+        for my $Entry ( sort keys $HeaderConfig->%* ) {
+            %HeaderMap = (
+                %HeaderMap,
+                $HeaderConfig->{$Entry}->%*,
+            );
+        }
+
+        return join ( '',
+            (
+                $LayoutObject->CustomerHeader(),
+                $LayoutObject->Output(
+                    TemplateFile => 'CustomerGenericContent',
+                    Data         => {
+                        Key    => $ModuleKey,
+                        Header => $HeaderMap{$ModuleKey} // 'Additional Information',
+                    },
+                ),
+                $LayoutObject->CustomerNavigationBar(),
+                $LayoutObject->CustomerFooter(),
+            )
         );
     }
 
-    if ( !$ModuleMap{$ModuleKey} ) {
-        return $LayoutObject->FatalError(
-            Message => Translatable('Invalid Key!'),
+    # generate the iframe content
+    elsif ( $Self->{Subaction} eq 'Show' ) {
+
+        my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
+        my %ModuleMap;
+        my $ModuleConfig = $Kernel::OM->Get('Kernel::Config')->Get('CustomerGenericHTMLContent::ModuleMap') // {};
+        for my $Entry ( sort keys $ModuleConfig->%* ) {
+            %ModuleMap = (
+                %ModuleMap,
+                $ModuleConfig->{$Entry}->%*,
+            );
+        }
+
+        if ( !$ModuleMap{$ModuleKey} ) {
+            return $LayoutObject->FatalError(
+                Message => Translatable('Invalid Key!'),
+            );
+        }
+
+        my $Module = 'Kernel::Output::HTML::GenericContent::' . $ModuleMap{$ModuleKey};
+        if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Failed to require '$Module' defined for '$ModuleKey'!",
+            );
+
+            return $LayoutObject->FatalError(
+                Message => Translatable('Failed to load Content!'),
+            );
+        }
+
+        my $ContentObject = $Module->new();
+
+        my $Content = $ContentObject->Content(
+            Interface    => 'Customer',
+            ModuleKey    => $ModuleKey,
+            LayoutObject => $LayoutObject,
+            ParamObject  => $ParamObject,
+            UserID       => $Self->{UserID},
+        );
+
+        if ( !$Content ) {
+            return $LayoutObject->FatalError(
+                Message => Translatable('Failed to load Content!'),
+            );
+        }
+
+        $Content = $HTMLUtilsObject->DocumentComplete(
+            String            => $Content,
+            Charset           => 'utf-8',
+            CustomerInterface => 1,
+        );
+
+        return $LayoutObject->Attachment(
+            Type        => 'inline',
+            ContentType => 'text/html',
+            Content     => $Content,
+            Charset     => 'utf-8',
         );
     }
 
-    my $Module = 'Kernel::Output::HTML::GenericContent::' . $ModuleMap{$ModuleKey};
-    if ( !$Kernel::OM->Get('Kernel::System::Main')->Require($Module) ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
-            Message  => "Failed to require '$Module' defined for '$ModuleKey'!",
-        );
-
-        return $LayoutObject->FatalError(
-            Message => Translatable('Failed to load Content!'),
-        );
-    }
-
-    my $ContentObject = $Module->new();
-
-    my $Content = $ContentObject->Content(
-        Interface    => 'Customer',
-        ModuleKey    => $ModuleKey,
-        LayoutObject => $LayoutObject,
-        ParamObject  => $ParamObject,
-        UserID       => $Self->{UserID},
-    );
-
-    if ( !$Content ) {
-        return $LayoutObject->FatalError(
-            Message => Translatable('Failed to load Content!'),
-        );
-    }
-
-    $Content = $HTMLUtilsObject->DocumentComplete(
-        String            => $Content,
-        Charset           => 'utf-8',
-        CustomerInterface => 1,
-    );
-
-    return $LayoutObject->Attachment(
-        Type        => 'inline',
-        ContentType => 'text/html',
-        Content     => $Content,
-        Charset     => 'utf-8',
+    return $LayoutObject->FatalError(
+        Message => Translatable('Destination unknown.'),
     );
 }
 

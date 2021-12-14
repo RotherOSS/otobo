@@ -13,65 +13,6 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 
-@media only screen and (max-width: 767px) {
-
-    #oooHeader {
-        padding: 0px 16px 24px 16px;
-        border-radius: 20px 20px 0px 0px;
-        border-bottom: 0.6px solid #e5e5eb;
-        height: 121px;
-
-        overflow: hidden;
-    }
-
-    #oooMainBox {
-        background-color: #f7f7f9;
-        background-color: var(--colBGLight);
-        min-height: calc( 100vh - 265px );
-    }
-
-    #oooMainBox > iframe {
-        margin: 8px 0;
-        padding: 16px 24px;
-        width: calc( 100% - 64px );
-        height: calc( 100vh - 300px );
-    }
-}
-
-@media only screen and (min-width: 768px) {
-    
-    #oooHeader {
-        height: 145px;
-        position: sticky;
-        top: 0;
-        border-bottom: 1.2px solid #e5e5eb;
-    }
-
-    #oooMainBox > iframe {
-        margin: 40px;
-    }
-
-    #oooMainBox > iframe {
-        margin: 32px 0;
-        padding: 16px 24px;
-        width: calc( 100% - 112px );
-        height: calc( 100vh - 360px );
-    }
-}
-
-#oooHeader {
-    background-color: #ffffff;
-    display: grid;
-    grid-template-rows: 100%;
-    align-items: center;
-}
-
-#oooMainBox > iframe {
-    background-color: #ffffff;
-    border-radius: 20px;
-    min-height: 200px;
-}
-
 #AcceptGDPR > img {
     margin-left: 12px;
     vertical-align: middle;
