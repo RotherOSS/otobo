@@ -9,7 +9,7 @@ FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.1
 
 # install system tools
 # hadolint ignore=DL3008
-RUN yum install -y\
+RUN apt-get install -y\
  "less"\
  "nano"\
  "tree"\
