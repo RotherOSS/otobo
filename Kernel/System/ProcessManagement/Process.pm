@@ -300,7 +300,7 @@ sub ProcessStartpointGet {
 
     if ( !$Process->{StartActivityDialog} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'error',
+            Priority => 'debug',
             Message  => "No 'StartActivityDialog' for Process '$Param{ProcessEntityID}' found!",
         );
         return;

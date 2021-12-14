@@ -134,6 +134,31 @@ sub Run {
         );
     }
 
+    if ( $TransitionApplied ) {
+        my %UpdatedTicket = $TicketObject->TicketGet(
+            TicketID      => $Param{Data}->{TicketID},
+            DynamicFields => 1,
+            Silent        => 1,
+        );
+
+        # if the transition was applied, check whether we want to go further
+        if ( $UpdatedTicket{"DynamicField_$ActivityIDField"} ne $ActivityEntityID || $UpdatedTicket{"DynamicField_$ProcessIDField"} ne $ProcessEntityID ) {
+            $TicketObject->{$CacheKey}->{ $Param{Data}->{TicketID} } = 0;
+
+            # loop protection
+            if ( $TicketObject->{$CacheKey.'Count'}->{ $Param{Data}->{TicketID} }++ > 100 ) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "Ticket $Param{Data}->{TicketID} ran into a loop while following the transitions through its process!",
+                );
+
+                return;
+            }
+
+            return $Self->Run(%Param);
+        }
+    }
+
     return 1;
 }
 
