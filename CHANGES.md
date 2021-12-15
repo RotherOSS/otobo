@@ -1,4 +1,33 @@
 
+# OTOBO 10.0.14 2021-12-15
+- 2021-12-14 17:23:23 +0100 [Bugfix]   Unprecise time taking in AdminPerformanceLog (https://github.com/RotherOSS/otobo/issues/1500)
+- 2021-12-14 15:33:04 +0100 Change Elasticsearch Docker file.
+- 2021-12-14 15:02:57 +0100 Change yum to apt-get for Elasticsearch 7.16.1 test.
+- 2021-12-14 09:53:59 +0100 Update to the latest version of Elasticsearch. (https://github.com/RotherOSS/otobo/issues/1505)
+- 2021-12-11 14:45:25 +0100 [Bugfix]   Incorrect dates in detail view of AdminPerformanceLog (https://github.com/RotherOSS/otobo/issues/1499)
+- 2021-11-26 09:31:44 +0000 Translated using Weblate (German)
+- 2021-11-19 11:56:03 +0000 Translated using Weblate (Italian)
+- 2021-10-08 14:24:22 +0000 Update translation files
+- 2021-12-03 12:08:31 +0100 Tickets get locked on FollowUp even if the owner is root@localhost (https://github.com/RotherOSS/otobo/issues/1475) - in progress
+- 2021-11-30 08:56:53 +0100 Tidied.
+- 2021-11-29 22:16:47 +0100 [Enhanced] Provide a nginx config file dedicated to nginx-kerberos (https://github.com/RotherOSS/otobo/issues/1465)
+- 2021-11-29 19:09:28 +0100 [Bugfix]   Replacement of ${OTOBO_NGINX_KERBEROS_KEYTAB} in /etc/nginx/conf.d/otobo_nginx.conf (https://github.com/RotherOSS/otobo/issues/1462)
+- 2021-02-19 13:39:26 +0000 Implement StartTLS support for LDAP auth modules
+- 2021-11-26 08:50:12 +0100 [Enhanced] Changing default options for number of results in Dynamic Fields list (https://github.com/RotherOSS/otobo/issues/1154)
+- 2021-11-22 10:52:43 +0100 [Enhanced] Enhance the generic interface and introduce missing features. (https://github.com/RotherOSS/otobo/issues/772) - in progress
+- 2021-11-13 10:00:49 +0100 [Bugfix]   Docker: Perl modules in /opt/otobo/local/ should have precedence (https://github.com/RotherOSS/otobo/issues/1403)
+- 2021-11-04 09:21:08 +0100 There are no OTOBO Community Fields, only Dynamic Fields (https://github.com/RotherOSS/otobo/issues/1380)
+- 2021-11-02 14:22:25 +0100 [Tidied]   Nicer layout of the OTOBO verified logo (https://github.com/RotherOSS/otobo/issues/1377)
+- 2021-11-01 11:18:34 +0100 [Tidied]   Follow advice from hadolint on otobo.web.dockerfile (https://github.com/RotherOSS/otobo/issues/1375)
+- 2021-10-29 11:20:01 +0200 Fix debugging error in XSLT mapping in the GenericInterface.
+- 2021-10-28 11:09:26 +0200 Autoselect: Use val() instead of text() for recognition of unused fields, to enable usage for TreeView.
+- 2021-10-28 09:46:33 +0200 Use default QueueID for SLA generation in CustomerTicketMessage in _Mask, equivalently to _GetSLAs.
+- 2021-10-22 16:04:52 +0200 [Tidied]   No longer require Plack::Middleware::Rewrite (https://github.com/RotherOSS/otobo/issues/1356)
+- 2021-10-21 14:53:59 +0200 [Tidied]   CodePolicy for OTOBO 10.0.14 (https://github.com/RotherOSS/otobo/issues/1349)
+- 2021-10-15 16:23:55 +0200 [Enhanced] Migration: Accept "((OTRS)) Community Edition" in RELEASE (https://github.com/RotherOSS/otobo/issues/1317)
+- 2021-10-08 16:31:09 +0200 Repair CHANGES.
+
+
 # OTOBO 10.0.13 2021-10-08
 - 2021-10-08 16:23:54 +0200 Create new OTOBO language files.
 - 2021-09-08 15:19:44 +0000 Translated using Weblate (Spanish (Mexico))
@@ -831,3 +860,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
