@@ -223,13 +223,21 @@ sub EventHandler {
             # load event module
             next MODULE if !$MainObject->Require( $Modules->{$Module}->{Module} );
 
-            # execute event backend
-            my $Generic = $Modules->{$Module}->{Module}->new();
+            eval {
+                # execute event backend
+                my $Generic = $Modules->{$Module}->{Module}->new();
 
-            $Generic->Run(
-                %Param,
-                Config => $Modules->{$Module},
-            );
+                $Generic->Run(
+                    %Param,
+                    Config => $Modules->{$Module},
+                );
+            };
+            if ($@) {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "$Module died with: $@",
+                );
+            }
         }
     }
 
