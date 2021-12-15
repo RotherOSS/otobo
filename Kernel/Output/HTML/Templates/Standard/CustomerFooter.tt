@@ -93,6 +93,13 @@
                 </svg>
             </a>
         </div>
+        <div id='FooterLinks'>
+[% IF(Data.FooterLinks) %]
+    [% FOREACH Link IN Data.FooterLinks %]
+            <a href="[% Link.Target | html %]" target="_blank" class="ooo12g">[% Link.Description | html %]</a>
+    [% END %]
+[% END %]
+        </div>
         <div id='ooo'>
             <p class='ooo10g'>powered by <a href="https://otobo.de">Rother OSS</a> © 2019-2021</p>
             <a href="https://otobo.de">
@@ -181,27 +188,6 @@
         </div>
     </div>
 </div>
-
-#<div id="Footer" class="ARIARoleContentinfo">
-#
-#[% IF(Data.FooterLinks) %]
-#    <ul class="FooterLinks">
-#        [% FOREACH Link IN Data.FooterLinks %]
-#            <li>
-#                <a href="[% Link.Target %]" target="_blank">[% Link.Description | html %]</a>
-#            </li>
-#        [% END %]
-#    </ul>
-#[% END %]
-
-#[% IF !Config("Secure::DisableBanner") %]
-#    <a href="[% IF !Data.IsLoginPage %]https://www.otobo.org[% ELSE %]https://www.otobo.org[% END %]" title="[% Config("Product") | html %][% IF !Data.IsLoginPage %] [% Config("Version") | html %][% END %]" target="_blank">
-#        <span></span>
-#        [% Translate("Powered by %s", "Harry") | html %]
-#    </a>
-#    <div class="Clear"></div>
-#[% END %]
-#</div>
 
 [% InsertTemplate("CustomerFooterJS.tt") %]
 

@@ -66,10 +66,11 @@ sub Run {
         $Self->{RequestedURL} = 'Action=';
     }
     my $Accept        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Accept' ) || '';
+    my $Review        = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => 'Review' ) || '';
     my $LayoutObject  = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $SessionObject = $Kernel::OM->Get('Kernel::System::AuthSession');
 
-    if ( $Self->{ $Self->{InfoKey} } ) {
+    if ( $Self->{ $Self->{InfoKey} } && !$Review ) {
 
         # remove requested url from session storage
         $SessionObject->UpdateSessionID(
@@ -114,7 +115,7 @@ sub Run {
         $Output .= $LayoutObject->Output(
             TemplateFile => 'CustomerAccept',
             Data         => {
-                AcceptButton => 1,
+                AcceptButton => !$Review,
             }
         );
         $Output .= $LayoutObject->CustomerFooter();

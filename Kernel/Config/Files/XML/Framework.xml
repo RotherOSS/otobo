@@ -7497,7 +7497,7 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="PublicFrontend::FooterLinks" Required="0" Valid="0">
-        <Description Translatable="1">Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.</Description>
+        <Description Translatable="1">Defines the shown links in the footer area of the public interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label.</Description>
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Hash>
@@ -7510,6 +7510,16 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Item ValueType="String">PublicDefault</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::FooterLinks" Required="0" Valid="0">
+        <Description Translatable="1">Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. &lt;OTOBO_CONFIG_HttpType&gt;, &lt;OTOBO_CONFIG_FQDN&gt; and &lt;OTOBO_CONFIG_ScriptAlias&gt; will be substituted.</Description>
+        <Navigation>Frontend::Customer</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="&lt;OTOBO_CONFIG_HttpType&gt;://&lt;OTOBO_CONFIG_FQDN&gt;/&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerGenericContent&amp;Key=About">About</Item>
+                <Item Key="&lt;OTOBO_CONFIG_HttpType&gt;://&lt;OTOBO_CONFIG_FQDN&gt;/&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl?Action=CustomerAccept&amp;Review=1">Privacy Policy</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="PublicFrontend::Module###PublicDefault" Required="0" Valid="1">
