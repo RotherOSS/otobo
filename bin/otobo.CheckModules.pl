@@ -1313,8 +1313,16 @@ sub Check {
             'Email::Valid' => 1,    # uses Net::DNS internally
         );
 
-        if ( !$DontRequire{ $Module->{Module} } && !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-            $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
+        if ( !$DontRequire{ $Module->{Module} } ) {
+
+            # When CGI.pm sees the environment variable MOD_PERL,
+            # then it checks for Apache- or Apache2-modules.
+            # But we don't want that, as OTOBO has no use for these modules.
+            delete local $ENV{MOD_PERL};
+
+            if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+                $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
+            }
         }
 
         if ( $Module->{VersionsNotSupported} ) {
