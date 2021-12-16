@@ -210,8 +210,8 @@ sub _CheckOTOBOVersion {
         };
     }
 
-    # Note: this check must be updated for every major and minor version
-    if ( $ReleaseInfo->{Version} !~ m/^10\.1(.*)$/ ) {
+    # Note: this version check must be updated for every major and minor version
+    if ( $ReleaseInfo->{Version} !~ m/^10\.1/ ) {
         return {
             Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $ReleaseInfo->{Version} ),
