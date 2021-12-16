@@ -177,7 +177,7 @@ sub _CheckOTOBOVersion {
     my $Message   = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
     my $Location  = "$OTOBOHome/RELEASE";
 
-    # load RELEASE file
+    # check existence of the RELEASE file
     if ( !-e $Location ) {
         return
             {
@@ -187,6 +187,7 @@ sub _CheckOTOBOVersion {
             };
     }
 
+    # parse RELEASE file
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
     my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
 
@@ -256,6 +257,7 @@ sub _CheckOTRSRelease {
         'OTRS'                       => 'https://otrs.com/',
         'Znuny LTS'                  => 'https://www.znuny.org/',
     );
+
     if ( !$ProductNameIsValid{ $ReleaseInfo->{Product} } ) {
         my $ExpectedNames = join ', ', map {"'$_'"} sort keys %ProductNameIsValid;
 
