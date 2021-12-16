@@ -177,7 +177,7 @@ sub _CheckOTOBOVersion {
     my $Message   = $Self->{LanguageObject}->Translate("Check if OTOBO version is correct.");
     my $Location  = "$OTOBOHome/RELEASE";
 
-    # load RELEASE file
+    # check existence of the RELEASE file
     if ( !-e $Location ) {
         return
             {
@@ -187,6 +187,7 @@ sub _CheckOTOBOVersion {
             };
     }
 
+    # parse RELEASE file
     my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
     my $ReleaseInfo = $MainObject->GetReleaseInfo( Location => $Location );
 
@@ -209,7 +210,8 @@ sub _CheckOTOBOVersion {
         };
     }
 
-    if ( $ReleaseInfo->{Version} !~ m/^10\.1(.*)$/ ) {
+    # Note: this check must be updated for every major and minor version
+    if ( $ReleaseInfo->{Version} !~ m/^10.0(.*)$/ ) {
         return {
             Message    => $Message,
             Comment    => $Self->{LanguageObject}->Translate( 'You are trying to run this script on the wrong framework version %s!', $ReleaseInfo->{Version} ),
@@ -256,6 +258,7 @@ sub _CheckOTRSRelease {
         'OTRS'                       => 'https://otrs.com/',
         'Znuny LTS'                  => 'https://www.znuny.org/',
     );
+
     if ( !$ProductNameIsValid{ $ReleaseInfo->{Product} } ) {
         my $ExpectedNames = join ', ', map {"'$_'"} sort keys %ProductNameIsValid;
 
