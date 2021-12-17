@@ -598,12 +598,12 @@ sub HandleFile {
 create from .opm file a new clean .sopm file
 
     my $ReturnPath = $OTRSToOTOBOObject->CopyOPMtoSOPMAndClean(
-        Source        => "/tmp/test.opm",
-        TmpDirectory        => "/opt/otrs/var/tmp/",
+        Source        => '/tmp/test.opm',
+        TmpDirectory  => '/opt/otrs/var/tmp/',
     );
 
     returns
-    $ReturnPath = /opt/otrs/var/tmp/
+    $ReturnPath = '/opt/otrs/var/tmp/'
 
 =cut
 
@@ -665,12 +665,12 @@ sub CopyOPMtoSOPMAndClean {
 get a file or directory from remote system, save to tmp directory, return Path.
 
     my $ReturnPath = $OTRSToOTOBOObject->ExtractOPMPackage(
-        Source        => "/opt/otrs/",
-        TmpDirectory        => "/opt/otrs/var/tmp/",
+        Source        => '/opt/otrs/',
+        TmpDirectory  => '/opt/otrs/var/tmp/',
     );
 
     returns
-    $ReturnPath = /opt/otrs/var/tmp/*
+    $ReturnPath = '/opt/otrs/var/tmp/*'
 
 =cut
 
@@ -724,16 +724,16 @@ get a file or directory from remote system, save to tmp directory, return Path.
 
     my $ReturnPath = $OTRSToOTOBOObject->CopyFileAndSaveAsTmp(
         FQDN        => "192.68.0.1",
-        Path        => "opt/otrs/",
-        SSHUser     => "root",
-        Password       => "Pw",
-        ExcludeDirs  => ["var/article"] # Optional
-        Filename    => "RELEASE",       # Optional, if only one file to copy
+        Path        => 'opt/otrs/',
+        SSHUser     => 'root',
+        Password    => 'Pw',
+        ExcludeDir  => ['var/article'] # Optional
+        Filename    => 'RELEASE',      # Optional, if only one file to copy
         UserID      => 1,
     );
 
     returns
-    $ReturnPath = /opt/otrs/var/tmp/*
+    $ReturnPath = '/opt/otrs/var/tmp/*'
 
 =cut
 
