@@ -26,7 +26,7 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl -h
 
     # Print the console command to install all missing packages for the standard configuration via the system package manager.
-    bin/otobo.CheckModules.pl -inst
+    bin/otobo.CheckModules.pl --inst
 
     # Print a list of those required and most commonly used optional packages for OTOBO.
     bin/otobo.CheckModules.pl --list
