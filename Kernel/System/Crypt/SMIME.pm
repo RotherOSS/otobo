@@ -242,7 +242,7 @@ sub Crypt {
     my ( $FHCrypted, $CryptedFile ) = $FileTempObject->TempFile();
     close $FHCrypted;
 
-    my $Options    = "smime -encrypt -binary -des3 -in $PlainFile -out $CryptedFile $CertFileStrg";
+    my $Options    = "smime -encrypt -binary -$Self->{Cipher} -in $PlainFile -out $CryptedFile $CertFileStrg";
     my $LogMessage = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
     if ($LogMessage) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2314,6 +2314,7 @@ sub _Init {
     $Self->{Bin}         = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
     $Self->{CertPath}    = $ConfigObject->Get('SMIME::CertPath');
     $Self->{PrivatePath} = $ConfigObject->Get('SMIME::PrivatePath');
+    $Self->{Cipher}      = $ConfigObject->Get('SMIME::Cipher') || 'aes256';
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $ConfigObject->Get('SMIME::CacheTTL') || 86400 );
