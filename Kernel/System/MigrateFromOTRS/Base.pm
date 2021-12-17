@@ -350,8 +350,14 @@ sub CleanOTRSFileToOTOBOStyle {
         REPLACEMENT:
         for my $Replacement (@Replacements) {
 
-            my $Search = $Replacement->{Search};
-            my $Change = $Replacement->{Change};
+            my @LineBlacklist = ( $Replacement->{LineBlacklist} // [] )->@*;
+            my $Search        = $Replacement->{Search};
+            my $Change        = $Replacement->{Change};
+
+            # avoid unwanted replacements, for example when SendmailModule::AuthUser is set to 'otrs-mailuser'
+            for my $Skip (@LineBlacklist) {
+                next REPLACEMENT if $Line =~ $Skip;
+            }
 
             $Line =~ s/$Search/$Change/g;
 
@@ -1759,6 +1765,7 @@ sub _ChangeFileInfo {
         {
             FileType          => 'All',
             FileNameBlacklist => { 'Config.pm' => 1 },
+            LineBlacklist     => [qr/AuthUser/],
             Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
             Change            => 'otobo'
         },
@@ -1766,6 +1773,7 @@ sub _ChangeFileInfo {
             # TODO: remove this rule, as it already is included in the preceeding rule
             FileType          => 'All',
             FileNameBlacklist => { 'Config.pm' => 1 },
+            LineBlacklist     => [qr/AuthUser/],
             Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))"otrs"',
             Change            => '"otobo"'
         },
