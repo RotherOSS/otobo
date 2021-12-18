@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-10-08 14:22+0000\n"
+"POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,6 +196,50 @@ msgstr ""
 
 #. Template: AdminACLNew
 msgid "Create a new ACL by submitting the form data. After creating the ACL, you will be able to add configuration items in edit mode."
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Privacy Policy Management"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Privacy Policy"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Toggle this widget"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Remove Language"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Text"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Message body"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "This field is required and must have less than 4000 characters."
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Remove About Language"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Add new language"
+msgstr ""
+
+#. Template: AdminAbout
+msgid "Save Changes"
 msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
@@ -483,10 +527,6 @@ msgid "This message will be shown on the agent preferences screen as a tooltip f
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Toggle this widget"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
 msgid "Events"
 msgstr ""
 
@@ -623,19 +663,7 @@ msgid "Subject"
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
-msgid "Text"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Message body"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
-
-#. Template: AdminAppointmentNotificationEvent
-msgid "Save Changes"
 msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
@@ -1182,6 +1210,10 @@ msgstr ""
 msgid "Valid"
 msgstr ""
 
+#. Template: AdminCustomerAccept
+msgid "Remove PrivacyPolicy Language"
+msgstr ""
+
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
 msgstr ""
@@ -1519,7 +1551,7 @@ msgid "Filter for dynamic fields"
 msgstr ""
 
 #. Template: AdminDynamicField
-msgid "New OTOBO Community  Fields"
+msgid "New Dynamic Fields"
 msgstr ""
 
 #. Template: AdminDynamicField
@@ -1636,6 +1668,14 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the order in which this field will be shown on the screens where is active."
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "Tooltip message:"
+msgstr ""
+
+#. Template: AdminDynamicFieldCheckbox
+msgid "This is the tooltip message shown inside the customer interface."
 msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
@@ -3138,6 +3178,110 @@ msgstr ""
 msgid "Add New Condition"
 msgstr ""
 
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "General invoker data"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Settings for outgoing request data"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Ticket fields"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Only the selected ticket fields will be considered for the request data."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Article fields"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Only the selected article fields will be considered for the request data."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Ticket dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Only the selected ticket dynamic fields will be considered for the request data."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Article dynamic fields"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Only the selected article dynamic fields will be considered for the request data."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Number of articles"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Communication channels"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Customer visibility"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The outgoing request data will only consider articles created with the selected customer visibility."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Sender Types"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Mapping"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Settings for incoming response data"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Remote TicketID dynamic field"
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The selected ticket dynamic field is being used to store the remote TicketID."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "The selected field is already in use by the Ticket dynamic fields option."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed."
+msgstr ""
+
+#. Template: AdminGenericInterfaceInvokerTicket
+msgid "Event data"
+msgstr ""
+
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
 msgstr ""
@@ -3650,6 +3794,54 @@ msgstr ""
 msgid "The default HTTP command to use for the requests."
 msgstr ""
 
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Additional request headers (all invokers)"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Additional request headers (invoker specific)"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Remove all headers for this invoker"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Headers for invoker"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Additional response headers (all operations)"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Additional response headers (operation specific)"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Remove all headers for this operation"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Headers for operation"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Common headers"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Header Name"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Remove header"
+msgstr ""
+
+#. Template: AdminGenericInterfaceTransportHTTPREST
+msgid "Add header"
+msgstr ""
+
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
 msgstr ""
@@ -3855,19 +4047,11 @@ msgid "Ready2Adopt Web Services"
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
-msgid "Here you can activate Ready2Adopt web services showcasing our best practices that are a part of %s."
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Please note that these web services may depend on other modules only available with certain %s contract levels (there will be a notification with further details when importing)."
+msgid "Here you can activate Ready2Adopt web services showcasing our best practices."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
-
-#. Template: AdminGenericInterfaceWebservice
-msgid "Would you like to benefit from web services created by experts? Upgrade to %s to import some sophisticated Ready2Adopt web services."
 msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
@@ -4203,10 +4387,6 @@ msgid "If ArticleCreate or ArticleSend is used as a trigger event, you need to s
 msgstr ""
 
 #. Template: AdminNotificationEvent
-msgid "Customer visibility"
-msgstr ""
-
-#. Template: AdminNotificationEvent
 msgid "Communication channel"
 msgstr ""
 
@@ -4216,10 +4396,6 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notify user just once per day about a single ticket using a selected transport."
-msgstr ""
-
-#. Template: AdminNotificationEvent
-msgid "This field is required and must have less than 4000 characters."
 msgstr ""
 
 #. Template: AdminNotificationEvent
@@ -7322,6 +7498,10 @@ msgstr ""
 msgid "New email ticket to %s"
 msgstr ""
 
+#. Template: AgentDashboardMyLastChangedTickets
+msgid "No tickets found."
+msgstr ""
+
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
 msgstr ""
@@ -7734,6 +7914,142 @@ msgstr ""
 msgid "Delete statistic %s"
 msgstr ""
 
+#. Template: AgentStatisticsReportsAdd
+msgid "Report Management"
+msgstr ""
+
+#. Template: AgentStatisticsReportsAdd
+msgid "Add Report"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Edit Report"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Configure PhantomJS"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Configure GoogleChrome"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "General settings"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Automatic generation settings"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Automatic generation times (cron)"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Specify when the report should be automatically generated in cron format, e. g. \"10 1 * * *\" for every day at 1:10 am."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Times are in the system timezone."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Last automatic generation time"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Next planned automatic generation time"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Automatic generation language"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "The language to be used when the report is automatically generated."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Email subject"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Specify the subject for the automatically generated email."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Email body"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Specify the text for the automatically generated email."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Email recipients"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Specify recipient email addresses (comma separated)."
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Output settings"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Headline"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Caption for preamble"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Preamble"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Caption for epilogue"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Epilogue"
+msgstr ""
+
+#. Template: AgentStatisticsReportsEdit
+msgid "Add statistic to report"
+msgstr ""
+
+#. Template: AgentStatisticsReportsOverview
+msgid "Statistics Reports"
+msgstr ""
+
+#. Template: AgentStatisticsReportsOverview
+msgid "Edit statistics report \"%s\"."
+msgstr ""
+
+#. Template: AgentStatisticsReportsOverview
+msgid "Delete statistics report \"%s\""
+msgstr ""
+
+#. Template: AgentStatisticsReportsView
+msgid "View Report"
+msgstr ""
+
+#. Template: AgentStatisticsReportsView
+msgid "This statistics report contains configuration errors and can currently not be used."
+msgstr ""
+
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
 msgstr ""
@@ -7991,6 +8307,14 @@ msgid "Remove Ticket Customer"
 msgstr ""
 
 #. Template: AgentTicketCompose
+msgid "Move to Cc"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "Move to Bcc"
+msgstr ""
+
+#. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
 msgstr ""
 
@@ -8000,6 +8324,10 @@ msgstr ""
 
 #. Template: AgentTicketCompose
 msgid "Remove Cc"
+msgstr ""
+
+#. Template: AgentTicketCompose
+msgid "Move to To"
 msgstr ""
 
 #. Template: AgentTicketCompose
@@ -8654,10 +8982,6 @@ msgstr ""
 msgid "Traceback"
 msgstr ""
 
-#. Template: CustomerFooter
-msgid "Powered by %s"
-msgstr ""
-
 #. Template: CustomerFooterJS
 msgid "%s detected possible network issues. You could either try reloading this page manually or wait until your browser has re-established the connection on its own."
 msgstr ""
@@ -8954,16 +9278,16 @@ msgstr ""
 msgid "Event Information"
 msgstr ""
 
-#. Template: DashboardEventsTicketCalendar
-msgid "Ticket fields"
-msgstr ""
-
 #. Template: Error
 msgid "Send a bugreport"
 msgstr ""
 
 #. Template: Error
 msgid "Expand"
+msgstr ""
+
+#. Template: Footer
+msgid "Powered by %s"
 msgstr ""
 
 #. Template: AttachmentList
@@ -9203,27 +9527,15 @@ msgid "A new database user with limited permissions will be created for this OTO
 msgstr ""
 
 #. Template: InstallerDBmssql
+msgid "Generated password"
+msgstr ""
+
+#. Template: InstallerDBmssql
 msgid "Repeat Password"
 msgstr ""
 
 #. Template: InstallerDBmssql
-msgid "Generated password"
-msgstr ""
-
-#. Template: InstallerDBmysql
 msgid "Passwords do not match"
-msgstr ""
-
-#. Template: InstallerFinish
-msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
-msgstr ""
-
-#. Template: InstallerFinish
-msgid "Restart your webserver"
-msgstr ""
-
-#. Template: InstallerFinish
-msgid "After doing so your OTOBO is up and running."
 msgstr ""
 
 #. Template: InstallerFinish
@@ -9396,6 +9708,18 @@ msgstr ""
 
 #. Template: Finish
 msgid "The migration is complete, thank you for trying out OTOBO - we hope you will like it."
+msgstr ""
+
+#. Template: Finish
+msgid "To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root."
+msgstr ""
+
+#. Template: Finish
+msgid "Restart your webserver"
+msgstr ""
+
+#. Template: Finish
+msgid "After doing so your OTOBO is up and running."
 msgstr ""
 
 #. Template: Intro
@@ -9772,6 +10096,22 @@ msgstr ""
 
 #. Template: YAxisWidget
 msgid "Please remember that the scale for the Y-axis has to be larger than the scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
+msgstr ""
+
+#. Template: StatsWidget
+msgid "Remove statistic"
+msgstr ""
+
+#. Template: StatsWidget
+msgid "If you don't specify a title here, the title of the statistic will be used."
+msgstr ""
+
+#. Template: StatsWidget
+msgid "Preface"
+msgstr ""
+
+#. Template: StatsWidget
+msgid "Postface"
 msgstr ""
 
 #. Template: SettingHistoryListCompare
@@ -10298,6 +10638,14 @@ msgstr ""
 msgid "Negated regular expression (ignore case)"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminAbout.pm
+msgid "Could not update About message!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminAbout.pm
+msgid "About message updated!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
 msgstr ""
@@ -10576,6 +10924,14 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
+msgid "Could not update Privacy Policy!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
+msgid "Privacy Policy updated!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
@@ -11086,6 +11442,18 @@ msgstr ""
 msgid "Validation Module"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
+msgid "Invisible only"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
+msgid "Visible only"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
+msgid "Visible and invisible"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
 msgstr ""
@@ -11344,10 +11712,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to download!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminPackageManager.pm
-msgid "Sorry, Apache::Reload is needed as PerlModule and PerlInitHandler in Apache config file. See also scripts/apache2-httpd.include.conf. Alternatively, you can use the command line tool bin/otobo.Console.pl to install packages!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
@@ -12346,6 +12710,50 @@ msgstr ""
 msgid "Run: Get no %s!"
 msgstr ""
 
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Got no %s!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Add New Statistics Report"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "This name is already in use, please choose a different one."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Could not create report."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Need StatsReportID!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Edit Statistics Report"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Could not find report."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Please provide a valid cron entry."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Could not update report."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "View Statistics Report"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
+msgid "Delete: Got no StatsReportID!"
+msgstr ""
+
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
 msgstr ""
@@ -13075,18 +13483,6 @@ msgid "Fields with no group"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Invisible only"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Visible only"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
-msgid "Visible and invisible"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
 msgstr ""
 
@@ -13116,6 +13512,22 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerGenericContent.pm
+msgid "Need Key!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerGenericContent.pm
+msgid "Invalid Key!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerGenericContent.pm
+msgid "Failed to load Content!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerGenericContent.pm
+msgid "Destination unknown."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
@@ -13183,6 +13595,10 @@ msgid "Please remove the following words because they cannot be used for the sea
 msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
+msgid "Could not load process module."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
 msgstr ""
 
@@ -13247,11 +13663,11 @@ msgid "Enter the password for the database user."
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Database %s"
+msgid "Configure MySQL"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
-msgid "Configure MySQL"
+msgid "Database %s"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -13291,6 +13707,10 @@ msgid "Contact your Admin!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
+msgid "Execution of SQL statement failed: "
+msgstr ""
+
+#. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
 msgstr ""
 
@@ -13312,10 +13732,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Mail Configuration"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/Installer.pm
-msgid "Can't write Config file!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
@@ -13471,11 +13887,11 @@ msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-msgid "\"S/MIME SIGNED MESSAGE\" header found, but invalid!"
+msgid "Internal error during verification!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-msgid "Ticket decrypted before"
+msgid "Impossible to decrypt: private key not found!"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
@@ -13606,6 +14022,10 @@ msgstr ""
 msgid "The start time of a ticket has been set after the end time!"
 msgstr ""
 
+#. Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
+msgid "Shown Tickets"
+msgstr ""
+
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTOBO News server!"
 msgstr ""
@@ -13624,10 +14044,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
-msgstr ""
-
-#. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-msgid "Shown Tickets"
 msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
@@ -14066,6 +14482,18 @@ msgstr ""
 msgid "Watched Tickets Total"
 msgstr ""
 
+#. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
+msgid "%s Report"
+msgstr ""
+
+#. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
+msgid "Error: this graph could not be generated: %s."
+msgstr ""
+
+#. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
+msgid "Table of Contents"
+msgstr ""
+
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
 msgstr ""
@@ -14076,6 +14504,14 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Auth.pm
 msgid "It is currently not possible to login due to a scheduled system maintenance."
+msgstr ""
+
+#. Perl Module: Kernel/System/Auth/OpenIDConnect.pm
+msgid "Invalid response from the authentication server. Maybe the process took too long. Please retry once."
+msgstr ""
+
+#. Perl Module: Kernel/System/AuthSession.pm
+msgid "Please note that the session limit is almost reached."
 msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession.pm
@@ -14279,10 +14715,6 @@ msgid "%s does not exist!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't read OTOBO RELEASE file: %s: %s!"
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTOBO system found!"
 msgstr ""
 
@@ -14299,15 +14731,19 @@ msgid "Check if OTRS version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "OTRS RELEASE file %s does not exist: %s!"
+msgid "OTRS RELEASE file %s does not exist!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-msgid "Can't read OTRS RELEASE file: %s: %s!"
+msgid "Can't read OTRS RELEASE file: %s"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -15142,14 +15578,6 @@ msgstr ""
 msgid "Open Tickets"
 msgstr ""
 
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
-msgid "Default SOAP Username And Password"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultSOAPUser.pm
-msgid "Security risk: you use the default setting for SOAP::User and SOAP::Password. Please change it."
-msgstr ""
-
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid "Default Admin Password"
 msgstr ""
@@ -15400,22 +15828,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-msgid "Apache::Reload Usage"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-msgid "Apache::Reload or Apache2::Reload should be used as PerlModule and PerlInitHandler to prevent web server restarts when installing and upgrading modules."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-msgid "Apache2::DBI Usage"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-msgid "Apache2::DBI should be used to get a better performance  with pre-established database connections."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
@@ -16034,6 +16446,10 @@ msgstr ""
 msgid "This item still contains sub items. Are you sure you want to remove this item including its sub items?"
 msgstr ""
 
+#. JS File: Core.Agent.Admin.About
+msgid "Do you really want to delete this privacy policy language?"
+msgstr ""
+
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
 msgstr ""
@@ -16622,6 +17038,10 @@ msgstr ""
 msgid "Do you really want to delete this statistic?"
 msgstr ""
 
+#. JS File: Core.Agent.StatisticsReports
+msgid "Do you really want to delete this report?"
+msgstr ""
+
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
 msgstr ""
@@ -17030,6 +17450,10 @@ msgid "ACL module that allows closing parent tickets only if all its children ar
 msgstr ""
 
 #. SysConfig
+msgid "About"
+msgstr ""
+
+#. SysConfig
 msgid "Access Control Lists (ACL)"
 msgstr ""
 
@@ -17334,6 +17758,10 @@ msgid "All CustomerIDs of a customer user."
 msgstr ""
 
 #. SysConfig
+msgid "All closed tickets."
+msgstr ""
+
+#. SysConfig
 msgid "All customer users of a CustomerID"
 msgstr ""
 
@@ -17571,6 +17999,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Arabic (Saudi Arabia)"
+msgstr ""
+
+#. SysConfig
+msgid "Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
 
 #. SysConfig
@@ -17854,11 +18286,19 @@ msgid "Christmas Eve"
 msgstr ""
 
 #. SysConfig
+msgid "Cleans up old chat logs."
+msgstr ""
+
+#. SysConfig
 msgid "Close"
 msgstr ""
 
 #. SysConfig
 msgid "Close this ticket"
+msgstr ""
+
+#. SysConfig
+msgid "Closed Tickets"
 msgstr ""
 
 #. SysConfig
@@ -17987,6 +18427,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
+msgstr ""
+
+#. SysConfig
+msgid "Configure the About information."
+msgstr ""
+
+#. SysConfig
+msgid "Configure the privacy policy."
 msgstr ""
 
 #. SysConfig
@@ -18427,6 +18875,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn't be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting."
+msgstr ""
+
+#. SysConfig
+msgid "Define a result field for the TicketID of the invoker response per web service (WebserviceID => DynamicFieldName)."
 msgstr ""
 
 #. SysConfig
@@ -19326,6 +19778,10 @@ msgid "Defines the groups every customer will be in (if CustomerGroupSupport is 
 msgstr ""
 
 #. SysConfig
+msgid "Defines the headers which will be shown to generic content for the requested key."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative)."
 msgstr ""
 
@@ -19562,6 +20018,10 @@ msgid "Defines the module to display a notification in the agent interface, if t
 msgstr ""
 
 #. SysConfig
+msgid "Defines the module to display a notification in the agent interface, if the agent session limit prior warning is reached."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the module to display a notification in the agent interface, if the system is used by the admin user (normally you shouldn't work as admin)."
 msgstr ""
 
@@ -19591,6 +20051,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the module used to store the session data. With \"DB\" the frontend server can be splitted from the db server. \"FS\" is faster."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the inner content to the chosen key."
 msgstr ""
 
 #. SysConfig
@@ -19698,6 +20162,10 @@ msgid "Defines the number of hours a successful communication will be stored."
 msgstr ""
 
 #. SysConfig
+msgid "Defines the number of tickets shown in the widget."
+msgstr ""
+
+#. SysConfig
 msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
@@ -19719,10 +20187,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the parameters for the dashboard backend. \"Limit\" defines the number of entries displayed by default. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" defines the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the password to access the SOAP handle (bin/cgi-bin/rpc.pl)."
 msgstr ""
 
 #. SysConfig
@@ -19767,6 +20231,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = '/var/lib/wwwrun';)."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process."
 msgstr ""
 
 #. SysConfig
@@ -19818,7 +20290,7 @@ msgid "Defines the shown columns and the position in the AgentCustomerUserAddres
 msgstr ""
 
 #. SysConfig
-msgid "Defines the shown links in the footer area of the customer and public interface of this OTOBO system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label."
+msgid "Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in \"Key\" is the external URL, the value in \"Content\" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted."
 msgstr ""
 
 #. SysConfig
@@ -19939,10 +20411,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the user identifier for the customer panel."
-msgstr ""
-
-#. SysConfig
-msgid "Defines the username to access the SOAP handle (bin/cgi-bin/rpc.pl)."
 msgstr ""
 
 #. SysConfig
@@ -20083,6 +20551,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface."
+msgstr ""
+
+#. SysConfig
+msgid "Determines the next screen after the process screen of a zoomed ticket in the customer interface."
 msgstr ""
 
 #. SysConfig
@@ -20774,10 +21246,6 @@ msgid "Frontend module registration (disable company link if no company feature 
 msgstr ""
 
 #. SysConfig
-msgid "Frontend module registration (disable ticket processes screen if no process available) for Customer."
-msgstr ""
-
-#. SysConfig
 msgid "Frontend module registration (disable ticket processes screen if no process available)."
 msgstr ""
 
@@ -20891,6 +21359,14 @@ msgstr ""
 
 #. SysConfig
 msgid "GenericInterface module registration for the PassThrough invoker layer."
+msgstr ""
+
+#. SysConfig
+msgid "GenericInterface module registration for the TicketCreate invoker layer."
+msgstr ""
+
+#. SysConfig
+msgid "GenericInterface module registration for the TicketUpdate invoker layer."
 msgstr ""
 
 #. SysConfig
@@ -21035,6 +21511,10 @@ msgstr ""
 
 #. SysConfig
 msgid "If \"LDAP\" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See \"perldoc Net::LDAP\" for more information about the parameters."
+msgstr ""
+
+#. SysConfig
+msgid "If \"LDAP\" was selected for Customer::AuthModule and you wish to use TLS security to communicate with the LDAP server, the \"verify\" parameter can be specified here. See Net::LDAP::start_tls for more information about the parameter."
 msgstr ""
 
 #. SysConfig
@@ -21882,6 +22362,14 @@ msgid "My Services"
 msgstr ""
 
 #. SysConfig
+msgid "My last changed tickets"
+msgstr ""
+
+#. SysConfig
+msgid "MyLastChangedTickets dashboard widget."
+msgstr ""
+
+#. SysConfig
 msgid "Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings."
 msgstr ""
 
@@ -22066,6 +22554,14 @@ msgid "Out of Office users."
 msgstr ""
 
 #. SysConfig
+msgid "Outbound request headers not allowed to be used in frontend configuration."
+msgstr ""
+
+#. SysConfig
+msgid "Outbound response headers not allowed to be used in frontend configuration."
+msgstr ""
+
+#. SysConfig
 msgid "Output filter to inject the necessary Dynamic field names in hidden input."
 msgstr ""
 
@@ -22122,6 +22618,10 @@ msgid "Package event module file a scheduler task for update registration."
 msgstr ""
 
 #. SysConfig
+msgid "Package event module trigger package reinstall in containers."
+msgstr ""
+
+#. SysConfig
 msgid "Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
 msgstr ""
 
@@ -22139,6 +22639,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Parameters for the column filters of the small ticket overview. Please note: setting 'Active' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user's behalf. Use 'PreferenceGroup' to control in which area these settings should be shown in the user interface."
+msgstr ""
+
+#. SysConfig
+msgid "Parameters for the dashboard backend of the closed tickets overview of the agent interface. \"Limit\" is the number of entries shown by default. \"Group\" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" determines if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTLLocal\" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
 
 #. SysConfig
@@ -22383,10 +22887,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Process Management Transition GUI"
-msgstr ""
-
-#. SysConfig
-msgid "Process Ticket."
 msgstr ""
 
 #. SysConfig
@@ -22662,7 +23162,7 @@ msgid "Sample command output"
 msgstr ""
 
 #. SysConfig
-msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used."
+msgid "Saves the attachments of articles. \"DB\" stores all data in the database (not recommended for storing big attachments). \"FS\" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when \"FS\" is used. \"S3\" is experimental."
 msgstr ""
 
 #. SysConfig
@@ -22715,6 +23215,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Select how many tickets should be shown in overviews by default."
+msgstr ""
+
+#. SysConfig
+msgid "Select the algorithm used for encryption. Fallback is aes256. Try \"/usr/bin/openssl enc -ciphers\" to get a list of ciphers supported by your system (written without the leading '-')."
 msgstr ""
 
 #. SysConfig
@@ -23050,6 +23554,10 @@ msgid "Sets the inactivity time (in seconds) to pass before a session is killed 
 msgstr ""
 
 #. SysConfig
+msgid "Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents."
+msgstr ""
+
+#. SysConfig
 msgid "Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime."
 msgstr ""
 
@@ -23343,6 +23851,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the ticket history"
+msgstr ""
+
+#. SysConfig
+msgid "Show various content."
 msgstr ""
 
 #. SysConfig
@@ -23918,6 +24430,10 @@ msgid "Statistics overview."
 msgstr ""
 
 #. SysConfig
+msgid "Statistics reports."
+msgstr ""
+
+#. SysConfig
 msgid "Status view"
 msgstr ""
 
@@ -24023,6 +24539,10 @@ msgstr ""
 
 #. SysConfig
 msgid "The customer skin's InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins."
+msgstr ""
+
+#. SysConfig
+msgid "The daemon registration for sync with S3."
 msgstr ""
 
 #. SysConfig
@@ -24314,6 +24834,10 @@ msgid "Ticket Zoom."
 msgstr ""
 
 #. SysConfig
+msgid "Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected)."
+msgstr ""
+
+#. SysConfig
 msgid "Ticket bulk module."
 msgstr ""
 
@@ -24555,6 +25079,10 @@ msgstr ""
 
 #. SysConfig
 msgid "We are performing scheduled maintenance. We should be back online shortly."
+msgstr ""
+
+#. SysConfig
+msgid "We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10.."
 msgstr ""
 
 #. SysConfig
