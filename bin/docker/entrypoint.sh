@@ -42,12 +42,12 @@ function handle_docker_firsttime() {
 
     fi
 
-    # When /opt/otobo already exists then do no automatic update.
-    # The updating has to be triggered with an explicit 'update' command.
+    # When /opt/otobo already exists then there is no automatic update.
+    # The updating has to be triggered with the explicit commands 'copy_otobo_next' and 'do_update_tasks'.
 
     # we are done, docker_firstime has been handled
     # $otobo_next is not removed, it is kept for future reference
-    # Note that docker_firsttime_handled is only available in otobo_web_1
+    # Note that docker_firsttime_handled is only available in the service web.
     mv $otobo_next/docker_firsttime $otobo_next/docker_firsttime_handled
 }
 
