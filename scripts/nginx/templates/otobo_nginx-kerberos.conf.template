@@ -26,10 +26,11 @@ server {
 
 # serve HTTPS
 server {
-    listen 8443 ssl;
-    listen [::]:8443 ssl;
+    listen 8443 ssl http2;                # falls back to regular HTTPS over HTTP/1.1 when the browser does not support HTTP/2
+    listen [::]:8443 ssl http2;
 
-    # see https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+    # See https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+    # See https://ssl-config.mozilla.org/
     include snippets/ssl-params.conf;
     ssl_certificate     ${OTOBO_NGINX_SSL_CERTIFICATE};
     ssl_certificate_key ${OTOBO_NGINX_SSL_CERTIFICATE_KEY};
