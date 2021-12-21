@@ -60,14 +60,9 @@ A base module for drivers.
 
 =head2 new()
 
-    use Kernel::System::ObjectManager;
-    local $Kernel::OM = Kernel::System::ObjectManager->new();
+The constructor of the base object is usually called when the derived objects are created.
+But there can be direct instances.
 
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base' => {
-            CheckEncodingColumns => $CheckEncodingColumns,
-        },
-    );
     my $CloneDBBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base');
 
 =cut

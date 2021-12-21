@@ -67,11 +67,6 @@ sub new {
     # allocate new hash for object
     my $Self = bless {}, $Class;
 
-    my %CheckEncodingColumns = (
-        'article_data_mime.a_body'              => 1,
-        'article_data_mime_attachment.filename' => 1,
-    );
-
     # create all registered backend modules
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     for my $DBType (qw(mysql oracle postgresql)) {
@@ -91,12 +86,6 @@ sub new {
         # sanity action
         $Kernel::OM->ObjectsDiscard(
             Objects => [$BackendModule],
-        );
-
-        $Kernel::OM->ObjectParamAdd(
-            $BackendModule => {
-                CheckEncodingColumns => \%CheckEncodingColumns,
-            },
         );
 
         # create a backend object
