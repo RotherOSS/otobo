@@ -203,19 +203,19 @@ sub Run {
         PastExecutionData => $Param{PastExecutionData},
     );
 
-    my $FunctionResult = $InvokerObject->PrepareRequest(
+    my $PrepareRequestResult = $InvokerObject->PrepareRequest(
         Data => $Param{Data},
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$PrepareRequestResult->{Success} ) {
 
-        my $Summary = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+        my $Summary = $PrepareRequestResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'RequesterRequestPrepare',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $PrepareRequestResult->{Data} // $Summary,
         );
     }
 
@@ -223,7 +223,7 @@ sub Run {
     #   there are cases in which the requester does not need to do anything, for this cases
     #   StopCommunication can be sent. in this cases the request will be successful with out sending
     #   the request actually.
-    elsif ( $FunctionResult->{StopCommunication} && $FunctionResult->{StopCommunication} eq 1 ) {
+    elsif ( $PrepareRequestResult->{StopCommunication} && $PrepareRequestResult->{StopCommunication} eq 1 ) {
 
         return {
             Success => 1,
@@ -231,20 +231,18 @@ sub Run {
     }
 
     # Extend the data include payload/
-    $DataInclude{RequesterRequestPrepareOutput} = $FunctionResult->{Data};
+    $DataInclude{RequesterRequestPrepareOutput} = $PrepareRequestResult->{Data};
 
     my %CustomHeader;
-    if ( $FunctionResult->{Header} ) {
-        %CustomHeader = (
-            CustomHeader => $FunctionResult->{Header},
-        );
+    if ( $PrepareRequestResult->{Header} ) {
+        $CustomHeader{CustomHeader} = $PrepareRequestResult->{Header};
     }
 
     #
     # Map the outgoing data.
     #
 
-    my $DataOut = $FunctionResult->{Data};
+    my $DataOut = $PrepareRequestResult->{Data};
 
     $DebuggerObject->Debug(
         Summary => "Outgoing data before mapping",
@@ -318,7 +316,7 @@ sub Run {
     }
 
     # Read request content.
-    $FunctionResult = $TransportObject->RequesterPerformRequest(
+    my $FunctionResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
         %CustomHeader,
