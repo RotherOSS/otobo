@@ -1,4 +1,10 @@
 
+# OTOBO 10.0.15 2021-12-22
+- 2021-12-22 09:10:36 +0100 Update to Elasticsearch 7.16.2 which updates log4j to 2.17.0.
+- 2021-12-17 17:53:08 +0100 Documentation revised.
+- 2021-12-16 14:34:45 +0100 [Bugfix]   Migration: incorrect version check for the OTOBO release (https://github.com/RotherOSS/otobo/issues/1510)
+
+
 # OTOBO 10.0.14 2021-12-15
 - 2021-12-14 17:23:23 +0100 [Bugfix]   Unprecise time taking in AdminPerformanceLog (https://github.com/RotherOSS/otobo/issues/1500)
 - 2021-12-14 15:33:04 +0100 Change Elasticsearch Docker file.
@@ -860,4 +866,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
