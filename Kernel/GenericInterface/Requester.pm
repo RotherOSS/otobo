@@ -440,44 +440,42 @@ sub Run {
     # Handle response data in Invoker.
     #
 
-    my $FunctionResult = $InvokerObject->HandleResponse(
+    my $HandleResponseResult = $InvokerObject->HandleResponse(
         ResponseSuccess => 1,
         Data            => $DataIn,
     );
 
-    if ( !$FunctionResult->{Success} ) {
+    if ( !$HandleResponseResult->{Success} ) {
 
-        my $Summary     = $FunctionResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+        my $Summary     = $HandleResponseResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
         my $ErrorReturn = $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
             ErrorStage  => 'RequesterResponseProcess',
             Summary     => $Summary,
-            Data        => $FunctionResult->{Data} // $Summary,
+            Data        => $HandleResponseResult->{Data} // $Summary,
         );
 
         if ($IsAsynchronousCall) {
 
             RESPONSEKEY:
-            for my $ResponseKey ( sort keys %{$FunctionResult} ) {
+            for my $ResponseKey ( sort keys %{$HandleResponseResult} ) {
 
                 # Skip Success and ErrorMessage as they are set already.
                 next RESPONSEKEY if $ResponseKey eq 'Success';
                 next RESPONSEKEY if $ResponseKey eq 'ErrorMessage';
 
                 # Add any other key from the invoker HandleResponse() in Data.
-                $ErrorReturn->{$ResponseKey} = $FunctionResult->{$ResponseKey};
+                $ErrorReturn->{$ResponseKey} = $HandleResponseResult->{$ResponseKey};
             }
         }
 
         return $ErrorReturn;
     }
 
-    $DataIn = $FunctionResult->{Data};
-
     return {
         Success => 1,
-        Data    => $DataIn,
+        Data    => $HandleResponseResult->{Data},
     };
 }
 
