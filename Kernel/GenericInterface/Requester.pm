@@ -16,11 +16,16 @@
 
 package Kernel::GenericInterface::Requester;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Storable;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Invoker;
 use Kernel::GenericInterface::Mapping;
@@ -51,10 +56,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Run()
@@ -152,7 +154,6 @@ sub Run {
     );
 
     if ( ref $DebuggerObject ne 'Kernel::GenericInterface::Debugger' ) {
-
         return {
             Success      => 0,
             ErrorMessage => "Could not initialize debugger",
