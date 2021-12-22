@@ -274,27 +274,28 @@ sub Run {
             );
         }
 
-        $FunctionResult = $MappingOutObject->Map(
+        my $MapResult = $MappingOutObject->Map(
             Data        => $DataOut,
             DataInclude => \%DataInclude,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MapResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+            my $Summary = $MapResult->{ErrorMessage} // 'MappingOutObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'RequesterRequestMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MapResult->{Data} // $Summary,
             );
         }
 
         # Extend the data include payload.
-        $DataInclude{RequesterRequestMapOutput} = $FunctionResult->{Data};
+        $DataInclude{RequesterRequestMapOutput} = $MapResult->{Data};
 
-        $DataOut = $FunctionResult->{Data};
+        $DataOut = $MapResult->{Data};
 
         $DebuggerObject->Debug(
             Summary => "Outgoing data after mapping",
@@ -400,27 +401,27 @@ sub Run {
             );
         }
 
-        $FunctionResult = $MappingInObject->Map(
+        my $MapResult = $MappingInObject->Map(
             Data        => $DataIn,
             DataInclude => \%DataInclude,
         );
 
-        if ( !$FunctionResult->{Success} ) {
+        if ( !$MapResult->{Success} ) {
 
-            my $Summary = $FunctionResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+            my $Summary = $MapResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
                 ErrorStage  => 'RequesterResponseMap',
                 Summary     => $Summary,
-                Data        => $FunctionResult->{Data} // $Summary,
+                Data        => $MapResult->{Data} // $Summary,
             );
         }
 
         # Extend the data include payload.
-        $DataInclude{RequesterResponseMapOutput} = $FunctionResult->{Data};
+        $DataInclude{RequesterResponseMapOutput} = $MapResult->{Data};
 
-        $DataIn = $FunctionResult->{Data};
+        $DataIn = $MapResult->{Data};
 
         if ($SizeExeeded) {
             $DebuggerObject->Debug(
