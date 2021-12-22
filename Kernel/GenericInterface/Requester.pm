@@ -262,19 +262,15 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig  =>
-                $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
+            MappingConfig  => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound},
         );
 
         # If mapping initialization failed, bail out.
         if ( ref $MappingOutObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $DebuggerObject->Error(
-                Summary => 'MappingOut could not be initialized',
-                Data    => $MappingOutObject,
-            );
 
             return $DebuggerObject->Error(
-                Summary => $FunctionResult->{ErrorMessage},
+                Summary => 'MappingOut could not be initialized',
+                Data    => $MappingOutObject,
             );
         }
 
@@ -393,19 +389,14 @@ sub Run {
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
             InvokerType    => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{Type},
-            MappingConfig  =>
-                $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
+            MappingConfig  => $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound},
         );
 
         # If mapping initialization failed, bail out.
         if ( ref $MappingInObject ne 'Kernel::GenericInterface::Mapping' ) {
-            $DebuggerObject->Error(
-                Summary => 'MappingOut could not be initialized',
-                Data    => $MappingInObject,
-            );
-
             return $DebuggerObject->Error(
-                Summary => $FunctionResult->{ErrorMessage},
+                Summary => 'MappingIn could not be initialized',
+                Data    => $MappingInObject,
             );
         }
 
