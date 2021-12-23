@@ -908,21 +908,17 @@ sub RequesterPerformRequest {
         # Return early in case an error on response.
         if ($ResponseError) {
 
-            my $ResponseData = 'No content provided.';
-            if ( IsStringWithData($ResponseContent) ) {
-                $ResponseData = "Response content: '$ResponseContent'";
-            }
+            my $ResponseData = IsStringWithData($ResponseContent)
+                ?
+                "Response content: '$ResponseContent'"
+                :
+                'No content provided.';
 
             # log to debugger
-            $Self->{DebuggerObject}->Error(
+            return $Self->{DebuggerObject}->Error(
                 Summary => $ResponseError,
                 Data    => $ResponseData,
             );
-
-            return {
-                Success      => 0,
-                ErrorMessage => $ResponseError,
-            };
         }
     }
 
