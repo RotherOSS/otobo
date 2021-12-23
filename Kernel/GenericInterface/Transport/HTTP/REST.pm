@@ -887,42 +887,43 @@ sub RequesterPerformRequest {
 
     $RestClient->$RestCommand(@RequestParam);
 
-    my $ResponseCode = $RestClient->responseCode();
-    my $ResponseError;
-    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
-        . $Config->{Host} . "'.";
-
-    if ( !IsStringWithData($ResponseCode) ) {
-        $ResponseError = $ErrorMessage;
-    }
-
-    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
-        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
-    }
-
+    my $ResponseCode    = $RestClient->responseCode();
     my $ResponseContent = $RestClient->responseContent();
-    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
-        $ResponseError .= ' No content provided.';
-    }
-
-    # Return early in case an error on response.
-    if ($ResponseError) {
-
-        my $ResponseData = 'No content provided.';
-        if ( IsStringWithData($ResponseContent) ) {
-            $ResponseData = "Response content: '$ResponseContent'";
+    my $ErrorMessage    = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
+        . $Config->{Host} . "'.";
+    {
+        my $ResponseError;
+        if ( !IsStringWithData($ResponseCode) ) {
+            $ResponseError = $ErrorMessage;
         }
 
-        # log to debugger
-        $Self->{DebuggerObject}->Error(
-            Summary => $ResponseError,
-            Data    => $ResponseData,
-        );
+        if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+            $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+        }
 
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
+        if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+            $ResponseError .= ' No content provided.';
+        }
+
+        # Return early in case an error on response.
+        if ($ResponseError) {
+
+            my $ResponseData = 'No content provided.';
+            if ( IsStringWithData($ResponseContent) ) {
+                $ResponseData = "Response content: '$ResponseContent'";
+            }
+
+            # log to debugger
+            $Self->{DebuggerObject}->Error(
+                Summary => $ResponseError,
+                Data    => $ResponseData,
+            );
+
+            return {
+                Success      => 0,
+                ErrorMessage => $ResponseError,
+            };
+        }
     }
 
     # Send processed data to debugger.
