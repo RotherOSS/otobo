@@ -290,6 +290,7 @@ sub ProviderProcessRequest {
             );
         }
         else {
+            # this sets the UTF-8 flag
             $EncodeObject->EncodeInput( \$Content );
         }
     }
@@ -466,8 +467,10 @@ sub ProviderGenerateResponse {
 
 =head2 RequesterPerformRequest()
 
-Prepare data payload as XML structure, generate an outgoing web service request,
-receive the response and return its data.
+Emit an outgoing web service request and receive the response. The supplied data is either sent
+as JSON in the body or is added to the requested URL as a list of parameters.
+Inspect the response and report the result as not successful when there are problems.
+Return the received data otherwise.
 
     my $Result = $TransportObject->RequesterPerformRequest(
         Operation => 'remote_op', # name of remote operation to perform
@@ -476,12 +479,21 @@ receive the response and return its data.
         },
     );
 
+in case of success:
+
     $Result = {
-        Success      => 1,        # 0 or 1
-        ErrorMessage => '',       # in case of error
+        Success      => 1,
+        SizeExeeded  => 0,  # (sic) either 0 or 1 depending on the length of the response
         Data         => {
             ...
         },
+    };
+
+in case of failure:
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'some message',
     };
 
 =cut
@@ -531,7 +543,8 @@ sub RequesterPerformRequest {
         };
     }
 
-    # Create header container and add proper content type
+    # Create header container and add proper content type.
+    # These headers will be used for calling the remote server.
     my %Headers = ( 'Content-Type' => 'application/json; charset=UTF-8' );
 
     # Add AdditionalHeaders, but do not overwrite existing headers
@@ -560,6 +573,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -690,6 +704,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -710,6 +725,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -953,6 +969,7 @@ sub RequesterPerformRequest {
             $Self->{DebuggerObject}->Error(
                 Summary => $ResponseError,
             );
+
             return {
                 Success      => 0,
                 ErrorMessage => $ResponseError,

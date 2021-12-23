@@ -185,7 +185,8 @@ sub ProviderGenerateResponse {
 
 =head2 RequesterPerformRequest()
 
-generate an outgoing web service request, receive the response and return its data..
+generate an outgoing web service request, receive the response and return its data.
+The actual work is done by the backend objects.
 
     my $Result = $TransportObject->RequesterPerformRequest(
         Operation       => 'remote_op', # name of remote operation to perform
