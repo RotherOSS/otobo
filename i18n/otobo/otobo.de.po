@@ -44,13 +44,14 @@
 # Grit Rother <mr@otobo.de>, 2020, 2021.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021.
+# Stefan Abel <sta@rother-oss.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2021-11-26 10:14+0000\n"
-"Last-Translator: Andreas Erhard <erhard@wor.net>\n"
+"PO-Revision-Date: 2022-01-03 18:58+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -299,10 +300,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Diese Sprache ist nicht vorhanden oder auf dem System aktiviert. Dieser Text "
+"könnte gelöscht werden, sofern dieser nicht mehr benötigt wird."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Sprache entfernen"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -323,7 +326,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Neue Sprache hinzufügen"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1819,7 +1822,7 @@ msgstr "Filter für Dynamische Felder"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Neue Dynamische Felder"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -3807,7 +3810,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "Artikelfelder"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3846,7 +3849,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "Kommunikationskanäle"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -8873,7 +8876,7 @@ msgstr "Neues E-Mail-Ticket an %s"
 
 #. Template: AgentDashboardMyLastChangedTickets
 msgid "No tickets found."
-msgstr ""
+msgstr "Keine Tickets gefunden."
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -9342,7 +9345,7 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "Bericht hinzufügen"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
@@ -9362,7 +9365,7 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
-msgstr ""
+msgstr "PhantomJS konfigurieren"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
@@ -9385,6 +9388,8 @@ msgid ""
 "Specify when the report should be automatically generated in cron format, e. "
 "g. \"10 1 * * *\" for every day at 1:10 am."
 msgstr ""
+"Im Cron-Format spezifizieren, wann ein Bericht automatisch generiert werden "
+"soll, bspw. \"10 1 * * *\" für jeden Tag um 01:10 Uhr."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Times are in the system timezone."
@@ -9392,19 +9397,21 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Last automatic generation time"
-msgstr ""
+msgstr "Letzte automatische Erstellzeit"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Next planned automatic generation time"
-msgstr ""
+msgstr "Nächste geplante automatische Erstellzeit"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation language"
-msgstr ""
+msgstr "Automatische Erstellsprache"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "The language to be used when the report is automatically generated."
 msgstr ""
+"Die Sprache, die verwendet werden soll, wenn der Bericht automatisch "
+"erstellt wird."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
@@ -9456,7 +9463,7 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Add statistic to report"
-msgstr ""
+msgstr "Statistik dem Bericht hinzufügen"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
@@ -11767,7 +11774,7 @@ msgstr ""
 
 #. Template: StatsWidget
 msgid "Remove statistic"
-msgstr ""
+msgstr "Statistik entfernen"
 
 #. Template: StatsWidget
 msgid ""
@@ -12658,11 +12665,11 @@ msgstr "Keine Daten in der angegebenen Quelle gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr ""
+msgstr "Datenschutzvereinbarung konnte nicht aktualisiert werden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr ""
+msgstr "Datenschutzvereinbarung aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -14543,15 +14550,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "This name is already in use, please choose a different one."
-msgstr ""
+msgstr "Dieser Name wird bereits verwendet. Bitte wählen Sie einen anderen."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not create report."
-msgstr ""
+msgstr "Bericht konnte nicht erstellt werden."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Need StatsReportID!"
-msgstr ""
+msgstr "StatsReportID wird benötigt!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Edit Statistics Report"
@@ -14559,15 +14566,15 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
-msgstr ""
+msgstr "Bericht konnte nicht gefunden werden."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Please provide a valid cron entry."
-msgstr ""
+msgstr "Bitte einen gültigen Cron-Eintrag angeben."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not update report."
-msgstr ""
+msgstr "Bericht konnte nicht aktualisiert werden."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
@@ -16516,7 +16523,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
-msgstr ""
+msgstr "Inhaltverzeichnis"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
@@ -16807,7 +16814,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
-msgstr ""
+msgstr "Migration abgeschlossen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
@@ -19477,7 +19484,7 @@ msgstr "Möchten Sie diese Statistik wirklich löschen?"
 
 #. JS File: Core.Agent.StatisticsReports
 msgid "Do you really want to delete this report?"
-msgstr ""
+msgstr "Möchten Sie diesen Bericht wirklich löschen?"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
@@ -20361,7 +20368,7 @@ msgstr "Alle Kundennummern eines Kundenbenutzers."
 
 #. SysConfig
 msgid "All closed tickets."
-msgstr ""
+msgstr "Alle geschlossenen Tickets."
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -21150,7 +21157,7 @@ msgstr "Heiligabend"
 
 #. SysConfig
 msgid "Cleans up old chat logs."
-msgstr ""
+msgstr "Räumt alte Chat-Protokolle auf."
 
 #. SysConfig
 msgid "Close"
@@ -21162,7 +21169,7 @@ msgstr "Dieses Ticket schließen"
 
 #. SysConfig
 msgid "Closed Tickets"
-msgstr ""
+msgstr "Geschlossene Tickets"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -21360,7 +21367,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr ""
+msgstr "Datenschutzvereinbarung bearbeiten."
 
 #. SysConfig
 msgid ""
@@ -28022,7 +28029,7 @@ msgstr "Meine Services"
 
 #. SysConfig
 msgid "My last changed tickets"
-msgstr ""
+msgstr "Meine zuletzt geänderten Tickets"
 
 #. SysConfig
 msgid "MyLastChangedTickets dashboard widget."
