@@ -2490,6 +2490,18 @@ Core.UI.InputFields = (function (TargetNS) {
                             return false;
                         });
                     }, 200 );
+
+                    // Renew set of disabled nodes
+                    $('.jstree').on('after_open.jstree', function() {
+                        setTimeout( function() {
+                            $('.Disabled > a.jstree-anchor').off('click').on('click', function() {
+                                $(this).prev('.jstree-icon').trigger('click');
+
+                                return false;
+                            });  
+                        }, 200 );
+                    }); 
+
                 })
 
                 // Out of focus handler removes complete jsTree and action buttons
