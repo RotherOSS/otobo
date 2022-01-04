@@ -343,6 +343,10 @@ sub EditFieldRender {
 
     );
 
+    if ( $FieldConfig->{Tooltip} ) {
+        $FieldTemplateData{WithTooltip} = 'oooWithTT';
+    }
+
     if ( $Param{Mandatory} ) {
         $FieldTemplateData{DivIDMandatory} = $FieldName . 'Error';
 
