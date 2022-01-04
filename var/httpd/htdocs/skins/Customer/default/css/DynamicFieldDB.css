@@ -74,7 +74,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     width: 14px;
 }
 
-.DynamicFieldDB + a[class='oooWithTT']  {
+.DynamicFieldDB + a.oooWithTT {
     left: -78px;
 }
 
