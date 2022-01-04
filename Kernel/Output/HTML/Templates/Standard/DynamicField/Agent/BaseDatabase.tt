@@ -21,7 +21,7 @@
     <div class="ResultElementTemplate[% Data.FieldName %] Hidden">
         <input id="ResultElementText" class="ResultElementText Radio" type="text" readonly="readonly" value="" name="ResultElementText" title="" />
         <a href="#" class="DynamicFieldDBDetails_[% Data.FieldName %] AddButton" field="[% Data.FieldName %]" alt="[% Data.DetailsMsg %]" title="[% Data.DetailsMsg %]"><i class="fa fa-list-alt"></i></a>
-        <a id="RemoveDynamicFieldDBEntry" class="RemoveButton" title="[% Data.RemoveValueMsg %]" href="#"><i class=fa fa-minus-square-o"></i></a>
+        <a id="RemoveDynamicFieldDBEntry" class="RemoveButton" title="[% Data.RemoveValueMsg %]" href="#"><i class="fa fa-minus-square-o"></i></a>
     </div>
     <div id="[% Data.FieldName %]Container" class="[% Data.DynamicFieldDBContainer %]"></div>
 </div>
