@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:06+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -9767,11 +9767,11 @@ msgstr "Ticket-Kunden entfernen"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
-msgstr ""
+msgstr "In Cc verschieben"
 
 #. Template: AgentTicketCompose
 msgid "Move to Bcc"
-msgstr ""
+msgstr "In Bcc verschieben"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
@@ -9789,7 +9789,7 @@ msgstr "Cc entfernen"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
-msgstr ""
+msgstr "In An verschieben"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
@@ -11787,9 +11787,11 @@ msgid "Remove statistic"
 msgstr "Statistik entfernen"
 
 #. Template: StatsWidget
+#, fuzzy
 msgid ""
 "If you don't specify a title here, the title of the statistic will be used."
 msgstr ""
+"Sofern kein Titel hier spezifiziert wird, wird der Statistiktitel verwendet."
 
 #. Template: StatsWidget
 msgid "Preface"
