@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:19+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -14593,7 +14593,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Delete: Got no StatsReportID!"
-msgstr "Löschen: Keine StatsReportID!"
+msgstr "Löschen: Keine StatsReportID vorhanden!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
@@ -15431,6 +15431,8 @@ msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Either Module or "
 "Template needed."
 msgstr ""
+"Registrierung der Kachel %s im Kunden-Dashboard ist ungültig! Entweder Modul "
+"oder Vorlage wird benötigt."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""
