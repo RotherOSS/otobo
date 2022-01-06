@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:02+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -3877,7 +3877,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "Sendertypen"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3888,11 +3888,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "Mapping"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "Einstellungen für eingehende Antwortdaten"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
@@ -3923,7 +3923,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "Ereignisdaten"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -9348,7 +9348,7 @@ msgstr "Statistik %s löschen"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "Berichteverwaltung"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
@@ -9356,13 +9356,16 @@ msgstr "Bericht hinzufügen"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "Bericht bearbeiten"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Here you can combine several statistics to a report which you can generate "
 "as a PDF manually or automatically at configured times."
 msgstr ""
+"Hier können Sie mehrere Statistiken zu einem Bericht zusammenfügen, den Sie "
+"manuell oder automatisch zu konfigurierten Zeitpunkten als PDF erstellen "
+"können."
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
