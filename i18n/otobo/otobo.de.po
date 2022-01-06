@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:21+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -15848,7 +15848,7 @@ msgstr "Interner Fehler bei der Überprüfung!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
-msgstr ""
+msgstr "Entschlüsselung fehlgeschlagen: Keinen privaten Schlüssel gefunden!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
@@ -16532,7 +16532,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
-msgstr ""
+msgstr "Fehler: Dieses Diagramm konnte nicht erstellt werden: %s."
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
@@ -16824,7 +16824,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
-msgstr ""
+msgstr "AKTUALISIERUNG der Tabelle '%s' fehlgeschlagen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
@@ -24508,7 +24508,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the number of tickets shown in the widget."
-msgstr ""
+msgstr "Definiert die Anzahl der Tickets, die im Widget dargestellt werden."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
