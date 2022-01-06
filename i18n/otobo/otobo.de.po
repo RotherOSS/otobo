@@ -41,7 +41,7 @@
 # Harald Eisenmenger <harald.eisenmenger@otrs.com>, 2019
 # Michael Reuther <michael.reuther@otrs.com>, 2020
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
-# Grit Rother <mr@otobo.de>, 2020, 2021.
+# Grit Rother <mr@otobo.de>, 2020, 2021, 2022.
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021.
 # Stefan Abel <sta@rother-oss.com>, 2022.
@@ -50,8 +50,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2022-01-03 18:58+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2022-01-06 16:15+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -285,11 +285,11 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Datenschutzhinweise verwalten"
 
 #. Template: AdminAbout
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Datenschutz"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -322,7 +322,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Sprache für Impressum/About löschen"
 
 #. Template: AdminAbout
 msgid "Add new language"
@@ -12361,11 +12361,11 @@ msgstr "Negierter regulärer Ausdruck (Groß-/Kleinschreibung ignorieren)"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "Could not update About message!"
-msgstr ""
+msgstr "Konnte das Impressum nicht aktualisieren!"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "About message updated!"
-msgstr ""
+msgstr "Impressum aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
@@ -15996,11 +15996,11 @@ msgstr "OTOBO Neuigkeiten können nicht vom Server abgerufen werden!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr "Kein Verbindungsaufbau zum Server mit den Produktneuigkeiten möglich!"
+msgstr "Kein Verbindungsaufbau zum Server mit den Produkt-Neuigkeiten möglich!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
-msgstr "Produktneuigkeiten können nicht vom Server abgerufen werden!"
+msgstr "Produkt-Neuigkeiten können nicht vom Server abgerufen werden!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
 msgid "Can't connect to %s!"
@@ -16795,6 +16795,7 @@ msgstr "Kein OTRS-System gefunden!"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s."
 msgstr ""
+"Unbekanntes PRODUKT in OTRS RELEASE-Datei gefunden: %s. Erwartete Werte: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS Version is correct: %s."
@@ -19954,7 +19955,7 @@ msgstr ""
 
 #. SysConfig
 msgid "About"
-msgstr ""
+msgstr "Impressum"
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
@@ -21363,7 +21364,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr ""
+msgstr "About-Text / Impressum eingeben."
 
 #. SysConfig
 msgid "Configure the privacy policy."
@@ -22587,8 +22588,8 @@ msgstr ""
 "Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, "
 "über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier "
 "die Cloud Services, geht ein Teil der Funktionalität wie der Versand von "
-"Supportdaten, Package Verify™ und die Product News Dashboard Widgets "
-"verloren."
+"Supportdaten, Package Verify™ und das \"Produkt-Neuigkeiten\"-Dashboard-"
+"Widget verloren."
 
 #. SysConfig
 msgid ""
@@ -28029,11 +28030,11 @@ msgstr "Meine Services"
 
 #. SysConfig
 msgid "My last changed tickets"
-msgstr "Meine zuletzt geänderten Tickets"
+msgstr "Zuletzt geänderte Tickets"
 
 #. SysConfig
 msgid "MyLastChangedTickets dashboard widget."
-msgstr ""
+msgstr "Dashboard-Widget \"Zuletzt geänderte Tickets\"."
 
 #. SysConfig
 msgid ""
