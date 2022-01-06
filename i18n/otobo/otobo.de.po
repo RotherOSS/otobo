@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:03+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -9387,7 +9387,7 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
-msgstr "Einstellungen zur automatischen Erstellung"
+msgstr "Einstellungen für die automatische Erstellung"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation times (cron)"
