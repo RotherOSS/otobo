@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:21+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -24508,7 +24508,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the number of tickets shown in the widget."
-msgstr "Definiert die Anzahl der Tickets, die im Widget dargestellt werden."
+msgstr "Definiert die Anzahl der im Widget dargestellten Tickets."
 
 #. SysConfig
 msgid "Defines the parameters for the customer preferences table."
