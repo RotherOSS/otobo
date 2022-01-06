@@ -50,8 +50,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2022-01-06 16:15+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2022-01-06 16:55+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -3839,7 +3839,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "Anzahl der Artikel"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
