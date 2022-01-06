@@ -51,7 +51,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
 "PO-Revision-Date: 2022-01-06 17:20+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -15526,7 +15526,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Could not load process module."
-msgstr ""
+msgstr "Prozessmodul konnte nicht geladen werden."
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
@@ -15844,7 +15844,7 @@ msgstr "\"PGP SIGNED MESSAGE\"-Header gefunden, aber ungültig!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Internal error during verification!"
-msgstr ""
+msgstr "Interner Fehler während Überprüfung!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
