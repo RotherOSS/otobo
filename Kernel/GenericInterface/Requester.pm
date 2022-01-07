@@ -135,8 +135,7 @@ sub Run {
 
         return {
             Success      => 0,
-            ErrorMessage =>
-                "Could not load web service configuration for web service $Param{WebserviceID}",
+            ErrorMessage => "Could not load web service configuration for web service $Param{WebserviceID}",
         };
     }
 
@@ -252,12 +251,7 @@ sub Run {
     );
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound} ) ) {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
@@ -380,12 +374,7 @@ sub Run {
     }
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound} ) ) {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
