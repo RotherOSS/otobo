@@ -85,7 +85,7 @@ sub Run {
     my $RequesterObject  = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
     my $ConfigObject     = $Kernel::OM->Get('Kernel::Config');
 
-    my %WebserviceList   = %{ $WebserviceObject->WebserviceList( Valid => 1 ) };
+    my %WebserviceList   = $WebserviceObject->WebserviceList( Valid => 1 )->%*;
     my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
 
     # Loop over web services.
@@ -102,14 +102,14 @@ sub Run {
 
         # Check invokers of the web service, to see if some might be connected to this event.
         INVOKER:
-        for my $Invoker ( sort keys %{ $WebserviceData->{Config}->{Requester}->{Invoker} } ) {
+        for my $Invoker ( sort keys $WebserviceData->{Config}->{Requester}->{Invoker}->%* ) {
 
             my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker};
 
             next INVOKER if ref $InvokerConfig->{Events} ne 'ARRAY';
 
             INVOKEREVENT:
-            for my $InvokerEvent ( @{ $InvokerConfig->{Events} } ) {
+            for my $InvokerEvent ( $InvokerConfig->{Events}->@* ) {
 
                 # Check if the invoker is connected to this event.
                 next INVOKEREVENT if !IsHashRefWithData($InvokerEvent);
