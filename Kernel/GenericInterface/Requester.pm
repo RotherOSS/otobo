@@ -53,7 +53,7 @@ create an object. Do not create it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     return bless {}, $Type;
