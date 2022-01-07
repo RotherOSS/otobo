@@ -212,8 +212,6 @@ sub PrepareRequest {
 
             next ATTACHMENT unless %ArticleAttachment;
 
-            use MIME::Base64;
-            use Encode qw(encode);
             my $FileName = $ArticleAttachment{Filename};
             my $FileType = $ArticleAttachment{ContentType};
             my $FileSize = $ArticleAttachment{FilesizeRaw};
