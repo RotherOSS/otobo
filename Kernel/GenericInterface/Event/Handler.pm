@@ -88,7 +88,7 @@ sub Run {
     my %WebserviceList   = $WebserviceObject->WebserviceList( Valid => 1 )->%*;
     my %RegisteredEvents = $Kernel::OM->Get('Kernel::System::Event')->EventList();
 
-    # Loop over web services.
+    # Loop over all web services.
     WEBSERVICEID:
     for my $WebserviceID ( sort keys %WebserviceList ) {
 
@@ -127,6 +127,7 @@ sub Run {
                     next EVENTTYPE if !$EventFound;
 
                     $EventType = $Type;
+
                     last EVENTTYPE;
                 }
 
@@ -204,15 +205,15 @@ sub Run {
                     }
 
                     next INVOKEREVENT;
-
                 }
 
-                # execute synchronous tasks directly
+                # neither Condition nor Asynchronous: execute synchronous tasks directly
                 my $Result = $RequesterObject->Run(
                     WebserviceID => $WebserviceID,
                     Invoker      => $Invoker,
                     Data         => Storable::dclone( $Param{Data} ),
                 );
+
                 next INVOKEREVENT if $Result->{Success};
 
                 # check if rescheduling is requested on errors

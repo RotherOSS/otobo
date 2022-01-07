@@ -68,7 +68,9 @@ sub new {
 =head2 PrepareRequest()
 
 prepare the invocation of the configured remote web service.
-This will just return the data that was passed to the function.
+In most cases this will set up the C<docapi> and other parameters for the Elasticsearch REST interface.
+In some cases the request will be aborted by returning C<StopCommunication => 1>.
+In other cases one or more different web service calls will be performed and the original request will be aborted.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => {                               # data payload
@@ -103,6 +105,7 @@ sub PrepareRequest {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # handle all events which are neither update nor creation first
+
     # delete the ticket
     if ( $Param{Data}{Event} eq 'TicketDelete' ) {
         my %Content = (
@@ -638,7 +641,6 @@ sub PrepareRequest {
             doc => { map { $_ => $Ticket{$_} } keys %DataToStore },
         );
         $API = '_update';
-
     }
 
     return {

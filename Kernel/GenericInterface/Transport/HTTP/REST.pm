@@ -912,7 +912,7 @@ sub RequesterPerformRequest {
                 :
                 'No content provided.';
 
-            # log to debugger
+            # log to debugger and return as unsuccessfull
             return $Self->{DebuggerObject}->Error(
                 Summary => $ResponseError,
                 Data    => $ResponseData,

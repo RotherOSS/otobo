@@ -317,7 +317,7 @@ sub Run {
         );
     }
 
-    # Read request content.
+    # Perform a request and return the parsed request result when everything went fine
     my $RequesterPerformRequestResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
@@ -520,6 +520,7 @@ sub _HandleError {
         )
     {
         next NEEDED if $Param{$Needed};
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Got no $Needed!",
