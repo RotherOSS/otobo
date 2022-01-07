@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -92,7 +92,8 @@ sub Run {
         NeededDataAttributes => [ 'WebserviceID', 'Invoker', 'Data' ],
         %Param,
     );
-    return if !$CheckResult;
+
+    return unless $CheckResult;
 
     if ( $Self->{Debug} ) {
         print "    $Self->{WorkerName} executes task: $Param{TaskName}\n";
@@ -105,6 +106,7 @@ sub Run {
         Data              => Storable::dclone( $Param{Data}->{Data} ),
         PastExecutionData => $Param{Data}->{PastExecutionData},
     );
+
     return 1 if $Result->{Success};
 
     my $Webservice = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice')->WebserviceGet(

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -66,6 +66,7 @@ sub Run {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -213,8 +214,8 @@ sub Run {
                 next INVOKEREVENT if $Result->{Success};
 
                 # check if rescheduling is requested on errors
-                next INVOKEREVENT if !IsHashRefWithData( $Result->{Data} );
-                next INVOKEREVENT if !$Result->{Data}->{ReSchedule};
+                next INVOKEREVENT unless IsHashRefWithData( $Result->{Data} );
+                next INVOKEREVENT unless $Result->{Data}->{ReSchedule};
 
                 # Use the execution time from the return data
                 my $ExecutionTime = $Result->{Data}->{ExecutionTime};
@@ -491,6 +492,7 @@ sub _ConditionCheck {
             Priority => 'error',
             Message  => "Invalid ConditionLinking!",
         );
+
         return;
     }
     my ( $ConditionSuccess, $ConditionFail ) = ( 0, 0 );
@@ -512,6 +514,7 @@ sub _ConditionCheck {
                 Priority => 'error',
                 Message  => "No Fields in Condition->$ConditionName found!",
             );
+
             return;
         }
 
@@ -524,6 +527,7 @@ sub _ConditionCheck {
                 Priority => 'error',
                 Message  => "Invalid Condition->$ConditionName->Type!",
             );
+
             return;
         }
 
@@ -568,6 +572,7 @@ sub _ConditionCheck {
                     Priority => 'error',
                     Message  => "Invalid Condition->Type!",
                 );
+
                 return;
             }
 
@@ -589,6 +594,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a String if Type is set to String!",
                     );
+
                     return;
                 }
 
@@ -723,6 +729,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Hash!",
                     );
+
                     return;
                 }
 
@@ -789,6 +796,7 @@ sub _ConditionCheck {
                             "Condition->$ConditionName->Fields->$FieldName Match must"
                             . " be a Regular expression if Type is set to Regexp!",
                     );
+
                     return;
                 }
 
@@ -804,6 +812,7 @@ sub _ConditionCheck {
                             Priority => 'error',
                             Message  => $@,
                         );
+
                         return;
                     }
                 }
@@ -900,6 +909,7 @@ sub _ConditionCheck {
                             . $ActualCondition->{Fields}->{$FieldName}->{Type}
                             . "Module for Condition->$ConditionName->Fields->$FieldName validation!",
                     );
+
                     return;
                 }
 

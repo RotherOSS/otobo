@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -211,6 +211,7 @@ sub Run {
     if ( !$PrepareRequestResult->{Success} ) {
 
         my $Summary = $PrepareRequestResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -408,6 +409,7 @@ sub Run {
         if ( !$MapResult->{Success} ) {
 
             my $Summary = $MapResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -538,13 +540,14 @@ sub _HandleError {
         PastExecutionData => $Param{PastExecutionData},
     );
 
+    # TODO: why is Success always 0 ?
     my $ReturnData = {
         Success      => 0,
         ErrorMessage => $ErrorHandlingResult->{ErrorMessage} || $Param{Summary},
         Data         => $ErrorHandlingResult->{ReScheduleData},
     };
 
-    return $ReturnData if !$Param{InvokerObject}->{BackendObject}->can('HandleError');
+    return $ReturnData unless $Param{InvokerObject}->{BackendObject}->can('HandleError');
 
     my $HandleErrorData;
     if ( !defined $Param{Data} || IsString( $Param{Data} ) ) {
