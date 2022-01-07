@@ -501,9 +501,12 @@ handles errors by
         PastExecutionData => $PastExecutionDataStructure,   # optional
     );
 
+a hash reference indicating failure is returned.
+The attribute C<ErrorMessage> of the returned hashref is set to the parameter C<Summary>.
+
     my $ReturnData = {
         Success      => 0,
-        ErrorMessage => $Param{Summary},
+        ErrorMessage => 'an error occurred'.
     };
 
 =cut
