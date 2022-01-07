@@ -1226,6 +1226,8 @@ sub QueueUpdate {
         Type => $Self->{CacheType},
     );
 
+    return 1 if $Param{Name} eq $OldQueue{Name};
+
     # updated all sub queue names
     my @ParentQueue = split( /::/, $OldQueue{Name} );
 
