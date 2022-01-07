@@ -96,9 +96,9 @@ sub Run {
             ID => $WebserviceID,
         );
 
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config} );
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
-        next WEBSERVICEID if !IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config}->{Requester} );
+        next WEBSERVICEID unless IsHashRefWithData( $WebserviceData->{Config}->{Requester}->{Invoker} );
 
         # Check invokers of the web service, to see if some might be connected to this event.
         INVOKER:
@@ -106,15 +106,15 @@ sub Run {
 
             my $InvokerConfig = $WebserviceData->{Config}->{Requester}->{Invoker}->{$Invoker};
 
-            next INVOKER if ref $InvokerConfig->{Events} ne 'ARRAY';
+            next INVOKER unless ref $InvokerConfig->{Events} eq 'ARRAY';
 
             INVOKEREVENT:
             for my $InvokerEvent ( $InvokerConfig->{Events}->@* ) {
 
                 # Check if the invoker is connected to this event.
-                next INVOKEREVENT if !IsHashRefWithData($InvokerEvent);
-                next INVOKEREVENT if !IsStringWithData( $InvokerEvent->{Event} );
-                next INVOKEREVENT if $InvokerEvent->{Event} ne $Param{Event};
+                next INVOKEREVENT unless IsHashRefWithData($InvokerEvent);
+                next INVOKEREVENT unless IsStringWithData( $InvokerEvent->{Event} );
+                next INVOKEREVENT unless $InvokerEvent->{Event} eq $Param{Event};
 
                 # Prepare event type.
                 my $EventType;
@@ -124,7 +124,7 @@ sub Run {
                 for my $Type ( sort keys %RegisteredEvents ) {
                     my $EventFound = grep { $_ eq $InvokerEvent->{Event} } @{ $RegisteredEvents{$Type} || [] };
 
-                    next EVENTTYPE if !$EventFound;
+                    next EVENTTYPE unless $EventFound;
 
                     $EventType = $Type;
 

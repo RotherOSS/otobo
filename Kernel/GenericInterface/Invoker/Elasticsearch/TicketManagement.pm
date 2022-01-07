@@ -210,7 +210,7 @@ sub PrepareRequest {
                 FileID    => $AttachmentIndex,
             );
 
-            next ATTACHMENT if !%ArticleAttachment;
+            next ATTACHMENT unless %ArticleAttachment;
 
             use MIME::Base64;
             use Encode qw(encode);
