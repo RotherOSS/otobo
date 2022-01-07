@@ -16,9 +16,17 @@
 
 package Kernel::GenericInterface::Invoker::Elasticsearch::TicketManagement;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+use MIME::Base64;
+use Encode qw(encode);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;

@@ -16,12 +16,17 @@
 
 package Kernel::GenericInterface::Event::Handler;
 
+use v5.24;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
+# core modules
 use Storable;
+
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::GenericInterface::Requester',
