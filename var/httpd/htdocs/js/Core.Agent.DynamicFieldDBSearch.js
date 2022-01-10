@@ -258,8 +258,12 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     /TicketID=(\d+)/.exec(document.URL);
                     TicketID = RegExp.$1;
 
+                    // for usage in process context
                     var LiElementId = $Element.parents().closest('li.Activity').attr('id');
-                    var ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([a-f0-9]{32})$/)[1];
+                    if (typeof LiElementId !== 'undefined') {
+                        var ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
+                        DynamicFieldName = DynamicFieldName.substring(0, DynamicFieldName.indexOf('_' + ActivityDialogId));
+                    }
 
                     // serialize form
                     QueryString = Core.AJAX.SerializeForm($('#'+DynamicFieldName).closest('form'), IgnoreList) + SerializeData(UpdateList);
@@ -267,7 +271,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";Action="+FrontendInterface;
                     QueryString += ";Term="+encodeURIComponent(Request.term);
                     QueryString += ";MaxResults="+Core.Config.Get('Autocomplete.MaxResultsDisplayed');
-                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName.substring(0, DynamicFieldName.indexOf('_' + ActivityDialogId)));
+                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
 
                     URL = Core.Config.Get('Baselink');
