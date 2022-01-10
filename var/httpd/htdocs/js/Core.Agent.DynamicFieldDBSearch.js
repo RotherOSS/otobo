@@ -260,9 +260,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
                     // for usage in process context
                     var LiElementId = $Element.parents().closest('li.Activity').attr('id');
+                    var DynamicFieldNameQuery = DynamicFieldName;
                     if (typeof LiElementId !== 'undefined') {
                         var ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
-                        DynamicFieldName = DynamicFieldName.substring(0, DynamicFieldName.indexOf('_' + ActivityDialogId));
+                        DynamicFieldNameQuery = DynamicFieldNameQuery.substring(0, DynamicFieldNameQuery.indexOf('_' + ActivityDialogId));
                     }
 
                     // serialize form
@@ -271,7 +272,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";Action="+FrontendInterface;
                     QueryString += ";Term="+encodeURIComponent(Request.term);
                     QueryString += ";MaxResults="+Core.Config.Get('Autocomplete.MaxResultsDisplayed');
-                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
+                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldNameQuery);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
 
                     URL = Core.Config.Get('Baselink');
