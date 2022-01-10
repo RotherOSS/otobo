@@ -258,7 +258,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     /TicketID=(\d+)/.exec(document.URL);
                     TicketID = RegExp.$1;
 
-                    var LiElementId = $Element.parents().closest('li').attr('id');
+                    var LiElementId = $Element.parents().closest('li.Activity').attr('id');
                     var ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([a-f0-9]{32})$/)[1];
 
                     // serialize form
