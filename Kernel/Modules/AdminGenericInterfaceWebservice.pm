@@ -1104,12 +1104,12 @@ sub _ShowEdit {
         my @ErrorModules;
 
         ERRORMODULEKEY:
-        for my $ErrorModuleKey ( sort keys %{$ErrorModuleConfig} ) {
+        for my $ErrorModuleKey ( sort keys $ErrorModuleConfig->%* ) {
 
-            next ERRORMODULEKEY if !$ErrorModuleKey;
-            next ERRORMODULEKEY if !IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
+            next ERRORMODULEKEY unless $ErrorModuleKey;
+            next ERRORMODULEKEY unless IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
 
             # Check for active communication type filter.
             if (
@@ -1367,6 +1367,7 @@ sub _ShowEdit {
     );
 
     $Output .= $LayoutObject->Footer();
+
     return $Output;
 }
 
