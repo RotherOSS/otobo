@@ -47,7 +47,7 @@ Core.Agent.Admin.About = (function (TargetNS) {
         // bind click function to remove button
         $('.LanguageRemove').off('click.About').on('click.About', function () {
 
-            if (window.confirm(Core.Language.Translate('Do you really want to delete this privacy policy language?'))) {
+            if (window.confirm(Core.Language.Translate('Do you really want to delete this language?'))) {
                 TargetNS.RemoveLanguage($(this));
             }
             return false;
@@ -108,7 +108,7 @@ Core.Agent.Admin.About = (function (TargetNS) {
         // bind click function to remove button
         $('.LanguageRemove').off('click.About').on('click.About', function () {
 
-            if (window.confirm(Core.Language.Translate('Do you really want to delete this privacy policy language?'))) {
+            if (window.confirm(Core.Language.Translate('Do you really want to delete this language?'))) {
                 TargetNS.RemoveLanguage($(this));
             }
             return false;
