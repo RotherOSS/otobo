@@ -3,7 +3,7 @@
 # Udo Bretz, 2018
 # Toshihiro Takehara aka nouphet <nouphet.ratanavong@gmail.com>, 2018
 # Tomy1984, 2018
-# Kozo Sakurai <sakurai@io-architect.com>, 2018, 2021.
+# Kozo Sakurai <sakurai@io-architect.com>, 2018, 2021, 2022.
 # Tomohisa Hirami <hirami@io-architect.com>, 2018
 # nao_j3ster_koha <sdvr.nao@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2021-04-20 11:00+0000\n"
+"PO-Revision-Date: 2022-01-12 19:56+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
@@ -250,11 +250,11 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "プライバシーポリシー管理"
 
 #. Template: AdminAbout
 msgid "Privacy Policy"
-msgstr ""
+msgstr "プライバシーポリシー"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -268,7 +268,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "言語を削除"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -284,11 +284,11 @@ msgstr "この項目は必須かつ4000文字未満にしてください。"
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "言語について削除"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "新しい言語を追加"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1363,7 +1363,7 @@ msgstr "有効"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "プライバシーポリシーの言語を削除"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1738,7 +1738,7 @@ msgstr "ダイナミック・フィールドでフィルター"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "新しいダイナミックフィールド"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1887,11 +1887,11 @@ msgstr "これはこの領域がアクティブである画面で表示される
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "ツールチップメッセージ:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
-msgstr ""
+msgstr "これは、カスタマーインターフェイス内に表示されるツールチップメッセージです。"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -3587,7 +3587,7 @@ msgstr "この領域を削除"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "同じ条件で繰り返すことはできません。"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add New Condition"
@@ -3599,7 +3599,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "送信リクエストデータの設定"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -4568,7 +4568,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "Webサービス(Ready2Adopt)をインポート"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -8905,7 +8905,7 @@ msgstr "レポート\"%s\"を削除"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "レポート管理"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
@@ -30382,7 +30382,7 @@ msgstr "反転"
 
 #. SysConfig
 msgid "stats"
-msgstr "stats"
+msgstr "統計"
 
 #~ msgid "New OTOBO Community  Fields"
 #~ msgstr "OTOBOコミュニティ版での新フィールド型"
