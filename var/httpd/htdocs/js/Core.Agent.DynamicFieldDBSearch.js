@@ -195,6 +195,12 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         if(isJQueryObject($Element)) {
 
+            var LiElementId = $Element.parents().closest('li.Activity').attr('id');
+            var ActivityDialogId = '';
+            if ( typeof LiElementId !== 'undefined' ) {
+                ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
+            }
+
             // Get the ticket id.
             /TicketID=(\d+)/.exec(document.URL);
             TicketID = RegExp.$1;
@@ -209,7 +215,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             // Register event for the detailed search dialog
             $('#DynamicFieldDBDetailedSearch_' + DynamicFieldName).on('click', function () {
-                OpenDetailedSearchDialog($(this).attr('field'), TicketID);
+                var FieldName = $(this).attr('field');
+                if ( ActivityDialogId !== '' ) {
+                    FieldName = FieldName.substring(0, FieldName.indexOf('_' + ActivityDialogId));
+                }
+                OpenDetailedSearchDialog(FieldName, TicketID);
                 return false;
             });
 
@@ -261,8 +271,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     // for usage in process context
                     var LiElementId = $Element.parents().closest('li.Activity').attr('id');
                     var DynamicFieldNameQuery = DynamicFieldName;
-                    if (typeof LiElementId !== 'undefined') {
-                        var ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
+                    if (ActivityDialogId !== '') {
                         DynamicFieldNameQuery = DynamicFieldNameQuery.substring(0, DynamicFieldNameQuery.indexOf('_' + ActivityDialogId));
                     }
 
