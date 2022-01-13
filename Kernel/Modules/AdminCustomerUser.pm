@@ -907,9 +907,7 @@ sub _Overview {
             next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
             my $CustomerUserMap = $ConfigObject->Get("CustomerUser$Count");
             next SOURCE if !$CustomerUserMap->{CustomerUserSearchListLimit};
-            if ( $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
-                $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
-            }
+            $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
         }
 
         my %ListAllItems = $CustomerUserObject->CustomerSearch(
