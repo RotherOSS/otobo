@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -194,14 +194,14 @@ sub HandleResponse {
         );
     }
 
-    # Start map on backend.
+    # handle response on backend.
     return $Self->{BackendObject}->HandleResponse(%Param);
-
 }
 
 =head2 HandleError()
 
 handle error data of the configured remote web service.
+The caller must check first whether the backend object provided a C<HandleError()> method.
 
     my $Result = $InvokerObject->HandleError(
         Data => {                               # data payload
@@ -230,6 +230,7 @@ sub HandleError {
         );
     }
 
+    # handle error on backend
     return $Self->{BackendObject}->HandleError(%Param);
 
 }
