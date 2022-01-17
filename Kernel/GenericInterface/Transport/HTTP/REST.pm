@@ -882,41 +882,45 @@ sub RequesterPerformRequest {
     # Add headers to request
     push @RequestParam, \%Headers;
 
+    # the actual request to the remote service
     $RestClient->$RestCommand(@RequestParam);
+
+    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
+        . $Config->{Host} . "'.";
+    my $ResponseError;
+    if ( $Param{CustomResponseAssessor} ) {
+        $ResponseError = $Param{CustomResponseAssessor}->(
+            RestClient   => $RestClient,
+            RestCommand  => $RestCommand,
+            Controller   => $Controller,
+            ErrorMessage => $ErrorMessage,
+        );
+    }
+    else {
+        $ResponseError = _AssessResponse(
+            RestClient   => $RestClient,
+            RestCommand  => $RestCommand,
+            Controller   => $Controller,
+            ErrorMessage => $ErrorMessage,
+        );
+    }
 
     my $ResponseCode    = $RestClient->responseCode();
     my $ResponseContent = $RestClient->responseContent();
-    my $ErrorMessage    = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
-        . $Config->{Host} . "'.";
-    {
-        my $ResponseError;
-        if ( !IsStringWithData($ResponseCode) ) {
-            $ResponseError = $ErrorMessage;
-        }
 
-        if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
-            $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
-        }
+    # Return early in case an error on response.
+    if ($ResponseError) {
+        my $ResponseData = IsStringWithData($ResponseContent)
+            ?
+            "Response content: '$ResponseContent'"
+            :
+            'No content provided.';
 
-        if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
-            $ResponseError .= ' No content provided.';
-        }
-
-        # Return early in case an error on response.
-        if ($ResponseError) {
-
-            my $ResponseData = IsStringWithData($ResponseContent)
-                ?
-                "Response content: '$ResponseContent'"
-                :
-                'No content provided.';
-
-            # log to debugger and return as unsuccessfull
-            return $Self->{DebuggerObject}->Error(
-                Summary => $ResponseError,
-                Data    => $ResponseData,
-            );
-        }
+        # log to debugger and return as unsuccessfull
+        return $Self->{DebuggerObject}->Error(
+            Summary => $ResponseError,
+            Data    => $ResponseData,
+        );
     }
 
     # Send processed data to debugger.
@@ -995,6 +999,36 @@ sub RequesterPerformRequest {
 }
 
 =begin Internal:
+
+=head2 _AssessResponse()
+
+Inspect the response immediately after the request.
+
+=cut
+
+sub _AssessResponse {
+    my %Param = @_;
+
+    my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
+
+    my $ResponseCode    = $RestClient->responseCode;
+    my $ResponseContent = $RestClient->responseContent;
+
+    my $ResponseError;
+    if ( !IsStringWithData($ResponseCode) ) {
+        $ResponseError = $ErrorMessage;
+    }
+
+    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+    }
+
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+        $ResponseError .= ' No content provided.';
+    }
+
+    return $ResponseError;
+}
 
 =head2 _ThrowWebException()
 

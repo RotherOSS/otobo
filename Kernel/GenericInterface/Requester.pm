@@ -311,11 +311,20 @@ sub Run {
         );
     }
 
+    # Some invokers have a custom function for assessing the request response
+    my %CustomHandler;
+    if ( $InvokerObject->{BackendObject}->can('AssessResponse') ) {
+        $CustomHandler{CustomResponseAssessor} = sub {
+            return $InvokerObject->AssessResponse(@_);
+        };
+    }
+
     # Perform a request and return the parsed request result when everything went fine
     my $RequesterPerformRequestResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
         %CustomHeader,
+        %CustomHandler,
     );
 
     my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;

@@ -651,6 +651,41 @@ sub PrepareRequest {
     };
 }
 
+=head2 AssessResponse()
+
+In most cases the transport object assesses the validity of the request result. When the transport finds that the response indicates an error,
+then error logging and handling kicks in. But at least for Elasticsearch support it is useful to have a function that provides custom
+rules for inspecting the request result. It can find that responses with specific content are valid even though e.g. the HTTP status indicates
+an error.
+
+This function should be used with care. Actual actions should be implemented in C<HandleResponse()>.
+
+=cut
+
+sub AssessResponse {
+    my ( $Self, %Param ) = @_;
+
+    my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
+
+    my $ResponseCode    = $RestClient->responseCode;
+    my $ResponseContent = $RestClient->responseContent;
+
+    my $ResponseError;
+    if ( !IsStringWithData($ResponseCode) ) {
+        $ResponseError = $ErrorMessage;
+    }
+
+    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+    }
+
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+        $ResponseError .= ' No content provided.';
+    }
+
+    return $ResponseError;
+}
+
 =head2 HandleResponse()
 
 handle response data of the configured remote web service.

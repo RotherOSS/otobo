@@ -232,7 +232,28 @@ sub HandleError {
 
     # handle error on backend
     return $Self->{BackendObject}->HandleError(%Param);
+}
 
+=head2 AssessResponse()
+
+callback for the transport object the provides a custom way to inspect a response.
+The caller must check first whether the backend object provided a C<AssessResponse()> method.
+
+=cut
+
+sub AssessResponse {
+    my ( $Self, %Param ) = @_;
+
+    # Check data - only accept undef or hash ref or array ref.
+    if ( defined $Param{Data} && ref $Param{Data} ne 'HASH' && ref $Param{Data} ne 'ARRAY' ) {
+
+        return $Self->{DebuggerObject}->Error(
+            Summary => 'Got Data but it is not a hash or array ref in Invoker handler (AssessResponse)!'
+        );
+    }
+
+    # handle error on backend
+    return $Self->{BackendObject}->AssessResponse(%Param);
 }
 
 1;
