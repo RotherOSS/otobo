@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Transport::HTTP::REST;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -620,7 +620,6 @@ sub RequesterPerformRequest {
         {
             $RestClient->getUseragent()->ssl_opts( verify_hostname => 0 );
         }
-
     }
 
     # Add proxy options if configured.
@@ -923,12 +922,12 @@ sub RequesterPerformRequest {
     # Send processed data to debugger.
     my $SizeExeeded = 0;
     {
-        my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
+        my $MaxSizeKiloBytes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
-        $MaxSize = $MaxSize * 1024;
-        my $ByteSize = bytes::length($ResponseContent);
+        my $MaxSizeBytes = $MaxSizeKiloBytes * 1024;
+        my $SizeBytes    = bytes::length($ResponseContent);
 
-        if ( $ByteSize < $MaxSize ) {
+        if ( $SizeBytes < $MaxSizeBytes ) {
             $Self->{DebuggerObject}->Debug(
                 Summary => 'JSON data received from remote system',
                 Data    => $ResponseContent,
