@@ -40,12 +40,18 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get params
-    for (qw(DynamicFieldName TicketID)) {
+    for (qw(DynamicFieldName TicketID ActivityDialogID)) {
         $Param{$_} = $ParamObject->GetParam( Param => $_ );
     }
 
     # get the pure DynamicField name without prefix
     my $DynamicFieldName = substr( $Param{DynamicFieldName}, 13 );
+
+    # if ActivityDialogID is set, strip it from DynamicFieldName for Backend purpose
+    my $DynamicFieldNameLong = $DynamicFieldName;
+    if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} != '' ) {
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
+    }
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -128,6 +134,7 @@ sub Run {
             Name => 'SearchResultAction',
             Data => {
                 FieldName   => $DynamicFieldName,
+                ActivityDialogID => $Param{ActivityDialogID},
                 SearchParam => $SearchAttributeParameters,
                 TicketID    => $Param{TicketID},
             },
@@ -231,6 +238,7 @@ sub Run {
             Name => 'SearchOverview',
             Data => {
                 DynamicFieldName => $DynamicFieldName,
+                ActivityDialogID => $Param{ActivityDialogID},
                 TicketID         => $Param{TicketID},
             },
         );

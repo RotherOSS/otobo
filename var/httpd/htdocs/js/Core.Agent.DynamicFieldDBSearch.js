@@ -195,10 +195,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         if(isJQueryObject($Element)) {
 
-            var LiElementId = $Element.parents().closest('li.Activity').attr('id');
-            var ActivityDialogId = '';
-            if ( typeof LiElementId !== 'undefined' ) {
-                ActivityDialogId = LiElementId.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
+            var LiElementID = $Element.parents().closest('li.Activity').attr('id');
+            var ActivityDialogID = '';
+            if ( typeof LiElementID !== 'undefined' ) {
+                ActivityDialogID = LiElementID.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
             }
 
             // Get the ticket id.
@@ -216,9 +216,6 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             // Register event for the detailed search dialog
             $('#DynamicFieldDBDetailedSearch_' + DynamicFieldName).on('click', function () {
                 var FieldName = $(this).attr('field');
-                if ( ActivityDialogId !== '' ) {
-                    FieldName = FieldName.substring(0, FieldName.indexOf('_' + ActivityDialogId));
-                }
                 OpenDetailedSearchDialog(FieldName, TicketID);
                 return false;
             });
@@ -269,19 +266,16 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     TicketID = RegExp.$1;
 
                     // for usage in process context
-                    var LiElementId = $Element.parents().closest('li.Activity').attr('id');
                     var DynamicFieldNameQuery = DynamicFieldName;
-                    if (ActivityDialogId !== '') {
-                        DynamicFieldNameQuery = DynamicFieldNameQuery.substring(0, DynamicFieldNameQuery.indexOf('_' + ActivityDialogId));
-                    }
-
+                    
                     // serialize form
                     QueryString = Core.AJAX.SerializeForm($('#'+DynamicFieldName).closest('form'), IgnoreList) + SerializeData(UpdateList);
 
                     QueryString += ";Action="+FrontendInterface;
                     QueryString += ";Term="+encodeURIComponent(Request.term);
                     QueryString += ";MaxResults="+Core.Config.Get('Autocomplete.MaxResultsDisplayed');
-                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldNameQuery);
+                    QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
+                    QueryString += ";ActivityDialogID="+encodeURIComponent(ActivityDialogID);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
 
                     URL = Core.Config.Get('Baselink');
@@ -367,6 +361,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     Data = {
                         Action: FrontendInterface,
                         DynamicFieldName: DynamicFieldName,
+                        ActivityDialogID: ActivityDialogID,
                         Search: DynamicFieldName + 'Restore' + this,
                         Identifier: this,
                         TicketID: TicketID
@@ -569,6 +564,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} ElementValue The result element value.
      * @param {String} IdentifierKey The ID of the DF
      * @param {Boolean} Focus The parameter for focus element.
+    // Description seems to be wrong
      * @description This function shows an alert dialog for duplicated entries.
      */
     TargetNS.CheckMultiselect = function(Field, ElementValue, IdentifierKey, Focus){
@@ -590,7 +586,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         Data = {
             Action: FrontendInterface,
             Subaction: 'AJAXGetDynamicFieldConfig',
-            DynamicFieldName: Field
+            DynamicFieldName: Field,
+            ActivityDialogID: ActivityDialogID
         };
 
         Core.AJAX.FunctionCall(URL, Data, function (Response) {
