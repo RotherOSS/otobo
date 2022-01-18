@@ -133,7 +133,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResultAction',
             Data => {
-                FieldName   => $DynamicFieldName,
+                FieldName   => $DynamicFieldNameLong,
                 ActivityDialogID => $Param{ActivityDialogID},
                 SearchParam => $SearchAttributeParameters,
                 TicketID    => $Param{TicketID},
@@ -143,7 +143,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResult',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldName => $DynamicFieldNameLong,
             },
         );
 
@@ -237,7 +237,7 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchOverview',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldName => $DynamicFieldNameLong,
                 ActivityDialogID => $Param{ActivityDialogID},
                 TicketID         => $Param{TicketID},
             },
@@ -347,7 +347,7 @@ sub Run {
         TemplateFile => 'AgentDynamicFieldDBDetailedSearch',
         Data         => {
             %Param,
-            DynamicFieldName => $DynamicFieldName,
+            DynamicFieldName => $DynamicFieldNameLong,
         }
     );
     $Output .= $LayoutObject->Footer( Type => 'Small' );
