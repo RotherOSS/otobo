@@ -101,7 +101,7 @@
 [% END %]
         </div>
         <div id='ooo'>
-            <p class='ooo10g'>powered by <a href="https://otobo.de">Rother OSS</a> © 2019-2021</p>
+            <p class='ooo10g'>powered by <a href="https://otobo.de">Rother OSS</a> © 2019-2022</p>
             <a href="https://otobo.de">
                 <svg
                    xmlns:dc="http://purl.org/dc/elements/1.1/"
