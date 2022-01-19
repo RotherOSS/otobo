@@ -195,10 +195,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         if(isJQueryObject($Element)) {
 
-            var LiElementID = $Element.parents().closest('li.Activity').attr('id');
             var ActivityDialogID = '';
-            if ( typeof LiElementID !== 'undefined' ) {
-                ActivityDialogID = LiElementID.match(/^Process_ActivityDialog-([0-9a-f]{32})$/)[1];
+            var ActivityDialogIDElem = $('[name="ActivityDialogEntityID"]').closest();
+            if ( DynamicFieldName.indexOf(ActivityDialogIDElem.value().substr('ActivityDialog-'.length)) != -1 ) {
+                ActivityDialogID = ActivityDialodIDElem.value().substr('ActivityDialog-'.length); 
             }
 
             // Get the ticket id.
