@@ -187,6 +187,10 @@ sub Run {
             if ( $CategoryConfig->{$CatName} ) {
                 my $Conf = $CategoryConfig->{$CatName};
 
+                if ( $CatName eq 'State' || $CatName eq 'Service' ) {
+                    $Ticket{$CatName} = $LayoutObject->{LanguageObject}->Translate( $Ticket{$CatName} );
+                }
+
                 if ( $Conf->{ColorSelection}{ $Ticket{$CatName} } ) {
                     push @{ $Categories{ $Conf->{Order} } }, {
                         Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
