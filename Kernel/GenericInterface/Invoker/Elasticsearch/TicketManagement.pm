@@ -667,9 +667,25 @@ sub AssessResponse {
 
     my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
 
-    my $ResponseCode    = $RestClient->responseCode;
+    # Elasticsearch::Ticketmanagement specific assessment is only possible
+    # when the response content is a valid JSON string, representing an object.
+    my $JSONObject      = $Kernel::OM->Get('Kernel::System::JSON');
     my $ResponseContent = $RestClient->responseContent;
+    my $Result          = $JSONObject->Decode(
+        Data => $ResponseContent,
+    );
+    if ( defined $Result && ref $Result eq 'HASH' ) {
 
+        # A common error is that an attribute of an ticket has changed,
+        # but the ticket itself is not indexed.
+        # This case will be handled in HandleResponse().
+        if ( $Result->{error} && $Result->{error}->{type} eq 'document_missing_exception' ) {
+            return;    # disable error handling
+        }
+    }
+
+    # Fall back to basically the same error assessment as in the HTTP::REST transport object
+    my $ResponseCode = $RestClient->responseCode;
     my $ResponseError;
     if ( !IsStringWithData($ResponseCode) ) {
         $ResponseError = $ErrorMessage;
@@ -720,17 +736,19 @@ sub HandleResponse {
         };
     }
 
+    # Per default there is no rescheduling of Elasticsearch::TicketManagement requests,
+    # but ErrorHandling::RequestRetry could have been configured manually, e.g. via the admin interface.
     if ( $Param{Data}->{ResponseContent} && $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
 
         # ResponseContent has URI like params, convert them into a hash
         my %QueryParams = split /[&=]/, $Param{Data}->{ResponseContent};
 
-        # unscape URI strings in query parameters
+        # unescape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
             $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
         }
 
-        # fix ExecutrionTime param
+        # fix ExecutionTime param
         if ( $QueryParams{ExecutionTime} ) {
             $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
         }
@@ -740,6 +758,37 @@ sub HandleResponse {
             ErrorMessage => 'Re-Scheduling...',
             Data         => \%QueryParams,
         };
+    }
+
+    # Special handling for Elasticsearch::TicketManagement:
+    # Reindex a ticket when it isn't available in Elasticsearch as a side effect.
+    # Example:
+    #     {"error":{"root_cause":[{"type":"document_missing_exception",\
+    #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"}],\
+    #     "type":"document_missing_exception",\
+    #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"},"status":404}
+    if ( $Param{Data}->{error} && $Param{Data}->{error}->{type} eq 'document_missing_exception' ) {
+        my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        # create the ticket
+        my ($TicketID) = $Param{Data}->{error}->{reason} =~ m/ \Q[_doc][\E (\d+) \Q]:\E \s /x;    # e.g. "[_doc][5]: "
+        my $Errors = 0;
+        if ( !$ESObject->TicketCreate( TicketID => $TicketID ) ) {
+            $Errors++;
+        }
+
+        # create the articles
+        my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
+        for my $Article (@ArticleList) {
+            my $Success = $Param{ESObject}->ArticleCreate(
+                TicketID  => $TicketID,
+                ArticleID => $Article->{ArticleID},
+            );
+            $Errors++ if !$Success;
+        }
+
+        # ignoring errors
     }
 
     return {
