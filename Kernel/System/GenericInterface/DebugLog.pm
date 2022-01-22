@@ -733,7 +733,7 @@ sub LogSearch {
     }
 
     my $SQLSort = IsStringWithData( $Param{Sort} ) ? $Param{Sort} : 'ASC';
-    $SQLExt .= ' ORDER BY create_time ' . $SQLSort;
+    $SQLExt .= ' ORDER BY id ' . $SQLSort;
 
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
