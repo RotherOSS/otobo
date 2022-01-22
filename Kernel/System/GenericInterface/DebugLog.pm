@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -90,6 +90,7 @@ sub LogAdd {
             Priority => 'error',
             Message  => "Need $Needed as a string!",
         );
+
         return;
     }
 
@@ -99,6 +100,7 @@ sub LogAdd {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
     if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
@@ -106,6 +108,7 @@ sub LogAdd {
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
+
         return;
     }
     if (
@@ -118,6 +121,7 @@ sub LogAdd {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
@@ -125,6 +129,7 @@ sub LogAdd {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
     }
@@ -133,6 +138,7 @@ sub LogAdd {
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
+
         return;
     }
     KEY:
@@ -143,6 +149,7 @@ sub LogAdd {
                 Priority => 'error',
                 Message  => "$Key is not a string!",
             );
+
             return;
         }
     }
@@ -176,6 +183,7 @@ sub LogAdd {
                 Priority => 'error',
                 Message  => "$Key does not match current value for this CommunicationID!",
             );
+
             return;
         }
     }
@@ -197,6 +205,7 @@ sub LogAdd {
             Priority => 'error',
             Message  => 'Could not create debug entry in db!',
         );
+
         return;
     }
 
@@ -231,6 +240,7 @@ sub LogGet {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
 
@@ -239,6 +249,7 @@ sub LogGet {
         Type => $Self->{CacheType},
         Key  => 'LogGet::' . $Param{CommunicationID},
     );
+
     return $Cache if $Cache;
 
     # get database object
@@ -259,6 +270,7 @@ sub LogGet {
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
+
         return;
     }
 
@@ -325,6 +337,7 @@ sub LogGetWithData {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
 
@@ -337,6 +350,7 @@ sub LogGetWithData {
             Priority => 'error',
             Message  => 'Could not get communication chain!',
         );
+
         return;
     }
 
@@ -358,6 +372,7 @@ sub LogGetWithData {
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
+
         return;
     }
 
@@ -374,6 +389,7 @@ sub LogGetWithData {
     }
 
     $LogData->{Data} = \@LogDataEntries;
+
     return $LogData;
 }
 
@@ -402,6 +418,7 @@ sub LogDelete {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
     my $WebserviceIDValid = IsPositiveInteger( $Param{WebserviceID} );
@@ -410,6 +427,7 @@ sub LogDelete {
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
+
         return;
     }
     if (
@@ -422,6 +440,7 @@ sub LogDelete {
             Priority => 'error',
             Message  => 'Need exactly one of CommunicationID or WebserviceID!',
         );
+
         return;
     }
 
@@ -432,10 +451,12 @@ sub LogDelete {
         );
         if ( !IsHashRefWithData($LogData) ) {
             return 1 if $Param{NoErrorIfEmpty};
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Communication chain does not exist!',
             );
+
             return;
         }
     }
@@ -446,10 +467,12 @@ sub LogDelete {
         );
         if ( !IsArrayRefWithData($LogData) ) {
             return 1 if $Param{NoErrorIfEmpty};
+
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => 'Communication chain does not exist!',
             );
+
             return;
         }
     }
@@ -483,6 +506,7 @@ sub LogDelete {
             Priority => 'error',
             Message  => 'Could not remove entries of communication chain in db!',
         );
+
         return;
     }
 
@@ -508,6 +532,7 @@ sub LogDelete {
             Priority => 'error',
             Message  => 'Could not remove communication chain in db!',
         );
+
         return;
     }
 
@@ -575,6 +600,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => "Need $Key as a string!",
         );
+
         return;
     }
 
@@ -584,6 +610,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
     if (
@@ -595,6 +622,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
+
         return;
     }
     KEY:
@@ -608,6 +636,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => "$Key '$Param{$Key}' is not valid!",
         );
+
         return;
     }
     if ( $Param{Limit} && !IsPositiveInteger( $Param{Limit} ) ) {
@@ -615,6 +644,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => 'Limit is not a positive integer!',
         );
+
         return;
     }
     if (
@@ -627,6 +657,7 @@ sub LogSearch {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
@@ -634,6 +665,7 @@ sub LogSearch {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
     }
@@ -642,6 +674,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
+
         return;
     }
     if ( $Param{WithData} && $Param{WithData} !~ m{ \A [01] \z }xms ) {
@@ -649,6 +682,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
+
         return;
     }
     if (
@@ -661,6 +695,7 @@ sub LogSearch {
             Priority => 'error',
             Message  => "Sort must be 'DESC' or 'ASC'!",
         );
+
         return;
     }
 
@@ -680,6 +715,7 @@ sub LogSearch {
     OPTION:
     for my $Option (qw(CommunicationID CommunicationType RemoteIP WebserviceID)) {
         next OPTION if !$Param{$Option};
+
         my $Type = $SQLExt ? 'AND' : 'WHERE';
         $SQLExt .= " $Type $NameToDB{$Option} = ?";
         push @Bind, \$Param{$Option};
@@ -741,7 +777,9 @@ sub LogSearch {
         my $LogData = $Self->LogGetWithData(
             CommunicationID => $Entry->{CommunicationID},
         );
+
         return if !$LogData;
+
         push @LogEntriesWithData, $LogData;
     }
 
@@ -778,6 +816,7 @@ sub LogCleanup {
             Priority => 'error',
             Message  => "CreatedAtOrBefore is not valid!",
         );
+
         return;
     }
 
@@ -789,6 +828,7 @@ sub LogCleanup {
             Priority => 'error',
             Message  => "CreatedAtOrBefore is not valid!",
         );
+
         return;
     }
 
@@ -806,6 +846,7 @@ sub LogCleanup {
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
+
         return;
     }
     my @LogEntryIDs;
@@ -830,6 +871,7 @@ sub LogCleanup {
             Priority => 'error',
             Message  => 'Could not remove entries of communication chains in db!',
         );
+
         return;
     }
 
@@ -846,6 +888,7 @@ sub LogCleanup {
             Priority => 'error',
             Message  => 'Could not remove communication chains in db!',
         );
+
         return;
     }
 
@@ -883,6 +926,7 @@ sub _LogAddChain {
             Priority => 'error',
             Message  => "Need $Needed as a string!",
         );
+
         return;
     }
 
@@ -892,6 +936,7 @@ sub _LogAddChain {
             Priority => 'error',
             Message  => 'CommunicationID is not an md5sum!',
         );
+
         return;
     }
     if ( $Param{CommunicationType} !~ m{ \A (?: Provider | Requester ) \z }xms ) {
@@ -899,6 +944,7 @@ sub _LogAddChain {
             Priority => 'error',
             Message  => "CommunicationType '$Param{CommunicationType}' is not valid!",
         );
+
         return;
     }
     if (
@@ -911,6 +957,7 @@ sub _LogAddChain {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
         if ( !IsIPv4Address( $Param{RemoteIP} ) && !IsIPv6Address( $Param{RemoteIP} ) ) {
@@ -918,6 +965,7 @@ sub _LogAddChain {
                 Priority => 'error',
                 Message  => "RemoteIP '$Param{RemoteIP}' is not a valid IPv4 or IPv6 address!",
             );
+
             return;
         }
     }
@@ -926,6 +974,7 @@ sub _LogAddChain {
             Priority => 'error',
             Message  => 'WebserviceID is not a positive integer!',
         );
+
         return;
     }
 
@@ -947,6 +996,7 @@ sub _LogAddChain {
             Priority => 'error',
             Message  => 'Could not create debug entry chain in db!',
         );
+
         return;
     }
 
