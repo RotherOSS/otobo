@@ -379,13 +379,12 @@ sub LogGetWithData {
     # read data
     my @LogDataEntries;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        my %SingleEntry = (
+        push @LogDataEntries, {
             Created    => $Row[0],
             Data       => $Row[1] || '',
             DebugLevel => $Row[2],
             Summary    => $Row[3],
-        );
-        push @LogDataEntries, \%SingleEntry;
+        };
     }
 
     $LogData->{Data} = \@LogDataEntries;
@@ -703,7 +702,7 @@ sub LogSearch {
     my $SQL =
         'SELECT communication_id, communication_type, id, remote_ip, webservice_id, create_time'
         . ' FROM gi_debugger_entry';
-    my @Bind     = ();
+    my @Bind;
     my $SQLExt   = '';
     my %NameToDB = (
         CommunicationID   => 'communication_id',
@@ -751,21 +750,21 @@ sub LogSearch {
             Priority => 'error',
             Message  => 'Could not prepare db query!',
         );
+
         return;
     }
 
     # read data
     my @LogEntries;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        my %SingleEntry = (
+        push @LogEntries, {
             CommunicationID   => $Row[0],
             CommunicationType => $Row[1],
             LogID             => $Row[2],
             RemoteIP          => $Row[3] || '',
             WebserviceID      => $Row[4],
             Created           => $Row[5],
-        );
-        push @LogEntries, \%SingleEntry;
+        };
     }
 
     # done if we only need main entries
