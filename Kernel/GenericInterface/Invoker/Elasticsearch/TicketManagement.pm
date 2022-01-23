@@ -21,7 +21,7 @@ use strict;
 use warnings;
 
 # core modules
-use MIME::Base64;
+use MIME::Base64 qw(encode_base64);
 use Encode qw(encode);
 
 # CPAN modules
@@ -289,7 +289,6 @@ sub PrepareRequest {
                 StopCommunication => 1,
             };
         }
-
     }
 
     # handle the regular updating and creation
