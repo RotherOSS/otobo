@@ -233,6 +233,14 @@ sub PrepareRequest {
             };
         }
 
+        # nothing to do when there are no attachments remaining
+        if ( !@Attachments ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         return {
             Success => 1,
             Data    => {
