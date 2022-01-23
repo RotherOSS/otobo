@@ -218,10 +218,10 @@ sub PrepareRequest {
             next ATTACHMENT if $FileSize > $MaxFilesize;
 
             # only ingest supported file formats
-            # extract the file format from both the content type and the file name
-            my ($TypeFormat) = $ArticleAttachment{ContentType} =~ m/^.*?\/([\d\w]+)/;
+            # the file format is extracted from both the content type and from the file name
+            my ($TypeFormat) = $ArticleAttachment{ContentType} =~ m/^.*?\/(\w+)/;
             my $FileName     = $ArticleAttachment{Filename};
-            my ($NameFormat) = $FileName =~ m/\.([\d\w]+)$/;
+            my ($NameFormat) = $FileName =~ m/\.(\w+)$/;
 
             next ATTACHMENT unless ( $FormatIsSupported{$TypeFormat} || $FormatIsSupported{$NameFormat} );
 
