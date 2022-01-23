@@ -177,14 +177,9 @@ sub PrepareRequest {
         };
     }
 
-    # put a temporary attachment
+    # put a temporary attachment into a queue
     if ( $Param{Data}{Event} eq 'PutTMPAttachment' ) {
 
-        # get file format to be ingested
-        my $FileFormat = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
-        my %FormatHash = map { $_ => 1 } @{$FileFormat};
-
-        my $MaxFilesize    = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
         my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackend = $ArticleObject->BackendForArticle(
             TicketID  => $Param{Data}{TicketID},
@@ -202,9 +197,14 @@ sub PrepareRequest {
             };
         }
 
+        # collect Base64 encoded attachments,
+        # ignoring attachments that are too large or have unsupported format
         my @Attachments;
+        my $MaxFilesize       = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
+        my $FileFormat        = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
+        my %FormatIsSupported = map { $_ => 1 } $FileFormat->@*;
         ATTACHMENT:
-        for my $AttachmentIndex ( sort keys %{ $Param{Data}{AttachmentIndex} } ) {
+        for my $AttachmentIndex ( sort keys $Param{Data}{AttachmentIndex}->%* ) {
             my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
                 ArticleID => $Param{Data}{ArticleID},
                 FileID    => $AttachmentIndex,
@@ -212,26 +212,25 @@ sub PrepareRequest {
 
             next ATTACHMENT unless %ArticleAttachment;
 
-            my $FileName = $ArticleAttachment{Filename};
-            my $FileType = $ArticleAttachment{ContentType};
+            # Ingest attachment only if filesize is less than the max size defined in sysconfig
             my $FileSize = $ArticleAttachment{FilesizeRaw};
 
-            # Ingest attachment only if files ize is less than the max size defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
 
-            $FileType =~ /^.*?\/([\d\w]+)/;
-            my $TypeFormat = $1;
-            $FileName =~ /\.([\d\w]+)$/;
-            my $NameFormat = $1;
+            # only ingest supported file formats
+            # extract the file format from both the content type and the file name
+            my ($TypeFormat) = $ArticleAttachment{ContentType} =~ m/^.*?\/([\d\w]+)/;
+            my $FileName     = $ArticleAttachment{Filename};
+            my ($NameFormat) = $FileName =~ m/\.([\d\w]+)$/;
 
-            if ( $FormatHash{$TypeFormat} || $FormatHash{$NameFormat} ) {
-                my $Encoded = encode_base64( $ArticleAttachment{Content} );
-                $Encoded =~ s/\n//g;
-                my %Data;
-                $Data{filename} = $FileName;
-                $Data{data}     = $Encoded;
-                push( @Attachments, \%Data );
-            }
+            next ATTACHMENT unless ( $FormatIsSupported{$TypeFormat} || $FormatIsSupported{$NameFormat} );
+
+            # the file content is expected to be Base64 encoded, without embedded newlines
+            my $Encoded = encode_base64( $ArticleAttachment{Content}, '' );
+            push @Attachments, {
+                filename => $FileName,
+                data     => $Encoded,
+            };
         }
 
         return {
