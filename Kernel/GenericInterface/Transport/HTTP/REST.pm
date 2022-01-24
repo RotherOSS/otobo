@@ -885,8 +885,7 @@ sub RequesterPerformRequest {
     # the actual request to the remote service
     $RestClient->$RestCommand(@RequestParam);
 
-    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
-        . $Config->{Host} . "'.";
+    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '$Config->{Host}'.";
     my $ResponseError;
     if ( $Param{CustomResponseAssessor} ) {
         $ResponseError = $Param{CustomResponseAssessor}->(
@@ -1048,16 +1047,13 @@ sub _ThrowWebException {
     my ( $Self, %Param ) = @_;
 
     # Check params.
-    my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid internal HTTPCode';
-        $ErrorMessage    = 'Invalid internal HTTPCode';
     }
     elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid Content';
-        $ErrorMessage    = 'Invalid Content';
     }
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used
