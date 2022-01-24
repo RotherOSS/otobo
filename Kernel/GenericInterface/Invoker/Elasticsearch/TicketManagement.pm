@@ -689,7 +689,16 @@ sub AssessResponse {
         # A common error is that an attribute of an ticket has changed,
         # but the ticket itself is not indexed.
         # This case will be handled in HandleResponse().
-        if ( $Result->{error} && $Result->{error}->{type} eq 'document_missing_exception' ) {
+        if (
+            $Result->{error}
+            && $Result->{error}->{type} eq 'document_missing_exception'
+            )
+        {
+            $Self->{DebuggerObject}->Info(
+                Summary => $ErrorMessage,
+                Data    => "The indexed ticket is missing. The ticket will be reindexed."
+            );
+
             return;    # disable error handling
         }
     }
