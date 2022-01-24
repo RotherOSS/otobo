@@ -22,7 +22,7 @@
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="[% Env("Baselink") %]Action=CustomerDynamicFieldDBDetailedSearch;DynamicFieldName=DynamicField_[% Data.FieldName | html %];[% Data.SearchParam | html %]" class="CallForAction">
+                        <a href="[% Env("Baselink") %]Action=CustomerDynamicFieldDBDetailedSearch;DynamicFieldName=DynamicField_[% Data.FieldName | html %];ActivityDialogID=[% Data.ActivityDialogID | html %];[% Data.SearchParam | html %]" class="CallForAction">
                             <span><i class="fa fa-caret-left"></i> [% Translate("Back") | html %]</span>
                         </a>
                     </li>

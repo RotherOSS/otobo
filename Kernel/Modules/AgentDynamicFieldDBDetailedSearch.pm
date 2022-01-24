@@ -40,12 +40,18 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get params
-    for (qw(DynamicFieldName TicketID)) {
+    for (qw(DynamicFieldName TicketID ActivityDialogID)) {
         $Param{$_} = $ParamObject->GetParam( Param => $_ );
     }
 
     # get the pure DynamicField name without prefix
     my $DynamicFieldName = substr( $Param{DynamicFieldName}, 13 );
+
+    # if ActivityDialogID is set, strip it from DynamicFieldName
+    my $DynamicFieldNameLong = $DynamicFieldName;
+    if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} != '' ) {
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
+    }
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -127,16 +133,17 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchResultAction',
             Data => {
-                FieldName   => $DynamicFieldName,
-                SearchParam => $SearchAttributeParameters,
-                TicketID    => $Param{TicketID},
+                FieldName        => $DynamicFieldNameLong,
+                ActivityDialogID => $Param{ActivityDialogID},
+                SearchParam      => $SearchAttributeParameters,
+                TicketID         => $Param{TicketID},
             },
         );
 
         $LayoutObject->Block(
             Name => 'SearchResult',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldName => $DynamicFieldNameLong,
             },
         );
 
@@ -230,7 +237,8 @@ sub Run {
         $LayoutObject->Block(
             Name => 'SearchOverview',
             Data => {
-                DynamicFieldName => $DynamicFieldName,
+                DynamicFieldName => $DynamicFieldNameLong,
+                ActivityDialogID => $Param{ActivityDialogID},
                 TicketID         => $Param{TicketID},
             },
         );
@@ -339,7 +347,7 @@ sub Run {
         TemplateFile => 'AgentDynamicFieldDBDetailedSearch',
         Data         => {
             %Param,
-            DynamicFieldName => $DynamicFieldName,
+            DynamicFieldName => $DynamicFieldNameLong,
         }
     );
     $Output .= $LayoutObject->Footer( Type => 'Small' );
