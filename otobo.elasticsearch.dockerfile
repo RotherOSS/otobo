@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use 7.16.2, because latest flag is not available
 # This image is based on Ubuntu 20.04. The User is root.

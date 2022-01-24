@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO nginx Docker image including Kerberos Single Sign On tools.
 
 # See bin/docker/build_docker_images.sh for how to create local builds.
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # I have found no better way than to first compile NGINX in a BUILDER container and then copy the
 # finished ngx_http_auth_spnego_module.so into the NGINX container.
