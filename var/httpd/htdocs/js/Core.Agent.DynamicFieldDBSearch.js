@@ -195,8 +195,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         if(isJQueryObject($Element)) {
 
-            # check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
-            # TODO Think about case when closest ActivityDialogEntityID element doesn't belong to current DynamicField
+            // check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
+            // TODO Think about case when closest ActivityDialogEntityID element doesn't belong to current DynamicField
             var ActivityDialogID = '';
             var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
             if ( DynamicFieldName.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
