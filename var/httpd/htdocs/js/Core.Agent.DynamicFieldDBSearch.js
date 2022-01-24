@@ -58,10 +58,19 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             SearchIFrame,
             FrontendInterface;
 
+        var ActivityDialogID = '';
+        var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
+        if ( ActivityDialogElem.length && Field.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+
+            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
+
+        }
+
+
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
             FrontendInterface = 'CustomerDynamicFieldDBDetailedSearch';
-            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field;
+            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';ActivityDialogID=' + ActivityDialogID;
             SearchIFrameURL += SerializeData(Core.App.GetSessionInformation());
             SearchIFrame = '<iframe width="700px" height="500px" class="TextOption Customer" src="' + SearchIFrameURL + '"></iframe>';
         }
@@ -89,6 +98,15 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         var SearchIFrameURL,
             SearchIFrame,
             FrontendInterface;
+
+        var ActivityDialogID = '';
+        var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
+        if ( ActivityDialogElem.length && Field.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+
+            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
+
+        }
+
 
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
@@ -277,8 +295,6 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
                     QueryString += ";ActivityDialogID="+encodeURIComponent(ActivityDialogID);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
-
-                    console.log(QueryString);
 
                     URL = Core.Config.Get('Baselink');
 
