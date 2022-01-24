@@ -245,7 +245,7 @@ sub PrepareRequest {
             Success => 1,
             Data    => {
                 docapi      => '_doc',
-                path        => 'Attachments',
+                path        => 'Attachments',    # actually the pipeline
                 id          => '',
                 Attachments => \@Attachments,
             },
@@ -520,6 +520,8 @@ sub PrepareRequest {
         );
         my @AttachmentArray;
         if (%AttachmentIndex) {
+
+            # post the attachments to the index tmpattachment, processing them with the pipeline Attachments
             my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
             my $Result          = $RequesterObject->Run(
                 WebserviceID => $Self->{WebserviceID},
@@ -534,7 +536,7 @@ sub PrepareRequest {
                 },
             );
 
-            # get the ingested attachment from tmpattachment and put its content and filename into articlesr
+            # get the ingested attachments from tmpattachment
             my %Request = (
                 id => $Result->{Data}->{_id},
             );
@@ -557,7 +559,8 @@ sub PrepareRequest {
                 },
             );
 
-            for my $AttachmentAttr ( @{ $Result->{Data}->{_source}->{Attachments} } ) {
+            # collect the filename and the extracted plain text
+            for my $AttachmentAttr ( $Result->{Data}->{_source}->{Attachments}->@* ) {
                 my %Attachment = (
                     Filename => $AttachmentAttr->{filename},
                     Content  => $AttachmentAttr->{attachment}->{content},
@@ -574,7 +577,7 @@ sub PrepareRequest {
                 },
             );
 
-            # post into ticket
+            # post filename and plain text of the attachments into the ticket
             $Result = $RequesterObject->Run(
                 WebserviceID => $Self->{WebserviceID},
                 Invoker      => 'TicketManagement',
@@ -587,6 +590,7 @@ sub PrepareRequest {
             );
 
             # finally delete the tmpattachment index
+            # TODO: is locking needed ?
             $Result = $RequesterObject->Run(
                 WebserviceID => $Self->{WebserviceID},
                 Invoker      => 'UtilsIngest_DELETE',
