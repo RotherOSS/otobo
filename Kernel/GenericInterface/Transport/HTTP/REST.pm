@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Transport::HTTP::REST;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -290,6 +290,7 @@ sub ProviderProcessRequest {
             );
         }
         else {
+            # this sets the UTF-8 flag
             $EncodeObject->EncodeInput( \$Content );
         }
     }
@@ -466,8 +467,10 @@ sub ProviderGenerateResponse {
 
 =head2 RequesterPerformRequest()
 
-Prepare data payload as XML structure, generate an outgoing web service request,
-receive the response and return its data.
+Emit an outgoing web service request and receive the response. The supplied data is either sent
+as JSON in the body or is added to the requested URL as a list of parameters.
+Inspect the response and report the result as not successful when there are problems.
+Return the received data otherwise.
 
     my $Result = $TransportObject->RequesterPerformRequest(
         Operation => 'remote_op', # name of remote operation to perform
@@ -476,12 +479,21 @@ receive the response and return its data.
         },
     );
 
+in case of success:
+
     $Result = {
-        Success      => 1,        # 0 or 1
-        ErrorMessage => '',       # in case of error
+        Success      => 1,
+        SizeExeeded  => 0,  # (sic) either 0 or 1 depending on the length of the response
         Data         => {
             ...
         },
+    };
+
+in case of failure:
+
+    $Result = {
+        Success      => 0,
+        ErrorMessage => 'some message',
     };
 
 =cut
@@ -531,7 +543,8 @@ sub RequesterPerformRequest {
         };
     }
 
-    # Create header container and add proper content type
+    # Create header container and add proper content type.
+    # These headers will be used for calling the remote server.
     my %Headers = ( 'Content-Type' => 'application/json; charset=UTF-8' );
 
     # Add AdditionalHeaders, but do not overwrite existing headers
@@ -560,6 +573,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -606,7 +620,6 @@ sub RequesterPerformRequest {
         {
             $RestClient->getUseragent()->ssl_opts( verify_hostname => 0 );
         }
-
     }
 
     # Add proxy options if configured.
@@ -690,6 +703,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -710,6 +724,7 @@ sub RequesterPerformRequest {
         $Self->{DebuggerObject}->Error(
             Summary => $ErrorMessage,
         );
+
         return {
             Success      => 0,
             ErrorMessage => $ErrorMessage,
@@ -806,9 +821,7 @@ sub RequesterPerformRequest {
 
         # Whereas GET and the others just have a the data added to the Query URI.
         else {
-            my $QueryParams = $RestClient->buildQuery(
-                %{ $Param{Data} }
-            );
+            my $QueryParams = $RestClient->buildQuery( $Param{Data}->%* );
 
             # Check if controller already have a  question mark '?'.
             if ( $Controller =~ m{\?}msx ) {
@@ -869,55 +882,55 @@ sub RequesterPerformRequest {
     # Add headers to request
     push @RequestParam, \%Headers;
 
+    # the actual request to the remote service
     $RestClient->$RestCommand(@RequestParam);
 
-    my $ResponseCode = $RestClient->responseCode();
+    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '$Config->{Host}'.";
     my $ResponseError;
-    my $ErrorMessage = "Error while performing REST '$RestCommand' request to Controller '$Controller' on Host '"
-        . $Config->{Host} . "'.";
-
-    if ( !IsStringWithData($ResponseCode) ) {
-        $ResponseError = $ErrorMessage;
+    if ( $Param{CustomResponseAssessor} ) {
+        $ResponseError = $Param{CustomResponseAssessor}->(
+            RestClient   => $RestClient,
+            RestCommand  => $RestCommand,
+            Controller   => $Controller,
+            ErrorMessage => $ErrorMessage,
+        );
+    }
+    else {
+        $ResponseError = _AssessResponse(
+            RestClient   => $RestClient,
+            RestCommand  => $RestCommand,
+            Controller   => $Controller,
+            ErrorMessage => $ErrorMessage,
+        );
     }
 
-    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
-        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
-    }
-
+    my $ResponseCode    = $RestClient->responseCode();
     my $ResponseContent = $RestClient->responseContent();
-    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
-        $ResponseError .= ' No content provided.';
-    }
 
     # Return early in case an error on response.
     if ($ResponseError) {
+        my $ResponseData = IsStringWithData($ResponseContent)
+            ?
+            "Response content: '$ResponseContent'"
+            :
+            'No content provided.';
 
-        my $ResponseData = 'No content provided.';
-        if ( IsStringWithData($ResponseContent) ) {
-            $ResponseData = "Response content: '$ResponseContent'";
-        }
-
-        # log to debugger
-        $Self->{DebuggerObject}->Error(
+        # log to debugger and return as unsuccessfull
+        return $Self->{DebuggerObject}->Error(
             Summary => $ResponseError,
             Data    => $ResponseData,
         );
-
-        return {
-            Success      => 0,
-            ErrorMessage => $ResponseError,
-        };
     }
 
     # Send processed data to debugger.
     my $SizeExeeded = 0;
     {
-        my $MaxSize = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
+        my $MaxSizeKiloBytes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
-        $MaxSize = $MaxSize * 1024;
-        my $ByteSize = bytes::length($ResponseContent);
+        my $MaxSizeBytes = $MaxSizeKiloBytes * 1024;
+        my $SizeBytes    = bytes::length($ResponseContent);
 
-        if ( $ByteSize < $MaxSize ) {
+        if ( $SizeBytes < $MaxSizeBytes ) {
             $Self->{DebuggerObject}->Debug(
                 Summary => 'JSON data received from remote system',
                 Data    => $ResponseContent,
@@ -953,6 +966,7 @@ sub RequesterPerformRequest {
             $Self->{DebuggerObject}->Error(
                 Summary => $ResponseError,
             );
+
             return {
                 Success      => 0,
                 ErrorMessage => $ResponseError,
@@ -985,6 +999,36 @@ sub RequesterPerformRequest {
 
 =begin Internal:
 
+=head2 _AssessResponse()
+
+Inspect the response immediately after the request.
+
+=cut
+
+sub _AssessResponse {
+    my %Param = @_;
+
+    my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
+
+    my $ResponseCode    = $RestClient->responseCode;
+    my $ResponseContent = $RestClient->responseContent;
+
+    my $ResponseError;
+    if ( !IsStringWithData($ResponseCode) ) {
+        $ResponseError = $ErrorMessage;
+    }
+
+    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+    }
+
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+        $ResponseError .= ' No content provided.';
+    }
+
+    return $ResponseError;
+}
+
 =head2 _ThrowWebException()
 
 creates a M<Plack::Response> object, wrap it into a M<Kernel::System::Web::Exception>
@@ -1003,16 +1047,13 @@ sub _ThrowWebException {
     my ( $Self, %Param ) = @_;
 
     # Check params.
-    my $ErrorMessage;
     if ( defined $Param{HTTPCode} && !IsInteger( $Param{HTTPCode} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid internal HTTPCode';
-        $ErrorMessage    = 'Invalid internal HTTPCode';
     }
     elsif ( defined $Param{Content} && !IsString( $Param{Content} ) ) {
         $Param{HTTPCode} = 500;
         $Param{Content}  = 'Invalid Content';
-        $ErrorMessage    = 'Invalid Content';
     }
 
     # FIXME: according to SOAP::Transport::HTTP the previous should not be used

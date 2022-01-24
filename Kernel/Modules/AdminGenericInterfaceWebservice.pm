@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1036,21 +1036,25 @@ sub _ShowEdit {
         $GIInvokers{$Invoker} = $GIInvokerConfig->{$Invoker}->{ConfigDialog};
     }
 
-    # Get error handling modules data.
-    my %GIErrorHandlingModules;
-    my $GIErrorHandlingModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
-    ERRORHANDLINGMODULE:
-    for my $ErrorHandlingModules ( sort keys %{$GIErrorHandlingModuleConfig} ) {
-        next ERRORHANDLINGMODULE if !$ErrorHandlingModules;
-        $GIErrorHandlingModules{$ErrorHandlingModules} = $GIErrorHandlingModuleConfig->{$ErrorHandlingModules}->{ConfigDialog};
-    }
+    # Get error handling modules data for the configuration dialog.
+    {
+        my %GIErrorHandlingModules;
+        my $GIErrorHandlingModuleConfig = $ConfigObject->Get('GenericInterface::ErrorHandling::Module');
+        ERRORHANDLINGMODULE:
+        for my $ErrorHandlingModule ( sort keys $GIErrorHandlingModuleConfig->%* ) {
+            next ERRORHANDLINGMODULE unless $ErrorHandlingModule;
 
-    $Self->_OutputGIConfig(
-        GITransports           => \%GITransports,
-        GIOperations           => \%GIOperations,
-        GIInvokers             => \%GIInvokers,
-        GIErrorHandlingModules => \%GIErrorHandlingModules,
-    );
+            $GIErrorHandlingModules{$ErrorHandlingModule} = $GIErrorHandlingModuleConfig->{$ErrorHandlingModule}->{ConfigDialog};
+        }
+
+        # register the relevant data as JS data
+        $Self->_OutputGIConfig(
+            GITransports           => \%GITransports,
+            GIOperations           => \%GIOperations,
+            GIInvokers             => \%GIInvokers,
+            GIErrorHandlingModules => \%GIErrorHandlingModules,
+        );
+    }
 
     # Meta configuration for output blocks.
     my %CommTypeConfig = (
@@ -1100,12 +1104,12 @@ sub _ShowEdit {
         my @ErrorModules;
 
         ERRORMODULEKEY:
-        for my $ErrorModuleKey ( sort keys %{$ErrorModuleConfig} ) {
+        for my $ErrorModuleKey ( sort keys $ErrorModuleConfig->%* ) {
 
-            next ERRORMODULEKEY if !$ErrorModuleKey;
-            next ERRORMODULEKEY if !IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
-            next ERRORMODULEKEY if !IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
+            next ERRORMODULEKEY unless $ErrorModuleKey;
+            next ERRORMODULEKEY unless IsHashRefWithData( $ErrorModuleConfig->{$ErrorModuleKey} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{Name} );
+            next ERRORMODULEKEY unless IsStringWithData( $ErrorModuleConfig->{$ErrorModuleKey}->{ConfigDialog} );
 
             # Check for active communication type filter.
             if (
@@ -1363,6 +1367,7 @@ sub _ShowEdit {
     );
 
     $Output .= $LayoutObject->Footer();
+
     return $Output;
 }
 

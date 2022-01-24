@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,7 +53,7 @@ create an object. Do not create it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     return bless {}, $Type;
@@ -135,8 +135,7 @@ sub Run {
 
         return {
             Success      => 0,
-            ErrorMessage =>
-                "Could not load web service configuration for web service $Param{WebserviceID}",
+            ErrorMessage => "Could not load web service configuration for web service $Param{WebserviceID}",
         };
     }
 
@@ -211,6 +210,7 @@ sub Run {
     if ( !$PrepareRequestResult->{Success} ) {
 
         my $Summary = $PrepareRequestResult->{ErrorMessage} // 'InvokerObject returned an error, cancelling Request';
+
         return $Self->_HandleError(
             %HandleErrorData,
             DataInclude => \%DataInclude,
@@ -251,12 +251,7 @@ sub Run {
     );
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingOutbound} ) ) {
         my $MappingOutObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
@@ -316,11 +311,20 @@ sub Run {
         );
     }
 
-    # Read request content.
+    # Some invokers have a custom function for assessing the request response
+    my %CustomHandler;
+    if ( $InvokerObject->{BackendObject}->can('AssessResponse') ) {
+        $CustomHandler{CustomResponseAssessor} = sub {
+            return $InvokerObject->AssessResponse(@_);
+        };
+    }
+
+    # Perform a request and return the parsed request result when everything went fine
     my $RequesterPerformRequestResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
         %CustomHeader,
+        %CustomHandler,
     );
 
     my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;
@@ -379,12 +383,7 @@ sub Run {
     }
 
     # Decide if mapping needs to be used or not.
-    if (
-        IsHashRefWithData(
-            $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound}
-        )
-        )
-    {
+    if ( IsHashRefWithData( $RequesterConfig->{Invoker}->{ $Param{Invoker} }->{MappingInbound} ) ) {
         my $MappingInObject = Kernel::GenericInterface::Mapping->new(
             DebuggerObject => $DebuggerObject,
             Invoker        => $Param{Invoker},
@@ -408,6 +407,7 @@ sub Run {
         if ( !$MapResult->{Success} ) {
 
             my $Summary = $MapResult->{ErrorMessage} // 'MappingInObject returned an error, cancelling Request';
+
             return $Self->_HandleError(
                 %HandleErrorData,
                 DataInclude => \%DataInclude,
@@ -499,9 +499,12 @@ handles errors by
         PastExecutionData => $PastExecutionDataStructure,   # optional
     );
 
+a hash reference indicating failure is returned.
+The attribute C<ErrorMessage> of the returned hashref is set to the parameter C<Summary>.
+
     my $ReturnData = {
         Success      => 0,
-        ErrorMessage => $Param{Summary},
+        ErrorMessage => 'an error occurred'.
     };
 
 =cut
@@ -515,6 +518,7 @@ sub _HandleError {
         )
     {
         next NEEDED if $Param{$Needed};
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Got no $Needed!",
@@ -538,13 +542,14 @@ sub _HandleError {
         PastExecutionData => $Param{PastExecutionData},
     );
 
+    # TODO: why is Success always 0 ?
     my $ReturnData = {
         Success      => 0,
         ErrorMessage => $ErrorHandlingResult->{ErrorMessage} || $Param{Summary},
         Data         => $ErrorHandlingResult->{ReScheduleData},
     };
 
-    return $ReturnData if !$Param{InvokerObject}->{BackendObject}->can('HandleError');
+    return $ReturnData unless $Param{InvokerObject}->{BackendObject}->can('HandleError');
 
     my $HandleErrorData;
     if ( !defined $Param{Data} || IsString( $Param{Data} ) ) {

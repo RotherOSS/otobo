@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -44,13 +44,10 @@ create an object. Do not create it directly, instead use:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Run()
@@ -86,7 +83,8 @@ sub Run {
         return $Self->_LogAndReturn( ErrorMessage => 'Got no ModuleConfig!' );
     }
     my $ModuleConfigCheck = $Self->_ModuleConfigCheck( %{ $Param{ModuleConfig} } );
-    return $ModuleConfigCheck if !$ModuleConfigCheck->{Success};
+
+    return $ModuleConfigCheck unless $ModuleConfigCheck->{Success};
 
     # Set basic information including possibly existing past execution data.
     my $RetryCount      = $Param{PastExecutionData}->{RetryCount} // 0;
@@ -102,6 +100,7 @@ sub Run {
                 String => $Param{PastExecutionData}->{RetryDateTime},
             },
         );
+
         return $Self->_LogAndReturn( ErrorMessage => 'RetryDateTime is invalid!' ) if !$CurrentRequestDateTime;
     }
     else {
@@ -117,6 +116,7 @@ sub Run {
                 String => $Param{PastExecutionData}->{InitialRequestDateTime},
             },
         );
+
         return $Self->_LogAndReturn( ErrorMessage => 'InitialRequestDateTime is invalid!' ) if !$InitialRequestDateTime;
     }
     else {
@@ -151,6 +151,7 @@ sub Run {
         )
     {
         $ReturnData{Data}->{MaximumRetryCountReached} = 1;
+
         return \%ReturnData;
     }
 
@@ -160,6 +161,7 @@ sub Run {
         $DeltaInitialToCurrentRequest = $InitialRequestDateTime->Delta( DateTimeObject => $CurrentRequestDateTime );
         if ( $DeltaInitialToCurrentRequest->{AbsoluteSeconds} >= $Param{ModuleConfig}->{RetryPeriodMax} ) {
             $ReturnData{Data}->{MaximumRetryPeriodReached} = 1;
+
             return \%ReturnData;
         }
     }
@@ -208,6 +210,7 @@ sub Run {
 
     # Schedule retry and set appropriate past execution data.
     $ReturnData{Data}->{ReSchedule} = 1;
+
     return {
         %ReturnData,
         ReScheduleData => {

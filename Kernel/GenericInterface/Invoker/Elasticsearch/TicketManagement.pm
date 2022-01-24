@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,17 @@
 
 package Kernel::GenericInterface::Invoker::Elasticsearch::TicketManagement;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+use MIME::Base64 qw(encode_base64);
+use Encode qw(encode);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -60,7 +68,9 @@ sub new {
 =head2 PrepareRequest()
 
 prepare the invocation of the configured remote web service.
-This will just return the data that was passed to the function.
+In most cases this will set up the C<docapi> and other parameters for the Elasticsearch REST interface.
+In some cases the request will be aborted by returning C<StopCommunication => 1>.
+In other cases one or more different web service calls will be performed and the original request will be aborted.
 
     my $Result = $InvokerObject->PrepareRequest(
         Data => {                               # data payload
@@ -95,6 +105,7 @@ sub PrepareRequest {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # handle all events which are neither update nor creation first
+
     # delete the ticket
     if ( $Param{Data}{Event} eq 'TicketDelete' ) {
         my %Content = (
@@ -166,18 +177,14 @@ sub PrepareRequest {
         };
     }
 
-    # put a temporary attachment
-    if ( $Param{Data}{Event} eq 'PutTMPAttachment' ) {
+    # put a single temporary attachment into a queue
+    # more than one attachement could be put per call, but this would make error handling harder
+    if ( $Param{Data}->{Event} eq 'PutTMPAttachment' ) {
 
-        # get file format to be ingested
-        my $FileFormat = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
-        my %FormatHash = map { $_ => 1 } @{$FileFormat};
-
-        my $MaxFilesize    = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
         my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackend = $ArticleObject->BackendForArticle(
-            TicketID  => $Param{Data}{TicketID},
-            ArticleID => $Param{Data}{ArticleID},
+            TicketID  => $Param{Data}->{TicketID},
+            ArticleID => $Param{Data}->{ArticleID},
         );
 
         # Nothing to do when that article is not found.
@@ -191,59 +198,74 @@ sub PrepareRequest {
             };
         }
 
-        my @Attachments;
+        my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
+            ArticleID => $Param{Data}->{ArticleID},
+            FileID    => $Param{Data}->{AttachmentFileID},
+        );
+
+        if ( !%ArticleAttachment ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
+        # collect Base64 encoded attachments,
+        # ignoring attachments that are too large or have unsupported format
+        my $Attachment;
         ATTACHMENT:
-        for my $AttachmentIndex ( sort keys %{ $Param{Data}{AttachmentIndex} } ) {
-            my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
-                ArticleID => $Param{Data}{ArticleID},
-                FileID    => $AttachmentIndex,
-            );
+        {
+            # Ingest attachment only if filesize is less than the max size defined in sysconfig
+            my $FileSize    = $ArticleAttachment{FilesizeRaw};
+            my $MaxFilesize = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
 
-            next ATTACHMENT if !%ArticleAttachment;
-
-            use MIME::Base64;
-            use Encode qw(encode);
-            my $FileName = $ArticleAttachment{Filename};
-            my $FileType = $ArticleAttachment{ContentType};
-            my $FileSize = $ArticleAttachment{FilesizeRaw};
-
-            # Ingest attachment only if files ize is less than the max size defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
 
-            $FileType =~ /^.*?\/([\d\w]+)/;
-            my $TypeFormat = $1;
-            $FileName =~ /\.([\d\w]+)$/;
-            my $NameFormat = $1;
+            # only ingest supported file formats
+            # the file format is extracted from both the content type and from the file name
+            my $FileFormat        = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
+            my %FormatIsSupported = map { $_ => 1 } $FileFormat->@*;
+            my ($TypeFormat)      = $ArticleAttachment{ContentType} =~ m/^.*?\/(\w+)/;
+            my $FileName          = $ArticleAttachment{Filename};
+            my ($NameFormat)      = $FileName =~ m/\.(\w+)$/;
 
-            if ( $FormatHash{$TypeFormat} || $FormatHash{$NameFormat} ) {
-                my $Encoded = encode_base64( $ArticleAttachment{Content} );
-                $Encoded =~ s/\n//g;
-                my %Data;
-                $Data{filename} = $FileName;
-                $Data{data}     = $Encoded;
-                push( @Attachments, \%Data );
-            }
+            next ATTACHMENT unless ( $FormatIsSupported{$TypeFormat} || $FormatIsSupported{$NameFormat} );
+
+            # the file content is expected to be Base64 encoded, without embedded newlines
+            my $Encoded = encode_base64( $ArticleAttachment{Content}, '' );
+            $Attachment = {
+                filename => $FileName,
+                data     => $Encoded,
+            };
+        }
+
+        # nothing to do when the attachment should not be indexed
+        if ( !defined $Attachment ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
         }
 
         return {
             Success => 1,
             Data    => {
                 docapi      => '_doc',
-                path        => 'Attachments',
+                path        => 'Attachments',    # actually the pipeline
                 id          => '',
-                Attachments => \@Attachments,
+                Attachments => [$Attachment],
             },
         };
     }
 
     # post attachment to the ticket index
-    if ( $Param{Data}{Event} eq 'PostAttachmentContent' ) {
+    if ( $Param{Data}->{Event} eq 'PostAttachmentContent' ) {
         return {
             Success => 1,
             Data    => {
                 docapi => '_update',
-                id     => $Param{Data}{TicketID},
-                %{ $Param{Data}{Content} },
+                id     => $Param{Data}->{TicketID},
+                $Param{Data}->{Content}->%*,
             }
         };
     }
@@ -280,7 +302,6 @@ sub PrepareRequest {
                 StopCommunication => 1,
             };
         }
-
     }
 
     # handle the regular updating and creation
@@ -498,92 +519,104 @@ sub PrepareRequest {
         my %ArticleContent = map { $_ => $Article{$_} } keys %DataToStore;
         my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
 
-        # put attachment and ingest it into tmpattachment
+        # get a list of attachments
         my %AttachmentIndex = $ArticleBackend->ArticleAttachmentIndex(
-            ArticleID       => $Param{Data}{ArticleID},
+            ArticleID       => $Param{Data}->{ArticleID},
             ExcludeHTMLBody => 1,
         );
-        my @AttachmentArray;
         if (%AttachmentIndex) {
-            my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-            my $Result          = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'TicketIngestAttachment',
-                Asynchronous => 0,
-                Data         => {
-                    Event           => 'PutTMPAttachment',
-                    TicketID        => $Param{Data}{TicketID},
-                    ArticleID       => $Param{Data}{ArticleID},
-                    Destination     => $Destination,
-                    AttachmentIndex => \%AttachmentIndex,
-                },
-            );
 
-            # get the ingested attachment from tmpattachment and put its content and filename into articlesr
-            my %Request = (
-                id => $Result->{Data}->{_id},
-            );
-            my %API = (
+            my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
+            my %API             = (
                 docapi => '_doc',
             );
             my %IndexName = (
                 index => 'tmpattachments',
             );
 
-            # get the ingested attachment
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'UtilsIngest_GET',
-                Asynchronous => 0,
-                Data         => {
-                    IndexName => \%IndexName,
-                    Request   => \%Request,
-                    API       => \%API,
-                },
-            );
+            # post the attachments to the index tmpattachments, processing them with the pipeline Attachments
+            my @PlainTextArray;
+            ATTACHMENT_FILE_ID:
+            for my $AttachmentFileID ( sort keys %AttachmentIndex ) {
 
-            for my $AttachmentAttr ( @{ $Result->{Data}->{_source}->{Attachments} } ) {
-                my %Attachment = (
-                    Filename => $AttachmentAttr->{filename},
-                    Content  => $AttachmentAttr->{attachment}->{content},
+                # put attachment into the index tmpattachments and ingest it into tmpattachment
+                my $IngestResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'TicketIngestAttachment',
+                    Asynchronous => 0,
+                    Data         => {
+                        Event            => 'PutTMPAttachment',
+                        TicketID         => $Param{Data}->{TicketID},
+                        ArticleID        => $Param{Data}->{ArticleID},
+                        Destination      => $Destination,
+                        AttachmentFileID => $AttachmentFileID,
+                    },
                 );
-                push @AttachmentArray, \%Attachment;
+
+                # proceed only when the attachment was ingested
+                next ATTACHMENT_FILE_ID unless $IngestResult;
+                next ATTACHMENT_FILE_ID unless $IngestResult->{Data};
+                next ATTACHMENT_FILE_ID unless $IngestResult->{Data}->{_id};
+
+                # get the ingested attachment with the plain text content
+                my %Request = (
+                    id => $IngestResult->{Data}->{_id},
+                );
+                my $IngestGetResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'UtilsIngest_GET',
+                    Asynchronous => 0,
+                    Data         => {
+                        IndexName => \%IndexName,
+                        Request   => \%Request,
+                        API       => \%API,
+                    },
+                );
+
+                # collect the filename and the extracted plain text, actually only one attachment
+                for my $Attachment ( $IngestGetResult->{Data}->{_source}->{Attachments}->@* ) {
+                    push @PlainTextArray, {
+                        Filename => $Attachment->{filename},
+                        Content  => $Attachment->{attachment}->{content},
+                    };
+                }
+
+                # delete the attachment in the tmpattachment index
+                my $IndexDeleteResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'UtilsIngest_DELETE',
+                    Asynchronous => 0,
+                    Data         => {
+                        IndexName => \%IndexName,
+                        Request   => \%Request,
+                        API       => \%API,
+                    },
+                );
             }
 
-            %Content = (
-                script => {
-                    source => 'ctx._source.Attachments' . $Destination . '.addAll(params.new)',
-                    params => {
-                        new => \@AttachmentArray,
+            # post filename and plain text of the attachments into the ticket
+            if (@PlainTextArray) {
+                my $PostAttachmentResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'TicketManagement',
+                    Asynchronous => 0,
+                    Data         => {
+                        Event    => 'PostAttachmentContent',
+                        TicketID => $Param{Data}->{TicketID},
+                        Content  => {
+                            script => {
+                                source => 'ctx._source.Attachments' . $Destination . '.addAll(params.new)',
+                                params => {
+                                    new => \@PlainTextArray,
+                                },
+                            },
+                        },
                     },
-                },
-            );
-
-            # post into ticket
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'TicketManagement',
-                Asynchronous => 0,
-                Data         => {
-                    Event    => 'PostAttachmentContent',
-                    TicketID => $Param{Data}{TicketID},
-                    Content  => \%Content,
-                },
-            );
-
-            # finally delete the tmpattachment index
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'UtilsIngest_DELETE',
-                Asynchronous => 0,
-                Data         => {
-                    IndexName => \%IndexName,
-                    Request   => \%Request,
-                    API       => \%API,
-                },
-            );
+                );
+            }
         }
 
+        # set up request for the non-attachment attributes
         %Content = (
             script => {
                 source => 'ctx._source.Articles' . $Destination . '.addAll(params.new)',
@@ -597,7 +630,7 @@ sub PrepareRequest {
     }
 
     # at ticket creation customerupdate is sent before ticketcreate and is not needed here
-    elsif ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
+    elsif ( $Param{Data}->{Event} eq 'TicketCustomerUpdate' && $Param{Data}->{TicketCreated} == 1 ) {
         return {
             Success           => 1,
             StopCommunication => 1,
@@ -609,7 +642,7 @@ sub PrepareRequest {
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
-            TicketID     => $Param{Data}{TicketID},
+            TicketID     => $Param{Data}->{TicketID},
             DynamicField => $GetDynamicFields,
         );
 
@@ -630,7 +663,6 @@ sub PrepareRequest {
             doc => { map { $_ => $Ticket{$_} } keys %DataToStore },
         );
         $API = '_update';
-
     }
 
     return {
@@ -641,6 +673,85 @@ sub PrepareRequest {
             %Content,
         },
     };
+}
+
+=head2 AssessResponse()
+
+In most cases the transport object assesses the validity of the request result. When the transport finds that the response indicates an error,
+then error logging and handling kicks in. But at least for Elasticsearch support it is useful to have a function that provides custom
+rules for inspecting the request result. It can find that responses with specific content are valid even though e.g. the HTTP status indicates
+an error.
+
+This function should be used with care. Actual actions should be implemented in C<HandleResponse()>.
+
+=cut
+
+sub AssessResponse {
+    my ( $Self, %Param ) = @_;
+
+    my ( $RestClient, $RestCommand, $Controller, $ErrorMessage ) = @Param{qw(RestClient RestCommand Controller ErrorMessage)};
+
+    # Elasticsearch::Ticketmanagement specific assessment is only possible
+    # when the response content is a valid JSON string, representing an object.
+    my $JSONObject      = $Kernel::OM->Get('Kernel::System::JSON');
+    my $ResponseContent = $RestClient->responseContent;
+    my $Result          = $JSONObject->Decode(
+        Data => $ResponseContent,
+    );
+    if ( defined $Result && ref $Result eq 'HASH' ) {
+
+        # A common error is that an attribute of an ticket has changed,
+        # but the ticket itself is not indexed.
+        # This case will be handled in HandleResponse().
+        if (
+            $Result->{error}
+            && $Result->{error}->{type} eq 'document_missing_exception'
+            )
+        {
+            $Self->{DebuggerObject}->Info(
+                Summary => $ErrorMessage,
+                Data    => "The indexed ticket is missing. The ticket will be reindexed."
+            );
+
+            return;    # disable error handling
+        }
+
+        # Another error that is to be expected are encrypted documents, e.g. encrypted PDFs.
+        # It is OK when these documents are not searchable.
+        if (
+            $Result->{error}
+            && $Result->{error}->{type} eq 'parse_exception'
+            && $Result->{error}->{caused_by}
+            && $Result->{error}->{caused_by}->{type}
+            && $Result->{error}->{caused_by}->{type} eq 'encrypted_document_exception'
+            )
+        {
+            $Self->{DebuggerObject}->Info(
+                Summary => $ErrorMessage,
+                Data    => "The indexed document is encrypted and will therefore not be indexed."
+            );
+
+            return;    # disable error handling
+        }
+
+    }
+
+    # Fall back to basically the same error assessment as in the HTTP::REST transport object
+    my $ResponseCode = $RestClient->responseCode;
+    my $ResponseError;
+    if ( !IsStringWithData($ResponseCode) ) {
+        $ResponseError = $ErrorMessage;
+    }
+
+    if ( $ResponseCode !~ m{ \A 20 \d \z }xms ) {
+        $ResponseError = $ErrorMessage . " Response code '$ResponseCode'.";
+    }
+
+    if ( $ResponseCode ne '204' && !IsStringWithData($ResponseContent) ) {
+        $ResponseError .= ' No content provided.';
+    }
+
+    return $ResponseError;
 }
 
 =head2 HandleResponse()
@@ -677,17 +788,19 @@ sub HandleResponse {
         };
     }
 
+    # Per default there is no rescheduling of Elasticsearch::TicketManagement requests,
+    # but ErrorHandling::RequestRetry could have been configured manually, e.g. via the admin interface.
     if ( $Param{Data}->{ResponseContent} && $Param{Data}->{ResponseContent} =~ m{ReSchedule=1} ) {
 
         # ResponseContent has URI like params, convert them into a hash
         my %QueryParams = split /[&=]/, $Param{Data}->{ResponseContent};
 
-        # unscape URI strings in query parameters
+        # unescape URI strings in query parameters
         for my $Param ( sort keys %QueryParams ) {
             $QueryParams{$Param} = URI::Escape::uri_unescape( $QueryParams{$Param} );
         }
 
-        # fix ExecutrionTime param
+        # fix ExecutionTime param
         if ( $QueryParams{ExecutionTime} ) {
             $QueryParams{ExecutionTime} =~ s{(\d+)\+(\d+)}{$1 $2};
         }
@@ -697,6 +810,37 @@ sub HandleResponse {
             ErrorMessage => 'Re-Scheduling...',
             Data         => \%QueryParams,
         };
+    }
+
+    # Special handling for Elasticsearch::TicketManagement:
+    # Reindex a ticket when it isn't available in Elasticsearch as a side effect.
+    # Example:
+    #     {"error":{"root_cause":[{"type":"document_missing_exception",\
+    #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"}],\
+    #     "type":"document_missing_exception",\
+    #     "reason":"[_doc][5]: document missing","index_uuid":"rH43T-SsTz-H_k8aFg13dQ","shard":"0","index":"ticket"},"status":404}
+    if ( $Param{Data}->{error} && $Param{Data}->{error}->{type} eq 'document_missing_exception' ) {
+        my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+        my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+
+        # create the ticket
+        my ($TicketID) = $Param{Data}->{error}->{reason} =~ m/ \Q[_doc][\E (\d+) \Q]:\E \s /x;    # e.g. "[_doc][5]: "
+        my $Errors = 0;
+        if ( !$ESObject->TicketCreate( TicketID => $TicketID ) ) {
+            $Errors++;
+        }
+
+        # create the articles
+        my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
+        for my $Article (@ArticleList) {
+            my $Success = $ESObject->ArticleCreate(
+                TicketID  => $TicketID,
+                ArticleID => $Article->{ArticleID},
+            );
+            $Errors++ if !$Success;
+        }
+
+        # ignoring errors
     }
 
     return {

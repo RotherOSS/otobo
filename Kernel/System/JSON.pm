@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -126,11 +126,23 @@ sub Encode {
 
 =head2 Decode()
 
-Decode a JSON string to a perl data structure.
+Decode a JSON string to a Perl data structure. Booleans are mapped to the values C<0> and C<1>.
 
     my $PerlStructureScalar = $JSONObject->Decode(
-        Data => $JSONString,
+        Data => '{"Key1":"Value1","Key2":42,"Key3":"Another Value", "Key4":true, "Key5":false}'
     );
+
+Returns:
+
+    $PerlStructureScalar = {
+            Key1   => 'Value1',
+            Key2   => 42,
+            Key3   => 'Another Value'
+            Key4   => 1,
+            Key5   => 0,
+    }
+
+In case of an error, an empty list is returned.
 
 =cut
 
@@ -138,7 +150,7 @@ sub Decode {
     my ( $Self, %Param ) = @_;
 
     # check for needed data
-    return if !defined $Param{Data};
+    return unless defined $Param{Data};
 
     # create json object
     my $JSONObject = JSON->new();
