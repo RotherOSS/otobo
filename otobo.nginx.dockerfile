@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO nginx Docker image.
 
 # See bin/docker/build_docker_images.sh for how to create local builds.
-# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.

@@ -39,7 +39,7 @@ place regularly, or benefit from an inhouse training seminar that covers all the
 
 Software requirements
 =====================
-The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/10.0/en/content/requirements.html)
+The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/10.1/en/content/requirements.html)
 
 How to contribute
 =================
