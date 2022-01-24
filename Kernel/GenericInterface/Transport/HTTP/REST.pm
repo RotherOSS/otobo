@@ -756,8 +756,8 @@ sub RequesterPerformRequest {
     }
 
     $Self->{DebuggerObject}->Debug(
-        Summary => "URI after interpolating URI params from outgoing data",
-        Data    => $Controller,
+        Summary => 'URI after interpolating URI params from outgoing data',
+        Data    => "$RestCommand $Controller",
     );
 
     if ($QueryParamsStr) {
@@ -782,8 +782,8 @@ sub RequesterPerformRequest {
             $Controller .= $QueryParamsStr;
 
             $Self->{DebuggerObject}->Debug(
-                Summary => "URI after interpolating Query params from outgoing data",
-                Data    => $Controller,
+                Summary => 'URI after interpolating Query params from outgoing data',
+                Data    => "$RestCommand $Controller",
             );
         }
     }
