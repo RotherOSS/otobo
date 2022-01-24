@@ -787,7 +787,7 @@ sub HandleResponse {
         # create the articles
         my @ArticleList = $ArticleObject->ArticleList( TicketID => $TicketID );
         for my $Article (@ArticleList) {
-            my $Success = $Param{ESObject}->ArticleCreate(
+            my $Success = $ESObject->ArticleCreate(
                 TicketID  => $TicketID,
                 ArticleID => $Article->{ArticleID},
             );
