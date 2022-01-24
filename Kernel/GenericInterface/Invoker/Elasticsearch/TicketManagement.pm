@@ -177,13 +177,14 @@ sub PrepareRequest {
         };
     }
 
-    # put a temporary attachment into a queue
-    if ( $Param{Data}{Event} eq 'PutTMPAttachment' ) {
+    # put a single temporary attachment into a queue
+    # more than one attachement could be put per call, but this would make error handling harder
+    if ( $Param{Data}->{Event} eq 'PutTMPAttachment' ) {
 
         my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
         my $ArticleBackend = $ArticleObject->BackendForArticle(
-            TicketID  => $Param{Data}{TicketID},
-            ArticleID => $Param{Data}{ArticleID},
+            TicketID  => $Param{Data}->{TicketID},
+            ArticleID => $Param{Data}->{ArticleID},
         );
 
         # Nothing to do when that article is not found.
@@ -197,44 +198,49 @@ sub PrepareRequest {
             };
         }
 
+        my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
+            ArticleID => $Param{Data}->{ArticleID},
+            FileID    => $Param{Data}->{AttachmentFileID},
+        );
+
+        if ( !%ArticleAttachment ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         # collect Base64 encoded attachments,
         # ignoring attachments that are too large or have unsupported format
-        my @Attachments;
-        my $MaxFilesize       = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
-        my $FileFormat        = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
-        my %FormatIsSupported = map { $_ => 1 } $FileFormat->@*;
+        my $Attachment;
         ATTACHMENT:
-        for my $AttachmentIndex ( sort keys $Param{Data}{AttachmentIndex}->%* ) {
-            my %ArticleAttachment = $ArticleBackend->ArticleAttachment(
-                ArticleID => $Param{Data}{ArticleID},
-                FileID    => $AttachmentIndex,
-            );
-
-            next ATTACHMENT unless %ArticleAttachment;
-
+        {
             # Ingest attachment only if filesize is less than the max size defined in sysconfig
-            my $FileSize = $ArticleAttachment{FilesizeRaw};
+            my $FileSize    = $ArticleAttachment{FilesizeRaw};
+            my $MaxFilesize = $ConfigObject->Get('Elasticsearch::IngestMaxFilesize');
 
             next ATTACHMENT if $FileSize > $MaxFilesize;
 
             # only ingest supported file formats
             # the file format is extracted from both the content type and from the file name
-            my ($TypeFormat) = $ArticleAttachment{ContentType} =~ m/^.*?\/(\w+)/;
-            my $FileName     = $ArticleAttachment{Filename};
-            my ($NameFormat) = $FileName =~ m/\.(\w+)$/;
+            my $FileFormat        = $ConfigObject->Get('Elasticsearch::IngestAttachmentFormat');
+            my %FormatIsSupported = map { $_ => 1 } $FileFormat->@*;
+            my ($TypeFormat)      = $ArticleAttachment{ContentType} =~ m/^.*?\/(\w+)/;
+            my $FileName          = $ArticleAttachment{Filename};
+            my ($NameFormat)      = $FileName =~ m/\.(\w+)$/;
 
             next ATTACHMENT unless ( $FormatIsSupported{$TypeFormat} || $FormatIsSupported{$NameFormat} );
 
             # the file content is expected to be Base64 encoded, without embedded newlines
             my $Encoded = encode_base64( $ArticleAttachment{Content}, '' );
-            push @Attachments, {
+            $Attachment = {
                 filename => $FileName,
                 data     => $Encoded,
             };
         }
 
-        # nothing to do when there are no attachments remaining
-        if ( !@Attachments ) {
+        # nothing to do when the attachment should not be indexed
+        if ( !defined $Attachment ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,
@@ -247,19 +253,19 @@ sub PrepareRequest {
                 docapi      => '_doc',
                 path        => 'Attachments',    # actually the pipeline
                 id          => '',
-                Attachments => \@Attachments,
+                Attachments => [$Attachment],
             },
         };
     }
 
     # post attachment to the ticket index
-    if ( $Param{Data}{Event} eq 'PostAttachmentContent' ) {
+    if ( $Param{Data}->{Event} eq 'PostAttachmentContent' ) {
         return {
             Success => 1,
             Data    => {
                 docapi => '_update',
-                id     => $Param{Data}{TicketID},
-                %{ $Param{Data}{Content} },
+                id     => $Param{Data}->{TicketID},
+                $Param{Data}->{Content}->%*,
             }
         };
     }
@@ -513,96 +519,104 @@ sub PrepareRequest {
         my %ArticleContent = map { $_ => $Article{$_} } keys %DataToStore;
         my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
 
-        # put attachment and ingest it into tmpattachment
+        # get a list of attachments
         my %AttachmentIndex = $ArticleBackend->ArticleAttachmentIndex(
-            ArticleID       => $Param{Data}{ArticleID},
+            ArticleID       => $Param{Data}->{ArticleID},
             ExcludeHTMLBody => 1,
         );
-        my @AttachmentArray;
         if (%AttachmentIndex) {
 
-            # post the attachments to the index tmpattachment, processing them with the pipeline Attachments
             my $RequesterObject = $Kernel::OM->Get('Kernel::GenericInterface::Requester');
-            my $Result          = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'TicketIngestAttachment',
-                Asynchronous => 0,
-                Data         => {
-                    Event           => 'PutTMPAttachment',
-                    TicketID        => $Param{Data}{TicketID},
-                    ArticleID       => $Param{Data}{ArticleID},
-                    Destination     => $Destination,
-                    AttachmentIndex => \%AttachmentIndex,
-                },
-            );
-
-            # get the ingested attachments from tmpattachment
-            my %Request = (
-                id => $Result->{Data}->{_id},
-            );
-            my %API = (
+            my %API             = (
                 docapi => '_doc',
             );
             my %IndexName = (
                 index => 'tmpattachments',
             );
 
-            # get the ingested attachment
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'UtilsIngest_GET',
-                Asynchronous => 0,
-                Data         => {
-                    IndexName => \%IndexName,
-                    Request   => \%Request,
-                    API       => \%API,
-                },
-            );
+            # post the attachments to the index tmpattachments, processing them with the pipeline Attachments
+            my @PlainTextArray;
+            ATTACHMENT_FILE_ID:
+            for my $AttachmentFileID ( sort keys %AttachmentIndex ) {
 
-            # collect the filename and the extracted plain text
-            for my $AttachmentAttr ( $Result->{Data}->{_source}->{Attachments}->@* ) {
-                my %Attachment = (
-                    Filename => $AttachmentAttr->{filename},
-                    Content  => $AttachmentAttr->{attachment}->{content},
+                # put attachment into the index tmpattachments and ingest it into tmpattachment
+                my $IngestResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'TicketIngestAttachment',
+                    Asynchronous => 0,
+                    Data         => {
+                        Event            => 'PutTMPAttachment',
+                        TicketID         => $Param{Data}->{TicketID},
+                        ArticleID        => $Param{Data}->{ArticleID},
+                        Destination      => $Destination,
+                        AttachmentFileID => $AttachmentFileID,
+                    },
                 );
-                push @AttachmentArray, \%Attachment;
+
+                # proceed only when the attachment was ingested
+                next ATTACHMENT_FILE_ID unless $IngestResult;
+                next ATTACHMENT_FILE_ID unless $IngestResult->{Data};
+                next ATTACHMENT_FILE_ID unless $IngestResult->{Data}->{_id};
+
+                # get the ingested attachment with the plain text content
+                my %Request = (
+                    id => $IngestResult->{Data}->{_id},
+                );
+                my $IngestGetResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'UtilsIngest_GET',
+                    Asynchronous => 0,
+                    Data         => {
+                        IndexName => \%IndexName,
+                        Request   => \%Request,
+                        API       => \%API,
+                    },
+                );
+
+                # collect the filename and the extracted plain text, actually only one attachment
+                for my $Attachment ( $IngestGetResult->{Data}->{_source}->{Attachments}->@* ) {
+                    push @PlainTextArray, {
+                        Filename => $Attachment->{filename},
+                        Content  => $Attachment->{attachment}->{content},
+                    };
+                }
+
+                # delete the attachment in the tmpattachment index
+                my $IndexDeleteResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'UtilsIngest_DELETE',
+                    Asynchronous => 0,
+                    Data         => {
+                        IndexName => \%IndexName,
+                        Request   => \%Request,
+                        API       => \%API,
+                    },
+                );
             }
 
-            %Content = (
-                script => {
-                    source => 'ctx._source.Attachments' . $Destination . '.addAll(params.new)',
-                    params => {
-                        new => \@AttachmentArray,
-                    },
-                },
-            );
-
             # post filename and plain text of the attachments into the ticket
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'TicketManagement',
-                Asynchronous => 0,
-                Data         => {
-                    Event    => 'PostAttachmentContent',
-                    TicketID => $Param{Data}{TicketID},
-                    Content  => \%Content,
-                },
-            );
-
-            # finally delete the tmpattachment index
-            # TODO: is locking needed ?
-            $Result = $RequesterObject->Run(
-                WebserviceID => $Self->{WebserviceID},
-                Invoker      => 'UtilsIngest_DELETE',
-                Asynchronous => 0,
-                Data         => {
-                    IndexName => \%IndexName,
-                    Request   => \%Request,
-                    API       => \%API,
-                },
-            );
+            if (@PlainTextArray) {
+                my $PostAttachmentResult = $RequesterObject->Run(
+                    WebserviceID => $Self->{WebserviceID},
+                    Invoker      => 'TicketManagement',
+                    Asynchronous => 0,
+                    Data         => {
+                        Event    => 'PostAttachmentContent',
+                        TicketID => $Param{Data}->{TicketID},
+                        Content  => {
+                            script => {
+                                source => 'ctx._source.Attachments' . $Destination . '.addAll(params.new)',
+                                params => {
+                                    new => \@PlainTextArray,
+                                },
+                            },
+                        },
+                    },
+                );
+            }
         }
 
+        # set up request for the non-attachment attributes
         %Content = (
             script => {
                 source => 'ctx._source.Articles' . $Destination . '.addAll(params.new)',
@@ -616,7 +630,7 @@ sub PrepareRequest {
     }
 
     # at ticket creation customerupdate is sent before ticketcreate and is not needed here
-    elsif ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
+    elsif ( $Param{Data}->{Event} eq 'TicketCustomerUpdate' && $Param{Data}->{TicketCreated} == 1 ) {
         return {
             Success           => 1,
             StopCommunication => 1,
@@ -628,7 +642,7 @@ sub PrepareRequest {
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
-            TicketID     => $Param{Data}{TicketID},
+            TicketID     => $Param{Data}->{TicketID},
             DynamicField => $GetDynamicFields,
         );
 
@@ -701,6 +715,25 @@ sub AssessResponse {
 
             return;    # disable error handling
         }
+
+        # Another error that is to be expected are encrypted documents, e.g. encrypted PDFs.
+        # It is OK when these documents are not searchable.
+        if (
+            $Result->{error}
+            && $Result->{error}->{type} eq 'parse_exception'
+            && $Result->{error}->{caused_by}
+            && $Result->{error}->{caused_by}->{type}
+            && $Result->{error}->{caused_by}->{type} eq 'encrypted_document_exception'
+            )
+        {
+            $Self->{DebuggerObject}->Info(
+                Summary => $ErrorMessage,
+                Data    => "The indexed document is encrypted and will therefore not be indexed."
+            );
+
+            return;    # disable error handling
+        }
+
     }
 
     # Fall back to basically the same error assessment as in the HTTP::REST transport object
