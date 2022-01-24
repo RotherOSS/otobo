@@ -46,6 +46,9 @@ sub Run {
     my $TicketID         = $ParamObject->GetParam( Param => 'TicketID' )         || '';
     my $Search           = $ParamObject->GetParam( Param => 'Term' )             || '';
     my $Identifier       = $ParamObject->GetParam( Param => 'Identifier' )       || '';
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID') || '';
+
+    print STDERR "CustomerDynamicFieldDBSearch.pm, L.51: " . $ActivityDialogID . "\n";
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
     #   customer interface, CustomerIserID and CustomerID are fixed.
@@ -177,6 +180,15 @@ sub Run {
     # Get the pure DynamicField name without prefix
     $DynamicFieldName = substr( $DynamicFieldName, length 'DynamicField_' );
 
+    # In Process Context, ActivityDialogID has to be stripped from DynamicFieldName
+    my $DynamicFieldNameLong = $DynamicFieldName;
+    if ( defined $ActivityDialogID && $ActivityDialogID ne '' ) {
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
+    }
+
+    print STDERR "CustomerDynamicFieldDBSearch.pm, L.189: " . $DynamicFieldNameLong . "\n";
+    print STDERR "CustomerDynamicFieldDBSearch.pm, L.190: " . $DynamicFieldName . "\n";
+
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
         Name => $DynamicFieldName,
@@ -230,7 +242,7 @@ sub Run {
         }
 
         # result caching
-        my $CacheKey    = $DynamicFieldName . $Search;
+        my $CacheKey    = $DynamicFieldNameLong . $Search;
         my $CacheTTL    = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType   = 'DynamicFieldDB';
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');

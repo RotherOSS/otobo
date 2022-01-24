@@ -199,7 +199,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             // TODO Think about case when closest ActivityDialogEntityID element doesn't belong to current DynamicField
             var ActivityDialogID = '';
             var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
-            if ( DynamicFieldName.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+            if ( ActivityDialogElem.length && DynamicFieldName.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
 
             ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
 
@@ -277,6 +277,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
                     QueryString += ";ActivityDialogID="+encodeURIComponent(ActivityDialogID);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
+
+                    console.log(QueryString);
 
                     URL = Core.Config.Get('Baselink');
 
@@ -587,7 +589,6 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             Action: FrontendInterface,
             Subaction: 'AJAXGetDynamicFieldConfig',
             DynamicFieldName: Field,
-            ActivityDialogID: ActivityDialogID
         };
 
         Core.AJAX.FunctionCall(URL, Data, function (Response) {
