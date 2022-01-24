@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO web docker image.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # Use the latest maintainance release of the Perl 5.32.x series.
 # As of 2021-01-23 this is Perl 5.32.1. See https://perldoc.perl.org/perl5321delta.
