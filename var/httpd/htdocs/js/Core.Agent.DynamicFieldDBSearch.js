@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -195,6 +195,16 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         if(isJQueryObject($Element)) {
 
+            # check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
+            # TODO Think about case when closest ActivityDialogEntityID element doesn't belong to current DynamicField
+            var ActivityDialogID = '';
+            var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
+            if ( DynamicFieldName.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+
+            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
+
+            }
+
             // Get the ticket id.
             /TicketID=(\d+)/.exec(document.URL);
             TicketID = RegExp.$1;
@@ -265,6 +275,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     QueryString += ";Term="+encodeURIComponent(Request.term);
                     QueryString += ";MaxResults="+Core.Config.Get('Autocomplete.MaxResultsDisplayed');
                     QueryString += ";DynamicFieldName="+encodeURIComponent(DynamicFieldName);
+                    QueryString += ";ActivityDialogID="+encodeURIComponent(ActivityDialogID);
                     QueryString += ";TicketID="+encodeURIComponent(TicketID);
 
                     URL = Core.Config.Get('Baselink');
@@ -350,6 +361,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                     Data = {
                         Action: FrontendInterface,
                         DynamicFieldName: DynamicFieldName,
+                        ActivityDialogID: ActivityDialogID,
                         Search: DynamicFieldName + 'Restore' + this,
                         Identifier: this,
                         TicketID: TicketID
@@ -552,6 +564,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} ElementValue The result element value.
      * @param {String} IdentifierKey The ID of the DF
      * @param {Boolean} Focus The parameter for focus element.
+    // Description seems to be wrong
      * @description This function shows an alert dialog for duplicated entries.
      */
     TargetNS.CheckMultiselect = function(Field, ElementValue, IdentifierKey, Focus){
@@ -573,7 +586,8 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         Data = {
             Action: FrontendInterface,
             Subaction: 'AJAXGetDynamicFieldConfig',
-            DynamicFieldName: Field
+            DynamicFieldName: Field,
+            ActivityDialogID: ActivityDialogID
         };
 
         Core.AJAX.FunctionCall(URL, Data, function (Response) {
