@@ -135,6 +135,13 @@ $Selenium->RunTest(
                 "'Customer User ID' filter for TicketNew dashboard is set",
             );
 
+            # Wait for auto-complete action that filter the list of new tickets.  Explicitly we wait till the second test ticket
+            # is no longer shown in the list. Be aware that the second test ticket could be shown in some other
+            # location, i.e. in the lastchanged tickets widget. Therefore that XPath selector must be limited
+            # to the relevant div: <div id="Dashboard0120-TicketNew">
+            my $JQuerySelectorTemplate = q{div[id='Dashboard0120-TicketNew'] a[href*='TicketID=%s']};
+            my $XPathSelectorTemplate  = q{//div[@id='Dashboard0120-TicketNew']//a[text()='%s']};
+            {
                 # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
                 $Selenium->WaitFor(
@@ -158,22 +165,25 @@ $Selenium->RunTest(
                 );
 
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[1]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[1]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the first test ticket is found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) > -1,
-                    "Test ticket with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                # Verify that the first test ticket is found after filtering with the first customer that is not in DB.
+                $DB::single = 1;
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[0]->{TN} ),
+                    'xpath',
+                    "Test ticket 0 with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
                 );
 
-                # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
-                    "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                # Verify the second test ticket is not found after filtering with the first customer that is not in DB.
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
+                    "Test ticket 1 with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
                 );
 
                 # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
@@ -218,22 +228,24 @@ $Selenium->RunTest(
 
                 # Wait for auto-complete action, the first ticket should no longer be shown
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[0]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[0]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the second test ticket is found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) > -1,
-                    "Test ticket TN $Tickets[1]->{TN} - found on screen after filtering with the customer - $Tickets[1]->{CustomerUser}",
+                # Verify the first test ticket is not found after filtering with the second customer that is not in DB.
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[0]->{TN} ),
+                    'xpath',
+                    "Test ticket with TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
                 );
 
-                # Verify the first test ticket is not found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) == -1,
-                    "Test ticket TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
+                # Verify that the second test ticket is found after filtering with the second customer that is not in DB.
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
+                    "Test ticket with TN $Tickets[1]->{TN} - found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
                 );
 
                 # Cleanup
@@ -319,21 +331,23 @@ $Selenium->RunTest(
 
                 # Wait for auto-complete action.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[1]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[1]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the third test ticket is found  by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[2]->{TN} ) > -1,
+                # Verify the third test ticket is found  by filtering with the  customer that is not in DB.
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[2]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[2]->{TN} - found on screen after filtering with customer - $Tickets[2]->{CustomerID}",
                 );
 
                 # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerID}",
                 );
 
@@ -384,8 +398,9 @@ $Selenium->RunTest(
                 );
 
                 # Verify CustomerID containing special characters is found.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[3]->{TN} ) > -1,
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[3]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[3]->{TN} - found on screen after filtering with customer - $Tickets[3]->{CustomerID}",
                 );
             }
