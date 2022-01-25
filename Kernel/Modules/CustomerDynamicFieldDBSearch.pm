@@ -46,9 +46,7 @@ sub Run {
     my $TicketID         = $ParamObject->GetParam( Param => 'TicketID' )         || '';
     my $Search           = $ParamObject->GetParam( Param => 'Term' )             || '';
     my $Identifier       = $ParamObject->GetParam( Param => 'Identifier' )       || '';
-    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID') || '';
-
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.51: " . $ActivityDialogID . "\n";
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID' ) || '';
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
     #   customer interface, CustomerIserID and CustomerID are fixed.
@@ -185,9 +183,6 @@ sub Run {
     if ( defined $ActivityDialogID && $ActivityDialogID ne '' ) {
         $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
     }
-
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.189: " . $DynamicFieldNameLong . "\n";
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.190: " . $DynamicFieldName . "\n";
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
