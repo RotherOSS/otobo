@@ -239,6 +239,7 @@ sub Run {
             Name => 'SearchOverview',
             Data => {
                 DynamicFieldName => $DynamicFieldNameLong,
+                ActivityDialogID => $Param{ActivityDialogID},
             },
         );
 

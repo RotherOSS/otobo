@@ -39,6 +39,7 @@
             <input type="hidden" name="Action" value="CustomerDynamicFieldDBDetailedSearch">
             <input type="hidden" name="Subaction" value="DetailedSearch">
             <input type="hidden" name="DynamicFieldName" value="DynamicField_[% Data.DynamicFieldName | html %]">
+            <input type="hidden" name="ActivityDialogID" value="[% Data.ActivityDialogID | html %]">
 
             <fieldset class="TableLike FixedLabel SpacingTop">
 
