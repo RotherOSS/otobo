@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,9 +46,7 @@ sub Run {
     my $TicketID         = $ParamObject->GetParam( Param => 'TicketID' )         || '';
     my $Search           = $ParamObject->GetParam( Param => 'Term' )             || '';
     my $Identifier       = $ParamObject->GetParam( Param => 'Identifier' )       || '';
-    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID') || '';
-
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.51: " . $ActivityDialogID . "\n";
+    my $ActivityDialogID = $ParamObject->GetParam( Param => 'ActivityDialogID' ) || '';
 
     # Put all ticket related data in Param, Owner, Responsible are not selectable in
     #   customer interface, CustomerIserID and CustomerID are fixed.
@@ -185,9 +183,6 @@ sub Run {
     if ( defined $ActivityDialogID && $ActivityDialogID ne '' ) {
         $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $ActivityDialogID ) );
     }
-
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.189: " . $DynamicFieldNameLong . "\n";
-    print STDERR "CustomerDynamicFieldDBSearch.pm, L.190: " . $DynamicFieldName . "\n";
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
