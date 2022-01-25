@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -49,7 +49,8 @@ $Selenium->RunTest(
             UserLogin => $TestUserLogin,
         );
 
-        my @Tests = (
+        # Note that the customer and customer users do not exist in the DB
+        my @TestTickets = (
             {
                 TN           => $TicketObject->TicketCreateNumber(),
                 CustomerUser => $Helper->GetRandomID() . '@first.com',
@@ -72,7 +73,8 @@ $Selenium->RunTest(
 
         # Create test tickets.
         my @Tickets;
-        for my $Test (@Tests) {
+        for my $Test (@TestTickets) {
+            state $Cnt = 0;
             my $TicketID = $TicketObject->TicketCreate(
                 TN           => $Test->{TN},
                 Title        => 'Selenium Test Ticket',
@@ -85,10 +87,8 @@ $Selenium->RunTest(
                 OwnerID      => $TestUserID,
                 UserID       => $TestUserID,
             );
-            $Self->True(
-                $TicketID,
-                "Ticket ID $TicketID - created"
-            );
+            ok( $TicketID, "Ticket $Cnt TN: $Test->{TN} ID: $TicketID - created" );
+            $Cnt++;
 
             push @Tickets, {
                 TicketID     => $TicketID,
@@ -128,21 +128,20 @@ $Selenium->RunTest(
             # Navigate to dashboard screen.
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
 
-            # Check if 'Customer User ID' filter for TicketNew dashboard is set.
-            eval {
-                $Self->True(
-                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]"),
-                    "'Customer User ID' filter for TicketNew dashboard is set",
-                );
-            };
-            if ($@) {
-                $Self->True(
-                    $@,
-                    "'Customer User ID' filter for TicketNew dashboard is not set",
-                );
-            }
-            else {
+            # Verify that 'Customer User ID' filter for TicketNew dashboard is set.
+            $Selenium->find_element_ok(
+                "//a[contains(\@title, \'Customer User ID\' )]",
+                'xpath',
+                "'Customer User ID' filter for TicketNew dashboard is set",
+            );
 
+            # Wait for auto-complete action that filter the list of new tickets.  Explicitly we wait till the second test ticket
+            # is no longer shown in the list. Be aware that the second test ticket could be shown in some other
+            # location, i.e. in the lastchanged tickets widget. Therefore that XPath selector must be limited
+            # to the relevant div: <div id="Dashboard0120-TicketNew">
+            my $JQuerySelectorTemplate = q{div[id='Dashboard0120-TicketNew'] a[href*='TicketID=%s']};
+            my $XPathSelectorTemplate  = q{//div[@id='Dashboard0120-TicketNew']//a[text()='%s']};
+            {
                 # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
                 $Selenium->WaitFor(
@@ -157,8 +156,7 @@ $Selenium->RunTest(
 
                 # Wait for AJAX to finish.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
                 );
 
                 # Choose the value.
@@ -166,34 +164,37 @@ $Selenium->RunTest(
                     "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[0]->{CustomerUser}').trigger('change');"
                 );
 
-                # Wait for auto-complete action.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[1]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[1]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the first test ticket is found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) > -1,
-                    "Test ticket with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                # Verify that the first test ticket is found after filtering with the first customer that is not in DB.
+                $DB::single = 1;
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[0]->{TN} ),
+                    'xpath',
+                    "Test ticket 0 with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
                 );
 
-                # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
-                    "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                # Verify the second test ticket is not found after filtering with the first customer that is not in DB.
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
+                    "Test ticket 1 with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
                 );
 
                 # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+
+                # clicking on a.DeleteFilter only works after a little sleep
                 sleep 1;
 
                 # Wait for AJAX to finish.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
                 );
 
                 # Delete the current filter.
@@ -201,15 +202,13 @@ $Selenium->RunTest(
 
                 # Wait for AJAX to finish.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
+                    JavaScript => 'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
                 );
 
                 # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return $("div.ColumnSettingsBox").length'
+                    JavaScript => 'return $("div.ColumnSettingsBox").length'
                 );
 
                 # Select test 'Customer User ID' as filter for TicketNew generic dashboard overview.
@@ -219,8 +218,7 @@ $Selenium->RunTest(
 
                 # Wait for AJAX to finish.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
                 );
 
                 # Choose the value.
@@ -228,29 +226,33 @@ $Selenium->RunTest(
                     "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[1]->{CustomerUser}').trigger('change');"
                 );
 
-                # Wait for auto-complete action.
+                # Wait for auto-complete action, the first ticket should no longer be shown
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[0]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[0]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the second test ticket is found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) > -1,
-                    "Test ticket TN $Tickets[1]->{TN} - found on screen after filtering with the customer - $Tickets[1]->{CustomerUser}",
+                # Verify the first test ticket is not found after filtering with the second customer that is not in DB.
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[0]->{TN} ),
+                    'xpath',
+                    "Test ticket with TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
                 );
 
-                # Verify the first test ticket is not found by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) == -1,
-                    "Test ticket TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
+                # Verify that the second test ticket is found after filtering with the second customer that is not in DB.
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
+                    "Test ticket with TN $Tickets[1]->{TN} - found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
                 );
 
                 # Cleanup
                 # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+
+                # clicking on a.DeleteFilter only works after a little sleep
                 sleep 1;
 
                 # wait for AJAX to finish
@@ -329,32 +331,35 @@ $Selenium->RunTest(
 
                 # Wait for auto-complete action.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                        . $Tickets[1]->{TicketID}
-                        . '\']").length'
+                    JavaScript => sprintf(
+                        q{return typeof($) === "function" && !$("%s").length},
+                        sprintf( $JQuerySelectorTemplate, $Tickets[1]->{TicketID} ),
+                    ),
                 );
 
-                # Verify the third test ticket is found  by filtering with the second customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[2]->{TN} ) > -1,
+                # Verify the third test ticket is found  by filtering with the  customer that is not in DB.
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[2]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[2]->{TN} - found on screen after filtering with customer - $Tickets[2]->{CustomerID}",
                 );
 
                 # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
+                $Selenium->find_no_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[1]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerID}",
                 );
 
                 # Click on column setting filter for CustomerID in TicketNew generic dashboard overview.
                 $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
+
+                # clicking on a.DeleteFilter only works after a little sleep
                 sleep 1;
 
                 # Wait for AJAX to finish.
                 $Selenium->WaitFor(
-                    JavaScript =>
-                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                    JavaScript => 'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
                 );
 
                 # Delete the current filter.
@@ -393,8 +398,9 @@ $Selenium->RunTest(
                 );
 
                 # Verify CustomerID containing special characters is found.
-                $Self->True(
-                    index( $Selenium->get_page_source(), $Tickets[3]->{TN} ) > -1,
+                $Selenium->find_element_ok(
+                    sprintf( $XPathSelectorTemplate, $Tickets[3]->{TN} ),
+                    'xpath',
                     "Test ticket with TN $Tickets[3]->{TN} - found on screen after filtering with customer - $Tickets[3]->{CustomerID}",
                 );
             }
@@ -402,6 +408,7 @@ $Selenium->RunTest(
 
         # Delete test tickets.
         for my $Ticket (@Tickets) {
+            state $Cnt = 0;
             my $Success = $TicketObject->TicketDelete(
                 TicketID => $Ticket->{TicketID},
                 UserID   => 1,
@@ -415,7 +422,8 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
             }
-            ok( $Success, "Ticket ID $Ticket->{TicketID} - deleted" );
+            ok( $Success, "Ticket $Cnt ID $Ticket->{TicketID} - deleted" );
+            $Cnt++;
         }
 
         # Make sure cache is correct.
