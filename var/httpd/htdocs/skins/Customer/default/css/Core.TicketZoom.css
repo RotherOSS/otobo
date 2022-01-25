@@ -526,7 +526,7 @@ button.oooM.ActivityStartButton {
     left: calc( -100% + 24px );
 }
 
-iframe {
+.MessageContent iframe {
     width: 100%;
     max-height: 80vh;
 }

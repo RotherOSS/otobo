@@ -371,7 +371,7 @@ Core.UI.Dialog = (function (TargetNS) {
 
             // Get HTML with JS function innerHTML, because jQuery html() strips out the script blocks
             if (typeof Params.HTML !== 'string' && isJQueryObject(Params.HTML)) {
-                // First get the data structure, ehich is (perhaps) already saved
+                // First get the data structure, which is (perhaps) already saved
                 // If the data does not exists Core.Data.Get returns an empty hash
                 DialogCopy = Core.Data.Get($('body'), 'DialogCopy');
                 DialogCopySelector = Core.Data.Get($('body'), 'DialogCopySelector');
@@ -466,7 +466,6 @@ Core.UI.Dialog = (function (TargetNS) {
         Core.Data.Set($Dialog, 'DialogCounter', DialogCounter);
         // Increase the dialog number for the next possible dialog
         DialogCounter++;
-
 
         // Set position for Dialog
         if (Params.Type === 'Alert') {
