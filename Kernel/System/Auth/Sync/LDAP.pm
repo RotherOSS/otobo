@@ -432,7 +432,7 @@ sub Sync {
                         Priority => 'debug',
                         Message  => "Performing an extended nested group search",
                     );
-                    my $NestedGroupResult = &_NestedGroupSearch( $LDAP, $GroupDN, $UserDN );
+                    my $NestedGroupResult = _NestedGroupSearch( $LDAP, $GroupDN, $UserDN );
 
                     # check if user was found with nested group search
                     if ($NestedGroupResult) {
