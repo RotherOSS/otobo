@@ -24,6 +24,7 @@ use parent qw(Kernel::System::Console::BaseCommand);
 our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Package',
+    'Kernel::System::SysConfig::XML',
 );
 
 sub Configure {
@@ -117,7 +118,8 @@ sub Run {
     }
 
     FILE:
-    for my $File ( @XMLConfigFiles ) {
+    for my $File (@XMLConfigFiles) {
+
         # Read XML file.
         my $ConfigFile = $MainObject->FileRead(
             Location => $File,
@@ -135,12 +137,13 @@ sub Run {
             XMLFilename => $File,
         );
 
-        if ( @ParsedSettings ) {
+        if (@ParsedSettings) {
             push @SettingList, @ParsedSettings;
         }
     }
 
-    my $RST = join( '',
+    my $RST = join(
+        '',
         $Self->FrontMatter(
             Structure => \%Structure,
         ),
@@ -171,7 +174,7 @@ sub Run {
 sub FrontMatter {
     my ( $Self, %Param ) = @_;
 
-    # sphinx will eat the first chapter, so we make a sacrificial chapter - see https://stackoverflow.com/questions/27965192/python-sphinx-skips-first-section-when-generating-pdf
+# sphinx will eat the first chapter, so we make a sacrificial chapter - see https://stackoverflow.com/questions/27965192/python-sphinx-skips-first-section-when-generating-pdf
     return <<"END";
 .. toctree::
     :maxdepth: 2
@@ -241,18 +244,18 @@ sub ConfigReference {
     return if !%Navigation;
 
     my $ConfigReference =
-        "Configuration Reference\n".
+        "Configuration Reference\n" .
         "=======================\n\n";
 
     for my $NavEntry ( sort keys %Navigation ) {
         $ConfigReference .=
-            "$NavEntry\n".
+            "$NavEntry\n" .
             "------------------------------------------------------------------------------------------------------------------------------\n\n";
 
-        for my $Setting ( sort $Navigation{ $NavEntry }->@* ) {
+        for my $Setting ( sort $Navigation{$NavEntry}->@* ) {
             $ConfigReference .=
-                "$Setting->{Name}\n".
-                "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n".
+                "$Setting->{Name}\n" .
+                "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n" .
                 "$Setting->{Description}\n\n";
         }
     }
