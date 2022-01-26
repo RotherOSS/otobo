@@ -4452,14 +4452,14 @@ sub CustomerFooter {
 
         my @FooterLinks;
         my %URLConfig = (
-            HttpType    => $ConfigObject->Get('HttpType') // '',
-            FQDN        => $ConfigObject->Get('FQDN') // '',
+            HttpType    => $ConfigObject->Get('HttpType')    // '',
+            FQDN        => $ConfigObject->Get('FQDN')        // '',
             ScriptAlias => $ConfigObject->Get('ScriptAlias') // '',
         );
 
         for my $Link ( sort keys %{$FooterLinks} ) {
             my $SubstitudedLink = $Link;
-            for my $Option ( qw/HttpType FQDN ScriptAlias/ ) {
+            for my $Option (qw/HttpType FQDN ScriptAlias/) {
                 $SubstitudedLink =~ s/<OTOBO_CONFIG_$Option>/$URLConfig{ $Option }/g;
             }
 

@@ -56,7 +56,8 @@ sub Run {
             );
         }
 
-        return join ( '',
+        return join(
+            '',
             (
                 $LayoutObject->CustomerHeader(),
                 $LayoutObject->Output(

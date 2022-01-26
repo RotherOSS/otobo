@@ -89,7 +89,7 @@ sub Run {
 
     COUNTER:
     for my $Counter ( '', 1 .. $Maximum ) {
-        my $CalendarName = $ConfigObject->Get('TimeZone::Calendar' . $Counter . 'Name' );
+        my $CalendarName = $ConfigObject->Get( 'TimeZone::Calendar' . $Counter . 'Name' );
 
         next COUNTER if !$CalendarName;
 

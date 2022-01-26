@@ -1529,10 +1529,10 @@ sub Run {
     my %AllRepositories = (
         %List,
         %RepositoryRoot,
-	%{ $RepositoryCloudList },
+        %{$RepositoryCloudList},
     );
 
-    $Source ||= (sort { $a cmp $b } keys %AllRepositories)[0];
+    $Source ||= ( sort { $a cmp $b } keys %AllRepositories )[0];
 
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
         Data        => \%AllRepositories,
