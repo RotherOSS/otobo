@@ -183,7 +183,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         delete $Param{Lang};
     }
 
-    # check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
@@ -803,7 +803,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         if ( !$Sent->{Success} ) {
             $LayoutObject->CustomerFatalError(
-                Comment => Translatable('Please contact the administrator.')
+                Comment => Translatable('Please contact the administrator.'),
             );    # throws a Kernel::System::Web::Exception
         }
         my $Message = $LayoutObject->{LanguageObject}->Translate(
