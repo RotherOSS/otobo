@@ -68,7 +68,7 @@ Returns the configuration params for this transition action module
 
     my @Params = $Object->Params();
 
-Each element is a hashreference that describes the config parameter.
+Each element is a hash reference that describes the config parameter.
 Currently only the keys I<Key>, I<Value> and I<Optional> are used.
 
 =cut
@@ -134,7 +134,7 @@ sub Params {
             Value    => '1 (can overwrite the logged in user)',
             Optional => 1,
         },
-    );  
+    );
 
     return @Params;
 }

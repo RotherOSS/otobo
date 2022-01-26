@@ -46,7 +46,7 @@ Core.Agent.Admin.ProcessManagement.TransitionActionParameters = (function (Targe
             }
             $field.parent().remove();
         });
-        
+
         $('#ConfigKey[1]').val('');
         $('#ConfigValue[1]').val('');
     }
@@ -57,7 +57,7 @@ Core.Agent.Admin.ProcessManagement.TransitionActionParameters = (function (Targe
      * @memberof Core.Agent.Admin.ProcessManagement.TransitionActionParameters
      * @function
      * @description
-     *      Retrieves the parameter list from the backend and 
+     *      Retrieves the parameter list from the backend and
      *      shows the parameters in the dialog
      */
     function SetParameters ( Module ) {
@@ -93,7 +93,7 @@ Core.Agent.Admin.ProcessManagement.TransitionActionParameters = (function (Targe
                     }
 
                     let $ParamElem = $(ConfigParamHTML);
-            
+
                     $ParamElem.find('input[name^="ConfigKey"]').val( Param.Key );
                     $ParamElem.find('input[name^="ConfigValue"]').attr( 'placeholder', Param.Value );
 
@@ -139,9 +139,8 @@ Core.Agent.Admin.ProcessManagement.TransitionActionParameters = (function (Targe
             SetParameters( Module );
         });
     };
-    
+
     Core.Init.RegisterNamespace(TargetNS, 'APP_MODULE');
 
     return TargetNS;
-}(Core.Agent.Admin.ProcessManagement.TransitionActionParameters || {})); 
-
+}(Core.Agent.Admin.ProcessManagement.TransitionActionParameters || {}));

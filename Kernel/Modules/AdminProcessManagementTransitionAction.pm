@@ -449,12 +449,12 @@ sub Run {
         my @ModuleParams;
 
         if ( $Module && $Module eq $ModuleOrig && $ClassExists ) {
-            my $Object    = $Kernel::OM->Get($Class);
+            my $Object = $Kernel::OM->Get($Class);
 
             if ( $Object->can('Params') ) {
                 @ModuleParams = $Object->Params();
 
-                for my $Param ( @ModuleParams ) {
+                for my $Param (@ModuleParams) {
                     $Param{Value} = $LayoutObject->{LanguageObject}->Translate( $Param{Value} );
                 }
             }

@@ -2498,9 +2498,9 @@ Core.UI.InputFields = (function (TargetNS) {
                                 $(this).prev('.jstree-icon').trigger('click');
 
                                 return false;
-                            });  
+                            });
                         }, 200 );
-                    }); 
+                    });
 
                 })
 

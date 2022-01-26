@@ -39,8 +39,8 @@ sub new {
         UserID => $Self->{UserID},
     );
 
-    $Self->{PrefKeyShown}   = 'UserDashboardPref' . $Self->{Name} . '-Shown';
-    $Self->{PageShown}      = $Preferences{ $Self->{PrefKeyShown} };
+    $Self->{PrefKeyShown} = 'UserDashboardPref' . $Self->{Name} . '-Shown';
+    $Self->{PageShown}    = $Preferences{ $Self->{PrefKeyShown} };
 
     return $Self;
 }
@@ -91,7 +91,7 @@ sub Run {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $UseRefresh = $ConfigObject->Get('DashboardMyLastChangedTickets::UseRefresh');
-    if ( $UseRefresh ) {
+    if ($UseRefresh) {
         $LayoutObject->Block(
             Name => 'Refresh',
             Data => {
@@ -105,7 +105,7 @@ sub Run {
     );
 
     my $UserLimit = $Preferences{ $Self->{PrefKeyShown} };
-    my $Limit     = $UserLimit || $ConfigObject->Get( 'DashboardMyLastChangedTickets::Limit' );
+    my $Limit     = $UserLimit || $ConfigObject->Get('DashboardMyLastChangedTickets::Limit');
 
     my $SQL = qq~
         SELECT ticket_id, MAX(change_time) max_t
@@ -132,7 +132,7 @@ sub Run {
         );
     }
     else {
-        for my $TicketID ( @TicketIDs ) {
+        for my $TicketID (@TicketIDs) {
             my %Ticket = $TicketObject->TicketGet(
                 TicketID => $TicketID,
                 UserID   => $Self->{UserID},
@@ -160,4 +160,3 @@ sub Run {
 }
 
 1;
-
