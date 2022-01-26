@@ -65,6 +65,162 @@ sub new {
     return $Self;
 }
 
+=head2 Params()
+
+Returns the configuration params for this transition action module
+
+    my @Params = $Object->Params();
+
+Each element is a hashreference that describes the config parameter.
+Currently only the keys I<Key>, I<Value> and I<Optional> are used.
+
+=cut
+
+sub Params {
+    my ($Self) = @_;
+
+    my @Params = (
+        {
+            Key   => 'Title',
+            Value => 'A title (required)',
+        },
+        {
+            Key   => 'CommunicationChannel',
+            Value => 'Email|Phone|Internal (required)',
+        },
+        {
+            Key      => 'From',
+            Value    => 'agent@example.tld',
+            Optional => 1,
+        },
+        {
+            Key      => 'To',
+            Value    => 'customer@example.tld',
+            Optional => 1,
+        },
+        {
+            Key   => 'Subject',
+            Value => 'A subject (required)',
+        },
+        {
+            Key   => 'Body',
+            Value => 'A text for the article (required)',
+        },
+        {
+            Key   => 'ContentType',
+            Value => 'text/html; charset=utf-8 (required)',
+        },
+        {
+            Key      => 'CustomerID',
+            Value    => '12345',
+            Optional => 1,
+        },
+        {
+            Key      => 'CustomerUser',
+            Value    => 'customer@example.tld',
+            Optional => 1,
+        },
+        {
+            Key   => 'IsVisibleForCustomer',
+            Value => '0|1 (required)',
+        },
+        {
+            Key      => 'DynamicField_<Name> (replace <Name>)',
+            Value    => 'A value',
+            Optional => 1,
+        },
+        {
+            Key      => 'Attachments',
+            Value    => '...',
+            Optional => 1,
+        },
+        {
+            Key   => 'State',
+            Value => 'open (required)',
+        },
+        {
+            Key   => 'Lock',
+            Value => 'lock|unlock (required)',
+        },
+        {
+            Key   => 'Owner',
+            Value => 'ownerlogin (required)',
+        },
+        {
+            Key   => 'Priority',
+            Value => '3 normal (required)',
+        },
+        {
+            Key   => 'Queue',
+            Value => 'Misc (required)',
+        },
+        {
+            Key      => 'Type',
+            Value    => 'A type',
+            Optional => 1,
+        },
+        {
+            Key      => 'Service',
+            Value    => 'ServiceName',
+            Optional => 1,
+        },
+        {
+            Key      => 'SLA',
+            Value    => 'SLA-Name',
+            Optional => 1,
+        },
+        {
+            Key      => 'Responsible',
+            Value    => 'responsiblelogin',
+            Optional => 1,
+        },
+        {
+            Key      => 'TimeUnit',
+            Value    => 'responsiblelogin',
+            Optional => 1,
+        },
+        {
+            Key   => 'HistoryType',
+            Value => 'EmailCustomer|AddNote|WebRequestCustomer|... (required)',
+        },
+        {
+            Key   => 'HistoryComment',
+            Value => 'Article created (required)',
+        },
+        {
+            Key   => 'SenderType',
+            Value => 'agent|customer|system (required)',
+        },
+        {
+            Key      => 'PendingTime',
+            Value    => '2022-19-21 14:25:00',
+            Optional => 1,
+        },
+        {
+            Key      => 'PendingTimeDiff',
+            Value    => 'diff in minutes',
+            Optional => 1,
+        },
+        {
+            Key      => 'LinkAs',
+            Value    => 'Normal|Parent|Child|...',
+            Optional => 1,
+        },
+        {
+            Key      => 'ArchiveFlag',
+            Value    => 'y|n',
+            Optional => 1,
+        },
+        {
+            Key      => 'UserID',
+            Value    => '1 (can overwrite the logged in user)',
+            Optional => 1,
+        },
+    );
+
+    return @Params;
+}
+
 =head2 Run()
 
     Run Data
