@@ -872,7 +872,8 @@ sub _NestedGroupSearch {
         Message  => "Nested group search for user: $UserDN (to check group membership to $GroupDN)",
     );
 
-    # create search function (as anonymous sub)
+    # create search function as anonymous sub, declare $FindMember before it is assigned,
+    # because the sub is called recursively
     my $FindMember;
     $FindMember = sub {
         my ( $LDAP, $GroupDN, $UserDN ) = @_;
@@ -956,7 +957,7 @@ sub _NestedGroupSearch {
             for my $Value ( @{$MemberValues} ) {
 
                 # call search function again for each member
-                &$FindMember( $LDAP, $Value, $UserDN );
+                $FindMember->( $LDAP, $Value, $UserDN );
 
                 # stop if we found a match
                 last MATCH if $MemberConfirmed;
@@ -971,7 +972,7 @@ sub _NestedGroupSearch {
     };
 
     # call the actual search function
-    &$FindMember( $LDAP, $GroupDN, $UserDN );
+    $FindMember->( $LDAP, $GroupDN, $UserDN );
 
     # add stats to debug output
     my $ItemsCount = keys %ItemsSeen;
