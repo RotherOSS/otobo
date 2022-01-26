@@ -1533,7 +1533,6 @@ sub Run {
     );
 
     $Source ||= (sort { $a cmp $b } keys %AllRepositories)[0];
-    Kernel::LOG( $Source );
 
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
         Data        => \%AllRepositories,
