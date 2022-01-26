@@ -62,6 +62,83 @@ sub new {
     return $Self;
 }
 
+=head2 Params()
+
+Returns the configuration params for this transition action module
+
+    my @Params = $Object->Params();
+
+Each element is a hashreference that describes the config parameter.
+Currently only the keys I<Key>, I<Value> and I<Optional> are used.
+
+=cut
+
+sub Params {
+    my ($Self) = @_;
+
+    my @Params = (
+        {
+            Key   => 'CommunicationChannel',
+            Value => 'Email|Phone|Internal (required)',
+        },
+        {
+            Key      => 'From',
+            Value    => 'agent@example.tld',
+            Optional => 1,
+        },
+        {
+            Key      => 'To',
+            Value    => 'customer@example.tld',
+            Optional => 1,
+        },
+        {
+            Key   => 'Subject',
+            Value => 'A subject (required)',
+        },
+        {
+            Key   => 'Body',
+            Value => 'A text for the article (required)',
+        },
+        {
+            Key   => 'ContentType',
+            Value => 'text/html; charset=utf-8 (required)',
+        },
+        {
+            Key   => 'IsVisibleForCustomer',
+            Value => '0|1 (required)',
+        },
+        {
+            Key      => 'DynamicField_<Name> (replace <Name>)',
+            Value    => 'A value',
+            Optional => 1,
+        },
+        {
+            Key   => 'HistoryType',
+            Value => 'EmailCustomer|AddNote|WebRequestCustomer|... (required)',
+        },
+        {
+            Key   => 'HistoryComment',
+            Value => 'Article created (required)',
+        },
+        {
+            Key   => 'SenderType',
+            Value => 'agent|customer|system (required)',
+        },
+        {
+            Key      => 'UnlockOnAway',
+            Value    => '0|1',
+            Optional => 1,
+        },
+        {
+            Key      => 'UserID',
+            Value    => '1 (can overwrite the logged in user)',
+            Optional => 1,
+        },
+    );  
+
+    return @Params;
+}
+
 =head2 Run()
 
     Run Data

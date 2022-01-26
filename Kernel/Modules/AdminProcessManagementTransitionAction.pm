@@ -57,6 +57,8 @@ sub Run {
     my $LayoutObject           = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $EntityObject           = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::Entity');
     my $TransitionActionObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::DB::TransitionAction');
+    my $MainObject             = $Kernel::OM->Get('Kernel::System::Main');
+    my $ConfigObject           = $Kernel::OM->Get('Kernel::Config');
 
     # ------------------------------------------------------------ #
     # TransitionActionNew
@@ -426,6 +428,52 @@ sub Run {
         return $Self->_PopupResponse(
             ClosePopup => 1,
             ConfigJSON => '',
+        );
+    }
+
+    # ------------------------------------------------------------ #
+    # Get parameters of transition action module
+    # ------------------------------------------------------------ #
+    elsif ( $Self->{Subaction} eq 'ActionParams' ) {
+        my $TransAction = $ParamObject->GetParam( Param => 'TransitionAction' );
+        my $ModuleOrig  = ( split /::/, $TransAction // '' )[-1];
+        my $Module      = $ModuleOrig =~ s{[^A-Za-z1-2]}{}gr;
+        my $Class       = sprintf "Kernel::System::ProcessManagement::TransitionAction::%s",
+            $Module || 'ThisModuleLikelyDoesntExistInThisInstallation';
+
+        my $ClassExists = $MainObject->Require(
+            $Class,
+            Silent => 1,
+        );
+
+        my @ModuleParams;
+
+        if ( $Module && $Module eq $ModuleOrig && $ClassExists ) {
+            my $Object    = $Kernel::OM->Get($Class);
+
+            if ( $Object->can('Params') ) {
+                @ModuleParams = $Object->Params();
+
+                for my $Param ( @ModuleParams ) {
+                    $Param{Value} = $LayoutObject->{LanguageObject}->Translate( $Param{Value} );
+                }
+            }
+        }
+
+        my $Optionals = $ConfigObject->Get('TransitionActionParams::SetOptionalParameters') // '';
+
+        my $JSON = $LayoutObject->JSONEncode(
+            Data => {
+                Params      => \@ModuleParams,
+                NoOptionals => ( $Optionals ? 0 : 1 ),
+            },
+        );
+
+        return $LayoutObject->Attachment(
+            ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
+            Content     => $JSON,
+            Type        => 'inline',
+            NoCache     => 1,
         );
     }
 

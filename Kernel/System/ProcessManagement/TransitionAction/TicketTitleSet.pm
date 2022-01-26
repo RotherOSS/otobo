@@ -57,6 +57,35 @@ sub new {
     return $Self;
 }
 
+=head2 Params()
+
+Returns the configuration params for this transition action module
+
+    my @Params = $Object->Params();
+
+Each element is a hashreference that describes the config parameter.
+Currently only the keys I<Key>, I<Value> and I<Optional> are used.
+
+=cut
+
+sub Params {
+    my ($Self) = @_;
+
+    my @Params = (
+        {
+            Key   => 'Title',
+            Value => 'A new title (required)',
+        },
+        {
+            Key      => 'UserID',
+            Value    => '1 (can overwrite the logged in user)',
+            Optional => 1,
+        },
+    );
+
+    return @Params;
+}
+
 =head2 Run()
 
     Run Data
