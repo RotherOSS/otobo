@@ -1526,8 +1526,17 @@ sub Run {
     #   in the layout block.
     my @RepositoryList = $PackageObject->RepositoryList();
 
+    my %AllRepositories = (
+        %List,
+        %RepositoryRoot,
+	%{ $RepositoryCloudList },
+    );
+
+    $Source ||= (sort { $a cmp $b } keys %AllRepositories)[0];
+    Kernel::LOG( $Source );
+
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
-        Data        => { %List, %RepositoryRoot, %{$RepositoryCloudList}, },
+        Data        => \%AllRepositories,
         Name        => 'Source',
         Title       => Translatable('Repository List'),
         Max         => 40,
