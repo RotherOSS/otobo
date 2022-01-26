@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,9 @@
 
 package Kernel::System::Web::InterfaceCustomer;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -183,7 +183,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
         delete $Param{Lang};
     }
 
-    # check if the browser sends the SessionID cookie and set the SessionID-cookie
+    # Check if the browser sends the SessionID cookie and set the SessionID-cookie
     # as SessionID! GET or POST SessionID have the lowest priority.
     if ( $ConfigObject->Get('SessionUseCookie') ) {
         $Param{SessionIDCookie} = $ParamObject->GetCookie( Key => $Param{SessionName} );
@@ -203,20 +203,6 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
     # Restrict Cookie to HTTPS if it is used.
     my $CookieSecureAttribute = $ConfigObject->Get('HttpType') eq 'https' ? 1 : undef;
-
-    # check whether we are using the right scheme
-    my ($RequestScheme) = split '/', $ParamObject->ServerProtocol(), 2;
-    $RequestScheme = lc $RequestScheme;
-    if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => sprintf(
-                'HttpType %s is set, but %s is used!',
-                $ConfigObject->Get('HttpType'),
-                $RequestScheme
-            ),
-        );
-    }
 
     my $DBCanConnect = $Kernel::OM->Get('Kernel::System::DB')->Connect();
 
@@ -817,7 +803,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         if ( !$Sent->{Success} ) {
             $LayoutObject->CustomerFatalError(
-                Comment => Translatable('Please contact the administrator.')
+                Comment => Translatable('Please contact the administrator.'),
             );    # throws a Kernel::System::Web::Exception
         }
         my $Message = $LayoutObject->{LanguageObject}->Translate(
@@ -1102,6 +1088,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
+            my ($RequestScheme) = split '/', $ParamObject->ServerProtocol, 2;
             if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {
