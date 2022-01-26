@@ -240,6 +240,7 @@
                 <Item Key="JavaScript">
                     <Array>
                         <Item>Core.Agent.Admin.ProcessManagement.js</Item>
+                        <Item>Core.Agent.Admin.ProcessManagement.TransitionActionParameters.js</Item>
                     </Array>
                 </Item>
             </Hash>
@@ -644,6 +645,16 @@
                 <Item ValueType="Option" Value="CustomerTicketOverview" Translatable="1">Customer ticket overview</Item>
                 <Item ValueType="Option" Value="CustomerTicketZoom" Translatable="1">Customer ticket zoom</Item>
             </Item>
+        </Value>
+    </Setting>
+   <Setting Name="TransitionActionParams::SetOptionalParameters" Required="0" Valid="1">
+        <Description Translatable="1">
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        </Description>
+        <Navigation>Frontend::Admin::View::AdminProcessManagement</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
 </otobo_config>
