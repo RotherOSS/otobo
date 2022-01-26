@@ -194,7 +194,7 @@ sub EditFieldRender {
         'ErrorMessage1'     => $ErrorMessage1,
         'ErrorMessage2'     => $ErrorMessage2,
         'ErrorMessage3'     => $ErrorMessage3,
-        'DivID'             => $FieldName,
+        'DivID'             => $FieldName . 'Error',
     );
 
     if ( $Param{Mandatory} ) {
