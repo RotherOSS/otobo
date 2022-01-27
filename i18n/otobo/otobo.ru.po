@@ -36,13 +36,14 @@
 # Yuri Kolesniov <ynkolesnikov@gmail.com>, 2019
 # Alexey Yusov <yusovas@gmail.com>, 2019
 # Yuriy Purisev <duh.khv@gmail.com>, 2021.
+# Irina Schaefer <irina.schaefer08@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2021-05-27 10:04+0000\n"
-"Last-Translator: Yuriy Purisev <duh.khv@gmail.com>\n"
+"PO-Revision-Date: 2022-01-27 08:58+0000\n"
+"Last-Translator: Irina Schaefer <irina.schaefer08@gmail.com>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
 "Language: ru\n"
@@ -296,7 +297,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Удалить язык"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -316,7 +317,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Добавить новый язык"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1797,7 +1798,7 @@ msgstr "Фильтр для динамических полей"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Новые динамические поля"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1944,11 +1945,11 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Всплывающее сообщение:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
-msgstr ""
+msgstr "Это всплывающее сообщение, отображаемое в интерфейсе клиента."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
