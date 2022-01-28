@@ -459,6 +459,10 @@ my $OTOBOApp = builder {
     # Kernel::System::Web::App loads the interface modules and calls the Response() method.
     # Add "Debug => 1" in order to enable debugging.
 
+    # enable for debugging
+    #mount '/dump_env' => $DumpEnvApp;
+    #mount '/hello'    => $HelloApp;
+
     mount '/customer.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfaceCustomer',
     )->to_app;
@@ -529,8 +533,6 @@ builder {
     # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
     #mount '/dump_env'       => $DumpEnvApp;
-    #mount '/otobo/hello'    => $HelloApp;
-    #mount '/otobo/dump_env' => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
