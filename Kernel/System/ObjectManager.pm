@@ -34,7 +34,6 @@ use Scalar::Util qw(weaken);
 # like mod_perl and FastCGI pre-load them at startup
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Auth;
 use Kernel::System::AuthSession;
@@ -54,7 +53,7 @@ Kernel::System::ObjectManager - Central singleton manager and object instance ge
 
 =head1 SYNOPSIS
 
-    # In top level scripts only!
+    # In top level scripts, or otobo.psgi, only!
     local $Kernel::OM = Kernel::System::ObjectManager->new();
 
     # Everywhere: get a singleton instance (and create it, if needed).
