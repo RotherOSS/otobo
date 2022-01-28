@@ -442,7 +442,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         # Overriding DBCredentials is currently not used.
         %DBCredentials = %{ $Self->{Options} } if $Self->{Options}->{DBType};
 
-        # Get and check params and connect to DB.
+        # Get and check params and connect to DB as database admin
         my %Result = $Self->ConnectToDB(%DBCredentials);
 
         my %DB;
@@ -642,10 +642,11 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $LayoutObject->Footer();
         }
 
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::DB'] );
-
-        # We need a database object to be able to parse the XML
-        #   connect to database using given credentials.
+        # We need a database connection as the user 'otobo' for handling the XML files.
+        # Not relying on Kernel/Config.pm as that file was recently changed.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::DB']
+        );
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::DB' => {
                 DatabaseDSN  => $DB{DSN},
