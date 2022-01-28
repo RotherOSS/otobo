@@ -16,10 +16,16 @@
 
 package Kernel::System::ReferenceData;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Locale::Country qw(all_country_names);
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -85,9 +91,11 @@ sub CountryList {
 
         # return Country => Country pairs from SysConfig
         my %CountryJustNames = map { $_ => $_ } values %$Countries;
+
         return \%CountryJustNames;
     }
 
+    # get the country list from Locale::Country
     my @CountryNames = all_country_names();
 
     if ( !@CountryNames ) {
@@ -104,6 +112,7 @@ sub CountryList {
         for my $Country (@CountryNames) {
             $Countries{$Country} = country2code( $Country, 1 );
         }
+
         return \%Countries;
     }
 
