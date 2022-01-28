@@ -442,7 +442,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         # Overriding DBCredentials is currently not used.
         %DBCredentials = %{ $Self->{Options} } if $Self->{Options}->{DBType};
 
-        # Get and check params and connect to DB.
+        # Get and check params and connect to DB as database admin
         my %Result = $Self->ConnectToDB(%DBCredentials);
 
         my %DB;
@@ -457,10 +457,6 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             %DB  = %{ $Result{DB} };
             $DBH = $Result{DBH};
         }
-
-        my $Output = $LayoutObject->Header(
-            Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
-        );
 
         $LayoutObject->Block(
             Name => 'DatabaseResult',
@@ -565,18 +561,21 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         # Execute database statements.
         for my $Statement (@Statements) {
-            my @Description = split( ' ', $Statement );
 
-            # Prevent uninitialized variables.
-            for my $Index ( 0 .. 2 ) {
-                $Description[$Index] //= '';
-            }
-
+            # For better readabilty and for hiding sensitive info show only the first three words
+            # in the description of the action.
+            # Note that using a single space as the split pattern, introduces AWK compatible whitespace splitting.
+            my $ThreeWordDescription = join ' ',
+                map { $_ // '' }
+                ( split ' ', $Statement, 4 )[ 0 .. 2 ];
             $LayoutObject->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "$Description[0] $Description[1] $Description[2]" },
+                Data => { Item => $ThreeWordDescription },
             );
+
             if ( !$DBH->do($Statement) ) {
+
+                # report database error
                 $LayoutObject->Block(
                     Name => 'DatabaseResultItemFalse',
                     Data => {},
@@ -591,13 +590,16 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                     Name => 'DatabaseResultBack',
                     Data => {},
                 );
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'Installer',
-                    Data         => {},
-                );
-                $Output .= $LayoutObject->Footer();
 
-                return $Output;
+                return join '',
+                    $LayoutObject->Header(
+                        Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
+                    ),
+                    $LayoutObject->Output(
+                        TemplateFile => 'Installer',
+                        Data         => {},
+                    ),
+                    $LayoutObject->Footer;
             }
             else {
                 $LayoutObject->Block(
@@ -642,10 +644,11 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 $LayoutObject->Footer();
         }
 
-        $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::DB'] );
-
-        # We need a database object to be able to parse the XML
-        #   connect to database using given credentials.
+        # We need a database connection as the user 'otobo' for handling the XML files.
+        # Not relying on Kernel/Config.pm as that file was recently changed.
+        $Kernel::OM->ObjectsDiscard(
+            Objects => ['Kernel::System::DB']
+        );
         $Kernel::OM->ObjectParamAdd(
             'Kernel::System::DB' => {
                 DatabaseDSN  => $DB{DSN},
@@ -726,12 +729,15 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         $LayoutObject->Block(
             Name => 'DatabaseResultNext',
         );
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
-        );
-        $Output .= $LayoutObject->Footer();
 
-        return $Output;
+        return join '',
+            $LayoutObject->Header(
+                Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+            ),
+            $LayoutObject->Footer;
     }
 
     # Show system settings page, pre-install packages.

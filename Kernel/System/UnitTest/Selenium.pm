@@ -37,7 +37,6 @@ use Try::Tiny;
 use URI;
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::System::User;
 use Kernel::System::VariableCheck qw(IsArrayRefWithData);
 

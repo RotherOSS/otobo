@@ -61,12 +61,12 @@ Then point your browser at nytprof/index.html.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
-# expect that otobo.psgi is two level below the OTOBO root dir
+# expect that otobo.psgi is two level below the OTOBO home dir
 use FindBin qw($Bin);
 use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
@@ -95,7 +95,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-use Kernel::Config;
+use Kernel::Config;    # for S3 and to make sure that 'Kernel/Config.pm' is in %INC before the first refresh check
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -108,6 +108,9 @@ eval {
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
+
+# make sure the refresh_module_if_modified() works even on the first invocation in a process
+Module::Refresh->update_cache('Kernel/Config.pm');
 
 ################################################################################
 # Middlewares
@@ -139,7 +142,7 @@ my $NYTProfMiddleware = sub {
 
 # Set a single entry in %ENV.
 # $ENV{GATEWAY_INTERFACE} is used for determining whether a command runs in a web context.
-# This setting is used internally by Kernel::System::Log, Kernel::Config::Defaults and in the support data collector.
+# This setting is used internally by Kernel::System::Log, and in the support data collector.
 # In the CPAN module DBD::mysql, $ENV{GATEWAY_INTERFACE} would enable mysql_auto_reconnect.
 # In order to counter that, mysql_auto_reconnect is explicitly disabled in Kernel::System::DB::mysql.
 my $SetSystemEnvMiddleware = sub {
@@ -267,16 +270,24 @@ my $SyncFromS3Middleware = sub {
     };
 };
 
-# This is inspired by Plack::Middleware::Refresh. But we roll our own middleware,
-# as OTOOB has special requirements.
+# This middleware is inspired by Plack::Middleware::Refresh. But we roll our own implementation,
+# as OTOOB has special requirements. All loaded modules are refreshed after a cooldown time
+# of 10s has passed since the last refresh cycle.
+#
+# An exception is Kernel/Config.pm which is checked for every request. This is mostly for
+# installer.pl and migration.pl which actually change this file.
+#
 # The modules in Kernel/Config/Files must be exempted from the reloading
-# as it is OK when they are removed. These not removed modules are reloaded
+# as it is OK when they are changed or removed. These existing module files are reloaded
 # for every request in Kernel::Config::Defaults::new().
 my $ModuleRefreshMiddleware = sub {
     my $App = shift;
 
     return sub {
         my $Env = shift;
+
+        # Check for every request whether Kernel/Config.pm has been modified.
+        Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
 
         # make sure that there is a refresh in the first iteration
         state $LastRefreshTime = 0;
@@ -286,7 +297,7 @@ my $ModuleRefreshMiddleware = sub {
         my $SecondsSinceLastRefresh = $Now - $LastRefreshTime;
         my $RefreshCooldown         = 10;
 
-        # Maybe useful for debugging, these vars can be printed out in frontend modules
+        # Maybe useful for debugging, these variables can be printed out in frontend modules.
         # See https://github.com/RotherOSS/otobo/issues/1422
         #$Kernel::Now = $Now;
         #$Kernel::SecondsSinceLastRefresh = $SecondsSinceLastRefresh;
@@ -454,6 +465,10 @@ my $OTOBOApp = builder {
     # Kernel::System::Web::App loads the interface modules and calls the Response() method.
     # Add "Debug => 1" in order to enable debugging.
 
+    # enable for debugging
+    #mount '/dump_env' => $DumpEnvApp;
+    #mount '/hello'    => $HelloApp;
+
     mount '/customer.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfaceCustomer',
     )->to_app;
@@ -498,7 +513,7 @@ my $OTOBOApp = builder {
         Interface => 'Kernel::System::Web::InterfacePublic',
     )->to_app;
 
-    # agent interface is the default
+    # the agent interface is the default
     mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
 };
 
@@ -524,8 +539,6 @@ builder {
     # uncomment for trouble shooting
     #mount '/hello'          => $HelloApp;
     #mount '/dump_env'       => $DumpEnvApp;
-    #mount '/otobo/hello'    => $HelloApp;
-    #mount '/otobo/dump_env' => $DumpEnvApp;
 
     # Provide routes that are the equivalents of the scripts in bin/cgi-bin.
     # The pathes are such that $Env->{SCRIPT_NAME} and $Env->{PATH_INFO} are set up just like they are set up under mod_perl,
