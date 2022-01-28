@@ -283,6 +283,9 @@ my $ModuleRefreshMiddleware = sub {
     return sub {
         my $Env = shift;
 
+        # Check for every request whether Kernel/Config.pm has been modified.
+        Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
+
         # make sure that there is a refresh in the first iteration
         state $LastRefreshTime = 0;
 
