@@ -1,13 +1,13 @@
 package Locale::Language;
 # Copyright (C) 2001      Canon Research Centre Europe (CRE).
 # Copyright (C) 2002-2009 Neil Bowers
-# Copyright (c) 2010-2017 Sullivan Beck
+# Copyright (c) 2010-2021 Sullivan Beck
 # This program is free software; you can redistribute it and/or modify it
 # under the same terms as Perl itself.
 
 # This file was automatically generated.  Any changes to this file will
 # be lost the next time 'gen_mods' is run.
-#    Generated on: Tue May 30 10:31:45 EDT 2017
+#    Generated on: Wed Dec  1 13:43:56 EST 2021
 
 use strict;
 use warnings;
@@ -15,14 +15,16 @@ require 5.006;
 use Exporter qw(import);
 
 our($VERSION,@EXPORT);
-$VERSION   = '3.52';
+$VERSION   = '3.69';
 
 ################################################################################
+use if $] >= 5.027007, 'deprecate';
 use Locale::Codes;
 use Locale::Codes::Constants;
 
 @EXPORT    = qw(
                 code2language
+                code2languages
                 language2code
                 all_language_codes
                 all_language_names
@@ -31,14 +33,19 @@ use Locale::Codes::Constants;
 push(@EXPORT,@Locale::Codes::Constants::CONSTANTS_LANGUAGE);
 
 our $obj = new Locale::Codes('language');
+$obj->show_errors(0);
 
-sub _show_errors {
+sub show_errors {
    my($val) = @_;
    $obj->show_errors($val);
 }
 
 sub code2language {
    return $obj->code2name(@_);
+}
+
+sub code2languages {
+   return $obj->code2names(@_);
 }
 
 sub language2code {

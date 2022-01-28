@@ -1,7 +1,7 @@
 package Locale::Codes;
 # Copyright (C) 2001      Canon Research Centre Europe (CRE).
 # Copyright (C) 2002-2009 Neil Bowers
-# Copyright (c) 2010-2017 Sullivan Beck
+# Copyright (c) 2010-2021 Sullivan Beck
 # This program is free software; you can redistribute it and/or modify it
 # under the same terms as Perl itself.
 
@@ -12,10 +12,11 @@ use warnings;
 require 5.006;
 
 use Carp;
+use if $] >= 5.027007, 'deprecate';
 use Locale::Codes::Constants;
 
 our($VERSION);
-$VERSION='3.52';
+$VERSION='3.69';
 
 use Exporter qw(import);
 our(@EXPORT_OK,%EXPORT_TAGS);
@@ -38,7 +39,7 @@ our(%Data,%Retired);
 #              { codealias }{ CODESET } { ALIAS } = CODE
 #
 # $Retired{ TYPE }{ CODESET }{ code }{ CODE } = NAME
-#                            { name }{ NAME } = [CODE,NAME]  (the key is lowercase)
+#                            { name }{ lc(NAME) } = [CODE,NAME]
 
 ###############################################################################
 # METHODS
@@ -61,6 +62,7 @@ sub new {
 sub show_errors {
    my($self,$val) = @_;
    $$self{'err'}  = $val;
+   return $val;
 }
 
 sub type {
@@ -68,24 +70,27 @@ sub type {
 
    if (! exists $ALL_CODESETS{$type}) {
       carp "ERROR: type: invalid argument: $type\n"  if ($$self{'err'});
-      return;
+      return 1;
    }
 
-   if (! $ALL_CODESETS{$type}{'loaded'}) {
-      my $label = $ALL_CODESETS{$type}{'module'};
-      eval "require Locale::Codes::${label}_Codes";
-      if ($@) {
-         croak "ERROR: type: unable to load module: ${label}_Codes\n";
-      }
-      eval "require Locale::Codes::${label}_Retired";
-      if ($@) {
-         croak "ERROR: type: unable to load module: ${label}_Retired\n";
-      }
-      $ALL_CODESETS{$type}{'loaded'} = 1;
+   my $label = $ALL_CODESETS{$type}{'module'};
+   eval "require Locale::Codes::${label}_Codes";
+   # uncoverable branch true
+   if ($@) {
+      # uncoverable statement
+      croak "ERROR: type: unable to load module: ${label}_Codes\n";
+   }
+   eval "require Locale::Codes::${label}_Retired";
+   # uncoverable branch true
+   if ($@) {
+      # uncoverable statement
+      croak "ERROR: type: unable to load module: ${label}_Retired\n";
    }
 
    $$self{'type'}    = $type;
    $$self{'codeset'} = $ALL_CODESETS{$type}{'default'};
+
+   return 0;
 }
 
 sub codeset {
@@ -94,14 +99,19 @@ sub codeset {
    my $type           = $$self{'type'};
    if (! exists $ALL_CODESETS{$type}{'codesets'}{$codeset}) {
       carp "ERROR: codeset: invalid argument: $codeset\n"  if ($$self{'err'});
+      return 1;
    }
 
    $$self{'codeset'}  = $codeset;
+   return 0;
 }
 
 sub version {
-  my($self) = @_;
-  return $VERSION;
+   # uncoverable subroutine
+   # uncoverable statement
+   my($self) = @_;
+   # uncoverable statement
+   return $VERSION;
 }
 
 ###############################################################################
@@ -129,7 +139,8 @@ sub _code {
    $codeset                 = lc($codeset)  if (defined($codeset));
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: _code: no type set for Locale::Codes object\n"
+        if ($$self{'err'});
       return (1);
    }
    my $type = $$self{'type'};
@@ -148,7 +159,7 @@ sub _code {
 
    my($op,@args) = @{ $ALL_CODESETS{$type}{'codesets'}{$codeset} };
 
-   if      ($op eq 'lc') {
+   if ($op eq 'lc') {
       $code = lc($code);
    }
 
@@ -160,7 +171,6 @@ sub _code {
       $code = ucfirst(lc($code));
    }
 
-   # uncoverable branch false
    if ($op eq 'numeric') {
       if ($code =~ /^\d+$/) {
          my $l = $args[0];
@@ -189,6 +199,7 @@ sub _code {
 ###############################################################################
 
 # $name = $o->code2name(CODE [,CODESET] [,'retired'])
+# @name = $o->code2names(CODE, [,CODESET])
 # $code = $o->name2code(NAME [,CODESET] [,'retired'])
 #
 #    Returns the name associated with the CODE (or vice versa).
@@ -202,8 +213,8 @@ sub code2name {
    }
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
-      return (1);
+      carp "ERROR: code2name: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      return undef;
    }
    my $type = $$self{'type'};
 
@@ -220,10 +231,9 @@ sub code2name {
 
    } elsif ($retired  &&  exists $Retired{$type}{$codeset}{'code'}{$code}) {
       return $Retired{$type}{$codeset}{'code'}{$code};
-
-   } else {
-      return undef;
    }
+
+   return undef;
 }
 
 sub name2code {
@@ -238,8 +248,8 @@ sub name2code {
    }
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
-      return (1);
+      carp "ERROR: name2code: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      return undef;
    }
    my $type = $$self{'type'};
 
@@ -269,8 +279,9 @@ sub code2code {
    my($self,@args) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
-      return (1);
+      carp "ERROR: code2code: no type set for Locale::Codes object\n"
+        if ($$self{'err'});
+      return undef;
    }
    my $type = $$self{'type'};
 
@@ -294,6 +305,23 @@ sub code2code {
    return $out;
 }
 
+sub code2names {
+   my($self,@args)   = @_;
+
+   if (! $$self{'type'}) {
+      carp "ERROR: code2named: no type set for Locale::Codes object\n"
+        if ($$self{'err'});
+      return undef;
+   }
+   my $type = $$self{'type'};
+
+   my ($err,$code,$codeset) = $self->_code(@args);
+   return undef  if ($err  ||  ! $code);
+
+   my $id   = $Data{$type}{'code2id'}{$codeset}{$code}[0];
+   my @name = @{ $Data{$type}{'id2names'}{$id} };
+   return @name;
+}
 ###############################################################################
 
 # @codes = $o->all_codes([CODESET] [,'retired']);
@@ -305,14 +333,14 @@ sub code2code {
 sub all_codes {
    my($self,@args)   = @_;
    my $retired       = 0;
-   if (@args  &&  defined($args[$#args])  &&  lc($args[$#args]) eq 'retired') {
+   if (@args  &&  lc($args[$#args]) eq 'retired') {
       pop(@args);
       $retired       = 1;
    }
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
-      return (1);
+      carp "ERROR: all_codes: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      return ();
    }
    my $type = $$self{'type'};
 
@@ -327,14 +355,14 @@ sub all_codes {
 sub all_names {
    my($self,@args)   = @_;
    my $retired       = 0;
-   if (@args  &&  defined($args[$#args])  &&  lc($args[$#args]) eq 'retired') {
+   if (@args  &&  lc($args[$#args]) eq 'retired') {
       pop(@args);
       $retired       = 1;
    }
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
-      return (1);
+      carp "ERROR: all_names: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      return ();
    }
    my $type = $$self{'type'};
 
@@ -372,7 +400,7 @@ sub rename_code {
    my($self,$code,$new_name,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: rename_code: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -381,7 +409,7 @@ sub rename_code {
 
    my($err,$c,$cs) = $self->_code($code,$codeset);
    if ($err) {
-      carp "ERROR: rename: Unknown code/codeset: $code [$codeset]\n"
+      carp "ERROR: rename_code: unknown code/codeset: $code [$codeset]\n"
         if ($$self{'err'});
       return 0;
    }
@@ -406,7 +434,7 @@ sub rename_code {
       my ($new_id,$i) = @{ $Data{$type}{'alias2id'}{lc($new_name)} };
       if ($new_id != $id) {
          # Case 1
-         carp "ERROR: rename: rename to an existing name not allowed\n"
+         carp "ERROR: rename_code: rename to an existing name not allowed\n"
            if ($$self{'err'});
          return 0;
       }
@@ -439,7 +467,7 @@ sub add_code {
    my($self,$code,$name,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: add_code: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -448,8 +476,7 @@ sub add_code {
 
    my($err,$c,$cs) = $self->_code($code,$codeset,1);
    if ($err) {
-      carp "ERROR: rename: Unknown codeset: $codeset\n"
-        if ($$self{'err'});
+      carp "ERROR: add_code: unknown codeset: $codeset\n"  if ($$self{'err'});
       return 0;
    }
   ($code,$codeset) = ($c,$cs);
@@ -458,7 +485,7 @@ sub add_code {
 
    if (exists $Data{$type}{'code2id'}{$codeset}{$code}  ||
        exists $Data{$type}{'codealias'}{$codeset}{$code}) {
-      carp "add_code: code already in use: $code\n"  if ($$self{'err'});
+      carp "ERROR: add_code: code already in use as alias: $code\n"  if ($$self{'err'});
       return 0;
    }
 
@@ -470,7 +497,7 @@ sub add_code {
    if (exists $Data{$type}{'alias2id'}{lc($name)}) {
       ($id,$i) = @{ $Data{$type}{'alias2id'}{lc($name)} };
       if (exists $Data{$type}{'id2code'}{$codeset}{$id}) {
-         carp "add_code: name already in use: $name\n"  if ($$self{'err'});
+         carp "ERROR: add_code: name already in use: $name\n"  if ($$self{'err'});
          return 0;
       }
 
@@ -499,7 +526,7 @@ sub delete_code {
    my($self,$code,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: delete_code: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -508,36 +535,51 @@ sub delete_code {
 
    my($err,$c,$cs) = $self->_code($code,$codeset);
    if ($err) {
-      carp "ERROR: rename: Unknown code/codeset: $code [$codeset]\n"
+      carp "ERROR: delete_code: Unknown code/codeset: $code [$codeset]\n"
         if ($$self{'err'});
       return 0;
    }
    ($code,$codeset) = ($c,$cs);
 
-   # Delete the code
+   # Delete active codes
 
-   my $id = $Data{$type}{'code2id'}{$codeset}{$code}[0];
-   delete $Data{$type}{'code2id'}{$codeset}{$code};
-   delete $Data{$type}{'id2code'}{$codeset}{$id};
+   if (exists $Data{$type}{'code2id'}{$codeset}{$code}) {
 
-   # Delete any aliases that are linked to this code
+      my $id = $Data{$type}{'code2id'}{$codeset}{$code}[0];
+      delete $Data{$type}{'code2id'}{$codeset}{$code};
+      delete $Data{$type}{'id2code'}{$codeset}{$id};
 
-   foreach my $alias (keys %{ $Data{$type}{'codealias'}{$codeset} }) {
-      next  if ($Data{$type}{'codealias'}{$codeset}{$alias} ne $code);
-      delete $Data{$type}{'codealias'}{$codeset}{$alias};
+      # Delete any aliases that are linked to this code
+
+      foreach my $alias (keys %{ $Data{$type}{'codealias'}{$codeset} }) {
+         next  if ($Data{$type}{'codealias'}{$codeset}{$alias} ne $code);
+         delete $Data{$type}{'codealias'}{$codeset}{$alias};
+      }
+
+      # If this ID is used in any other codesets, we will leave all of the
+      # names in place.  Otherwise, we'll delete them.
+
+      my $inuse = 0;
+      foreach my $cs (keys %{ $Data{$type}{'id2code'} }) {
+         $inuse = 1, last   if (exists $Data{$type}{'id2code'}{$cs}{$id});
+      }
+
+      if (! $inuse) {
+         my @names = @{ $Data{$type}{'id2names'}{$id} };
+         delete $Data{$type}{'id2names'}{$id};
+
+         foreach my $name (@names) {
+            delete $Data{$type}{'alias2id'}{lc($name)};
+         }
+      }
    }
 
-   # If this ID is not used in any other codeset, delete it completely.
+   # Delete retired codes
 
-   foreach my $c (keys %{ $Data{$type}{'id2code'} }) {
-      return 1  if (exists $Data{$type}{'id2code'}{$c}{$id});
-   }
-
-   my @names = @{ $Data{$type}{'id2names'}{$id} };
-   delete $Data{$type}{'id2names'}{$id};
-
-   foreach my $name (@names) {
-      delete $Data{$type}{'alias2id'}{lc($name)};
+   if (exists $Retired{$type}{$codeset}{'code'}{$code}) {
+      my $name = $Retired{$type}{$codeset}{'code'}{$code};
+      delete $Retired{$type}{$codeset}{'code'}{$code};
+      delete $Retired{$type}{$codeset}{'name'}{lc($name)};
    }
 
    return 1;
@@ -553,7 +595,7 @@ sub add_alias {
    my($self,$name,$new_name) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: add_alias: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -564,12 +606,12 @@ sub add_alias {
    if (exists $Data{$type}{'alias2id'}{lc($name)}) {
       $id = $Data{$type}{'alias2id'}{lc($name)}[0];
    } else {
-      carp "add_alias: name does not exist: $name\n"  if ($$self{'err'});
+      carp "ERROR: add_alias: name does not exist: $name\n"  if ($$self{'err'});
       return 0;
    }
 
    if (exists $Data{$type}{'alias2id'}{lc($new_name)}) {
-      carp "add_alias: alias already in use: $new_name\n"  if ($$self{'err'});
+      carp "ERROR: add_alias: alias already in use: $new_name\n"  if ($$self{'err'});
       return 0;
    }
 
@@ -596,7 +638,7 @@ sub delete_alias {
    my($self,$name) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: delete_alias: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -607,13 +649,13 @@ sub delete_alias {
    if (exists $Data{$type}{'alias2id'}{lc($name)}) {
       ($id,$i) = @{ $Data{$type}{'alias2id'}{lc($name)} };
    } else {
-      carp "delete_alias: name does not exist: $name\n"  if ($$self{'err'});
+      carp "ERROR: delete_alias: name does not exist: $name\n"  if ($$self{'err'});
       return 0;
    }
 
    my $n = $#{ $Data{$type}{'id2names'}{$id} } + 1;
    if ($n == 1) {
-      carp "delete_alias: only one name defined (use delete_code instead)\n"
+      carp "ERROR: delete_alias: only one name defined (use delete_code instead)\n"
         if ($$self{'err'});
       return 0;
    }
@@ -655,7 +697,7 @@ sub replace_code {
    my($self,$code,$new_code,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: replace_code: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -665,7 +707,7 @@ sub replace_code {
 
    my($err,$c,$cs) = $self->_code($code,$codeset);
    if ($err) {
-      carp "ERROR: rename_code: Unknown code/codeset: $code [$codeset]\n"
+      carp "ERROR: replace_code: Unknown code/codeset: $code [$codeset]\n"
         if ($$self{'err'});
       return 0;
    }
@@ -696,14 +738,14 @@ sub replace_code {
 
       } else {
          # Case 2
-         carp "rename_code: new code already in use: $new_code\n"
+         carp "ERROR: replace_code: new code already in use as alias: $new_code\n"
            if ($$self{'err'});
          return 0;
       }
 
    } elsif (exists $Data{$type}{'code2id'}{$codeset}{$new_code}) {
       # Case 3
-      carp "rename_code: new code already in use: $new_code\n"
+      carp "ERROR: replace_code: new code already in use: $new_code\n"
         if ($$self{'err'});
       return 0;
    }
@@ -732,7 +774,7 @@ sub add_code_alias {
    my($self,$code,$new_code,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: add_code_alias: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -742,7 +784,7 @@ sub add_code_alias {
 
    my($err,$c,$cs) = $self->_code($code,$codeset);
    if ($err) {
-      carp "ERROR: add_code_alias: Unknown code/codeset: $code [$codeset]\n"
+      carp "ERROR: add_code_alias: unknown code/codeset: $code [$codeset]\n"
         if ($$self{'err'});
       return 0;
    }
@@ -754,7 +796,7 @@ sub add_code_alias {
 
    if (exists $Data{$type}{'code2id'}{$codeset}{$new_code}  ||
        exists $Data{$type}{'codealias'}{$codeset}{$new_code}) {
-      carp "add_code_alias: code already in use: $new_code\n"  if ($$self{'err'});
+      carp "ERROR: add_code_alias: code already in use: $new_code\n"  if ($$self{'err'});
       return 0;
    }
 
@@ -775,7 +817,7 @@ sub delete_code_alias {
    my($self,$code,$codeset) = @_;
 
    if (! $$self{'type'}) {
-      carp "ERROR: no type set for Locale::Codes object\n"  if ($$self{'err'});
+      carp "ERROR: delete_code_alias: no type set for Locale::Codes object\n"  if ($$self{'err'});
       return 0;
    }
    my $type = $$self{'type'};
@@ -784,7 +826,7 @@ sub delete_code_alias {
 
    my($err,$c,$cs) = $self->_code($code,$codeset);
    if ($err) {
-      carp "ERROR: rename: Unknown code/codeset: $code [$codeset]\n"
+      carp "ERROR: delete_code_alias: unknown code/codeset: $code [$codeset]\n"
         if ($$self{'err'});
       return 0;
    }
@@ -793,7 +835,7 @@ sub delete_code_alias {
    # Check that $code exists in the codeset as an alias.
 
    if (! exists $Data{$type}{'codealias'}{$codeset}{$code}) {
-      carp "delete_code_alias(): no alias defined: $code\n"  if ($$self{'err'});
+      carp "ERROR: delete_code_alias: no alias defined: $code\n"  if ($$self{'err'});
       return 0;
    }
 
