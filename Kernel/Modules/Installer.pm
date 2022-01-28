@@ -458,10 +458,6 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             $DBH = $Result{DBH};
         }
 
-        my $Output = $LayoutObject->Header(
-            Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
-        );
-
         $LayoutObject->Block(
             Name => 'DatabaseResult',
             Data => {
@@ -591,13 +587,16 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                     Name => 'DatabaseResultBack',
                     Data => {},
                 );
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'Installer',
-                    Data         => {},
-                );
-                $Output .= $LayoutObject->Footer();
 
-                return $Output;
+                return join '',
+                    $LayoutObject->Header(
+                        Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
+                    ),
+                    $LayoutObject->Output(
+                        TemplateFile => 'Installer',
+                        Data         => {},
+                    ),
+                    $LayoutObject->Footer;
             }
             else {
                 $LayoutObject->Block(
@@ -727,12 +726,16 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         $LayoutObject->Block(
             Name => 'DatabaseResultNext',
         );
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'Installer',
         );
-        $Output .= $LayoutObject->Footer();
 
-        return $Output;
+        return join '',
+            $LayoutObject->Header(
+                Title => $Title . '-' . $LayoutObject->{LanguageObject}->Translate('Create Database'),
+            ),
+            $LayoutObject->Output(
+                TemplateFile => 'Installer',
+            ),
+            $LayoutObject->Footer;
     }
 
     # Show system settings page, pre-install packages.
