@@ -561,18 +561,21 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         # Execute database statements.
         for my $Statement (@Statements) {
-            my @Description = split( ' ', $Statement );
 
-            # Prevent uninitialized variables.
-            for my $Index ( 0 .. 2 ) {
-                $Description[$Index] //= '';
-            }
-
+            # For better readabilty and for hiding sensitive info show only the first three words
+            # in the description of the action.
+            # Note that using a single space as the split pattern, introduces AWK compatible whitespace splitting.
+            my $ThreeWordDescription = join ' ',
+                map { $_ // '' }
+                ( split ' ', $Statement, 4 )[ 0 .. 2 ];
             $LayoutObject->Block(
                 Name => 'DatabaseResultItem',
-                Data => { Item => "$Description[0] $Description[1] $Description[2]" },
+                Data => { Item => $ThreeWordDescription },
             );
+
             if ( !$DBH->do($Statement) ) {
+
+                # report database error
                 $LayoutObject->Block(
                     Name => 'DatabaseResultItemFalse',
                     Data => {},
@@ -725,7 +728,6 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         );
         $LayoutObject->Block(
             Name => 'DatabaseResultNext',
-        );
         );
 
         return join '',
