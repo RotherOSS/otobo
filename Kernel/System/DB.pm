@@ -93,15 +93,12 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get config data in following order of significance:
-    #   1 - Parameters passed to constructor
+    #   1 - Parameters passed to constructor, i.e. parameters declared with ObjectParamAdd
     #   2 - Test database configuration
-    #   3 - Main database configuration
-    $Self->{DSN} =
-        $Param{DatabaseDSN} || $ConfigObject->Get('TestDatabaseDSN') || $ConfigObject->Get('DatabaseDSN');
-    $Self->{USER} =
-        $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
-    $Self->{PW} =
-        $Param{DatabasePw} || $ConfigObject->Get('TestDatabasePw') || $ConfigObject->Get('DatabasePw');
+    #   3 - Main database configuration, usually from Kernel/Config.pm
+    $Self->{DSN}  = $Param{DatabaseDSN}  || $ConfigObject->Get('TestDatabaseDSN')  || $ConfigObject->Get('DatabaseDSN');
+    $Self->{USER} = $Param{DatabaseUser} || $ConfigObject->Get('TestDatabaseUser') || $ConfigObject->Get('DatabaseUser');
+    $Self->{PW}   = $Param{DatabasePw}   || $ConfigObject->Get('TestDatabasePw')   || $ConfigObject->Get('DatabasePw');
 
     $Self->{IsSlaveDB}                  = $Param{IsSlaveDB};
     $Self->{DeactivateForeignKeyChecks} = $Param{DeactivateForeignKeyChecks} // 0;
