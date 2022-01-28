@@ -95,7 +95,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-use Kernel::Config;    # make sure that 'Kernel/Config.pm' is in %INC before the first refresh check
+use Kernel::Config;    # for S3 and to make sure that 'Kernel/Config.pm' is in %INC before the first refresh check
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
