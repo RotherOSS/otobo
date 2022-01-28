@@ -109,6 +109,9 @@ eval {
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
 
+# make sure the refresh_module_if_modified() works even on the first invocation in a process
+Module::Refresh->update_cache('Kernel/Config.pm');
+
 ################################################################################
 # Middlewares
 ################################################################################
