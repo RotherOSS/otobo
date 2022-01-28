@@ -14,20 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use Kernel::System::VariableCheck qw(:all);
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # use ReferenceData ISO list
 $ConfigObject->Set(
@@ -38,23 +39,31 @@ $ConfigObject->Set(
 my $ReferenceDataObject = $Kernel::OM->Get('Kernel::System::ReferenceData');
 
 # tests the method to make sure there are at least 100 countries
-my $CountryList = $ReferenceDataObject->CountryList();
+my $CountryExists = $ReferenceDataObject->CountryList;
 
-my $CountryListLength = scalar keys %$CountryList;
+my $CountryListLength = scalar keys $CountryExists->%*;
+ok( $CountryListLength > 100, "There are $CountryListLength countries registered" );
 
-$Self->True(
-    $CountryListLength > 100,
-    "There are $CountryListLength countries registered",
+my @CountryList = (
+    'Netherlands',
+    'Germany',
+    'Switzerland',
+    'United States of America',
+    'Japan',
+    'South Sudan',
+
+    # 'Kosovo', not yet in the list
+    'North Macedonia',
+    'Eswatini',
+    'Tonga'
 );
-
-# let's assume these countries don't go anywhere
-my @CountryList = ( 'Netherlands', 'Germany', 'Switzerland', 'United States of America', 'Japan' );
-
 for my $Country (@CountryList) {
-    $Self->True(
-        $$CountryList{$Country},
-        "Testing existence of country ($Country)",
-    );
+    ok( $CountryExists->{$Country}, "Testing existence of country ($Country)" );
+}
+
+@CountryList = ( 'Swasiland', 'asdf' );
+for my $Country (@CountryList) {
+    ok( !$CountryExists->{$Country}, "Testing non-existence of country ($Country)" );
 }
 
 # set configuration to small list
@@ -67,24 +76,16 @@ $ConfigObject->Set(
     },
 );
 
-$CountryList = $ReferenceDataObject->CountryList();
+my $OwnCountryExists = $ReferenceDataObject->CountryList;
 
-@CountryList = ( 'Switzerland', 'United States', 'Japan' );
-
+@CountryList = ( 'Switzerland', 'United States', 'Japan', 'Sealand' );
 for my $Country (@CountryList) {
-    $Self->False(
-        $$CountryList{$Country},
-        "OwnCountryList: Testing non-existence of country ($Country)",
-    );
+    ok( !$OwnCountryExists->{$Country}, "OwnCountryList: Testing non-existence of country ($Country)" );
 }
 
 @CountryList = ( 'France', 'Netherlands', 'Germany' );
-
 for my $Country (@CountryList) {
-    $Self->True(
-        $$CountryList{$Country},
-        "OwnCountryList: Testing existence of country ($Country)",
-    );
+    ok( $OwnCountryExists->{$Country}, "OwnCountryList: Testing existence of country ($Country)" );
 }
 
-$Self->DoneTesting();
+done_testing();
