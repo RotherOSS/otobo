@@ -58,35 +58,11 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
+# Previous version of this test script contained code for overriding
+# Kernel::System::WebUserAgent::Request(). This code was removed
+# because it had been broken for some time and thus apparently not needed.
+
 my $RandomID = $Helper->GetRandomID();
-
-# Override Request() from WebUserAgent to always return some test data without making any
-#   actual web service calls. This should prevent instability in case cloud services are
-#   unavailable at the exact moment of this test run.
-# Note that this module does actually not compile
-my $CustomCode = <<"EOS";
-sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
-use Kernel::System::WebUserAgent;
-package Kernel::System::WebUserAgent;
-use strict;
-use warnings;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
-{
-    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-    sub Request {
-        return (
-            Status  => '200 OK',
-            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""},
-        );
-    }
-}
-1;
-EOS
-
-$Helper->CustomCodeActivate(
-    Code       => $CustomCode,
-    Identifier => 'AdminPackageManager' . $RandomID,
-);
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
