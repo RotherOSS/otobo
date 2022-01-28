@@ -14,13 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::UnitTest::Selenium;
 
 our $Self;
 
@@ -52,40 +58,15 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
+# Previous version of this test script contained code for overriding
+# Kernel::System::WebUserAgent::Request(). This code was removed
+# because it had been broken for some time and thus apparently not needed.
+
 my $RandomID = $Helper->GetRandomID();
 
-# Override Request() from WebUserAgent to always return some test data without making any
-#   actual web service calls. This should prevent instability in case cloud services are
-#   unavailable at the exact moment of this test run.
-my $CustomCode = <<"EOS";
-sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
-use Kernel::System::WebUserAgent;
-package Kernel::System::WebUserAgent;
-use strict;
-use warnings;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
-{
-    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-    sub Request {
-        return (
-            Status  => '200 OK',
-            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""},
-        );
-    }
-}
-1;
-EOS
-$Helper->CustomCodeActivate(
-    Code       => $CustomCode,
-    Identifier => 'AdminPackageManager' . $RandomID,
-);
-
-# OTOBO modules
-use Kernel::System::UnitTest::Selenium;
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
-my $CheckBreadcrumb = sub {
-
+sub CheckBreadcrumb {
     my %Param = @_;
 
     my $BreadcrumbText = $Param{BreadcrumbText} || '';
@@ -100,9 +81,11 @@ my $CheckBreadcrumb = sub {
 
         $Count++;
     }
-};
 
-my $NavigateToAdminPackageManager = sub {
+    return;
+}
+
+sub NavigateToAdminPackageManager {
 
     # Wait until all AJAX calls finished.
     $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
@@ -116,11 +99,12 @@ my $NavigateToAdminPackageManager = sub {
         JavaScript =>
             'return typeof($) == "function" && $("#FileUpload").length;'
     );
-};
 
-my $ClickAction = sub {
+    return;
+}
 
-    my $Selector = $_[0];
+sub ClickAction {
+    my ($Selector) = @_;
 
     $Selenium->execute_script('window.Core.App.PageLoadComplete = false;');
     $Selenium->find_element($Selector)->click();
@@ -129,7 +113,9 @@ my $ClickAction = sub {
         JavaScript =>
             'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
     );
-};
+
+    return;
+}
 
 $Selenium->RunTest(
     sub {
@@ -196,10 +182,10 @@ $Selenium->RunTest(
 
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
-        $ClickAction->("//button[contains(.,'Install Package')]");
+        ClickAction("//button[contains(.,'Install Package')]");
 
         # Check breadcrumb on Install screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Install Package:',
         );
 
@@ -219,13 +205,14 @@ $Selenium->RunTest(
         );
 
         # Continue with package installation.
+        $DB::single = 1;
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Package::AllowNotVerifiedPackages',
             Value => 1,
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # The notification PackageManagerCheckNotVerifiedPackages.pm no longer exists in OTOBO.
         # This means that there is no warning about unverified packages.
@@ -247,11 +234,11 @@ $Selenium->RunTest(
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete'
         );
 
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Install Package:',
         );
 
-        $ClickAction->("//button[\@value='Continue'][\@type='submit']");
+        ClickAction("//button[\@value='Continue'][\@type='submit']");
 
         my $PackageCheck = $PackageObject->PackageIsInstalled(
             Name => 'Test',
@@ -261,27 +248,27 @@ $Selenium->RunTest(
             'Test package is installed'
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Load page with metadata of installed package.
-        $ClickAction->("//a[contains(.,'Test')]");
+        ClickAction("//a[contains(.,'Test')]");
 
         # Check breadcrumb on Package metadata screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Package Information:',
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Uninstall package.
-        $ClickAction->("//a[contains(\@href, \'Subaction=Uninstall;Name=Test' )]");
+        ClickAction("//a[contains(\@href, \'Subaction=Uninstall;Name=Test' )]");
 
         # Check breadcrumb on uninstall screen.
-        $CheckBreadcrumb->(
+        CheckBreadcrumb(
             BreadcrumbText => 'Uninstall Package:',
         );
 
-        $ClickAction->("//button[\@value='Uninstall package'][\@type='submit']");
+        ClickAction("//button[\@value='Uninstall package'][\@type='submit']");
 
         # Check if test package is uninstalled.
         $Self->True(
@@ -295,15 +282,15 @@ $Selenium->RunTest(
 
         $Selenium->find_element( 'div.ErrorScreen', 'css' );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
 
         # Try to install incompatible test package.
         $Location = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackageIncompatible.opm';
         $Selenium->find_element( '#FileUpload', 'css' )->send_keys($Location);
 
-        $ClickAction->("//button[contains(.,'Install Package')]");
+        ClickAction("//button[contains(.,'Install Package')]");
 
-        $ClickAction->("//button[\@value='Continue'][\@type='submit']");
+        ClickAction("//button[\@value='Continue'][\@type='submit']");
 
         # Check if info for incompatible package is shown.
         $Self->True(
@@ -322,13 +309,13 @@ $Selenium->RunTest(
             },
         );
 
-        $NavigateToAdminPackageManager->();
+        NavigateToAdminPackageManager();
         $Selenium->InputFieldValueSet(
             Element => '#Soruce',
             Value   => 'ftp://ftp.example.com/pub/otobo/misc/packages/',
         );
 
-        $ClickAction->("//button[\@name=\'GetRepositoryList']");
+        ClickAction("//button[\@name=\'GetRepositoryList']");
 
         # Check that there is a notification about no packages.
         my $Notification = 'No packages found in selected repository. Please check log for more info!';
