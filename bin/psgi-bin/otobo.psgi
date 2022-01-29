@@ -433,7 +433,7 @@ my $OTOBOApp = builder {
     #enable 'Plack::Middleware::Deflater',
     #    content_type => [ 'text/html', 'text/javascript', 'application/javascript', 'text/css', 'text/xml', 'application/json', 'text/json' ];
 
-    # a simplistic detection whether we are behind a revers proxy
+    # a simplistic detection whether we are behinde a reverse proxy
     enable_if { $_[0]->{HTTP_X_FORWARDED_HOST} } 'Plack::Middleware::ReverseProxy';
 
     # conditionally enable profiling
@@ -525,6 +525,11 @@ builder {
 
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
+
+    # users can overwrite the 404 page
+    # note that 404 below /otobo/ already redirect to /otobo/index.pl
+    enable "Plack::Middleware::ErrorDocument",
+        404 => "$Home/var/httpd/htdocs/404.html";
 
     # '/' is translated to '/index.html', just like Apache DirectoryIndex
     enable $ExactlyRootMiddleware;
