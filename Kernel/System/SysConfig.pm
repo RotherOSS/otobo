@@ -32,7 +32,6 @@ use File::Path qw(make_path);
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-use Kernel::Config;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
@@ -80,6 +79,7 @@ sub new {
     # get home directory
     $Self->{Home} = $Self->{ConfigObject}->Get('Home');
 
+    # Kernel::Config is loaded because it was loaded by $Kernel::OM above.
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
     $Self->{ConfigObject}        = Kernel::Config->new( Level => 'First' );
     $Self->{ConfigClearObject}   = Kernel::Config->new( Level => 'Clear' );
