@@ -22,11 +22,9 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::VariableCheck qw( IsHashRefWithData );
-
-use Kernel::Config;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {

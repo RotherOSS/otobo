@@ -22,9 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
-
-use Kernel::Config;
+our $Self;
 
 # declare specific settings for the test
 

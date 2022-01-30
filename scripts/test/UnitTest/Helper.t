@@ -26,7 +26,6 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
-use Kernel::Config;
 use Kernel::System::AsynchronousExecutor;
 
 our $Self;
@@ -136,6 +135,7 @@ $Self->Is(
     "Runtime config updated",
 );
 
+# Kernel::Config is loaded because it was loaded by $Kernel::OM above.
 my $NewConfigObject = Kernel::Config->new();
 $Self->Is(
     scalar $NewConfigObject->Get('nonexisting_dummy'),
@@ -183,6 +183,7 @@ $Self->True(
 
 $Helper->CustomFileCleanup();
 
+# Kernel::Config is loaded because it was loaded by $Kernel::OM above.
 $NewConfigObject = Kernel::Config->new();
 $Self->Is(
     scalar $NewConfigObject->Get('nonexisting_dummy'),
