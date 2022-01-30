@@ -29,7 +29,6 @@ use File::stat;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::System::Storage::S3;
 
 =head1 NAME
@@ -76,6 +75,16 @@ sub run {
     $Self->_fork_and_start($Server);
 
     return unless $Self->{pid};
+
+    # Load Kernel/Config.pm if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
+    if ( !require 'Kernel/Config.pm' ) {
+        die "ERROR: Could not load Kernel/Config.pm: $!\n";
+    }
+
+    # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
+    # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+    # Check for every request whether Kernel/Config.pm has been modified.
+    Module::Refresh->refresh_module_if_modified( 'Kernel/Config.pm' );
 
     # Create storage S3 object for getting the Kernel/Config/Files/*.pm files.
     # For bootstrapping, pass in the values set up in Kernel/Config.pm,
