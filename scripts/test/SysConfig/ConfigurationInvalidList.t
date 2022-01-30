@@ -27,8 +27,6 @@ our $Self;
 
 use Kernel::System::VariableCheck qw( IsHashRefWithData );
 
-#use Kernel::Config;
-
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase => 1,

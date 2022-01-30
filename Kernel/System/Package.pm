@@ -31,7 +31,6 @@ use File::Copy qw(copy move);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::Config;
 use Kernel::System::SysConfig;
 use Kernel::System::WebUserAgent;
 use Kernel::System::VariableCheck qw(:all);
@@ -1295,6 +1294,7 @@ sub PackageUninstall {
     }
 
     # install config
+    # Kernel::Config is loaded because it was loaded by $Kernel::OM in new().
     $Self->{ConfigObject} = Kernel::Config->new( %{$Self} );
 
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(

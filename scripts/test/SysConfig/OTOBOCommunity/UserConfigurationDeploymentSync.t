@@ -22,7 +22,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in

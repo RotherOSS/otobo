@@ -2117,16 +2117,18 @@ sub new {
 
             eval {
 
-                # This also adds $RelativeFile to %Module::Refresh::CACHE.
+                # Load file if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
+                if ( !require $RelativeFile ) {
+                    die "ERROR: Could not load $File: $!\n";
+                }
+
+                # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
+                # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+                # Check whether the file has been modified.
                 # TODO: does this make sense for Console commands?
                 #if ( $ENV{GATEWAY_INTERFACE} )
                 {
                     Module::Refresh->refresh_module_if_modified( $RelativeFile );
-                }
-
-                # Try to load file.
-                if ( !require $RelativeFile ) {
-                    die "ERROR: Could not load $File: $!\n";
                 }
 
                 # Check if package has loaded and has a Load() method.

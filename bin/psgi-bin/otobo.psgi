@@ -95,7 +95,6 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-use Kernel::Config;    # for S3 and to make sure that 'Kernel/Config.pm' is in %INC before the first refresh check
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -108,9 +107,6 @@ eval {
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
-
-# make sure the refresh_module_if_modified() works even on the first invocation in a process
-Module::Refresh->update_cache('Kernel/Config.pm');
 
 ################################################################################
 # Middlewares
@@ -256,6 +252,17 @@ my $SyncFromS3Middleware = sub {
         my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
         if ( !-e $Location ) {
+
+            # Load Kernel/Config.pm if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
+            if ( !require 'Kernel/Config.pm' ) {
+                die "ERROR: Could not load Kernel/Config.pm: $!\n";
+            }
+
+            # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
+            # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+            # Check for every request whether Kernel/Config.pm has been modified.
+            Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
+
             my $StorageS3Object = Kernel::System::Storage::S3->new(
                 ConfigObject => Kernel::Config->new( Level => 'Clear' ),
             );
@@ -286,6 +293,13 @@ my $ModuleRefreshMiddleware = sub {
     return sub {
         my $Env = shift;
 
+        # Load Kernel/Config.pm if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
+        if ( !require 'Kernel/Config.pm' ) {
+            die "ERROR: Could not load Kernel/Config.pm: $!\n";
+        }
+
+        # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
+        # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
         # Check for every request whether Kernel/Config.pm has been modified.
         Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
 
@@ -307,9 +321,10 @@ my $ModuleRefreshMiddleware = sub {
 
             $LastRefreshTime = $Now;
 
-            # refresh modules, igoring the files in Kernel/Config/Files
+            # refresh modules, igoring Kernel/Config.pm and the files in Kernel/Config/Files
             MODULE:
             for my $Module ( sort keys %INC ) {
+                next MODULE if $Module eq 'Kernel/Config.pm';
                 next MODULE if $Module =~ m[^Kernel/Config/Files/];
 
                 Module::Refresh->refresh_module_if_modified($Module);
