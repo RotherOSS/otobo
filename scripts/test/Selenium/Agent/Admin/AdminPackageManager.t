@@ -58,11 +58,55 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-# Previous version of this test script contained code for overriding
-# Kernel::System::WebUserAgent::Request(). This code was removed
-# because it had been broken for some time and thus apparently not needed.
-
+# Override Request() from WebUserAgent to always return some test data without making any
+# actual web service calls. This should prevent instability in case cloud services are
+# unavailable at the exact moment of this test run.
+# Furthermore there are other test scripts that use the trick of modifying
+# The content is XML as expected in Module: Kernel::System::Package::PackageOnlineRepositories().
+# the Kernel::System::WebUserAgent::Request() method. This means that these overrides
+# might still be active in the running web server and we get very strange results.
 my $RandomID = $Helper->GetRandomID();
+my $XML      = <<'END_XML';
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_repository_list version="1.0">
+<Repository>
+    <Name>OTOBO Addons</Name>
+    <URL>https://otobo.de/</URL>
+</Repository>
+</otrs_repository_list>
+END_XML
+my $CustomCode = sprintf <<'END_CODE', $RandomID, $XML;
+
+# provide a  no-op Load() method as this is expected in Kernel::Config::Defaults
+sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager%s::Load {}
+
+use Kernel::System::WebUserAgent;
+
+package Kernel::System::WebUserAgent;
+
+use strict;
+use warnings;
+
+## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
+{
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+
+    my $xml = q^%s^;
+
+    sub Request {
+        return (
+            Status  => '200 OK',
+            Content => \$xml,
+        );
+    }
+}
+1;
+END_CODE
+
+$Helper->CustomCodeActivate(
+    Code       => $CustomCode,
+    Identifier => 'AdminPackageManager' . $RandomID,
+);
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -205,7 +249,6 @@ $Selenium->RunTest(
         );
 
         # Continue with package installation.
-        $DB::single = 1;
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Package::AllowNotVerifiedPackages',
