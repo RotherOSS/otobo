@@ -94,9 +94,6 @@ bin/CodeInstall.pl
 bin/ModuleCode.pl
 bin/DatabaseInstall.pl
 
-# CodeHub
-var/git
-
 # ContinuousIntegrationProvisioner (vagrant VMs)
 .cache
 .ssh
