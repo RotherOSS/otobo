@@ -136,6 +136,5 @@ $Headers .= "\015\012";
 print STDOUT $Headers;
 
 for my $Line ( $Res->[2]->@* ) {
-    utf8::encode($Line);
     print STDOUT $Line;
 }
