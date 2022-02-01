@@ -16,9 +16,9 @@
 
 package Kernel::GenericInterface::Transport::HTTP::SOAP;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -497,7 +497,11 @@ sub ProviderGenerateResponse {
         if ( my $MirrorHeaderPrefix = delete $RequestHeaders{UNITTESTHEADERS} ) {
 
             # Attention: CGI::PSGI and CGI use all-uppercase names for headers.
-            my %IsBlacklisted = map { uc($_) => 1 } split ':', delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
+            # Attention: not sure wheter UntestHeaderBlackList is set in any test script
+            my %IsBlacklisted;
+            if ( defined $RequestHeaders{UNITTESTHEADERBLACKLIST} ) {
+                %IsBlacklisted = map { uc($_) => 1 } split /:/, delete $RequestHeaders{UNITTESTHEADERBLACKLIST};
+            }
 
             HEADER:
             for my $Header ( sort keys %RequestHeaders ) {
