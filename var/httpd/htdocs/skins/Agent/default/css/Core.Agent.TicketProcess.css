@@ -57,10 +57,9 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.CutValue {
     text-overflow: ellipsis;
-    height: 17px;
     overflow: hidden;
     display: block;
-    white-space: nowrap;
+    white-space: wrap;
 }
 
 .WidgetSimple > .Content.ProcessInfo fieldset .FieldContainer p.ValueLong {
