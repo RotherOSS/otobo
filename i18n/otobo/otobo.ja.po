@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2022-01-12 19:56+0000\n"
+"PO-Revision-Date: 2022-02-03 02:40+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/"
 "ja/>\n"
@@ -22771,7 +22771,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the maximum number of tasks to be executed as the same time."
-msgstr ""
+msgstr "同時に実行されるタスクの最大数を定義します。"
 
 #. SysConfig
 msgid "Defines the maximum size (in MB) of the log file."
