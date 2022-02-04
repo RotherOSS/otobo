@@ -15,8 +15,10 @@
 
 package Kernel::System::ModuleRefresh;
 
+use v5.24;
 use strict;
 use warnings;
+use utf8;
 
 use parent qw(Module::Refresh);
 
@@ -30,21 +32,42 @@ our $ObjectManagerDisabled = 1;
 
 =head1 NAME
 
-Kernel::System::ModuleRefresh - refreshing Perl modules in long running processes
+Kernel::System::ModuleRefresh - refreshing OTOBO Perl modules in long running processes
 
 =head1 DESCRIPTION
 
 This module is used for reloading modules. Use cases are changed modules in F<Kernel/Config/Files> and modules
-changed by OTOBO package installation.
+changed by OTOBO package installation. Only modules in the namespace C<Kernel> are meant to be refreshed.
 
-This module inherits from L<Module::Refresh> and provided the same interface. The only difference is the
+This module inherits from L<Module::Refresh> and provided the same interface. One difference is the
 method C<mtime> which provided the keys for the cache C<Module::Refresh::CACHE>. The overridden method only
 gives back the modified time and the size of the relevant file. The original method also included the inode.
-
 Using the inode of the module file caused frequent reloads on some systems that were the file system was located
 on SSDs.
 
+Another difference is that when refreshing is initialized in C<new()>, only modules in C<Kernel> are cached.
+
+The method C<refresh()> should not be used as it still works on the complete C<%INC>.
+
+Using C<Kernel::System::ModuleRefresh> and C<Module::Refresh> in the same program is discouraged.
+
 =head1 OVERRIDDEN METHODS
+
+=head2 new()
+
+Cache the modules in C<%INC> that are in the namespace C<Kernel>.
+
+=cut
+
+sub new {
+    my ($Class) = @_;
+
+    for my $Module ( grep {m[^Kernel/]} keys %INC ) {
+        $Class->update_cache($Module);
+    }
+
+    return $Class;
+}
 
 =head2 mtime()
 
