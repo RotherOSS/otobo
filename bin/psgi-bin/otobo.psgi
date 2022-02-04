@@ -324,14 +324,12 @@ my $ModuleRefreshMiddleware = sub {
             # refresh modules, igoring Kernel/Config.pm and the files in Kernel/Config/Files
             MODULE:
             for my $Module ( sort keys %INC ) {
+                next MODULE unless $Module =~ m[^Kernel/];
                 next MODULE if $Module eq 'Kernel/Config.pm';
                 next MODULE if $Module =~ m[^Kernel/Config/Files/];
 
                 Module::Refresh->refresh_module_if_modified($Module);
             }
-
-            # for debugging
-            #$Kernel::RefreshDone = 1;
         }
 
         return $App->($Env);
