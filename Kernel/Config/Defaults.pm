@@ -21,9 +21,9 @@
 
 package Kernel::Config::Defaults;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;      # Perl 5.24.0 is the required minimum version to use OTOBO.
 use utf8;
 
 # core modules
@@ -33,9 +33,9 @@ use Exporter qw(import);
 use Fcntl qw(:flock);
 
 # CPAN modules
-use Module::Refresh; # located in Kernel/cpan-lib
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh; # based on Module::Refresh
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
@@ -2122,14 +2122,10 @@ sub new {
                     die "ERROR: Could not load $File: $!\n";
                 }
 
-                # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
-                # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+                # Fill %Module::Refresh::CACHE with all entries from %INC if that hasn't happened before.
+                # Add $RelativeFile to %Module::Refresh::CACHE as $RelativeFile was required above and thus surely is in %INC.
                 # Check whether the file has been modified.
-                # TODO: does this make sense for Console commands?
-                #if ( $ENV{GATEWAY_INTERFACE} )
-                {
-                    Module::Refresh->refresh_module_if_modified( $RelativeFile );
-                }
+                Kernel::System::ModuleRefresh->refresh_module_if_modified( $RelativeFile );
 
                 # Check if package has loaded and has a Load() method.
                 if (!$Package->can('Load')) {

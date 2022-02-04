@@ -86,7 +86,6 @@ use Cwd qw(abs_path);
 use DateTime 1.08;
 use Template  ();
 use CGI::Carp ();
-use Module::Refresh;
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
@@ -95,6 +94,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh;    # based on Module::Refresh
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
@@ -258,10 +258,11 @@ my $SyncFromS3Middleware = sub {
                 die "ERROR: Could not load Kernel/Config.pm: $!\n";
             }
 
-            # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
-            # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+            # Fill %Module::Refresh::CACHE with all entries from %INC if that hasn't happened before.
+            # Add Kernel/Config.pm to %Module::Refresh::CACHE as it was required above
+            # and thus surely is in %INC.
             # Check for every request whether Kernel/Config.pm has been modified.
-            Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
+            Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
 
             my $StorageS3Object = Kernel::System::Storage::S3->new(
                 ConfigObject => Kernel::Config->new( Level => 'Clear' ),
@@ -298,10 +299,10 @@ my $ModuleRefreshMiddleware = sub {
             die "ERROR: Could not load Kernel/Config.pm: $!\n";
         }
 
-        # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
-        # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
+        # Fill %Module::Refresh::CACHE with all entries in %INC if that hasn't happened before.
+        # Add $RelativeFile to %Module::Refresh::CACHE as $RelativeFile was required above and thus surely is in %INC.
         # Check for every request whether Kernel/Config.pm has been modified.
-        Module::Refresh->refresh_module_if_modified('Kernel/Config.pm');
+        Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
 
         # make sure that there is a refresh in the first iteration
         state $LastRefreshTime = 0;
@@ -324,14 +325,12 @@ my $ModuleRefreshMiddleware = sub {
             # refresh modules, igoring Kernel/Config.pm and the files in Kernel/Config/Files
             MODULE:
             for my $Module ( sort keys %INC ) {
+                next MODULE unless $Module =~ m[^Kernel/];
                 next MODULE if $Module eq 'Kernel/Config.pm';
                 next MODULE if $Module =~ m[^Kernel/Config/Files/];
 
-                Module::Refresh->refresh_module_if_modified($Module);
+                Kernel::System::ModuleRefresh->refresh_module_if_modified($Module);
             }
-
-            # for debugging
-            #$Kernel::RefreshDone = 1;
         }
 
         return $App->($Env);
