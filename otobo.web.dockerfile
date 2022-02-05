@@ -35,6 +35,7 @@ RUN apt-get update\
  "tree"\
  "screen"\
  "vim"\
+ "chromium"\
  && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 
