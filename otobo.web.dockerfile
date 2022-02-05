@@ -35,7 +35,8 @@ RUN apt-get update\
  "tree"\
  "screen"\
  "vim"\
- "chromium-browser"\
+ "chromium"\
+ "chromium-sandbox"\
  && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 
