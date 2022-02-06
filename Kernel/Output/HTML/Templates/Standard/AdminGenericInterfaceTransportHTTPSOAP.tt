@@ -189,7 +189,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("URI to give SOAP methods a context, reducing ambiguities.") | html %]
                                     <br/>
-                                    [% Translate("e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions") | html %]
+                                    [% Translate("e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>
@@ -325,7 +325,7 @@
                                 <p class="FieldExplanation">
                                     [% Translate("The character encoding for the SOAP message contents.") | html %]
                                     <br/>
-                                    [% Translate("e.g utf-8, latin1, iso-8859-1, cp1250, Etc.") | html %]
+                                    [% Translate("e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.") | html %]
                                 </p>
                             </div>
                             <div class="Clear"></div>

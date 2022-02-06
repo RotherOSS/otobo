@@ -565,7 +565,7 @@ sub ProcessTransition {
     for my $TransitionAction ( @{$TransitionActions} ) {
 
         # Refresh ticket data, as transition actions could already had modified the ticket
-        #   e.g TicketServiceSet -> TicketSLASet, SLA needs to already have a Service,
+        #   e.g. TicketServiceSet -> TicketSLASet, SLA needs to already have a Service,
         #   see bug#12147.
         %Data = $TicketObject->TicketGet(
             TicketID      => $Param{TicketID},

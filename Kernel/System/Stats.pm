@@ -3397,7 +3397,7 @@ sub _GenerateDynamicStats {
 
         my $RowCounter = 0;
 
-        # fill up empty array elements, e.g month as value series (February has 28 day and Januar 31)
+        # fill up empty array elements, e.g. month as value series (February has 28 day and Januar 31)
         for my $Row (@DataArray) {
 
             $RowCounter++;
