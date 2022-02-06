@@ -1,20 +1,22 @@
 # Translators:
 # Udo Bretz, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
-#
+# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2021-12-18 09:52+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Martin Gruner <martin.gruner@otrs.com>, 2018\n"
-"Language-Team: English (Canada) (https://translate.otobo.org/projects/"
-"otobo10/otobo/en_CA/)\n"
+"PO-Revision-Date: 2022-02-06 18:13+0000\n"
+"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
+"Language-Team: English (Canada) <https://translate.otobo.org/projects/"
+"otobo10/otobo/en_CA/>\n"
 "Language: en_CA\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -18377,7 +18379,7 @@ msgstr ""
 
 #. SysConfig
 msgid "%s"
-msgstr "%s"
+msgstr ""
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
@@ -18562,7 +18564,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "Added email. %s"
+msgstr ""
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
@@ -18570,7 +18572,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "Added link to ticket \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid "Added note (%s)."
@@ -18586,7 +18588,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Added subscription for user \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid "Added system request (%s)."
@@ -19232,7 +19234,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr "Bounced to \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid "Bulgarian"
@@ -19373,7 +19375,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
+msgstr ""
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
@@ -22537,7 +22539,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Deleted link to ticket \"%s\"."
-msgstr "Deleted link to ticket \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -23444,7 +23446,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Forwarded to \"%s\"."
-msgstr "Forwarded to \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid "French"
@@ -24460,7 +24462,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Locked ticket."
-msgstr "Locked ticket."
+msgstr ""
 
 #. SysConfig
 msgid "Logged in users."
@@ -25726,7 +25728,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr "Removed subscription for user \"%s\"."
+msgstr ""
 
 #. SysConfig
 msgid ""
@@ -28420,7 +28422,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Unlocked ticket."
-msgstr "Unlocked ticket."
+msgstr ""
 
 #. SysConfig
 msgid "Up"
