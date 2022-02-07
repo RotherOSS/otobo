@@ -15,15 +15,15 @@
 # --
 
 <div class="MainBox ARIARoleMain">
-    <h1 class="InvisibleText">[% Translate("Privacy Policy Management") | html %]</h1>
+    <h1 class="InvisibleText">[% Translate("About") | html %]</h1>
 
     <div class="ContentColumn">
-        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits" name="compose" id="PrivacyPolicies">
+        <form action="[% Env("CGIHandle") %]" method="post" class="Validate PreventMultipleSubmits" name="compose" id="AboutForm">
             <input type="hidden" name="Action" value="[% Env("Action") %]"/>
             <input type="hidden" name="Subaction" value="ChangeAction"/>
             <div class="WidgetSimple SpacingTop">
                 <div class="Header">
-                    <h2>[% Translate("Privacy Policy") | html %]</h2>
+                    <h2>[% Translate("About") | html %]</h2>
                 </div>
 
                 <div class="Content">
