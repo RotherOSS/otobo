@@ -64,7 +64,7 @@ How to contribute
 We take the open-source idea very seriously and explicitly invite the community to engage with us. 
 
 If you have a request or think you have found a bug, please 
-[visit our forums](https://otobo.de/de/forums/otobo/otobo-forum/) 
+[visit our forums](https://otobo.de/en/forums/otobo/otobo-forum/) 
 or [open an issue on GitHub](https://github.com/RotherOSS/otobo/issues). 
 
 To make our lives a bit easier, please 
