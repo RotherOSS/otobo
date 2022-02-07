@@ -901,16 +901,18 @@ sub _Overview {
 
         # same Limit as $Self->{CustomerUserMap}->{CustomerUserSearchListLimit}
         # smallest Limit from all sources
-        my $Limit = 400;
+        my $Limit;
         SOURCE:
         for my $Count ( '', 1 .. 10 ) {
             next SOURCE if !$ConfigObject->Get("CustomerUser$Count");
             my $CustomerUserMap = $ConfigObject->Get("CustomerUser$Count");
             next SOURCE if !$CustomerUserMap->{CustomerUserSearchListLimit};
-            if ( $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
+            if ( !defined $Limit || $CustomerUserMap->{CustomerUserSearchListLimit} < $Limit ) {
                 $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
             }
         }
+        # as fallback take the hardcoded limit of Kernel/System/CustomerUser/DB.pm
+        $Limit //= 250;
 
         my %ListAllItems = $CustomerUserObject->CustomerSearch(
             Search => $Param{Search},
