@@ -1271,7 +1271,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 ITEM:
                 for my $Item (@ModuleNavigationConfigs) {
                     if (
-                        $Item->{Link} =~ m/Subaction=/i
+                        $Item->{Link} !~ m/Subaction=/i
                         && $Item->{Link} !~ m/$Param{Subaction}/i
                         )
                     {
