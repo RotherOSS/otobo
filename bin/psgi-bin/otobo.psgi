@@ -326,7 +326,7 @@ my $ModuleRefreshMiddleware = sub {
             # igoring non-OTOBO modules, Kernel/Config.pm and the module files in Kernel/Config/Files
             MODULE:
             for my $Module ( sort keys %INC ) {
-                next MODULE unless $Module =~ m[^Kernel/];
+                next MODULE unless $Module =~ m[^(?:Kernel|var/packagesetup)/];
                 next MODULE if $Module eq 'Kernel/Config.pm';
                 next MODULE if $Module =~ m[^Kernel/Config/Files/];
 

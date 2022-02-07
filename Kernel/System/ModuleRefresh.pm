@@ -64,7 +64,7 @@ Cache the modules in C<%INC> that are in the namespace C<Kernel>.
 sub new {
     my ($Class) = @_;
 
-    for my $Module ( grep {m[^Kernel/]} keys %INC ) {
+    for my $Module ( grep {m[^(?:Kernel|var/packagesetup)/]} keys %INC ) {
         $Class->update_cache($Module);
     }
 
