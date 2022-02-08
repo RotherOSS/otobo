@@ -73,7 +73,7 @@ To find tickets in your system.
         States   => ['new', 'open'],
         StateIDs => [3, 4],
 
-        # (Open|Closed) tickets for all closed or open tickets.
+        # (Open|Closed|CustomerOpen|CustomerClosed) tickets for all closed or open tickets.
         StateType => 'Open',
 
         # You also can use real state types like new, open, closed,
@@ -753,31 +753,48 @@ sub TicketSearch {
 
     # current ticket state type
     # NOTE: Open and Closed are not valid state types. It's for compat.
-    # Open   -> All states which are grouped as open (new, open, pending, ...)
-    # Closed -> All states which are grouped as closed (closed successful, closed unsuccessful)
-    if ( $Param{StateType} && $Param{StateType} eq 'Open' ) {
-        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            Type   => 'Viewable',
-            Result => 'ID',
-        );
-        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
-    }
-    elsif ( $Param{StateType} && $Param{StateType} eq 'Closed' ) {
-        my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            Type   => 'Viewable',
-            Result => 'ID',
-        );
-        $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
-    }
+    # Open        -> All states which are grouped as open (new, open, pending, ...)
+    # Closed      -> All states which are grouped as closed (closed successful, closed unsuccessful)
+    # Customer... -> The same from customer perspective
+    if ( $Param{StateType} ) {
+        if ( $Param{StateType} eq 'Open' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'Closed' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'Viewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'CustomerOpen' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'CustomerViewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
+        elsif ( $Param{StateType} eq 'CustomerClosed' ) {
+            my @ViewableStateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                Type   => 'CustomerViewable',
+                Result => 'ID',
+            );
+            $SQLExt .= " AND st.ticket_state_id NOT IN ( ${\(join ', ', sort @ViewableStateIDs)} ) ";
+        }
 
-    # current ticket state type
-    elsif ( $Param{StateType} ) {
-        my @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
-            StateType => $Param{StateType},
-            Result    => 'ID',
-        );
-        return if !$StateIDs[0];
-        $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
+        # current ticket state type
+        else {
+            my @StateIDs = $Kernel::OM->Get('Kernel::System::State')->StateGetStatesByType(
+                StateType => $Param{StateType},
+                Result    => 'ID',
+            );
+            return if !$StateIDs[0];
+            $SQLExt .= " AND st.ticket_state_id IN ( ${\(join ', ', sort {$a <=> $b} @StateIDs)} ) ";
+        }
     }
 
     if ( $Param{StateTypeIDs} ) {

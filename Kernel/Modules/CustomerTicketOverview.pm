@@ -97,7 +97,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
-                    StateType            => 'Open',
+                    StateType            => 'CustomerOpen',
                     OrderBy              => $OrderByCurrent,
                     SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
@@ -109,7 +109,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerUserLoginRaw => $Self->{UserID},
-                    StateType            => 'Closed',
+                    StateType            => 'CustomerClosed',
                     OrderBy              => $OrderByCurrent,
                     SortBy               => $SortBy,
                     CustomerUserID       => $Self->{UserID},
@@ -176,7 +176,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     CustomerIDRaw  => \@CustomerIDs,
-                    StateType      => 'Open',
+                    StateType      => 'CustomerOpen',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
@@ -188,7 +188,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     CustomerIDRaw  => \@CustomerIDs,
-                    StateType      => 'Closed',
+                    StateType      => 'CustomerClosed',
                     OrderBy        => $OrderByCurrent,
                     SortBy         => $SortBy,
                     CustomerUserID => $Self->{UserID},
@@ -228,7 +228,7 @@ sub Run {
                 Prio   => 1100,
                 Search => {
                     %Selection,
-                    StateType           => 'Open',
+                    StateType           => 'CustomerOpen',
                     OrderBy             => $OrderByCurrent,
                     SortBy              => $SortBy,
                     CustomerUserID      => $Self->{UserID},
@@ -244,7 +244,7 @@ sub Run {
                 Prio   => 1200,
                 Search => {
                     %Selection,
-                    StateType           => 'Closed',
+                    StateType           => 'CustomerClosed',
                     OrderBy             => $OrderByCurrent,
                     SortBy              => $SortBy,
                     CustomerUserID      => $Self->{UserID},
