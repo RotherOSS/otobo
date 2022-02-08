@@ -1346,36 +1346,47 @@ ArticleDataTables:
     <Insert Table="article_data_mime">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="article_id">1</Data>
-        <Data Key="a_from" Type="Quote">OTOBO Feedback &lt;marketing@otobo.com&gt;</Data>
+        <Data Key="a_from" Type="Quote">Rother OSS GmbH | Team OTOBO &lt;otobo@otobo.de&gt;</Data>
         <Data Key="a_to" Type="Quote">Your OTOBO System &lt;otobo@localhost&gt;</Data>
         <Data Key="a_subject" Type="Quote">Welcome to OTOBO!</Data>
-        <Data Key="a_body" Type="Quote">Welcome to the OTOBO community!
+        <Data Key="a_body" Type="Quote">Welcome to the community!
 
-Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
+Thank you for installing OTOBO, the free open-source service management software with wide functionality AND a great look.
 
-Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+OTOBO is available in 42 languages and used all over the world.
 
-Resources for OTOBO Users
 
-You can find updates and patches for OTOBO at https://otobo.de/de/download/.
 
-Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+PROFESSIONAL SERVICES
+There’s a company behind this software providing professional business services:
+German Rother OSS GmbH.
 
-Interested in OTOBO? We offer professional service too.
+Read more about
+Our history – why we forked: https://otobo.de/en/rother-oss/
+Our services – How we can help you make the most of OTOBO, adapt it optimally to your needs, and secure your operations: https://otobo.de/en/service/
+Our partners – international OTOBO Partners at https://otobo.de/en/otobo-partners/
 
-To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
 
-With this version, you’ll gain access to:
+Or get in touch directly - otobo@otobo.de.
 
-- Business process management support
-- Included professional services – training, support and consulting
-- Implementation and configuration by our experts
 
-Find more information about OTOBO support and consulting by visiting https://otobo.de/.
 
-Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+RESOURCES
+The OTOBO documentation can be found at https://doc.otobo.org/.
 
-Best regards,
+Download updates and patches at https://otobo.de/en/download/.
+
+Read about how to contribute at https://otobo.de/en/community/.
+
+Check out the Community Forum at https://otobo.de/de/forums/otobo/otobo-forum/ for free support and interaction about all things OTOBO.
+
+Please to GitHub to report bugs and request new features: https://github.com/RotherOSS/otobo/issues
+
+Subscribe to our Release News, to stay up-to-date about security issues and new patches: https://otobo.de/en/contact/
+
+
+
+Have fun with OTOBO!
 
 Your OTOBO Team
 </Data>
@@ -1391,39 +1402,50 @@ Your OTOBO Team
     <Insert Table="article_data_mime_plain">
         <Data Key="id" Type="AutoIncrement">1</Data>
         <Data Key="article_id">1</Data>
-        <Data Key="body" Type="Quote">From: OTOBO Feedback &lt;marketing@otobo.com&gt;
+        <Data Key="body" Type="Quote">From: Rother OSS GmbH | Team OTOBO &lt;otobo@otobo.de&gt;
 To: Your OTOBO System &lt;otobo@localhost&gt;
 Subject: Welcome to OTOBO!
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-Welcome to the OTOBO community!
+Welcome to the community!
 
-Thank you for installing OTOBO, the next world’s most popular open source service management software. It’s available in 40 languages and used by more than 170,000 companies worldwide.
+Thank you for installing OTOBO, the free open-source service management software with wide functionality AND a great look.
 
-Please be aware that we offer free support for OTOBO at https://forum.otobo.de/ and commercial support at https://otobo.de/de/angebot/support/.
+OTOBO is available in 42 languages and used all over the world.
 
-Resources for OTOBO Users
 
-You can find updates and patches for OTOBO at https://otobo.de/de/download/.
 
-Find help and exchange ideas in our knowledge base at https://forum.otobo.de/. Here, you’ll be able to take part of the OTOBO Team’s Community and take advantage of our blog posts. You can report a bug, suggest a feature or discover online documentation.
+PROFESSIONAL SERVICES
+There’s a company behind this software providing professional business services:
+German Rother OSS GmbH.
 
-Interested in OTOBO? We offer professional service too.
+Read more about
+Our history – why we forked: https://otobo.de/en/rother-oss/
+Our services – How we can help you make the most of OTOBO, adapt it optimally to your needs, and secure your operations: https://otobo.de/en/service/
+Our partners – international OTOBO Partners at https://otobo.de/en/otobo-partners/
 
-To get the most up-to-date version of OTOBO and to receive the best possible support for your business, we recommend a OTOBO support contract https://otobo.de/de/angebot/support/.
 
-With this version, you’ll gain access to:
+Or get in touch directly - otobo@otobo.de.
 
-- Business process management support
-- Included professional services – training, support and consulting
-- Implementation and configuration by our experts
 
-Find more information about OTOBO support and consulting by visiting https://otobo.de/.
 
-Ready to get started with fully-managed OTOBO instead? -> Contact Sales: https://otobo.de/en/kontakt/
+RESOURCES
+The OTOBO documentation can be found at https://doc.otobo.org/.
 
-Best regards,
+Download updates and patches at https://otobo.de/en/download/.
+
+Read about how to contribute at https://otobo.de/en/community/.
+
+Check out the Community Forum at https://otobo.de/de/forums/otobo/otobo-forum/ for free support and interaction about all things OTOBO.
+
+Please to GitHub to report bugs and request new features: https://github.com/RotherOSS/otobo/issues
+
+Subscribe to our Release News, to stay up-to-date about security issues and new patches: https://otobo.de/en/contact/
+
+
+
+Have fun with OTOBO!
 
 Your OTOBO Team
 </Data>
