@@ -133,7 +133,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         // Load events when widget has expanded like e.g. in AdminGenericAgent screen (see bug#14590).
         $('.WidgetSimple.Collapsed .WidgetAction.Toggle').on('click', function () {
-            InitDynamicFields();
+            InitDynamicFields(this);
         });
 
         // change the position of the label for DB fields
