@@ -1040,3 +1040,8 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 } /* end @media */
+
+input.Error ~ div.TooltipErrorMessage {
+    display: block;
+    color: red;
+}
