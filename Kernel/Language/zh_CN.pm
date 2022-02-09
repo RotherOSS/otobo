@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.970789014129227;
+    $Self->{Completeness}        = 0.97015873015873;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -108,8 +108,7 @@ sub Data {
             '通过填写表单数据实现ACL控制。创建ACL后，就可在编辑模式中添加ACL配置信息。',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => '收起/展开小部件',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
@@ -424,6 +423,8 @@ sub Data {
         'Valid' => '有效',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -1222,8 +1223,8 @@ sub Data {
         'Endpoint' => '端点',
         'URI to indicate specific location for accessing a web service.' =>
             '用于指示访问Web服务的特定位置的URI。',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '例如：https://www.otobo.de:10745/api/v1.0 （不带反斜杠）',
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => '超时',
         'Timeout value for requests.' => '请求的超时值。',
         'Authentication' => 'Authentication（身份验证）',
@@ -1310,8 +1311,8 @@ sub Data {
         'Text to be used to as SOAPAction.' => '要用作SOAPAction的文本。',
         'Namespace' => '命名空间',
         'URI to give SOAP methods a context, reducing ambiguities.' => '为SOAP方法指定URI(通用资源标识符), 以便消除二义性。',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '举例：urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions',
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+            '',
         'Request name scheme' => '请求名称方案',
         'Select how SOAP request function wrapper should be constructed.' =>
             '选择如何构建SOAP请求函数封装器。',
@@ -1332,7 +1333,7 @@ sub Data {
             '在这里你可以指定OTOBO能够处理的SOAP消息的最大长度(以字节为单位)。',
         'Encoding' => '编码',
         'The character encoding for the SOAP message contents.' => 'SOAP消息内容的字符编码。',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '例如：utf-8, latin1, iso-8859-1, cp1250等等。',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => '排序选项',
         'Add new first level element' => '添加新的第一级元素',
         'Element' => '元素',
@@ -5975,7 +5976,7 @@ sub Data {
             '该条目中包含子条目。您真的想要删除这个条目及其子条目吗？',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '更多',
@@ -6375,6 +6376,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6427,7 +6432,6 @@ Thanks for your help!
         'A picture' => '图片',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL模块仅在所有子工单都关闭后才允许关闭父工单（除非所有子工单都已经关闭，否则父工单显示的“状态”均不可用）。',
-        'About' => '',
         'Access Control Lists (ACL)' => '访问控制列表(ACL)',
         'AccountedTime' => '占用时间',
         'Activate Elasticsearch.' => '激活Elasticsearch。',
@@ -9575,10 +9579,10 @@ Thanks for your help!
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

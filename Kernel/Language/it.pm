@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.597396412128909;
+    $Self->{Completeness}        = 0.597142857142857;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -110,8 +110,7 @@ sub Data {
             'Crea una nuova ACL confermando i dati. Dopo la creazione dell\'ACL, sarà possibile aggiungere voci di configurazione in modalità modifica.',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => 'Imposta questo widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
@@ -426,6 +425,8 @@ sub Data {
         'Valid' => 'Valido',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -1224,7 +1225,7 @@ sub Data {
         'Endpoint' => 'Terminatore',
         'URI to indicate specific location for accessing a web service.' =>
             'URI per indicare la posizione specifica per l\'accesso a un servizio web.',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => 'Tempo scaduto',
         'Timeout value for requests.' => 'Valore di time scaduto per le richieste.',
@@ -1312,7 +1313,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => 'Testo da utilizzare come SOAPAction.',
         'Namespace' => 'Spazio dei nomi',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI per indicare ai metodi SOAP il contesto, per ridurre le ambiguità',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => 'Schema del nome di richiesta',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1334,7 +1335,7 @@ sub Data {
             'Specifica il la dimensione massima (in byte) del messaggio SOAP che OTOBO elaborerà.',
         'Encoding' => 'Codifica',
         'The character encoding for the SOAP message contents.' => 'La codifica di caratteri del contenuto del messaggio SOAP.',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'es. utf-8, latin1, iso-8859-1, cp1250, Etc.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => 'Opzioni di ordinamento',
         'Add new first level element' => 'Aggiungi nuovo elemento di primo livello',
         'Element' => 'Elemento',
@@ -5977,7 +5978,7 @@ sub Data {
             'Questa voce contiene delle sottovoci. Sei sicuro di volere rimuovere questa voce con le relative sottovoci?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
@@ -6377,6 +6378,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6420,7 +6425,6 @@ Thanks for your help!
         'A picture' => 'Un\'immagine',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Modulo ACL che permette di chiudere ticket genitori solo se tutti i ticket figli sono già chiusi ("Stato" mostra quali stati non sono disponibili per il ticket padre finché non sono chiusi tutti i figli).',
-        'About' => '',
         'Access Control Lists (ACL)' => 'Access Control List (ACL)',
         'AccountedTime' => '',
         'Activate Elasticsearch.' => '',
@@ -9572,10 +9576,10 @@ NOTA: i sistemi di terze parti richiedono una configurazione a se.',
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.974440387363073;
+    $Self->{Completeness}        = 0.986507936507937;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -102,18 +102,17 @@ sub Data {
             'Neue ACL durch Eingabe der Daten erstellen. Nach Erstellung der ACL ist es möglich, Konfigurationsparameter im Bearbeitungsmodus einzufügen.',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => 'Impressum',
         'Toggle this widget' => 'Dieses Widget umschalten',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Diese Sprache ist nicht vorhanden oder auf dem System aktiviert. Dieser Text könnte gelöscht werden, sofern dieser nicht mehr benötigt wird.',
+        'Remove Language' => 'Sprache entfernen',
         'Text' => 'Text',
         'Message body' => 'Nachrichteninhalt',
         'This field is required and must have less than 4000 characters.' =>
             'Dieses Feld wird benötigt und darf nicht mehr als 4000 Zeichen enthalten.',
-        'Remove About Language' => '',
-        'Add new language' => '',
+        'Remove About Language' => 'Sprache für Impressum/About löschen',
+        'Add new language' => 'Neue Sprache hinzufügen',
         'Save Changes' => 'Änderungen speichern',
 
         # Template: AdminAppointmentCalendarManage
@@ -418,7 +417,9 @@ sub Data {
         'Valid' => 'Gültig',
 
         # Template: AdminCustomerAccept
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'Datenschutzhinweise verwalten',
+        'Privacy Policy' => 'Datenschutz',
+        'Remove PrivacyPolicy Language' => 'Sprache für Datenschutzhinweise entfernen',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Kundenverwaltung',
@@ -532,7 +533,7 @@ sub Data {
         'Add new field for object' => 'Neues Feld hinzufügen für Objekt',
         'Filter for Dynamic Fields' => 'Filter für Dynamische Felder',
         'Filter for dynamic fields' => 'Filter für Dynamische Felder',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => 'Neue Dynamische Felder',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             'Möchten Sie die Vorteile weiterer dynamischer Felder nutzen? Sie haben vollen Zugriff auf folgende Feldtypen:',
         'Database' => 'Datenbank',
@@ -578,9 +579,9 @@ sub Data {
         'This field is required and must be numeric.' => 'Dieses Feld wird benötigt und darf nur Zahlen enthalten.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Die Feldreihenfolge steuert die Ausgabe der Felder auf den Bildschirmen.',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'Tooltip-Text:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'Dieser Text wird als Tooltip im Kundenbereich eingeblendet.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'Es ist nicht möglich, diesen Eintrag auf ungültig zu setzen, bevor alle betroffenen Konfiguration entsprechend angepasst wurden.',
         'Field type' => 'Feldtyp',
@@ -1069,7 +1070,7 @@ sub Data {
         'Ticket fields' => 'Ticket-Felder',
         'Only the selected ticket fields will be considered for the request data.' =>
             '',
-        'Article fields' => '',
+        'Article fields' => 'Artikelfelder',
         'Only the selected article fields will be considered for the request data.' =>
             '',
         'Ticket dynamic fields' => '',
@@ -1078,20 +1079,20 @@ sub Data {
         'Article dynamic fields' => '',
         'Only the selected article dynamic fields will be considered for the request data.' =>
             '',
-        'Number of articles' => '',
+        'Number of articles' => 'Anzahl der Artikel',
         'The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent.' =>
-            '',
-        'Communication channels' => '',
+            'Ausgehende Anfragedaten enthalten nur die konfigurierte Artikelanzahl. Ohne Auswahl wird exakt ein Artikel versandt.',
+        'Communication channels' => 'Kommunikationskanäle',
         'The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used.' =>
-            '',
+            'In ausgehenden Anfragedaten werden nur Artikel aus den ausgewählten Kommunikationskanälen berücksichtigt. Ohne Auswahl werden Artikel aus allen Kommunikationskanälen versandt.',
         'Customer visibility' => 'Sichtbarkeit für Kunden',
         'The outgoing request data will only consider articles created with the selected customer visibility.' =>
-            '',
-        'Sender Types' => '',
+            'Ausgehende Anfragedaten berücksichtigen nur Artikel, die mit der ausgewählten Kundensichtbarkeit erstellt wurden.',
+        'Sender Types' => 'Sendertypen',
         'The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used.' =>
             '',
-        'Mapping' => '',
-        'Settings for incoming response data' => '',
+        'Mapping' => 'Mapping',
+        'Settings for incoming response data' => 'Einstellungen für eingehende Antwortdaten',
         'Remote TicketID dynamic field' => '',
         'The selected ticket dynamic field is being used to store the remote TicketID.' =>
             '',
@@ -1101,7 +1102,7 @@ sub Data {
             '',
         'Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed.' =>
             '',
-        'Event data' => '',
+        'Event data' => 'Ereignisdaten',
 
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => 'Einfaches Mapping',
@@ -1216,8 +1217,8 @@ sub Data {
         'Endpoint' => 'Endpunkt',
         'URI to indicate specific location for accessing a web service.' =>
             'URI zur Angabe eines bestimmten Standorts für den Zugriff auf einen Webservice.',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            'z. B. https://www.otobo.de:10745/api/v1.0 (ohne abschließenden Backslash)',
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+            '',
         'Timeout' => 'Timeout',
         'Timeout value for requests.' => 'Timeout-Wert für Anfragen.',
         'Authentication' => 'Authentifizierung',
@@ -1304,8 +1305,8 @@ sub Data {
         'Text to be used to as SOAPAction.' => 'Text welcher als SOAPAction genutzt werden soll.',
         'Namespace' => 'Namensraum',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, die SOAP-Methoden einen Kontext gibt und damit Mehrdeutigkeiten auflöst.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            'z. B. urn:otobo-com:soap:functions oder http://www.otobo.de/GenericInterface/actions',
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+            '',
         'Request name scheme' => 'Anfragen-Namensschema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll.',
@@ -1326,7 +1327,7 @@ sub Data {
             'Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, die OTOBO verarbeitet.',
         'Encoding' => 'Kodierung',
         'The character encoding for the SOAP message contents.' => 'Die Zeichenkodierung für SOAP-Nachrichteninhalte.',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'z. B. utf-8, latin1, iso-8859-1, cp1250, usw.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => 'Sortierungsoptionen',
         'Add new first level element' => 'Neues Element auf der obersten Ebene hinzufügen',
         'Element' => 'Element',
@@ -2534,7 +2535,7 @@ sub Data {
         'New email ticket to %s' => 'Neues E-Mail-Ticket an %s',
 
         # Template: AgentDashboardMyLastChangedTickets
-        'No tickets found.' => '',
+        'No tickets found.' => 'Keine Tickets gefunden.',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s ist nun verfügbar!',
@@ -2697,41 +2698,41 @@ sub Data {
         'Delete statistic %s' => 'Statistik %s löschen',
 
         # Template: AgentStatisticsReportsAdd
-        'Report Management' => '',
-        'Add Report' => '',
+        'Report Management' => 'Berichteverwaltung',
+        'Add Report' => 'Bericht hinzufügen',
 
         # Template: AgentStatisticsReportsEdit
-        'Edit Report' => '',
+        'Edit Report' => 'Bericht bearbeiten',
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
-            '',
+            'Hier können Sie mehrere Statistiken zu einem Bericht zusammenfassen und daraus manuell oder automatisch zu voreingestellten Zeitpunkten eine PDF erstellen.',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
             '',
-        'Configure PhantomJS' => '',
+        'Configure PhantomJS' => 'PhantomJS konfigurieren',
         'Configure GoogleChrome' => '',
         'General settings' => '',
-        'Automatic generation settings' => '',
-        'Automatic generation times (cron)' => '',
+        'Automatic generation settings' => 'Einstellungen für die automatische Erstellung',
+        'Automatic generation times (cron)' => 'Zeiten für die automatische Erstellung (cron)',
         'Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.' =>
-            '',
-        'Times are in the system timezone.' => '',
-        'Last automatic generation time' => '',
-        'Next planned automatic generation time' => '',
-        'Automatic generation language' => '',
+            'Im Cron-Format spezifizieren, wann ein Bericht automatisch generiert werden soll, bspw. "10 1 * * *" für jeden Tag um 01:10 Uhr.',
+        'Times are in the system timezone.' => 'Zeiten entsprechen der Systemzeitzone.',
+        'Last automatic generation time' => 'Letzte automatische Erstellzeit',
+        'Next planned automatic generation time' => 'Nächste geplante automatische Erstellzeit',
+        'Automatic generation language' => 'Automatische Erstellsprache',
         'The language to be used when the report is automatically generated.' =>
-            '',
+            'Die Sprache, die verwendet werden soll, wenn der Bericht automatisch erstellt wird.',
         'Email subject' => '',
         'Specify the subject for the automatically generated email.' => '',
         'Email body' => '',
         'Specify the text for the automatically generated email.' => '',
         'Email recipients' => '',
         'Specify recipient email addresses (comma separated).' => '',
-        'Output settings' => '',
+        'Output settings' => 'Ausgabeeinstellungen',
         'Headline' => '',
-        'Caption for preamble' => '',
-        'Preamble' => '',
-        'Caption for epilogue' => '',
-        'Epilogue' => '',
-        'Add statistic to report' => '',
+        'Caption for preamble' => 'Überschrift für das Vorwort',
+        'Preamble' => 'Vorwort',
+        'Caption for epilogue' => 'Überschrift für das Schlusswort',
+        'Epilogue' => 'Schlusswort',
+        'Add statistic to report' => 'Statistik dem Bericht hinzufügen',
 
         # Template: AgentStatisticsReportsOverview
         'Statistics Reports' => '',
@@ -2739,7 +2740,7 @@ sub Data {
         'Delete statistics report "%s"' => '',
 
         # Template: AgentStatisticsReportsView
-        'View Report' => '',
+        'View Report' => 'Bericht ansehen',
         'This statistics report contains configuration errors and can currently not be used.' =>
             '',
 
@@ -2821,13 +2822,13 @@ sub Data {
             'Wählen Sie einen oder mehrere Empfänger aus dem Kundenbenutzer-Adressbuch.',
         'Customer user address book' => 'Kundenbenutzer-Adressbuch',
         'Remove Ticket Customer' => 'Ticket-Kunden entfernen',
-        'Move to Cc' => '',
-        'Move to Bcc' => '',
+        'Move to Cc' => 'In Cc verschieben',
+        'Move to Bcc' => 'In Bcc verschieben',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Bitte entfernen Sie diesen Eintrag und geben Sie einen mit einem gültigen Wert an.',
         'This address already exists on the address list.' => 'Dieser Eintrag existiert bereits in der Adressliste.',
         'Remove Cc' => 'Cc entfernen',
-        'Move to To' => '',
+        'Move to To' => 'In An verschieben',
         'Bcc' => 'Bcc',
         'Remove Bcc' => 'Bcc entfernen',
         'Date Invalid!' => 'Ungültiges Datum!',
@@ -3504,11 +3505,11 @@ sub Data {
             'Bitte beachten Sie, dass die Skalierung der Y-Achse größer sein muss als die Skalierung der X-Achse (z. B. X-Achse => Monat, Y-Achse => Jahr).',
 
         # Template: StatsWidget
-        'Remove statistic' => '',
+        'Remove statistic' => 'Statistik entfernen',
         'If you don\'t specify a title here, the title of the statistic will be used.' =>
-            '',
-        'Preface' => '',
-        'Postface' => '',
+            'Wenn Sie hier keinen Titel angeben, wird der Titel der Statistik verwendet.',
+        'Preface' => 'Einleitung',
+        'Postface' => 'Nachwort',
 
         # Template: SettingHistoryListCompare
         'On ' => 'zu ',
@@ -3708,8 +3709,8 @@ sub Data {
         'Negated regular expression (ignore case)' => 'Negierter regulärer Ausdruck (Groß-/Kleinschreibung ignorieren)',
 
         # Perl Module: Kernel/Modules/AdminAbout.pm
-        'Could not update About message!' => '',
-        'About message updated!' => '',
+        'Could not update About message!' => 'Konnte das Impressum nicht aktualisieren!',
+        'About message updated!' => 'Impressum aktualisiert!',
 
         # Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
         'System was unable to create Calendar!' => 'Das System konnten den Kalender nicht erstellen!',
@@ -3804,8 +3805,8 @@ sub Data {
         'No data found for given source!' => 'Keine Daten in der angegebenen Quelle gefunden!',
 
         # Perl Module: Kernel/Modules/AdminCustomerAccept.pm
-        'Could not update Privacy Policy!' => '',
-        'Privacy Policy updated!' => '',
+        'Could not update Privacy Policy!' => 'Datenschutzvereinbarung konnte nicht aktualisiert werden!',
+        'Privacy Policy updated!' => 'Datenschutzvereinbarung aktualisiert!',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Kundenunternehmen aktualisiert!',
@@ -4440,15 +4441,15 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentStatisticsReports.pm
         'Got no %s!' => '',
         'Add New Statistics Report' => '',
-        'This name is already in use, please choose a different one.' => '',
-        'Could not create report.' => '',
-        'Need StatsReportID!' => '',
+        'This name is already in use, please choose a different one.' => 'Dieser Name wird bereits verwendet. Bitte wählen Sie einen anderen.',
+        'Could not create report.' => 'Bericht konnte nicht erstellt werden.',
+        'Need StatsReportID!' => 'StatsReportID wird benötigt!',
         'Edit Statistics Report' => '',
-        'Could not find report.' => '',
-        'Please provide a valid cron entry.' => '',
-        'Could not update report.' => '',
+        'Could not find report.' => 'Bericht konnte nicht gefunden werden.',
+        'Please provide a valid cron entry.' => 'Bitte einen gültigen Cron-Eintrag angeben.',
+        'Could not update report.' => 'Bericht konnte nicht aktualisiert werden.',
         'View Statistics Report' => '',
-        'Delete: Got no StatsReportID!' => '',
+        'Delete: Got no StatsReportID!' => 'Löschen: Keine StatsReportID vorhanden!',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
         'No TicketID is given!' => 'Keine TicketID übermittelt!',
@@ -4722,7 +4723,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
-            '',
+            'Registrierung der Kachel %s im Kunden-Dashboard nicht möglich! Modul oder Vorlage fehlen.',
         'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
             '',
 
@@ -4761,7 +4762,7 @@ sub Data {
             'Bitte entfernen Sie die folgenden Suchworte, da sie nicht für die Suche verwendet werden können:',
 
         # Perl Module: Kernel/Modules/CustomerTicketZoom.pm
-        'Could not load process module.' => '',
+        'Could not load process module.' => 'Prozessmodul konnte nicht geladen werden.',
         'Can\'t reopen ticket, not possible in this queue!' => 'Konnte Ticket nicht wieder eröffnen. In dieser Queue nicht möglich!',
         'Create a new ticket!' => 'Neues Ticket erstellen!',
 
@@ -4876,8 +4877,8 @@ sub Data {
         '"PGP SIGNED MESSAGE" header found, but invalid!' => '"PGP SIGNED MESSAGE"-Header gefunden, aber ungültig!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-        'Internal error during verification!' => '',
-        'Impossible to decrypt: private key not found!' => '',
+        'Internal error during verification!' => 'Interner Fehler bei der Überprüfung!',
+        'Impossible to decrypt: private key not found!' => 'Entschlüsselung fehlgeschlagen: Keinen privaten Schlüssel gefunden!',
         'Impossible to decrypt: private key for email was not found!' => 'Entschlüsseln nicht möglich: Private Key für E-Mail nicht gefunden!',
         'Successful decryption' => 'Entschlüsseln erfolgreich',
 
@@ -4941,8 +4942,8 @@ sub Data {
         'Can\'t get OTOBO News from server!' => 'OTOBO Neuigkeiten können nicht vom Server abgerufen werden!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
-        'Can\'t connect to Product News server!' => 'Kein Verbindungsaufbau zum Server mit den Produktneuigkeiten möglich!',
-        'Can\'t get Product News from server!' => 'Produktneuigkeiten können nicht vom Server abgerufen werden!',
+        'Can\'t connect to Product News server!' => 'Kein Verbindungsaufbau zum Server mit den Produkt-Neuigkeiten möglich!',
+        'Can\'t get Product News from server!' => 'Produkt-Neuigkeiten können nicht vom Server abgerufen werden!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/RSS.pm
         'Can\'t connect to %s!' => 'Kein Verbindungsaufbau zu %s möglich!',
@@ -5144,8 +5145,8 @@ sub Data {
 
         # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
         '%s Report' => '',
-        'Error: this graph could not be generated: %s.' => '',
-        'Table of Contents' => '',
+        'Error: this graph could not be generated: %s.' => 'Fehler: Dieses Diagramm konnte nicht erstellt werden: %s.',
+        'Table of Contents' => 'Inhaltverzeichnis',
 
         # Perl Module: Kernel/Output/PDF/Ticket.pm
         'Ticket Dynamic Fields' => 'Dynamische Felder für Tickets',
@@ -5257,14 +5258,14 @@ sub Data {
         'Can\'t read OTRS RELEASE file: %s' => '',
         'No OTRS system found!' => 'Kein OTRS-System gefunden!',
         'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
-            '',
+            'Unbekanntes PRODUKT in OTRS RELEASE-Datei gefunden: %s. Erwartete Werte: %s.',
         'OTRS Version is correct: %s.' => 'OTRS-Version ist korrekt: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'Migration von ITSM Datenbanktabellen.',
         'Nothing to do, as the the table \'%s\' does not exist.' => '',
-        'UPDATE of the table \'%s\' failed.' => '',
-        'Migration completed.' => '',
+        'UPDATE of the table \'%s\' failed.' => 'AKTUALISIERUNG der Tabelle \'%s\' fehlgeschlagen.',
+        'Migration completed.' => 'Migration abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migriert die Konfigurationseinstellungen.',
@@ -5969,7 +5970,7 @@ sub Data {
             'Dieser Eintrag enthält Untereinträge. Wollen Sie den Eintrag und alle Untereinträge wirklich löschen?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'Mehr',
@@ -6241,7 +6242,7 @@ sub Data {
         'Do you really want to delete this statistic?' => 'Möchten Sie diese Statistik wirklich löschen?',
 
         # JS File: Core.Agent.StatisticsReports
-        'Do you really want to delete this report?' => '',
+        'Do you really want to delete this report?' => 'Möchten Sie diesen Bericht wirklich löschen?',
 
         # JS File: Core.Agent.TicketAction
         'Select a customer ID to assign to this ticket' => 'Wählen Sie eine Kundennummer aus, die Sie diesem Ticket zuordnen möchten',
@@ -6369,6 +6370,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6423,7 +6428,6 @@ Ihr Helpdesk-Team
         'A picture' => 'Ein Bild',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL Modul das erlaubt Eltern-Tickets nur dann zu schließen, wenn alle seine Kinder-Tickets geschlossen wurden. ("Status" zeigt welche Status für das Eltern-Ticket nicht verfügbar sind, bis alle Kinder-Tickets geschlossen sind).',
-        'About' => '',
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activate Elasticsearch.' => 'Aktiviert Elasticsearch.',
@@ -6524,7 +6528,7 @@ Ihr Helpdesk-Team
         'Agents ↔ Groups' => 'Agenten ↔ Gruppen',
         'Agents ↔ Roles' => 'Agenten ↔ Rollen',
         'All CustomerIDs of a customer user.' => 'Alle Kundennummern eines Kundenbenutzers.',
-        'All closed tickets.' => '',
+        'All closed tickets.' => 'Alle geschlossenen Tickets.',
         'All customer users of a CustomerID' => 'Alle Kundenbenutzer einer Kundennummer',
         'All escalated tickets' => 'Alle eskalierten Tickets',
         'All new tickets, these tickets have not been worked on yet' => 'Alle neuen Tickets; an diesen Tickets wurde noch nicht gearbeitet',
@@ -6723,10 +6727,10 @@ Ihr Helpdesk-Team
             'Legen Sie fest, bei welchen Ticketänderungen Sie benachrichtigt werden möchten. Bitte beachten Sie, dass Sie Benachrichtigungen, die als verpflichtend markiert sind, nicht vollständig abschalten können.',
         'Choose which notifications you\'d like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
         'Christmas Eve' => 'Heiligabend',
-        'Cleans up old chat logs.' => '',
+        'Cleans up old chat logs.' => 'Räumt alte Chat-Protokolle auf.',
         'Close' => 'Schließen',
         'Close this ticket' => 'Dieses Ticket schließen',
-        'Closed Tickets' => '',
+        'Closed Tickets' => 'Geschlossene Tickets',
         'Closed tickets (customer user)' => 'Geschlossene Tickets (Kundenbenutzer)',
         'Closed tickets (customer)' => 'Geschlossene Tickets (Kunden)',
         'Cloud Services' => 'Cloud-Service',
@@ -6772,8 +6776,8 @@ Ihr Helpdesk-Team
             'Konfigurieren Sie alle weiteren Readonly-Spiegeldatenbanken, die Sie verwenden möchten.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
             'Konfigurieren Sie das Senden von Supportdaten an das OTOBO-Team für besseren Support.',
-        'Configure the About information.' => '',
-        'Configure the privacy policy.' => '',
+        'Configure the About information.' => 'About-Text / Impressum eingeben.',
+        'Configure the privacy policy.' => 'Datenschutzvereinbarung bearbeiten.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
@@ -7044,7 +7048,7 @@ Ihr Helpdesk-Team
         'Defines if customers should be allowed to login if they have no shared secret stored in their preferences and therefore are not using two-factor authentication.' =>
             'Steuert, ob Kunden, die kein gemeinsames Geheimnis in ihren Einstellungen hinterlegt haben und folglich die Zweifaktor-Authentifizierung nicht nutzen, sich im System einloggen dürfen.',
         'Defines if the communication between this system and the servers that provide cloud services is possible. If set to \'Disable cloud services\', some functionality will be lost such as support data sending, Package Verify™ and product News dashboard widgets, among others.' =>
-            'Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier die Cloud Services, geht ein Teil der Funktionalität wie der Versand von Supportdaten, Package Verify™ und die Product News Dashboard Widgets verloren.',
+            'Legt fest, ob eine Kommunikation zwischen diesem System und den Servern, über die Cloud Services angeboten werden, möglich ist. Deaktivieren Sie hier die Cloud Services, geht ein Teil der Funktionalität wie der Versand von Supportdaten, Package Verify™ und das "Produkt-Neuigkeiten"-Dashboard-Widget verloren.',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.) in customer interface.' =>
             'Legt fest, ob im Kundenbereich der erweiterte Modus genutzt werden soll (erlaubt die Nutzung von Tabellen, Ersetzen, Hochstellen, Tiefstellen, Einfügen aus Word, usw.).',
         'Defines if the enhanced mode should be used (enables use of table, replace, subscript, superscript, paste from word, etc.).' =>
@@ -7500,7 +7504,7 @@ Ihr Helpdesk-Team
             'Legt fest, wie viele Stunden eine Verbindung unabhängig von ihrem Status gespeichert werden soll.',
         'Defines the number of hours a successful communication will be stored.' =>
             'Legt fest, wie viele Stunden eine erfolgreiche Verbindung gespeichert werden soll.',
-        'Defines the number of tickets shown in the widget.' => '',
+        'Defines the number of tickets shown in the widget.' => 'Definiert die Anzahl der im Widget dargestellten Tickets.',
         'Defines the parameters for the customer preferences table.' => 'Definiert die Parameter der Tabelle mit den Kunden-Einstellungen.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Legt die Parameter für das Dashboard-Backend fest. Mit "Cmd" lassen sich Kommandos mit Parametern festlegen. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTL" bestimmt die Cachingdauer für das Dashlet in Minuten. Mit "Mandatory" kann das Dashlet so konfiguriert werden, dass Nutzer es nicht ausblenden können.',
@@ -8345,8 +8349,8 @@ Ihr Helpdesk-Team
         'Module used to detect if attachments are present.' => 'Modul um das Vorhandensein von Anhängen zu prüfen.',
         'My Queues' => 'Meine Queues',
         'My Services' => 'Meine Services',
-        'My last changed tickets' => '',
-        'MyLastChangedTickets dashboard widget.' => '',
+        'My last changed tickets' => 'Zuletzt geänderte Tickets',
+        'MyLastChangedTickets dashboard widget.' => 'Dashboard-Widget "Zuletzt geänderte Tickets".',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
             'Bezeichnung Ihrer persönlichen Queuekollektion. "Meine Queues" ist eine Zusammenstellung Ihrer bevorzugten Queues, die in den persönlichen Einstellungen konfiguriert werden kann.',
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
@@ -8931,7 +8935,7 @@ Ihr Helpdesk-Team
         'Show the current queue in the customer interface.' => 'Steuert, ob die aktuelle Queue im Kundenbereich angezeigt werden soll.',
         'Show the history for this ticket' => 'Zeige die Historie für dieses Ticket an',
         'Show the ticket history' => 'Ticket-Historie anzeigen',
-        'Show various content.' => '',
+        'Show various content.' => 'Anzeige verschiedener Inhalte.',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             'Zeigt die Anhang-Anzahl im Ticket-Zoom an, wenn der Artikel Anhänge besitzt.',
         'Shows a link in the menu for creating a calendar appointment linked to the ticket directly from the ticket zoom view of the agent interface. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2". To cluster menu items use for Key "ClusterName" and for the Content any name you want to see in the UI. Use "ClusterPriority" to configure the order of a certain cluster within the toolbar.' =>
@@ -9408,7 +9412,7 @@ Ihr Helpdesk-Team
         'We are performing scheduled maintenance. We should be back online shortly.' =>
             'Wir führen eine geplante Wartung durch. Wir werden bald wieder online sein.',
         'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
-            '',
+            'In OTOBO 10.1 haben wir die Ticketfreigabe angepasst: Das Ticket wird nicht nur entsperrt, sondern zugleich an den Systembenutzer zurückgegeben. So entspricht die Darstellung klarer den Tatsachen. Zugleich kann aus der Besitzerinformation nicht mehr ersehen werden, wer ein Ticket zuletzt bearbeitet hat. Deaktivieren Sie die Optiopn, um das Verhalten der OTRS-Versionen 2 bis 6 und von OTOBO 10 wiederherstellen.',
         'Web Service' => 'Webservice',
         'Web Services' => 'Webservices',
         'Welcome text for the dashboard header. Name will be inserted to %s of the WelcomeText. "UserTitle", "UserFirstname", "UserLastname", "UserEmail" and "UserLogin" will be substituted.' =>
@@ -9571,10 +9575,10 @@ Ihr Helpdesk-Team
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

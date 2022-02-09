@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.431973329099857;
+    $Self->{Completeness}        = 0.431746031746032;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -110,8 +110,7 @@ sub Data {
             'Créer une nouvelle ACL en envoyant le contenu du formulaire. Après avoir créé l\'ACL, vous pourrez ajouter des éléments de configuration en mode édition.',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => 'Afficher ou cacher ce cadre',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
@@ -426,6 +425,8 @@ sub Data {
         'Valid' => 'Valide',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -1224,7 +1225,7 @@ sub Data {
         'Endpoint' => 'Point d\'extrémité',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1312,7 +1313,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => '',
         'Namespace' => 'Espace de nommage',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'Identifiant uniforme de ressource (URI) pour offrir un contexte aux méthodes du protocole SOAP et réduire ainsi les ambiguïtés.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1334,7 +1335,7 @@ sub Data {
             'indiquez ici le poids maximal (en octets) des messages du protocole SOAP que OTOBO traitera.',
         'Encoding' => 'codage',
         'The character encoding for the SOAP message contents.' => 'Le caractère codé pour le contenu du message du protocole SOAP',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'par ex. utf-8, latin1, iso-8859-1, cp1250, etc.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => 'Lister options',
         'Add new first level element' => '',
         'Element' => 'Elément',
@@ -5977,7 +5978,7 @@ sub Data {
             'Cet élément contient des sous éléments. Êtes vous sur de vouloir supprimer cet élément incluant ses sous éléments?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
@@ -6377,6 +6378,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6420,7 +6425,6 @@ Thanks for your help!
         'A picture' => 'Une image',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'Module ACL qui autorise la fermture du ticket parent uniquement si tout ses enfants sont déjà clos("Etat" montre quels états ne sont pas disponibles pour le ticket parent tant que ses enfants ne sont pas clos).',
-        'About' => '',
         'Access Control Lists (ACL)' => 'Listes de contrôle d\'accès (ACL)',
         'AccountedTime' => '',
         'Activate Elasticsearch.' => '',
@@ -9568,10 +9572,10 @@ Thanks for your help!
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

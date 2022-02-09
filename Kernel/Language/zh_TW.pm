@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.312113033814891;
+    $Self->{Completeness}        = 0.312063492063492;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -104,8 +104,7 @@ sub Data {
             '通過填寫表數據實現ACL控制。創建ACL後，就可在編輯模式中添加ACL配置信息。',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => '收起/展開Widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
@@ -420,6 +419,8 @@ sub Data {
         'Valid' => '有效',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -1218,7 +1219,7 @@ sub Data {
         'Endpoint' => '端點',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1306,7 +1307,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => '',
         'Namespace' => '命名空間',
         'URI to give SOAP methods a context, reducing ambiguities.' => '為SOAP方法指定URI(通用資源標識符), 以便消除二義性。',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1328,7 +1329,7 @@ sub Data {
             '在這裡您可以指定OTOBO能夠處理的SOAP消息的最大長度(以字節為單位)。',
         'Encoding' => '編碼',
         'The character encoding for the SOAP message contents.' => 'SOAP消息内容的字符編碼',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => '排序選項',
         'Add new first level element' => '',
         'Element' => '',
@@ -5972,7 +5973,7 @@ sub Data {
             '該條目中包含子條目。您確定要刪除這個條目及其子條目嗎？',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '更多',
@@ -6373,6 +6374,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6416,7 +6421,6 @@ Thanks for your help!
         'A picture' => '一幅圖片',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'About' => '',
         'Access Control Lists (ACL)' => '訪問控制列表(ACL)',
         'AccountedTime' => '佔用時間',
         'Activate Elasticsearch.' => '',
@@ -9564,10 +9568,10 @@ Thanks for your help!
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.780758850611208;
+    $Self->{Completeness}        = 0.782539682539683;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -105,18 +105,17 @@ sub Data {
             'フォームを送信することにより、新規にACLを作成する事ができます。ACLを作成後、編集モードより構成アイテムを追加することができます。',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => 'このウィジェットを切り替え',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Language' => '',
+        'Remove Language' => '言語を削除',
         'Text' => '本文',
         'Message body' => 'メッセージボディー',
         'This field is required and must have less than 4000 characters.' =>
             'この項目は必須かつ4000文字未満にしてください。',
-        'Remove About Language' => '',
-        'Add new language' => '',
+        'Remove About Language' => '言語について削除',
+        'Add new language' => '新しい言語を追加',
         'Save Changes' => '変更を保存',
 
         # Template: AdminAppointmentCalendarManage
@@ -421,7 +420,9 @@ sub Data {
         'Valid' => '有効',
 
         # Template: AdminCustomerAccept
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'プライバシーポリシー管理',
+        'Privacy Policy' => 'プライバシーポリシー',
+        'Remove PrivacyPolicy Language' => 'プライバシーポリシーの言語を削除',
 
         # Template: AdminCustomerCompany
         'Customer Management' => '顧客管理',
@@ -535,7 +536,7 @@ sub Data {
         'Add new field for object' => 'オブジェクトに新規領域を追加',
         'Filter for Dynamic Fields' => 'ダイナミック・フィールドでフィルター',
         'Filter for dynamic fields' => 'ダイナミック・フィールドでフィルター',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => '新しいダイナミックフィールド',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             'ダイナミック・フィールドをもっと有効に活用したいですか? 以下の型を利用することができます:',
         'Database' => 'データベース',
@@ -581,9 +582,9 @@ sub Data {
         'This field is required and must be numeric.' => 'この領域は必須かつ数値でなければなりません。',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'これはこの領域がアクティブである画面で表示される順序です。',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'ツールチップメッセージ:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'これは、カスタマーインターフェイス内に表示されるツールチップメッセージです。',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'この項目を無効にはできません。予めすべての設定を変更してください。',
         'Field type' => '領域タイプ',
@@ -1063,12 +1064,12 @@ sub Data {
         'Type of Linking' => 'リンクのタイプ',
         'Add a new Field' => '新しい領域を追加',
         'Remove this Field' => 'この領域を削除',
-        'And can\'t be repeated on the same condition.' => '',
+        'And can\'t be repeated on the same condition.' => '同じ条件で繰り返すことはできません。',
         'Add New Condition' => '新しい条件を追加',
 
         # Template: AdminGenericInterfaceInvokerTicket
         'General invoker data' => '',
-        'Settings for outgoing request data' => '',
+        'Settings for outgoing request data' => '送信リクエストデータの設定',
         'Ticket fields' => 'チケット・フィールド',
         'Only the selected ticket fields will be considered for the request data.' =>
             '',
@@ -1219,7 +1220,7 @@ sub Data {
         'Endpoint' => 'エンドポイント',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => 'タイムアウト',
         'Timeout value for requests.' => '',
@@ -1307,8 +1308,8 @@ sub Data {
         'Text to be used to as SOAPAction.' => '',
         'Namespace' => '名前空間',
         'URI to give SOAP methods a context, reducing ambiguities.' => '',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '例: urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions',
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+            '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
             '',
@@ -1329,7 +1330,7 @@ sub Data {
             '',
         'Encoding' => 'エンコーディング',
         'The character encoding for the SOAP message contents.' => 'SOAPメッセージコンテントの文字エンコード',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => '例… utf-8, latin1, iso-8859-1, cp1250, Etc.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => '並べ替えオプション',
         'Add new first level element' => '',
         'Element' => '要素',
@@ -1356,7 +1357,7 @@ sub Data {
         'Ready2Adopt Web Services' => 'Ready2Adopt Webサービス',
         'Here you can activate Ready2Adopt web services showcasing our best practices.' =>
             '',
-        'Import Ready2Adopt web service' => '',
+        'Import Ready2Adopt web service' => 'Webサービス(Ready2Adopt)をインポート',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             '',
         'If you want to return to overview please click the "Go to overview" button.' =>
@@ -2700,7 +2701,7 @@ sub Data {
         'Delete statistic %s' => 'レポート"%s"を削除',
 
         # Template: AgentStatisticsReportsAdd
-        'Report Management' => '',
+        'Report Management' => 'レポート管理',
         'Add Report' => '',
 
         # Template: AgentStatisticsReportsEdit
@@ -5972,7 +5973,7 @@ sub Data {
             'このアイテムは、配下にサブアイテムを保有しています。このアイテムをサブアイテムと共に削除してもよろしいですか？',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'もっと多く',
@@ -6372,6 +6373,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6426,7 +6431,6 @@ Thanks for your help!
         'A picture' => '写真',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '親チケットについて、その全ての子チケットが既にクローズされている場合にのみ、クローズすることを許可するACLモジュールです（“State”は、全ての子チケットがクローズされるまで、親チケットにどの状態が適用不可であるかを示しています）。',
-        'About' => '',
         'Access Control Lists (ACL)' => 'アクセス制御リスト (ACL)',
         'AccountedTime' => '作業時間',
         'Activate Elasticsearch.' => 'Elasticsearchを有効化。',
@@ -7420,7 +7424,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Defines the maximum number of quoted lines to be added to responses.' =>
             '',
         'Defines the maximum number of tasks to be executed as the same time.' =>
-            '',
+            '同時に実行されるタスクの最大数を定義します。',
         'Defines the maximum size (in MB) of the log file.' => 'ログ・ファイルの最大サイズ（MB）を定義します。',
         'Defines the maximum size in KiloByte of GenericInterface responses that get logged to the gi_debugger_entry_content table.' =>
             '',
@@ -9468,7 +9472,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'phone' => '電話',
         'responsible' => 'responsible （責任者）',
         'reverse' => '反転',
-        'stats' => 'stats',
+        'stats' => '統計',
 
     };
 
@@ -9584,10 +9588,10 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-12-18 09:52+0000\n"
+"POT-Creation-Date: 2022-02-09 12:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -199,11 +199,7 @@ msgid "Create a new ACL by submitting the form data. After creating the ACL, you
 msgstr ""
 
 #. Template: AdminAbout
-msgid "Privacy Policy Management"
-msgstr ""
-
-#. Template: AdminAbout
-msgid "Privacy Policy"
+msgid "About"
 msgstr ""
 
 #. Template: AdminAbout
@@ -1208,6 +1204,14 @@ msgstr ""
 
 #. Template: AdminContactWD
 msgid "Valid"
+msgstr ""
+
+#. Template: AdminCustomerAccept
+msgid "Privacy Policy Management"
+msgstr ""
+
+#. Template: AdminCustomerAccept
+msgid "Privacy Policy"
 msgstr ""
 
 #. Template: AdminCustomerAccept
@@ -3619,7 +3623,7 @@ msgid "URI to indicate specific location for accessing a web service."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
-msgid "e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
+msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
@@ -3911,7 +3915,7 @@ msgid "URI to give SOAP methods a context, reducing ambiguities."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions"
+msgid "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions"
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -3967,7 +3971,7 @@ msgid "The character encoding for the SOAP message contents."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
-msgid "e.g utf-8, latin1, iso-8859-1, cp1250, Etc."
+msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
 msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
@@ -16447,7 +16451,7 @@ msgid "This item still contains sub items. Are you sure you want to remove this 
 msgstr ""
 
 #. JS File: Core.Agent.Admin.About
-msgid "Do you really want to delete this privacy policy language?"
+msgid "Do you really want to delete this language?"
 msgstr ""
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
@@ -17321,6 +17325,14 @@ msgstr ""
 #. SysConfig
 msgid ""
 "\n"
+"            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown\n"
+"            in an extra table\n"
+"        "
+msgstr ""
+
+#. SysConfig
+msgid ""
+"\n"
 "Dear Customer,\n"
 "\n"
 "Unfortunately we could not detect a valid ticket number\n"
@@ -17447,10 +17459,6 @@ msgstr ""
 
 #. SysConfig
 msgid "ACL module that allows closing parent tickets only if all its children are already closed (\"State\" shows which states are not available for the parent ticket until all child tickets are closed)."
-msgstr ""
-
-#. SysConfig
-msgid "About"
 msgstr ""
 
 #. SysConfig

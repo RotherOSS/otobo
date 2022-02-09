@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.282743292586125;
+    $Self->{Completeness}        = 0.282539682539683;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -102,8 +102,7 @@ sub Data {
             'Креирај нов ЛКП со доставување на податоци од формуларот. По креирањето на ЛКПто, ќе бидете во можност да го додадете конфигурациски ставки во режим на уредување.',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => 'Префли го овој елемент',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
@@ -418,6 +417,8 @@ sub Data {
         'Valid' => 'Валидно',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -1216,7 +1217,7 @@ sub Data {
         'Endpoint' => 'Крајна точка',
         'URI to indicate specific location for accessing a web service.' =>
             '',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => '',
         'Timeout value for requests.' => '',
@@ -1304,7 +1305,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => '',
         'Namespace' => 'Простор за име',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI за да му даде SOAP контекст методи , намалувајќи нејаснотии.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => '',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1326,7 +1327,7 @@ sub Data {
             'Тука може да наведете максималната големина (во бајти) на SOAP пораките кои OTOBO ќе ги процесира.',
         'Encoding' => 'Кодирање',
         'The character encoding for the SOAP message contents.' => 'Карактер енкодирање за содржината на SOAP пораката.',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'на пример: utf-8, latin1, iso-8859-1, cp1250, итн.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => '',
         'Add new first level element' => '',
         'Element' => '',
@@ -5969,7 +5970,7 @@ sub Data {
             'Оваа ставка сеуште содржи подставки. Дали сте сигурни дека сакате да ја избришете оваа ставка вклучувајки ги и нејзините подставки?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => '',
@@ -6369,6 +6370,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6412,7 +6417,6 @@ Thanks for your help!
         'A picture' => '',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             '',
-        'About' => '',
         'Access Control Lists (ACL)' => 'Листи за контрола на пристап (ЛКП)',
         'AccountedTime' => '',
         'Activate Elasticsearch.' => '',
@@ -9560,10 +9564,10 @@ Thanks for your help!
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',

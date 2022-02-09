@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.846007302746468;
+    $Self->{Completeness}        = 0.846507936507937;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -113,18 +113,17 @@ sub Data {
             'Для создания нового ACL заполните форму описания и сохраните. После этого можно добавлять наборы условий и действий в режиме редактирования.',
 
         # Template: AdminAbout
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'About' => '',
         'Toggle this widget' => 'Переключить показ этого блока',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Language' => '',
+        'Remove Language' => 'Удалить язык',
         'Text' => 'Текст',
         'Message body' => 'Содержание уведомления',
         'This field is required and must have less than 4000 characters.' =>
             'Данное поле обязательно и должно быть менее 4000 символов.',
         'Remove About Language' => '',
-        'Add new language' => '',
+        'Add new language' => 'Добавить новый язык',
         'Save Changes' => 'Сохранить изменения',
 
         # Template: AdminAppointmentCalendarManage
@@ -429,6 +428,8 @@ sub Data {
         'Valid' => 'Действительность',
 
         # Template: AdminCustomerAccept
+        'Privacy Policy Management' => '',
+        'Privacy Policy' => '',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -543,7 +544,7 @@ sub Data {
         'Add new field for object' => 'Добавить новое поле для объекта',
         'Filter for Dynamic Fields' => 'Фильтр для динамических полей',
         'Filter for dynamic fields' => 'Фильтр для динамических полей',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => 'Новые динамические поля',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '',
         'Database' => 'База данных',
@@ -589,9 +590,9 @@ sub Data {
         'This field is required and must be numeric.' => 'Это поле обязательно, и должно быть числовым.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Это порядок, в котором поле будет показываться среди других полей на тех экранах, где оно активно.',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'Всплывающее сообщение:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'Это всплывающее сообщение, отображаемое в интерфейсе клиента.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'Невозможно аннулировать эту запись, все настройки конфигурации должны быть изменены заранее.',
         'Field type' => 'Тип поля',
@@ -1227,7 +1228,7 @@ sub Data {
         'Endpoint' => 'Конечная точка',
         'URI to indicate specific location for accessing a web service.' =>
             'URI для указания точного расположения для доступа к веб-сервису.',
-        'e.g https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
+        'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
             '',
         'Timeout' => 'Тайм-аут',
         'Timeout value for requests.' => 'Значение Timeout для запросов.',
@@ -1315,7 +1316,7 @@ sub Data {
         'Text to be used to as SOAPAction.' => 'Текст для использования в качестве SOAPAction.',
         'Namespace' => 'Пространство имен',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, предоставляющий SOAP методам контекст для уменьшения двусмысленности.',
-        'e.g urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
+        'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
             '',
         'Request name scheme' => 'Схема именования запросов',
         'Select how SOAP request function wrapper should be constructed.' =>
@@ -1337,7 +1338,7 @@ sub Data {
             'Здесь вы можете задать макс. размер (в байтах) SOAP сообщений, которые OTOBO будет обрабатывать.',
         'Encoding' => 'Кодировка',
         'The character encoding for the SOAP message contents.' => 'Кодировка символов для содержимого SOAP сообщений.',
-        'e.g utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'например, utf-8, latin1, iso-8859-1, cp1250, и т.д.',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
         'Sort options' => 'Опции сортировки',
         'Add new first level element' => 'Добавить новый элемент первого уровня',
         'Element' => 'Элемент',
@@ -5980,7 +5981,7 @@ sub Data {
             'Этот элемент содержит подэлементы. Вы уверены что желаете удалить его, включая его подэлементы?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this privacy policy language?' => '',
+        'Do you really want to delete this language?' => '',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'Более',
@@ -6380,6 +6381,10 @@ sub Data {
 
         # SysConfig
         '
+            Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
+            in an extra table
+        ' => '',
+        '
 Dear Customer,
 
 Unfortunately we could not detect a valid ticket number
@@ -6434,7 +6439,6 @@ Thanks for your help!
         'A picture' => 'Рисунок',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
             'ACL модуль, который позволяет закрывать родительские заявки только после того как все младшие закрыты ("State" задает доступные состояния для родительских заявок до закрытия всех младших',
-        'About' => '',
         'Access Control Lists (ACL)' => 'Списки управления доступом (ACL)',
         'AccountedTime' => 'Затраченное время',
         'Activate Elasticsearch.' => '',
@@ -9582,10 +9586,10 @@ Thanks for your help!
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!',
         'Do you really want to delete this generic agent job?',
         'Do you really want to delete this key?',
+        'Do you really want to delete this language?',
         'Do you really want to delete this link?',
         'Do you really want to delete this notification language?',
         'Do you really want to delete this notification?',
-        'Do you really want to delete this privacy policy language?',
         'Do you really want to delete this report?',
         'Do you really want to delete this scheduled system maintenance?',
         'Do you really want to delete this statistic?',
