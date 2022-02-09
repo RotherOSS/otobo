@@ -26,11 +26,7 @@
 - 2021-12-04 14:09:41 +0100 [Bugfix]   Don't use Plack::Loader::SyncWitS3 when OTOBO_SYNC_WITH_S3=0 is set (https://github.com/RotherOSS/otobo/issues/1478)
 - 2021-12-03 12:08:31 +0100 Tickets get locked on FollowUp even if the owner is root@localhost (https://github.com/RotherOSS/otobo/issues/1475) - in progress
 - 2021-12-01 17:17:31 +0100 [Enhanced] Kernel::System::Loader::CacheDelete()  should also clean up files in S3 (https://github.com/RotherOSS/otobo/issues/1458)
-- 2021-11-30 17:00:14 +0100 Issue #1547: add test for the discard methods
-- 2021-11-30 16:56:35 +0100 Issue #1547: encode the serialised DOM
-- 2021-11-30 14:57:36 +0100 Issue #1547: add test for SaveObjectToFile()
-- 2021-11-30 14:28:44 +0100 Issue #1547: add test for ObjectExists()
-- 2021-11-30 13:21:20 +0100 Issue #1547: use the currently used test bucket
+- 2021-11-30 17:00:14 +0100 translate state and service when used as a category ... (https://github.com/RotherOSS/otobo/issues/1547)
 - 2021-11-30 08:56:53 +0100 Tidied.
 - 2021-11-29 22:16:47 +0100 [Enhanced] Provide a nginx config file dedicated to nginx-kerberos (https://github.com/RotherOSS/otobo/issues/1465) - in progress
 - 2021-11-29 19:09:28 +0100 [Bugfix]   Replacement of ${OTOBO_NGINX_KERBEROS_KEYTAB} in /etc/nginx/conf.d/otobo_nginx.conf (https://github.com/RotherOSS/otobo/issues/1462)
@@ -83,78 +79,30 @@
 - 2021-11-04 09:21:08 +0100 There are no OTOBO Community Fields, only Dynamic Fields (https://github.com/RotherOSS/otobo/issues/1380)
 - 2021-11-02 15:19:38 +0100 [Tidied]   Kernel::System::Package: remove compatability to OTRS 2.2 (https://github.com/RotherOSS/otobo/issues/1364)
 - 2021-11-02 14:22:25 +0100 [Tidied]   Nicer layout of the OTOBO verified logo (https://github.com/RotherOSS/otobo/issues/1377)
-- 2021-11-01 11:18:34 +0100 Issue #1375: combine three RUN into a single RUN
-- 2021-10-30 05:01:29 +0200 Issue #1372: We have changed the default ticket unlock behaviour and the first- and lastname of the system user root@localhost.
+- 2021-11-01 11:18:34 +0100 [Tidied]   Follow advice from hadolint on otobo.web.dockerfile (https://github.com/RotherOSS/otobo/issues/1375)
+- 2021-10-30 05:01:29 +0200 [Enhanced] We have changed the default ticket unlock behaviour in OTOBO 10.1. (https://github.com/RotherOSS/otobo/issues/1372)
 - 2021-10-29 11:20:01 +0200 Fix debugging error in XSLT mapping in the GenericInterface.
-- 2021-10-28 17:21:41 +0200 Issue #1354: Add dynamic field tooltips for the customer interface.
-- 2021-10-28 15:30:38 +0200 Issue #1365: remove bin/otobo.PostMaster.pl
+- 2021-10-28 17:21:41 +0200 [Enhanced] Add Tooltips for the CustomerInterface (https://github.com/RotherOSS/otobo/issues/1354)
+- 2021-10-28 15:30:38 +0200 [Tidied]   Remove deprecated script otobo.PostMaster.pl (https://github.com/RotherOSS/otobo/issues/1365)
 - 2021-10-28 11:09:26 +0200 Autoselect: Use val() instead of text() for recognition of unused fields, to enable usage for TreeView.
 - 2021-10-28 09:46:33 +0200 Use default QueueID for SLA generation in CustomerTicketMessage in _Mask, equivalently to _GetSLAs.
-- 2021-10-25 12:55:05 +0200 Issue #1359: Change error message
+- 2021-10-25 12:55:05 +0200 [Bugfix]   Wrong error message (https://github.com/RotherOSS/otobo/issues/1359)
 - 2021-10-25 12:34:48 +0200 Add Kerberos krb5.conf for SSO in docker
-- 2021-10-25 08:32:23 +0200 #Issue 27: Remove rpc.pl.
-- 2021-10-22 16:04:52 +0200 Issue #1356: eliminate dependency on Plack::Middleware::Rewrite
-- 2021-10-22 10:27:40 +0200 Issue #1331: check for ZZZACL.pm
-- 2021-10-22 10:09:54 +0200 Issue #1332: ZZZAuto.pm is no longer relevant
-- 2021-10-22 10:09:04 +0200 Issue #1332: add code comment
-- 2021-10-21 14:53:59 +0200 Issue #1349: accept some suggestion from the code policy
-- 2021-10-21 14:11:52 +0200 Issue #1325: rename a variable
-- 2021-10-15 15:56:37 +0200 Issue #1325: no need for supporting the param Content in _HandleJSList()
-- 2021-10-15 15:52:41 +0200 Issue #1325: tidying
-- 2021-10-15 15:50:16 +0200 Issue #1325: remove commented out code
-- 2021-10-21 13:52:12 +0200 Issue #1325: support for loader files in S3
-- 2021-10-21 13:47:44 +0200 Issue #1325: trying to simplify CacheDelete()
-- 2021-10-21 13:44:54 +0200 Issue #1325: tidying
-- 2021-10-21 13:40:16 +0200 Issue #1325: Rename StaticApp to HtdocsApp.
-- 2021-10-21 13:38:30 +0200 Issue #1325: consistently use lower 'w' in Middleware variable names
-- 2021-10-21 13:36:30 +0200 Issue #1325: introducing the variable $Home.
+- 2021-10-25 08:32:23 +0200 [Enhanced] Remove support for bin/cgi-bin/rpc.pl (https://github.com/RotherOSS/otobo/issues/27)
+- 2021-10-22 16:04:52 +0200 [Tidied]   No longer require Plack::Middleware::Rewrite (https://github.com/RotherOSS/otobo/issues/1356)
+- 2021-10-22 10:27:40 +0200 Do not allow ZZZACL.pm in packages (https://github.com/RotherOSS/otobo/issues/1331)
+- 2021-10-22 10:09:54 +0200 [Tidied]   Daemon: no longer check for changed file Kernel/Config/ZZZAuto.pm (https://github.com/RotherOSS/otobo/issues/1332)
+- 2021-10-21 14:53:59 +0200 [Tidied]   CodePolicy for OTOBO 10.0.14 (https://github.com/RotherOSS/otobo/issues/1349)
+- 2021-10-21 14:11:52 +0200 [Enhanced] Kubernetes: support for loader files in S3 (https://github.com/RotherOSS/otobo/issues/1325)
 - 2021-10-20 13:17:31 +0200 Add closed tickets view to customer information center.
-- 2021-10-20 08:47:29 +0200 Issue #625: Tidied (also affects Issue #1132)
-- 2021-10-15 16:23:55 +0200 Issue #1317: explicit checks for VERSION and PRODUCT
-- 2021-10-15 16:18:41 +0200 Issue #1317: synchronise mit new version in rel-10_1 branch
-- 2021-10-15 10:17:00 +0200 Issue #1317: Allow ((OTRS)) Community Edition as product name
-- 2021-10-15 10:14:19 +0200 Issue #1317: add checks for PRODUCT and VERSION
-- 2021-10-15 10:12:04 +0200 Issue #1317: tidying
-- 2021-10-14 16:34:19 +0200 Issue #1316: update the bucket to the currently used value
-- 2021-10-14 14:36:48 +0200 Issue #1316: do not use Plack::Middleware::ForceEnv
-- 2021-10-14 14:26:45 +0200 Issue #1316: use postfix 'unless', for consistencies sake
-- 2021-10-14 14:26:02 +0200 Issue #1316: use a better name for response with code 500
-- 2021-10-14 14:24:43 +0200 Issue #1316: solely use GATEWAY_INTERFACE for indicating web context
-- 2021-10-14 14:22:00 +0200 Issue #1316: update code comments and POD
+- 2021-10-20 08:47:29 +0200 [Bugfix]   Fix regular expressions for dynamic fields in CustomerInterface. (https://github.com/RotherOSS/otobo/issues/625) - in progress
+- 2021-10-15 16:23:55 +0200 [Enhanced] Migration: Accept "((OTRS)) Community Edition" in RELEASE (https://github.com/RotherOSS/otobo/issues/1317)
+- 2021-10-14 16:34:19 +0200 [Tidied]   Remove dependency on Plack::Middleware::ForceEnv (https://github.com/RotherOSS/otobo/issues/1316)
 - 2021-10-13 15:14:59 +0200 Avoid ambiguity when Plack::Middleware::ForceEnv
 - 2021-10-08 16:31:09 +0200 Repair CHANGES.
-- 2021-10-07 17:21:16 +0200 Issue #1306: fix log message when $ArticleStorageModule could not be created
-- 2021-10-04 13:42:30 +0200 Issue #1288: provide link to stats documentation
-- 2021-09-28 13:28:47 +0200 Issue #1255: merge syntax_check.yml into code_policy.yml
-- 2021-09-24 16:04:42 +0200 Issue #1255: enhance the POD
-- 2021-09-24 15:52:20 +0200 Issue #1255: try running 'cp' without quotes
-- 2021-09-24 15:39:06 +0200 Issue #1255: use the REST interface for SHA
-- 2021-09-23 19:19:33 +0200 Issue #1255: enhance comments
-- 2021-09-23 19:03:19 +0200 Issue #1255: Need a git checkout for the cache key
-- 2021-09-23 18:49:17 +0200 Issue #1255: create cache on rel-10_1
-- 2021-09-23 18:16:49 +0200 Issue #1255: add DESCRIPTION in POD
-- 2021-09-23 18:06:59 +0200 Issue #1255: activate actions on push
-- 2021-09-23 17:56:50 +0200 Issue #1255: use pod2usage()
-- 2021-09-23 17:34:08 +0200 Issue #1255: invalidated cache
-- 2021-09-23 16:53:11 +0200 Issue #1255: add an usage message
-- 2021-09-23 16:38:47 +0200 Issue #1255: spelling SYNOPSISN => SYNOPSIS
-- 2021-09-23 16:34:02 +0200 Issue #1255: run the actions only for pull requests
-- 2021-09-23 16:28:08 +0200 Issue #1255: also use caching in syntax_check.yml
-- 2021-09-23 16:20:30 +0200 Issue #1255: revert to Debian package libcode-tidyall-perl
-- 2021-09-23 16:15:29 +0200 Issue #1255: install more modules associated with Code::TidyAll.
-- 2021-09-23 15:51:55 +0200 Issue #1255: Perl5LIB should be local/lib/perl5
-- 2021-09-23 15:41:12 +0200 Issue #1255: invalidate the cache again
-- 2021-09-23 15:39:24 +0200 Issue #1255: install libxml-libxslt-perl as Debian package again
-- 2021-09-23 15:35:52 +0200 Issue #1255: also install libxslt
-- 2021-09-23 15:30:33 +0200 Issue #1255: invalidate the cache
-- 2021-09-23 15:26:24 +0200 Issue #1255: spelling: unname => uname
-- 2021-09-23 15:20:00 +0200 Issue #1255: put more CPAN modules into 'local'
-- 2021-09-23 15:06:17 +0200 Issue #1255: fix syntax
-- 2021-09-23 14:58:22 +0200 Issue #1255: add POD, provoke errors from the CodePolicy
-- 2021-09-23 14:41:05 +0200 Issue #1255: fix indention in YAML
-- 2021-09-23 14:38:18 +0200 Issue #1255: add cache for CPAN modules
-- 2021-09-23 14:22:51 +0200 Issue #1255: show version of cpanm
-- 2021-09-23 14:19:04 +0200 Issue #1255: try to install CPAN deps in local dir
+- 2021-10-07 17:21:16 +0200 [Tidied]   Incorrect error message in Kernel/System/Ticket,pm (https://github.com/RotherOSS/otobo/issues/1306)
+- 2021-10-04 13:42:30 +0200 [Tidied]   Provide link to Statistics documentation (https://github.com/RotherOSS/otobo/issues/1288)
+- 2021-09-28 13:28:47 +0200 Use caching in the github actions (https://github.com/RotherOSS/otobo/issues/1255)
 - 2021-09-21 12:32:30 +0200 Try to make hooks/build work with BUILD_PATH=/ .
 - 2021-09-21 12:06:33 +0200 Work with $BUILD_PATH.
 - 2021-09-21 11:38:53 +0200 Add some diagnostics to hooks build.
@@ -162,618 +110,127 @@
 - 2021-09-21 11:02:44 +0200 Add trailing slash to scripts/nginx.
 - 2021-09-21 10:51:29 +0200 Change docker to Docker.
 - 2021-09-21 10:44:22 +0200 Be more explicit about build_docker_images.sh
-- 2021-09-21 10:23:07 +0200 Issue #1231: Tentatively change into scripts/nginx before building.
-- 2021-09-12 15:27:39 +0200 Issue #1223: remove setup of Plack::App::File
-- 2021-09-12 15:26:57 +0200 Issue #1223: add the rule that either Required or Features must be set
-- 2021-08-29 18:49:48 +0200 Issue #394: tidying
-- 2021-08-29 18:46:22 +0200 Issue #394: remove deprecated support for KeepScriptTags
-- 2021-08-29 18:45:16 +0200 Issue #394: remove POD for KeepScriptTags
-- 2021-08-27 17:00:21 +0200 Issue #1033: remove ConfigXMLStructure.pm
-- 2021-08-26 18:40:52 +0200 Issue #734: Do not set the CSS class OTRSBusinessRequired
-- 2021-08-26 18:38:19 +0200 Issue #734: restore the AgentSessionLimitPriorWarning
-- 2021-08-16 19:12:02 +0200 Issue #1180: Const::Fast was listed twice
-- 2021-08-16 15:32:28 +0200 Issue #681: split up OTOBOCommunity.pm
-- 2021-08-16 15:11:00 +0200 Issue #681: the package name UserSetting is more sensible
-- 2021-08-16 15:06:21 +0200 Issue #681: Split OTOBOCommunity.pm into SettingHistory.pm and UserSettings.pm
-- 2021-08-15 14:08:30 +0200 Issue #681: remove a couple of mentions of OTOBOCommunity
+- 2021-09-21 10:23:07 +0200 [Tidied]   Docker: minimize build context when building Docker Images (https://github.com/RotherOSS/otobo/issues/1231)
+- 2021-09-12 15:27:39 +0200 [Tidied]   Docker: No extra RUN command for installing Net::DNS and Gazelle (https://github.com/RotherOSS/otobo/issues/1223)
+- 2021-08-29 18:49:48 +0200 [Tidied]   Remove support for param KeepScriptTags for Kernel::Output::HTML::Layout::Template::Output() (https://github.com/RotherOSS/otobo/issues/394)
+- 2021-08-27 17:00:21 +0200 [Tidied]   Review diffs between rel-10_0 and rel-10_1 (https://github.com/RotherOSS/otobo/issues/1033)
+- 2021-08-26 18:40:52 +0200 Decide about Kernel::Output::HTML::Notification::AgentSessionLimit (https://github.com/RotherOSS/otobo/issues/734)
+- 2021-08-16 19:12:02 +0200 Missing Packages in otobo.CheckModules.pl in rel-10_1 (https://github.com/RotherOSS/otobo/issues/1180)
+- 2021-08-16 15:32:28 +0200 [Tidied]   Clarify status of OTOBOCommunity (https://github.com/RotherOSS/otobo/issues/681)
 - 2021-08-15 13:49:05 +0200 Satisfy otobo.CodePolicy.pl
-- 2021-08-13 21:20:14 +0200 Issue #1175: perl:5.34-buster is the new base
-- 2021-07-21 20:37:14 +0200 Issue #1118: add check for Apache2::Module functions
-- 2021-07-19 20:43:35 +0200 Issue #1141: preload otobo.psgi when running with Plack::Handler::Apache2.
-- 2021-07-17 17:06:00 +0200 Issue #1121: move OTOBO::RPC into a dedicated .pm file
-- 2021-07-17 13:25:34 +0200 Issue #1109: safeguard agains object recreation in global destruction
-- 2021-07-17 13:18:23 +0200 Issue #1109: Rename attribute IPCSHMKey to IPCSHMSegment.
-- 2021-07-17 13:17:16 +0200 Issue #1109: eliminate the attribute IPCKey.
-- 2021-07-17 13:11:53 +0200 Issue #1109: Eliminate the attribute MinimumLevel.
-- 2021-07-17 13:10:24 +0200 Issue #1109: Remove the attribute ProductVersion.
-- 2021-07-17 12:53:08 +0200 Issue #1109: Tidying. Require Perl 5.24.
-- 2021-07-17 12:45:14 +0200 Issue #1109: do not depend on Kernel::System::DateTime
-- 2021-07-16 21:28:46 +0200 Issue #1120: Cookies() with Kernel::System::Web::Request
-- 2021-07-15 19:49:54 +0200 Issue #1120: do not modify $Self->{SetCookies}
-- 2021-07-15 17:49:29 +0200 Issue #1120: Improve code comments.
-- 2021-07-11 19:44:46 +0200 Issue #1120: Don't refer to Set-Cookie in code comments.
-- 2021-07-11 19:27:58 +0200 Issue #1120: add and use wrapper Kernel::System::Web::Response::Cookies().
-- 2021-07-11 18:49:38 +0200 Issue #1120: eliminate usage of CGI::Cookie.
-- 2021-07-11 14:28:06 +0200 Issue #1106: saner name for a internal sub
-- 2021-07-11 14:26:16 +0200 Issue #1106: pass explicit params to _AddHeadersToResponseOBject()
-- 2021-07-11 13:59:52 +0200 Issue #1106: Kernel::System::Group is not used in InterfaceCustomer.pm
-- 2021-07-11 13:51:35 +0200 Issue #1106: limit the scope of %FrameworkParams
-- 2021-07-11 13:46:34 +0200 Issue #1106: get the Email object via the object manager.
-- 2021-07-11 13:43:43 +0200 Issue #1106: add HTTP headers in CustomerLogin()
-- 2021-07-11 13:42:04 +0200 Issue #1106: align InterfaceAgent.pm and InterfaceCustomer.pm
-- 2021-07-10 14:19:15 +0200 Issue #1106: Data::Peek is neither used nor generally available
-- 2021-07-10 14:11:05 +0200 Issue #1106: readd inadvertently removed usage of Modperl::Registry
-- 2021-07-09 21:13:35 +0200 Issue #1106: never encode the content in Attachment()
-- 2021-07-09 15:38:33 +0200 Issue #1106: check the charset before encoding the content.
-- 2021-07-09 15:37:04 +0200 Issue #1106: Mention that the set code has priority.
-- 2021-07-09 13:44:28 +0200 Issue #1106: Consistently use Test2::V0.
-- 2021-07-09 13:41:32 +0200 Issue #1106: honor a previously set status code
-- 2021-07-09 13:07:21 +0200 Issue #1106: encode the content to UTF-8 in $OTOBOApp.
-- 2021-07-09 21:13:35 +0200 Issue #1106: never encode the content in Attachment()
-- 2021-07-09 15:38:33 +0200 Issue #1106: check the charset before encoding the content.
-- 2021-07-09 15:37:04 +0200 Issue #1106: Mention that the set code has priority.
-- 2021-07-09 13:44:28 +0200 Issue #1106: Consistently use Test2::V0.
-- 2021-07-09 13:41:32 +0200 Issue #1106: honor a previously set status code
-- 2021-07-09 13:07:21 +0200 Issue #1106: encode the content to UTF-8 in $OTOBOApp.
-- 2021-07-01 19:34:17 +0200 Issue #1054: use the neate builder syntax for middlewares
-- 2021-07-01 16:52:55 +0200 Issue #1054: accept suggestion from Perl::Tidy
-- 2021-06-29 17:59:31 +0200 Issue #1054: make nph-genericinterface.pl like a nph-script
-- 2021-06-26 14:15:16 +0200 Issue #1054: added a check of the new session id
-- 2021-06-24 18:55:53 +0200 Issue #1054: switch to Test2::V0
-- 2021-06-24 16:44:57 +0200 Issue #1054: no need to special case /otobo/nph-genericinterface.pl
-- 2021-06-24 16:43:50 +0200 Issue #1054: recommend the correct config file
-- 2021-06-21 16:49:00 +0200 Issue #1096: ignore complaints about OTOBO::Perl::ParamObject.
-- 2021-06-20 11:14:53 +0200 Issue #1092: wait until the delete link is no longer hidden
-- 2021-06-19 14:39:40 +0200 Issue #1088: declare some soft dependencies
-- 2021-06-18 18:07:00 +0200 Issue #1088: start using the array @SoftObjectDependencies
-- 2021-06-16 16:07:32 +0200 Issue #1086: remove Alias and ScriptAlias
-- 2021-06-16 14:50:13 +0200 Issue #1088: remove unneeded dependencies
-- 2021-06-14 14:36:27 +0200 Issue #1054: eliminate scripts/apache2-perl-startup.pl
-- 2021-06-14 14:21:26 +0200 Issue #1054: add config for the locations otobo and otobo-web
-- 2021-06-14 14:18:45 +0200 Issue #1054: add some unicode to the DumpEnvApp
-- 2021-06-14 14:13:59 +0200 Issue #1054: fix logic for empty string check
-- 2021-06-14 12:18:17 +0200 Issue #1032: improve code comments
-- 2021-06-14 12:16:41 +0200 Issue #1032: switch to Plack::Handler::Apache2
-- 2021-06-12 15:17:48 +0200 Issue #1082: use postfix dereferencing
-- 2021-06-12 15:11:24 +0200 Issue #1082: saner names for labels and variables
-- 2021-06-12 15:10:18 +0200 Issue #1082: fix and enhance POD
-- 2021-06-12 14:59:36 +0200 Issue #1082: use 'unless' instead of 'if !'
-- 2021-06-12 14:57:36 +0200 Issue #1082: enhance POD and code comments
-- 2021-06-12 14:43:38 +0200 Issue #1082: enhance code comments
-- 2021-06-12 14:42:43 +0200 Issue #1082: encode the string written to shared memory
-- 2021-06-12 10:09:36 +0200 Issue #1081: upgrade to perl:5.34.0-buster
-- 2021-06-11 17:05:29 +0200 Issue #1031: accept suggestions from Perl::Tidy
-- 2021-06-11 17:05:00 +0200 Issue #1031: allow usage of 'open'
-- 2021-06-11 17:04:00 +0200 Issue #1031: add Kernel::System::Web::Request to ObjectDependencies
-- 2021-06-11 09:54:20 +0200 Issue #1011: saner way for setting up a list
-- 2021-06-11 09:52:35 +0200 Issue #1011: add default for the branch name
-- 2021-06-11 09:52:05 +0200 Issue #1011: add documentation
-- 2021-06-10 14:03:43 +0200 Issue #997: specify the relevant issue
-- 2021-06-10 14:02:53 +0200 Issue #997: remove checks for 'darwin'
-- 2021-06-10 11:13:10 +0200 Issue #1071: remove vestiges of Apache::DBI
-- 2021-06-10 10:57:14 +0200 Issue #1063: add the usual pragmas
-- 2021-06-10 10:44:19 +0200 Issue #1063: apparently Apache2::Module is not yet loaded
-- 2021-06-10 09:23:33 +0200 Issue #1063: AgentSessionLimit.pm shouldn't have been deleted
-- 2021-06-10 09:18:06 +0200 Issue #1063: tidying
-- 2021-06-10 09:17:16 +0200 Issue #1063: use is_loaded() instead of %INC
-- 2021-06-10 09:15:53 +0200 Issue #1063: use is_loaded() instead of require
-- 2021-06-09 18:05:55 +0200 Issue #1062: Don't ignore specific keys
-- 2021-06-09 18:02:58 +0200 Issue #1062: dont report typeglobs like *::STDERR
-- 2021-06-09 18:02:39 +0200 Issue #1062: tidying
-- 2021-06-09 17:27:24 +0200 Issue #1063: don't die when content_contains() fails
-- 2021-06-09 17:27:24 +0200 Issue #1063: don't die when content_contains() fails
-- 2021-06-09 13:32:44 +0200 Issue #1063: do not rely on $ENV{MOD_PERL}
-- 2021-06-09 13:20:31 +0200 Issue #1063: eliminate dependency on SERVER_SOFTWARE
-- 2021-06-09 12:43:39 +0200 Issue #1063: remove some vestiges of Apache2::Reload
-- 2021-06-08 14:48:14 +0200 Issue #1011: set MaxRequestsPerChild to 1000
-- 2021-06-05 14:43:31 +0200 Issue #1032: No Deflator required yet
-- 2021-06-05 13:50:01 +0200 Issue #1032: consistently use ->ReDirect
-- 2021-06-05 13:49:01 +0200 Issue #1032: remove obsolete code comment
-- 2021-06-05 13:23:54 +0200 Issue #1032: FatalError when Config.pm can't be read or written
-- 2021-06-05 13:22:49 +0200 Issue #1032: FatalError() throws an exception
-- 2021-06-05 13:20:01 +0200 Issue #1032: Bugfix: fix returned output
-- 2021-06-05 13:17:10 +0200 Issue #1032: tidying
-- 2021-06-05 11:44:53 +0200 Issue #1032: Inadvertently readded "AddOutputFilterByType DEFLATE"
-- 2021-06-05 11:19:25 +0200 Issue #1032: deflating is now done in otobo.psgi
-- 2021-06-03 18:48:45 +0200 Issue #1032: tentatively add Plack::Middleware::Deflater
-- 2021-06-03 14:18:00 +0200 Issue #1032: also get static content via otobo.psgi
-- 2021-06-03 14:12:12 +0200 Issue #1032: dump more info in the DumpEnvApp
-- 2021-06-03 14:06:03 +0200 Issue #1032: replace some instances of 'print' with 'return'
-- 2021-05-29 16:43:03 +0200 Issue #1043: ignore Variables::RequireLocalizedPunctuationVars in a tighter scope
-- 2021-05-29 16:39:10 +0200 Issue #1043: localize changes to %ENV
-- 2021-05-29 16:37:21 +0200 Issue #1043: localize %ENV values in the cgi-bin scripts
-- 2021-05-29 16:36:26 +0200 Issue #1043: enhance some code comments, tidying
-- 2021-05-28 17:56:23 +0200 Issue #1017: ignore SeleniumScreenshots again
-- 2021-05-28 17:47:29 +0200 Issue #510: add Kernel::System::Main::GetReleaseInfo()
-- 2021-05-28 16:00:35 +0200 Issue #510: explicitly require Text::CSV
-- 2021-05-28 14:32:41 +0200 Issue #1017: switch to a whitelist based approach
-- 2021-05-28 12:04:18 +0200 Issue #1030: do not check in the git-*.txt files
-- 2021-05-28 11:55:21 +0200 Issue #1030: add support for git-*.txt files
-- 2021-05-27 21:39:41 +0200 Issue #1014: avoid the workaround with the dummy queue id
-- 2021-05-27 18:48:37 +0200 Issue #1031: do not add Kernel::System::Web::Request to the ObjectDependencies
-- 2021-05-27 12:43:18 +0200 Issue #1031: the scripts in cgi-bin may meddle with %ENV
-- 2021-05-27 12:42:06 +0200 Issue #1031: accept suggestions from Perl::Tidy
-- 2021-05-27 11:56:27 +0200 Issue #1031: second batch of changes for CodePolicy
-- 2021-05-27 11:32:38 +0200 Issue #1031: for batch of changes for CodePolicy
-- 2021-05-26 19:02:03 +0200 Issue #1027: do not use CGI::PSGI::env_query_string()
-- 2021-05-26 18:40:47 +0200 Issue #1025: try to simplify the Redirect() method
-- 2021-05-26 17:55:02 +0200 Issue #1025: SessionID must be concatenated
-- 2021-05-26 12:53:46 +0200 Issue #1025: tidying
-- 2021-05-26 12:51:51 +0200 Issue #1025: simplify, and fix, code for adding SessionID in URL
-- 2021-05-23 15:11:37 +0200 Issue #1011: DoneTesting() is not called in RegisterDriver.pm
-- 2021-04-18 12:53:01 +0200 Issue #949: no need to ship Module::Load
+- 2021-08-13 21:20:14 +0200 [Security] Docker: use the maintenance releases of Perl as base images  (https://github.com/RotherOSS/otobo/issues/1175)
+- 2021-07-21 20:37:14 +0200 [Bugfix]   Support for ancient CGI, without Modperl::Registry (https://github.com/RotherOSS/otobo/issues/1118)
+- 2021-07-19 20:43:35 +0200 Preload otobo.psgi when using Plack::Handler::Apache2 (https://github.com/RotherOSS/otobo/issues/1141)
+- 2021-07-17 17:06:00 +0200 [Bugfix]   Redefined subs from OTOBO::RPC (https://github.com/RotherOSS/otobo/issues/1121)
+- 2021-07-17 13:25:34 +0200 Provide a OTOBO specific image for Chrome, that can be used for testing with Selenium (https://github.com/RotherOSS/otobo/issues/1109)
+- 2021-07-16 21:28:46 +0200 [Tidied]   Use the cookie jar from Plack::Response (https://github.com/RotherOSS/otobo/issues/1120)
+- 2021-07-11 14:28:06 +0200 Encoding issues with CGI scripts wrapping otobo.psgi (https://github.com/RotherOSS/otobo/issues/1106)
+- 2021-07-01 19:34:17 +0200 Test and fix the wrappers in bin/cgi-bin (https://github.com/RotherOSS/otobo/issues/1054)
+- 2021-06-21 16:49:00 +0200 [Tidied]   OTOBO::Perl::ParamObject violations in rel-10_1 (https://github.com/RotherOSS/otobo/issues/1096)
+- 2021-06-20 11:14:53 +0200 Timing issues in Customer/MultiAttachmentUpload/TicketMessage.t  (https://github.com/RotherOSS/otobo/issues/1092)
+- 2021-06-19 14:39:40 +0200 Fix test failures due to new ObjectDependencies (https://github.com/RotherOSS/otobo/issues/1088)
+- 2021-06-16 16:07:32 +0200 Alias and ScriptAlias in apache2-httpd-vhost-80.include.conf (https://github.com/RotherOSS/otobo/issues/1086)
+- 2021-06-14 12:18:17 +0200 [Bugfix]   Test and fix OTOBO under Apache/mod_perl with mpm_prefork (https://github.com/RotherOSS/otobo/issues/1032)
+- 2021-06-12 15:17:48 +0200 [Bugfix]   Encode strings when writing to shared memory (https://github.com/RotherOSS/otobo/issues/1082)
+- 2021-06-12 10:09:36 +0200 [Enhanced] Docker: upgrade to Perl 5.34.0 (https://github.com/RotherOSS/otobo/issues/1081)
+- 2021-06-11 17:05:29 +0200 [Tidied]   Adjust the code in rel-10_1 branch to work with CodePolicy (https://github.com/RotherOSS/otobo/issues/1031)
+- 2021-06-11 09:54:20 +0200 Check and fix Selenium tests in the rel-10_1 branch (https://github.com/RotherOSS/otobo/issues/1011)
+- 2021-06-10 14:03:43 +0200 [Tidied]   Remove remnants of support for MacOS (https://github.com/RotherOSS/otobo/issues/997)
+- 2021-06-10 11:13:10 +0200 [Enhanced] Remove check for Apache2::DBI in the Support Data Collector (https://github.com/RotherOSS/otobo/issues/1071)
+- 2021-06-10 10:57:14 +0200 [Bugfix]   No longer rely on the environment variable MOD_PERL (https://github.com/RotherOSS/otobo/issues/1063)
+- 2021-06-09 18:05:55 +0200 [Bugfix]   SupportDataCollector tries to cache file handles (https://github.com/RotherOSS/otobo/issues/1062)
+- 2021-05-29 16:43:03 +0200 [Bugfix]   Localize changes to %ENV (https://github.com/RotherOSS/otobo/issues/1043)
+- 2021-05-28 17:56:23 +0200 [Enhanced] Docker image should contain same files as the tar-package (https://github.com/RotherOSS/otobo/issues/1017)
+- 2021-05-28 17:47:29 +0200 [Enhanced] Add, or consistenly use, a method that can parse the file RELEASE (https://github.com/RotherOSS/otobo/issues/510)
+- 2021-05-28 12:04:18 +0200 [Enhanced] Make Git branch and commit hash availables as files in Docker image (https://github.com/RotherOSS/otobo/issues/1030)
+- 2021-05-27 21:39:41 +0200 [Enhanced] Avoid warning about invalid QueueID in TicketQueueOverview.pm line 171. (https://github.com/RotherOSS/otobo/issues/1014)
+- 2021-05-26 19:02:03 +0200 [Bugfix]   CGI::PSGI->EnvQueryString() returns an empty string (https://github.com/RotherOSS/otobo/issues/1027)
+- 2021-05-26 18:40:47 +0200 [Bugfix]   SessionID is included twice in URL when Session cookies are turned off (https://github.com/RotherOSS/otobo/issues/1025)
+- 2021-04-18 12:53:01 +0200 [Tidied]   Remove Module::Load from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/949)
 - 2021-03-15 15:56:39 +0100 Added the possibility to use Core.AJAX.FormUpdate to deal multiple forms with multiple backend-actions on one page.
 - 2021-03-06 13:05:44 +0100 Restore support for Memcached
 - 2021-03-06 12:31:54 +0100 Allow article cache on Redis
-- 2021-03-02 16:42:03 +0100 Issue #761: give the new CGI object to the object manager
-- 2021-03-01 21:30:55 +0100 Issue #828: mention that discarding the helper object is needed indeed
-- 2021-03-01 21:19:35 +0100 Issue #761: satisfy Perl::Critic and Perl::Tidy
-- 2021-03-01 21:15:49 +0100 Issue #761: satisfy Perl::Critic and Perl::Tidy
-- 2021-03-01 21:12:32 +0100 Issue #761: satisfy Perl::Critic
-- 2021-03-01 21:06:14 +0100 Issue #761: pass a CGI object
-- 2021-03-01 21:02:20 +0100 Issue #761: fallback to an empty CGI object
-- 2021-03-01 21:00:38 +0100 Issue #761: accept one suggestion from Perl::Tidy
-- 2021-03-01 16:43:27 +0100 Issue #761: improve POD and code comments
-- 2021-02-28 17:53:17 +0100 Issue #761: Improve POD and code comments, tidying.
-- 2021-02-28 17:45:32 +0100 Issue #761: Perl::Tidy was not happy with the script.
-- 2021-02-28 16:39:09 +0100 Issue #761: remove a workaround that looked obsolete
-- 2021-02-28 16:32:26 +0100 Issue #761: fix the first of the failing tests
-- 2021-02-28 12:19:59 +0100 Issue #826: don't load not needed modules
-- 2021-02-26 18:42:32 +0100 Issue #606: remove _RemoveScriptTags()
-- 2021-02-18 22:45:37 +0100 Issue #788: allow -h for getting help
-- 2021-02-18 22:38:52 +0100 Issue #788: featire plack instead of plack::webserver
-- 2021-02-17 09:38:50 +0100 Issue #803: Show system articles yellow again.
-- 2021-02-06 14:54:30 +0100 Issue #761: remove the fallback to CGI
-- 2021-01-21 13:43:20 +0100 Issue #737: remove the redundant 'return' before Redirect().
-- 2021-01-21 13:34:26 +0100 Issue #737: conssitently remove the redundant 'return'
-- 2021-01-21 13:27:05 +0100 Issue #737: don't call ApplyOutputFilters() in the customer interface
-- 2021-01-21 12:23:08 +0100 Issue #737: apply output filter after content generation
-- 2021-01-21 12:19:45 +0100 Issue #737: no need to call ApplyOutputFilters() in the agent interface
-- 2021-01-21 11:42:41 +0100 Issue #737: don't use a Plack middleware
-- 2021-01-20 16:09:00 +0100 Issue #737: tentatively convert public.pl
-- 2021-01-20 14:37:59 +0100 Issue #737: update POD
-- 2020-12-05 12:33:30 +0100 Issue #438: only comment out the setting of pg_enable_utf8
-- 2020-12-05 11:51:32 +0100 Issue #320: added a missing semicolon
-- 2020-12-05 11:20:43 +0100 Issue #599: remove setup of bin/cgi-bin, as it is no longer used
-- 2020-10-30 15:16:53 +0100 Issue #599: tentatively adapt the Apache configuration
-- 2020-12-05 10:57:48 +0100 Issue #320: eliminate some more mentions of Apache2::Reload
-- 2020-11-10 10:30:40 +0100 Issue #622: no need to set up a CGI environment in test script
-- 2020-11-10 10:29:24 +0100 Issue #622: no need to create $Request in the test script
-- 2020-11-10 10:18:28 +0100 Issue #662: use more specific variable names
-- 2020-11-10 10:02:06 +0100 Issue #622: add some code comments, explaining about %ENV
-- 2020-11-10 09:58:44 +0100 Issue #622: remove empty lines around $Self->DoneTesting()
-- 2020-11-09 10:37:58 +0100 Issue #320: Print() is no longer used
-- 2020-11-09 10:30:56 +0100 Issue #566: more tidying
-- 2020-11-09 10:30:07 +0100 Issue #566: do not call the method Print() before the complete content was collected
-- 2020-11-09 10:24:39 +0100 Issue #566: tidying
-- 2020-11-07 16:24:45 +0100 Issue #320: teach test scripts that generate response can generate an exception
-- 2020-11-07 16:22:58 +0100 Issue #320: tidy the header of some test scripts
-- 2020-11-07 13:09:15 +0100 Issue #320: make it work again. convert to Test2::V0
-- 2020-11-07 12:30:22 +0100 Issue #320: eliminate Kernel::System::UnitTest::RegisterDriver
-- 2020-11-07 12:22:54 +0100 Issue #320: try to emit saner test descriptions
-- 2020-11-07 12:22:10 +0100 Issue #320: catch the exception from Content()
-- 2020-11-07 12:20:35 +0100 Issue #320: tidying, handling special case for early exit is no longer neccessary
-- 2020-11-07 11:27:28 +0100 Issue #320: reeanable classic CGI
-- 2020-11-06 17:52:28 +0100 Issue #320: no longer support classic CGI
-- 2020-11-06 17:27:31 +0100 Issue #320: simplify code, knowing that OTOBO_RUNS_UNDER_PSGI is set
-- 2020-11-06 16:30:36 +0100 Revert "Issue #320: actually only Kernel/cpan-lib/Apache2 is gone"
-- 2020-11-05 17:18:55 +0100 Issue #320: actually only Kernel/cpan-lib/Apache2 is gone
-- 2020-11-05 16:58:14 +0100 Issue #566: update the SYNOPSIS
-- 2020-11-05 14:46:38 +0100 Issue #566: add support for the PSGI case in HTTP::Test transport layer
-- 2020-11-05 13:10:15 +0100 Issue #566: generate response with status 500 under PSGI
-- 2020-11-05 13:04:37 +0100 Issue #566: Tidying, work with subtests
-- 2020-11-04 13:51:32 +0100 Issue #566: Generate content in the cgi-bin scripts
-- 2020-11-04 13:51:32 +0100 Issue #566: Generate content in the cgi-bin scripts
-- 2020-11-04 13:34:49 +0100 Issue #566: add a note that the cgi-bin scripts are broken
-- 2020-11-04 13:23:18 +0100 Issue #566: clean up remaining occurences of HeaderAndContent
-- 2020-11-04 12:44:45 +0100 Issue #566: Do not rely on $ENV{HTTP_TRANSFER_ENCODING}
-- 2020-11-04 12:39:34 +0100 Issue #566: Do not rely on $ENV{CONTENT_TYPE}
-- 2020-11-04 12:37:42 +0100 Issue #566: load required modules, add missing '->new()'
-- 2020-11-04 12:34:40 +0100 Issue #566: tidying
-- 2020-11-04 12:24:22 +0100 Issue #566: eliminate $Self
-- 2020-11-04 12:08:29 +0100 Issue #566: use subtests to make the output more understandable
-- 2020-11-04 11:24:40 +0100 Issue #566: try to shorten the stacktraces
-- 2020-11-04 10:26:19 +0100 Issue #566: report the number of mismatches
-- 2020-11-04 10:15:09 +0100 Issue #566: Load the relevant modules, actually call the constructor
-- 2020-11-03 17:35:51 +0100 Issue #566: not yet used to how Plack::Response works
-- 2020-11-03 17:28:44 +0100 Issue #566: rename the methods HeaderAndContent() to Content()
-- 2020-11-03 17:11:17 +0100 Issue #566: eliminate CGI::Parse::PSGI
-- 2020-11-03 17:09:31 +0100 Issue #566: try the exception workaround again
-- 2020-11-03 17:08:56 +0100 Issue #566: tidying
-- 2020-11-03 17:03:05 +0100 Issue #566: tidying
-- 2020-11-03 16:58:30 +0100 Issue #566: pass response via an exception
-- 2020-11-03 16:58:12 +0100 Issue #566: tidying
-- 2020-11-03 16:28:59 +0100 Issue #566: add cookie headers in  _AddHeadersToResponseOBject()
-- 2020-11-03 16:28:17 +0100 Issue #566: add missing header creation
-- 2020-11-03 16:27:33 +0100 Issue #566: tidying
-- 2020-11-03 15:30:02 +0100 Issue #566: PlackResponse is now the only supported param in the exception object
-- 2020-11-03 15:29:44 +0100 Issue #566: work on redirect handling
-- 2020-11-03 15:28:40 +0100 Issue #566: tidying
-- 2020-11-03 14:13:32 +0100 Issue #566: HTTPHeaders.tt is no longer needed
-- 2020-11-03 14:05:21 +0100 Issue #566: remove a HTTP header that was used for testing
-- 2020-11-03 14:04:38 +0100 Issue #566: eliminate the special case on login.tt
-- 2020-11-03 13:53:16 +0100 Issue #566: use the Kernel::System::Web::Response object in Print()
-- 2020-11-03 13:52:13 +0100 Issue #566: use the Kernel::System::Web::Response object in as_psgi()
-- 2020-11-03 13:49:52 +0100 Issue #566: actually emit a PSGI response in the fallback case
-- 2020-11-03 13:28:53 +0100 Issue #566: fix spelling: alreadx => already
-- 2020-11-03 13:13:07 +0100 Issue #566: Fiddle with the CPAN dependencies
-- 2020-11-03 12:57:09 +0100 Issue #566: Switch SkipHTTPHeaders is no longer needed
-- 2020-11-03 12:47:05 +0100 Issue #566: no need for switch UseResponseObject,
-- 2020-11-03 12:34:19 +0100 Issue #566: convert otobo.psgi
-- 2020-11-03 12:25:20 +0100 Issue #566: migrate the scripts in bin/cgi-bin
-- 2020-11-03 10:45:51 +0100 Issue #565: $Param{AdditionalHeader} can be undefined
-- 2020-11-03 10:29:19 +0100 Issue #565: adapt installer.pl to the new interface
-- 2020-11-03 10:25:59 +0100 Issue #565: support the response object in Attachment() and FatalError()
-- 2020-11-03 09:34:19 +0100 Issue #565: less intrusive check for SkipHTTPHeaders
-- 2020-11-02 15:50:40 +0100 Issue #565: tidying
-- 2020-11-02 15:49:44 +0100 Issue #565: installer.pl no longer has HeaderAndContent()
-- 2020-11-02 15:44:31 +0100 Issue #565: Add support for saner setting of HTTP headers.
-- 2020-11-02 13:07:17 +0100 Issue #605: remove _DisableBannerCheck()
-- 2020-11-02 13:06:54 +0100 Issue #605: tidying
-- 2020-11-02 12:56:12 +0100 Issue #565: remove not interesting debug message
-- 2020-11-02 12:19:58 +0100 Issue #565: remove debug output, tidying
-- 2020-11-01 15:52:27 +0100 Issue #438: no need to set pg_enable_utf8.
-- 2020-11-01 15:51:38 +0100 Issue #438: tidying, align with mysql.pm
-- 2020-10-29 16:14:50 +0100 Issue #320: require Perl 5.24 instead of Perl 5.25 .
-- 2020-10-29 15:29:13 +0100 Issue #323: require CGI::Parse::CGI instead of CGI::Emulate::PSGI
-- 2020-10-29 15:05:47 +0100 Issue #323: tidying, use namespace::autoclean
-- 2020-10-29 15:00:48 +0100 Issue #323: get HTTP_SOAPACTION also in the PSGI case
-- 2020-10-29 15:00:11 +0100 Issue #323: no need to rely on $ENV{REQUEST_METHOD}
-- 2020-10-29 13:53:48 +0100 Issue #323: get the server protocol from the request object
-- 2020-10-29 13:53:15 +0100 Issue #323: use POSTDATA in the PSGI case
-- 2020-10-29 13:52:08 +0100 Issue #323: document the used HTTP status codes
-- 2020-10-29 13:51:09 +0100 Issue #323: tidying: remove not needed single quotes
-- 2020-10-29 13:47:22 +0100 Issue #323: try to make the logic more obvious
-- 2020-10-28 21:30:35 +0100 Issue #323: ProviderGenerateResponse() was called twice
-- 2020-10-28 21:29:42 +0100 Issue #323: no need to delete Output of the result
-- 2020-10-28 21:28:07 +0100 Issue #323: update POD. Output is returned as well
-- 2020-10-28 20:47:31 +0100 Issue #323: fix name of the script: public.pl was checked twice
+- 2021-03-02 16:42:03 +0100 [Enhanced] Remove fallback support for CGI in Kernel::System::Web::Request (https://github.com/RotherOSS/otobo/issues/761)
+- 2021-03-01 21:30:55 +0100 [Tidied]   Clean up Kernel::System::UnitTest::RegisterDriver (https://github.com/RotherOSS/otobo/issues/828)
+- 2021-02-28 12:19:59 +0100 [Tidied]   Don't load IPC::Open3 needlessly (https://github.com/RotherOSS/otobo/issues/826)
+- 2021-02-26 18:42:32 +0100 [Enhanced] Remove method Kernel::Output::HTML::Layout::_RemoveScriptTags() (https://github.com/RotherOSS/otobo/issues/606)
+- 2021-02-18 22:45:37 +0100 [Enhanced] Let otobo.Console.pl support the option -h for getting help (https://github.com/RotherOSS/otobo/issues/788)
+- 2021-02-17 09:38:50 +0100 [Enhanced] CSS: AgentTicketZoom Article Row with misleading background-color for System E-Mails (https://github.com/RotherOSS/otobo/issues/803)
+- 2021-01-21 13:43:20 +0100 [Enhanced] Use a Plack middleware for supporting FilterContent output filters (https://github.com/RotherOSS/otobo/issues/737)
+- 2020-12-05 12:33:30 +0100 Is pg_enable_utf8 still needed ? (https://github.com/RotherOSS/otobo/issues/438) - in progress
+- 2020-12-05 11:51:32 +0100 PSGI: turn the scripts in scripts bin/cgi-bin into wrappers around otobo.psgi (https://github.com/RotherOSS/otobo/issues/320)
+- 2020-12-05 11:20:43 +0100 [Enhanced] PSGI: use PerlResponseHandler Plack::Handler::Apache2 in the default Apache config (https://github.com/RotherOSS/otobo/issues/599)
+- 2020-11-10 10:30:40 +0100 [Enhanced] Testing: unneeded interaction with %ENV (https://github.com/RotherOSS/otobo/issues/622)
+- 2020-11-09 10:30:56 +0100 [Enhanced] Use the interface for setting headers (https://github.com/RotherOSS/otobo/issues/566)
+- 2020-11-03 10:45:51 +0100 [Enhanced] Create interface for setting HTTP-headers (https://github.com/RotherOSS/otobo/issues/565)
+- 2020-11-02 13:07:17 +0100 [Tidied]   Remove method Kernel::Output::HTML::Layout::_DisableBannerCheck() (https://github.com/RotherOSS/otobo/issues/605)
+- 2020-10-29 15:29:13 +0100 [Enhanced] PSGI: Eliminate CGI::Emulate::PSGI (https://github.com/RotherOSS/otobo/issues/323)
 - 2020-10-27 15:36:09 +0100 Refresh ZZZAAuto.pm also in the OTOBO app
-- 2020-10-22 19:23:53 +0200 Issue #449: regenerate the cpanfiles
-- 2020-10-22 19:20:34 +0200 Issue #449: an extra VersionNotSuppored sneaked in
-- 2020-10-22 19:13:27 +0200 Issue #449: require Text::Trim, no package for BSD
-- 2020-10-22 19:06:08 +0200 Issue #449: require Path::Class
-- 2020-10-22 19:04:06 +0200 Issue #449: require List::AllUtils
-- 2020-10-22 18:54:47 +0200 Issue #449: require File::chmod
-- 2020-10-22 18:50:32 +0200 Issue #449: require Const::Fast
-- 2020-10-16 18:34:40 +0200 Issue #351: remove all Apache version checks
-- 2020-10-16 09:38:37 +0200 Issue #547: don't use hash a state variable
-- 2020-10-15 20:50:40 +0200 Issue #549: convert TimeStamp2SystemTime.t to Test2::V0
-- 2020-10-15 12:40:06 +0200 Issue #251: Adapt to trying to get rid of %ENV.
-- 2020-10-10 18:57:38 +0200 Issue #320: apache2-perl-startup.pl may fail
-- 2020-10-10 18:45:57 +0200 Issue #320: not a real need to remove Apache files
-- 2020-10-10 18:25:05 +0200 Issue #320: CGI::Apache not needed with otobo.psgi
-- 2020-10-10 18:22:49 +0200 Issue #320: Apache2::Reload not used
-- 2020-10-10 18:07:06 +0200 Issue #320: Apache::DBI not needed with otobo.psgi
-- 2020-10-10 18:05:45 +0200 Issue #320: Apache::DBI no needed with otobo.psgi
-- 2020-10-10 15:50:13 +0200 Issue #320: Plack used in standard now
-- 2020-10-10 15:45:58 +0200 Issue #320: CGI-scripts now wrap otobo.psgi
-- 2020-10-10 15:44:47 +0200 Issue #320: a commented out line that activates URLMap debugging
-- 2020-10-10 10:26:07 +0200 Issue #323: do away with $GenericInterfaceApp
-- 2020-10-10 10:17:46 +0200 Issue #323: no idea why CGI::Emulate::PSGI was in Kernel/cpan-lib
-- 2020-10-10 09:58:16 +0200 Issue #323: HeaderAndContent() instead of Run()
-- 2020-10-10 09:39:53 +0200 Issue #323: move printing out of _HandleError
-- 2020-10-10 09:23:38 +0200 Issue #323: remove binmode for now
-- 2020-10-10 09:21:03 +0200 Issue #323: move printing of error messages one level up
-- 2020-10-09 18:10:28 +0200 Issue #323: move 'print STDOUT' another level up
-- 2020-10-09 17:47:22 +0200 Issue #323: move printing to STDOUT one level higher
-- 2020-10-09 17:46:27 +0200 Issue #323: avoid printing to STDOUT when a parameter is missing
-- 2020-10-09 14:26:02 +0200 Issue #323: convert index.pl and customer.pl
-- 2020-10-09 12:49:05 +0200 Issue #323: synchronise the cgi scripts
-- 2020-10-09 11:25:39 +0200 Issue #323: public.pl has been converted
-- 2020-10-09 11:13:47 +0200 Issue #323: Convert public.pl
-- 2020-10-09 11:12:09 +0200 Issue #323: tidying, code comments
-- 2020-10-09 11:07:45 +0200 Issue #323: add code comments
-- 2020-10-09 11:03:43 +0200 Issue #323: tidying, improve code comments
+- 2020-10-22 19:23:53 +0200 Require some utility modules that might come handy in future (https://github.com/RotherOSS/otobo/issues/449)
+- 2020-10-16 18:34:40 +0200 [Enhanced] Apache: no longer support Apache version less than 2.4 (https://github.com/RotherOSS/otobo/issues/351)
+- 2020-10-16 09:38:37 +0200 [Bugfix]   DateTime issue in current 10.1. (https://github.com/RotherOSS/otobo/issues/547)
+- 2020-10-15 20:50:40 +0200 [Bugfix]   UnitTests: Two tests without plan (https://github.com/RotherOSS/otobo/issues/549)
+- 2020-10-15 12:40:06 +0200 [Bugfix]   SessionID in old cookies can trap client on the login page. (https://github.com/RotherOSS/otobo/issues/251)
 - 2020-10-07 18:11:59 +0200 Correct an incomplet merge
-- 2020-10-02 17:20:55 +0200 Issue #500: $Type has been changed to $Class
-- 2020-10-02 16:05:47 +0200 Issue #500: restrict scope of some variables
-- 2020-10-02 16:02:58 +0200 Issue #500: tidying
-- 2020-10-02 15:58:29 +0200 Issue #500: rename a variable in the POD
-- 2020-10-02 15:53:44 +0200 Issue #500: make the initial POD more consistent
-- 2020-10-02 15:07:06 +0200 Issue #500: clean up not needed object dependencies
-- 2020-10-02 14:59:49 +0200 Issue #500: simplify checking of a return code
-- 2020-10-02 14:58:20 +0200 Issue #500: tidying, use v5.24, use utf8
-- 2020-09-30 11:38:15 +0200 Issue #488: remove Dev::Tools::Migrate::DTL2TT
-- 2020-09-25 18:25:39 +0200 Issue #192: eliminate the driver objects
-- 2020-09-25 18:11:16 +0200 Issue #192: use NutsAndBolts.t as the test test script
-- 2020-09-25 18:06:52 +0200 Issue #192: generate proper TAP for a skipped test
-- 2020-09-25 17:55:42 +0200 Issue #192: don't try to print test result
-- 2020-09-25 17:34:09 +0200 Issue #192: fix spelling: UitTest => UnitTest
-- 2020-09-25 15:19:28 +0200 Issue #417: some useful changes from the rel-10_0 branch
-- 2020-09-25 11:29:40 +0200 Issue #447: Don't complain about '0', which is a valid random string.
-- 2020-09-25 11:28:30 +0200 Issue #447: add code comments
-- 2020-09-25 11:28:01 +0200 Issue #447: tidying
-- 2020-09-24 09:10:56 +0200 Issue #192: extract the OTOBO version from RELEASE
-- 2020-09-23 18:30:11 +0200 Issue #192: no need for the funny package check
-- 2020-09-23 18:29:29 +0200 Issue #192: no need to track TestOk and TestNotOk
-- 2020-09-23 18:27:26 +0200 Issue #192: try to make Blacklist.t work in a sane way.
-- 2020-09-23 17:09:40 +0200 Issue #192: now Dev::UnitTest::Run can be used instead of prove
-- 2020-09-23 16:24:46 +0200 Issue #192: remove the trailing '1;'
-- 2020-09-23 16:07:53 +0200 Issue #192: remove verbose mode in the Driver object
-- 2020-09-23 16:00:47 +0200 Issue #192: remove more cruft, and more cleanup
-- 2020-09-23 15:40:29 +0200 Issue #192: eradicate OutputBuffer
-- 2020-09-23 15:34:01 +0200 Issue #192: remove some cruft,
-- 2020-09-23 15:18:04 +0200 Issue #192: resurrect post test scripts
-- 2020-09-23 14:23:35 +0200 Issue #192: pass ANSI on to TAP::Harness
-- 2020-09-23 14:01:45 +0200 Issue #192: remove support for diff type 'unified'
-- 2020-09-23 13:09:28 +0200 Issue #192: added 'use v5.24.0' and 'use utf8'.
-- 2020-09-23 13:07:15 +0200 Issue #192: tidying
-- 2020-09-23 13:05:49 +0200 Issue #192: readd handling of the verbose param
-- 2020-09-23 13:00:17 +0200 Issue #192: let git ignore .out files
-- 2020-09-23 12:40:09 +0200 Issue #192: remove option --test-runs
-- 2020-09-23 12:33:10 +0200 Issue #192: first stab at migrating to TAP::Harness
-- 2020-09-23 12:24:03 +0200 Issue #192: tidying
-- 2020-09-23 12:19:05 +0200 Issue #192: fix glitch in Compile.t
-- 2020-09-22 13:46:57 +0200 Issue #192: first collect the test files before running them
-- 2020-09-22 13:45:09 +0200 Issue #192: tidying
-- 2020-09-22 12:53:29 +0200 Issue #192: remove obsolete options
-- 2020-09-18 14:20:08 +0200 Issue #446: more verbose comments why Win32 modules are skipped
-- 2020-09-15 10:19:29 +0200 Issue #441: no need to 'use Encode', as it is not used directly
+- 2020-10-02 17:20:55 +0200 [Tidied]   Review code of the migration modules (https://github.com/RotherOSS/otobo/issues/500)
+- 2020-09-30 11:38:15 +0200 [Enhanced] Remove Kernel::System::Console::Command::Dev::Tools::Migrate::DTL2TT (https://github.com/RotherOSS/otobo/issues/488)
+- 2020-09-25 18:25:39 +0200 UnitTest: Make the console cmd Dev::UnitTest::Run a frontend for TAP::Harness (https://github.com/RotherOSS/otobo/issues/192)
+- 2020-09-25 15:19:28 +0200 [Enhanced] Don't run otobo_cron_1 as root (https://github.com/RotherOSS/otobo/issues/417)
+- 2020-09-25 11:29:40 +0200 [Enhanced] Testing: Backport changes in testsuite from rel-10_1 to rel-10_0 (https://github.com/RotherOSS/otobo/issues/447)
+- 2020-09-18 14:20:08 +0200 [Tidied]   Remove Windows specific modules in Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/446)
+- 2020-09-15 10:19:29 +0200 [Enhanced] Cleanup useless use ...; (https://github.com/RotherOSS/otobo/issues/441)
 - 2020-09-08 18:13:57 +0200 Update tag of the image that is used for the syntax check
 - 2020-09-08 10:46:38 +0200 Issue RotherOSS/otobo-docker#6: run on high port number
 - 2020-09-07 15:06:17 +0200 A more consisten local label for the git branch rel-10_1
-- 2020-09-07 14:59:22 +0200 Issue #422: maybe a string with options is expected
-- 2020-09-07 14:52:21 +0200 Issue #422: user is passed in hash options
-- 2020-09-07 14:46:58 +0200 Issue #422: try setting the user explicitly to root
+- 2020-09-07 14:59:22 +0200 [Bugfix]   Docker: fix the github action 'syntax check' (https://github.com/RotherOSS/otobo/issues/422)
 - 2020-09-07 14:09:40 +0200 Include the git branch in the local docker tag
-- 2020-09-06 12:33:57 +0200 Issue #417: add a handler for SIGTERM
-- 2020-09-06 12:19:28 +0200 Issue #417: fix spelling Deamon -> Daemon
-- 2020-09-05 15:29:12 +0200 Issue #417: do not run cron in a containtainer
-- 2020-09-05 15:03:03 +0200 Issue #417: lint_docker_files.sh no needed in image
-- 2020-09-05 13:26:14 +0200 Issue #417: update required modules
-- 2020-09-04 13:52:58 +0200 Issue #406: namespace::autoclean leaves new() in place
-- 2020-09-04 13:51:52 +0200 Issue #406: call ARG as late as possible
-- 2020-09-04 12:54:56 +0200 Issue #406: clean namespace of Kernel::System::Main
-- 2020-09-04 12:37:51 +0200 Issue #406: add failing tests for whether irand() is available
-- 2020-09-04 11:09:25 +0200 Issue #406: use the irand() subroutine
-- 2020-09-04 11:08:08 +0200 Issue #406: added some test cases for GeneratRandomString()
-- 2020-09-03 22:01:32 +0200 Issue #277: remove duplicated ARG commands
-- 2020-09-03 21:58:09 +0200 Issue #277: accept argument GIT_REPO
-- 2020-09-03 21:56:01 +0200 Issue #277: remove env var SOURCE_BRANCH, set DOCKER_TAG
-- 2020-09-03 12:10:44 +0200 Issue #246: USER root is set on purpose
-- 2020-09-03 12:10:05 +0200 Issue #246: clean up command for the cronjobs
-- 2020-09-03 12:09:21 +0200 Issue #246: clean up commands for installing packages
-- 2020-09-03 12:08:08 +0200 Issue #246: add script for linting docker files
-- 2020-09-02 16:38:21 +0200 Issue #407: do not try to dump references
-- 2020-09-02 16:37:43 +0200 Issue #407: move the PSGI vars one level down
-- 2020-09-02 16:35:37 +0200 Issue #407: a feeble attempt to add a sensible SERVER_SOFTWARE
-- 2020-09-02 15:52:11 +0200 Issue #407: add more info for the Plack case
-- 2020-09-02 15:49:15 +0200 Issue #407: get server software from the CGI-Object
-- 2020-09-02 15:48:33 +0200 Issue #407: declare missing object dependency
-- 2020-09-02 15:47:35 +0200 Issue #407: remove unused varible %Environment
-- 2020-09-01 16:09:00 +0200 Issue #210: use carton to install dependencies
-- 2020-09-01 15:18:11 +0200 Issue #210: use a Docker specific cpanfile
-- 2020-09-01 13:01:26 +0200 Issue #210: neater variable name for lookup tables
-- 2020-08-31 09:42:48 +0200 Issue #277: change LABEL org.opencontainers.image.url to https://github.com/RotherOSS/otobo
-- 2020-08-30 15:40:07 +0200 Issue #277: pull in last changes in otobo.web.dockerfile
-- 2020-08-30 15:34:25 +0200 Issue #277: overwrite the maintainer label
-- 2020-08-30 13:50:28 +0200 Issue #277: try to pass GIT_REPO into the Dockerfile
-- 2020-08-30 13:00:54 +0200 Issue #277: first stab at OCI compliant labels
-- 2020-08-30 12:59:37 +0200 Issue #277: remove the unused ARG OTOBO_INSTALL
-- 2020-08-29 12:19:16 +0200 Issue #323: use $Interface->HeaderAndContent() in migration.pl
-- 2020-08-28 13:40:28 +0200 Issue #323: do not load Data::Dumper
-- 2020-08-28 13:15:08 +0200 Issue #323: adapte the expected OTOBO Framework version
-- 2020-08-28 12:25:28 +0200 Issue #323: avoid double encoding
-- 2020-08-28 12:15:19 +0200 Issue #323: enhance the code comments.
-- 2020-08-27 19:10:32 +0200 Issue #323: try to simplify the code
-- 2020-08-27 19:00:38 +0200 Issue #323: remove two unneeded levels of parenthesis
-- 2020-08-25 16:58:20 +0200 Issue #395: fix the HTTP check unter PSGI
-- 2020-08-25 13:46:35 +0200 Issue #388: explicit check for 'Z' in _StringToHash()
-- 2020-08-25 13:13:10 +0200 Issue #388: enhance check for time offsets
-- 2020-08-25 13:11:10 +0200 Issue #388: don't overwrite an already existing TimeZone param
-- 2020-08-25 13:10:10 +0200 Issue #388: fiddle with support for time offsets in timestamps
-- 2020-08-25 13:07:53 +0200 Issue #388: add a log message when DateTime object can't be created
-- 2020-08-25 13:07:09 +0200 Issue #388: code comments
-- 2020-08-25 13:05:07 +0200 Issue #388: add a couple of test for time offsets
-- 2020-08-25 10:09:34 +0200 Issue #388: fix expected result of TimeStamp2SytemTime() tests
-- 2020-08-24 16:19:55 +0200 Issze #388: use the Kernel::System::DateTime methods
-- 2020-08-24 16:12:11 +0200 Issue #388: explicitly add the match operator
-- 2020-08-24 16:11:31 +0200 Issue #388: There is no $Self->{TimeZone} in Kernel::System::DateTime
-- 2020-08-24 15:45:03 +0200 Issue #323: lexical file handles are autoclosing
-- 2020-08-24 15:44:03 +0200 Issue #323: simplify finding the appropriate parser
-- 2020-08-24 15:41:36 +0200 Issue #323: no need to declare %INC.
-- 2020-08-24 15:40:18 +0200 Issue #323: do not print in InterfaceMigrateFromOTRS.pm
-- 2020-08-24 15:38:33 +0200 Issue #323: fix bug in fallback: ';' -> ','
-- 2020-08-24 11:35:44 +0200 Issue #374: Eliminate Kernel::System::Time from the testsuite
-- 2020-08-24 10:53:49 +0200 Issue #374: remove incorrect ->{AbsoluteSeconds}
-- 2020-08-24 10:09:06 +0200 Issue #374: early return from the sub
-- 2020-08-24 10:08:15 +0200 Issue #374: replace the call to Kernel::System::Time::DestinationTime()
-- 2020-08-24 10:06:08 +0200 Issue #374: replace the calls to Kernel::System::Time::SystemTime()
-- 2020-08-24 10:03:35 +0200 Issue #374: return value of WorkingTime() has changed
-- 2020-08-24 10:00:56 +0200 Issue #374: return value of WorkingTime() has changed
-- 2020-08-24 09:59:06 +0200 Issue #374: simplify check for suspend states
-- 2020-08-24 09:56:39 +0200 Issue #374: try to improve POD and code comments
-- 2020-08-22 19:12:54 +0200 Issue #374: pass the relevant time zone in TimeStamp2SystemTime().
-- 2020-08-22 14:49:51 +0200 Issue #374: added a TODO comment
-- 2020-08-22 14:42:47 +0200 Issue #374: add test for Kernel::System::DateTime::TimeStamp2SystemTime()
-- 2020-08-22 13:58:04 +0200 Issue #374: actually use Kernel::System::DateTime::WorkingTime()
-- 2020-08-22 13:56:40 +0200 Issue #374: remove unused keys from the result of WorkingTime
-- 2020-08-22 13:56:07 +0200 Issue #374: enhance the POD of WorkingTime()
-- 2020-08-22 12:44:28 +0200 Issue #374: avoid reusing the variable name @TestConfigs.
-- 2020-08-22 12:13:21 +0200 Issue #374: add WorkingTime() as a copy from Kernel::System::Time
-- 2020-08-21 11:47:09 +0200 Issue #65: use the old value for readonly CustomerCompany fields
-- 2020-08-21 11:44:13 +0200 Issue #65: fix an incorrect code comment
-- 2020-08-21 11:43:19 +0200 Issue #65: remove an unused variable
-- 2020-08-21 11:40:53 +0200 Issue #65: enhance code comments for plackup
-- 2020-08-20 09:43:14 +0200 Issue #73: package names for Net::SMTP::SSL and Convert::BinHex
-- 2020-08-19 11:42:12 +0200 Revert "Issue #374: avoid call SystemTime2Date() twice"
-- 2020-08-19 10:50:18 +0200 Issue #374: add TimeStamp2SystemTime() to Kernel::System::DateTime
-- 2020-08-19 10:07:36 +0200 Issue #374: avoid call SystemTime2Date() twice
-- 2020-08-19 10:05:02 +0200 Issue #374: migrate AdminDynamicFieldImportExport.pm to Kernel::System::DateTime
-- 2020-08-19 10:03:28 +0200 Issue #374: declare $CPANDateTimeObject in a more limited scope
-- 2020-08-18 18:45:09 +0200 Issue #374: Kernel::System::DateTime is created with Create() not Get().
-- 2020-08-18 18:06:08 +0200 Issue #374: some premature optimisations
-- 2020-08-18 17:56:29 +0200 Issue #374: no need to reload Kernel::System::Time
-- 2020-08-18 17:52:43 +0200 Issue #374: migrate BasePassword.pm to Kernel::System::DateTime
-- 2020-08-18 17:44:46 +0200 Issue #374: saner name for a variable
-- 2020-08-18 16:31:36 +0200 Issue #146: Switched the password check for DBUser in Installer.pl to the password repeat field. Added for mssql and postgresql. Moved generated password info to password field.
-- 2020-08-18 14:16:56 +0200 Issue #371: removed unneeded dependency on List::Util::XS
-- 2020-08-18 12:22:30 +0200 Issze #272: activate the EscalationSuspendStates
-- 2020-08-18 12:01:56 +0200 Issue #272: fix strange HERE document
-- 2020-08-18 10:39:39 +0200 Issue #136: make test description less ambigous
-- 2020-08-18 10:33:15 +0200 Issue #136: fix messed up HERE document
-- 2020-08-18 10:16:33 +0200 Issue #136: adapt expected raw XML
-- 2020-08-18 10:11:04 +0200 Issue #136: adapt the test to check for numbers
-- 2020-08-18 10:10:15 +0200 Issue #136: double check for extra found settings
-- 2020-08-17 17:06:32 +0200 Issue #364: Kernel::System::GeneralCatalog and Kernel::System::ITSMConfigItem not required
-- 2020-08-17 17:05:34 +0200 Issue #364: Variable $GeneralCatalogObject was not used.
-- 2020-08-17 16:26:58 +0200 Issue #365: remove Kernel/cpan-lib/parent.pm
-- 2020-08-17 16:23:22 +0200 Issue #258: enhanced a code comment
-- 2020-08-17 16:21:28 +0200 Issue #258: Apache modules are not bundled in Docker image
-- 2020-08-17 16:20:50 +0200 Revert "Issue #258: Apache modules not packaged under Docker"
-- 2020-08-17 16:10:43 +0200 Issue #258: Apache modules not packaged under Docker
-- 2020-08-17 14:03:42 +0200 Issue #232: there never was an OTOBO 6
-- 2020-08-17 13:53:30 +0200 Issue #232: there never was OTOBO 4
-- 2020-08-17 13:51:17 +0200 Issue #232: There never was OTOBO 3
-- 2020-08-17 13:48:51 +0200 Issue #253: fix name of contributer otobo365.com -> otrs365.com
-- 2020-08-17 13:41:44 +0200 Issue #232: there never was a OTOBO 2.1
-- 2020-08-17 13:36:53 +0200 Issze #232: there never was a OTOBO 1.1
-- 2020-08-17 13:29:13 +0200 Issue #232: update test description
-- 2020-08-17 13:26:50 +0200 Issue #232: Upgrade from OTRS 5 is no longer a relevant case.
-- 2020-08-17 13:11:16 +0200 Issue #232: remove Kernel::System::SysConfig::Migration
-- 2020-08-17 12:48:37 +0200 Issue #232: factor out Kernel::System::SysConfig::Migration::MigrateXMLStructure()
-- 2020-08-17 10:54:54 +0200 Issue #232: remove not needed object dependency
-- 2020-08-17 10:48:11 +0200 Issue #232: remove DESTROY.
-- 2020-08-17 10:47:34 +0200 Issue #232: simplify the constructor
-- 2020-08-17 10:44:10 +0200 Issue #232: Migration is from OTRS 6 to OTOBO 10.
-- 2020-08-15 14:51:46 +0200 Issue #353: always throw exception when OTOBO_RUNS_UNDER_PSGI
-- 2020-08-14 11:14:45 +0200 Issue #354: actually report the retrieved values
-- 2020-08-14 10:52:05 +0200 Issue #354: also try getlogin() and getpwent()
-- 2020-08-14 09:03:03 +0200 Issue #255: remove debug message
-- 2020-08-14 08:34:57 +0200 Issue #255: make run_test_suite.sh executable
-- 2020-08-14 08:34:22 +0200 Issue #255: get $OTOBODBPassword from Kernel/Config.pm
-- 2020-08-14 08:14:01 +0200 Issue #255: remove functions that need running containers
-- 2020-08-14 08:07:53 +0200 Issue #255: $DIBI$ in not need for a docker installation
-- 2020-08-14 08:05:03 +0200 Issue #255: don't replace a standard password with another standard password
+- 2020-09-04 13:52:58 +0200 [Enhanced] Use irand instead of int rand in Main.pm. (https://github.com/RotherOSS/otobo/issues/406)
+- 2020-09-03 22:01:32 +0200 [Enhanced] Docker: Provide Open Containers Initiative annotations (https://github.com/RotherOSS/otobo/issues/277)
+- 2020-09-03 12:10:44 +0200 [Enhanced] Docker: Lint the Dockerfile (https://github.com/RotherOSS/otobo/issues/246)
+- 2020-09-02 16:38:21 +0200 [Enhanced] PSGI: SupportDataCollector does not report anything about the webserver (https://github.com/RotherOSS/otobo/issues/407)
+- 2020-09-01 16:09:00 +0200 [Enhanced] Docker: Document the versions of CPAN dependencies (https://github.com/RotherOSS/otobo/issues/210)
+- 2020-08-25 16:58:20 +0200 [Bugfix]   Environment variable REQUEST_SCHEME is not reliable (https://github.com/RotherOSS/otobo/issues/395)
+- 2020-08-25 13:46:35 +0200 [Bugfix]   TimeStamp2SystemTime() does not honor the time zone in the string (https://github.com/RotherOSS/otobo/issues/388)
+- 2020-08-24 11:35:44 +0200 [Enhanced] Migrate away from Kernel::System::Time in OTOBO core (https://github.com/RotherOSS/otobo/issues/374)
+- 2020-08-21 11:47:09 +0200 [Bugfix]   Read-Only flag in CustomerCompany Map (https://github.com/RotherOSS/otobo/issues/65)
+- 2020-08-20 09:43:14 +0200 Suggestion: Expand list of required and recommended modules (https://github.com/RotherOSS/otobo/issues/73)
+- 2020-08-18 16:31:36 +0200 [Bugfix]   Password sanity check in installer.pl (https://github.com/RotherOSS/otobo/issues/146)
+- 2020-08-18 14:16:56 +0200 [Enhanced] Remove dependency on List::Util::XS (https://github.com/RotherOSS/otobo/issues/371)
+- 2020-08-18 12:01:56 +0200 [Bugfix]   UnitTests: One Failure in scripts/test/Znuny4OTOBOEscalationSuspend/EscalationSuspendLoop.t (https://github.com/RotherOSS/otobo/issues/272)
+- 2020-08-18 10:39:39 +0200 [Enhanced] Not well formed XML is accepted in Kernel/Config/Files/XML/*.xml files (https://github.com/RotherOSS/otobo/issues/136)
+- 2020-08-17 17:06:32 +0200 [Bugfix]   UnitTests: two failures in Can.t (https://github.com/RotherOSS/otobo/issues/364)
+- 2020-08-17 16:26:58 +0200 [Enhanced] Remove Kernel/cpan-lib/parent.pm (https://github.com/RotherOSS/otobo/issues/365)
+- 2020-08-17 16:23:22 +0200 [Bugfix]   Docker: otobo.CheckModules.pl complains about Apache::DBI  (https://github.com/RotherOSS/otobo/issues/258)
+- 2020-08-17 14:03:42 +0200 Clean up mentions of OTOBO 5 and OTOBO 6 (https://github.com/RotherOSS/otobo/issues/232)
+- 2020-08-17 13:48:51 +0200 Issue 203 minor version upgrade (https://github.com/RotherOSS/otobo/issues/253)
+- 2020-08-15 14:51:46 +0200 [Bugfix]   UnitTests: Error in Frontend/Basic.t (https://github.com/RotherOSS/otobo/issues/353)
+- 2020-08-14 11:14:45 +0200 [Bugfix]   Unittest: Environment.t fails in some Docker context (https://github.com/RotherOSS/otobo/issues/354)
+- 2020-08-14 09:03:03 +0200 [Enhanced] Docker: provide a quick-setup that avoids the need for installer.pl (https://github.com/RotherOSS/otobo/issues/255)
 - 2020-08-13 21:09:19 +0200 Remove the 'local_build' cache as it invalidates layer caching
-- 2020-08-13 16:35:14 +0200 Issue #255: rename DBConnect() to DBConnectAsRoot()
-- 2020-08-13 16:33:12 +0200 Issue #255: write the changed OTOBO DB password back into Kernel/Config.pm
-- 2020-08-13 14:27:22 +0200 Issue #255: actually pass the parameter list to the functions
-- 2020-08-13 14:25:13 +0200 Issze #255: added bin/docker/run_test_suite.sh
-- 2020-08-13 13:44:10 +0200 Issue #255: added 'exec_test_suite' to entrypoint.sh
-- 2020-08-13 13:43:12 +0200 Issue #255: add div:readonly to the feature list
-- 2020-08-13 12:35:13 +0200 Issue #255: tidying
-- 2020-08-13 12:32:15 +0200 Issue #255: reminder to stop the Daemon
-- 2020-08-13 12:30:09 +0200 Issue #255: activate SecureMode
-- 2020-08-13 12:26:15 +0200 Issue #255: added DeactivateElasticsearch()
-- 2020-08-13 12:03:07 +0200 Issue #255: Added AdaptSettings()
-- 2020-08-13 10:56:09 +0200 Issue #255: set a random password for root@localhost
-- 2020-08-13 10:50:45 +0200 Issue #255: fix some error messages
-- 2020-08-13 10:25:44 +0200 Issue #255: handle both XML-files in a single sub
-- 2020-08-13 10:13:27 +0200 Issue #255: add quick_setup support to entrypoint.sh
-- 2020-08-13 10:11:49 +0200 Issue #255: add Const::Fast as a dependency
-- 2020-08-12 17:59:13 +0200 Issue #255: Readonly is not yet required
-- 2020-08-12 17:38:52 +0200 Issue #255: handle the SQL post statements
-- 2020-08-12 17:31:05 +0200 Issue #255: work on setting up the database
-- 2020-08-12 15:28:36 +0200 Issue #272: added code comments and intermediate checks
-- 2020-08-11 15:25:50 +0200 Issue #255: check the requirements for the quick setup.
-- 2020-08-11 12:59:54 +0200 Issue #255: added a stub for quick_setup.pl
-- 2020-08-11 12:53:39 +0200 Issue #255: feature 'fc' is not used.
-- 2020-08-11 11:28:56 +0200 Revert "Issue 297: no need to reload objects"
-- 2020-08-11 09:51:13 +0200 Issue #136: use XPath instead of regex
-- 2020-08-11 09:50:03 +0200 Issue #136: some cleanup
-- 2020-08-11 09:04:20 +0200 Issue 297: no need to reload objects
-- 2020-08-11 09:03:53 +0200 Issue 297: tidying
-- 2020-08-10 16:13:21 +0200 Issue #139: reuse the node for generating the data structure
-- 2020-08-10 16:11:10 +0200 Issue #139: avoid some warnings
-- 2020-08-10 15:38:45 +0200 Issue #139: remove trailing whitespace
-- 2020-08-10 15:35:47 +0200 Issue #139: Use the XML parser to extract the config settings
-- 2020-08-10 15:33:55 +0200 Issue #139: tidying
-- 2020-08-10 12:12:03 +0200 Issue #338: do not consider a leading '#' as a comment
-- 2020-08-10 12:10:23 +0200 Issue #338: tidying
-- 2020-08-08 17:58:15 +0200 Issue #323: pull out the method ApplyOutputFilters()
-- 2020-08-08 11:28:51 +0200 Issue #323: make sure that the output filters are called
-- 2020-08-08 11:27:25 +0200 Issue #323: enhance code comments and minor beautifications
-- 2020-08-07 17:13:48 +0200 Issue #10: throw FatalError when the SQL statement fails.
-- 2020-08-07 16:32:22 +0200 Issue +323: actually return the fatal errors
-- 2020-08-07 16:19:56 +0200 Issue #323: a little trick to get quick info about the image
-- 2020-08-07 16:18:16 +0200 Issue #323: added ARG OTOBO_INSTALL again
-- 2020-08-07 12:53:57 +0200 Issue #328: use a in memory file handle
-- 2020-08-07 12:26:30 +0200 Issue #328: make it clear that the same params are passed for all interface modules
-- 2020-08-07 11:45:19 +0200 Issue #325: remove InstallerOnly
-- 2020-08-07 11:22:07 +0200 Issue #323: load Encoding after the file handles have been patched
-- 2020-08-07 11:03:53 +0200 Issue #323: encode the content
-- 2020-08-07 10:16:55 +0200 Issue #323: Avoid capture of STDOUT for installer.pl
-- 2020-08-07 10:15:35 +0200 Issue #323: try to improve POD and code comments
-- 2020-08-07 08:41:03 +0200 Issue #323: remove DESTROY
-- 2020-08-07 08:33:12 +0200 Issue #323: test syntax with the devel-10_1 image
-- 2020-08-06 17:09:58 +0200 Issue #323: added code comments
-- 2020-08-06 13:56:42 +0200 Issue #306: don't bail out when a module can't be loaded
-- 2020-08-06 12:35:37 +0200 Issue #306: also rename Core to OTOBO::RPC in rpc.pl
-- 2020-08-06 12:34:25 +0200 Issue #306: remove obsolete code comment
-- 2020-08-06 12:32:36 +0200 Issue #306: The dispatch package has been renamed from Core to OTOBO::RPC.
-- 2020-08-06 12:31:58 +0200 Issue #306: tidying
-- 2020-08-06 12:25:15 +0200 Issue #306: try to make the code comments more correct and comprehensible.
-- 2020-08-06 12:18:14 +0200 Issue #306: upgrade.log has been moved to the opt_otobo volume.
-- 2020-08-06 12:17:07 +0200 Issue #306: combine two RUN commands
-- 2020-08-06 10:43:12 +0200 Issue #304: change framework to 10.1.x in test data
-- 2020-08-05 15:42:13 +0200 Issue #305: Plack::Middleware::ForceEnv is no longer needed
-- 2020-08-05 15:35:00 +0200 Issue #305: make sure that %ENV vars are set.
+- 2020-08-11 11:28:56 +0200 [Enhanced] UnitTest: warning about redefined subroutines (https://github.com/RotherOSS/otobo/issues/297)
+- 2020-08-10 16:13:21 +0200 [Enhanced] Docker: better check dependencies (https://github.com/RotherOSS/otobo/issues/139)
+- 2020-08-10 12:12:03 +0200 [Enhanced] SysConfig: do not filter out lines starting with '#' from XML (https://github.com/RotherOSS/otobo/issues/338)
+- 2020-08-07 17:13:48 +0200 [Bugfix]   Installation: check return code of the executed SQL statements (https://github.com/RotherOSS/otobo/issues/10)
+- 2020-08-07 12:53:57 +0200 [Enhanced] PSGI: capture STDOUT in memory instead of a temp file (https://github.com/RotherOSS/otobo/issues/328)
+- 2020-08-07 11:45:19 +0200 [Enhanced] Remove the attribute InstallerOnly for Kernel::Output::HTML::Layout (https://github.com/RotherOSS/otobo/issues/325)
+- 2020-08-06 13:56:42 +0200 [Bugfix]   UnitTests: Early exit in some tests scripts (https://github.com/RotherOSS/otobo/issues/306)
+- 2020-08-06 10:43:12 +0200 [Bugfix]   UnitTests: Failures in scripts/test/Package.t (https://github.com/RotherOSS/otobo/issues/304)
+- 2020-08-05 15:42:13 +0200 [Bugfix]   UnitTests: Failures in scripts/test/SupportDataCollector.t (https://github.com/RotherOSS/otobo/issues/305)
 - 2020-08-05 14:29:01 +0200 Removed duplicate line with call to cpanm
-- 2020-08-03 18:32:31 +0200 Issue #293: adapt plan
-- 2020-08-03 17:39:50 +0200 Issue #293: we are in the 10.0.x branch
-- 2020-08-03 17:25:51 +0200 Issue #293: stop building when there is an error
-- 2020-08-03 16:39:37 +0200 Issue #293: perform long running installations first
-- 2020-08-03 16:38:36 +0200 Issue #293: require that Plan() or DoneTesting() is called in the testscripts.
-- 2020-08-03 16:37:02 +0200 Issue #293: dont't call test functions in DESTROY.
-- 2020-08-03 16:33:23 +0200 Issue #293: avoid double negation
-- 2020-08-03 16:04:58 +0200 Issue #293: add the DoneTesting() calls.
-- 2020-08-03 14:17:06 +0200 Issue #293: follow OTOBO convention when calling FixedTimeUnset()
-- 2020-08-03 14:13:41 +0200 Issue #293: remove undocumented attribute DestroyLog.
-- 2020-08-03 13:22:06 +0200 Issue #293: Use the distro name for installing Test2::V0
-- 2020-08-03 11:34:22 +0200 Issue #293: remove incorrect code comment
-- 2020-08-03 11:21:33 +0200 Issue #191: make sure that the UnitTestDriverObject is not discarded
-- 2020-08-03 11:01:43 +0200 Issue #191: avoid executing tests in forked processes
-- 2020-08-03 10:12:02 +0200 Issue #191: at least list the params of Kernel::System::UnitTest::Helper::new().
-- 2020-07-31 11:41:19 +0200 Issue #191: Fixed the single 'No plan found' warning
-- 2020-07-31 11:04:32 +0200 Issue #240: Remove the Perl blacklist
-- 2020-07-31 10:18:43 +0200 Issue #282: Improve visualization of some error screens in the customer interface.
-- 2020-07-31 09:51:58 +0200 Issue #266: set LABEL at the end of the Dockerfile
-- 2020-07-30 15:19:55 +0200 Issue #266: add a shebang line
-- 2020-07-30 14:04:44 +0200 Issue #181: migrate the remaining interfaces
-- 2020-07-30 13:33:44 +0200 Issue #271: use Kernel::System::Time
-- 2020-07-30 13:32:24 +0200 Issue #271: a slight simplification
-- 2020-07-30 12:44:40 +0200 Issue #265: declare the plan for EscalationSuspend.t
-- 2020-07-30 12:17:50 +0200 Issue #265: use the appropriate objects
-- 2020-07-30 11:42:51 +0200 Issue #266: get started on hooks/build
+- 2020-08-03 18:32:31 +0200 [Enhanced] UnitTests: Explicitily call $Self->DoneTesting() at the end of scripts (https://github.com/RotherOSS/otobo/issues/293)
+- 2020-08-03 11:21:33 +0200 [Enhanced] UnitTest: Clean up TAP parse errors (https://github.com/RotherOSS/otobo/issues/191)
+- 2020-07-31 11:04:32 +0200 [Bugfix]   UnitTests: do not blacklist perl versions (https://github.com/RotherOSS/otobo/issues/240)
+- 2020-07-31 10:18:43 +0200 [Enhanced] Minor improvements to the CustomerInterface design. (https://github.com/RotherOSS/otobo/issues/282) - in progress
+- 2020-07-31 09:51:58 +0200 [Enhanced] Docker: track the git commit and the git branch as image labels (https://github.com/RotherOSS/otobo/issues/266)
+- 2020-07-30 14:04:44 +0200 [Enhanced] PSGI: Eliminate CGI::Emulate::PSGI (https://github.com/RotherOSS/otobo/issues/181)
+- 2020-07-30 13:33:44 +0200 [Bugfix]   UnitTests: Kernel::System::ZnunyTime used in EscalationSuspendLoop.t (https://github.com/RotherOSS/otobo/issues/271)
+- 2020-07-30 12:44:40 +0200 [Bugfix]   UnitTests: Suspicious message in Znuny4OTOBOEscalationSuspend/EscalationSuspend.t (https://github.com/RotherOSS/otobo/issues/265)
 - 2020-07-22 19:08:25 +0200 Do not add .prove_*.out to the docker image
-- 2020-07-22 18:23:51 +0200 Issue #237: do not blacklist Perl versions
-- 2020-07-22 18:20:50 +0200 Issue #237: skip the tests that span daylight savings switches
-- 2020-07-22 17:50:44 +0200 Issue #237: fix naming confusion OTRSTimeZone => OTOBOTimeZone
+- 2020-07-22 18:23:51 +0200 [Bugfix]   UnitTest: scripts/test/CronEvent.t does not exit cleanly (https://github.com/RotherOSS/otobo/issues/237)
 - 2020-07-22 16:10:20 +0200 Ignore some more Apache specific files.
-- 2020-07-22 14:00:58 +0200 Issue #120: remove the tobo-initial_insert.*.sql
-- 2020-07-22 13:59:25 +0200 Issue #120: rename a variables
-- 2020-07-22 13:58:22 +0200 Issue #120: use an explicit var for the list of .sopm files
-- 2020-07-22 13:38:37 +0200 Issue #120: remove the otobo-schema*.sql files
-- 2020-07-22 13:36:43 +0200 Issue #120: otobo-initial_insert.xml is not used here
-- 2020-07-22 10:16:06 +0200 Issue #142: Mention the effect of HttpType on the session management cookie.
-- 2020-07-21 13:21:01 +0200 Issue #181: tentatively try index.pl without CGI::Emulate::PSGI
-- 2020-07-21 13:01:45 +0200 Issue #181: Do not import $Bin in the current namespace.
-- 2020-07-21 12:49:48 +0200 Issue #181: enhance the documentation
-- 2020-07-21 12:38:37 +0200 Issue #181: add otobo.psgi to the syntax check
-- 2020-07-21 12:33:03 +0200 Issue #181: simplify the test script
-- 2020-07-21 12:26:25 +0200 Issue #181: fix minor errors
-- 2020-07-21 12:01:19 +0200 Issue #181: tentatively remove CGI::Emulate::PSGI for installer.pl
-- 2020-07-21 11:49:19 +0200 Issue #181: fix stupid syntax error
-- 2020-07-21 11:31:56 +0200 Issue #181: do not use $ENV{REQUEST_URI} directly
-- 2020-07-21 11:20:52 +0200 Issue #181: Do not use ENV{REMOTE_USER} directly
-- 2020-07-21 11:03:25 +0200 Issue #181: do not directly use $ENV{REMOTE_ADDR}
-- 2020-07-20 18:45:41 +0200 Issue #181: do not rely on $ENV{HTTP_REMOTE_USER}
-- 2020-07-20 18:37:57 +0200 Issue #181: found another use of $ENV{HTTP_USER_AGENT}
-- 2020-07-20 18:29:12 +0200 Issue #181: do not rely on $ENV{REQUEST_METHOD}
-- 2020-07-20 18:20:55 +0200 Issue #181: Do not rely on $ENV{QUERY_STRING}
-- 2020-07-20 18:11:47 +0200 Issue #181: rely less on %ENV in otobo.psgi
-- 2020-07-20 17:56:07 +0200 Issue #181: Do not rely on $ENV{HTTP_HOST}
-- 2020-07-20 17:43:31 +0200 Issue #181: do not rely on $ENV{SERVER_PROTOCOL}
-- 2020-07-20 17:36:38 +0200 Issue #181: do not rely on $ENV{SERVER_SOFTWARE}
-- 2020-07-20 17:27:50 +0200 Issue #181: do not use $ENV{HTTP_ACCEPT_LANGUAGE} directly
-- 2020-07-20 17:18:16 +0200 Issue #181: do not use $ENV{HTTPS}
-- 2020-07-20 16:32:59 +0200 Issue #181: eliminate $ENV{CONTENT_TYPE}
-- 2020-07-20 15:35:04 +0200 Issue #181: Avoid usage of CONTENT_LENGTH
-- 2020-07-20 15:33:07 +0200 Issue #181: Avoid usage of CONTENT_LENGTH.
-- 2020-07-20 15:30:40 +0200 Issue #181: Added Kernel::System::Web::Request::RequestURI().
-- 2020-07-20 11:46:00 +0200 Issue #222: no tampering with @INC in Kernel/Config/Defaults.pm
+- 2020-07-22 14:00:58 +0200 Unneeded .sql scripts in scripts/database (https://github.com/RotherOSS/otobo/issues/120)
+- 2020-07-22 10:16:06 +0200 [Enhanced] Documentation of HttpType (https://github.com/RotherOSS/otobo/issues/142)
+- 2020-07-20 11:46:00 +0200 [Enhanced] Do not set @INC in modules (https://github.com/RotherOSS/otobo/issues/222)
 
 
 # OTOBO 10.0.13 2021-10-08
