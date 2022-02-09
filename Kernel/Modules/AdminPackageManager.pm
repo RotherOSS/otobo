@@ -1532,7 +1532,21 @@ sub Run {
         %{$RepositoryCloudList},
     );
 
-    $Source ||= ( sort { $a cmp $b } keys %AllRepositories )[0];
+    if ( !$Source && %AllRepositories ) {
+        $Source = %RepositoryRoot ?
+            # default repo is OTOBO Addons
+            { reverse %RepositoryRoot }->{'OTOBO Addons'} ? { reverse %RepositoryRoot }->{'OTOBO Addons'} :
+            # alternatively take the first repo in %RepositoryRoot
+            ( sort { $a cmp $b } keys %RepositoryRoot )[0] :
+            # fallback is the first of all repos
+            ( sort { $a cmp $b } keys %AllRepositories )[0];
+
+        $Kernel::OM->Get('Kernel::System::AuthSession')->UpdateSessionID(
+            SessionID => $Self->{SessionID},
+            Key       => 'UserRepository',
+            Value     => $Source,
+        );
+    }
 
     $Frontend{SourceList} = $LayoutObject->BuildSelection(
         Data        => \%AllRepositories,
