@@ -1,4 +1,84 @@
 
+# OTOBO 10.1.0 beta2 2022-02-09
+- 2022-02-09 13:42:57 +0100 Create new OTOBO language files.
+- 2022-02-06 16:10:53 +0000 Translated using Weblate (English (Canada))
+- 2022-02-03 01:07:36 +0000 Translated using Weblate (Japanese)
+- 2022-01-27 08:25:07 +0000 Translated using Weblate (Russian)
+- 2022-02-09 13:37:03 +0100 Beautify beta1 CHANGES.
+- 2022-02-09 11:50:06 +0100 Rework immediate presentation of packages.
+- 2022-02-08 14:10:09 +0100 [Enhanced] Docker Hub: implement policy concerning the 'latest' tag (https://github.com/RotherOSS/otobo/issues/1504) - in progress
+- 2022-02-08 11:03:46 +0100 [Bugfix]   Database Fields reinitialization leads to error message. (https://github.com/RotherOSS/otobo/issues/1559) - in progress
+- 2022-02-08 10:18:05 +0100 [Bugfix]   Update the content of the welcome ticket (https://github.com/RotherOSS/otobo/issues/1597)
+- 2022-02-08 09:51:58 +0100 [Enhanced] Viewable StateTypes should differ between agents and customers. (https://github.com/RotherOSS/otobo/issues/1543)
+- 2022-02-07 15:56:59 +0100 [Bugfix]   Make refreshing modules more robust (https://github.com/RotherOSS/otobo/issues/1594)
+- 2022-02-07 15:32:27 +0100 [Bugfix]   Headline in AdminAbout page  is "Privacy Policy" (https://github.com/RotherOSS/otobo/issues/1600)
+- 2022-02-07 14:53:03 +0100 Link to English version of the OTOBO forum.
+- 2022-02-07 14:46:04 +0100 [Bugfix]   CustomerCompanySearchListLimit and CustomerUserSearchListLimit do not work in the overview pages (https://github.com/RotherOSS/otobo/issues/1539)
+- 2022-02-07 14:18:47 +0100 Fix subaction specific access restrictions in the customer interface. (https://github.com/RotherOSS/otobo/issues/1549)
+- 2022-02-06 19:02:25 +0100 Issues with readme.md (https://github.com/RotherOSS/otobo/issues/1016)
+- 2022-02-06 15:38:16 +0100 Fix spelling: e.g becomes e.g.
+- 2022-02-05 17:46:02 +0100 [Enhanced] Add chromium to otobo.dockerfile for reports (https://github.com/RotherOSS/otobo/issues/1598)
+- 2022-02-02 10:12:33 +0100 Issue  #1592: Remove height in order to see more data than just one line in AgentTicketZoom
+- 2022-02-01 21:02:52 +0100 Test and fix the wrappers in bin/cgi-bin (https://github.com/RotherOSS/otobo/issues/1054)
+- 2022-01-28 18:17:59 +0100 move the 'mandatory' marker to the end of the label (like it was already done for the other labels)
+- 2022-01-31 14:29:48 +0100 Removing var/git from .gitignore
+- 2022-01-30 18:52:25 +0100 [Bugfix]   Fix unit test failures before OTOBO 10.1 Beta 2 (https://github.com/RotherOSS/otobo/issues/1553) - in progress
+- 2022-01-30 14:33:48 +0100 [Bugfix]   installer.pl does not check for changed file Kernel/Config.pm (https://github.com/RotherOSS/otobo/issues/1575)
+- 2022-01-29 17:46:35 +0100 [Enhanced] Provide a overwriteable 404 error page (https://github.com/RotherOSS/otobo/issues/1584)
+- 2022-01-28 19:21:08 +0100 [Enhanced] Update Country List (https://github.com/RotherOSS/otobo/issues/674)
+- 2022-01-26 18:56:35 +0100 [Tidied]   Update copyright year to 2022 in the rel-10_0 branch (https://github.com/RotherOSS/otobo/issues/1570)
+- 2022-01-26 18:24:40 +0100 [Enhanced] Check code policy before release of OTOBO 10.1.1 Beta 2 (https://github.com/RotherOSS/otobo/issues/1567)
+- 2022-01-26 12:35:37 +0100 update javascript documentation
+- 2022-01-26 12:26:10 +0100 Show parameters of transition actions
+- 2022-01-26 11:34:48 +0100 remove debugging stuff
+- 2022-01-26 11:30:50 +0100 show packages from the 'default' repository even when the user didn't explicitly clicked 'Update repository information'
+- 2022-01-26 15:37:33 +0100 [Bugfix]   Bug in OTOBO 10.1 with HttpType (https://github.com/RotherOSS/otobo/issues/1541)
+- 2022-01-26 09:19:28 +0100 Issue 1553: Fixing dynamic field tests
+- 2022-01-24 18:45:37 +0100 [Enhanced] Webservice debug: show the HTTP Method used by the invoker (https://github.com/RotherOSS/otobo/issues/1555)
+- 2022-01-24 16:56:52 +0100 [Enhanced] Elasticsearch self repair and handling of "valid" error responses (https://github.com/RotherOSS/otobo/issues/1471)
+- 2022-01-24 10:35:33 +0100 [Enhanced] Provide a better way to show and edit information as CustomerAccept, an About, etc. (https://github.com/RotherOSS/otobo/issues/1467)
+- 2022-01-24 08:40:32 +0100 INSTALL.md points to a document that is 404 (https://github.com/RotherOSS/otobo/issues/1550)
+- 2022-01-22 16:24:23 +0100 [Enhanced] Sorting of entries in Webservice Debugger (https://github.com/RotherOSS/otobo/issues/1551)
+- 2022-01-20 10:25:59 +0100 translate state and service when used as a category in the customer ticket overview
+- 2022-01-19 11:05:17 +0100 Change copyright to 2022.
+- 2022-01-19 10:40:06 +0100 [Enhanced] Check the Apache multi process model (mpm) in the provided config files (https://github.com/RotherOSS/otobo/issues/1542)
+- 2022-01-17 06:05:26 +0100 apache2-httpd-vhost-443.include.conf not working (https://github.com/RotherOSS/otobo/issues/1540)
+- 2022-01-07 13:13:56 +0100 [#1339] Do not update subqueues when the name was not changed
+- 2022-01-07 12:06:25 +0100 one can define more than just the default 9 calendars. In AdminSLA and AdminQueue this is already implemented, but not in the support data collector
+- 2022-01-06 17:36:01 +0000 Translated using Weblate (German)
+- 2022-01-06 15:40:07 +0100 Add a console command to generate package documentation stubs.
+- 2022-01-04 16:06:15 +0100 [Enhanced] Beautify special dynamic fields for the customer interface. (https://github.com/RotherOSS/otobo/issues/1368) - in progress
+- 2022-01-04 12:34:37 +0100 [Enhanced] Apache: refer to scripts/apache2-httpd-cgi.include.conf when mod_perl is not available (https://github.com/RotherOSS/otobo/issues/1520)
+- 2022-01-03 11:41:02 +0100 [Bugfix]   Default selection of disabled services from level two not possible (https://github.com/RotherOSS/otobo/issues/1526)
+- 2021-12-22 18:04:04 +0100 Update CHANGES.
+- 2021-12-22 17:27:29 +0100 [Bugfix]   Incorrect message when mapping modules can't be initialized. (https://github.com/RotherOSS/otobo/issues/1524)
+- 2021-12-22 09:10:36 +0100 Update to Elasticsearch 7.16.2 which updates log4j to 2.17.0.
+- 2021-12-21 17:18:53 +0100 [Tidied]   Migration: Remove %CheckEncodingColumns (https://github.com/RotherOSS/otobo/issues/1515)
+- 2021-12-20 16:08:57 +0100 Review SSL configuration for Nginx (https://github.com/RotherOSS/otobo/issues/1518)
+- 2021-12-18 09:54:01 +0000 Update translation files
+- 2021-12-18 10:53:45 +0100 Fix and enhance code comments.
+- 2021-12-18 10:53:34 +0100 Create new OTOBO language files.
+- 2021-12-14 09:28:22 +0000 Translated using Weblate (Portuguese)
+- 2021-12-17 17:53:08 +0100 Documentation revised.
+- 2021-12-17 08:16:34 +0100 Add the possibility to change the SMIME cipher used.
+- 2021-12-16 18:02:21 +0100 Remove executable permissions of template files
+- 2021-12-16 17:46:10 +0100 [Bugfix]   Migration: Perl module check with OTOBO running under Apache (https://github.com/RotherOSS/otobo/issues/1512)
+- 2021-12-16 14:47:57 +0100 [Bugfix]   Migration: incorrect version check for the OTOBO release (https://github.com/RotherOSS/otobo/issues/1510)
+- 2021-12-15 16:55:24 +0100 [Enhanced] Make Eventhandler more robust. (https://github.com/RotherOSS/otobo/issues/1509)
+- 2021-12-15 08:25:44 +0100 Update CHANGES.
+- 2021-12-14 17:23:23 +0100 [Bugfix]   Unprecise time taking in AdminPerformanceLog (https://github.com/RotherOSS/otobo/issues/1500)
+- 2021-12-14 15:33:04 +0100 Change Elasticsearch Docker file.
+- 2021-12-14 15:02:57 +0100 Change yum to apt-get for Elasticsearch 7.16.1 test.
+- 2021-12-14 11:13:00 +0100 [Enhanced] Explicitely check transition conditions for follow up transitions and allow processes to have empty starting dialogs. (https://github.com/RotherOSS/otobo/issues/1506)
+- 2021-12-14 09:53:59 +0100 Update to the latest version of Elasticsearch. (https://github.com/RotherOSS/otobo/issues/1505)
+- 2021-12-11 14:45:25 +0100 [Bugfix]   Incorrect dates in detail view of AdminPerformanceLog (https://github.com/RotherOSS/otobo/issues/1499)
+- 2021-12-11 09:51:16 +0100 add State and Service as ticket categories
+- 2021-12-11 09:27:26 +0100 Integrate DashboardMyLastChangedTickets addon
+- 2021-11-19 11:56:03 +0000 Translated using Weblate (Italian)
+- 2021-10-08 14:24:22 +0000 Update translation files
+- 2021-10-01 22:37:36 +0200 Add nested group support for LDAP user/group sync
+
+
 # OTOBO 10.1.0 beta1 2021-12-08
 - 2021-12-08 15:31:58 +0100 [Enhanced] Think about dynamic field rendering (https://github.com/RotherOSS/otobo/issues/1132) - in progress
 - 2021-12-08 12:46:32 +0100 [Enhanced] OTOBO Statistics Enhancement (https://github.com/RotherOSS/otobo/issues/1486)
@@ -1065,3 +1145,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
