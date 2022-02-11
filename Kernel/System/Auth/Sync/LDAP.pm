@@ -776,10 +776,8 @@ sub Sync {
                 }
             }
         }
-    }
 
-    # compare role permissions from ldap with current user role permissions and update if necessary
-    if (%RolePermissionsFromLDAP) {
+        # compare role permissions from ldap with current user role permissions and update if necessary
 
         # get current user roles
         my %UserRoles = $GroupObject->PermissionUserRoleGet(
