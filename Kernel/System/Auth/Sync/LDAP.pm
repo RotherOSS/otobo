@@ -18,12 +18,18 @@ package Kernel::System::Auth::Sync::LDAP;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
 use URI;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -40,8 +46,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
@@ -55,6 +60,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::Host$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( !defined $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} ) ) {
@@ -62,6 +68,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( !$ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} ) ) {
@@ -69,23 +76,21 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::UID$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
-    $Self->{Count}        = $Param{Count} || '';
-    $Self->{Die}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
-    $Self->{Host}         = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
-    $Self->{BaseDN}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
-    $Self->{UID}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
-    $Self->{SearchUserDN} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
-        || '';
-    $Self->{AccessAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
-        || 'memberUid';
-    $Self->{UserAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
-        || 'DN';
-    $Self->{DestCharset} = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
-        || 'utf-8';
+
+    $Self->{Count}             = $Param{Count} || '';
+    $Self->{Die}               = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
+    $Self->{Host}              = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
+    $Self->{BaseDN}            = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
+    $Self->{UID}               = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
+    $Self->{SearchUserDN}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} )      || '';
+    $Self->{SearchUserPw}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} )      || '';
+    $Self->{GroupDN}           = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )           || '';
+    $Self->{AccessAttr}        = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )        || 'memberUid';
+    $Self->{UserAttr}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )          || 'DN';
+    $Self->{DestCharset}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )           || 'utf-8';
     $Self->{NestedGroupSearch} = $ConfigObject->Get( 'AuthSyncModule::LDAP::NestedGroupSearch' . $Param{Count} ) || '';
 
     # ldap filter always used
@@ -819,13 +824,14 @@ sub Sync {
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 
-    return if !defined $Text;
+    return unless defined $Text;
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     if ( !$Charset || !$Self->{DestCharset} ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
@@ -847,6 +853,7 @@ sub _ConvertFrom {
 
     if ( !$Charset || !$Self->{DestCharset} ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
@@ -860,6 +867,7 @@ sub _ConvertFrom {
 
 sub _NestedGroupSearch {
     my ( $LDAP, $GroupDN, $UserDN ) = @_;
+
     my $MemberConfirmed = 0;
 
     # protect against circular nesting (=infinite loop)
@@ -981,7 +989,7 @@ sub _NestedGroupSearch {
     );
     undef %ItemsSeen;
 
-    # return result
+    # all possibilities exhausted
     return $MemberConfirmed;
 }
 
