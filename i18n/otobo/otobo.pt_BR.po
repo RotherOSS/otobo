@@ -51,13 +51,13 @@
 # Ricardo von Staa <ricardo.von.staa@otrs.com>, 2019
 # Lucas Trombim <ltrombim1@gmail.com>, 2019
 # possebon <possebon@gmail.com>, 2020
-# José Junior <jjunior@serviceup.com.br>, 2020, 2021.
+# José Junior <jjunior@serviceup.com.br>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-09 12:42+0000\n"
-"PO-Revision-Date: 2021-05-03 21:50+0000\n"
+"PO-Revision-Date: 2022-02-11 01:40+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
@@ -293,7 +293,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -304,10 +304,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Este idioma não está presente ou ativado no sistema. Este texto pode ser "
+"excluído se não for mais necessário."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Remover idioma"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -323,11 +325,11 @@ msgstr "Este campo é obrigatório e deve ter menos do que 4000 caracteres."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Remover sobre o idioma"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Adicionar novo idioma"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1427,15 +1429,15 @@ msgstr "Válido"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Gerenciamento de Política de Privacidade"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de Privacidade"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "Remover idioma da Política de Privacidade"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1824,7 +1826,7 @@ msgstr "Filtro para campos dinâmicos"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Novos Campos Dinâmicos"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1976,11 +1978,12 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Mensagem de dica:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
 msgstr ""
+"Esta é a mensagem da dica de ferramenta mostrada na interface do cliente."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
@@ -3779,11 +3782,11 @@ msgstr "Adicionar Nova Condição"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "Dados gerais do invoker"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "Configurações de dados de solicitações de saída"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -3793,49 +3796,58 @@ msgstr "Campos de chamado"
 msgid ""
 "Only the selected ticket fields will be considered for the request data."
 msgstr ""
+"Somente os ticket selecionados serão considerados para os dados da "
+"solicitação."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "Campos de artigo"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article fields will be considered for the request data."
 msgstr ""
+"Apenas os artigo selecionado serão considerados para os dados da solicitação."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "Campos dinâmicos de chamados"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Apenas os campos dinâmicos do ticket selecionados serão considerados para os "
+"dados da solicitação."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "Campos dinâmicos de artigos"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Apenas os campos dinâmicos do artigo selecionado serão considerados para os "
+"dados da solicitação."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "Número de artigos"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The outgoing request data will only contain the configured number of "
 "articles. If left empty, only 1 article will be sent."
 msgstr ""
+"Os dados da solicitação de saída conterão apenas o número configurado de "
+"artigos. Se deixado em branco, apenas 1 artigo será enviado."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "Canais de comunicação"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3843,6 +3855,9 @@ msgid ""
 "communication channels. If left empty, articles created by all communication "
 "channels will be used."
 msgstr ""
+"Os dados da solicitação de saída considerarão apenas artigos dos canais de "
+"comunicação selecionados. Se deixado em branco, serão utilizados os artigos "
+"criados por todos os canais de comunicação."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
@@ -3853,10 +3868,12 @@ msgid ""
 "The outgoing request data will only consider articles created with the "
 "selected customer visibility."
 msgstr ""
+"Os dados da solicitação de saída considerarão apenas os artigos criados com "
+"a visibilidade para o cliente."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "Tipos de remetente"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3864,34 +3881,42 @@ msgid ""
 "selected sender types. If left empty, articles created by all sender types "
 "will be used."
 msgstr ""
+"Os dados de solicitação de saída considerarão apenas artigos criados pelos "
+"tipos de remetentes selecionados. Se deixado em branco, os artigos criados "
+"por todos os tipos de remetentes serão usados."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "Mapeamento"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "Configurações para dados de resposta recebidos"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "Campo dinâmico TicketID remoto"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected ticket dynamic field is being used to store the remote TicketID."
 msgstr ""
+"O campo dinâmico do ticket selecionado está sendo usado para armazenar o "
+"TicketID remoto."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "If left empty, the remote TicketID will not be stored, unless you define a "
 "system configuration value for this web service."
 msgstr ""
+"Se deixado em branco, o TicketID remoto não será armazenado, a menos que "
+"você defina um valor de configuração do sistema para este web service."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected field is already in use by the Ticket dynamic fields option."
 msgstr ""
+"O campo selecionado já está em uso pela opção Campos dinâmicos do ticket."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3899,10 +3924,13 @@ msgid ""
 "the incoming response data. If left empty, no dynamic field will be "
 "processed."
 msgstr ""
+"Apenas os campos dinâmicos de ticket selecionados estão sendo considerados "
+"para processar os dados de resposta de entrada. Se deixado em branco, nenhum "
+"campo dinâmico será processado."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "Dados do evento"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -4320,7 +4348,7 @@ msgstr "URI que indica a localização específica para acessar um webservice."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "e.g. https://www.otobo.de:10745/api/v1.0 (sem barra invertida)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4529,51 +4557,51 @@ msgstr "O comando HTTP padrão para usar para as requisições."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "Cabeçalhos adicionais da solicitação (todos os invocadores)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "Cabeçalhos adicionais da solicitação (específicos do invocador)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "Remova todos os cabeçalhos para este invocador"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "Cabeçalhos para o invoker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
-msgstr ""
+msgstr "Cabeçalhos adicionais de resposta (todas as operações)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (operation specific)"
-msgstr ""
+msgstr "Cabeçalhos adicionais da resposta (específicos da operação)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this operation"
-msgstr ""
+msgstr "Remova todos os cabeçalhos para esta operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for operation"
-msgstr ""
+msgstr "Cabeçalhos de operação"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Common headers"
-msgstr ""
+msgstr "Cabeçalhos comuns"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Header Name"
-msgstr ""
+msgstr "Nome do cabeçalho"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove header"
-msgstr ""
+msgstr "Remover cabeçalho"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add header"
-msgstr ""
+msgstr "Adicionar cabeçalho"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
@@ -4611,7 +4639,7 @@ msgstr "Esquema SOAPAction "
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAPAction should be constructed."
-msgstr "Selecione como deverá ser construído o SOAPAction "
+msgstr "Selecione como SOAPAction deve ser construído."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services require a specific construction."
@@ -4637,11 +4665,11 @@ msgstr "Usualmente webservices .Net utilizam \"/\" como separador."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr "Texto livre  SOAPAction"
+msgstr "Texto livre SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
-msgstr "Texto a ser usado no SOAPAction"
+msgstr "Texto a ser usado no SOAPAction."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Namespace"
@@ -4656,10 +4684,12 @@ msgid ""
 "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"e.g. urn:otobo-com:soap:functions ou http://www.otobo.de/GenericInterface/"
+"actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr "Solicita esquema de nome"
+msgstr "Solicitar nome do esquema"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
@@ -4726,7 +4756,7 @@ msgstr "A codificação de caracteres para o conteúdo da mensagem SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
@@ -4816,6 +4846,8 @@ msgstr "Webservices Ready2Adopt"
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices."
 msgstr ""
+"Aqui você pode ativar os serviços web Ready2Adopt apresentando nossas "
+"melhores práticas."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
@@ -8820,7 +8852,7 @@ msgstr "Novo chamado via e-mail de %s"
 
 #. Template: AgentDashboardMyLastChangedTickets
 msgid "No tickets found."
-msgstr ""
+msgstr "Não foram encontrados chamados."
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -9284,21 +9316,23 @@ msgstr "Excluir estatística %s"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "Gerenciamento de relatórios"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "Adicionar relatório"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "Editar relatório"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Here you can combine several statistics to a report which you can generate "
 "as a PDF manually or automatically at configured times."
 msgstr ""
+"Aqui você pode combinar várias estatísticas em um relatório que pode ser "
+"gerado como PDF manualmente ou automaticamente em horários configurados."
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
