@@ -109,17 +109,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      * @description
      *      The offset of the element for which a tooltip is shown.
      */
-        Offset,
-    /**
-     * @private
-     * @name CustomerInterface
-     * @memberof Core.Form.ErrorTooltips
-     * @member {Object}
-     * @description
-     *      Whether we are in the CustomerInterface.
-     */
-        CustomerInterface = ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') );
-
+        Offset;
     /**
      * @name ShowTooltip
      * @memberof Core.Form.ErrorTooltips
@@ -165,6 +155,10 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
             .empty()
             .append($Tooltip)
             .show();
+
+        if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
+            TooltipOffsetLeft = 60;
+        }
 
         if (TooltipPosition === 'TongueBottom') {
             TopOffset = Offset.top + TooltipOffsetTop;
@@ -259,7 +253,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
     TargetNS.InitRTETooltip = function ($Element, Message) {
 
         // TODO: Error Tooltips are disabled for the Customerinterface
-        if ( CustomerInterface ) { return }
+        if ( ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) ) { return }
 
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
