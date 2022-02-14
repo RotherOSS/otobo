@@ -26,10 +26,6 @@ div.TooltipContainer {
     display: none;
 }
 
-div.Tooltip {
-    width: 244px;
-}
-
 div.Tooltip.TongueTop,
 div.Tooltip.TongueBottom {
     width: 400px;
