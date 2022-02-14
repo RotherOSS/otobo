@@ -561,7 +561,7 @@ input[readonly=readonly] {
     font-size: 18px;
 }
 
-.Tooltip p {
+.Tooltip > p {
     z-index: 1;
     display: none;
     padding: 24px 32px;
@@ -576,7 +576,7 @@ input[readonly=readonly] {
     border-radius: 15px;
 }
 
-.Tooltip:hover p {
+.Tooltip:hover > p {
     display: inline;
     position: absolute;
     left: -260px;
