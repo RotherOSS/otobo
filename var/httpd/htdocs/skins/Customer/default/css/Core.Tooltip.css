@@ -27,10 +27,6 @@ div.TooltipContainer {
     width: 400px;
 }
 
-div.TooltipContainer > div.Tooltip {
-    width: 400px;
-}
-
 div.Tooltip > div.Content {
     background-color: #fff;
     border: 1px solid #ccc;
@@ -43,28 +39,6 @@ div.Tooltip > div.Content {
     white-space: normal;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
     box-shadow: 0 1px 4px 0 var(--colShadowDark);
-}
-
-div.Tooltip > div.Content:after,
-div.Tooltip > div.Content:before {
-    left: 50%;
-    border: solid transparent;
-    content: " ";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
-
-div.Tooltip > div.Content:after {
-    border-color: rgba(255, 255, 255, 0);
-    border-width: 6px;
-    margin-left: -6px;
-}
-
-div.Tooltip > div.Content:before {
-    border-color: rgba(204, 204, 204, 0);
-    margin-left: -7px;
 }
 
 } /* end @media */

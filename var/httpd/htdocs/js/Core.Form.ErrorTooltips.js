@@ -253,9 +253,6 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
      */
     TargetNS.InitRTETooltip = function ($Element, Message) {
 
-        // TODO: Error Tooltips are disabled for the Customerinterface
-        if ( ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) ) { return }
-
         var ElementID = $Element.attr('id');
         CKEDITOR.instances[ElementID].on('focus', ShowRTETooltip, null, {ElementID: ElementID, Message: Message});
         CKEDITOR.instances[ElementID].on('blur', RemoveRTETooltip, null, ElementID);
