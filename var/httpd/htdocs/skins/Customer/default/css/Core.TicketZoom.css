@@ -543,7 +543,8 @@ iframe {
     background-color: var(--colBGDark);
 }
 
-.CloseButton:hover {
+.CloseButton:hover,
+.CloseButton:focus {
     background-color: #000099;
     background-color: var(--colHoverDark);
 }
