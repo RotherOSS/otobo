@@ -97,13 +97,17 @@ WORKDIR /etc/nginx
 # move the old config out of the way
 RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
-# new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
+# The new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh.
 # See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
 # Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
 # Kerberos support. The not needed template is moved out of the way.
 COPY templates/ templates
 RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
 COPY snippets/  snippets
+
+# When Kerberos is active we also generate /etc/krb5.conf from the template in templates/kerberos
+COPY kerberos/templates/ kerberos/templates
+COPY docker-entrypoint.d/21-envsubst-on-krb5-conf.sh /docker-entrypoint.d/
 
 # Copy text to line 4 - load Kerberos module in nginx.conf
 RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf
