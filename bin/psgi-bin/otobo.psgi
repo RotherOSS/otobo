@@ -384,10 +384,10 @@ my $DumpEnvApp = sub {
     ];
 };
 
-# Handler andler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
+# Handler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
 # Would also work for /dummy if mounted accordingly.
-# Redirect via a relative URL to otobo/index.pl.
-# No permission check,
+# Redirect via a relative URL to Frontend::NotFoundRedirectPath.
+# There is no permission check.
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
@@ -455,7 +455,9 @@ my $HtdocsApp = builder {
     Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
-# Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
+# Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
+# Support for public.pl if PublicFrontend::Active is on.
+# Redirect to Frontend::NotFoundRedirectPath as a fallback
 my $OTOBOApp = builder {
 
     # compress the output
@@ -555,7 +557,7 @@ builder {
     #enable 'Plack::Middleware::TrafficLog';
 
     # users can overwrite the 404 page
-    # note that 404 below /otobo/ already redirect to /otobo/index.pl
+    # note that 404 below /otobo/ already redirects to Frontend::NotFoundRedirectPath
     enable "Plack::Middleware::ErrorDocument",
         404 => "$Home/var/httpd/htdocs/404.html";
 
