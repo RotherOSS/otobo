@@ -390,17 +390,17 @@ my $DumpEnvApp = sub {
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    # construct a relative path to otobo/index.pl
-    my $Req      = Plack::Request->new($Env);
-    my $OrigPath = $Req->path();
-    my $Levels   = $OrigPath =~ tr[/][];
-    my $NewPath  = join '/', map( {'..'} ( 1 .. $Levels ) ), 'otobo/index.pl';
+    # construct a relative path to the redirect path
+    my $OrigPath     = Plack::Request->new($Env)->path;
+    my $Levels       = $OrigPath =~ tr[/][];
+    my $RedirectPath = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::NotFoundRedirectPath') || 'otobo/index.pl';
+    my $NewPath      = join '/', map( {'..'} ( 1 .. $Levels ) ), $RedirectPath;
 
     # redirect
-    my $Res = Plack::Response->new();
+    my $Res = Plack::Response->new;
     $Res->redirect($NewPath);
 
-    # send the PSGI response
+    # send the PSGI response arrayref
     return $Res->finalize();
 };
 

@@ -362,6 +362,15 @@
             <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/</Item>
         </Value>
     </Setting>
+    <Setting Name="Frontend::NotFoundRedirectPath" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the URL to where not found pathes are redirected.</Description>
+        <Navigation>Frontend::Base</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_ScriptAlias&gt;index.pl</Item>
+            <!-- <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl</Item> -->
+            <!-- <Item ValueType="String" ValueRegex="">index.html</Item> -->
+        </Value>
+    </Setting>
     <Setting Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
         <Description Translatable="1">Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.</Description>
         <Navigation>Frontend::Base</Navigation>
