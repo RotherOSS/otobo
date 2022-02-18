@@ -184,7 +184,8 @@ my $SetPSGIEnvMiddleware = sub {
 
 # Force a new manifestation of $Kernel::OM.
 # This middleware must be enabled before there is any access to the classes that are
-# managed by the OTOBO object manager.
+# managed by the OTOBO object manager. Inversely this means that applications that follow this middleware
+# can make use of $Kernel::OM, e.g $Kernel::OM->Get('Kernel::Config').
 # Completion of the middleware destroys the localised $Kernel::OM, thus
 # triggering event handlers.
 my $ManageObjectsMiddleware = sub {
@@ -383,25 +384,39 @@ my $DumpEnvApp = sub {
     ];
 };
 
-# Handler andler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
+# Handler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
 # Would also work for /dummy if mounted accordingly.
-# Redirect via a relative URL to otobo/index.pl.
-# No permission check,
+# Redirect via a relative URL to Frontend::NotFoundRedirectPath.
+# There is no permission check.
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    # construct a relative path to otobo/index.pl
-    my $Req      = Plack::Request->new($Env);
-    my $OrigPath = $Req->path();
-    my $Levels   = $OrigPath =~ tr[/][];
-    my $NewPath  = join '/', map( {'..'} ( 1 .. $Levels ) ), 'otobo/index.pl';
+    # construct a relative path to the redirect path
+    my $OrigPath     = Plack::Request->new($Env)->path;
+    my $Levels       = $OrigPath =~ tr[/][];
+    my $RedirectPath = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::NotFoundRedirectPath') || 'otobo/index.pl';
+    my $NewPath      = join '/', map( {'..'} ( 1 .. $Levels ) ), $RedirectPath;
 
     # redirect
-    my $Res = Plack::Response->new();
+    my $Res = Plack::Response->new;
     $Res->redirect($NewPath);
 
-    # send the PSGI response
+    # send the PSGI response arrayref
     return $Res->finalize();
+};
+
+# Check whether PublicFrontend::Active is on. If not redirect to the default path.
+# Otherwise serve the public interface.
+my $CheckPublicInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfacePublic',
+    )->to_app->($Env) if $Active;
+
+    return $RedirectOtoboApp->($Env);
 };
 
 # Server the files in var/httpd/httpd.
@@ -440,7 +455,9 @@ my $HtdocsApp = builder {
     Plack::App::File->new( root => "$Home/var/httpd/htdocs" )->to_app();
 };
 
-# Port of customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl, and public.pl to Plack.
+# Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
+# Support for public.pl if PublicFrontend::Active is on.
+# Redirect to Frontend::NotFoundRedirectPath as a fallback
 my $OTOBOApp = builder {
 
     # compress the output
@@ -524,12 +541,10 @@ my $OTOBOApp = builder {
         Interface => 'Kernel::GenericInterface::Provider',
     )->to_app;
 
-    mount "/public.pl" => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfacePublic',
-    )->to_app;
+    mount "/public.pl" => $CheckPublicInterfaceApp;
 
     # the agent interface is the default
-    mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
+    mount '/' => $RedirectOtoboApp;    # redirect to Frontend::NotFoundRedirectPath when in doubt
 };
 
 ################################################################################
@@ -542,7 +557,7 @@ builder {
     #enable 'Plack::Middleware::TrafficLog';
 
     # users can overwrite the 404 page
-    # note that 404 below /otobo/ already redirect to /otobo/index.pl
+    # note that 404 below /otobo/ already redirects to Frontend::NotFoundRedirectPath
     enable "Plack::Middleware::ErrorDocument",
         404 => "$Home/var/httpd/htdocs/404.html";
 
