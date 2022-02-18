@@ -207,13 +207,18 @@ sub Content {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$DBCanConnect ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => Translatable('Could not connect to the database.'),
             Comment => Translatable('Please contact the administrator.'),
         );    # throws a Kernel::System::Web::Exception
     }
 
     if ( $ParamObject->Error() ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
             Message => $ParamObject->Error(),
             Comment => Translatable('Please contact the administrator.'),
         );    # throws a Kernel::System::Web::Exception
@@ -221,7 +226,10 @@ sub Content {
 
     # run modules if a version value exists
     if ( !$Kernel::OM->Get('Kernel::System::Main')->Require("Kernel::Modules::$Param{Action}") ) {
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => sprintf( Translatable(q{The action '%s' is not available.}), $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         );    # throws a Kernel::System::Web::Exception
     }
@@ -234,7 +242,10 @@ sub Content {
             Message  =>
                 "Module Kernel::Modules::$Param{Action} not registered in Kernel/Config.pm!",
         );
-        $LayoutObject->CustomerFatalError(
+
+        # Show error without showing neither the last logmessage not the last traceback.
+        $LayoutObject->PublicFatalError(
+            Message => sprintf( Translatable(q{The action '%s' is not allowed.}), $Param{Action} ),
             Comment => Translatable('Please contact the administrator.'),
         );    # throws a Kernel::System::Web::Exception
     }

@@ -4978,6 +4978,72 @@ sub CustomerNoPermission {
     return $Output;
 }
 
+# similar to CustomerError() but neither the last log message nor the backtrace is printed
+sub PublicError {
+    my ( $Self, %Param ) = @_;
+
+    # create & return output, using the same layout as in the customer interface
+    return $Self->Output(
+        TemplateFile => 'CustomerError',
+        Data         => \%Param
+    );
+}
+
+# using PublicError() internally
+sub PublicFatalError {
+    my ( $Self, %Param ) = @_;
+
+    # Prevent endless recursion in case of problems with Template engine.
+    return if $Self->{InFatalError}++;
+
+    if ( $Param{Message} ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Caller   => 1,
+            Priority => 'error',
+            Message  => $Param{Message},
+        );
+    }
+
+    my $Output = join '',
+        $Self->CustomerHeader(
+            Area  => 'Frontend',
+            Title => 'Fatal Error'
+        ),
+        $Self->PublicError(%Param), # without last error message and without last traceback
+        $Self->CustomerFooter();
+
+    # Modify the output by applying the output filters.
+    $Output = $Self->ApplyOutputFilters( Output => $Output );
+
+    # The Content-Length will be set later in the middleware Plack::Middleware::ContentLength. This requires that
+    # there are no multi-byte characters in the delivered content. This is because the middleware
+    # uses core::length() for determining the content length.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Output );
+
+    # The OTOBO response object already has the HTPP headers.
+    # Enhance it with the HTTP status code and the content.
+    my $PlackResponse = Plack::Response->new(
+        200,
+        $Kernel::OM->Get('Kernel::System::Web::Response')->Headers(),
+        $Output
+    );
+
+    # The exception is caught be Plack::Middleware::HTTPExceptions
+    die Kernel::System::Web::Exception->new(
+        PlackResponse => $PlackResponse
+    );
+}
+       
+# using PublicError() internally
+sub PublicErrorScreen {
+    my ( $Self, %Param ) = @_;
+
+    return join '',
+        $Self->CustomerHeader( Title => 'Error' ),
+        $Self->PublicError(%Param),
+        $Self->CustomerFooter();
+}
+
 =head2 Ascii2RichText()
 
 converts text to rich text
