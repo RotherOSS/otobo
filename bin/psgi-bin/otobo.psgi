@@ -405,6 +405,20 @@ my $RedirectOtoboApp = sub {
     return $Res->finalize();
 };
 
+# Check whether PublicFrontend::Active is on. If not redirect to the default path.
+# Otherwise serve the public interface.
+my $CheckPublicInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfacePublic',
+    )->to_app->($Env) if $Active;
+
+    return $RedirectOtoboApp->($Env);
+};
+
 # Server the files in var/httpd/httpd.
 # When S3 is supported there is a check whether missing files can be fetched from S3.
 # Access is granted for all.
@@ -525,9 +539,7 @@ my $OTOBOApp = builder {
         Interface => 'Kernel::GenericInterface::Provider',
     )->to_app;
 
-    mount "/public.pl" => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfacePublic',
-    )->to_app;
+    mount "/public.pl" => $CheckPublicInterfaceApp;
 
     # the agent interface is the default
     mount '/' => $RedirectOtoboApp;    # redirect to Frontend::NotFoundRedirectPath when in doubt
