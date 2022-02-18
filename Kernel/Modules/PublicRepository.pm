@@ -42,7 +42,7 @@ sub Run {
     my $LayoutObject        = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     if ( !$AccessControlRexExp ) {
-        return $LayoutObject->CustomerErrorScreen(
+        return $LayoutObject->PublicErrorScreen(
             Message => Translatable('Need config Package::RepositoryAccessRegExp'),
         );
     }
@@ -50,7 +50,7 @@ sub Run {
         my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
         my $RemoteAddr  = $ParamObject->RemoteAddr() || '';
         if ( $RemoteAddr !~ /^$AccessControlRexExp$/ ) {
-            return $LayoutObject->CustomerErrorScreen(
+            return $LayoutObject->PublicErrorScreen(
                 Message =>
                     $LayoutObject->{LanguageObject}->Translate( 'Authentication failed from %s!', $RemoteAddr ),
             );
