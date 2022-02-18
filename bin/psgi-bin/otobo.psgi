@@ -184,7 +184,8 @@ my $SetPSGIEnvMiddleware = sub {
 
 # Force a new manifestation of $Kernel::OM.
 # This middleware must be enabled before there is any access to the classes that are
-# managed by the OTOBO object manager.
+# managed by the OTOBO object manager. Inversely this means that applications that follow this middleware
+# can make use of $Kernel::OM, e.g $Kernel::OM->Get('Kernel::Config').
 # Completion of the middleware destroys the localised $Kernel::OM, thus
 # triggering event handlers.
 my $ManageObjectsMiddleware = sub {
@@ -529,7 +530,7 @@ my $OTOBOApp = builder {
     )->to_app;
 
     # the agent interface is the default
-    mount '/' => $RedirectOtoboApp;    # redirect to /otobo/index.pl when in doubt
+    mount '/' => $RedirectOtoboApp;    # redirect to Frontend::NotFoundRedirectPath when in doubt
 };
 
 ################################################################################
