@@ -16,9 +16,9 @@
 
 package Kernel::Output::HTML::Layout;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -62,11 +62,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::Output::HTML::Layout - all generic html functions
+Kernel::Output::HTML::Layout - all generic HTML functions
 
 =head1 DESCRIPTION
 
-All generic html functions. E. g. to get options fields, template processing, ...
+All generic HTML functions. E. g. to get options fields, template processing, ...
 
 =head1 PUBLIC INTERFACE
 
@@ -5009,7 +5009,7 @@ sub PublicFatalError {
             Area  => 'Frontend',
             Title => 'Fatal Error'
         ),
-        $Self->PublicError(%Param), # without last error message and without last traceback
+        $Self->PublicError(%Param),    # without last error message and without last traceback
         $Self->CustomerFooter();
 
     # Modify the output by applying the output filters.
@@ -5033,7 +5033,7 @@ sub PublicFatalError {
         PlackResponse => $PlackResponse
     );
 }
-       
+
 # using PublicError() internally
 sub PublicErrorScreen {
     my ( $Self, %Param ) = @_;
