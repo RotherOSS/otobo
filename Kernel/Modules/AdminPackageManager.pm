@@ -1533,11 +1533,16 @@ sub Run {
     );
 
     if ( !$Source && %AllRepositories ) {
-        $Source = %RepositoryRoot ?
+        $Source = %RepositoryRoot
+            ?
+
             # default repo is OTOBO Addons
             { reverse %RepositoryRoot }->{'OTOBO Addons'} ? { reverse %RepositoryRoot }->{'OTOBO Addons'} :
-            # alternatively take the first repo in %RepositoryRoot
-            ( sort { $a cmp $b } keys %RepositoryRoot )[0] :
+
+                # alternatively take the first repo in %RepositoryRoot
+                ( sort { $a cmp $b } keys %RepositoryRoot )[0]
+            :
+
             # fallback is the first of all repos
             ( sort { $a cmp $b } keys %AllRepositories )[0];
 

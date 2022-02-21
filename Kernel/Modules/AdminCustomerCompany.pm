@@ -813,6 +813,7 @@ sub _Overview {
                 $Limit = $CustomerUserMap->{CustomerCompanySearchListLimit};
             }
         }
+
         # as fallback take the hardcoded limit of Kernel/System/CustomerCompany/DB.pm
         $Limit //= 50000;
 
