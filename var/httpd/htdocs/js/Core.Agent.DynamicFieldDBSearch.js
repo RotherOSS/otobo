@@ -63,7 +63,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
         }
         else {
-i           ActivityDialogID = '';
+            ActivityDialogID = '';
         }
 
         // detect the frontend interface we currently use
