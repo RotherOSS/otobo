@@ -911,6 +911,7 @@ sub _Overview {
                 $Limit = $CustomerUserMap->{CustomerUserSearchListLimit};
             }
         }
+
         # as fallback take the hardcoded limit of Kernel/System/CustomerUser/DB.pm
         $Limit //= 250;
 
