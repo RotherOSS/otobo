@@ -486,9 +486,9 @@ Return the received data otherwise.
 in case of success:
 
     $Result = {
-        Success      => 1,
-        SizeExeeded  => 0,  # (sic) either 0 or 1 depending on the length of the response
-        Data         => {
+        Success       => 1,
+        SizeExceeded  => 0,  # either 0 or 1 depending on the length of the response
+        Data          => {
             ...
         },
     };
@@ -927,7 +927,7 @@ sub RequesterPerformRequest {
     }
 
     # Send processed data to debugger.
-    my $SizeExeeded = 0;
+    my $SizeExceeded = 0;
     {
         my $MaxSizeKiloBytes = $Kernel::OM->Get('Kernel::Config')->Get('GenericInterface::Operation::ResponseLoggingMaxSize')
             || 200;
@@ -941,7 +941,7 @@ sub RequesterPerformRequest {
             );
         }
         else {
-            $SizeExeeded = 1;
+            $SizeExceeded = 1;
             $Self->{DebuggerObject}->Debug(
                 Summary => "JSON data received from remote system was too large for logging",
                 Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
@@ -996,7 +996,7 @@ sub RequesterPerformRequest {
     return {
         Success         => 1,
         Data            => $Result || undef,
-        SizeExeeded     => $SizeExeeded,
+        SizeExceeded    => $SizeExceeded,
         UnitTestHeaders => \%UnitTestHeaders,    # added by OTOBOTicketInvoker
     };
 }

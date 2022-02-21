@@ -366,10 +366,10 @@ sub Run {
     # Extend the data include payload.
     $DataInclude{RequesterResponseInput} = $RequesterPerformRequestResult->{Data};
 
-    my $DataIn      = $RequesterPerformRequestResult->{Data};
-    my $SizeExeeded = $RequesterPerformRequestResult->{SizeExeeded} || 0;
+    my $DataIn       = $RequesterPerformRequestResult->{Data};
+    my $SizeExceeded = $RequesterPerformRequestResult->{SizeExceeded} || 0;
 
-    if ($SizeExeeded) {
+    if ($SizeExceeded) {
         $DebuggerObject->Debug(
             Summary => "Incoming data before mapping was too large for logging",
             Data    => 'See SysConfig option GenericInterface::Operation::ResponseLoggingMaxSize to change the maximum.',
@@ -422,7 +422,7 @@ sub Run {
 
         $DataIn = $MapResult->{Data};
 
-        if ($SizeExeeded) {
+        if ($SizeExceeded) {
             $DebuggerObject->Debug(
                 Summary => "Incoming data after mapping was too large for logging",
                 Data    =>
