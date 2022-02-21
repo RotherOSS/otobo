@@ -2,23 +2,24 @@
 # Tukea <nokoa@live.fi>, 2018
 # Matti Ärmänen <matti.armanen@easer.fi>, 2018
 # Harri Mahanen <harri.mahanen@gmail.com>, 2018
-# Markus Hynnä <markus.hynna@mynamaki.fi>, 2018
+# Markus Hynnä <markus.hynna@mynamaki.fi>, 2018, 2022.
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Niko Heikura <niko.heikura@partners.neste.com>, 2018
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-09 12:42+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Niko Heikura <niko.heikura@partners.neste.com>, 2018\n"
-"Language-Team: Finnish (https://translate.otobo.org/projects/otobo10/otobo/"
-"fi/)\n"
+"PO-Revision-Date: 2022-02-21 12:33+0000\n"
+"Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
+"Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
+"fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -134,7 +135,7 @@ msgstr "Haku ei palauttanut tuloksia."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "Muokkaa pääsylistaa %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
@@ -318,7 +319,7 @@ msgstr "Tuo kalenteri"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Suodata kalentereita"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -1023,7 +1024,7 @@ msgstr ""
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Viestintäloki"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
@@ -1507,7 +1508,7 @@ msgstr "Tämä sähköpostiosoite ei ole sallittu johtuen järjestelmäasetuksis
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
-msgstr "Sähköpostiosoitteen MX-tarkistus ei onnistunut"
+msgstr "Sähköpostiosoitteen MX-tarkistus ei onnistunut."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
@@ -1890,7 +1891,7 @@ msgstr "Arvo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Remove value"
-msgstr ""
+msgstr "Poista arvo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
@@ -1898,7 +1899,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
-msgstr ""
+msgstr "Lisää arvo"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
@@ -2451,15 +2452,15 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Last run"
-msgstr "Edellinen ajo"
+msgstr "Edellinen suoritus"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "Aja"
+msgstr "Suorita nyt!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
-msgstr ""
+msgstr "Poista tehtävä"
 
 #. Template: AdminGenericAgent
 msgid "Run this task"
@@ -2697,7 +2698,7 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr "Ei sulkemisaikaa asetettu"
+msgstr "Ei sulkemisaikaa asetettu."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
@@ -2709,7 +2710,7 @@ msgstr "Tiketti suljettu välillä"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
-msgstr ""
+msgstr "Odotusajat"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
@@ -2801,7 +2802,7 @@ msgstr "Valitse uusi jono"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
-msgstr ""
+msgstr "Valitse uusi tila"
 
 #. Template: AdminGenericAgent
 msgid "Pending date"
@@ -2849,7 +2850,7 @@ msgstr "Lisää huomautus"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "Näkyy asiakkaalle"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
@@ -7339,7 +7340,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "Päättymispäivä"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
@@ -7355,7 +7356,7 @@ msgstr ""
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
-msgstr "Virheellinen päiväys"
+msgstr "Virheellinen päiväys!"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
@@ -7613,11 +7614,11 @@ msgstr "Tänään"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "All-day"
-msgstr ""
+msgstr "Koko päivän"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Repeat"
-msgstr ""
+msgstr "Toistuvuus"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Notification"
@@ -7651,7 +7652,7 @@ msgstr ""
 
 #. Template: AgentAppointmentEdit
 msgid "Date/Time"
-msgstr ""
+msgstr "Päivämäärä/aika"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
@@ -8065,7 +8066,7 @@ msgstr "%s avointa tikettiä / %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
-msgstr "%s suljettua tiketti / %s"
+msgstr "%s suljettua tikettiä / %s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
@@ -8117,7 +8118,7 @@ msgstr "Uusi sähköpostitiketti kohteelle %s"
 
 #. Template: AgentDashboardMyLastChangedTickets
 msgid "No tickets found."
-msgstr ""
+msgstr "Tikettejä ei löytynyt."
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
@@ -8208,7 +8209,7 @@ msgstr "Tiketit omissa jonoissani"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "Tiketit omissa palveluissani"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -8286,7 +8287,7 @@ msgstr ""
 
 #. Template: AgentPassword
 msgid "Password Policy"
-msgstr ""
+msgstr "Salasanakäytäntö"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
@@ -8306,7 +8307,7 @@ msgstr "Uusi salasana"
 
 #. Template: AgentPassword
 msgid "Repeat new password"
-msgstr ""
+msgstr "Toista uusi salasana"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
@@ -8348,7 +8349,7 @@ msgstr "Muokkaa asetuksiasi"
 
 #. Template: AgentPreferences
 msgid "Personal Preferences"
-msgstr ""
+msgstr "Omat asetukset"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -8448,7 +8449,7 @@ msgstr ""
 
 #. Template: AgentSplitSelection
 msgid "Target"
-msgstr ""
+msgstr "Kohde"
 
 #. Template: AgentSplitSelection
 msgid "Process"
@@ -24305,7 +24306,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname Firstname"
-msgstr ""
+msgstr "Sukunimi Etunimi"
 
 #. SysConfig
 msgid "Lastname Firstname (UserLogin)"
@@ -24313,7 +24314,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Lastname, Firstname"
-msgstr ""
+msgstr "Sukunimi, Etunimi"
 
 #. SysConfig
 msgid "Lastname, Firstname (UserLogin)"
@@ -24321,7 +24322,7 @@ msgstr ""
 
 #. SysConfig
 msgid "LastnameFirstname"
-msgstr ""
+msgstr "SukunimiEtunimi"
 
 #. SysConfig
 msgid "Latvian"
@@ -24504,7 +24505,7 @@ msgstr "Lukitut tiketit"
 
 #. SysConfig
 msgid "Locked Tickets."
-msgstr ""
+msgstr "Lukitut tiketit."
 
 #. SysConfig
 msgid "Locked ticket."
@@ -24512,11 +24513,11 @@ msgstr "Lukittu tiketti."
 
 #. SysConfig
 msgid "Logged in users."
-msgstr ""
+msgstr "Kirjautuneet käyttäjät."
 
 #. SysConfig
 msgid "Logged-In Users"
-msgstr ""
+msgstr "Kirjautuneet käyttäjät"
 
 #. SysConfig
 msgid "Logout of customer panel."
@@ -24609,7 +24610,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Manage existing sessions."
-msgstr "Halinnoi istuntoja"
+msgstr "Hallinnoi istuntoja."
 
 #. SysConfig
 msgid "Manage support data."
@@ -24739,11 +24740,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Minute"
-msgstr ""
+msgstr "Minuutti"
 
 #. SysConfig
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Sekalaista"
 
 #. SysConfig
 msgid "Module for To-selection in new ticket screen in the customer interface."
@@ -24886,7 +24887,7 @@ msgstr "Jononi"
 
 #. SysConfig
 msgid "My Services"
-msgstr ""
+msgstr "Palveluni"
 
 #. SysConfig
 msgid "My last changed tickets"
@@ -25180,7 +25181,7 @@ msgstr "PGP Avain"
 
 #. SysConfig
 msgid "PGP Key Management"
-msgstr ""
+msgstr "PGP Avainten Hallinta"
 
 #. SysConfig
 msgid "PGP Keys"
@@ -25678,7 +25679,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Processes & Automation"
-msgstr ""
+msgstr "Prosessit & Automaatio"
 
 #. SysConfig
 msgid "Product News"
@@ -25710,11 +25711,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Public Calendar"
-msgstr ""
+msgstr "Julkinen Kalenteri"
 
 #. SysConfig
 msgid "Public calendar."
-msgstr ""
+msgstr "Julkinen kalenteri."
 
 #. SysConfig
 msgid "Queue view"
