@@ -60,11 +60,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
         if ( typeof ActivityDialogID !== 'undefined' ) {
-
             ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
-
         }
-
+        else {
+i           ActivityDialogID = '';
+        }
 
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
@@ -100,9 +100,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
         if ( typeof ActivityDialogID !== 'undefined' ) {
-
             ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
-
+        }
+        else {
+            ActivityDialogID = '';
         }
 
 
@@ -579,7 +580,6 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
      * @param {String} ElementValue The result element value.
      * @param {String} IdentifierKey The ID of the DF
      * @param {Boolean} Focus The parameter for focus element.
-    // Description seems to be wrong
      * @description This function shows an alert dialog for duplicated entries.
      */
     TargetNS.CheckMultiselect = function(Field, ElementValue, IdentifierKey, Focus){
