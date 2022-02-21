@@ -58,11 +58,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             SearchIFrame,
             FrontendInterface;
 
-        var ActivityDialogID = '';
-        var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
-        if ( ActivityDialogElem.length && Field.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) {
 
-            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
 
         }
 
@@ -99,11 +98,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             SearchIFrame,
             FrontendInterface;
 
-        var ActivityDialogID = '';
-        var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
-        if ( ActivityDialogElem.length && Field.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) {
 
-            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
 
         }
 
@@ -214,15 +212,14 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         if(isJQueryObject($Element)) {
 
             // check if there exists an ActivityDialogEntityID input element exists and derive ActivityDialogID
-            // TODO Think about case when closest ActivityDialogEntityID element doesn't belong to current DynamicField
-            var ActivityDialogID = '';
-            var ActivityDialogElem = $('[name="ActivityDialogEntityID"]').closest('input');
-            if ( ActivityDialogElem.length && DynamicFieldName.indexOf(ActivityDialogElem.val().substr('ActivityDialog-'.length)) != -1 ) {
-
-            ActivityDialogID = ActivityDialogElem.val().substr('ActivityDialog-'.length);
-
+            var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $Element.closest('form')).val();
+            if (typeof ActivityDialogID !== 'undefined') {
+                ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
             }
-
+            else {
+                ActivityDialogID = '';
+            }
+            
             // Get the ticket id.
             /TicketID=(\d+)/.exec(document.URL);
             TicketID = RegExp.$1;
@@ -604,7 +601,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         Data = {
             Action: FrontendInterface,
             Subaction: 'AJAXGetDynamicFieldConfig',
-            DynamicFieldName: Field,
+            DynamicFieldName: Field
         };
 
         Core.AJAX.FunctionCall(URL, Data, function (Response) {
