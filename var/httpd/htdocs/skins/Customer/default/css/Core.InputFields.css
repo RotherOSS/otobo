@@ -541,7 +541,7 @@ input[readonly=readonly] {
 }
 
 /* Tooltips */
-.Tooltip {
+.oooTooltip {
     display: inline-block;
     width: 18px;
     height: 18px;
@@ -557,11 +557,11 @@ input[readonly=readonly] {
     left: -48px;
 }
 
-.Tooltip i {
+.oooToolip i {
     font-size: 18px;
 }
 
-.Tooltip > p {
+.oooTooltip > .Content {
     z-index: 1;
     display: none;
     padding: 24px 32px;
@@ -576,11 +576,31 @@ input[readonly=readonly] {
     border-radius: 15px;
 }
 
-.Tooltip:hover > p {
+.oooTooltip:hover > .Content {
     display: inline;
     position: absolute;
     left: -260px;
     top: -8px;
+}
+
+.TooltipContainer {
+    position: absolute;
+    z-index: 6000;
+    display: none;
+    max-width: 400px;
+}
+
+.Tooltip > .Content {
+    background-color: #fff;
+    padding: 5px;
+    position: relative;
+    border-radius: 15px;
+    padding: 24px 32px;
+    max-width: 280px;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
 }
 
 /* jstree stuff */
