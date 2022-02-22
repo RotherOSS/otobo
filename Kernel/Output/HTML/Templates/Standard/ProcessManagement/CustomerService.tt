@@ -19,9 +19,11 @@
         [% Data.Content %]
     </div>
 [% RenderBlockStart("rw:Service:DescriptionLong") %]
-    <div class="Tooltip">
+    <div class="oooTooltip">
         <i class="ooofo ooofo-help"></i>
-        <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+        <div class="Content">
+            <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+        </div>
     </div>
 [% RenderBlockEnd("rw:Service:DescriptionLong") %]
     <label for="[% Data.FieldID | html %][% Data.IDSuffix | html %]" class="[% Data.MandatoryClass | html %]">

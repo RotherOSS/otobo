@@ -20,9 +20,11 @@
         [% Data.Content %]
     </div>
 [% RenderBlockStart("rw:DynamicField:DescriptionLong") %]
-    <div class="Tooltip">
+    <div class="oooTooltip">
         <i class="ooofo ooofo-help"></i>
-        <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+        <div class="Content">
+            <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
+        </div>
     </div>
 [% RenderBlockEnd("rw:DynamicField:DescriptionLong") %]
     [% Data.Label %]

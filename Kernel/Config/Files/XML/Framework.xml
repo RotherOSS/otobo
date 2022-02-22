@@ -8307,7 +8307,6 @@ via the Preferences button after logging in.
                 <Item>Core.Widget.css</Item>
                 <Item>Core.WidgetMenu.css</Item>
                 <Item>Core.TicketDetail.css</Item>
-                <Item>Core.Tooltip.css</Item>
                 <Item>Core.Dialog.css</Item>
                 <Item>Core.InputFields.css</Item>
                 <Item>Core.Print.css</Item>
