@@ -19,7 +19,7 @@
         <input type="text" id="Subject[% Data.IDSuffix | html %]" name="Subject" value="[% Data.Subject | html %]" class="W75pc [% Data.ValidateRequired | html %] [% Data.SubjectServerError | html %] Validate_DependingRequiredAND Validate_Depending_RichText Validate_Depending_AttachmentExists Validate_Depending_TimeUnits"/>
     </div>
 [% RenderBlockStart("rw:Article:DescriptionLong") %]
-    <div class="oooTooltip">
+    <div class="Tooltip oooTooltip">
         <i class="ooofo ooofo-help"></i>
         <div class="Content">
             <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>

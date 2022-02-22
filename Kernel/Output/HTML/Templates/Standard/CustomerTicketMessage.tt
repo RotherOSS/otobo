@@ -32,7 +32,7 @@
                         [% Data.Field %]
                     </div>
                     [% IF Data.Tooltip %]
-                        <div class="oooTooltip">
+                        <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
                                 <p>[% Data.Tooltip | html | html_line_break %]</p>
@@ -105,7 +105,7 @@
                         [% Data.Field %]
                     </div>
                     [% IF Data.Tooltip %]
-                        <div class="oooTooltip">
+                        <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
                                 <p>[% Data.Tooltip | html | html_line_break %]</p>
@@ -123,7 +123,7 @@
                         [% Data.Field %]
                     </div>
                     [% IF Data.Tooltip %]
-                        <div class="oooTooltip">
+                        <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
                                 <p>[% Data.Tooltip | html | html_line_break %]</p>
@@ -141,7 +141,7 @@
                         [% Data.Field %]
                     </div>
                     [% IF Data.Tooltip %]
-                        <div class="oooTooltip">
+                        <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
                                 <p>[% Data.Tooltip | html | html_line_break %]</p>
@@ -212,7 +212,7 @@
 #                        [% Data.Field %]
 #                    </div>
 #                    [% IF Data.Tooltip %]
-#                        <div class="oooTooltip">
+#                        <div class="Tooltip oooTooltip">
 #                            <i class="ooofo ooofo-help"></i>
 #                            <div class="Content">
 #                               <p>[% Data.Tooltip | html %]</p>
@@ -229,7 +229,7 @@
 #                        [% Data.Field %]
 #                    </div>
 #                    [% IF Data.Tooltip %]
-#                        <div class="oooTooltip">
+#                        <div class="Tooltip oooTooltip">
 #                            <i class="ooofo ooofo-help"></i>
 #                            <div class="Content>
 #                               <p>[% Data.Tooltip | html %]</p>
