@@ -158,7 +158,7 @@ Core.Form.ErrorTooltips = (function (TargetNS) {
 
         if ( Core.Config.Get('SessionName') === Core.Config.Get('CustomerPanelSessionName') ) {
             TooltipOffsetLeft = 48;
-            TooltipOffsetTop = 24;
+            TooltipOffsetTop = 40;
         }
 
         if (TooltipPosition === 'TongueBottom') {

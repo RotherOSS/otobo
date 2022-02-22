@@ -565,6 +565,7 @@ input[readonly=readonly] {
     white-space: normal;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
     box-shadow: 0 1px 4px 0 var(--colShadowDark);
+    max-width: 280px;
 }
 
 .oooTooltip i {
