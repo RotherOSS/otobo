@@ -564,16 +564,8 @@ input[readonly=readonly] {
 .oooTooltip > .Content {
     z-index: 1;
     display: none;
-    padding: 24px 32px;
-    width: 280px;
-    line-height: 1.4;
-    white-space: normal;
     color: #00023c;
     color: var(--colTextDark);
-    background: #fff;
-    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
-    box-shadow: 0 1px 4px 0 var(--colShadowDark); 
-    border-radius: 15px;
 }
 
 .oooTooltip:hover > .Content {
@@ -587,16 +579,13 @@ input[readonly=readonly] {
     position: absolute;
     z-index: 6000;
     display: none;
-    max-width: 400px;
 }
 
 .Tooltip > .Content {
     background-color: #fff;
-    padding: 5px;
-    position: relative;
     border-radius: 15px;
     padding: 24px 32px;
-    max-width: 280px;
+    width: 280px;
     line-height: 1.4;
     white-space: normal;
     box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);

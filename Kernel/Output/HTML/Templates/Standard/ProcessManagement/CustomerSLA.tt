@@ -19,7 +19,7 @@
         [% Data.Content %]
     </div>
 [% RenderBlockStart("rw:SLA:DescriptionLong") %]
-    <div class="oooTooltip">
+    <div class="Tooltip oooTooltip">
         <i class="ooofo ooofo-help"></i>
         <div class="Content">
             <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>

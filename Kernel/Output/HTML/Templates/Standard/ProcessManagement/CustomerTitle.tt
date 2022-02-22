@@ -19,7 +19,7 @@
         <input class="W50pc DynamicFieldText [% Data.ValidateRequired | html %] [% Data.ServerError | html %]" type="text" name="[% Data.FieldID | html %]" id="[% Data.FieldID | html %][% Data.IDSuffix | html %]" value="[% Data.Value | html %]"/>
     </div>
 [% RenderBlockStart("rw:Title:DescriptionLong") %]
-    <div class="oooTooltip">
+    <div class="Tooltip oooTooltip">
         <i class="ooofo ooofo-help"></i>
         <div class="Content">
            <p>[% Translate(Data.DescriptionLong) | html | html_line_break %]</p>
