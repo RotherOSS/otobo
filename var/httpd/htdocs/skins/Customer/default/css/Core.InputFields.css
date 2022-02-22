@@ -557,6 +557,16 @@ input[readonly=readonly] {
     left: -48px;
 }
 
+.Tooltip > .Content {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 24px 32px;
+    line-height: 1.4;
+    white-space: normal;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    box-shadow: 0 1px 4px 0 var(--colShadowDark);
+}
+
 .oooTooltip i {
     font-size: 18px;
 }
@@ -573,23 +583,13 @@ input[readonly=readonly] {
     position: absolute;
     left: -260px;
     top: -8px;
+    width: 280px;
 }
 
 .TooltipContainer {
     position: absolute;
     z-index: 6000;
     display: none;
-}
-
-.Tooltip > .Content {
-    background-color: #fff;
-    border-radius: 15px;
-    padding: 24px 32px;
-    width: 280px;
-    line-height: 1.4;
-    white-space: normal;
-    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
-    box-shadow: 0 1px 4px 0 var(--colShadowDark);
 }
 
 /* jstree stuff */
