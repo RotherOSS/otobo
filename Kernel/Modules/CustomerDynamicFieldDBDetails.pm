@@ -39,7 +39,7 @@ sub Run {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # get params
-    for my $Item (qw(DynamicFieldName ID)) {
+    for my $Item (qw(DynamicFieldName ID ActivityDialogID)) {
         $Param{$Item} = $Kernel::OM->Get('Kernel::System::Web::Request')->GetParam( Param => $Item );
     }
 
@@ -52,7 +52,12 @@ sub Run {
     }
 
     # get the pure DynamicField name without prefix
-    my $DynamicFieldName = substr( $Param{DynamicFieldName}, 13 );
+    my $DynamicFieldNameLong = substr( $Param{DynamicFieldName}, 13 );
+
+    my $DynamicFieldName = $DynamicFieldNameLong;
+    if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} ) {
+        $DynamicFieldName = substr($DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
+    }
 
     # get the dynamic field value for the current ticket
     my $DynamicFieldConfig = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -65,6 +70,7 @@ sub Run {
             DynamicFieldConfig => $DynamicFieldConfig,
         },
     );
+    
     my $DynamicFieldDBObject = $Kernel::OM->Get('Kernel::System::DynamicFieldDB');
 
     # perform the search based on the given dynamic field config

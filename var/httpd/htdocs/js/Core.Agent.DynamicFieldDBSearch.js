@@ -106,11 +106,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             ActivityDialogID = '';
         }
 
-
         // detect the frontend interface we currently use
         if (Core.Config.Get('CGIHandle').indexOf('customer') > -1) {
             FrontendInterface = 'CustomerDynamicFieldDBDetails';
-            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';ID=' + IdentifierKey;
+            SearchIFrameURL = Core.Config.Get('CGIHandle') + '?Action=' + FrontendInterface + ';DynamicFieldName=' + Field + ';ID=' + IdentifierKey + ';ActivityDialogID=' + ActivityDialogID;
             SearchIFrameURL += SerializeData(Core.App.GetSessionInformation());
             SearchIFrame = '<iframe width="700px" height="500px" class="TextOption Customer" src="' + SearchIFrameURL + '"></iframe>';
         }
