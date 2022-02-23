@@ -596,6 +596,19 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             FrontendInterface = 'AgentDynamicFieldDBSearch';
         }
 
+        var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
+        if ( typeof ActivityDialogID !== 'undefined' ) { 
+            ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
+        }   
+        else {
+            ActivityDialogID = ''; 
+        }
+
+        var FieldNameLong = Field;
+        if ( ActivityDialogID != '' ) {
+            Field = Field.substr(0, Field.indexOf('_' + ActivityDialogID));
+        }
+
         URL = Core.Config.Get('Baselink');
         Data = {
             Action: FrontendInterface,
@@ -610,7 +623,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
                 Core.Exception.HandleFinalError(new Core.Exception.ApplicationError("No content from: " + URL, 'CommunicationError'));
             }
             else {
-                TargetNS.AddResultElementAction(Field, ElementValue, IdentifierKey, Response[0].Multiselect, Focus);
+                TargetNS.AddResultElementAction(FieldNameLong, ElementValue, IdentifierKey, Response[0].Multiselect, Focus);
                 return true;
             }
 
