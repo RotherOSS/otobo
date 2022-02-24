@@ -1010,7 +1010,6 @@ sub LoadDefaults {
       'Core.Default.css',
       'Core.Form.css',
       'Core.Dialog.css',
-      'Core.Tooltip.css',
       'Core.Control.css',
       'Core.Table.css',
       'Core.InputFields.css',
