@@ -121,7 +121,7 @@ sub Run {
     # get all follow up processes
     my $FollowupProcessList = $ProcessObject->ProcessList(
         ProcessState => \@ProcessStates,
-        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
+        Interface    => 'all',
     );
 
     if ( !IsHashRefWithData($FollowupProcessList) ) {

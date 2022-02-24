@@ -308,7 +308,7 @@ sub Run {
     # configured for the agent interface
     my $FollowupProcessList = $ProcessObject->ProcessList(
         ProcessState => \@ProcessStates,
-        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
+        Interface    => 'all',
     );
 
     my $ProcessEntityID = $ParamObject->GetParam( Param => 'ProcessEntityID' );
