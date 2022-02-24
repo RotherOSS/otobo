@@ -7514,7 +7514,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="PublicFrontend::Active" Required="1" Valid="1">
         <Description Translatable="1">Activate the public frontend.</Description>
-        <Navigation>Frontend::Public</Navigation>
+        <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -7524,6 +7524,13 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Item ValueType="String">PublicDefault</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Active" Required="1" Valid="1">
+        <Description Translatable="1">Activate the customer frontend.</Description>
+        <Navigation>Frontend::Public</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::FooterLinks" Required="0" Valid="0">

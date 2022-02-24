@@ -405,8 +405,8 @@ my $RedirectOtoboApp = sub {
     return $Res->finalize();
 };
 
-# Check whether PublicFrontend::Active is on. If not redirect to the default path.
-# Otherwise serve the public interface.
+# Check whether PublicFrontend::Active is on. If so serve the public interface.
+# Otherwise act as if the public interface does not exist and redirect to the default interface.
 my $CheckPublicInterfaceApp = sub {
     my $Env = shift;
 
@@ -414,6 +414,20 @@ my $CheckPublicInterfaceApp = sub {
 
     return Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfacePublic',
+    )->to_app->($Env) if $Active;
+
+    return $RedirectOtoboApp->($Env);
+};
+
+# Check whether CustomerFrontend::Active is on. If so serve the customer interface.
+# Otherwise act as if the customer interface does not exist and redirect to the default interface.
+my $CheckCustomerInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceCustomer',
     )->to_app->($Env) if $Active;
 
     return $RedirectOtoboApp->($Env);
@@ -501,10 +515,6 @@ my $OTOBOApp = builder {
     #mount '/dump_env' => $DumpEnvApp;
     #mount '/hello'    => $HelloApp;
 
-    mount '/customer.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceCustomer',
-    )->to_app;
-
     mount '/index.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfaceAgent',
     )->to_app;
@@ -541,10 +551,12 @@ my $OTOBOApp = builder {
         Interface => 'Kernel::GenericInterface::Provider',
     )->to_app;
 
-    mount "/public.pl" => $CheckPublicInterfaceApp;
+    # the following interfaces can be deactivated in the SysConfig
+    mount "/customer.pl" => $CheckPublicInterfaceApp;
+    mount "/public.pl"   => $CheckPublicInterfaceApp;
 
-    # the agent interface is the default
-    mount '/' => $RedirectOtoboApp;    # redirect to Frontend::NotFoundRedirectPath when in doubt
+    # redirect to Frontend::NotFoundRedirectPath when in doubt
+    mount '/' => $RedirectOtoboApp;
 };
 
 ################################################################################
