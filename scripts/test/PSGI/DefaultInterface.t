@@ -34,7 +34,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan(4);
+plan(10);
 
 # get needed singletons
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -50,9 +50,42 @@ http_request(
     http_response {
         http_isnt_success();
         http_is_redirect();
-        http_header( 'Location', '../otobo/index.pl' );
+        http_header( 'Location', 'otobo/index.pl' );
     },
     "testing $OtoboURL",
+);
+
+my $BrokenOtoboURL = $OtoboURL . '_cruft_added';
+http_request(
+    [ GET($BrokenOtoboURL) ],
+    http_response {
+        http_code(404);
+        http_is_error();
+        http_content( match(qr/URL was not found/) );
+    },
+    "testing $BrokenOtoboURL",
+);
+
+my $WithSlashURL = $OtoboURL . '/';
+http_request(
+    [ GET($WithSlashURL) ],
+    http_response {
+        http_isnt_success();
+        http_is_redirect();
+        http_header( 'Location', 'index.pl' );
+    },
+    "testing $WithSlashURL",
+);
+
+my $WithThreeSlashesURL = $OtoboURL . '///';
+http_request(
+    [ GET($WithThreeSlashesURL) ],
+    http_response {
+        http_isnt_success();
+        http_is_redirect();
+        http_header( 'Location', '../../index.pl' );
+    },
+    "testing $WithThreeSlashesURL",
 );
 
 my $IndexPlURL = join '/', $OtoboURL, 'index.pl';
@@ -71,9 +104,9 @@ http_request(
     http_response {
         http_isnt_success();
         http_is_redirect();
-        http_header( 'Location', '../otobo/index.pl' );
+        http_header( 'Location', 'index.pl' );
     },
-    "testing $IndexPlURL",
+    "testing $IndexPhpURL",
 );
 
 my $FourDeepURL = join '/', $OtoboURL, 'level_1', 'level_2', 'level_3', 'level_4', 'sample.html';
@@ -82,7 +115,28 @@ http_request(
     http_response {
         http_isnt_success();
         http_is_redirect();
-        http_header( 'Location', '../../../../../otobo/index.pl' );
+        http_header( 'Location', '../../../../index.pl' );
     },
     "testing $FourDeepURL",
 );
+
+# switch the default interface
+for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
+    $Helper->ConfigSettingChange(
+        Valid => 1,
+        Key   => 'Frontend::DefaultInterface',
+        Value => $Interface,
+    );
+
+    http_request(
+        [ GET($OtoboURL) ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', "otobo/$Interface" );
+        },
+        "testing redirect to default interface $Interface",
+    );
+
+    $Helper->CustomFileCleanup();
+}

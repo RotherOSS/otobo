@@ -76,6 +76,7 @@ http_request(
     http_response {
         http_code(404);
         http_is_error();
+        http_content( match(qr/URL was not found/) );
     },
     "testing $NonExistentURL",
 );
