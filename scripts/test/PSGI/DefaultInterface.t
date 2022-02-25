@@ -34,7 +34,7 @@ use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 # even though this route could also be available outside Docker.
 skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
 
-plan(10);
+plan(12);
 
 # get needed singletons
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -137,6 +137,43 @@ for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
         },
         "testing redirect to default interface $Interface",
     );
+
+    # inactive interfaces fall back to index.pl
+    if ( $Interface eq 'customer.pl' ) {
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'CustomerFrontend::Active',
+            Value => 0,
+        );
+
+        http_request(
+            [ GET($OtoboURL) ],
+            http_response {
+                http_isnt_success();
+                http_is_redirect();
+                http_header( 'Location', "otobo/index.pl" );
+            },
+            "testing redirect to deactivated default interface $Interface",
+        );
+    }
+
+    if ( $Interface eq 'public.pl' ) {
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'PublicFrontend::Active',
+            Value => 0,
+        );
+
+        http_request(
+            [ GET($OtoboURL) ],
+            http_response {
+                http_isnt_success();
+                http_is_redirect();
+                http_header( 'Location', "otobo/index.pl" );
+            },
+            "testing redirect to deactivated default interface $Interface",
+        );
+    }
 
     $Helper->CustomFileCleanup();
 }
