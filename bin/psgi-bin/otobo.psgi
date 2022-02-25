@@ -391,11 +391,25 @@ my $DumpEnvApp = sub {
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
+    # determine the default interface,
+    # fall back to the Agent interface when the configured default interface is not activated.
+    my $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
+    my $Active    = 1;
+    if ( $Interface eq 'customer.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+    }
+    elsif ( $Interface eq 'public.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+    }
+
+    if ( !$Active ) {
+        $Interface = 'index.pl';
+    }
+
     # Construct a relative path to the default interface.
     # In $OrigPath multiple sequential slashes seem to be collapsed to a single slash. This might result
     # in broken redirects. But it looks like the broken redirects are redirected again and finally
     # we end up in the default interface. All is fine as long we don't walk up too high, i.e. above 'otobo/'.
-    my $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
     my $Redirect;
     if ( $Env->{PATH_INFO} eq '' ) {
 
@@ -431,6 +445,9 @@ my $CheckPublicInterfaceApp = sub {
         Interface => 'Kernel::System::Web::InterfacePublic',
     )->to_app->($Env) if $Active;
 
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'public.pl';
+
     return $RedirectOtoboApp->($Env);
 };
 
@@ -444,6 +461,9 @@ my $CheckCustomerInterfaceApp = sub {
     return Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfaceCustomer',
     )->to_app->($Env) if $Active;
+
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'customer.pl';
 
     return $RedirectOtoboApp->($Env);
 };
@@ -562,13 +582,13 @@ my $OTOBOApp = builder {
         )->to_app;
     };
 
-    mount "/nph-genericinterface.pl" => Kernel::System::Web::App->new(
+    mount '/nph-genericinterface.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::GenericInterface::Provider',
     )->to_app;
 
     # the following interfaces can be deactivated in the SysConfig
-    mount "/customer.pl" => $CheckPublicInterfaceApp;
-    mount "/public.pl"   => $CheckPublicInterfaceApp;
+    mount '/customer.pl' => $CheckCustomerInterfaceApp;
+    mount '/public.pl'   => $CheckPublicInterfaceApp;
 
     # redirect to Frontend::DefaultInterface when in doubt
     mount '/' => $RedirectOtoboApp;
