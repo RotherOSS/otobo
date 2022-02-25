@@ -386,27 +386,56 @@ my $DumpEnvApp = sub {
 
 # Handler for 'otobo', 'otobo/', 'otobo/not_existent', 'otobo/some/thing' and such.
 # Would also work for /dummy if mounted accordingly.
-# Redirect via a relative URL to Frontend::NotFoundRedirectPath.
+# Redirect via a relative URL to Frontend::DefaultInterface.
 # There is no permission check.
 my $RedirectOtoboApp = sub {
     my $Env = shift;
 
-    # construct a relative path to the redirect path
-    my $OrigPath     = Plack::Request->new($Env)->path;
-    my $Levels       = $OrigPath =~ tr[/][];
-    my $RedirectPath = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::NotFoundRedirectPath') || 'otobo/index.pl';
-    my $NewPath      = join '/', map( {'..'} ( 1 .. $Levels ) ), $RedirectPath;
+    # determine the default interface,
+    # fall back to the Agent interface when the configured default interface is not activated.
+    my $Interface = $Kernel::OM->Get('Kernel::Config')->Get('Frontend::DefaultInterface') || 'index.pl';
+    my $Active    = 1;
+    if ( $Interface eq 'customer.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+    }
+    elsif ( $Interface eq 'public.pl' ) {
+        $Active = $Kernel::OM->Get('Kernel::Config')->Get('PublicFrontend::Active');
+    }
+
+    if ( !$Active ) {
+        $Interface = 'index.pl';
+    }
+
+    # Construct a relative path to the default interface.
+    # In $OrigPath multiple sequential slashes seem to be collapsed to a single slash. This might result
+    # in broken redirects. But it looks like the broken redirects are redirected again and finally
+    # we end up in the default interface. All is fine as long we don't walk up too high, i.e. above 'otobo/'.
+    my $Redirect;
+    if ( $Env->{PATH_INFO} eq '' ) {
+
+        # Special case for https://example.com/otobo . The path below 'otobo' is empty. So for redirecting
+        # we needed information how we got here. Often REQUEST_URI is '/otobo' but this is not guaranteed.
+        my ($LastComponent) = reverse split '/', $Env->{REQUEST_URI};
+        $Redirect = join '/', $LastComponent, $Interface;    # e.g. otobo/index.pl
+    }
+    else {
+
+        # hike up the approbriate number of levels, e.g. '',  '..',  or '../../../..'
+        my $OrigPath = Plack::Request->new($Env)->path;
+        my $Levels   = $OrigPath =~ tr[/][];
+        $Redirect = join '/', ( map {'..'} ( 1 .. ( $Levels - 1 ) ) ), $Interface;
+    }
 
     # redirect
     my $Res = Plack::Response->new;
-    $Res->redirect($NewPath);
+    $Res->redirect($Redirect);
 
     # send the PSGI response arrayref
     return $Res->finalize();
 };
 
-# Check whether PublicFrontend::Active is on. If not redirect to the default path.
-# Otherwise serve the public interface.
+# Check whether PublicFrontend::Active is on. If so serve the public interface.
+# Otherwise act as if the public interface does not exist and redirect to the default interface.
 my $CheckPublicInterfaceApp = sub {
     my $Env = shift;
 
@@ -415,6 +444,26 @@ my $CheckPublicInterfaceApp = sub {
     return Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfacePublic',
     )->to_app->($Env) if $Active;
+
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'public.pl';
+
+    return $RedirectOtoboApp->($Env);
+};
+
+# Check whether CustomerFrontend::Active is on. If so serve the customer interface.
+# Otherwise act as if the customer interface does not exist and redirect to the default interface.
+my $CheckCustomerInterfaceApp = sub {
+    my $Env = shift;
+
+    my $Active = $Kernel::OM->Get('Kernel::Config')->Get('CustomerFrontend::Active');
+
+    return Kernel::System::Web::App->new(
+        Interface => 'Kernel::System::Web::InterfaceCustomer',
+    )->to_app->($Env) if $Active;
+
+    # trick $RedirectOtoboApp into doing the right thing
+    $Env->{PATH_INFO} = 'customer.pl';
 
     return $RedirectOtoboApp->($Env);
 };
@@ -457,7 +506,7 @@ my $HtdocsApp = builder {
 
 # Support for customer.pl, index.pl, installer.pl, migration.pl, nph-genericinterface.pl.
 # Support for public.pl if PublicFrontend::Active is on.
-# Redirect to Frontend::NotFoundRedirectPath as a fallback
+# Redirect to Frontend::DefaultInterface as a fallback
 my $OTOBOApp = builder {
 
     # compress the output
@@ -501,10 +550,6 @@ my $OTOBOApp = builder {
     #mount '/dump_env' => $DumpEnvApp;
     #mount '/hello'    => $HelloApp;
 
-    mount '/customer.pl' => Kernel::System::Web::App->new(
-        Interface => 'Kernel::System::Web::InterfaceCustomer',
-    )->to_app;
-
     mount '/index.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::System::Web::InterfaceAgent',
     )->to_app;
@@ -537,14 +582,16 @@ my $OTOBOApp = builder {
         )->to_app;
     };
 
-    mount "/nph-genericinterface.pl" => Kernel::System::Web::App->new(
+    mount '/nph-genericinterface.pl' => Kernel::System::Web::App->new(
         Interface => 'Kernel::GenericInterface::Provider',
     )->to_app;
 
-    mount "/public.pl" => $CheckPublicInterfaceApp;
+    # the following interfaces can be deactivated in the SysConfig
+    mount '/customer.pl' => $CheckCustomerInterfaceApp;
+    mount '/public.pl'   => $CheckPublicInterfaceApp;
 
-    # the agent interface is the default
-    mount '/' => $RedirectOtoboApp;    # redirect to Frontend::NotFoundRedirectPath when in doubt
+    # redirect to Frontend::DefaultInterface when in doubt
+    mount '/' => $RedirectOtoboApp;
 };
 
 ################################################################################
@@ -557,7 +604,7 @@ builder {
     #enable 'Plack::Middleware::TrafficLog';
 
     # users can overwrite the 404 page
-    # note that 404 below /otobo/ already redirects to Frontend::NotFoundRedirectPath
+    # note that 404 below /otobo/ already redirects to Frontend::DefaultInterface
     enable "Plack::Middleware::ErrorDocument",
         404 => "$Home/var/httpd/htdocs/404.html";
 

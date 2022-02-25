@@ -362,13 +362,15 @@
             <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_Frontend::WebPath&gt;js/</Item>
         </Value>
     </Setting>
-    <Setting Name="Frontend::NotFoundRedirectPath" Required="1" Valid="1" ConfigLevel="200">
-        <Description Translatable="1">Defines the URL to where not found pathes are redirected.</Description>
+    <Setting Name="Frontend::DefaultInterface" Required="1" Valid="1" ConfigLevel="200">
+        <Description Translatable="1">Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.</Description>
         <Navigation>Frontend::Base</Navigation>
         <Value>
-            <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_ScriptAlias&gt;index.pl</Item>
-            <!-- <Item ValueType="String" ValueRegex="">&lt;OTOBO_CONFIG_ScriptAlias&gt;customer.pl</Item> -->
-            <!-- <Item ValueType="String" ValueRegex="">index.html</Item> -->
+            <Item ValueType="Select" SelectedID="index.pl">
+                <Item ValueType="Option" Value="index.pl" Translatable="1">Agent Interface</Item>
+                <Item ValueType="Option" Value="customer.pl" Translatable="1">Customer Interface</Item>
+                <Item ValueType="Option" Value="public.pl" Translatable="1">Public Interface</Item>
+            </Item>
         </Value>
     </Setting>
     <Setting Name="Frontend::RichText" Required="1" Valid="1" ConfigLevel="200">
@@ -7514,7 +7516,7 @@ via the Preferences button after logging in.
     </Setting>
     <Setting Name="PublicFrontend::Active" Required="1" Valid="1">
         <Description Translatable="1">Activate the public frontend.</Description>
-        <Navigation>Frontend::Public</Navigation>
+        <Navigation>Frontend::Customer</Navigation>
         <Value>
             <Item ValueType="Checkbox">1</Item>
         </Value>
@@ -7524,6 +7526,13 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Item ValueType="String">PublicDefault</Item>
+        </Value>
+    </Setting>
+    <Setting Name="CustomerFrontend::Active" Required="1" Valid="1">
+        <Description Translatable="1">Activate the customer frontend.</Description>
+        <Navigation>Frontend::Public</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">1</Item>
         </Value>
     </Setting>
     <Setting Name="CustomerFrontend::FooterLinks" Required="0" Valid="0">
