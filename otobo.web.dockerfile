@@ -44,12 +44,7 @@ RUN apt-get update\
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-# required modules are installed in /opt/otobo_install/local
-# additional local modules might be installed in /opt/otobo/local
-ENV PERL5LIB "/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
-ENV PATH "/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
-
-# Install packages from CPAN into the local lib /opt/otobo_install/local.
+# Install CPAN distributions that are required by OTOBO into the local lib /opt/otobo_install/local.
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
@@ -60,6 +55,8 @@ ENV PATH "/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
 COPY cpanfile.docker cpanfile
+ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
+ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \
     && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
     && rm -rf "$HOME/.cpanm"
@@ -79,6 +76,15 @@ RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash 
 # skip the files set up in .dockerignore
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
+
+# In a running installation additional Perl modules from CPAN might be needed. These be installed
+# in the directory /opt/otobo/local. This directory is located in the volume /opt/otobo and therefore
+# survives updates of the Docker image.
+# /opt/otobo/local must be prepolulated with architecture and version dependent subdirs. These subdirs
+# are added to @INC when a Perl process starts up.
+RUN perl -Mlocal::lib=local
+ENV PERL5LIB "/opt/otobo/local/lib/perl5:${PERL5LIB}"
+ENV PATH "/opt/otobo/local/bin:${PATH}"
 
 # uncomment these steps when strange behavior must be investigated
 #RUN echo "'$OTOBO_HOME'"
