@@ -25,12 +25,10 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver; # Set up the test driver $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
-skip_all('DashboardBackend###0000-ProductNotify is gone, see https://github.com/RotherOSS/otobo/issues/1532' );
-
-our $Self;
+skip_all('DashboardBackend###0000-ProductNotify is gone, see https://github.com/RotherOSS/otobo/issues/1532');
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -181,7 +179,7 @@ EOS
 
         # Check if ProductNotify plugin has items with correct text and links.
         for my $Item (@ProductFeeds) {
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('#Dashboard0000-ProductNotify tbody tr:contains(\"$Item->{Version}\") a[href=\"$Item->{Link}\"]').length;"
                 ),
@@ -191,4 +189,4 @@ EOS
     }
 );
 
-$Self->DoneTesting();
+done_testing();
