@@ -29,17 +29,24 @@
 !doc
 !Kernel
 !scripts
+
+# keep var but skip the files in var that might have been generated during development and testing
 !var
 var/httpd/htdocs/skins/Agent/*/css-cache/*
 var/httpd/htdocs/js/js-cache/*
+var/httpd/htdocs/SeleniumScreenshots
+var/article/*
+var/log/*
+var/run/
+var/sessions/*
+var/spool/*
+var/tmp/
 
 # The dot files in the subdirectories are kept kept per default.
 # The not wanted dot files are listed here explicitly.
 # The .keep files force git to keep the directories, they are not needed in the image.
 **/.keep
 
-# ignore files that might be generated during development
-var/httpd/htdocs/SeleniumScreenshots
 
 # ignore editor swap files and other temporary files
 **/.#*
@@ -66,12 +73,6 @@ bin/Cron.sh
 # this is for the case when the image is not created from a clean git checkout
 Kernel/Config.pm
 Kernel/Config/Files/*.pm
-var/article/*
-var/log/*
-var/run/
-var/sessions/*
-var/spool/*
-var/tmp/
 
 # in case somebody generated keys or certificates,
 # but keep the sample files needed for the unit tests
