@@ -63,6 +63,7 @@ bin/devel
 Kernel/Config.pm
 Kernel/Config/Files/*.pm
 Kernel/Config.pm.dist
+Kernel/Config.pod
 
 # ignore files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
 scripts/apache*
