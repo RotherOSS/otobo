@@ -160,7 +160,7 @@
 
             </fieldset>
             <div class="ActionRow">
-                <button id="CloseButton" class="oooXS">[% Translate("Discard") | html %]</button><button type="submit" value="[% Translate("Submit") | html %]" class="oooXS">[% Translate("Submit") | html %]</button>
+                <button type="button" id="CloseButton" class="oooXS">[% Translate("Discard") | html %]</button><button type="submit" value="[% Translate("Submit") | html %]" class="oooXS">[% Translate("Submit") | html %]</button>
             </div>
         </div>
     </form>
