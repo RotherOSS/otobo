@@ -58,7 +58,10 @@ bin/docker/build_docker_images.sh
 bin/docker/lint_docker_files.sh
 bin/devel
 
+# ignore Config files that might have been added during development and testing
 # ignore Config.pm.dist, as Config.pm.docker.dist is actually used
+Kernel/Config.pm
+Kernel/Config/Files/*.pm
 Kernel/Config.pm.dist
 
 # ignore files only needed for Apache, see also Kernel::System::Environment where the ignored modules are special cased
@@ -69,10 +72,6 @@ Kernel/System/SupportDataCollector/Plugin/Webserver/Apache
 # no need for cronjobs in Docker image
 var/cron
 bin/Cron.sh
-
-# this is for the case when the image is not created from a clean git checkout
-Kernel/Config.pm
-Kernel/Config/Files/*.pm
 
 # in case somebody generated keys or certificates,
 # but keep the sample files needed for the unit tests
