@@ -50,7 +50,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-28 08:47+0000\n"
-"PO-Revision-Date: 2022-02-21 17:48+0000\n"
+"PO-Revision-Date: 2022-02-28 13:24+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -10668,7 +10668,7 @@ msgstr "Service-Level-Vereinbarung"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr "Ihre Tickets"
+msgstr "Deine Tickets"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
