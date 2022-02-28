@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.907619047619048;
+    $Self->{Completeness}        = 0.915741034592193;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -107,17 +107,17 @@ sub Data {
             'Crie uma nova ACL submetendo os dados do formulário. Após criar a ACL, você será capaz de adicionar itens de configuração no modo de edição.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Sobre',
         'Toggle this widget' => 'Chavear este dispositivo',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Este idioma não está presente ou ativado no sistema. Este texto pode ser excluído se não for mais necessário.',
+        'Remove Language' => 'Remover idioma',
         'Text' => 'Texto',
         'Message body' => 'Corpo da mensagem',
         'This field is required and must have less than 4000 characters.' =>
             'Este campo é obrigatório e deve ter menos do que 4000 caracteres.',
-        'Remove About Language' => '',
-        'Add new language' => '',
+        'Remove About Language' => 'Remover sobre o idioma',
+        'Add new language' => 'Adicionar novo idioma',
         'Save Changes' => 'Salvar Alterações',
 
         # Template: AdminAppointmentCalendarManage
@@ -422,9 +422,9 @@ sub Data {
         'Valid' => 'Válido',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'Gerenciamento de Política de Privacidade',
+        'Privacy Policy' => 'Política de Privacidade',
+        'Remove PrivacyPolicy Language' => 'Remover idioma da Política de Privacidade',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Gerenciamento de Cliente',
@@ -538,7 +538,7 @@ sub Data {
         'Add new field for object' => 'Adicionar novo campo ao objeto',
         'Filter for Dynamic Fields' => 'Filtro para Campos Dinâmicos',
         'Filter for dynamic fields' => 'Filtro para campos dinâmicos',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => 'Novos Campos Dinâmicos',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             'Você gostaria de se beneficiar de tipos de campos dinâmicos adicionais? Você tem acesso total aos seguintes tipos de campo:',
         'Database' => 'Banco de Dados',
@@ -584,9 +584,9 @@ sub Data {
         'This field is required and must be numeric.' => 'Este campo é obrigatório e deve ser numérico.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Esta é a ordem na qual este campo será exibido nas telas onde ele estará ativo.',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'Mensagem de dica:',
         'This is the tooltip message shown inside the customer interface.' =>
-            '',
+            'Esta é a mensagem da dica de ferramenta mostrada na interface do cliente.',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
             'Não é possível invalidar esta entrada. Todas as configurações têm de ser alteradas anteriormente.',
         'Field type' => 'Tipo do Campo',
@@ -1070,44 +1070,44 @@ sub Data {
         'Add New Condition' => 'Adicionar Nova Condição',
 
         # Template: AdminGenericInterfaceInvokerTicket
-        'General invoker data' => '',
-        'Settings for outgoing request data' => '',
+        'General invoker data' => 'Dados gerais do invoker',
+        'Settings for outgoing request data' => 'Configurações de dados de solicitações de saída',
         'Ticket fields' => 'Campos de chamado',
         'Only the selected ticket fields will be considered for the request data.' =>
-            '',
-        'Article fields' => '',
+            'Somente os ticket selecionados serão considerados para os dados da solicitação.',
+        'Article fields' => 'Campos de artigo',
         'Only the selected article fields will be considered for the request data.' =>
-            '',
-        'Ticket dynamic fields' => '',
+            'Apenas os artigo selecionado serão considerados para os dados da solicitação.',
+        'Ticket dynamic fields' => 'Campos dinâmicos de chamados',
         'Only the selected ticket dynamic fields will be considered for the request data.' =>
-            '',
-        'Article dynamic fields' => '',
+            'Apenas os campos dinâmicos do ticket selecionados serão considerados para os dados da solicitação.',
+        'Article dynamic fields' => 'Campos dinâmicos de artigos',
         'Only the selected article dynamic fields will be considered for the request data.' =>
-            '',
-        'Number of articles' => '',
+            'Apenas os campos dinâmicos do artigo selecionado serão considerados para os dados da solicitação.',
+        'Number of articles' => 'Número de artigos',
         'The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent.' =>
-            '',
-        'Communication channels' => '',
+            'Os dados da solicitação de saída conterão apenas o número configurado de artigos. Se deixado em branco, apenas 1 artigo será enviado.',
+        'Communication channels' => 'Canais de comunicação',
         'The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used.' =>
-            '',
+            'Os dados da solicitação de saída considerarão apenas artigos dos canais de comunicação selecionados. Se deixado em branco, serão utilizados os artigos criados por todos os canais de comunicação.',
         'Customer visibility' => 'Visibilidade do cliente',
         'The outgoing request data will only consider articles created with the selected customer visibility.' =>
-            '',
-        'Sender Types' => '',
+            'Os dados da solicitação de saída considerarão apenas os artigos criados com a visibilidade para o cliente.',
+        'Sender Types' => 'Tipos de remetente',
         'The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used.' =>
-            '',
-        'Mapping' => '',
-        'Settings for incoming response data' => '',
-        'Remote TicketID dynamic field' => '',
+            'Os dados de solicitação de saída considerarão apenas artigos criados pelos tipos de remetentes selecionados. Se deixado em branco, os artigos criados por todos os tipos de remetentes serão usados.',
+        'Mapping' => 'Mapeamento',
+        'Settings for incoming response data' => 'Configurações para dados de resposta recebidos',
+        'Remote TicketID dynamic field' => 'Campo dinâmico TicketID remoto',
         'The selected ticket dynamic field is being used to store the remote TicketID.' =>
-            '',
+            'O campo dinâmico do ticket selecionado está sendo usado para armazenar o TicketID remoto.',
         'If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service.' =>
-            '',
+            'Se deixado em branco, o TicketID remoto não será armazenado, a menos que você defina um valor de configuração do sistema para este web service.',
         'The selected field is already in use by the Ticket dynamic fields option.' =>
-            '',
+            'O campo selecionado já está em uso pela opção Campos dinâmicos do ticket.',
         'Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed.' =>
-            '',
-        'Event data' => '',
+            'Apenas os campos dinâmicos de ticket selecionados estão sendo considerados para processar os dados de resposta de entrada. Se deixado em branco, nenhum campo dinâmico será processado.',
+        'Event data' => 'Dados do evento',
 
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => 'Mapeamento Simple',
@@ -1223,7 +1223,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             'URI que indica a localização específica para acessar um webservice.',
         'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'e.g. https://www.otobo.de:10745/api/v1.0 (sem barra invertida)',
         'Timeout' => 'Expiração',
         'Timeout value for requests.' => 'Valor de timeout para requisições.',
         'Authentication' => 'Autenticação',
@@ -1276,18 +1276,18 @@ sub Data {
             'Um comando HTTP específico para usar para as requisições com este invoker (opcional).',
         'Default command' => 'Comando padrão',
         'The default HTTP command to use for the requests.' => 'O comando HTTP padrão para usar para as requisições.',
-        'Additional request headers (all invokers)' => '',
-        'Additional request headers (invoker specific)' => '',
-        'Remove all headers for this invoker' => '',
-        'Headers for invoker' => '',
-        'Additional response headers (all operations)' => '',
-        'Additional response headers (operation specific)' => '',
-        'Remove all headers for this operation' => '',
-        'Headers for operation' => '',
-        'Common headers' => '',
-        'Header Name' => '',
-        'Remove header' => '',
-        'Add header' => '',
+        'Additional request headers (all invokers)' => 'Cabeçalhos adicionais da solicitação (todos os invocadores)',
+        'Additional request headers (invoker specific)' => 'Cabeçalhos adicionais da solicitação (específicos do invocador)',
+        'Remove all headers for this invoker' => 'Remova todos os cabeçalhos para este invocador',
+        'Headers for invoker' => 'Cabeçalhos para o invoker',
+        'Additional response headers (all operations)' => 'Cabeçalhos adicionais de resposta (todas as operações)',
+        'Additional response headers (operation specific)' => 'Cabeçalhos adicionais da resposta (específicos da operação)',
+        'Remove all headers for this operation' => 'Remova todos os cabeçalhos para esta operação',
+        'Headers for operation' => 'Cabeçalhos de operação',
+        'Common headers' => 'Cabeçalhos comuns',
+        'Header Name' => 'Nome do cabeçalho',
+        'Remove header' => 'Remover cabeçalho',
+        'Add header' => 'Adicionar cabeçalho',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'e.g. https://local.otobo.de:8000/Webservice/Example' => 'exemplo: https://local.otobo.de:8000/Webservice/Example',
@@ -1299,20 +1299,20 @@ sub Data {
         'Set to "No" in order to ignore the received SOAPAction header.' =>
             'Selecione "Não" para ignorar o cabeçalho SOAPAction recebido.',
         'SOAPAction scheme' => 'Esquema SOAPAction ',
-        'Select how SOAPAction should be constructed.' => 'Selecione como deverá ser construído o SOAPAction ',
+        'Select how SOAPAction should be constructed.' => 'Selecione como SOAPAction deve ser construído.',
         'Some web services require a specific construction.' => 'Alguns web services requerem uma construção específica.',
         'Some web services send a specific construction.' => 'Alguns web services enviam uma construção específica.',
         'SOAPAction separator' => 'Separador SOAPAction',
         'Character to use as separator between name space and SOAP operation.' =>
             'Caractere a ser utilizado como separador entre espaço de nome e operação SOAP.',
         'Usually .Net web services use "/" as separator.' => 'Usualmente webservices .Net utilizam "/" como separador.',
-        'SOAPAction free text' => 'Texto livre  SOAPAction',
-        'Text to be used to as SOAPAction.' => 'Texto a ser usado no SOAPAction',
+        'SOAPAction free text' => 'Texto livre SOAPAction',
+        'Text to be used to as SOAPAction.' => 'Texto a ser usado no SOAPAction.',
         'Namespace' => 'Namespace',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI de contexto dos métodos SOAP, reduzindo ambiguidades.',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '',
-        'Request name scheme' => 'Solicita esquema de nome',
+            'e.g. urn:otobo-com:soap:functions ou http://www.otobo.de/GenericInterface/actions',
+        'Request name scheme' => 'Solicitar nome do esquema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Seleciona como o encapsulador da função de solicitação SOAP precisa ser construído.',
         '\'FunctionName\' is used as example for actual invoker/operation name.' =>
@@ -1332,7 +1332,7 @@ sub Data {
             'Aqui você pode especificar o tamanho máximo (em bytes) das mensagens SOAP que o OTOBO vai processar.',
         'Encoding' => 'Codificação',
         'The character encoding for the SOAP message contents.' => 'A codificação de caracteres para o conteúdo da mensagem SOAP.',
-        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.',
         'Sort options' => 'Ordenar opções',
         'Add new first level element' => 'Adicionar novo elemento de primeiro nível',
         'Element' => 'Elemento',
@@ -1358,7 +1358,7 @@ sub Data {
         'Do you really want to delete this web service?' => 'Você realmente deseja apagar este web service?',
         'Ready2Adopt Web Services' => 'Webservices Ready2Adopt',
         'Here you can activate Ready2Adopt web services showcasing our best practices.' =>
-            '',
+            'Aqui você pode ativar os serviços web Ready2Adopt apresentando nossas melhores práticas.',
         'Import Ready2Adopt web service' => 'Importar web service Ready2Adopt ',
         'After you save the configuration you will be redirected again to the edit screen.' =>
             'Após salvar as configuração você será redirecionado novamente para a tela de edição.',
@@ -2540,7 +2540,7 @@ sub Data {
         'New email ticket to %s' => 'Novo chamado via e-mail de %s',
 
         # Template: AgentDashboardMyLastChangedTickets
-        'No tickets found.' => '',
+        'No tickets found.' => 'Não foram encontrados chamados.',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s está disponível!',
@@ -2703,13 +2703,13 @@ sub Data {
         'Delete statistic %s' => 'Excluir estatística %s',
 
         # Template: AgentStatisticsReportsAdd
-        'Report Management' => '',
-        'Add Report' => '',
+        'Report Management' => 'Gerenciamento de relatórios',
+        'Add Report' => 'Adicionar relatório',
 
         # Template: AgentStatisticsReportsEdit
-        'Edit Report' => '',
+        'Edit Report' => 'Editar relatório',
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
-            '',
+            'Aqui você pode combinar várias estatísticas em um relatório que pode ser gerado como PDF manualmente ou automaticamente em horários configurados.',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
             '',
         'Configure PhantomJS' => '',
@@ -5852,6 +5852,9 @@ sub Data {
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
+        # Perl Module: Kernel/System/Web/InterfacePublic.pm
+        'Could not connect to the database.' => '',
+
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'inválido-temporariamente',
         'Group for default access.' => 'Grupo de acesso padrão',
@@ -6436,6 +6439,8 @@ Obrigado pela ajuda!
         'Access Control Lists (ACL)' => 'Listas de Controle de Acesso (ACL)',
         'AccountedTime' => 'Tempo contabilizado',
         'Activate Elasticsearch.' => '',
+        'Activate the customer frontend.' => '',
+        'Activate the public frontend.' => '',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
             '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
@@ -7160,6 +7165,8 @@ Obrigado pela ajuda!
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             'Define o idioma padrão do frontend. Todos os valores possíveis são determinados pelos arquivos de idioma disponíveis no sistema (veja a próxima definição).',
         'Defines the default history type in the customer interface.' => 'Define o tipo de histórico padrão na interface de cliente.',
+        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+            '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Define o número máximo padrão de atributos do eixo X para a escala de tempo.',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
@@ -7515,8 +7522,6 @@ Obrigado pela ajuda!
             'Define os parâmetros para o backend do painel. "Cmd" é utilizado para especificar comandos com parâmetros. "Group" é utilizado para restringir o acesso ao plugin (por exemplo, Group: admin;group1;group2;). "Default" indica se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTL" indica o tempo de expiração do  cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Define os parâmetros para o backend do painel. "Group" é utilizado para restringir o acesso ao plugin (por exemplo, Group: admin;group1;group2;). "Default" indica se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTL" indica o tempo de expiração do cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
-        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            'Define os parâmetros para o backend do painel. "Cmd" é utilizado para especificar comandos com parâmetros. "Group" é utilizado para restringir o acesso ao plugin (por exemplo, Group: admin;group1;group2;). "Default" indica se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTL" indica o tempo de expiração do cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Define os parâmetros para o backend do painel. "Limit" define o número de entradas exibidas como padrão. "Group" é utilizado para restringir o acesso ao plugin (por exemplo, Group: admin;group1;group2;). "Default" indica se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. "CacheTTL" indica o tempo de expiração do cache, em minutos, para o plugin. "Mandatory" determina se o plugin é exibido sempre e não pode ser removido pelos agentes.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
@@ -8366,7 +8371,6 @@ Obrigado pela ajuda!
         'New Year\'s Day' => 'Ano Novo',
         'New Year\'s Eve' => 'Véspera de Ano Novo',
         'New process ticket' => 'Novo chamado via processo',
-        'News about OTOBO releases!' => 'Notícias sobre lançamentos OTOBO!',
         'News about OTOBO.' => 'Notícias sobre OTOBO.',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             'Próximos estados de ticket possíveis após adicionar uma nota de telefonema na tela de telefonema recebido da interface de agente.',
@@ -8546,7 +8550,6 @@ Obrigado pela ajuda!
         'Process pending tickets.' => 'Tickets pendentes de processo.',
         'ProcessID' => 'ID de Processo',
         'Processes & Automation' => 'Processos e Automação',
-        'Product News' => 'Notícias do Produto',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
@@ -8556,6 +8559,7 @@ Obrigado pela ajuda!
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             'Gera acesso de usuários clientes a tickets mesmo que os tickets não estejam designados para um usuário cliente de mesmo ID de Cliente(s), baseado em grupos de permissão.',
         'Public Calendar' => 'Calendário público',
+        'Public Interface' => '',
         'Public calendar.' => 'Calendário público',
         'Queue view' => 'Visão de Filas',
         'Queues ↔ Auto Responses' => 'Filas ↔ Respostas Automáticas',

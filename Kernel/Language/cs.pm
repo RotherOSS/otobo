@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.251111111111111;
+    $Self->{Completeness}        = 0.256902570612504;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -113,13 +113,13 @@ sub Data {
         'Toggle this widget' => 'Přepnout tento widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Language' => '',
+        'Remove Language' => 'Odebrat jazyk',
         'Text' => 'Text',
         'Message body' => 'Tělo zprávy',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'Toto pole je povinné a musí mít délku kratší než 4000 znaků.',
         'Remove About Language' => '',
-        'Add new language' => '',
+        'Add new language' => 'Přidat nový jazyk',
         'Save Changes' => 'Uložit změny',
 
         # Template: AdminAppointmentCalendarManage
@@ -238,19 +238,19 @@ sub Data {
         'Active by default in agent preferences' => 'Standardně aktivní v nastavení agenta',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             '',
-        'This feature is currently not available.' => '',
+        'This feature is currently not available.' => 'Tato funkce je momentálně nedostupná.',
         'Upgrade to %s' => 'Aktualizovat na %s',
         'Please activate this transport in order to use it.' => '',
         'No data found' => 'Data nenalezena',
-        'No notification method found.' => '',
+        'No notification method found.' => 'Nebyla nalezena žádná notifikační metoda.',
         'Notification Text' => 'Text oznámení',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Notification Language' => '',
+        'Remove Notification Language' => 'Vymazat jazyk notifikace',
         'Subject' => 'Předmět',
-        'Add new notification language' => '',
+        'Add new notification language' => 'Přidat nový notifikační jazyk',
         'Tag Reference' => '',
-        'Notifications are sent to an agent.' => '',
+        'Notifications are sent to an agent.' => 'Notifikace odeslány agentovi.',
         'You can use the following tags' => '',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
@@ -258,28 +258,28 @@ sub Data {
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => '',
-        'Example notification' => '',
+        'Example notification' => 'Ukázková notifikace',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
         'Additional recipient email addresses' => '',
-        'This field must have less then 200 characters.' => '',
-        'Article visible for customer' => '',
+        'This field must have less then 200 characters.' => 'Toto pole musí být kratší než 200 znaků.',
+        'Article visible for customer' => 'Článek viditelný zákazníkem',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             '',
         'Email template' => 'Šablona e-mailu',
         'Use this template to generate the complete email (only for HTML emails).' =>
             '',
-        'Enable email security' => '',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+        'Enable email security' => 'Povolit zabezpečení e-mailu',
+        'Email security level' => 'Úroveň zabezpečení e-mailu',
+        'If signing key/certificate is missing' => 'Pokud klíč/certifikát k podpisu chybí',
+        'If encryption key/certificate is missing' => 'Pokud šifrovací klíč/certifikát chybí',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Správa příloh',
         'Add Attachment' => 'Přidat přílohu',
         'Edit Attachment' => 'Upravit přílohu',
-        'Filter for Attachments' => '',
-        'Filter for attachments' => '',
+        'Filter for Attachments' => 'Filtr příloh',
+        'Filter for attachments' => 'Filtr příloh',
         'Filename' => 'Název souboru',
         'Download file' => 'Stáhnout soubor',
         'Delete this attachment' => 'Smazat tuto přílohu',
@@ -290,11 +290,11 @@ sub Data {
         'Auto Response Management' => 'Správa automatických odpovědí',
         'Add Auto Response' => 'Přidat Automatickou Odpověď',
         'Edit Auto Response' => 'Upravit automatickou odpověď',
-        'Filter for Auto Responses' => '',
-        'Filter for auto responses' => '',
+        'Filter for Auto Responses' => 'Filtr automatických odpovědí',
+        'Filter for auto responses' => 'Filtr automatických odpovědí',
         'Response' => 'Odpověď',
         'Auto response from' => 'Automatická odpověď od',
-        'Reference' => '',
+        'Reference' => 'Reference',
         'To get the first 20 character of the subject.' => 'pro získáni prvních 20ti znaků z předmětu.',
         'To get the first 5 lines of the email.' => 'Pro získáni prvních 5ti řádků z emailu.',
         'To get the name of the ticket\'s customer user (if given).' => '',
@@ -340,7 +340,7 @@ sub Data {
         'Available Cloud Services' => '',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
+        'Communication Log' => 'Komunikační log',
         'Time Range' => 'Časový rozsah',
         'Show only communication logs created in specific time range.' =>
             '',
@@ -647,7 +647,7 @@ sub Data {
             '',
         'SID' => '',
         'Driver' => '',
-        'Server' => '',
+        'Server' => 'Server',
         'Port' => '',
         'Table / View' => '',
         'User' => 'Uživatel',
@@ -3125,18 +3125,18 @@ sub Data {
         'Nr.' => '',
         'Welcome!' => 'Vítejte!',
         'You have no tickets yet. Please click here, to create a new one.' =>
-            '',
-        'Nothing to show.' => '',
+            'Zatím nemáte žádné tikety. Klikněte prosím sem, pro založení nového.',
+        'Nothing to show.' => 'Nic k zobrazení.',
         'Click here for an unfiltered list of all your tickets.' => '',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => 'Založit nový tiket',
         'Service level agreement' => 'SLA',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => '',
+        'Your Tickets' => 'Vaše tikety',
         'Page' => 'Strana',
-        'Sort' => '',
+        'Sort' => 'Řadit',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
@@ -3181,7 +3181,7 @@ sub Data {
         'Warning' => 'Varování',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => 'Založit%stiket',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => '',
@@ -5854,6 +5854,9 @@ sub Data {
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
+        # Perl Module: Kernel/System/Web/InterfacePublic.pm
+        'Could not connect to the database.' => '',
+
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'neplatný-dočasně',
         'Group for default access.' => '',
@@ -6427,6 +6430,8 @@ Thanks for your help!
         'Access Control Lists (ACL)' => 'Seznamy řízení přístupu (ACL)',
         'AccountedTime' => '',
         'Activate Elasticsearch.' => '',
+        'Activate the customer frontend.' => '',
+        'Activate the public frontend.' => '',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
             '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
@@ -6760,7 +6765,7 @@ Thanks for your help!
             '',
         'CommunicationLog Overview Limit' => '',
         'Company Status' => 'Stav zákazníka',
-        'Company Tickets.' => '',
+        'Company Tickets.' => 'Ostatní tikety.',
         'Company name which will be included in outgoing emails as an X-Header.' =>
             '',
         'Compat module for AgentZoom to AgentTicketZoom.' => '',
@@ -6839,7 +6844,7 @@ Thanks for your help!
             '',
         'Customer Administration' => 'Správa zákazníků',
         'Customer Companies' => 'Zákazníkovi společnosti',
-        'Customer Dashboard' => '',
+        'Customer Dashboard' => 'Zákaznická nástěnka',
         'Customer Dynamic Field Database Detailed Search' => '',
         'Customer Dynamic Field Database Details' => '',
         'Customer Dynamic Field Database Search' => '',
@@ -7151,6 +7156,8 @@ Thanks for your help!
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',
         'Defines the default history type in the customer interface.' => '',
+        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+            '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             '',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
@@ -7505,8 +7512,6 @@ Thanks for your help!
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
-        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
@@ -8357,7 +8362,6 @@ Thanks for your help!
         'New Year\'s Day' => 'Nový rok',
         'New Year\'s Eve' => 'Silvestr',
         'New process ticket' => '',
-        'News about OTOBO releases!' => 'Novinky o OTOBO verzích!',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8537,7 +8541,6 @@ Thanks for your help!
         'Process pending tickets.' => '',
         'ProcessID' => '',
         'Processes & Automation' => '',
-        'Product News' => 'Novinky o Produktu',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
@@ -8547,6 +8550,7 @@ Thanks for your help!
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             '',
         'Public Calendar' => '',
+        'Public Interface' => '',
         'Public calendar.' => '',
         'Queue view' => 'Zobrazit frontu',
         'Queues ↔ Auto Responses' => '',
@@ -8654,12 +8658,12 @@ Thanks for your help!
         'Second Christmas Day' => '2. svátek vánoční',
         'Second Queue' => '',
         'Select after which period ticket overviews should refresh automatically.' =>
-            '',
+            'Vyberte po jakém časovém úseku se má přehled tiketu automaticky obnovit.',
         'Select how many tickets should be shown in overviews by default.' =>
-            '',
+            'Vyberte kolik tiketů se má standardně zobrazit v přehledu.',
         'Select the algorithm used for encryption. Fallback is aes256. Try "/usr/bin/openssl enc -ciphers" to get a list of ciphers supported by your system (written without the leading \'-\').' =>
             '',
-        'Select the main interface language.' => '',
+        'Select the main interface language.' => 'Vyberte jazyk uživatelského rozhraní.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Zvolte oddělovací znak použitý v CSV souborech (stavy a vyhledávání). Pokud nebude zvolen, použije se výchozí pro váš jazyk.',
         'Select your personal time zone. All times will be displayed relative to this time zone.' =>
@@ -9336,12 +9340,12 @@ Thanks for your help!
         'Ticket overview' => 'Přehled tiketů',
         'Ticket plain view of an email.' => '',
         'Ticket split dialog.' => '',
-        'Ticket title' => '',
+        'Ticket title' => 'Nadpis tiketu',
         'Ticket zoom view.' => '',
         'TicketNumber' => '',
         'Tickets in the following queues will not be stored on the Elasticsearch server. To apply this to existing tickets, the ticket migration has to be run via console, after changing this option.' =>
             '',
-        'Tickets.' => '',
+        'Tickets.' => 'Tikety.',
         'Tile registration for the CustomerDashboard. Module is required.' =>
             '',
         'Time in seconds that gets added to the actual time if setting a pending-state (default: 86400 = 1 day).' =>
@@ -9393,7 +9397,7 @@ Thanks for your help!
         'User Profile' => 'Uživatelský profil',
         'UserFirstname' => '',
         'UserLastname' => '',
-        'Users, Groups & Roles' => '',
+        'Users, Groups & Roles' => 'Uživatelé, Skupiny a Role',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',
@@ -9406,7 +9410,7 @@ Thanks for your help!
         'We are performing scheduled maintenance. Login is temporarily not available.' =>
             '',
         'We are performing scheduled maintenance. We should be back online shortly.' =>
-            '',
+            'Provádíme naplánovanou údržbu systému. Zakrátko budeme opět online.',
         'We have changed the default ticket unlock behaviour in OTOBO 10.1. Now, the ticket is not only unlocked, but also handed over to the system user again. Thus, the behaviour is clearer, but it is no longer possible to read out who last edited the ticket. Please deactivate this option to restore the behaviour of OTRS version 2-6 and OTOBO 10..' =>
             '',
         'Web Service' => '',
@@ -9431,7 +9435,7 @@ Thanks for your help!
             '',
         'Whether to force redirect all requests from http to https protocol. Please check that your web server is configured correctly for https protocol before enable this option.' =>
             '',
-        'Yes, but hide archived tickets' => '',
+        'Yes, but hide archived tickets' => 'Ano, ale skrýt archivované tikety',
         'Your email with ticket number "<OTOBO_TICKET>" is bounced to "<OTOBO_BOUNCE_TO>". Contact this address for further information.' =>
             '',
         'Your email with ticket number "<OTOBO_TICKET>" is merged to "<OTOBO_MERGE_TO_TICKET>".' =>
@@ -9451,7 +9455,7 @@ Thanks for your help!
         'inline' => '',
         'normal' => 'normální',
         'notice' => 'poznámka',
-        'pending' => '',
+        'pending' => 'čekající',
         'phone' => 'telefon',
         'responsible' => '',
         'reverse' => 'reverzní',

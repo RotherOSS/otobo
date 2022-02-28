@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.187301587301587;
+    $Self->{Completeness}        = 0.192161218660743;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -75,7 +75,7 @@ sub Data {
         'No matches found.' => 'Haku ei palauttanut tuloksia.',
 
         # Template: AdminACLEdit
-        'Edit ACL %s' => '',
+        'Edit ACL %s' => 'Muokkaa pääsylistaa %s',
         'Edit ACL' => 'Muokkaa pääsylistaa',
         'Go to overview' => 'Mene yleisnäkymään',
         'Delete ACL' => 'Poista pääsylista',
@@ -130,7 +130,7 @@ sub Data {
         'Overwrite existing entities' => '',
         'Upload calendar configuration' => 'Lähetä kalenterikonfiguraatio',
         'Import Calendar' => 'Tuo kalenteri',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Suodata kalentereita',
         'Filter for calendars' => 'Suodata kalentereita',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             '',
@@ -335,7 +335,7 @@ sub Data {
         'Available Cloud Services' => '',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
+        'Communication Log' => 'Viestintäloki',
         'Time Range' => '',
         'Show only communication logs created in specific time range.' =>
             '',
@@ -482,7 +482,7 @@ sub Data {
             'Tämä kenttä on pakollinen ja sen tulee sisältää kelvollinen sähköpostiosoite.',
         'This email address is not allowed due to the system configuration.' =>
             'Tämä sähköpostiosoite ei ole sallittu johtuen järjestelmäasetuksista.',
-        'This email address failed MX check.' => 'Sähköpostiosoitteen MX-tarkistus ei onnistunut',
+        'This email address failed MX check.' => 'Sähköpostiosoitteen MX-tarkistus ei onnistunut.',
         'DNS problem, please check your configuration and the error log.' =>
             'DNS ongelma, tarkista asetukset ja virheloki.',
         'The syntax of this email address is incorrect.' => 'Sähköpostiosoitteen muotoilu on virheellinen.',
@@ -607,9 +607,9 @@ sub Data {
         'Other Fields' => '',
         'Key' => 'Avain',
         'Value' => 'Arvo',
-        'Remove value' => '',
+        'Remove value' => 'Poista arvo',
         'Add Field' => '',
-        'Add value' => '',
+        'Add value' => 'Lisää arvo',
         'These are the possible data attributes for contacts.' => '',
         'Mandatory fields' => '',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
@@ -780,9 +780,9 @@ sub Data {
         'Run Job' => '',
         'Filter for Jobs' => '',
         'Filter for jobs' => '',
-        'Last run' => 'Edellinen ajo',
-        'Run Now!' => 'Aja',
-        'Delete this task' => '',
+        'Last run' => 'Edellinen suoritus',
+        'Run Now!' => 'Suorita nyt!',
+        'Delete this task' => 'Poista tehtävä',
         'Run this task' => 'Suorita tehtävä',
         'Job Settings' => 'Tehtävän asetukset',
         'Job name' => 'Tehtävän nimi',
@@ -844,10 +844,10 @@ sub Data {
         'Ticket last close' => '',
         'Ticket last close between' => '',
         'Close times' => '',
-        'No close time settings.' => 'Ei sulkemisaikaa asetettu',
+        'No close time settings.' => 'Ei sulkemisaikaa asetettu.',
         'Ticket closed' => 'Tiketti suljettu',
         'Ticket closed between' => 'Tiketti suljettu välillä',
-        'Pending times' => '',
+        'Pending times' => 'Odotusajat',
         'No pending time settings.' => 'Ei odotusaika-asetusta.',
         'Ticket pending time reached' => 'Tiketin odotusaika saavutettu',
         'Ticket pending time reached between' => 'Tiketin odotusaika saavutettu välillä',
@@ -870,7 +870,7 @@ sub Data {
         'Set new Service Level Agreement' => '',
         'Set new priority' => '',
         'Set new queue' => 'Valitse uusi jono',
-        'Set new state' => '',
+        'Set new state' => 'Valitse uusi tila',
         'Pending date' => 'Odottaa päivään',
         'Set new agent' => '',
         'new owner' => '',
@@ -882,7 +882,7 @@ sub Data {
         'New type' => '',
         'Archive selected tickets' => '',
         'Add Note' => 'Lisää huomautus',
-        'Visible for customer' => '',
+        'Visible for customer' => 'Näkyy asiakkaalle',
         'Time units' => 'Työaika',
         'Execute Ticket Commands' => '',
         'Send agent/customer notifications on changes' => '',
@@ -2284,13 +2284,13 @@ sub Data {
             '',
         'Some time before this system maintenance starts the users will receive a notification on each screen announcing about this fact.' =>
             '',
-        'Stop date' => '',
+        'Stop date' => 'Päättymispäivä',
         'Delete System Maintenance' => '',
 
         # Template: AdminSystemMaintenanceEdit
         'Edit System Maintenance' => '',
         'Edit System Maintenance Information' => '',
-        'Date invalid!' => 'Virheellinen päiväys',
+        'Date invalid!' => 'Virheellinen päiväys!',
         'Login message' => '',
         'This field must have less then 250 characters.' => '',
         'Show login message' => '',
@@ -2369,8 +2369,8 @@ sub Data {
         'Manage Calendars' => '',
         'Add Appointment' => '',
         'Today' => 'Tänään',
-        'All-day' => '',
-        'Repeat' => '',
+        'All-day' => 'Koko päivän',
+        'Repeat' => 'Toistuvuus',
         'Notification' => 'Huomautus',
         'Yes' => 'Kyllä',
         'No' => 'Ei',
@@ -2383,7 +2383,7 @@ sub Data {
 
         # Template: AgentAppointmentEdit
         'Basic information' => '',
-        'Date/Time' => '',
+        'Date/Time' => 'Päivämäärä/aika',
         'Invalid date!' => 'Virheellinen päiväys!',
         'Please set this to value before End date.' => '',
         'Please set this to value after Start date.' => '',
@@ -2516,7 +2516,7 @@ sub Data {
         'Open' => 'Avoin',
         'Closed' => 'Suljettu',
         '%s open ticket(s) of %s' => '%s avointa tikettiä / %s',
-        '%s closed ticket(s) of %s' => '%s suljettua tiketti / %s',
+        '%s closed ticket(s) of %s' => '%s suljettua tikettiä / %s',
         'Edit customer ID' => '',
 
         # Template: AgentDashboardCustomerIDStatus
@@ -2537,7 +2537,7 @@ sub Data {
         'New email ticket to %s' => 'Uusi sähköpostitiketti kohteelle %s',
 
         # Template: AgentDashboardMyLastChangedTickets
-        'No tickets found.' => '',
+        'No tickets found.' => 'Tikettejä ei löytynyt.',
 
         # Template: AgentDashboardProductNotify
         '%s %s is available!' => '%s %s on saatavilla!',
@@ -2570,7 +2570,7 @@ sub Data {
         'My watched tickets' => 'Omat seuratut tiketit',
         'My responsibilities' => 'Omat vastuut',
         'Tickets in My Queues' => 'Tiketit omissa jonoissani',
-        'Tickets in My Services' => '',
+        'Tickets in My Services' => 'Tiketit omissa palveluissani',
         'Service Time' => 'Palveluaika',
 
         # Template: AgentDashboardTicketQueueOverview
@@ -2608,13 +2608,13 @@ sub Data {
             '',
 
         # Template: AgentPassword
-        'Password Policy' => '',
+        'Password Policy' => 'Salasanakäytäntö',
         'Your current password is older than %s days. You need to set a new one.' =>
             '',
         'Change password' => 'Vaihda salasana',
         'Current password' => 'Nykyinen salasana',
         'New password' => 'Uusi salasana',
-        'Repeat new password' => '',
+        'Repeat new password' => 'Toista uusi salasana',
         'Password needs to be renewed every %s days.' => '',
         'Password history is active, you can\'t use a password which was used the last %s times.' =>
             '',
@@ -2628,7 +2628,7 @@ sub Data {
 
         # Template: AgentPreferences
         'Edit your preferences' => 'Muokkaa asetuksiasi',
-        'Personal Preferences' => '',
+        'Personal Preferences' => 'Omat asetukset',
         'Preferences' => 'Käyttäjäasetukset',
         'Please note: you\'re currently editing the preferences of %s.' =>
             '',
@@ -2663,7 +2663,7 @@ sub Data {
             '',
 
         # Template: AgentSplitSelection
-        'Target' => '',
+        'Target' => 'Kohde',
         'Process' => '',
         'Split' => 'Jaa',
 
@@ -5849,6 +5849,9 @@ sub Data {
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
             '',
 
+        # Perl Module: Kernel/System/Web/InterfacePublic.pm
+        'Could not connect to the database.' => '',
+
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'Poistettu käytöstä välikaikaisesti',
         'Group for default access.' => '',
@@ -6422,6 +6425,8 @@ Thanks for your help!
         'Access Control Lists (ACL)' => '',
         'AccountedTime' => '',
         'Activate Elasticsearch.' => '',
+        'Activate the customer frontend.' => '',
+        'Activate the public frontend.' => '',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
             '',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
@@ -7146,6 +7151,8 @@ Thanks for your help!
         'Defines the default front-end language. All the possible values are determined by the available language files on the system (see the next setting).' =>
             '',
         'Defines the default history type in the customer interface.' => '',
+        'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
+            '',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             '',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
@@ -7500,8 +7507,6 @@ Thanks for your help!
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
-            '',
-        'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             '',
@@ -8166,11 +8171,11 @@ Thanks for your help!
         'Large' => 'Suuri',
         'Last Screen Overview' => '',
         'Last customer subject' => '',
-        'Lastname Firstname' => '',
+        'Lastname Firstname' => 'Sukunimi Etunimi',
         'Lastname Firstname (UserLogin)' => '',
-        'Lastname, Firstname' => '',
+        'Lastname, Firstname' => 'Sukunimi, Etunimi',
         'Lastname, Firstname (UserLogin)' => '',
-        'LastnameFirstname' => '',
+        'LastnameFirstname' => 'SukunimiEtunimi',
         'Latvian' => '',
         'Left' => '',
         'Link Object' => 'Liitoskohde',
@@ -8223,10 +8228,10 @@ Thanks for your help!
         'Loader module registration for the customer interface.' => '',
         'Lock / unlock this ticket' => '',
         'Locked Tickets' => 'Lukitut tiketit',
-        'Locked Tickets.' => '',
+        'Locked Tickets.' => 'Lukitut tiketit.',
         'Locked ticket.' => 'Lukittu tiketti.',
-        'Logged in users.' => '',
-        'Logged-In Users' => '',
+        'Logged in users.' => 'Kirjautuneet käyttäjät.',
+        'Logged-In Users' => 'Kirjautuneet käyttäjät',
         'Logout of customer panel.' => '',
         'Look into a ticket!' => 'Tarkastele tikettiä!',
         'Loop protection: no auto-response sent to "%s".' => '',
@@ -8250,7 +8255,7 @@ Thanks for your help!
         'Manage System Configuration Deployments.' => '',
         'Manage different calendars.' => '',
         'Manage dynamic field in screens.' => '',
-        'Manage existing sessions.' => 'Halinnoi istuntoja',
+        'Manage existing sessions.' => 'Hallinnoi istuntoja.',
         'Manage support data.' => '',
         'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
@@ -8291,8 +8296,8 @@ Thanks for your help!
         'Merge this ticket and all articles into another ticket' => '',
         'Merged Ticket (%s/%s) to (%s/%s).' => '',
         'Merged Ticket <OTOBO_TICKET> to <OTOBO_MERGE_TO_TICKET>.' => '',
-        'Minute' => '',
-        'Miscellaneous' => '',
+        'Minute' => 'Minuutti',
+        'Miscellaneous' => 'Sekalaista',
         'Module for To-selection in new ticket screen in the customer interface.' =>
             '',
         'Module to check if a incoming e-mail message is bounce.' => '',
@@ -8339,7 +8344,7 @@ Thanks for your help!
         'Module to use database filter storage.' => '',
         'Module used to detect if attachments are present.' => '',
         'My Queues' => 'Jononi',
-        'My Services' => '',
+        'My Services' => 'Palveluni',
         'My last changed tickets' => '',
         'MyLastChangedTickets dashboard widget.' => '',
         'Name of custom queue. The custom queue is a queue selection of your preferred queues and can be selected in the preferences settings.' =>
@@ -8352,7 +8357,6 @@ Thanks for your help!
         'New Year\'s Day' => 'Uudenvuodenpäivä',
         'New Year\'s Eve' => 'Uudenvuodenaatto',
         'New process ticket' => '',
-        'News about OTOBO releases!' => '',
         'News about OTOBO.' => '',
         'Next possible ticket states after adding a phone note in the ticket phone inbound screen of the agent interface.' =>
             '',
@@ -8423,7 +8427,7 @@ Thanks for your help!
         'Overview of all open tickets.' => '',
         'Overview of customer tickets.' => '',
         'PGP Key' => 'PGP Avain',
-        'PGP Key Management' => '',
+        'PGP Key Management' => 'PGP Avainten Hallinta',
         'PGP Keys' => 'PGP Avaimet',
         'Package event module file a scheduler task for update registration.' =>
             '',
@@ -8531,8 +8535,7 @@ Thanks for your help!
         'Process Management Transition GUI' => '',
         'Process pending tickets.' => '',
         'ProcessID' => '',
-        'Processes & Automation' => '',
-        'Product News' => 'Tuoteuutiset',
+        'Processes & Automation' => 'Prosessit & Automaatio',
         'Protection against CSRF (Cross Site Request Forgery) exploits (for more info see https://en.wikipedia.org/wiki/Cross-site_request_forgery).' =>
             '',
         'Protection against brute force attacks. MaxAttempt: How many login attempts are allowed before a ban. BanDuration: Duration of the ban. KeepCacheDuration: How long failed attempts are remembered.' =>
@@ -8541,8 +8544,9 @@ Thanks for your help!
             '',
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             '',
-        'Public Calendar' => '',
-        'Public calendar.' => '',
+        'Public Calendar' => 'Julkinen Kalenteri',
+        'Public Interface' => '',
+        'Public calendar.' => 'Julkinen kalenteri.',
         'Queue view' => 'Jononäkymä',
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
