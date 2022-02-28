@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-02-09 12:42+0000\n"
+"POT-Creation-Date: 2022-02-28 08:47+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -16990,6 +16990,10 @@ msgid ""
 "SysConfig."
 msgstr ""
 
+#. Perl Module: Kernel/System/Web/InterfacePublic.pm
+msgid "Could not connect to the database."
+msgstr ""
+
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
 msgstr ""
@@ -18498,6 +18502,14 @@ msgstr ""
 
 #. SysConfig
 msgid "Activate Elasticsearch."
+msgstr ""
+
+#. SysConfig
+msgid "Activate the customer frontend."
+msgstr ""
+
+#. SysConfig
+msgid "Activate the public frontend."
 msgstr ""
 
 #. SysConfig
@@ -20989,6 +21001,12 @@ msgstr ""
 
 #. SysConfig
 msgid ""
+"Defines the default interface. Unknown pathes below the script alias are "
+"redirected to the selected interface."
+msgstr ""
+
+#. SysConfig
+msgid ""
 "Defines the default maximum number of X-axis attributes for the time scale."
 msgstr ""
 
@@ -22077,16 +22095,6 @@ msgid ""
 "restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default"
 "\" indicates if the plugin is enabled by default or if the user needs to "
 "enable it manually. \"CacheTTL\" indicates the cache expiration period in "
-"minutes for the plugin. \"Mandatory\" determines if the plugin is always "
-"shown and can not be removed by agents."
-msgstr ""
-
-#. SysConfig
-msgid ""
-"Defines the parameters for the dashboard backend. \"Group\" is used to "
-"restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default"
-"\" indicates if the plugin is enabled by default or if the user needs to "
-"enable it manually. \"CacheTTLLocal\" defines the cache expiration period in "
 "minutes for the plugin. \"Mandatory\" determines if the plugin is always "
 "shown and can not be removed by agents."
 msgstr ""
@@ -24893,10 +24901,6 @@ msgid "New process ticket"
 msgstr ""
 
 #. SysConfig
-msgid "News about OTOBO releases!"
-msgstr ""
-
-#. SysConfig
 msgid "News about OTOBO."
 msgstr ""
 
@@ -25641,10 +25645,6 @@ msgid "Processes & Automation"
 msgstr ""
 
 #. SysConfig
-msgid "Product News"
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Protection against CSRF (Cross Site Request Forgery) exploits (for more info "
 "see https://en.wikipedia.org/wiki/Cross-site_request_forgery)."
@@ -25670,6 +25670,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Public Calendar"
+msgstr ""
+
+#. SysConfig
+msgid "Public Interface"
 msgstr ""
 
 #. SysConfig
