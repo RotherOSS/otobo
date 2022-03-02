@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.96937480165027;
+    $Self->{Completeness}        = 0.969369941279162;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2649,7 +2649,6 @@ sub Data {
             '头像功能已被系统管理员禁用，此处用你的简称替代。',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             '你可以注册您的电子邮件地址%s（在%s）来更改您的头像图像。 请注意，由于缓存，可能需要一些时间才能使你的新头像变得可用。',
-        'Off' => '关',
         'End' => '结束',
         'This setting can currently not be saved.' => '此设置目前无法保存。',
         'This setting can currently not be saved' => '此设置目前无法保存',

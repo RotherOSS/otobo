@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.781973976515392;
+    $Self->{Completeness}        = 0.781939374702428;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2646,7 +2646,6 @@ sub Data {
             'Avatarsは管理者により無効化されています。イニシャルが表示されます。',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             'アバターイメージを変更するには、%sにあなたのメールアドレス(%s)を登録して下さい。キャッシュの影響により新しいアバターが利用可能になるまでには時間がかかることがあります。',
-        'Off' => 'オフ',
         'End' => '終了',
         'This setting can currently not be saved.' => '設定は保存されませんでした。',
         'This setting can currently not be saved' => 'この設定は現在保存できません。',

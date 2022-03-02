@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.613932085052364;
+    $Self->{Completeness}        = 0.613870814156483;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -2645,7 +2645,6 @@ bin/otobo.Daemon.pl status\').',
             '',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             '',
-        'Off' => 'Nonaktifkan',
         'End' => 'Akhir',
         'This setting can currently not be saved.' => '',
         'This setting can currently not be saved' => '',

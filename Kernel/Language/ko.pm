@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.879086004443034;
+    $Self->{Completeness}        = 0.879066814791303;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -2643,7 +2643,6 @@ sub Data {
             '시스템 관리자는 아바타를 비활성화했습니다. 대신 이니셜을 볼 수 있습니다.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             '이메일 주소 %s at %s 에 등록하여 아바타 이미지를 변경할 수 있습니다. 새로운 아바타가 캐싱으로 인해 사용 가능해질 때까지 약간의 시간이 걸릴 수 있습니다.',
-        'Off' => '떨어져서',
         'End' => '종료',
         'This setting can currently not be saved.' => '이 설정은 현재 저장할 수 없습니다.',
         'This setting can currently not be saved' => '이 설정은 현재 저장할 수 없습니다.',

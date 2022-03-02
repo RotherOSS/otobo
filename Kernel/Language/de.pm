@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.985718819422406;
+    $Self->{Completeness}        = 1;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -549,7 +549,7 @@ sub Data {
         'Dynamic Fields List' => 'Dynamische Felder - Liste',
         'Dynamic fields per page' => 'Dynamische Felder pro Seite',
         'Label' => 'Beschriftung',
-        'Order' => 'Sortierung',
+        'Order' => 'Position',
         'Object' => 'Objekt',
         'Delete this field' => 'Dieses Feld löschen',
 
@@ -1065,20 +1065,20 @@ sub Data {
         'Add New Condition' => 'Neue Bedingung hinzufügen',
 
         # Template: AdminGenericInterfaceInvokerTicket
-        'General invoker data' => '',
-        'Settings for outgoing request data' => '',
+        'General invoker data' => 'Allgemeine Invoker-Daten',
+        'Settings for outgoing request data' => 'Einstellungen für ausgehende Request-Daten',
         'Ticket fields' => 'Ticket-Felder',
         'Only the selected ticket fields will be considered for the request data.' =>
-            '',
+            'Nur die ausgewählten Ticketfelder werden für die Request-Daten berücksichtigt.',
         'Article fields' => 'Artikelfelder',
         'Only the selected article fields will be considered for the request data.' =>
-            '',
-        'Ticket dynamic fields' => '',
+            'Nur die ausgewählten Artikelfelder werden für die Request-Daten berücksichtigt.',
+        'Ticket dynamic fields' => 'Dynamische Felder Ticket',
         'Only the selected ticket dynamic fields will be considered for the request data.' =>
-            '',
-        'Article dynamic fields' => '',
+            'Nur die ausgewählten dynamischen Felder zum Ticket werden für die Request-Daten berücksichtigt.',
+        'Article dynamic fields' => 'Dynamische Felder Artikel',
         'Only the selected article dynamic fields will be considered for the request data.' =>
-            '',
+            'Nur die ausgewählten dynamischen Felder zum Artikel werden für die Request-Daten berücksichtigt.',
         'Number of articles' => 'Anzahl der Artikel',
         'The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent.' =>
             'Ausgehende Anfragedaten enthalten nur die konfigurierte Artikelanzahl. Ohne Auswahl wird exakt ein Artikel versandt.',
@@ -1090,18 +1090,18 @@ sub Data {
             'Ausgehende Anfragedaten berücksichtigen nur Artikel, die mit der ausgewählten Kundensichtbarkeit erstellt wurden.',
         'Sender Types' => 'Sendertypen',
         'The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used.' =>
-            '',
+            'Die ausgehenden Request-Daten werden nur Artikel der ausgewählten Sendertypen berücksichtigen. Ohne Auswahl werden alle Sendertypen verwendet.',
         'Mapping' => 'Mapping',
         'Settings for incoming response data' => 'Einstellungen für eingehende Antwortdaten',
-        'Remote TicketID dynamic field' => '',
+        'Remote TicketID dynamic field' => 'Dynamisches Feld mit der Remote TicketID',
         'The selected ticket dynamic field is being used to store the remote TicketID.' =>
-            '',
+            'Das ausgewählte dynamische Feld am Ticket wird verwendet, um die Remote TicketID zu hinterlegen.',
         'If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service.' =>
-            '',
+            'Bleibt es leer, wird keine Remote TicketID hinterlegt, sofern nicht in der Systemkonfiguration ein Wert für diesen Webservice definiert ist.',
         'The selected field is already in use by the Ticket dynamic fields option.' =>
-            '',
+            'Das ausgewählte Feld wird bereits in der Option Dynamische Felder Ticket verwendet.',
         'Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed.' =>
-            '',
+            'Bei der Verarbeitung eingehender Response-Daten werden nur die ausgewählten dynamischen Felder zum Ticket berücksichtigt. Ohne Auswahl werden keine dynamischen Felder verarbeitet.',
         'Event data' => 'Ereignisdaten',
 
         # Template: AdminGenericInterfaceMappingSimple
@@ -1218,7 +1218,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             'URI zur Angabe eines bestimmten Standorts für den Zugriff auf einen Webservice.',
         'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'z. B. https://www.otobo.de:10745/api/v1.0 (ohne Trailing Slash)',
         'Timeout' => 'Timeout',
         'Timeout value for requests.' => 'Timeout-Wert für Anfragen.',
         'Authentication' => 'Authentifizierung',
@@ -1271,18 +1271,18 @@ sub Data {
             'Ein spezifisches HTTP-Kommando, das für Anfragen mit diesem Invoker zu verwenden ist (optional).',
         'Default command' => 'Standardbefehl',
         'The default HTTP command to use for the requests.' => 'Der Standard-HTTP-Befehl für die Anfragen.',
-        'Additional request headers (all invokers)' => '',
-        'Additional request headers (invoker specific)' => '',
-        'Remove all headers for this invoker' => '',
-        'Headers for invoker' => '',
-        'Additional response headers (all operations)' => '',
-        'Additional response headers (operation specific)' => '',
-        'Remove all headers for this operation' => '',
-        'Headers for operation' => '',
-        'Common headers' => '',
-        'Header Name' => '',
-        'Remove header' => '',
-        'Add header' => '',
+        'Additional request headers (all invokers)' => 'Zusätzliche Request Header (alle Invoker)',
+        'Additional request headers (invoker specific)' => 'Zusätzliche Request Header (ausgewählte Invoker)',
+        'Remove all headers for this invoker' => 'Alle Header für diesen Invoker entfernen',
+        'Headers for invoker' => 'Header für den Invoker',
+        'Additional response headers (all operations)' => 'Zusätzliche Response Header (alle Operations)',
+        'Additional response headers (operation specific)' => 'Zusätzliche Response Header (ausgewählte Operations)',
+        'Remove all headers for this operation' => 'Alle Header für diese Operation entfernen',
+        'Headers for operation' => 'Header für die Operation',
+        'Common headers' => 'Gemeinsame Header',
+        'Header Name' => 'Header-Name',
+        'Remove header' => 'Header entfernen',
+        'Add header' => 'Header hinzufügen',
 
         # Template: AdminGenericInterfaceTransportHTTPSOAP
         'e.g. https://local.otobo.de:8000/Webservice/Example' => 'z. B. https://local.otobo.de:8000/Webservice/Beispiel',
@@ -1306,7 +1306,7 @@ sub Data {
         'Namespace' => 'Namensraum',
         'URI to give SOAP methods a context, reducing ambiguities.' => 'URI, die SOAP-Methoden einen Kontext gibt und damit Mehrdeutigkeiten auflöst.',
         'e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/actions' =>
-            '',
+            'z. B. urn:otobo-com:soap:functions oder http://www.otobo.de/GenericInterface/actions',
         'Request name scheme' => 'Anfragen-Namensschema',
         'Select how SOAP request function wrapper should be constructed.' =>
             'Wählen Sie, wie der SOAP-Funktionsaufruf konstruiert werden soll.',
@@ -1327,7 +1327,7 @@ sub Data {
             'Hier können Sie eine Maximalgröße für SOAP-Nachrichten (in Bytes) angeben, die OTOBO verarbeitet.',
         'Encoding' => 'Kodierung',
         'The character encoding for the SOAP message contents.' => 'Die Zeichenkodierung für SOAP-Nachrichteninhalte.',
-        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => '',
+        'e.g. utf-8, latin1, iso-8859-1, cp1250, Etc.' => 'z. B. utf-8, latin1, iso-8859-1, cp1250, etc.',
         'Sort options' => 'Sortierungsoptionen',
         'Add new first level element' => 'Neues Element auf der obersten Ebene hinzufügen',
         'Element' => 'Element',
@@ -2568,7 +2568,7 @@ sub Data {
         'My watched tickets' => 'Meine beobachteten Tickets',
         'My responsibilities' => 'Meine Verantwortlichkeiten',
         'Tickets in My Queues' => 'Tickets in "Meine Queues"',
-        'Tickets in My Services' => 'Tickets in "Meinen Services"',
+        'Tickets in My Services' => 'Tickets in "Meine Services"',
         'Service Time' => 'Service-Zeit',
 
         # Template: AgentDashboardTicketQueueOverview
@@ -2643,7 +2643,6 @@ sub Data {
             'Avatare wurden vom Systemadministrator deaktiviert. Sie sehen stattdessen Ihre Initialen.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             'Sie können Ihr Avatar-Bild ändern, indem Sie sich mit Ihrer E-Mail-Adresse %s unter %s registrieren. Bitte beachten Sie, dass es einige Zeit dauern kann, bis Änderungen sichtbar werden.',
-        'Off' => 'Aus',
         'End' => 'Ende',
         'This setting can currently not be saved.' => 'Diese Einstellung kann derzeit nicht gespeichert werden.',
         'This setting can currently not be saved' => 'Diese Einstellung kann derzeit nicht gespeichert werden',
@@ -2706,10 +2705,10 @@ sub Data {
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
             'Hier können Sie mehrere Statistiken zu einem Bericht zusammenfassen und daraus manuell oder automatisch zu voreingestellten Zeitpunkten eine PDF erstellen.',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
-            '',
+            'Hinweis: Sie können nur dann Diagramme als Ausgabeformat für Statistiken auswählen, wenn Sie eine der Renderdateien auf Ihrem System konfiguriert haben.',
         'Configure PhantomJS' => 'PhantomJS konfigurieren',
-        'Configure GoogleChrome' => '',
-        'General settings' => '',
+        'Configure GoogleChrome' => 'GoogleChrome konfigurieren',
+        'General settings' => 'Allgemeine Einstellungen',
         'Automatic generation settings' => 'Einstellungen für die automatische Erstellung',
         'Automatic generation times (cron)' => 'Zeiten für die automatische Erstellung (cron)',
         'Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.' =>
@@ -2720,14 +2719,14 @@ sub Data {
         'Automatic generation language' => 'Automatische Erstellsprache',
         'The language to be used when the report is automatically generated.' =>
             'Die Sprache, die verwendet werden soll, wenn der Bericht automatisch erstellt wird.',
-        'Email subject' => '',
-        'Specify the subject for the automatically generated email.' => '',
-        'Email body' => '',
-        'Specify the text for the automatically generated email.' => '',
-        'Email recipients' => '',
-        'Specify recipient email addresses (comma separated).' => '',
+        'Email subject' => 'E-Mail-Betreff',
+        'Specify the subject for the automatically generated email.' => 'Bitte geben Sie einen Betreff für die automatisch erstellte Mail ein.',
+        'Email body' => 'E-Mail-Body',
+        'Specify the text for the automatically generated email.' => 'Bitte geben Sie den Text für die automatisch erstellte E-Mail ein.',
+        'Email recipients' => 'E-Mail-Empfänger',
+        'Specify recipient email addresses (comma separated).' => 'Geben Sie die E-Mail-Adressen der Empfänger ein (mit Komma getrennt).',
         'Output settings' => 'Ausgabeeinstellungen',
-        'Headline' => '',
+        'Headline' => 'Überschrift',
         'Caption for preamble' => 'Überschrift für das Vorwort',
         'Preamble' => 'Vorwort',
         'Caption for epilogue' => 'Überschrift für das Schlusswort',
@@ -2735,14 +2734,14 @@ sub Data {
         'Add statistic to report' => 'Statistik dem Bericht hinzufügen',
 
         # Template: AgentStatisticsReportsOverview
-        'Statistics Reports' => '',
-        'Edit statistics report "%s".' => '',
-        'Delete statistics report "%s"' => '',
+        'Statistics Reports' => 'Statistik-Berichte',
+        'Edit statistics report "%s".' => 'Bericht "%s" bearbeiten.',
+        'Delete statistics report "%s"' => 'Bericht "%s" löschen',
 
         # Template: AgentStatisticsReportsView
         'View Report' => 'Bericht ansehen',
         'This statistics report contains configuration errors and can currently not be used.' =>
-            '',
+            'Dieser Statistik-Bericht enthält Konfigurationsfehler und kann nicht gespeichert werden.',
 
         # Template: AgentStatisticsView
         'Statistics Overview' => 'Statistikübersicht',
@@ -3127,7 +3126,7 @@ sub Data {
         'Service level agreement' => 'Service-Level-Vereinbarung',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => 'Ihre Tickets',
+        'Your Tickets' => 'Deine Tickets',
         'Page' => 'Seite',
         'Sort' => 'Sortieren',
 
@@ -3226,7 +3225,7 @@ sub Data {
         'Select outbound mail port.' => 'Port der ausgehenden E-Mail auswählen.',
         'SMTP host' => 'SMTP-Host',
         'SMTP host.' => 'SMTP-Host.',
-        'SMTP authentication' => 'SMPT-Authentifizierung',
+        'SMTP authentication' => 'SMTP-Authentifizierung',
         'Does your SMTP host need authentication?' => 'Benötigt der SMTP-Host eine Authentifizierung?',
         'SMTP auth user' => 'Benutzer für SMTP-Authentifizierung',
         'Username for SMTP auth.' => 'Benutzername für SMTP-Authentifizierung.',
@@ -4171,7 +4170,7 @@ sub Data {
         'Edit Activity Dialog "%s"' => 'AktivitätsDialog "%s" bearbeiten',
         'Agent Interface' => 'Agenten-Interface',
         'Customer Interface' => 'Kunden-Oberfläche',
-        'Agent and Customer Interface' => 'Agenten- und Kunden-Oberfläche',
+        'Agent and Customer Interface' => 'Agenten- und Kunden-Interface',
         'Do not show Field' => 'Feld nicht anzeigen',
         'Show Field' => 'Feld anzeigen',
         'Show Field As Mandatory' => 'Als Pflichtfeld anzeigen',
@@ -4439,16 +4438,16 @@ sub Data {
         'Run: Get no %s!' => 'Durchlauf: Kein(e) %s empfangen!',
 
         # Perl Module: Kernel/Modules/AgentStatisticsReports.pm
-        'Got no %s!' => '',
-        'Add New Statistics Report' => '',
+        'Got no %s!' => '%s nicht vorhanden!',
+        'Add New Statistics Report' => 'Neuen Bericht hinzufügen',
         'This name is already in use, please choose a different one.' => 'Dieser Name wird bereits verwendet. Bitte wählen Sie einen anderen.',
         'Could not create report.' => 'Bericht konnte nicht erstellt werden.',
         'Need StatsReportID!' => 'StatsReportID wird benötigt!',
-        'Edit Statistics Report' => '',
+        'Edit Statistics Report' => 'Bericht bearbeiten',
         'Could not find report.' => 'Bericht konnte nicht gefunden werden.',
         'Please provide a valid cron entry.' => 'Bitte einen gültigen Cron-Eintrag angeben.',
         'Could not update report.' => 'Bericht konnte nicht aktualisiert werden.',
-        'View Statistics Report' => '',
+        'View Statistics Report' => 'Bericht ansehen',
         'Delete: Got no StatsReportID!' => 'Löschen: Keine StatsReportID vorhanden!',
 
         # Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
@@ -4725,13 +4724,13 @@ sub Data {
         'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
             'Registrierung der Kachel %s im Kunden-Dashboard nicht möglich! Modul oder Vorlage fehlen.',
         'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
-            '',
+            'Registrierung für Kachel %s des Kundendashboards ist ungültig! Position muss einmalig sein.',
 
         # Perl Module: Kernel/Modules/CustomerGenericContent.pm
-        'Need Key!' => '',
-        'Invalid Key!' => '',
-        'Failed to load Content!' => '',
-        'Destination unknown.' => '',
+        'Need Key!' => 'Wert erforderlich!',
+        'Invalid Key!' => 'Wert ungültig!',
+        'Failed to load Content!' => 'Inhalt konnte nicht geladen werden!',
+        'Destination unknown.' => 'Ziel unbekannt.',
 
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArticleID wird benötigt!',
@@ -4794,7 +4793,7 @@ sub Data {
         'Install OTOBO - Error' => 'OTOBO-Installation – Fehler',
         'File "%s/%s.xml" not found!' => 'Datei "%s/%s.xml" nicht gefunden!',
         'Contact your Admin!' => 'Kontaktieren Sie Ihren Administrator!',
-        'Execution of SQL statement failed: ' => '',
+        'Execution of SQL statement failed: ' => 'SQL Statement konnte nicht ausgeführt werden: ',
         'https' => 'https',
         'http' => 'http',
         'System Settings' => 'System-Einstellungen',
@@ -5144,7 +5143,7 @@ sub Data {
         'Watched Tickets Total' => 'Beobachtete Tickets insgesamt',
 
         # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
-        '%s Report' => '',
+        '%s Report' => '%s Bericht',
         'Error: this graph could not be generated: %s.' => 'Fehler: Dieses Diagramm konnte nicht erstellt werden: %s.',
         'Table of Contents' => 'Inhaltverzeichnis',
 
@@ -5161,7 +5160,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
-            '',
+            'Ungültige Antwort vom Authentifizierungsserver. Möglicherweise kam es zum Timeout. Bitte versuchen Sie es noch einmal.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'Please note that the session limit is almost reached.' => 'Bitte beachten Sie, dass das Sitzungslimit fast erreicht ist.',
@@ -5254,8 +5253,8 @@ sub Data {
             'Sie versuchen das Skript in der falschen Framework-Version %s auszuführen!',
         'OTOBO Version is correct: %s.' => 'OTOBO-Version ist korrekt: %s.',
         'Check if OTRS version is correct.' => 'Überprüft, ob die OTRS Version korrekt ist.',
-        'OTRS RELEASE file %s does not exist!' => '',
-        'Can\'t read OTRS RELEASE file: %s' => '',
+        'OTRS RELEASE file %s does not exist!' => 'OTRS RELEASE Datei %s ist nicht vorhanden!',
+        'Can\'t read OTRS RELEASE file: %s' => 'Kann OTRS RELEASE Datei: %s nicht lesen',
         'No OTRS system found!' => 'Kein OTRS-System gefunden!',
         'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
             'Unbekanntes PRODUKT in OTRS RELEASE-Datei gefunden: %s. Erwartete Werte: %s.',
@@ -5263,7 +5262,7 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
         'Migrate ITSM database tables.' => 'Migration von ITSM Datenbanktabellen.',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => 'Nichts zu tun: Tabelle \'%s\' nicht vorhanden.',
         'UPDATE of the table \'%s\' failed.' => 'AKTUALISIERUNG der Tabelle \'%s\' fehlgeschlagen.',
         'Migration completed.' => 'Migration abgeschlossen.',
 
@@ -5848,7 +5847,7 @@ sub Data {
             'Wenn Sie migration.pl erneut ausführen möchten, deaktivieren Sie vorher den SecureMode in der SysConfig.',
 
         # Perl Module: Kernel/System/Web/InterfacePublic.pm
-        'Could not connect to the database.' => '',
+        'Could not connect to the database.' => 'Konnte keine Verbindung zur Datenbank herstellen.',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'ungültig-temporär',
@@ -5973,7 +5972,7 @@ sub Data {
             'Dieser Eintrag enthält Untereinträge. Wollen Sie den Eintrag und alle Untereinträge wirklich löschen?',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this language?' => '',
+        'Do you really want to delete this language?' => 'Möchten Sie diese Sprache wirklich löschen?',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
         'More' => 'Mehr',
@@ -6375,7 +6374,10 @@ sub Data {
         '
             Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
             in an extra table
-        ' => '',
+        ' => '
+            Zeigt auch optionale Parameter in der Parameterliste an. Ist die Option deaktiviert, werden optionale
+            Parameter in einer separaten Tabelle angezeigt.
+        ',
         '
 Dear Customer,
 
@@ -6434,14 +6436,14 @@ Ihr Helpdesk-Team
         'Access Control Lists (ACL)' => 'Access Control Lists (ACL)',
         'AccountedTime' => 'Erfasste Zeit',
         'Activate Elasticsearch.' => 'Aktiviert Elasticsearch.',
-        'Activate the customer frontend.' => '',
-        'Activate the public frontend.' => '',
+        'Activate the customer frontend.' => 'Kundenfrontend aktivieren.',
+        'Activate the public frontend.' => 'Public Interface aktivieren.',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
             'Aktiviert das Rendern dynamischer Felder außerhalb des Blocks für dynamische Felder.',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
             'Aktiviert einen Blinkmechanismus der Queue, die das älteste Ticket enthält.',
         'Activates lost password feature for agents, in the agent interface.' =>
-            'Aktiviert die "Passwort vergessen" Funktion für Agenten im Agenten-Interface.',
+            'Aktiviert die "Passwort vergessen"-Funktion für Agenten im Agenten-Interface.',
         'Activates lost password feature for customers.' => 'Aktiviert die "Passwort vergessen" Funktion für Kunden.',
         'Activates support for customer and customer user groups.' => 'Aktiviert Unterstützung für Kunden- und Kundenbenutzergruppen.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
@@ -6470,7 +6472,7 @@ Ihr Helpdesk-Team
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
             'Fügt einen Suffix mit dem aktuellen Jahr und Monat in die OTOBO-Protokolldatei hinzu. Für jeden Monat wird eine eigene Log-Datei erstellt.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
-            'Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der "TicketCompose"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird nicht hinzugefügt, wenn der Artikel-Typ \'email an intern\' ist.',
+            'Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der "TicketCompose"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird nicht hinzugefügt, wenn der Artikel-Typ \'E-Mail an intern\' ist.',
         'Adds the one time vacation days for the indicated calendar.' => 'Fügt die einmaligen Urlaubstage für den angegebenen Kalender hinzu.',
         'Adds the one time vacation days.' => 'Fügt die einmaligen Urlaubstage hinzu.',
         'Adds the permanent vacation days for the indicated calendar.' =>
@@ -6480,7 +6482,7 @@ Ihr Helpdesk-Team
         'Admin Area.' => 'Administratorbereich.',
         'Admin Contact With Data' => 'Admin Contact With Data',
         'Admin Notification' => 'Admin-Benachrichtigung',
-        'Admin area navigation for the agent interface.' => 'Navigation der Adminoberfläche für Agenten-Interface.',
+        'Admin area navigation for the agent interface.' => 'Navigation der Adminoberfläche für das Agenten-Interface.',
         'Admin contact with data.' => 'Admin-Bereich Kontaktdaten.',
         'Admin modules overview.' => 'Admin Modul Übersicht.',
         'Admin.' => 'Admin.',
@@ -6502,26 +6504,26 @@ Ihr Helpdesk-Team
         'Agent dynamic field database details.' => 'Agent dynamic field database details.',
         'Agent dynamic field database search.' => 'Suche dynamisches Feld Datenbank im Agentenbereich.',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
-            'Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link \'Kontaktdaten bearbeiten\', wenn kein entsprechendes Quellfeld konfiguriert wurde).',
-        'Agent interface article notification module to check PGP.' => 'Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung durchführt.',
+            'Frontend-Modulregistrierung im Agenten-Interface (deaktivieren Sie den Link \'Kontaktdaten bearbeiten\', wenn kein entsprechendes Quellfeld konfiguriert wurde).',
+        'Agent interface article notification module to check PGP.' => 'Artikel-Benachrichtigungsmodul, das die PGP-Überprüfung im Agenten-Interface durchführt.',
         'Agent interface article notification module to check S/MIME.' =>
-            'Benachrichtigungsmodul im Agenten-Interface das die S/MIME-Prüfung durchführt.',
+            'Artikel-Benachrichtigungsmodul, das die S/MIME-Prüfung im Agenten-Interface durchführt.',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen-Modul für den Zugriff auf die CIC-Suche über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Modul, das den Zugriff auf die CIC-Suche über die Navigationsleiste im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen-Modul für den Zugriff auf die Volltext-Suche über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Modul, das den Zugriff auf die Volltextsuche über die Navigationsleiste im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen-Modul für den Zugriff auf die Such-Profile über die Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Modul, das den Zugriff auf Suchprofile über die Navigationsleiste im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
-            'Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf vorhandene und gültige S/MIME-Schlüssel zu überprüfen.',
+            'Modul, das im Agenten-Interface eingehende E-Mails in TicketZoom auf vorhandene und gültige S/MIME-Schlüssel überprüft.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der gesperrten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Benachrichtigungsmodul, das die Anzeige der Anzahl gesperrter Tickets im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der Tickets, für die der Agent verantwortlich ist. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Benachrichtigungsmodul, das die Anzeige der Anzahl der Tickets im Agenten-Interface regelt, für die ein Agent verantwortlich ist. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der Tickets in "Meien Dienste". Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Benachrichtigungsmodul, das die Anzeige der Anzahl der Tickets in "Meine Services" im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            'Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der beobachteten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "Group" und Inhalten wie "rw:group1;move_into:group2" realisiert werden.',
+            'Benachrichtigungsmodul, das die Anzeige der Anzahl beobachteter Tickets im Agenten-Interface regelt. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels "Group" und Inhalte wie "rw:group1;move_into:group2" realisiert werden.',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
             'AgentTicketZoom-Widget, welches das dynamsiche Feld \'Kontaktdaten\' in der Seitenleiste anzeigt.',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
@@ -6542,19 +6544,19 @@ Ihr Helpdesk-Team
         'All tickets with a reminder set where the reminder date has been reached' =>
             'Alle Tickets, deren Erinnerungszeit erreicht ist',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Schließen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen in der \'Ticket schließen\'-Maske im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Freie-Felder\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen in der \'Ticket kategorisieren\'-Maske im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt im Agenten-Interface das Hinzufügen von Notizen im \'Notiz\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen in der \'Notiz\'-Maske im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Besitzer\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen durch den Ticketbesitzer in der TicketZoom-Ansicht im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von Notizen im \'Warten\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen in der \'Warten auf...\'-Maske in TicketZoom im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Priorität\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen in der \'Priorität\'-Maske in TicketZoom im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            'Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen von Notizen im \'Verantwortlichen\'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
+            'Erlaubt das Hinzufügen von Notizen durch den Ticketverantwortlichen im Agenten-Interface. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
             'Erlaubt Agenten die Achsen einer Statistik zu tauschen, wenn sie eine Statistik generieren.',
         'Allows agents to generate individual-related stats.' => 'Erlaubt Agenten eine individuelle Statistik zu generieren.',
@@ -6579,11 +6581,11 @@ Ihr Helpdesk-Team
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
             'Erlaubt die Definition von Services und SLAs für Tickets (zum Beispiel: E-Mail, Desktop, Network, ...) und Eskalationsattributen für SLAs (wenn die Ticket Service/SLA Einstellung aktiviert ist).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            'Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agentenbereichs. Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie "(key1&&key2)" oder "(key1||key2)" suchen.',
+            'Erlaubt erweiterte Suchbedingungen in der Ticket-Suche im Agenten-Interface. Mit dieser Funktion können Sie z. B. Ticket-Titel mit Bedingungen wie "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Erlaubt erweiterte Suchbedingungen in der Ticketsuche im Kundenbereich. Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie "(key1&&key2)" oder "(key1||key2)" suchen.',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            'Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
+            'Erlaubt erweiterte Suchbedingungen in der Ticketsuche in der "Generic Agent"-Maske. Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie "(*key1*&&*key2*)" oder "(*key1*||*key2*)" durchsuchen.',
         'Allows generic agent to execute custom command line scripts.' =>
             'Ermöglicht es dem GenericAgent, benutzerdefinierte Befehlszeilen-Skripte auszuführen.',
         'Allows generic agent to execute custom modules.' => 'Ermöglicht es dem GenericAgent, benutzerdefinierte Module auszuführen.',
@@ -6597,17 +6599,17 @@ Ihr Helpdesk-Team
         'Allows the administrators to login as other users, via the users administration panel.' =>
             'Erlaubt Administratoren sich als anderer Agent über die Agenten-Administrationsoberfläche anzumelden.',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Schließen-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands in der "Schließen"-Maske im Agenten-Interface.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Ausgehende-E-Mail-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands in EMailOutbound im Agenten-Interface.',
         'Allows to save current work as draft in the ticket compose screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Verfassen-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands in TicketCompose im Agenten-Interface.',
         'Allows to save current work as draft in the ticket forward screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Weiterleiten-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands in der "Weiterleiten"-Maske im Agenten-Interface.',
         'Allows to save current work as draft in the ticket free text screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Freitext-Felder-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands im "Ticket kategorisieren"-Dialog im Agenten-Interface.',
         'Allows to save current work as draft in the ticket move screen of the agent interface.' =>
-            'Erlaubt das Speichern des aktuellen Stands als Entwurf im Verschieben-Bildschirm des Agentenbereichs.',
+            'Erlaubt das Speichern des aktuellen Bearbeitungsstands im "Verschieben"-Dialog im Agenten-Interface.',
         'Allows to save current work as draft in the ticket note screen of the agent interface.' =>
             'Erlaubt das Speichern des aktuellen Stands als Entwurf im Notiz-Bildschirm des Agentenbereichs.',
         'Allows to save current work as draft in the ticket owner screen of the agent interface.' =>
@@ -6639,7 +6641,7 @@ Ihr Helpdesk-Team
         'Appointments' => 'Termine',
         'Arabic (Saudi Arabia)' => 'Arabisch (Saudi-Arabien)',
         'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
-            '',
+            'Auswahl der Artikelattribute, die in der Maske für die Ticketinvoker-Konfiguration angezeigt werden sollen (0 = angezeigt/wählbar, 1 = Standard/vorausgewählt).',
         'ArticleTree' => 'Artikelbaum',
         'Attachment Name' => 'Name des Anhangs',
         'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => 'Automatisches Laden der \'Znuny4OTOBOPasswordPolicy\'-Erweiterungen.',
@@ -6919,7 +6921,7 @@ Ihr Helpdesk-Team
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
             'Definiert eine Zuordnung zwischen den Variablen zu Kundenbenutzerdaten (Schlüssel) und dynamischen Feldern eines Tickets (Werte). Somit können Sie die Kundenbenutzerdaten eines Tickets in dynamische Felder speichern. Diese dynamischen Felder müssen im System vorhanden sein und sollten für AgentTicketFreeText aktiviert werden, damit sie definiert / manuell durch den Agenten aktualisiert werden können. Sie dürfen nicht für AgentTicketPhone, AgentTicketEmail und AgentTicketCustomer aktiviert werden. Werden sie dies, so haben sie Vorrang gegenüber den automatisch gesetzten Werten. Um dieses Mapping zu verwenden, müssen Sie auch die Ticket-Einstellung Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser aktivieren.',
         'Define a result field for the TicketID of the invoker response per web service (WebserviceID => DynamicFieldName).' =>
-            '',
+            'Definieren Sie ein Ergebnisfeld für die TicketID des Invoker Response per Webservice (WebserviceID => DynamicFieldName).',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
             'Definiert dynamische Feldnamen für die Endzeit. Dieses Feld muss manuell im System als Ticket: "Datum / Uhrzeit" hinzugefügt werden und muss in Ticketerstellungsoberflächen und / oder in anderen Ticket-Aktionsoberflächen aktiviert werden.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
@@ -7161,7 +7163,7 @@ Ihr Helpdesk-Team
             'Definiert die Standard-Frontend-Sprache. Die möglichen Werte werden durch die verfügbaren Sprachdateien auf dem System bestimmt (siehe nächste Einstellung).',
         'Defines the default history type in the customer interface.' => 'Definiert den Standard-Historientyp im Kunden-Interface.',
         'Defines the default interface. Unknown pathes below the script alias are redirected to the selected interface.' =>
-            '',
+            'Definieren der Standardschnittstelle. Unbekannte Pfade unter dem Skript-Alias werden auf die ausgewählte Schnittstelle weitergeleitet.',
         'Defines the default maximum number of X-axis attributes for the time scale.' =>
             'Definiert die standardmäßig eingestellte maximale Anzahl von Attributen für die x-Achse für die Zeitachse.',
         'Defines the default maximum number of statistics per page on the overview screen.' =>
@@ -7329,7 +7331,7 @@ Ihr Helpdesk-Team
         'Defines the groups every customer will be in (if CustomerGroupSupport is enabled and you don\'t want to manage every customer for these groups).' =>
             'Steuert die Gruppen, in denen sich ein Kunde standardmäßig befinden soll (wenn CustomerGroupSupport aktiviert ist und Sie nicht jede Gruppenbeziehung für die Kunden einzeln steuern möchten).',
         'Defines the headers which will be shown to generic content for the requested key.' =>
-            '',
+            'Definiert die Header, die für allgemeine Inhalte für den angefragten Wert angezeigt werden.',
         'Defines the height for the rich text editor component for this screen. Enter number (pixels) or percent value (relative).' =>
             'Definiert die Höhe der RichText-Editor Komponente. Geben Sie einen Zahlen- (Pixel) oder Prozenwert (relativ) an.',
         'Defines the height for the rich text editor component. Enter number (pixels) or percent value (relative).' =>
@@ -7461,7 +7463,7 @@ Ihr Helpdesk-Team
         'Defines the module used to store the session data. With "DB" the frontend server can be splitted from the db server. "FS" is faster.' =>
             'Definiert, welches Modul für das Speichern der Sitzungsdaten verwendet werden soll. Mit "DB" kann der Anzeige Server getrennt vom DB-Server betrieben werden. "FS" ist schneller.',
         'Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the inner content to the chosen key.' =>
-            '',
+            'Definiert die Module in Kernel/Output/HTML/GenericContent/, die den untergeordneten Inhalt für den ausgewählten Wert bereitstellen.',
         'Defines the name of the application, shown in the web interface, tabs and title bar of the web browser.' =>
             'Definiert den Namen der Anwendung, die in der Weboberfläche, in Tabs und in der Titelleiste des Webbrowser angezeigt wird.',
         'Defines the name of the column to store the data in the preferences table.' =>
@@ -7543,9 +7545,9 @@ Ihr Helpdesk-Team
         'Defines the path to open ssl binary. It may need a HOME env ($ENV{HOME} = \'/var/lib/wwwrun\';).' =>
             'Legt den Pfad zum OpenSSL-Binary fest. Es benötigt möglicherweise ein HOME-Env ($ENV{HOME} = \'/var/lib/wwwrun\';).',
         'Defines the path to the Google Chrome or Chromium binary. If set, this binary will be used instead of PhantomJS::Bin.' =>
-            '',
+            'Definiert den Pfad zum Google Chrome oder Chromium Binary. Bei Auswahl wird statt PhantomJS::Bin dieses Binary verwendet.',
         'Defines the path to the PhantomJS binary. You can use a static build from http://phantomjs.org/download.html for an easy installation process.' =>
-            '',
+            'Definiert den Pfad zum PhantomJS Binary. Für eine einfach Installation können Sie einen Static Build von http://phantomjs.org/download.html verwenden.',
         'Defines the period of time (in minutes) before agent is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
             'Legt den Zeitraum in Minuten fest, bevor ein Agent aufgrund von Inaktivität als "abwesend" markiert wird (z. B. im "Angemeldete Nutzer"-Dashlet oder im Chat).',
         'Defines the period of time (in minutes) before customer is marked as "away" due to inactivity (e.g. in the "Logged-In Users" widget or for the chat).' =>
@@ -7568,7 +7570,7 @@ Ihr Helpdesk-Team
         'Defines the shown columns and the position in the AgentCustomerUserAddressBook result screen.' =>
             'Legt die angezeigten Spalten und ihre Position für den Ergebnisbildschirm von AgentCustomerUserAddressBook fest.',
         'Defines the shown links in the footer area of the customer interface of this OTOBO system. The value in "Key" is the external URL, the value in "Content" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> and <OTOBO_CONFIG_ScriptAlias> will be substituted.' =>
-            '',
+            'Definiert die im Footer-Bereich des OTOBO Kundenportals angezeigten Links. Im Feld "Schlüssel" ist die externe URL, als "Inhalt" der anzuzeigende Linktext einzugeben. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> und <OTOBO_CONFIG_ScriptAlias> werden ersetzt.',
         'Defines the source dynamic field for storing historical data.' =>
             'Definiert das dynamische Quell-Feld zum Speichern historischer Daten.',
         'Defines the standard permissions available for customers within the application. If more permissions are needed, you can enter them here. Permissions must be hard coded to be effective. Please ensure, when adding any of the afore mentioned permissions, that the "rw" permission remains the last entry.' =>
@@ -7617,7 +7619,7 @@ Ihr Helpdesk-Team
         'Defines the two-factor module to authenticate agents.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Agenten.',
         'Defines the two-factor module to authenticate customers.' => 'Definiert das Modul für die Zwei-Faktor-Authentifizierung von Kunden.',
         'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
-            '',
+            'Definiert, welches Protokoll der Webserver zum Austausch mit der Applikation verwendet. Nutzt der Webserver HTTP statt HTTPS, muss hier \'http\' angegeben werden. Die Einstellung \'HttpType\' hat keine Auswirkung auf Einstellungen oder Verhalten des Webservers. Sie wird insbesondere nicht verändern, wie auf die Anwendung zugegriffen wird. Ist die Einstellung falsch, wird dies nicht dazu führen, dass Sie nicht auf die Anwendung zugreifen können. Die Einstellung wird vorwiegend über die Template-Variable OTOBO_CONFIG_HttpType verwendet. Diese Variable kann in allen Benachrichtigungsformen der Anwendung gefunden werden. Sie wird verwendet, um Links zu Tickets in Ihrem System aufzubauen. Eine weitere Auswirkung dessen, den \'HttpType\' auf \'https\' zu belassen ist , dass nur für sichere Verbindungen ein Session Cookie gesetzt wird.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Legt das genutzte Zeichen für Zitate in Plaintext-E-Mails im Verfassen-Bildschirm des Agentenbereichs fest. Bleibt das Feld leer oder ist die Einstellung nicht aktiviert, wird die ursprüngliche E-Mail nicht zitiert, sondern an die Antwort angehängt.',
         'Defines the user identifier for the customer panel.' => 'Definiert den Benutzer-Identifier für das Kunden-Interface.',
@@ -7682,7 +7684,7 @@ Ihr Helpdesk-Team
         'Determines the next screen after the follow-up screen of a zoomed ticket in the customer interface.' =>
             'Legt den Bildschirm fest, der nach einem Follow-Up aus der Ticket-Detailansicht im Kundenbereich aufgerufen werden soll.',
         'Determines the next screen after the process screen of a zoomed ticket in the customer interface.' =>
-            '',
+            'Bestimmt, welcher Bildschirm nach der Prozessmaske eines Tickets in der Kundenoberfläche angezeigt wird.',
         'Determines the next screen after the ticket is moved. LastScreenOverview will return the last overview screen (e.g. search results, queueview, dashboard). TicketZoom will return to the TicketZoom.' =>
             'Bestimmt das nächste Fenster nach dem das Ticket verschoben ist. LastScreenOverview wechselt zur letzten Übersichtsseite. TicketZoom wechselt zur Ticket-Detailansicht.',
         'Determines the possible states for pending tickets that changed state after reaching time limit.' =>
@@ -7986,9 +7988,9 @@ Ihr Helpdesk-Team
         'GenericInterface module registration for the PassThrough invoker layer.' =>
             'Modulregistrierung für den PassThrough Invoker-Layer des GenericInterface.',
         'GenericInterface module registration for the TicketCreate invoker layer.' =>
-            '',
+            'GenericInterface-Modulregistrierung für den TicketCreate-Invoker Layer.',
         'GenericInterface module registration for the TicketUpdate invoker layer.' =>
-            '',
+            'GenericInterface-Modulregistrierung für den TicketUpdate-Invoker Layer.',
         'GenericInterface module registration for the invoker layer.' => 'Modulregistrierung für Invoker-Layer des GenericInterface.',
         'GenericInterface module registration for the mapping layer.' => 'Modulregistrierung für Mapping-Layer des GenericInterface.',
         'GenericInterface module registration for the operation layer.' =>
@@ -8046,7 +8048,7 @@ Ihr Helpdesk-Team
         'If "LDAP" was selected for Customer::AuthModule and special paramaters are needed for the Net::LDAP perl module, you can specify them here. See "perldoc Net::LDAP" for more information about the parameters.' =>
             'Wenn "LDAP" als Customer::AuthModule ausgewählt ist und spezielle Parameter für das Perl-Modul Net::LDAP benötigt werden, können Sie diese hier angeben. Nutzen Sie "perldoc Net::LDAP" für weitere Informationen zu den Parametern.',
         'If "LDAP" was selected for Customer::AuthModule and you wish to use TLS security to communicate with the LDAP server, the "verify" parameter can be specified here. See Net::LDAP::start_tls for more information about the parameter.' =>
-            '',
+            'Wurde "LDAP" für das Customer::AuthModule ausgewählt und soll TLS zur sicheren Kommunikation mit dem LDAP-Server verwendet werden, können Sie hier den "Verify"-Parameter definieren. Weitere Informationen dazu finden Sie unter Net::LDAP::start_tls.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the password for this special user here.' =>
             'Wenn "LDAP" als Customer::AuthModule ausgewählt ist und Ihre Nutzer nur anonymen Zugriff auf den LDAP-Baum haben, Sie die Daten aber durchsuchen möchten, können Sie dies mithilfe eines speziellen Users tun, dessen Passwort Sie hier angeben können.',
         'If "LDAP" was selected for Customer::AuthModule and your users have only anonymous access to the LDAP tree, but you want to search through the data, you can do this with a user who has access to the LDAP directory. Specify the username for this special user here.' =>
@@ -8383,11 +8385,11 @@ Ihr Helpdesk-Team
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Anzahl von Zeilen (pro Ticket), die über das Such-Tool im Agentenbereich angezeigt werden.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
-            '',
+            'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index "Ticket".',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
-            '',
+            'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index. Hinweis: \'Elasticsearch::ArticleIndexCreationSettings\' wird nicht mehr genutzt. Verwenden Sie stattdessen \'Elasticsearch::IndexSettings###Default\', um die Kompatibilität mit neueren Versionen sicherzustellen.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
-            '',
+            'Anzahl der Shards (NS), Replicas (NR) und Felderlimit für die Indizes. Diese Einstellung ersetzt \'Elasticsearch::ArticleIndexCreationSettings\' in neueren Versionen. Sind beide Einstellungen vorhanden und unterscheiden sie sich, wird diese priorisiert behandelt. Verwenden Sie \'Elasticsearch::IndexSettings###...\', um spezifische Einstellungen für einzelne Indizes zu definieren. \'...\' kann einer der folgenden Werte sein: \'Customer\', \'CustomerUser\', \'Ticket\' oder \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Anzahl von Tickets pro Seite in Suchergebnissen im Agentenbereich.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
@@ -8420,9 +8422,9 @@ Ihr Helpdesk-Team
         'Out Of Office Time' => 'Abwesenheitszeit',
         'Out of Office users.' => 'Abwesende Benutzer.',
         'Outbound request headers not allowed to be used in frontend configuration.' =>
-            '',
+            'Header für ausgehende Anfragen, die in der Frontendkonfiguration nicht verwendet werden dürfen.',
         'Outbound response headers not allowed to be used in frontend configuration.' =>
-            '',
+            'Header für ausgehende Antworten, die in der Frontendkonfiguration nicht verwendet werden dürfen.',
         'Output filter to inject the necessary Dynamic field names in hidden input.' =>
             'Output-Filter zum verdeckten Einlesen der erforderlichen Dynamic Field-Namen.',
         'Overloads (redefines) existing functions in Kernel::System::Ticket. Used to easily add customizations.' =>
@@ -8441,7 +8443,7 @@ Ihr Helpdesk-Team
         'Package event module file a scheduler task for update registration.' =>
             'Modul zum automatischen Planen der Aktualisierung der System-Registrierung.',
         'Package event module trigger package reinstall in containers.' =>
-            '',
+            'Modul zum automatischen Triggern der Paketneuinstallation in Containern.',
         'Parameters for the CreateNextMask object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Parameter des CreateNextMask-Objekts in den Benutzereinstellungen der Agenten-Oberfläche. Bitte beachte: Wenn \'Active\' auf 0 eingestellt ist, so verhindert dies nur, dass Agenten die Einstellung dieser Gruppe in ihren persönlichen Einstellungen verändern können. Der Administrator kann weiterhin diese Einstellungen im Name von Benutzern verändern. Benutze \'PreferenceGroup\', um zu steuern, in welchem Bereich diese Einstellungen in der Benutzer-Oberfläche angezeigt werden.',
         'Parameters for the CustomQueue object in the preference view of the agent interface. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
@@ -8453,7 +8455,7 @@ Ihr Helpdesk-Team
         'Parameters for the column filters of the small ticket overview. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             'Parameter der Spalten-Filter des Small-Ticket-Übersicht. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.',
         'Parameters for the dashboard backend of the closed tickets overview of the agent interface. "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
-            '',
+            'Parameter für das Dashboard-Backend der Übersicht geschlossener Tickets in der Agentenoberfläche. "Limit" ist die Anzahl der im Standard angezeigten Einträge. "Group" wird verwendet, um den Zugriff auf das Plugin einzuschränken (z. B. Group: admin;group1;group2;). "Default" let fest, ob das Plugin standardmäßig aktiviert sein oder vom Benutzer manuell zu aktivieren sein soll. "CacheTTLLocal" ist die Cache-Zeit in Minuten für das Plugin. Hinweis: Nur Ticketattribute und dynamische Felder (DynamicField_NameX) sind als Standardspalten (DefaultColumns) zulässig.',
         'Parameters for the dashboard backend of the customer company information of the agent interface. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
             'Legt die Parameter für das Dashboard-Backend fest. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTLLocal" bestimmt die Cachingdauer für das Dashlet in Minuten.',
         'Parameters for the dashboard backend of the customer id list overview of the agent interface . "Limit" is the number of entries shown by default. "Group" is used to restrict the access to the plugin (e. g. Group: admin;group1;group2;). "Default" determines if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" is the cache time in minutes for the plugin.' =>
@@ -8554,7 +8556,7 @@ Ihr Helpdesk-Team
         'Provides customer users access to tickets even if the tickets are not assigned to a customer user of the same customer ID(s), based on permission groups.' =>
             'Gibt Kundenbenutzern Zugriff auf Tickets, auch wenn diese nicht einem Kundenbenutzer derselben Kundennummer zugewiesen sind, basierend auf Gruppenrechten.',
         'Public Calendar' => 'Öffentlicher Kalender',
-        'Public Interface' => '',
+        'Public Interface' => 'Public Interface',
         'Public calendar.' => 'Öffentlicher Kalender.',
         'Queue view' => 'Ansicht nach Queues',
         'Queues ↔ Auto Responses' => 'Queues ↔ Automatische Antworten',
@@ -8649,7 +8651,7 @@ Ihr Helpdesk-Team
         'Salutations' => 'Anreden',
         'Sample command output' => 'Beispielhafte Kommando-Ausgabe',
         'Saves the attachments of articles. "DB" stores all data in the database (not recommended for storing big attachments). "FS" stores the data on the filesystem; this is faster but the webserver should run under the OTOBO user. You can switch between the modules even on a system that is already in production without any loss of data. Note: Searching for attachment names is not supported when "FS" is used. "S3" is experimental.' =>
-            '',
+            'Speichert die Anhänge von Artikeln. "DB" speichert alle Daten in der Datenbank (nicht geeignet zur Speicherung großer Anhänge!). "FS" speichert die Daten im Filesystem; das ist schneller, der Webserver sollte aber vom OTOBO Nutzer ausgeführt werden. Ein Wechsel zwischen den beiden Speicheroptionen ist auch auf Produktivsystemen ohne Datenverlust möglich. Hinweis: Wird "FS" verwendet, kann nicht nach Namen von Anhängen gesucht werden. "S3" ist noch experimentell.',
         'Schedule a maintenance period.' => 'Eine Wartungsperiode planen.',
         'Screen after new ticket' => 'Ansicht nach Ticket-Erstellung',
         'Search Customer' => 'Kunden suchen',
@@ -8666,7 +8668,7 @@ Ihr Helpdesk-Team
         'Select how many tickets should be shown in overviews by default.' =>
             'Definiert, wieviele Tickets in der Übersicht standardmäßig angezeigt werden.',
         'Select the algorithm used for encryption. Fallback is aes256. Try "/usr/bin/openssl enc -ciphers" to get a list of ciphers supported by your system (written without the leading \'-\').' =>
-            '',
+            'Wählen Sie den zur Verschlüsselung verwendeten Algorithmus aus. Als Fallback wird aes256 verwendet. Geben Sie "/usr/bin/openssl enc -ciphers" ein, um eine Liste der von Ihrem System unterstützten Ciphers zu erhalten (Eingabe ohne vorangestelltes \'-\').',
         'Select the main interface language.' => 'Wählen Sie die Sprache der Hauptoberfläche.',
         'Select the separator character used in CSV files (stats and searches). If you don\'t select a separator here, the default separator for your language will be used.' =>
             'Wählen Sie das Trennzeichen, dass in CSV-Dateien (Statistiken und Suchenergebnisse) benutzt werden soll. Wenn Sie hier kein Zeichen wählen, dann wird das Standard-Trennzeichen gemäß der eingestellten Sprache benutzt.',
@@ -8803,7 +8805,7 @@ Ihr Helpdesk-Team
         'Sets the inactivity time (in seconds) to pass before a session is killed and a user is logged out.' =>
             'Legt die Zeit in Sekunden fest, in der ein Nutzer untätig sein darf, bevor seine Sitzung automatisch beendet und der Nutzer ausgeloggt wird.',
         'Sets the maximum number of active agents within the timespan defined in SessionActiveTime before a prior warning will be visible for the logged in agents.' =>
-            '',
+            'Definiert die maximale Anzahl aktiver Agenten innerhalb der in SessionActiveTime definierten Zeitspanne, bevor eine Warnung für die eingeloggten Agenten angezeigt wird.',
         'Sets the maximum number of active agents within the timespan defined in SessionMaxIdleTime.' =>
             'Legt die maximale Anzahl an aktiven Agenten innerhalb der in SessionMaxIdleTime festgelegten Zeitspanne fest.',
         'Sets the maximum number of active customers within the timespan defined in SessionMaxIdleTime.' =>
@@ -9195,7 +9197,7 @@ Ihr Helpdesk-Team
         'Stat#' => 'Stat#',
         'States' => 'Status',
         'Statistics overview.' => 'Statistik-Übersicht.',
-        'Statistics reports.' => '',
+        'Statistics reports.' => 'Statistik-Berichte.',
         'Status view' => 'Ansicht nach Status',
         'Stopped response time escalation.' => 'Antwortzeit-Eskalation gestoppt.',
         'Stopped solution time escalation.' => 'Lösungszeit-Eskalation gestoppt.',
@@ -9228,7 +9230,7 @@ Ihr Helpdesk-Team
             'Der interne Name des Skins, der im Agentenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Agent::Skins.',
         'The customer skin\'s InternalName which should be used in the customer interface. Please check the available skins in Frontend::Customer::Skins.' =>
             'Der interne Name des Skins, der im Kundenbereich genutzt werden soll. Verfügbare Skins finden Sie unter Frontend::Customer::Skins.',
-        'The daemon registration for sync with S3.' => '',
+        'The daemon registration for sync with S3.' => 'Daemon-Registrierung für die S3-Synchronisation.',
         'The daemon registration for the scheduler cron task manager.' =>
             'Der Hintergrundprozess für den zeitgesteuerten Aufgabenplaner.',
         'The daemon registration for the scheduler future task manager.' =>
@@ -9333,7 +9335,7 @@ Ihr Helpdesk-Team
         'Ticket Zoom' => 'Ticket-Zoom',
         'Ticket Zoom.' => 'Ticket-Detailansicht.',
         'Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
-            '',
+            'Ticketattribute, die in der Konfigurationsmaske für den Ticket Invoker angezeigt werden sollen (0=sichtbar/wählbar, 1=Standard/vorausgewählt).',
         'Ticket bulk module.' => 'Ticket-Stapelverarbeitung.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Ticket Event Modul welche die Eskalation-Stop-Ereignisse auslöst.',

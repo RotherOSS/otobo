@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.617899079657252;
+    $Self->{Completeness}        = 0.61783843834312;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2648,7 +2648,6 @@ sub Data {
             '',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             '',
-        'Off' => 'Desactivado',
         'End' => 'Fin',
         'This setting can currently not be saved.' => '',
         'This setting can currently not be saved' => '',

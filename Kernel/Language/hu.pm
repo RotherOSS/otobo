@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.904474769914313;
+    $Self->{Completeness}        = 0.90445960958578;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2648,7 +2648,6 @@ sub Data {
             'A profilképeket letiltotta a rendszer adminisztrátora. Helyette a monogramját fogja látni.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             'Megváltoztathatja a profilképét, ha regisztrálja az e-mail címét (%s) a következő oldalon: %s. Ne feledje, hogy a gyorsítótárazás miatt eltarthat egy ideig, amíg az új profilképe elérhetővé válik.',
-        'Off' => 'Ki',
         'End' => 'Befejezés',
         'This setting can currently not be saved.' => 'Ezt a beállítás jelenleg nem lehet elmenteni.',
         'This setting can currently not be saved' => 'Ezt a beállítás jelenleg nem lehet elmenteni',

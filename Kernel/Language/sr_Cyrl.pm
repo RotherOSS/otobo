@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.902887972072358;
+    $Self->{Completeness}        = 0.902872559911125;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -2643,7 +2643,6 @@ sub Data {
             'Приказ аватар сличице је онемогућен од стране систем администратора. Уместо сличице биће приказани ваши иницијали.',
         'You can change your avatar image by registering with your email address %s at %s. Please note that it can take some time until your new avatar becomes available because of caching.' =>
             'Вашу аватар сличицу можете променити регистрацијом ваше имејл адресе %s на %s. Молимо обратите пажњу да је због кеширања неопходно да прође неко време пре него што ваш нови аватар постане видљив.',
-        'Off' => 'Искључено',
         'End' => 'Крај',
         'This setting can currently not be saved.' => 'Ово подешавање тренутно не може бити сачувано.',
         'This setting can currently not be saved' => 'Ово подешавање тренутно не може бити сачувано',
