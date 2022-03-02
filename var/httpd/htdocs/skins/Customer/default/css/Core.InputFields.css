@@ -295,6 +295,10 @@ label.oooFocus.LabelError {
     align-items: end;
 }
 
+.oooTitle > p {
+    white-space: normal;
+}
+
 /* IE */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 

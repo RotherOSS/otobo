@@ -58,6 +58,10 @@ body {
     padding: 0;
 }
 
+fieldset {
+    min-width: 0;
+}
+
 ol, ul {
     list-style: none;
 }
