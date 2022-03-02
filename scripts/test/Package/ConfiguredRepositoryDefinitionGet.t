@@ -54,7 +54,10 @@ my @Tests = (
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/' => 'OTOBO Addons'
+            'http://ftp.otobo.org/pub/otobo/packages-thirdparty/'     => 'ThirdParty Addons',
+            'http://ftp.otobo.org/pub/otobo/packages/'                => 'OTOBO Addons',
+            'http://otopar.perl-services.de/std/'                     => 'OTOpar Addons',
+            'https://ftp.otobo.org/pub/otobo/packages-itsm/bundle10/' => 'ITSM Bundle'
         },
     },
 );
