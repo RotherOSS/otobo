@@ -43,15 +43,15 @@
 # Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2020, 2021.
 # Grit Rother <mr@otobo.de>, 2020, 2021, 2022.
 # svo <svo@otrs.ch>, 2021.
-# Andreas Erhard <erhard@wor.net>, 2021.
+# Andreas Erhard <erhard@wor.net>, 2021, 2022.
 # Stefan Abel <sta@rother-oss.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-28 08:47+0000\n"
-"PO-Revision-Date: 2022-02-28 13:24+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2022-03-02 12:15+0000\n"
+"Last-Translator: Andreas Erhard <erhard@wor.net>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -10934,7 +10934,7 @@ msgstr "SMTP-Host."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP authentication"
-msgstr "SMPT-Authentifizierung"
+msgstr "SMTP-Authentifizierung"
 
 #. Template: InstallerConfigureMail
 msgid "Does your SMTP host need authentication?"
