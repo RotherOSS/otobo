@@ -228,8 +228,9 @@ sub PrepareRequest {
             my ($TypeFormat)      = $ArticleAttachment{ContentType} =~ m/^.*?\/(\w+)/;
             my $FileName          = $ArticleAttachment{Filename};
             my ($NameFormat)      = $FileName =~ m/\.(\w+)$/;
+            my $Supported         = ( $TypeFormat && $FormatIsSupported{$TypeFormat} ) || ( $NameFormat && $FormatIsSupported{$NameFormat} );
 
-            next ATTACHMENT unless ( $FormatIsSupported{$TypeFormat} || $FormatIsSupported{$NameFormat} );
+            next ATTACHMENT if !$Supported;
 
             # the file content is expected to be Base64 encoded, without embedded newlines
             my $Encoded = encode_base64( $ArticleAttachment{Content}, '' );
