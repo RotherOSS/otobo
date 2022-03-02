@@ -1,4 +1,39 @@
 
+# OTOBO 10.1.1 2022-03-02
+- 2022-03-02 16:54:54 +0100 Create new OTOBO language files.
+- 2022-03-02 16:50:29 +0100 Add option to open FeaturedLink on the CustomerDashboard in a new tab.
+- 2022-03-02 15:30:42 +0000 Translated using Weblate (German)
+- 2022-02-28 08:49:07 +0000 Update translation files
+- 2022-03-02 15:20:34 +0100 [Bugfix]   Rendering fails in CustomerTicketZoom if dynamic fields of type 'Title' are too long (https://github.com/RotherOSS/otobo/issues/1473)
+- 2022-03-02 13:26:18 +0100 AgentPreferences: Change label names for translation reasons.
+- 2022-03-02 08:12:18 +0100 [Enhanced] Elasticsearch self repair and handling of "valid" error responses (https://github.com/RotherOSS/otobo/issues/1471)
+- 2022-02-28 10:57:24 +0100 Are the po-files needed in the Docker image? (https://github.com/RotherOSS/otobo/issues/1635)
+- 2022-02-28 09:48:40 +0100 Create new OTOBO language files.
+- 2022-02-21 10:45:35 +0000 Translated using Weblate (Finnish)
+- 2022-02-16 08:47:35 +0000 Translated using Weblate (Czech)
+- 2022-02-11 00:23:47 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2022-02-09 12:43:25 +0000 Update translation files
+- 2022-02-28 09:08:29 +0100 [Bugfix]   Enter in Textinput (e.g. subject) cancels reply in CustomerTicketZoom. (https://github.com/RotherOSS/otobo/issues/1619)
+- 2022-02-28 08:25:55 +0100 [Enhanced] Make default page configurable, allow to disable public.pl and customer.pl (https://github.com/RotherOSS/otobo/issues/1279)
+- 2022-02-27 13:18:20 +0100 [Bugfix]   DashboardBackend###0000-ProductNotify can't connect (Product News) (https://github.com/RotherOSS/otobo/issues/1532)
+- 2022-02-26 16:27:59 +0100 [Bugfix]   Perl module check fails when installing a package (https://github.com/RotherOSS/otobo/issues/1621)
+- 2022-02-24 20:31:44 +0100 [Bugfix]   Fix regular expressions for dynamic fields in CustomerInterface. (https://github.com/RotherOSS/otobo/issues/625)
+- 2022-02-24 16:42:37 +0100 [Bugfix]   Bug in Customer Processmanagement Modul (https://github.com/RotherOSS/otobo/issues/1609)
+- 2022-02-23 15:30:37 +0100 Minor code fix. (CustomerUser.pm and CustomerCompany.pm)
+- 2022-02-23 11:23:06 +0100 [Bugfix]   Bug in Action CustomerTicketZoom - when DynamicField from Type Database is used (https://github.com/RotherOSS/otobo/issues/1449)
+- 2022-02-22 14:59:40 +0100 [Enhanced] Check code policy before release of OTOBO 10.1.1 Beta 2 (https://github.com/RotherOSS/otobo/issues/1567)
+- 2022-02-22 14:43:24 +0100 Tidied.
+- 2022-02-22 08:11:18 +0100 Update default CustomerDashboard texts.
+- 2022-02-22 08:02:57 +0100 Update default CustomerDashboard texts.
+- 2022-02-21 19:05:38 +0100 [Tidied]   Check code policy before release of OTOBO 10.1.1 (https://github.com/RotherOSS/otobo/issues/1629) - in progress
+- 2022-02-21 18:45:26 +0100 [Tidied]   Speeling: SizeExeeded -> SizeExceeded (https://github.com/RotherOSS/otobo/issues/1523)
+- 2022-02-16 10:35:29 +0100 [Enhanced] Remove height in order to see more data than just one line in AgentTicketZoom Processview (https://github.com/RotherOSS/otobo/issues/1592)
+- 2022-02-18 13:59:29 +0100 [Security] Make error messages of the public interface less leaky (https://github.com/RotherOSS/otobo/issues/1622)
+- 2021-12-13 21:26:46 +0100 [Enhanced] Provide a configurable default krb5.conf file (https://github.com/RotherOSS/otobo/issues/1476) - in progress
+- 2022-02-17 13:51:58 +0100 Highlight focused buttons, not only hovered buttons in the customer interface.
+- 2022-02-11 18:53:00 +0100 [Security] Bug in LDAP groups to OTOBO roles synchronization (https://github.com/RotherOSS/otobo/issues/1608)
+
+
 # OTOBO 10.1.0 beta2 2022-02-09
 - 2022-02-09 13:42:57 +0100 Create new OTOBO language files.
 - 2022-02-06 16:10:53 +0000 Translated using Weblate (English (Canada))
@@ -1145,3 +1180,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
