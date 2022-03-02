@@ -50,8 +50,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-28 08:47+0000\n"
-"PO-Revision-Date: 2022-03-02 12:15+0000\n"
-"Last-Translator: Andreas Erhard <erhard@wor.net>\n"
+"PO-Revision-Date: 2022-03-02 14:23+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -1889,7 +1889,7 @@ msgstr "Beschriftung"
 
 #. Template: AdminDynamicField
 msgid "Order"
-msgstr "Sortierung"
+msgstr "Position"
 
 #. Template: AdminDynamicField
 msgid "Object"
@@ -3797,11 +3797,11 @@ msgstr "Neue Bedingung hinzufügen"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "Allgemeine Invoker-Daten"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "Einstellungen für ausgehende Request-Daten"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -3811,6 +3811,8 @@ msgstr "Ticket-Felder"
 msgid ""
 "Only the selected ticket fields will be considered for the request data."
 msgstr ""
+"Nur die ausgewählten Ticketfelder werden für die Request-Daten "
+"berücksichtigt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
@@ -3820,26 +3822,32 @@ msgstr "Artikelfelder"
 msgid ""
 "Only the selected article fields will be considered for the request data."
 msgstr ""
+"Nur die ausgewählten Artikelfelder werden für die Request-Daten "
+"berücksichtigt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "Dynamische Felder Ticket"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Nur die ausgewählten dynamischen Felder zum Ticket werden für die Request-"
+"Daten berücksichtigt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "Dynamische Felder Artikel"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Nur die ausgewählten dynamischen Felder zum Artikel werden für die Request-"
+"Daten berücksichtigt."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
@@ -3889,6 +3897,8 @@ msgid ""
 "selected sender types. If left empty, articles created by all sender types "
 "will be used."
 msgstr ""
+"Die ausgehenden Request-Daten werden nur Artikel der ausgewählten "
+"Sendertypen berücksichtigen. Ohne Auswahl werden alle Sendertypen verwendet."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
@@ -3900,23 +3910,29 @@ msgstr "Einstellungen für eingehende Antwortdaten"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "Dynamisches Feld mit der Remote TicketID"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected ticket dynamic field is being used to store the remote TicketID."
 msgstr ""
+"Das ausgewählte dynamische Feld am Ticket wird verwendet, um die Remote "
+"TicketID zu hinterlegen."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "If left empty, the remote TicketID will not be stored, unless you define a "
 "system configuration value for this web service."
 msgstr ""
+"Bleibt es leer, wird keine Remote TicketID hinterlegt, sofern nicht in der "
+"Systemkonfiguration ein Wert für diesen Webservice definiert ist."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected field is already in use by the Ticket dynamic fields option."
 msgstr ""
+"Das ausgewählte Feld wird bereits in der Option Dynamische Felder Ticket "
+"verwendet."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3924,6 +3940,9 @@ msgid ""
 "the incoming response data. If left empty, no dynamic field will be "
 "processed."
 msgstr ""
+"Bei der Verarbeitung eingehender Response-Daten werden nur die ausgewählten "
+"dynamischen Felder zum Ticket berücksichtigt. Ohne Auswahl werden keine "
+"dynamischen Felder verarbeitet."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
@@ -4346,7 +4365,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "z. B. https://www.otobo.de:10745/api/v1.0 (ohne Trailing Slash)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4564,51 +4583,51 @@ msgstr "Der Standard-HTTP-Befehl für die Anfragen."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "Zusätzliche Request Header (alle Invoker)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "Zusätzliche Request Header (ausgewählte Invoker)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "Alle Header für diesen Invoker entfernen"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "Header für den Invoker"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
-msgstr ""
+msgstr "Zusätzliche Response Header (alle Operations)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (operation specific)"
-msgstr ""
+msgstr "Zusätzliche Response Header (ausgewählte Operations)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this operation"
-msgstr ""
+msgstr "Alle Header für diese Operation entfernen"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for operation"
-msgstr ""
+msgstr "Header für die Operation"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Common headers"
-msgstr ""
+msgstr "Gemeinsame Header"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Header Name"
-msgstr ""
+msgstr "Header-Name"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove header"
-msgstr ""
+msgstr "Header entfernen"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add header"
-msgstr ""
+msgstr "Header hinzufügen"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
@@ -4688,6 +4707,8 @@ msgid ""
 "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"z. B. urn:otobo-com:soap:functions oder http://www.otobo.de/GenericInterface/"
+"actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
@@ -4756,7 +4777,7 @@ msgstr "Die Zeichenkodierung für SOAP-Nachrichteninhalte."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "z. B. utf-8, latin1, iso-8859-1, cp1250, etc."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
@@ -9373,6 +9394,9 @@ msgid ""
 "Please note that you can only select charts as statistics output format if "
 "you configured one of the renderer binaries on your system."
 msgstr ""
+"Hinweis: Sie können nur dann Diagramme als Ausgabeformat für Statistiken "
+"auswählen, wenn Sie eine der Renderdateien auf Ihrem System konfiguriert "
+"haben."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
@@ -9380,11 +9404,11 @@ msgstr "PhantomJS konfigurieren"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
-msgstr ""
+msgstr "GoogleChrome konfigurieren"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "General settings"
-msgstr ""
+msgstr "Allgemeine Einstellungen"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
@@ -9426,27 +9450,27 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
-msgstr ""
+msgstr "E-Mail-Betreff"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the subject for the automatically generated email."
-msgstr ""
+msgstr "Bitte geben Sie einen Betreff für die automatisch erstellte Mail ein."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email body"
-msgstr ""
+msgstr "E-Mail-Body"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the text for the automatically generated email."
-msgstr ""
+msgstr "Bitte geben Sie den Text für die automatisch erstellte E-Mail ein."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email recipients"
-msgstr ""
+msgstr "E-Mail-Empfänger"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify recipient email addresses (comma separated)."
-msgstr ""
+msgstr "Geben Sie die E-Mail-Adressen der Empfänger ein (mit Komma getrennt)."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Output settings"
@@ -9454,7 +9478,7 @@ msgstr "Ausgabeeinstellungen"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Headline"
-msgstr ""
+msgstr "Überschrift"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for preamble"
@@ -9478,15 +9502,15 @@ msgstr "Statistik dem Bericht hinzufügen"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
-msgstr ""
+msgstr "Statistik-Berichte"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Edit statistics report \"%s\"."
-msgstr ""
+msgstr "Bericht \"%s\" bearbeiten."
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Delete statistics report \"%s\""
-msgstr ""
+msgstr "Bericht \"%s\" löschen"
 
 #. Template: AgentStatisticsReportsView
 msgid "View Report"
@@ -9497,6 +9521,8 @@ msgid ""
 "This statistics report contains configuration errors and can currently not "
 "be used."
 msgstr ""
+"Dieser Statistik-Bericht enthält Konfigurationsfehler und kann nicht "
+"gespeichert werden."
 
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
@@ -14554,11 +14580,11 @@ msgstr "Durchlauf: Kein(e) %s empfangen!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Got no %s!"
-msgstr ""
+msgstr "%s nicht vorhanden!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Add New Statistics Report"
-msgstr ""
+msgstr "Neuen Bericht hinzufügen"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "This name is already in use, please choose a different one."
@@ -14574,7 +14600,7 @@ msgstr "StatsReportID wird benötigt!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Edit Statistics Report"
-msgstr ""
+msgstr "Bericht bearbeiten"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
@@ -14590,7 +14616,7 @@ msgstr "Bericht konnte nicht aktualisiert werden."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
-msgstr ""
+msgstr "Bericht ansehen"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Delete: Got no StatsReportID!"
@@ -15440,22 +15466,24 @@ msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Order needs to be "
 "a unique number."
 msgstr ""
+"Registrierung für Kachel %s des Kundendashboards ist ungültig! Position muss "
+"einmalig sein."
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
-msgstr ""
+msgstr "Wert erforderlich!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Invalid Key!"
-msgstr ""
+msgstr "Wert ungültig!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Failed to load Content!"
-msgstr ""
+msgstr "Inhalt konnte nicht geladen werden!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Destination unknown."
-msgstr ""
+msgstr "Ziel unbekannt."
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
@@ -15647,7 +15675,7 @@ msgstr "Kontaktieren Sie Ihren Administrator!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Execution of SQL statement failed: "
-msgstr ""
+msgstr "SQL Statement konnte nicht ausgeführt werden: "
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
@@ -16529,7 +16557,7 @@ msgstr "Beobachtete Tickets insgesamt"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "%s Report"
-msgstr ""
+msgstr "%s Bericht"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
@@ -16562,6 +16590,8 @@ msgid ""
 "Invalid response from the authentication server. Maybe the process took too "
 "long. Please retry once."
 msgstr ""
+"Ungültige Antwort vom Authentifizierungsserver. Möglicherweise kam es zum "
+"Timeout. Bitte versuchen Sie es noch einmal."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -16796,11 +16826,11 @@ msgstr "Überprüft, ob die OTRS Version korrekt ist."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTRS RELEASE file %s does not exist!"
-msgstr ""
+msgstr "OTRS RELEASE Datei %s ist nicht vorhanden!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "Can't read OTRS RELEASE file: %s"
-msgstr ""
+msgstr "Kann OTRS RELEASE Datei: %s nicht lesen"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "No OTRS system found!"
@@ -16821,7 +16851,7 @@ msgstr "Migration von ITSM Datenbanktabellen."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
-msgstr ""
+msgstr "Nichts zu tun: Tabelle '%s' nicht vorhanden."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
@@ -18312,7 +18342,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfacePublic.pm
 msgid "Could not connect to the database."
-msgstr ""
+msgstr "Konnte keine Verbindung zur Datenbank herstellen."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -18782,7 +18812,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.About
 msgid "Do you really want to delete this language?"
-msgstr ""
+msgstr "Möchten Sie diese Sprache wirklich löschen?"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
@@ -19823,6 +19853,11 @@ msgid ""
 "            in an extra table\n"
 "        "
 msgstr ""
+"\n"
+"            Zeigt auch optionale Parameter in der Parameterliste an. Ist die "
+"Option deaktiviert, werden optionale\n"
+"            Parameter in einer separaten Tabelle angezeigt.\n"
+"        "
 
 #. SysConfig
 msgid ""
@@ -19994,11 +20029,11 @@ msgstr "Aktiviert Elasticsearch."
 
 #. SysConfig
 msgid "Activate the customer frontend."
-msgstr ""
+msgstr "Kundenfrontend aktivieren."
 
 #. SysConfig
 msgid "Activate the public frontend."
-msgstr ""
+msgstr "Public Interface aktivieren."
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
@@ -20813,6 +20848,9 @@ msgid ""
 "Article attributes that should be available in ticket invoker configuration "
 "frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
+"Auswahl der Artikelattribute, die in der Maske für die Ticketinvoker-"
+"Konfiguration angezeigt werden sollen (0 = angezeigt/wählbar, 1 = Standard/"
+"vorausgewählt)."
 
 #. SysConfig
 msgid "ArticleTree"
@@ -21977,6 +22015,8 @@ msgid ""
 "Define a result field for the TicketID of the invoker response per web "
 "service (WebserviceID => DynamicFieldName)."
 msgstr ""
+"Definieren Sie ein Ergebnisfeld für die TicketID des Invoker Response per "
+"Webservice (WebserviceID => DynamicFieldName)."
 
 #. SysConfig
 msgid ""
@@ -23098,6 +23138,8 @@ msgid ""
 "Defines the default interface. Unknown pathes below the script alias are "
 "redirected to the selected interface."
 msgstr ""
+"Definieren der Standardschnittstelle. Unbekannte Pfade unter dem Skript-"
+"Alias werden auf die ausgewählte Schnittstelle weitergeleitet."
 
 #. SysConfig
 msgid ""
@@ -23802,6 +23844,8 @@ msgid ""
 "Defines the headers which will be shown to generic content for the requested "
 "key."
 msgstr ""
+"Definiert die Header, die für allgemeine Inhalte für den angefragten Wert "
+"angezeigt werden."
 
 #. SysConfig
 msgid ""
@@ -24340,6 +24384,8 @@ msgid ""
 "Defines the modules in Kernel/Output/HTML/GenericContent/ which provide the "
 "inner content to the chosen key."
 msgstr ""
+"Definiert die Module in Kernel/Output/HTML/GenericContent/, die den "
+"untergeordneten Inhalt für den ausgewählten Wert bereitstellen."
 
 #. SysConfig
 msgid ""
@@ -24694,12 +24740,17 @@ msgid ""
 "Defines the path to the Google Chrome or Chromium binary. If set, this "
 "binary will be used instead of PhantomJS::Bin."
 msgstr ""
+"Definiert den Pfad zum Google Chrome oder Chromium Binary. Bei Auswahl wird "
+"statt PhantomJS::Bin dieses Binary verwendet."
 
 #. SysConfig
 msgid ""
 "Defines the path to the PhantomJS binary. You can use a static build from "
 "http://phantomjs.org/download.html for an easy installation process."
 msgstr ""
+"Definiert den Pfad zum PhantomJS Binary. Für eine einfach Installation "
+"können Sie einen Static Build von http://phantomjs.org/download.html "
+"verwenden."
 
 #. SysConfig
 msgid ""
@@ -24799,6 +24850,10 @@ msgid ""
 "\"Content\" is the shown label. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> "
 "and <OTOBO_CONFIG_ScriptAlias> will be substituted."
 msgstr ""
+"Definiert die im Footer-Bereich des OTOBO Kundenportals angezeigten Links. "
+"Im Feld \"Schlüssel\" ist die externe URL, als \"Inhalt\" der anzuzeigende "
+"Linktext einzugeben. <OTOBO_CONFIG_HttpType>, <OTOBO_CONFIG_FQDN> und "
+"<OTOBO_CONFIG_ScriptAlias> werden ersetzt."
 
 #. SysConfig
 msgid "Defines the source dynamic field for storing historical data."
@@ -25002,6 +25057,18 @@ msgid ""
 "'https' is that the session management cookie will only be set for secure "
 "connections."
 msgstr ""
+"Definiert, welches Protokoll der Webserver zum Austausch mit der Applikation "
+"verwendet. Nutzt der Webserver HTTP statt HTTPS, muss hier 'http' angegeben "
+"werden. Die Einstellung 'HttpType' hat keine Auswirkung auf Einstellungen "
+"oder Verhalten des Webservers. Sie wird insbesondere nicht verändern, wie "
+"auf die Anwendung zugegriffen wird. Ist die Einstellung falsch, wird dies "
+"nicht dazu führen, dass Sie nicht auf die Anwendung zugreifen können. Die "
+"Einstellung wird vorwiegend über die Template-Variable OTOBO_CONFIG_HttpType "
+"verwendet. Diese Variable kann in allen Benachrichtigungsformen der "
+"Anwendung gefunden werden. Sie wird verwendet, um Links zu Tickets in Ihrem "
+"System aufzubauen. Eine weitere Auswirkung dessen, den 'HttpType' auf "
+"'https' zu belassen ist , dass nur für sichere Verbindungen ein Session "
+"Cookie gesetzt wird."
 
 #. SysConfig
 msgid ""
@@ -25266,6 +25333,8 @@ msgid ""
 "Determines the next screen after the process screen of a zoomed ticket in "
 "the customer interface."
 msgstr ""
+"Bestimmt, welcher Bildschirm nach der Prozessmaske eines Tickets in der "
+"Kundenoberfläche angezeigt wird."
 
 #. SysConfig
 msgid ""
@@ -26481,12 +26550,12 @@ msgstr ""
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketCreate invoker layer."
-msgstr ""
+msgstr "GenericInterface-Modulregistrierung für den TicketCreate-Invoker Layer."
 
 #. SysConfig
 msgid ""
 "GenericInterface module registration for the TicketUpdate invoker layer."
-msgstr ""
+msgstr "GenericInterface-Modulregistrierung für den TicketUpdate-Invoker Layer."
 
 #. SysConfig
 msgid "GenericInterface module registration for the invoker layer."
@@ -26740,6 +26809,10 @@ msgid ""
 "be specified here. See Net::LDAP::start_tls for more information about the "
 "parameter."
 msgstr ""
+"Wurde \"LDAP\" für das Customer::AuthModule ausgewählt und soll TLS zur "
+"sicheren Kommunikation mit dem LDAP-Server verwendet werden, können Sie hier "
+"den \"Verify\"-Parameter definieren. Weitere Informationen dazu finden Sie "
+"unter Net::LDAP::start_tls."
 
 #. SysConfig
 msgid ""
@@ -28167,6 +28240,8 @@ msgstr ""
 msgid ""
 "Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
 msgstr ""
+"Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index \"Ticket"
+"\"."
 
 #. SysConfig
 msgid ""
@@ -28174,6 +28249,10 @@ msgid ""
 "'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
 "compatibility use 'Elasticsearch::IndexSettings###Default' instead."
 msgstr ""
+"Anzahl der Shards (NS), Replicas (NR) und Felderlimit für den Index. Hinweis:"
+" 'Elasticsearch::ArticleIndexCreationSettings' wird nicht mehr genutzt. "
+"Verwenden Sie stattdessen 'Elasticsearch::IndexSettings###Default', um die "
+"Kompatibilität mit neueren Versionen sicherzustellen."
 
 #. SysConfig
 msgid ""
@@ -28184,6 +28263,13 @@ msgid ""
 "indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
 "'ConfigItem'."
 msgstr ""
+"Anzahl der Shards (NS), Replicas (NR) und Felderlimit für die Indizes. Diese "
+"Einstellung ersetzt 'Elasticsearch::ArticleIndexCreationSettings' in neueren "
+"Versionen. Sind beide Einstellungen vorhanden und unterscheiden sie sich, "
+"wird diese priorisiert behandelt. Verwenden Sie "
+"'Elasticsearch::IndexSettings###...', um spezifische Einstellungen für "
+"einzelne Indizes zu definieren. '...' kann einer der folgenden Werte sein: "
+"'Customer', 'CustomerUser', 'Ticket' oder 'ConfigItem'."
 
 #. SysConfig
 msgid ""
@@ -28321,11 +28407,15 @@ msgstr "Abwesende Benutzer."
 msgid ""
 "Outbound request headers not allowed to be used in frontend configuration."
 msgstr ""
+"Header für ausgehende Anfragen, die in der Frontendkonfiguration nicht "
+"verwendet werden dürfen."
 
 #. SysConfig
 msgid ""
 "Outbound response headers not allowed to be used in frontend configuration."
 msgstr ""
+"Header für ausgehende Antworten, die in der Frontendkonfiguration nicht "
+"verwendet werden dürfen."
 
 #. SysConfig
 msgid ""
@@ -28393,6 +28483,7 @@ msgstr ""
 #. SysConfig
 msgid "Package event module trigger package reinstall in containers."
 msgstr ""
+"Modul zum automatischen Triggern der Paketneuinstallation in Containern."
 
 #. SysConfig
 msgid ""
@@ -28483,6 +28574,14 @@ msgid ""
 "minutes for the plugin. Note: Only Ticket attributes and Dynamic Fields "
 "(DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
+"Parameter für das Dashboard-Backend der Übersicht geschlossener Tickets in "
+"der Agentenoberfläche. \"Limit\" ist die Anzahl der im Standard angezeigten "
+"Einträge. \"Group\" wird verwendet, um den Zugriff auf das Plugin "
+"einzuschränken (z. B. Group: admin;group1;group2;). \"Default\" let fest, ob "
+"das Plugin standardmäßig aktiviert sein oder vom Benutzer manuell zu "
+"aktivieren sein soll. \"CacheTTLLocal\" ist die Cache-Zeit in Minuten für "
+"das Plugin. Hinweis: Nur Ticketattribute und dynamische Felder "
+"(DynamicField_NameX) sind als Standardspalten (DefaultColumns) zulässig."
 
 #. SysConfig
 msgid ""
@@ -29124,7 +29223,7 @@ msgstr "Öffentlicher Kalender"
 
 #. SysConfig
 msgid "Public Interface"
-msgstr ""
+msgstr "Public Interface"
 
 #. SysConfig
 msgid "Public calendar."
