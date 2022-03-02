@@ -175,9 +175,9 @@
                                         <label>[% Translate("Active") | html %]:</label>
                                         <div class="Field">
                                             <input type="radio" name="OutOfOffice" id="OutOfOfficeOn" value="1" [% Data.OutOfOfficeOn %] />
-                                            <label for="OutOfOfficeOn">[% Translate("On") | html %]</label>
+                                            <label for="OutOfOfficeOn">[% Translate("Yes") | html %]</label>
                                             <input type="radio" name="OutOfOffice" id="OutOfOfficeOff" value="0" [% Data.OutOfOfficeOff %] />
-                                            <label for="OutOfOfficeOff">[% Translate("Off") | html %]</label>
+                                            <label for="OutOfOfficeOff">[% Translate("No") | html %]</label>
                                         </div>
                                         <div class="Clear"></div>
                                         <label>[% Translate("Start") | html %]:</label>
