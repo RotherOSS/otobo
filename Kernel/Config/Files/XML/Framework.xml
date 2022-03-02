@@ -7027,7 +7027,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="WelcomeText">Welcome %s, to your OTOBO.</Item>
                 <Item Key="Name">UserFirstname</Item>
-                <Item Key="SubText">Have fun exploring this preliminary version of the OTOBO customer interface!</Item>
+                <Item Key="SubText">This service portal is available to you all day every day.</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7057,10 +7057,10 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">/otobo-web/common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText"># FAQ Article № 1</Item>
-                        <Item Key="MainText">List of features coming with the OTOBO beta version.</Item>
-                        <Item Key="FooterText">Show &gt;</Item>
-                        <Item Key="Link">https://otobo.de/de/otobo-features/</Item>
+                        <Item Key="HeaderText">That's new in OTOBO 10</Item>
+                        <Item Key="MainText">Highlights: Brand new customer portal, Elasticsearch, flexible forms, more safety, better performance</Item>
+                        <Item Key="FooterText">Explore &gt;</Item>
+                        <Item Key="Link">https://otobo.de/en/launch-otobo-helpdesk/</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -7652,22 +7652,6 @@ via the Preferences button after logging in.
                 <Item Key="DSN">DBI:mysql:database=mirrordb;host=mirrordbhost</Item>
                 <Item Key="User">some_user</Item>
                 <Item Key="Password" ValueType="Password">some_password</Item>
-            </Hash>
-        </Value>
-    </Setting>
-    <Setting Name="DashboardBackend###0000-ProductNotify" Required="0" Valid="0">
-        <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
-        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Dashboard::ProductNotify</Item>
-                <Item Key="Title" Translatable="1">Product News</Item>
-                <Item Key="Description" Translatable="1">News about OTOBO releases!</Item>
-                <Item Key="Block">ContentLarge</Item>
-                <Item Key="Group">admin</Item>
-                <Item Key="Default">1</Item>
-                <Item Key="CacheTTLLocal">1440</Item>
-                <Item Key="Mandatory">0</Item>
             </Hash>
         </Value>
     </Setting>

@@ -552,7 +552,7 @@ sub CustomerUserSearchFields {
                 Source    => $Param{Source},     # to get the right database field for the given source
             );
 
-            next SEARCHFIELDNAME if !%FieldConfig;
+            next ENTRY if !%FieldConfig;
 
             my %SearchFieldData = (
                 %FieldConfig,
