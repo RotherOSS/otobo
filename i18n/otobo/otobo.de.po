@@ -50,7 +50,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-02-28 08:47+0000\n"
-"PO-Revision-Date: 2022-03-02 14:23+0000\n"
+"PO-Revision-Date: 2022-03-02 15:15+0000\n"
 "Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
@@ -9003,7 +9003,7 @@ msgstr "Tickets in \"Meine Queues\""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr "Tickets in \"Meinen Services\""
+msgstr "Tickets in \"Meine Services\""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
@@ -13841,7 +13841,7 @@ msgstr "Kunden-Oberfläche"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr "Agenten- und Kunden-Oberfläche"
+msgstr "Agenten- und Kunden-Interface"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
@@ -20050,7 +20050,7 @@ msgstr ""
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
 msgstr ""
-"Aktiviert die \"Passwort vergessen\" Funktion für Agenten im Agenten-"
+"Aktiviert die \"Passwort vergessen\"-Funktion für Agenten im Agenten-"
 "Interface."
 
 #. SysConfig
@@ -20168,7 +20168,7 @@ msgid ""
 msgstr ""
 "Fügt die Kunden E-Mailadresse zu den Empfängern hinzu in der \"TicketCompose"
 "\"-Oberfläche des Agenten-Interface hinzu. Die Kunden E-Mailadresse wird "
-"nicht hinzugefügt, wenn der Artikel-Typ 'email an intern' ist."
+"nicht hinzugefügt, wenn der Artikel-Typ 'E-Mail an intern' ist."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
@@ -20291,20 +20291,20 @@ msgid ""
 "Agent frontend module registration (disable 'Edit contacts with data' link "
 "if if there is no source field configured)."
 msgstr ""
-"Frontend-Modulregistrierung im Agent-Interface (deaktivieren Sie den Link "
+"Frontend-Modulregistrierung im Agenten-Interface (deaktivieren Sie den Link "
 "'Kontaktdaten bearbeiten', wenn kein entsprechendes Quellfeld konfiguriert "
 "wurde)."
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
 msgstr ""
-"Benachrichtigungsmodul im Agenten-Interface das die PGP-Überprüfung "
+"Benachrichtigungsmodul im Agenten-Interface, das die PGP-Überprüfung "
 "durchführt."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
 msgstr ""
-"Benachrichtigungsmodul im Agenten-Interface das die S/MIME-Prüfung "
+"Benachrichtigungsmodul im Agenten-Interface, das die S/MIME-Prüfung "
 "durchführt."
 
 #. SysConfig
@@ -20313,10 +20313,10 @@ msgid ""
 "control to show or not show this link can be done by using Key \"Group\" and "
 "Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen-Modul für den Zugriff auf die CIC-Suche über die "
-"Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken "
-"dieses Links können durch Nutzung des Schlüssels \"Group\" und Inhalten wie "
-"\"rw:group1;move_into:group2\" realisiert werden."
+"Modul, um den Zugriff auf die CIC-Suche über die Navigationsleiste im "
+"Agenten-Interface zu regeln. Eine ergänzende Zugriffssteuerung (Anzeige oder "
+"Verbergen des Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte "
+"wie \"rw:group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20324,10 +20324,10 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen-Modul für den Zugriff auf die Volltext-Suche über die "
-"Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken "
-"dieses Links können durch Nutzung des Schlüssels \"Group\" und Inhalten wie "
-"\"rw:group1;move_into:group2\" realisiert werden."
+"Modul, um den Zugriff auf die Volltextsuche über die Navigationsleiste im "
+"Agenten-Interface zu regeln. Eine ergänzende Zugriffssteuerung (Anzeige oder "
+"Verbergen des Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte "
+"wie \"rw:group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20335,17 +20335,17 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen-Modul für den Zugriff auf die Such-Profile über die "
-"Navigationsleiste. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken "
-"dieses Links können durch Nutzung des Schlüssels \"Group\" und Inhalten wie "
-"\"rw:group1;move_into:group2\" realisiert werden."
+"Modul, um den Zugriff auf Suchprofile über die Navigationsleiste im Agenten-"
+"Interface zu regeln. Eine ergänzende Zugriffssteuerung (Anzeige oder "
+"Verbergen des Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte "
+"wie \"rw:group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
 msgstr ""
-"Modul im Agenten-Interface um eingehende E-Mails in der TicketZoomView auf "
+"Modul im Agenten-Interface, um eingehende E-Mails in TicketZoom auf "
 "vorhandene und gültige S/MIME-Schlüssel zu überprüfen."
 
 #. SysConfig
@@ -20354,10 +20354,10 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der "
-"gesperrten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder Verstecken "
-"dieses Links können durch Nutzung des Schlüssels \"Group\" und Inhalten wie "
-"\"rw:group1;move_into:group2\" realisiert werden."
+"Modul zum Steuern der Anzeige der Anzahl gesperrter Tickets im Agenten-"
+"Interface. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des "
+"Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte wie \"rw"
+":group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20366,10 +20366,10 @@ msgid ""
 "be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
-"Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der "
-"Tickets, für die der Agent verantwortlich ist. Zusätzliche Zugriffssteuerung "
-"zum Zeigen oder Verstecken dieses Links können durch Nutzung des Schlüssels "
-"\"Group\" und Inhalten wie \"rw:group1;move_into:group2\" realisiert werden."
+"Modul zum Steuern der Anzeige der Anzahl der Tickets im Agenten-Interface, "
+"für die ein Agent verantwortlich ist. Eine ergänzende Zugriffssteuerung ("
+"Anzeige oder Verbergen des Links) kann durch Nutzung des Schlüssels \"Group\""
+" und Inhalte wie \"rw:group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20377,10 +20377,10 @@ msgid ""
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der "
-"Tickets in \"Meien Dienste\". Zusätzliche Zugriffssteuerung zum Zeigen oder "
-"Verstecken dieses Links können durch Nutzung des Schlüssels \"Group\" und "
-"Inhalten wie \"rw:group1;move_into:group2\" realisiert werden."
+"Modul zum Steuern der Anzeige der Anzahl der Tickets in \"Meine Services\" "
+"im Agenten-Interface. Eine ergänzende Zugriffssteuerung (Anzeige oder "
+"Verbergen des Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte "
+"wie \"rw:group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20388,10 +20388,10 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
-"Agenten-Schnittstellen Benachrichtigungs-Modul zum Anzeigen der Anzahl der "
-"beobachteten Tickets. Zusätzliche Zugriffssteuerung zum Zeigen oder "
-"Verstecken dieses Links können durch Nutzung des Schlüssels \"Group\" und "
-"Inhalten wie \"rw:group1;move_into:group2\" realisiert werden."
+"Modul zum Steuern der Anzeige der Anzahl der beobachteten Tickets im Agenten-"
+"Interface. Eine ergänzende Zugriffssteuerung (Anzeige oder Verbergen des "
+"Links) kann durch Nutzung des Schlüssels \"Group\" und Inhalte wie \"rw"
+":group1;move_into:group2\" realisiert werden."
 
 #. SysConfig
 msgid ""
@@ -20463,35 +20463,34 @@ msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt im Agenten-Interface das Hinzufügen von Notizen im 'Schließen'-"
-"Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben "
-"werden."
+"Erlaubt im Agenten-Interface das Hinzufügen von Notizen im 'Ticket "
+"schließen'-Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime "
+"überschrieben werden."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt im Agenten-Interface das Hinzufügen von Notizen im 'Freie-Felder'-"
-"Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben "
-"werden."
+"Erlaubt im Agenten-Interface das Hinzufügen von Notizen in der "
+"'Freitextfelder'-Maske. Kann durch Ticket::Frontend::NeedAccountedTime "
+"überschrieben werden."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be "
 "overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt im Agenten-Interface das Hinzufügen von Notizen im 'Notiz'-"
-"Bildschirm. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben "
-"werden."
+"Erlaubt im Agenten-Interface das Hinzufügen von Notizen in der 'Notiz'-"
+"Maske. Kann durch Ticket::Frontend::NeedAccountedTime überschrieben werden."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen "
-"von Notizen im 'Besitzer'-Bildschirm. Kann durch Ticket::Frontend::"
+"Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von "
+"Notizen durch den Ticketbesitzer. Kann durch Ticket::Frontend::"
 "NeedAccountedTime überschrieben werden."
 
 #. SysConfig
@@ -20500,7 +20499,7 @@ msgid ""
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
 "Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von "
-"Notizen im 'Warten'-Bildschirm. Kann durch Ticket::Frontend::"
+"Notizen in der 'Warten auf...'-Maske. Kann durch Ticket::Frontend::"
 "NeedAccountedTime überschrieben werden."
 
 #. SysConfig
@@ -20508,8 +20507,8 @@ msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen "
-"von Notizen im 'Priorität'-Bildschirm. Kann durch Ticket::Frontend::"
+"Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von "
+"Notizen in der 'Priorität'-Maske. Kann durch Ticket::Frontend::"
 "NeedAccountedTime überschrieben werden."
 
 #. SysConfig
@@ -20517,8 +20516,8 @@ msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
-"Erlaubt in der Agentenoberfläche in einem geöffneten Ticket das Hinzufügen "
-"von Notizen im 'Verantwortlichen'-Bildschirm. Kann durch Ticket::Frontend::"
+"Erlaubt im Agenten-Interface in einem geöffneten Ticket das Hinzufügen von "
+"Notizen durch den Ticketverantwortlichen. Kann durch Ticket::Frontend::"
 "NeedAccountedTime überschrieben werden."
 
 #. SysConfig
@@ -20604,9 +20603,9 @@ msgid ""
 "With this feature you can search e. g. ticket title with this kind of "
 "conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
-"Erlaubt erweiterte Suchbedingungen in der Ticket-Suche des Agentenbereichs. "
-"Mit dieser Funktion können Sie z.B. Ticket-Titel mit Bedingungen wie "
-"\"(key1&&key2)\" oder \"(key1||key2)\" suchen."
+"Erlaubt im Agenten-Interface erweiterte Suchbedingungen in der Ticket-Suche. "
+"Mit dieser Funktion können Sie z. B. Ticket-Titel mit Bedingungen wie \""
+"(*key1*&&*key2*)\" oder \"(*key1*||*key2*)\"."
 
 #. SysConfig
 msgid ""
@@ -20624,9 +20623,9 @@ msgid ""
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
-"Erlaubt erweiterte Suchbedingungen der generischen Agenten-Schnittstelle. "
-"Mit diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie dieser "
-"\"(*key1*&&*key2*)\" oder \"(*key1*||*key2*)\" durchsuchen."
+"Erlaubt erweiterte Suchbedingungen in der \"Generic Agent\"-Maske. Mit "
+"diesem Feature kann man z.B. Ticket-Titel mit Bedingungen wie \""
+"(*key1*&&*key2*)\" oder \"(*key1*||*key2*)\" durchsuchen."
 
 #. SysConfig
 msgid "Allows generic agent to execute custom command line scripts."
@@ -20680,48 +20679,48 @@ msgid ""
 "Allows to save current work as draft in the close ticket screen of the agent "
 "interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Schließen-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands in der \"Schließen\"-"
+"Maske im Agenten-Interface."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the email outbound screen of the "
 "agent interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Ausgehende-E-Mail-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands in EMailOutbound im "
+"Agenten-Interface."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket compose screen of the "
 "agent interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Verfassen-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands in TicketCompose im "
+"Agenten-Interface."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket forward screen of the "
 "agent interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Weiterleiten-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands in der \"Weiterleiten"
+"\"-Maske im Agenten-Interface."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket free text screen of the "
 "agent interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Freitext-Felder-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands im \"Ticket "
+"kategorisieren\"-Dialog im Agenten-Interface."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket move screen of the agent "
 "interface."
 msgstr ""
-"Erlaubt das Speichern des aktuellen Stands als Entwurf im Verschieben-"
-"Bildschirm des Agentenbereichs."
+"Erlaubt das Speichern des aktuellen Bearbeitungsstands im \"Verschieben\"-"
+"Dialog im Agenten-Interface."
 
 #. SysConfig
 msgid ""
@@ -29594,6 +29593,13 @@ msgid ""
 "production without any loss of data. Note: Searching for attachment names is "
 "not supported when \"FS\" is used. \"S3\" is experimental."
 msgstr ""
+"Speichert die Anhänge von Artikeln. \"DB\" speichert alle Daten in der "
+"Datenbank (nicht geeignet zur Speicherung großer Anhänge!). \"FS\" speichert "
+"die Daten im Filesystem; das ist schneller, der Webserver sollte aber vom "
+"OTOBO Nutzer ausgeführt werden. Ein Wechsel zwischen den beiden "
+"Speicheroptionen ist auch auf Produktivsystemen ohne Datenverlust möglich. "
+"Hinweis: Wird \"FS\" verwendet, kann nicht nach Namen von Anhängen gesucht "
+"werden. \"S3\" ist noch experimentell."
 
 #. SysConfig
 msgid "Schedule a maintenance period."
@@ -29657,6 +29663,10 @@ msgid ""
 "openssl enc -ciphers\" to get a list of ciphers supported by your system "
 "(written without the leading '-')."
 msgstr ""
+"Wählen Sie den zur Verschlüsselung verwendeten Algorithmus aus. Als Fallback "
+"wird aes256 verwendet. Geben Sie \"/usr/bin/openssl enc -ciphers\" ein, um "
+"eine Liste der von Ihrem System unterstützten Ciphers zu erhalten (Eingabe "
+"ohne vorangestelltes '-')."
 
 #. SysConfig
 msgid "Select the main interface language."
@@ -30210,6 +30220,9 @@ msgid ""
 "SessionActiveTime before a prior warning will be visible for the logged in "
 "agents."
 msgstr ""
+"Definiert die maximale Anzahl aktiver Agenten innerhalb der in "
+"SessionActiveTime definierten Zeitspanne, bevor eine Warnung für die "
+"eingeloggten Agenten angezeigt wird."
 
 #. SysConfig
 msgid ""
@@ -32021,7 +32034,7 @@ msgstr "Statistik-Übersicht."
 
 #. SysConfig
 msgid "Statistics reports."
-msgstr ""
+msgstr "Statistik-Berichte."
 
 #. SysConfig
 msgid "Status view"
@@ -32146,7 +32159,7 @@ msgstr ""
 
 #. SysConfig
 msgid "The daemon registration for sync with S3."
-msgstr ""
+msgstr "Daemon-Registrierung für die S3-Synchronisation."
 
 #. SysConfig
 msgid "The daemon registration for the scheduler cron task manager."
@@ -32571,6 +32584,8 @@ msgid ""
 "Ticket attributes that should be available in ticket invoker configuration "
 "frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
+"Ticketattribute, die in der Konfigurationsmaske für den Ticket Invoker "
+"angezeigt werden sollen (0=sichtbar/wählbar, 1=Standard/vorausgewählt)."
 
 #. SysConfig
 msgid "Ticket bulk module."
