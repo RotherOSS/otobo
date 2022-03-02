@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-<a id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_FeaturedLink" href="[% Data.Link | html %]" style="background-image: url([% Data.BackgroundImage | html %]);">
+<a id="oooTile[% Data.TileID | html %]" class="oooTile oooTile_FeaturedLink" href="[% Data.Link | html %]" style="background-image: url([% Data.BackgroundImage | html %]);"[% IF Data.NewTab %] target="_blank"[% END %]>
     <h2 style="color: [% Data.TextColor | html %]">[% Translate(Data.HeaderText) | html %]</h2>
     <h3 style="color: [% Data.TextColor | html %]">[% Translate(Data.MainText) | html %]</h3>
     <h3 style="color: [% Data.TextColor | html %]">[% Translate(Data.FooterText) | html %]</h3>

@@ -7279,6 +7279,7 @@ via the Preferences button after logging in.
                         <Item Key="MainText">Highlights: Processes in the service portal, S3, modern authentication with OpenID Connect, enhanced S/MIME functionality</Item>
                         <Item Key="FooterText">Explore &gt;</Item>
                         <Item Key="Link">https://otobo.de/en/otobo-10-1/</Item>
+                        <Item Key="NewTab">0</Item>
                     </Hash>
                 </Item>
             </Hash>
