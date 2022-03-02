@@ -148,6 +148,11 @@ button.oooXS {
     letter-spacing: 0.3px;
 }
 
+fieldset {
+    min-width: 0px;
+    width: 100%;
+}
+
 /**
  * @subsection  Text
  */

@@ -300,6 +300,8 @@ label.oooFocus.LabelError {
     display: grid;
     grid-template-rows: 100%;
     align-items: end;
+    overflow: hidden;
+    max-width: 100%;
 }
 
 /* IE */
