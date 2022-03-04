@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -50,7 +54,10 @@ my @Tests = (
         ConfigSet      => {},
         Success        => 1,
         ExpectedResult => {
-            'http://ftp.otobo.org/pub/otobo/packages/' => 'OTOBO Addons'
+            'https://ftp.otobo.org/pub/otobo/packages-thirdparty/'    => 'ThirdParty Addons',
+            'https://ftp.otobo.org/pub/otobo/packages/'               => 'OTOBO Addons',
+            'https://otopar.perl-services.de/std/'                    => 'OTOpar Addons',
+            'https://ftp.otobo.org/pub/otobo/packages-itsm/bundle10/' => 'ITSM Bundle'
         },
     },
 );
@@ -65,19 +72,16 @@ for my $Test (@Tests) {
             Key   => $ConfigKey,
             Value => $Test->{ConfigSet},
         );
-        $Self->True(
-            $Success,
-            "$Test->{Name} configuration set in run time",
-        );
+        ok( $Success, "$Test->{Name} configuration set in run time" );
     }
 
     my %RepositoryList = $PackageObject->_ConfiguredRepositoryDefinitionGet();
 
-    $Self->IsDeeply(
+    is(
         \%RepositoryList,
         $Test->{ExpectedResult},
         "$Test->{Name} _ConfiguredRepositoryDefinitionGet()",
     );
 }
 
-$Self->DoneTesting();
+done_testing();
