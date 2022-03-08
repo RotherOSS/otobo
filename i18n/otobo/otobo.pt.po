@@ -18,13 +18,14 @@
 # Joao Ferro <fmthard@gmail.com>, 2019
 # José Anjos <jose.anjos@regiaodeaveiro.pt>, 2019
 # FRamos <filipeparedesramos@gmail.com>, 2021.
+# Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-03-02 15:54+0000\n"
-"PO-Revision-Date: 2021-12-14 19:59+0000\n"
-"Last-Translator: FRamos <filipeparedesramos@gmail.com>\n"
+"PO-Revision-Date: 2022-03-09 06:52+0000\n"
+"Last-Translator: Marcos Xavier Gil Júnior <marcosxaviergiljr@gmail.com>\n"
 "Language-Team: Portuguese <https://translate.otobo.org/projects/otobo10/"
 "otobo/pt/>\n"
 "Language: pt\n"
@@ -262,7 +263,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Sobre"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -273,10 +274,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Este idioma não está presente ou habilitado no sistema. Este texto pode ser "
+"deletado se isto não for mais necessário."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Remover Idioma"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -288,15 +291,15 @@ msgstr "Corpo da mensagem"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Este campo é requerido e deve ter menos do que 4000 caracteres."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Remover Sobre o Idioma"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Adicionar novo idioma"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -584,6 +587,9 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Aqui você pode carregar um arquivo de configuração para importar "
+"notificações de compromissos para o seu sistema. O arquivo precisa estar no "
+"formato .yml conforme exportado pelo módulo de notificação de compromissos."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -615,13 +621,15 @@ msgstr "Mostrar nas preferências do agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Dica de preferências para o agente"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
 msgstr ""
+"Esta mensagem será mostrada na tela de preferências do agente como uma dica "
+"de ferramenta para esta notificação."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
@@ -637,6 +645,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Aqui você pode escolher quais eventos irão acionar esta notificação. Um "
+"filtro de agendamento adicional pode ser aplicado abaixo para enviar apenas "
+"agendamentos com determinados critérios."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -688,7 +699,7 @@ msgstr "Enviar quando \"Fora do Escritório\""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr "Enviar também quando o utilizador está \"Fora do Escritório\""
+msgstr "Enviar mesmo quando o usuário está fora do Escritório."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -699,6 +710,8 @@ msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"Notifique o usuário apenas uma vez por dia sobre um agendamento único usando "
+"um transporte selecionado."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -732,6 +745,9 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"Este é o valor padrão para agentes destinatários atribuídos que ainda não "
+"escolheram essa notificação em suas preferências. Se a caixa estiver "
+"habilitada, a notificação será enviada a esses agentes."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -777,7 +793,7 @@ msgstr "Adicionar nova língua à notificação"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Tag Referência"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -789,7 +805,7 @@ msgstr "Pode utilizar as seguintes tags"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr ""
+msgstr "Para obter os primeiros 20 caracteres do título do compromisso."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
@@ -797,7 +813,7 @@ msgstr "Para obter os atributos do evento"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "ex:"
+msgstr " ex:"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -805,7 +821,7 @@ msgstr "Para obter os atributos do calendário"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Atributos do usuário destinatário para a notificação"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -817,7 +833,7 @@ msgstr "Notificação de exemplo"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Endereços de e-mail de destinatários adicionais"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
@@ -832,6 +848,8 @@ msgid ""
 "An article will be created if the notification is sent to the customer or an "
 "additional email address."
 msgstr ""
+"Um artigo será criado se a notificação for enviada ao cliente ou a um "
+"endereço de e-mail adicional."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -841,22 +859,23 @@ msgstr "Template de email"
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"Use este modelo para gerar o e-mail completo (somente para e-mails HTML)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr "Ativar segurança de email"
+msgstr "Ativar segurança de e-mail"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr "Nível de segurança de email"
+msgstr "Nível de segurança de e-mail"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Se a chave/certificado de assinatura estiver ausente"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Se a chave/certificado de criptografia estiver ausente"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
