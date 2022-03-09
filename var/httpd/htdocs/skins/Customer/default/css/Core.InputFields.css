@@ -1033,15 +1033,6 @@ div.InputField_ToolbarContainer ul li a:hover {
     content: "\e902";
 }
 
-.jstree-InputField-Tree .jstree-last {
-    background: transparent;
-}
-
-.jstree-InputField-Tree > .jstree-no-dots .jstree-node,
-.jstree-InputField-Tree > .jstree-no-dots .jstree-leaf > .jstree-ocl {
-    background: transparent;
-}
-
 /**
  * @subsection  jsTree theme - No Tree variant
  */
