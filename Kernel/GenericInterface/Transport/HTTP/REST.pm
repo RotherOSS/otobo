@@ -237,7 +237,7 @@ sub ProviderProcessRequest {
     # The post data has already been read in. This should be safe
     # as $CGI::POST_MAX has been set as an emergency brake.
     # For Checking the length we can therefor use the actual length.
-    my $Content = $ParamObject->GetParam( Param => 'POSTDATA' );
+    my $Content = $ParamObject->GetParam( Param => uc($RequestMethod) . 'DATA' );
     my $Length  = length $Content;
 
     # No length provided, return the information we have.
