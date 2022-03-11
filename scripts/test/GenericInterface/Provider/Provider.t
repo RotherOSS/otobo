@@ -396,7 +396,7 @@ for my $Test (@Tests) {
         #
         # Test real HTTP request
         #
-        for my $RequestMethod (qw(get post)) {
+        for my $RequestMethod (qw(GET POST PATCH PUT)) {
 
             my @BaseURLs = ($ApacheBaseURL);
             if ($PlackBaseURL) {
@@ -414,15 +414,20 @@ for my $Test (@Tests) {
                         Encode => 1,
                     );
 
-                    if ( $RequestMethod eq 'get' ) {
+                    my $UserAgent = LWP::UserAgent->new;
+
+                    if ( $RequestMethod eq 'GET' ) {
                         $URL .= "?$QueryString";
-                        $Response = LWP::UserAgent->new()->$RequestMethod($URL);
+                        $Response = $UserAgent->get($URL);
                     }
-                    else {    # POST
-                        $Response = LWP::UserAgent->new()->$RequestMethod(
-                            $URL,
-                            Content => $QueryString
-                        );
+                    elsif ( $RequestMethod eq 'POST' ) {
+                        $Response = $UserAgent->post( $URL, Content => $QueryString );
+                    }
+                    else {    # PATCH, PUT
+
+                        # LWP::UserAgent has no patch() or put() method, use the generic method request()
+                        my $Request = HTTP::Request->new( $RequestMethod, $URL, [], $QueryString );
+                        $Response = $UserAgent->request($Request);
                     }
                     chomp( $ResponseData = $Response->decoded_content() );
 
