@@ -7634,7 +7634,7 @@
             <Item ValueType="Entity" ValueEntityType="State" ValueRegex="">open</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::CustomerTicketZoom###StatePreset" Required="0" Valid="0">
+    <Setting Name="Ticket::Frontend::CustomerTicketZoom###StatePreset" Required="0" Valid="1">
         <Description Translatable="1">If enabled defines the preselected state for customer follow-up in the customer interface.</Description>
         <Navigation>Frontend::Customer::View::TicketZoom</Navigation>
         <Value>
