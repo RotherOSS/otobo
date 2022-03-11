@@ -108,7 +108,7 @@
                         <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
-                                <p>[% Data.Tooltip | html | html_line_break %]</p>
+                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
                             </div>
                         </div>
                     [% END %]
@@ -126,7 +126,7 @@
                         <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
-                                <p>[% Data.Tooltip | html | html_line_break %]</p>
+                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
                             </div>
                         </div>
                     [% END %]
@@ -144,7 +144,7 @@
                         <div class="Tooltip oooTooltip">
                             <i class="ooofo ooofo-help"></i>
                             <div class="Content">
-                                <p>[% Data.Tooltip | html | html_line_break %]</p>
+                                <p>[% Translate(Data.Tooltip) | html | html_line_break %]</p>
                             </div>
                         </div>
                     [% END %]
@@ -215,7 +215,7 @@
 #                        <div class="Tooltip oooTooltip">
 #                            <i class="ooofo ooofo-help"></i>
 #                            <div class="Content">
-#                               <p>[% Data.Tooltip | html %]</p>
+#                               <p>[% Translate(Data.Tooltip) | html %]</p>
 #                            </div>
 #                        </div>
 #                    [% END %]
@@ -232,7 +232,7 @@
 #                        <div class="Tooltip oooTooltip">
 #                            <i class="ooofo ooofo-help"></i>
 #                            <div class="Content>
-#                               <p>[% Data.Tooltip | html %]</p>
+#                               <p>[% Translate(Data.Tooltip) | html %]</p>
 #                            </div>
 #                        </div>
 #                    [% END %]
