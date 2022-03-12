@@ -62,15 +62,6 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # set breadcrumbpath for overview screen and it will be used as base for other screens
-    @{ $Self->{BreadcrumbPath} } = (
-        {
-            Name =>
-                $LayoutObject->{LanguageObject}->Translate('Statistics Overview'),
-            Link => 'AgentStatistics;Subaction=Overview',
-        }
-    );
-
     my $Subaction = $Self->{Subaction};
 
     my %RoSubactions = (
@@ -205,8 +196,7 @@ sub OverviewScreen {
             Data => {
                 %Pagination,
                 %Param,
-                AccessRw       => $Self->{AccessRw},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
+                AccessRw => $Self->{AccessRw},
             },
             TemplateFile => 'AgentStatisticsOverview',
         ),
@@ -230,7 +220,6 @@ sub ImportScreen {
             TemplateFile => 'AgentStatisticsImport',
             Data         => {
                 %Errors,
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -387,7 +376,6 @@ sub EditScreen {
             Data         => {
                 %Frontend,
                 %{$Stat},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -770,7 +758,6 @@ sub ViewScreen {
                 Errors   => \@Errors,
                 %Frontend,
                 %{$Stat},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -840,8 +827,7 @@ sub AddScreen {
             Data         => {
                 %Frontend,
                 %Errors,
-                ManualVersion  => $ManualVersion,
-                BreadcrumbPath => $Self->{BreadcrumbPath},
+                ManualVersion => $ManualVersion,
             },
         ),
         $LayoutObject->Footer();
