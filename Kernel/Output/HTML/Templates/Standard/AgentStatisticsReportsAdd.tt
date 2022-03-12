@@ -17,10 +17,12 @@
 <div class="MainBox AriaRoleMain LayoutFixedSidebar SidebarFirst">
     <h1 class="InvisibleText">[% Translate("Report Management") | html %]</h1>
 
+    [% USE ActionLink = String( 'AgentStatisticsReports' ) %]
+
     [% BreadcrumbPath = [
             {
                 Name => Translate('Report Management'),
-                Link => Env("Action"),
+                Link => ActionLink.append( ';Subaction=Overview' ),
             },
             {
                 Name => Translate("Add Report"),
