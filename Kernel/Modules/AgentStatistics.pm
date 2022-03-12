@@ -16,11 +16,15 @@
 
 package Kernel::Modules::AgentStatistics;
 
+use v5.24;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -29,14 +33,12 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    for my $NeededData (qw( UserID Subaction AccessRo SessionID ))
-    {
+    for my $NeededData (qw( UserID Subaction AccessRo SessionID )) {
         if ( !$Param{$NeededData} ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing.', $NeededData ),
