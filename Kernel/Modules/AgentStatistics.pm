@@ -16,11 +16,15 @@
 
 package Kernel::Modules::AgentStatistics;
 
+use v5.24;
 use strict;
 use warnings;
 
-use List::Util qw( first );
+# core modules
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -29,14 +33,12 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
+
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-    # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    for my $NeededData (qw( UserID Subaction AccessRo SessionID ))
-    {
+    for my $NeededData (qw( UserID Subaction AccessRo SessionID )) {
         if ( !$Param{$NeededData} ) {
             $LayoutObject->FatalError(
                 Message => $LayoutObject->{LanguageObject}->Translate( 'Parameter %s is missing.', $NeededData ),
@@ -59,15 +61,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-    # set breadcrumbpath for overview screen and it will be used as base for other screens
-    @{ $Self->{BreadcrumbPath} } = (
-        {
-            Name =>
-                $LayoutObject->{LanguageObject}->Translate('Statistics Overview'),
-            Link => 'AgentStatistics;Subaction=Overview',
-        }
-    );
 
     my $Subaction = $Self->{Subaction};
 
@@ -203,8 +196,7 @@ sub OverviewScreen {
             Data => {
                 %Pagination,
                 %Param,
-                AccessRw       => $Self->{AccessRw},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
+                AccessRw => $Self->{AccessRw},
             },
             TemplateFile => 'AgentStatisticsOverview',
         ),
@@ -228,7 +220,6 @@ sub ImportScreen {
             TemplateFile => 'AgentStatisticsImport',
             Data         => {
                 %Errors,
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -385,7 +376,6 @@ sub EditScreen {
             Data         => {
                 %Frontend,
                 %{$Stat},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -768,7 +758,6 @@ sub ViewScreen {
                 Errors   => \@Errors,
                 %Frontend,
                 %{$Stat},
-                BreadcrumbPath => $Self->{BreadcrumbPath},
             },
         ),
         $LayoutObject->Footer();
@@ -838,8 +827,7 @@ sub AddScreen {
             Data         => {
                 %Frontend,
                 %Errors,
-                ManualVersion  => $ManualVersion,
-                BreadcrumbPath => $Self->{BreadcrumbPath},
+                ManualVersion => $ManualVersion,
             },
         ),
         $LayoutObject->Footer();

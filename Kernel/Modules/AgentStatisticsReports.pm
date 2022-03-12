@@ -16,9 +16,15 @@
 
 package Kernel::Modules::AgentStatisticsReports;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -27,9 +33,8 @@ our $ObjectManagerDisabled = 1;
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # Allocate new hash for object.
-    my $Self = {};
-    bless( $Self, $Type );
+    # allocate new hash for object
+    my $Self = bless {}, $Type;
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -130,23 +135,22 @@ sub OverviewScreen {
         $LayoutObject->Block(
             Name => 'NoDataFound',
         );
-
     }
 
     # Build output.
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Overview'),
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        Data => {
-            %Param,
-            AccessRw => $Self->{AccessRw},
-        },
-        TemplateFile => 'AgentStatisticsReportsOverview',
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Overview'),
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            Data => {
+                %Param,
+                AccessRw => $Self->{AccessRw},
+            },
+            TemplateFile => 'AgentStatisticsReportsOverview',
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddScreen {
@@ -172,20 +176,20 @@ sub AddScreen {
     );
 
     # Build output.
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Add New Statistics Report'),
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsReportsAdd',
-        Data         => {
-            %Frontend,
-            %Errors,
-            %GetParam,
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Add New Statistics Report'),
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsReportsAdd',
+            Data         => {
+                %Frontend,
+                %Errors,
+                %GetParam,
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub AddAction {
@@ -462,21 +466,21 @@ sub EditScreen {
     }
 
     # Build output.
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('Edit Statistics Report'),
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsReportsEdit',
-        Data         => {
-            %StatsReport,
-            %Frontend,
-            %Errors,
-            %GetParam,
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('Edit Statistics Report'),
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsReportsEdit',
+            Data         => {
+                %StatsReport,
+                %Frontend,
+                %Errors,
+                %GetParam,
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub EditAction {
@@ -664,22 +668,22 @@ sub ViewScreen {
     }
 
     # Build output.
-    my $Output = $LayoutObject->Header(
-        Title => Translatable('View Statistics Report'),
-    );
-    $Output .= $LayoutObject->NavigationBar();
-    $Output .= $LayoutObject->Output(
-        TemplateFile => 'AgentStatisticsReportsView',
-        Data         => {
-            %StatsReport,
-            %Frontend,
-            %Errors,
-            %GetParam,
-            AccessRw => $Self->{AccessRw},
-        },
-    );
-    $Output .= $LayoutObject->Footer();
-    return $Output;
+    return join '',
+        $LayoutObject->Header(
+            Title => Translatable('View Statistics Report'),
+        ),
+        $LayoutObject->NavigationBar(),
+        $LayoutObject->Output(
+            TemplateFile => 'AgentStatisticsReportsView',
+            Data         => {
+                %StatsReport,
+                %Frontend,
+                %Errors,
+                %GetParam,
+                AccessRw => $Self->{AccessRw},
+            },
+        ),
+        $LayoutObject->Footer();
 }
 
 sub RunAction {
