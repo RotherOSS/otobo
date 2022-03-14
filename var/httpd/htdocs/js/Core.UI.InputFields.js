@@ -2622,7 +2622,11 @@ Core.UI.InputFields = (function (TargetNS) {
                         }
                     }
                     CheckAvailability($SelectObj, $SearchObj, $InputContainerObj);
+                    var SelectObjVisibility = $SelectObj.css('display');
+                    console.log(SelectObjVisibility);
+                    $SelectObj.css('display', 'inline-block');
                     $SearchObj.width($SelectObj.outerWidth());
+                    $SelectObj.css('display', SelectObjVisibility || 'none');
                     ShowSelectionBoxes($SelectObj, $InputContainerObj);
                 })
 
