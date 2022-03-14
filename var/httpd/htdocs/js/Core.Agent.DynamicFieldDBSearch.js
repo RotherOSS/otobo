@@ -605,8 +605,9 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         }
 
         var FieldNameLong = Field;
-        if ( ActivityDialogID != '' ) {
-            Field = Field.substr(0, Field.indexOf('_' + ActivityDialogID));
+        var IndexOfActivityDialogID = Field.substr(0, Field.indexOf('_' + ActivityDialogID));
+        if ( ActivityDialogID != '' && IndexOfActivityDialogID > 0 ) {
+            Field = Field.substr(0, IndexOfActivityDialogID);
         }
 
         URL = Core.Config.Get('Baselink');
