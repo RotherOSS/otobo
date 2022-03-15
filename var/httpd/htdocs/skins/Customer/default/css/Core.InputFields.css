@@ -603,21 +603,6 @@ input[readonly=readonly] {
     height: 48px;
 }
 
-.jstree-node[aria-selected="true"] {
-    background-color: #c4cdfa;
-    background-color: var(--colNotifyOK);
-}
-
-.jstree-node > .jstree-wholerow-hovered {
-    background-color: #f7f7f9;
-    background-color: var(--colBGLight);
-}
-
-.jstree-node[aria-selected="true"] > .jstree-wholerow-hovered {
-    background-color: #6d83f2;
-    background-color: var(--colHoverLight);
-}
-
 .jstree-anchor {
     pointer-events: none;
     font-size: 16px;
