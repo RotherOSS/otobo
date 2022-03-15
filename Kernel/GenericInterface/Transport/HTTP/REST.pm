@@ -234,7 +234,7 @@ sub ProviderProcessRequest {
         );
     }
 
-    # The post data has already been read in. This should be safe
+    # The body supplied by POST, PUT, and PATCH has already been read in. This should be safe
     # as $CGI::POST_MAX has been set as an emergency brake.
     # For Checking the length we can therefor use the actual length.
     my $Content = $ParamObject->GetParam( Param => uc($RequestMethod) . 'DATA' );
@@ -263,7 +263,7 @@ sub ProviderProcessRequest {
     }
 
     # There might be a different request method.
-    # NOTE: this is kept only for compatability with older versions
+    # NOTE: this is redundant and kept only for compatability with older versions
     if ( !IsStringWithData($Content) && $RequestMethod ne 'GET' ) {
         my $ParamName = $RequestMethod . 'DATA';
         $Content = $ParamObject->GetParam(
