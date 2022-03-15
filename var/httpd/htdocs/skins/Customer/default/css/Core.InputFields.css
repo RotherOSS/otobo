@@ -1028,22 +1028,22 @@ div.InputField_ToolbarContainer ul li a:hover {
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
-    background-color: var(--colNotifyOK);
     background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused > .jstree-wholerow {
-    background-color: var(--colBGLight);
     background-color: #f7f7f9;
+    background-color: var(--colBGLight);
 }
 
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
 .jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
 .jstree-InputField .jstree-focused >.jstree-wholerow-clicked {
-    background-color: var(--colHoverLight);
     background-color: #6d83f2;
+    background-color: var(--colHoverLight);
 }
 
 /**
