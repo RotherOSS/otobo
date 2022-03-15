@@ -603,21 +603,6 @@ input[readonly=readonly] {
     height: 48px;
 }
 
-.jstree-node[aria-selected="true"] {
-    background-color: #c4cdfa;
-    background-color: var(--colNotifyOK);
-}
-
-.jstree-node > .jstree-wholerow-hovered {
-    background-color: #f7f7f9;
-    background-color: var(--colBGLight);
-}
-
-.jstree-node[aria-selected="true"] > .jstree-wholerow-hovered {
-    background-color: #6d83f2;
-    background-color: var(--colHoverLight);
-}
-
 .jstree-anchor {
     pointer-events: none;
     font-size: 16px;
@@ -1040,6 +1025,25 @@ div.InputField_ToolbarContainer ul li a:hover {
 .jstree-InputField-Tree > .jstree-no-dots .jstree-node,
 .jstree-InputField-Tree > .jstree-no-dots .jstree-leaf > .jstree-ocl {
     background: transparent;
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked {
+    background-color: #c4cdfa;
+    background-color: var(--colNotifyOK);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused > .jstree-wholerow {
+    background-color: #f7f7f9;
+    background-color: var(--colBGLight);
+}
+
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked:hover,
+.jstree-InputField .jstree-wholerow-ul .jstree-wholerow-clicked.jstree-wholerow-hovered,
+.jstree-InputField .jstree-focused >.jstree-wholerow-clicked {
+    background-color: #6d83f2;
+    background-color: var(--colHoverLight);
 }
 
 /**
