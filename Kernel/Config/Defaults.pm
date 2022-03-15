@@ -158,6 +158,16 @@ sub LoadDefaults {
     #    $Self->{'Database::SlowLog'} = 0;
 
     # --------------------------------------------------- #
+    # otobo.psgi configuration                            #
+    # --------------------------------------------------- #
+    # default redirect
+    $Self->{'Frontend::DefaultInterface'} = 'index.pl';
+
+    # frontend activation
+    $Self->{'CustomerFrontend::Active'} = '1';
+    $Self->{'PublicFrontend::Active'} = '1';
+
+    # --------------------------------------------------- #
     # default values                                      #
     # (default values for GUIs)                           #
     # --------------------------------------------------- #
