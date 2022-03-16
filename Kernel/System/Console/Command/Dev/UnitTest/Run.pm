@@ -39,20 +39,27 @@ sub Configure {
 
     $Self->Description('Execute unit test scripts in scripts/test using TAP::Harness.');
     $Self->AddOption(
-        Name        => 'test',
-        Description =>
-            "Run individual test files, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
-        Required   => 0,
-        HasValue   => 1,
-        Multiple   => 1,
-        ValueRegex => qr/.*/smx,
-    );
-    $Self->AddOption(
         Name        => 'directory',
-        Description => 'Run all test files in the specified directory.',
+        Description => 'Run only test files in the specified subdirectory of scripts/test.',
         Required    => 0,
         HasValue    => 1,
         ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'test',
+        Description => "Filter file list, allow scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
+        Required    => 0,
+        HasValue    => 1,
+        Multiple    => 1,
+        ValueRegex  => qr/.*/smx,
+    );
+    $Self->AddOption(
+        Name        => 'sopm',
+        Description => 'Filter file list, allow scripts mentioned in the Filelist of the .sopm file.',
+        Required    => 0,
+        HasValue    => 1,
+        Multiple    => 1,
+        ValueRegex  => qr/\.sopm$/smx,
     );
     $Self->AddOption(
         Name        => 'verbose',
