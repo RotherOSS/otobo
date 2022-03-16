@@ -16,9 +16,9 @@
 
 package Kernel::System::UnitTest;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 use namespace::autoclean;
 
@@ -38,11 +38,26 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Main',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
 
 Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
+
+=head1 DESCRIPTION
+
+The considered test scripts can be set up as:
+
+=over 4
+
+=item a list of files
+
+=item a single directory
+
+=item a list of .sopm files
+
+=back
 
 =head1 PUBLIC INTERFACE
 
@@ -130,6 +145,8 @@ sub Run {
             }
         }
 
+        # Collect the files in the passed directory.
+        # An empty list will be returned when $Directory is empty or when it does not exist.
         my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Directory,
             Filter    => '*.t',

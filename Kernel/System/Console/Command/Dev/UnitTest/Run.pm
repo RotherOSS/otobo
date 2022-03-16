@@ -16,12 +16,18 @@
 
 package Kernel::System::Console::Command::Dev::UnitTest::Run;
 
+use v5.24.0;
 use strict;
 use warnings;
-use v5.24.0;
 use utf8;
 
 use parent qw(Kernel::System::Console::BaseCommand);
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -31,7 +37,7 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Execute unit tests using TAP::Harness.');
+    $Self->Description('Execute unit test scripts in scripts/test using TAP::Harness.');
     $Self->AddOption(
         Name        => 'test',
         Description =>
@@ -56,12 +62,11 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'post-test-script',
-        Description =>
-            'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
-        Required   => 0,
-        HasValue   => 1,
-        ValueRegex => qr/.*/smx,
-        Multiple   => 1
+        Description => 'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
+        Required    => 0,
+        HasValue    => 1,
+        ValueRegex  => qr/.*/smx,
+        Multiple    => 1
     );
 
     return;
@@ -78,22 +83,24 @@ sub Run {
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest' => {
-            ANSI => $Self->{ANSI},    # as determined in Kernel::System::Console::BaseCommand
+            ANSI => $Self->{ANSI},    # enable or disable ANSI coloring as determined in Kernel::System::Console::BaseCommand
         },
     );
 
     # Allow specification of a default directory to limit test execution.
+    # TODO: eliminate this
     my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests           => $Self->GetOption('test'),
         Directory       => $Self->GetOption('directory') || $DefaultDirectory,
+        SOPMFiles       => $Self->GetOption('sopm'),
         Verbose         => $Self->GetOption('verbose'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );
 
-    return $Self->ExitCodeOk() if $FunctionResult;
-    return $Self->ExitCodeError();
+    return $Self->ExitCodeOk if $FunctionResult;
+    return $Self->ExitCodeError;
 }
 
 1;
