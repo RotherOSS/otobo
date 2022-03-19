@@ -27,7 +27,6 @@ use utf8;
 use Exporter qw(import);
 
 # CPAN modules
-use Test2::V0;
 use DateTime 1.08;    # Load DateTime so that we can override functions for the FixedTimeSet().
 
 # OTOBO modules
