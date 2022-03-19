@@ -17,9 +17,9 @@
 package Kernel::System::UnitTest::MockTime;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean -except => 'import';
 use utf8;
 
@@ -27,8 +27,6 @@ use utf8;
 use Exporter qw(import);
 
 # CPAN modules
-use Test2::V0;
-use DateTime 1.08;    # Load DateTime so that we can override functions for the FixedTimeSet().
 
 # OTOBO modules
 
@@ -44,17 +42,34 @@ Kernel::System::UnitTest::MockTime - helper functions for mocking time in unit t
 
 =head1 SYNOPSIS
 
-    #TODO
+    use Kernel::System::UnitTest::MockTime qw(:all);
+    use Test2::V0;
+
+    plan(3);
+
+    my $FixedTime = FixedTimeSet();
+    sleeep 1;
+    my $Now = time;
+    is( $Now, $FixedTime, 'time stayed fixed even after sleeping');
+
+    my $NewFixedTime = $FixedTime + 123;
+    FixedTimeAddSeconds(123);
+    is( $FixedTimeGet(), $NewFixedTime);
+    my $Now = time;
+    is( $Now, $NewFixedTime);
 
 =head1 DESCRIPTION
+
+To be used in test scripts for mocking time.
 
 =head1 SUBROUTINES
 
 =cut
 
-# used for mocking time
+# This time, seconds since 1970, will be used by 'time' when set.
 my $FixedTime;
 
+# override the core functions
 BEGIN {
 
     *CORE::GLOBAL::time = sub {
@@ -75,13 +90,6 @@ BEGIN {
         $Time //= $FixedTime // CORE::time();
 
         return CORE::gmtime($Time);
-    };
-
-    # yes, we want to override
-    no warnings 'redefine';    ## no critic (TestingAndDebugging::ProhibitNoWarnings)
-
-    *DateTime::_core_time = sub {
-        return $FixedTime // CORE::time();
     };
 }
 
