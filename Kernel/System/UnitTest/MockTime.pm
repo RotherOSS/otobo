@@ -27,7 +27,6 @@ use utf8;
 use Exporter qw(import);
 
 # CPAN modules
-use DateTime 1.08;    # Load DateTime so that we can override functions for the FixedTimeSet().
 
 # OTOBO modules
 
@@ -91,13 +90,6 @@ BEGIN {
         $Time //= $FixedTime // CORE::time();
 
         return CORE::gmtime($Time);
-    };
-
-    # yes, we want to override
-    no warnings 'redefine';    ## no critic (TestingAndDebugging::ProhibitNoWarnings)
-
-    *DateTime::_core_time = sub {
-        return $FixedTime // CORE::time();
     };
 }
 
