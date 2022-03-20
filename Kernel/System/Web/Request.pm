@@ -36,11 +36,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Web::Request - global CGI interface
+Kernel::System::Web::Request - interface for the current HTTP request
 
 =head1 DESCRIPTION
 
-All cgi param functions.
+All CGI param functions. Functions for handling form drafts.
 
 =head1 PUBLIC INTERFACE
 
@@ -49,6 +49,13 @@ All cgi param functions.
 create param object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
+
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+
+In some cases, e.g. in test scripts, passing in a query object can be useful:
+
+    use Kernel::System::ObjectManager;
+
     local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Web::Request' => {
             WebRequest => CGI::PSGI->new($env), # optional, e. g. if PSGI is used
@@ -72,8 +79,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -81,7 +87,9 @@ sub new {
     # max 5 MB posts
     $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi)
+    # The query is usually constructed from the CGI relevant environment variables, e.g. QUERY_STRING,
+    # and from reading STDIN.
+    # In specific cases, e.g. test scripts, a already prepared query object can be passed in.
     $Self->{Query} = $Param{WebRequest} || CGI->new();
 
     return $Self;
