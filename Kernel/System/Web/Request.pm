@@ -18,9 +18,9 @@ package Kernel::System::Web::Request;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 
 # core modules
@@ -48,6 +48,7 @@ Kernel::System::Web::Request - an object holding info on the current request
 =head1 DESCRIPTION
 
 Holds the request params and other info on the request.
+Functions for handling form drafts.
 
 =head1 PUBLIC INTERFACE
 
