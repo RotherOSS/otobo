@@ -48,9 +48,9 @@ our $ObjectManagerDisabled = 1;
 sub import {    ## no critic qw(OTOBO::RequireCamelCase)
 
     # RegisterDriver is meant for test scripts,
-    # meaning that each sript has it's own process.
+    # meaning that each script runs it's own dedicated process.
     # This means that we don't have to localize $Kernel::OM.
-    # This is good, as we are in a subroutine that does not eval the test script.
+    # This is a good thing, as OTOBO no longer has a subroutine that wraps the test script.
     $Kernel::OM = Kernel::System::ObjectManager->new(
 
         # Log to an identifiable logfile.
