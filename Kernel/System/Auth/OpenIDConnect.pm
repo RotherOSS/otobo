@@ -392,7 +392,7 @@ sub PreAuth {
             TTL           => $TTL,
             CacheInMemory => 0,                       # important for distributed systems
         );
-        $Data{Nonce} = $RandomString . $LayoutObject->LinkEncode( $Param{RequestedURL} // '' );
+        $Data{Nonce} = $RandomString;
     }
 
     my $RedirectURL = $OpenIDConnectObject->BuildRedirectURL(

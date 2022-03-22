@@ -516,6 +516,13 @@ sub LoadDefaults {
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#            SSLCertificate => 'SSL_cert_file',     # client certificate
+#            SSLKey         => 'SSL_key_file',      # client cert key
+#            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
+#            SSLCAFile      => 'SSL_ca_file',       # CA certificate
+#            SSLCADir       => 'SSL_ca_path',       # CA cert directory
+#        },
 #    };
     # Set the token claim to be used as identifier
 #    $Self->{'AuthModule::OpenIDConnect::UID'} = 'sub';
@@ -1502,6 +1509,13 @@ via the Preferences button after logging in.
 #        OpenIDConfiguration => 'https://keycloak:8080/auth/realms/MyRealm/.well-known/openid-configuration',
 #        TTL                 => 60 * 30,      # optional: time period the extracted openid-configuration is cached
 #        Name                => 'Intern4',    # optional: necessary only if one needs to differentiate between User and CustomerUser configuration e.g.
+#        SSLOptions          => {             # if special ssl options are needed; SSLVerifyHostname => 0 is also possible but should only be used for testing purposes
+#            SSLCertificate => 'SSL_cert_file',     # client certificate
+#            SSLKey         => 'SSL_key_file',      # client cert key
+#            SSLPassword    => 'SSL_passwd_cb',     # password for client cert key
+#            SSLCAFile      => 'SSL_ca_file',       # CA certificate
+#            SSLCADir       => 'SSL_ca_path',       # CA cert directory
+#        },
 #    };
     # Set the token claim to be used as identifier
 #    $Self->{'Customer::AuthModule::OpenIDConnect::UID'} = 'sub';

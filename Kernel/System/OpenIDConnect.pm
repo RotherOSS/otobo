@@ -23,7 +23,6 @@ use warnings;
 # CPAN modules
 use HTTP::Request::Common;
 use LWP::UserAgent;
-use LWP::Simple;
 use URI::Escape qw();
 use Crypt::JWT qw(decode_jwt);
 
@@ -62,6 +61,14 @@ sub new {
     # allocate new hash for object
     my $Self = {
         OpenIDProviderData => {},
+        SSLOptionMap       => {
+            SSLCertificate    => 'SSL_cert_file',
+            SSLKey            => 'SSL_key_file',
+            SSLPassword       => 'SSL_passwd_cb',
+            SSLCAFile         => 'SSL_ca_file',
+            SSLCADir          => 'SSL_ca_path',
+            SSLVerifyHostname => 'verify_hostname',
+        },
     };
     bless( $Self, $Type );
 
@@ -139,6 +146,10 @@ sub BuildRedirectURL {
         $RedirectURL .= '&nonce=' . $Param{AuthRequest}{Nonce};
     }
 
+    if ( grep { $_ eq 'id_token' } @{ $Param{AuthRequest}{ResponseType} } ) {
+        $RedirectURL .= '&response_mode=form_post';
+    }
+
     return $RedirectURL;
 }
 
@@ -191,6 +202,25 @@ sub RequestIDToken {
     }
 
     my $UserAgent = LWP::UserAgent->new();
+
+    if ( $Param{ProviderSettings}{SSLOptions} ) {
+        OPTION:
+        for my $Key ( keys $Param{ProviderSettings}{SSLOptions}->%* ) {
+            next OPTION if !$Self->{SSLOptionMap}{ $Key };
+
+            if ( $Key eq 'SSLPassword' ) {
+                $UserAgent->ssl_opts(
+                    $Self->{SSLOptionMap}{ $Key } => sub { $Param{ProviderSettings}{SSLOptions}{ $Key } },
+                );
+
+                next OPTION;
+            }
+
+            $UserAgent->ssl_opts(
+                $Self->{SSLOptionMap}{ $Key } => $Param{ProviderSettings}{SSLOptions}{ $Key },
+            );
+        }
+    }
 
     # send the data form-encoded
     my $Request = POST(
@@ -541,20 +571,44 @@ sub _ProviderDataGet {
         return;
     }
 
-    my $OpenIDConfiguration = $JSONObject->Decode(
-        Data => get( $Param{ProviderSettings}{OpenIDConfiguration} ),
-    );
+    my $UserAgent = LWP::UserAgent->new();
 
-    if ( !$OpenIDConfiguration ) {
+    if ( $Param{ProviderSettings}{SSLOptions} ) {
+        OPTION:
+        for my $Key ( keys $Param{ProviderSettings}{SSLOptions}->%* ) {
+            next OPTION if !$Self->{SSLOptionMap}{ $Key };
+
+            if ( $Key eq 'SSLPassword' ) {
+                $UserAgent->ssl_opts(
+                    $Self->{SSLOptionMap}{ $Key } => sub { $Param{ProviderSettings}{SSLOptions}{ $Key } },
+                );
+
+                next OPTION;
+            }
+
+            $UserAgent->ssl_opts(
+                $Self->{SSLOptionMap}{ $Key } => $Param{ProviderSettings}{SSLOptions}{ $Key },
+            );
+        }
+    }
+
+    my $Response = $UserAgent->get( $Param{ProviderSettings}{OpenIDConfiguration} );
+    my $Content  = $Response->content;
+
+    if ( !$Response->is_success || !$Content ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Error in retrieving OpenIDConfiguration!',
+            Message  => "Error in retrieving OpenIDConfiguration: " . $Response->status_line,
         );
 
         return;
     }
 
-    if ( !$OpenIDConfiguration->{jwks_uri} || !$OpenIDConfiguration->{issuer} ) {
+    my $OpenIDConfiguration = $JSONObject->Decode(
+        Data => $Content,
+    );
+
+    if ( !$OpenIDConfiguration || !$OpenIDConfiguration->{jwks_uri} || !$OpenIDConfiguration->{issuer} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Erroneous OpenIDConfiguration!',
@@ -563,8 +617,20 @@ sub _ProviderDataGet {
         return;
     }
 
+    $Response = $UserAgent->get( $OpenIDConfiguration->{jwks_uri} );
+    $Content  = $Response->content;
+
+    if ( !$Response->is_success || !$Content ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Error in retrieving jwks: " . $Response->status_line,
+        );
+
+        return;
+    }
+
     my $KeyData = $JSONObject->Decode(
-        Data => get( $OpenIDConfiguration->{jwks_uri} ),
+        Data => $Content,
     );
 
     if ( !$KeyData ) {
