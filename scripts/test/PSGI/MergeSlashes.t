@@ -85,6 +85,18 @@ http_request(
     },
 );
 http_request(
+    [ GET("$BaseURL//otobo/index.pl/") ],
+    http_response {
+        http_is_success();
+    },
+);
+http_request(
+    [ GET("$BaseURL//otobo/customer.pl/") ],
+    http_response {
+        http_is_success();
+    },
+);
+http_request(
     [ GET("$BaseURL/otobo/index.pl//") ],
     http_response {
         http_is_success();
@@ -99,16 +111,27 @@ http_request(
 
 diag('many slashes are squashed too');
 http_request(
-    [ GET("$BaseURL/otobo//////////index.pl////////////") ],
+    [ GET("$BaseURL////otobo//////////index.pl////////////") ],
     http_response {
         http_is_success();
     },
 );
 http_request(
-    [ GET("$BaseURL/otobo//////////customer.pl////////////") ],
+    [ GET("$BaseURL////otobo//////////customer.pl////////////") ],
     http_response {
         http_is_success();
     },
+);
+
+# a counter example
+http_request(
+    [ GET("$BaseURL/otobo/ /customer.pl") ],
+    http_response {
+        http_isnt_success();
+        http_is_redirect();
+        http_header( 'Location', "../../otobo/index.pl" );
+    },
+    "/ / is not squashed",
 );
 
 done_testing();
