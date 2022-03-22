@@ -344,6 +344,21 @@ my $FixFCGIProxyMiddleware = sub {
     };
 };
 
+# Squash slashes just like Apache2 does when MergeSlashes is enabled.
+# This is the default behaviour in Apache2 and in Nginx.
+my $MergeSlashesMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # squash duplicate slashes
+        $Env->{PATH_INFO} =~ s!/{2,}!/!g;
+
+        return $App->($Env);
+    };
+};
+
 # Translate '/' is translated to '/index.html'
 my $ExactlyRootMiddleware = sub {
     my $App = shift;
@@ -621,7 +636,8 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
-    # fiddling with '/'
+    # fiddling with slashes
+    enable $MergeSlashesMiddleware;
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO
