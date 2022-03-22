@@ -83,7 +83,7 @@ http_request(
     http_response {
         http_isnt_success();
         http_is_redirect();
-        http_header( 'Location', '../../index.pl' );
+        http_header( 'Location', 'index.pl' );
     },
     "testing $WithThreeSlashesURL",
 );
