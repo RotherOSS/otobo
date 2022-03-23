@@ -9,7 +9,7 @@
 # This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
 # Debian 11 (Bullseye).
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.34-buster
+FROM perl:5.34
 
 # First there is some initial setup that needs to be done by root.
 USER root
