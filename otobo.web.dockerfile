@@ -1,18 +1,20 @@
 # This is the build file for the OTOBO web docker image.
+# The services OTOBO web and OTOBO daemon use the same image.
 
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
 # Use the latest maintainance release of the Perl 5.34.x series.
-# Perl 5.34.0 was released 2021-05-20. As of 2021-08-13 there are no maintenance releases.
-# This image is based on Debian 10 (Buster). The user is root.
+# Perl 5.34.1 was released 2022-03-13.
+# This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
+# Debian 11 (Bullseye).
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.34-buster
+FROM perl:5.34
 
-# Some initial setup that needs to be done by root.
+# First there is some initial setup that needs to be done by root.
 USER root
 
-# install some required and optional Debian packages
+# Install some required and optional Debian packages.
 # For ODBC see https://blog.devart.com/installing-and-configuring-odbc-driver-on-linux.html
 # For ODBC for SQLIte, for testing ODBC, see http://www.ch-werner.de/sqliteodbc/html/index.html
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
