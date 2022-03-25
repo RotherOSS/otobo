@@ -16,22 +16,24 @@
 
 =for comment
 
-    This test logs into agent and customer interface, and then calls up all registered
+    This test script logs into agent and customer interface. It then calls up all registered
     frontend modules to check for any internal server errors.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
-
+# CPAN modules
 use LWP::UserAgent;
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 use Kernel::System::UnitTest::Helper;
 
 my $Debug        = 0;
@@ -76,30 +78,26 @@ my $Response = $UserAgent->get(
     $AgentBaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
 );
 
-my $BailOut = 0;
+my ( $BailOut, @BailOutReasons ) = ( 0, '' );
 if ( !$Response->is_success() ) {
-    $Self->True(
-        0,
+    push @BailOutReasons,
         "Could not login to agent interface, aborting! URL: "
-            . $AgentBaseURL
-            . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
-    );
+        . $AgentBaseURL
+        . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;";
     $BailOut = 1;
 }
 
 if ( !$BailOut ) {
 
-    $Response = $UserAgent->get(
+    my $Response = $UserAgent->get(
         $CustomerBaseURL . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
     );
 
     if ( !$Response->is_success() ) {
-        $Self->True(
-            0,
+        push @BailOutReasons,
             "Could not login to customer interface, aborting! URL: "
-                . $CustomerBaseURL
-                . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;"
-        );
+            . $CustomerBaseURL
+            . "Action=Login;User=$TestCustomerUserLogin;Password=$TestCustomerUserLogin;";
         $BailOut = 1;
     }
 }
@@ -121,31 +119,31 @@ if ( !$BailOut ) {
     );
 
     if ( !$AgentSessionValid ) {
-        $Self->True( 0, "Could not login to agent interface, aborting" );
+        push @BailOutReasons, "Could not login to agent interface, aborting";
         $BailOut = 1;
     }
     if ( !$CustomerSessionValid ) {
-        $Self->True( 0, "Could not login to customer interface, aborting" );
+        push @BailOutReasons, "Could not login to customer interface, aborting";
         $BailOut = 1;
     }
 }
 
-if ( !$BailOut ) {
+skip_all("Bailing out: @BailOutReasons") if $BailOut;
 
-    my %Frontends = (
-        $AgentBaseURL    => $ConfigObject->Get('Frontend::Module'),
-        $CustomerBaseURL => $ConfigObject->Get('CustomerFrontend::Module'),
-        $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
-    );
+my %Frontends = (
+    $AgentBaseURL    => $ConfigObject->Get('Frontend::Module'),
+    $CustomerBaseURL => $ConfigObject->Get('CustomerFrontend::Module'),
+    $PublicBaseURL   => $ConfigObject->Get('PublicFrontend::Module'),
+);
 
-    for my $BaseURL ( sort keys %Frontends ) {
+for my $BaseURL ( sort keys %Frontends ) {
 
-        FRONTEND:
-        for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
+    FRONTEND:
+    for my $Frontend ( sort keys %{ $Frontends{$BaseURL} } ) {
 
-            next FRONTEND if $Frontend =~ m/Login|Logout/;
+        next FRONTEND if $Frontend =~ m/Login|Logout/;
 
-            #next FRONTEND if $Frontend !~ m/AgentAppointmentEdit/;
+        subtest "frontend $Frontend" => sub {
 
             my $URL = $BaseURL . "Action=$Frontend";
 
@@ -161,29 +159,25 @@ if ( !$BailOut ) {
                 last TRY if $StatusGroup ne 5;
             }
 
-            $Self->Is(
-                $Status,
-                200,
-                "Module $Frontend status code ($URL)",
-            );
+            is( $Status, 200, "status code 200 ($URL)" );
 
-            $Self->True(
+            ok(
                 scalar $Response->header('Content-type'),
-                "Module $Frontend content type ($URL)",
+                "content type ($URL)",
             );
 
-            $Self->False(
-                scalar $Response->header('X-OTOBO-Login'),
-                "Module $Frontend is no OTOBO login screen ($URL)",
+            ok(
+                !scalar $Response->header('X-OTOBO-Login'),
+                "no OTOBO login screen ($URL)",
             );
 
             # check response contents
             my $ContentType = $Response->header('Content-type') // '';
-            $Self->Note( Note => "Response:\n" . $Response->as_string() ) if $Debug;
+            diag "Response:\n" . $Response->as_string if $Debug;
             if ( $ContentType =~ m/html/ ) {
-                $Self->True(
+                ok(
                     scalar $Response->content() =~ m{<body|<div|<script}xms,
-                    "Module $Frontend returned HTML ($URL)",
+                    "returned HTML ($URL)",
                 );
 
                 # Inspect all full HTML responses for robots information.
@@ -191,18 +185,18 @@ if ( !$BailOut ) {
 
                     # Check robots information.
                     if ( $BaseURL !~ m{public\.pl} ) {
-                        $Self->True(
+                        ok(
                             index( $Response->content(), '<meta name="robots" content="noindex,nofollow" />' ) > 0,
-                            "Module $Frontend sends 'noindex' robots information.",
+                            "sends 'noindex' robots information.",
                         );
                     }
                     else {
 
-                        next FRONTEND if $Frontend =~ m/PublicDownloads|PublicURLRedirect/;
+                        return if $Frontend =~ m/PublicDownloads|PublicURLRedirect/;
 
-                        $Self->True(
+                        ok(
                             index( $Response->content(), '<meta name="robots" content="index,follow" />' ) > 0,
-                            "Module $Frontend sends 'index' robots information.",
+                            "Module sends 'index' robots information.",
                         );
                     }
                 }
@@ -213,31 +207,25 @@ if ( !$BailOut ) {
                     Data => $Response->content()
                 );
 
-                $Self->True(
+                ok(
                     scalar $Data,
-                    "Module $Frontend returned valid JSON data ($URL)",
+                    "Module returned valid JSON data ($URL)",
                 );
             }
             elsif ( $ContentType =~ m/plain/ ) {
 
-                $Self->True(
-                    1,
-                    "everything can be plain text",
-                );
+                pass("everything can be plain text");
             }
             else {
                 # emit a test result also when a status of 500 is returned
                 # This makes results more comparable.
-                $Self->True(
-                    0,
-                    "Unexpected content type '$ContentType'",
-                );
+                fail("Unexpected content type '$ContentType'");
             }
-        }
+        };
     }
 
     # cleanup cache
     $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
 }
 
-$Self->DoneTesting();
+done_testing();
