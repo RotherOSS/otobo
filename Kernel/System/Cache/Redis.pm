@@ -83,10 +83,13 @@ sub Set {
 
     };
     if ($@) {
+        my $Message = $@;    # as $Kernel::OM->Get('Kernel::System::Log') might clear $@
+
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => $@,
+            Message  => $Message,
         );
+
         return;
     }
 
