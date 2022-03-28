@@ -16,13 +16,19 @@
 
 package Kernel::System::Console::BaseCommand;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Getopt::Long();
 use Term::ANSIColor();
+
+# CPAN modules
 use IO::Interactive();
 use Encode::Locale();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -79,10 +85,14 @@ sub new {
         $Self->{_ConfigureSuccessful} = 1;
     };
 
+    # Set up global options. For historical reasons, the attribute 'Name' is used as the
+    # option spec for Getopt::Long. This means that when e.g. the name is 'help|h' is used,
+    # then we need to specify the canonical name 'help' as well.
     $Self->{_GlobalOptions} = [
         {
-            Name        => 'help|h',
-            Description => 'Display help for this command.',
+            Name          => 'help|h',
+            CanonicalName => 'help',
+            Description   => 'Display help for this command.',
         },
         {
             Name        => 'no-ansi',
@@ -297,7 +307,7 @@ sub AddOption {
     }
 
     $Self->{_Options} //= [];
-    push @{ $Self->{_Options} }, \%Param;
+    push $Self->{_Options}->@*, \%Param;
 
     return;
 }
@@ -555,7 +565,7 @@ sub GetUsageHelp {
     # Global options only show up at the end of the options section, but not in the command line string as
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
-    for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+    for my $Option ( ( $Self->{_GlobalOptions} // [] )->@* ) {
 
         next GLOBALOPTION if $Option->{Invisible};
 
@@ -896,7 +906,7 @@ sub _ParseGlobalOptions {
             $Lookup => \$Value,
         );
 
-        $OptionValues{ $Option->{Name} } = $Value;
+        $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
     }
 
     return \%OptionValues;
@@ -956,7 +966,7 @@ sub _ParseCommandlineArguments {
                 }
             }
 
-            $OptionValues{ $Option->{Name} } = \@Values;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = \@Values;
         }
 
         # Option with no or a single value
@@ -983,7 +993,7 @@ sub _ParseCommandlineArguments {
                 return;
             }
 
-            $OptionValues{ $Option->{Name} } = $Value;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
         }
     }
 
