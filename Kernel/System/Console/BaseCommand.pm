@@ -16,13 +16,19 @@
 
 package Kernel::System::Console::BaseCommand;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Getopt::Long();
 use Term::ANSIColor();
+
+# CPAN modules
 use IO::Interactive();
 use Encode::Locale();
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -297,7 +303,7 @@ sub AddOption {
     }
 
     $Self->{_Options} //= [];
-    push @{ $Self->{_Options} }, \%Param;
+    push $Self->{_Options}->@*, \%Param;
 
     return;
 }
@@ -555,7 +561,7 @@ sub GetUsageHelp {
     # Global options only show up at the end of the options section, but not in the command line string as
     #   they don't actually belong to the current command (only).
     GLOBALOPTION:
-    for my $Option ( @{ $Self->{_GlobalOptions} // [] } ) {
+    for my $Option ( ( $Self->{_GlobalOptions} // [] )->@* ) {
 
         next GLOBALOPTION if $Option->{Invisible};
 
