@@ -85,10 +85,14 @@ sub new {
         $Self->{_ConfigureSuccessful} = 1;
     };
 
+    # Set up global options. For historical reasons, the attribute 'Name' is used as the
+    # option spec for Getopt::Long. This means that when e.g. the name is 'help|h' is used,
+    # then we need to specify the canonical name 'help' as well.
     $Self->{_GlobalOptions} = [
         {
-            Name        => 'help|h',
-            Description => 'Display help for this command.',
+            Name          => 'help|h',
+            CanonicalName => 'help',
+            Description   => 'Display help for this command.',
         },
         {
             Name        => 'no-ansi',
@@ -902,7 +906,7 @@ sub _ParseGlobalOptions {
             $Lookup => \$Value,
         );
 
-        $OptionValues{ $Option->{Name} } = $Value;
+        $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
     }
 
     return \%OptionValues;
@@ -962,7 +966,7 @@ sub _ParseCommandlineArguments {
                 }
             }
 
-            $OptionValues{ $Option->{Name} } = \@Values;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = \@Values;
         }
 
         # Option with no or a single value
@@ -989,7 +993,7 @@ sub _ParseCommandlineArguments {
                 return;
             }
 
-            $OptionValues{ $Option->{Name} } = $Value;
+            $OptionValues{ $Option->{CanonicalName} // $Option->{Name} } = $Value;
         }
     }
 
