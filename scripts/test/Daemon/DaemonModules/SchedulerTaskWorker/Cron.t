@@ -118,7 +118,7 @@ my @Tests = (
         Result => 0,
     },
     {
-        Name   => 'Wrong Console Module Params',
+        Name   => 'Correct Console Module Params -h',
         Config => {
             TaskID   => 123,
             TaskName => 'UnitTest',
@@ -126,6 +126,19 @@ my @Tests = (
                 Module   => 'Kernel::System::Console::Command::Admin::Group::Add',
                 Function => 'Execute',
                 Params   => ['-h'],
+            },
+        },
+        Result => 1,
+    },
+    {
+        Name   => 'Wrong Console Module Params --hahaha',
+        Config => {
+            TaskID   => 123,
+            TaskName => 'UnitTest',
+            Data     => {
+                Module   => 'Kernel::System::Console::Command::Admin::Group::Add',
+                Function => 'Execute',
+                Params   => ['--hahaha'],
             },
         },
         Result => 0,
