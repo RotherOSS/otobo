@@ -450,10 +450,10 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         // check for duplicated entries
         $('#' + Field + 'Container [class*=ResultElementText]').each(function() {
-
+            
             var ElementChunks = $(this).attr('id').split('_');
 
-            if (ElementChunks[1] === IdentifierKey) {
+            if (ElementChunks[1] == IdentifierKey) {
                 IsDuplicated = true;
             }
         });
