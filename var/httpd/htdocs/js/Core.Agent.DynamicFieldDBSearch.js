@@ -658,7 +658,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         else {
             $.each(DataInputValueChunks, function(Index, Value) {
 
-                if (Value !== RemoveValue) {
+                if (Value != RemoveValue) {
                     DataInputValueNew = DataInputValueNew + Value + ',';
                 }
             });
