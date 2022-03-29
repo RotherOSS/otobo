@@ -453,7 +453,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
             var ElementChunks = $(this).attr('id').split('_');
 
-            if (ElementChunks[1] === IdentifierKey) {
+            if (ElementChunks[1] == IdentifierKey) {
                 IsDuplicated = true;
             }
         });
