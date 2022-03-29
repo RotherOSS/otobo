@@ -703,6 +703,12 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 );
             }
 
+            # Situations can arise where the cache has been set with values
+            # that stem from an incomplete database. A notorious example is a cached ValidList
+            # that has an empty hashref as value. This leads to subsequent failures.
+            # Clean up the cache completely as installer.pl does not use the cache for its operation.
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
             $LayoutObject->Block(
                 Name => 'DatabaseResultItemDone',
             );
