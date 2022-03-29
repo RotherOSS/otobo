@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.297571813997778;
+    $Self->{Completeness}        = 0.300745913347088;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -103,17 +103,17 @@ sub Data {
             'Criar uma nova ACL com dados de formulário. Após criar a ACL poderá adicionar items de configuração em modo de edição.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Sobre',
         'Toggle this widget' => 'Ativar esta widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Este idioma não está presente ou habilitado no sistema. Este texto pode ser deletado se isto não for mais necessário.',
+        'Remove Language' => 'Remover Idioma',
         'Text' => 'Texto',
         'Message body' => 'Corpo da mensagem',
         'This field is required and must have less than 4000 characters.' =>
-            '',
-        'Remove About Language' => '',
-        'Add new language' => '',
+            'Este campo é requerido e deve ter menos do que 4000 caracteres.',
+        'Remove About Language' => 'Remover Sobre o Idioma',
+        'Add new language' => 'Adicionar novo idioma',
         'Save Changes' => 'Guardar alterações ',
 
         # Template: AdminAppointmentCalendarManage
@@ -192,7 +192,7 @@ sub Data {
         'Filter for Notifications' => 'Filtro para Notificações',
         'Filter for notifications' => 'Filtro para Notificações',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Aqui você pode carregar um arquivo de configuração para importar notificações de compromissos para o seu sistema. O arquivo precisa estar no formato .yml conforme exportado pelo módulo de notificação de compromissos.',
         'Overwrite existing notifications?' => 'Substituir notificações existentes?',
         'Upload Notification configuration' => 'Carregar configuração de Notificação',
         'Import Notification configuration' => 'Importar configuração de Notificação',
@@ -200,13 +200,13 @@ sub Data {
         'Delete' => 'Eliminar',
         'Delete this notification' => 'Apagar notificação',
         'Show in agent preferences' => 'Mostrar nas preferências do agente',
-        'Agent preferences tooltip' => '',
+        'Agent preferences tooltip' => 'Dica de preferências para o agente',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Esta mensagem será mostrada na tela de preferências do agente como uma dica de ferramenta para esta notificação.',
         'Events' => 'Eventos',
         'Event' => 'Evento',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Aqui você pode escolher quais eventos irão acionar esta notificação. Um filtro de agendamento adicional pode ser aplicado abaixo para enviar apenas agendamentos com determinados critérios.',
         'Appointment Filter' => 'Filtro de Eventos',
         'Type' => 'Tipo',
         'Title' => 'Título',
@@ -219,10 +219,10 @@ sub Data {
         'Send to all group members (agents only)' => 'Enviar para todos os membros do grupo (apenas agentes)',
         'Send to all role members' => 'Enviar para todos os membros do papel',
         'Send on out of office' => 'Enviar quando "Fora do Escritório"',
-        'Also send if the user is currently out of office.' => 'Enviar também quando o utilizador está "Fora do Escritório"',
+        'Also send if the user is currently out of office.' => 'Enviar mesmo quando o usuário está fora do Escritório.',
         'Once per day' => 'Uma vez por dia',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Notifique o usuário apenas uma vez por dia sobre um agendamento único usando um transporte selecionado.',
         'Notification Methods' => 'Métodos de notificação',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             '',
@@ -231,7 +231,7 @@ sub Data {
         'At least one method is needed per notification.' => 'É necessário pelo menos um método por notificação.',
         'Active by default in agent preferences' => 'Ativo por defeito nas preferências do agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Este é o valor padrão para agentes destinatários atribuídos que ainda não escolheram essa notificação em suas preferências. Se a caixa estiver habilitada, a notificação será enviada a esses agentes.',
         'This feature is currently not available.' => 'Esta funcionalidade neste momento não está disponível.',
         'Upgrade to %s' => 'Atualização para 1 %',
         'Please activate this transport in order to use it.' => '',
@@ -243,30 +243,30 @@ sub Data {
         'Remove Notification Language' => '',
         'Subject' => 'Assunto',
         'Add new notification language' => 'Adicionar nova língua à notificação',
-        'Tag Reference' => '',
+        'Tag Reference' => 'Tag Referência',
         'Notifications are sent to an agent.' => 'As notificações são enviadas a um agente.',
         'You can use the following tags' => 'Pode utilizar as seguintes tags',
-        'To get the first 20 character of the appointment title.' => '',
+        'To get the first 20 character of the appointment title.' => 'Para obter os primeiros 20 caracteres do título do compromisso.',
         'To get the appointment attribute' => 'Para obter os atributos do evento',
-        ' e. g.' => 'ex:',
+        ' e. g.' => ' ex:',
         'To get the calendar attribute' => 'Para obter os atributos do calendário',
-        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the recipient user for the notification' => 'Atributos do usuário destinatário para a notificação',
         'Config options' => 'Opções de configuração',
         'Example notification' => 'Notificação de exemplo',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
+        'Additional recipient email addresses' => 'Endereços de e-mail de destinatários adicionais',
         'This field must have less then 200 characters.' => 'Este campo não pode conter mais de 200 caracteres',
         'Article visible for customer' => 'Artigo visível para o cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'Um artigo será criado se a notificação for enviada ao cliente ou a um endereço de e-mail adicional.',
         'Email template' => 'Template de email',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
-        'Enable email security' => 'Ativar segurança de email',
-        'Email security level' => 'Nível de segurança de email',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+            'Use este modelo para gerar o e-mail completo (somente para e-mails HTML).',
+        'Enable email security' => 'Ativar segurança de e-mail',
+        'Email security level' => 'Nível de segurança de e-mail',
+        'If signing key/certificate is missing' => 'Se a chave/certificado de assinatura estiver ausente',
+        'If encryption key/certificate is missing' => 'Se a chave/certificado de criptografia estiver ausente',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Gestão de Anexos',
