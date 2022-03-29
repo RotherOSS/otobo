@@ -318,13 +318,16 @@ sub Run {
         # undef result if nothing to be returned
         if ( IsArrayRefWithData( $Result[0] ) ) {
 
-            # update / set the cache
-            $Kernel::OM->Get('Kernel::System::Cache')->Set(
-                Type  => $CacheType,
-                Key   => $CacheKey,
-                Value => \@Result,
-                TTL   => $CacheTTL,
-            );
+            # Setting the time to live to 0 effectively disables caching.
+            # Don't even call Set(), in order to avoid error messages from Kernel::System::Cache::Redis
+            if ($CacheTTL) {
+                $Kernel::OM->Get('Kernel::System::Cache')->Set(
+                    Type  => $CacheType,
+                    Key   => $CacheKey,
+                    Value => \@Result,
+                    TTL   => $CacheTTL,
+                );
+            }
 
             return $Self->_Return(
                 Data => \@Result,
