@@ -1,4 +1,37 @@
 
+# OTOBO 10.1.2 2022-03-29
+- 2022-03-29 16:54:51 +0200 Create new OTOBO language files.
+- 2022-03-08 18:01:17 +0000 Translated using Weblate (Portuguese)
+- 2022-03-02 15:55:21 +0000 Update translation files
+- 2022-03-29 15:36:40 +0200 [Bugfix]   DynamicFieldDatabase: Removing Elements fails (https://github.com/RotherOSS/otobo/issues/1702)
+- 2022-03-29 13:20:23 +0200 [Enhanced] Let otobo.Console.pl support the option -h for getting help (https://github.com/RotherOSS/otobo/issues/788)
+- 2022-03-29 12:28:45 +0200 [Bugfix]   Installation fails due to wrong caching (No Valid for valid) (https://github.com/RotherOSS/otobo/issues/1696)
+- 2022-03-29 11:34:10 +0200 [Bugfix]   DynamicFieldDatabase: The same element can be added several times via autocomplete (https://github.com/RotherOSS/otobo/issues/1697)
+- 2022-03-28 18:53:36 +0200 [Bugfix]   Searching in Dynamic Field of type Database triggers Redis Error (https://github.com/RotherOSS/otobo/issues/1691) - in progress
+- 2022-03-25 13:51:36 +0100 [Tidied]   A more structured output from Frontend/Basic.t (https://github.com/RotherOSS/otobo/issues/1688)
+- 2022-03-23 21:25:59 +0100 [Enhanced] No need to get stuck on Debian 10 (Buster) (https://github.com/RotherOSS/otobo/issues/1686)
+- 2022-03-22 18:42:50 +0100 Merging slashes made the redirects more simple
+- 2022-03-22 18:20:00 +0100 [Bugfix]   Duplicate slashes are not merged in PATH_INFO (https://github.com/RotherOSS/otobo/issues/1684)
+- 2022-03-22 08:53:00 +0100 [Enhanced] Add configuration for specific ssl options for the connection to an OpenID provider. Fix implicit CodeFlow. (https://github.com/RotherOSS/otobo/issues/1670)
+- 2022-03-21 09:35:24 +0100 Try to make a code comment more understandable.
+- 2022-03-20 12:05:45 +0100 Try to improve POD and code comments.
+- 2022-03-19 15:08:21 +0100 [Bugfix]   DashboardBackend###0000-ProductNotify can't connect (Product News) (https://github.com/RotherOSS/otobo/issues/1532)
+- 2022-03-19 13:22:55 +0100 [Tidied]   No need to override DateTime::_core_time() (https://github.com/RotherOSS/otobo/issues/1679)
+- 2022-03-16 14:30:13 +0100 [Enhanced] Limit Dev::UnitTest::Run to a specific package (https://github.com/RotherOSS/otobo/issues/1673)
+- 2022-03-15 17:45:55 +0100 [Enhanced] Make default page configurable, allow to disable public.pl and customer.pl (https://github.com/RotherOSS/otobo/issues/1279)
+- 2022-03-15 15:00:15 +0100 Remove an unused variable.
+- 2022-03-15 14:45:57 +0100 Slight enhancements of code comments.
+- 2022-03-15 11:42:41 +0100 [Enhanced] Minor improvements to the CustomerInterface design. (https://github.com/RotherOSS/otobo/issues/282) - in progress
+- 2022-03-14 16:50:12 +0100 DynamicFieldDB don't work in processes in the agent interface (https://github.com/RotherOSS/otobo/issues/1659)
+- 2022-03-11 12:24:08 +0100 Customer interface: translate tooltips (https://github.com/RotherOSS/otobo/issues/1664)
+- 2022-03-12 18:38:22 +0100 [Bugfix]   Wrong Link in navigation bar for reports (https://github.com/RotherOSS/otobo/issues/1666)
+- 2022-03-11 19:10:07 +0100 [Bugfix]   GenericInterface: PATCH and PUT requests fail (https://github.com/RotherOSS/otobo/issues/1657)
+- 2022-03-11 10:54:49 +0100 SysConfig: Activate CustomerTicketZoom state preset per default (set to open).
+- 2022-03-11 09:42:09 +0100 DynamicFieldDB: Changing the value triggers warnings (https://github.com/RotherOSS/otobo/issues/1661)
+- 2022-03-04 11:39:50 +0100 Fix unit test ConfiguredRepositoryDefinitionGet.t (https://github.com/RotherOSS/otobo/issues/1648)
+- 2022-03-03 19:21:13 +0100 [Tidied]   No need to set @INC in Apache config files (https://github.com/RotherOSS/otobo/issues/1650)
+
+
 # OTOBO 10.1.1 2022-03-02
 - 2022-03-02 16:54:54 +0100 Create new OTOBO language files.
 - 2022-03-02 16:50:29 +0100 Add option to open FeaturedLink on the CustomerDashboard in a new tab.
@@ -1180,4 +1213,5 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
