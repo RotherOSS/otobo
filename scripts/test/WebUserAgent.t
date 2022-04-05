@@ -98,6 +98,7 @@ my @Tests = (
         Matches => qr!Content-Type:\s+text/json!,
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - Credentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -111,6 +112,7 @@ my @Tests = (
         },
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -119,6 +121,7 @@ my @Tests = (
         ErrorNumber => 401,
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -154,7 +157,14 @@ my %Interval = (
     5 => 60 * 6,
 );
 
+TEST:
 for my $Test (@Tests) {
+
+    if ( $Test->{Skip} ) {
+        diag "Skipping $Test->{Name} : $Test->{Skip}";
+
+        next TEST;
+    }
 
     subtest $Test->{Name} => sub {
         TRY:
