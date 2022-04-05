@@ -14,17 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::WebUserAgent;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
@@ -96,6 +98,7 @@ my @Tests = (
         Matches => qr!Content-Type:\s+text/json!,
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - Credentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -109,6 +112,7 @@ my @Tests = (
         },
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - MissingCredentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -117,6 +121,7 @@ my @Tests = (
         ErrorNumber => 401,
     },
     {
+        Skip        => 'makalu.otobo.org is not set up',
         Name        => 'GET - http - IncompleteCredentials ' . $TestNumber++,
         URL         => "https://makalu.otobo.org/unittest/HTTPBasicAuth/",
         Timeout     => 100,
@@ -155,90 +160,98 @@ my %Interval = (
 TEST:
 for my $Test (@Tests) {
 
-    TRY:
-    for my $Try ( 1 .. 5 ) {
+    if ( $Test->{Skip} ) {
+        diag "Skipping $Test->{Name} : $Test->{Skip}";
 
-        my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
-            Timeout => $Test->{Timeout},
-            Proxy   => $Test->{Proxy},
-        );
+        next TEST;
+    }
 
-        $Self->Is(
-            ref $WebUserAgentObject,
-            'Kernel::System::WebUserAgent',
-            "$Test->{Name} - WebUserAgent object creation",
-        );
+    subtest $Test->{Name} => sub {
+        TRY:
+        for my $Try ( 1 .. 5 ) {
 
-        my %Response = $WebUserAgentObject->Request(
-            %{$Test},
-        );
+            my $WebUserAgentObject = Kernel::System::WebUserAgent->new(
+                Timeout => $Test->{Timeout},
+                Proxy   => $Test->{Proxy},
+            );
 
-        $Self->True(
-            IsHashRefWithData( \%Response ),
-            "$Test->{Name} - WebUserAgent check structure from request",
-        );
+            isa_ok(
+                $WebUserAgentObject,
+                ['Kernel::System::WebUserAgent'],
+                "WebUserAgent object creation",
+            );
 
-        my $Status = substr $Response{Status}, 0, 3;
+            my %Response = $WebUserAgentObject->Request(
+                %{$Test},
+            );
 
-        if ( !$Test->{Success} ) {
+            ok(
+                IsHashRefWithData( \%Response ),
+                "WebUserAgent check structure from request",
+            );
 
-            if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
+            my $Status = substr $Response{Status}, 0, 3;
 
-                sleep $Interval{$Try};
+            if ( !$Test->{Success} ) {
 
-                next TRY;
+                if ( $Try < 5 && $Status eq 500 && $Test->{ErrorNumber} ne 500 ) {
+
+                    sleep $Interval{$Try};
+
+                    next TRY;
+                }
+
+                ok(
+                    !$Response{Content},
+                    "WebUserAgent fail test for URL: $Test->{URL}",
+                );
+
+                is(
+                    $Status,
+                    $Test->{ErrorNumber},
+                    "WebUserAgent - Check error number",
+                );
+
+                return;
+            }
+            else {
+
+                if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
+
+                    sleep $Interval{$Try};
+
+                    next TRY;
+                }
+
+                ok(
+                    $Response{Content},
+                    "WebUserAgent - Success test for URL: $Test->{URL}",
+                );
+
+                is(
+                    $Status,
+                    200,
+                    "WebUserAgent - Check request status",
+                );
+
+                if ( $Test->{Matches} ) {
+                    ok(
+                        ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
+                        "Matches",
+                    );
+                }
             }
 
-            $Self->False(
-                $Response{Content},
-                "$Test->{Name} - WebUserAgent fail test for URL: $Test->{URL}",
-            );
+            if ( $Test->{Content} ) {
 
-            $Self->Is(
-                $Status,
-                $Test->{ErrorNumber},
-                "$Test->{Name} - WebUserAgent - Check error number",
-            );
-
-            next TEST;
-        }
-        else {
-
-            if ( $Try < 5 && ( !$Response{Content} || !$Status || $Status ne 200 ) ) {
-
-                sleep $Interval{$Try};
-
-                next TRY;
-            }
-
-            $Self->True(
-                $Response{Content},
-                "$Test->{Name} - WebUserAgent - Success test for URL: $Test->{URL}",
-            );
-
-            $Self->Is(
-                $Status,
-                200,
-                "$Test->{Name} - WebUserAgent - Check request status",
-            );
-
-            if ( $Test->{Matches} ) {
-                $Self->True(
-                    ( ${ $Response{Content} } =~ $Test->{Matches} ) || undef,
-                    "$Test->{Name} - Matches",
+                is(
+                    $Response{Content}->$*,
+                    $Test->{Content},
+                    "WebUserAgent - Check request content",
                 );
             }
         }
-
-        if ( $Test->{Content} ) {
-
-            $Self->Is(
-                ${ $Response{Content} },
-                $Test->{Content},
-                "$Test->{Name} - WebUserAgent - Check request content",
-            );
-        }
-    }
+    };
 }
 
-$Self->DoneTesting();
+done_testing();
