@@ -13,7 +13,7 @@ jobs:
               uses: jitterbit/get-changed-files@v1
 
             - name: 'install dependencies'
-              run: sudo apt install -y libxml2-utils libxslt-dev
+              run: sudo apt -y update && sudo apt install -y libxml2-utils libxslt-dev
 
             - name: 'checkout otobo'
               uses: actions/checkout@v2
