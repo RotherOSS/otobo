@@ -50,9 +50,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-03-02 15:54+0000\n"
-"PO-Revision-Date: 2022-03-02 15:37+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
-"Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/>\n"
+"PO-Revision-Date: 2022-04-11 17:40+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
+">\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16334,7 +16335,9 @@ msgstr "Standardantwort (nachdem ein neues Ticket erstellt wurde)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr "Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket eingegangen und diese abgelehnt wurde)"
+msgstr ""
+"Standardablehnung (nachdem eine Antwort auf ein geschlossenes Ticket "
+"eingegangen ist und diese abgelehnt wurde)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
@@ -25976,4 +25979,3 @@ msgstr "Stats"
 
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
-
