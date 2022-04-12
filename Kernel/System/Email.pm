@@ -790,6 +790,9 @@ Check mail configuration
 
     my %Check = $SendObject->Check();
 
+Note that this methods can only be used for backends that do not require additional parameters in the C<Check()> method.
+See L<https://github.com/znuny/Znuny/pull/26>.
+
 =cut
 
 sub Check {
