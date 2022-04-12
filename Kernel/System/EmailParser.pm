@@ -16,6 +16,7 @@
 
 package Kernel::System::EmailParser;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -754,13 +755,18 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
 
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
-        my $Subject = $Self->_DecodeString( String => $SubjectString ) . '.eml';
+        my $Subject = '';
+        if ($SubjectString) {
+            $Subject = $Self->_DecodeString( String => $SubjectString ) . '.eml';
+        }
 
         # cleanup filename
-        $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-            Filename => $Subject,
-            Type     => 'Local',
-        );
+        if ($Subject) {
+            $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+                Filename => $Subject,
+                Type     => 'Local',
+            );
+        }
 
         if ( $Subject eq '' ) {
             $Self->{NoFilenamePartCounter}++;
