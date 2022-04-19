@@ -992,7 +992,7 @@ sub LoadDefaults {
 
     # Customer Common JS
     $Self->{'Loader::Customer::CommonJS'}->{'000-Framework'} = [
-        'thirdparty/jquery-3.5.1/jquery.js',
+        'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
         'thirdparty/jquery-ui-1.12.1/jquery-ui.js',
@@ -1032,7 +1032,7 @@ sub LoadDefaults {
 
     # Agent Common JS
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
-        'thirdparty/jquery-3.5.1/jquery.js',
+        'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-ui-1.12.1/jquery-ui.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
