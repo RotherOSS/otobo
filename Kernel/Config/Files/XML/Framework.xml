@@ -8085,9 +8085,9 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-ui-1.13.1/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
                 <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
@@ -8132,15 +8132,6 @@ via the Preferences button after logging in.
                 <Item>Core.UI.Notification.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
                 <Item>Core.Agent.Responsive.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Agent::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
-        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
             </Array>
         </Value>
     </Setting>
@@ -8190,10 +8181,10 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
-                <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-ui-1.13.1/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
                 <Item>thirdparty/nunjucks-3.0.1/nunjucks.js</Item>
@@ -8226,15 +8217,6 @@ via the Preferences button after logging in.
                 <Item>Core.Customer.Responsive.js</Item>
                 <Item>Core.UI.NavigationBar.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Customer::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
-        <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
             </Array>
         </Value>
     </Setting>
