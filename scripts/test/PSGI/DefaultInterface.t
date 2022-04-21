@@ -24,126 +24,112 @@ use utf8;
 use Test2::V0;
 use Test2::Tools::HTTP;
 use HTTP::Request::Common;
+use Plack::Util;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
-# This test checks whether the redirect to the default interface works
+plan(13);
 
-# For now test only when running under Docker,
-# even though this route could also be available outside Docker.
-skip_all 'not running under Docker' unless $ENV{OTOBO_RUNS_UNDER_DOCKER};
+# This test script checks whether the redirect to the default interface works
 
-plan(12);
+# Skip the test when Selenium is not configured.
+SKIP:
+{
+    my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
+    my $SeleniumTestsConfig = $ConfigObject->Get('SeleniumTestsConfig');
 
-# get needed singletons
-my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+    skip 'Selenium testing not active', 12 unless $SeleniumTestsConfig;
 
-my $OtoboURL = join '',
-    $ConfigObject->Get('HttpType'),
-    '://',
-    $Helper->GetTestHTTPHostname(),
-    '/otobo';
-http_request(
-    [ GET($OtoboURL) ],
-    http_response {
-        http_isnt_success();
-        http_is_redirect();
-        http_header( 'Location', 'otobo/index.pl' );
-    },
-    "testing $OtoboURL",
-);
+    # get needed singletons
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $BrokenOtoboURL = $OtoboURL . '_cruft_added';
-http_request(
-    [ GET($BrokenOtoboURL) ],
-    http_response {
-        http_code(404);
-        http_is_error();
-        http_content( match(qr/URL was not found/) );
-    },
-    "testing $BrokenOtoboURL",
-);
-
-my $WithSlashURL = $OtoboURL . '/';
-http_request(
-    [ GET($WithSlashURL) ],
-    http_response {
-        http_isnt_success();
-        http_is_redirect();
-        http_header( 'Location', 'index.pl' );
-    },
-    "testing $WithSlashURL",
-);
-
-my $WithThreeSlashesURL = $OtoboURL . '///';
-http_request(
-    [ GET($WithThreeSlashesURL) ],
-    http_response {
-        http_isnt_success();
-        http_is_redirect();
-        http_header( 'Location', 'index.pl' );
-    },
-    "testing $WithThreeSlashesURL",
-);
-
-my $IndexPlURL = join '/', $OtoboURL, 'index.pl';
-http_request(
-    [ GET($IndexPlURL) ],
-    http_response {
-        http_is_success();
-        http_isnt_redirect();
-    },
-    "testing $IndexPlURL",
-);
-
-my $IndexPhpURL = join '/', $OtoboURL, 'index.php';
-http_request(
-    [ GET($IndexPhpURL) ],
-    http_response {
-        http_isnt_success();
-        http_is_redirect();
-        http_header( 'Location', 'index.pl' );
-    },
-    "testing $IndexPhpURL",
-);
-
-my $FourDeepURL = join '/', $OtoboURL, 'level_1', 'level_2', 'level_3', 'level_4', 'sample.html';
-http_request(
-    [ GET($FourDeepURL) ],
-    http_response {
-        http_isnt_success();
-        http_is_redirect();
-        http_header( 'Location', '../../../../index.pl' );
-    },
-    "testing $FourDeepURL",
-);
-
-# switch the default interface
-for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
-    $Helper->ConfigSettingChange(
-        Valid => 1,
-        Key   => 'Frontend::DefaultInterface',
-        Value => $Interface,
-    );
-
+    my $OtoboURL = join '',
+        $ConfigObject->Get('HttpType'),
+        '://',
+        $Helper->GetTestHTTPHostname(),
+        '/otobo';
     http_request(
         [ GET($OtoboURL) ],
         http_response {
             http_isnt_success();
             http_is_redirect();
-            http_header( 'Location', "otobo/$Interface" );
+            http_header( 'Location', 'otobo/index.pl' );
         },
-        "testing redirect to default interface $Interface",
+        "testing $OtoboURL",
     );
 
-    # inactive interfaces fall back to index.pl
-    if ( $Interface eq 'customer.pl' ) {
+    my $BrokenOtoboURL = $OtoboURL . '_cruft_added';
+    http_request(
+        [ GET($BrokenOtoboURL) ],
+        http_response {
+            http_code(404);
+            http_is_error();
+            http_content( match(qr/URL was not found/) );
+        },
+        "testing $BrokenOtoboURL",
+    );
+
+    my $WithSlashURL = $OtoboURL . '/';
+    http_request(
+        [ GET($WithSlashURL) ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', 'index.pl' );
+        },
+        "testing $WithSlashURL",
+    );
+
+    my $WithThreeSlashesURL = $OtoboURL . '///';
+    http_request(
+        [ GET($WithThreeSlashesURL) ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', 'index.pl' );
+        },
+        "testing $WithThreeSlashesURL",
+    );
+
+    my $IndexPlURL = join '/', $OtoboURL, 'index.pl';
+    http_request(
+        [ GET($IndexPlURL) ],
+        http_response {
+            http_is_success();
+            http_isnt_redirect();
+        },
+        "testing $IndexPlURL",
+    );
+
+    my $IndexPhpURL = join '/', $OtoboURL, 'index.php';
+    http_request(
+        [ GET($IndexPhpURL) ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', 'index.pl' );
+        },
+        "testing $IndexPhpURL",
+    );
+
+    my $FourDeepURL = join '/', $OtoboURL, 'level_1', 'level_2', 'level_3', 'level_4', 'sample.html';
+    http_request(
+        [ GET($FourDeepURL) ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', '../../../../index.pl' );
+        },
+        "testing $FourDeepURL",
+    );
+
+    # switch the default interface
+    for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
         $Helper->ConfigSettingChange(
             Valid => 1,
-            Key   => 'CustomerFrontend::Active',
-            Value => 0,
+            Key   => 'Frontend::DefaultInterface',
+            Value => $Interface,
         );
 
         http_request(
@@ -151,29 +137,50 @@ for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
             http_response {
                 http_isnt_success();
                 http_is_redirect();
-                http_header( 'Location', "otobo/index.pl" );
+                http_header( 'Location', "otobo/$Interface" );
             },
-            "testing redirect to deactivated default interface $Interface",
+            "testing redirect to default interface $Interface",
         );
+
+        # inactive interfaces fall back to index.pl
+        if ( $Interface eq 'customer.pl' ) {
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'CustomerFrontend::Active',
+                Value => 0,
+            );
+
+            http_request(
+                [ GET($OtoboURL) ],
+                http_response {
+                    http_isnt_success();
+                    http_is_redirect();
+                    http_header( 'Location', "otobo/index.pl" );
+                },
+                "testing redirect to deactivated default interface $Interface",
+            );
+        }
+
+        if ( $Interface eq 'public.pl' ) {
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'PublicFrontend::Active',
+                Value => 0,
+            );
+
+            http_request(
+                [ GET($OtoboURL) ],
+                http_response {
+                    http_isnt_success();
+                    http_is_redirect();
+                    http_header( 'Location', "otobo/index.pl" );
+                },
+                "testing redirect to deactivated default interface $Interface",
+            );
+        }
+
+        $Helper->CustomFileCleanup();
     }
+}
 
-    if ( $Interface eq 'public.pl' ) {
-        $Helper->ConfigSettingChange(
-            Valid => 1,
-            Key   => 'PublicFrontend::Active',
-            Value => 0,
-        );
-
-        http_request(
-            [ GET($OtoboURL) ],
-            http_response {
-                http_isnt_success();
-                http_is_redirect();
-                http_header( 'Location', "otobo/index.pl" );
-            },
-            "testing redirect to deactivated default interface $Interface",
-        );
-    }
-
-    $Helper->CustomFileCleanup();
 }
