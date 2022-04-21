@@ -183,4 +183,17 @@ SKIP:
     }
 }
 
+# This should work without Selenium configured
+{
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+    psgi_app_add Plack::Util::load_psgi("$Home/bin/psgi-bin/otobo.psgi");
+    http_request(
+        [ GET('/otobo') ],
+        http_response {
+            http_isnt_success();
+            http_is_redirect();
+            http_header( 'Location', 'otobo/index.pl' );
+        },
+        "testing /otobo",
+    );
 }
