@@ -29,11 +29,13 @@ use Plack::Util;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
-plan(13);
+plan( 2 * 12 );
 
 # This test script checks whether the redirect to the default interface works
 
-# Skip the test when Selenium is not configured.
+# Skip the test when Selenium is not activated.
+# Actually, Selenium is not used in this test but we assume that we have a running OTOBO web server
+# when Selenium testing is activated.
 SKIP:
 {
     my $ConfigObject        = $Kernel::OM->Get('Kernel::Config');
@@ -49,6 +51,25 @@ SKIP:
         '://',
         $Helper->GetTestHTTPHostname(),
         '/otobo';
+
+    RunTests($OtoboURL);
+}
+
+# This should work without a running OTOBO web server running
+{
+    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+
+    psgi_app_add Plack::Util::load_psgi("$Home/bin/psgi-bin/otobo.psgi");
+
+    my $OtoboURL = '/otobo';
+
+    RunTests($OtoboURL);
+}
+
+# execute the tests either agains a running web server or against a mocked server
+sub RunTests {
+    my ($OtoboURL) = @_;
+
     http_request(
         [ GET($OtoboURL) ],
         http_response {
@@ -124,6 +145,8 @@ SKIP:
         "testing $FourDeepURL",
     );
 
+    my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
     # switch the default interface
     for my $Interface ( 'index.pl', 'customer.pl', 'public.pl' ) {
         $Helper->ConfigSettingChange(
@@ -181,19 +204,6 @@ SKIP:
 
         $Helper->CustomFileCleanup();
     }
-}
 
-# This should work without Selenium configured
-{
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    psgi_app_add Plack::Util::load_psgi("$Home/bin/psgi-bin/otobo.psgi");
-    http_request(
-        [ GET('/otobo') ],
-        http_response {
-            http_isnt_success();
-            http_is_redirect();
-            http_header( 'Location', 'otobo/index.pl' );
-        },
-        "testing /otobo",
-    );
+    return;
 }
