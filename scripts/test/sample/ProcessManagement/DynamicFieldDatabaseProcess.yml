@@ -1,0 +1,129 @@
+---
+Activities:
+  Activity-078bcce01c8255e2d1d15a3a44860d77:
+    ActivityDialogs:
+    - ActivityDialog-3706a77a99b35515c93dda5ba87f2f8d
+    ChangeTime: 2022-04-20 07:33:51
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-3706a77a99b35515c93dda5ba87f2f8d
+    CreateTime: 2022-04-20 07:06:37
+    EntityID: Activity-078bcce01c8255e2d1d15a3a44860d77
+    ID: 3
+    Name: Activity_1
+  Activity-c8056e695fe81e4bfee8fd646e2b595b:
+    ActivityDialogs:
+    - ActivityDialog-c5be9a5928763b193af3f5c3d1c82d50
+    ChangeTime: 2022-04-20 07:11:59
+    Config:
+      ActivityDialog:
+        '1': ActivityDialog-c5be9a5928763b193af3f5c3d1c82d50
+    CreateTime: 2022-04-20 07:06:37
+    EntityID: Activity-c8056e695fe81e4bfee8fd646e2b595b
+    ID: 4
+    Name: Activity_0
+ActivityDialogs:
+  ActivityDialog-3706a77a99b35515c93dda5ba87f2f8d:
+    ChangeTime: 2022-04-20 07:23:21
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Dialog_1
+      FieldOrder:
+      - DynamicField_TestDatabase
+      Fields:
+        DynamicField_TestDatabase:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+      Interface:
+      - CustomerInterface
+      Permission: ''
+      RequiredLock: '0'
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2022-04-20 07:06:37
+    EntityID: ActivityDialog-3706a77a99b35515c93dda5ba87f2f8d
+    ID: 3
+    Name: Dialog_1
+  ActivityDialog-c5be9a5928763b193af3f5c3d1c82d50:
+    ChangeTime: 2022-04-21 06:28:20
+    Config:
+      DescriptionLong: ''
+      DescriptionShort: Dialog_0
+      FieldOrder:
+      - CustomerID
+      - Queue
+      - DynamicField_TestDatabase
+      Fields:
+        CustomerID:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+        DynamicField_TestDatabase:
+          DefaultValue: ''
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '1'
+        Queue:
+          DefaultValue: Raw
+          DescriptionLong: ''
+          DescriptionShort: ''
+          Display: '2'
+      Interface:
+      - AgentInterface
+      Permission: ''
+      RequiredLock: 0
+      SubmitAdviceText: ''
+      SubmitButtonText: ''
+    CreateTime: 2022-04-20 07:06:37
+    EntityID: ActivityDialog-c5be9a5928763b193af3f5c3d1c82d50
+    ID: 4
+    Name: Dialog_0
+Process:
+  Activities:
+  - Activity-078bcce01c8255e2d1d15a3a44860d77
+  - Activity-c8056e695fe81e4bfee8fd646e2b595b
+  ChangeTime: 2022-04-20 07:45:39
+  Config:
+    Description: Test Process for Dynamic Field Database Tests.
+    Path:
+      Activity-078bcce01c8255e2d1d15a3a44860d77: {}
+      Activity-c8056e695fe81e4bfee8fd646e2b595b:
+        Transition-eb044f307f543d40049821acd05c11c7:
+          ActivityEntityID: Activity-078bcce01c8255e2d1d15a3a44860d77
+    StartActivity: Activity-c8056e695fe81e4bfee8fd646e2b595b
+    StartActivityDialog: ActivityDialog-c5be9a5928763b193af3f5c3d1c82d50
+  CreateTime: 2022-04-20 07:06:37
+  EntityID: Process-849319277fcb8aca15f9f495d66dd722
+  ID: 2
+  Layout:
+    Activity-078bcce01c8255e2d1d15a3a44860d77:
+      left: '509'
+      top: '50'
+    Activity-c8056e695fe81e4bfee8fd646e2b595b:
+      left: '172'
+      top: '26'
+  Name: TestDynamicFieldDatabaseProcess
+  State: Active
+  StateEntityID: S1
+  TransitionActions: []
+  Transitions:
+  - Transition-eb044f307f543d40049821acd05c11c7
+Transitions:
+  Transition-eb044f307f543d40049821acd05c11c7:
+    ChangeTime: 2022-04-20 07:35:06
+    Config:
+      Condition:
+        '1':
+          Fields:
+            Queue:
+              Match: .
+              Type: Regexp
+          Type: and
+      ConditionLinking: and
+    CreateTime: 2022-04-20 07:06:37
+    EntityID: Transition-eb044f307f543d40049821acd05c11c7
+    ID: 2
+    Name: Transition_0_1
