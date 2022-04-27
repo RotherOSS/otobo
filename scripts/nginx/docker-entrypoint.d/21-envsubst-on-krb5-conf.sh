@@ -22,4 +22,4 @@
 supported_envs='${OTOBO_NGINX_KERBEROS_REALM} ${OTOBO_NGINX_KERBEROS_KDC} ${OTOBO_NGINX_KERBEROS_ADMIN_SERVER} ${OTOBO_NGINX_KERBEROS_DEFAULT_DOMAIN}'
 template_dir="${NGINX_ENVSUBST_TEMPLATE_DIR:-/etc/nginx/templates}"
 
-envsubst "$supported_envs" < "$template_dir/../kerberos/templates/krb5.conf.template" > /etc/krb5.conf
+envsubst "$supported_envs" < "$template_dir/../../kerberos/templates/krb5.conf.template" > /etc/krb5.conf
