@@ -1,4 +1,8 @@
 
+# OTOBO 10.1.4 2022-04-28
+- 2022-04-28 18:21:59 +0200 [Bugfix]   Fix Role synchronization from LDAP. (https://github.com/RotherOSS/otobo/issues/1741)
+
+
 # OTOBO 10.1.3 2022-04-28
 - 2022-04-28 16:07:30 +0200 Create new OTOBO language files.
 - 2022-04-11 14:53:52 +0000 Translated using Weblate (German)
@@ -1235,6 +1239,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
