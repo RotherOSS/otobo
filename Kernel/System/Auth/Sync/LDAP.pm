@@ -776,38 +776,37 @@ sub Sync {
                 }
             }
         }
+    }
 
-        # compare role permissions from ldap with current user role permissions and update if necessary
+    # get current user roles
+    my %UserRoles = $GroupObject->PermissionUserRoleGet(
+        UserID => $UserID,
+    );
 
-        # get current user roles
-        my %UserRoles = $GroupObject->PermissionUserRoleGet(
-            UserID => $UserID,
-        );
+    # compare role permissions from ldap with current user role permissions and update if necessary
+    ROLEID:
+    for my $RoleID ( sort keys %SystemRoles ) {
 
-        ROLEID:
-        for my $RoleID ( sort keys %SystemRoles ) {
-
-            # if old and new permission for role matches, do nothing
-            if (
-                ( $UserRoles{$RoleID} && $RolePermissionsFromLDAP{$RoleID} )
-                ||
-                ( !$UserRoles{$RoleID} && !$RolePermissionsFromLDAP{$RoleID} )
-                )
-            {
-                next ROLEID;
-            }
-
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'notice',
-                Message  => "User: '$Param{User}' sync ldap role $SystemRoles{$RoleID}!",
-            );
-            $GroupObject->PermissionRoleUserAdd(
-                UID    => $UserID,
-                RID    => $RoleID,
-                Active => $RolePermissionsFromLDAP{$RoleID} || 0,
-                UserID => 1,
-            );
+        # if old and new permission for role matches, do nothing
+        if (
+            ( $UserRoles{$RoleID} && $RolePermissionsFromLDAP{$RoleID} )
+            ||
+            ( !$UserRoles{$RoleID} && !$RolePermissionsFromLDAP{$RoleID} )
+            )
+        {
+            next ROLEID;
         }
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'notice',
+            Message  => "User: '$Param{User}' sync ldap role $SystemRoles{$RoleID}!",
+        );
+        $GroupObject->PermissionRoleUserAdd(
+            UID    => $UserID,
+            RID    => $RoleID,
+            Active => $RolePermissionsFromLDAP{$RoleID} || 0,
+            UserID => 1,
+        );
     }
 
     # take down session
