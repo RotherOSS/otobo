@@ -186,23 +186,17 @@ sub Run {
             next CAT if !$Ticket{$CatName};
             if ( $CategoryConfig->{$CatName} ) {
                 my $Conf = $CategoryConfig->{$CatName};
+                my $Text = $Conf->{Text} // $Ticket{$CatName};
 
-                if ( $CatName eq 'State' || $CatName eq 'Service' ) {
-                    $Ticket{$CatName} = $LayoutObject->{LanguageObject}->Translate( $Ticket{$CatName} );
-                }
+                $Conf->{ColorSelection} //= {};
+                my $Color = $Conf->{ColorSelection}{ $Ticket{$CatName} } // $Conf->{ColorDefault};
 
-                if ( $Conf->{ColorSelection}{ $Ticket{$CatName} } ) {
-                    push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
-                        Color => $Conf->{ColorSelection}{ $Ticket{$CatName} },
-                    };
-                }
-                elsif ( $Conf->{ColorDefault} ) {
-                    push @{ $Categories{ $Conf->{Order} } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Ticket{ $CatName }" : $Ticket{$CatName},
-                        Color => $Conf->{ColorDefault},
-                    };
-                }
+                push @{ $Categories{ $Conf->{Order} } }, {
+                    Text   => $Text,
+                    Color  => $Color,
+                    Value  => $Ticket{$CatName},
+                    Config => $Conf,
+                };
             }
         }
 
@@ -252,19 +246,17 @@ sub Run {
             # build %Categories as $Categories{<Order>} = [ {Text => '', Color => ''}, ... ]
             if ( $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } ) {
                 my $Conf = $CategoryConfig->{DynamicField}{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } };
+                my $Text = $Conf->{Text} // $ValueStrg->{Value};
 
-                if ( $Conf->{ColorSelection}{ $ValueStrg->{Value} } ) {
-                    push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                        Color => $Conf->{ColorSelection}{ $ValueStrg->{Value} },
-                    };
-                }
-                elsif ( $Conf->{ColorDefault} ) {
-                    push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                        Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                        Color => $Conf->{ColorDefault},
-                    };
-                }
+                $Conf->{ColorSelection} //= {};
+                my $Color = $Conf->{ColorSelection}{ $ValueStrg->{Value} } // $Conf->{ColorDefault};
+
+                push @{ $Categories{ $Conf->{Order} } }, {
+                    Text   => $Text,
+                    Color  => $Color,
+                    Value  => $ValueStrg->{Value},
+                    Config => $Conf,
+                };
             }
         }
 

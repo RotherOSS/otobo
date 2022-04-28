@@ -1909,19 +1909,17 @@ sub _Mask {
         next CAT if !$Param{$CatName};
         if ( $CategoryConfig->{$CatName} ) {
             my $Conf = $CategoryConfig->{$CatName};
+            my $Text = $Conf->{Text} // $Param{$CatName};
 
-            if ( $Conf->{ColorSelection}{ $Param{$CatName} } ) {
-                push @{ $Categories{ $Conf->{Order} } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{$CatName},
-                    Color => $Conf->{ColorSelection}{ $Param{$CatName} },
-                };
-            }
-            elsif ( $Conf->{ColorDefault} ) {
-                push @{ $Categories{ $Conf->{Order} } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $Param{ $CatName }" : $Param{$CatName},
-                    Color => $Conf->{ColorDefault},
-                };
-            }
+            $Conf->{ColorSelection} //= {};
+            my $Color = $Conf->{ColorSelection}{ $Param{$CatName} } // $Conf->{ColorDefault};
+
+            push @{ $Categories{ $Conf->{Order} } }, {
+                Text   => $Text,
+                Color  => $Color,
+                Value  => $Param{$CatName},
+                Config => $Conf,
+            };
         }
     }
 
@@ -2009,19 +2007,17 @@ sub _Mask {
         # build %Categories as $Categories{<Order>} = [ {Text => '', Color => ''}, ... ]
         if ( $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } ) {
             my $Conf = $CategoryConfig->{DynamicField}{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } };
+            my $Text = $Conf->{Text} // $ValueStrg->{Value};
 
-            if ( $Conf->{ColorSelection}{ $ValueStrg->{Value} } ) {
-                push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                    Color => $Conf->{ColorSelection}{ $ValueStrg->{Value} },
-                };
-            }
-            elsif ( $Conf->{ColorDefault} ) {
-                push @{ $Categories{ $DynamicFieldCategories{ $DynamicFieldConfig->{Name} } } }, {
-                    Text  => $Conf->{Prefix} ? "$Conf->{Prefix} $ValueStrg->{Value}" : $ValueStrg->{Value},
-                    Color => $Conf->{ColorDefault},
-                };
-            }
+            $Conf->{ColorSelection} //= {};
+            my $Color = $Conf->{ColorSelection}{ $ValueStrg->{Value} } // $Conf->{ColorDefault};
+
+            push @{ $Categories{ $Conf->{Order} } }, {
+                Text   => $Text,
+                Color  => $Color,
+                Value  => $ValueStrg->{Value},
+                Config => $Conf,
+            };
         }
     }
 

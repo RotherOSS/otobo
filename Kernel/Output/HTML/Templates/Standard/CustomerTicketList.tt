@@ -24,7 +24,11 @@
             <div class="oooRow1"></div>
             <div class="oooRow2"></div>
 [% RenderBlockStart("Categories") %]
-            <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% Data.Text | html %]</p>
+            [% IF Data.Config.Translate %]
+                <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | Translate | html %]</p>
+            [% ELSE %]
+                <p class="oooCategory ooo10" style="background-color:[% Data.Color | html %]">[% IF Data.Config.Prefix %][% Data.Config.Prefix | html %][% END %][% Data.Text | Interpolate | html %]</p>
+            [% END %]
 [% RenderBlockEnd("Categories") %]
         </div>
         <div class="oooTicketItemAvatar">

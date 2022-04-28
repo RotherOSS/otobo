@@ -1893,7 +1893,7 @@
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###Type" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1905,11 +1905,13 @@
                         <Item Key="Incident">#bb2222</Item>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###Queue" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1923,11 +1925,13 @@
                         <Item Key="Misc">#0033cc</Item>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###Owner" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1938,11 +1942,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###State" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1951,17 +1957,19 @@
                 <Item Key="ColorDefault">#337777</Item>
                 <Item Key="ColorSelection">
                     <Hash>
-                        <Item Key="open">#bb2222</Item>
-                        <Item Key="new">#887733</Item>
-                        <Item Key="closed successful">#0033cc</Item>
+                        <Item Key="open">#88aa00</Item>
+                        <Item Key="new">#cc0077</Item>
+                        <Item Key="closed successful">#0044dd</Item>
                     </Hash>
                 </Item>
-
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
+                <Item Key="Text"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###Service" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1975,11 +1983,13 @@
                         <Item Key="Service3">#0033cc</Item>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###010" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -1990,11 +2000,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###020" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2005,11 +2017,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###030" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2020,11 +2034,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###040" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2035,11 +2051,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###050" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2050,11 +2068,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###060" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2065,11 +2085,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###070" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2080,11 +2102,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###080" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2095,11 +2119,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###090" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2110,11 +2136,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###100" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2125,11 +2153,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###110" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2140,11 +2170,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###120" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2155,11 +2187,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###130" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2170,11 +2204,13 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="Ticket::Frontend::CustomerTicketCategories###DynamicField###140" Required="0" Valid="0">
-        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash.</Description>
+        <Description Translatable="1">Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove('^.+::') %]"). Link can be used the same way.</Description>
         <Navigation>Frontend::Customer::TicketCategories</Navigation>
         <Value>
             <Hash>
@@ -2185,6 +2221,8 @@
                     <Hash>
                     </Hash>
                 </Item>
+                <Item Key="Translate">0</Item>
+                <Item Key="Link"></Item>
             </Hash>
         </Value>
     </Setting>
