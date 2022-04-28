@@ -3,9 +3,9 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use 7.16.2, because latest flag is not available
+# Use 7.17.3, because latest flag is not available
 # This image is based on Ubuntu 20.04. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3
 
 # Install system tools
 # Hadolint ignore=DL3008
