@@ -1,4 +1,26 @@
 
+# OTOBO 10.1.3 2022-04-28
+- 2022-04-28 16:07:30 +0200 Create new OTOBO language files.
+- 2022-04-11 14:53:52 +0000 Translated using Weblate (German)
+- 2022-04-28 14:12:26 +0200 [Enhanced] Improve CustomerTicketCategories. (https://github.com/RotherOSS/otobo/issues/1738)
+- 2022-04-20 08:34:56 +0200 Fixed XSS vulnerability in package manager GUI (CVE-2022-0475).
+- 2022-04-28 08:49:06 +0200 [Security] Prohibit system calls of OTOBO Admin. (https://github.com/RotherOSS/otobo/issues/1740)
+- 2022-04-28 07:04:11 +0200 Update Elasticsearch to 7.17.3.
+- 2022-04-28 07:00:52 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739) - in progress
+- 2022-04-27 05:03:00 +0200 Fix Bug with own nginx template.
+- 2022-04-25 14:24:39 +0200 Add Selenium Tests for Dynamic Field Database in Customer and Agent Interface (https://github.com/RotherOSS/otobo/issues/1734)
+- 2022-04-12 17:08:56 +0200 Add support for CustomerIDRaw in GenericInterface TicketSearch operation
+- 2022-04-22 14:03:35 +0200 [Tidied]   Rename Setting MaxRequestsPerChild to MaxConnectionsPerChild (https://github.com/RotherOSS/otobo/issues/1732)
+- 2022-04-22 13:35:39 +0200 [Tidied]   Apache Config: remove obsolete option DocumentRoot (https://github.com/RotherOSS/otobo/issues/1715)
+- 2022-04-22 09:54:47 +0200 Add sample for PSGI app tests without using Selenium (https://github.com/RotherOSS/otobo/issues/1728)
+- 2022-04-21 15:16:08 +0200 [Enhanced] Sector Nord AG: Replaced hardcoded attributes with a dynamic Sysconfig in Kernel/System/Ticket/Event/NotificationEvent.pm (https://github.com/RotherOSS/otobo/issues/1717)
+- 2022-04-21 14:40:21 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
+- 2022-04-12 14:30:28 +0200 Add a note that the method Check() is not really helpful.
+- 2022-04-12 13:40:27 +0200 [Tidied]   Avoid warnings in Kernel::System::EmailParser (https://github.com/RotherOSS/otobo/issues/1718)
+- 2022-04-07 18:56:33 +0200 [Tidied]   Fix the CodePolicy workflow (https://github.com/RotherOSS/otobo/issues/1709)
+- 2022-04-05 16:52:52 +0200 [Bugfix]   404 returned from makalu.otobo.org (https://github.com/RotherOSS/otobo/issues/1250)
+
+
 # OTOBO 10.1.2 2022-03-29
 - 2022-03-29 16:54:51 +0200 Create new OTOBO language files.
 - 2022-03-08 18:01:17 +0000 Translated using Weblate (Portuguese)
@@ -1213,5 +1235,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
