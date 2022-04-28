@@ -547,7 +547,7 @@ sub Sync {
     # Compare group permissions from LDAP with current user group permissions.
     my %GroupPermissionsChanged;
 
-    if (%GroupPermissionsFromLDAP) {
+    if ( $UserSyncGroupsDefinition || $UserSyncAttributeGroupsDefinition ) {
 
         PERMISSIONTYPE:
         for my $PermissionType ( @{ $ConfigObject->Get('System::Permission') } ) {
@@ -740,7 +740,7 @@ sub Sync {
     }
 
     # compare role permissions from ldap with current user role permissions and update if necessary
-    if (%RolePermissionsFromLDAP) {
+    if ( $UserSyncRolesDefinition || $UserSyncAttributeRolesDefinition ) {
 
         # get current user roles
         my %UserRoles = $GroupObject->PermissionUserRoleGet(
