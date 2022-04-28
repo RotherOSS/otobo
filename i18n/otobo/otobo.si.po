@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-03-02 15:54+0000\n"
+"POT-Creation-Date: 2022-04-28 14:06+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -18993,10 +18993,6 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Allows generic agent to execute custom command line scripts."
-msgstr ""
-
-#. SysConfig
 msgid "Allows generic agent to execute custom modules."
 msgstr ""
 
@@ -19317,14 +19313,20 @@ msgstr ""
 #. SysConfig
 msgid ""
 "Categories used in ticket presentation. If no default color is given, item "
-"will not be shown if selection is not defined in the color hash."
+"will not be shown if selection is not defined in the color hash. Optionally "
+"the attribute Text can be added to override the field value, templating "
+"methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') "
+"%]\"). Link can be used the same way."
 msgstr ""
 
 #. SysConfig
 msgid ""
 "Categories used in ticket presentation. Order is only used to determine the "
 "starting position before size arrangement. If no default color is given, "
-"item will not be shown if selection is not defined in the color hash."
+"item will not be shown if selection is not defined in the color hash. "
+"Optionally the attribute Text can be added to override the field value, "
+"templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^."
+"+::') %]\"). Link can be used the same way."
 msgstr ""
 
 #. SysConfig
@@ -22082,7 +22084,9 @@ msgid ""
 "(e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is "
 "enabled by default or if the user needs to enable it manually. \"CacheTTL\" "
 "indicates the cache expiration period in minutes for the plugin. \"Mandatory"
-"\" determines if the plugin is always shown and can not be removed by agents."
+"\" determines if the plugin is always shown and can not be removed by "
+"agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config."
+"pm."
 msgstr ""
 
 #. SysConfig
@@ -24117,6 +24121,10 @@ msgid ""
 "Ignore system sender article types (e. g. auto responses or email "
 "notifications) to be flagged as 'Unread Article' in AgentTicketZoom or "
 "expanded automatically in Large view screens."
+msgstr ""
+
+#. SysConfig
+msgid "Ignores not ticket related attributes."
 msgstr ""
 
 #. SysConfig
