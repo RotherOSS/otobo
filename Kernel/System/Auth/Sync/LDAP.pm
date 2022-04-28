@@ -586,7 +586,7 @@ sub Sync {
     # Compare group permissions from LDAP with current user group permissions.
     my %GroupPermissionsChanged;
 
-    if (%GroupPermissionsFromLDAP) {
+    if ( $UserSyncGroupsDefinition || $UserSyncAttributeGroupsDefinition ) {
 
         PERMISSIONTYPE:
         for my $PermissionType ( @{ $ConfigObject->Get('System::Permission') } ) {
@@ -778,35 +778,38 @@ sub Sync {
         }
     }
 
-    # get current user roles
-    my %UserRoles = $GroupObject->PermissionUserRoleGet(
-        UserID => $UserID,
-    );
-
     # compare role permissions from ldap with current user role permissions and update if necessary
-    ROLEID:
-    for my $RoleID ( sort keys %SystemRoles ) {
+    if ( $UserSyncRolesDefinition || $UserSyncAttributeRolesDefinition ) {
 
-        # if old and new permission for role matches, do nothing
-        if (
-            ( $UserRoles{$RoleID} && $RolePermissionsFromLDAP{$RoleID} )
-            ||
-            ( !$UserRoles{$RoleID} && !$RolePermissionsFromLDAP{$RoleID} )
-            )
-        {
-            next ROLEID;
+        # get current user roles
+        my %UserRoles = $GroupObject->PermissionUserRoleGet(
+            UserID => $UserID,
+        );
+
+        ROLEID:
+        for my $RoleID ( sort keys %SystemRoles ) {
+
+            # if old and new permission for role matches, do nothing
+            if (
+                ( $UserRoles{$RoleID} && $RolePermissionsFromLDAP{$RoleID} )
+                ||
+                ( !$UserRoles{$RoleID} && !$RolePermissionsFromLDAP{$RoleID} )
+                )
+            {
+                next ROLEID;
+            }
+
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'notice',
+                Message  => "User: '$Param{User}' sync ldap role $SystemRoles{$RoleID}!",
+            );
+            $GroupObject->PermissionRoleUserAdd(
+                UID    => $UserID,
+                RID    => $RoleID,
+                Active => $RolePermissionsFromLDAP{$RoleID} || 0,
+                UserID => 1,
+            );
         }
-
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'notice',
-            Message  => "User: '$Param{User}' sync ldap role $SystemRoles{$RoleID}!",
-        );
-        $GroupObject->PermissionRoleUserAdd(
-            UID    => $UserID,
-            RID    => $RoleID,
-            Active => $RolePermissionsFromLDAP{$RoleID} || 0,
-            UserID => 1,
-        );
     }
 
     # take down session
