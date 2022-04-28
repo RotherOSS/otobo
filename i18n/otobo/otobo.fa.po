@@ -25625,3 +25625,19 @@ msgstr ""
 #~ msgid "Web View"
 #~ msgstr "مشاهده وب سایت"
 
+#. SysConfig
+msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
+msgstr ""
+
+#. SysConfig
+msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the parameters for the dashboard backend. \"Cmd\" is used to specify command with parameters. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTL\" indicates the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm."
+msgstr ""
+
+#. SysConfig
+msgid "Ignores not ticket related attributes."
+msgstr ""
+

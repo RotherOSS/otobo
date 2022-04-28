@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-03-02 15:54+0000\n"
+"POT-Creation-Date: 2022-04-28 14:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17886,10 +17886,6 @@ msgid "Allows extended search conditions in ticket search of the generic agent i
 msgstr ""
 
 #. SysConfig
-msgid "Allows generic agent to execute custom command line scripts."
-msgstr ""
-
-#. SysConfig
 msgid "Allows generic agent to execute custom modules."
 msgstr ""
 
@@ -18142,11 +18138,11 @@ msgid "Catalan"
 msgstr ""
 
 #. SysConfig
-msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash."
+msgid "Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
 msgstr ""
 
 #. SysConfig
-msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash."
+msgid "Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') %]\"). Link can be used the same way."
 msgstr ""
 
 #. SysConfig
@@ -20190,7 +20186,7 @@ msgid "Defines the parameters for the customer preferences table."
 msgstr ""
 
 #. SysConfig
-msgid "Defines the parameters for the dashboard backend. \"Cmd\" is used to specify command with parameters. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTL\" indicates the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents."
+msgid "Defines the parameters for the dashboard backend. \"Cmd\" is used to specify command with parameters. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTL\" indicates the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm."
 msgstr ""
 
 #. SysConfig
@@ -21731,6 +21727,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as 'Unread Article' in AgentTicketZoom or expanded automatically in Large view screens."
+msgstr ""
+
+#. SysConfig
+msgid "Ignores not ticket related attributes."
 msgstr ""
 
 #. SysConfig
