@@ -1949,6 +1949,9 @@ via the Preferences button after logging in.
     # Allow syscalls via generic agent
     #$Self->{'Ticket::GenericAgentAllowCustomScriptExecution'} = 1;
 
+    # Allow syscalls for the Dashboard
+    #$Self->{'DashboardBackend::AllowCmdOutput'} = 1;
+
     return 1;
 }
 
