@@ -53,6 +53,9 @@ sub Config {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # only do syscalls if explicitely allowed
+    return if !$Kernel::OM->Get('Kernel::Config')->Get('DashboardBackend::AllowCmdOutput');
+
     # command to run
     my $Cmd = $Self->{Config}->{Cmd};
 
