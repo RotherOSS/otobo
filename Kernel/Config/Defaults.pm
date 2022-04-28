@@ -1936,6 +1936,19 @@ via the Preferences button after logging in.
         'index.mapping.total_fields.limit' => 2000,
     };
 
+    # --------------------------------------------------- #
+    #                                                     #
+    #             Start of config options!!!              #
+    #              OTOBO admin Priviledges                #
+    #                                                     #
+    # --------------------------------------------------- #
+    
+    # WARNING!! Enabling these settings allows the OTOBO admin to execute any system call.
+    # This can be a security issue!
+
+    # Allow syscalls via generic agent
+    #$Self->{'Ticket::GenericAgentAllowCustomScriptExecution'} = 1;
+
     return 1;
 }
 
