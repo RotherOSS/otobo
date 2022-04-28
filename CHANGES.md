@@ -1,4 +1,36 @@
 
+# OTOBO 10.0.16 2022-04-28
+- 2022-04-20 08:34:56 +0200 Fixed XSS vulnerability in package manager GUI (CVE-2022-0475).
+- 2022-04-28 08:49:06 +0200 [Security] Prohibit system calls of OTOBO Admin. (https://github.com/RotherOSS/otobo/issues/1740)
+- 2022-04-28 07:04:11 +0200 Update Elasticsearch to 7.17.3.
+- 2022-04-28 07:00:52 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739) - in progress
+- 2022-04-21 15:16:08 +0200 [Enhanced] Sector Nord AG: Replaced hardcoded attributes with a dynamic Sysconfig in Kernel/System/Ticket/Event/NotificationEvent.pm (https://github.com/RotherOSS/otobo/issues/1717)
+- 2022-04-21 14:40:21 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
+- 2022-04-12 14:30:28 +0200 Add a note that the method Check() is not really helpful.
+- 2022-04-12 13:40:27 +0200 [Tidied]   Avoid warnings in Kernel::System::EmailParser (https://github.com/RotherOSS/otobo/issues/1718)
+- 2022-04-07 18:56:33 +0200 [Tidied]   Fix the CodePolicy workflow (https://github.com/RotherOSS/otobo/issues/1709)
+- 2022-04-05 16:52:52 +0200 [Bugfix]   404 returned from makalu.otobo.org (https://github.com/RotherOSS/otobo/issues/1250)
+- 2022-03-22 18:20:00 +0100 [Bugfix]   Duplicate slashes are not merged in PATH_INFO (https://github.com/RotherOSS/otobo/issues/1684)
+- 2022-03-20 12:05:45 +0100 Try to improve POD and code comments.
+- 2022-03-19 15:08:21 +0100 [Bugfix]   DashboardBackend###0000-ProductNotify can't connect (Product News) (https://github.com/RotherOSS/otobo/issues/1532)
+- 2022-03-19 13:22:55 +0100 [Tidied]   No need to override DateTime::_core_time() (https://github.com/RotherOSS/otobo/issues/1679)
+- 2022-03-16 14:30:13 +0100 [Enhanced] Limit Dev::UnitTest::Run to a specific package (https://github.com/RotherOSS/otobo/issues/1673)
+- 2022-03-04 11:39:50 +0100 Fix unit test ConfiguredRepositoryDefinitionGet.t (https://github.com/RotherOSS/otobo/issues/1648)
+- 2022-03-02 15:20:34 +0100 [Bugfix]   Rendering fails in CustomerTicketZoom if dynamic fields of type 'Title' are too long (https://github.com/RotherOSS/otobo/issues/1473)
+- 2022-02-28 09:08:29 +0100 [Bugfix]   Enter in Textinput (e.g. subject) cancels reply in CustomerTicketZoom. (https://github.com/RotherOSS/otobo/issues/1619)
+- 2022-02-23 15:30:37 +0100 Minor code fix. (CustomerUser.pm and CustomerCompany.pm)
+- 2022-02-22 14:59:40 +0100 [Enhanced] Check code policy before release of OTOBO 10.1.1 Beta 2 (https://github.com/RotherOSS/otobo/issues/1567)
+- 2022-02-22 08:02:57 +0100 Update default CustomerDashboard texts.
+- 2022-02-17 13:51:58 +0100 Highlight focused buttons, not only hovered buttons in the customer interface.
+- 2022-02-08 14:10:09 +0100 [Enhanced] Docker Hub: implement policy concerning the 'latest' tag (https://github.com/RotherOSS/otobo/issues/1504)
+- 2022-02-08 11:03:46 +0100 [Bugfix]   Database Fields reinitialization leads to error message. (https://github.com/RotherOSS/otobo/issues/1559)
+- 2022-02-07 14:53:03 +0100 Link to English version of the OTOBO forum.
+- 2022-02-06 19:02:25 +0100 Issues with readme.md (https://github.com/RotherOSS/otobo/issues/1016)
+- 2022-01-26 18:56:35 +0100 [Tidied]   Update copyright year to 2022 in the rel-10_0 branch (https://github.com/RotherOSS/otobo/issues/1570)
+- 2022-01-24 10:35:33 +0100 [Enhanced] Provide a better way to show and edit information as CustomerAccept, an About, etc. (https://github.com/RotherOSS/otobo/issues/1467)
+- 2022-01-24 08:36:36 +0100 INSTALL.md points to a document that is 404 (https://github.com/RotherOSS/otobo/issues/1550)
+
+
 # OTOBO 10.0.15 2021-12-22
 - 2021-12-22 09:10:36 +0100 Update to Elasticsearch 7.16.2 which updates log4j to 2.17.0.
 - 2021-12-17 17:53:08 +0100 Documentation revised.
@@ -866,5 +898,6 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
