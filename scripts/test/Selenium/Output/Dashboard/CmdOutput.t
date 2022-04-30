@@ -48,10 +48,17 @@ $Selenium->RunTest(
             Module      => 'Kernel::Output::HTML::Dashboard::CmdOutput',
             Title       => 'Sample command output'
         );
+
+        # activate and allow CmdOutput
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'DashboardBackend###0420-CmdOutput',
             Value => \%CmdParam,
+        );
+        $Helper->ConfigSettingChange(
+            Valid => 1,
+            Key   => 'DashboardBackend::AllowCmdOutput',
+            Value => 1,
         );
 
         # create test user and login
