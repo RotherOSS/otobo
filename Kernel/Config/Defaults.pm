@@ -2063,7 +2063,7 @@ via the Preferences button after logging in.
     #              OTOBO admin Priviledges                #
     #                                                     #
     # --------------------------------------------------- #
-    
+
     # WARNING!! Enabling these settings allows the OTOBO admin to execute any system call.
     # This can be a security issue!
 
@@ -2324,7 +2324,7 @@ sub ConfigChecksum {
             return;
         }
 
-        $ConfigString .= $File . $Stat->mtime();
+        $ConfigString .= $File . $Stat->mtime(); # modified time in seconds
     }
 
     return md5_hex($ConfigString);
@@ -2411,7 +2411,7 @@ sub SyncWithS3 {
 
             # do not sync ZZZ*.pm files when the local event file differs from the version in S3
             last CHECK_SYNC unless $Stat->size == $Properties->{Size};
-            last CHECK_SYNC unless $Stat->mtime == $Properties->{Mtime};
+            last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
         }
 
         # check the fixed list of ZZZ files
@@ -2441,7 +2441,7 @@ sub SyncWithS3 {
             }
 
             # timestamp check does not consider differences within one second
-            if ( $Stat->mtime != $Properties->{Mtime} ) {
+            if ( int($Stat->mtime) != int($Properties->{Mtime}) ) {
                 push @OutdatedZZZFilenames, $ZZZFileName;
 
                 next ZZZFILENAME;

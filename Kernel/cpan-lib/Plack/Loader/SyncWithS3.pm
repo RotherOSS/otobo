@@ -119,7 +119,7 @@ sub run {
                 ||
                 $Stat->size != $Properties->{Size}
                 ||
-                $Stat->mtime != $Properties->{Mtime}
+                int($Stat->mtime) != int($Properties->{Mtime})
             )
             {
                 $DoReinstallPackages = 1;

@@ -410,25 +410,25 @@ EOT
         {
             'uni_delta.txt' => {
                 'Size'  => '1002',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_delta.txt",
             },
             'uni_beta.txt' => {
                 'Size'  => '215',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_beta.txt"
             },
             'uni_alpha.txt' => {
                 'Size'  => '439',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_alpha.txt",
             },
             'uni_gamma' => {
                 'Size'  => '1095',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_gamma",
             }
@@ -455,19 +455,19 @@ EOT
         {
             'uni_delta.txt' => {
                 'Size'  => '1002',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_delta.txt",
             },
             'uni_beta.txt' => {
                 'Size'  => '215',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_beta.txt"
             },
             'uni_gamma' => {
                 'Size'  => '1095',
-                'Mtime' => qr/^\d+$/,
+                'Mtime' => qr/^ \d+ (?:\.\d{3})? $/x,
                 'Key'   =>
                     "OTOBO/test/Storage/S3/\x{3b5}\x{3bb}\x{3bb}\x{3b7}\x{3bd}\x{3b9}\x{3ba}\x{3cc} \x{3b1}\x{3bb}\x{3c6}\x{3ac}\x{3b2}\x{3b7}\x{3c4}\x{3bf}/uni_gamma",
             }
