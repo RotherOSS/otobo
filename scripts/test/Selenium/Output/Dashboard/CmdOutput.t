@@ -14,18 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.20;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-# get selenium object
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -35,11 +37,11 @@ $Selenium->RunTest(
         my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
         # get cmd sysconfig params
-        my $CmdMessage = 'Selenium cmd output test';
+        my $CmdMessage = sprintf 'Selenium cmd output test generated at %s', scalar localtime;
         my %CmdParam   = (
             Block       => 'ContentSmall',
             CacheTTL    => 60,
-            Cmd         => 'echo ' . $CmdMessage,
+            Cmd         => "echo $CmdMessage",
             Default     => 1,
             Description => '',
             Group       => '',
@@ -64,11 +66,8 @@ $Selenium->RunTest(
         );
 
         # check for cmd expected message
-        $Self->True(
-            index( $Selenium->get_page_source(), "$CmdMessage" ) > -1,
-            "$CmdMessage - found on screen"
-        );
+        $Selenium->content_contains( $CmdMessage, "$CmdMessage - found on screen" );
     }
 );
 
-$Self->DoneTesting();
+done_testing();
