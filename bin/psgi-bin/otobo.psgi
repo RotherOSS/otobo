@@ -78,9 +78,11 @@ use lib "$Bin/../../Custom";
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 # core modules
+use Cwd qw(abs_path);
 use Data::Dumper;
 use Encode qw(:all);
-use Cwd qw(abs_path);
+use File::Basenname qw(dirname);
+use File::Path qw(make_path);
 
 # CPAN modules
 use DateTime 1.08;
@@ -265,6 +267,9 @@ my $SyncFromS3Middleware = sub {
         my $PathBelowHtdocs = $Env->{PATH_INFO};
         $PathBelowHtdocs =~ s!/$!!;
         $PathBelowHtdocs =~ s!^/!!;
+
+        # The location on the file system is something like:
+        # /opt/otobo/var/httpd/htdocs/skins/Customer/css-cache
         my $Location = "$Home/var/httpd/htdocs/$PathBelowHtdocs";
 
         if ( !-e $Location ) {
@@ -280,12 +285,16 @@ my $SyncFromS3Middleware = sub {
             # Check for every request whether Kernel/Config.pm has been modified.
             Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
 
+            # make sure that the directory where the object should be stored exists
+            # make_path() croaks when the dir can't be created
+            make_path( dirname($Location) );
+
             my $StorageS3Object = Kernel::System::Storage::S3->new(
                 ConfigObject => Kernel::Config->new( Level => 'Clear' ),
             );
-            my $FilePath = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
+            my $S3Key = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
             $StorageS3Object->SaveObjectToFile(
-                Key      => $FilePath,
+                Key      => $S3Key,
                 Location => $Location,
             );
         }
