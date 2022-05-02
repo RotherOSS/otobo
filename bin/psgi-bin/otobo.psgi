@@ -81,7 +81,7 @@ use lib "$Bin/../../Custom";
 use Cwd qw(abs_path);
 use Data::Dumper;
 use Encode qw(:all);
-use File::Basenname qw(dirname);
+use File::Basename qw(dirname);
 use File::Path qw(make_path);
 
 # CPAN modules
