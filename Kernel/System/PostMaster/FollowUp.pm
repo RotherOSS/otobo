@@ -295,8 +295,8 @@ sub Run {
         );
     }
 
-    # set lock
-    if ( $GetParam{'X-OTOBO-FollowUp-Lock'} ) {
+    # set lock if ticket does not belong to root@localhost
+    if ( $GetParam{'X-OTOBO-FollowUp-Lock'} && $UserInfo{UserID} ne 1 ) {
 
         $TicketObject->TicketLockSet(
             Lock     => $GetParam{'X-OTOBO-FollowUp-Lock'},
