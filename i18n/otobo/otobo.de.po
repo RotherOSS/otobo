@@ -50,8 +50,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-04-11 17:40+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2022-05-04 07:10+0000\n"
+"Last-Translator: Grit Rother <mr@otobo.de>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -10443,7 +10443,7 @@ msgstr "Zurück zur vorhergehenden Seite"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "Mit einem Klick erkläre ich meine Zustimmung"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -12699,11 +12699,11 @@ msgstr "Keine Daten in der angegebenen Quelle gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr "Datenschutzvereinbarung konnte nicht aktualisiert werden!"
+msgstr "Datenschutzhinweise konnten nicht aktualisiert werden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr "Datenschutzvereinbarung aktualisiert!"
+msgstr "Datenschutzhinweise aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -21427,7 +21427,7 @@ msgstr "About-Text / Impressum eingeben."
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr "Datenschutzvereinbarung bearbeiten."
+msgstr "Datenschutzhinweise bearbeiten."
 
 #. SysConfig
 msgid ""
