@@ -3045,7 +3045,7 @@ sub Data {
         'go back to the previous page' => '이전 페이지로 돌아가기',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => '',
+        'Click to accept' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

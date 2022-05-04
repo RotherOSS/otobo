@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.781939374702428;
+    $Self->{Completeness}        = 0.781780669734963;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3048,7 +3048,7 @@ sub Data {
         'go back to the previous page' => '直前のページに戻る',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => 'ワンクリックで同意します。',
+        'Click to accept' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>

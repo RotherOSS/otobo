@@ -39,7 +39,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.256784637359149;
+    $Self->{Completeness}        = 0.256625932391684;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -3052,7 +3052,7 @@ sub Data {
         'go back to the previous page' => '',
 
         # Template: CustomerAccept
-        'Mit einem Klick erkläre ich meine Zustimmung.' => 'Kliknutím uděluji souhlas se zpracováním osobních údajů.',
+        'Click to accept' => '',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
