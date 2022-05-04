@@ -21,7 +21,7 @@
     <div id='oooMainBox'>
         <iframe src="[% Env("Baselink") %]Action=CustomerGenericContent&Subaction=Show&Key=Accept"></iframe>
 [% IF Data.AcceptButton %]
-        <h2 id='AcceptButton'><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1" id="AcceptGDPR">[% Translate("Mit einem Klick erkläre ich meine Zustimmung.") | html %]<img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo-signet.svg" height="30" alt="OTOBO Signet"/></a></h2>
+        <h2 id='AcceptButton'><a href="[% Env("Baselink") %]Action=[% Env("Action") %];Accept=1" id="AcceptGDPR">[% Translate("Click to accept") | html %]<img src="[% Config("Frontend::WebPath") %]skins/Customer/default/img/otobo-signet.svg" height="30" alt="OTOBO Signet"/></a></h2>
 [% END %]
     </div>
 </div>
