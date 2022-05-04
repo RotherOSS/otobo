@@ -96,7 +96,7 @@
         <div id='FooterLinks'>
 [% IF(Data.FooterLinks) %]
     [% FOREACH Link IN Data.FooterLinks %]
-            <a href="[% Link.Target | html %]" target="_blank" class="ooo10g">[% Link.Description | html %]</a>
+            <a href="[% Link.Target | html %]" target="_blank" class="ooo10g">[% Link.Description | Translate | html %]</a>
     [% END %]
 [% END %]
         </div>
