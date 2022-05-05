@@ -89,8 +89,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # Execute the S3 sync
-    my $ErrorMessage;
-    my $Success;
     if ( $Self->{Debug} ) {
         print "    $Self->{DaemonName} Executes function: SyncWithS3\n";
     }

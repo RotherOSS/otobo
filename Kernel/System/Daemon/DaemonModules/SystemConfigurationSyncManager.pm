@@ -16,6 +16,7 @@
 
 package Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager;
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -65,8 +66,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless $Self, $Type;
+    my $Self = bless {}, $Type;
 
     # Get objects in constructor in order to increase performance.
     $Self->{ConfigObject}    = $Kernel::OM->Get('Kernel::Config');
