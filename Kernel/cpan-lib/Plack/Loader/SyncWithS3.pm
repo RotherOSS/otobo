@@ -140,8 +140,7 @@ sub run {
         # TODO: kill web server when  sending SIGHUP does not work
         # shut down the web server
         #$Self->_kill_child;
-
-        warn "Successfully killed! Restarting the new server process.\n";
+        #warn "Successfully killed! Restarting the new server process.\n";
 
         # reinstall packages
         # Use the console command in order to avoid dependance on OTOBO modules in the watchdog loop
