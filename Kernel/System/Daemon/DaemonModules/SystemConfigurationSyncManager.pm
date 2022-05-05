@@ -16,11 +16,17 @@
 
 package Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager;
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
+# core modules
 use File::Basename qw(basename);
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 use parent qw(Kernel::System::Daemon::BaseDaemon Kernel::System::Daemon::DaemonModules::BaseTaskWorker);
@@ -40,7 +46,13 @@ Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager - daemon t
 
 =head1 DESCRIPTION
 
-System Configuration deployment sync daemon
+This Daemon module performs two tasks. The first task is to check whether there is a now deployment in the database
+that is for some reason not reflected in the config cache F<Kernel/Config/Files/ZZZAAuto.pm>. It performs a new deployment when there
+is a discrepancy. When OTOBO_SYNC_WITH_S3 is active then the new ZZZ files are deployed first to the S3 compatible storage.
+This means that potential other nodes don't need to sync the deployment again. But they should restart because the config cache has changed.
+
+The second task is to reload the Daemon in case there is a change in the F<Kernel/Config/Files/*.pm> files. This happens
+after a deployment sync.
 
 =head1 PUBLIC INTERFACE
 
@@ -54,10 +66,9 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # Allocate new hash for object.
-    my $Self = {};
-    bless $Self, $Type;
+    my $Self = bless {}, $Type;
 
-    # Get objects in constructor to save performance.
+    # Get objects in constructor in order to increase performance.
     $Self->{ConfigObject}    = $Kernel::OM->Get('Kernel::Config');
     $Self->{CacheObject}     = $Kernel::OM->Get('Kernel::System::Cache');
     $Self->{DBObject}        = $Kernel::OM->Get('Kernel::System::DB');

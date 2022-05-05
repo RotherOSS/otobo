@@ -36,11 +36,14 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::Daemon::DaemonModules::SyncWithS3 - daemon to reinstall packages when packages are installed
+Kernel::System::Daemon::DaemonModules::SyncWithS3 - daemon to re-install packages when packages are installed
 
 =head1 DESCRIPTION
 
-Reinstall packages.
+Reinstall packages on the current node when packages were installed via another node. This functionality
+is similar to L<Plack::Loader::SyncWithS3>, which also re-installs packages.
+
+This means that this daemon module does not have to be activated on nodes where a web server is running.
 
 =head1 PUBLIC INTERFACE
 
@@ -58,12 +61,6 @@ sub new {
 
     # Get objects in constructor to save performance.
     $Self->{Home} = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
-    # Disable in memory cache to be clusterable.
-
-    # Get the NodeID from the SysConfig settings, this is used on High Availability systems.
-
-    # Check NodeID, if does not match is impossible to continue.
 
     # Do not change the following values!
     $Self->{SleepPost} = 10;         # sleep 10 seconds after each loop
@@ -92,8 +89,6 @@ sub Run {
     my ( $Self, %Param ) = @_;
 
     # Execute the S3 sync
-    my $ErrorMessage;
-    my $Success;
     if ( $Self->{Debug} ) {
         print "    $Self->{DaemonName} Executes function: SyncWithS3\n";
     }
@@ -140,6 +135,7 @@ sub Run {
 
     warn "-- a new package event was detected";
 
+    # TODO: what about locking
     # reinstall packages
     # Use the console command in order to avoid dependance on OTOBO modules in the watchdog loop
     my $Output = qx{$Self->{Home}/bin/otobo.Console.pl Admin::Package::ReinstallAll};

@@ -469,8 +469,8 @@ sub TaskLock {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # get database object
@@ -1242,8 +1242,8 @@ sub FutureTaskToExecute {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # get needed objects
@@ -2108,8 +2108,8 @@ sub RecurrentTaskExecute {
     }
 
     # create the lock key
-    my $LockKeyNodeID = sprintf "%03d", $Param{NodeID};
-    my $LockKeyPID    = sprintf "%08d", $Param{PID};
+    my $LockKeyNodeID = sprintf '%03d', $Param{NodeID};
+    my $LockKeyPID    = sprintf '%08d', $Param{PID};
     my $LockKey       = '1' . $LockKeyNodeID . $LockKeyPID;
 
     # lock the entry in database
