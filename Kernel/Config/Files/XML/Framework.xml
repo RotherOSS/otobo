@@ -9983,12 +9983,12 @@ via the Preferences button after logging in.
         </Value>
     </Setting>
     <Setting Name="Daemon::SchedulerCronTaskManager::Task###StatsReportsGenerateCron" Required="1" Valid="1" ReadOnly="1">
-        <Description Translatable="1">Cleans up old chat logs.</Description>
+        <Description Translatable="1">Automatically generate statistics reports and email them to the specified recipients.</Description>
         <Navigation>Daemon::SchedulerCronTaskManager::Task</Navigation>
         <Value>
             <Hash>
                 <Item Key="TaskName">StatsReportsGenerateCron</Item>
-                <Item Key="Schedule">*/10 * * * *</Item>
+                <Item Key="Schedule">*/10 * * * *</Item> <!-- default: every 10 minutes -->
                 <Item Key="Module">Kernel::System::Console::Command::Maint::Stats::Reports::GenerateCron</Item>
                 <Item Key="Function">Execute</Item>
                 <Item Key="MaximumParallelInstances">1</Item>

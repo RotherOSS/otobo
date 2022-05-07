@@ -585,7 +585,6 @@ sub CacheDelete {
         }
     }
 
-    $DB::single = 1;
     if ( $Self->{UseS3Backend} ) {
         $Self->_S3CacheDelete();
     }

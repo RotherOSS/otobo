@@ -386,7 +386,7 @@ sub PostRun {
 =head2 Execute()
 
 this method will parse/validate the command line arguments supplied by the user.
-If that was ok, the Run() method of the command will be called.
+If that was ok, the C<PreRun()>, C<Run()>, and C<PostRun()> methods of the command module will be called.
 
 =cut
 

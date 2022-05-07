@@ -271,7 +271,7 @@ sub MigrateXMLConfig {
     );
     my $Content = $ContentRef->$*;
 
-    # sanity checks, simply return when there is noting to do
+    # sanity checks, simply return when there is nothing to do
     return 1 unless $Content =~ m{<otrs_config};
     return 1 unless $Content =~ m{<otrs_config.*?init="(.+?)"};
     return 1 unless $Content =~ m{<otrs_config.*?version="2.0"};
