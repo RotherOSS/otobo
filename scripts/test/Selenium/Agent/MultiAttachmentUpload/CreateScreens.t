@@ -148,8 +148,7 @@ $Selenium->RunTest(
                 "\$('#FileUpload').data('max-files', 2)"
             );
 
-            $DB::single = 1;
-            $Location   = "$Home/scripts/test/sample/Cache/Test1.pdf";
+            $Location = "$Home/scripts/test/sample/Cache/Test1.pdf";
             $Selenium->find_element( "#FileUpload", 'css' )->send_keys($Location);
             $Selenium->WaitFor(
                 JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === 1"

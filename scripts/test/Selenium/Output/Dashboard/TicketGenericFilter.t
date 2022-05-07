@@ -172,7 +172,6 @@ $Selenium->RunTest(
                 );
 
                 # Verify that the first test ticket is found after filtering with the first customer that is not in DB.
-                $DB::single = 1;
                 $Selenium->find_element_ok(
                     sprintf( $XPathSelectorTemplate, $Tickets[0]->{TN} ),
                     'xpath',
