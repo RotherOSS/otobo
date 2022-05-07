@@ -1470,7 +1470,7 @@ sub CronTaskToExecute {
 
 =head2 CronTaskCleanup()
 
-removes recurrent tasks that does not have a matching a cron tasks definition in SysConfig
+removes recurrent tasks that do not have a matching cron tasks definition in SysConfig.
 
     my $Success = $SchedulerDBObject->CronTaskCleanup();
 
