@@ -109,7 +109,6 @@ if ( !$PGPBin || !( -e $PGPBin ) ) {
             );
         }
     }
-
 }
 
 # create local crypt object
@@ -151,44 +150,45 @@ my %Check = (
 # add PGP keys and perform sanity check
 for my $Count ( 1 .. 2 ) {
 
-    my @Keys = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-    ok( !$Keys[0], "Key:$Count - KeySearch()" );
-
-    # get keys
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
-        Filename  => "PGPPrivateKey-$Count.asc",
-    );
-    my $Message = $PGPObject->KeyAdd(
-        Key => ${$KeyString},
-    );
-    ok( $Message, "Key:$Count - KeyAdd()" );
-
-    @Keys = $PGPObject->KeySearch(
-        Search => $Search{$Count},
-    );
-
-    ok( $Keys[0], "Key:$Count - KeySearch()" );
-
-    for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
-        is(
-            $Keys[0]->{$ID} || '',
-            $Check{$Count}->{$ID},
-            "Key:$Count - KeySearch() - $ID",
+    subtest "Key $Count" => sub {
+        my ( $Key, @OtherKeys ) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
         );
-    }
+        ok( !$Key, "KeySearch(), key not found" );
 
-    my $PublicKeyString = $PGPObject->PublicKeyGet(
-        Key => $Keys[0]->{Key},
-    );
-    ok( $PublicKeyString, "Key:$Count - PublicKeyGet()" );
+        # get keys
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/Crypt/",
+            Filename  => "PGPPrivateKey-$Count.asc",
+        );
+        my $Message = $PGPObject->KeyAdd(
+            Key => ${$KeyString},
+        );
+        ok( $Message, "KeyAdd()" );
 
-    my $PrivateKeyString = $PGPObject->SecretKeyGet(
-        Key => $Keys[0]->{KeyPrivate},
-    );
-    ok( $PrivateKeyString, "Key:$Count - SecretKeyGet()" );
+        ( $Key, @OtherKeys ) = $PGPObject->KeySearch(
+            Search => $Search{$Count},
+        );
+        ok( $Key, "KeySearch(), key found" );
+
+        for my $ID (qw(Type Identifier Bit Key KeyPrivate Created Expires Fingerprint FingerprintShort)) {
+            is(
+                $Key->{$ID} || '',
+                $Check{$Count}->{$ID},
+                "KeySearch() - $ID",
+            );
+        }
+
+        my $PublicKeyString = $PGPObject->PublicKeyGet(
+            Key => $Key->{Key},
+        );
+        ok( $PublicKeyString, "PublicKeyGet()" );
+
+        my $PrivateKeyString = $PGPObject->SecretKeyGet(
+            Key => $Key->{KeyPrivate},
+        );
+        ok( $PrivateKeyString, "SecretKeyGet()" );
+    };
 }
 
 # tests for handling signed / encrypted emails
@@ -300,7 +300,7 @@ for my $Test (@CryptTests) {
 
             # use the first result, there should be only one
             my %RawArticle;
-            if ( scalar @Articles ) {
+            if (@Articles) {
                 %RawArticle = $Articles[0]->%*;
             }
             note "TicketID: $RawArticle{TicketID}";
