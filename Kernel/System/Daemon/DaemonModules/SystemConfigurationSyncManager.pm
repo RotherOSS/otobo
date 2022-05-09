@@ -46,7 +46,7 @@ Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager - daemon t
 
 =head1 DESCRIPTION
 
-This Daemon module performs two tasks. The first task is to check whether there is a now deployment in the database
+This Daemon module performs two tasks. The first task is to check whether there is a new deployment in the database
 that is for some reason not reflected in the config cache F<Kernel/Config/Files/ZZZAAuto.pm>. It performs a new deployment when there
 is a discrepancy. When OTOBO_SYNC_WITH_S3 is active then the new ZZZ files are deployed first to the S3 compatible storage.
 This means that potential other nodes don't need to sync the deployment again. But they should restart because the config cache has changed.
@@ -94,10 +94,9 @@ sub new {
     }
 
     # Do not change the following values!
-    $Self->{SleepPost} = 60;         # sleep 1 minute after each loop
-    $Self->{Discard}   = 60 * 60;    # discard every hour
-
-    $Self->{DiscardCount} = $Self->{Discard} / $Self->{SleepPost};
+    $Self->{SleepPost} = 60;    # sleep 1 minute after each loop
+    my $Discard = 60 * 60;      # discard every hour
+    $Self->{DiscardCount} = $Discard / $Self->{SleepPost};
 
     $Self->{Debug}      = $Param{Debug};
     $Self->{DaemonName} = 'Daemon: SystemConfigurationSyncManager';
@@ -241,7 +240,7 @@ sub PostRun {
         print "  $Self->{DaemonName} will be stopped and set for restart!\n";
     }
 
-    return if $Self->{DiscardCount} <= 0;
+    return if $Self->{DiscardCount} <= 0;    # force a reload of this daemon module
     return 1;
 }
 
