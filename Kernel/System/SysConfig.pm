@@ -2478,7 +2478,6 @@ sub ConfigurationXML2DB {
         Changes     => [],
     );
 
-    my %Data;
     FILE:
     for my $File (@Files) {
 
@@ -3993,8 +3992,6 @@ sub ConfigurationDeploySettingsListGet {
     my @Settings;
     for my $ModifiedVersionID ( sort @ModifiedVersions ) {
 
-        my %Versions;
-
         # Get the modified version.
         my %ModifiedSettingVersion = $SysConfigDBObject->ModifiedSettingVersionGet(
             ModifiedVersionID => $ModifiedVersionID,
@@ -4226,7 +4223,6 @@ sub ConfigurationLoad {
     my $UserObject = $Kernel::OM->Get('Kernel::System::User');
 
     # Get the configuration sections to import (skip Default and non existing users).
-    my $ValidSections;
     my %Configuration;
     SECTION:
     for my $Section ( sort keys %ConfigurationRaw ) {
@@ -5287,8 +5283,6 @@ sub _DBCleanUp {
     my @SettingsDB = $SysConfigDBObject->DefaultSettingList(
         IncludeInvisible => 1,
     );
-
-    my ( $DefaultUpdated, $ModifiedUpdated );
 
     for my $SettingDB (@SettingsDB) {
 

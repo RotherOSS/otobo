@@ -4835,17 +4835,17 @@ sub DeploymentGetLast {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Return cache.
+    # Using the cache is valid, as the cache key DeploymentGetLast is deleted
+    # when a deployment is added or deleted.
     my $Cache = $CacheObject->Get(
         Type => 'SysConfigDeployment',
         Key  => $CacheKey,
     );
 
-    return %{$Cache} if ref $Cache eq 'HASH';
+    return $Cache->%* if ref $Cache eq 'HASH';
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $DeploymentID;
     return if !$DBObject->Prepare(
         SQL => '
             SELECT MAX(id)
@@ -4853,12 +4853,12 @@ sub DeploymentGetLast {
             WHERE user_id IS NULL',
     );
 
-    my @DeploymentID;
+    my $DeploymentID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $DeploymentID = $Row[0];
     }
 
-    return if !$DeploymentID;
+    return unless $DeploymentID;
 
     my %Deployment = $Self->DeploymentGet(
         DeploymentID => $DeploymentID,

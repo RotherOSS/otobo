@@ -3387,18 +3387,20 @@ sub NavigationBar {
     # run nav bar output modules
     my $NavBarOutputModuleConfig = $ConfigObject->Get('Frontend::NavBarOutputModule');
     if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
-        my %Jobs = %{$NavBarOutputModuleConfig};
+        my %Jobs = $NavBarOutputModuleConfig->%*;
 
-        OUTPUTMODULE:
+        JOB:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next OUTPUTMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            next JOB unless $MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next OUTPUTMODULE if !$Object;
+
+            next JOB unless $Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
@@ -3408,25 +3410,27 @@ sub NavigationBar {
     # run notification modules
     my $FrontendNotifyModuleConfig = $ConfigObject->Get('Frontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
-        my %Jobs = %{$FrontendNotifyModuleConfig};
+        my %Jobs = $FrontendNotifyModuleConfig->%*;
 
-        NOTIFICATIONMODULE:
+        JOB:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next NOTIFICATIONMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            next JOB unless $MainObject->Require( $Jobs{$Job}->{Module} );
+
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next NOTIFICATIONMODULE if !$Object;
+
+            next JOB unless $Object;
 
             # run module
             $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
         }
     }
 
-    # run nav bar modules
+    # run nav bar module
     if ( $Self->{NavigationModule} ) {
 
         # run navbar modules
@@ -4731,8 +4735,6 @@ sub CustomerNavigationBar {
     # Only highlight the first matched navigation entry. If there are several entries
     #   with the same Action and Subaction, it cannot be determined which one was used.
     #   Therefore we just highlight the first one.
-    my $SelectedFlag;
-
     ITEM:
     for my $Item ( sort keys %NavBarModule ) {
         next ITEM if !%{ $NavBarModule{$Item} };
@@ -4792,18 +4794,18 @@ sub CustomerNavigationBar {
     # run notification modules
     my $FrontendNotifyModuleConfig = $ConfigObject->Get('CustomerFrontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
-        my %Jobs = %{$FrontendNotifyModuleConfig};
+        my %Jobs = $FrontendNotifyModuleConfig->%*;
 
-        NOTIFICATIONMODULE:
+        JOB:
         for my $Job ( sort keys %Jobs ) {
 
             # load module
-            next NOTIFICATIONMODULE if !$MainObject->Require( $Jobs{$Job}->{Module} );
+            next JOB if !$MainObject->Require( $Jobs{$Job}->{Module} );
             my $Object = $Jobs{$Job}->{Module}->new(
                 %{$Self},
                 LayoutObject => $Self,
             );
-            next NOTIFICATIONMODULE if !$Object;
+            next JOB if !$Object;
 
             # run module
             $Param{Notification} .= $Object->Run( %Param, Config => $Jobs{$Job} );
