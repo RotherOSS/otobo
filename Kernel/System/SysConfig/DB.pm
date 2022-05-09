@@ -4845,7 +4845,6 @@ sub DeploymentGetLast {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $DeploymentID;
     return if !$DBObject->Prepare(
         SQL => '
             SELECT MAX(id)
@@ -4853,12 +4852,12 @@ sub DeploymentGetLast {
             WHERE user_id IS NULL',
     );
 
-    my @DeploymentID;
+    my $DeploymentID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $DeploymentID = $Row[0];
     }
 
-    return if !$DeploymentID;
+    return unless $DeploymentID;
 
     my %Deployment = $Self->DeploymentGet(
         DeploymentID => $DeploymentID,
