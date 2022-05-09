@@ -15,9 +15,9 @@
 
 package Kernel::System::Storage::S3;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -65,7 +65,7 @@ meaning that we have a bootstrapping problem. Therefore we have the parameter Co
 
     # in Kernel::Config::Defaults::new()
     my $StorageS3Object = Kernel::System::Storage::S3->new(
-        ConfigObject => $Self,
+        ConfigObject => $ConfigObject,
     );
 
 =cut
@@ -96,6 +96,7 @@ sub new {
         HomePrefix     => $ConfigObject->Get('Storage::S3::HomePrefix'),
         MetadataPrefix => $ConfigObject->Get('Storage::S3::MetadataPrefix'),
         Delimiter      => $ConfigObject->Get('Storage::S3::Delimiter'),
+        DeleteMulti    => $ConfigObject->Get('Storage::S3::DeleteMultipleObjectIsSupported'),
         UserAgent      => $UserAgent,
         S3Object       => $S3Object,
     };
@@ -548,18 +549,39 @@ sub DiscardObjects {
         }
     }
 
+    # first get info about the objects with the relevant prefix
+    my %Name2Properties = $Self->ListObjects(
+        Prefix => $Param{Prefix},
+        ( exists $Param{Delimiter} ? ( Delimiter => $Param{Delimiter} ) : () ),
+    );
+
+    # There have been problems with deleting multiple objects at once. Discard single object as a workaraóund.
+    if ( !$Self->{DeleteMulti} ) {
+        my $DiscardSuccess = 1;
+
+        FILENAME:
+        for my $Filename ( sort keys %Name2Properties ) {
+
+            # keep files matching a regex
+            next FILENAME if $Param{Keep}        && $Filename =~ $Param{Keep};
+            next FILENAME if $Param{DiscardOnly} && $Filename !~ $Param{DiscardOnly};
+
+            $DiscardSuccess = $Self->DiscardObject(
+                Key => "$Param{Prefix}$Filename",
+            );
+
+            last FILENAME unless $DiscardSuccess;
+        }
+
+        return $DiscardSuccess;
+    }
+
     # Create XML for deleting objects with the to be deleted prefix
     # See https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjects.html
     my $DOM = Mojo::DOM->new->xml(1);
     {
         # start with the the toplevel Delete tag
         $DOM->content( $DOM->new_tag( 'Delete', xmlns => 'http://s3.amazonaws.com/doc/2006-03-01/' ) );
-
-        # first get info about the objects with the relevant prefix
-        my %Name2Properties = $Self->ListObjects(
-            Prefix => $Param{Prefix},
-            ( exists $Param{Delimiter} ? ( Delimiter => $Param{Delimiter} ) : () ),
-        );
 
         FILENAME:
         for my $Filename ( sort keys %Name2Properties ) {
