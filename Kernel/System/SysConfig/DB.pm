@@ -4835,13 +4835,14 @@ sub DeploymentGetLast {
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
-    # Return cache.
+    # Using the cache is valid, as the cache key DeploymentGetLast is deleted
+    # when a deployment is added or deleted.
     my $Cache = $CacheObject->Get(
         Type => 'SysConfigDeployment',
         Key  => $CacheKey,
     );
 
-    return %{$Cache} if ref $Cache eq 'HASH';
+    return $Cache->%* if ref $Cache eq 'HASH';
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
