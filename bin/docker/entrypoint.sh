@@ -39,7 +39,6 @@ function handle_docker_firsttime() {
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         copy_otobo_next
-
     fi
 
     # When /opt/otobo already exists then there is no automatic update.
@@ -73,7 +72,9 @@ function start_and_check_daemon() {
 
     sleep_pid=
     while true; do
-        if [ -f "bin/otobo.Daemon.pl" ]; then
+
+        # Do not try to start the Daemon when /opt/otobo is still being created.
+        if [ -f ".copy_otobo_next_finished" ]; then
             bin/otobo.Daemon.pl start
         fi
         # the '&' activates the builtin job control system
@@ -142,6 +143,10 @@ function copy_otobo_next() {
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
+
+    # Indicate the time when copy_otobo_next() was last called. This is used primarily
+    # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
+    touch $OTOBO_HOME/.copy_otobo_next_finished
 }
 
 function do_update_tasks() {
