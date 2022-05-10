@@ -198,7 +198,7 @@ if [ "$1" = "daemon" ]; then
 
     # When /opt/otobo isn't a Docker volume we rirst check whether the container is started with a new image.
     # If /opt/otobo is a volume we assume that there is a web container who does this for us.
-    if ! mountpoint "/opt/otobo"; then
+    if ! mountpoint -q "/opt/otobo"; then
 
         # There is no locking as we no other container can meddle with /opt/otobo.
         if [ -f "$otobo_next/docker_firsttime" ]; then
