@@ -195,6 +195,18 @@ fi
 
 # Start the OTOBO daemon
 if [ "$1" = "daemon" ]; then
+
+    # When /opt/otobo isn't a Docker volume we rirst check whether the container is started with a new image.
+    # If /opt/otobo is a volume we assume that there is a web container who does this for us.
+    if ! mountpoint "/opt/otobo"; then
+
+        # There is no locking as we no other container can meddle with /opt/otobo.
+        if [ -f "$otobo_next/docker_firsttime" ]; then
+            handle_docker_firsttime
+        fi
+    fi
+
+    # do some work
     start_and_check_daemon
 
     exit $?
@@ -203,7 +215,8 @@ fi
 # Start the webserver
 if [ "$1" = "web" ]; then
 
-    # first check whether the container is started with a new image
+    # First check whether the container is started with a new image.
+    # There is no locking as we assume that there aren't multiple containers trying to the same.
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
