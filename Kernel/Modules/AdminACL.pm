@@ -362,13 +362,13 @@ sub Run {
 
         my $Location = $Kernel::OM->Get('Kernel::Config')->Get('Home') . '/Kernel/Config/Files/ZZZACL.pm';
 
-        my $ACLDump = $ACLObject->ACLDump(
+        my $ACLDumpSuccess = $ACLObject->ACLDump(
             ResultType => 'FILE',
             Location   => $Location,
             UserID     => $Self->{UserID},
         );
 
-        if ($ACLDump) {
+        if ($ACLDumpSuccess) {
 
             my $Success = $ACLObject->ACLsNeedSyncReset();
 

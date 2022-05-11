@@ -16,9 +16,9 @@
 
 package Kernel::System::ACL::DB::ACL;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
@@ -832,18 +832,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'FILE'                        # only 'FILE' is supported
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
-        UserID      => 1,
+        ResultType  => 'FILE'                                      # default is 'FILE', only 'FILE' is supported
+        Location    => '/opt/otobo/Kernel/Config/Files/ZZZACL.pm', # mandatory for ResultType = 'FILE'
+        UserID      => 1,                                          # checked, but not really used
     );
 
 Returns:
 
-    $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+    $ACLDump = '/opt/otobo/Kernel/Config/Files/ZZZACL.pm';         # or undef if can't write the file
 
 or in case of S3 support
 
-    $ACLDump = 'my_bucket/OTOBO/var/myfile.txt';     # or undef if can't write to S3
+    $ACLDump = 'Kernel/Config/Files/ZZZACL.pm';                    # or undef if can't write to S3
 
 =cut
 
@@ -856,6 +856,7 @@ sub ACLDump {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
@@ -923,11 +924,11 @@ sub ACLDump {
         Type => 'ACLEditor_ACL',
     );
 
-    my $PMFileOutput = '';
+    my $ACLItemsOutput = '';
     for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
-        $PMFileOutput .= $Self->_ACLItemOutput(
+        $ACLItemsOutput .= $Self->_ACLItemOutput(
             Key        => $ACLName,
             Value      => $ACLDump{$ACLName}{Values},
             Comment    => $ACLDump{$ACLName}{Comment},
@@ -938,18 +939,8 @@ sub ACLDump {
         );
     }
 
-    # get user data of the current user to use for the file comment
-    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-        UserID => $Param{UserID},
-    );
-
-    # remove home from location path to show in file comment
-    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $Location = $Param{Location};
-    $Location =~ s{$Home\/}{}xmsg;
-
     # build comment (therefore we need to trick out the filter)
-    my $FileStart = <<'EOF';
+    my $PMFileOutput = sprintf <<'END_PM_FILE', $ACLItemsOutput;
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZACL;
@@ -960,20 +951,21 @@ use utf8;
 sub Load {
     my ($File, $Self) = @_;
 
-EOF
+%s
 
-    my $FileEnd = <<'EOF';
     return;
 }
 1;
-EOF
-
-    $PMFileOutput = $FileStart . $PMFileOutput . $FileEnd;
+END_PM_FILE
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
+        # remove the leading /opt/otobo as the home prefix is added automatically in the S3 storage object
+        my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $ZZZFilePath = $Param{Location};
+        $ZZZFilePath =~ s{^$Home/*}{};
+
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
 
         # only write to S3, no extra copy in the file system
         return $StorageS3Object->StoreObject(
