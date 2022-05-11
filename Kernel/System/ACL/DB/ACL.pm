@@ -960,8 +960,12 @@ END_PM_FILE
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
+        # remove the leading /opt/otobo as the home prefix is added automatically in the S3 storage object
+        my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+        my $ZZZFilePath = $Param{Location};
+        $ZZZFilePath =~ s{^$Home/*}{};
+
         my $StorageS3Object = Kernel::System::Storage::S3->new();
-        my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZACL.pm';
 
         # only write to S3, no extra copy in the file system
         return $StorageS3Object->StoreObject(
