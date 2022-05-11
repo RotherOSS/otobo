@@ -857,6 +857,7 @@ sub ACLDump {
             Priority => 'error',
             Message  => 'Need UserID!',
         );
+
         return;
     }
 
