@@ -924,11 +924,11 @@ sub ACLDump {
         Type => 'ACLEditor_ACL',
     );
 
-    my $PMFileOutput = '';
+    my $ACLItemsOutput = '';
     for my $ACLName ( sort keys %ACLDump ) {
 
         # create output
-        $PMFileOutput .= $Self->_ACLItemOutput(
+        $ACLItemsOutput .= $Self->_ACLItemOutput(
             Key        => $ACLName,
             Value      => $ACLDump{$ACLName}{Values},
             Comment    => $ACLDump{$ACLName}{Comment},
@@ -950,7 +950,7 @@ sub ACLDump {
     $Location =~ s{$Home\/}{}xmsg;
 
     # build comment (therefore we need to trick out the filter)
-    my $FileStart = <<'EOF';
+    my $PMFileOutput = sprintf <<'END_PM_FILE', $ACLItemsOutput;
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::ZZZACL;
@@ -961,15 +961,12 @@ use utf8;
 sub Load {
     my ($File, $Self) = @_;
 
-EOF
+%s
 
-    my $FileEnd = <<'EOF';
     return;
 }
 1;
-EOF
-
-    $PMFileOutput = $FileStart . $PMFileOutput . $FileEnd;
+END_PM_FILE
 
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
