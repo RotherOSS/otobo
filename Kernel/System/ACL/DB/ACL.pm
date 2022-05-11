@@ -16,9 +16,9 @@
 
 package Kernel::System::ACL::DB::ACL;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
@@ -843,7 +843,8 @@ Returns:
 
 or in case of S3 support
 
-    $ACLDump = 'my_bucket/OTOBO/var/myfile.txt';     # or undef if can't write to S3
+    # note that the passed in location is ignored
+    $ACLDump = 'Kernel/Config/Files/ZZZACL.pm';      # or undef if can't write to S3
 
 =cut
 
