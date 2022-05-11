@@ -832,19 +832,18 @@ sub ACLsNeedSyncReset {
 gets a complete ACL information dump from the DB
 
     my $ACLDump = $ACLObject->ACLDump(
-        ResultType  => 'FILE'                        # only 'FILE' is supported
-        Location    => '/opt/otobo/var/myfile.txt'   # mandatory for ResultType = 'FILE'
-        UserID      => 1,
+        ResultType  => 'FILE'                                      # default is 'FILE', only 'FILE' is supported
+        Location    => '/opt/otobo/Kernel/Config/Files/ZZZACL.pm', # mandatory for ResultType = 'FILE'
+        UserID      => 1,                                          # checked, but not really used
     );
 
 Returns:
 
-    $ACLDump = '/opt/otobo/var/myfile.txt';          # or undef if can't write the file
+    $ACLDump = '/opt/otobo/Kernel/Config/Files/ZZZACL.pm';         # or undef if can't write the file
 
 or in case of S3 support
 
-    # note that the passed in location is ignored
-    $ACLDump = 'Kernel/Config/Files/ZZZACL.pm';      # or undef if can't write to S3
+    $ACLDump = 'Kernel/Config/Files/ZZZACL.pm';                    # or undef if can't write to S3
 
 =cut
 
