@@ -939,16 +939,6 @@ sub ACLDump {
         );
     }
 
-    # get user data of the current user to use for the file comment
-    my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-        UserID => $Param{UserID},
-    );
-
-    # remove home from location path to show in file comment
-    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $Location = $Param{Location};
-    $Location =~ s{$Home\/}{}xmsg;
-
     # build comment (therefore we need to trick out the filter)
     my $PMFileOutput = sprintf <<'END_PM_FILE', $ACLItemsOutput;
 # OTOBO config file (automatically generated)
