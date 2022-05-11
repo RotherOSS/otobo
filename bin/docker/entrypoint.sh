@@ -39,7 +39,6 @@ function handle_docker_firsttime() {
         # first the simple case: there is no previous installation
         # use a simle 'ls' for checking dir content, hidden files like .bashrc are ignored
         copy_otobo_next
-
     fi
 
     # When /opt/otobo already exists then there is no automatic update.
@@ -73,7 +72,9 @@ function start_and_check_daemon() {
 
     sleep_pid=
     while true; do
-        if [ -f "bin/otobo.Daemon.pl" ]; then
+
+        # Do not try to start the Daemon when /opt/otobo is still being created.
+        if [ -f ".copy_otobo_next_finished" ]; then
             bin/otobo.Daemon.pl start
         fi
         # the '&' activates the builtin job control system
@@ -142,6 +143,10 @@ function copy_otobo_next() {
     # Use the docker specific Config.pm.dist file.
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pm.docker.dist $OTOBO_HOME/Kernel/Config.pm
     cp --no-clobber $OTOBO_HOME/Kernel/Config.pod.dist       $OTOBO_HOME/Kernel/Config.pod
+
+    # Indicate the time when copy_otobo_next() was last called. This is used primarily
+    # for the OTOBO daemon who needs to know that /opt/otobo has been copied completely.
+    touch $OTOBO_HOME/.copy_otobo_next_finished
 }
 
 function do_update_tasks() {
@@ -190,6 +195,18 @@ fi
 
 # Start the OTOBO daemon
 if [ "$1" = "daemon" ]; then
+
+    # When /opt/otobo isn't a Docker volume we rirst check whether the container is started with a new image.
+    # If /opt/otobo is a volume we assume that there is a web container who does this for us.
+    if ! mountpoint -q "/opt/otobo"; then
+
+        # There is no locking as we no other container can meddle with /opt/otobo.
+        if [ -f "$otobo_next/docker_firsttime" ]; then
+            handle_docker_firsttime
+        fi
+    fi
+
+    # do some work
     start_and_check_daemon
 
     exit $?
@@ -198,7 +215,8 @@ fi
 # Start the webserver
 if [ "$1" = "web" ]; then
 
-    # first check whether the container is started with a new image
+    # First check whether the container is started with a new image.
+    # There is no locking as we assume that there aren't multiple containers trying to the same.
     if [ -f "$otobo_next/docker_firsttime" ]; then
         handle_docker_firsttime
     fi
