@@ -24,7 +24,6 @@ use utf8;
 # CPAN modules
 use Test2::V0;
 
-use Kernel::Config::Files::ZZZAAuto;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
