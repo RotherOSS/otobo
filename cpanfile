@@ -99,6 +99,12 @@ feature 'apache:mod_perl', 'Support for feature apache:mod_perl' => sub {
 
 };
 
+feature 'auth:openidconnect', 'Support for feature auth:openidconnect' => sub {
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
+
+};
+
 feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
     requires 'DBD::mysql';
@@ -148,6 +154,9 @@ feature 'devel:test', 'Modules for running the test suite' => sub {
 
     # basic test functions
     requires 'Test2::Suite';
+
+    # an alternative test runner
+    requires 'Test2::Harness';
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';
@@ -295,6 +304,9 @@ feature 'optional', 'Support for feature optional' => sub {
     # Used when plackup is run with the -R option. This option restarts the server when files have changed.
     requires 'Linux::Inotify2';
 
+    # Required for authentication via OpenIDConnect.
+    requires 'Crypt::JWT';
+
     # Required to handle mails with several Chinese character sets.
     requires 'Encode::HanExtra', ">= 0.23";
 
@@ -328,6 +340,9 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # basic test functions
     requires 'Test2::Suite';
+
+    # an alternative test runner
+    requires 'Test2::Harness';
 
     # contains Test2::API which is used in Kernel::System::UnitTest::Driver
     requires 'Test::Simple';

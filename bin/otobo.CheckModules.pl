@@ -1068,6 +1068,17 @@ my @NeededModules = (
         },
     },
     {
+        Module    => 'Test2::Harness',
+        Features  => ['devel:test'],
+        Comment   => 'an alternative test runner',
+        InstTypes => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
         Module    => 'Test::Simple',
         Features  => ['devel:test'],
         Comment   => 'contains Test2::API which is used in Kernel::System::UnitTest::Driver',
