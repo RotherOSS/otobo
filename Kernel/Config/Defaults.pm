@@ -27,10 +27,11 @@ use warnings;
 use utf8;
 
 # core modules
-use File::stat;
 use Digest::MD5 qw(md5_hex);
 use Exporter qw(import);
 use Fcntl qw(:flock);
+use File::Basename qw(basename);
+use File::stat;
 
 # CPAN modules
 
@@ -2414,13 +2415,23 @@ sub SyncWithS3 {
             last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
         }
 
-        # check the fixed list of ZZZ files
+        # check the fixed list of ZZZ files, including the dynamic configs for unit testing
         my @OutdatedZZZFilenames;
+        my %FileIsRelevant = map
+            { $_ => 1 }
+            ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
         ZZZFILENAME:
-        for my $ZZZFileName ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* ) {
+        for my $ZZZFileName ( keys %Name2Properties ) {
 
-            # nothing to sync when the object does not exist in S3
-            next ZZZFILENAME unless exists $Name2Properties{$ZZZFileName};
+            # skip the not relevant objects
+            if (
+                ( ! $FileIsRelevant{$ZZZFileName} )
+                &&
+                $ZZZFileName !~ m/ZZZZUnitTest.*\.pm$/
+            )
+            {
+                next ZZZFILENAME;
+            }
 
             # gather info about the local file
             my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
@@ -2448,8 +2459,13 @@ sub SyncWithS3 {
             }
         }
 
+        # find files in the file system that have been discarded in the S3 storage
+        my @ObsoleteZZZFilepathes = grep
+            { !$Name2Properties{ basename($_) } }
+            glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
+
         # go on reading the config files when all files are up to date
-        last CHECK_SYNC unless @OutdatedZZZFilenames;
+        last CHECK_SYNC unless ( @OutdatedZZZFilenames || @ObsoleteZZZFilepathes );
 
         # not sure whether flock is the best choice here, especially when running in Gazelle
         # https://www.perl.com/article/2/2015/11/4/Run-only-one-instance-of-a-program-at-a-time/
@@ -2477,6 +2493,13 @@ sub SyncWithS3 {
                 Key      => $FilePath,
                 Location => $Location,
             );
+        }
+
+        # we got an exclusive lock, now do the work and delete the obsolete files
+        for my $Location ( @ObsoleteZZZFilepathes ) {
+
+            # ignore errors as we doublecheck anyways
+            unlink $Location;
         }
 
         # Doublecheck whether deployment wasn't still ongoing,
