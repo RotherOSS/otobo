@@ -124,7 +124,7 @@ sub Load {
     if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
         $Self->{'Storage::S3::Active'}         = 1;
         $Self->{'Storage::S3::Region'}         = 'eu-central-1';
-        $Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-20220509a';
+        $Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-20220512a';
         $Self->{'Storage::S3::HomePrefix'}     = 'OTOBO';
         $Self->{'Storage::S3::AccessKey'}      = 'minio-otobo';
         $Self->{'Storage::S3::SecretKey'}      = 'minio-otobo'; # more than 8 chars
