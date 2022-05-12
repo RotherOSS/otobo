@@ -68,13 +68,12 @@ for my $ConfigFile (@ConfigFiles) {
     }
 }
 
-my $DefaultConfig = {};
-bless $DefaultConfig, 'Kernel::Config::Defaults';
+my $DefaultConfig = bless {}, 'Kernel::Config::Defaults';
 $DefaultConfig->Kernel::Config::Defaults::LoadDefaults();
 
-my $ZZZAAutoConfig = {};
-bless $ZZZAAutoConfig, 'Kernel::Config::Files::ZZZAAuto';
-Kernel::Config::Files::ZZZAAuto->Load($ZZZAAutoConfig);
+# Kernel::Config::Files::ZZZAAuto should be available as a Kernel::Config object had been created.
+my $ZZZAAutoConfig = bless {}, 'Kernel::Config::Files::ZZZAAuto';
+$ZZZAAutoConfig->Load($ZZZAAutoConfig);
 
 # These entries are hashes
 my %CheckSubEntries = (
