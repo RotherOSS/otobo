@@ -1642,7 +1642,6 @@ sub PrintCpanfile {
                 }
             }
 
-            my @Filters;
             say $Indent, "requires '$Module->{Module}'$VersionRequirement;";
             say '';
 
