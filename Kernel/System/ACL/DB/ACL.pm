@@ -63,8 +63,10 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
+
+    # find out whether loader files are stored in S3 or in the file system
+    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('ACL::CacheTTL') || 3600 );
@@ -958,7 +960,7 @@ sub Load {
 1;
 END_PM_FILE
 
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+    if ( $Self->{UseS3Backend} ) {
 
         # remove the leading /opt/otobo as the home prefix is added automatically in the S3 storage object
         my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
