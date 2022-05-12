@@ -14,17 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
 use Kernel::Config::Files::ZZZAAuto;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 =head1 SYNOPSIS
 
@@ -36,8 +38,7 @@ settings and cause unexpected test failures.
 =cut
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Home       = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 # Checksum file content as an array ref.
 my $ChecksumFileArrayRef = $MainObject->FileRead(
@@ -158,7 +159,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
                         Default => 1,
                     );
 
-                    $Self->IsDeeply(
+                    is(
                         \$DefaultConfigSetting->{$DefaultConfigSubEntryElement},
                         \$Setting{EffectiveValue},
                         "$DefaultConfigEntry->$DefaultConfigSubEntry->$DefaultConfigSubEntryElement must be the same in Defaults.pm and setting default value",
@@ -172,7 +173,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
                     Default => 1,
                 );
 
-                $Self->IsDeeply(
+                is(
                     \$DefaultConfigSetting,
                     \$Setting{EffectiveValue},
                     "$DefaultConfigEntry->$DefaultConfigSubEntry must be the same in Defaults.pm and setting default value",
@@ -187,7 +188,7 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
             Default => 1,
         );
 
-        $Self->IsDeeply(
+        is(
             \$DefaultConfig->{$DefaultConfigEntry},
             \$Setting{EffectiveValue},
             "$DefaultConfigEntry must be the same in Defaults.pm and and setting default value",
@@ -195,4 +196,4 @@ for my $DefaultConfigEntry ( sort keys %{$DefaultConfig} ) {
     }
 }
 
-$Self->DoneTesting();
+done_testing();
