@@ -3736,26 +3736,15 @@ Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
 sub ConfigurationDeploySync {
     my ( $Self, %Param ) = @_;
 
-    my $Home       = $Self->{Home};
-    my $TargetPath = "$Home/Kernel/Config/Files/ZZZAAuto.pm";
+    # Make sure that we got the latest deployment id.
+    # First syncing from the S3 backend when it is active.
+    my $CurrentDeploymentID;
+    {
+        $Kernel::OM->ObjectsDiscard( Objects => [ 'Kernel::Config', ] );
 
-    if ( -e $TargetPath ) {
-        if ( !require $TargetPath ) {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Could not load $TargetPath, $1",
-            );
-            return;
-        }
-
-        do $TargetPath;
+        my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+        $CurrentDeploymentID = $ConfigObject->Get('CurrentDeploymentID') || 0;
     }
-
-    $Kernel::OM->ObjectsDiscard(
-        Objects => [ 'Kernel::Config', ],
-    );
-
-    my $CurrentDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
     my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
 
@@ -3776,6 +3765,7 @@ sub ConfigurationDeploySync {
         return;
     }
 
+    # now the latest deployment from the database
     my %LastDeployment = $SysConfigDBObject->DeploymentGetLast();
 
     if ( !%LastDeployment ) {
@@ -3792,23 +3782,22 @@ sub ConfigurationDeploySync {
         my $PMFileContent = $LastDeployment{EffectiveValueStrg};
         if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
 
+            # only write to S3
             my $StorageS3Object = Kernel::System::Storage::S3->new();
             my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
-
-            # only write to S3, no extra copy in the file system
-            my $Success = $StorageS3Object->StoreObject(
+            my $Success         = $StorageS3Object->StoreObject(
                 Key     => $ZZZFilePath,
                 Content => $PMFileContent,
             );
 
             return unless $Success;
 
+            # then update the file system from S3
             $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
         }
         else {
-
             my $Success = $Self->_FileWriteAtomic(
-                Filename => $TargetPath,
+                Filename => "$Self->{Home}/Kernel/Config/Files/ZZZAAuto.pm",
                 Content  => \$PMFileContent,
             );
 
@@ -3819,6 +3808,7 @@ sub ConfigurationDeploySync {
     # Sync also user specific settings (if available).
     return 1 unless $Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
 
+    # TODO: also sync the UserSettigs via S3
     $Self->UserConfigurationDeploySync();
 
     return 1;
