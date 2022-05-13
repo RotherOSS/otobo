@@ -343,21 +343,22 @@ $Selenium->RunTest(
             'Info for incompatible package is shown'
         );
 
-        # Set default repository list.
+        # Create a repository list with a broken URL, taking care that the OTOBO repository list is not used
         $Helper->ConfigSettingChange(
             Valid => 1,
             Key   => 'Package::RepositoryList',
             Value => {
-                'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[Example] ftp://ftp.example.com/'
+                'ftp://ftp.example.com/pub/otobo/misc/packages/' => '[AdminPackageManager.t] ftp://ftp.example.com/'
             },
         );
-
-        NavigateToAdminPackageManager();
-        $Selenium->InputFieldValueSet(
-            Element => '#Soruce',
-            Value   => 'ftp://ftp.example.com/pub/otobo/misc/packages/',
+        $Helper->ConfigSettingChange(
+            Valid => 0,
+            Key   => 'Package::RepositoryRoot',
         );
 
+        # Try to load packages from the single entry in the repository list.
+        # No packages should be loaded, as ftp.example.com isn't an OTOBO package repository.
+        NavigateToAdminPackageManager();
         ClickAction("//button[\@name=\'GetRepositoryList']");
 
         # Check that there is a notification about no packages.
@@ -385,4 +386,4 @@ if ($TestPackage) {
     );
 }
 
-$Self->DoneTesting();
+done_testing();

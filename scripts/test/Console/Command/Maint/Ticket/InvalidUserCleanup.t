@@ -14,15 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
@@ -31,17 +36,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-# Set fixed time to create user in pst.
-# Then when it is set to invalid, it have been invalid for more than a month.
-FixedTimeSet(
-    $Kernel::OM->Create(
-        'Kernel::System::DateTime',
-        ObjectParams => {
-            String => '2019-06-15 00:00:00',
-        },
-    )->ToEpoch()
-);
 
 my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Ticket::InvalidUserCleanup');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
@@ -55,10 +49,23 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 );
 
 # Enable ticket watcher feature.
+# The change of the setting must be done before the system time is change,
+# otherwise there will be problems when S3 compatible storage is used.
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Ticket::Watcher',
     Value => 1,
+);
+
+# Set fixed time to create user in past.
+# Then when it is set to invalid, it have been invalid for more than a month.
+FixedTimeSet(
+    $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => '2019-06-15 00:00:00',
+        },
+    )->ToEpoch()
 );
 
 my ( $UserName1, $UserID1 ) = $Helper->TestUserCreate();

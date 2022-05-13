@@ -109,6 +109,10 @@ use the given time afterwards.
 Returns:
     Timestamp
 
+Be careful with using this this function as unwanted side effects may occur. One example
+is the communication with S3 compatible storage. The S3 protocol includes a timestamp
+which is used for a sanity check an the server side.
+
 =cut
 
 sub FixedTimeSet {

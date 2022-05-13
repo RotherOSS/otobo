@@ -13,15 +13,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::MockTime qw(:all);
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -32,14 +38,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
-my $DateTimeObject = $Kernel::OM->Create(
-    'Kernel::System::DateTime',
-    ObjectParams => {
-        String => '2020-01-10 16:00:00',
-    },
-);
-FixedTimeSet($DateTimeObject);
 
 # Do not check email addresses.
 $Helper->ConfigSettingChange(
@@ -67,6 +65,16 @@ $Helper->ConfigSettingChange(
     Key   => 'OTOBOTimeZone',
     Value => 'UTC',
 );
+
+# Fiddle with the timestamp only after the config setting changes,
+# as a changed time stamp interferes with a possible interaction with S3.
+my $DateTimeObject = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        String => '2020-01-10 16:00:00',
+    },
+);
+FixedTimeSet($DateTimeObject);
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
@@ -420,6 +428,4 @@ for my $Test (@Tests) {
     }
 }
 
-# Cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
