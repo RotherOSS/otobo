@@ -3180,7 +3180,7 @@ sub PackageUpgradeAll {
     my %OnlinePackages = $Self->_PackageOnlineListGet();
 
     my @PackageOnlineList   = @{ $OnlinePackages{PackageList} };
-    my %PackageSoruceLookup = %{ $OnlinePackages{PackageLookup} };
+    my %PackageSourceLookup = %{ $OnlinePackages{PackageLookup} };
 
     my @PackageInstalledList = $Self->RepositoryList(
         Result => 'short',
@@ -3238,7 +3238,7 @@ sub PackageUpgradeAll {
     PACKAGENAME:
     for my $PackageName ( sort { $InstallOrder{$b} <=> $InstallOrder{$a} } keys %InstallOrder ) {
 
-        my $MetaPackage = $PackageSoruceLookup{$PackageName};
+        my $MetaPackage = $PackageSourceLookup{$PackageName};
         next PACKAGENAME if !$MetaPackage;
 
         if ( $MetaPackage->{Version} eq ( $InstalledVersions{$PackageName} || '' ) ) {
@@ -5193,9 +5193,9 @@ sub _PackageOnlineListGet {
 
     my %RepositoryListAll = ( %RepositoryList, %{ $RepositoryCloudList || {} } );
 
+    # collect info about packages
     my @PackageOnlineList;
-    my %PackageSoruceLookup;
-
+    my %PackageSourceLookup;
     for my $URL ( sort keys %RepositoryListAll ) {
 
         my $FromCloud = 0;
@@ -5212,10 +5212,10 @@ sub _PackageOnlineListGet {
             IncludeSameVersion => 1,
         );
 
-        @PackageOnlineList = ( @PackageOnlineList, @OnlineList );
+        push @PackageOnlineList, @OnlineList;
 
         for my $Package (@OnlineList) {
-            $PackageSoruceLookup{ $Package->{Name} } = {
+            $PackageSourceLookup{ $Package->{Name} } = {
                 URL       => $URL,
                 FromCloud => $FromCloud,
                 Version   => $Package->{Version},
@@ -5226,7 +5226,7 @@ sub _PackageOnlineListGet {
 
     return (
         PackageList   => \@PackageOnlineList,
-        PackageLookup => \%PackageSoruceLookup,
+        PackageLookup => \%PackageSourceLookup,
     );
 }
 
