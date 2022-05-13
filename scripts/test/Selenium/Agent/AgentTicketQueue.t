@@ -349,6 +349,9 @@ $Selenium->RunTest(
             "ArticlePreview is found"
         );
 
+        # Unset fixed time before potentially interacting with S3 as S3 includes a sanity check of the timestamps.
+        FixedTimeUnset();
+
         # Enable config 'Ticket::Frontend::Overview::PreviewArticleSenderTypes' and set value
         # to not show customer articles in preview mode.
         $Helper->ConfigSettingChange(
@@ -488,10 +491,6 @@ $Selenium->RunTest(
                 Type => $Cache,
             );
         }
-
-        # Unset fixed time.
-        FixedTimeUnset();
-
     }
 );
 

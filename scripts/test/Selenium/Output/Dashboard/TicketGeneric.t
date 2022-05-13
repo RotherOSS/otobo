@@ -347,6 +347,7 @@ $Selenium->RunTest(
             );
 
             # Disable all dashboard plugins.
+            FixedTimeUnset();
             my $Config = $ConfigObject->Get('DashboardBackend');
             $Helper->ConfigSettingChange(
                 Valid => 0,

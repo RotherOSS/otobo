@@ -899,6 +899,9 @@ $Self->True(
     "AppointmentID $AppointmentID is created.",
 );
 
+# Unset fixed time before potentially interacting with S3 as S3 includes a sanity check of the timestamps.
+FixedTimeUnset();
+
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'Frontend::RichText',

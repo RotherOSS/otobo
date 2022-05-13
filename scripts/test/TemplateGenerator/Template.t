@@ -39,14 +39,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my $DateTimeObject = $Kernel::OM->Create(
-    'Kernel::System::DateTime',
-    ObjectParams => {
-        String => '2020-01-10 16:00:00',
-    },
-);
-FixedTimeSet($DateTimeObject);
-
 # Do not check email addresses.
 $Helper->ConfigSettingChange(
     Key   => 'CheckEmailAddresses',
@@ -73,6 +65,16 @@ $Helper->ConfigSettingChange(
     Key   => 'OTOBOTimeZone',
     Value => 'UTC',
 );
+
+# Fiddle with the timestamp only after the config setting changes,
+# as a changed time stamp interferes with a possible interaction with S3.
+my $DateTimeObject = $Kernel::OM->Create(
+    'Kernel::System::DateTime',
+    ObjectParams => {
+        String => '2020-01-10 16:00:00',
+    },
+);
+FixedTimeSet($DateTimeObject);
 
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
