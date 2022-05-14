@@ -103,56 +103,35 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+if ($SMIMEObject) {
+    pass('got SMIME support');
+}
+else {
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("$CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("$CertPath is a directory");
     }
     elsif ( !-r $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+        fail("$CertPath is readable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("$PrivatePath exists");
     }
     elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+        fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath is writable");
     }
 
     done_testing();
