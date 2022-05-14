@@ -449,97 +449,6 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
-=head2 DESTROY()
-
-performs various clean-ups.
-
-=cut
-
-sub DESTROY {
-    my $Self = shift;
-
-    # Cleanup temporary database if it was set up.
-    $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
-
-    # Remove any custom files.
-    $Self->CustomFileCleanup();
-
-    # restore environment variable to skip SSL certificate verification if needed
-    if ( $Self->{RestoreSSLVerify} ) {
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-        $Self->{RestoreSSLVerify} = 0;
-    }
-
-    # restore database, clean caches
-    if ( $Self->{RestoreDatabase} ) {
-        my $RollbackSuccess = $Self->Rollback();
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-    }
-
-    # disable email checks to invalidate test users
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    local $ConfigObject->{CheckEmailAddresses} = 0;
-
-    # cleanup temporary article directory
-    if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
-        rmtree( $Self->{TmpArticleDir} );
-    }
-
-    # invalidate test users
-    if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
-        TESTUSERS:
-        for my $TestUser ( @{ $Self->{TestUsers} } ) {
-
-            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $TestUser,
-            );
-
-            if ( !$User{UserID} ) {
-
-                # if no such user exists, there is no need to set it to invalid;
-                # happens when the test user is created inside a transaction
-                # that is later rolled back.
-                next TESTUSERS;
-            }
-
-            # make test user invalid
-            my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
-                %User,
-                ValidID      => 2,
-                ChangeUserID => 1,
-            );
-        }
-    }
-
-    # invalidate test customer users
-    if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
-        TESTCUSTOMERUSERS:
-        for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
-
-            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $TestCustomerUser,
-            );
-
-            if ( !$CustomerUser{UserLogin} ) {
-
-                # if no such customer user exists, there is no need to set it to invalid;
-                # happens when the test customer user is created inside a transaction
-                # that is later rolled back.
-                next TESTCUSTOMERUSERS;
-            }
-
-            my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
-                %CustomerUser,
-                ID      => $CustomerUser{UserID},
-                ValidID => 2,
-                UserID  => 1,
-            );
-        }
-    }
-
-    return;
-}
-
 =head2 ConfigSettingChange()
 
 temporarily change a configuration setting system wide to another value.
@@ -597,12 +506,10 @@ sub ConfigSettingChange {
     # This allows that a test script assigns different values to the same setting while it is running.
     # A pseudo random part is still needed as otherwise differnt processes would overwrite
     # their files.
-    my $PackageName = join '',
-        'ZZZZUnitTest',
-        $Self->GetSequentialTwoLetterString(),
-        $RandomNumber;
+    my $Identifier  = $Self->GetSequentialTwoLetterString() . $RandomNumber;
+    my $PackageName = 'ZZZZUnitTest' . $Identifier;
 
-    my $Content = <<"END_PM_FILE";
+    my $Code = <<"END_CODE";
 # OTOBO config file (automatically generated)
 # VERSION:1.1
 package Kernel::Config::Files::$PackageName;
@@ -615,7 +522,57 @@ sub Load {
     $ValueDump
 }
 1;
-END_PM_FILE
+END_CODE
+
+    return $Self->CustomCodeActivate(
+        Identifier => $Identifier,
+        Code       => $Code,
+    );
+}
+
+=head2 CustomCodeActivate()
+
+Temporarily include custom code in the system. For example, you may use this to redefine a
+subroutine from another class. This change will persist for remainder of the test.
+
+All code will be removed when the Helper object is destroyed.
+
+Please note that this will not work correctly in clustered environments. But it should
+work when syncing via S3 is activated and does work.
+
+    $Helper->CustomCodeActivate(
+        Code => q^
+    sub Kernel::Config::Files::ZZZZUnitTestNews::Load {} # no-op, avoid warning logs
+    use Kernel::System::WebUserAgent;
+    package Kernel::System::WebUserAgent;
+    use strict;
+    use warnings;
+    {
+        no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+        sub Request {
+            my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
+            return (
+                Content => \$JSONString,
+                Status  => '200 OK',
+            );
+        }
+    }
+    1;
+    ^,
+        Identifier => 'News',   # (optional) Code identifier to include in file name
+    );
+
+=cut
+
+sub CustomCodeActivate {
+    my ( $Self, %Param ) = @_;
+
+    my $Content    = $Param{Code};
+    my $Identifier = $Param{Identifier} || $Self->GetRandomNumber();
+
+    die "Need 'Code'" unless defined $Content;
+
+    my $PackageName = join '', 'ZZZZUnitTest', $Identifier;
 
     if ( $Self->{UseS3Backend} ) {
 
@@ -644,59 +601,6 @@ END_PM_FILE
     # is picked up by Kernel::Config::new() for every request.
     # Often the test script is not even running on the same machine as the webserver.
     # Or there are multiple web server running on different /opt/otobo dirs.
-
-    return 1;
-}
-
-=head2 CustomCodeActivate()
-
-Temporarily include custom code in the system. For example, you may use this to redefine a
-subroutine from another class. This change will persist for remainder of the test.
-
-All code will be removed when the Helper object is destroyed.
-
-Please note that this will not work correctly in clustered environments.
-
-    $Helper->CustomCodeActivate(
-        Code => q^
-sub Kernel::Config::Files::ZZZZUnitTestIdentifier::Load {} # no-op, avoid warning logs
-use Kernel::System::WebUserAgent;
-package Kernel::System::WebUserAgent;
-use strict;
-use warnings;
-{
-    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-    sub Request {
-        my $JSONString = '{"Results":{},"ErrorMessage":"","Success":1}';
-        return (
-            Content => \$JSONString,
-            Status  => '200 OK',
-        );
-    }
-}
-1;^,
-        Identifier => 'News',   # (optional) Code identifier to include in file name
-    );
-
-=cut
-
-sub CustomCodeActivate {
-    my ( $Self, %Param ) = @_;
-
-    my $Code       = $Param{Code};
-    my $Identifier = $Param{Identifier} || $Self->GetRandomNumber();
-
-    die "Need 'Code'" if !defined $Code;
-
-    my $PackageName = "ZZZZUnitTest$Identifier";
-
-    my $Home     = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-    my $FileName = "$Home/Kernel/Config/Files/$PackageName.pm";
-    $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
-        Location => $FileName,
-        Mode     => 'utf8',
-        Content  => \$Code,
-    ) || die "Could not write $FileName";
 
     return 1;
 }
@@ -1111,6 +1015,97 @@ sub DatabaseXMLExecute {
     }
 
     return 1;
+}
+
+=head2 DESTROY()
+
+performs various clean-ups.
+
+=cut
+
+sub DESTROY {
+    my $Self = shift;
+
+    # Cleanup temporary database if it was set up.
+    $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
+
+    # Remove any custom code files.
+    $Self->CustomFileCleanup();
+
+    # restore environment variable to skip SSL certificate verification if needed
+    if ( $Self->{RestoreSSLVerify} ) {
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+        $Self->{RestoreSSLVerify} = 0;
+    }
+
+    # restore database, clean caches
+    if ( $Self->{RestoreDatabase} ) {
+        my $RollbackSuccess = $Self->Rollback();
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+    }
+
+    # disable email checks to invalidate test users
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    local $ConfigObject->{CheckEmailAddresses} = 0;
+
+    # cleanup temporary article directory
+    if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
+        rmtree( $Self->{TmpArticleDir} );
+    }
+
+    # invalidate test users
+    if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
+        TESTUSERS:
+        for my $TestUser ( @{ $Self->{TestUsers} } ) {
+
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                UserID => $TestUser,
+            );
+
+            if ( !$User{UserID} ) {
+
+                # if no such user exists, there is no need to set it to invalid;
+                # happens when the test user is created inside a transaction
+                # that is later rolled back.
+                next TESTUSERS;
+            }
+
+            # make test user invalid
+            my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
+                %User,
+                ValidID      => 2,
+                ChangeUserID => 1,
+            );
+        }
+    }
+
+    # invalidate test customer users
+    if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
+        TESTCUSTOMERUSERS:
+        for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
+
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                User => $TestCustomerUser,
+            );
+
+            if ( !$CustomerUser{UserLogin} ) {
+
+                # if no such customer user exists, there is no need to set it to invalid;
+                # happens when the test customer user is created inside a transaction
+                # that is later rolled back.
+                next TESTCUSTOMERUSERS;
+            }
+
+            my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
+                %CustomerUser,
+                ID      => $CustomerUser{UserID},
+                ValidID => 2,
+                UserID  => 1,
+            );
+        }
+    }
+
+    return;
 }
 
 1;

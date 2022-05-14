@@ -33,10 +33,7 @@ our $Self;
 # get helper object
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-$Self->True(
-    $Helper,
-    "Instance created",
-);
+ok( $Helper, 'Instance created' );
 
 # testing GetRandomID()
 my %SeenRandomIDs;
@@ -83,10 +80,7 @@ $Helper->BeginWork();
 
 my $TestUserLogin = $Helper->TestUserCreate();
 
-$Self->True(
-    $TestUserLogin,
-    'Can create test user',
-);
+ok( $TestUserLogin, 'Can create test user' );
 
 $Helper->Rollback();
 $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
@@ -123,6 +117,7 @@ $Helper->ConfigSettingChange(
     Key   => 'nonexisting_dummy',
     Value => $Value,
 );
+$ConfigObject->SyncWithS3();
 is(
     scalar [ glob "$Home/Kernel/Config/Files/ZZZZUnitTestAC*.pm" ]->@*,
     1,
@@ -168,6 +163,7 @@ $Helper->CustomCodeActivate(
     Code       => $CustomCode,
     Identifier => $RandomNumber,
 );
+$ConfigObject->SyncWithS3();
 
 # Require custom code file.
 my $Loaded = $Kernel::OM->Get('Kernel::System::Main')->Require($PackageName);
