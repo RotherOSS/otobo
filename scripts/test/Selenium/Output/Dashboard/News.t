@@ -14,17 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -158,7 +161,7 @@ EOS
 
         # Check if News plugin has items with correct titles and links.
         for my $Item (@NewsData) {
-            $Self->True(
+            ok(
                 $Selenium->execute_script(
                     "return \$('#Dashboard0405-News tbody a[href=\"$Item->{Link}\"]:contains(\"$Item->{Title}\")').length;"
                 ),
@@ -168,4 +171,4 @@ EOS
     }
 );
 
-$Self->DoneTesting();
+done_testing();
