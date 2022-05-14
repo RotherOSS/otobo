@@ -449,97 +449,6 @@ sub GetTestHTTPHostname {
     return $Host;
 }
 
-=head2 DESTROY()
-
-performs various clean-ups.
-
-=cut
-
-sub DESTROY {
-    my $Self = shift;
-
-    # Cleanup temporary database if it was set up.
-    $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
-
-    # Remove any custom files.
-    $Self->CustomFileCleanup();
-
-    # restore environment variable to skip SSL certificate verification if needed
-    if ( $Self->{RestoreSSLVerify} ) {
-        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
-        $Self->{RestoreSSLVerify} = 0;
-    }
-
-    # restore database, clean caches
-    if ( $Self->{RestoreDatabase} ) {
-        my $RollbackSuccess = $Self->Rollback();
-        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
-    }
-
-    # disable email checks to invalidate test users
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    local $ConfigObject->{CheckEmailAddresses} = 0;
-
-    # cleanup temporary article directory
-    if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
-        rmtree( $Self->{TmpArticleDir} );
-    }
-
-    # invalidate test users
-    if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
-        TESTUSERS:
-        for my $TestUser ( @{ $Self->{TestUsers} } ) {
-
-            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
-                UserID => $TestUser,
-            );
-
-            if ( !$User{UserID} ) {
-
-                # if no such user exists, there is no need to set it to invalid;
-                # happens when the test user is created inside a transaction
-                # that is later rolled back.
-                next TESTUSERS;
-            }
-
-            # make test user invalid
-            my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
-                %User,
-                ValidID      => 2,
-                ChangeUserID => 1,
-            );
-        }
-    }
-
-    # invalidate test customer users
-    if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
-        TESTCUSTOMERUSERS:
-        for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
-
-            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
-                User => $TestCustomerUser,
-            );
-
-            if ( !$CustomerUser{UserLogin} ) {
-
-                # if no such customer user exists, there is no need to set it to invalid;
-                # happens when the test customer user is created inside a transaction
-                # that is later rolled back.
-                next TESTCUSTOMERUSERS;
-            }
-
-            my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
-                %CustomerUser,
-                ID      => $CustomerUser{UserID},
-                ValidID => 2,
-                UserID  => 1,
-            );
-        }
-    }
-
-    return;
-}
-
 =head2 ConfigSettingChange()
 
 temporarily change a configuration setting system wide to another value.
@@ -1106,6 +1015,97 @@ sub DatabaseXMLExecute {
     }
 
     return 1;
+}
+
+=head2 DESTROY()
+
+performs various clean-ups.
+
+=cut
+
+sub DESTROY {
+    my $Self = shift;
+
+    # Cleanup temporary database if it was set up.
+    $Self->TestDatabaseCleanup() if $Self->{ProvideTestDatabase};
+
+    # Remove any custom code files.
+    $Self->CustomFileCleanup();
+
+    # restore environment variable to skip SSL certificate verification if needed
+    if ( $Self->{RestoreSSLVerify} ) {
+        $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = $Self->{PERL_LWP_SSL_VERIFY_HOSTNAME};    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
+        $Self->{RestoreSSLVerify} = 0;
+    }
+
+    # restore database, clean caches
+    if ( $Self->{RestoreDatabase} ) {
+        my $RollbackSuccess = $Self->Rollback();
+        $Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+    }
+
+    # disable email checks to invalidate test users
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    local $ConfigObject->{CheckEmailAddresses} = 0;
+
+    # cleanup temporary article directory
+    if ( $Self->{TmpArticleDir} && -d $Self->{TmpArticleDir} ) {
+        rmtree( $Self->{TmpArticleDir} );
+    }
+
+    # invalidate test users
+    if ( ref $Self->{TestUsers} eq 'ARRAY' && @{ $Self->{TestUsers} } ) {
+        TESTUSERS:
+        for my $TestUser ( @{ $Self->{TestUsers} } ) {
+
+            my %User = $Kernel::OM->Get('Kernel::System::User')->GetUserData(
+                UserID => $TestUser,
+            );
+
+            if ( !$User{UserID} ) {
+
+                # if no such user exists, there is no need to set it to invalid;
+                # happens when the test user is created inside a transaction
+                # that is later rolled back.
+                next TESTUSERS;
+            }
+
+            # make test user invalid
+            my $Success = $Kernel::OM->Get('Kernel::System::User')->UserUpdate(
+                %User,
+                ValidID      => 2,
+                ChangeUserID => 1,
+            );
+        }
+    }
+
+    # invalidate test customer users
+    if ( ref $Self->{TestCustomerUsers} eq 'ARRAY' && @{ $Self->{TestCustomerUsers} } ) {
+        TESTCUSTOMERUSERS:
+        for my $TestCustomerUser ( @{ $Self->{TestCustomerUsers} } ) {
+
+            my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                User => $TestCustomerUser,
+            );
+
+            if ( !$CustomerUser{UserLogin} ) {
+
+                # if no such customer user exists, there is no need to set it to invalid;
+                # happens when the test customer user is created inside a transaction
+                # that is later rolled back.
+                next TESTCUSTOMERUSERS;
+            }
+
+            my $Success = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserUpdate(
+                %CustomerUser,
+                ID      => $CustomerUser{UserID},
+                ValidID => 2,
+                UserID  => 1,
+            );
+        }
+    }
+
+    return;
 }
 
 1;
