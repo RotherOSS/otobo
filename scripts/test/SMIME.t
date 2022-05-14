@@ -14,18 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+use File::Path();
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
-
-use File::Path();
-use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -653,26 +657,26 @@ for my $Count ( 1 .. 3 ) {
 }
 
 # function to retrieve the certificate data from test files
-my $GetCertificateDataFromFiles = sub {
+sub GetCertificateDataFromFiles {
     my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
 
     # read certificates, private keys and secrets
     my $CertStringRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $CertificateFileName,
     );
     my $PrivateStringRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $PrivateKeyFileName,
     );
     my $PrivateSecretRef = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => $PrivateSecretFileName,
     );
 
     # return strings instead of references
-    return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
-};
+    return $CertStringRef->$*, $PrivateStringRef->$*, $PrivateSecretRef->$*;
+}
 
 # OpenSSL 0.9.x correct hashes
 my $OTOBORootCAHash   = '1a01713f';
@@ -692,10 +696,10 @@ if ($UseNewHashes) {
 my %Certificates;
 
 # get data from files
-my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBOLab.crt",
-    "SMIMECAPrivateKey-OTOBOLab.pem",
-    "SMIMECAPrivateKeyPass-OTOBOLab.crt",
+my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+    'SMIMECACertificate-OTOBOLab.crt',
+    'SMIMECAPrivateKey-OTOBOLab.pem',
+    'SMIMECAPrivateKeyPass-OTOBOLab.crt',
 );
 
 # fill certificates table
@@ -709,10 +713,10 @@ $Certificates{OTOBOLabCA} = {
 };
 
 # get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBORD.crt",
-    "SMIMECAPrivateKey-OTOBORD.pem",
-    "SMIMECAPrivateKeyPass-OTOBORD.crt",
+( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+    'SMIMECACertificate-OTOBORD.crt',
+    'SMIMECAPrivateKey-OTOBORD.pem',
+    'SMIMECAPrivateKeyPass-OTOBORD.crt',
 );
 
 # fill certificates table
@@ -726,10 +730,10 @@ $Certificates{OTOBORDCA} = {
 };
 
 # get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBORoot.crt",
-    "SMIMECAPrivateKey-OTOBORoot.pem",
-    "SMIMECAPrivateKeyPass-OTOBORoot.crt",
+( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+    'SMIMECACertificate-OTOBORoot.crt',
+    'SMIMECAPrivateKey-OTOBORoot.pem',
+    'SMIMECAPrivateKeyPass-OTOBORoot.crt',
 );
 
 # fill certificates table
@@ -746,10 +750,10 @@ $Certificates{OTOBORootCA} = {
 {
 
     # get data from files
-    my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-        "SMIMECertificate-smimeuser1.crt",
-        "SMIMEPrivateKey-smimeuser1.pem",
-        "SMIMEPrivateKeyPass-smimeuser1.crt",
+    my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECertificate-smimeuser1.crt',
+        'SMIMEPrivateKey-smimeuser1.pem',
+        'SMIMEPrivateKeyPass-smimeuser1.crt',
     );
 
     # add certificate smimeuser1
@@ -817,12 +821,13 @@ $Certificates{OTOBORootCA} = {
     );
 
     # it must fail
-    $Self->False(
-        $Data{Successful},
+    ok(
+        !$Data{Successful},
         'Sign(), failed certificate chain verification, not installed CA root certificate',
     );
 
     # add the root CA cert to the trusted certificates path
+    $DB::single = 1;
     $SMIMEObject->CertificateAdd(
         Certificate => $Certificates{OTOBORootCA}->{String},
     );
@@ -834,7 +839,7 @@ $Certificates{OTOBORootCA} = {
     );
 
     # it must work
-    $Self->True(
+    ok(
         $Data{Successful},
         'Verify(), successful certificate chain verification, installed CA root certificate and embedded CA certs',
     );
