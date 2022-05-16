@@ -13,31 +13,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
 use Archive::Tar;
-use Kernel::System::VariableCheck qw(:all);
 
 # Work around a Perl bug that is triggered in Carp
 #   (Bizarre copy of HASH in list assignment at /usr/share/perl5/vendor_perl/Carp.pm line 229).
 #
 #   See https://rt.perl.org/Public/Bug/Display.html?id=52610 and
 #   http://rt.perl.org/rt3/Public/Bug/Display.html?id=78186
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 no warnings 'redefine';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 use Carp;
 local *Carp::caller_info = sub { };
 use warnings 'redefine';
+our $Self;
 
 # get needed objects
 my $ConfigObject                 = $Kernel::OM->Get('Kernel::Config');
@@ -72,25 +73,18 @@ my $Home = $ConfigObject->Get('Home');
 $Home =~ s{\/\z}{};
 
 my $ArchiveExists;
-my $Success;
 my $RandomNumber = $Helper->GetRandomNumber();
 if ( !-e $Home . '/ARCHIVE' ) {
 
     # perfect time to test the missing ARCHVIVE
     my $Result = $SupportBundleGeneratorObject->Generate();
 
-    $Self->False(
-        $Result->{Success},
-        "Generate() - for a system without ARCHIVE file with false",
-    );
+    ok( !$Result->{Success}, "Generate() - for a system without ARCHIVE file with false", );
 }
 else {
     $ArchiveExists = 1;
-    $Success       = rename( $Home . '/ARCHIVE', $Home . '/ARCHIVE' . $RandomNumber );
-    $Self->True(
-        $Success,
-        "Found ARCHIVE file in a system, creating copy to restore it on the end of unit test."
-    );
+    my $Success = rename( $Home . '/ARCHIVE', $Home . '/ARCHIVE' . $RandomNumber );
+    ok( $Success, "Found ARCHIVE file in a system, creating copy to restore it on the end of unit test." );
 }
 
 # create an ARCHIVE file on developer systems to continue working
@@ -98,11 +92,7 @@ my $ArchiveGeneratorTool = $Home . '/bin/otobo.CheckSum.pl';
 
 # if tool is not present we can't continue
 if ( !-e $ArchiveGeneratorTool ) {
-    $Self->True(
-        0,
-        "$ArchiveGeneratorTool does not exist, we can't continue",
-    );
-
+    fail("$ArchiveGeneratorTool does not exist, we can't continue");
     done_testing();
 
     exit 0;
@@ -124,10 +114,7 @@ if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
     exit 0;
 }
 else {
-    $Self->True(
-        1,
-        "ARCHIVE file is generated for UnitTest purpose",
-    );
+    pass( "ARCHIVE file is generated for UnitTest purpose" );
 
     # delete Kernel/Config.pm file from archive file
     my $ArchiveContent = $MainObject->FileRead(
@@ -214,21 +201,17 @@ my @Tests = (
 );
 
 my @FilesToDelete;
-
-for my $Test (@Tests) {
+for my $Test (@CustomFilesArchiveTests) {
 
     # prepare testing environment
     if ( IsHashRefWithData( $Test->{InstallPackages} ) ) {
 
         for my $Package ( sort keys %{ $Test->{InstallPackages} } ) {
-            $Success =
-                $PackageObject->PackageInstall( String => $Test->{InstallPackages}->{$Package} );
-            $Self->True(
-                $Success,
-                "$Test->{Name}: PackageInstall() - Package:'$Package' with True",
-            );
+            my $Success = $PackageObject->PackageInstall( String => $Test->{InstallPackages}->{$Package} );
+            ok( $Success, "$Test->{Name}: PackageInstall() - Package:'$Package' with True", );
         }
     }
+
     if ( IsArrayRefWithData( $Test->{ModifyFiles} ) ) {
 
         for my $File ( @{ $Test->{ModifyFiles} } ) {
@@ -318,14 +301,10 @@ for my $Test (@Tests) {
     if ( IsHashRefWithData( $Test->{UninstallPackages} ) ) {
 
         for my $Package ( sort keys %{ $Test->{UninstallPackages} } ) {
-            $Success =
-                $PackageObject->PackageUninstall(
-                    String => $Test->{UninstallPackages}->{$Package}
-                );
-            $Self->True(
-                $Success,
-                "$Test->{Name}: PackageUninstall() - Package:'$Package' with True",
+            my $Success = $PackageObject->PackageUninstall(
+                String => $Test->{UninstallPackages}->{$Package}
             );
+            ok( $Success, "$Test->{Name}: PackageUninstall() - Package:'$Package' with True" );
             for my $File (@FilesToDelete) {
                 unlink $File . '.custom_backup';
             }
@@ -360,12 +339,8 @@ for my $Test (@Tests) {
     if ( IsHashRefWithData( $Test->{InstallPackages} ) ) {
 
         for my $Package ( sort keys %{ $Test->{InstallPackages} } ) {
-            $Success =
-                $PackageObject->PackageInstall( String => $Test->{InstallPackages}->{$Package} );
-            $Self->True(
-                $Success,
-                "$Test->{Name}: PackageInstall() - Package:'$Package' with True",
-            );
+            my $Success = $PackageObject->PackageInstall( String => $Test->{InstallPackages}->{$Package} );
+            ok( $Success, "$Test->{Name}: PackageInstall() - Package:'$Package' with True" );
         }
     }
 
@@ -423,14 +398,10 @@ for my $Test (@Tests) {
     if ( IsHashRefWithData( $Test->{UninstallPackages} ) ) {
 
         for my $Package ( sort keys %{ $Test->{UninstallPackages} } ) {
-            $Success =
-                $PackageObject->PackageUninstall(
-                    String => $Test->{UninstallPackages}->{$Package}
-                );
-            $Self->True(
-                $Success,
-                "$Test->{Name}: PackageUninstall() - Package:'$Package' with True",
+            my $Success = $PackageObject->PackageUninstall(
+                String => $Test->{UninstallPackages}->{$Package}
             );
+            ok( $Success, "$Test->{Name}: PackageUninstall() - Package:'$Package' with True" );
         }
     }
 }
@@ -678,10 +649,7 @@ my $MaskPasswordFileLocation = $MainObject->FileWrite(
 # Generate tests
 $Result = $SupportBundleGeneratorObject->Generate();
 
-$Self->True(
-    $Result->{Success},
-    "Generate() - With True",
-);
+ok( $Result->{Success}, "Generate() - With True", );
 $Self->IsNot(
     bytes::length( $Result->{Data}->{Filecontent} ) / ( 1024 * 1024 ),
     0,
@@ -755,41 +723,26 @@ for my $TarFile (@FileList) {
         # Look for masked password settings.
         for my $Test (@ExpectedResults) {
 
-            $Self->True(
-                index( $Content, $Test->{Result} ) > 0,
-                "$Test->{Name} is masked."
-            );
+            ok( index( $Content, $Test->{Result} ) > 0, "$Test->{Name} is masked." );
         }
     }
 
     my $Success = unlink $TargetPath;
-    $Self->True(
-        $Success,
-        "$TargetPath was deleted.",
-    );
+    ok( $Success, "$TargetPath was deleted." );
 
     $Success = unlink $MaskPasswordFileLocation;
-    $Self->True(
-        $Success,
-        "$MaskPasswordFileLocation was deleted.",
-    );
+    ok( $Success, "$MaskPasswordFileLocation was deleted." );
 }
 
 # cleanup
-$Success = unlink $Home . '/ARCHIVE';
-$Self->True(
-    $Success,
-    "UnitTest ARCHIVE file is deleted"
-);
+my $Success = unlink $Home . '/ARCHIVE';
+ok( $Success, "UnitTest ARCHIVE file is deleted" );
 
 if ($ArchiveExists) {
-    $Success = rename( $Home . '/ARCHIVE' . $RandomNumber, $Home . '/ARCHIVE' );
-    $Self->True(
-        $Success,
-        "Original ARCHIVE file is restored"
-    );
+    my $Success = rename( $Home . '/ARCHIVE' . $RandomNumber, $Home . '/ARCHIVE' );
+    ok( $Success, "Original ARCHIVE file is restored" );
 }
 
 # cleanup is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing();
