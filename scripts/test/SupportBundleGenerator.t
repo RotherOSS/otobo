@@ -105,7 +105,7 @@ if ( !-e $Home . '/ARCHIVE' || -z $Home . '/ARCHIVE' ) {
     exit 0;
 }
 else {
-    pass( "ARCHIVE file is generated for UnitTest purpose" );
+    pass("ARCHIVE file is generated for UnitTest purpose");
 
     # delete Kernel/Config.pm file from archive file
     my $ArchiveContent = $MainObject->FileRead(
@@ -538,11 +538,12 @@ $Self->IsDeeply(
 );
 
 # Generate ZZZZUnitTestMaskPasswords.pm to check later for mask passwords.
-my $MaskPasswordFile    = 'ZZZZUnitTest' . $Helper->GetRandomNumber() . 'MaskPasswords';
-my $MaskPasswordContent = <<"EOF";
+my $MaskPasswordIdentifier = $Helper->GetRandomNumber() . 'MaskPasswords';
+my $MaskPasswordFile       = 'ZZZZUnitTest' . $MaskPasswordIdentifier . '.pm';
+my $MaskPasswordContent    = <<"END_CUSTOM_CODE";
 # OTOBO config file (automatically generated)
 # VERSION:1.1
-package Kernel::Config::Files::$MaskPasswordFile;
+package Kernel::Config::Files::ZZZZUnitTest$MaskPasswordIdentifier;
 use strict;
 use warnings;
 no warnings \'redefine\';
@@ -595,11 +596,8 @@ sub Load {
         },
     ];
 }
-
 1;
-EOF
-
-$MaskPasswordFile .= '.pm';
+END_CUSTOM_CODE
 
 my @ExpectedResults = (
     {
@@ -632,9 +630,9 @@ my @ExpectedResults = (
     }
 );
 
-my $MaskPasswordFileLocation = $MainObject->FileWrite(
-    Location => $Home . '/Kernel/Config/Files/' . $MaskPasswordFile,
-    Content  => \$MaskPasswordContent,
+$Helper->CustomCodeActivate(
+    Code       => $MaskPasswordContent,
+    Identifier => $MaskPasswordIdentifier,
 );
 
 # Generate tests
@@ -707,7 +705,7 @@ for my $TarFile (@FileList) {
     FILE:
     for my $File (@List) {
 
-        next FILE if $File->name() ne $MaskPasswordFile;
+        next FILE unless $File->name() eq $MaskPasswordFile;
 
         my $Content = $File->get_content();
 
@@ -720,9 +718,6 @@ for my $TarFile (@FileList) {
 
     my $Success = unlink $TargetPath;
     ok( $Success, "$TargetPath was deleted." );
-
-    $Success = unlink $MaskPasswordFileLocation;
-    ok( $Success, "$MaskPasswordFileLocation was deleted." );
 }
 
 # cleanup
