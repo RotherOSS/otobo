@@ -806,7 +806,6 @@ $Certificates{OTOBORootCA} = {
     );
 
     # add the root CA cert to the trusted certificates path
-    $DB::single = 1;
     $SMIMEObject->CertificateAdd(
         Certificate => $Certificates{OTOBORootCA}->{String},
     );
