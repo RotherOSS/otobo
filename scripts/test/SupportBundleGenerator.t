@@ -25,19 +25,10 @@ use utf8;
 use Test2::V0;
 use Archive::Tar;
 
-# Work around a Perl bug that is triggered in Carp
-#   (Bizarre copy of HASH in list assignment at /usr/share/perl5/vendor_perl/Carp.pm line 229).
-#
-#   See https://rt.perl.org/Public/Bug/Display.html?id=52610 and
-#   http://rt.perl.org/rt3/Public/Bug/Display.html?id=78186
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::VariableCheck qw(:all);
 
-no warnings 'redefine';    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
-use Carp;
-local *Carp::caller_info = sub { };
-use warnings 'redefine';
 our $Self;
 
 # get needed objects
