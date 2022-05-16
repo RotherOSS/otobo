@@ -14,18 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Basename;
 use Time::HiRes ();
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::SupportDataCollector::PluginBase;
 
 # get needed objects
@@ -50,12 +52,12 @@ $Helper->ConfigSettingChange(
     ],
 );
 
-$Self->Note( Note => 'testing CollectAsynchronous' );
+diag 'testing CollectAsynchronous';
 {
     my $TimeStart   = [ Time::HiRes::gettimeofday() ];
     my %ResultAsync = $SupportDataCollectorObject->CollectAsynchronous();
 
-    $Self->Is(
+    is(
         $ResultAsync{Success},
         1,
         "Asynchronous data collection status",
@@ -80,25 +82,20 @@ $Self->Note( Note => 'testing CollectAsynchronous' );
         $PluginFile =~ s{/+}{::}xmsg;
 
         if ( !$MainObject->Require($PluginFile) ) {
-            $Self->Note( Note => "Could not load $PluginFile!" );
+            diag "Could not load $PluginFile!";
 
             next PLUGIN_FILE;
         }
-        my $PluginObject = $PluginFile->new( %{$Self} );
-
+        my $PluginObject     = $PluginFile->new;
         my $AsynchronousData = $PluginObject->_GetAsynchronousData();
 
-        $Self->True(
-            defined $AsynchronousData,
-            "$PluginFile - asynchronous data exists.",
-        );
+        ok( defined $AsynchronousData, "$PluginFile - asynchronous data exists." );
     }
 
-    $Self->True(
+    ok(
         $TimeElapsed < 240,
         "CollectAsynchronous() - Should take less than 240 seconds, it took $TimeElapsed"
     );
-
 }
 
 # test the support data collect function
@@ -107,52 +104,35 @@ $CacheObject->CleanUp(
 );
 
 my $TimeStart = [ Time::HiRes::gettimeofday() ];
-
-my %Result = $SupportDataCollectorObject->Collect(
+my %Result    = $SupportDataCollectorObject->Collect(
     WebTimeout => 240,
     Hostname   => $Helper->GetTestHTTPHostname(),
 );
 
 my $TimeElapsed = Time::HiRes::tv_interval($TimeStart);
 
-$Self->Is(
-    $Result{Success},
-    1,
-    "Data collection status",
-);
-
-$Self->Is(
-    $Result{ErrorMessage},
-    undef,
-    "There is no error message",
-);
-
-$Self->True(
-    scalar @{ $Result{Result} || [] } >= 1,
-    "Data collection result count",
-);
+is( $Result{Success},      1,     "Data collection status" );
+is( $Result{ErrorMessage}, undef, "There is no error message" );
+ok( scalar @{ $Result{Result} || [] } >= 1, "Data collection result count" );
 
 my %SeenIdentifier;
-
 for my $ResultEntry ( @{ $Result{Result} || [] } ) {
-    $Self->True(
+    ok(
         (
-            $ResultEntry->{Status}
-                == $Kernel::System::SupportDataCollector::PluginBase::StatusUnknown
-                || $ResultEntry->{Status}
-                == $Kernel::System::SupportDataCollector::PluginBase::StatusOK
-                || $ResultEntry->{Status}
-                == $Kernel::System::SupportDataCollector::PluginBase::StatusWarning
-                || $ResultEntry->{Status}
-                == $Kernel::System::SupportDataCollector::PluginBase::StatusProblem
-                || $ResultEntry->{Status}
-                == $Kernel::System::SupportDataCollector::PluginBase::StatusInfo
-
+            $ResultEntry->{Status} == $Kernel::System::SupportDataCollector::PluginBase::StatusUnknown
+                ||
+                $ResultEntry->{Status} == $Kernel::System::SupportDataCollector::PluginBase::StatusOK
+                ||
+                $ResultEntry->{Status} == $Kernel::System::SupportDataCollector::PluginBase::StatusWarning
+                ||
+                $ResultEntry->{Status} == $Kernel::System::SupportDataCollector::PluginBase::StatusProblem
+                ||
+                $ResultEntry->{Status} == $Kernel::System::SupportDataCollector::PluginBase::StatusInfo
         ),
         "$ResultEntry->{Identifier} - status ($ResultEntry->{Status}).",
     );
 
-    $Self->Is(
+    is(
         $SeenIdentifier{ $ResultEntry->{Identifier} }++,
         0,
         "$ResultEntry->{Identifier} - identifier only used once.",
@@ -160,19 +140,20 @@ for my $ResultEntry ( @{ $Result{Result} || [] } ) {
 }
 
 # Check if the identifier from the disabled plugions are not present.
-for my $DisabledPluginsIdentifier (
-    qw(Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment::Verification Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment::FrameworkVersion)
-    )
-{
-    $Self->False(
-        $SeenIdentifier{$DisabledPluginsIdentifier},
-        "Collect() - SupportDataCollector::DisablePlugins - $DisabledPluginsIdentifier should not be present"
-    );
-}
+subtest 'SupportDataCollector::DisablePlugins disabled plugins should not be present' => sub {
+    for my $DisabledPluginsIdentifier (
+        'Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment',
+        'Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment::Verification',
+        'Kernel::System::SupportDataCollector::Plugin::OTOBO::PackageDeployment::FrameworkVersion',
+        )
+    {
+        ok( !$SeenIdentifier{$DisabledPluginsIdentifier}, "$DisabledPluginsIdentifier not present" );
+    }
+};
 
 # Check if the identifiers from the identifier filter blacklist are not present.
-$Self->False(
-    $SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTOBO::TimeSettings::UserDefaultTimeZone'},
+ok(
+    !$SeenIdentifier{'Kernel::System::SupportDataCollector::Plugin::OTOBO::TimeSettings::UserDefaultTimeZone'},
     "Collect() - SupportDataCollector::IdentifierFilterBlacklist - Kernel::System::SupportDataCollector::Plugin::OTOBO::TimeSettings::UserDefaultTimeZone should not be present"
 );
 
@@ -181,16 +162,8 @@ my $CacheResult = $CacheObject->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );
-$Self->IsDeeply(
-    $CacheResult,
-    \%Result,
-    "Collect() - Cache"
-);
-
-$Self->True(
-    $TimeElapsed < 240,
-    "Collect() - Should take less than 240 seconds, it took $TimeElapsed"
-);
+is( $CacheResult, \%Result, "Collect() - Cache" );
+ok( $TimeElapsed < 240, "Collect() - Should take less than 240 seconds, it took $TimeElapsed" );
 
 my $TimeStartCache = [ Time::HiRes::gettimeofday() ];
 %Result = $SupportDataCollectorObject->Collect(
@@ -202,18 +175,10 @@ $CacheResult = $CacheObject->Get(
     Type => 'SupportDataCollector',
     Key  => 'DataCollect',
 );
-$Self->IsDeeply(
-    $CacheResult,
-    \%Result,
-    "Collect() - Cache",
-);
-
-$Self->True(
-    $TimeElapsedCache < $TimeElapsed,
-    "Collect() - Should take less than $TimeElapsed seconds, it took $TimeElapsedCache",
-);
+is( $CacheResult, \%Result, "Collect() - Cache", );
+ok( $TimeElapsedCache < $TimeElapsed, "Collect() - Should take less than $TimeElapsed seconds, it took $TimeElapsedCache", );
 
 # cleanup cache
 $CacheObject->CleanUp();
 
-$Self->DoneTesting();
+done_testing();

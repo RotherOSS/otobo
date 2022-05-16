@@ -16,11 +16,16 @@
 
 package Kernel::System::SupportDataCollector;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use File::Basename;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::WebUserAgent;
 
 our @ObjectDependencies = (
@@ -35,11 +40,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::SupportDataCollector - system data collector
+Kernel::System::SupportDataCollector - support data collector
 
 =head1 DESCRIPTION
 
-All stats functions.
+Functions for the support data collector.
 
 =head1 PUBLIC INTERFACE
 
@@ -49,17 +54,13 @@ Don't use the constructor directly, use the ObjectManager instead:
 
     my $SupportDataCollectorObject = $Kernel::OM->Get('Kernel::System::SupportDataCollector');
 
-
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash ref to object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 Collect()
@@ -73,14 +74,14 @@ collect system data
         Hostname   => 'my.test.host:8080' # (optional, for testing purposes)
     );
 
-    returns in case of error
+returns in case of error
 
     (
         Success      => 0,
         ErrorMessage => '...',
     )
 
-    otherwise
+otherwise
 
     (
         Success => 1,
@@ -124,6 +125,7 @@ sub Collect {
             Type => 'SupportDataCollector',
             Key  => $CacheKey,
         );
+
         return %{$Cache} if ref $Cache eq 'HASH';
     }
 
@@ -131,43 +133,44 @@ sub Collect {
     #   If called from CLI, make a web request to collect the data, but if the data couldn't
     #   be collected the function runs normal.
     if ( !$ENV{GATEWAY_INTERFACE} ) {
-
         my %ResultWebRequest = $Self->CollectByWebRequest(%Param);
 
         return %ResultWebRequest if $ResultWebRequest{Success};
     }
 
     # Get the disabled plugins from the config to generate a lookup hash, which can be used to skip these plugins.
-    my $PluginDisabled       = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
-    my %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
+    my %LookupPluginDisabled;
+    {
+        my $PluginDisabled = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::DisablePlugins') || [];
+        %LookupPluginDisabled = map { $_ => 1 } @{$PluginDisabled};
+    }
 
     # Get the identifier filter blacklist from the config to generate a lookup hash, which can be used to
     # filter these identifier.
-    my $IdentifierFilterBlacklist       = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
-    my %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
+    my %LookupIdentifierFilterBlacklist;
+    {
+        my $IdentifierFilterBlacklist = $Kernel::OM->Get('Kernel::Config')->Get('SupportDataCollector::IdentifierFilterBlacklist') || [];
+        %LookupIdentifierFilterBlacklist = map { $_ => 1 } @{$IdentifierFilterBlacklist};
+    }
 
-    # Look for all plug-ins in the FS.
-    my @PluginFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => dirname(__FILE__) . "/SupportDataCollector/Plugin",
-        Filter    => "*.pm",
-        Recursive => 1,
+    # Look for all plug-ins in the file system, including the async plugins
+    my @PluginFiles = (
+        $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => dirname(__FILE__) . '/SupportDataCollector/Plugin',
+            Filter    => '*.pm',
+            Recursive => 1,
+        ),
+        $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+            Directory => dirname(__FILE__) . '/SupportDataCollector/PluginAsynchronous',
+            Filter    => '*.pm',
+            Recursive => 1,
+        ),
     );
 
-    # Look for all asynchronous plug-ins in the FS.
-    my @PluginAsynchronousFiles = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-        Directory => dirname(__FILE__) . "/SupportDataCollector/PluginAsynchronous",
-        Filter    => "*.pm",
-        Recursive => 1,
-    );
-
-    # Merge the both plug-in types together.
-    my @PluginFilesAll = ( @PluginFiles, @PluginAsynchronousFiles );
-
+    # Execute all plug-ins, except the disabled plugins
     my @Result;
-
-    # Execute all plug-ins.
     PLUGINFILE:
-    for my $PluginFile (@PluginFilesAll) {
+    for my $PluginFile (@PluginFiles) {
 
         # Convert file name => package name
         $PluginFile =~ s{^.*(Kernel/System.*)[.]pm$}{$1}xmsg;
@@ -181,10 +184,9 @@ sub Collect {
                 ErrorMessage => "Could not load $PluginFile!",
             );
         }
+
         my $PluginObject = $PluginFile->new( %{$Self} );
-
         my %PluginResult = $PluginObject->Run();
-
         if ( !%PluginResult || !$PluginResult{Success} ) {
             return (
                 Success      => 0,
@@ -383,8 +385,6 @@ returns:
         ErrorMessage => 'some message'      # optional (only in case of an error)
     );
 
-return
-
 =cut
 
 sub CollectAsynchronous {
@@ -461,7 +461,7 @@ sub CleanupAsynchronous {
         }
         my $PluginObject = $PluginFile->new( %{$Self} );
 
-        next PLUGINFILE if !$PluginFile->can('CleanupAsynchronous');
+        next PLUGINFILE unless $PluginFile->can('CleanupAsynchronous');
 
         $PluginObject->CleanupAsynchronous();
     }
