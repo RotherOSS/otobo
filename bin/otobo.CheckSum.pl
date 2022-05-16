@@ -139,19 +139,21 @@ sub ProcessDirectory {
 
         # ignore directories
         next FILE if $File =~ m{^doc/}smx;
-        next FILE if $File =~ m{^var/tmp}smx;
-        next FILE if $File =~ m{^var/log}smx;
-        next FILE if $File =~ m{^var/article}smx;
-        next FILE if $File =~ m{js-cache}smx;
-        next FILE if $File =~ m{css-cache}smx;
+        next FILE if $File =~ m{^var/tmp/}smx;
+        next FILE if $File =~ m{^var/log/}smx;
+        next FILE if $File =~ m{^var/article/}smx;
+        next FILE if $File =~ m{/js-cache/}smx;
+        next FILE if $File =~ m{/css-cache/}smx;
 
-        # next if not readable
-        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
-
-        my $DigestGenerator = Digest::MD5->new();
-        $DigestGenerator->addfile($In);
-        my $Digest = $DigestGenerator->hexdigest();
-        close $In;
+        # generated the MD5 checksum
+        my $Digest;
+        {
+            open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
+            my $DigestGenerator = Digest::MD5->new();
+            $DigestGenerator->addfile($In);
+            $Digest = $DigestGenerator->hexdigest;
+            close $In;
+        }
 
         if ( $Action eq 'create' ) {
             print $Output $Digest . '::' . $File . "\n";
