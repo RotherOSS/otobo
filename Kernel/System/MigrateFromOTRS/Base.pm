@@ -27,7 +27,7 @@ use utf8;
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
-use File::Basename qw(basename fileparse);
+use File::Basename qw(basename dirname fileparse);
 use File::Copy qw(move);
 use File::Path qw(make_path);
 
