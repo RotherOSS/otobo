@@ -157,7 +157,7 @@ my $TestPackage = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 
 # tests for GenerateCustom Files Archive
-my @Tests = (
+my @CustomFilesArchiveTests = (
     {
         Name          => 'Framework - Only Config',
         RequiredFiles => ["$Home/Kernel/Config.pm"],
@@ -305,7 +305,7 @@ for my $Test (@CustomFilesArchiveTests) {
 
 # tests for GeneratePackageList
 
-@Tests = (
+my @GeneratePackageListTests = (
     {
         Name => 'No Packages',
     },
@@ -320,7 +320,7 @@ for my $Test (@CustomFilesArchiveTests) {
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@GeneratePackageListTests) {
 
     my @OriginalList = $PackageObject->RepositoryList(
         Result => 'short',
