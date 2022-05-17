@@ -2392,14 +2392,15 @@ sub SyncWithS3 {
     while (1) {
 
         # run a blocking GET request to S3
-        my %Name2Properties = $StorageS3Object->ListObjects(
+        # The keys are the pathes of files relative to Kernel/Config/Files
+        my %SubPath2Properties = $StorageS3Object->ListObjects(
             Prefix => "$FilesPrefix/",
         );
 
         # Package events are not handled here as the whole web server is restarted when
         # a package has changed. See Plack::Handler::SyncWithS3 which is activated in entrypoint.sh.
         my $EventFileName = 'event_package.json';
-        if ( exists $Name2Properties{$EventFileName} ) {
+        if ( exists $SubPath2Properties{$EventFileName} ) {
 
             # gather info about the local event file
             my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$EventFileName";
@@ -2408,64 +2409,96 @@ sub SyncWithS3 {
             last CHECK_SYNC unless $Stat;
 
             # info about the event file in S3
-            my $Properties = $Name2Properties{$EventFileName};
+            my $Properties = $SubPath2Properties{$EventFileName};
 
             # do not sync ZZZ*.pm files when the local event file differs from the version in S3
             last CHECK_SYNC unless $Stat->size == $Properties->{Size};
             last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
         }
 
-        # check the fixed list of ZZZ files, including the dynamic configs for unit testing
-        my @OutdatedZZZFilenames;
-        my %FileIsRelevant = map
-            { $_ => 1 }
-            ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
-        ZZZFILENAME:
-        for my $ZZZFileName ( keys %Name2Properties ) {
+        my @OutdatedFiles;
+        {
+            # Files that need to be synced are recognised by patterns.  Currently there are two cases.
+            my @SyncFilePatterns = (
+                qr'ZZZZUnitTest.*\.pm$', # files that are used in the unit tests
+                qr'User/\d+\.pm$',       # user specific overrides of the SysConfig
+            );
 
-            # skip the not relevant objects
-            if (
-                ( ! $FileIsRelevant{$ZZZFileName} )
-                &&
-                $ZZZFileName !~ m/ZZZZUnitTest.*\.pm$/
-            )
-            {
-                next ZZZFILENAME;
+            # The hardcoded list of ZZZ files is treated in special way, as they are never deleted in the file system.
+            my %FileIsRelevant = map
+                { $_ => 1 }
+                ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
+
+            # Essential gather/take like in Syntax::Keyword::Gather
+            my @CandidateOutdatedFiles;
+            SUB_PATH:
+            for my $SubPath ( sort keys %SubPath2Properties ) {
+
+                # skip the not relevant objects
+                if ( $FileIsRelevant{$SubPath} ) {
+                    push @CandidateOutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
+
+                for my $Pattern ( @SyncFilePatterns ) {
+                    if ( $SubPath =~ $Pattern ) {
+                        push @CandidateOutdatedFiles, $SubPath;
+
+                        next ZZZFILENAME;
+                    }
+                }
             }
 
-            # gather info about the local file
-            my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+            SUB_PATH:
+            for my $SubPath ( @CandidateOutdatedFiles ) {
 
-            # fetch from S3 when container just started, and the files don't exist yet in the file system
-            if ( ! $Stat ) {
-                push @OutdatedZZZFilenames, $ZZZFileName;
+                # gather info about the local file
+                my $Stat = stat "$Self->{Home}/Kernel/Config/Files/$SubPath";
 
-                next ZZZFILENAME;
-            }
+                # fetch from S3 when container just started, and the files don't exist yet in the file system
+                if ( ! $Stat ) {
+                    push @OutdatedFiles, $SubPath;
 
-            # either size of modified time must have changed
-            my $Properties = $Name2Properties{$ZZZFileName};
-            if ( $Stat->size != $Properties->{Size} ) {
-                push @OutdatedZZZFilenames, $ZZZFileName;
+                    next SUB_PATH;
+                }
 
-                next ZZZFILENAME;
-            }
+                # either size of modified time must have changed
+                my $Properties = $SubPath2Properties{$SubPath};
+                if ( $Stat->size != $Properties->{Size} ) {
+                    push @OutdatedFiles, $SubPath;
 
-            # timestamp check does not consider differences within one second
-            if ( int($Stat->mtime) != int($Properties->{Mtime}) ) {
-                push @OutdatedZZZFilenames, $ZZZFileName;
+                    next SUB_PATH;
+                }
 
-                next ZZZFILENAME;
+                # timestamp check does not consider differences within one second
+                if ( int($Stat->mtime) != int($Properties->{Mtime}) ) {
+                    push @OutdatedFiles, $SubPath;
+
+                    next SUB_PATH;
+                }
             }
         }
 
         # find files in the file system that have been discarded in the S3 storage
-        my @ObsoleteZZZFilepathes = grep
-            { !$Name2Properties{ basename($_) } }
-            glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
+        my @ObsoleteFiles;
+        {
+             # files that are used in the unit tests
+            push @ObsoleteFiles, grep
+                { !$SubPath2Properties{ basename($_) } }
+                glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
+
+            # user specific overrides of the SysConfig
+            # note that POSIX does not allow to match multiple digits, so we need an extra filter
+            push @ObsoleteFiles, grep
+                { !$SubPath2Properties{ basename($_) } }
+                grep
+                { m!/\d+\.pm^! }
+                glob "$Self->{Home}/Kernel/Config/Files/User/[0-9]*.pm";
+        }
 
         # go on reading the config files when all files are up to date
-        last CHECK_SYNC unless ( @OutdatedZZZFilenames || @ObsoleteZZZFilepathes );
+        last CHECK_SYNC unless ( @OutdatedFiles || @ObsoleteFiles );
 
         # not sure whether flock is the best choice here, especially when running in Gazelle
         # https://www.perl.com/article/2/2015/11/4/Run-only-one-instance-of-a-program-at-a-time/
@@ -2486,9 +2519,9 @@ sub SyncWithS3 {
         }
 
         # we got an exclusive lock, now do the work and update from S3
-        for my $ZZZFileName ( @OutdatedZZZFilenames ) {
-            my $FilePath    = join '/', $FilesPrefix, $ZZZFileName;
-            my $Location    = "$Self->{Home}/Kernel/Config/Files/$ZZZFileName";
+        for my $FileName ( @OutdatedFiles ) {
+            my $FilePath    = join '/', $FilesPrefix, $FileName;
+            my $Location    = "$Self->{Home}/Kernel/Config/Files/$FileName";
             $StorageS3Object->SaveObjectToFile(
                 Key      => $FilePath,
                 Location => $Location,
@@ -2496,7 +2529,7 @@ sub SyncWithS3 {
         }
 
         # we got an exclusive lock, now do the work and delete the obsolete files
-        for my $Location ( @ObsoleteZZZFilepathes ) {
+        for my $Location ( @ObsoleteFiles ) {
 
             # ignore errors as we doublecheck anyways
             unlink $Location;
