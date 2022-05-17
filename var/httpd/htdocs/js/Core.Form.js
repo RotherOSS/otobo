@@ -349,9 +349,11 @@ Core.Form = (function (TargetNS) {
 
             // remove possible empty value
             $.each(RawValues, function(Index, Value) {
-                if (Value == '-') return true;
-                if (Value == '') return true;
-                if (Value == ' ') return true;
+                if (Value == '-')   return true;
+                if (Value == '')    return true;
+                if (Value == ' ')   return true;
+                // special treatment for Dest...
+                if (Value == '||-') return true;
 
                 // get all options
                 Values.push(Value);
