@@ -16,9 +16,9 @@
 
 package Kernel::System::SysConfig;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use namespace::autoclean;
 use utf8;
 
@@ -76,8 +76,9 @@ sub new {
 
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
-    # get home directory
-    $Self->{Home} = $Self->{ConfigObject}->Get('Home');
+    # get home directory and whether the S3 backend is active
+    $Self->{Home}         = $Self->{ConfigObject}->Get('Home');
+    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # Kernel::Config is loaded because it was loaded by $Kernel::OM above.
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
@@ -85,8 +86,7 @@ sub new {
     $Self->{ConfigClearObject}   = Kernel::Config->new( Level => 'Clear' );
 
     # Load base files.
-    my $BaseDir = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
-
+    my $BaseDir    = $Self->{Home} . '/Kernel/System/SysConfig/Base/';
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     FILENAME:
@@ -3660,12 +3660,11 @@ sub ConfigurationDeploy {
         $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
     }
 
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+    if ( $Self->{UseS3Backend} ) {
 
         # only write to S3, no extra copy in the file system
-        my $S3Key = $StorageS3Object->StoreObject(
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $S3Key           = $StorageS3Object->StoreObject(
             Key     => $TargetPath,
             Content => $EffectiveValueStrg,
         );
@@ -3780,7 +3779,7 @@ sub ConfigurationDeploySync {
 
         # Write latest deployment to ZZZAAuto.pm
         my $PMFileContent = $LastDeployment{EffectiveValueStrg};
-        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
+        if ( $Self->{UseS3Backend} ) {
 
             # only write to S3
             my $StorageS3Object = Kernel::System::Storage::S3->new();
