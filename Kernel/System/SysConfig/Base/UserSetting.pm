@@ -311,9 +311,21 @@ sub UserConfigurationDeploy {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  =>
-                    "System was unable to reset IsDirty flag for user specific setting (TargetUserID = $Param{TargetUserID})!"
+                    "System was unable to reset IsDirty flag for user specific setting (TargetUserID = $TargetUserID)!"
             );
         }
+    }
+
+    if ( $Self->{UseS3Backend} ) {
+
+        # only write to S3
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
+
+        return $StorageS3Object->StoreObject(
+            Key     => $S3Key,
+            Content => $EffectiveValueStrg,
+        );
     }
 
     return $Self->_FileWriteAtomic(
@@ -399,10 +411,22 @@ sub UserConfigurationDeploySync {
         );
 
         # Write user specific settings.
-        my $Success = $Self->_FileWriteAtomic(
-            Filename => $TargetPath,
-            Content  => \$Deployment{EffectiveValueStrg},
-        );
+        if ( $Self->{UseS3Backend} ) {
+
+            # only write to S3
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
+            $StorageS3Object->StoreObject(
+                Key     => $S3Key,
+                Content => $Deployment{EffectiveValueStrg},
+            );
+        }
+        else {
+            $Self->_FileWriteAtomic(
+                Filename => $TargetPath,
+                Content  => \$Deployment{EffectiveValueStrg},
+            );
+        }
     }
 
     return 1;
