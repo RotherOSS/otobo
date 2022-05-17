@@ -3790,9 +3790,6 @@ sub ConfigurationDeploySync {
             );
 
             return unless $Success;
-
-            # then update the file system from S3
-            $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
         }
         else {
             my $Success = $Self->_FileWriteAtomic(
@@ -3804,11 +3801,11 @@ sub ConfigurationDeploySync {
         }
     }
 
-    # Sync also user specific settings (if available).
-    return 1 unless $Self->can('UserConfigurationDeploySync');    # OTOBO Community Solution
-
-    # TODO: also sync the UserSettigs via S3
+    # Sync also user specific settings, always available in OTOBO
     $Self->UserConfigurationDeploySync();
+
+    # then update the file system from S3,
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
 
     return 1;
 }
