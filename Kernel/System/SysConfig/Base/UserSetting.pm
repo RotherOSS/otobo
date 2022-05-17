@@ -24,16 +24,15 @@ Kernel::System::SysConfig::Base::UserSetting - Base class extension for system c
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -75,7 +74,7 @@ sub UserSettingModifiedValueList {
         Name => $Param{Name},
     );
 
-    return if !@ModifiedSettingsList;
+    return unless @ModifiedSettingsList;
 
     my %UsersModifiedSettingList = map { $_->{TargetUserID} => $_->{EffectiveValue} } grep { $_->{TargetUserID} } @ModifiedSettingsList;
 
@@ -206,18 +205,20 @@ sub UserConfigurationDeploy {
 
         return;
     }
+
     if ( !IsPositiveInteger( $Param{TargetUserID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "TargetUserID is invalid!",
         );
+
         return;
     }
-    my $TargetUserID = $Param{TargetUserID};
 
+    my $TargetUserID = $Param{TargetUserID};
     my $BasePath     = 'Kernel/Config/Files/User/';
     my $FullBasePath = "$Self->{Home}/$BasePath";
-    my $UserFile     = $FullBasePath . "$Param{TargetUserID}.pm";
+    my $UserFile     = $FullBasePath . "$TargetUserID.pm";
     if ( !-d $FullBasePath ) {
         mkdir $FullBasePath;
     }
@@ -302,7 +303,7 @@ sub UserConfigurationDeploy {
     # Remove IsDirty flag for deployed user specific settings.
     if (@DirtyModifiedIDs) {
         my $Success = $SysConfigDBObject->ModifiedSettingDirtyCleanUp(
-            TargetUserID => $Param{TargetUserID},
+            TargetUserID => $TargetUserID,
             ModifiedIDs  => \@DirtyModifiedIDs,
         );
 
