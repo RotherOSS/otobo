@@ -50,8 +50,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-05-12 12:12+0000\n"
-"Last-Translator: Grit Rother <mr@otobo.de>\n"
+"PO-Revision-Date: 2022-05-17 21:01+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -2610,8 +2610,8 @@ msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
 msgstr ""
-"Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder "
-"Rollenmitglieder senden."
+"Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen- "
+"oder Rollenmitglieder senden."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2639,7 +2639,7 @@ msgstr "Gruppenmitglieder brauchen eine Berechtigung"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
-msgstr "Nachricht an Gruppenmitglieder senden"
+msgstr "Nachricht an Rollenmitglieder senden"
 
 #. Template: AdminEmail
 msgid "Also send to customers in groups"
