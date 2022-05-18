@@ -240,12 +240,10 @@ sub UserConfigurationDeploy {
             );
         }
 
+        # delete in S3
         if ( $Self->{UseS3Backend} ) {
-
-            # delete in S3
             my $StorageS3Object = Kernel::System::Storage::S3->new();
             my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
-
             $StorageS3Object->DiscardObject(
                 Key => $S3Key,
             );
@@ -358,9 +356,8 @@ Updates C<$UserID.pm> to the latest deployment found in the database.
 sub UserConfigurationDeploySync {
     my ( $Self, %Param ) = @_;
 
-    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
-
     # Check if user deployments are in sync
+    my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
     my %UserDeploymentList = $SysConfigDBObject->DeploymentUserList();
 
     my $Home       = $Self->{Home};
@@ -384,9 +381,19 @@ sub UserConfigurationDeploySync {
         # User has deployment -> handled below.
         next USERID if $UserDeploymentList{$UserID};
 
+        # delete in S3
+        if ( $Self->{UseS3Backend} ) {
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
+            $StorageS3Object->DiscardObject(
+                Key => $S3Key,
+            );
+        }
+
         # User has no deployment, remove file if needed.
         my $TargetPath = $TargetBase . $UserID . '.pm';
-        next USERID if !-e $TargetPath;
+
+        next USERID unless -e $TargetPath;
 
         if ( !unlink $TargetPath ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
