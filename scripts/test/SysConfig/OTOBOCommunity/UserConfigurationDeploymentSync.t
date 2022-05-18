@@ -15,14 +15,18 @@
 # --
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::TestSubs)
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
@@ -35,21 +39,16 @@ my $Daemon       = $Home . '/bin/otobo.Daemon.pl';
 my $PreviousDaemonStatus = `perl $Daemon status`;
 
 if ( !$PreviousDaemonStatus ) {
-    $Self->False(
-        1,
-        "Could not determine current daemon status!",
-    );
-    die "Could not determine current daemon status!";
+    fail("Could not determine current daemon status!");
+
+    bail_out "Could not determine current daemon status!";
 }
 
 if ( $PreviousDaemonStatus =~ m{Daemon running}i ) {
     my $ResultMessage = system("perl $Daemon stop");
 }
 else {
-    $Self->True(
-        1,
-        "Daemon was already stopped.",
-    );
+    pass("Daemon was already stopped.");
 }
 
 # Wait for slow systems
@@ -66,11 +65,7 @@ for my $Seconds ( 1 .. $SleepTime ) {
 }
 
 my $CurrentDaemonStatus = `perl $Daemon status`;
-
-$Self->True(
-    int $CurrentDaemonStatus =~ m{Daemon not running}i,
-    "Daemon is not running",
-);
+like( $CurrentDaemonStatus, qr{Daemon not running}i, "Daemon is not running", );
 
 if ( $CurrentDaemonStatus !~ m{Daemon not running}i ) {
     die "Daemon could not be stopped.";
@@ -136,11 +131,7 @@ my $UpdateFile = sub {
         DisableWarnings => 1,
     );
 
-    $Self->Is(
-        ref $ContentSCALARRef,
-        'SCALAR',
-        "$LocationUser FileRead() for UpdateFile() is SCALAR ref",
-    );
+    ref_ok( $ContentSCALARRef, 'SCALAR', "$LocationUser FileRead() for UpdateFile() is SCALAR ref" );
 
     my $Content = ${ $ContentSCALARRef || \'' };
 
@@ -170,27 +161,19 @@ my $ReadDeploymentID = sub {
         DisableWarnings => 1,
     );
 
-    $Self->Is(
-        ref $ContentSCALARRef,
-        'SCALAR',
-        "$LocationUser FileRead() for ReadDeploymentID() is SCALAR ref",
-    );
-
-    my $Content = ${$ContentSCALARRef};
+    ref_ok( $ContentSCALARRef, 'SCALAR', "$LocationUser FileRead() for ReadDeploymentID() is SCALAR ref" );
 
     my $CurrentDeploymentID;
-    if ( $Content =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(-?\d+)' }msx ) {
-        $CurrentDeploymentID = $1;
-    }
+    ($CurrentDeploymentID) = $ContentSCALARRef->$* =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(-?\d+)' }msx;
 
     return $CurrentDeploymentID;
-};
+}
 
 my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
 # Make sure deployment is in sync before tests.
 my $Success = $SysConfigObject->ConfigurationDeploySync();
-$Self->Is(
+is(
     $Success // 0,
     1,
     "Initial ConfigurationDeploymentSync() result",
@@ -283,38 +266,41 @@ my @Tests = (
 TEST:
 for my $Test (@Tests) {
 
-    my $FileDeploymentID;
-    if ( $Test->{Config}->{RemoveDir} ) {
-        my $Result = system("rm -rf $UserSettingsDir");
-        $Self->False(
-            $Result,
-            "$UserSettingsDir directory was removed",
+    subtest $Test->{Name} => sub {
+
+        my $FileDeploymentID;
+        if ( $Test->{Config}->{RemoveDir} ) {
+            my $Result = system("rm -rf $UserSettingsDir");
+            ok(
+                !$Result,
+                "$UserSettingsDir directory was removed",
+            );
+        }
+        else {
+            UpdateFile( %{ $Test->{Config} } );
+
+            $FileDeploymentID = ReadDeploymentID($LocationUser);
+            is(
+                $FileDeploymentID // '',
+                $Test->{DeploymentIDBefore},
+                "DeploymentID before ConfigurationDeploymentSync()",
+            );
+        }
+
+        my $Success = $SysConfigObject->ConfigurationDeploySync();
+        is(
+            $Success // 0,
+            $Test->{Success},
+            "ConfigurationDeploymentSync() result",
         );
-    }
-    else {
-        $UpdateFile->( %{ $Test->{Config} } );
 
-        $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-        $Self->Is(
-            $FileDeploymentID // '',
-            $Test->{DeploymentIDBefore},
-            "$Test->{Name} DeploymentID before ConfigurationDeploymentSync()",
+        $FileDeploymentID = ReadDeploymentID($LocationUser);
+        is(
+            $FileDeploymentID,
+            $Test->{DeploymentIDAfter},
+            "DeploymentID after ConfigurationDeploymentSync()",
         );
-    }
-
-    my $Success = $SysConfigObject->ConfigurationDeploySync();
-    $Self->Is(
-        $Success // 0,
-        $Test->{Success},
-        "$Test->{Name} ConfigurationDeploymentSync() result",
-    );
-
-    $FileDeploymentID = $ReadDeploymentID->( %{ $Test->{Config} } );
-    $Self->Is(
-        $FileDeploymentID,
-        $Test->{DeploymentIDAfter},
-        "$Test->{Name} DeploymentID after ConfigurationDeploymentSync()",
-    );
+    };
 }
 
 # Be sure to leave a clean system.
@@ -322,21 +308,11 @@ $Success = $SysConfigDBObject->DeploymentDelete(
     DeploymentID => $DeploymentID,
 );
 
-$Self->True(
-    $Success // 0,
-    "DeploymentDelete result",
-);
+ok( $Success, "DeploymentDelete result", );
 
-$Success = $SysConfigObject->ConfigurationDeploySync();
-$Self->Is(
-    $Success // 0,
-    1,
-    "Finish ConfigurationDeploymentSync() result",
-);
+$Success    = $SysConfigObject->ConfigurationDeploySync();
+is( $Success, 1, "Finish ConfigurationDeploymentSync() result" );
 
-$Self->False(
-    -e $LocationUser,
-    "Make sure that ConfigurationDeploymentSync() removed the user's file",
-);
+ok( !-e $LocationUser, "Make sure that ConfigurationDeploymentSync() removed the user's file" );
 
-$Self->DoneTesting();
+done_testing();
