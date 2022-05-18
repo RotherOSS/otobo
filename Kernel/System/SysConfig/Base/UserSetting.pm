@@ -181,6 +181,7 @@ sub UserSettingValueDelete {
 =head2 UserConfigurationDeploy()
 
 Write user configuration items from database into a perl module file.
+When the S3 backend is active then the file is stored only in S3.
 
     my $Success = $SysConfigObject->UserConfigurationDeploy(
         Comments     => "Some comments",     # (optional)
@@ -239,7 +240,19 @@ sub UserConfigurationDeploy {
             );
         }
 
-        return 1 if !-e $UserFile;
+        if ( $Self->{UseS3Backend} ) {
+
+            # delete in S3
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
+
+            $StorageS3Object->DiscardObject(
+                Key => $S3Key,
+            );
+        }
+
+        # remove user file in the file system
+        return 1 unless -e $UserFile;
 
         if ( !unlink $UserFile ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
