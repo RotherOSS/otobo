@@ -185,7 +185,6 @@ my @Tests = (
     {
         Name   => 'User No changes',
         Config => {
-            Type => 'User',
         },
         DeploymentIDBefore => $UserDeploymentID,
         DeploymentIDAfter  => $UserDeploymentID,
@@ -195,7 +194,6 @@ my @Tests = (
         Name   => 'User Set DeploymentID to 0',
         Config => {
             Value => 0,
-            Type  => 'User',
         },
         DeploymentIDBefore => 0,
         DeploymentIDAfter  => $UserDeploymentID,
@@ -205,7 +203,6 @@ my @Tests = (
         Name   => 'User Set DeploymentID to -1',
         Config => {
             Value => -1,
-            Type  => 'User',
         },
         DeploymentIDBefore => -1,
         DeploymentIDAfter  => $UserDeploymentID,
@@ -215,7 +212,6 @@ my @Tests = (
         Name   => 'User Set DeploymentID to empty',
         Config => {
             Value => '',
-            Type  => 'User',
         },
         DeploymentIDBefore => '',
         DeploymentIDAfter  => $UserDeploymentID,
@@ -225,7 +221,6 @@ my @Tests = (
         Name   => 'User Remove DeploymentID',
         Config => {
             Remove => 1,
-            Type   => 'User',
         },
         DeploymentIDBefore => '',
         DeploymentIDAfter  => $UserDeploymentID,
@@ -235,7 +230,6 @@ my @Tests = (
         Name   => 'User Directory does not exists',
         Config => {
             RemoveDir => 1,
-            Type      => 'User',
         },
         DeploymentIDBefore => '',
         DeploymentIDAfter  => $UserDeploymentID,
@@ -245,7 +239,6 @@ my @Tests = (
         Name   => 'User Set DeploymentID to be greater',
         Config => {
             Value => $UserDeploymentID + 1,
-            Type  => 'User',
         },
         DeploymentIDBefore => $UserDeploymentID + 1,
         DeploymentIDAfter  => $UserDeploymentID,
@@ -255,7 +248,6 @@ my @Tests = (
         Name   => 'User Set DeploymentID to be latest from DB',
         Config => {
             Value => $UserDeploymentID,
-            Type  => 'User',
         },
         DeploymentIDBefore => $UserDeploymentID,
         DeploymentIDAfter  => $UserDeploymentID,
