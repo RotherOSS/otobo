@@ -3727,6 +3727,7 @@ sub ConfigurationDeployList {
 =head2 ConfigurationDeploySync()
 
 Updates C<ZZZAAuto.pm> to the latest deployment found in the database.
+This method also updates the user configuration files.
 
     my $Success = $SysConfigObject->ConfigurationDeploySync();
 
@@ -3752,8 +3753,10 @@ sub ConfigurationDeploySync {
     TRY:
     for my $Try ( 1 .. 40 ) {
         $CleanupSuccess = $SysConfigDBObject->DeploymentListCleanup();
+
         last TRY if !$CleanupSuccess;
         last TRY if $CleanupSuccess == 1;
+
         sleep .5;
     }
     if ( $CleanupSuccess != 1 ) {
@@ -3772,6 +3775,7 @@ sub ConfigurationDeploySync {
             Priority => 'error',
             Message  => "No deployments found in Database!",
         );
+
         return;
     }
 
