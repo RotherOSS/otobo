@@ -482,6 +482,7 @@ sub SaveObjectToFile {
     $Self->{UserAgent}->start($Transaction);
 
     # Do not use the Kernel::System::Main in Kernel/Config/Defaults
+    make_path( dirname( $Param{Location} ) );
     $Transaction->result->save_to( $Param{Location} );
 
     # Touch the downloaded file to the value of LastModified from S3, e.g. 'Sat, 23 Oct 2021 11:15:14 GMT'.
