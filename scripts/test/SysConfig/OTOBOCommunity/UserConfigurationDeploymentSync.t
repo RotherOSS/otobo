@@ -27,6 +27,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
@@ -120,7 +121,7 @@ my $UserDeploymentID     = $DeploymentListLookup{$UserID};
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-my $UpdateFile = sub {
+sub UpdateFile {
     my %Param = @_;
 
     my $ContentSCALARRef = $MainObject->FileRead(
@@ -142,16 +143,34 @@ my $UpdateFile = sub {
         $Content =~ s{ (\{'CurrentUserDeploymentID)('\})  }{$1Invalid$2}msx;
     }
 
-    my $FileLocation = $MainObject->FileWrite(
-        Location => $LocationUser,
-        Content  => \$Content,
-        Mode     => 'utf8',
-    );
+    if ( $ENV{OTOBO_SYNC_WITH_S4} ) {
 
-};
+        # first write to S3
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
 
-my $ReadDeploymentID = sub {
-    my %Param = @_;
+        $StorageS3Object->StoreObject(
+            Key     => $S3Key,
+            Content => $Content,
+        );
+
+        # then sync to the file system
+        $Kernel::OM->Get('Kernel::Config')->SyncWithS3;
+    }
+    else {
+        $MainObject->FileWrite(
+            Location => $LocationUser,
+            Content  => \$Content,
+            Mode     => 'utf8',
+        );
+    }
+
+    return;
+}
+
+# reads the deployment ID from the user file in the file system
+sub ReadDeploymentID {
+    my ($LocationUser) = @_;
 
     my $ContentSCALARRef = $MainObject->FileRead(
         Location        => $LocationUser,
@@ -302,7 +321,7 @@ $Success = $SysConfigDBObject->DeploymentDelete(
 
 ok( $Success, "DeploymentDelete result", );
 
-$Success    = $SysConfigObject->ConfigurationDeploySync();
+$Success = $SysConfigObject->ConfigurationDeploySync();
 is( $Success, 1, "Finish ConfigurationDeploymentSync() result" );
 
 ok( !-e $LocationUser, "Make sure that ConfigurationDeploymentSync() removed the user's file" );
