@@ -394,6 +394,9 @@ for my $Test (@Tests) {
         'Make sure that after UserConfigurationDeploy() setting is not dirty.',
     );
 
+    # make sure that the deployed file exists when the S3 backend is activated
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3;
+
     # Load the configuration file (but remove it from INC first to get always a fresh copy)
     my %Config;
     delete $INC{$FilePath};
