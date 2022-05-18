@@ -147,6 +147,7 @@ sub Run {
         );
 
         $Self->PrintError("There was a problem writing XML to DB.");
+
         return $Self->ExitCodeError();
     }
 

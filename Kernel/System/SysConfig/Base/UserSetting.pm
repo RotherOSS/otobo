@@ -24,16 +24,15 @@ Kernel::System::SysConfig::Base::UserSetting - Base class extension for system c
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 
 # CPAN modules
 
 # OTOBO modules
-
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -75,7 +74,7 @@ sub UserSettingModifiedValueList {
         Name => $Param{Name},
     );
 
-    return if !@ModifiedSettingsList;
+    return unless @ModifiedSettingsList;
 
     my %UsersModifiedSettingList = map { $_->{TargetUserID} => $_->{EffectiveValue} } grep { $_->{TargetUserID} } @ModifiedSettingsList;
 
@@ -182,6 +181,7 @@ sub UserSettingValueDelete {
 =head2 UserConfigurationDeploy()
 
 Write user configuration items from database into a perl module file.
+When the S3 backend is active then the file is stored only in S3.
 
     my $Success = $SysConfigObject->UserConfigurationDeploy(
         Comments     => "Some comments",     # (optional)
@@ -206,18 +206,20 @@ sub UserConfigurationDeploy {
 
         return;
     }
+
     if ( !IsPositiveInteger( $Param{TargetUserID} ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "TargetUserID is invalid!",
         );
+
         return;
     }
-    my $TargetUserID = $Param{TargetUserID};
 
+    my $TargetUserID = $Param{TargetUserID};
     my $BasePath     = 'Kernel/Config/Files/User/';
     my $FullBasePath = "$Self->{Home}/$BasePath";
-    my $UserFile     = $FullBasePath . "$Param{TargetUserID}.pm";
+    my $UserFile     = $FullBasePath . "$TargetUserID.pm";
     if ( !-d $FullBasePath ) {
         mkdir $FullBasePath;
     }
@@ -238,7 +240,17 @@ sub UserConfigurationDeploy {
             );
         }
 
-        return 1 if !-e $UserFile;
+        # delete in S3
+        if ( $Self->{UseS3Backend} ) {
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
+            $StorageS3Object->DiscardObject(
+                Key => $S3Key,
+            );
+        }
+
+        # remove user file in the file system
+        return 1 unless -e $UserFile;
 
         if ( !unlink $UserFile ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -302,7 +314,7 @@ sub UserConfigurationDeploy {
     # Remove IsDirty flag for deployed user specific settings.
     if (@DirtyModifiedIDs) {
         my $Success = $SysConfigDBObject->ModifiedSettingDirtyCleanUp(
-            TargetUserID => $Param{TargetUserID},
+            TargetUserID => $TargetUserID,
             ModifiedIDs  => \@DirtyModifiedIDs,
         );
 
@@ -310,9 +322,21 @@ sub UserConfigurationDeploy {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  =>
-                    "System was unable to reset IsDirty flag for user specific setting (TargetUserID = $Param{TargetUserID})!"
+                    "System was unable to reset IsDirty flag for user specific setting (TargetUserID = $TargetUserID)!"
             );
         }
+    }
+
+    if ( $Self->{UseS3Backend} ) {
+
+        # only write to S3
+        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
+
+        return $StorageS3Object->StoreObject(
+            Key     => $S3Key,
+            Content => $EffectiveValueStrg,
+        );
     }
 
     return $Self->_FileWriteAtomic(
@@ -332,9 +356,8 @@ Updates C<$UserID.pm> to the latest deployment found in the database.
 sub UserConfigurationDeploySync {
     my ( $Self, %Param ) = @_;
 
-    my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
-
     # Check if user deployments are in sync
+    my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
     my %UserDeploymentList = $SysConfigDBObject->DeploymentUserList();
 
     my $Home       = $Self->{Home};
@@ -343,8 +366,6 @@ sub UserConfigurationDeploySync {
     if ( !-d $TargetBase ) {
         mkdir $TargetBase;
     }
-
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     # Also check users without deployments, to make sure their files are cleaned up.
     my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
@@ -358,9 +379,19 @@ sub UserConfigurationDeploySync {
         # User has deployment -> handled below.
         next USERID if $UserDeploymentList{$UserID};
 
+        # delete in S3
+        if ( $Self->{UseS3Backend} ) {
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
+            $StorageS3Object->DiscardObject(
+                Key => $S3Key,
+            );
+        }
+
         # User has no deployment, remove file if needed.
         my $TargetPath = $TargetBase . $UserID . '.pm';
-        next USERID if !-e $TargetPath;
+
+        next USERID unless -e $TargetPath;
 
         if ( !unlink $TargetPath ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -371,6 +402,8 @@ sub UserConfigurationDeploySync {
     }
 
     return 1 if !%UserDeploymentList;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     DEPLOYMENTID:
     for my $DeploymentID ( sort keys %UserDeploymentList ) {
@@ -398,10 +431,22 @@ sub UserConfigurationDeploySync {
         );
 
         # Write user specific settings.
-        my $Success = $Self->_FileWriteAtomic(
-            Filename => $TargetPath,
-            Content  => \$Deployment{EffectiveValueStrg},
-        );
+        if ( $Self->{UseS3Backend} ) {
+
+            # only write to S3
+            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
+            $StorageS3Object->StoreObject(
+                Key     => $S3Key,
+                Content => $Deployment{EffectiveValueStrg},
+            );
+        }
+        else {
+            $Self->_FileWriteAtomic(
+                Filename => $TargetPath,
+                Content  => \$Deployment{EffectiveValueStrg},
+            );
+        }
     }
 
     return 1;

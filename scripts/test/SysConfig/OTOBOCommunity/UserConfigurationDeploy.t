@@ -19,10 +19,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 # Get needed objects
 $Kernel::OM->ObjectParamAdd(
@@ -44,26 +49,27 @@ my $UserID        = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
     UserLogin => $TestUserLogin,
 );
 
-my $CleanUp = sub {
+# actually the sub also sets up modified settings
+sub CleanUp {
     my %Param = @_;
 
     # Delete sysconfig_modified_version
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'DELETE FROM sysconfig_modified_version',
     );
 
     # Delete sysconfig_modified
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'DELETE FROM sysconfig_modified',
     );
 
     # Delete sysconfig_default_version
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'DELETE FROM sysconfig_default_version',
     );
 
     # Delete sysconfig_default
-    return if !$DBObject->Do(
+    return unless $DBObject->Do(
         SQL => 'DELETE FROM sysconfig_default',
     );
 
@@ -132,10 +138,7 @@ EOF
         EffectiveValue           => 'Test setting 1',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID1,
-        "Default setting added - $SettingName1",
-    );
+    ok( $DefaultSettingID1, "Default setting added - $SettingName1" );
 
     my $DefaultSettingID2 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName2,
@@ -154,10 +157,7 @@ EOF
         EffectiveValue           => 'Test setting 2',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID2,
-        "Default setting added - $SettingName2",
-    );
+    ok( $DefaultSettingID2, "Default setting added - $SettingName2" );
 
     my $DefaultSettingID3 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName3,
@@ -176,10 +176,7 @@ EOF
         EffectiveValue           => 'Test setting 3',
         UserID                   => 1,
     );
-    $Self->True(
-        $DefaultSettingID3,
-        "Default setting added - $SettingName3",
-    );
+    ok( $DefaultSettingID3, "Default setting added - $SettingName3" );
 
     my $DefaultSettingID4 = $SysConfigDBObject->DefaultSettingAdd(
         Name                     => $SettingName4,
@@ -346,7 +343,9 @@ EOF
             UserID            => 1,
         );
     }
-};
+
+    return 1;
+}
 
 my @Tests = (
     {
@@ -368,7 +367,7 @@ my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
 
 TEST:
 for my $Test (@Tests) {
-    $CleanUp->();
+    CleanUp();
 
     # Calculate the correct file to be loader later:
     my $TargetUserID = $Test->{Config}->{TargetUserID};
@@ -394,6 +393,9 @@ for my $Test (@Tests) {
         $Setting{IsDirty},
         'Make sure that after UserConfigurationDeploy() setting is not dirty.',
     );
+
+    # make sure that the deployed file exists when the S3 backend is activated
+    $Kernel::OM->Get('Kernel::Config')->SyncWithS3;
 
     # Load the configuration file (but remove it from INC first to get always a fresh copy)
     my %Config;
@@ -425,4 +427,4 @@ for my $Test (@Tests) {
     );
 }
 
-$Self->DoneTesting();
+done_testing();
