@@ -367,8 +367,6 @@ sub UserConfigurationDeploySync {
         mkdir $TargetBase;
     }
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
     # Also check users without deployments, to make sure their files are cleaned up.
     my %UserList = $Kernel::OM->Get('Kernel::System::User')->UserList(
         Valid         => 0,
@@ -404,6 +402,8 @@ sub UserConfigurationDeploySync {
     }
 
     return 1 if !%UserDeploymentList;
+
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
     DEPLOYMENTID:
     for my $DeploymentID ( sort keys %UserDeploymentList ) {
