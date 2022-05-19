@@ -1892,13 +1892,13 @@ sub SignerCertRelationAdd {
         return;
     }
 
-    # searh certificates by fingerprint
+    # search certificates by fingerprint
     my @CertResult = $Self->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
 
     # results?
-    if ( !scalar @CertResult ) {
+    if ( !@CertResult ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Message  => "Wrong CertFingerprint, certificate not found!",
             Priority => 'error',
@@ -1906,13 +1906,13 @@ sub SignerCertRelationAdd {
         return 0;
     }
 
-    # searh certificates by fingerprint
+    # search certificates by fingerprint
     my @CAResult = $Self->CertificateSearch(
         Search => $Param{CAFingerprint},
     );
 
     # results?
-    if ( !scalar @CAResult ) {
+    if ( !@CAResult ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Message  => "Wrong CAFingerprint, certificate not found!",
             Priority => 'error',
