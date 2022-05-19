@@ -669,57 +669,49 @@ if ($UseNewHashes) {
 # create certificates table from the files in scripts/test/sample/SMIME
 # The fingerprint can be generated from the private keys: openssl x509  -noout -fingerprint -in SMIMECACertificate-OTOBOLab1.crt
 my %Certificates;
+{
+    my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-OTOBOLab.crt',
+        'SMIMECAPrivateKey-OTOBOLab.pem',
+        'SMIMECAPrivateKeyPass-OTOBOLab.crt',
+    );
+    $Certificates{OTOBOLabCA} = {
+        Hash          => $OTOBOLabCAHash,
+        Fingerprint   => 'E1:6F:D0:9A:04:DD:EB:02:E6:C1:CC:08:46:0B:71:15:02:78:30:2E',
+        String        => $CertificateString,
+        PrivateSecret => $PrivateSecret,
+        PrivateHash   => $OTOBOLabCAHash,
+        PrivateString => $PrivateString,
+    };
 
-# get data from files
-my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
-    'SMIMECACertificate-OTOBOLab.crt',
-    'SMIMECAPrivateKey-OTOBOLab.pem',
-    'SMIMECAPrivateKeyPass-OTOBOLab.crt',
-);
+    ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-OTOBORD.crt',
+        'SMIMECAPrivateKey-OTOBORD.pem',
+        'SMIMECAPrivateKeyPass-OTOBORD.crt',
+    );
+    $Certificates{OTOBORDCA} = {
+        Hash          => $OTOBORDCAHash,
+        Fingerprint   => '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
+        String        => $CertificateString,
+        PrivateSecret => $PrivateSecret,
+        PrivateHash   => $OTOBORDCAHash,
+        PrivateString => $PrivateString,
+    };
 
-# fill certificates table
-$Certificates{OTOBOLabCA} = {
-    Hash          => $OTOBOLabCAHash,
-    Fingerprint   => '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBOLabCAHash,
-    PrivateString => $PrivateString,
-};
-
-# get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
-    'SMIMECACertificate-OTOBORD.crt',
-    'SMIMECAPrivateKey-OTOBORD.pem',
-    'SMIMECAPrivateKeyPass-OTOBORD.crt',
-);
-
-# fill certificates table
-$Certificates{OTOBORDCA} = {
-    Hash          => $OTOBORDCAHash,
-    Fingerprint   => '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBORDCAHash,
-    PrivateString => $PrivateString,
-};
-
-# get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
-    'SMIMECACertificate-OTOBORoot.crt',
-    'SMIMECAPrivateKey-OTOBORoot.pem',
-    'SMIMECAPrivateKeyPass-OTOBORoot.crt',
-);
-
-# fill certificates table
-$Certificates{OTOBORootCA} = {
-    Hash          => $OTOBORootCAHash,
-    Fingerprint   => 'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBORootCAHash,
-    PrivateString => $PrivateString,
-};
+    ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-OTOBORoot.crt',
+        'SMIMECAPrivateKey-OTOBORoot.pem',
+        'SMIMECAPrivateKeyPass-OTOBORoot.crt',
+    );
+    $Certificates{OTOBORootCA} = {
+        Hash          => $OTOBORootCAHash,
+        Fingerprint   => 'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
+        String        => $CertificateString,
+        PrivateSecret => $PrivateSecret,
+        PrivateHash   => $OTOBORootCAHash,
+        PrivateString => $PrivateString,
+    };
+}
 
 # adding tests for smime certificate chains
 {
