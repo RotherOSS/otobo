@@ -20,7 +20,11 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+use File::Path qw(rmtree make_path);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
 
@@ -43,14 +47,15 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # get configuration
 my $HomeDir = $ConfigObject->Get('Home');
 
-my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
-my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+# set up temporary dirs
+my $CertPath    = $ConfigObject->Get('Home') . '/var/tmp/certs';
+my $PrivatePath = $ConfigObject->Get('Home') . '/var/tmp/private';
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
-File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
-File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+rmtree($CertPath);
+rmtree($PrivatePath);
+make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 $ConfigObject->Set(
     Key   => 'SMIME::CertPath',
     Value => $CertPath
@@ -164,7 +169,7 @@ my %Search = (
     5 => 'unittest5@example.org',
 );
 
-# 0.9.x hashes
+# 0.9.x hashes: TOOO: openssl 0.9 no longer supported in the unit tests
 my $CheckHash1 = '980a83c7';
 my $CheckHash2 = '999bcb2f';
 my $CheckHash3 = 'c3857c0d';
@@ -336,18 +341,12 @@ my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 3 ) {
 
-    my @Certs = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
-
-    $Self->False(
-        $Certs[0] || '',
-        "#$Count Search()",
-    );
+    my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
+    ok( !$Certs[0], "#$Count Search() before CertificateAdd() has no results" );
 
     # add certificate ...
     my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
         Filename  => "SMIMECertificate-$Count.asc",
     );
     my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
@@ -688,7 +687,8 @@ if ($UseNewHashes) {
     $OTOBOUserCertHash = '4d400195';
 }
 
-# create certificates table
+# create certificates table from the files in scripts/test/sample/SMIME
+# The fingerprint can be generated from the private keys: openssl x509  -noout -fingerprint -in SMIMECACertificate-OTOBOLab1.crt
 my %Certificates;
 
 # get data from files
@@ -753,8 +753,7 @@ $Certificates{OTOBORootCA} = {
     );
 
     # add certificate smimeuser1
-    my %SMIMEUser1Certificate;
-    %SMIMEUser1Certificate = (
+    my %SMIMEUser1Certificate = (
         Hash          => $OTOBOUserCertHash,
         Fingerprint   => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
         String        => $CertificateString,
@@ -840,7 +839,6 @@ $Certificates{OTOBORootCA} = {
     );
 
     # testing relations between certificates
-    # fail
 
     # add relation
     my $Success = $SMIMEObject->SignerCertRelationAdd(
@@ -848,28 +846,19 @@ $Certificates{OTOBORootCA} = {
         CAFingerprint   => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:',
         UserID          => 1,
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationAdd(), fail, wrong cert fingerprint',
-    );
+    ok( !$Success, 'SignerCertRelationAdd() fails because of wrong cert fingerprint' );
 
     # get all relations for a certificate
     $Success = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationGet(), fail, wrong cert fingerprint',
-    );
+    ok( !$Success, 'SignerCertRelationGet() fails because the relation was not added', );
 
     # get one relation by ID
     $Success = $SMIMEObject->SignerCertRelationGet(
         ID => '9999999',
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationGet(), fail, wrong ID',
-    );
+    ok( !$Success, 'SignerCertRelationGet(), fail, wrong ID' );
 
     # true cert
     # add relation
@@ -878,20 +867,14 @@ $Certificates{OTOBORootCA} = {
         CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
         UserID          => 1,
     );
-    $Self->True(
-        $Success,
-        'SignerCertRelationAdd(), add relation for certificate',
-    );
+    ok( $Success, 'SignerCertRelationAdd(), add relation RDCA for certificate' );
 
     $Success = $SMIMEObject->SignerCertRelationAdd(
         CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
         CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
         UserID          => 1,
     );
-    $Self->True(
-        $Success,
-        'SignerCertRelationAdd(), add relation for certificate',
-    );
+    ok( $Success, 'SignerCertRelationAdd(), add relation LabCA for certificate' );
 
     # sign a message after relations added not send CA certs now should be taken automatically by the sign function
     $Sign = $SMIMEObject->Sign(
@@ -2971,8 +2954,8 @@ for my $Count ( 1 .. 3 ) {
     );
 }
 
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
+rmtree($CertPath);
+rmtree($PrivatePath);
 
 # cleanup is done by RestoreDatabase
 
