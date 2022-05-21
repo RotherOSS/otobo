@@ -48,15 +48,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check if module is enabled
-    return 0 if !$Kernel::OM->Get('Kernel::Config')->Get('SMIME');
+    return 0 unless $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
 
-    # call init()
+    # more setup, get setting from the SysConfig
     $Self->_Init();
 
     # check working ENV
@@ -71,6 +70,8 @@ check if environment is working
 
     my $Message = $CryptObject->Check();
 
+Returns the empty list when there is nothing to complain about.
+
 =cut
 
 sub Check {
@@ -81,6 +82,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{Bin}!",
         );
+
         return "No such $Self->{Bin}!";
     }
     elsif ( !-x $Self->{Bin} ) {
@@ -88,6 +90,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{Bin} not executable!",
         );
+
         return "$Self->{Bin} not executable!";
     }
     elsif ( !-e $Self->{CertPath} ) {
@@ -95,6 +98,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{CertPath}!",
         );
+
         return "No such $Self->{CertPath}!";
     }
     elsif ( !-d $Self->{CertPath} ) {
@@ -102,6 +106,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{CertPath} directory!",
         );
+
         return "No such $Self->{CertPath} directory!";
     }
     elsif ( !-w $Self->{CertPath} ) {
@@ -109,6 +114,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{CertPath} not writable!",
         );
+
         return "$Self->{CertPath} not writable!";
     }
     elsif ( !-e $Self->{PrivatePath} ) {
@@ -116,6 +122,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{PrivatePath}!",
         );
+
         return "No such $Self->{PrivatePath}!";
     }
     elsif ( !-d $Self->{PrivatePath} ) {
@@ -123,6 +130,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{PrivatePath} directory!",
         );
+
         return "No such $Self->{PrivatePath} directory!";
     }
     elsif ( !-w $Self->{PrivatePath} ) {
@@ -130,6 +138,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{PrivatePath} not writable!",
         );
+
         return "$Self->{PrivatePath} not writable!";
     }
 
@@ -973,6 +982,7 @@ sub CertificateAdd {
             Successful => 0,
             Message    => 'Can\'t add invalid certificate!',
         );
+
         return %Result;
     }
 
@@ -988,6 +998,7 @@ sub CertificateAdd {
                 Successful => 0,
                 Message    => 'Certificate already installed!',
             );
+
             return %Result;
         }
     }
@@ -998,11 +1009,10 @@ sub CertificateAdd {
     # look for an available filename
     FILENAME:
     for my $Count ( 0 .. 99 ) {
-        if ( -e "$Self->{CertPath}/$Attributes{Hash}.$Count" ) {
-            next FILENAME;
-        }
 
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
+
+        next FILENAME if -e $File;
 
         if ( open( my $OUT, '>', $File ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $OUT $Param{Certificate};
