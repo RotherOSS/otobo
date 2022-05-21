@@ -475,6 +475,7 @@ my @NeededModules = (
     },
     {
         Module    => 'Path::Class',
+        Comment   => 'Neater path manipulation and some utils',
         Required  => 1,
         InstTypes => {
             aptget => 'libpath-class-perl',
@@ -834,17 +835,6 @@ my @NeededModules = (
         Comment   => 'Used when plackup is run with the -R option. This option restarts the server when files have changed.',
         InstTypes => {
             aptget => 'liblinux-inotify2-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
-        Module    => 'Path::Class',
-        Required  => 1,
-        Comment   => 'Neater path manipulation and some utils',
-        InstTypes => {
-            aptget => 'libpath-class-perl',
             emerge => undef,
             zypper => undef,
             ports  => undef,
