@@ -42,6 +42,7 @@ requires 'Net::DNS', "!= 0.60";
 # Required by Kernel/cpan-lib/Mail/Mailer/smtps.pm
 requires 'Net::SMTP::SSL';
 
+# Neater path manipulation and some utils
 requires 'Path::Class';
 
 # needed by Kernel/cpan-lib/Crypt/Random/Source.pm
@@ -73,9 +74,6 @@ requires 'YAML::XS';
 
 # For internationalised sorting
 requires 'Unicode::Collate';
-
-# Neater path manipulation and some utils
-requires 'Path::Class';
 
 # Perl Superglue for Web frameworks and Web Servers (PSGI toolkit)
 requires 'Plack';
