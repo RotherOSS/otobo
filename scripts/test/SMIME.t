@@ -120,7 +120,7 @@ else {
     elsif ( !-e $PrivatePath ) {
         fail("$PrivatePath exists");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
+    elsif ( !-d $PrivatePath ) {
         fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
@@ -214,7 +214,10 @@ my %Check = (
         StartDate      => 'Dec 22 03:31:35 2015 GMT',
         ShortStartDate => '2015-12-22',
     },
-    'cert-1' => '-----BEGIN CERTIFICATE-----
+);
+
+my %Cert = (
+    1 => '-----BEGIN CERTIFICATE-----
 MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzERMA8GA1UEAxMIdW5pdHRlc3QxIzAhBgkqhkiG9w0BCQEW
@@ -241,7 +244,7 @@ lZbOYUaP6zWPsKjftcev2Q5ik1L7N9eCynBF3a2U0TPVkfFyzuO58k96vUhKltOb
 nj2wbQO4KjM12YLUuvahk5se
 -----END CERTIFICATE-----
 ',
-    'cert-2' => '-----BEGIN CERTIFICATE-----
+    2 => '-----BEGIN CERTIFICATE-----
 MIIEZTCCA02gAwIBAgIJAPUQ/AyKRuKhMA0GCSqGSIb3DQEBBQUAMH4xCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzESMBAGA1UEAxMJdW5pdHRlc3QyMSQwIgYJKoZIhvcNAQkB
@@ -268,7 +271,7 @@ m012tpyvuaVVcNTY5MXgvonWtH2Vv8VnnBJ/at//961DX9u67qIQaIqReU18HjJ3
 w/5UXrBm/VSYu01mcpSN4rCPM9onzepmEA==
 -----END CERTIFICATE-----
 ',
-    'cert-3' => '-----BEGIN CERTIFICATE-----
+    3 => '-----BEGIN CERTIFICATE-----
 MIIDyTCCArGgAwIBAgIJANuTU3wqLoUcMA0GCSqGSIb3DQEBCwUAMH0xCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xEjAQBgNVBAcMCVN0cmF1YmluZzEQMA4G
 A1UECwwHT1RSUyBBRzERMA8GA1UEAwwIdW5pdHRlc3QxJDAiBgkqhkiG9w0BCQEW
@@ -296,308 +299,265 @@ egi0I+rwJjXCUZHw+qq0cRV/nEr4dD5aB84f0prW5ebzV9oQewkgsT0uI2EXa9GS
 
 # remove \r that will have been inserted on Windows automatically
 if ( $^O =~ m{Win}i ) {
-    $Check{'cert-1'} =~ tr{\r}{}d;
-    $Check{'cert-2'} =~ tr{\r}{}d;
-    $Check{'cert-3'} =~ tr{\r}{}d;
+    $Cert{1} =~ tr{\r}{}d;
+    $Cert{2} =~ tr{\r}{}d;
+    $Cert{3} =~ tr{\r}{}d;
 }
 
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 3 ) {
+    subtest "Testcase $Count" => sub {
 
-    my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
-    ok( !$Certs[0], "#$Count Search() before CertificateAdd() has no results" );
+        my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Certs[0], "Search() before CertificateAdd() has no results" );
 
-    # add certificate ...
-    my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
-        Filename  => "SMIMECertificate-$Count.asc",
-    );
-    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-
-    $Certs[0]->{Filename} = $Result{Filename};
-
-    ok(
-        $Result{Successful} || '',
-        "#$Count CertificateAdd() - $Result{Message}",
-    );
-
-    # test if read cert from file is the same as in unittest file
-    is(
-        ${$CertString},
-        $Check{"cert-$Count"},
-        "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
-    );
-
-    @Certs = $SMIMEObject->CertificateSearch(
-        Search => $Search{$Count},
-    );
-
-    ok(
-        $Certs[0],
-        "#$Count CertificateSearch()",
-    );
-
-    for my $ID ( sort keys %{ $Check{$Count} } ) {
-
-        if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
-
-            my $Success = 0;
-
-            for my $String ( @{ $Check{$Count}->{$ID} } ) {
-                $Success = 1 if $Certs[0]->{$ID} eq $String;
-            }
-
-            ok( $Success, "#$Count CertificateSearch() - $ID" );
-        }
-        else {
-            is(
-                $Certs[0]->{$ID} || '',
-                $Check{$Count}->{$ID},
-                "#$Count CertificateSearch() - $ID",
-            );
-        }
-    }
-
-    # and private key
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKey-$Count.asc",
-    );
-    my $Secret = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKeyPass-$Count.asc",
-    );
-    %Result = $SMIMEObject->PrivateAdd(
-        Private => ${$KeyString},
-        Secret  => ${$Secret},
-    );
-    ok( $Result{Successful}, "#$Count PrivateAdd()" );
-
-    my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
-
-    ok( $Keys[0], "#$Count PrivateSearch()" );
-
-    my $CertificateString = $SMIMEObject->CertificateGet(
-        Hash        => $Certs[0]->{Hash},
-        Fingerprint => $Certs[0]->{Fingerprint},
-    );
-    ok( $CertificateString, "#$Count CertificateGet()" );
-
-    my $PrivateKeyString = $SMIMEObject->PrivateGet(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Certs[0]->{Modulus},
-    );
-    ok( $PrivateKeyString, "#$Count PrivateGet()" );
-
-    # crypt
-    my $Crypted = $SMIMEObject->Crypt(
-        Message  => $TestText,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Crypted || '',
-        "#$Count Crypt() by cert filename",
-    );
-
-    $Self->True(
-        $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
-            && $Crypted =~ m{Content-Transfer-Encoding: base64},
-        "#$Count Crypt() - Data seems ok (crypted)",
-    );
-
-    # decrypt
-    my %Decrypt = $SMIMEObject->Decrypt(
-        Message  => $Crypted,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Decrypt{Successful} || '',
-        "#$Count Decrypt() by cert filename - Successful: $Decrypt{Message}",
-    );
-    $Self->Is(
-        $Decrypt{Data} || '',
-        $TestText,
-        "#$Count Decrypt() - Data",
-    );
-
-    # sign
-    my $Sign = $SMIMEObject->Sign(
-        Message  => $TestText,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Sign || '',
-        "#$Count Sign()",
-    );
-
-    # verify
-    my %Verify = $SMIMEObject->Verify(
-        Message => $Sign,
-        CACert  => "$CertPath/$Certs[0]->{Filename}",
-    );
-    $Self->True(
-        $Verify{Successful} || '',
-        "#$Count Verify() - self signed sending certificate path",
-    );
-    $Self->True(
-        $Verify{SignerCertificate} eq $Check{"cert-$Count"},
-        "#$Count Verify()",
-    );
-
-    # verify failure on manipulated text
-    my $ManipulatedSign = $Sign;
-    $ManipulatedSign =~ s{Q}{W}g;
-    %Verify = $SMIMEObject->Verify(
-        Message => $ManipulatedSign,
-        CACert  => "$CertPath/$Certs[0]->{Filename}",
-    );
-    $Self->True(
-        !$Verify{Successful},
-        "#$Count Verify() - on manipulated text",
-    );
-
-    # file checks
-    # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-    #       to base64 first?
-    #    for my $File (qw(xls txt doc png pdf)) {
-    for my $File (qw(txt)) {
-        my $Content = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-            Filename  => "PGP-Test1.$File",
-            Mode      => 'binmode',
+        # add certificate ...
+        my $CertString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
+            Filename  => "SMIMECertificate-$Count.asc",
         );
-        my $Reference = ${$Content};
-        $Reference =~ s{\n}{\r\n}gsm;
+        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
 
-        # crypt
-        my $Crypted = $SMIMEObject->Crypt(
-            Message     => $Reference,
+        $Certs[0]->{Filename} = $Result{Filename};
+
+        ok( $Result{Successful}, "CertificateAdd() - $Result{Message}" );
+
+        # test if read cert from file is the same as in unittest file
+        is(
+            ${$CertString},
+            $Cert{$Count},
+            "CertificateSearch() - Test if read cert from file is the same as in unittest file",
+        );
+
+        @Certs = $SMIMEObject->CertificateSearch(
+            Search => $Search{$Count},
+        );
+
+        ok( $Certs[0], "CertificateSearch()" );
+
+        for my $ID ( sort keys %{ $Check{$Count} } ) {
+
+            if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
+
+                my $Success = 0;
+
+                for my $String ( @{ $Check{$Count}->{$ID} } ) {
+                    $Success = 1 if $Certs[0]->{$ID} eq $String;
+                }
+
+                ok( $Success, "CertificateSearch() - $ID" );
+            }
+            else {
+                is(
+                    $Certs[0]->{$ID} || '',
+                    $Check{$Count}->{$ID},
+                    "CertificateSearch() - $ID",
+                );
+            }
+        }
+
+        # and private key
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => "SMIMEPrivateKey-$Count.asc",
+        );
+        my $Secret = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => "SMIMEPrivateKeyPass-$Count.asc",
+        );
+        %Result = $SMIMEObject->PrivateAdd(
+            Private => ${$KeyString},
+            Secret  => ${$Secret},
+        );
+        ok( $Result{Successful}, "PrivateAdd()" );
+
+        my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
+
+        ok( $Keys[0], "PrivateSearch()" );
+
+        my $CertificateString = $SMIMEObject->CertificateGet(
             Hash        => $Certs[0]->{Hash},
             Fingerprint => $Certs[0]->{Fingerprint},
         );
-        $Self->True(
-            $Crypted || '',
-            "#$Count Crypt()",
+        ok( $CertificateString, "CertificateGet()" );
+
+        my $PrivateKeyString = $SMIMEObject->PrivateGet(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Certs[0]->{Modulus},
         );
-        $Self->True(
+        ok( $PrivateKeyString, "PrivateGet()" );
+
+        # crypt
+        my $Crypted = $SMIMEObject->Crypt(
+            Message  => $TestText,
+            Filename => $Certs[0]->{Filename},
+        );
+        ok( $Crypted, "Crypt() by cert filename" );
+
+        ok(
             $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
                 && $Crypted =~ m{Content-Transfer-Encoding: base64},
-            "#$Count Crypt() - Data seems ok (crypted)",
+            "Crypt() - Data seems ok (crypted)",
         );
 
         # decrypt
         my %Decrypt = $SMIMEObject->Decrypt(
-            Message     => $Crypted,
-            Hash        => $Certs[0]->{Hash},
-            Fingerprint => $Certs[0]->{Fingerprint},
-        );
-        $Self->True(
-            $Decrypt{Successful} || '',
-            "#$Count Decrypt() - Successful .$File",
-        );
-        $Self->True(
-            $Decrypt{Data} eq $Reference,
-            "#$Count Decrypt() - Data .$File",
+            Message  => $Crypted,
+            Filename => $Certs[0]->{Filename},
         );
 
+        ok( $Decrypt{Successful}, "Decrypt() by cert filename - Successful: $Decrypt{Message}" );
+        is( $Decrypt{Data}, $TestText, "Decrypt() - Data" );
+
         # sign
-        my $Signed = $SMIMEObject->Sign(
-            Message     => $Reference,
-            Hash        => $Keys[0]->{Hash},
-            Fingerprint => $Keys[0]->{Fingerprint},
+        my $Sign = $SMIMEObject->Sign(
+            Message  => $TestText,
+            Filename => $Certs[0]->{Filename},
         );
-        $Self->True(
-            $Signed || '',
-            "#$Count Sign() .$File",
-        );
+
+        ok( $Sign, "Sign()" );
 
         # verify
         my %Verify = $SMIMEObject->Verify(
-            Message => $Signed,
+            Message => $Sign,
             CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
-        $Self->True(
-            $Verify{Successful} || '',
-            "#$Count Verify() .$File",
+
+        ok( $Verify{Successful}, "Verify() - self signed sending certificate path" );
+        is( $Verify{SignerCertificate}, $Cert{$Count}, "Verify()" );
+
+        # verify failure on manipulated text
+        my $ManipulatedSign = $Sign;
+        $ManipulatedSign =~ s{Q}{W}g;
+        %Verify = $SMIMEObject->Verify(
+            Message => $ManipulatedSign,
+            CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
-        $Self->True(
-            $Verify{SignerCertificate} eq $Check{"cert-$Count"},
-            "#$Count Verify() .$File - SignerCertificate",
-        );
-    }
+
+        ok( !$Verify{Successful}, "Verify() - on manipulated text" );
+
+        # file checks
+        # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
+        #       to base64 first?
+        #    for my $File (qw(xls txt doc png pdf))
+        for my $File (qw(txt)) {
+            subtest "Fileextension $File" => sub {
+                my $Content = $MainObject->FileRead(
+                    Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+                    Filename  => "PGP-Test1.$File",
+                    Mode      => 'binmode',
+                );
+                my $Reference = ${$Content};
+                $Reference =~ s{\n}{\r\n}gsm;
+
+                # crypt
+                my $Crypted = $SMIMEObject->Crypt(
+                    Message     => $Reference,
+                    Hash        => $Certs[0]->{Hash},
+                    Fingerprint => $Certs[0]->{Fingerprint},
+                );
+                ok( $Crypted, "Crypt()" );
+                ok(
+                    $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
+                        && $Crypted =~ m{Content-Transfer-Encoding: base64},
+                    "Crypt() - Data seems ok (crypted)",
+                );
+
+                # decrypt
+                my %Decrypt = $SMIMEObject->Decrypt(
+                    Message     => $Crypted,
+                    Hash        => $Certs[0]->{Hash},
+                    Fingerprint => $Certs[0]->{Fingerprint},
+                );
+                ok( $Decrypt{Successful}, "Decrypt() - Successful .$File" );
+                is(
+                    $Decrypt{Data},
+                    $Reference,
+                    "Decrypt() - Data .$File",
+                );
+
+                # sign
+                my $Signed = $SMIMEObject->Sign(
+                    Message     => $Reference,
+                    Hash        => $Keys[0]->{Hash},
+                    Fingerprint => $Keys[0]->{Fingerprint},
+                );
+
+                ok( $Signed, "Sign() .$File" );
+
+                # verify
+                my %Verify = $SMIMEObject->Verify(
+                    Message => $Signed,
+                    CACert  => "$CertPath/$Certs[0]->{Filename}",
+                );
+                ok( $Verify{Successful}, "Verify() .$File" );
+                is(
+                    $Verify{SignerCertificate},
+                    $Cert{$Count},
+                    "Verify() .$File - SignerCertificate",
+                );
+            }
+        }
+    };
 }
 
 # test search for alternate names, based on check 3
 # we have private keys now though
 $Check{3}->{Private} = 'Yes';
 for my $Count ( 3 .. 5 ) {
-    my @Certs = $SMIMEObject->CertificateSearch(
-        Search => $Search{$Count},
-    );
+    subtest "alternate names $Count" => sub {
+        my @Certs = $SMIMEObject->CertificateSearch(
+            Search => $Search{$Count},
+        );
 
-    $Self->True(
-        $Certs[0] || '',
-        "#$Count CertificateSearch()",
-    );
+        ok( $Certs[0], "CertificateSearch()" );
 
-    for my $ID ( sort keys %{ $Check{3} } ) {
-        if ( IsArrayRefWithData( $Check{3}->{$ID} ) ) {
+        for my $ID ( sort keys %{ $Check{3} } ) {
+            if ( IsArrayRefWithData( $Check{3}->{$ID} ) ) {
 
-            my $Success = 0;
+                my $Success = 0;
 
-            for my $String ( @{ $Check{3}->{$ID} } ) {
-                $Success = 1 if $Certs[0]->{$ID} eq $String;
+                for my $String ( @{ $Check{3}->{$ID} } ) {
+                    $Success = 1 if $Certs[0]->{$ID} eq $String;
+                }
+
+                ok( $Success, "CertificateSearch() - $ID" );
             }
-
-            $Self->True(
-                $Success,
-                "#$Count CertificateSearch() - $ID",
-            );
+            else {
+                is(
+                    $Certs[0]->{$ID},
+                    $Check{3}->{$ID},
+                    "CertificateSearch() - $ID",
+                );
+            }
         }
-        else {
-            $Self->Is(
-                $Certs[0]->{$ID} || '',
-                $Check{3}->{$ID},
-                "#$Count CertificateSearch() - $ID",
-            );
-        }
-    }
+    };
 }
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
-    my %Result = $SMIMEObject->PrivateRemove(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Keys[0]->{Modulus},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateRemove() - $Result{Message}",
-    );
+    subtest "delete keys $Count" => sub {
+        my @Keys = $SMIMEObject->Search(
+            Search => $Search{$Count},
+        );
+        ok( $Keys[0], "Search()" );
+        my %Result = $SMIMEObject->PrivateRemove(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Keys[0]->{Modulus},
+        );
+        ok( $Result{Successful}, "PrivateRemove() - $Result{Message}" );
 
-    %Result = $SMIMEObject->CertificateRemove(
-        Hash        => $Keys[0]->{Hash},
-        Fingerprint => $Keys[0]->{Fingerprint},
-    );
+        %Result = $SMIMEObject->CertificateRemove(
+            Hash        => $Keys[0]->{Hash},
+            Fingerprint => $Keys[0]->{Fingerprint},
+        );
 
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateRemove()",
-    );
+        ok( $Result{Successful}, "CertificateRemove()" );
 
-    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
-    $Self->False(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
+        @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Keys[0], "Search()" );
+    };
 }
 
 # function to retrieve the certificate data from test files
@@ -623,10 +583,9 @@ sub GetCertificateDataFromFiles {
 }
 
 # OpenSSL 1.0.0 correct hashes
-my $OTOBORootCAHash   = '7835cf94';
-my $OTOBORDCAHash     = 'b5d19fb9';
-my $OTOBOLabCAHash    = '19545811';
-my $OTOBOUserCertHash = '4d400195';
+my $OTOBORootCAHash = '7835cf94';
+my $OTOBORDCAHash   = 'b5d19fb9';
+my $OTOBOLabCAHash  = '19545811';
 
 # create certificates table from the files in scripts/test/sample/SMIME
 # The fingerprint can be generated from the private keys: openssl x509  -noout -fingerprint -in SMIMECACertificate-OTOBOLab1.crt
@@ -675,23 +634,22 @@ my %Certificates;
     };
 }
 
-# adding tests for smime certificate chains
+# tests for smime certificate chains
 {
 
-    # get data from files
+    # info about the certificate smimeuser1
     my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
         'SMIMECertificate-smimeuser1.crt',
         'SMIMEPrivateKey-smimeuser1.pem',
         'SMIMEPrivateKeyPass-smimeuser1.crt',
     );
-
-    # add certificate smimeuser1
+    my $OTOBOUser1CertHash    = '4d400195';
     my %SMIMEUser1Certificate = (
-        Hash          => $OTOBOUserCertHash,
+        Hash          => $OTOBOUser1CertHash,
         Fingerprint   => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
         String        => $CertificateString,
         PrivateSecret => $PrivateSecret,
-        PrivateHash   => $OTOBOUserCertHash,
+        PrivateHash   => $OTOBOUser1CertHash,
         PrivateString => $PrivateString,
     );
 
@@ -724,8 +682,8 @@ my %Certificates;
     );
 
     # it must fail
-    $Self->False(
-        $Data{Successful},
+    ok(
+        !$Data{Successful},
         'Sign(), failed certificate chain verification, needed CA certificates not embedded',
     );
 
@@ -2849,37 +2807,27 @@ for my $Count ( 1 .. 3 ) {
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
-    my %Result = $SMIMEObject->PrivateRemove(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Keys[0]->{Modulus},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateRemove() - $Result{Message}",
-    );
+    subtest "delete keys again $Count" => sub {
+        my @Keys = $SMIMEObject->Search(
+            Search => $Search{$Count},
+        );
+        ok( $Keys[0], "#$Count Search()" );
+        my %Result = $SMIMEObject->PrivateRemove(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Keys[0]->{Modulus},
+        );
+        ok( $Result{Successful}, "#$Count PrivateRemove() - $Result{Message}" );
 
-    %Result = $SMIMEObject->CertificateRemove(
-        Hash        => $Keys[0]->{Hash},
-        Fingerprint => $Keys[0]->{Fingerprint},
-    );
+        %Result = $SMIMEObject->CertificateRemove(
+            Hash        => $Keys[0]->{Hash},
+            Fingerprint => $Keys[0]->{Fingerprint},
+        );
 
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateRemove()",
-    );
+        ok( $Result{Successful}, "#$Count CertificateRemove()" );
 
-    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
-    $Self->False(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
+        @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Keys[0], "#$Count Search()" );
+    };
 }
 
 rmtree($CertPath);
