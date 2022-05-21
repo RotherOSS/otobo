@@ -67,21 +67,13 @@ $ConfigObject->Set(
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-# get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+# get the openssl version string, e.g. "OpenSSL 1.1.1f  31 Mar 2020"
 my $OpenSSLVersionString = qx{$OpenSSLBin version};
-my $OpenSSLMajorVersion;
 
 # get the openssl major version, e.g. 1 for version 1.0.0
-if ( $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
-    $OpenSSLMajorVersion = $1;
-}
-
-# openssl version 1.0.0 uses different hash algorithm... in the future release of openssl this might
-#change again in such case a better version detection will be needed
-my $UseNewHashes;
-if ( $OpenSSLMajorVersion >= 1 ) {
-    $UseNewHashes = 1;
-}
+# openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
+my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
+ok( $OpenSSLMajorVersion >= 1, 'openssl has version 1.0.0 or newer' );
 
 # set config
 $ConfigObject->Set(
@@ -169,17 +161,10 @@ my %Search = (
     5 => 'unittest5@example.org',
 );
 
-# 0.9.x hashes: TOOO: openssl 0.9 no longer supported in the unit tests
-my $CheckHash1 = '980a83c7';
-my $CheckHash2 = '999bcb2f';
-my $CheckHash3 = 'c3857c0d';
-
 # 1.0.0 hashes
-if ($UseNewHashes) {
-    $CheckHash1 = 'f62a2257';
-    $CheckHash2 = '35c7d865';
-    $CheckHash3 = 'a2ba8622';
-}
+my $CheckHash1 = 'f62a2257';
+my $CheckHash2 = '35c7d865';
+my $CheckHash3 = 'a2ba8622';
 
 my %Check = (
     1 => {
@@ -353,13 +338,13 @@ for my $Count ( 1 .. 3 ) {
 
     $Certs[0]->{Filename} = $Result{Filename};
 
-    $Self->True(
+    ok(
         $Result{Successful} || '',
         "#$Count CertificateAdd() - $Result{Message}",
     );
 
     # test if read cert from file is the same as in unittest file
-    $Self->Is(
+    is(
         ${$CertString},
         $Check{"cert-$Count"},
         "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
@@ -369,8 +354,8 @@ for my $Count ( 1 .. 3 ) {
         Search => $Search{$Count},
     );
 
-    $Self->True(
-        $Certs[0] || '',
+    ok(
+        $Certs[0],
         "#$Count CertificateSearch()",
     );
 
@@ -384,13 +369,10 @@ for my $Count ( 1 .. 3 ) {
                 $Success = 1 if $Certs[0]->{$ID} eq $String;
             }
 
-            $Self->True(
-                $Success,
-                "#$Count CertificateSearch() - $ID",
-            );
+            ok( $Success, "#$Count CertificateSearch() - $ID" );
         }
         else {
-            $Self->Is(
+            is(
                 $Certs[0]->{$ID} || '',
                 $Check{$Count}->{$ID},
                 "#$Count CertificateSearch() - $ID",
@@ -411,35 +393,23 @@ for my $Count ( 1 .. 3 ) {
         Private => ${$KeyString},
         Secret  => ${$Secret},
     );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateAdd()",
-    );
+    ok( $Result{Successful}, "#$Count PrivateAdd()" );
 
     my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
 
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count PrivateSearch()",
-    );
+    ok( $Keys[0], "#$Count PrivateSearch()" );
 
     my $CertificateString = $SMIMEObject->CertificateGet(
         Hash        => $Certs[0]->{Hash},
         Fingerprint => $Certs[0]->{Fingerprint},
     );
-    $Self->True(
-        $CertificateString || '',
-        "#$Count CertificateGet()",
-    );
+    ok( $CertificateString, "#$Count CertificateGet()" );
 
     my $PrivateKeyString = $SMIMEObject->PrivateGet(
         Hash    => $Keys[0]->{Hash},
         Modulus => $Certs[0]->{Modulus},
     );
-    $Self->True(
-        $PrivateKeyString || '',
-        "#$Count PrivateGet()",
-    );
+    ok( $PrivateKeyString, "#$Count PrivateGet()" );
 
     # crypt
     my $Crypted = $SMIMEObject->Crypt(
@@ -673,19 +643,11 @@ my $GetCertificateDataFromFiles = sub {
     return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
 };
 
-# OpenSSL 0.9.x correct hashes
-my $OTOBORootCAHash   = '1a01713f';
-my $OTOBORDCAHash     = '7807c24e';
-my $OTOBOLabCAHash    = '2fc24258';
-my $OTOBOUserCertHash = 'eab039b6';
-
 # OpenSSL 1.0.0 correct hashes
-if ($UseNewHashes) {
-    $OTOBORootCAHash   = '7835cf94';
-    $OTOBORDCAHash     = 'b5d19fb9';
-    $OTOBOLabCAHash    = '19545811';
-    $OTOBOUserCertHash = '4d400195';
-}
+my $OTOBORootCAHash   = '7835cf94';
+my $OTOBORDCAHash     = 'b5d19fb9';
+my $OTOBOLabCAHash    = '19545811';
+my $OTOBOUserCertHash = '4d400195';
 
 # create certificates table from the files in scripts/test/sample/SMIME
 # The fingerprint can be generated from the private keys: openssl x509  -noout -fingerprint -in SMIMECACertificate-OTOBOLab1.crt
@@ -1120,13 +1082,8 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
 -----END CERTIFICATE-----',
     };
 
-    # 0.9.x hash
-    my $CommonHash = 'b93941b5';
-
     # 1.0.0 hash
-    if ($UseNewHashes) {
-        $CommonHash = '9d993e95';
-    }
+    my $CommonHash = '9d993e95';
 
     TEST:
     for my $Number ( 0 .. 4 ) {
