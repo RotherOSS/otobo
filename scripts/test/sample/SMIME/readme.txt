@@ -1,19 +1,71 @@
-This directory holds sample files for the SMIME unit tests.
+# Overview
 
-The self signed certificates were created with openssl.
-See https://linuxconfig.org/how-to-generate-a-self-signed-ssl-certificate-on-linux for a tutorial.
+This directory holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
+- scripts/test/SMIME.t
 
-# 3653 days is 10 years, including the 3 leap days
-openssl req -x509  -sha512  -days 3650 -out SMIMECACertificate-OTOBOLab1.crt -keyout SMIMECAPrivateKey-OTOBOLab1.pem
-openssl x509  -noout -fingerprint -in SMIMECACertificate-OTOBOLab1.crt
+# Sample files
 
-bes:~/devel/OTOBO/otobo/scripts/test/sample/SMIME (rel-10_1)$ openssl x509  -noout -subject_hash -issuer -fingerprint -sha1 -serial -subject -startdate -enddate -email -modulus -in SMIMECACertificate-OTOBOLab1.crt
-5310b779
-issuer=C = DE, ST = Niederbayern, L = Oberwalting, O = OTOBO, CN = otobo.org, emailAddress = unittests@otobo.org
-SHA1 Fingerprint=E1:6F:D0:9A:04:DD:EB:02:E6:C1:CC:08:46:0B:71:15:02:78:30:2E
-serial=6E7696412B3C67DD3A4580ACE5F6986D629AC2AC
-subject=C = DE, ST = Niederbayern, L = Oberwalting, O = OTOBO, CN = otobo.org, emailAddress = unittests@otobo.org
-notBefore=May 19 14:09:33 2022 GMT
-notAfter=May 16 14:09:33 2032 GMT
-unittests@otobo.org
-Modulus=D3EDBA9E6BA0D057B818C6A5652686009CB48AC795E1260C979DF5B306E74E0525B2B8A277FC13D7935862B63DCDAF9813107C48CA5D5665BE87C8536654F7B459FBB1B2BCCBE45BE90AEA47D135D5D0E648DD584FAD816E9FABDCF51A25106CE6C5BC7604B9DE929612F56DA2F8F9E13DB3665F751FE731CE7DDA9F861C6AA7BC0B722DB766041DDEC0641855ACBD7BA4C4B5058D4801766C3A8C631D9B151B015A28110FC518D4A2019FFCDC528FDAFF6B2087EB80AC1779751ECEAD53C8EA2321B0273CDD3CB3C190DCE3E36A02DDD83823FBE6039CC625E0A810E98F237FB25CFD1494DD38082B160829264A68385E62C7D4D44E60A9D93B3D75355DB1AF
+The sample files are based on the novel "Voyage au Centre de la Terre" by Jules Verne. The main protagonist is "Professor Otto Lidenbrock"
+who teaches geology at the Johanneum in Hamburg. In our case the Johanneum offers the root CA, the science department of the school
+and the cabinet of Prof. Lidenbrock are subsidary CAs. Other protaganists are Axel, Gudrun, and Martha. Axel is the one who
+deciphers the secret message from Arne Saknussemm,
+
+Here are the commands which created the sample files.
+The self signed certificates were created with openssl. All passphrases are 'secret'.
+
+## Root Certificate Authority SMIMECACertificate-Johanneum
+
+This is the root CA, the thingy that has to be imported into the mail tool.
+
+We create the certificate and the private key in a single step. The password for the private key is 'secret'.
+We use 3653 days for 10 years, including the 3 leap days. By specifying -keyout we request that a private key
+is generated.
+
+    > cd /opt/otobo/scripts/test/sample/SMIME
+    > openssl req -x509 -sha512  -days 3650 -out SMIMECACertificate-Johanneum.crt -keyout SMIMECAPrivateKey-Johanneum.pem
+
+The fingerprint is included in scripts/test/SMIME.t:
+
+    openssl x509  -noout -fingerprint -in SMIMECACertificate-Johanneum.crt
+
+## Intermediate CA, the geology department of the Johanneum
+
+First the department needs a private key.
+
+    > openssl genrsa -out SMIMECAPrivateKey-Geology.pem
+
+Ask the Johanneum to create a signed certificate for the geology department:
+
+    > openssl req -new -key SMIMECAPrivateKey-Geology.pem -out SMIMECASignRequest-Geology.csr
+
+The Johanneum kindly signs the certificate sign request and the geology department gets its signed CA certificate.
+
+    > openssl x509 -req -days 3653 -in SMIMECASignRequest-Geology.csr -CA SMIMECACertificate-Johanneum.crt -CAkey SMIMECAPrivateKey-Johanneum.pem -set_serial 00 -out SMIMECACertificate-Geology.crt
+
+Again, we need the fingerprint for the test script:
+
+    > openssl x509  -noout -fingerprint -in SMIMECACertificate-Geology.crt
+
+## The final CA in the chain, that is the cabinet of Prof. Lidenbrock, is signed by the geology department
+
+First the cabinet needs a private key.
+
+    > openssl genrsa -out SMIMECAPrivateKey-Cabinet.pem
+
+Ask the Geology department to create a signed certificate for the cabinate of Prof. Lidenbrock.
+
+    > openssl req -new -key SMIMECAPrivateKey-Cabinet.pem -out SMIMECASignRequest-Cabinet.csr
+
+The geology department kindly signs the certificate sign request and Prof. Lidenbrock gets his signed CA certificate.
+
+    > openssl x509 -req -days 3653 -in SMIMECASignRequest-Cabinet.csr  -CA SMIMECACertificate-Geology.crt -CAkey SMIMECAPrivateKey-Geology.pem -set_serial 00 -out SMIMECACertificate-Cabinet.crt
+
+As usual, we need the fingerprint for the test script:
+
+    > openssl x509  -noout -fingerprint -in SMIMECACertificate-Cabinet.crt
+
+# See also:
+
+- https://en.wikipedia.org/wiki/Journey_to_the_Center_of_the_Earth
+- https://linuxconfig.org/how-to-generate-a-self-signed-ssl-certificate-on-linux for a tutorial.
+- https://www.howtoforge.de/anleitung/mails-mit-ssl-zertifikaten-verschlusseln-smime/
