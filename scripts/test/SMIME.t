@@ -655,43 +655,43 @@ my %Certificates;
 # tests for smime certificate chains
 {
 
-    # info about the certificate smimeuser1
+    # info about the certificate for Axel
     my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
-        'SMIMECertificate-smimeuser1.crt',
-        'SMIMEPrivateKey-smimeuser1.pem',
-        'SMIMEPrivateKeyPass-smimeuser1.crt',
+        'SMIMEUserCertificate-Axel.crt',
+        'SMIMEUserPrivateKey-Axel.pem',
+        'SMIMEUserPrivateKeyPass-Axel.crt',
     );
-    my $OTOBOUser1CertHash    = '4d400195';
-    my %SMIMEUser1Certificate = (
-        Hash          => $OTOBOUser1CertHash,
-        Fingerprint   => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
+    my $AxelCertHash         = 'c8c9e520';
+    my %SMIMEAxelCertificate = (
+        Hash          => $AxelCertHash,
+        Fingerprint   => '39:DF:A5:DC:E3:93:BE:46:36:23:93:B2:4F:7B:98:0B:01:15:3E:1A',
         String        => $CertificateString,
         PrivateSecret => $PrivateSecret,
-        PrivateHash   => $OTOBOUser1CertHash,
+        PrivateHash   => $AxelCertHash,
         PrivateString => $PrivateString,
     );
 
     my %Result = $SMIMEObject->CertificateAdd(
-        Certificate => $SMIMEUser1Certificate{String},
+        Certificate => $SMIMEAxelCertificate{String},
     );
 
-    $SMIMEUser1Certificate{Filename} = $Result{Filename};
+    $SMIMEAxelCertificate{Filename} = $Result{Filename};
 
     %Result = $SMIMEObject->PrivateAdd(
-        Private => $SMIMEUser1Certificate{PrivateString},
-        Secret  => $SMIMEUser1Certificate{PrivateSecret},
+        Private => $SMIMEAxelCertificate{PrivateString},
+        Secret  => $SMIMEAxelCertificate{PrivateSecret},
     );
 
-    $SMIMEUser1Certificate{PrivateFilename} = $Result{Filename};
+    $SMIMEAxelCertificate{PrivateFilename} = $Result{Filename};
 
-    # sign a message with smimeuser1
+    # sign a message with Axel
     my $Message =
         'This is a signed message to sign, and verification must pass a certificate chain validation.';
 
     my $Sign = $SMIMEObject->Sign(
         Message     => $Message,
-        Hash        => $SMIMEUser1Certificate{PrivateHash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{PrivateHash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     # verify it
@@ -712,11 +712,11 @@ my %Certificates;
         );
     }
 
-    # sign a message with smimeuser1
+    # sign a message with Axel
     $Sign = $SMIMEObject->Sign(
         Message     => $Message,
-        Hash        => $SMIMEUser1Certificate{PrivateHash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{PrivateHash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     # verify must fail not root cert added to the trusted cert path
@@ -772,14 +772,14 @@ my %Certificates;
     # true cert
     # add relation
     $Success = $SMIMEObject->SignerCertRelationAdd(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
         CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
         UserID          => 1,
     );
     ok( $Success, 'SignerCertRelationAdd(), add relation GeologyCA for certificate' );
 
     $Success = $SMIMEObject->SignerCertRelationAdd(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
         CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
         UserID          => 1,
     );
@@ -788,7 +788,7 @@ my %Certificates;
     # sign a message after relations added not send CA certs now should be taken automatically by the sign function
     $Sign = $SMIMEObject->Sign(
         Message  => $Message,
-        Filename => $SMIMEUser1Certificate{Filename},
+        Filename => $SMIMEAxelCertificate{Filename},
     );
 
     # verify now must works
@@ -805,7 +805,7 @@ my %Certificates;
 
     # get all relations for a certificate
     my @CertResults = $SMIMEObject->SignerCertRelationGet(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
     $Self->Is(
         scalar @CertResults,
@@ -854,7 +854,7 @@ my %Certificates;
 
     # delete all relations for a certificate
     $SMIMEObject->SignerCertRelationDelete(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
     $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[1]->{ID},
@@ -866,8 +866,8 @@ my %Certificates;
 
     # delete certificates
     $SMIMEObject->CertificateRemove(
-        Hash        => $SMIMEUser1Certificate{Hash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{Hash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     for my $Cert ( values %Certificates ) {
@@ -2218,8 +2218,7 @@ HZ4=
                     CorrectCAFileContent              => $Certificates{$CAName}->{String},
                     CorrectCAPrivateKeyFileContent    => $Certificates{$CAName}->{PrivateString},
                     CorrectCAPrivateSecretFileContent => $Certificates{$CAName}->{PrivateSecret},
-                    CorrectRelations
-                        => $Test->{CorrectCAs}->{$CAName}->{CorrectRelations} || '',
+                    CorrectRelations                  => $Test->{CorrectCAs}->{$CAName}->{CorrectRelations} || '',
                 };
             }
 
