@@ -176,9 +176,9 @@ my @Certificates = (
     {
         CertificateName       => 'OTOBOUserCert',
         CertificateHash       => $AxelCertHash,
-        CertificateFileName   => 'SMIMECertificate-Axel.crt',
-        PrivateKeyFileName    => 'SMIMEPrivateKey-Axel.pem',
-        PrivateSecretFileName => 'SMIMEPrivateKeyPass-Axel.crt',
+        CertificateFileName   => 'SMIMEUserCertificate-Axel.crt',
+        PrivateKeyFileName    => 'SMIMEUserPrivateKey-Axel.pem',
+        PrivateSecretFileName => 'SMIMEUserPrivateKeyPass-Axel.crt',
     },
     {
         CertificateName       => 'CabinetCA',
