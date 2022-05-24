@@ -222,12 +222,12 @@ my @Certificates = (
     },
     {
         CertificateName      => 'OTOBOUserCert',
-        CertificateFileName1 => 'SMIMECertificate-smimeuser1.crt',
-        CertificateFileName2 => 'SMIMECertificate-smimeuser1.p7b',
-        CertificateFileName3 => 'SMIMECertificate-smimeuser1.der',
-        CertificateFileName4 => 'SMIMECertificate-smimeuser1.pfx',
-        CertificatePassFile  => 'SMIMEPrivateKeyPass-smimeuser1.crt',
-        Success              => 0                                       # Test with passfile will fail (wrong password)
+        CertificateFileName1 => 'SMIMECertificate-Axel.crt',
+        CertificateFileName2 => 'SMIMECertificate-Axel.p7b',
+        CertificateFileName3 => 'SMIMECertificate-Axel.der',
+        CertificateFileName4 => 'SMIMECertificate-Axel.pfx',
+        CertificatePassFile  => 'SMIMEPrivateKeyPass-Axel.crt',
+        Success              => 0                                 # Test with passfile will fail (wrong password)
     },
 );
 
