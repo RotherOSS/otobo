@@ -10,16 +10,16 @@ who teaches geology at the Johanneum in Hamburg. In our case the Johanneum offer
 and the cabinet of Prof. Lidenbrock are subsidary CAs. Other protaganists are Axel, Gudrun, and Martha. Axel is the one who
 deciphers the secret message from Arne Saknussemm,
 
-Here are the commands which created the sample files.
-The self signed certificates were created with openssl. All passphrases are 'secret'.
+The certificates were created with openssl. All of the passphrases are 'secret'.
+Below are the commands which created the sample files.
 
 ## Root Certificate Authority SMIMECACertificate-Johanneum
 
-This is the root CA, the thingy that has to be imported into the mail tool.
+This is the self signed root CA, the thingy that has to be imported into the mail tool.
 
 We create the certificate and the private key in a single step. The password for the private key is 'secret'.
 We use 3653 days for 10 years, including the 3 leap days. By specifying -keyout we request that a private key
-is generated.
+is generated. CA=TRUE is set automatically.
 
     > cd /opt/otobo/scripts/test/sample/SMIME
     > openssl req -x509 -sha512  -days 3650 -out SMIMECACertificate-Johanneum.crt -keyout SMIMECAPrivateKey-Johanneum.pem
@@ -40,8 +40,14 @@ Ask the Johanneum to create a signed certificate for the geology department:
     > openssl req -new -key SMIMECAPrivateKey-Geology.pem -out SMIMECASignRequest-Geology.csr
 
 The Johanneum kindly signs the certificate sign request and the geology department gets its signed CA certificate.
+Explicitly adding the X.509 v3 extensions in a strange way.
 
-    > openssl x509 -req -days 3653 -in SMIMECASignRequest-Geology.csr -CA SMIMECACertificate-Johanneum.crt -CAkey SMIMECAPrivateKey-Johanneum.pem -set_serial 00 -out SMIMECACertificate-Geology.crt
+    > echo "basicConstraints = critical, CA:true, pathlen:1" > extfile
+    > openssl x509 -req -days 3653 -extfile extfile -in SMIMECASignRequest-Geology.csr -CA SMIMECACertificate-Johanneum.crt -CAkey SMIMECAPrivateKey-Johanneum.pem -set_serial 00 -out SMIMECACertificate-Geology.crt
+
+Check with:
+
+    > openssl x509  -noout -text -in SMIMECACertificate-Geology.crt
 
 Again, we need the fingerprint for the test script:
 
@@ -59,21 +65,25 @@ Ask the Geology department to create a signed certificate for the cabinate of Pr
     > openssl req -new -key SMIMECAPrivateKey-Cabinet.pem -out SMIMECASignRequest-Cabinet.csr
 
 The geology department kindly signs the certificate sign request and Prof. Lidenbrock gets his signed CA certificate.
+Explicitly adding the X.509 v3 extensions in a strange way.
 
-    > openssl x509 -req -days 3653 -in SMIMECASignRequest-Cabinet.csr  -CA SMIMECACertificate-Geology.crt -CAkey SMIMECAPrivateKey-Geology.pem -set_serial 00 -out SMIMECACertificate-Cabinet.crt
+    > echo "basicConstraints = critical, CA:true, pathlen:0" > extfile
+    > openssl x509 -req -days 3653 -extfile extfile -in SMIMECASignRequest-Cabinet.csr  -CA SMIMECACertificate-Geology.crt -CAkey SMIMECAPrivateKey-Geology.pem -set_serial 00 -out SMIMECACertificate-Cabinet.crt
 
 As usual, we need the subject hash and the fingerprint for the test script:
 
+    > openssl x509  -noout -text -in SMIMECACertificate-Cabinet.crt
     > openssl x509  -noout -fingerprint -in SMIMECACertificate-Cabinet.crt
     > openssl x509  -noout -subject_hash -in SMIMECACertificate-Cabinet.crt
 
 ## User certificates are signed by the Cabinet CA
 
-Here we only show the commands for Axel. The other users are Otto, Martha, and Gudrun.
+For now we only have Axel who receives crypted messages. In future other users might Otto, Martha, and Gudrun.
 
     > openssl genrsa -out SMIMEUserPrivateKey-Axel.pem
     > openssl req -new -key SMIMEUserPrivateKey-Axel.pem -out SMIMEUserSignRequest-Axel.csr
     > openssl x509 -req -days 3653 -in SMIMEUserSignRequest-Axel.csr  -CA SMIMECACertificate-Cabinet.crt -CAkey SMIMECAPrivateKey-Cabinet.pem -set_serial 00 -out SMIMEUserCertificate-Axel.crt
+    > openssl x509  -noout -text -in SMIMEUserCertificate-Axel.crt
     > openssl x509  -noout -fingerprint -in SMIMEUserCertificate-Axel.crt
     > openssl x509  -noout -subject_hash -in SMIMEUserCertificate-Axel.crt
 
@@ -82,3 +92,4 @@ Here we only show the commands for Axel. The other users are Otto, Martha, and G
 - https://en.wikipedia.org/wiki/Journey_to_the_Center_of_the_Earth
 - https://linuxconfig.org/how-to-generate-a-self-signed-ssl-certificate-on-linux for a tutorial.
 - https://www.howtoforge.de/anleitung/mails-mit-ssl-zertifikaten-verschlusseln-smime/
+- https://stackoverflow.com/questions/36920558/is-there-anyway-to-specify-basicconstraints-for-openssl-cert-via-command-line

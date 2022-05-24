@@ -45,11 +45,11 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get configuration
-my $HomeDir = $ConfigObject->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
 # set up temporary dirs
-my $CertPath    = $ConfigObject->Get('Home') . '/var/tmp/certs';
-my $PrivatePath = $ConfigObject->Get('Home') . '/var/tmp/private';
+my $CertPath    = "$Home/var/tmp/certs";
+my $PrivatePath = "$Home/var/tmp/private";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
 rmtree($CertPath);
@@ -602,7 +602,7 @@ my $GetCertificateDataFromFiles = sub {
 
 # OpenSSL 1.0.0 subject hashes as determined by:
 #  openssl x509 -in SMIMECACertificate-Johanneum.crt -noout -subject_hash
-my ( $JohanneumCAHash, $GeologyCAHash, $CabinetCAHash ) = ( '3b966dd9', 'd494c12a', '7a239183' );
+my ( $JohanneumCAHash, $GeologyCAHash, $CabinetCAHash ) = ( '3b966dd9', '4bb5116c', '63bc283c' );
 
 # Collect info about the CA certificates from the files in scripts/test/sample/SMIME.
 # The fingerprint can be generated from the certificates:
@@ -616,7 +616,7 @@ my %Certificates;
     );
     $Certificates{CabinetCA} = {
         Hash          => $CabinetCAHash,
-        Fingerprint   => '67:38:06:8F:5B:D9:82:2D:B9:C7:93:D1:45:1F:EA:0A:2C:D1:40:83',
+        Fingerprint   => '55:E9:26:30:07:1A:03:41:A3:F5:5F:A8:E5:A7:BC:60:34:09:D1:82',
         String        => $CabinetCertificateString,
         PrivateSecret => $CabinetPrivateSecret,
         PrivateHash   => $CabinetCAHash,
@@ -630,7 +630,7 @@ my %Certificates;
     );
     $Certificates{GeologyCA} = {
         Hash          => $GeologyCAHash,
-        Fingerprint   => '54:AD:61:E6:BA:B9:40:70:3F:DE:90:83:BB:48:CF:07:18:60:F8:6B',
+        Fingerprint   => 'A5:73:37:52:21:91:E6:66:80:DA:AC:22:D9:44:21:54:62:C8:7D:83',
         String        => $GeologyCertificateString,
         PrivateSecret => $GeologyPrivateSecret,
         PrivateHash   => $GeologyCAHash,
@@ -664,7 +664,7 @@ my %Certificates;
     my $AxelCertHash         = 'c8c9e520';
     my %SMIMEAxelCertificate = (
         Hash          => $AxelCertHash,
-        Fingerprint   => '39:DF:A5:DC:E3:93:BE:46:36:23:93:B2:4F:7B:98:0B:01:15:3E:1A',
+        Fingerprint   => 'AB:DD:5E:8C:A6:0D:A7:B0:67:F8:C0:F8:7C:BD:E1:EF:19:7B:32:E8',
         String        => $CertificateString,
         PrivateSecret => $PrivateSecret,
         PrivateHash   => $AxelCertHash,
