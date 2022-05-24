@@ -154,7 +154,7 @@ if ( !$SMIMEObject ) {
 my $Check1Hash        = 'f62a2257';
 my $Check2Hash        = '35c7d865';
 my $OTOBORootCAHash   = '7835cf94';
-my $OTOBORDCAHash     = 'b5d19fb9';
+my $GeologyCAHash     = '4bb5116c';
 my $CabinetCAHash     = '63bc283c';
 my $OTOBOUserCertHash = '4d400195';
 
@@ -188,11 +188,11 @@ my @Certificates = (
         PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Cabinet.crt',
     },
     {
-        CertificateName       => 'OTOBORDCA',
-        CertificateHash       => $OTOBORDCAHash,
-        CertificateFileName   => 'SMIMECACertificate-OTOBORD.crt',
-        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTOBORD.pem',
-        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTOBORD.crt',
+        CertificateName       => 'GeologyCA',
+        CertificateHash       => $GeologyCAHash,
+        CertificateFileName   => 'SMIMECACertificate-Geology.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-Geology.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Geology.crt',
     },
     {
         CertificateName       => 'OTOBORootCA',
