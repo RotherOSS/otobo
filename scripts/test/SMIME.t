@@ -67,11 +67,9 @@ $ConfigObject->Set(
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-# get the openssl version string, e.g. "OpenSSL 1.1.1f  31 Mar 2020"
-my $OpenSSLVersionString = qx{$OpenSSLBin version};
-
 # get the openssl major version, e.g. 1 for version 1.0.0
 # openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
+my $OpenSSLVersionString = qx{$OpenSSLBin version}; # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
 my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
 ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 

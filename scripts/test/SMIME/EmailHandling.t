@@ -70,21 +70,11 @@ $ConfigObject->Set(
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-# get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
-my $OpenSSLVersionString = qx{$OpenSSLBin version};
-my $OpenSSLMajorVersion;
-
 # get the openssl major version, e.g. 1 for version 1.0.0
-if ( $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
-    $OpenSSLMajorVersion = $1;
-}
-
-# openssl version 1.0.0 uses different hash algorithm... in the future release of openssl this might
-#change again in such case a better version detection will be needed
-my $UseNewHashes;
-if ( $OpenSSLMajorVersion >= 1 ) {
-    $UseNewHashes = 1;
-}
+# openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
+my $OpenSSLVersionString = qx{$OpenSSLBin version}; # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
+ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 
 # set config
 $ConfigObject->Set(
@@ -172,23 +162,13 @@ if ( !$SMIMEObject ) {
 # Setup environment
 #
 
-# OpenSSL 0.9.x hashes
-my $Check1Hash        = '980a83c7';
-my $Check2Hash        = '999bcb2f';
-my $OTOBORootCAHash   = '1a01713f';
-my $OTOBORDCAHash     = '7807c24e';
-my $OTOBOLabCAHash    = '2fc24258';
-my $OTOBOUserCertHash = 'eab039b6';
-
 # OpenSSL 1.0.0 hashes
-if ($UseNewHashes) {
-    $Check1Hash        = 'f62a2257';
-    $Check2Hash        = '35c7d865';
-    $OTOBORootCAHash   = '7835cf94';
-    $OTOBORDCAHash     = 'b5d19fb9';
-    $OTOBOLabCAHash    = '19545811';
-    $OTOBOUserCertHash = '4d400195';
-}
+my $Check1Hash        = 'f62a2257';
+my $Check2Hash        = '35c7d865';
+my $OTOBORootCAHash   = '7835cf94';
+my $OTOBORDCAHash     = 'b5d19fb9';
+my $OTOBOLabCAHash    = '19545811';
+my $OTOBOUserCertHash = '4d400195';
 
 # certificates
 my @Certificates = (
