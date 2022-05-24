@@ -27,6 +27,7 @@ is generated.
 The fingerprint is included in scripts/test/SMIME.t:
 
     openssl x509  -noout -fingerprint -in SMIMECACertificate-Johanneum.crt
+    openssl x509  -noout -subject_hash -in SMIMECACertificate-Johanneum.crt
 
 ## Intermediate CA, the geology department of the Johanneum
 
@@ -45,6 +46,7 @@ The Johanneum kindly signs the certificate sign request and the geology departme
 Again, we need the fingerprint for the test script:
 
     > openssl x509  -noout -fingerprint -in SMIMECACertificate-Geology.crt
+    > openssl x509  -noout -subject_hash -in SMIMECACertificate-Geology.crt
 
 ## The final CA in the chain, that is the cabinet of Prof. Lidenbrock, is signed by the geology department
 
@@ -60,9 +62,20 @@ The geology department kindly signs the certificate sign request and Prof. Liden
 
     > openssl x509 -req -days 3653 -in SMIMECASignRequest-Cabinet.csr  -CA SMIMECACertificate-Geology.crt -CAkey SMIMECAPrivateKey-Geology.pem -set_serial 00 -out SMIMECACertificate-Cabinet.crt
 
-As usual, we need the fingerprint for the test script:
+As usual, we need the subject hash and the fingerprint for the test script:
 
     > openssl x509  -noout -fingerprint -in SMIMECACertificate-Cabinet.crt
+    > openssl x509  -noout -subject_hash -in SMIMECACertificate-Cabinet.crt
+
+## User certificates are signed by the Cabinet CA
+
+Here we only show the commands for Axel. The other users are Otto, Martha, and Gudrun.
+
+    > openssl genrsa -out SMIMEUserPrivateKey-Axel.pem
+    > openssl req -new -key SMIMEUserPrivateKey-Axel.pem -out SMIMEUserSignRequest-Axel.csr
+    > openssl x509 -req -days 3653 -in SMIMEUserSignRequest-Axel.csr  -CA SMIMECACertificate-Cabinet.crt -CAkey SMIMECAPrivateKey-Cabinet.pem -set_serial 00 -out SMIMEUserCertificate-Axel.crt
+    > openssl x509  -noout -fingerprint -in SMIMEUserCertificate-Axel.crt
+    > openssl x509  -noout -subject_hash -in SMIMEUserCertificate-Axel.crt
 
 # See also:
 
