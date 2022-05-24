@@ -1,14 +1,22 @@
 # Overview
 
-This directory holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
+The directory scripts/test/sample/SMIME holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
 - scripts/test/SMIME.t
 
-# Sample files
+# How to create a multi CA environment (Root and 2 Intermediate CAs)
 
 The sample files are based on the novel "Voyage au Centre de la Terre" by Jules Verne. The main protagonist is "Professor Otto Lidenbrock"
 who teaches geology at the Johanneum in Hamburg. In our case the Johanneum offers the root CA, the science department of the school
-and the cabinet of Prof. Lidenbrock are subsidary CAs. Other protaganists are Axel, Gudrun, and Martha. Axel is the one who
-deciphers the secret message from Arne Saknussemm,
+and the cabinet of Prof. Lidenbrock are intermediate CAs. Other protaganists are Axel, Gudrun, and Martha. Axel is the one who
+deciphers the secret message from Arne Saknussemm.
+
+Finally we want to achieve the following structure:
+
+# Johanneum
+#    -> Geology
+#       -> Cabinet
+#---------------------------------------------------
+#          -> Axel  (current user certificate)
 
 The certificates were created with openssl. All of the passphrases are 'secret'.
 Below are the commands which created the sample files.
@@ -94,28 +102,8 @@ For now we only have Axel who receives crypted messages. In future other users m
 - https://www.howtoforge.de/anleitung/mails-mit-ssl-zertifikaten-verschlusseln-smime/
 - https://stackoverflow.com/questions/36920558/is-there-anyway-to-specify-basicconstraints-for-openssl-cert-via-command-line
 
+# not-reviewed yet,  old version as imported in OTOBO 10.0.1
 
-
-
-# old version as imported in OTOBO 10.0.1
-
-
-# Useful commands
-# get certificate hash
-openssl x509 -in Certificate.crt -hash
-# get certificate fingerprint
-openssl x509 -in Certificate.crt -fingerprint
-# get certificate basic information
-openssl x509 -in Certificate.crt -text
-# ---
-# ---
-
-# How to create a multi CA environment (Root and 2 Intermediate CAs)
-# OTRSRootCA
-#    -> OTRSRDCA
-#       -> OTRSLabCA
-#---------------------------------------------------
-#          -> smimeuser1  (current user certificate)
 
 #Configure the Root CA
 mkdir OTRSCA
