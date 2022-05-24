@@ -68,7 +68,7 @@ my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
 # get the openssl major version, e.g. 1 for version 1.0.0
 # openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
-my $OpenSSLVersionString = qx{$OpenSSLBin version}; # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+my $OpenSSLVersionString = qx{$OpenSSLBin version};                                                       # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
 my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
 ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 
@@ -155,7 +155,7 @@ my $Check1Hash        = 'f62a2257';
 my $Check2Hash        = '35c7d865';
 my $OTOBORootCAHash   = '7835cf94';
 my $OTOBORDCAHash     = 'b5d19fb9';
-my $OTOBOLabCAHash    = '19545811';
+my $CabinetCAHash     = '63bc283c';
 my $OTOBOUserCertHash = '4d400195';
 
 my @Certificates = (
@@ -181,11 +181,11 @@ my @Certificates = (
         PrivateSecretFileName => 'SMIMEPrivateKeyPass-smimeuser1.crt',
     },
     {
-        CertificateName       => 'OTOBOLabCA',
-        CertificateHash       => $OTOBOLabCAHash,
-        CertificateFileName   => 'SMIMECACertificate-OTOBOLab.crt',
-        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTOBOLab.pem',
-        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTOBOLab.crt',
+        CertificateName       => 'CabinetCA',
+        CertificateHash       => $CabinetCAHash,
+        CertificateFileName   => 'SMIMECACertificate-Cabinet.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-Cabinet.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Cabinet.crt',
     },
     {
         CertificateName       => 'OTOBORDCA',
