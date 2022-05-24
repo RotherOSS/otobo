@@ -163,12 +163,12 @@ if ( !$SMIMEObject ) {
 #
 
 # OpenSSL 1.0.0 hashes
-my $Check1Hash        = 'f62a2257';
-my $Check2Hash        = '35c7d865';
-my $JohanneumCAHash   = '3b966dd9';
-my $GeologyCAHash     = '4bb5116c';
-my $CabinetCAHash     = '63bc283c';
-my $OTOBOUserCertHash = '4d400195';
+my $Check1Hash      = 'f62a2257';
+my $Check2Hash      = '35c7d865';
+my $JohanneumCAHash = '3b966dd9';
+my $GeologyCAHash   = '4bb5116c';
+my $CabinetCAHash   = '63bc283c';
+my $AxelCertHash    = 'c8c9e520';
 
 # certificates
 my @Certificates = (
@@ -188,10 +188,10 @@ my @Certificates = (
     },
     {
         CertificateName       => 'OTOBOUserCert',
-        CertificateHash       => $OTOBOUserCertHash,
-        CertificateFileName   => 'SMIMECertificate-smimeuser1.crt',
-        PrivateKeyFileName    => 'SMIMEPrivateKey-smimeuser1.pem',
-        PrivateSecretFileName => 'SMIMEPrivateKeyPass-smimeuser1.crt',
+        CertificateHash       => $AxelCertHash,
+        CertificateFileName   => 'SMIMECertificate-Axel.crt',
+        PrivateKeyFileName    => 'SMIMEPrivateKey-Axel.pem',
+        PrivateSecretFileName => 'SMIMEPrivateKeyPass-Axel.crt',
     },
     {
         CertificateName       => 'CabinetCA',
@@ -429,7 +429,7 @@ for my $Test (@Tests) {
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $OTOBOUserCertHash . '.0',
+                Key     => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -445,7 +445,7 @@ for my $Test (@Tests) {
             To    => 'smimeuser1@test.com',
             Crypt => {
                 Type => 'SMIME',
-                Key  => $OTOBOUserCertHash . '.0',
+                Key  => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 0,
@@ -462,11 +462,11 @@ for my $Test (@Tests) {
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $OTOBOUserCertHash . '.0',
+                Key     => $AxelCertHash . '.0',
             },
             Crypt => {
                 Type => 'SMIME',
-                Key  => $OTOBOUserCertHash . '.0',
+                Key  => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -502,7 +502,7 @@ for my $Test (@Tests) {
             EmailSecurity => {
                 Backend     => 'SMIME',
                 Method      => 'Detached',
-                EncryptKeys => [ $Check1Hash . '.0', $OTOBOUserCertHash . '.0' ],
+                EncryptKeys => [ $Check1Hash . '.0', $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 0,
@@ -554,7 +554,7 @@ for my $Test (@Tests) {
             EmailSecurity => {
                 Backend => 'SMIME',
                 SubType => 'Detached',
-                SignKey => $OTOBOUserCertHash . '.0',
+                SignKey => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -570,7 +570,7 @@ for my $Test (@Tests) {
             To            => 'smimeuser1@test.com',
             EmailSecurity => {
                 Backend     => 'SMIME',
-                EncryptKeys => [ $OTOBOUserCertHash . '.0' ],
+                EncryptKeys => [ $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 0,
@@ -587,8 +587,8 @@ for my $Test (@Tests) {
             EmailSecurity => {
                 Backend     => 'SMIME',
                 SubType     => 'Detached',
-                SignKey     => $OTOBOUserCertHash . '.0',
-                EncryptKeys => [ $OTOBOUserCertHash . '.0' ],
+                SignKey     => $AxelCertHash . '.0',
+                EncryptKeys => [ $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 1,

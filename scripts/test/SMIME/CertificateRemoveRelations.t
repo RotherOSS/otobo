@@ -151,12 +151,12 @@ if ( !$SMIMEObject ) {
 }
 
 # OpenSSL 1.0.0 hashes.
-my $Check1Hash        = 'f62a2257';
-my $Check2Hash        = '35c7d865';
-my $JohanneumCAHash   = '3b966dd9';
-my $GeologyCAHash     = '4bb5116c';
-my $CabinetCAHash     = '63bc283c';
-my $OTOBOUserCertHash = '4d400195';
+my $Check1Hash      = 'f62a2257';
+my $Check2Hash      = '35c7d865';
+my $JohanneumCAHash = '3b966dd9';
+my $GeologyCAHash   = '4bb5116c';
+my $CabinetCAHash   = '63bc283c';
+my $AxelCertHash    = 'c8c9e520';
 
 my @Certificates = (
     {
@@ -175,10 +175,10 @@ my @Certificates = (
     },
     {
         CertificateName       => 'OTOBOUserCert',
-        CertificateHash       => $OTOBOUserCertHash,
-        CertificateFileName   => 'SMIMECertificate-smimeuser1.crt',
-        PrivateKeyFileName    => 'SMIMEPrivateKey-smimeuser1.pem',
-        PrivateSecretFileName => 'SMIMEPrivateKeyPass-smimeuser1.crt',
+        CertificateHash       => $AxelCertHash,
+        CertificateFileName   => 'SMIMECertificate-Axel.crt',
+        PrivateKeyFileName    => 'SMIMEPrivateKey-Axel.pem',
+        PrivateSecretFileName => 'SMIMEPrivateKeyPass-Axel.crt',
     },
     {
         CertificateName       => 'CabinetCA',
