@@ -104,6 +104,7 @@ manually.
 
     > cd scripts/test/sample/SMIME
     > openssl crl2pkcs7 -nocrl -certfile SMIMEUserCertificate-Axel.crt -out SMIMEUserCertificate-Axel.p7b
+    > openssl x509 -in SMIMEUserCertificate-Axel.crt -out SMIMEUserCertificate-Axel.der
 
 # See also:
 
