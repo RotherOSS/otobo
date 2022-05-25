@@ -204,7 +204,16 @@ my @Certificates = (
         CertificateFileName3 => 'SMIMEUserCertificate-Axel.der',
         CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
         CertificatePassFile  => 'SMIMEUserPrivateKeyPass-Axel.crt',
-        Success              => 0                                     # Test with passfile will fail (wrong password)
+        Success              => 1,
+    },
+    {
+        CertificateName      => 'OTOBOUserCert wrong password',
+        CertificateFileName1 => 'SMIMEUserCertificate-Axel.crt',
+        CertificateFileName2 => 'SMIMEUserCertificate-Axel.p7b',
+        CertificateFileName3 => 'SMIMEUserCertificate-Axel.der',
+        CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
+        CertificatePassFile  => 'SMIMEUserWrongPrivateKeyPass-Axel.crt',
+        Success              => 0,                                         # Test with passfile will fail (wrong password)
     },
 );
 
@@ -265,7 +274,9 @@ sub CertificationConversionTest {
         # convert
         # no passfile
         if ( !$CertificatePassFile ) {
-            $FormatedCertificate = $SMIMEObject->ConvertCertFormat( String => $CertString->$* );
+            $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
+                String => $CertString->$*
+            );
 
             # Remove any not needed information for easy compare.
             if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
@@ -281,8 +292,8 @@ sub CertificationConversionTest {
                 Filename  => $CertificatePassFile,
             );
             $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
-                String     => ${$CertString},
-                Passphrase => ${$Pass}
+                String     => $CertString->$*,
+                Passphrase => $Pass->$*,
             );
 
             # Remove any not needed information for easy compare.
