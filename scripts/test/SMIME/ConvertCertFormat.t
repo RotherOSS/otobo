@@ -221,6 +221,7 @@ returns Certificate String converted to PEM-format
 
     my $Result = CertificationConversionTest(
         "my test"               # description
+        1,                      # success
         $CertificateString,     # filename
         'PEM',                  # format             # PEM, PKCS#7/P7B, DER, PFX
         'PemCertificateString', # CheckString        # (optional), FilereadString if empty
