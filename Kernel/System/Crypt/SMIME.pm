@@ -866,8 +866,10 @@ sub ConvertCertFormat {
             Priority => 'error',
             Message  => "Need String!"
         );
+
         return;
     }
+
     my $String     = $Param{String};
     my $PassPhrase = $Param{Passphrase} // '';
 
@@ -882,7 +884,7 @@ sub ConvertCertFormat {
     my $Options   = "x509 -in $TmpCertificate -noout";
     my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
 
-    return $String if !$ReadError;
+    return $String unless $ReadError;
 
     # Create empty file (to save the converted certificate).
     my ( $FH, $CertFile ) = $FileTempObject->TempFile(
@@ -943,7 +945,7 @@ sub ConvertCertFormat {
         Location => $CertFile,
     );
 
-    return ${$CertFileRefPEM};
+    return $CertFileRefPEM->$*;
 }
 
 =head2 CertificateAdd()

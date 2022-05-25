@@ -73,7 +73,7 @@ $ConfigObject->Set(
 );
 
 # check if openssl is located there
-if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {
@@ -137,8 +137,6 @@ Returns:
 =cut
 
 my $CertificateSearch = sub {
-    my ( $Self, %Param ) = @_;
-
     my @Result;
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
@@ -258,15 +256,15 @@ sub CertificationConversionTest {
 
         # read
         my $CertString = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
             Filename  => $CertificateFileName,
         );
-        $CheckString ||= ${$CertString};
+        $CheckString ||= $CertString->$*;
 
         # convert
         # no passfile
         if ( !$CertificatePassFile ) {
-            $FormatedCertificate = $SMIMEObject->ConvertCertFormat( String => ${$CertString} );
+            $FormatedCertificate = $SMIMEObject->ConvertCertFormat( String => $CertString->$* );
 
             # Remove any not needed information for easy compare.
             if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
