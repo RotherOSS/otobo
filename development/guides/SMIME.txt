@@ -2,6 +2,7 @@
 
 The directory scripts/test/sample/SMIME holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
 - scripts/test/SMIME.t
+- scripts/test/SMIME/ConvertCertFormat.t
 
 # How to create a multi CA environment (Root and 2 Intermediate CAs)
 
@@ -86,7 +87,8 @@ As usual, we need the subject hash and the fingerprint for the test script:
 
 ## User certificates are signed by the Cabinet CA
 
-For now we only have Axel who receives crypted messages. In future other users might Otto, Martha, and Gudrun.
+For now we only have Axel who receives crypted messages. For the email of Axel use axel@johanneum.example.org. This email
+is used for seaching in  scripts/test/SMIME/ConvertCertFormat.t .
 
     > openssl genrsa -out SMIMEUserPrivateKey-Axel.pem
     > openssl req -new -key SMIMEUserPrivateKey-Axel.pem -out SMIMEUserSignRequest-Axel.csr
