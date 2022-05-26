@@ -229,17 +229,21 @@ $Selenium->RunTest(
             $BaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
         );
 
+        # OpenSSL 1.0.0 subject hashes as determined by:
+        #  openssl x509 -in SMIMEUserCertificate-Axel.crt -noout -subject_hash
+        my $AxelCertHash = 'c8c9e520';
+
         for my $TestSMIME (qw(key cert)) {
 
             # Check for test created Certificate and Private key download file name.
             my $Response = $UserAgent->get(
-                $BaseURL . "Action=AdminSMIME;Subaction=Download;Type=$TestSMIME;Filename=4d400195.0"
+                $BaseURL . "Action=AdminSMIME;Subaction=Download;Type=$TestSMIME;Filename=$AxelCertHash.0"
             );
             if ( $ResponseLogin->is_success() && $Response->is_success() ) {
 
-                $Self->True(
-                    index( $Response->header('content-disposition'), "4d400195-$TestSMIME.pem" ) > -1,
-                    "Download file name is correct - 4d400195-$TestSMIME.pem",
+                ok(
+                    index( $Response->header('content-disposition'), "$AxelCertHash-$TestSMIME.pem" ) > -1,
+                    "Download file name is correct - $AxelCertHash-$TestSMIME.pem",
                 );
             }
 
