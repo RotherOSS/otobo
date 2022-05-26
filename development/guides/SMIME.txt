@@ -3,6 +3,7 @@
 The directory scripts/test/sample/SMIME holds sample files for the S/MIME unit tests. The relevant S/MIME test scripts are:
 - scripts/test/SMIME.t
 - scripts/test/SMIME/ConvertCertFormat.t
+- scripts/test/SMIME/EmailHandling.t
 
 # How to create a multi CA environment (Root and 2 Intermediate CAs)
 
@@ -128,10 +129,11 @@ manually.
 
 
 
-# not-reviewed yet,  old version as imported in OTOBO 10.0.1
+# Documentation based on the old version as imported in OTOBO 10.0.1
 
+NOTE: This uses a different approach as laid out above. But let's keep it for reference.
 
-#Configure the Root CA
+# Configure the Root CA
 mkdir OTRSCA
 cd OTRSCA
 mkdir certs crl newcerts private

@@ -396,8 +396,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From => 'smimeuser1@test.com',
-            To   => 'smimeuser1@test.com',
+            From => 'axel@johanneum.example.org',
+            To   => 'axel@johanneum.example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
@@ -413,8 +413,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From  => 'smimeuser1@test.com',
-            To    => 'smimeuser1@test.com',
+            From  => 'axel@johanneum.example.org',
+            To    => 'axel@johanneum.example.org',
             Crypt => {
                 Type => 'SMIME',
                 Key  => $AxelCertHash . '.0',
@@ -429,8 +429,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From => 'smimeuser1@test.com',
-            To   => 'smimeuser1@test.com',
+            From => 'axel@johanneum.example.org',
+            To   => 'axel@johanneum.example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
@@ -487,7 +487,7 @@ for my $Test (@Tests) {
         ArticleData => {
             %{ $Test->{ArticleData} },
             From          => 'unittest@example.org',
-            To            => 'unittest@example.org, smimeuser1@test.com',
+            To            => 'unittest@example.org, axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
                 Method      => 'Detached',
@@ -521,8 +521,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend => 'SMIME',
                 SubType => 'Detached',
@@ -538,8 +538,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
                 EncryptKeys => [ $AxelCertHash . '.0' ],
@@ -554,8 +554,8 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
                 SubType     => 'Detached',
