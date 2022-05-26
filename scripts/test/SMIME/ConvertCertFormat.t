@@ -249,12 +249,11 @@ Returns:
 =cut
 
 sub CertificationConversionTest {
-    my ( $Description, $Success, $CertificateFileName, $Format, $CheckString, $CertificatePassFile ) = @_;
+    my ( $Description, $Success, $CertificateFileName, $CheckString, $CertificatePassFile ) = @_;
 
     return unless $Description;
     return unless defined $Success;
     return unless $CertificateFileName;
-    return unless $Format;
 
     my $FormatedCertificate;
 
@@ -282,7 +281,7 @@ sub CertificationConversionTest {
             if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
                 $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 );
             }
-            is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful for $Format-format" );
+            is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful" );
         }
 
         # passfile needed
@@ -302,10 +301,10 @@ sub CertificationConversionTest {
             }
 
             if ($Success) {
-                is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful for $Format-format" );
+                is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful" );
             }
             else {
-                is( $FormatedCertificate, undef, "#$CertificateFileName ConvertCertFormat() was UNsuccessful for $Format-format (invalid password?)" );
+                is( $FormatedCertificate, undef, "#$CertificateFileName ConvertCertFormat() was UNsuccessful (invalid password?)" );
             }
         }
 
@@ -345,35 +344,31 @@ for my $Certificate (@Certificates) {
         "$Certificate->{CertificateName} PEM",    # subtest description
         $Certificate->{Success},                  # Success
         $Certificate->{CertificateFileName1},     # Filename
-        'PEM'                                     # format
     );
 
     # P7B check
     CertificationConversionTest(
-        "$Certificate->{CertificateName} P7B",    # subtest description
-        $Certificate->{Success},                  # Success
-        $Certificate->{CertificateFileName2},     # filename
-        'PKCS#7/P7B',                             # format
-        $PemCertificate                           # checkstring
+        "$Certificate->{CertificateName} PKCS#7/P7B",    # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName2},            # filename
+        $PemCertificate,                                 # checkstring
     );
 
     # DER check
     CertificationConversionTest(
-        "$Certificate->{CertificateName} DER",    # subtest description
-        $Certificate->{Success},                  # Success
-        $Certificate->{CertificateFileName3},     # filename
-        'DER',                                    # format
-        $PemCertificate                           # checkstring
+        "$Certificate->{CertificateName} DER",           # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName3},            # filename
+        $PemCertificate                                  # checkstring
     );
 
     # PFX check
     CertificationConversionTest(
-        "$Certificate->{CertificateName} PFX",    # subtest description
-        $Certificate->{Success},                  # Success
-        $Certificate->{CertificateFileName4},     # filename
-        'PFX',                                    # format
-        $PemCertificate,                          # checkstring
-        $Certificate->{CertificatePassFile}       # pass-filename
+        "$Certificate->{CertificateName} PFX",           # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName4},            # filename
+        $PemCertificate,                                 # checkstring
+        $Certificate->{CertificatePassFile}              # pass-filename
     );
 }
 
