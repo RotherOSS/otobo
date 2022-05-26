@@ -19,8 +19,17 @@ Finally we want to achieve the following structure:
 #---------------------------------------------------
 #          -> Axel  (current user certificate)
 
-The certificates were created with openssl. All of the passphrases are 'secret'.
+The certificates were created with openssl.
 Below are the commands which created the sample files.
+
+## Passphrases
+
+The pass phrases are all the string 'secret'. That phrase is stored in file like SMIMECAPrivateKeyPass-Johanneum.crt as they
+are needed later in the test scripts. Note that the test scripts do not chomp the read in password files. Therefore the
+passphrase must be stored without a trailing newline.
+
+    > cd /opt/otobo/scripts/test/sample/SMIME
+    > echo -n "secret" > SMIMECAPrivateKeyPass-Johanneum.crt
 
 ## Root Certificate Authority SMIMECACertificate-Johanneum
 
