@@ -37,13 +37,14 @@
 # Alexey Yusov <yusovas@gmail.com>, 2019
 # Yuriy Purisev <duh.khv@gmail.com>, 2021.
 # Irina Schaefer <irina.schaefer08@gmail.com>, 2022.
+# Philipp Kesler <philipp.kesler@hein.de>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-01-27 08:58+0000\n"
-"Last-Translator: Irina Schaefer <irina.schaefer08@gmail.com>\n"
+"PO-Revision-Date: 2022-05-27 03:10+0000\n"
+"Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
 "Language: ru\n"
@@ -7672,7 +7673,7 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
-msgstr ""
+msgstr "Восстановление"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
