@@ -14,18 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
+# core modules
 use File::Path qw(mkpath rmtree);
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::Output::HTML::ArticleCheck::SMIME;
 
 # get needed objects
@@ -101,56 +102,35 @@ if ( !-e $OpenSSLBin ) {
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+if ($SMIMEObject) {
+    pass('got SMIME support');
+}
+else {
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("$CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("$CertPath is a directory");
     }
-    elsif ( !-w $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+    elsif ( !-r $CertPath ) {
+        fail("$CertPath is readable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("$PrivatePath exists");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath is writable");
     }
 
     done_testing();
@@ -162,13 +142,12 @@ if ( !$SMIMEObject ) {
 # Setup environment
 #
 
-# OpenSSL 1.0.0 hashes
-my $Check1Hash      = 'f62a2257';
-my $Check2Hash      = '35c7d865';
-my $JohanneumCAHash = '3b966dd9';
-my $GeologyCAHash   = '4bb5116c';
-my $CabinetCAHash   = '63bc283c';
-my $AxelCertHash    = 'c8c9e520';
+# OpenSSL 1.0.0 subject hashes as determined by:
+#  openssl x509 -in SMIMECACertificate-Johanneum.crt -noout -subject_hash
+my ( $JohanneumCAHash, $GeologyCAHash, $CabinetCAHash ) = ( '3b966dd9', '4bb5116c', '63bc283c' );
+my $AxelCertHash = 'c8c9e520';
+my $Check1Hash   = 'f62a2257';
+my $Check2Hash   = '35c7d865';
 
 # certificates
 my @Certificates = (
@@ -218,35 +197,31 @@ my @Certificates = (
 
 # add chain certificates
 for my $Certificate (@Certificates) {
+    subtest "add certificate $Certificate->{CertificateName}" => sub {
 
-    # add certificate ...
-    my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{CertificateFileName},
-    );
-    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}",
-    );
+        # add certificate ...
+        my $CertString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{CertificateFileName},
+        );
+        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
+        ok( $Result{Successful}, "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}" );
 
-    # add private key
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{PrivateKeyFileName},
-    );
-    my $Secret = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{PrivateSecretFileName},
-    );
-    %Result = $SMIMEObject->PrivateAdd(
-        Private => ${$KeyString},
-        Secret  => ${$Secret},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Certificate->{CertificateName} PrivateAdd()",
-    );
+        # add private key
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{PrivateKeyFileName},
+        );
+        my $Secret = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{PrivateSecretFileName},
+        );
+        %Result = $SMIMEObject->PrivateAdd(
+            Private => ${$KeyString},
+            Secret  => ${$Secret},
+        );
+        ok( $Result{Successful}, "#$Certificate->{CertificateName} PrivateAdd()" );
+    };
 }
 
 my $TicketID = $TicketObject->TicketCreate(
@@ -261,10 +236,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-$Self->True(
-    $TicketID,
-    'TicketCreate()',
-);
+ok( $TicketID, 'TicketCreate()' );
 
 #
 # actual tests
@@ -625,141 +597,114 @@ for my $Test (@TestVariations) {
         %{ $Test->{ArticleData} },
     );
 
-    $Self->True(
-        $ArticleID,
-        "$Test->{Name} - ArticleSend()",
-    );
+    subtest "$Test->{Name}" => sub {
 
-    my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
+        ok( $ArticleID, "ArticleSend()" );
 
-    my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-
-    my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
-
-    my $Result = $MailQueueObj->Send( %{$Item} );
-
-    my @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    # Run check a second time to simulate repeated views.
-    my @FirstCheckResult = @CheckResult;
-    @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    $Self->IsDeeply(
-        \@FirstCheckResult,
-        \@CheckResult,
-        "$Test->{Name} - CheckObject() stable",
-    );
-
-    if ( $Test->{VerifySignature} ) {
-        my $SignatureVerified =
-            grep {
-                $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
-            } @CheckResult;
-
-        $Self->True(
-            $SignatureVerified,
-            "$Test->{Name} - signature verified",
-        );
-    }
-
-    if ( $Test->{VerifyDecryption} ) {
-        my $DecryptionVerified =
-            grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
-
-        $Self->True(
-            $DecryptionVerified,
-            "$Test->{Name} - decryption verified",
-        );
-    }
-
-    my %FinalArticleData = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
-
-    my $TestBody = $Test->{ArticleData}->{Body};
-
-    # convert test body to ASCII if it was HTML
-    if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
-        $TestBody = $HTMLUtilsObject->ToAscii(
-            String => $TestBody,
-        );
-    }
-
-    $Self->Is(
-        $FinalArticleData{Body},
-        $TestBody,
-        "$Test->{Name} - verified body content",
-    );
-
-    if ( defined $Test->{ArticleData}->{Attachment} ) {
-        my $Found;
-        my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
             ArticleID => $ArticleID,
         );
 
-        TESTATTACHMENT:
-        for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
-
-            next TESTATTACHMENT if !$Attachment->{Filename};
-
-            ATTACHMENTINDEX:
-            for my $AttachmentIndex ( sort keys %Index ) {
-
-                if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
-                    next ATTACHMENTINDEX;
-                }
-                my $ExpectedContentID = $Attachment->{ContentID};
-                if ( $Attachment->{ContentID} ) {
-                    $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
-                }
-                $Self->Is(
-                    $Index{$AttachmentIndex}->{ContentID},
-                    $ExpectedContentID,
-                    "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
-                );
-                $Found = 1;
-                last ATTACHMENTINDEX;
-            }
-            $Self->True(
-                $Found,
-                "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
-            );
-        }
-
-        # Remove all attachments, then run CheckObject again to verify they are not written again.
-        $ArticleBackendObject->ArticleDeleteAttachment(
+        my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
 
-        $CheckObject->Check( Article => \%Article );
+        my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
 
-        %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+        my $Result = $MailQueueObj->Send( %{$Item} );
+
+        my @CheckResult = $CheckObject->Check( Article => \%Article );
+
+        if ( $Test->{VerifySignature} ) {
+            my $SignatureVerified =
+                grep {
+                    $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
+                } @CheckResult;
+
+            ok( $SignatureVerified, "signature verified" );
+        }
+
+        if ( $Test->{VerifyDecryption} ) {
+            my $DecryptionVerified =
+                grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
+
+            ok( $DecryptionVerified, "decryption verified" );
+        }
+
+        my %FinalArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
             ArticleID => $ArticleID,
         );
-        $Self->False(
-            scalar keys %Index,
-            "$Test->{Name} - Attachments not rewritten by ArticleCheck module"
+
+        my $TestBody = $Test->{ArticleData}->{Body};
+
+        # convert test body to ASCII if it was HTML
+        if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
+            $TestBody = $HTMLUtilsObject->ToAscii(
+                String => $TestBody,
+            );
+        }
+
+        is(
+            $FinalArticleData{Body},
+            $TestBody,
+            "verified body content",
         );
-    }
+
+        if ( defined $Test->{ArticleData}->{Attachment} ) {
+            my $Found;
+            my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+            );
+
+            TESTATTACHMENT:
+            for my $Attachment ( $Test->{ArticleData}->{Attachment}->@* ) {
+
+                next TESTATTACHMENT if !$Attachment->{Filename};
+
+                ATTACHMENTINDEX:
+                for my $AttachmentIndex ( sort keys %Index ) {
+
+                    if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
+                        next ATTACHMENTINDEX;
+                    }
+                    my $ExpectedContentID = $Attachment->{ContentID};
+                    if ( $Attachment->{ContentID} ) {
+                        $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
+                    }
+                    is(
+                        $Index{$AttachmentIndex}->{ContentID},
+                        $ExpectedContentID,
+                        "Attachment '$Attachment->{Filename}' ContentID",
+                    );
+                    $Found = 1;
+                    last ATTACHMENTINDEX;
+                }
+                ok( $Found, "Attachment '$Attachment->{Filename}' was found" );
+            }
+
+            # Remove all attachments, then run CheckObject again to verify they are not written again.
+            $ArticleBackendObject->ArticleDeleteAttachment(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            $CheckObject->Check( Article => \%Article );
+
+            %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+            );
+            ok( !keys %Index, "Attachments not rewritten by ArticleCheck module" );
+        }
+    };
 }
 
 # delete needed test directories
 for my $Directory ( $CertPath, $PrivatePath ) {
     my $Success = rmtree( [$Directory] );
-    $Self->True(
-        $Success,
-        "Directory deleted - '$Directory'",
-    );
+    ok( $Success, "Directory deleted - '$Directory'" );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
