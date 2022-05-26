@@ -48,15 +48,14 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     $Self->{Debug} = $Param{Debug} || 0;
 
     # check if module is enabled
-    return 0 if !$Kernel::OM->Get('Kernel::Config')->Get('SMIME');
+    return 0 unless $Kernel::OM->Get('Kernel::Config')->Get('SMIME');
 
-    # call init()
+    # more setup, get setting from the SysConfig
     $Self->_Init();
 
     # check working ENV
@@ -71,6 +70,8 @@ check if environment is working
 
     my $Message = $CryptObject->Check();
 
+Returns the empty list when there is nothing to complain about.
+
 =cut
 
 sub Check {
@@ -81,6 +82,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{Bin}!",
         );
+
         return "No such $Self->{Bin}!";
     }
     elsif ( !-x $Self->{Bin} ) {
@@ -88,6 +90,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{Bin} not executable!",
         );
+
         return "$Self->{Bin} not executable!";
     }
     elsif ( !-e $Self->{CertPath} ) {
@@ -95,6 +98,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{CertPath}!",
         );
+
         return "No such $Self->{CertPath}!";
     }
     elsif ( !-d $Self->{CertPath} ) {
@@ -102,6 +106,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{CertPath} directory!",
         );
+
         return "No such $Self->{CertPath} directory!";
     }
     elsif ( !-w $Self->{CertPath} ) {
@@ -109,6 +114,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{CertPath} not writable!",
         );
+
         return "$Self->{CertPath} not writable!";
     }
     elsif ( !-e $Self->{PrivatePath} ) {
@@ -116,6 +122,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{PrivatePath}!",
         );
+
         return "No such $Self->{PrivatePath}!";
     }
     elsif ( !-d $Self->{PrivatePath} ) {
@@ -123,6 +130,7 @@ sub Check {
             Priority => 'error',
             Message  => "No such $Self->{PrivatePath} directory!",
         );
+
         return "No such $Self->{PrivatePath} directory!";
     }
     elsif ( !-w $Self->{PrivatePath} ) {
@@ -130,6 +138,7 @@ sub Check {
             Priority => 'error',
             Message  => "$Self->{PrivatePath} not writable!",
         );
+
         return "$Self->{PrivatePath} not writable!";
     }
 
@@ -177,6 +186,7 @@ sub Crypt {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -193,6 +203,7 @@ sub Crypt {
             Message  => "Need Param: Filename or Hash and Fingerprint!",
             Priority => 'error',
         );
+
         return;
     }
 
@@ -230,6 +241,7 @@ sub Crypt {
             Priority => 'error',
             Message  => "No certificates found!",
         );
+
         return;
     }
 
@@ -249,6 +261,7 @@ sub Crypt {
             Priority => 'error',
             Message  => "Can't encrypt: $LogMessage!"
         );
+
         return;
     }
 
@@ -285,6 +298,7 @@ sub Decrypt {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -294,6 +308,7 @@ sub Decrypt {
             Message  => "Need Param: Filename or Hash and Fingerprint!",
             Priority => 'error',
         );
+
         return;
     }
 
@@ -345,6 +360,7 @@ sub Decrypt {
             Priority => 'error',
             Message  => "Can't decrypt: $LogMessage!"
         );
+
         return (
             Successful => 0,
             Message    => $LogMessage,
@@ -360,6 +376,7 @@ sub Decrypt {
         );
 
     }
+
     return (
         Successful => 1,
         Message    => "OpenSSL: OK",
@@ -393,6 +410,7 @@ sub Sign {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -402,6 +420,7 @@ sub Sign {
             Message  => "Need Param: Filename or Hash and Fingerprint!",
             Priority => 'error',
         );
+
         return;
     }
 
@@ -466,6 +485,7 @@ sub Sign {
             Priority => 'error',
             Message  => "Can't sign: $LogMessage! (Command: $Options)"
         );
+
         return;
     }
 
@@ -516,6 +536,7 @@ sub Verify {
             Priority => 'error',
             Message  => "Need Message!"
         );
+
         return;
     }
 
@@ -621,6 +642,7 @@ sub Verify {
             MessageLong    => 'OpenSSL: ' . $MessageLong,
         );
     }
+
     return %Return;
 }
 
@@ -639,6 +661,7 @@ sub Search {
 
     my @Result = $Self->CertificateSearch(%Param);
     @Result = ( @Result, $Self->PrivateSearch(%Param) );
+
     return @Result;
 }
 
@@ -725,6 +748,7 @@ sub _CheckCertificateList {
                 for my $Item (@Items) {
                     if ( $Item =~ m{^\Q$Search\E$}ixms ) {
                         $Hit = 1;
+
                         last ATTRIBUTE;
                     }
                 }
@@ -746,6 +770,7 @@ sub _CheckCertificateList {
             }
 
             next FILE if $Expired;
+
             push @Result, \%Attributes;
         }
     }
@@ -777,6 +802,7 @@ sub FetchFromCustomer {
             Priority => 'error',
             Message  => "Need Search!"
         );
+
         return;
     }
 
@@ -857,8 +883,10 @@ sub ConvertCertFormat {
             Priority => 'error',
             Message  => "Need String!"
         );
+
         return;
     }
+
     my $String     = $Param{String};
     my $PassPhrase = $Param{Passphrase} // '';
 
@@ -873,7 +901,7 @@ sub ConvertCertFormat {
     my $Options   = "x509 -in $TmpCertificate -noout";
     my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
 
-    return $String if !$ReadError;
+    return $String unless $ReadError;
 
     # Create empty file (to save the converted certificate).
     my ( $FH, $CertFile ) = $FileTempObject->TempFile(
@@ -892,8 +920,7 @@ sub ConvertCertFormat {
         },
         PFX => {
             Read    => "pkcs12 -in $TmpCertificate -noout -nomacver -passin pass:'$PassPhrase'",
-            Convert =>
-                "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
+            Convert => "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
         },
     );
 
@@ -906,6 +933,8 @@ sub ConvertCertFormat {
         next FORMAT if $Self->_CleanOutput(qx{$Self->{Cmd} $OptionsLookup{$Format}->{Read} 2>&1});
 
         $DetectedFormat = $Format;
+
+        # format is detected
         last FORMAT;
     }
 
@@ -914,6 +943,7 @@ sub ConvertCertFormat {
             Priority => 'error',
             Message  => "Certificate could not be read, PassPhrase is invalid or file is corrupted!",
         );
+
         return;
     }
 
@@ -934,7 +964,7 @@ sub ConvertCertFormat {
         Location => $CertFile,
     );
 
-    return ${$CertFileRefPEM};
+    return $CertFileRefPEM->$*;
 }
 
 =head2 CertificateAdd()
@@ -957,6 +987,7 @@ sub CertificateAdd {
             Priority => 'error',
             Message  => 'Need Certificate!'
         );
+
         return;
     }
     my %Attributes = $Self->CertificateAttributes(
@@ -973,6 +1004,7 @@ sub CertificateAdd {
             Successful => 0,
             Message    => 'Can\'t add invalid certificate!',
         );
+
         return %Result;
     }
 
@@ -988,6 +1020,7 @@ sub CertificateAdd {
                 Successful => 0,
                 Message    => 'Certificate already installed!',
             );
+
             return %Result;
         }
     }
@@ -998,11 +1031,10 @@ sub CertificateAdd {
     # look for an available filename
     FILENAME:
     for my $Count ( 0 .. 99 ) {
-        if ( -e "$Self->{CertPath}/$Attributes{Hash}.$Count" ) {
-            next FILENAME;
-        }
 
         my $File = "$Self->{CertPath}/$Attributes{Hash}.$Count";
+
+        next FILENAME if -e $File;
 
         if ( open( my $OUT, '>', $File ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
             print $OUT $Param{Certificate};
@@ -1032,6 +1064,7 @@ sub CertificateAdd {
             Successful => 0,
             Message    => "Can't write $File: $!!",
         );
+
         return %Result;
     }
 
@@ -1039,6 +1072,7 @@ sub CertificateAdd {
         Successful => 0,
         Message    => "No more available filenames for certificate hash:$Attributes{Hash}!",
     );
+
     return %Result;
 }
 
@@ -1066,11 +1100,13 @@ sub CertificateGet {
             Priority => 'error',
             Message  => 'Need Filename or Fingerprint and Hash!'
         );
+
         return;
     }
 
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
+
         return if !$Param{Filename};
     }
 
@@ -1105,11 +1141,13 @@ sub CertificateRemove {
             Priority => 'error',
             Message  => 'Need Filename or Hash and Fingerprint!'
         );
+
         return;
     }
 
     if ( !$Param{Filename} && $Param{Hash} && $Param{Fingerprint} ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
+
         return if !$Param{Filename};
     }
 
@@ -1143,6 +1181,7 @@ sub CertificateRemove {
                 Successful => 0,
                 Message    => "Delete certificate aborted, $PrivateResults{Message}: $!!",
             );
+
             return %Result;
         }
     }
@@ -1233,6 +1272,7 @@ sub CertificateAttributes {
             Priority => 'error',
             Message  => 'Need Certificate!'
         );
+
         return;
     }
 
@@ -1310,11 +1350,13 @@ sub CertificateRead {
             Priority => 'error',
             Message  => 'Need Filename or Fingerprint and Hash!'
         );
+
         return;
     }
 
     if ( !$Param{Filename} && ( $Param{Fingerprint} && $Param{Hash} ) ) {
         $Param{Filename} = $Self->_CertificateFilename(%Param);
+
         return if !$Param{Filename};
     }
 
@@ -1326,6 +1368,7 @@ sub CertificateRead {
             Priority => 'error',
             Message  => "Certificate $File does not exist!"
         );
+
         return;
     }
     if ( !-r $File ) {
@@ -1333,6 +1376,7 @@ sub CertificateRead {
             Priority => 'error',
             Message  => "Can not read certificate $File!"
         );
+
         return;
     }
 
@@ -1382,6 +1426,7 @@ sub PrivateSearch {
                 for my $Item (@Items) {
                     if ( $Item =~ m{^\Q$Search\E$}ixms ) {
                         $Hit = 1;
+
                         last ATTRIBUTE;
                     }
                 }
@@ -1402,6 +1447,7 @@ sub PrivateSearch {
             }
 
             next FILE if $Expired;
+
             push @Result, \%Attributes;
         }
     }
@@ -1427,6 +1473,7 @@ sub KeyExpiredCheck {
             Priority => 'error',
             Message  => "Need EndDate!"
         );
+
         return;
     }
 
@@ -1472,6 +1519,7 @@ sub KeyExpiredCheck {
             return 1;
         }
     }
+
     return;
 }
 
@@ -1496,6 +1544,7 @@ sub PrivateAdd {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -1513,6 +1562,7 @@ sub PrivateAdd {
             Successful => 0,
             Message    => 'No private key',
         );
+
         return;
     }
 
@@ -1527,6 +1577,7 @@ sub PrivateAdd {
             Successful => 0,
             Message    => "Need Certificate of Private Key first -$Attributes{Modulus})!",
         );
+
         return %Result;
     }
     elsif ( $#Certificates > 0 ) {
@@ -1538,6 +1589,7 @@ sub PrivateAdd {
             Successful => 0,
             Message    => 'Multiple Certificates with the same Modulus, can\'t add Private Key!',
         );
+
         return %Result;
     }
     my %CertificateAttributes = $Self->CertificateAttributes(
@@ -1581,6 +1633,7 @@ sub PrivateAdd {
                 Successful => 0,
                 Message    => "Can't write $File: $!!",
             );
+
             return %Result;
         }
     }
@@ -1621,6 +1674,7 @@ sub PrivateGet {
             Priority => 'error',
             Message  => 'Need Filename or Hash and Modulus!'
         );
+
         return;
     }
 
@@ -1629,6 +1683,7 @@ sub PrivateGet {
             Hash    => $Param{Hash},
             Modulus => $Param{Modulus},
         );
+
         return if !$Param{Filename};
     }
 
@@ -1677,6 +1732,7 @@ sub PrivateRemove {
             Priority => 'error',
             Message  => 'Need Filename or Hash and Modulus!'
         );
+
         return;
     }
 
@@ -1690,6 +1746,7 @@ sub PrivateRemove {
             Successful => 0,
             Message    => "Filename not found for hash: $Param{Hash} in: $Self->{PrivatePath}, $!!",
         );
+
         return %Return if !$Param{Filename};
     }
 
@@ -1702,6 +1759,7 @@ sub PrivateRemove {
             Message    =>
                 "Delete private aborted, not possible to delete Secret: $Self->{PrivatePath}/$Param{Filename}.P, $!!",
         );
+
         return %Return;
     }
 
@@ -1801,6 +1859,7 @@ sub PrivateAttributes {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -1880,6 +1939,7 @@ sub SignerCertRelationAdd {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -1889,34 +1949,37 @@ sub SignerCertRelationAdd {
             Priority => 'error',
             Message  => 'CertFingerprint must be different to the CAFingerprint param',
         );
+
         return;
     }
 
-    # searh certificates by fingerprint
+    # search certificates by fingerprint
     my @CertResult = $Self->PrivateSearch(
         Search => $Param{CertFingerprint},
     );
 
     # results?
-    if ( !scalar @CertResult ) {
+    if ( !@CertResult ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Message  => "Wrong CertFingerprint, certificate not found!",
             Priority => 'error',
         );
+
         return 0;
     }
 
-    # searh certificates by fingerprint
+    # search certificates by fingerprint
     my @CAResult = $Self->CertificateSearch(
         Search => $Param{CAFingerprint},
     );
 
     # results?
-    if ( !scalar @CAResult ) {
+    if ( !@CAResult ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Message  => "Wrong CAFingerprint, certificate not found!",
             Priority => 'error',
         );
+
         return 0;
     }
 
@@ -1958,6 +2021,7 @@ sub SignerCertRelationGet {
             Priority => 'error',
             Message  => 'Needed ID or CertFingerprint!'
         );
+
         return;
     }
 
@@ -1993,6 +2057,7 @@ sub SignerCertRelationGet {
                     CreatedBy       => $ResultData[8],
                 );
             }
+
             return %Data || '';
         }
         else {
@@ -2000,6 +2065,7 @@ sub SignerCertRelationGet {
                 Message  => 'DB error: not possible to get relation!',
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -2027,6 +2093,7 @@ sub SignerCertRelationGet {
                 );
                 push @Data, \%ResultData;
             }
+
             return @Data;
         }
         else {
@@ -2034,9 +2101,11 @@ sub SignerCertRelationGet {
                 Message  => 'DB error: not possible to get relations!',
                 Priority => 'error',
             );
+
             return;
         }
     }
+
     return;
 }
 
@@ -2064,6 +2133,7 @@ sub SignerCertRelationExists {
             Priority => 'error',
             Message  => "Need ID or CertFingerprint & CAFingerprint!"
         );
+
         return;
     }
 
@@ -2083,6 +2153,7 @@ sub SignerCertRelationExists {
             while ( my @ResultData = $DBObject->FetchrowArray() ) {
                 $Data = $ResultData[0];
             }
+
             return $Data || '';
         }
         else {
@@ -2090,6 +2161,7 @@ sub SignerCertRelationExists {
                 Message  => 'DB error: not possible to check relation!',
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -2106,6 +2178,7 @@ sub SignerCertRelationExists {
             while ( my @ResultData = $DBObject->FetchrowArray() ) {
                 $Data = $ResultData[0];
             }
+
             return $Data || '';
         }
         else {
@@ -2113,6 +2186,7 @@ sub SignerCertRelationExists {
                 Message  => 'DB error: not possible to check relation!',
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -2157,6 +2231,7 @@ sub SignerCertRelationDelete {
             Priority => 'error',
             Message  => 'Need ID or CertFingerprint or CAFingerprint!'
         );
+
         return;
     }
 
@@ -2178,6 +2253,7 @@ sub SignerCertRelationDelete {
                 Priority => 'error',
             );
         }
+
         return $Success;
     }
     elsif ( $Param{CertFingerprint} && $Param{CAFingerprint} ) {
@@ -2197,6 +2273,7 @@ sub SignerCertRelationDelete {
                 Priority => 'error',
             );
         }
+
         return $Success;
     }
     elsif ( $Param{CAFingerprint} ) {
@@ -2216,6 +2293,7 @@ sub SignerCertRelationDelete {
                 Priority => 'error',
             );
         }
+
         return $Success;
     }
     else {
@@ -2234,8 +2312,10 @@ sub SignerCertRelationDelete {
                 Priority => 'error',
             );
         }
+
         return $Success;
     }
+
     return;
 }
 
@@ -2404,7 +2484,9 @@ sub _FetchAttributesFromCert {
         # look for every attribute by filter
         FILTER:
         for my $Filter ( sort keys %Filters ) {
+
             next FILTER if $Line !~ m{ \A $Filters{$Filter} \z }xms;
+
             my $Match = $1 || '';
 
             # email filter is allowed to match multiple times for alternate names (SubjectAltName)
@@ -2468,12 +2550,14 @@ sub _FetchAttributesFromCert {
             for my $MonthKey ( sort keys %Month ) {
                 if ( $AttributesRef->{$DateType} =~ /$MonthKey/i ) {
                     $Month = $Month{$MonthKey};
+
                     last MONTH_KEY;
                 }
             }
             $AttributesRef->{"Short$DateType"} = "$Year-$Month-$Day";
         }
     }
+
     return 1;
 }
 
@@ -2498,6 +2582,7 @@ sub _CertificateFilename {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -2516,6 +2601,7 @@ sub _CertificateFilename {
         # exit and return on first finger print found
         if ( $Attributes{Fingerprint} && $Attributes{Fingerprint} eq $Param{Fingerprint} ) {
             $CertFile =~ s{^.*/}{}xms;
+
             return $CertFile;
         }
     }
@@ -2533,6 +2619,7 @@ sub _PrivateFilename {
                 Priority => 'error',
                 Message  => "Need $Needed!"
             );
+
             return;
         }
     }
@@ -2550,6 +2637,7 @@ sub _PrivateFilename {
     CERTFILE:
     for my $CertFile (@CertList) {
         my %Attributes;
+
         next CERTFILE if $CertFile =~ m{\.P}xms;
 
         # remove the path and get only the filename (for cache)
@@ -2575,6 +2663,7 @@ sub _PrivateFilename {
             return $CertFilename;
         }
     }
+
     return;
 }
 
@@ -2609,7 +2698,9 @@ sub _NormalizePrivateSecretFiles {
     FILENAME:
     for my $File (@List) {
         $File =~ s{^.*/}{}xms;
+
         next FILENAME if ( $File =~ m{.+ \. \d \. P}smxi );
+
         push @WrongPrivateSecretList, $File;
     }
 
@@ -2647,10 +2738,12 @@ sub _NormalizePrivateSecretFiles {
 
                     # use first available
                     $CorrectFile = "$Hash.$Count.P";
+
                     last KEYFILENAME;
                 }
                 else {
                     push @UsedPrivateSecretFiles, "$Hash.$Count.P";
+
                     next KEYFILENAME;
                 }
             }
@@ -2660,6 +2753,7 @@ sub _NormalizePrivateSecretFiles {
         if ( !$CorrectFile && scalar @UsedPrivateSecretFiles == 0 ) {
             $Details .= "  Can't rename private secret file $File, because there is no"
                 . " private key file for this private secret... <red>Warning</red>\n";
+
             next FILENAME;
         }
 
@@ -2684,6 +2778,7 @@ sub _NormalizePrivateSecretFiles {
             }
 
             $Details .= "  Renamed private secret file $File to $CorrectFile ... <green>OK</green>\n";
+
             next FILENAME;
         }
 
@@ -2751,6 +2846,7 @@ sub _NormalizePrivateSecretFiles {
         $Details .= "  The private secret file $File has information not stored in any other"
             . " private secret file for hash $Hash\n"
             . "    The file will not be deleted... <red>Warning</red>\n";
+
         next FILENAME;
     }
 
@@ -2863,6 +2959,7 @@ sub _ReHashCertificates {
             $NewCertificateFile = $CertTestFile;
             $NewPrivateKeyFile  = "$Self->{PrivatePath}/$WrongCertificate->{NewHash}.$Count";
             $NewIndex           = $Count;
+
             last FILENAME;
         }
 
@@ -3120,6 +3217,7 @@ sub _ReHashCertificates {
                 . "$WrongCertificate->{Index}... <green>OK</green>\n";
         }
     }
+
     return {
         Success => 1,
         Details => $Details,

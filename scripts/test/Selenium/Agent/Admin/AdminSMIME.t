@@ -152,7 +152,7 @@ $Selenium->RunTest(
 
         # Add certificate.
         my $CertLocation = $ConfigObject->Get('Home')
-            . "/scripts/test/sample/SMIME/SMIMECertificate-smimeuser1.crt";
+            . "/scripts/test/sample/SMIME/SMIMEUserCertificate-Axel.crt";
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($CertLocation);
         $Selenium->find_element("//button[\@type='submit']")->VerifiedClick();
@@ -174,7 +174,7 @@ $Selenium->RunTest(
 
         # Add private key.
         my $PrivateLocation = $ConfigObject->Get('Home')
-            . "/scripts/test/sample/SMIME/SMIMEPrivateKey-smimeuser1.pem";
+            . "/scripts/test/sample/SMIME/SMIMEUserPrivateKey-Axel.pem";
 
         $Selenium->find_element( "#FileUpload", 'css' )->send_keys($PrivateLocation);
         $Selenium->find_element("//button[\@type='submit']")->click();

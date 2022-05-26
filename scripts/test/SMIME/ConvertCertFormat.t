@@ -14,20 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
+# core modules
 use File::Path qw(mkpath rmtree);
-
 use Devel::Peek;
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Crypt::SMIME;
 
 # get needed objects
@@ -86,56 +86,35 @@ if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
 
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+if ($SMIMEObject) {
+    pass('got SMIME support');
+}
+else {
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("$CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("$CertPath is a directory");
     }
-    elsif ( !-w $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+    elsif ( !-r $CertPath ) {
+        fail("$CertPath is readable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("$PrivatePath exists");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath is writable");
     }
 
     done_testing();
@@ -158,8 +137,6 @@ Returns:
 =cut
 
 my $CertificateSearch = sub {
-    my ( $Self, %Param ) = @_;
-
     my @Result;
     my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
@@ -170,7 +147,7 @@ my $CertificateSearch = sub {
         4 => 'unittest4@example.org',
         5 => 'unittest5@example.org',
     );
-    for my $SearchString ( values %Search, 'smimeuser1@test.com' ) {
+    for my $SearchString ( values %Search, 'axel@johanneum.example.org' ) {
 
         my @Certificat = $SMIMEObject->CertificateSearch( Search => $SearchString );
         if ( defined $Certificat[0]->{Filename} && !grep { $_->{Filename} eq $Certificat[0]->{Filename} } @Result ) {
@@ -222,16 +199,25 @@ my @Certificates = (
     },
     {
         CertificateName      => 'OTOBOUserCert',
-        CertificateFileName1 => 'SMIMECertificate-smimeuser1.crt',
-        CertificateFileName2 => 'SMIMECertificate-smimeuser1.p7b',
-        CertificateFileName3 => 'SMIMECertificate-smimeuser1.der',
-        CertificateFileName4 => 'SMIMECertificate-smimeuser1.pfx',
-        CertificatePassFile  => 'SMIMEPrivateKeyPass-smimeuser1.crt',
-        Success              => 0                                       # Test with passfile will fail (wrong password)
+        CertificateFileName1 => 'SMIMEUserCertificate-Axel.crt',
+        CertificateFileName2 => 'SMIMEUserCertificate-Axel.p7b',
+        CertificateFileName3 => 'SMIMEUserCertificate-Axel.der',
+        CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
+        CertificatePassFile  => 'SMIMEUserPrivateKeyPass-Axel.crt',
+        Success              => 1,
+    },
+    {
+        CertificateName      => 'OTOBOUserCert wrong password',
+        CertificateFileName1 => 'SMIMEUserCertificate-Axel.crt',
+        CertificateFileName2 => 'SMIMEUserCertificate-Axel.p7b',
+        CertificateFileName3 => 'SMIMEUserCertificate-Axel.der',
+        CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
+        CertificatePassFile  => 'SMIMEUserWrongPrivateKeyPass-Axel.crt',
+        Success              => 0,                                         # Test with passfile will fail (wrong password)
     },
 );
 
-=item $CertificationConversionTest->()
+=item CertificationConversionTest
 
 do the testing
 - read
@@ -242,7 +228,9 @@ do the testing
 - remove
 returns Certificate String converted to PEM-format
 
-    my $Result = $CertificationConversionTest->(
+    my $Result = CertificationConversionTest(
+        "my test"               # description
+        1,                      # success
         $CertificateString,     # filename
         'PEM',                  # format             # PEM, PKCS#7/P7B, DER, PFX
         'PemCertificateString', # CheckString        # (optional), FilereadString if empty
@@ -260,166 +248,134 @@ Returns:
 
 =cut
 
-my $CertificationConversionTest = sub {
-    my ( $Success, $CertificateFileName, $Format, $CheckString, $CertificatePassFile ) = @_;
+sub CertificationConversionTest {
+    my ( $Description, $Success, $CertificateFileName, $CheckString, $CertificatePassFile ) = @_;
 
-    return if !defined $Success;
-    return if !$CertificateFileName;
-    return if !$Format;
-
-    # create objects
-    my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
-    my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
-
-    # read
-    my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $CertificateFileName,
-    );
-    $CheckString ||= ${$CertString};
+    return unless $Description;
+    return unless defined $Success;
+    return unless $CertificateFileName;
 
     my $FormatedCertificate;
 
-    # convert
-    # no passfile
-    if ( !$CertificatePassFile ) {
-        $FormatedCertificate = $SMIMEObject->ConvertCertFormat( String => ${$CertString} );
+    subtest $Description => sub {
 
-        # Remove any not needed information for easy compare.
-        if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
-            $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 );
-        }
-        $Self->Is(
-            $FormatedCertificate,
-            $CheckString,
-            "#$CertificateFileName ConvertCertFormat() was successful for $Format-format",
+        # create objects
+        my $MainObject  = $Kernel::OM->Get('Kernel::System::Main');
+        my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
+
+        # read
+        my $CertString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
+            Filename  => $CertificateFileName,
         );
-    }
+        $CheckString ||= $CertString->$*;
 
-    # passfile needed
-    else {
-        my $Pass = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-            Filename  => $CertificatePassFile,
-        );
-        $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
-            String     => ${$CertString},
-            Passphrase => ${$Pass}
-        );
-
-        # Remove any not needed information for easy compare.
-        if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
-            $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 ) . "\n";
-        }
-
-        if ($Success) {
-            $Self->Is(
-                $FormatedCertificate,
-                $CheckString,
-                "#$CertificateFileName ConvertCertFormat() was successful for $Format-format",
+        # convert
+        # no passfile
+        if ( !$CertificatePassFile ) {
+            $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
+                String => $CertString->$*
             );
+
+            # Remove any not needed information for easy compare.
+            if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
+                $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 );
+            }
+            is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful" );
         }
+
+        # passfile needed
         else {
-            $Self->Is(
-                $FormatedCertificate,
-                undef,
-                "#$CertificateFileName ConvertCertFormat() was UNsuccessful for $Format-format (invalid password?)",
+            my $Pass = $MainObject->FileRead(
+                Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+                Filename  => $CertificatePassFile,
             );
+            $FormatedCertificate = $SMIMEObject->ConvertCertFormat(
+                String     => $CertString->$*,
+                Passphrase => $Pass->$*,
+            );
+
+            # Remove any not needed information for easy compare.
+            if ( $FormatedCertificate && $FormatedCertificate !~ m{\A-----BEGIN} ) {
+                $FormatedCertificate = substr( $FormatedCertificate, index( $FormatedCertificate, '-----BEGIN' ), -1 ) . "\n";
+            }
+
+            if ($Success) {
+                is( $FormatedCertificate, $CheckString, "#$CertificateFileName ConvertCertFormat() was successful" );
+            }
+            else {
+                is( $FormatedCertificate, undef, "#$CertificateFileName ConvertCertFormat() was UNsuccessful (invalid password?)" );
+            }
         }
-    }
 
-    # search before add
-    my @SearchResult = $CertificateSearch->();
-    $Self->False(
-        $SearchResult[0] || '',
-        "#$CertificateFileName CertificateSearch()-before was empty",
-    );
+        # search before add
+        my @SearchResult = $CertificateSearch->();
+        ok( !$SearchResult[0], "#$CertificateFileName CertificateSearch()-before was empty", );
 
-    # add
-    if ($FormatedCertificate) {
-        my %AddResult = $SMIMEObject->CertificateAdd( Certificate => $FormatedCertificate );
-        $Self->True(
-            $AddResult{Successful} || '',
-            "#$CertificateFileName CertificateAdd() - $AddResult{Message}",
-        );
+        # add
+        if ($FormatedCertificate) {
+            my %AddResult = $SMIMEObject->CertificateAdd( Certificate => $FormatedCertificate );
+            ok( $AddResult{Successful}, "#$CertificateFileName CertificateAdd() - $AddResult{Message}" );
 
-        # search after add
-        @SearchResult = $CertificateSearch->();
-        $Self->True(
-            $SearchResult[0] || '',
-            "#$CertificateFileName CertificateSearch()-after was NOT empty",
-        );
-    }
+            # search after add
+            @SearchResult = $CertificateSearch->();
+            ok( $SearchResult[0], "#$CertificateFileName CertificateSearch()-after was NOT empty" );
+        }
 
-    # remove
-    for my $Cert (@SearchResult) {
-        my %Result = $SMIMEObject->CertificateRemove(
-            Filename => $Cert->{Filename},
-        );
+        # remove
+        for my $Cert (@SearchResult) {
+            my %Result = $SMIMEObject->CertificateRemove(
+                Filename => $Cert->{Filename},
+            );
 
-        $Self->Is(
-            $Result{Successful},
-            1,
-            "#$CertificateFileName CertificateRemove() - $Result{Message}",
-        );
-    }
+            is( $Result{Successful}, 1, "#$CertificateFileName CertificateRemove() - $Result{Message}" );
+        }
+        return;
+    };
+
     return $FormatedCertificate;
-
-};
+}
 
 # check certificates
 for my $Certificate (@Certificates) {
 
-    #
     # PEM check
-    #
-    my $PemCertificate = $CertificationConversionTest->(
-        $Certificate->{Success},                 # Success
-        $Certificate->{CertificateFileName1},    # Filename
-        'PEM'                                    # format
+    my $PemCertificate = CertificationConversionTest(
+        "$Certificate->{CertificateName} PEM",    # subtest description
+        $Certificate->{Success},                  # Success
+        $Certificate->{CertificateFileName1},     # Filename
     );
 
-    #
     # P7B check
-    #
-    $CertificationConversionTest->(
-        $Certificate->{Success},                 # Success
-        $Certificate->{CertificateFileName2},    # filename
-        'PKCS#7/P7B',                            # format
-        $PemCertificate                          # checkstring
+    CertificationConversionTest(
+        "$Certificate->{CertificateName} PKCS#7/P7B",    # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName2},            # filename
+        $PemCertificate,                                 # checkstring
     );
 
-    #
     # DER check
-    #
-    $CertificationConversionTest->(
-        $Certificate->{Success},                 # Success
-        $Certificate->{CertificateFileName3},    # filename
-        'DER',                                   # format
-        $PemCertificate                          # checkstring
+    CertificationConversionTest(
+        "$Certificate->{CertificateName} DER",           # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName3},            # filename
+        $PemCertificate                                  # checkstring
     );
 
-    #
     # PFX check
-    #
-    $CertificationConversionTest->(
-        $Certificate->{Success},                 # Success
-        $Certificate->{CertificateFileName4},    # filename
-        'PFX',                                   # format
-        $PemCertificate,                         # checkstring
-        $Certificate->{CertificatePassFile}      # pass-filename
+    CertificationConversionTest(
+        "$Certificate->{CertificateName} PFX",           # subtest description
+        $Certificate->{Success},                         # Success
+        $Certificate->{CertificateFileName4},            # filename
+        $PemCertificate,                                 # checkstring
+        $Certificate->{CertificatePassFile}              # pass-filename
     );
 }
 
 # delete needed test directories
 for my $Directory ( $CertPath, $PrivatePath ) {
     my $Success = rmtree( [$Directory] );
-    $Self->True(
-        $Success,
-        "Directory deleted - '$Directory'",
-    );
+    ok( $Success, "Directory deleted - '$Directory'", );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
