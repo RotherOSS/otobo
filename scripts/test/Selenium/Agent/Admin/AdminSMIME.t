@@ -14,24 +14,27 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path ();
 
+# CPAN modules
+use Test2::V0;
+
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::UnitTest::Selenium;
+
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
-
         my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -226,17 +229,21 @@ $Selenium->RunTest(
             $BaseURL . "Action=Login;User=$TestUserLogin;Password=$TestUserLogin;"
         );
 
+        # OpenSSL 1.0.0 subject hashes as determined by:
+        #  openssl x509 -in SMIMEUserCertificate-Axel.crt -noout -subject_hash
+        my $AxelCertHash = 'c8c9e520';
+
         for my $TestSMIME (qw(key cert)) {
 
             # Check for test created Certificate and Private key download file name.
             my $Response = $UserAgent->get(
-                $BaseURL . "Action=AdminSMIME;Subaction=Download;Type=$TestSMIME;Filename=4d400195.0"
+                $BaseURL . "Action=AdminSMIME;Subaction=Download;Type=$TestSMIME;Filename=$AxelCertHash.0"
             );
             if ( $ResponseLogin->is_success() && $Response->is_success() ) {
 
-                $Self->True(
-                    index( $Response->header('content-disposition'), "4d400195-$TestSMIME.pem" ) > -1,
-                    "Download file name is correct - 4d400195-$TestSMIME.pem",
+                ok(
+                    index( $Response->header('content-disposition'), "$AxelCertHash-$TestSMIME.pem" ) > -1,
+                    "Download file name is correct - $AxelCertHash-$TestSMIME.pem",
                 );
             }
 
@@ -277,4 +284,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing();
