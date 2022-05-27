@@ -17,13 +17,13 @@
 # Luis Armando Medina <lamedina@gmail.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
-# Fredy Aragón <fredmac48@hotmail.com>, 2021.
+# Fredy Aragón <fredmac48@hotmail.com>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2021-09-08 15:36+0000\n"
+"PO-Revision-Date: 2022-05-28 16:16+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
@@ -260,7 +260,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -271,10 +271,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Este idioma no está presente o habilitado en el sistema. Este texto puede "
+"ser eliminado si ya no es necesario."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Quitar idioma"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -294,7 +296,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Agregar nuevo lenguaje"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1397,15 +1399,15 @@ msgstr "Válido"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Gestión de política de privacidad"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de privacidad"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "Eliminar la política de privacidad del lenguaje"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1800,7 +1802,7 @@ msgstr "Filtro para campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Nuevos campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1955,7 +1957,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Mensaje de ayuda:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
@@ -32671,6 +32673,9 @@ msgid ""
 "Ticket attributes that should be available in ticket invoker configuration "
 "frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
+"Atributos del ticket que deben estar disponibles en el frontend de "
+"configuración del invocador del ticket (0 = visible/seleccionado, 1 = "
+"predeterminado/preseleccionado)."
 
 #. SysConfig
 msgid "Ticket bulk module."
@@ -32705,7 +32710,7 @@ msgstr "Vista de resumen de los tickets"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
-msgstr ""
+msgstr "Ticket a la vista de un correo electrónico."
 
 #. SysConfig
 msgid "Ticket split dialog."
