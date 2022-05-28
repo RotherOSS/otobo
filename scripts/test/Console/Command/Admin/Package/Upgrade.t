@@ -14,20 +14,28 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.23;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
-# Make sure to enable cloud services.
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+# clear the cache, as PackageVerify() caches by the md5sum of the opm file
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
+# One test of this test script is to make sure that the package verification is actually called.
+# Therefore we make sure that cloud services are enabled and that unverified packages are not
+# installable.
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CloudServices::Disabled',
@@ -40,13 +48,12 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-my $RandomID = $Helper->GetRandomID();
-
 # Override Request() from WebUserAgent to always return some test data without making any
-#   actual web service calls. This should prevent instability in case cloud services are
-#   unavailable at the exact moment of this test run.
-my $CustomCode = <<"EOS";
-sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
+# actual web service calls. This should prevent instability in case cloud services are
+# unavailable at the exact moment of this test run.
+my $Identifier = sprintf 'AdminPackageUpgrade%s', $Helper->GetRandomID();
+my $CustomCode = <<"END_CODE";
+sub Kernel::Config::Files::ZZZZUnitTest${Identifier}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
@@ -55,36 +62,60 @@ use warnings;
 {
     no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
+
+        # set a global variable just to indicate that this sub has been called
+        \$main::SubRequestHasBeenCalled = 137;
+
+        my \$Content = '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""}';
+
         return (
             Status  => '200 OK',
-            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""}',
+            Content => \\\$Content,
         );
     }
 }
 1;
-EOS
+END_CODE
+
 $Helper->CustomCodeActivate(
     Code       => $CustomCode,
-    Identifier => 'Admin::Package::Upgrade' . $RandomID,
+    Identifier => $Identifier,
 );
+
+# CustomCodeActivate does not actually run the custom code.
+# Running the custom code is triggered by recreating an instance of Kernel::Config.
+# But make sure that Kernel::System::WebUserAgent is already loaded when
+# overriding the Request() method. Otherwise WebUserAgent.pm is loaded by the object manager later
+# and the method Request() is back to normal.
+my $RequestObject = $Kernel::OM->Get('Kernel::System::WebUserAgent');
+$Kernel::OM->Create('Kernel::Config');
 
 my $Location             = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackage.opm';
 my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Upgrade');
 
+# will be set to 137 in the custom method Kernel::System::WebUserAgent::Request()
+$main::SubRequestHasBeenCalled = 0;
+
+my $ExitCodeNotVerified = $UpgradeCommandObject->Execute($Location);
+
+is( $main::SubRequestHasBeenCalled, 137, 'Kernel::System::WebUserAgent::Request() has been called' );
+is(
+    $ExitCodeNotVerified,
+    1,
+    'Admin::Package::Upgrade exit code - package is not verified',
+);
+
+# TODO: change the custom code so that the sample package is verified. ExitCode must be 0 then.
+
+# clear the cache, as PackageVerify() caches by the md5sum of the opm file
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
 my $ExitCode = $UpgradeCommandObject->Execute($Location);
 
-$Self->Is(
+is(
     $ExitCode,
     1,
-    "Admin::Package::Upgrade exit code - package is not verified",
+    'Admin::Package::Upgrade exit code - package is still not verified',
 );
 
-$ExitCode = $UpgradeCommandObject->Execute($Location);
-
-$Self->Is(
-    $ExitCode,
-    1,
-    "Admin::Package::Upgrade exit code without arguments",
-);
-
-$Self->DoneTesting();
+done_testing();

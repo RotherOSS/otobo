@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -37,7 +37,7 @@ my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
 # FilenameCleanUp - tests
-my @Tests = (
+my @FilenameCleanUpTests = (
     {
         Name         => 'FilenameCleanUp() - Local',
         FilenameOrig => 'me_t o/alal.xml',
@@ -156,23 +156,20 @@ my @Tests = (
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@FilenameCleanUpTests) {
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => $Test->{FilenameOrig},
         Type     => $Test->{Type},
     );
-    $Self->Is(
-        $Filename || '',
-        $Test->{FilenameNew},
-        $Test->{Name},
-    );
+
+    is( $Filename, $Test->{FilenameNew}, $Test->{Name} );
 }
 
 # md5sum tests
 my $String = 'abc1234567890';
 my $MD5Sum = $MainObject->MD5sum( String => \$String );
-$Self->Is(
-    $MD5Sum || '',
+is(
+    $MD5Sum,
     '57041f8f7dff9b67e3f97d7facbaf8d3',
     "MD5sum() - String - abc1234567890",
 );
@@ -181,8 +178,8 @@ $Self->Is(
 $String = 'abc1234567890äöüß-カスタマ';
 $MD5Sum = $MainObject->MD5sum( String => \$String );
 
-$Self->Is(
-    $MD5Sum || '',
+is(
+    $MD5Sum,
     '56a681e0c46b1f156020182cdf62e825',
     "MD5sum() - String - $String",
 );
@@ -201,8 +198,8 @@ for my $Extension (qw(doc pdf png txt xls)) {
     my $MD5Sum = $MainObject->MD5sum(
         Filename => $Home . "/scripts/test/sample/Main/Main-Test1.$Extension",
     );
-    $Self->Is(
-        $MD5Sum || '',
+    is(
+        $MD5Sum,
         $MD5SumOf{$Extension},
         "MD5sum() - Filename - Main-Test1.$Extension",
     );
@@ -219,8 +216,8 @@ for my $Extension (qw(doc pdf png txt xls)) {
         Directory => $Home . '/scripts/test/sample/Main/',
         Filename  => "Main-Test1.$Extension",
     );
-    $Self->True(
-        ${$Content} || '',
+    ok(
+        ${$Content},
         "FileRead() - Main-Test1.$Extension",
     );
     my $FileLocation = $MainObject->FileWrite(
@@ -228,24 +225,24 @@ for my $Extension (qw(doc pdf png txt xls)) {
         Filename  => "me_öüto/al<>?Main-Test1.$Extension",
         Content   => $Content,
     );
-    $Self->True(
-        $FileLocation || '',
+    ok(
+        $FileLocation,
         "FileWrite() - $FileLocation",
     );
     my $MD5Sum2 = $MainObject->MD5sum(
         Filename => $Path . '/' . $FileLocation,
     );
-    $Self->Is(
-        $MD5Sum2 || '',
-        $MD5Sum  || '',
+    is(
+        $MD5Sum2,
+        $MD5Sum,
         "MD5sum()>FileWrite()>MD5sum() - $FileLocation",
     );
     my $Success = $MainObject->FileDelete(
         Directory => $Path,
         Filename  => $FileLocation,
     );
-    $Self->True(
-        $Success || '',
+    ok(
+        $Success,
         "FileDelete() - $FileLocation",
     );
 }
@@ -453,7 +450,7 @@ for my $Directory ( $DirectoryWithFiles, $SubDirA, $SubDirB, ) {
     }
 }
 
-@Tests = (
+my @DirectoryReadTests = (
     {
         Name      => 'Read directory with files, \'Example_File*\' Filter',
         Filter    => 'Example_File*',
@@ -640,7 +637,7 @@ for my $Directory ( $DirectoryWithFiles, $SubDirA, $SubDirB, ) {
     },
 );
 
-for my $Test (@Tests) {
+for my $Test (@DirectoryReadTests) {
 
     my @UnicodeResults;
     for my $Result ( @{ $Test->{Results} } ) {
@@ -657,7 +654,7 @@ for my $Test (@Tests) {
         Recursive => $Test->{Recursive},
     );
 
-    $Self->IsDeeply( \@Results, \@UnicodeResults, $Test->{Name} );
+    is( \@Results, \@UnicodeResults, $Test->{Name} );
 }
 
 # delete needed test directories
@@ -670,10 +667,8 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     }
 }
 
-#
 # Dump()
-#
-@Tests = (
+my @DumpTests = (
     {
         Name             => 'Unicode dump 1',
         Source           => 'é',
@@ -753,17 +748,19 @@ for my $Directory ( $DirectoryWithFiles, $DirectoryWithoutFiles ) {
     },
 );
 
-for my $Test (@Tests) {
-    $Self->Is(
-        $MainObject->Dump( $Test->{Source} ),
-        $Test->{ResultDumpBinary},
-        "$Test->{Name} - Dump() result (binary)"
-    );
-    $Self->Is(
-        $MainObject->Dump( $Test->{Source}, 'ascii' ),
-        $Test->{ResultDumpAscii},
-        "$Test->{Name} - Dump() result (ascii)"
-    );
+for my $Test (@DumpTests) {
+    subtest "$Test->{Name} - Dump()" => sub {
+        is(
+            $MainObject->Dump( $Test->{Source} ),
+            $Test->{ResultDumpBinary},
+            "result (binary)"
+        );
+        is(
+            $MainObject->Dump( $Test->{Source}, 'ascii' ),
+            $Test->{ResultDumpAscii},
+            "result (ascii)"
+        );
+    };
 }
 
 # Generate Random string tests

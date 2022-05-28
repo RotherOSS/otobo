@@ -30,7 +30,6 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
 my $CommandObject     = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::ListInvalid');
 my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
 my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');

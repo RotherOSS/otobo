@@ -540,6 +540,13 @@ All code will be removed when the Helper object is destroyed.
 Please note that this will not work correctly in clustered environments. But it should
 work when syncing via S3 is activated and does work.
 
+Also note that the deployed custom code is only executed when a new instance of Kernel::Config
+is created. This is done for every web request. But within a test script you must discard the
+config object, so that the object manager has the recreate it.
+
+It is advised that no fancy characters, like B<:>, are used in the identifier. Using B<:> in keys
+has caused errors when running with an S3 compatible storage in the backend.
+
     $Helper->CustomCodeActivate(
         Code => q^
     sub Kernel::Config::Files::ZZZZUnitTestNews::Load {} # no-op, avoid warning logs
