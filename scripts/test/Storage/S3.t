@@ -32,7 +32,7 @@ use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 # even though this route could also be available outside Docker.
 skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
 
-plan(9);
+plan(24);
 
 ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
@@ -163,6 +163,131 @@ END_SAMPLE
     is( $Retrieved{Content},     $Content,                'Content matches' );
     is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
 };
+
+# Test some more cleaned up file names.
+# This is important for the article storage.
+{
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    my $Prefix     = join '/', 'test', 'Storage', 'S3', 'FilenameCleanUp', '';
+    my $Content    = <<'END_CONTENT';
+uni file
+ - U+0001C - INFORMATION SEPARATOR FOUR
+␜ - U+0241C - SYMBOL FOR FILE SEPARATOR
+📁 - U+1F4C1 - FILE FOLDER
+📂 - U+1F4C2 - OPEN FILE FOLDER
+🗃 - U+1F5C3 - CARD FILE BOX
+🗄 - U+1F5C4 - FILE CABINET
+END_CONTENT
+
+    my @Tests = (
+        {
+            Name         => 'greek with leading snowman',
+            FilenameOrig => '⛄Στους υπολογιστές, το διεθνές πρότυπο',
+        },
+        {
+            Name         => 'Perl package name',
+            FilenameOrig => 'Just::Another::Perl::Package',
+        },
+        {
+            Name         => 'nonword hash',
+            FilenameOrig => 'two_hashes_#_#',
+        },
+        {
+            Name         => 'nonword minus',
+            FilenameOrig => 'decrement: --',
+        },
+        {
+            Name         => 'nonword plus',
+            FilenameOrig => 'increment: ++',
+            Skip         => 'MinIO has problems with + in object key',
+        },
+        {
+            Name         => 'nonword underscore',
+            FilenameOrig => '_cursive_',
+        },
+        {
+            Name         => 'enclosed alphanumerics i',
+            FilenameOrig => 'i ① ② ③ ④ ⑤ ⑥ ⑦ ⑧ ⑨ ⑩ ⑪ ⑫ ⑬ ⑭ ⑮ ⑯',
+        },
+        {
+            Name         => 'enclosed alphanumerics ii',
+            FilenameOrig => 'ii ⑰ ⑱ ⑲ ⑳ ⑴ ⑵ ⑶ ⑷ ⑸ ⑹ ⑺ ⑻ ⑼ ⑽ ⑾ ⑿',
+        },
+        {
+            Name         => 'enclosed alphanumerics iii',
+            FilenameOrig => 'iii ⒀ ⒁ ⒂ ⒃ ⒄ ⒅ ⒆ ⒇ ⒈ ⒉ ⒊ ⒋ ⒌ ⒍ ⒎ ⒏',
+        },
+        {
+            Name         => 'enclosed alphanumerics iv',
+            FilenameOrig => 'iv ⒐ ⒑ ⒒ ⒓ ⒔ ⒕ ⒖ ⒗ ⒘ ⒙ ⒚ ⒛ ⒜ ⒝ ⒞ ⒟',
+        },
+        {
+            Name         => 'enclosed alphanumerics v',
+            FilenameOrig => 'v ⒠ ⒡ ⒢ ⒣ ⒤ ⒥ ⒦ ⒧ ⒨ ⒩ ⒪ ⒫ ⒬ ⒭ ⒮ ⒯',
+        },
+        {
+            Name         => 'enclosed alphanumerics vi',
+            FilenameOrig => 'vi ⒰ ⒱ ⒲ ⒳ ⒴ ⒵ Ⓐ Ⓑ Ⓒ Ⓓ Ⓔ Ⓕ Ⓖ Ⓗ Ⓘ Ⓙ',
+        },
+        {
+            Name         => 'enclosed alphanumerics vii',
+            FilenameOrig => 'vii Ⓚ Ⓛ Ⓜ Ⓝ Ⓞ Ⓟ Ⓠ Ⓡ Ⓢ Ⓣ Ⓤ Ⓥ Ⓦ Ⓧ Ⓨ Ⓩ',
+        },
+        {
+            Name         => 'enclosed alphanumerics viii',
+            FilenameOrig => 'viii ⓐ ⓑ ⓒ ⓓ ⓔ ⓕ ⓖ ⓗ ⓘ ⓙ ⓚ ⓛ ⓜ ⓝ ⓞ ⓟ',
+        },
+        {
+            Name         => 'enclosed alphanumerics ix',
+            FilenameOrig => 'ix ⓠ ⓡ ⓢ ⓣ ⓤ ⓥ ⓦ ⓧ ⓨ ⓩ ⓪ ⓫ ⓬ ⓭ ⓮ ⓯',
+        },
+        {
+            Name         => 'enclosed alphanumerics x',
+            FilenameOrig => 'x ⓰ ⓱ ⓲ ⓳ ⓴ ⓵ ⓶ ⓷ ⓸ ⓹ ⓺ ⓻ ⓼ ⓽ ⓾ ⓿ ',
+        },
+    );
+
+    TEST:
+    for my $Test (@Tests) {
+
+        next TEST if $Test->{Skip};
+
+        subtest "FilenameCleanUP - $Test->{Name}" => sub {
+
+            my $Filename = $MainObject->FilenameCleanUp(
+                Filename => $Test->{FilenameOrig},
+                Type     => $Test->{Type},
+            );
+
+            like(
+                $Filename,
+                qr{^[\w\-+.\#_]+$},
+                "'$Test->{FilenameOrig}' -> '$Filename' only has the expected characters",
+            );
+
+            my $Key          = $Prefix . $Filename;
+            my $WriteSuccess = $StorageS3Object->StoreObject(
+                Key     => $Key,
+                Content => $Content,
+                Headers => { 'Content-Type' => 'text/plain' },
+            );
+
+            ok( $WriteSuccess, 'writing succeeded' );
+
+            my %Retrieved = $StorageS3Object->RetrieveObject(
+                Key => $Key,
+            );
+
+            # RetrieveObject() does not consider the read in content as UTF-8, as the encoding is usually not known.
+            # Here we decode explicitly, as we know that UTF-8 encoded string was stored.
+            $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Retrieved{Content} );
+
+            is( $Retrieved{FilesizeRaw}, bytes::length($Content), 'size in bytes' );
+            is( $Retrieved{Content},     $Content,                'Content matches' );
+            is( $Retrieved{ContentType}, 'text/plain',            'Content type matches' );
+        };
+    }
+}
 
 subtest 'SaveObjectToFile()' => sub {
     my $Content = <<'END_SAMPLE';
