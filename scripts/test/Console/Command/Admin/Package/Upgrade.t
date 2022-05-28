@@ -14,20 +14,26 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.23;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 
-# Make sure to enable cloud services.
+# One test of this test script is to make sure that the package verification is actually called.
+# Therefore we make sure that cloud services are enabled and that unverified packages are not
+# installable.
 $Helper->ConfigSettingChange(
     Valid => 1,
     Key   => 'CloudServices::Disabled',
@@ -43,8 +49,8 @@ $Helper->ConfigSettingChange(
 my $RandomID = $Helper->GetRandomID();
 
 # Override Request() from WebUserAgent to always return some test data without making any
-#   actual web service calls. This should prevent instability in case cloud services are
-#   unavailable at the exact moment of this test run.
+# actual web service calls. This should prevent instability in case cloud services are
+# unavailable at the exact moment of this test run.
 my $CustomCode = <<"EOS";
 sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
@@ -73,7 +79,7 @@ my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::A
 
 my $ExitCode = $UpgradeCommandObject->Execute($Location);
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Admin::Package::Upgrade exit code - package is not verified",
@@ -81,10 +87,10 @@ $Self->Is(
 
 $ExitCode = $UpgradeCommandObject->Execute($Location);
 
-$Self->Is(
+is(
     $ExitCode,
     1,
     "Admin::Package::Upgrade exit code without arguments",
 );
 
-$Self->DoneTesting();
+done_testing();
