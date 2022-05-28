@@ -448,7 +448,7 @@ subtest 'DiscardObject() and DiscardObjects()' => sub {
 
     # store two objects and process the headers of the two objects
     my $Prefix     = join '/', 'test', 'Storage', 'S3', 'greek_alphabet';
-    my $MtimeRegex = qr/^ \d+ (?:\.\d{3})? $/x;
+    my $MtimeRegex = qr/^ \d+ (?:\.\d{1,3})? $/x;    # 1653750544.2 is also possible
 
     # set up test content
     my %Alphabet = ( 'uni_alpha.txt', <<'EOT', 'uni_beta.txt', <<'EOT', 'uni_gamma', <<'EOT', 'uni_delta.txt', <<'EOT' );
