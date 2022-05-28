@@ -51,7 +51,7 @@ my $RandomID = $Helper->GetRandomID();
 # Override Request() from WebUserAgent to always return some test data without making any
 # actual web service calls. This should prevent instability in case cloud services are
 # unavailable at the exact moment of this test run.
-my $CustomCode = <<"EOS";
+my $CustomCode = <<"END_CODE";
 sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
@@ -61,14 +61,18 @@ use warnings;
 {
     no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
+
+        my \$Content = '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""}';
+
         return (
             Status  => '200 OK',
-            Content => '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""}',
+            Content => \\\$Content,
         );
     }
 }
 1;
-EOS
+END_CODE
+
 $Helper->CustomCodeActivate(
     Code       => $CustomCode,
     Identifier => 'Admin::Package::Upgrade' . $RandomID,
