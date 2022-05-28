@@ -28,13 +28,11 @@ $Kernel::OM->ObjectParamAdd(
         RestoreDatabase => 1,
     },
 );
-my $Helper            = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $CacheObject       = $Kernel::OM->Get('Kernel::System::Cache');
-my $CommandObject     = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
-my $SysConfigObject   = $Kernel::OM->Get('Kernel::System::SysConfig');
-my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
-my $MainObject        = $Kernel::OM->Get('Kernel::System::Main');
-my $Home              = $Kernel::OM->Get('Kernel::Config')->Get('Home');
+my $Helper          = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $CommandObject   = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Config::FixInvalid');
+my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+my $MainObject      = $Kernel::OM->Get('Kernel::System::Main');
+my $Home            = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $RunCommand = sub {
     my @Args = @_;
