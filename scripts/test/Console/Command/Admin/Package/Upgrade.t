@@ -48,13 +48,12 @@ $Helper->ConfigSettingChange(
     Value => 0,
 );
 
-my $RandomID = $Helper->GetRandomID();
-
 # Override Request() from WebUserAgent to always return some test data without making any
 # actual web service calls. This should prevent instability in case cloud services are
 # unavailable at the exact moment of this test run.
+my $Identifier = sprintf 'AdminPackageUpgrade%s', $Helper->GetRandomID();
 my $CustomCode = <<"END_CODE";
-sub Kernel::Config::Files::ZZZZUnitTestAdminPackageManager${RandomID}::Load {} # no-op, avoid warning logs
+sub Kernel::Config::Files::ZZZZUnitTest${Identifier}::Load {} # no-op, avoid warning logs
 use Kernel::System::WebUserAgent;
 package Kernel::System::WebUserAgent;
 use strict;
@@ -80,21 +79,21 @@ END_CODE
 
 $Helper->CustomCodeActivate(
     Code       => $CustomCode,
-    Identifier => 'Admin::Package::Upgrade' . $RandomID,
+    Identifier => $Identifier,
 );
 
 # CustomCodeActivate does not actually run the custom code.
 # Running the custom code is triggered by recreating an instance of Kernel::Config.
-# Make sure that Kernel::System::WebUserAgent is already loaded when
+# But make sure that Kernel::System::WebUserAgent is already loaded when
 # overriding the Request() method. Otherwise WebUserAgent.pm is loaded by the object manager later
-# and the Request() method is back to normal.
+# and the method Request() is back to normal.
 my $RequestObject = $Kernel::OM->Get('Kernel::System::WebUserAgent');
 $Kernel::OM->Create('Kernel::Config');
 
 my $Location             = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackage.opm';
 my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Upgrade');
 
-# will be set to 137 in Kernel::System::WebUserAgent::Request()
+# will be set to 137 in the custom method Kernel::System::WebUserAgent::Request()
 $main::SubRequestHasBeenCalled = 0;
 
 my $ExitCodeNotVerified = $UpgradeCommandObject->Execute($Location);
