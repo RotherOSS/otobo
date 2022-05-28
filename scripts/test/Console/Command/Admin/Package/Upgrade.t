@@ -94,16 +94,17 @@ my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::A
 # will be set to 137 in Kernel::System::WebUserAgent::Request()
 $main::SubRequestHasBeenCalled = 0;
 
-my $ExitCode = $UpgradeCommandObject->Execute($Location);
+my $ExitCodeNotVerified = $UpgradeCommandObject->Execute($Location);
 
 is( $main::SubRequestHasBeenCalled, 137, 'Kernel::System::WebUserAgent::Request() has been called' );
 is(
-    $ExitCode,
+    $ExitCodeNotVerified,
     1,
     "Admin::Package::Upgrade exit code - package is not verified",
 );
 
-$ExitCode = $UpgradeCommandObject->Execute($Location);
+# TODO: change the custom code so that the sample package is verified. ExitCode must be 0 then.
+my $ExitCode = $UpgradeCommandObject->Execute($Location);
 
 is(
     $ExitCode,
