@@ -242,6 +242,8 @@ sub FilenameCleanUp {
         $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
         # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+        # ① - U+02460 - CIRCLED DIGIT ONE
+        # ⓿ - U+024FF - NEGATIVE CIRCLED DIGIT ZERO
         $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
 
         # replace utf8 and iso
