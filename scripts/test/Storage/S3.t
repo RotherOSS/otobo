@@ -25,7 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # For now test only when running under Docker,
@@ -104,15 +104,18 @@ END_SAMPLE
         is( [ keys %Name2Properties ], [], 'delimeter after sub2' );
     }
 
+    # test 'non-occuring delimiter'
+    # no need to be extravagant here, choose a non-occuring delimiter from the list of safe characters in
+    # https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
     {
         my %Name2Properties = $StorageS3Object->ListObjects(
             Prefix    => join( '/', 'test', 'Storage', 'S3', 'sub1', '' ),
-            Delimiter => 'ề',
+            Delimiter => ')',
         );
         is(
             [ sort keys %Name2Properties ],
             [ 'sub2/panda_bear/uni_bear.txt', 'sub2/panda_bear/uni_panda.txt' ],
-            'non-occuring delimiter'
+            'non-occuring delimiter: closing parens'
         );
     }
 
