@@ -2176,6 +2176,7 @@ sub new {
                 $Package->Load($Self);
             };
 
+            # Ignoring all problems from loading a config cache file.
             if ( $@ ) {
                 my $ErrorMessage = $@;
                 print STDERR $@;
