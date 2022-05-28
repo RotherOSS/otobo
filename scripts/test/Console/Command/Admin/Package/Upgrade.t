@@ -62,6 +62,9 @@ use warnings;
     no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
     sub Request {
 
+        # set a global variable just to indicate that this sub has been called
+        \$main::SubRequestHasBeenCalled = 137;
+
         my \$Content = '{"Success":1,"Results":{"PackageManagement":[{"Operation":"PackageVerify","Data":{"Test":"not_verified","TestPackageIncompatible":"not_verified"},"Success":"1"}]},"ErrorMessage":""}';
 
         return (
@@ -81,8 +84,12 @@ $Helper->CustomCodeActivate(
 my $Location             = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackage.opm';
 my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Upgrade');
 
+# will be set to 137 in Kernel::System::WebUserAgent::Request()
+$main::SubRequestHasBeenCalled = 0;
+
 my $ExitCode = $UpgradeCommandObject->Execute($Location);
 
+is( $main::SubRequestHasBeenCalled, 137, 'Kernel::System::WebUserAgent::Request() has been called' );
 is(
     $ExitCode,
     1,
