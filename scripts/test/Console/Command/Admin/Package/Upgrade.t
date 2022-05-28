@@ -27,9 +27,8 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
-my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 # One test of this test script is to make sure that the package verification is actually called.
 # Therefore we make sure that cloud services are enabled and that unverified packages are not
@@ -80,6 +79,14 @@ $Helper->CustomCodeActivate(
     Code       => $CustomCode,
     Identifier => 'Admin::Package::Upgrade' . $RandomID,
 );
+
+# CustomCodeActivate does not actually run the custom code.
+# Running the custom code is triggered by recreating an instance of Kernel::Config.
+# Make sure that Kernel::System::WebUserAgent is already loaded when
+# overriding the Request() method. Otherwise WebUserAgent.pm is loaded by the object manager later
+# and the Request() method is back to normal.
+my $RequestObject = $Kernel::OM->Get('Kernel::System::WebUserAgent');
+$Kernel::OM->Create('Kernel::Config');
 
 my $Location             = $ConfigObject->Get('Home') . '/scripts/test/sample/PackageManager/TestPackage.opm';
 my $UpgradeCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Package::Upgrade');
