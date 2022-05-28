@@ -30,6 +30,9 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
+# clear the cache, as PackageVerify() caches by the md5sum of the opm file
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
 # One test of this test script is to make sure that the package verification is actually called.
 # Therefore we make sure that cloud services are enabled and that unverified packages are not
 # installable.
@@ -100,16 +103,20 @@ is( $main::SubRequestHasBeenCalled, 137, 'Kernel::System::WebUserAgent::Request(
 is(
     $ExitCodeNotVerified,
     1,
-    "Admin::Package::Upgrade exit code - package is not verified",
+    'Admin::Package::Upgrade exit code - package is not verified',
 );
 
 # TODO: change the custom code so that the sample package is verified. ExitCode must be 0 then.
+
+# clear the cache, as PackageVerify() caches by the md5sum of the opm file
+$Kernel::OM->Get('Kernel::System::Cache')->CleanUp();
+
 my $ExitCode = $UpgradeCommandObject->Execute($Location);
 
 is(
     $ExitCode,
     1,
-    "Admin::Package::Upgrade exit code without arguments",
+    'Admin::Package::Upgrade exit code - package is still not verified',
 );
 
 done_testing();
