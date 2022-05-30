@@ -190,12 +190,12 @@ sub ArticleWriteAttachment {
     }
 
     # Perform FilenameCleanUp here already to check for
-    #   conflicting existing attachment files correctly
+    # conflicting existing attachment files correctly.
+    # The type 'S3' also cleans up the chars '+' and '#'
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $OrigFilename = $MainObject->FilenameCleanUp(
-        Filename  => $Param{Filename},
-        Type      => 'Local',
-        NoReplace => 1,
+        Filename => $Param{Filename},
+        Type     => 'S3',
     );
 
     # check for conflicts in the attachment file names
