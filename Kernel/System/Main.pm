@@ -222,6 +222,9 @@ L<https://perldoc.perl.org/perluniprops#Properties-accessible-through-%5Cp%7B%7D
         Type     => 'Local',
     );
 
+The Type 'S3' is like 'Local' with two differences. First, the option 'NoReplace' is always ignored. Secondly, the
+characters B<+> and B<#> are also replaced by an underscore.
+
 =cut
 
 sub FilenameCleanUp {
@@ -307,7 +310,7 @@ sub FilenameCleanUp {
         return $Param{Filename};
     }
 
-    # 'Local' or fallback for missing or unknown types
+    # 'Local' or 'S3' or fallback for missing or unknown types
 
     # trim whitespace
     $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
@@ -316,7 +319,15 @@ sub FilenameCleanUp {
     $Param{Filename} =~ s/^\.+//;
 
     # only whitelisted characters allowed in filename for security
-    if ( !$Param{NoReplace} ) {
+    if ( $Type eq 's3' ) {
+
+        # not that '+' and '#' are also replaced by '_'
+        # no need to have '_' explicitly in the character class, as that case is covered by \w
+        $Param{Filename} =~ s/[^\w\-.]/_/g;
+    }
+    elsif ( !$Param{NoReplace} ) {
+
+        # 'Local' or fallback for missing or unknown types
         $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
         # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.

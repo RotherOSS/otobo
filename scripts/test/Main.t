@@ -82,132 +82,167 @@ for my $Test (@FilenameCleanUpTests) {
 # FilenameCleanUp - tests Local, both with or withoud NoReplace
 my @FilenameCleanUpLocalTests = (
     {
-        Name                 => 'space and slash',
-        FilenameOrig         => 'me_t o/alal.xml',
-        FilenameNew          => 'me_t_o_alal.xml',
-        FilenameNewNoReplace => 'me_t o/alal.xml',
+        Name     => 'alphanumeric',
+        Original => 'abcABC012_',
     },
     {
-        Name                 => 'question mark',
-        FilenameOrig         => 'me_to/al?al"l.xml',
-        FilenameNew          => 'me_to_al_al_l.xml',
-        FilenameNewNoReplace => 'me_to/al?al"l.xml',
+        Name     => 'greek',
+        Original => 'Ρόδος',
     },
     {
-        Name                 => 'backslash',
-        FilenameOrig         => 'me_to/a\/\\lal.xml',
-        FilenameNew          => 'me_to_a___lal.xml',
-        FilenameNewNoReplace => 'me_to/a\/\\lal.xml',
+        Name           => 'space and slash',
+        Original       => 'me_t o/alal.xml',
+        LocalReplace   => 'me_t_o_alal.xml',
+        LocalNoReplace => 'me_t o/alal.xml',
     },
     {
-        Name                 => 'brackets',
-        FilenameOrig         => 'me_to/al[al].xml',
-        FilenameNew          => 'me_to_al_al_.xml',
-        FilenameNewNoReplace => 'me_to/al[al].xml',
+        Name           => 'question mark',
+        Original       => 'me_to/al?al"l.xml',
+        LocalReplace   => 'me_to_al_al_l.xml',
+        LocalNoReplace => 'me_to/al?al"l.xml',
     },
     {
-        Name                 => 'slash',
-        FilenameOrig         => 'me_to/alal.xml',
-        FilenameNew          => 'me_to_alal.xml',
-        FilenameNewNoReplace => 'me_to/alal.xml',
+        Name           => 'backslash',
+        Original       => 'me_to/a\/\\lal.xml',
+        LocalReplace   => 'me_to_a___lal.xml',
+        LocalNoReplace => 'me_to/a\/\\lal.xml',
+    },
+    {
+        Name           => 'brackets',
+        Original       => 'me_to/al[al].xml',
+        LocalReplace   => 'me_to_al_al_.xml',
+        LocalNoReplace => 'me_to/al[al].xml',
+    },
+    {
+        Name           => 'slash',
+        Original       => 'me_to/alal.xml',
+        LocalReplace   => 'me_to_alal.xml',
+        LocalNoReplace => 'me_to/alal.xml',
+    },
+    {
+        Name     => 'short filename and short extension',
+        Original => 'short.short',
     },
     {
         Name         => 'long filename',
-        FilenameOrig => 'a' x 250,
-        FilenameNew  => 'a' x 220,
+        Original     => 'a' x 250,
+        LocalReplace => 'a' x 220,
     },
     {
         Name         => 'öong filename short extension',
-        FilenameOrig => 'a' x 250 . '.test',
-        FilenameNew  => 'a' x 215 . '.test',
+        Original     => 'a' x 250 . '.test',
+        LocalReplace => 'a' x 215 . '.test',
     },
     {
         Name         => 'short filename long extension',
-        FilenameOrig => 'test.' . 'a' x 250,
-        FilenameNew  => 't.' . 'a' x 218,
+        Original     => 'test.' . 'a' x 250,
+        LocalReplace => 't.' . 'a' x 218,
     },
     {
         Name         => 'long filename no extension - 2 bytes character',
-        FilenameOrig => 'ß' x 250,
-        FilenameNew  => 'ß' x 110,
+        Original     => 'ß' x 250,
+        LocalReplace => 'ß' x 110,
     },
     {
         Name         => 'long filename short extension - 2 bytes character',
-        FilenameOrig => 'ß' x 250 . '.test',
-        FilenameNew  => 'ß' x 107 . '.test',
+        Original     => 'ß' x 250 . '.test',
+        LocalReplace => 'ß' x 107 . '.test',
     },
     {
         Name         => ' Short filename long extension - 2 bytes character',
-        FilenameOrig => 'test.' . 'ß' x 250,
-        FilenameNew  => 't.' . 'ß' x 109,
+        Original     => 'test.' . 'ß' x 250,
+        LocalReplace => 't.' . 'ß' x 109,
     },
     {
-        Name         => 'filename ending with period',
-        FilenameOrig => 'abc.',
-        FilenameNew  => 'abc.',
+        Name     => 'filename ending with period',
+        Original => 'abc.',
     },
     {
-        Name                 => 'umlaut and eszett',
-        FilenameOrig         => 'me_to/a+lal Grüße 0.xml',
-        FilenameNew          => 'me_to_a+lal_Grüße_0.xml',
-        FilenameNewNoReplace => 'me_to/a+lal Grüße 0.xml',
+        Name           => 'umlaut, eszett, plus',
+        Original       => 'me_to/a+lal Grüße 0.xml',
+        LocalReplace   => 'me_to_a+lal_Grüße_0.xml',
+        LocalNoReplace => 'me_to/a+lal Grüße 0.xml',
+        S3             => 'me_to_a_lal_Grüße_0.xml',
     },
     {
         Name         => 'leading dots',
-        FilenameOrig => '....test.xml',
-        FilenameNew  => 'test.xml',
+        Original     => '....test.xml',
+        LocalReplace => 'test.xml',
     },
     {
-        Name                 => 'U+02460 - CIRCLED DIGIT ONE',
-        FilenameOrig         => 'circled_one_①.txt',
-        FilenameNew          => 'circled_one__.txt',
-        FilenameNewNoReplace => 'circled_one_①.txt',
+        Name           => 'U+02460 - CIRCLED DIGIT ONE',
+        Original       => 'circled_one_①.txt',
+        LocalReplace   => 'circled_one__.txt',
+        LocalNoReplace => 'circled_one_①.txt',
     },
 
     # The AWS documentation lists characters that should be avoided.
     # See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html.
     # Only the pound sign is not replaced by the type 'Local'
     {
-        Name                 => 'S3 characters to avoid',
-        FilenameOrig         => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
-        FilenameNew          => 'a_b_c_d_e_f_g_h_i_j_k_l_m_n_o#p_q',
-        FilenameNewNoReplace => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
+        Name           => 'S3 characters to avoid',
+        Original       => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
+        LocalReplace   => 'a_b_c_d_e_f_g_h_i_j_k_l_m_n_o#p_q',
+        LocalNoReplace => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
+        S3             => 'a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q',
+    },
+    {
+        Name     => 'pound sign',
+        Original => 'pound_sign_#',
+        S3       => 'pound_sign__',
     },
 
     # The AWS documentation lists characters that might require extra handling
     # See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html.
     # Only the plus is not replaced by the type 'Local'
     {
-        Name                 => 'S3 characters with extra handling',
-        FilenameOrig         => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
-        FilenameNew          => 'A_B_C_D_E_F_G_H_I_J_K+L_M_N_O',
-        FilenameNewNoReplace => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
+        Name           => 'S3 characters with extra handling',
+        Original       => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
+        LocalReplace   => 'A_B_C_D_E_F_G_H_I_J_K+L_M_N_O',
+        LocalNoReplace => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
+        S3             => 'A_B_C_D_E_F_G_H_I_J_K_L_M_N_O',
+    },
+    {
+        Name     => 'plussign',
+        Original => 'plus_+',
+        S3       => 'plus__',
     },
 );
 
 for my $Test (@FilenameCleanUpLocalTests) {
     subtest "FilenameCleanUp() - Local - $Test->{Name}" => sub {
         my $Replace = $MainObject->FilenameCleanUp(
-            Filename => $Test->{FilenameOrig},
-            Type     => $Test->{Type},
+            Filename => $Test->{Original},
+            Type     => 'Local',
         );
 
         is(
             $Replace,
-            $Test->{FilenameNew},
-            'replace active'
+            $Test->{LocalReplace} // $Test->{Original},
+            'LocalReplace'
         );
 
         my $NoReplace = $MainObject->FilenameCleanUp(
-            Filename  => $Test->{FilenameOrig},
-            Type      => $Test->{Type},
+            Filename  => $Test->{Original},
+            Type      => 'Local',
             NoReplace => 'ß',
         );
 
         is(
             $NoReplace,
-            $Test->{FilenameNewNoReplace} // $Test->{FilenameNew},
-            'replace inactive'
+            $Test->{LocalNoReplace} // $Test->{LocalReplace} // $Test->{Original},
+            'LocalNoReplace'
+        );
+
+        my $TypeS3 = $MainObject->FilenameCleanUp(
+            Filename => $Test->{Original},
+            Type     => 'S3',
+        );
+
+        is(
+            $TypeS3,
+            $Test->{S3} // $Test->{LocalReplace} // $Test->{Original},
+            'S3'
         );
     };
 }
