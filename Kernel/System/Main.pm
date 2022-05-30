@@ -193,15 +193,23 @@ sub Die {
 =head2 FilenameCleanUp()
 
 to clean up filenames which can be used in any case (also quoting is done)
+Possible types are 'Local', 'Attachment', 'MD5'. For unknown types 'Local' is assumed.
+
+    # return 32 chars in the range 0..9 and a..f
+    my $Filename = $MainObject->FilenameCleanUp(
+        Filename => 'some:file.xml',
+        Type     => 'MD5',
+    );
+
+When the type is 'Local' then the additional parameter C<NoReplace> is considered as well. When the
+parameter is either not passed or not set to a true value, then all characters
+not matching C< qr/[^\w\-+.#]/ > are replaced by an underscore. Not that C<\w> matches beyond the ASCII range,
+see the character class XPosixWord for details,
+L<https://perldoc.perl.org/perluniprops#Properties-accessible-through-%5Cp%7B%7D-and-%5CP%7B%7D>.
 
     my $Filename = $MainObject->FilenameCleanUp(
         Filename => 'me_to/alal.xml',
-        Type     => 'Local', # Local|Attachment|MD5
-    );
-
-    my $Filename = $MainObject->FilenameCleanUp(
-        Filename => 'some:file.xml',
-        Type     => 'MD5', # Local|Attachment|MD5
+        Type     => 'Local',
     );
 
 =cut
@@ -214,13 +222,13 @@ sub FilenameCleanUp {
             Priority => 'error',
             Message  => 'Need Filename!',
         );
+
         return;
     }
 
-    # escape if cleanup is not needed
-    if ( $Param{NoFilenameClean} ) {
-        return $Param{Filename};
-    }
+    # Escape if cleaning up is not wanted.
+    # This is used in FileWrite() when the exact filenname should be used.
+    return $Param{Filename} if $Param{NoFilenameClean};
 
     my $Type = lc( $Param{Type} || 'local' );
 
