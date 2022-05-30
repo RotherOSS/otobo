@@ -163,6 +163,26 @@ my @FilenameCleanUpLocalTests = (
         FilenameNew          => 'circled_one__.txt',
         FilenameNewNoReplace => 'circled_one_①.txt',
     },
+
+    # The AWS documentation lists characters that should be avoided.
+    # See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html.
+    # Only the pound sign is not replaced by the type 'Local'
+    {
+        Name                 => 'S3 characters to avoid',
+        FilenameOrig         => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
+        FilenameNew          => 'a_b_c_d_e_f_g_h_i_j_k_l_m_n_o#p_q',
+        FilenameNewNoReplace => qq{a\\b{c\x{80}d\x{FF}e^f}g%h`i]j"k>l[m~n<o#p|q},
+    },
+
+    # The AWS documentation lists characters that might require extra handling
+    # See https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html.
+    # Only the plus is not replaced by the type 'Local'
+    {
+        Name                 => 'S3 characters with extra handling',
+        FilenameOrig         => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
+        FilenameNew          => 'A_B_C_D_E_F_G_H_I_J_K+L_M_N_O',
+        FilenameNewNoReplace => qq{A&B\$C\x{00}D\x{1F}E\x{7F}F\@G=H;I/J:K+L M,N?O},
+    },
 );
 
 for my $Test (@FilenameCleanUpLocalTests) {
