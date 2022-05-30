@@ -36,120 +36,34 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
-# FilenameCleanUp - tests
+# FilenameCleanUp - tests, Attachment and md5
 my @FilenameCleanUpTests = (
     {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_t o/alal.xml',
-        FilenameNew  => 'me_t_o_alal.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_to/al?al"l.xml',
-        FilenameNew  => 'me_to_al_al_l.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_to/a\/\\lal.xml',
-        FilenameNew  => 'me_to_a___lal.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_to/al[al].xml',
-        FilenameNew  => 'me_to_al_al_.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_to/alal.xml',
-        FilenameNew  => 'me_to_alal.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Long filename no extension - Local',
-        FilenameOrig => 'a' x 250,
-        FilenameNew  => 'a' x 220,
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Long filename short extension - Local',
-        FilenameOrig => 'a' x 250 . '.test',
-        FilenameNew  => 'a' x 215 . '.test',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Short filename long extension - Local',
-        FilenameOrig => 'test.' . 'a' x 250,
-        FilenameNew  => 't.' . 'a' x 218,
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Long filename no extension - 2 bytes character - Local',
-        FilenameOrig => 'ß' x 250,
-        FilenameNew  => 'ß' x 110,
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Long filename short extension - 2 bytes character - Local',
-        FilenameOrig => 'ß' x 250 . '.test',
-        FilenameNew  => 'ß' x 107 . '.test',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Short filename long extension - 2 bytes character - Local',
-        FilenameOrig => 'test.' . 'ß' x 250,
-        FilenameNew  => 't.' . 'ß' x 109,
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Filename ending with period - Local',
-        FilenameOrig => 'abc.',
-        FilenameNew  => 'abc.',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - Attachment',
+        Name         => 'Attachment',
         FilenameOrig => 'me_to/a+la l.xml',
         FilenameNew  => 'me_to_a+la_l.xml',
         Type         => 'Attachment',
     },
     {
-        Name         => 'FilenameCleanUp() - Local',
-        FilenameOrig => 'me_to/a+lal Grüße 0.xml',
-        FilenameNew  => 'me_to_a+lal_Grüße_0.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - leading dots - Local',
-        FilenameOrig => '....test.xml',
-        FilenameNew  => 'test.xml',
-        Type         => 'Local',
-    },
-    {
-        Name         => 'FilenameCleanUp() - leading dots - Attachment',
+        Name         => 'leading dots - Attachment',
         FilenameOrig => '....test.xml',
         FilenameNew  => 'test.xml',
         Type         => 'Attachment',
     },
     {
-        Name         => 'FilenameCleanUp() - Attachment',
-        FilenameOrig =>
-            'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
-        FilenameNew =>
-            'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567890123456789012345678901234567890.xml',
-        Type => 'Attachment',
+        Name         => 'Attachment',
+        FilenameOrig => 'me_to/a+lal123456789012345678901234567890Liebe Grüße aus Straubing123456789012345678901234567890123456789012345678901234567890.xml',
+        FilenameNew  => 'me_to_a+lal123456789012345678901234567890Liebe_Gruesse_aus_Straubing123456789012345678901234567890123456789012345678901234567890.xml',
+        Type         => 'Attachment',
     },
     {
-        Name         => 'FilenameCleanUp() - md5',
+        Name         => 'md5',
         FilenameOrig => 'some file.xml',
         FilenameNew  => '6b9e62f9a8c56a0c06c66cc716e30c45',
         Type         => 'md5',
     },
     {
-        Name         => 'FilenameCleanUp() - md5',
+        Name         => 'md5',
         FilenameOrig => 'me_to/a+lal Grüße 0öäüßカスタマ.xml',
         FilenameNew  => 'c235a9eabe8494b5f90ffd1330af3407',
         Type         => 'md5',
@@ -162,7 +76,120 @@ for my $Test (@FilenameCleanUpTests) {
         Type     => $Test->{Type},
     );
 
-    is( $Filename, $Test->{FilenameNew}, $Test->{Name} );
+    is( $Filename, $Test->{FilenameNew}, "FilenameCleanUp() - $Test->{Name}" );
+}
+
+# FilenameCleanUp - tests Local, both with or withoud NoReplace
+my @FilenameCleanUpLocalTests = (
+    {
+        Name                 => 'space and slash',
+        FilenameOrig         => 'me_t o/alal.xml',
+        FilenameNew          => 'me_t_o_alal.xml',
+        FilenameNewNoReplace => 'me_t o/alal.xml',
+    },
+    {
+        Name                 => 'question mark',
+        FilenameOrig         => 'me_to/al?al"l.xml',
+        FilenameNew          => 'me_to_al_al_l.xml',
+        FilenameNewNoReplace => 'me_to/al?al"l.xml',
+    },
+    {
+        Name                 => 'backslash',
+        FilenameOrig         => 'me_to/a\/\\lal.xml',
+        FilenameNew          => 'me_to_a___lal.xml',
+        FilenameNewNoReplace => 'me_to/a\/\\lal.xml',
+    },
+    {
+        Name                 => 'brackets',
+        FilenameOrig         => 'me_to/al[al].xml',
+        FilenameNew          => 'me_to_al_al_.xml',
+        FilenameNewNoReplace => 'me_to/al[al].xml',
+    },
+    {
+        Name                 => 'slash',
+        FilenameOrig         => 'me_to/alal.xml',
+        FilenameNew          => 'me_to_alal.xml',
+        FilenameNewNoReplace => 'me_to/alal.xml',
+    },
+    {
+        Name         => 'long filename',
+        FilenameOrig => 'a' x 250,
+        FilenameNew  => 'a' x 220,
+    },
+    {
+        Name         => 'öong filename short extension',
+        FilenameOrig => 'a' x 250 . '.test',
+        FilenameNew  => 'a' x 215 . '.test',
+    },
+    {
+        Name         => 'short filename long extension',
+        FilenameOrig => 'test.' . 'a' x 250,
+        FilenameNew  => 't.' . 'a' x 218,
+    },
+    {
+        Name         => 'long filename no extension - 2 bytes character',
+        FilenameOrig => 'ß' x 250,
+        FilenameNew  => 'ß' x 110,
+    },
+    {
+        Name         => 'long filename short extension - 2 bytes character',
+        FilenameOrig => 'ß' x 250 . '.test',
+        FilenameNew  => 'ß' x 107 . '.test',
+    },
+    {
+        Name         => ' Short filename long extension - 2 bytes character',
+        FilenameOrig => 'test.' . 'ß' x 250,
+        FilenameNew  => 't.' . 'ß' x 109,
+    },
+    {
+        Name         => 'filename ending with period',
+        FilenameOrig => 'abc.',
+        FilenameNew  => 'abc.',
+    },
+    {
+        Name                 => 'umlaut and eszett',
+        FilenameOrig         => 'me_to/a+lal Grüße 0.xml',
+        FilenameNew          => 'me_to_a+lal_Grüße_0.xml',
+        FilenameNewNoReplace => 'me_to/a+lal Grüße 0.xml',
+    },
+    {
+        Name         => 'leading dots',
+        FilenameOrig => '....test.xml',
+        FilenameNew  => 'test.xml',
+    },
+    {
+        Name                 => 'U+02460 - CIRCLED DIGIT ONE',
+        FilenameOrig         => 'circled_one_①.txt',
+        FilenameNew          => 'circled_one__.txt',
+        FilenameNewNoReplace => 'circled_one_①.txt',
+    },
+);
+
+for my $Test (@FilenameCleanUpLocalTests) {
+    subtest "FilenameCleanUp() - Local - $Test->{Name}" => sub {
+        my $Replace = $MainObject->FilenameCleanUp(
+            Filename => $Test->{FilenameOrig},
+            Type     => $Test->{Type},
+        );
+
+        is(
+            $Replace,
+            $Test->{FilenameNew},
+            'replace active'
+        );
+
+        my $NoReplace = $MainObject->FilenameCleanUp(
+            Filename  => $Test->{FilenameOrig},
+            Type      => $Test->{Type},
+            NoReplace => 'ß',
+        );
+
+        is(
+            $NoReplace,
+            $Test->{FilenameNewNoReplace} // $Test->{FilenameNew},
+            'replace inactive'
+        );
+    };
 }
 
 # md5sum tests
