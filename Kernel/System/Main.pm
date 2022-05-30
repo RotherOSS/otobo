@@ -234,11 +234,12 @@ sub FilenameCleanUp {
 
     if ( $Type eq 'md5' ) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Param{Filename} );
-        $Param{Filename} = md5_hex( $Param{Filename} );
+
+        return md5_hex( $Param{Filename} );
     }
 
     # replace invalid token for attachment file names
-    elsif ( $Type eq 'attachment' ) {
+    if ( $Type eq 'attachment' ) {
 
         # trim whitespace
         $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
@@ -292,52 +293,55 @@ sub FilenameCleanUp {
             }
             $Param{Filename} = $ModifiedName;
         }
+
+        return $Param{Filename};
     }
-    else {
 
-        # trim whitespace
-        $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
+    # 'Local' or fallback for missing or unknown types
 
-        # strip leading dots
-        $Param{Filename} =~ s/^\.+//;
+    # trim whitespace
+    $Param{Filename} =~ s/^\s+|\r|\n|\s+$//g;
 
-        # only whitelisted characters allowed in filename for security
-        if ( !$Param{NoReplace} ) {
-            $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
+    # strip leading dots
+    $Param{Filename} =~ s/^\.+//;
 
-            # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
-            $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
-        }
+    # only whitelisted characters allowed in filename for security
+    if ( !$Param{NoReplace} ) {
+        $Param{Filename} =~ s/[^\w\-+.#_]/_/g;
 
-        # separate filename and extension
-        my $FileName = $Param{Filename};
-        my $FileExt  = '';
-        if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
-            $FileName = $1;
-            $FileExt  = '.' . $2;
-        }
+        # Enclosed alphanumerics are kept on older Perl versions, make sure to replace them too.
+        # TODO: find out when the behavior has changed
+        $Param{Filename} =~ s/[\x{2460}-\x{24FF}]/_/g;
+    }
 
-        if ( length $FileName ) {
-            my $ModifiedName = $FileName . $FileExt;
+    # separate filename and extension
+    my $FileName = $Param{Filename};
+    my $FileExt  = '';
+    if ( $Param{Filename} =~ /(.*)\.+([^.]+)$/ ) {
+        $FileName = $1;
+        $FileExt  = '.' . $2;
+    }
 
-            while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
+    if ( length $FileName ) {
+        my $ModifiedName = $FileName . $FileExt;
 
-                # Remove character by character starting from the end of the filename string
-                #   until we get acceptable 220 byte long filename size including extension.
-                if ( length $FileName > 1 ) {
-                    chop $FileName;
-                }
+        while ( length encode( 'UTF-8', $ModifiedName ) > 220 ) {
 
-                # If we reached minimum filename length, remove characters from the end of the extension string.
-                else {
-                    chop $FileExt;
-                }
-
-                $ModifiedName = $FileName . $FileExt;
+            # Remove character by character starting from the end of the filename string
+            #   until we get acceptable 220 byte long filename size including extension.
+            if ( length $FileName > 1 ) {
+                chop $FileName;
             }
 
-            $Param{Filename} = $ModifiedName;
+            # If we reached minimum filename length, remove characters from the end of the extension string.
+            else {
+                chop $FileExt;
+            }
+
+            $ModifiedName = $FileName . $FileExt;
         }
+
+        $Param{Filename} = $ModifiedName;
     }
 
     return $Param{Filename};
