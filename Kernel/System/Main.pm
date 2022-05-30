@@ -192,7 +192,17 @@ sub Die {
 
 =head2 FilenameCleanUp()
 
-to clean up filenames which can be used in any case (also quoting is done)
+to clean up filenames for various use cases.
+
+The parameter C<NoFilenameClean> implements the no-op case and returns the unchanged parameter C<Filename>.
+
+    # returns 'some_file_name & shutdown'
+    my $Filename        = $MainObject->FilenameCleanUp(
+        Filename        => 'some_file_name & shutdown'
+        Type            => 'Local',
+        NoFilenameClean => 1,
+    );
+
 Possible types are 'Local', 'Attachment', 'MD5'. For unknown types 'Local' is assumed.
 
     # return 32 chars in the range 0..9 and a..f
