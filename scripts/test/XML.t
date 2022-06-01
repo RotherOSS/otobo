@@ -134,6 +134,59 @@ subtest 'XMLParse2XMLHash() with utf-8 encoded xml' => sub {
     );
 };
 
+subtest 'XMLParse2XMLHash() with mixed content' => sub {
+    my $String = <<'END_XML';
+<?xml version="1.0" encoding="utf-8" ?>
+<MixedContent>
+      text A
+      <Tag>Element 1</Tag>
+      text B
+      text C
+      <Tag count="2">Element 2</Tag>
+      <Tag>Element 3</Tag>
+      text D
+      <Tag>Element 4</Tag>
+      text E
+</MixedContent>
+END_XML
+
+    my @XMLHash         = $XMLObject->XMLParse2XMLHash( String => $String );
+    my @ExpectedXMLHash = (
+        undef,
+        {
+            'MixedContent' => [
+                undef,
+                {
+                    'Content' => '
+      text A
+      ',
+                    'Tag' => [
+                        undef,
+                        {
+                            'Content' => 'Element 1',
+                        },
+                        {
+                            'Content' => 'Element 2',
+                            count     => '2',
+                        },
+                        {
+                            'Content' => 'Element 3'
+                        },
+                        {
+                            'Content' => 'Element 4'
+                        }
+                    ]
+                }
+            ]
+        }
+    );
+
+    is(
+        \@XMLHash,
+        \@ExpectedXMLHash,
+        'mixed content is not handled'
+    );
+};
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
