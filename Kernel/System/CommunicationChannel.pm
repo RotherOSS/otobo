@@ -29,7 +29,6 @@ our @ObjectDependencies = (
     'Kernel::System::Log',
     'Kernel::System::Ticket::Article',
     'Kernel::System::Valid',
-    'Kernel::System::XML',
     'Kernel::System::YAML',
 );
 
