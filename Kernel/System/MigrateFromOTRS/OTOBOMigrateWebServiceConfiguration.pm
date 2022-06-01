@@ -39,7 +39,6 @@ our @ObjectDependencies = (
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Main',
     'Kernel::System::Package',
-    'Kernel::System::XML',
 );
 
 =head1 NAME

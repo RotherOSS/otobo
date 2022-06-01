@@ -27,6 +27,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 my $XXEFilename  = $ConfigObject->Get('Home') . '/var/tmp/XXE.t.txt';
 
 # Write XXE payload.
+# XXE stands for XML External Entitiy. Providing XML with external entities is a method of security attacks
 unlink $XXEFilename;
 my $FileCreated = $Kernel::OM->Get('Kernel::System::Main')->FileWrite(
     Location => $XXEFilename,
