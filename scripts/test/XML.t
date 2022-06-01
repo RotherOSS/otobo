@@ -14,14 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+use Data::Dumper;
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
 my $XMLObject      = $Kernel::OM->Get('Kernel::System::XML');
@@ -35,36 +42,38 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-# test XMLParse2XMLHash() with an iso-8859-1 encoded XML
-my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
+subtest 'XMLParse2XMLHash() with an iso-8859-1 encoded XML' => sub {
+
+    my $String = '<?xml version="1.0" encoding="iso-8859-1" ?>
     <Contact>
       <Name type="long">' . "\x{00FC}" . ' Some Test</Name>
     </Contact>
 ';
-my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-$Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact},
-    '#1 XMLParse2XMLHash()',
-);
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{type} || '',
-    'long',
-    '#1 XMLParse2XMLHash() (Contact->Name->type)',
-);
+    my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
+    $Self->True(
+        $#XMLHash == 1 && $XMLHash[1]->{Contact},
+        '#1 XMLParse2XMLHash()',
+    );
+    is(
+        $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{type} || '',
+        'long',
+        '#1 XMLParse2XMLHash() (Contact->Name->type)',
+    );
 
-# test charset specific situations
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
-    "ü Some Test",
-    '#1 XMLParse2XMLHash() (Contact->Name->Content)',
-);
-$Self->True(
-    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
-    '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
-);
+    # test charset specific situations
+    is(
+        $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
+        "ü Some Test",
+        '#1 XMLParse2XMLHash() (Contact->Name->Content)',
+    );
+    ok(
+        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
+        '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
+    );
+};
 
-# test XMLParse2XMLHash() with utf-8 encoded xml
-$String = '<?xml version="1.0" encoding="utf-8" ?>
+subtest 'XMLParse2XMLHash() with utf-8 encoded xml' => sub {
+    my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <GermanText>German Umlaute öäü ÄÜÖ ß</GermanText>
       <JapanText>Japan カスタ</JapanText>
@@ -73,56 +82,60 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
     </Contact>
 ';
 
-@XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-$Self->True(
-    $#XMLHash == 1 && $XMLHash[1]->{Contact},
-    '#2 XMLParse2XMLHash()',
-);
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{role} || '',
-    'admin',
-    '#2 XMLParse2XMLHash() (Contact->role)',
-);
+    my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 
-# test charset specific situations
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
-    'German Umlaute öäü ÄÜÖ ß',
-    '#2 XMLParse2XMLHash() (Contact->GermanText)',
-);
-$Self->True(
-    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-    '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
-);
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
-    'Japan カスタ',
-    '#2 XMLParse2XMLHash() (Contact->JapanText)',
-);
-$Self->True(
-    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
-    '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
-);
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
-    'Chinese 用迎使用',
-    '#2 XMLParse2XMLHash() (Contact->ChineseText)',
-);
-$Self->True(
-    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
-    '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
-);
-$Self->Is(
-    $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
-    'Bulgarian Език',
-    '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
-);
-$Self->True(
-    Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
-    '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
-);
+    #diag Dumper($String, \@XMLHash);
+    ok(
+        $#XMLHash == 1 && $XMLHash[1]->{Contact},
+        '#2 XMLParse2XMLHash()',
+    );
+    is(
+        $XMLHash[1]->{Contact}->[1]->{role} || '',
+        'admin',
+        '#2 XMLParse2XMLHash() (Contact->role)',
+    );
 
-$String = '<?xml version="1.0" encoding="utf-8" ?>
+    # test charset specific situations
+    is(
+        $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
+        'German Umlaute öäü ÄÜÖ ß',
+        '#2 XMLParse2XMLHash() (Contact->GermanText)',
+    );
+    ok(
+        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
+        '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+    );
+    is(
+        $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
+        'Japan カスタ',
+        '#2 XMLParse2XMLHash() (Contact->JapanText)',
+    );
+    ok(
+        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
+        '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
+    );
+    is(
+        $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
+        'Chinese 用迎使用',
+        '#2 XMLParse2XMLHash() (Contact->ChineseText)',
+    );
+    ok(
+        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
+        '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
+    );
+    is(
+        $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
+        'Bulgarian Език',
+        '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
+    );
+    ok(
+        Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
+        '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
+    );
+};
+
+
+my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
       <Email type="primary">info@exampe.com<Domain>1234.com</Domain></Email>
@@ -139,7 +152,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
     </Contact>
 ';
 
-@XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
+my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 $Self->True(
     $#XMLHash == 1 && $XMLHash[1]->{Contact},
     '#3 XMLParse2XMLHash()',
@@ -681,34 +694,35 @@ else {
 
 # test bug#[12761]
 # (https://bugs.otrs.org/show_bug.cgi?id=12761) - Cache values can be modified from the outside in function XMLParse().
-#
-$XML = '<Test Name="test123" />';
-my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
+{
+    my $XML      = '<Test Name="test123" />';
+    my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
 
-# make a copy of the XMLArray (deep clone it),
-# it will be needed for a later comparison
-my @XMLARRAYCopy = @{ $StorableObject->Clone( Data => \@XMLARRAY ) };
+    #diag Dumper($XML, \@XMLARRAY);
 
-# check that the copy is the same as the original
-$Self->IsDeeply(
-    \@XMLARRAY,
-    \@XMLARRAYCopy,
-    '@XMLARRAY equals @XMLARRAYCopy',
-);
+    # make a copy of the XMLArray (deep clone it),
+    # it will be needed for a later comparison
+    my @XMLARRAYCopy = $StorableObject->Clone( Data => \@XMLARRAY )->@*;
 
-# modify the original, this should not influence the cache of XMLParse()
-$XMLARRAY[0]->{Hello} = 'World';
+    # check that the copy is the same as the original
+    is(
+        \@XMLARRAY,
+        \@XMLARRAYCopy,
+        'Clone: @XMLARRAY equals @XMLARRAYCopy',
+    );
 
-# create a new xml array from the same xml string than the first
-my @XMLARRAY2 = $XMLObject->XMLParse( String => $XML );
+    # modify the original, this should not influence the cache of XMLParse()
+    $XMLARRAY[0]->{Hello} = 'World';
 
-# check that the new array is the same as the original copy
-$Self->IsDeeply(
-    \@XMLARRAY2,
-    \@XMLARRAYCopy,
-    '@XMLARRAY2 equals @XMLARRAYCopy',
-);
+    # create a new xml array from the same xml string than the first
+    my @XMLARRAY2 = $XMLObject->XMLParse( String => $XML );
 
-# cleanup is done by RestoreDatabase
+    # check that the new array is the same as the original copy
+    is(
+        \@XMLARRAY2,
+        \@XMLARRAYCopy,
+        '@XMLARRAY2 equals @XMLARRAYCopy',
+    );
+}
 
-$Self->DoneTesting();
+done_testing();
