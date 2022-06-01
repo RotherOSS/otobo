@@ -188,6 +188,16 @@ END_XML
     );
 };
 
+subtest 'XMLParse2XMLHash() with Tag "Content" ' => sub {
+    my $String = <<'END_XML';
+<?xml version="1.0" encoding="utf-8" ?>
+<Foo>the real content<Content>the imposter content</Content></Foo>
+END_XML
+    my $Exception = dies { $XMLObject->XMLParse2XMLHash( String => $String ) };
+    ok( $Exception, 'XML can\'t be parsed' );
+    like( $Exception, qr/Can't use string/, 'some mixup with the tag Content' );
+};
+
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
       <Name type="long">Example Inc.</Name>
