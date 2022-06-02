@@ -17,10 +17,16 @@
 package Kernel::System::XML;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Digest::MD5;
+
+# CPAN modules
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::System::Cache',
@@ -31,11 +37,49 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::XML - xml lib
+Kernel::System::XML - XML parsing and storing of Perl data structures in the database
 
 =head1 DESCRIPTION
 
-All xml related functions.
+There are two functionalities hidden in this module. One is parsing XML and getting a funny perl data structure.
+The other is the storage of Perl data structured in the database.
+
+Parsing has some shortcomings:
+
+=over 4
+
+=item The order of elements is not preserved.
+
+=item Names can clash.
+
+=item Plain content after the first sub element is lost
+
+=back
+
+=head2 The XML parse tree: XMLHash.
+
+Not an hash at all, but an array. An array element is either undef or a hash reference. The keys in the referenced hash
+are usually strings. The values are either a string or a array reference. undef in arrays are ignored when stored in the database.
+The convention is to have undef as the first element, so that the useful indexes start with 1.
+
+The result from C<XMLParse2XMLHash()> is a list of the value undef and and a hashref with a single key, which is the name of the
+root element. Here is how an an XML element is represented in a hashref.
+
+=over 4
+
+=item the name of the element is not is the hashref, it is the key where the hashref is stored
+
+=item element attributes stored as key value
+
+=item plain content before an sub element is stored under the key 'Content', can be an empty string
+
+=item plain content anywhere after the first sub element is discarded
+
+=item sub elements are collected by element name, the element name is the key, values are hash references
+
+=back
+
+C<XMLHash2D> introduces extra keys 'TagKey'.
 
 =head1 PUBLIC INTERFACE
 
@@ -696,6 +740,7 @@ sub XMLStructure2XMLHash {
             Priority => 'error',
             Message  => 'XMLStructure not defined!'
         );
+
         return;
     }
 
