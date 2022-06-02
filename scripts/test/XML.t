@@ -74,7 +74,8 @@ subtest 'XMLParse2XMLHash() simple example' => sub {
 END_XML
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-    diag Dumper( \@XMLHash );
+
+    #diag Dumper( \@XMLHash );
     my @ExpectedXMLHash = (
         undef,
         {
@@ -193,7 +194,8 @@ END_XML
 
     # the method XMLHash2D() changes the passed in XMLHash as a side effect
     my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
-    diag Dumper( \@XMLHash, \%ValueHash );
+
+    #diag Dumper( \@XMLHash, \%ValueHash );
 
     my @ExpectedChangedXMLHash = (
         undef,
@@ -553,6 +555,87 @@ END_XML
     ok( $Exception, 'XML can\'t be parsed' );
     like( $Exception, qr/Can't use string/, 'some mixup with the tag Content' );
 };
+
+# Serialize a more extravagant data structure
+{
+    my @FunnyXMLHash = (
+        'ignored',
+        ['ignored'],
+        {
+            key1 => 'val1',
+        },
+        {
+            key2 => 'val2',
+        },
+        undef,
+        undef,
+        {
+            ignored  => undef,
+            hashref  => { a => { b => { c => { d => undef } } } },                            # nested hashrefs are not handled well
+            arrayref => [ 'A', '', 1234, -2, [ ('B') x 5, 'C' x 4 ], { key3 => 'val3' } ],    # all ignored but the hashref
+            string   => 'DDDDDDDD',
+            number   => -123123_5,
+            empty    => '',
+            zero     => 0,
+        }
+    );
+
+    my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@FunnyXMLHash );
+    $Data::Dumper::Deepcopy = 1;
+    diag Dumper( \%ValueHash );
+    my %ExpectedValueHash = (
+        '[2]{\'TagKey\'}'                  => '[2]',
+        '[2]{\'key1\'}'                    => 'val1',
+        '[3]{\'TagKey\'}'                  => '[3]',
+        '[3]{\'key2\'}'                    => 'val2',
+        '[6]{\'TagKey\'}'                  => '[6]',
+        '[6]{\'arrayref\'}[1]{\'TagKey\'}' => '[6]{\'arrayref\'}[1]',
+        '[6]{\'arrayref\'}[1]{\'key3\'}'   => 'val3',
+        '[6]{\'empty\'}'                   => '',
+        '[6]{\'hashref\'}'                 => {
+            'TagKey' => '[6]{\'hashref\'}[1]',
+            'a'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+                'b'      => {
+                    'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+                    'c'      => {
+                        'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                        'd'      => undef
+                    }
+                }
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+            'b'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+                'c'      => {
+                    'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                    'd'      => undef
+                }
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+            'c'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                'd'      => undef
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+            'd'      => undef
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+        '[6]{\'number\'}'                                               => -1231235,
+        '[6]{\'string\'}'                                               => 'DDDDDDDD',
+        '[6]{\'zero\'}'                                                 => 0
+    );
+    is( \%ValueHash, \%ExpectedValueHash, 'funny data structure' );
+}
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
