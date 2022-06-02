@@ -192,7 +192,7 @@ END_XML
         'simple example'
     );
 
-    # the method XMLHash2D() changes the passed in XMLHash as a side effect
+    # the method MLHash2D() changes the passed in XMLHash as a side effect
     my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
 
     #diag Dumper( \@XMLHash, \%ValueHash );

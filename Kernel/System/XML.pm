@@ -81,6 +81,11 @@ root element. Here is how an an XML element is represented in a hashref.
 
 C<XMLHash2D> introduces extra keys 'TagKey'.
 
+=head2 Storing XMLHash in the database
+
+The to be stored data should conform to the structure described above.
+Arbitrary data structures are not handled.
+
 =head1 PUBLIC INTERFACE
 
 =head2 new()
