@@ -1041,10 +1041,9 @@ sub _ElementBuild {
 sub _XMLHash2D {
     my ( $Self, %Param ) = @_;
 
-    if ( !defined $Param{Item} ) {
-        return '';
-    }
-    elsif ( ref $Param{Item} eq 'HASH' ) {
+    return '' unless defined $Param{Item};
+
+    if ( ref $Param{Item} eq 'HASH' ) {
         $Self->{XMLLevel}++;
         $Self->{XMLTagCount}++;
         $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Param{Key};
