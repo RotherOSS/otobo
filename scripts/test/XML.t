@@ -408,25 +408,25 @@ subtest 'XMLParse2XMLHash() with an iso-8859-1 encoded XML' => sub {
     </Contact>
 ';
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-    $Self->True(
+    ok(
         $#XMLHash == 1 && $XMLHash[1]->{Contact},
-        '#1 XMLParse2XMLHash()',
+        'XMLParse2XMLHash()',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{type} || '',
         'long',
-        '#1 XMLParse2XMLHash() (Contact->Name->type)',
+        'Contact->Name->type',
     );
 
     # test charset specific situations
     is(
         $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
         "ü Some Test",
-        '#1 XMLParse2XMLHash() (Contact->Name->Content)',
+        'Contact->Name->Content',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
-        '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
+        'Contact->Name->type) Encode::is_utf8',
     );
 };
 
@@ -441,54 +441,52 @@ subtest 'XMLParse2XMLHash() with utf-8 encoded xml' => sub {
 ';
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-
-    #diag Dumper($String, \@XMLHash);
     ok(
         $#XMLHash == 1 && $XMLHash[1]->{Contact},
-        '#2 XMLParse2XMLHash()',
+        'XMLParse2XMLHash()',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{role} || '',
         'admin',
-        '#2 XMLParse2XMLHash() (Contact->role)',
+        'Contact->role',
     );
 
     # test charset specific situations
     is(
         $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
         'German Umlaute öäü ÄÜÖ ß',
-        '#2 XMLParse2XMLHash() (Contact->GermanText)',
+        'Contact->GermanText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+        'Contact->GermanText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
         'Japan カスタ',
-        '#2 XMLParse2XMLHash() (Contact->JapanText)',
+        'Contact->JapanText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
+        'Contact->JapanText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
         'Chinese 用迎使用',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText)',
+        'Contact->ChineseText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
+        'Contact->ChineseText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
         'Bulgarian Език',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
+        'Contact->BulgarianText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
+        'Contact->BulgarianText Encode::is_utf8',
     );
 };
 
@@ -1227,4 +1225,4 @@ else {
     );
 }
 
-done_testing();
+done_testing;
