@@ -173,6 +173,7 @@ sub XMLHashAdd {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -182,17 +183,16 @@ sub XMLHashAdd {
             Priority => 'error',
             Message  => 'Need Key or KeyAutoIncrement param!',
         );
+
         return;
     }
 
     my %ValueHASH = $Self->XMLHash2D( XMLHash => $Param{XMLHash} );
     if (%ValueHASH) {
-        if ( !$Param{Key} ) {
-            $Param{Key} = $Self->_XMLHashAddAutoIncrement(%Param);
-        }
-        if ( !$Param{Key} ) {
-            return;
-        }
+        $Param{Key} ||= $Self->_XMLHashAddAutoIncrement(%Param);
+
+        return unless $Param{Key};
+
         $Self->XMLHashDelete(%Param);
 
         # get database object
@@ -216,6 +216,7 @@ sub XMLHashAdd {
             NewType => $Param{Type},
             NewKey  => $Param{Key},
         );
+
         return $Param{Key};
     }
 
@@ -251,6 +252,7 @@ sub XMLHashUpdate {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -288,6 +290,7 @@ sub XMLHashGet {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -307,6 +310,7 @@ sub XMLHashGet {
             # Don't store complex structure in memory as it will be modified later.
             CacheInMemory => 0,
         );
+
         return @{$Cache} if $Cache;
     }
 
@@ -371,6 +375,7 @@ sub XMLHashDelete {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -415,6 +420,7 @@ sub XMLHashMove {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -487,6 +493,7 @@ sub XMLHashSearch {
             Priority => 'error',
             Message  => 'Need Type!'
         );
+
         return;
     }
 
@@ -589,6 +596,7 @@ sub XMLHashList {
             Priority => 'error',
             Message  => 'Need Type!'
         );
+
         return;
     }
 
@@ -710,11 +718,12 @@ sub XMLParse2XMLHash {
     my ( $Self, %Param ) = @_;
 
     my @XMLStructure = $Self->XMLParse(%Param);
+
     return () if !@XMLStructure;
 
     my @XMLHash = ( undef, $Self->XMLStructure2XMLHash( XMLStructure => \@XMLStructure ) );
-    return @XMLHash;
 
+    return @XMLHash;
 }
 
 =head2 XMLHash2D()
@@ -739,6 +748,7 @@ sub XMLHash2D {
             Priority => 'error',
             Message  => 'XMLHash not defined!',
         );
+
         return;
     }
 
@@ -828,6 +838,7 @@ sub XMLParse {
             Priority => 'error',
             Message  => 'String not defined!'
         );
+
         return;
     }
 
