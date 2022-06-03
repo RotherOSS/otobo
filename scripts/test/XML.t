@@ -494,15 +494,15 @@ subtest 'XMLParse2XMLHash() with mixed content' => sub {
     my $String = <<'END_XML';
 <?xml version="1.0" encoding="utf-8" ?>
 <MixedContent>
-      text A
+      text A (not discarded)
       <Tag>Element 1</Tag>
-      text B
-      text C
+      text B (discarded)
+      text C (discarded)
       <Tag count="2">Element 2</Tag>
       <Tag>Element 3</Tag>
-      text D
+      text D (discarded)
       <Tag>Element 4</Tag>
-      text E
+      text E (discarded)
 </MixedContent>
 END_XML
 
@@ -514,7 +514,7 @@ END_XML
                 undef,
                 {
                     'Content' => '
-      text A
+      text A (not discarded)
       ',
                     'Tag' => [
                         undef,
@@ -554,7 +554,10 @@ END_XML
     like( $Exception, qr/Can't use string/, 'some mixup with the tag Content' );
 };
 
-# Serialize a more extravagant data structure
+# Serialize a more extravagant data structure.
+# Note that not all elements end up in the result. And that
+# some values are not strings but hashrefs.
+# This behavior is more or less fine, as these cases are not supported.
 {
     my @FunnyXMLHash = (
         'ignored',
@@ -569,8 +572,8 @@ END_XML
         undef,
         {
             ignored  => undef,
-            hashref  => { a => { b => { c => { d => undef } } } },                            # nested hashrefs are not handled well
-            arrayref => [ 'A', '', 1234, -2, [ ('B') x 5, 'C' x 4 ], { key3 => 'val3' } ],    # all ignored but the hashref
+            hashref  => { a => { b => { c => { d => undef } } } },                                   # nested hashrefs are not handled well
+            arrayref => [ 'A', undef, '', 1234, -2, [ ('B') x 5, 'C' x 4 ], { key3 => 'val3' } ],    # all ignored but the hashref
             string   => 'DDDDDDDD',
             number   => -123123_5,
             empty    => '',
@@ -578,9 +581,9 @@ END_XML
         }
     );
 
-    my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@FunnyXMLHash );
-    $Data::Dumper::Deepcopy = 1;
-    diag Dumper( \%ValueHash );
+    # Note that some content is discarded and some values are hashrefs,
+    # which can't be inserted into the database.
+    my %ValueHash         = $XMLObject->XMLHash2D( XMLHash => \@FunnyXMLHash );
     my %ExpectedValueHash = (
         '[2]{\'TagKey\'}'                  => '[2]',
         '[2]{\'key1\'}'                    => 'val1',
