@@ -37,54 +37,93 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::XML - XML parsing and storing of Perl data structures in the database
+Kernel::System::XML - parse XML, manage Perl data structures in the database
 
 =head1 DESCRIPTION
 
-There are two functionalities hidden in this module. One is parsing XML and getting a funny perl data structure.
-The other is the storage of Perl data structured in the database.
+This module combines two functionalities. The first functionality is parsing XML.
+The content of the parsed XML is made available as a specific Perl data structure that
+is referred to as B<XMLHash>.
+The other functionality is the storage of the I<XMLHash> in the database. The stored I<XMLHash>
+does not necessarily have to be resulted from parsing XML.
 
-Parsing has some shortcomings:
+=head1 TECHNICAL DETAILS
+
+Internally this module uses <XML::Parser> or <XML::Parser::Lite>,
+both of which are based on the parser B<expat>.
+
+=head2 LIMITATIONS
+
+Parsing XML with L<Kernel::System::XML> has some shortcomings:
 
 =over 4
 
-=item The order of elements is not preserved.
+=item The order of sub elements is not preserved
 
-=item Names can clash.
+More precisely, the order of elements of the same name is preserved. But the information which element
+follows which is lost.
+
+=item Names can clash
+
+XML attributes should not have the same name as an sub element.
+Neither attributes nor elements should be named I<TagKey> or I<Content> as these names
+are used internally in the I<XMLHash>.
 
 =item Plain content after the first sub element is lost
 
+Apparently the assumption is that in most cases there is either plain content or sub elements.
+When the two are mixed then only the plain content before the first sub element is preserved.
+
 =back
 
-=head2 The XML parse tree: XMLHash.
+=head2 Mapping of XML to XMLHash
 
-Not an hash at all, but an array. An array element is either undef or a hash reference. The keys in the referenced hash
-are usually strings. The values are either a string or a array reference. undef in arrays are ignored when stored in the database.
-The convention is to have undef as the first element, so that the useful indexes start with 1.
+An I<XMLHash> is not a Perl hash. Instead it is an array of hashrefs where a hashref represents
+an XML element. Array elements can also have the value I<undef>. Often there is an I<undef>
+in the first position of an array, so that the interesting data can start at index B<1>.
+The keys in the hashref are strings. The values are either a string or a arrayref.
 
-The result from C<XMLParse2XMLHash()> is a list of the value undef and and a hashref with a single key, which is the name of the
-root element. Here is how an an XML element is represented in a hashref.
+The result from C<XMLParse2XMLHash()> is a arrayref containing the value I<undef>
+and a hashref with a single key. That key is the name of the root element.
+The value is the content of the entire XML document.
+
+Here is how an an XML element is represented in the hashref.
 
 =over 4
 
-=item the name of the element is not is the hashref, it is the key where the hashref is stored
+=item name of the element
 
-=item element attributes stored as key value
+The name is not part of the hashref. Instead it is the key that refers to the hashref.
 
-=item plain content before an sub element is stored under the key 'Content', can be an empty string
+=item XML attributes
 
-=item plain content anywhere after the first sub element is discarded
+Attributes are stored as key value pairs. The value is a string.
 
-=item sub elements are collected by element name, the element name is the key, values are hash references
+=item plain content before the first sub element
+
+The string value is stored under the special key I<Content>. The special key I<Content>
+is always present, but the value can be the empty string.
+
+=item plain content anywhere after the first sub element
+
+This content is discarded.
+
+=item sub elements
+
+Sub elements are collected by element name. The element name is the key. The value is an arrayref.
+The arrayref contains a leading I<undef> followed by hashrefs which represent the sub elements
+with that name. That the value is an arrayref distinguishes sub elements from
+attributes and plain content.
+
+The method C<XMLHash2D> introduces extra keys I<TagKey>. The I<TagKey> is the materialized path
+to that hash reference.
 
 =back
-
-C<XMLHash2D> introduces extra keys 'TagKey'.
 
 =head2 Storing XMLHash in the database
 
 The to be stored data should conform to the structure described above.
-Arbitrary data structures are not handled.
+Arbitrary data structures are not handled. Most notable, hashrefs are not valid values of a hashref.
 
 =head1 PUBLIC INTERFACE
 
