@@ -544,7 +544,7 @@ my $OTOBOApp = builder {
     # conditionally enable profiling
     enable $NYTProfMiddleware;
 
-    # Check ever 10s for changed Perl modules.
+    # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
     enable_if { !$ENV{OTOBO_SYNC_WITH_S3} } $ModuleRefreshMiddleware;
