@@ -33,7 +33,7 @@ our $Self;
 my $StorableObject = $Kernel::OM->Get('Kernel::System::Storable');
 my $XMLObject      = $Kernel::OM->Get('Kernel::System::XML');
 
-# get helper object
+# get helper object so that the table xml_storage is restored after this script
 $Kernel::OM->ObjectParamAdd(
     'Kernel::System::UnitTest::Helper' => {
         RestoreDatabase  => 1,
@@ -41,6 +41,364 @@ $Kernel::OM->ObjectParamAdd(
     },
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
+
+# First a simple example that shows that mapping of XML to a Perl data structure
+subtest 'XMLParse2XMLHash() simple example' => sub {
+    my $String = <<'END_XML';
+<?xml version="1.0" encoding="utf-8" ?>
+<Root desc="Root element">
+    Root content
+    <Level1a desc="Level1a first element"/>
+    more root content which is discarded
+    <Level1a desc="Level1a second element"/>
+    <Level1a desc="Level1a third element with content">Level1a third element content</Level1a>
+    <Level1a desc="Level1a fourth element with sublevel">
+        <Level2a desc="Level2a first element"/>
+        <Level2b desc="Level2b first element"/>
+        <Level2b desc="Level2b second element"/>
+    </Level1a>
+    <Level1a desc="Level1a fifth element with content sublevel">
+        sublevels follow
+        <Level2c desc="Level2c first element"/>
+        <Level2c desc="Level2c second element"/>
+        <Level2c desc="Level2c third element">
+            <Level3a desc='a little bit deeper'/>
+        </Level2c>
+        <Level2c/>
+    </Level1a>
+    <Level1b desc="also on first level, but a different name"/>
+    <Level1c attr1="first attribute" attr2="second attribute"/>
+    <Level1d/>
+    <Level1a desc="Level1a after Level1d"/>
+</Root>
+END_XML
+
+    my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
+
+    #diag Dumper( \@XMLHash );
+    my @ExpectedXMLHash = (
+        undef,
+        {
+            'Root' => [
+                undef,
+                {
+                    'Content' => '
+    Root content
+    ',
+                    'Level1a' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'desc'    => 'Level1a first element'
+                        },
+                        {
+                            'Content' => '',
+                            'desc'    => 'Level1a second element'
+                        },
+                        {
+                            'Content' => 'Level1a third element content',
+                            'desc'    => 'Level1a third element with content'
+                        },
+                        {
+                            'Content' => '
+        ',
+                            'Level2a' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'desc'    => 'Level2a first element'
+                                }
+                            ],
+                            'Level2b' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'desc'    => 'Level2b first element'
+                                },
+                                {
+                                    'Content' => '',
+                                    'desc'    => 'Level2b second element'
+                                }
+                            ],
+                            'desc' => 'Level1a fourth element with sublevel'
+                        },
+                        {
+                            'Content' => '
+        sublevels follow
+        ',
+                            'Level2c' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'desc'    => 'Level2c first element'
+                                },
+                                {
+                                    'Content' => '',
+                                    'desc'    => 'Level2c second element'
+                                },
+                                {
+                                    'Content' => '
+            ',
+                                    'Level3a' => [
+                                        undef,
+                                        {
+                                            'Content' => '',
+                                            'desc'    => 'a little bit deeper'
+                                        }
+                                    ],
+                                    'desc' => 'Level2c third element'
+                                },
+                                {
+                                    'Content' => ''
+                                }
+                            ],
+                            'desc' => 'Level1a fifth element with content sublevel'
+                        },
+                        {
+                            'Content' => '',
+                            'desc'    => 'Level1a after Level1d'
+                        }
+                    ],
+                    'Level1b' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'desc'    => 'also on first level, but a different name'
+                        }
+                    ],
+                    'Level1c' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'attr1'   => 'first attribute',
+                            'attr2'   => 'second attribute'
+                        }
+                    ],
+                    'Level1d' => [
+                        undef,
+                        {
+                            'Content' => ''
+                        }
+                    ],
+                    'desc' => 'Root element'
+                }
+            ]
+        }
+    );
+
+    is(
+        \@XMLHash,
+        \@ExpectedXMLHash,
+        'simple example'
+    );
+
+    # the method MLHash2D() changes the passed in XMLHash as a side effect
+    my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
+
+    #diag Dumper( \@XMLHash, \%ValueHash );
+
+    my @ExpectedChangedXMLHash = (
+        undef,
+        {
+            'Root' => [
+                undef,
+                {
+                    'Content' => '
+    Root content
+    ',
+                    'Level1a' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[1]',
+                            'desc'    => 'Level1a first element'
+                        },
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[2]',
+                            'desc'    => 'Level1a second element'
+                        },
+                        {
+                            'Content' => 'Level1a third element content',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[3]',
+                            'desc'    => 'Level1a third element with content'
+                        },
+                        {
+                            'Content' => '
+        ',
+                            'Level2a' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2a\'}[1]',
+                                    'desc'    => 'Level2a first element'
+                                }
+                            ],
+                            'Level2b' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[1]',
+                                    'desc'    => 'Level2b first element'
+                                },
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[2]',
+                                    'desc'    => 'Level2b second element'
+                                }
+                            ],
+                            'TagKey' => '[1]{\'Root\'}[1]{\'Level1a\'}[4]',
+                            'desc'   => 'Level1a fourth element with sublevel'
+                        },
+                        {
+                            'Content' => '
+        sublevels follow
+        ',
+                            'Level2c' => [
+                                undef,
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[1]',
+                                    'desc'    => 'Level2c first element'
+                                },
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[2]',
+                                    'desc'    => 'Level2c second element'
+                                },
+                                {
+                                    'Content' => '
+            ',
+                                    'Level3a' => [
+                                        undef,
+                                        {
+                                            'Content' => '',
+                                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Level3a\'}[1]',
+                                            'desc'    => 'a little bit deeper'
+                                        }
+                                    ],
+                                    'TagKey' => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]',
+                                    'desc'   => 'Level2c third element'
+                                },
+                                {
+                                    'Content' => '',
+                                    'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[4]'
+                                }
+                            ],
+                            'TagKey' => '[1]{\'Root\'}[1]{\'Level1a\'}[5]',
+                            'desc'   => 'Level1a fifth element with content sublevel'
+                        },
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1a\'}[6]',
+                            'desc'    => 'Level1a after Level1d'
+                        }
+                    ],
+                    'Level1b' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1b\'}[1]',
+                            'desc'    => 'also on first level, but a different name'
+                        }
+                    ],
+                    'Level1c' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1c\'}[1]',
+                            'attr1'   => 'first attribute',
+                            'attr2'   => 'second attribute'
+                        }
+                    ],
+                    'Level1d' => [
+                        undef,
+                        {
+                            'Content' => '',
+                            'TagKey'  => '[1]{\'Root\'}[1]{\'Level1d\'}[1]'
+                        }
+                    ],
+                    'TagKey' => '[1]{\'Root\'}[1]',
+                    'desc'   => 'Root element'
+                }
+            ],
+            'TagKey' => '[1]'
+        }
+    );
+    is(
+        \@XMLHash,
+        \@ExpectedChangedXMLHash,
+        'XMLHash changed by XMLHash2D()'
+    );
+
+    my %ExpectedValueHash = (
+        '[1]{\'Root\'}[1]{\'Content\'}' => '
+    Root content
+    ',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[1]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[1]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[1]{\'desc\'}'    => 'Level1a first element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[2]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[2]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[2]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[2]{\'desc\'}'    => 'Level1a second element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[3]{\'Content\'}' => 'Level1a third element content',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[3]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[3]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[3]{\'desc\'}'    => 'Level1a third element with content',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Content\'}' => '
+        ',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2a\'}[1]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2a\'}[1]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2a\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2a\'}[1]{\'desc\'}'    => 'Level2a first element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[1]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[1]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[1]{\'desc\'}'    => 'Level2b first element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[2]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[2]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[2]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'Level2b\'}[2]{\'desc\'}'    => 'Level2b second element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'TagKey\'}'                  => '[1]{\'Root\'}[1]{\'Level1a\'}[4]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[4]{\'desc\'}'                    => 'Level1a fourth element with sublevel',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Content\'}'                 => '
+        sublevels follow
+        ',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[1]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[1]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[1]{\'desc\'}'    => 'Level2c first element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[2]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[2]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[2]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[2]{\'desc\'}'    => 'Level2c second element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Content\'}' => '
+            ',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Level3a\'}[1]{\'Content\'}' => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Level3a\'}[1]{\'TagKey\'}'  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Level3a\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'Level3a\'}[1]{\'desc\'}'    => 'a little bit deeper',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'TagKey\'}'                  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[3]{\'desc\'}'                    => 'Level2c third element',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[4]{\'Content\'}'                 => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[4]{\'TagKey\'}'                  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'Level2c\'}[4]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'TagKey\'}'                                  => '[1]{\'Root\'}[1]{\'Level1a\'}[5]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[5]{\'desc\'}'                                    => 'Level1a fifth element with content sublevel',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[6]{\'Content\'}'                                 => '',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[6]{\'TagKey\'}'                                  => '[1]{\'Root\'}[1]{\'Level1a\'}[6]',
+        '[1]{\'Root\'}[1]{\'Level1a\'}[6]{\'desc\'}'                                    => 'Level1a after Level1d',
+        '[1]{\'Root\'}[1]{\'Level1b\'}[1]{\'Content\'}'                                 => '',
+        '[1]{\'Root\'}[1]{\'Level1b\'}[1]{\'TagKey\'}'                                  => '[1]{\'Root\'}[1]{\'Level1b\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1b\'}[1]{\'desc\'}'                                    => 'also on first level, but a different name',
+        '[1]{\'Root\'}[1]{\'Level1c\'}[1]{\'Content\'}'                                 => '',
+        '[1]{\'Root\'}[1]{\'Level1c\'}[1]{\'TagKey\'}'                                  => '[1]{\'Root\'}[1]{\'Level1c\'}[1]',
+        '[1]{\'Root\'}[1]{\'Level1c\'}[1]{\'attr1\'}'                                   => 'first attribute',
+        '[1]{\'Root\'}[1]{\'Level1c\'}[1]{\'attr2\'}'                                   => 'second attribute',
+        '[1]{\'Root\'}[1]{\'Level1d\'}[1]{\'Content\'}'                                 => '',
+        '[1]{\'Root\'}[1]{\'Level1d\'}[1]{\'TagKey\'}'                                  => '[1]{\'Root\'}[1]{\'Level1d\'}[1]',
+        '[1]{\'Root\'}[1]{\'TagKey\'}'                                                  => '[1]{\'Root\'}[1]',
+        '[1]{\'Root\'}[1]{\'desc\'}'                                                    => 'Root element',
+        '[1]{\'TagKey\'}'                                                               => '[1]'
+    );
+    is(
+        \%ValueHash,
+        \%ExpectedValueHash,
+        'ValueHash created by XMLHash2D()'
+    );
+};
 
 subtest 'XMLParse2XMLHash() with an iso-8859-1 encoded XML' => sub {
 
@@ -50,25 +408,25 @@ subtest 'XMLParse2XMLHash() with an iso-8859-1 encoded XML' => sub {
     </Contact>
 ';
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-    $Self->True(
+    ok(
         $#XMLHash == 1 && $XMLHash[1]->{Contact},
-        '#1 XMLParse2XMLHash()',
+        'XMLParse2XMLHash()',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{type} || '',
         'long',
-        '#1 XMLParse2XMLHash() (Contact->Name->type)',
+        'Contact->Name->type',
     );
 
     # test charset specific situations
     is(
         $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} || '',
         "ü Some Test",
-        '#1 XMLParse2XMLHash() (Contact->Name->Content)',
+        'Contact->Name->Content',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{Name}->[1]->{Content} ) || '',
-        '#1 XMLParse2XMLHash() (Contact->Name->type) Encode::is_utf8',
+        'Contact->Name->type) Encode::is_utf8',
     );
 };
 
@@ -83,54 +441,52 @@ subtest 'XMLParse2XMLHash() with utf-8 encoded xml' => sub {
 ';
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
-
-    #diag Dumper($String, \@XMLHash);
     ok(
         $#XMLHash == 1 && $XMLHash[1]->{Contact},
-        '#2 XMLParse2XMLHash()',
+        'XMLParse2XMLHash()',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{role} || '',
         'admin',
-        '#2 XMLParse2XMLHash() (Contact->role)',
+        'Contact->role',
     );
 
     # test charset specific situations
     is(
         $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} || '',
         'German Umlaute öäü ÄÜÖ ß',
-        '#2 XMLParse2XMLHash() (Contact->GermanText)',
+        'Contact->GermanText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{GermanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->GermanText) Encode::is_utf8',
+        'Contact->GermanText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} || '',
         'Japan カスタ',
-        '#2 XMLParse2XMLHash() (Contact->JapanText)',
+        'Contact->JapanText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{JapanText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->JapanText) Encode::is_utf8',
+        'Contact->JapanText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} || '',
         'Chinese 用迎使用',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText)',
+        'Contact->ChineseText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{ChineseText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->ChineseText) Encode::is_utf8',
+        'Contact->ChineseText Encode::is_utf8',
     );
     is(
         $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} || '',
         'Bulgarian Език',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText)',
+        'Contact->BulgarianText',
     );
     ok(
         Encode::is_utf8( $XMLHash[1]->{Contact}->[1]->{BulgarianText}->[1]->{Content} ) || '',
-        '#2 XMLParse2XMLHash() (Contact->BulgarianText) Encode::is_utf8',
+        'Contact->BulgarianText Encode::is_utf8',
     );
 };
 
@@ -138,15 +494,15 @@ subtest 'XMLParse2XMLHash() with mixed content' => sub {
     my $String = <<'END_XML';
 <?xml version="1.0" encoding="utf-8" ?>
 <MixedContent>
-      text A
+      text A (not discarded)
       <Tag>Element 1</Tag>
-      text B
-      text C
+      text B (discarded)
+      text C (discarded)
       <Tag count="2">Element 2</Tag>
       <Tag>Element 3</Tag>
-      text D
+      text D (discarded)
       <Tag>Element 4</Tag>
-      text E
+      text E (discarded)
 </MixedContent>
 END_XML
 
@@ -158,7 +514,7 @@ END_XML
                 undef,
                 {
                     'Content' => '
-      text A
+      text A (not discarded)
       ',
                     'Tag' => [
                         undef,
@@ -197,6 +553,90 @@ END_XML
     ok( $Exception, 'XML can\'t be parsed' );
     like( $Exception, qr/Can't use string/, 'some mixup with the tag Content' );
 };
+
+# Serialize a more extravagant data structure.
+# Note that not all elements end up in the result. And that
+# some values are not strings but hashrefs.
+# This behavior is more or less fine, as these cases are not supported.
+{
+    my @FunnyXMLHash = (
+        'ignored',
+        ['ignored'],
+        {
+            key1 => 'val1',
+        },
+        {
+            key2 => 'val2',
+        },
+        undef,
+        undef,
+        {
+            ignored  => undef,
+            hashref  => { a => { b => { c => { d => undef } } } },                                   # nested hashrefs are not handled well
+            arrayref => [ 'A', undef, '', 1234, -2, [ ('B') x 5, 'C' x 4 ], { key3 => 'val3' } ],    # all ignored but the hashref
+            string   => 'DDDDDDDD',
+            number   => -123123_5,
+            empty    => '',
+            zero     => 0,
+        }
+    );
+
+    # Note that some content is discarded and some values are hashrefs,
+    # which can't be inserted into the database.
+    my %ValueHash         = $XMLObject->XMLHash2D( XMLHash => \@FunnyXMLHash );
+    my %ExpectedValueHash = (
+        '[2]{\'TagKey\'}'                  => '[2]',
+        '[2]{\'key1\'}'                    => 'val1',
+        '[3]{\'TagKey\'}'                  => '[3]',
+        '[3]{\'key2\'}'                    => 'val2',
+        '[6]{\'TagKey\'}'                  => '[6]',
+        '[6]{\'arrayref\'}[1]{\'TagKey\'}' => '[6]{\'arrayref\'}[1]',
+        '[6]{\'arrayref\'}[1]{\'key3\'}'   => 'val3',
+        '[6]{\'empty\'}'                   => '',
+        '[6]{\'hashref\'}'                 => {
+            'TagKey' => '[6]{\'hashref\'}[1]',
+            'a'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+                'b'      => {
+                    'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+                    'c'      => {
+                        'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                        'd'      => undef
+                    }
+                }
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+            'b'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+                'c'      => {
+                    'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                    'd'      => undef
+                }
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+            'c'      => {
+                'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+                'd'      => undef
+            }
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]',
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}'      => {
+            'TagKey' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+            'd'      => undef
+        },
+        '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]{\'TagKey\'}' => '[6]{\'hashref\'}[1]{\'a\'}[1]{\'b\'}[1]{\'c\'}[1]',
+        '[6]{\'number\'}'                                               => -1231235,
+        '[6]{\'string\'}'                                               => 'DDDDDDDD',
+        '[6]{\'zero\'}'                                                 => 0
+    );
+    is( \%ValueHash, \%ExpectedValueHash, 'funny data structure' );
+}
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
     <Contact role="admin" type="organization">
@@ -788,4 +1228,4 @@ else {
     );
 }
 
-done_testing();
+done_testing;
