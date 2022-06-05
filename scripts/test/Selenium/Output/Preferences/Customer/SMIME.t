@@ -14,20 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+# core modules
 use File::Path qw(mkpath rmtree);
 
-# get selenium object
+# CPAN modules
+use Test2::V0;
+
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
+# get selenium object
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -87,7 +89,7 @@ $Selenium->RunTest(
         $Selenium->find_element( "#UserSMIMEKeyUpdate", 'css' )->VerifiedClick();
 
         # check for update SMIME certificate preference on screen
-        $Self->True(
+        ok(
             index( $Selenium->get_page_source(), 'Certificate uploaded' ) > -1,
             'Customer preference SMIME certificate - updated'
         ) || die "Could not upload certificate";
@@ -95,12 +97,9 @@ $Selenium->RunTest(
         # delete needed test directories
         for my $Directory ( $CertPath, $PrivatePath ) {
             my $Success = rmtree( [$Directory] );
-            $Self->True(
-                $Success,
-                "Directory deleted - '$Directory'",
-            );
+            ok( $Success, "Directory deleted - '$Directory'" );
         }
     }
 );
 
-$Self->DoneTesting();
+done_testing;
