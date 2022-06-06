@@ -4,12 +4,12 @@
 # See also bin/docker/build_docker_images.sh
 # See also https://doc.otobo.org/manual/installation/10.1/en/content/installation-docker.html
 
-# Use the latest maintainance release of the Perl 5.34.x series.
-# Perl 5.34.1 was released 2022-03-13.
+# Use the latest maintainance release of the Perl 5.36.x series.
+# Perl 5.36.0 was released 2022-05-27.
 # This Dockerfile accepts the default Debian version of the official Perl image. As of 2022-03-23 this
 # Debian 11 (Bullseye).
 # The Perl module installer 'cpanm' is already installed.
-FROM perl:5.34
+FROM perl:5.36
 
 # First there is some initial setup that needs to be done by root.
 USER root
