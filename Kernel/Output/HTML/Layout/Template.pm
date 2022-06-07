@@ -16,9 +16,9 @@
 
 package Kernel::Output::HTML::Layout::Template;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.20;
 
 # core modules
 use Scalar::Util qw();
