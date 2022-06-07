@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -48,7 +49,7 @@ sub CheckSettingValue {
     my %Param = @_;
 
     my %Result = $SysConfigDBObject->DefaultSettingLookup(
-        Name => "Test1",
+        Name => 'Test1',
     );
 
     my %Setting;
@@ -111,7 +112,7 @@ EOF
 
     CheckSettingValue(
         Value   => 'Test setting 1',
-        Message => "DefaultSettingAdd()",
+        Message => 'DefaultSettingAdd()',
     );
 
     # Modify Setting value
@@ -123,10 +124,11 @@ EOF
         UserID    => 1,
     );
 
+    my $NewValue = 'Updated setting 1';
     $SysConfigObject->SettingUpdate(
         Name                   => 'Test1',
         IsValid                => 1,
-        EffectiveValue         => 'Updated setting 1',
+        EffectiveValue         => $NewValue,
         UserModificationActive => 0,
         ExclusiveLockGUID      => $ExclusiveLockGUID,
         UserID                 => 1,
@@ -134,8 +136,8 @@ EOF
     );
 
     CheckSettingValue(
-        Value   => 'Updated setting 1',
-        Message => "SettingUpdate() Value",
+        Value   => $NewValue,
+        Message => 'SettingUpdate() Value',
     );
 
     return;
@@ -202,12 +204,15 @@ my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
 # Cleanup the system.
 for my $PackageName (qw(TestPackage1 TestPackage2)) {
     if ( $PackageObject->PackageIsInstalled( Name => $PackageName ) ) {
-        my $PackageRemove = $PackageObject->PackageUninstall(
+        my $PackageRemoveSuccess = $PackageObject->PackageUninstall(
             Name    => $PackageName,
             Version => '0.0.1',
         );
 
-        ok( $PackageRemove, "PackageUninstall() $PackageName" );
+        ok( $PackageRemoveSuccess, "PackageUninstall() $PackageName" );
+    }
+    else {
+        pass("Package $PackageName is initially not installed");
     }
 }
 
@@ -411,4 +416,4 @@ continue {
     }
 }
 
-done_testing();
+done_testing;
