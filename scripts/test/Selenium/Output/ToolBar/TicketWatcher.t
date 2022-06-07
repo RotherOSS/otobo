@@ -45,8 +45,6 @@ $Selenium->RunTest(
         my $RandomID = $Helper->GetRandomID();
         my @Groups;
         my @Queues;
-        my @Users;
-        my @Tickets;
         for my $Item ( 1 .. 2 ) {
 
             # Create test group.

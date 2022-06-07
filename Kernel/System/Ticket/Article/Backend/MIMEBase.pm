@@ -623,7 +623,6 @@ sub ArticleCreate {
     }
 
     # remember agent to exclude notifications / already sent
-    my %DoNotSendMute;
     if (
         $Param{ExcludeMuteNotificationToUserID}
         && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY'

@@ -181,7 +181,6 @@ $Selenium->RunTest(
 
         # check breadcrumb on Add job screen
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText ( 'Generic Agent Job Management', 'Add Job' ) {
             $Self->Is(
                 $Selenium->execute_script("return \$('.BreadCrumb li:eq($Count)').text().trim()"),

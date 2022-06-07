@@ -48,8 +48,6 @@ sub Run {
 
         my $ConfigValue = $ConfigObject->Get($Setting);
 
-        my $Message;
-
         $Self->AddResultInformation(
             Identifier => $Setting,
             Label      => $Setting,

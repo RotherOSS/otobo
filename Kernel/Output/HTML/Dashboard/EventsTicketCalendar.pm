@@ -135,8 +135,6 @@ sub Run {
         );
     }
 
-    my @EventsDisplayed;
-
     my $Counter = 1;
     my $Limit   = scalar keys %Tickets;
 

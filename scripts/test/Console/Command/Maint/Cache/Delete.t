@@ -26,8 +26,6 @@ use vars (qw($Self));
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Cache::Delete');
 
-my ( $Result, $ExitCode );
-
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # create cache object and disable inmemory caching to force
@@ -53,7 +51,7 @@ $Self->Is(
 );
 
 # delete all cache files
-$ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 $Self->Is(
     $ExitCode,
     0,

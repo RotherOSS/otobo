@@ -273,7 +273,6 @@ $Selenium->RunTest(
         );
 
         # Execute test scenarios.
-        my $Handles;
         for my $Test (@Tests) {
 
             # Create Draft name.

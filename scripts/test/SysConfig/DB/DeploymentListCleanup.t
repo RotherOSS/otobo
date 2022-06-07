@@ -100,7 +100,6 @@ my $DeploymentExists = sub {
         Bind => [ \$Param{DeploymentID} ],
     );
 
-    my @DeploymentID;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         $DeploymentID = $Row[0];
     }

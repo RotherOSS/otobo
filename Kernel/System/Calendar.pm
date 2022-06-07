@@ -1264,7 +1264,6 @@ sub TicketAppointmentProcessRule {
     return if !IsHashRefWithData( $Param{Rule} );
 
     my $Error;
-    my $AppointmentType;
     my %AppointmentData;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');

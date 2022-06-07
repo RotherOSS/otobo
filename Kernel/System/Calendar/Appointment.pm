@@ -849,7 +849,7 @@ sub AppointmentDays {
 
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
-        my ( $StartTime, $EndTime, $StartTimeSystem, $EndTimeSystem );
+        my ( $StartTime, $EndTime );
 
         # StartTime
         if ( $Param{StartTime} ) {

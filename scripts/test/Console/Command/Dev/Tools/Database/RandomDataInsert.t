@@ -34,10 +34,8 @@ my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Database::RandomDataInsert');
 
-my ( $Result, $ExitCode );
-
 # try to execute command without any options
-$ExitCode = $CommandObject->Execute();
+my $ExitCode = $CommandObject->Execute();
 $Self->Is(
     $ExitCode,
     1,

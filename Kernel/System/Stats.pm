@@ -2523,10 +2523,7 @@ sub _GenerateDynamicStats {
 
     # get the selected Xvalue
     my $Xvalue = {};
-    my (
-        $VSYear,     $VSMonth,     $VSDay,     $VSHour,     $VSMinute,     $VSSecond,
-        $VSStopYear, $VSStopMonth, $VSStopDay, $VSStopHour, $VSStopMinute, $VSStopSecond
-    );
+    my ( $VSYear, $VSMonth, $VSDay, $VSHour, $VSMinute, $VSSecond );
     my $TimeAbsolutStopUnixTime = 0;
     my $Count                   = 0;
     my $MonthArrayRef           = _MonthArray();

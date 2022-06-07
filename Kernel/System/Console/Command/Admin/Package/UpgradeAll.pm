@@ -97,9 +97,6 @@ sub Run {
 
     my %RepositoryListAll = ( %RepositoryList, %{ $RepositoryCloudList || {} } );
 
-    my @PackageOnlineList;
-    my %PackageSoruceLookup;
-
     $Self->Print("<yellow>Fetching on-line repositories...</yellow>\n");
 
     URL:

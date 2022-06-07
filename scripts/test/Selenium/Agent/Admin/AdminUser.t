@@ -349,7 +349,6 @@ $Selenium->RunTest(
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminUser");
 
             # Remove scheduled asynchronous tasks from DB, as they may interfere with tests run later.
-            my @TaskIDs;
             my @AllTasks = $SchedulerDBObject->TaskList(
                 Type => 'AsynchronousExecutor',
             );

@@ -293,7 +293,6 @@ sub ActionRow {
         );
     }
 
-    my %ColumnTranslations;
     my $LanguageObject = $Kernel::OM->Get('Kernel::Language');
 
     # add translations for the allocation lists for regular columns
@@ -565,7 +564,6 @@ sub Run {
             my @ActionItems;
             if ( ref $ConfigObject->Get('Ticket::Frontend::PreMenuModule') eq 'HASH' ) {
                 my %Menus = %{ $ConfigObject->Get('Ticket::Frontend::PreMenuModule') };
-                my @Items;
                 MENU:
                 for my $Menu ( sort keys %Menus ) {
 
@@ -709,7 +707,6 @@ sub Run {
 
             my $CSS     = '';
             my $OrderBy = $Param{OrderBy};
-            my $Link;
             my $Title = $LayoutObject->{LanguageObject}->Translate($Item);
 
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {

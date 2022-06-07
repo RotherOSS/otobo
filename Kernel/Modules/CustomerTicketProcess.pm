@@ -69,8 +69,6 @@ sub Run {
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
     my $ProcessEntityID        = $Param{ProcessEntityID}        || $ParamObject->GetParam( Param => 'ProcessEntityID' );
 
-    my $ActivityDialogHashRef;
-
     if ( !$TicketID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -2799,7 +2797,6 @@ sub _StoreActivityDialog {
     my ( $Self, %Param ) = @_;
 
     my $TicketID = $Param{GetParam}->{TicketID};
-    my $ProcessStartpoint;
     my %Ticket;
     my $ProcessEntityID;
     my $ActivityEntityID;
