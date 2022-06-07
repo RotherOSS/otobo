@@ -41,7 +41,7 @@ $Selenium->RunTest(
         my %CmdParam   = (
             Block       => 'ContentSmall',
             CacheTTL    => 60,
-            Cmd         => "echo $CmdMessage",
+            Cmd         => qq{echo "$CmdMessage"},
             Default     => 1,
             Description => '',
             Group       => '',
