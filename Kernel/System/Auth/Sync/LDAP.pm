@@ -870,16 +870,15 @@ sub _ConvertFrom {
 sub _NestedGroupSearch {
     my ( $Self, $LDAP, $GroupDN, $UserDN ) = @_;
 
-    # protect against circular nesting (=infinite loop)
-    my %GroupSeen;
-
     $Kernel::OM->Get('Kernel::System::Log')->Log(
         Priority => 'debug',
         Message  => "Nested group search for user: $UserDN (to check group membership to $GroupDN)",
     );
 
-    # call the actual search function
-    my $MemberConfirmed = $Self->_FindMember->( $LDAP, $GroupDN, $UserDN, \%GroupSeen );
+    # Call the actual search function with protection against circular neseting (=infinite loop)
+    # $MemberConfirmed will be set to 1 when a match has been found.
+    my ( %GroupSeen, $MemberConfirmed );
+    $Self->_FindMember->( $LDAP, $GroupDN, $UserDN, \%GroupSeen, \$MemberConfirmed );
 
     # add stats to debug output
     my $GroupsCount = keys %GroupSeen;
@@ -894,22 +893,22 @@ sub _NestedGroupSearch {
 
 # This is the LDAP lookup function that is used in _NestedGroupSearch().
 # This sub calls itself recursively.
+# There is no return value.
 sub _FindMember {
-    my ( $Self, $LDAP, $GroupDN, $UserDN, $GroupHasBeenSeen ) = @_;
+    my ( $Self, $LDAP, $GroupDN, $UserDN, $GroupHasBeenSeen, $MemberConfirmedRef ) = @_;
 
-    # check if we found an infinite loop
+    # do nothing if we found circular nesting, avoiding an infinite loop
     if ( $GroupHasBeenSeen->{$GroupDN} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Nested group search found circular nesting in $GroupDN (while searching for user $UserDN)",
         );
 
-        return 0;
+        return;
     }
 
-    # check if the user is a member of this group,
-    # work is done if user is a member
-    return 1 if eval {
+    # check if the user is a member of this group
+    eval {
         my $Result = $LDAP->compare(
             $GroupDN,
             attr  => 'uniquemember',
@@ -917,31 +916,39 @@ sub _FindMember {
         );
 
         # LDAP_COMPARE_TRUE (6), see Net::LDAP::Constant.pm
-        return 0 unless $Result->code == 6;
+        if ( $Result->code() == 6 ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'debug',
+                Message  => "Nested group search result: $UserDN is a member of $GroupDN",
+            );
 
-        # member is confirmed
-        $Kernel::OM->Get('Kernel::System::Log')->Log(
-            Priority => 'debug',
-            Message  => "Nested group search result: $UserDN is a member of $GroupDN",
-        );
-
-        return 1;
+            # member is confirmed
+            $MemberConfirmedRef->$* = 1;
+        }
     };
 
+    # work is done if user is a member
+    return if $MemberConfirmedRef->$*;
+
     # not a member, continue search...
-    return 1 if eval {
+    eval {
 
         # get list of group members
         my $Result = $LDAP->search(
             base       => $GroupDN,
             filter     => '(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))',
-            Attributes => [qw( uniquemember objectclass memberurl)],
+            Attributes => [qw(uniquemember objectclass memberurl)],
         );
 
-        my $Entry = $Result->pop_entry();    # dies when no entry was found
+        # give up if the search was not successful
+        return if $Result->cocde;
+
+        # pop_entry() dies when no entry was found. This is fine as further search
+        # depends on having an entry
+        my $Entry = $Result->pop_entry();
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'debug',
-            Message  => "Nested group search in GroupDN: " . $Entry->dn,
+            Message  => 'Nested group search in GroupDN: ' . $Entry->dn,
         );
 
         # add group to list; if we see it again we will ignore it to avoid an infinite loop
@@ -949,6 +956,7 @@ sub _FindMember {
 
         # search in Dynamic Groups...
         my $UrlValues = $Entry->get_value( 'memberurl', asref => 1 );
+        MATCH:
         for my $UrlValue ( $UrlValues->@* ) {
             my $Uri        = URI->new($UrlValue);
             my $Filter     = $Uri->filter();
@@ -962,23 +970,30 @@ sub _FindMember {
             );
 
             # check if we found an entry
-            return 1 if eval {
-                $Result->pop_entry();
+            eval {
+                my $Entry = $Result->pop_entry();    # dies when no entry was found
+                $MemberConfirmedRef->$* = 1;         # entry found as there was no exception
             };
+
+            # return from the eval if we found a match
+            return if $MemberConfirmedRef->$*;
         }
 
         # nothing found in dynamic groups
         # continue search in Static Groups...
-        my $MemberValues = $Entry->get_value( "uniquemember", asref => 1 );
+        my $MemberValues = $Entry->get_value( 'uniquemember', asref => 1 );
 
         # call search function again for each member until we get a match
         for my $Value ( $MemberValues->@* ) {
-            return 1 if $Self->_FindMember->( $LDAP, $Value, $UserDN, $GroupHasBeenSeen );
+            $Self->_FindMember->( $LDAP, $Value, $UserDN, $GroupHasBeenSeen, $MemberConfirmedRef );
+
+            # return from the eval if we found a match
+            return if $MemberConfirmedRef->$*;
         }
     };
 
-    # all possibilities exhausted
-    return 0;
+    # either the member was found or all search possibilities were exhausted
+    return;
 }
 
 1;
