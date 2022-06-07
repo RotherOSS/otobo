@@ -219,7 +219,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
             else {
                 ActivityDialogID = '';
             }
-            
+
             // Get the ticket id.
             /TicketID=(\d+)/.exec(document.URL);
             TicketID = RegExp.$1;
@@ -597,11 +597,11 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
         }
 
         var ActivityDialogID = $('input[name="ActivityDialogEntityID"]', $('#' + Field).closest('form')).val();
-        if ( typeof ActivityDialogID !== 'undefined' ) { 
+        if ( typeof ActivityDialogID !== 'undefined' ) {
             ActivityDialogID = ActivityDialogID.substr('ActivityDialog-'.length);
-        }   
+        }
         else {
-            ActivityDialogID = ''; 
+            ActivityDialogID = '';
         }
 
         var FieldNameLong = Field;

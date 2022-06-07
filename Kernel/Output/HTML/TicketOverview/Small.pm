@@ -707,7 +707,7 @@ sub Run {
 
             my $CSS     = '';
             my $OrderBy = $Param{OrderBy};
-            my $Title = $LayoutObject->{LanguageObject}->Translate($Item);
+            my $Title   = $LayoutObject->{LanguageObject}->Translate($Item);
 
             if ( $Param{SortBy} && ( $Param{SortBy} eq $Item ) ) {
                 my $TitleDesc;
