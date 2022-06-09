@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-05-27 03:10+0000\n"
+"PO-Revision-Date: 2022-06-09 09:26+0000\n"
 "Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
@@ -280,7 +280,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "О проекте"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -291,6 +291,8 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Этот язык отсутствует или не включен в системе. Этот текст может быть "
+"удален, если он больше не нужен."
 
 #. Template: AdminAbout
 msgid "Remove Language"
@@ -310,7 +312,7 @@ msgstr "Данное поле обязательно и должно быть м
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Удалить 'О языке'"
 
 #. Template: AdminAbout
 msgid "Add new language"
