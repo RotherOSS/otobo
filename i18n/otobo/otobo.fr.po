@@ -30,13 +30,14 @@
 # remidoc <Remi.seguy@gmail.com>, 2019
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Yohann <yohann.duhamel@icloud.com>, 2021.
+# Gieanjalad <andy.fw88@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2021-06-01 12:27+0000\n"
-"Last-Translator: Yohann <yohann.duhamel@icloud.com>\n"
+"PO-Revision-Date: 2022-06-09 11:39+0000\n"
+"Last-Translator: Gieanjalad <andy.fw88@gmail.com>\n"
 "Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
 ">\n"
 "Language: fr\n"
@@ -270,7 +271,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "A propos"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -281,10 +282,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Cette langue n'est pas présente ou activée sur le système. Ce texte pourrait "
+"être supprimé s'il n'est plus nécessaire."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Supprimer la langue"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -300,11 +303,11 @@ msgstr "Ce champ est requis et doit contenir moins de 4000 caractères."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Supprimer À propos de la langue"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Ajouter une nouvelle langue"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1375,15 +1378,15 @@ msgstr "Contact avec la gestion des données"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
-msgstr ""
+msgstr "Contacter avec des données"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Ajouter un contact avec des données"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Editer les données du contact"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1404,6 +1407,8 @@ msgstr "Les caractères génériques tels que '*\\\\ sont autorisés"
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
 msgstr ""
+"Veuillez entrer un terme de recherche pour rechercher des contacts avec des "
+"données."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1411,11 +1416,11 @@ msgstr "Valide"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Gestion de la politique de confidentialité"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de confidentialité"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
@@ -1663,6 +1668,11 @@ msgid ""
 "groups). Note: The table does not consider changes made to this form without "
 "submitting it."
 msgstr ""
+"Le tableau ci-dessus montre les autorisations de groupe effectives pour "
+"l'utilisateur client. La matrice prend en compte toutes les autorisations "
+"héritées (par exemple via les groupes de clients). Remarque : Le tableau ne "
+"prend pas en compte les modifications apportées à ce formulaire sans l'avoir "
+"soumis."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
@@ -10064,7 +10074,7 @@ msgstr "Votre nom"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr "Un nouveau mot de passe sera envoyé à votre adresse e-mail"
+msgstr "Un nouveau mot de passe sera envoyé à votre adresse e-mail."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -10073,7 +10083,7 @@ msgstr "Créer un compte"
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
 msgstr ""
-"Veuillez remplir ce formulaire pour recevoir vos identifiants de connexion"
+"Veuillez remplir ce formulaire pour recevoir vos identifiants de connexion."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
@@ -10116,18 +10126,20 @@ msgstr "Bienvenue !"
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
 msgstr ""
+"Vous n'avez pas encore de tickets. Veuillez cliquer ici pour en créer un "
+"nouveau."
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "Rien à afficher."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "Cliquez ici pour une liste non filtrée de tous vos billets."
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "Créer un nouveau ticket"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
@@ -10135,7 +10147,7 @@ msgstr "Contrat de niveau de service (SLA)"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "Vos Tickets"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -10143,7 +10155,7 @@ msgstr "Page"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "Trier"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
@@ -10251,7 +10263,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "Actions supplémentaires"
 
 #. Template: Chat
 msgid "Expand article"
@@ -10267,7 +10279,7 @@ msgstr "Attention"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "Ouvrir%sun ticket"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
@@ -28599,6 +28611,9 @@ msgid ""
 "at max for calculating the WorkingTime for a Ticket. Attention: Setting this "
 "configuration to high can lead to performance issues."
 msgstr ""
+"Cette configuration définit le nombre d'itérations à effectuer au maximum "
+"pour calculer le temps de travail d'un Ticket. Attention : Définir cette "
+"configuration sur élevée peut entraîner des problèmes de performances."
 
 #. SysConfig
 msgid ""
