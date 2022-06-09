@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-06-09 09:26+0000\n"
+"PO-Revision-Date: 2022-06-10 02:54+0000\n"
 "Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
@@ -1085,6 +1085,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"Чтобы включить отправку данных, пожалуйста, зарегистрируйте свою систему в "
+"команде OTOBO или обновите регистрационные данные системы (убедитесь, что "
+"активирована опция \"отправлять данные поддержки\")"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -10203,7 +10206,7 @@ msgstr "Из назначенных Customer ID"
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "Поиск билета"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
@@ -10411,7 +10414,7 @@ msgstr "Соглашение об уровне сервиса"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "Ваши билеты"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -10527,7 +10530,7 @@ msgstr ""
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "Дальнейшие действия"
 
 #. Template: Chat
 msgid "Expand article"
@@ -10543,7 +10546,7 @@ msgstr "Предупреждение"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "Issue%sa ticket"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
