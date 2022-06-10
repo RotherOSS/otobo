@@ -898,11 +898,22 @@ sub ConvertCertFormat {
     print $FileHandle $String;
     close $FileHandle;
 
-    # For PEM format no conversion needed.
-    my $Options   = "x509 -in $TmpCertificate -noout";
-    my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
+    # Detect whether the input already is in PEM format. In that case we need no conversion.
+    {
+        # With openssl 1.x.y the input format PEM was assumed per default. So only PEM formatted certificates could be
+        # read in without specifying the format. With openssl 3.x.y the encoding is detected, so we need to require
+        # that the input format is PEM. Specifying --inform pem should also work on openssl 1.x.y, but it was deemed
+        # to be safer to stick with the old command in that case.
+        # See https://www.openssl.org/docs/man3.0/man1/openssl-x509.html and
+        # https://www.openssl.org/docs/man3.0/man1/openssl-format-options.html .
+        my @Options = ("x509 -in $TmpCertificate -noout");
+        if ( $Self->{OpenSSLMajorVersion} >= 3 ) {
+            push @Options, '-inform pem';
+        }
+        my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} @Options 2>&1});
 
-    return $String unless $ReadError;
+        return $String unless $ReadError;
+    }
 
     # Create empty file (to save the converted certificate).
     my ( $FH, $CertFile ) = $FileTempObject->TempFile(
