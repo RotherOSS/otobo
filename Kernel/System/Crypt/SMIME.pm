@@ -936,6 +936,12 @@ sub ConvertCertFormat {
         },
     );
 
+    # In openssl 3 the behavior is changed as for passwork protected files first the password
+    # is checked before an error message is printed.
+    if ( $Self->{OpenSSLMajorVersion} >= 3 && $PassPhrase ) {
+        $OptionsLookup{DER}->{Read} .= ' ' . "-passin pass:'$PassPhrase'";
+    }
+
     # Determine the format of the file using OpenSSL.
     my $DetectedFormat;
     FORMAT:
