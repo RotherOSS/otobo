@@ -16,6 +16,7 @@
 
 package Kernel::System::Crypt::SMIME;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -837,13 +838,13 @@ sub FetchFromCustomer {
             # if don't add, maybe in UnitTests
             return @CertFileList if $Param{DontAdd};
 
-            # Convert certificate to the correct format (pk7, pk12, pem, der)
-            my $Cert = $Self->ConvertCertFormat(
+            # Convert certificate to PEM format. Works for pk7, pk12, pem, and der.
+            my $PEMCert = $Self->ConvertCertFormat(
                 String => $CustomerUser{UserSMIMECertificate},
             );
 
             my %Result = $Self->CertificateAdd(
-                Certificate => $Cert,
+                Certificate => $PEMCert,
             );
             if ( $Result{Successful} && $Result{Successful} == 1 ) {
                 push @CertFileList, $Result{Filename};
@@ -1113,8 +1114,8 @@ sub CertificateGet {
     my $File           = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $File );
 
-    return if !$CertificateRef;
-    return $$CertificateRef;
+    return unless $CertificateRef;
+    return $CertificateRef->$*;
 }
 
 =head2 CertificateRemove()
@@ -1190,8 +1191,8 @@ sub CertificateRemove {
     my $Success = 1;
 
     # remove certificate
-    my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
-    if ( !$Cert ) {
+    my $RemoveSuccess = unlink "$Self->{CertPath}/$Param{Filename}";
+    if ( !$RemoveSuccess ) {
         $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!";
         $Success = 0;
     }
