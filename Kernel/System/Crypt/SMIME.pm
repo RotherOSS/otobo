@@ -2430,10 +2430,11 @@ sub _Init {
     # prepend RANDFILE declaration to openssl cmd
     $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
-    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+    # get the openssl version string,
+    # e.g. "OpenSSL 0.9.8e 23 Feb 2007" or "OpenSSL 3.0.3 3 May 2022 (Library: OpenSSL 3.0.3 3 May 2022)"
     $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
 
-    # get the openssl major version, e.g. 1 for version 1.0.0
+    # get the openssl major version, e.g. 1 for version 1.0.0 or 3 for 3.0.3
     if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
         $Self->{OpenSSLMajorVersion} = $1;
     }
