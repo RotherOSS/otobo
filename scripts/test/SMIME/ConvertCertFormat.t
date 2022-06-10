@@ -177,7 +177,8 @@ my @Certificates = (
         CertificateFileName3 => 'SMIMECertificate-1.der',
         CertificateFileName4 => 'SMIMECertificate-1.pfx',
         CertificatePassFile  => 'SMIMEPrivateKeyPass-1.asc',
-        Success              => 1
+        Success              => 1,
+        PFXWithLegacyAlgo    => 1,
     },
     {
         CertificateName      => 'Check2',
@@ -186,7 +187,10 @@ my @Certificates = (
         CertificateFileName3 => 'SMIMECertificate-2.der',
         CertificateFileName4 => 'SMIMECertificate-2.pfx',
         CertificatePassFile  => 'SMIMEPrivateKeyPass-2.asc',
-        Success              => 1
+        Success              => 1,
+        PFXWithLegacyAlgo    => 1,
+    },
+    {
     },
     {
         CertificateName      => 'Check3',
@@ -195,7 +199,10 @@ my @Certificates = (
         CertificateFileName3 => 'SMIMECertificate-3.der',
         CertificateFileName4 => 'SMIMECertificate-3.pfx',
         CertificatePassFile  => 'SMIMEPrivateKeyPass-3.asc',
-        Success              => 1
+        Success              => 1,
+        PFXWithLegacyAlgo    => 1,
+    },
+    {
     },
     {
         CertificateName      => 'OTOBOUserCert',
@@ -205,6 +212,9 @@ my @Certificates = (
         CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
         CertificatePassFile  => 'SMIMEUserPrivateKeyPass-Axel.crt',
         Success              => 1,
+        PFXWithLegacyAlgo    => 1,
+    },
+    {
     },
     {
         CertificateName      => 'OTOBOUserCert wrong password',
@@ -214,6 +224,9 @@ my @Certificates = (
         CertificateFileName4 => 'SMIMEUserCertificate-Axel.pfx',
         CertificatePassFile  => 'SMIMEUserWrongPrivateKeyPass-Axel.crt',
         Success              => 0,                                         # Test with passfile will fail (wrong password)
+        PFXWithLegacyAlgo    => 1,
+    },
+    {
     },
 );
 
@@ -286,6 +299,7 @@ sub CertificationConversionTest {
 
         # passfile needed
         else {
+
             my $Pass = $MainObject->FileRead(
                 Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
                 Filename  => $CertificatePassFile,
@@ -363,13 +377,21 @@ for my $Certificate (@Certificates) {
     );
 
     # PFX check
-    CertificationConversionTest(
-        "$Certificate->{CertificateName} PFX",           # subtest description
-        $Certificate->{Success},                         # Success
-        $Certificate->{CertificateFileName4},            # filename
-        $PemCertificate,                                 # checkstring
-        $Certificate->{CertificatePassFile}              # pass-filename
-    );
+    # Do not run this test when we have openssl 3 and certificates that
+    # have been generated with the obsolete algorithm RC2-40-CBC.
+    # See https://www.openssl.org/docs/manmaster/man7/migration_guide.html#Legacy-Algorithms.
+    if ( $Certificate->{PFXWithLegacyAlgo} && $SMIMEObject->{OpenSSLMajorVersion} >= 3 ) {
+        diag "Skipping: $Certificate->{CertificateName} PFX";
+    }
+    else {
+        CertificationConversionTest(
+            "$Certificate->{CertificateName} PFX",    # subtest description
+            $Certificate->{Success},                  # Success
+            $Certificate->{CertificateFileName4},     # filename
+            $PemCertificate,                          # checkstring
+            $Certificate->{CertificatePassFile}       # pass-filename
+        );
+    }
 }
 
 # delete needed test directories
@@ -378,4 +400,4 @@ for my $Directory ( $CertPath, $PrivatePath ) {
     ok( $Success, "Directory deleted - '$Directory'", );
 }
 
-done_testing();
+done_testing;
