@@ -2423,6 +2423,7 @@ sub _Init {
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
     # Note that RANDFILE will keep the assigned value while the current process is running.
+    # TODO: is there a reason why RANDFILE is set in the current process?
     $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # prepend RANDFILE declaration to openssl cmd
