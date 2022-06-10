@@ -16,6 +16,7 @@
 
 package Kernel::System::Crypt::SMIME;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -837,13 +838,13 @@ sub FetchFromCustomer {
             # if don't add, maybe in UnitTests
             return @CertFileList if $Param{DontAdd};
 
-            # Convert certificate to the correct format (pk7, pk12, pem, der)
-            my $Cert = $Self->ConvertCertFormat(
+            # Convert certificate to PEM format. Works for pk7, pk12, pem, and der.
+            my $PEMCert = $Self->ConvertCertFormat(
                 String => $CustomerUser{UserSMIMECertificate},
             );
 
             my %Result = $Self->CertificateAdd(
-                Certificate => $Cert,
+                Certificate => $PEMCert,
             );
             if ( $Result{Successful} && $Result{Successful} == 1 ) {
                 push @CertFileList, $Result{Filename};
@@ -897,11 +898,22 @@ sub ConvertCertFormat {
     print $FileHandle $String;
     close $FileHandle;
 
-    # For PEM format no conversion needed.
-    my $Options   = "x509 -in $TmpCertificate -noout";
-    my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} $Options 2>&1});
+    # Detect whether the input already is in PEM format. In that case we need no conversion.
+    {
+        # With openssl 1.x.y the input format PEM was assumed per default. So only PEM formatted certificates could be
+        # read in without specifying the format. With openssl 3.x.y the encoding is detected, so we need to require
+        # that the input format is PEM. Specifying --inform pem should also work on openssl 1.x.y, but it was deemed
+        # to be safer to stick with the old command in that case.
+        # See https://www.openssl.org/docs/man3.0/man1/openssl-x509.html and
+        # https://www.openssl.org/docs/man3.0/man1/openssl-format-options.html .
+        my @Options = ("x509 -in $TmpCertificate -noout");
+        if ( $Self->{OpenSSLMajorVersion} >= 3 ) {
+            push @Options, '-inform pem';
+        }
+        my $ReadError = $Self->_CleanOutput(qx{$Self->{Cmd} @Options 2>&1});
 
-    return $String unless $ReadError;
+        return $String unless $ReadError;
+    }
 
     # Create empty file (to save the converted certificate).
     my ( $FH, $CertFile ) = $FileTempObject->TempFile(
@@ -923,6 +935,12 @@ sub ConvertCertFormat {
             Convert => "pkcs12 -in $TmpCertificate -out $CertFile -nomacver -clcerts -nokeys -passin pass:'$PassPhrase'",
         },
     );
+
+    # In openssl 3 the behavior is changed as for passwork protected files first the password
+    # is checked before an error message is printed.
+    if ( $Self->{OpenSSLMajorVersion} >= 3 && $PassPhrase ) {
+        $OptionsLookup{DER}->{Read} .= ' ' . "-passin pass:'$PassPhrase'";
+    }
 
     # Determine the format of the file using OpenSSL.
     my $DetectedFormat;
@@ -1113,8 +1131,8 @@ sub CertificateGet {
     my $File           = "$Self->{CertPath}/$Param{Filename}";
     my $CertificateRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead( Location => $File );
 
-    return if !$CertificateRef;
-    return $$CertificateRef;
+    return unless $CertificateRef;
+    return $CertificateRef->$*;
 }
 
 =head2 CertificateRemove()
@@ -1190,8 +1208,8 @@ sub CertificateRemove {
     my $Success = 1;
 
     # remove certificate
-    my $Cert = unlink "$Self->{CertPath}/$Param{Filename}";
-    if ( !$Cert ) {
+    my $RemoveSuccess = unlink "$Self->{CertPath}/$Param{Filename}";
+    if ( !$RemoveSuccess ) {
         $Message = "Impossible to remove certificate: $Self->{CertPath}/$Param{Filename}: $!!";
         $Success = 0;
     }
@@ -2412,15 +2430,17 @@ sub _Init {
 
     # ensure that there is a random state file that we can write to (otherwise openssl will bail)
     # Note that RANDFILE will keep the assigned value while the current process is running.
+    # TODO: is there a reason why RANDFILE is set in the current process?
     $ENV{RANDFILE} = $ConfigObject->Get('TempDir') . '/.rnd';    ## no critic qw(Variables::RequireLocalizedPunctuationVars)
 
     # prepend RANDFILE declaration to openssl cmd
     $Self->{Cmd} = "HOME=" . $ConfigObject->Get('Home') . " RANDFILE=$ENV{RANDFILE} $Self->{Cmd}";
 
-    # get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
+    # get the openssl version string,
+    # e.g. "OpenSSL 0.9.8e 23 Feb 2007" or "OpenSSL 3.0.3 3 May 2022 (Library: OpenSSL 3.0.3 3 May 2022)"
     $Self->{OpenSSLVersionString} = qx{$Self->{Cmd} version};
 
-    # get the openssl major version, e.g. 1 for version 1.0.0
+    # get the openssl major version, e.g. 1 for version 1.0.0 or 3 for 3.0.3
     if ( $Self->{OpenSSLVersionString} =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
         $Self->{OpenSSLMajorVersion} = $1;
     }
