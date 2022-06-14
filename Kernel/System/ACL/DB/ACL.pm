@@ -1165,6 +1165,11 @@ returns:
 sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
+    # those params are expected to only contain one line
+    for my $Key ( qw( CreateBy ChangeBy Comment ) ) {
+        ( $Param{ $Key } ) = $Param{ $Key } =~ /(.+?)$/m;
+    }
+
     my $Output = "# Created: $Param{CreateTime} ($Param{CreateBy})\n";
     $Output .= "# Changed: $Param{ChangeTime} ($Param{ChangeBy})\n";
 
@@ -1180,6 +1185,7 @@ sub _ACLItemOutput {
     $Output =~ s{\[empty\]}{}xmsg;
 
     my $Name = $Param{Key};
+    $Name =~ s{\\}{\\\\}xmsg;
     $Name =~ s{\'}{\\'}xmsg;
     my $Key = '$Self->{TicketAcl}->{\'' . $Name . '\'}';
 
