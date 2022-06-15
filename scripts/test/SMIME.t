@@ -577,7 +577,7 @@ for my $Count ( 1 .. 3 ) {
 }
 
 # function to retrieve the certificate data from test files
-my $GetCertificateDataFromFiles = sub {
+sub GetCertificateDataFromFiles {
     my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
 
     # read certificates, private keys and secrets
@@ -596,7 +596,7 @@ my $GetCertificateDataFromFiles = sub {
 
     # return strings instead of references
     return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
-};
+}
 
 # OpenSSL 1.0.0 subject hashes as determined by:
 #  openssl x509 -in SMIMECACertificate-Johanneum.crt -noout -subject_hash
