@@ -20,7 +20,11 @@ use utf8;
 
 # Set up the test driver $Self when we are running as a standalone script.
 use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
+use File::Path qw(rmtree make_path);
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+use Kernel::System::VariableCheck qw(:all);
 
 our $Self;
 
@@ -41,16 +45,17 @@ $Kernel::OM->ObjectParamAdd(
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 # get configuration
-my $HomeDir = $ConfigObject->Get('Home');
+my $Home = $ConfigObject->Get('Home');
 
-my $CertPath    = $ConfigObject->Get('Home') . "/var/tmp/certs";
-my $PrivatePath = $ConfigObject->Get('Home') . "/var/tmp/private";
+# set up temporary dirs
+my $CertPath    = "$Home/var/tmp/certs";
+my $PrivatePath = "$Home/var/tmp/private";
 $CertPath    =~ s{/{2,}}{/}smxg;
 $PrivatePath =~ s{/{2,}}{/}smxg;
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
-File::Path::make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
-File::Path::make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+rmtree($CertPath);
+rmtree($PrivatePath);
+make_path( $CertPath,    { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
+make_path( $PrivatePath, { chmod => 0770 } );    ## no critic qw(ValuesAndExpressions::ProhibitLeadingZeros)
 $ConfigObject->Set(
     Key   => 'SMIME::CertPath',
     Value => $CertPath
@@ -62,21 +67,11 @@ $ConfigObject->Set(
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-# get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
-my $OpenSSLVersionString = qx{$OpenSSLBin version};
-my $OpenSSLMajorVersion;
-
 # get the openssl major version, e.g. 1 for version 1.0.0
-if ( $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
-    $OpenSSLMajorVersion = $1;
-}
-
-# openssl version 1.0.0 uses different hash algorithm... in the future release of openssl this might
-#change again in such case a better version detection will be needed
-my $UseNewHashes;
-if ( $OpenSSLMajorVersion >= 1 ) {
-    $UseNewHashes = 1;
-}
+# openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
+my $OpenSSLVersionString = qx{$OpenSSLBin version};                                                       # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
+ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 
 # set config
 $ConfigObject->Set(
@@ -85,7 +80,7 @@ $ConfigObject->Set(
 );
 
 # check if openssl is located there
-if ( !-e $ConfigObject->Get('SMIME::Bin') ) {
+if ( !$ConfigObject->Get('SMIME::Bin') || !-e $ConfigObject->Get('SMIME::Bin') ) {
 
     # maybe it's a mac with macport
     if ( -e '/opt/local/bin/openssl' ) {
@@ -138,11 +133,8 @@ if ( !$SMIMEObject ) {
             "No such $PrivatePath!",
         );
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
         $Self->False(
@@ -164,17 +156,10 @@ my %Search = (
     5 => 'unittest5@example.org',
 );
 
-# 0.9.x hashes
-my $CheckHash1 = '980a83c7';
-my $CheckHash2 = '999bcb2f';
-my $CheckHash3 = 'c3857c0d';
-
 # 1.0.0 hashes
-if ($UseNewHashes) {
-    $CheckHash1 = 'f62a2257';
-    $CheckHash2 = '35c7d865';
-    $CheckHash3 = 'a2ba8622';
-}
+my $CheckHash1 = 'f62a2257';
+my $CheckHash2 = '35c7d865';
+my $CheckHash3 = 'a2ba8622';
 
 my %Check = (
     1 => {
@@ -245,7 +230,10 @@ my %Check = (
         StartDate      => 'Dec 22 03:31:35 2015 GMT',
         ShortStartDate => '2015-12-22',
     },
-    'cert-1' => '-----BEGIN CERTIFICATE-----
+);
+
+my %Cert = (
+    1 => '-----BEGIN CERTIFICATE-----
 MIIEXjCCA0agAwIBAgIJAPIBQyBe/HbpMA0GCSqGSIb3DQEBBQUAMHwxCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzERMA8GA1UEAxMIdW5pdHRlc3QxIzAhBgkqhkiG9w0BCQEW
@@ -272,7 +260,7 @@ lZbOYUaP6zWPsKjftcev2Q5ik1L7N9eCynBF3a2U0TPVkfFyzuO58k96vUhKltOb
 nj2wbQO4KjM12YLUuvahk5se
 -----END CERTIFICATE-----
 ',
-    'cert-2' => '-----BEGIN CERTIFICATE-----
+    2 => '-----BEGIN CERTIFICATE-----
 MIIEZTCCA02gAwIBAgIJAPUQ/AyKRuKhMA0GCSqGSIb3DQEBBQUAMH4xCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIEwZCYXllcm4xEjAQBgNVBAcTCVN0cmF1YmluZzEQMA4G
 A1UEChMHT1RSUyBBRzESMBAGA1UEAxMJdW5pdHRlc3QyMSQwIgYJKoZIhvcNAQkB
@@ -299,7 +287,7 @@ m012tpyvuaVVcNTY5MXgvonWtH2Vv8VnnBJ/at//961DX9u67qIQaIqReU18HjJ3
 w/5UXrBm/VSYu01mcpSN4rCPM9onzepmEA==
 -----END CERTIFICATE-----
 ',
-    'cert-3' => '-----BEGIN CERTIFICATE-----
+    3 => '-----BEGIN CERTIFICATE-----
 MIIDyTCCArGgAwIBAgIJANuTU3wqLoUcMA0GCSqGSIb3DQEBCwUAMH0xCzAJBgNV
 BAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xEjAQBgNVBAcMCVN0cmF1YmluZzEQMA4G
 A1UECwwHT1RSUyBBRzERMA8GA1UEAwwIdW5pdHRlc3QxJDAiBgkqhkiG9w0BCQEW
@@ -327,333 +315,269 @@ egi0I+rwJjXCUZHw+qq0cRV/nEr4dD5aB84f0prW5ebzV9oQewkgsT0uI2EXa9GS
 
 # remove \r that will have been inserted on Windows automatically
 if ( $^O =~ m{Win}i ) {
-    $Check{'cert-1'} =~ tr{\r}{}d;
-    $Check{'cert-2'} =~ tr{\r}{}d;
-    $Check{'cert-3'} =~ tr{\r}{}d;
+    $Cert{1} =~ tr{\r}{}d;
+    $Cert{2} =~ tr{\r}{}d;
+    $Cert{3} =~ tr{\r}{}d;
 }
 
 my $TestText = 'hello1234567890öäüß';
 
 for my $Count ( 1 .. 3 ) {
+    subtest "Testcase $Count" => sub {
 
-    my @Certs = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
+        my @Certs = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Certs[0], "Search() before CertificateAdd() has no results" );
 
-    $Self->False(
-        $Certs[0] || '',
-        "#$Count Search()",
-    );
-
-    # add certificate ...
-    my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMECertificate-$Count.asc",
-    );
-    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-
-    $Certs[0]->{Filename} = $Result{Filename};
-
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateAdd() - $Result{Message}",
-    );
-
-    # test if read cert from file is the same as in unittest file
-    $Self->Is(
-        ${$CertString},
-        $Check{"cert-$Count"},
-        "#$Count CertificateSearch() - Test if read cert from file is the same as in unittest file",
-    );
-
-    @Certs = $SMIMEObject->CertificateSearch(
-        Search => $Search{$Count},
-    );
-
-    $Self->True(
-        $Certs[0] || '',
-        "#$Count CertificateSearch()",
-    );
-
-    for my $ID ( sort keys %{ $Check{$Count} } ) {
-
-        if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
-
-            my $Success = 0;
-
-            for my $String ( @{ $Check{$Count}->{$ID} } ) {
-                $Success = 1 if $Certs[0]->{$ID} eq $String;
-            }
-
-            $Self->True(
-                $Success,
-                "#$Count CertificateSearch() - $ID",
-            );
-        }
-        else {
-            $Self->Is(
-                $Certs[0]->{$ID} || '',
-                $Check{$Count}->{$ID},
-                "#$Count CertificateSearch() - $ID",
-            );
-        }
-    }
-
-    # and private key
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKey-$Count.asc",
-    );
-    my $Secret = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => "SMIMEPrivateKeyPass-$Count.asc",
-    );
-    %Result = $SMIMEObject->PrivateAdd(
-        Private => ${$KeyString},
-        Secret  => ${$Secret},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateAdd()",
-    );
-
-    my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
-
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count PrivateSearch()",
-    );
-
-    my $CertificateString = $SMIMEObject->CertificateGet(
-        Hash        => $Certs[0]->{Hash},
-        Fingerprint => $Certs[0]->{Fingerprint},
-    );
-    $Self->True(
-        $CertificateString || '',
-        "#$Count CertificateGet()",
-    );
-
-    my $PrivateKeyString = $SMIMEObject->PrivateGet(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Certs[0]->{Modulus},
-    );
-    $Self->True(
-        $PrivateKeyString || '',
-        "#$Count PrivateGet()",
-    );
-
-    # crypt
-    my $Crypted = $SMIMEObject->Crypt(
-        Message  => $TestText,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Crypted || '',
-        "#$Count Crypt() by cert filename",
-    );
-
-    $Self->True(
-        $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
-            && $Crypted =~ m{Content-Transfer-Encoding: base64},
-        "#$Count Crypt() - Data seems ok (crypted)",
-    );
-
-    # decrypt
-    my %Decrypt = $SMIMEObject->Decrypt(
-        Message  => $Crypted,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Decrypt{Successful} || '',
-        "#$Count Decrypt() by cert filename - Successful: $Decrypt{Message}",
-    );
-    $Self->Is(
-        $Decrypt{Data} || '',
-        $TestText,
-        "#$Count Decrypt() - Data",
-    );
-
-    # sign
-    my $Sign = $SMIMEObject->Sign(
-        Message  => $TestText,
-        Filename => $Certs[0]->{Filename},
-    );
-    $Self->True(
-        $Sign || '',
-        "#$Count Sign()",
-    );
-
-    # verify
-    my %Verify = $SMIMEObject->Verify(
-        Message => $Sign,
-        CACert  => "$CertPath/$Certs[0]->{Filename}",
-    );
-    $Self->True(
-        $Verify{Successful} || '',
-        "#$Count Verify() - self signed sending certificate path",
-    );
-    $Self->True(
-        $Verify{SignerCertificate} eq $Check{"cert-$Count"},
-        "#$Count Verify()",
-    );
-
-    # verify failure on manipulated text
-    my $ManipulatedSign = $Sign;
-    $ManipulatedSign =~ s{Q}{W}g;
-    %Verify = $SMIMEObject->Verify(
-        Message => $ManipulatedSign,
-        CACert  => "$CertPath/$Certs[0]->{Filename}",
-    );
-    $Self->True(
-        !$Verify{Successful},
-        "#$Count Verify() - on manipulated text",
-    );
-
-    # file checks
-    # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
-    #       to base64 first?
-    #    for my $File (qw(xls txt doc png pdf)) {
-    for my $File (qw(txt)) {
-        my $Content = $MainObject->FileRead(
-            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-            Filename  => "PGP-Test1.$File",
-            Mode      => 'binmode',
+        # add certificate ...
+        my $CertString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . '/scripts/test/sample/SMIME/',
+            Filename  => "SMIMECertificate-$Count.asc",
         );
-        my $Reference = ${$Content};
-        $Reference =~ s{\n}{\r\n}gsm;
+        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
 
-        # crypt
-        my $Crypted = $SMIMEObject->Crypt(
-            Message     => $Reference,
+        $Certs[0]->{Filename} = $Result{Filename};
+
+        ok( $Result{Successful}, "CertificateAdd() - $Result{Message}" );
+
+        # test if read cert from file is the same as in unittest file
+        is(
+            ${$CertString},
+            $Cert{$Count},
+            "CertificateSearch() - Test if read cert from file is the same as in unittest file",
+        );
+
+        @Certs = $SMIMEObject->CertificateSearch(
+            Search => $Search{$Count},
+        );
+
+        ok( $Certs[0], "CertificateSearch()" );
+
+        for my $ID ( sort keys %{ $Check{$Count} } ) {
+
+            if ( IsArrayRefWithData( $Check{$Count}->{$ID} ) ) {
+
+                my $Success = 0;
+
+                for my $String ( @{ $Check{$Count}->{$ID} } ) {
+                    $Success = 1 if $Certs[0]->{$ID} eq $String;
+                }
+
+                ok( $Success, "CertificateSearch() - $ID" );
+            }
+            else {
+                is(
+                    $Certs[0]->{$ID} || '',
+                    $Check{$Count}->{$ID},
+                    "CertificateSearch() - $ID",
+                );
+            }
+        }
+
+        # and private key
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => "SMIMEPrivateKey-$Count.asc",
+        );
+        my $Secret = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => "SMIMEPrivateKeyPass-$Count.asc",
+        );
+        %Result = $SMIMEObject->PrivateAdd(
+            Private => ${$KeyString},
+            Secret  => ${$Secret},
+        );
+        ok( $Result{Successful}, "PrivateAdd()" );
+
+        my @Keys = $SMIMEObject->PrivateSearch( Search => $Search{$Count} );
+
+        ok( $Keys[0], "PrivateSearch()" );
+
+        my $CertificateString = $SMIMEObject->CertificateGet(
             Hash        => $Certs[0]->{Hash},
             Fingerprint => $Certs[0]->{Fingerprint},
         );
-        $Self->True(
-            $Crypted || '',
-            "#$Count Crypt()",
+        ok( $CertificateString, "CertificateGet()" );
+
+        my $PrivateKeyString = $SMIMEObject->PrivateGet(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Certs[0]->{Modulus},
         );
-        $Self->True(
+        ok( $PrivateKeyString, "PrivateGet()" );
+
+        # crypt
+        my $Crypted = $SMIMEObject->Crypt(
+            Message  => $TestText,
+            Filename => $Certs[0]->{Filename},
+        );
+        ok( $Crypted, "Crypt() by cert filename" );
+
+        ok(
             $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
                 && $Crypted =~ m{Content-Transfer-Encoding: base64},
-            "#$Count Crypt() - Data seems ok (crypted)",
+            "Crypt() - Data seems ok (crypted)",
         );
 
         # decrypt
         my %Decrypt = $SMIMEObject->Decrypt(
-            Message     => $Crypted,
-            Hash        => $Certs[0]->{Hash},
-            Fingerprint => $Certs[0]->{Fingerprint},
-        );
-        $Self->True(
-            $Decrypt{Successful} || '',
-            "#$Count Decrypt() - Successful .$File",
-        );
-        $Self->True(
-            $Decrypt{Data} eq $Reference,
-            "#$Count Decrypt() - Data .$File",
+            Message  => $Crypted,
+            Filename => $Certs[0]->{Filename},
         );
 
+        ok( $Decrypt{Successful}, "Decrypt() by cert filename - Successful: $Decrypt{Message}" );
+        is( $Decrypt{Data}, $TestText, "Decrypt() - Data" );
+
         # sign
-        my $Signed = $SMIMEObject->Sign(
-            Message     => $Reference,
-            Hash        => $Keys[0]->{Hash},
-            Fingerprint => $Keys[0]->{Fingerprint},
+        my $Sign = $SMIMEObject->Sign(
+            Message  => $TestText,
+            Filename => $Certs[0]->{Filename},
         );
-        $Self->True(
-            $Signed || '',
-            "#$Count Sign() .$File",
-        );
+
+        ok( $Sign, "Sign()" );
 
         # verify
         my %Verify = $SMIMEObject->Verify(
-            Message => $Signed,
+            Message => $Sign,
             CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
-        $Self->True(
-            $Verify{Successful} || '',
-            "#$Count Verify() .$File",
+
+        ok( $Verify{Successful}, "Verify() - self signed sending certificate path" );
+        is( $Verify{SignerCertificate}, $Cert{$Count}, "Verify()" );
+
+        # verify failure on manipulated text
+        my $ManipulatedSign = $Sign;
+        $ManipulatedSign =~ s{Q}{W}g;
+        %Verify = $SMIMEObject->Verify(
+            Message => $ManipulatedSign,
+            CACert  => "$CertPath/$Certs[0]->{Filename}",
         );
-        $Self->True(
-            $Verify{SignerCertificate} eq $Check{"cert-$Count"},
-            "#$Count Verify() .$File - SignerCertificate",
-        );
-    }
+
+        ok( !$Verify{Successful}, "Verify() - on manipulated text" );
+
+        # file checks
+        # TODO: signing binary files doesn't seem to work at all, maybe because they need to be converted
+        #       to base64 first?
+        #    for my $File (qw(xls txt doc png pdf))
+        for my $File (qw(txt)) {
+            subtest "Fileextension $File" => sub {
+                my $Content = $MainObject->FileRead(
+                    Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+                    Filename  => "PGP-Test1.$File",
+                    Mode      => 'binmode',
+                );
+                my $Reference = ${$Content};
+                $Reference =~ s{\n}{\r\n}gsm;
+
+                # crypt
+                my $Crypted = $SMIMEObject->Crypt(
+                    Message     => $Reference,
+                    Hash        => $Certs[0]->{Hash},
+                    Fingerprint => $Certs[0]->{Fingerprint},
+                );
+                ok( $Crypted, "Crypt()" );
+                ok(
+                    $Crypted =~ m{Content-Type: application/(x-)?pkcs7-mime;}
+                        && $Crypted =~ m{Content-Transfer-Encoding: base64},
+                    "Crypt() - Data seems ok (crypted)",
+                );
+
+                # decrypt
+                my %Decrypt = $SMIMEObject->Decrypt(
+                    Message     => $Crypted,
+                    Hash        => $Certs[0]->{Hash},
+                    Fingerprint => $Certs[0]->{Fingerprint},
+                );
+                ok( $Decrypt{Successful}, "Decrypt() - Successful .$File" );
+                is(
+                    $Decrypt{Data},
+                    $Reference,
+                    "Decrypt() - Data .$File",
+                );
+
+                # sign
+                my $Signed = $SMIMEObject->Sign(
+                    Message     => $Reference,
+                    Hash        => $Keys[0]->{Hash},
+                    Fingerprint => $Keys[0]->{Fingerprint},
+                );
+
+                ok( $Signed, "Sign() .$File" );
+
+                # verify
+                my %Verify = $SMIMEObject->Verify(
+                    Message => $Signed,
+                    CACert  => "$CertPath/$Certs[0]->{Filename}",
+                );
+                ok( $Verify{Successful}, "Verify() .$File" );
+                is(
+                    $Verify{SignerCertificate},
+                    $Cert{$Count},
+                    "Verify() .$File - SignerCertificate",
+                );
+            }
+        }
+    };
 }
 
 # test search for alternate names, based on check 3
 # we have private keys now though
 $Check{3}->{Private} = 'Yes';
 for my $Count ( 3 .. 5 ) {
-    my @Certs = $SMIMEObject->CertificateSearch(
-        Search => $Search{$Count},
-    );
+    subtest "alternate names $Count" => sub {
+        my @Certs = $SMIMEObject->CertificateSearch(
+            Search => $Search{$Count},
+        );
 
-    $Self->True(
-        $Certs[0] || '',
-        "#$Count CertificateSearch()",
-    );
+        ok( $Certs[0], "CertificateSearch()" );
 
-    for my $ID ( sort keys %{ $Check{3} } ) {
-        if ( IsArrayRefWithData( $Check{3}->{$ID} ) ) {
+        for my $ID ( sort keys %{ $Check{3} } ) {
+            if ( IsArrayRefWithData( $Check{3}->{$ID} ) ) {
 
-            my $Success = 0;
+                my $Success = 0;
 
-            for my $String ( @{ $Check{3}->{$ID} } ) {
-                $Success = 1 if $Certs[0]->{$ID} eq $String;
+                for my $String ( @{ $Check{3}->{$ID} } ) {
+                    $Success = 1 if $Certs[0]->{$ID} eq $String;
+                }
+
+                ok( $Success, "CertificateSearch() - $ID" );
             }
-
-            $Self->True(
-                $Success,
-                "#$Count CertificateSearch() - $ID",
-            );
+            else {
+                is(
+                    $Certs[0]->{$ID},
+                    $Check{3}->{$ID},
+                    "CertificateSearch() - $ID",
+                );
+            }
         }
-        else {
-            $Self->Is(
-                $Certs[0]->{$ID} || '',
-                $Check{3}->{$ID},
-                "#$Count CertificateSearch() - $ID",
-            );
-        }
-    }
+    };
 }
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
-    my %Result = $SMIMEObject->PrivateRemove(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Keys[0]->{Modulus},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateRemove() - $Result{Message}",
-    );
+    subtest "delete keys $Count" => sub {
+        my @Keys = $SMIMEObject->Search(
+            Search => $Search{$Count},
+        );
+        ok( $Keys[0], "Search()" );
+        my %Result = $SMIMEObject->PrivateRemove(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Keys[0]->{Modulus},
+        );
+        ok( $Result{Successful}, "PrivateRemove() - $Result{Message}" );
 
-    %Result = $SMIMEObject->CertificateRemove(
-        Hash        => $Keys[0]->{Hash},
-        Fingerprint => $Keys[0]->{Fingerprint},
-    );
+        %Result = $SMIMEObject->CertificateRemove(
+            Hash        => $Keys[0]->{Hash},
+            Fingerprint => $Keys[0]->{Fingerprint},
+        );
 
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateRemove()",
-    );
+        ok( $Result{Successful}, "CertificateRemove()" );
 
-    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
-    $Self->False(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
+        @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Keys[0], "Search()" );
+    };
 }
 
 # function to retrieve the certificate data from test files
-my $GetCertificateDataFromFiles = sub {
+sub GetCertificateDataFromFiles {
     my ( $CertificateFileName, $PrivateKeyFileName, $PrivateSecretFileName ) = @_;
 
     # read certificates, private keys and secrets
@@ -672,118 +596,100 @@ my $GetCertificateDataFromFiles = sub {
 
     # return strings instead of references
     return ( ${$CertStringRef}, ${$PrivateStringRef}, ${$PrivateSecretRef} );
-};
-
-# OpenSSL 0.9.x correct hashes
-my $OTOBORootCAHash   = '1a01713f';
-my $OTOBORDCAHash     = '7807c24e';
-my $OTOBOLabCAHash    = '2fc24258';
-my $OTOBOUserCertHash = 'eab039b6';
-
-# OpenSSL 1.0.0 correct hashes
-if ($UseNewHashes) {
-    $OTOBORootCAHash   = '7835cf94';
-    $OTOBORDCAHash     = 'b5d19fb9';
-    $OTOBOLabCAHash    = '19545811';
-    $OTOBOUserCertHash = '4d400195';
 }
 
-# create certificates table
+# OpenSSL 1.0.0 subject hashes as determined by:
+#  openssl x509 -in SMIMECACertificate-Johanneum.crt -noout -subject_hash
+my ( $JohanneumCAHash, $GeologyCAHash, $CabinetCAHash ) = ( '3b966dd9', '4bb5116c', '63bc283c' );
+
+# Collect info about the CA certificates from the files in scripts/test/sample/SMIME.
+# The fingerprint can be generated from the certificates:
+#   openssl x509  -noout -fingerprint -in SMIMECACertificate-Cabinet.crt
 my %Certificates;
+{
+    my ( $CabinetCertificateString, $CabinetPrivateString, $CabinetPrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-Cabinet.crt',
+        'SMIMECAPrivateKey-Cabinet.pem',
+        'SMIMECAPrivateKeyPass-Cabinet.crt',
+    );
+    $Certificates{CabinetCA} = {
+        Hash          => $CabinetCAHash,
+        Fingerprint   => '55:E9:26:30:07:1A:03:41:A3:F5:5F:A8:E5:A7:BC:60:34:09:D1:82',
+        String        => $CabinetCertificateString,
+        PrivateSecret => $CabinetPrivateSecret,
+        PrivateHash   => $CabinetCAHash,
+        PrivateString => $CabinetPrivateString,
+    };
 
-# get data from files
-my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBOLab.crt",
-    "SMIMECAPrivateKey-OTOBOLab.pem",
-    "SMIMECAPrivateKeyPass-OTOBOLab.crt",
-);
+    my ( $GeologyCertificateString, $GeologyPrivateString, $GeologyPrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-Geology.crt',
+        'SMIMECAPrivateKey-Geology.pem',
+        'SMIMECAPrivateKeyPass-Geology.crt',
+    );
+    $Certificates{GeologyCA} = {
+        Hash          => $GeologyCAHash,
+        Fingerprint   => 'A5:73:37:52:21:91:E6:66:80:DA:AC:22:D9:44:21:54:62:C8:7D:83',
+        String        => $GeologyCertificateString,
+        PrivateSecret => $GeologyPrivateSecret,
+        PrivateHash   => $GeologyCAHash,
+        PrivateString => $GeologyPrivateString,
+    };
 
-# fill certificates table
-$Certificates{OTOBOLabCA} = {
-    Hash          => $OTOBOLabCAHash,
-    Fingerprint   => '28:10:65:6D:C7:FD:1B:37:BE:B5:73:44:9F:D9:C8:95:57:34:B0:A1',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBOLabCAHash,
-    PrivateString => $PrivateString,
-};
+    my ( $JohanneumCertificateString, $JohanneumPrivateString, $JohanneumPrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMECACertificate-Johanneum.crt',
+        'SMIMECAPrivateKey-Johanneum.pem',
+        'SMIMECAPrivateKeyPass-Johanneum.crt',
+    );
+    $Certificates{JohanneumCA} = {
+        Hash          => $JohanneumCAHash,
+        Fingerprint   => '6E:6E:75:50:CD:17:2B:A2:EF:01:32:85:DE:10:E6:D8:10:93:6B:A4',
+        String        => $JohanneumCertificateString,
+        PrivateSecret => $JohanneumPrivateSecret,
+        PrivateHash   => $JohanneumCAHash,
+        PrivateString => $JohanneumPrivateString,
+    };
+}
 
-# get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBORD.crt",
-    "SMIMECAPrivateKey-OTOBORD.pem",
-    "SMIMECAPrivateKeyPass-OTOBORD.crt",
-);
-
-# fill certificates table
-$Certificates{OTOBORDCA} = {
-    Hash          => $OTOBORDCAHash,
-    Fingerprint   => '3F:F1:41:8A:CF:39:30:53:DB:27:B0:08:3A:58:54:ED:31:D2:8A:FC',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBORDCAHash,
-    PrivateString => $PrivateString,
-};
-
-# get data from files
-( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-    "SMIMECACertificate-OTOBORoot.crt",
-    "SMIMECAPrivateKey-OTOBORoot.pem",
-    "SMIMECAPrivateKeyPass-OTOBORoot.crt",
-);
-
-# fill certificates table
-$Certificates{OTOBORootCA} = {
-    Hash          => $OTOBORootCAHash,
-    Fingerprint   => 'BB:F7:B5:5B:52:AE:2D:4F:5A:B5:BD:E5:56:C5:D0:D9:38:3F:76:18',
-    String        => $CertificateString,
-    PrivateSecret => $PrivateSecret,
-    PrivateHash   => $OTOBORootCAHash,
-    PrivateString => $PrivateString,
-};
-
-# adding tests for smime certificate chains
+# tests for smime certificate chains
 {
 
-    # get data from files
-    my ( $CertificateString, $PrivateString, $PrivateSecret ) = $GetCertificateDataFromFiles->(
-        "SMIMECertificate-smimeuser1.crt",
-        "SMIMEPrivateKey-smimeuser1.pem",
-        "SMIMEPrivateKeyPass-smimeuser1.crt",
+    # info about the certificate for Axel
+    my ( $CertificateString, $PrivateString, $PrivateSecret ) = GetCertificateDataFromFiles(
+        'SMIMEUserCertificate-Axel.crt',
+        'SMIMEUserPrivateKey-Axel.pem',
+        'SMIMEUserPrivateKeyPass-Axel.crt',
     );
-
-    # add certificate smimeuser1
-    my %SMIMEUser1Certificate;
-    %SMIMEUser1Certificate = (
-        Hash          => $OTOBOUserCertHash,
-        Fingerprint   => 'F1:1F:83:42:14:DB:0F:FD:2E:F7:C5:84:36:8B:07:72:48:2C:C9:C0',
+    my $AxelCertHash         = 'c8c9e520';
+    my %SMIMEAxelCertificate = (
+        Hash          => $AxelCertHash,
+        Fingerprint   => 'AB:DD:5E:8C:A6:0D:A7:B0:67:F8:C0:F8:7C:BD:E1:EF:19:7B:32:E8',
         String        => $CertificateString,
         PrivateSecret => $PrivateSecret,
-        PrivateHash   => $OTOBOUserCertHash,
+        PrivateHash   => $AxelCertHash,
         PrivateString => $PrivateString,
     );
 
     my %Result = $SMIMEObject->CertificateAdd(
-        Certificate => $SMIMEUser1Certificate{String},
+        Certificate => $SMIMEAxelCertificate{String},
     );
 
-    $SMIMEUser1Certificate{Filename} = $Result{Filename};
+    $SMIMEAxelCertificate{Filename} = $Result{Filename};
 
     %Result = $SMIMEObject->PrivateAdd(
-        Private => $SMIMEUser1Certificate{PrivateString},
-        Secret  => $SMIMEUser1Certificate{PrivateSecret},
+        Private => $SMIMEAxelCertificate{PrivateString},
+        Secret  => $SMIMEAxelCertificate{PrivateSecret},
     );
 
-    $SMIMEUser1Certificate{PrivateFilename} = $Result{Filename};
+    $SMIMEAxelCertificate{PrivateFilename} = $Result{Filename};
 
-    # sign a message with smimeuser1
+    # sign a message with Axel
     my $Message =
         'This is a signed message to sign, and verification must pass a certificate chain validation.';
 
     my $Sign = $SMIMEObject->Sign(
         Message     => $Message,
-        Hash        => $SMIMEUser1Certificate{PrivateHash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{PrivateHash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     # verify it
@@ -792,23 +698,23 @@ $Certificates{OTOBORootCA} = {
     );
 
     # it must fail
-    $Self->False(
-        $Data{Successful},
+    ok(
+        !$Data{Successful},
         'Sign(), failed certificate chain verification, needed CA certificates not embedded',
     );
 
-    # add CA certificates to the local cert storage (OTOBOLabCA and OTOBORDCA)
-    for my $Cert (qw( OTOBOLabCA OTOBORDCA )) {
+    # add CA certificates to the local cert storage (CabinetCA and GeologyCA)
+    for my $Cert (qw( CabinetCA GeologyCA )) {
         $SMIMEObject->CertificateAdd(
             Certificate => $Certificates{$Cert}->{String},
         );
     }
 
-    # sign a message with smimeuser1
+    # sign a message with Axel
     $Sign = $SMIMEObject->Sign(
         Message     => $Message,
-        Hash        => $SMIMEUser1Certificate{PrivateHash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{PrivateHash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     # verify must fail not root cert added to the trusted cert path
@@ -824,13 +730,13 @@ $Certificates{OTOBORootCA} = {
 
     # add the root CA cert to the trusted certificates path
     $SMIMEObject->CertificateAdd(
-        Certificate => $Certificates{OTOBORootCA}->{String},
+        Certificate => $Certificates{JohanneumCA}->{String},
     );
 
-    # verify now must works
+    # verify now must work
     %Data = $SMIMEObject->Verify(
         Message => $Sign,
-        CACert  => "$CertPath/$OTOBORootCAHash.0",
+        CACert  => "$CertPath/$JohanneumCAHash.0",
     );
 
     # it must work
@@ -840,7 +746,6 @@ $Certificates{OTOBORootCA} = {
     );
 
     # testing relations between certificates
-    # fail
 
     # add relation
     my $Success = $SMIMEObject->SignerCertRelationAdd(
@@ -848,61 +753,46 @@ $Certificates{OTOBORootCA} = {
         CAFingerprint   => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:',
         UserID          => 1,
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationAdd(), fail, wrong cert fingerprint',
-    );
+    ok( !$Success, 'SignerCertRelationAdd() fails because of wrong cert fingerprint' );
 
     # get all relations for a certificate
     $Success = $SMIMEObject->SignerCertRelationGet(
         CertFingerprint => 'XX:XX:XX:XX:XX:XX:XX:XX:XX:XX',
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationGet(), fail, wrong cert fingerprint',
-    );
+    ok( !$Success, 'SignerCertRelationGet() fails because the relation was not added', );
 
     # get one relation by ID
     $Success = $SMIMEObject->SignerCertRelationGet(
         ID => '9999999',
     );
-    $Self->False(
-        $Success,
-        'SignerCertRelationGet(), fail, wrong ID',
-    );
+    ok( !$Success, 'SignerCertRelationGet(), fail, wrong ID' );
 
     # true cert
     # add relation
     $Success = $SMIMEObject->SignerCertRelationAdd(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
-        CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
+        CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
         UserID          => 1,
     );
-    $Self->True(
-        $Success,
-        'SignerCertRelationAdd(), add relation for certificate',
-    );
+    ok( $Success, 'SignerCertRelationAdd(), add relation GeologyCA for certificate' );
 
     $Success = $SMIMEObject->SignerCertRelationAdd(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
-        CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
+        CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
         UserID          => 1,
     );
-    $Self->True(
-        $Success,
-        'SignerCertRelationAdd(), add relation for certificate',
-    );
+    ok( $Success, 'SignerCertRelationAdd(), add relation CabinetCA for certificate' );
 
     # sign a message after relations added not send CA certs now should be taken automatically by the sign function
     $Sign = $SMIMEObject->Sign(
         Message  => $Message,
-        Filename => $SMIMEUser1Certificate{Filename},
+        Filename => $SMIMEAxelCertificate{Filename},
     );
 
     # verify now must works
     %Data = $SMIMEObject->Verify(
         Message => $Sign,
-        CACert  => "$CertPath/$OTOBORootCAHash.0",
+        CACert  => "$CertPath/$JohanneumCAHash.0",
     );
 
     # it must works
@@ -913,7 +803,7 @@ $Certificates{OTOBORootCA} = {
 
     # get all relations for a certificate
     my @CertResults = $SMIMEObject->SignerCertRelationGet(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
     $Self->Is(
         scalar @CertResults,
@@ -962,7 +852,7 @@ $Certificates{OTOBORootCA} = {
 
     # delete all relations for a certificate
     $SMIMEObject->SignerCertRelationDelete(
-        CertFingerprint => $SMIMEUser1Certificate{Fingerprint},
+        CertFingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
     $Success = $SMIMEObject->SignerCertRelationExists(
         ID => $CertResults[1]->{ID},
@@ -974,8 +864,8 @@ $Certificates{OTOBORootCA} = {
 
     # delete certificates
     $SMIMEObject->CertificateRemove(
-        Hash        => $SMIMEUser1Certificate{Hash},
-        Fingerprint => $SMIMEUser1Certificate{Fingerprint},
+        Hash        => $SMIMEAxelCertificate{Hash},
+        Fingerprint => $SMIMEAxelCertificate{Fingerprint},
     );
 
     for my $Cert ( values %Certificates ) {
@@ -1145,13 +1035,8 @@ BpHuCHy9nGFvhO7+foE1HG3lETI+IZNq8A==
 -----END CERTIFICATE-----',
     };
 
-    # 0.9.x hash
-    my $CommonHash = 'b93941b5';
-
     # 1.0.0 hash
-    if ($UseNewHashes) {
-        $CommonHash = '9d993e95';
-    }
+    my $CommonHash = '9d993e95';
 
     TEST:
     for my $Number ( 0 .. 4 ) {
@@ -2116,135 +2001,135 @@ HZ4=
 
         # set wrong hashes
         my %WrongHashes = (
-            OTOBORootCA => 'aaaaaaaa',
-            OTOBORDCA   => 'bbbbbbbb',
-            OTOBOLabCA  => 'cccccccc',
+            JohanneumCA => 'aaaaaaaa',
+            GeologyCA   => 'bbbbbbbb',
+            CabinetCA   => 'cccccccc',
         );
 
         my @Tests = (
             {
                 Name     => '3 Certs, PKs and PSs',
                 WrongCAs => {
-                    OTOBORootCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBORootCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBORootCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBORootCA}->{PrivateString},
+                    JohanneumCA => {
+                        WrongCAFile                     => "$WrongHashes{JohanneumCA}.0",
+                        WrongCAFileContent              => $Certificates{JohanneumCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{JohanneumCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
-                            $Certificates{OTOBORootCA}->{PrivateSecret},
+                            $Certificates{JohanneumCA}->{PrivateSecret},
                         WrongRelations => [
                             {
-                                CertHash        => $WrongHashes{OTOBORootCA},
-                                CertFingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBORDCA},
-                                CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{JohanneumCA},
+                                CertFingerprint => $Certificates{JohanneumCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{GeologyCA},
+                                CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $WrongHashes{OTOBORootCA},
-                                CertFingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBOLabCA},
-                                CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{JohanneumCA},
+                                CertFingerprint => $Certificates{JohanneumCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{CabinetCA},
+                                CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
 
                             },
                         ],
                     },
-                    OTOBORDCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBORDCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBORDCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBORDCA}->{PrivateString},
-                        WrongCAPrivateSecretFileContent => $Certificates{OTOBORDCA}->{PrivateSecret},
+                    GeologyCA => {
+                        WrongCAFile                     => "$WrongHashes{GeologyCA}.0",
+                        WrongCAFileContent              => $Certificates{GeologyCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{GeologyCA}->{PrivateString},
+                        WrongCAPrivateSecretFileContent => $Certificates{GeologyCA}->{PrivateSecret},
                         WrongRelations                  => [
                             {
-                                CertHash        => $WrongHashes{OTOBORDCA},
-                                CertFingerprint => $Certificates{OTOBORDCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBORootCA},
-                                CAFingerprint   => $Certificates{OTOBORootCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{GeologyCA},
+                                CertFingerprint => $Certificates{GeologyCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{JohanneumCA},
+                                CAFingerprint   => $Certificates{JohanneumCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $WrongHashes{OTOBORDCA},
-                                CertFingerprint => $Certificates{OTOBORDCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBOLabCA},
-                                CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{GeologyCA},
+                                CertFingerprint => $Certificates{GeologyCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{CabinetCA},
+                                CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
 
                             },
                         ],
                     },
-                    OTOBOLabCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBOLabCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBOLabCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBOLabCA}->{PrivateString},
+                    CabinetCA => {
+                        WrongCAFile                     => "$WrongHashes{CabinetCA}.0",
+                        WrongCAFileContent              => $Certificates{CabinetCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{CabinetCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
-                            $Certificates{OTOBORootCA}->{PrivateSecret},
+                            $Certificates{JohanneumCA}->{PrivateSecret},
                         WrongRelations => [
                             {
-                                CertHash        => $WrongHashes{OTOBOLabCA},
-                                CertFingerprint => $Certificates{OTOBOLabCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBORootCA},
-                                CAFingerprint   => $Certificates{OTOBORootCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{CabinetCA},
+                                CertFingerprint => $Certificates{CabinetCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{JohanneumCA},
+                                CAFingerprint   => $Certificates{JohanneumCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $WrongHashes{OTOBOLabCA},
-                                CertFingerprint => $Certificates{OTOBOLabCA}->{Fingerprint},
-                                CAHash          => $WrongHashes{OTOBORDCA},
-                                CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
+                                CertHash        => $WrongHashes{CabinetCA},
+                                CertFingerprint => $Certificates{CabinetCA}->{Fingerprint},
+                                CAHash          => $WrongHashes{GeologyCA},
+                                CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
 
                             },
                         ],
                     },
                 },
                 CorrectCAs => {
-                    OTOBORootCA => {
+                    JohanneumCA => {
                         CorrectRelations => [
                             {
-                                CertHash        => $Certificates{OTOBORootCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBORDCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
+                                CertHash        => $Certificates{JohanneumCA}->{Hash},
+                                CertFingerprint => $Certificates{JohanneumCA}->{Fingerprint},
+                                CAHash          => $Certificates{GeologyCA}->{Hash},
+                                CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $Certificates{OTOBORootCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBOLabCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
+                                CertHash        => $Certificates{JohanneumCA}->{Hash},
+                                CertFingerprint => $Certificates{JohanneumCA}->{Fingerprint},
+                                CAHash          => $Certificates{CabinetCA}->{Hash},
+                                CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
 
                             },
                         ],
                     },
-                    OTOBORDCA => {
+                    GeologyCA => {
                         CorrectRelations => [
                             {
-                                CertHash        => $Certificates{OTOBORDCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBORDCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBORootCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBORootCA}->{Fingerprint},
+                                CertHash        => $Certificates{GeologyCA}->{Hash},
+                                CertFingerprint => $Certificates{GeologyCA}->{Fingerprint},
+                                CAHash          => $Certificates{JohanneumCA}->{Hash},
+                                CAFingerprint   => $Certificates{JohanneumCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $Certificates{OTOBORDCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBORDCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBOLabCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBOLabCA}->{Fingerprint},
+                                CertHash        => $Certificates{GeologyCA}->{Hash},
+                                CertFingerprint => $Certificates{GeologyCA}->{Fingerprint},
+                                CAHash          => $Certificates{CabinetCA}->{Hash},
+                                CAFingerprint   => $Certificates{CabinetCA}->{Fingerprint},
 
                             },
                         ],
                     },
-                    OTOBOLabCA => {
+                    CabinetCA => {
                         CorrectRelations => [
                             {
-                                CertHash        => $Certificates{OTOBOLabCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBOLabCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBORootCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBORootCA}->{Fingerprint},
+                                CertHash        => $Certificates{CabinetCA}->{Hash},
+                                CertFingerprint => $Certificates{CabinetCA}->{Fingerprint},
+                                CAHash          => $Certificates{JohanneumCA}->{Hash},
+                                CAFingerprint   => $Certificates{JohanneumCA}->{Fingerprint},
 
                             },
                             {
-                                CertHash        => $Certificates{OTOBOLabCA}->{Hash},
-                                CertFingerprint => $Certificates{OTOBOLabCA}->{Fingerprint},
-                                CAHash          => $Certificates{OTOBORDCA}->{Hash},
-                                CAFingerprint   => $Certificates{OTOBORDCA}->{Fingerprint},
+                                CertHash        => $Certificates{CabinetCA}->{Hash},
+                                CertFingerprint => $Certificates{CabinetCA}->{Fingerprint},
+                                CAHash          => $Certificates{GeologyCA}->{Hash},
+                                CAFingerprint   => $Certificates{GeologyCA}->{Fingerprint},
                             },
                         ],
                     },
@@ -2257,12 +2142,12 @@ HZ4=
             {
                 Name     => '1 Cert, No PKs No PSs',
                 WrongCAs => {
-                    OTOBORootCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBORootCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBORootCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBORootCA}->{PrivateString},
+                    JohanneumCA => {
+                        WrongCAFile                     => "$WrongHashes{JohanneumCA}.0",
+                        WrongCAFileContent              => $Certificates{JohanneumCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{JohanneumCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
-                            $Certificates{OTOBORootCA}->{PrivateSecret},
+                            $Certificates{JohanneumCA}->{PrivateSecret},
                     },
                 },
                 UsePrivateKeys    => 0,
@@ -2273,12 +2158,12 @@ HZ4=
             {
                 Name     => '1 Cert, 1 PKs No PSs',
                 WrongCAs => {
-                    OTOBORootCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBORootCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBORootCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBORootCA}->{PrivateString},
+                    JohanneumCA => {
+                        WrongCAFile                     => "$WrongHashes{JohanneumCA}.0",
+                        WrongCAFileContent              => $Certificates{JohanneumCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{JohanneumCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
-                            $Certificates{OTOBORootCA}->{PrivateSecret},
+                            $Certificates{JohanneumCA}->{PrivateSecret},
                     },
                 },
                 UsePrivateKeys    => 1,
@@ -2289,12 +2174,12 @@ HZ4=
             {
                 Name     => '1 Cert, No PKs 1 PSs',
                 WrongCAs => {
-                    OTOBORootCA => {
-                        WrongCAFile                     => "$WrongHashes{OTOBORootCA}.0",
-                        WrongCAFileContent              => $Certificates{OTOBORootCA}->{String},
-                        WrongCAPrivateKeyFileContent    => $Certificates{OTOBORootCA}->{PrivateString},
+                    JohanneumCA => {
+                        WrongCAFile                     => "$WrongHashes{JohanneumCA}.0",
+                        WrongCAFileContent              => $Certificates{JohanneumCA}->{String},
+                        WrongCAPrivateKeyFileContent    => $Certificates{JohanneumCA}->{PrivateString},
                         WrongCAPrivateSecretFileContent =>
-                            $Certificates{OTOBORootCA}->{PrivateSecret},
+                            $Certificates{JohanneumCA}->{PrivateSecret},
                     },
                 },
                 UsePrivateKeys    => 0,
@@ -2331,8 +2216,7 @@ HZ4=
                     CorrectCAFileContent              => $Certificates{$CAName}->{String},
                     CorrectCAPrivateKeyFileContent    => $Certificates{$CAName}->{PrivateString},
                     CorrectCAPrivateSecretFileContent => $Certificates{$CAName}->{PrivateSecret},
-                    CorrectRelations
-                        => $Test->{CorrectCAs}->{$CAName}->{CorrectRelations} || '',
+                    CorrectRelations                  => $Test->{CorrectCAs}->{$CAName}->{CorrectRelations} || '',
                 };
             }
 
@@ -2571,7 +2455,7 @@ HZ4=
 {
 
     # add certificates
-    for my $CA (qw( OTOBORootCA OTOBOLabCA )) {
+    for my $CA (qw( JohanneumCA CabinetCA )) {
         my %Result = $SMIMEObject->CertificateAdd(
             Certificate => $Certificates{$CA}->{String},
         );
@@ -2593,7 +2477,7 @@ HZ4=
         {
             Name   => 'Wrong Filename',
             Params => {
-                Filename => "$Certificates{OTOBORDCA}->{Hash}.0",
+                Filename => "$Certificates{GeologyCA}->{Hash}.0",
             },
             Success => 0,
         },
@@ -2601,14 +2485,14 @@ HZ4=
             Name   => 'Missing Hash',
             Params => {
                 Hash        => '',
-                Fingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
+                Fingerprint => $Certificates{JohanneumCA}->{Fingerprint},
             },
             Success => 0,
         },
         {
             Name   => 'Missing Fingerprint',
             Params => {
-                Hash        => $Certificates{OTOBORootCA}->{Hash},
+                Hash        => $Certificates{JohanneumCA}->{Hash},
                 Fingerprint => '',
             },
             Success => 0,
@@ -2616,31 +2500,31 @@ HZ4=
         {
             Name   => 'Wrong Hash',
             Params => {
-                Hash        => $Certificates{OTOBOLabCA}->{Hash},
-                Fingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
+                Hash        => $Certificates{CabinetCA}->{Hash},
+                Fingerprint => $Certificates{JohanneumCA}->{Fingerprint},
             },
             Success => 0,
         },
         {
             Name   => 'Wrong Fingerprint',
             Params => {
-                Hash        => $Certificates{OTOBORootCA}->{Hash},
-                Fingerprint => $Certificates{OTOBOLabCA}->{Fingerprint},
+                Hash        => $Certificates{JohanneumCA}->{Hash},
+                Fingerprint => $Certificates{CabinetCA}->{Fingerprint},
             },
             Success => 0,
         },
         {
             Name   => 'Correct Filename',
             Params => {
-                Filename => "$Certificates{OTOBORootCA}->{Hash}.0",
+                Filename => "$Certificates{JohanneumCA}->{Hash}.0",
             },
             Success => 1,
         },
         {
             Name   => 'Correct Hash, Fingerprint',
             Params => {
-                Hash        => $Certificates{OTOBORootCA}->{Hash},
-                Fingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
+                Hash        => $Certificates{JohanneumCA}->{Hash},
+                Fingerprint => $Certificates{JohanneumCA}->{Fingerprint},
             },
             Success => 1,
         },
@@ -2686,11 +2570,11 @@ HZ4=
 
     # compare both methods
     my $CertificateText1 = $SMIMEObject->CertificateRead(
-        Filename => "$Certificates{OTOBORootCA}->{Hash}.0",
+        Filename => "$Certificates{JohanneumCA}->{Hash}.0",
     );
     my $CertificateText2 = $SMIMEObject->CertificateRead(
-        Hash        => $Certificates{OTOBORootCA}->{Hash},
-        Fingerprint => $Certificates{OTOBORootCA}->{Fingerprint},
+        Hash        => $Certificates{JohanneumCA}->{Hash},
+        Fingerprint => $Certificates{JohanneumCA}->{Fingerprint},
     );
 
     $Self->Is(
@@ -2700,7 +2584,7 @@ HZ4=
     );
 
     # clean system, remove certificates
-    for my $CA (qw( OTOBORootCA OTOBOLabCA )) {
+    for my $CA (qw( JohanneumCA CabinetCA )) {
         my %Result = $SMIMEObject->CertificateRemove(
             Hash        => $Certificates{$CA}->{Hash},
             Fingerprint => $Certificates{$CA}->{Fingerprint},
@@ -2938,41 +2822,31 @@ for my $Count ( 1 .. 3 ) {
 
 # delete keys
 for my $Count ( 1 .. 3 ) {
-    my @Keys = $SMIMEObject->Search(
-        Search => $Search{$Count},
-    );
-    $Self->True(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
-    my %Result = $SMIMEObject->PrivateRemove(
-        Hash    => $Keys[0]->{Hash},
-        Modulus => $Keys[0]->{Modulus},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count PrivateRemove() - $Result{Message}",
-    );
+    subtest "delete keys again $Count" => sub {
+        my @Keys = $SMIMEObject->Search(
+            Search => $Search{$Count},
+        );
+        ok( $Keys[0], "#$Count Search()" );
+        my %Result = $SMIMEObject->PrivateRemove(
+            Hash    => $Keys[0]->{Hash},
+            Modulus => $Keys[0]->{Modulus},
+        );
+        ok( $Result{Successful}, "#$Count PrivateRemove() - $Result{Message}" );
 
-    %Result = $SMIMEObject->CertificateRemove(
-        Hash        => $Keys[0]->{Hash},
-        Fingerprint => $Keys[0]->{Fingerprint},
-    );
+        %Result = $SMIMEObject->CertificateRemove(
+            Hash        => $Keys[0]->{Hash},
+            Fingerprint => $Keys[0]->{Fingerprint},
+        );
 
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Count CertificateRemove()",
-    );
+        ok( $Result{Successful}, "#$Count CertificateRemove()" );
 
-    @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
-    $Self->False(
-        $Keys[0] || '',
-        "#$Count Search()",
-    );
+        @Keys = $SMIMEObject->Search( Search => $Search{$Count} );
+        ok( !$Keys[0], "#$Count Search()" );
+    };
 }
 
-File::Path::rmtree($CertPath);
-File::Path::rmtree($PrivatePath);
+rmtree($CertPath);
+rmtree($PrivatePath);
 
 # cleanup is done by RestoreDatabase
 

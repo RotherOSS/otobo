@@ -14,18 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Test2::V0;
-use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
-
+# core modules
 use File::Path qw(mkpath rmtree);
 
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::Output::HTML::ArticleCheck::SMIME;
 
 # get needed objects
@@ -70,21 +71,11 @@ $ConfigObject->Set(
 
 my $OpenSSLBin = $ConfigObject->Get('SMIME::Bin') || '/usr/bin/openssl';
 
-# get the openssl version string, e.g. OpenSSL 0.9.8e 23 Feb 2007
-my $OpenSSLVersionString = qx{$OpenSSLBin version};
-my $OpenSSLMajorVersion;
-
 # get the openssl major version, e.g. 1 for version 1.0.0
-if ( $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi ) {
-    $OpenSSLMajorVersion = $1;
-}
-
-# openssl version 1.0.0 uses different hash algorithm... in the future release of openssl this might
-#change again in such case a better version detection will be needed
-my $UseNewHashes;
-if ( $OpenSSLMajorVersion >= 1 ) {
-    $UseNewHashes = 1;
-}
+# openssl 0.9 is no longer considered for this test script, as openssl 1.0.0 was already released in 2010
+my $OpenSSLVersionString = qx{$OpenSSLBin version};                                                       # e.g. "OpenSSL 1.1.1f  31 Mar 2020"
+my ($OpenSSLMajorVersion) = $OpenSSLVersionString =~ m{ \A (?: (?: Open|Libre)SSL )? \s* ( \d )  }xmsi;
+ok( $OpenSSLMajorVersion >= 0, 'openssl has version 1.0.0 or newer' );
 
 # set config
 $ConfigObject->Set(
@@ -111,56 +102,35 @@ if ( !-e $OpenSSLBin ) {
 # create crypt object
 my $SMIMEObject = $Kernel::OM->Get('Kernel::System::Crypt::SMIME');
 
-if ( !$SMIMEObject ) {
-    print STDERR "NOTICE: No SMIME support!\n";
+if ($SMIMEObject) {
+    pass('got SMIME support');
+}
+else {
+    diag "NOTICE: No SMIME support!";
 
     if ( !-e $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "No such $OpenSSLBin!",
-        );
+        fail("$OpenSSLBin exists");
     }
     elsif ( !-x $OpenSSLBin ) {
-        $Self->False(
-            1,
-            "$OpenSSLBin not executable!",
-        );
+        fail("$OpenSSLBin is executable!");
     }
     elsif ( !-e $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath!",
-        );
+        fail("$CertPath exists");
     }
     elsif ( !-d $CertPath ) {
-        $Self->False(
-            1,
-            "No such $CertPath directory!",
-        );
+        fail("$CertPath is a directory");
     }
-    elsif ( !-w $CertPath ) {
-        $Self->False(
-            1,
-            "$CertPath not writable!",
-        );
+    elsif ( !-r $CertPath ) {
+        fail("$CertPath is readable");
     }
     elsif ( !-e $PrivatePath ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath!",
-        );
+        fail("$PrivatePath exists");
     }
-    elsif ( !-d $Self->{PrivatePath} ) {
-        $Self->False(
-            1,
-            "No such $PrivatePath directory!",
-        );
+    elsif ( !-d $PrivatePath ) {
+        fail("$PrivatePath is a directory");
     }
     elsif ( !-w $PrivatePath ) {
-        $Self->False(
-            1,
-            "$PrivatePath not writable!",
-        );
+        fail("$PrivatePath is writable");
     }
 
     done_testing();
@@ -172,23 +142,12 @@ if ( !$SMIMEObject ) {
 # Setup environment
 #
 
-# OpenSSL 0.9.x hashes
-my $Check1Hash        = '980a83c7';
-my $Check2Hash        = '999bcb2f';
-my $OTOBORootCAHash   = '1a01713f';
-my $OTOBORDCAHash     = '7807c24e';
-my $OTOBOLabCAHash    = '2fc24258';
-my $OTOBOUserCertHash = 'eab039b6';
-
-# OpenSSL 1.0.0 hashes
-if ($UseNewHashes) {
-    $Check1Hash        = 'f62a2257';
-    $Check2Hash        = '35c7d865';
-    $OTOBORootCAHash   = '7835cf94';
-    $OTOBORDCAHash     = 'b5d19fb9';
-    $OTOBOLabCAHash    = '19545811';
-    $OTOBOUserCertHash = '4d400195';
-}
+# OpenSSL 1.0.0 subject hashes as determined by:
+#  openssl x509 -in SMIMECACertificate-Johanneum.crt -noout -subject_hash
+my ( $JohanneumCAHash, $GeologyCAHash, $CabinetCAHash ) = ( '3b966dd9', '4bb5116c', '63bc283c' );
+my $AxelCertHash = 'c8c9e520';
+my $Check1Hash   = 'f62a2257';
+my $Check2Hash   = '35c7d865';
 
 # certificates
 my @Certificates = (
@@ -208,65 +167,61 @@ my @Certificates = (
     },
     {
         CertificateName       => 'OTOBOUserCert',
-        CertificateHash       => $OTOBOUserCertHash,
-        CertificateFileName   => 'SMIMECertificate-smimeuser1.crt',
-        PrivateKeyFileName    => 'SMIMEPrivateKey-smimeuser1.pem',
-        PrivateSecretFileName => 'SMIMEPrivateKeyPass-smimeuser1.crt',
+        CertificateHash       => $AxelCertHash,
+        CertificateFileName   => 'SMIMEUserCertificate-Axel.crt',
+        PrivateKeyFileName    => 'SMIMEUserPrivateKey-Axel.pem',
+        PrivateSecretFileName => 'SMIMEUserPrivateKeyPass-Axel.crt',
     },
     {
-        CertificateName       => 'OTOBOLabCA',
-        CertificateHash       => $OTOBOLabCAHash,
-        CertificateFileName   => 'SMIMECACertificate-OTOBOLab.crt',
-        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTOBOLab.pem',
-        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTOBOLab.crt',
+        CertificateName       => 'CabinetCA',
+        CertificateHash       => $CabinetCAHash,
+        CertificateFileName   => 'SMIMECACertificate-Cabinet.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-Cabinet.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Cabinet.crt',
     },
     {
-        CertificateName       => 'OTOBORDCA',
-        CertificateHash       => $OTOBORDCAHash,
-        CertificateFileName   => 'SMIMECACertificate-OTOBORD.crt',
-        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTOBORD.pem',
-        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTOBORD.crt',
+        CertificateName       => 'GeologyCA',
+        CertificateHash       => $GeologyCAHash,
+        CertificateFileName   => 'SMIMECACertificate-Geology.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-Geology.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Geology.crt',
     },
     {
-        CertificateName       => 'OTOBORootCA',
-        CertificateHash       => $OTOBORootCAHash,
-        CertificateFileName   => 'SMIMECACertificate-OTOBORoot.crt',
-        PrivateKeyFileName    => 'SMIMECAPrivateKey-OTOBORoot.pem',
-        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-OTOBORoot.crt',
+        CertificateName       => 'JohanneumCA',
+        CertificateHash       => $JohanneumCAHash,
+        CertificateFileName   => 'SMIMECACertificate-Johanneum.crt',
+        PrivateKeyFileName    => 'SMIMECAPrivateKey-Johanneum.pem',
+        PrivateSecretFileName => 'SMIMECAPrivateKeyPass-Johanneum.crt',
     },
 );
 
 # add chain certificates
 for my $Certificate (@Certificates) {
+    subtest "add certificate $Certificate->{CertificateName}" => sub {
 
-    # add certificate ...
-    my $CertString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{CertificateFileName},
-    );
-    my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}",
-    );
+        # add certificate ...
+        my $CertString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{CertificateFileName},
+        );
+        my %Result = $SMIMEObject->CertificateAdd( Certificate => ${$CertString} );
+        ok( $Result{Successful}, "#$Certificate->{CertificateName} CertificateAdd() - $Result{Message}" );
 
-    # add private key
-    my $KeyString = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{PrivateKeyFileName},
-    );
-    my $Secret = $MainObject->FileRead(
-        Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
-        Filename  => $Certificate->{PrivateSecretFileName},
-    );
-    %Result = $SMIMEObject->PrivateAdd(
-        Private => ${$KeyString},
-        Secret  => ${$Secret},
-    );
-    $Self->True(
-        $Result{Successful} || '',
-        "#$Certificate->{CertificateName} PrivateAdd()",
-    );
+        # add private key
+        my $KeyString = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{PrivateKeyFileName},
+        );
+        my $Secret = $MainObject->FileRead(
+            Directory => $ConfigObject->Get('Home') . "/scripts/test/sample/SMIME/",
+            Filename  => $Certificate->{PrivateSecretFileName},
+        );
+        %Result = $SMIMEObject->PrivateAdd(
+            Private => ${$KeyString},
+            Secret  => ${$Secret},
+        );
+        ok( $Result{Successful}, "#$Certificate->{CertificateName} PrivateAdd()" );
+    };
 }
 
 my $TicketID = $TicketObject->TicketCreate(
@@ -281,10 +236,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID       => 1,
 );
 
-$Self->True(
-    $TicketID,
-    'TicketCreate()',
-);
+ok( $TicketID, 'TicketCreate()' );
 
 #
 # actual tests
@@ -444,12 +396,12 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From => 'smimeuser1@test.com',
-            To   => 'smimeuser1@test.com',
+            From => 'axel@johanneum.example.org',
+            To   => 'axel@johanneum.example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $OTOBOUserCertHash . '.0',
+                Key     => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -461,11 +413,11 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From  => 'smimeuser1@test.com',
-            To    => 'smimeuser1@test.com',
+            From  => 'axel@johanneum.example.org',
+            To    => 'axel@johanneum.example.org',
             Crypt => {
                 Type => 'SMIME',
-                Key  => $OTOBOUserCertHash . '.0',
+                Key  => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 0,
@@ -477,16 +429,16 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " (old API) chain CA cert sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From => 'smimeuser1@test.com',
-            To   => 'smimeuser1@test.com',
+            From => 'axel@johanneum.example.org',
+            To   => 'axel@johanneum.example.org',
             Sign => {
                 Type    => 'SMIME',
                 SubType => 'Detached',
-                Key     => $OTOBOUserCertHash . '.0',
+                Key     => $AxelCertHash . '.0',
             },
             Crypt => {
                 Type => 'SMIME',
-                Key  => $OTOBOUserCertHash . '.0',
+                Key  => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -522,7 +474,7 @@ for my $Test (@Tests) {
             EmailSecurity => {
                 Backend     => 'SMIME',
                 Method      => 'Detached',
-                EncryptKeys => [ $Check1Hash . '.0', $OTOBOUserCertHash . '.0' ],
+                EncryptKeys => [ $Check1Hash . '.0', $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 0,
@@ -535,7 +487,7 @@ for my $Test (@Tests) {
         ArticleData => {
             %{ $Test->{ArticleData} },
             From          => 'unittest@example.org',
-            To            => 'unittest@example.org, smimeuser1@test.com',
+            To            => 'unittest@example.org, axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
                 Method      => 'Detached',
@@ -569,12 +521,12 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert sign only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend => 'SMIME',
                 SubType => 'Detached',
-                SignKey => $OTOBOUserCertHash . '.0',
+                SignKey => $AxelCertHash . '.0',
             },
         },
         VerifySignature  => 1,
@@ -586,11 +538,11 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert crypt only",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
-                EncryptKeys => [ $OTOBOUserCertHash . '.0' ],
+                EncryptKeys => [ $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 0,
@@ -602,13 +554,13 @@ for my $Test (@Tests) {
         Name        => $Test->{Name} . " chain CA cert sign and crypt",
         ArticleData => {
             %{ $Test->{ArticleData} },
-            From          => 'smimeuser1@test.com',
-            To            => 'smimeuser1@test.com',
+            From          => 'axel@johanneum.example.org',
+            To            => 'axel@johanneum.example.org',
             EmailSecurity => {
                 Backend     => 'SMIME',
                 SubType     => 'Detached',
-                SignKey     => $OTOBOUserCertHash . '.0',
-                EncryptKeys => [ $OTOBOUserCertHash . '.0' ],
+                SignKey     => $AxelCertHash . '.0',
+                EncryptKeys => [ $AxelCertHash . '.0' ],
             },
         },
         VerifySignature  => 1,
@@ -645,141 +597,114 @@ for my $Test (@TestVariations) {
         %{ $Test->{ArticleData} },
     );
 
-    $Self->True(
-        $ArticleID,
-        "$Test->{Name} - ArticleSend()",
-    );
+    subtest "$Test->{Name}" => sub {
 
-    my %Article = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
+        ok( $ArticleID, "ArticleSend()" );
 
-    my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
-        ArticleID => $ArticleID,
-        UserID    => 1,
-    );
-
-    my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
-
-    my $Result = $MailQueueObj->Send( %{$Item} );
-
-    my @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    # Run check a second time to simulate repeated views.
-    my @FirstCheckResult = @CheckResult;
-    @CheckResult = $CheckObject->Check( Article => \%Article );
-
-    $Self->IsDeeply(
-        \@FirstCheckResult,
-        \@CheckResult,
-        "$Test->{Name} - CheckObject() stable",
-    );
-
-    if ( $Test->{VerifySignature} ) {
-        my $SignatureVerified =
-            grep {
-                $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
-            } @CheckResult;
-
-        $Self->True(
-            $SignatureVerified,
-            "$Test->{Name} - signature verified",
-        );
-    }
-
-    if ( $Test->{VerifyDecryption} ) {
-        my $DecryptionVerified =
-            grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
-
-        $Self->True(
-            $DecryptionVerified,
-            "$Test->{Name} - decryption verified",
-        );
-    }
-
-    my %FinalArticleData = $ArticleBackendObject->ArticleGet(
-        TicketID  => $TicketID,
-        ArticleID => $ArticleID,
-    );
-
-    my $TestBody = $Test->{ArticleData}->{Body};
-
-    # convert test body to ASCII if it was HTML
-    if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
-        $TestBody = $HTMLUtilsObject->ToAscii(
-            String => $TestBody,
-        );
-    }
-
-    $Self->Is(
-        $FinalArticleData{Body},
-        $TestBody,
-        "$Test->{Name} - verified body content",
-    );
-
-    if ( defined $Test->{ArticleData}->{Attachment} ) {
-        my $Found;
-        my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+        my %Article = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
             ArticleID => $ArticleID,
         );
 
-        TESTATTACHMENT:
-        for my $Attachment ( @{ $Test->{ArticleData}->{Attachment} } ) {
-
-            next TESTATTACHMENT if !$Attachment->{Filename};
-
-            ATTACHMENTINDEX:
-            for my $AttachmentIndex ( sort keys %Index ) {
-
-                if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
-                    next ATTACHMENTINDEX;
-                }
-                my $ExpectedContentID = $Attachment->{ContentID};
-                if ( $Attachment->{ContentID} ) {
-                    $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
-                }
-                $Self->Is(
-                    $Index{$AttachmentIndex}->{ContentID},
-                    $ExpectedContentID,
-                    "$Test->{Name} - Attachment '$Attachment->{Filename}' ContentID",
-                );
-                $Found = 1;
-                last ATTACHMENTINDEX;
-            }
-            $Self->True(
-                $Found,
-                "$Test->{Name} - Attachment '$Attachment->{Filename}' was found"
-            );
-        }
-
-        # Remove all attachments, then run CheckObject again to verify they are not written again.
-        $ArticleBackendObject->ArticleDeleteAttachment(
+        my $CheckObject = Kernel::Output::HTML::ArticleCheck::SMIME->new(
             ArticleID => $ArticleID,
             UserID    => 1,
         );
 
-        $CheckObject->Check( Article => \%Article );
+        my $Item = $MailQueueObj->Get( ArticleID => $ArticleID );
 
-        %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+        my $Result = $MailQueueObj->Send( %{$Item} );
+
+        my @CheckResult = $CheckObject->Check( Article => \%Article );
+
+        if ( $Test->{VerifySignature} ) {
+            my $SignatureVerified =
+                grep {
+                    $_->{Successful} && $_->{Key} eq 'Signed' && $_->{SignatureFound} && $_->{Message}
+                } @CheckResult;
+
+            ok( $SignatureVerified, "signature verified" );
+        }
+
+        if ( $Test->{VerifyDecryption} ) {
+            my $DecryptionVerified =
+                grep { $_->{Successful} && $_->{Key} eq 'Crypted' && $_->{Message} } @CheckResult;
+
+            ok( $DecryptionVerified, "decryption verified" );
+        }
+
+        my %FinalArticleData = $ArticleBackendObject->ArticleGet(
+            TicketID  => $TicketID,
             ArticleID => $ArticleID,
         );
-        $Self->False(
-            scalar keys %Index,
-            "$Test->{Name} - Attachments not rewritten by ArticleCheck module"
+
+        my $TestBody = $Test->{ArticleData}->{Body};
+
+        # convert test body to ASCII if it was HTML
+        if ( $Test->{ArticleData}->{MimeType} eq 'text/html' ) {
+            $TestBody = $HTMLUtilsObject->ToAscii(
+                String => $TestBody,
+            );
+        }
+
+        is(
+            $FinalArticleData{Body},
+            $TestBody,
+            "verified body content",
         );
-    }
+
+        if ( defined $Test->{ArticleData}->{Attachment} ) {
+            my $Found;
+            my %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+            );
+
+            TESTATTACHMENT:
+            for my $Attachment ( $Test->{ArticleData}->{Attachment}->@* ) {
+
+                next TESTATTACHMENT if !$Attachment->{Filename};
+
+                ATTACHMENTINDEX:
+                for my $AttachmentIndex ( sort keys %Index ) {
+
+                    if ( $Index{$AttachmentIndex}->{Filename} ne $Attachment->{Filename} ) {
+                        next ATTACHMENTINDEX;
+                    }
+                    my $ExpectedContentID = $Attachment->{ContentID};
+                    if ( $Attachment->{ContentID} ) {
+                        $ExpectedContentID = '<' . $Attachment->{ContentID} . '>';
+                    }
+                    is(
+                        $Index{$AttachmentIndex}->{ContentID},
+                        $ExpectedContentID,
+                        "Attachment '$Attachment->{Filename}' ContentID",
+                    );
+                    $Found = 1;
+                    last ATTACHMENTINDEX;
+                }
+                ok( $Found, "Attachment '$Attachment->{Filename}' was found" );
+            }
+
+            # Remove all attachments, then run CheckObject again to verify they are not written again.
+            $ArticleBackendObject->ArticleDeleteAttachment(
+                ArticleID => $ArticleID,
+                UserID    => 1,
+            );
+
+            $CheckObject->Check( Article => \%Article );
+
+            %Index = $ArticleBackendObject->ArticleAttachmentIndex(
+                ArticleID => $ArticleID,
+            );
+            ok( !keys %Index, "Attachments not rewritten by ArticleCheck module" );
+        }
+    };
 }
 
 # delete needed test directories
 for my $Directory ( $CertPath, $PrivatePath ) {
     my $Success = rmtree( [$Directory] );
-    $Self->True(
-        $Success,
-        "Directory deleted - '$Directory'",
-    );
+    ok( $Success, "Directory deleted - '$Directory'" );
 }
 
-# cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
