@@ -358,12 +358,12 @@ sub Run {
 
     # get dynamic field config for frontend module
     my $DynamicFieldFilter = {
-        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
         %{
             $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")
                 ->{ProcessWidgetDynamicField}
                 || {}
         },
+        %{ $ConfigObject->Get("Ticket::Frontend::AgentTicketZoom")->{DynamicField} || {} },
     };
 
     # get the dynamic fields for ticket object
