@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-06-17 10:12+0000\n"
+"PO-Revision-Date: 2022-06-17 20:49+0000\n"
 "Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
@@ -3749,11 +3749,11 @@ msgstr "Добавить новое Условие"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "Общие данные инвокера"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "Настройки для данных исходящего запроса"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
@@ -3762,50 +3762,56 @@ msgstr "Поля заявки"
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket fields will be considered for the request data."
-msgstr ""
+msgstr "Для данных запроса будут учитываться только выбранные поля билета."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "Поля статей"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article fields will be considered for the request data."
-msgstr ""
+msgstr "Для данных запроса будут рассматриваться только выбранные поля статьи."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "Динамические поля билета"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Для данных запроса будут учитываться только выбранные динамические поля "
+"билета."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "Динамические поля статьи"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article dynamic fields will be considered for the request "
 "data."
 msgstr ""
+"Для данных запроса будут учитываться только выбранные динамические поля "
+"статьи."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "Количество статей"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The outgoing request data will only contain the configured number of "
 "articles. If left empty, only 1 article will be sent."
 msgstr ""
+"Данные исходящего запроса будут содержать только настроенное количество "
+"статей. Если оставить пустым, будет отправлена только 1 статья."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "Каналы связи"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3813,6 +3819,9 @@ msgid ""
 "communication channels. If left empty, articles created by all communication "
 "channels will be used."
 msgstr ""
+"В данных исходящего запроса будут учитываться только статьи выбранных "
+"каналов связи. Если оставить пустым, будут использоваться статьи, созданные "
+"всеми каналами связи."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
@@ -3823,10 +3832,12 @@ msgid ""
 "The outgoing request data will only consider articles created with the "
 "selected customer visibility."
 msgstr ""
+"В данных исходящего запроса будут учитываться только статьи, созданные с "
+"выбранной видимостью клиента."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "Типы отправителей"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3834,34 +3845,41 @@ msgid ""
 "selected sender types. If left empty, articles created by all sender types "
 "will be used."
 msgstr ""
+"Данные исходящего запроса будут учитывать только статьи, созданные "
+"выбранными типами отправителей. Если оставить пустым, будут использоваться "
+"статьи, созданные всеми типами отправителей."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "Отображение"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "Настройки для входящих ответных данных"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "Удаленное динамическое поле TicketID"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected ticket dynamic field is being used to store the remote TicketID."
 msgstr ""
+"Выбранное динамическое поле билета используется для хранения удаленного "
+"TicketID."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "If left empty, the remote TicketID will not be stored, unless you define a "
 "system configuration value for this web service."
 msgstr ""
+"Если оставить пустым, то удаленный TicketID не будет храниться, если только "
+"вы не определите значение системной конфигурации для этой веб-службы."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected field is already in use by the Ticket dynamic fields option."
-msgstr ""
+msgstr "Выбранное поле уже используется опцией Ticket dynamic fields."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3869,10 +3887,13 @@ msgid ""
 "the incoming response data. If left empty, no dynamic field will be "
 "processed."
 msgstr ""
+"При обработке входящих данных ответа учитываются только выбранные "
+"динамические поля билета. Если оставить пустым, ни одно динамическое поле не "
+"будет обработано."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "Данные о событиях"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
@@ -4046,11 +4067,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
-msgstr ""
+msgstr "Регекс-фильтры ключей данных (до сопоставления)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (after mapping)"
-msgstr ""
+msgstr "Регекс-фильтры ключей данных (после сопоставления)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
@@ -4123,7 +4144,7 @@ msgstr "Руководство по регулярным выражениям Pe
 msgid ""
 "If modifiers are desired they have to be specified within the regexes "
 "themselves."
-msgstr ""
+msgstr "Если необходимы модификаторы, они должны быть указаны в самих регексах."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
@@ -4284,7 +4305,7 @@ msgstr "URI для указания точного расположения дл
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
-msgstr ""
+msgstr "например, https://www.otobo.de:10745/api/v1.0 (без обратного слеша)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
@@ -4445,7 +4466,7 @@ msgstr "например, /opt/otobo/var/certificates/SOAP/CA"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "Проверка имени хоста SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4453,6 +4474,10 @@ msgid ""
 "Skipping verification is a security risk! Mainly for testing purposes in "
 "case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"Прервать запрос, если имя хоста не может быть проверено. Отключать с "
+"осторожностью! Пропуск проверки - это риск для безопасности! В основном для "
+"тестирования в случае самоподписанных SSL-сертификатов или если вы знаете, "
+"что делаете."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
@@ -4489,19 +4514,19 @@ msgstr "Команда HTTP по умолчанию для использова�
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "Дополнительные заголовки запроса (все инвокера)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "Дополнительные заголовки запроса (специфические для инвокера)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "Удалить все заголовки для этого инвокера"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "Заголовки для инвокера"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
