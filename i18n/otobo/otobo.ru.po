@@ -43,7 +43,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-06-10 02:54+0000\n"
+"PO-Revision-Date: 2022-06-17 10:12+0000\n"
 "Last-Translator: Philipp Kesler <philipp.kesler@hein.de>\n"
 "Language-Team: Russian <https://translate.otobo.org/projects/otobo10/otobo/"
 "ru/>\n"
@@ -1104,6 +1104,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"Регистрация системы - это услуга команды OTOBO, которая предоставляет массу "
+"преимуществ!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1373,7 +1375,7 @@ msgstr "Выберите запись из списка."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "Связь с управлением данными"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
@@ -1381,11 +1383,11 @@ msgstr "Contact with data"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "Добавление контакта с данными"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "Редактирование контакта с данными"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
@@ -1405,7 +1407,7 @@ msgstr "Разрешены шаблоны типа '*'."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "Введите поисковый запрос, чтобы найти контакты с данными."
 
 #. Template: AdminContactWD
 msgid "Valid"
@@ -1413,15 +1415,15 @@ msgstr "Действительность"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Управление политикой конфиденциальности"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Политика конфиденциальности"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "Удалить PrivacyPolicy Language"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1815,6 +1817,8 @@ msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"Хотите воспользоваться дополнительными типами динамических полей? У вас есть "
+"полный доступ к следующим типам полей:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1880,7 +1884,7 @@ msgstr "Удалить это поле"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Import / Export"
-msgstr ""
+msgstr "Импорт / Экспорт"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid ""
@@ -1888,22 +1892,26 @@ msgid ""
 "system. The file needs to be in .yml format as exported by dynamic field "
 "management module."
 msgstr ""
+"Здесь вы можете загрузить файл конфигурации для импорта динамических полей в "
+"вашу систему. Файл должен быть в формате .yml, экспортируемом модулем "
+"управления динамическими полями."
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Import"
-msgstr ""
+msgstr "Импорт динамических полей"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "DynamicFields Export"
-msgstr ""
+msgstr "Экспорт динамических полей"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Dynamic Fields Screens"
-msgstr ""
+msgstr "Экраны динамичных полей"
 
 #. Template: AdminDynamicFieldAdvanced
 msgid "Here you can manage the dynamic fields in the respective screens."
 msgstr ""
+"Здесь вы можете управлять динамическими полями в соответствующих экранах."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
@@ -2004,31 +2012,35 @@ msgstr "Это значение по умолчанию для данного п
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "Добавление или редактирование контактов"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"Чтобы добавить контакты в это поле, заполните всю необходимую информацию и "
+"сохраните его."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"Нажмите на название поля в обзоре для его редактирования и найдите "
+"соответствующее действие на боковой панели или в меню \"Билеты\"."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "Поле имени"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
-msgstr ""
+msgstr "Поле ValidID"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "Другие поля"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
@@ -2044,7 +2056,7 @@ msgstr "Удалить значение"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "Добавить поле"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
@@ -2052,37 +2064,45 @@ msgstr "Добавить значение"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "Вот возможные атрибуты данных для контактов."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "Обязательные поля"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of mandatory keys (optional). Keys 'Name' and 'ValidID' "
 "are always mandatory and doesn't have to be listed here."
 msgstr ""
+"Список обязательных ключей через запятую (необязательный). Ключи 'Name' и "
+"'ValidID' всегда являются обязательными и не обязательно должны быть "
+"перечислены здесь."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Sorted fields"
-msgstr ""
+msgstr "Отсортированные поля"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of keys in sort order (optional). Keys listed here come "
 "first, all remaining fields afterwards and sorted alphabetically."
 msgstr ""
+"Список ключей через запятую в порядке сортировки (необязательно). Ключи, "
+"перечисленные здесь, идут первыми, все остальные поля - после них и "
+"сортируются в алфавитном порядке."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "Поля, доступные для поиска"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"Список ключей для поиска через запятую (необязательно). Ключ 'Name' всегда "
+"доступен для поиска и не обязательно должен быть перечислен здесь."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
@@ -2114,7 +2134,7 @@ msgstr "Возможные значения"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "Тип данных"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
@@ -2122,11 +2142,11 @@ msgstr "Фильтр"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "Поле поиска"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "Поле для списка"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
@@ -2164,11 +2184,11 @@ msgstr "SID"
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "Драйвер"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2176,7 +2196,7 @@ msgstr "Порт"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "Таблица / Просмотр"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2192,7 +2212,7 @@ msgstr "Идентификатор"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "Должен быть уникальным столбцом из таблицы, введенной в Table/View."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
@@ -2200,23 +2220,23 @@ msgstr "Multiselect - множественный выбор"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "CacheTTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "Префикс поиска"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "Суффикс поиска"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "Лимит результатов"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "Зависит от регистра"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
@@ -2300,15 +2320,15 @@ msgstr "Включите для отображения в иерархическ
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "Выберите элементы, которые вы хотите "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "Выберите нужные элементы и подтвердите импорт командой 'import'."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2316,16 +2336,21 @@ msgid ""
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
 msgstr ""
+"Здесь вы можете экспортировать файл конфигурации динамических полей и "
+"экранов динамических полей, чтобы импортировать их в другую систему. Файл "
+"конфигурации экспортируется в формате yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
 msgstr ""
+"Следующие динамические поля не могут быть импортированы из-за недопустимого "
+"бэкенда."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "Переключение всех доступных элементов"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
@@ -2333,11 +2358,11 @@ msgstr "Поля"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "Экраны"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "Управление динамическими полями <-> Экраны"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
@@ -2345,17 +2370,19 @@ msgstr "Обзор"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "Экраны столбцов по умолчанию"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "Добавить динамическое поле"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"Вы можете назначить элементы этому экрану/полю, перетаскивая элементы с "
+"помощью мыши из левого списка в правый."
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
@@ -2366,63 +2393,63 @@ msgstr ""
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "Доступные элементы фильтра"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "выбранные в доступные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "Доступные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
-msgstr ""
+msgstr "Отключенные элементы фильтра"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to disabled elements"
-msgstr ""
+msgstr "выбранные для отключения элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all disabled elements"
-msgstr ""
+msgstr "Переключение всех отключенных элементов"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Disabled Elements"
-msgstr ""
+msgstr "Отключенные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned elements"
-msgstr ""
+msgstr "Назначенные элементы фильтров"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned elements"
-msgstr ""
+msgstr "выбранные и назначенные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned elements"
-msgstr ""
+msgstr "Переключение всех назначенных элементов"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Elements"
-msgstr ""
+msgstr "Присвоенные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter assigned required elements"
-msgstr ""
+msgstr "Фильтр присвоенных необходимых элементов"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to assigned required elements"
-msgstr ""
+msgstr "выбранные для присвоения необходимые элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Toggle all assigned required elements"
-msgstr ""
+msgstr "Переключение всех присвоенных необходимых элементов"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Assigned Required Elements"
-msgstr ""
+msgstr "Присвоенные обязательные элементы"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Reset"
@@ -2478,23 +2505,23 @@ msgstr "Шаблон"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Style"
-msgstr ""
+msgstr "Стиль"
 
 #. Template: AdminDynamicFieldTitle
 msgid "bold"
-msgstr ""
+msgstr "полужирный"
 
 #. Template: AdminDynamicFieldTitle
 msgid "italic"
-msgstr ""
+msgstr "курсив"
 
 #. Template: AdminDynamicFieldTitle
 msgid "underline"
-msgstr ""
+msgstr "подчеркнутый"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "Стиль шрифта метки."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2502,11 +2529,11 @@ msgstr "Размер"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "Размер шрифта метки."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "Цвет в шестнадцатеричном формате."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
@@ -2515,34 +2542,41 @@ msgstr "Это поле обязательно"
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
 msgstr ""
+"Веб-служба, которая должна быть выполнена для получения возможных значений."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "Инициатор"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
+"Инициатор, который будет использоваться для выполнения запросов (запросчик "
+"должен быть типа 'Generic::PassThrough')."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "Активируйте этот параметр, чтобы разрешить мультивыбор результатов."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "ТТЛ кэша"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
 msgstr ""
+"Время жизни кэша (в минутах) для сохранения найденных возможных значений."
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens. Optional HTTP link works only for single-select fields."
 msgstr ""
+"Здесь можно указать необязательную HTTP-ссылку для значения поля на экранах "
+"\"Обзор\" и \"Масштаб\". Дополнительная ссылка HTTP работает только для "
+"полей с одним выбором."
 
 #. Template: AdminEmail
 msgid "Admin Message"
@@ -2671,6 +2705,7 @@ msgstr "Запускать в дни"
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
 msgstr ""
+"Значения автоматического выполнения находятся в системном часовом поясе."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
@@ -2798,7 +2833,7 @@ msgstr "Динамические поля"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "Добавить динамическое поле"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
@@ -2854,19 +2889,19 @@ msgstr "Заявка изменена в период"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "Время закрытия"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "Нет настроек времени последнего закрытия."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "Последнее закрытие билета"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "Билет закрывается в промежутке"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
@@ -3258,7 +3293,7 @@ msgstr "Фильтр вызовов"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
-msgstr ""
+msgstr "Выполнение модуля обработки ошибок только для выбранных инициаторов."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
@@ -3653,7 +3688,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr ""
+msgstr "Настройки событий инвокера общего интерфейса для веб-службы %s"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
