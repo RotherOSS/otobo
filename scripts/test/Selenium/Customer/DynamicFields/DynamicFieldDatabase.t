@@ -29,6 +29,7 @@ use vars (qw($Self));
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;
+use Selenium::Waiter qw(wait_until);
 my $Selenium =
     Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -396,7 +397,9 @@ $Selenium->RunTest(
             );
 
             $Selenium->find_element( "#ResultElementText_1", 'css' );
-            $Selenium->find_element( "#ResultElementText_2", 'css' );
+            wait_until {
+                $Selenium->find_element( "#ResultElementText_2", 'css' );
+            }
 
             # Test removing a value
             $Selenium->find_element( "#ResultElementText_1 ~ #RemoveDynamicFieldDBEntry", 'css' )->click();
@@ -512,7 +515,9 @@ $Selenium->RunTest(
         );
 
         $Selenium->find_element( "#ResultElementText_1", 'css' );
-        $Selenium->find_element( "#ResultElementText_2", 'css' );
+        wait_until {
+            $Selenium->find_element( "#ResultElementText_2", 'css' );
+        }
 
         # Test removing a value
         $Selenium->find_element( "#ResultElementText_1 ~ #RemoveDynamicFieldDBEntry", 'css' )->click();
@@ -581,7 +586,9 @@ $Selenium->RunTest(
         $Selenium->find_element( "tr[class='MasterAction'] > td", 'css' )->click();
 
         $Selenium->find_element( "#ResultElementText_1", 'css' );
-        $Selenium->find_element( "#ResultElementText_2", 'css' );
+        wait_until {
+            $Selenium->find_element( "#ResultElementText_2", 'css' );
+        }
 
         # Test removing a value
         $Selenium->find_element( "#ResultElementText_1 ~ #RemoveDynamicFieldDBEntry", 'css' )->click();
