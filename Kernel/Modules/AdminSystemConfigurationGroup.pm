@@ -351,6 +351,15 @@ sub Run {
             Name => $SettingName,
         );
 
+        # deny update if config level is not low enough
+        if ( $ConfigLevel && $Setting{HasConfigLevel} && $Setting{HasConfigLevel} < $ConfigLevel ) {
+            $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "System was unable to update setting!",
+            );
+
+            return $Self->_ReturnJSON( Response => \%Result );
+        }
+
         # try to lock to the current user
         if (
             !$Setting{ExclusiveLockUserID}
