@@ -2772,11 +2772,11 @@ sub _Mask {
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
                 my $PendingTimeSettings = {};
-                if ( $Ticket{UnlockTimeout} && $Ticket{UntilTime} ) {
+                if ( $Ticket{RealTillTimeNotUsed} ) {
                     my $PendingTimeObj = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
-                            Epoch => $Ticket{UnlockTimeout} + $Ticket{UntilTime},
+                            Epoch => $Ticket{RealTillTimeNotUsed},
                         },
                     );
                     $PendingTimeSettings = $PendingTimeObj->Get();
@@ -2795,12 +2795,12 @@ sub _Mask {
                     Calendar             => $Calendar,
                     QuickDateButtons     => $QuickDateButtons,
                     Prefix               => IsHashRefWithData($PendingTimeSettings) ? 'PendingTime' : undef,
-                    PendingTimeYear      => $PendingTimeSettings->{Year}|| undef,
-                    PendingTimeMonth     => $PendingTimeSettings->{Month} || undef,
-                    PendingTimeDay       => $PendingTimeSettings->{Day} || undef,
-                    PendingTimeHour      => $PendingTimeSettings->{Hour} || undef,
-                    PendingTimeMinute    => $PendingTimeSettings->{Minute} || undef,
-                    PendingTimeSecond    => $PendingTimeSettings->{Second} || undef,
+                    Year                 => $PendingTimeSettings->{Year}|| undef,
+                    Month                => $PendingTimeSettings->{Month} || undef,
+                    Day                  => $PendingTimeSettings->{Day} || undef,
+                    Hour                 => $PendingTimeSettings->{Hour} || undef,
+                    Minute               => $PendingTimeSettings->{Minute} || undef,
+                    Second               => $PendingTimeSettings->{Second} || undef,
                 );
 
                 $LayoutObject->Block(
