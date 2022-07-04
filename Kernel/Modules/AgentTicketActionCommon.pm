@@ -2771,6 +2771,17 @@ sub _Mask {
 
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
+                my $PendingTimeSettings = {};
+                if ( $Ticket{UnlockTimeout} && $Ticket{UntilTime} ) {
+                    my $PendingTimeObj = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            Epoch => $Ticket{UnlockTimeout} + $Ticket{UntilTime},
+                        },
+                    );
+                    $PendingTimeSettings = $PendingTimeObj->Get();
+                }
+
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
                     Format           => 'DateInputFormatLong',
@@ -2783,6 +2794,13 @@ sub _Mask {
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
                     QuickDateButtons     => $QuickDateButtons,
+                    Prefix               => IsHashRefWithData($PendingTimeSettings) ? 'PendingTime' : undef,
+                    PendingTimeYear      => $PendingTimeSettings->{Year}|| undef,
+                    PendingTimeMonth     => $PendingTimeSettings->{Month} || undef,
+                    PendingTimeDay       => $PendingTimeSettings->{Day} || undef,
+                    PendingTimeHour      => $PendingTimeSettings->{Hour} || undef,
+                    PendingTimeMinute    => $PendingTimeSettings->{Minute} || undef,
+                    PendingTimeSecond    => $PendingTimeSettings->{Second} || undef,
                 );
 
                 $LayoutObject->Block(
