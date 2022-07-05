@@ -398,10 +398,25 @@ sub _Show {
     );
 
     # create human age
-    $Article{Age} = $LayoutObject->CustomerAge(
-        Age   => $Article{Age},
-        Space => ' ',
+    my $CreatedTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            String => $Article{Created},
+        },
     );
+    my $CurrentTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+    );
+    my $DeltaResult = $CurrentTimeObject->Delta( DateTimeObject => $CreatedTimeObject );
+    if ( $DeltaResult->{AbsoluteSeconds} < ( 60 * 60 * 24 ) ) {
+        $Article{Age} = $LayoutObject->CustomerAge(
+            Age   => $Article{Age},
+            Space => ' ',
+        );
+    }
+    else {
+        $Article{Age} = $Article{Created};
+    }
 
     # fetch all std. templates ...
     my %StandardTemplates = $Kernel::OM->Get('Kernel::System::Queue')->QueueStandardTemplateMemberList(
