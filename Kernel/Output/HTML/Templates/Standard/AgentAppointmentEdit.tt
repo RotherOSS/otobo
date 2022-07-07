@@ -111,8 +111,8 @@
                 [% Data.ResourceIDStrg %]
 [% END %]
             </div>
-[% END %]
         </fieldset>
+[% END %]
         <fieldset class="TableLike">
             <legend><span>[% Translate("Date/Time") | html %]</span></legend>
             <label for="StartDay">[% Translate("Start date") | html %]:</label>
