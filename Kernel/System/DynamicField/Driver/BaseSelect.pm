@@ -240,6 +240,7 @@ sub EditFieldRender {
         Size        => $Size,
         HTMLQuote   => 1,
         Sort        => $FieldConfig->{TreeView} ? 'TreeView' : 0,
+        TreeView    => $FieldConfig->{TreeView},
     );
 
     my %FieldTemplateData = (
@@ -545,6 +546,7 @@ sub SearchFieldRender {
         Multiple     => 1,
         HTMLQuote    => 1,
         Sort         => $FieldConfig->{TreeView} ? 'TreeView' : 0,
+        TreeView     => $FieldConfig->{TreeView},
     );
 
     if ( $FieldConfig->{TreeView} ) {

@@ -369,6 +369,7 @@ sub EditFieldRender {
         HTMLQuote   => 1,
         Multiple    => 1,
         Sort        => $FieldConfig->{TreeView} ? 'TreeView' : 0,
+        TreeView    => $FieldConfig->{TreeView},
     );
 
     my %FieldTemplateData = (
