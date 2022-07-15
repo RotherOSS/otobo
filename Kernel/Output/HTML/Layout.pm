@@ -5935,7 +5935,7 @@ sub _BuildSelectionDataRefCreate {
     {
         for my $Row ( @{$DataRef} ) {
             if ( defined $Row->{Value} && $DisabledElements{ $Row->{Value} } ) {
-                $Row->{Key}      = '-';
+                $Row->{Key}      = substr $Row->{Key}, 0, (length($Row->{Key}) - length('_Disabled'));
                 $Row->{Disabled} = 1;
             }
         }
