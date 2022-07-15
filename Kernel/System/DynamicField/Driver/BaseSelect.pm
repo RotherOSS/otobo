@@ -239,7 +239,6 @@ sub EditFieldRender {
         Class       => $FieldClass,
         Size        => $Size,
         HTMLQuote   => 1,
-        Sort        => $FieldConfig->{TreeView} ? 'TreeView' : 0,
         TreeView    => $FieldConfig->{TreeView},
     );
 
@@ -545,7 +544,6 @@ sub SearchFieldRender {
         Class        => $FieldClass,
         Multiple     => 1,
         HTMLQuote    => 1,
-        Sort         => $FieldConfig->{TreeView} ? 'TreeView' : 0,
         TreeView     => $FieldConfig->{TreeView},
     );
 
