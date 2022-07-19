@@ -286,10 +286,6 @@
 [% RenderBlockStart("Responsible") %]
                 <p class='ooo12'><span class='ooo12g'>[% Translate('Responsible') | html %]:</span> [% Data.ResponsibleName | html %]</p>
 [% RenderBlockEnd("Responsible") %]
-[% RenderBlockStart("ProcessData") %]
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Process') | html %]:</span> [% Data.Process | html %]</p>
-                <p class='ooo12'><span class='ooo12g'>[% Translate('Activity') | html %]:</span> [% Data.Activity | html %]</p>
-[% RenderBlockEnd("ProcessData") %]
 [% RenderBlockStart("TicketDynamicField") %]
                 <p class='ooo12'><span class='ooo12g'>[% Translate(Data.Label) | html %]:</span>
 [% RenderBlockStart("TicketDynamicFieldLink") %]
