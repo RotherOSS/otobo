@@ -124,7 +124,7 @@ sub Main {
         );
     }
 
-    $Kernel::OM = Kernel::System::ObjectManager->new(
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'quick_setup',
         },
