@@ -1781,9 +1781,6 @@ sub _Mask {
                 $PermissionActivityDialogList{$Index} = $CurrentActivityDialogEntityID;
             }
 
-            # reduce next activity dialogs to the ones that have permissions
-            $NextActivityDialogs = \%PermissionActivityDialogList;
-
             # get ACL restrictions
             my $ACL = $TicketObject->TicketAcl(
                 Data           => \%PermissionActivityDialogList,
@@ -1794,9 +1791,8 @@ sub _Mask {
                 CustomerUserID => $Self->{UserID},
             );
 
-            if ($ACL) {
-                %{$NextActivityDialogs} = $TicketObject->TicketAclData();
-            }
+            # filter activity dialogs according to permission and acl
+            %{ $NextActivityDialogs } = $ACL ? $TicketObject->TicketAclData() : %PermissionActivityDialogList;
 
             $LayoutObject->Block(
                 Name => 'NextActivities',
