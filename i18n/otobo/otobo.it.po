@@ -19,13 +19,14 @@
 # catelotti remo <catelotti.remo@gmail.com>, 2019
 # Denis Renzi <itis05@virgilio.it>, 2020
 # niccord <cordioli.nicola@gmail.com>, 2021, 2022.
+# Massimo Composta <m.composta@e-time.it>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
 "PO-Revision-Date: 2022-07-25 11:04+0000\n"
-"Last-Translator: niccord <cordioli.nicola@gmail.com>\n"
+"Last-Translator: Massimo Composta <m.composta@e-time.it>\n"
 "Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/"
 "it/>\n"
 "Language: it\n"
@@ -1043,6 +1044,7 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Questa impostazione consentirà l'invio dei dati di supporto al Team OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
