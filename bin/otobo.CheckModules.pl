@@ -353,17 +353,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'CGI::PSGI',
-        Required  => 1,
-        Comment   => 'Adapt CGI.pm to the PSGI protocol',
-        InstTypes => {
-            aptget => 'libcgi-psgi-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'DBI',
         Required  => 1,
         InstTypes => {
@@ -1337,12 +1326,6 @@ sub Check {
         );
 
         if ( !$DontRequire{ $Module->{Module} } ) {
-
-            # When CGI.pm sees the environment variable MOD_PERL,
-            # then it checks for Apache- or Apache2-modules.
-            # But we don't want that, as OTOBO has no use for these modules.
-            delete local $ENV{MOD_PERL};
-
             if ( !eval "require $Module->{Module}" ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
                 $ErrorMessage .= 'Not all prerequisites for this module correctly installed. ';
             }

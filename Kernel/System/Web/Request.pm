@@ -26,8 +26,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use CGI;    # must be loaded before $CGI::POST_MAX is set
-use CGI::PSGI;
+use Plack::Request;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -107,15 +106,18 @@ sub new {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
-    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+    # TODO: POST_MAX for Plack::Request
+    #$CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
     # query object when PSGI env is passed, the recommended usage
     if ( $Param{PSGIEnv} ) {
-        $Self->{Query} = CGI::PSGI->new( $Param{PSGIEnv} );
+        $Self->{Query} = Plack::Request->new( $Param{PSGIEnv} );
     }
 
     # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
     elsif ( $Param{WebRequest} ) {
+
+        # TODO: pass PSGIEnv in test scripts
         $Self->{Query} = $Param{WebRequest};
     }
 
@@ -123,28 +125,10 @@ sub new {
     # This is needed because the ParamObject is sometimes created outside a web context.
     # Pass an empty string, in order to avoid that params in %ENV are considered.
     else {
-        $Self->{Query} = CGI->new('');
+        $Self->{Query} = Plack::Request->new();
     }
 
     return $Self;
-}
-
-=head2 Error()
-
-to get the error back
-
-    if ( $ParamObject->Error() ) {
-        print STDERR $ParamObject->Error() . "\n";
-    }
-
-=cut
-
-sub Error {
-    my ( $Self, %Param ) = @_;
-
-    return if !$Self->{Query}->cgi_error();
-
-    return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
 }
 
 =head2 GetParam()
@@ -166,28 +150,18 @@ sub GetParam {
 
     my $Value = $Self->{Query}->param( $Param{Param} );
 
-    # Fallback to query string for mixed requests.
-    if ( !defined $Value ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            $Value = $Self->{Query}->url_param( $Param{Param} );
-        }
-    }
-
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
-    my $Raw = $Param{Raw} // 0;
-    if ( !$Raw ) {
+    return $Value if $Param{Raw};
 
-        # If it is a plain string, perform trimming
-        if ( ref \$Value eq 'SCALAR' ) {
-            $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
-                StringRef => \$Value,
-                TrimLeft  => 1,
-                TrimRight => 1,
-            );
-        }
-    }
+    # If it is a plain string, perform trimming
+    return $Value unless ref \$Value eq 'SCALAR';
+
+    $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
+        StringRef => \$Value,
+        TrimLeft  => 1,
+        TrimRight => 1,
+    );
 
     return $Value;
 }
@@ -212,22 +186,7 @@ sub GetParamNames {
     my $Self = shift;
 
     # fetch all names
-    my @ParamNames = $Self->{Query}->param();
-
-    # Fallback to query string for mixed requests.
-    my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod eq 'POST' ) {
-        my %POSTNames;
-        @POSTNames{@ParamNames} = @ParamNames;
-        my @GetNames = $Self->{Query}->url_param();
-        GETNAME:
-        for my $GetName (@GetNames) {
-            next GETNAME unless defined $GetName;
-            next GETNAME if exists $POSTNames{$GetName};
-
-            push @ParamNames, $GetName;
-        }
-    }
+    my @ParamNames = keys $Self->{Query}->parameters()->%*;
 
     for my $Name (@ParamNames) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
@@ -251,37 +210,26 @@ By default, trimming is performed on the data.
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Values = $Self->{Query}->multi_param( $Param{Param} );
-
-    # Fallback to query string for mixed requests.
-    if ( !@Values ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            @Values = $Self->{Query}->url_param( $Param{Param} );
-        }
-    }
+    my @Values = $Self->{Query}->param( $Param{Param} );
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
-    my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
+    return @Values if $Param{Raw};
 
-    if ( !$Raw ) {
+    # get check item object
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-        # get check item object
-        my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+    VALUE:
+    for my $Value (@Values) {
 
-        VALUE:
-        for my $Value (@Values) {
+        # don't validate CGI::File::Temp objects from file uploads
+        next VALUE if !$Value || ref \$Value ne 'SCALAR';
 
-            # don't validate CGI::File::Temp objects from file uploads
-            next VALUE if !$Value || ref \$Value ne 'SCALAR';
-
-            $CheckItemObject->StringClean(
-                StringRef => \$Value,
-                TrimLeft  => 1,
-                TrimRight => 1,
-            );
-        }
+        $CheckItemObject->StringClean(
+            StringRef => \$Value,
+            TrimLeft  => 1,
+            TrimRight => 1,
+        );
     }
 
     return @Values;
@@ -307,11 +255,14 @@ sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
     # get upload
-    my $Upload = $Self->{Query}->upload( $Param{Param} );
-    return if !$Upload;
+    my $Uploads = $Self->{Query}->uploads;
+
+    my $Upload = $Uploads->{ $Param{Param} };
+
+    return unless $Upload;
 
     # get real file name
-    my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unknown';
+    my $UploadFilenameOrig = $Upload->filename;
 
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
@@ -327,32 +278,13 @@ sub GetUploadAll {
     }
     close $Upload;
 
-    my $ContentType = $Self->_GetUploadInfo(
-        Filename => $UploadFilenameOrig,
-        Header   => 'Content-Type',
-    );
+    my $ContentType = $Upload->content_type();
 
     return (
         Filename    => $NewFileName,
         Content     => $Content,
         ContentType => $ContentType,
     );
-}
-
-sub _GetUploadInfo {
-    my ( $Self, %Param ) = @_;
-
-    # get file upload info
-    my $FileInfo = $Self->{Query}->uploadInfo( $Param{Filename} );
-
-    # return if no upload info exists
-    return 'application/octet-stream' if !$FileInfo;
-
-    # return if no content type of upload info exists
-    return 'application/octet-stream' if !$FileInfo->{ $Param{Header} };
-
-    # return content type of upload info
-    return $FileInfo->{ $Param{Header} };
 }
 
 =head2 SetCookie()
@@ -402,7 +334,7 @@ get a cookie
 sub GetCookie {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Query}->cookie( $Param{Key} );
+    return $Self->{Query}->cookies->{ $Param{Key} };
 }
 
 =head2 RemoteAddr()
@@ -415,9 +347,9 @@ This is a wrapper around C<CGI::remote_addr()>.
 =cut
 
 sub RemoteAddr {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->remote_addr(@Params);
+    return $Self->{Query}->remote_addr;
 }
 
 =head2 RemoteUser()

@@ -14,9 +14,6 @@ requires 'DateTime', ">= 1.08";
 
 requires 'Convert::BinHex';
 
-# Adapt CGI.pm to the PSGI protocol
-requires 'CGI::PSGI';
-
 requires 'DBI';
 
 # Sane persistent database connection
