@@ -135,6 +135,15 @@ feature 'db:sqlite', 'Support for database SQLLite' => sub {
 
 };
 
+feature 'devel:debugging', 'Features which can be useful in development environments' => sub {
+    # nicer formatting when dumping data structures
+    requires 'Data::Dump', ">= 1.25";
+
+    # convenient and informative dumping data structures
+    requires 'Data::Dx', ">= 0.000010";
+
+};
+
 feature 'devel:encoding', 'Modules for debugging encoding issues' => sub {
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
@@ -325,6 +334,12 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Recommended for XML processing.
     requires 'XML::Parser';
+
+    # nicer formatting when dumping data structures
+    requires 'Data::Dump', ">= 1.25";
+
+    # convenient and informative dumping data structures
+    requires 'Data::Dx', ">= 0.000010";
 
     # for deeply inspecting scalars, especially strings
     requires 'Data::Peek';
