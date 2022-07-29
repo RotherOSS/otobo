@@ -460,7 +460,7 @@ $Self->True(
         $ReleaseInfoByFilename,
         {
             Product => 'OTOBO',
-            Version => qr/^10\./,
+            Version => qr/^11\./,
         },
         'release info via file name'
     );
@@ -472,7 +472,7 @@ $Self->True(
         $ReleaseInfoByLocation,
         {
             Product => 'OTOBO',
-            Version => qr/^10\./,
+            Version => qr/^11\./,
         },
         'release info via location'
     );

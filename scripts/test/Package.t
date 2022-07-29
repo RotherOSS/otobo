@@ -80,12 +80,12 @@ my $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <ChangeLog>2022-07-29 Update test package to Framework 11.0.x (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>10.1.x</Framework>
-  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <Framework>11.0.x</Framework>
+  <BuildDate>2022-07-29 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <CodeInstall>
    # just a test &lt;some&gt; plus some &amp; text
@@ -126,12 +126,12 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
   <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otobo.de/</URL>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
-  <ChangeLog>2005-11-10 New package (some test &lt; &gt; &amp;).</ChangeLog>
+  <ChangeLog>2022-07-29 Update test package to Framework 11.0.x (some test &lt; &gt; &amp;).</ChangeLog>
   <Description Lang="en">A test package (some test &lt; &gt; &amp;).</Description>
   <Description Lang="de">Ein Test Paket (some test &lt; &gt; &amp;).</Description>
   <ModuleRequired Version="1.112">Encode</ModuleRequired>
-  <Framework>10.1.x</Framework>
-  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <Framework>11.0.x</Framework>
+  <BuildDate>2022-07-29 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
     <File Location="TestSecond" Permission="644" Encode="Base64">aGVsbG8K</File>
@@ -407,7 +407,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <PackageRequired Version="0.1">SomeNotExistingModule</PackageRequired>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -432,7 +432,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <OS>NonExistingOS</OS>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -460,7 +460,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <OS>linux</OS>
   <OS>freebsd</OS>
   <OS>MSWin32</OS>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -492,7 +492,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="0.1">SomeNotExistingModule</ModuleRequired>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -516,7 +516,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
   <ModuleRequired Version="12.999">Encode</ModuleRequired>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -541,7 +541,7 @@ my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -563,7 +563,7 @@ my $String2 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -586,7 +586,7 @@ my $String3 = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -604,7 +604,7 @@ my $String3a = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -630,7 +630,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <CodeUpgrade Type="pre" Version="0.0.4">
@@ -775,7 +775,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -839,7 +839,7 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang="en">A test package.</Description>
   <Description Lang="de">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
@@ -914,7 +914,7 @@ my $FileNotAllowedString = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>
   <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
   <Description Lang=\"en\">A test package.</Description>
   <Description Lang=\"de\">Ein Test Paket.</Description>
-  <Framework>10.1.x</Framework>
+  <Framework>11.0.x</Framework>
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>\n";
@@ -988,7 +988,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>10.1.x</Framework>
+      <Framework>11.0.x</Framework>
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>
@@ -1062,7 +1062,7 @@ if ( !$DeveloperSystem ) {
       <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
       <Description Lang="en">A test package.</Description>
       <Description Lang="de">Ein Test Paket.</Description>
-      <Framework>10.1.x</Framework>
+      <Framework>11.0.x</Framework>
       <BuildDate>2005-11-10 21:17:16</BuildDate>
       <BuildHost>yourhost.example.com</BuildHost>
       <Filelist>
