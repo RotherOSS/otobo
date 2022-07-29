@@ -174,6 +174,7 @@ my %IsDockerFeature = (
     'db:odbc'            => 1,
     'db:postgresql'      => 1,
     'db:sqlite'          => 1,
+    'devel:debugging'    => 1,
     'devel:encoding'     => 1,
     'devel:test'         => 1,
     'div:bcrypt'         => 1,
@@ -192,23 +193,23 @@ my %IsDockerFeature = (
 
 # Used for the generation of a cpanfile.
 my %FeatureDescription = (
-    'aaacore'        => 'Required packages',
-    'apache'         => 'Recommended features for setups using apache',
-    'db'             => 'Database support (installing one is required)',
-    'db:mysql'       => 'Support for database MySQL',
-    'db:odbc'        => 'Support for database access via ODBC',
-    'db:oracle'      => 'Support for database Oracle',
-    'db:postgresql'  => 'Support for database PostgreSQL',
-    'db:sqlite'      => 'Support for database SQLLite',
-    'devel'          => 'Features which can be useful in development environments',
-    'devel:encoding' => 'Modules for debugging encoding issues',
-    'devel:test'     => 'Modules for running the test suite',
-    'div'            => 'Various features for additional functionality',
-    'gazelle'        => 'Required packages if you want to use Gazelle webserver',
-    'mail'           => 'Features enabling communication with a mail-server',
-    'performance'    => 'Optional features which can increase performance',
-    'storage:s3'     => 'AWS S3 compatible storage',
-    'zzznone'        => 'Uncategorized',
+    'aaacore'         => 'Required packages',
+    'apache'          => 'Recommended features for setups using apache',
+    'db'              => 'Database support (installing one is required)',
+    'db:mysql'        => 'Support for database MySQL',
+    'db:odbc'         => 'Support for database access via ODBC',
+    'db:oracle'       => 'Support for database Oracle',
+    'db:postgresql'   => 'Support for database PostgreSQL',
+    'db:sqlite'       => 'Support for database SQLLite',
+    'devel:debugging' => 'Features which can be useful in development environments',
+    'devel:encoding'  => 'Modules for debugging encoding issues',
+    'devel:test'      => 'Modules for running the test suite',
+    'div'             => 'Various features for additional functionality',
+    'gazelle'         => 'Required packages if you want to use Gazelle webserver',
+    'mail'            => 'Features enabling communication with a mail-server',
+    'performance'     => 'Optional features which can increase performance',
+    'storage:s3'      => 'AWS S3 compatible storage',
+    'zzznone'         => 'Uncategorized',
 );
 
 my $OSDist;
@@ -1001,6 +1002,32 @@ my @NeededModules = (
             zypper => 'perl-Const-Fast',
             ports  => 'devel/p5-Const-Fast',
 
+        },
+    },
+
+    # Feature devel:debugging
+    {
+        Module          => 'Data::Dump',
+        VersionRequired => '1.25',
+        Features        => ['devel:debugging'],
+        Comment         => 'nicer formatting when dumping data structures',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
+        },
+    },
+    {
+        Module          => 'Data::Dx',
+        VersionRequired => '0.000010',
+        Features        => ['devel:debugging'],
+        Comment         => 'convenient and informative dumping data structures',
+        InstTypes       => {
+            aptget => undef,
+            emerge => undef,
+            zypper => undef,
+            ports  => undef,
         },
     },
 
