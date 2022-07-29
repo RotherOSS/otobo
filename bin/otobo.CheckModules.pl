@@ -44,10 +44,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --finst <features>
 
     # Print a cpanfile with the required modules regardless whether they are already available.
-    bin/otobo.CheckModules.pl --cpanfile
+    bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
     # Print a cpanfile with the required modules for a Docker-based installation.
-    bin/otobo.CheckModules.pl --docker-cpanfile
+    bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
 =head1 DESCRIPTION
 
@@ -644,7 +644,14 @@ my @NeededModules = (
 
     # Feature db
     {
-        Module    => 'DBD::mysql',
+        Module               => 'DBD::mysql',
+        VersionRequired      => '4.00',         # just to have some minimum version, please use a more recent version
+        VersionsNotSupported => [
+            {
+                Version => '4.042',
+                Comment => 'This version had encoding related issues. Version 4.043 was a rollback to 4.0.41',
+            },
+        ],
         Features  => ['db:mysql'],
         Comment   => 'Required to connect to a MySQL database.',
         InstTypes => {
@@ -660,8 +667,7 @@ my @NeededModules = (
         VersionsNotSupported => [
             {
                 Version => '1.23',
-                Comment =>
-                    'This version is broken and not useable! Please upgrade to a higher version.',
+                Comment => 'This version is broken and not useable! Please upgrade to a higher version.',
             },
         ],
         Comment   => 'Required to connect to a MS-SQL database.',

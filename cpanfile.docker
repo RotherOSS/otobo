@@ -102,7 +102,8 @@ requires 'Const::Fast';
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    requires 'DBD::mysql', ">= 4.00, != 4.042";
 
 # };
 

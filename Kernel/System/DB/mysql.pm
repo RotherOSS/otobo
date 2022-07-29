@@ -54,10 +54,6 @@ sub LoadPreferences {
     $Self->{'DB::CaseSensitive'}        = 0;
     $Self->{'DB::LikeEscapeString'}     = '';
 
-    # mysql needs to proprocess the data to fix UTF8 issues
-    $Self->{'DB::PreProcessSQL'}      = 1;
-    $Self->{'DB::PreProcessBindData'} = 1;
-
     # how to determine server version
     # version can have package prefix, we need to extract that
     # example of VERSION() output: '5.5.32-0ubuntu0.12.04.1'
@@ -98,34 +94,6 @@ sub LoadPreferences {
     }
 
     return 1;
-}
-
-sub PreProcessSQL {
-    my ( $Self, $SQLRef ) = @_;
-
-    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput($SQLRef);
-
-    return;
-}
-
-sub PreProcessBindData {
-    my ( $Self, $BindRef ) = @_;
-
-    my $Size = scalar @{ $BindRef // [] };
-
-    my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
-
-    for ( my $I = 0; $I < $Size; $I++ ) {
-
-        # DBD::mysql 4.042+ requires data to be octets, so we encode the data on our own.
-        #   The mysql_enable_utf8 flag seems to be unusable because it treats ALL data as UTF8 unless
-        #   it has a custom bind data type like SQL_BLOB.
-        #
-        #   See also https://bugs.otrs.org/show_bug.cgi?id=12677.
-        $EncodeObject->EncodeOutput( \$BindRef->[$I] );
-    }
-
-    return;
 }
 
 sub Quote {
