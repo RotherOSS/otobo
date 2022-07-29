@@ -84,7 +84,6 @@ my @Objects = (
     'Kernel::System::SysConfig',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::UnitTest',
     'Kernel::System::User',

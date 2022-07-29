@@ -131,8 +131,8 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
 
     ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $Self->False(
-        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Time")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
-        'Comparison via ' . $Operator . ' with Time object instead of DateTime object must fail',
+        eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Calendar")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+        'Comparison via ' . $Operator . ' with Calendar object instead of DateTime object must fail',
     );
 }
 

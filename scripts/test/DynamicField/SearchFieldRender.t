@@ -35,7 +35,7 @@ our $Self;
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 # use a fixed year to compare the time selection results
-#my $TimeObject      = $Kernel::OM->Get('Kernel::System::Time');
+#my $TimeObject = $Kernel::OM->Get('Kernel::System::DateTime');
 #FixedTimeSet(
 #    $TimeObject->TimeStamp2SystemTime( String => '2013-12-12 00:00:00' ),
 #);

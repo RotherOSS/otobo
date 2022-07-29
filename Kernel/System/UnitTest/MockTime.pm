@@ -99,8 +99,7 @@ makes it possible to override the system time as long as this object lives.
 You can pass an optional time parameter that should be used, if not,
 the current system time will be used.
 
-All calls to methods of Kernel::System::Time and Kernel::System::DateTime will
-use the given time afterwards.
+All calls to methods of Kernel::System::DateTime will use the given time afterwards.
 
     FixedTimeSet(366475757);         # with Timestamp
     FixedTimeSet($DateTimeObject);   # with previously created DateTime object

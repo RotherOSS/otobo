@@ -664,7 +664,7 @@ $Self->False(
 );
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
 $Delta = $DateTimeObject->Delta(
-    DateTimeObject => $Kernel::OM->Get('Kernel::System::Time'),
+    DateTimeObject => $Kernel::OM->Get('Kernel::System::Calendar'),
     ForWorkingTime => 1,
 );
 $Self->False(

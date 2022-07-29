@@ -130,7 +130,7 @@ $Self->False(
 );
 
 ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-$Delta = $DateTimeObject->Delta( DateTimeObject => $Kernel::OM->Get('Kernel::System::Time') );
+$Delta = $DateTimeObject->Delta( DateTimeObject => $Kernel::OM->Get('Kernel::System::Calendar') );
 $Self->False(
     $Delta,
     'Delta calculation with invalid DateTime object must fail.',
