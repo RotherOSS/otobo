@@ -129,7 +129,6 @@ for my $Operator ( '>', '<', '>=', '<=', '==', '!=' ) {
         'Comparison via ' . $Operator . ' with undef instead of DateTime object must fail',
     );
 
-    ## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
     $Self->False(
         eval( '$DateTimeObject ' . $Operator . ' $Kernel::OM->Create("Kernel::System::Calendar")' ),    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
         'Comparison via ' . $Operator . ' with Calendar object instead of DateTime object must fail',

@@ -25,8 +25,6 @@ use vars (qw($Self));
 
 use Scalar::Util qw/weaken/;
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
