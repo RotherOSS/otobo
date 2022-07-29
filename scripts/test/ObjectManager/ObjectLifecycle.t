@@ -25,8 +25,6 @@ use vars (qw($Self));
 
 use Scalar::Util qw/weaken/;
 
-## nofilter(TidyAll::Plugin::OTOBO::Migrations::OTOBO10::TimeObject)
-
 use Kernel::System::ObjectManager;
 
 local $Kernel::OM = Kernel::System::ObjectManager->new();
@@ -84,7 +82,6 @@ my @Objects = (
     'Kernel::System::SysConfig',
     'Kernel::System::SystemAddress',
     'Kernel::System::Ticket',
-    'Kernel::System::Time',
     'Kernel::System::Type',
     'Kernel::System::UnitTest',
     'Kernel::System::User',
