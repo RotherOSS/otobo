@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-05-04 06:18+0000\n"
-"PO-Revision-Date: 2022-07-28 20:43+0000\n"
+"PO-Revision-Date: 2022-08-05 09:34+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -119,15 +119,15 @@ msgstr "تصدير"
 
 #. Template: AdminACL
 msgid "Copy"
-msgstr ""
+msgstr "نَسَخَ"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr ""
+msgstr "لا توجد بيانات."
 
 #. Template: AdminACL
 msgid "No matches found."
-msgstr ""
+msgstr "لم يتم العثور على تطابق."
 
 #. Template: AdminACLEdit
 msgid "Edit ACL %s"
@@ -139,7 +139,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
-msgstr ""
+msgstr "انتقل إلى نظرة عامة"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
@@ -162,7 +162,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Change settings"
-msgstr ""
+msgstr "تغيير الاعدادات"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -204,15 +204,15 @@ msgstr "حفظ"
 
 #. Template: AdminACLEdit
 msgid "or"
-msgstr " أو "
+msgstr "أو"
 
 #. Template: AdminACLEdit
 msgid "Save and finish"
-msgstr ""
+msgstr "احفظ و أَنْهَى"
 
 #. Template: AdminACLEdit
 msgid "Cancel"
-msgstr "إلغاء"
+msgstr "إِلْغاء"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
@@ -226,11 +226,11 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "بِشَأْن"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
-msgstr ""
+msgstr "تبديل هذه القطعة"
 
 #. Template: AdminAbout
 msgid ""
@@ -240,7 +240,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "إزالة اللغة"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -248,11 +248,11 @@ msgstr "نص"
 
 #. Template: AdminAbout
 msgid "Message body"
-msgstr ""
+msgstr "نص الرسالة"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "هذا الحقل مطلوب ويجب أن يحتوي على أقل من 4000 حرف."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
