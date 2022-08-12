@@ -449,6 +449,8 @@ returns 1 if success or undef otherwise
 
 sub ACLUpdate {
     my ( $Self, %Param ) = @_;
+    use Data::Dx;
+    Dx %Param;
 
     # check needed stuff
     for my $Key (qw(ID Name ValidID UserID)) {
@@ -544,6 +546,9 @@ sub ACLUpdate {
         $CurrentConfigMatch    = $Data[5];
         $CurrentConfigChange   = $Data[6];
     }
+    use Data::Dx;
+    Dx $CurrentConfigMatch;
+    Dx $Param{ConfigMatch};
 
     if (
         $CurrentName
@@ -552,7 +557,7 @@ sub ACLUpdate {
         && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
         && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
+        && $CurrentConfigMatch eq ($Param{ConfigMatch} // '')
         && $CurrentConfigChange eq $Param{ConfigChange}
         )
     {
