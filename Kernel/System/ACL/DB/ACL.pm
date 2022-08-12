@@ -464,6 +464,9 @@ sub ACLUpdate {
     # define Description field if not present
     $Param{Description} //= '';
 
+    # set StopAfterMatch if undefined
+    $Param{StopAfterMatch} //= 0;
+
     my $ConfigMatch  = '';
     my $ConfigChange = '';
 
@@ -552,8 +555,8 @@ sub ACLUpdate {
         && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
         && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentConfigMatch eq $ConfigMatch
+        && $CurrentConfigChange eq $ConfigChange
         )
     {
         return 1;
