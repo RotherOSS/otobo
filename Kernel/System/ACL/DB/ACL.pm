@@ -552,8 +552,8 @@ sub ACLUpdate {
         && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
         && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentConfigMatch eq $ConfigMatch
+        && $CurrentConfigChange eq $ConfigChange
         )
     {
         return 1;
