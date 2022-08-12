@@ -464,6 +464,9 @@ sub ACLUpdate {
     # define Description field if not present
     $Param{Description} //= '';
 
+    # set StopAfterMatch if undefined
+    $Param{StopAfterMatch} //= 0;
+
     my $ConfigMatch  = '';
     my $ConfigChange = '';
 
