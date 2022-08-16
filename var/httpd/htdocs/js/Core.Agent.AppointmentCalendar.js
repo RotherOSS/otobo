@@ -526,7 +526,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                 Subaction: 'ListAppointments',
                 CalendarID: Calendar.CalendarID,
                 ResourceID: Core.Config.Get('ResourceID'),
-                TeamID: Core.Config.Get('TeamID') 
+                TeamID: Core.Config.Get('TeamID')
             };
             if (!SessionIDCookie) {
                 CalendarData[SessionName] = SessionID;
