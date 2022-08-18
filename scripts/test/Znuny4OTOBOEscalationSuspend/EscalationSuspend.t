@@ -92,8 +92,6 @@ my $Pending        = 5;                # minutes
 my $Success;
 my $TicketEscalationIndexBuild;
 my $TicketWorkingTimeSuspendCalculate;
-my %TicketGetClosed;
-my $TicketGetClosed;
 my $SuspendStateActive;
 
 # create a queue for testing

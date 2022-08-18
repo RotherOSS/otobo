@@ -1034,8 +1034,6 @@ sub _Show {
         },
     );
 
-    my %ActionRowTickets;
-
     # add action items as js
     if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {
 

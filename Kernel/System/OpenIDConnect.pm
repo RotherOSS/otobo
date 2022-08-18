@@ -206,18 +206,18 @@ sub RequestIDToken {
     if ( $Param{ProviderSettings}{SSLOptions} ) {
         OPTION:
         for my $Key ( keys $Param{ProviderSettings}{SSLOptions}->%* ) {
-            next OPTION if !$Self->{SSLOptionMap}{ $Key };
+            next OPTION if !$Self->{SSLOptionMap}{$Key};
 
             if ( $Key eq 'SSLPassword' ) {
                 $UserAgent->ssl_opts(
-                    $Self->{SSLOptionMap}{ $Key } => sub { $Param{ProviderSettings}{SSLOptions}{ $Key } },
+                    $Self->{SSLOptionMap}{$Key} => sub { $Param{ProviderSettings}{SSLOptions}{$Key} },
                 );
 
                 next OPTION;
             }
 
             $UserAgent->ssl_opts(
-                $Self->{SSLOptionMap}{ $Key } => $Param{ProviderSettings}{SSLOptions}{ $Key },
+                $Self->{SSLOptionMap}{$Key} => $Param{ProviderSettings}{SSLOptions}{$Key},
             );
         }
     }
@@ -576,18 +576,18 @@ sub _ProviderDataGet {
     if ( $Param{ProviderSettings}{SSLOptions} ) {
         OPTION:
         for my $Key ( keys $Param{ProviderSettings}{SSLOptions}->%* ) {
-            next OPTION if !$Self->{SSLOptionMap}{ $Key };
+            next OPTION if !$Self->{SSLOptionMap}{$Key};
 
             if ( $Key eq 'SSLPassword' ) {
                 $UserAgent->ssl_opts(
-                    $Self->{SSLOptionMap}{ $Key } => sub { $Param{ProviderSettings}{SSLOptions}{ $Key } },
+                    $Self->{SSLOptionMap}{$Key} => sub { $Param{ProviderSettings}{SSLOptions}{$Key} },
                 );
 
                 next OPTION;
             }
 
             $UserAgent->ssl_opts(
-                $Self->{SSLOptionMap}{ $Key } => $Param{ProviderSettings}{SSLOptions}{ $Key },
+                $Self->{SSLOptionMap}{$Key} => $Param{ProviderSettings}{SSLOptions}{$Key},
             );
         }
     }

@@ -118,8 +118,6 @@ sub Run {
         my $SettingName       = $ParamObject->GetParam( Param => 'SettingName' )       || '';
         my $ModifiedVersionID = $ParamObject->GetParam( Param => 'ModifiedVersionID' ) || '';
 
-        my %Result;
-
         if ( !$SettingName || !$ModifiedVersionID ) {
             return $LayoutObject->FatalError(
                 Message =>

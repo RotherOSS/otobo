@@ -37,7 +37,6 @@ $Selenium->RunTest(
         my $Home = $ConfigObject->Get('Home');
         my %Attachments;
         my $Count;
-        my $IsLinkedBreadcrumbText;
 
         # create test user and login
         my $TestUserLogin = $Helper->TestUserCreate(
