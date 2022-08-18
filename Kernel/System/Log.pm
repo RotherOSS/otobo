@@ -74,8 +74,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     if ( !$Kernel::OM ) {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
@@ -95,9 +94,9 @@ sub new {
     $Self->{LogPrefix} .= '-' . $SystemID;
 
     # configured log level (debug by default)
-    $Self->{MinimumLevel}    = $ConfigObject->Get('MinimumLogLevel') || 'debug';
-    $Self->{MinimumLevel}    = lc $Self->{MinimumLevel};
-    $Self->{MinimumLevelNum} = $LogLevel{ $Self->{MinimumLevel} };
+    # Setting an unknown MinimumLogLevel effectively turns off logging altogether.
+    my $MinLevel = lc( $ConfigObject->Get('MinimumLogLevel') || 'debug' );
+    $Self->{MinimumLevelNum} = $LogLevel{$MinLevel};
 
     # load log backend
     my $GenericModule = $ConfigObject->Get('LogModule') || 'Kernel::System::Log::SysLog';
@@ -110,18 +109,18 @@ sub new {
         %Param,
     );
 
-    return $Self if !eval "require IPC::SysV";    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    return $Self unless eval 'require IPC::SysV';    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
 
     # Setup IPC for shared access to the last log entries.
-    $Self->{IPCKey}  = '444423' . $SystemID;                                    # This name is used to identify the shared memory segment.
+    my $IPCKey = '444423' . $SystemID;               # This name is used to identify the shared memory segment.
     $Self->{IPCSize} = $ConfigObject->Get('LogSystemCacheSize') || 32 * 1024;
 
     # Create/access shared memory segment.
-    if ( !eval { $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) ) } ) {
+    if ( !eval { $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) ) } ) {
 
         # If direct creation fails, try more gently, allocate a small segment first and the reset/resize it.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, 1, oct(1777) );
-        if ( !shmctl( $Self->{IPCSHMKey}, 0, 0 ) ) {
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, 1, oct(1777) );
+        if ( !shmctl( $Self->{IPCSHMSegment}, 0, 0 ) ) {
             $Self->Log(
                 Priority => 'error',
                 Message  => "Can't remove shm for log: $!",
@@ -132,11 +131,11 @@ sub new {
         }
 
         # Re-initialize SHM segment.
-        $Self->{IPCSHMKey} = shmget( $Self->{IPCKey}, $Self->{IPCSize}, oct(1777) );
+        $Self->{IPCSHMSegment} = shmget( $IPCKey, $Self->{IPCSize}, oct(1777) );
     }
 
     # Continue without IPC.
-    return $Self if !$Self->{IPCSHMKey};
+    return $Self unless $Self->{IPCSHMSegment};
 
     # Only flag IPC as active if everything worked well.
     $Self->{IPC} = 1;
@@ -211,7 +210,7 @@ sub Log {
     my $LogTime = $DateTimeObject->ToCTimeString();
 
     # if error, write it to STDERR
-    if ( $Priority =~ /^error/i ) {
+    if ( $Priority =~ m/^error/i ) {
 
         my $Error = sprintf "ERROR: $Self->{LogPrefix} Perl: %vd OS: $^O Time: "
             . $LogTime . "\n\n", $^V;
@@ -252,7 +251,7 @@ sub Log {
 
             $Error .= "   Module: $Subroutine2$VersionString Line: $Line1\n";
 
-            last COUNT if !$Line2;
+            last COUNT unless $Line2;
         }
 
         $Error .= "\n";
@@ -316,7 +315,7 @@ sub GetLog {
 
     my $String = '';
     if ( $Self->{IPC} ) {
-        shmread( $Self->{IPCSHMKey}, $String, 0, $Self->{IPCSize} ) || die "$!";
+        shmread( $Self->{IPCSHMSegment}, $String, 0, $Self->{IPCSize} ) || die "$!";
     }
 
     # Remove \0 bytes that shmwrite adds for padding.
@@ -341,7 +340,7 @@ sub CleanUp {
 
     return 1 if !$Self->{IPC};
 
-    shmwrite( $Self->{IPCSHMKey}, '', 0, $Self->{IPCSize} ) || die $!;
+    shmwrite( $Self->{IPCSHMSegment}, '', 0, $Self->{IPCSize} ) || die $!;
 
     return 1;
 }
