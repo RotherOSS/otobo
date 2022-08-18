@@ -276,10 +276,11 @@ sub Log {
 
         $Priority = lc $Priority;
 
-        my $Data   = $LogTime . ";;$Priority;;$Self->{LogPrefix};;$Message\n";
-        my $String = $Self->GetLog();
-
-        shmwrite( $Self->{IPCSHMKey}, $Data . $String, 0, $Self->{IPCSize} ) || die $!;
+        my $LogLine   = join ';;', $LogTime, $Priority, $Self->{LogPrefix}, $Message;
+        my $OldString = $Self->GetLog();
+        my $NewString = join "\n", $LogLine, $OldString;
+        $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$NewString );
+        shmwrite( $Self->{IPCSHMSegment}, $NewString, 0, $Self->{IPCSize} ) || die $!;
     }
 
     return 1;
