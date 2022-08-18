@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596571972702746;
+    $Self->{Completeness}        = 0.596699984134539;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -57,7 +57,7 @@ sub Data {
         'Export ACLs' => 'Esporta le ACL',
         'Filter for ACLs' => 'Filtro per ACL',
         'Just start typing to filter...' => 'Digita qualche carattere per attivare il filtro...',
-        'Configuration Import' => 'Importazione configurazione',
+        'Configuration Import' => 'Configurazione Import',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Qui puoi caricare un file di configurazione per importare le ACL. Il file deve essere in formato .yml così come viene esportato dal modulo editor delle ACL.',
         'This field is required.' => 'Questo campo è obbligatorio.',
@@ -321,7 +321,7 @@ sub Data {
         'Configuration' => 'Configurazione',
         'Send support data' => 'Invia dati di supporto',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Questa impostazione consentirà l\'invio dei dati di supporto al Team OTOBO.',
         'Update' => 'Aggiorna',
         'System Registration' => 'Registrazione del sistema',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
@@ -368,7 +368,7 @@ sub Data {
         'No active communications' => 'Nessuna comunicazione attiva',
         'Number of open communications: %s' => 'Numero di comunicazioni aperte: %s',
         'Average processing time' => 'Tempo medio di elaborazione',
-        'List of communications (%s)' => ' Elenco delle comunicazioni (%s)',
+        'List of communications (%s)' => 'Elenco delle comunicazioni (%s)',
         'Settings' => 'Impostazioni',
         'Entries per page' => 'Voci per pagina',
         'No communications found.' => 'Nessuna comunicazione trovata.',
@@ -390,7 +390,7 @@ sub Data {
         'Direction' => 'Direzione',
         'Start Time' => 'Istante di Inizio',
         'End Time' => 'Orario di termine',
-        'No communication log entries found.' => ' Nessuna voce del registro di comunicazione trovata.',
+        'No communication log entries found.' => 'Nessuna voce del registro di comunicazione trovata.',
 
         # Template: AdminCommunicationLogCommunications
         'Duration' => 'Durata',
@@ -404,7 +404,7 @@ sub Data {
 
         # Template: AdminCommunicationLogZoom
         'Detail view for %s communication started at %s' => 'Vista dettagliata per %s la comunicazione iniziata alle %s',
-        'Filter for Log Entries' => ' Filtro per voci di registro',
+        'Filter for Log Entries' => 'Filtro per voci di registro',
         'Filter for log entries' => 'Filtro per il log',
         'Show only entries with specific priority and higher:' => 'Mostrare solo le voci con priorità specifica e superiore:',
         'Communication Log Overview (%s)' => 'Panoramica del registro di comunicazione (%s)',
@@ -492,7 +492,7 @@ sub Data {
         'DNS problem, please check your configuration and the error log.' =>
             'Problema con il DNS, verifica la tua configurazione e il log degli errori.',
         'The syntax of this email address is incorrect.' => 'La sintassi di questa email è errata.',
-        'This CustomerID is invalid.' => 'Questo CustomerID è  invalido',
+        'This CustomerID is invalid.' => 'Questo CustomerID non è valido',
         'Effective Permissions for Customer User' => 'Permessi effettivi per utenza cliente',
         'Group Permissions' => 'Permessi di gruppo',
         'This customer user has no group permissions.' => 'Questa utenza cliente non ha permessi di gruppo.',
@@ -648,7 +648,7 @@ sub Data {
             'Se compilato, questo URL verrà utilizzato per un\'anteprima che viene mostrata quando questo link viene spostato nello zoom del ticket. Per far funzionare tutto questo, è necessario compilare anche il normale campo URL sopra.',
         'SID' => 'SID',
         'Driver' => '',
-        'Server' => '',
+        'Server' => 'Server',
         'Port' => 'Porta',
         'Table / View' => '',
         'User' => 'Utente',
@@ -1697,7 +1697,7 @@ sub Data {
             'Puoi assegnare le interazioni dell\'attività trascinando gli elementi con il mouse dalla lista di sinistra a quella di destra.',
         'Filter available Activity Dialogs' => 'Imposta un filtro alle interazioni delle attività disponibili.',
         'Available Activity Dialogs' => 'Interazioni dell\'attività disponibili',
-        'Name: %s, EntityID: %s' => 'Nome: %s, EntityID:  %s',
+        'Name: %s, EntityID: %s' => 'Nome: %s, EntityID: %s',
         'Create New Activity Dialog' => 'Crea una nuova interazione per l\'attività',
         'Assigned Activity Dialogs' => 'Interazioni per l\'attività assegnati',
 
@@ -3030,7 +3030,7 @@ sub Data {
         'Note: Type is invalid!' => 'Nota: il tipo non è valido!',
         'Pending till' => 'In attesa fino a',
         'Locked' => 'Bloccato',
-        '%s Ticket(s)' => '%s Ticket(s)',
+        '%s Ticket(s)' => '%s Ticket',
         'Accounted time' => 'Tempo addebitato',
 
         # Template: Invalid
@@ -3479,7 +3479,7 @@ sub Data {
 
         # Template: RestrictionsWidget
         'Please select only one element or turn off the button \'Fixed\'.' =>
-            'Seleziona solo un elemento e togli  \'Fisso\'. ',
+            'Seleziona solo un elemento o togli il bottone \'Fisso\'.',
         'Absolute period' => 'Periodo assoluto',
         'Between %s and %s' => 'Tra %s e %s',
         'Relative period' => 'Periodo relativo',
@@ -3567,7 +3567,7 @@ sub Data {
 
         # Template: Actions
         'Edit search' => 'Modifica ricerca',
-        'Go back to admin: ' => 'Torna all\'amministratore:',
+        'Go back to admin: ' => 'Torna all\'amministratore: ',
         'Deployment' => 'Attivazione',
         'My favourite settings' => 'Le mie impostazioni preferite',
         'Invalid settings' => 'Impostazioni non valide',
@@ -3966,7 +3966,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
         'Could not determine config for invoker %s' => 'Impossibile determinare la configurazione per invoker %s',
-        'InvokerType %s is not registered' => 'InvokerType  %s non è registrato',
+        'InvokerType %s is not registered' => 'InvokerType %s non registrato',
         'MappingType %s is not registered' => 'MappingType %s non è registrato',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
@@ -4045,7 +4045,7 @@ sub Data {
         'OTOBO as provider' => 'OTOBO come fornitore',
         'Operations' => 'Operazioni',
         'OTOBO as requester' => 'OTOBO come richiedente',
-        'Invokers' => 'Invokers',
+        'Invokers' => 'Invoker',
 
         # Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
         'Got no WebserviceHistoryID!' => 'Non avuto WebserviceHistoryID!',
@@ -4299,13 +4299,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
-        'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
@@ -5541,6 +5541,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partizione disco di OTOBO',
 
@@ -6641,6 +6645,8 @@ Thanks for your help!
             'A capo automatico nelle linee dopo X caratteri',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6726,7 +6732,6 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Vigilia di Natale',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Chiudi',
         'Close this ticket' => 'Chiudi questo ticket',
         'Closed Tickets' => '',
@@ -8555,7 +8560,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

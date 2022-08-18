@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '';
     $Self->{DateInputFormat}     = '';
     $Self->{DateInputFormatLong} = '';
-    $Self->{Completeness}        = 0.878908109823837;
+    $Self->{Completeness}        = 0.878629224178962;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4291,13 +4291,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '시스템이 설정을 업데이트 할 수 없습니다!',
         'You need to enable the setting before locking!' => '잠금 전에 설정을 활성화해야 합니다!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '%s(%s)가 현재 작업 중이므로이 설정으로 작업 할 수 없습니다.',
         'Missing setting name!' => '설정 이름이 없습니다!',
         'Missing ResetOptions!' => '누락 된 ResetOptions!',
         'System was not able to lock the setting!' => '시스템이 설정을 잠글 수 없습니다!',
-        'System was unable to update setting!' => '시스템이 설정을 업데이트 할 수 없습니다!',
         'Missing setting name.' => '설정 이름이 없습니다.',
         'Setting not found.' => '설정을 찾을 수 없습니다.',
         'Missing Settings!' => '설정이 없습니다!',
@@ -5533,6 +5533,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 이상이 필요합니다.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO 디스크 파티션',
 
@@ -6644,6 +6648,8 @@ Thanks for your help!
             'X 문자 수 후에 문자 메시지의 자동 줄바꿈',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '유효하지 않은 소유자가 잠금 해제된 티켓의 상태를 자동으로 변경합니다. 상태 유형에서 새 티켓 상태로 매핑합니다.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '에이전트 인터페이스의 티켓 이동 화면을 연 다음 자동으로 현재 에이전트를 잠그고 소유자를 설정합니다.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6729,7 +6735,6 @@ Thanks for your help!
             '알림을 수신할 티켓 변경 유형을 선택하십시오. 필수로 표시된 알림은 완전히 사용 중지할 수 없습니다.',
         'Choose which notifications you\'d like to receive.' => '수신할 알림을 선택하십시오.',
         'Christmas Eve' => '크리스마스 이브',
-        'Cleans up old chat logs.' => '',
         'Close' => '닫기',
         'Close this ticket' => '이 티켓을 닫습니다.',
         'Closed Tickets' => '',
@@ -8558,7 +8563,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'AgentTicketQueue 티켓 색인을 다시 작성하십시오.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

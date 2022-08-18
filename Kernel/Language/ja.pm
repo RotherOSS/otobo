@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.781780669734963;
+    $Self->{Completeness}        = 0.781532603522132;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4294,13 +4294,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'システムが設定を更新できませんでした！',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '設定名がありません！',
         'Missing ResetOptions!' => 'リセット・オプションが不足しています！',
         'System was not able to lock the setting!' => 'システムは設定をロックできませんでした！',
-        'System was unable to update setting!' => 'システムが設定を更新できませんでした！',
         'Missing setting name.' => '設定名がありません。',
         'Setting not found.' => '設定が見つかりません。',
         'Missing Settings!' => '設定がありません！',
@@ -5536,6 +5536,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO ディスクパーティション',
 
@@ -6647,6 +6651,8 @@ Thanks for your help!
             'X個の文字型の後の、テキスト・メッセージにおける自動化されたライン・ブレイク。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6732,7 +6738,6 @@ Thanks for your help!
             '通知を受け取りたいチケット通知を選択します。 必須としてチェックされたチケット通知を無効にすることは出来ません。',
         'Choose which notifications you\'d like to receive.' => '受信する通知を選択します。',
         'Christmas Eve' => 'クリスマスイブ',
-        'Cleans up old chat logs.' => '',
         'Close' => 'クローズ',
         'Close this ticket' => 'このチケットをクローズ',
         'Closed Tickets' => '',
@@ -8571,7 +8576,7 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
         'Queues ↔ Auto Responses' => 'キュー ↔ 自動応答',
         'Quick Close' => '即時クローズ',
         'Rebuild the ticket index for AgentTicketQueue.' => 'AgentTicketQueueのチケットインデックスを再構築します。',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => 'エスカレーション・インデックスを再構築します。',

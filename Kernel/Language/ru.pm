@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.845580066656086;
+    $Self->{Completeness}        = 0.866254164683484;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -113,16 +113,16 @@ sub Data {
             'Для создания нового ACL заполните форму описания и сохраните. После этого можно добавлять наборы условий и действий в режиме редактирования.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'О проекте',
         'Toggle this widget' => 'Переключить показ этого блока',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
+            'Этот язык отсутствует или не включен в системе. Этот текст может быть удален, если он больше не нужен.',
         'Remove Language' => 'Удалить язык',
         'Text' => 'Текст',
         'Message body' => 'Содержание уведомления',
         'This field is required and must have less than 4000 characters.' =>
             'Данное поле обязательно и должно быть менее 4000 символов.',
-        'Remove About Language' => '',
+        'Remove About Language' => 'Удалить \'О языке\'',
         'Add new language' => 'Добавить новый язык',
         'Save Changes' => 'Сохранить изменения',
 
@@ -328,14 +328,14 @@ sub Data {
         'Update' => 'Обновление',
         'System Registration' => 'Регистрация системы',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'Чтобы включить отправку данных, пожалуйста, зарегистрируйте свою систему в команде OTOBO или обновите регистрационные данные системы (убедитесь, что активирована опция "отправлять данные поддержки")',
         'Register this System' => 'Зарегистрируйте эту систему',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'System Registration отключена для вашей системы. Проверьте настройки.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'Регистрация системы - это услуга команды OTOBO, которая предоставляет массу преимуществ!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Обращаем внимание, что использование облачных сервисов OTOBO требует регистрации системы.',
         'Register this system' => 'Зарегистрировать эту систему',
@@ -416,21 +416,21 @@ sub Data {
         'Please select an entry from the list.' => 'Выберите запись из списка.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
+        'Contact with data management' => 'Связь с управлением данными',
         'Contact with data' => 'Contact with data',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Add contact with data' => 'Добавление контакта с данными',
+        'Edit contact with data' => 'Редактирование контакта с данными',
         'Back to search results' => 'Назад к результатам поиска',
         'Select' => 'Выбор',
         'Search' => 'Поиск',
         'Wildcards like \'*\' are allowed.' => 'Разрешены шаблоны типа \'*\'.',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Введите поисковый запрос, чтобы найти контакты с данными.',
         'Valid' => 'Действительность',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'Управление политикой конфиденциальности',
+        'Privacy Policy' => 'Политика конфиденциальности',
+        'Remove PrivacyPolicy Language' => 'Удалить PrivacyPolicy Language',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Управление Компаниями',
@@ -546,7 +546,7 @@ sub Data {
         'Filter for dynamic fields' => 'Фильтр для динамических полей',
         'New Dynamic Fields' => 'Новые динамические поля',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
-            '',
+            'Хотите воспользоваться дополнительными типами динамических полей? У вас есть полный доступ к следующим типам полей:',
         'Database' => 'База данных',
         'Use external databases as configurable data sources for this dynamic field.' =>
             'Используйте внешние БД как конфигурируемые источники данных для этих динамических полей',
@@ -565,14 +565,14 @@ sub Data {
         'Delete this field' => 'Удалить это поле',
 
         # Template: AdminDynamicFieldAdvanced
-        'Import / Export' => '',
+        'Import / Export' => 'Импорт / Экспорт',
         'Here you can upload a configuration file to import dynamic fields to your system. The file needs to be in .yml format as exported by dynamic field management module.' =>
-            '',
-        'DynamicFields Import' => '',
-        'DynamicFields Export' => '',
-        'Dynamic Fields Screens' => '',
+            'Здесь вы можете загрузить файл конфигурации для импорта динамических полей в вашу систему. Файл должен быть в формате .yml, экспортируемом модулем управления динамическими полями.',
+        'DynamicFields Import' => 'Импорт динамических полей',
+        'DynamicFields Export' => 'Экспорт динамических полей',
+        'Dynamic Fields Screens' => 'Экраны динамичных полей',
         'Here you can manage the dynamic fields in the respective screens.' =>
-            '',
+            'Здесь вы можете управлять динамическими полями в соответствующих экранах.',
 
         # Template: AdminDynamicFieldCheckbox
         'Dynamic Fields' => 'Динамические поля',
@@ -606,29 +606,29 @@ sub Data {
         'This is the default value for this field.' => 'Это значение по умолчанию для данного поля.',
 
         # Template: AdminDynamicFieldContactWD
-        'Add or edit contacts' => '',
+        'Add or edit contacts' => 'Добавление или редактирование контактов',
         'To add contacts to this field please fill out all the needed information and save it.' =>
-            '',
+            'Чтобы добавить контакты в это поле, заполните всю необходимую информацию и сохраните его.',
         'Click on the field name from the overview to edit it and find the corresponding action in the sidebar or from the \'Tickets\' menu.' =>
-            '',
-        'Name Field' => '',
-        'ValidID Field' => '',
-        'Other Fields' => '',
+            'Нажмите на название поля в обзоре для его редактирования и найдите соответствующее действие на боковой панели или в меню "Билеты".',
+        'Name Field' => 'Поле имени',
+        'ValidID Field' => 'Поле ValidID',
+        'Other Fields' => 'Другие поля',
         'Key' => 'Ключ',
         'Value' => 'Значение',
         'Remove value' => 'Удалить значение',
-        'Add Field' => '',
+        'Add Field' => 'Добавить поле',
         'Add value' => 'Добавить значение',
-        'These are the possible data attributes for contacts.' => '',
-        'Mandatory fields' => '',
+        'These are the possible data attributes for contacts.' => 'Вот возможные атрибуты данных для контактов.',
+        'Mandatory fields' => 'Обязательные поля',
         'Comma separated list of mandatory keys (optional). Keys \'Name\' and \'ValidID\' are always mandatory and doesn\'t have to be listed here.' =>
-            '',
-        'Sorted fields' => '',
+            'Список обязательных ключей через запятую (необязательный). Ключи \'Name\' и \'ValidID\' всегда являются обязательными и не обязательно должны быть перечислены здесь.',
+        'Sorted fields' => 'Отсортированные поля',
         'Comma separated list of keys in sort order (optional). Keys listed here come first, all remaining fields afterwards and sorted alphabetically.' =>
-            '',
-        'Searchable fields' => '',
+            'Список ключей через запятую в порядке сортировки (необязательно). Ключи, перечисленные здесь, идут первыми, все остальные поля - после них и сортируются в алфавитном порядке.',
+        'Searchable fields' => 'Поля, доступные для поиска',
         'Comma separated list of searchable keys (optional). Key \'Name\' is always searchable and doesn\'t have to be listed here.' =>
-            '',
+            'Список ключей для поиска через запятую (необязательно). Ключ \'Name\' всегда доступен для поиска и не обязательно должен быть перечислен здесь.',
         'Translatable values' => 'Переводимые значения',
         'If you activate this option the values will be translated to the user defined language.' =>
             'Если включить эту опцию, значения, при отображении, будут переведены на заданный язык.',
@@ -638,10 +638,10 @@ sub Data {
 
         # Template: AdminDynamicFieldDB
         'Possible values' => 'Возможные значения',
-        'Datatype' => '',
+        'Datatype' => 'Тип данных',
         'Filter' => 'Фильтр',
-        'Searchfield' => '',
-        'Listfield' => '',
+        'Searchfield' => 'Поле поиска',
+        'Listfield' => 'Поле для списка',
         'Show link' => 'Показывать ссылку',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
@@ -650,20 +650,20 @@ sub Data {
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Эта ссылка будет использована для предпросмотра, который будет отображаться по наведению на нее в экране заявки. Чтобы эта опция работала, поле со ссылкой выше также должно быть заполнено.',
         'SID' => 'SID',
-        'Driver' => '',
-        'Server' => '',
+        'Driver' => 'Драйвер',
+        'Server' => 'Сервер',
         'Port' => 'Порт',
-        'Table / View' => '',
+        'Table / View' => 'Таблица / Просмотр',
         'User' => 'Пользователь',
         'Password' => 'Пароль',
         'Identifier' => 'Идентификатор',
-        'Must be unique column from the table entered in Table/View.' => '',
+        'Must be unique column from the table entered in Table/View.' => 'Должен быть уникальным столбцом из таблицы, введенной в Table/View.',
         'Multiselect' => 'Multiselect - множественный выбор',
-        'CacheTTL' => '',
-        'Searchprefix' => '',
-        'Searchsuffix' => '',
-        'Result Limit' => '',
-        'Case Sensitive' => '',
+        'CacheTTL' => 'CacheTTL',
+        'Searchprefix' => 'Префикс поиска',
+        'Searchsuffix' => 'Суффикс поиска',
+        'Result Limit' => 'Лимит результатов',
+        'Case Sensitive' => 'Зависит от регистра',
 
         # Template: AdminDynamicFieldDateTime
         'Default date difference' => 'Диапазон дат по умолчанию',
@@ -690,42 +690,42 @@ sub Data {
         'Activate this option to display values as a tree.' => 'Включите для отображения в иерархическом виде.',
 
         # Template: AdminDynamicFieldImportExport
-        '%s - %s' => '',
-        'Select the items you want to ' => '',
+        '%s - %s' => '%s - %s',
+        'Select the items you want to ' => 'Выберите элементы, которые вы хотите ',
         'Select the desired elements and confirm the import with \'import\'.' =>
-            '',
+            'Выберите нужные элементы и подтвердите импорт командой \'import\'.',
         'Here you can export a configuration file of dynamic fields and dynamic field screens to import these on another system. The configuration file is exported in yml format.' =>
-            '',
+            'Здесь вы можете экспортировать файл конфигурации динамических полей и экранов динамических полей, чтобы импортировать их в другую систему. Файл конфигурации экспортируется в формате yml.',
         'The following dynamic fields can not be imported because of an invalid backend.' =>
-            '',
-        'Toggle all available elements' => '',
+            'Следующие динамические поля не могут быть импортированы из-за недопустимого бэкенда.',
+        'Toggle all available elements' => 'Переключение всех доступных элементов',
         'Fields' => 'Поля',
-        'Screens' => '',
+        'Screens' => 'Экраны',
 
         # Template: AdminDynamicFieldScreen
-        'Management of Dynamic Fields <-> Screens' => '',
+        'Management of Dynamic Fields <-> Screens' => 'Управление динамическими полями <-> Экраны',
         'Overview' => 'Обзор',
-        'Default Columns Screens' => '',
-        'Add DynamicField' => '',
+        'Default Columns Screens' => 'Экраны столбцов по умолчанию',
+        'Add DynamicField' => 'Добавить динамическое поле',
         'You can assign elements to this Screen/Field by dragging the elements with the mouse from the left list to the right list.' =>
-            '',
+            'Вы можете назначить элементы этому экрану/полю, перетаскивая элементы с помощью мыши из левого списка в правый.',
         'Ordering the elements within the list is also possible by drag \'n\' drop.' =>
             'Порядок элементов в списке изменяется перетаскиванием элементов (drag \'n\' drop)',
-        'Filter available elements' => '',
-        'selected to available elements' => '',
-        'Available Elements' => '',
-        'Filter disabled elements' => '',
-        'selected to disabled elements' => '',
-        'Toggle all disabled elements' => '',
-        'Disabled Elements' => '',
-        'Filter assigned elements' => '',
-        'selected to assigned elements' => '',
-        'Toggle all assigned elements' => '',
-        'Assigned Elements' => '',
-        'Filter assigned required elements' => '',
-        'selected to assigned required elements' => '',
-        'Toggle all assigned required elements' => '',
-        'Assigned Required Elements' => '',
+        'Filter available elements' => 'Доступные элементы фильтра',
+        'selected to available elements' => 'выбранные в доступные элементы',
+        'Available Elements' => 'Доступные элементы',
+        'Filter disabled elements' => 'Отключенные элементы фильтра',
+        'selected to disabled elements' => 'выбранные для отключения элементы',
+        'Toggle all disabled elements' => 'Переключение всех отключенных элементов',
+        'Disabled Elements' => 'Отключенные элементы',
+        'Filter assigned elements' => 'Назначенные элементы фильтров',
+        'selected to assigned elements' => 'выбранные и назначенные элементы',
+        'Toggle all assigned elements' => 'Переключение всех назначенных элементов',
+        'Assigned Elements' => 'Присвоенные элементы',
+        'Filter assigned required elements' => 'Фильтр присвоенных необходимых элементов',
+        'selected to assigned required elements' => 'выбранные для присвоения необходимые элементы',
+        'Toggle all assigned required elements' => 'Переключение всех присвоенных необходимых элементов',
+        'Assigned Required Elements' => 'Присвоенные обязательные элементы',
         'Reset' => 'Отклонить',
 
         # Template: AdminDynamicFieldText
@@ -745,27 +745,27 @@ sub Data {
 
         # Template: AdminDynamicFieldTitle
         'Template' => 'Шаблон',
-        'Style' => '',
-        'bold' => '',
-        'italic' => '',
-        'underline' => '',
-        'Font style of the label.' => '',
+        'Style' => 'Стиль',
+        'bold' => 'полужирный',
+        'italic' => 'курсив',
+        'underline' => 'подчеркнутый',
+        'Font style of the label.' => 'Стиль шрифта метки.',
         'Size' => 'Размер',
-        'Font size of the label.' => '',
-        'Color in hex.' => '',
+        'Font size of the label.' => 'Размер шрифта метки.',
+        'Color in hex.' => 'Цвет в шестнадцатеричном формате.',
 
         # Template: AdminDynamicFieldWebService
         'This field is required' => 'Это поле обязательно',
-        'The web service to be executed for possible values.' => '',
-        'Invoker' => '',
+        'The web service to be executed for possible values.' => 'Веб-служба, которая должна быть выполнена для получения возможных значений.',
+        'Invoker' => 'Инициатор',
         'The invoker to be used to perform requests (invoker needs to be of type \'Generic::PassThrough\').' =>
-            '',
-        'Activate this option to allow multiselect on results.' => '',
-        'Cache TTL' => '',
+            'Инициатор, который будет использоваться для выполнения запросов (запросчик должен быть типа \'Generic::PassThrough\').',
+        'Activate this option to allow multiselect on results.' => 'Активируйте этот параметр, чтобы разрешить мультивыбор результатов.',
+        'Cache TTL' => 'ТТЛ кэша',
         'Cache time to live (in minutes), to save the retrieved possible values.' =>
-            '',
+            'Время жизни кэша (в минутах) для сохранения найденных возможных значений.',
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens. Optional HTTP link works only for single-select fields.' =>
-            '',
+            'Здесь можно указать необязательную HTTP-ссылку для значения поля на экранах "Обзор" и "Масштаб". Дополнительная ссылка HTTP работает только для полей с одним выбором.',
 
         # Template: AdminEmail
         'Admin Message' => 'Сообщение администратора',
@@ -801,7 +801,7 @@ sub Data {
         'Schedule minutes' => 'Запускать в минуты',
         'Schedule hours' => 'Запускать в часы',
         'Schedule days' => 'Запускать в дни',
-        'Automatic execution values are in the system timezone.' => '',
+        'Automatic execution values are in the system timezone.' => 'Значения автоматического выполнения находятся в системном часовом поясе.',
         'Currently this generic agent job will not run automatically.' =>
             'В данный момент это задание не запускается автоматически.',
         'To enable automatic execution select at least one value from minutes, hours and days!' =>
@@ -834,7 +834,7 @@ sub Data {
         'Responsible' => 'Ответственный',
         'Ticket lock' => 'Блокировка заявки',
         'Dynamic fields' => 'Динамические поля',
-        'Add dynamic field' => '',
+        'Add dynamic field' => 'Добавить динамическое поле',
         'Create times' => 'Когда создана',
         'No create time settings.' => 'Без учета времени создания.',
         'Ticket created' => 'Заявка создана',
@@ -848,10 +848,10 @@ sub Data {
         'No change time settings.' => 'Нет настройки времени изменения.',
         'Ticket changed' => 'Заявка изменена',
         'Ticket changed between' => 'Заявка изменена в период',
-        'Last close times' => '',
-        'No last close time settings.' => '',
-        'Ticket last close' => '',
-        'Ticket last close between' => '',
+        'Last close times' => 'Время закрытия',
+        'No last close time settings.' => 'Нет настроек времени последнего закрытия.',
+        'Ticket last close' => 'Последнее закрытие билета',
+        'Ticket last close between' => 'Билет закрывается в промежутке',
         'Close times' => 'Когда закрыта',
         'No close time settings.' => 'Без учета времени закрытия.',
         'Ticket closed' => 'Заявка закрыта',
@@ -956,7 +956,7 @@ sub Data {
         'Note: Operation is undetermined for errors occuring while receiving incoming request data. Filters involving this error stage should not use operation filter.' =>
             'Заметка: Операция не определена из-за ошибок при получении поступающего запроса данных. Фильтры, содержащие эту ошибку в операции не должны использовать фильтр процессов.',
         'Invoker filter' => 'Фильтр вызовов',
-        'Only execute error handling module for selected invokers.' => '',
+        'Only execute error handling module for selected invokers.' => 'Выполнение модуля обработки ошибок только для выбранных инициаторов.',
         'Error message content filter' => 'Фильтр по содержимому ошибки',
         'Enter a regular expression to restrict which error messages should cause error handling module execution.' =>
             'Введите регулярное выражение для ограничения сообщений об ошибках, которые будут приходить от модуля обработки ошибок.',
@@ -1058,7 +1058,7 @@ sub Data {
             'Синхронные триггеры событий будут обрабатываться непосредственно при веб-запросе.',
 
         # Template: AdminGenericInterfaceInvokerEvent
-        'GenericInterface Invoker Event Settings for Web Service %s' => '',
+        'GenericInterface Invoker Event Settings for Web Service %s' => 'Настройки событий инвокера общего интерфейса для веб-службы %s',
         'Go back to' => 'Вернуться к',
         'Delete all conditions' => 'Удалить все условия',
         'Do you really want to delete all the conditions for this event?' =>
@@ -1076,44 +1076,44 @@ sub Data {
         'Add New Condition' => 'Добавить новое Условие',
 
         # Template: AdminGenericInterfaceInvokerTicket
-        'General invoker data' => '',
-        'Settings for outgoing request data' => '',
+        'General invoker data' => 'Общие данные инвокера',
+        'Settings for outgoing request data' => 'Настройки для данных исходящего запроса',
         'Ticket fields' => 'Поля заявки',
         'Only the selected ticket fields will be considered for the request data.' =>
-            '',
-        'Article fields' => '',
+            'Для данных запроса будут учитываться только выбранные поля билета.',
+        'Article fields' => 'Поля статей',
         'Only the selected article fields will be considered for the request data.' =>
-            '',
-        'Ticket dynamic fields' => '',
+            'Для данных запроса будут рассматриваться только выбранные поля статьи.',
+        'Ticket dynamic fields' => 'Динамические поля билета',
         'Only the selected ticket dynamic fields will be considered for the request data.' =>
-            '',
-        'Article dynamic fields' => '',
+            'Для данных запроса будут учитываться только выбранные динамические поля билета.',
+        'Article dynamic fields' => 'Динамические поля статьи',
         'Only the selected article dynamic fields will be considered for the request data.' =>
-            '',
-        'Number of articles' => '',
+            'Для данных запроса будут учитываться только выбранные динамические поля статьи.',
+        'Number of articles' => 'Количество статей',
         'The outgoing request data will only contain the configured number of articles. If left empty, only 1 article will be sent.' =>
-            '',
-        'Communication channels' => '',
+            'Данные исходящего запроса будут содержать только настроенное количество статей. Если оставить пустым, будет отправлена только 1 статья.',
+        'Communication channels' => 'Каналы связи',
         'The outgoing request data will only consider articles of the selected communication channels. If left empty, articles created by all communication channels will be used.' =>
-            '',
+            'В данных исходящего запроса будут учитываться только статьи выбранных каналов связи. Если оставить пустым, будут использоваться статьи, созданные всеми каналами связи.',
         'Customer visibility' => 'Показывать клиенту',
         'The outgoing request data will only consider articles created with the selected customer visibility.' =>
-            '',
-        'Sender Types' => '',
+            'В данных исходящего запроса будут учитываться только статьи, созданные с выбранной видимостью клиента.',
+        'Sender Types' => 'Типы отправителей',
         'The outgoing request data will only consider articles created by the selected sender types. If left empty, articles created by all sender types will be used.' =>
-            '',
-        'Mapping' => '',
-        'Settings for incoming response data' => '',
-        'Remote TicketID dynamic field' => '',
+            'Данные исходящего запроса будут учитывать только статьи, созданные выбранными типами отправителей. Если оставить пустым, будут использоваться статьи, созданные всеми типами отправителей.',
+        'Mapping' => 'Отображение',
+        'Settings for incoming response data' => 'Настройки для входящих ответных данных',
+        'Remote TicketID dynamic field' => 'Удаленное динамическое поле TicketID',
         'The selected ticket dynamic field is being used to store the remote TicketID.' =>
-            '',
+            'Выбранное динамическое поле билета используется для хранения удаленного TicketID.',
         'If left empty, the remote TicketID will not be stored, unless you define a system configuration value for this web service.' =>
-            '',
+            'Если оставить пустым, то удаленный TicketID не будет храниться, если только вы не определите значение системной конфигурации для этой веб-службы.',
         'The selected field is already in use by the Ticket dynamic fields option.' =>
-            '',
+            'Выбранное поле уже используется опцией Ticket dynamic fields.',
         'Only the selected ticket dynamic fields are being considered for processing the incoming response data. If left empty, no dynamic field will be processed.' =>
-            '',
-        'Event data' => '',
+            'При обработке входящих данных ответа учитываются только выбранные динамические поля билета. Если оставить пустым, ни одно динамическое поле не будет обработано.',
+        'Event data' => 'Данные о событиях',
 
         # Template: AdminGenericInterfaceMappingSimple
         'Mapping Simple' => 'Простое сопоставление',
@@ -1160,8 +1160,8 @@ sub Data {
             'Выберите один или несколько наборов данных, которые создавались на более ранних этапах запроса/ответа, которые будут включены в отображаемые данные.',
         'These sets will appear in the data structure at \'/DataInclude/<DataSetName>\' (see debugger output of actual requests for details).' =>
             'Эти наборы появятся в структуре данных в \'/DataInclude/<DataSetName>\' (для получения детальной информации смотрите вывод отладчика фактических запросов).',
-        'Data key regex filters (before mapping)' => '',
-        'Data key regex filters (after mapping)' => '',
+        'Data key regex filters (before mapping)' => 'Регекс-фильтры ключей данных (до сопоставления)',
+        'Data key regex filters (after mapping)' => 'Регекс-фильтры ключей данных (после сопоставления)',
         'Regular expressions' => 'Регулярные выражения',
         'Replace' => 'Заменить',
         'Remove regex' => 'Удалить регулярное выражение',
@@ -1182,7 +1182,7 @@ sub Data {
             'Для информации о регулярных выражениях в Perl смотрите здесь:',
         'Perl regular expressions tutorial' => 'Руководство по регулярным выражениям Perl',
         'If modifiers are desired they have to be specified within the regexes themselves.' =>
-            '',
+            'Если необходимы модификаторы, они должны быть указаны в самих регексах.',
         'Regular expressions defined here will be applied before the XSLT mapping.' =>
             'Регулярные выражения заданные здесь будут применены до XSLT mapping.',
         'Regular expressions defined here will be applied after the XSLT mapping.' =>
@@ -1229,7 +1229,7 @@ sub Data {
         'URI to indicate specific location for accessing a web service.' =>
             'URI для указания точного расположения для доступа к веб-сервису.',
         'e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)' =>
-            '',
+            'например, https://www.otobo.de:10745/api/v1.0 (без обратного слеша)',
         'Timeout' => 'Тайм-аут',
         'Timeout value for requests.' => 'Значение Timeout для запросов.',
         'Authentication' => 'Аутентификация',
@@ -1271,9 +1271,9 @@ sub Data {
         'The full path of the certification authority directory where the CA certificates are stored in the file system.' =>
             'Полный путь к каталогу certification authority, в котором хранятся CA certificates. ',
         'e.g. /opt/otobo/var/certificates/SOAP/CA' => 'например, /opt/otobo/var/certificates/SOAP/CA',
-        'SSL hostname verification.' => '',
+        'SSL hostname verification.' => 'Проверка имени хоста SSL.',
         'Abort the request if the hostname cannot be verified. Disable with caution! Skipping verification is a security risk! Mainly for testing purposes in case of self-signed SSL certificates, or if you know what you are doing.' =>
-            '',
+            'Прервать запрос, если имя хоста не может быть проверено. Отключать с осторожностью! Пропуск проверки - это риск для безопасности! В основном для тестирования в случае самоподписанных SSL-сертификатов или если вы знаете, что делаете.',
         'Controller mapping for Invoker' => 'Controller mapping для Invoker',
         'The controller that the invoker should send requests to. Variables marked by a \':\' will get replaced by the data value and passed along with the request. (e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).' =>
             'Контроллер, на который invoker должен отправлять запросы. Переменные, помеченные \':\', будут заменены значением и переданы вместе с запросом. (например, /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password).',
@@ -1282,10 +1282,10 @@ sub Data {
             'Конкретная команда HTTP для использования в запросах этого Invoker (необязательна).',
         'Default command' => 'Команда по умолчанию',
         'The default HTTP command to use for the requests.' => 'Команда HTTP по умолчанию для использования в запросах.',
-        'Additional request headers (all invokers)' => '',
-        'Additional request headers (invoker specific)' => '',
-        'Remove all headers for this invoker' => '',
-        'Headers for invoker' => '',
+        'Additional request headers (all invokers)' => 'Дополнительные заголовки запроса (все инвокера)',
+        'Additional request headers (invoker specific)' => 'Дополнительные заголовки запроса (специфические для инвокера)',
+        'Remove all headers for this invoker' => 'Удалить все заголовки для этого инвокера',
+        'Headers for invoker' => 'Заголовки для инвокера',
         'Additional response headers (all operations)' => '',
         'Additional response headers (operation specific)' => '',
         'Remove all headers for this operation' => '',
@@ -2226,7 +2226,7 @@ sub Data {
         'Deployment History' => '',
         'Filter for Deployments' => '',
         'Recent Deployments' => '',
-        'Restore' => '',
+        'Restore' => 'Восстановление',
         'View Details' => '',
         'Restore this deployment.' => '',
         'Export this deployment.' => '',
@@ -3068,7 +3068,7 @@ sub Data {
         'From assigned Customer IDs' => 'Из назначенных Customer ID',
 
         # Template: CustomerDashboard
-        'Ticket Search' => '',
+        'Ticket Search' => 'Поиск билета',
         'New Ticket' => 'Новая заявка',
 
         # Template: CustomerError
@@ -3137,7 +3137,7 @@ sub Data {
         'Service level agreement' => 'Соглашение об уровне сервиса',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => '',
+        'Your Tickets' => 'Ваши билеты',
         'Page' => 'Страница',
         'Sort' => '',
 
@@ -3172,7 +3172,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Информация о заявке',
         'Categories' => '',
-        'Further actions' => '',
+        'Further actions' => 'Дальнейшие действия',
 
         # Template: Chat
         'Expand article' => 'Развернуть сообщение',
@@ -3184,7 +3184,7 @@ sub Data {
         'Warning' => 'Предупреждение',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => 'Issue%sa ticket',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Информация о событии',
@@ -4302,13 +4302,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'Система не смогла обновить эту настройку!',
         'You need to enable the setting before locking!' => 'Необходимо включить параметр перед блокировкой!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Вы не можете работать с этим параметром так как %s (%s) уже работает с ним.',
         'Missing setting name!' => 'Пропущено имя параметра!',
         'Missing ResetOptions!' => 'Пропущен Сброс настроек - ResetOptions!',
         'System was not able to lock the setting!' => 'Система не может заблокировать эту настройку!',
-        'System was unable to update setting!' => 'Система не смогла обновить эту настройку!',
         'Missing setting name.' => 'Пропущено имя параметра.',
         'Setting not found.' => 'Параметр не найден.',
         'Missing Settings!' => 'Пропущены параметры!',
@@ -5544,6 +5544,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 или выше необходим.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Раздел диска для OTOBO',
 
@@ -6655,6 +6659,8 @@ Thanks for your help!
             'Автоматический перевод строки в тексте сообщения после х символов.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Автоматически изменяет состояние заявки с недействительным агентом после её разблокирования. Новое состояние заявки берется из доступных типов состояния.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Автоматически блокирует заявку и назначает ответственным текущего агента после открытия экрана смены очереди в интерфейсе агента.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6740,7 +6746,6 @@ Thanks for your help!
             'Выберите для какого типа изменений заявок вы будете получать уведомления. Обратите внимание, что нельзя отключить уведомление отмеченное как обязательное.',
         'Choose which notifications you\'d like to receive.' => 'Выберите, какие уведомления Вы хотели бы получать.',
         'Christmas Eve' => 'Сочельник',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Закрыть',
         'Close this ticket' => 'Закрыть эту заявку',
         'Closed Tickets' => '',
@@ -8569,7 +8574,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => 'Очереди ↔ Автоответы',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Перестраивает индексы заявок для AgentTicketQueue.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
