@@ -1,4 +1,70 @@
 
+# OTOBO 10.1.5 2022-08-18
+- 2022-08-18 13:39:59 +0200 Create new OTOBO language files.
+- 2022-08-04 15:00:21 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2022-07-26 19:45:13 +0000 Translated using Weblate (Spanish)
+- 2022-07-25 10:56:58 +0000 Translated using Weblate (Italian)
+- 2022-06-17 11:20:53 +0000 Translated using Weblate (Russian)
+- 2022-06-09 10:47:29 +0000 Translated using Weblate (French)
+- 2022-05-27 17:24:04 +0000 Translated using Weblate (Spanish (Mexico))
+- 2022-05-17 16:20:04 +0000 Translated using Weblate (German)
+- 2022-05-04 06:19:32 +0000 Update translation files
+- 2022-08-16 17:36:39 +0200 Remove a trailing space.
+- 2022-08-16 17:35:31 +0200 Remove duplicate license
+- 2022-08-16 15:45:19 +0200 Load modules on top of the script
+- 2022-08-16 15:43:48 +0200 Use dedicated varialble for the unsafe HTML string
+- 2022-08-16 15:42:13 +0200 Remove some unused variables
+- 2022-08-16 11:34:08 +0200 [Security] ConfigLevel server side validation. (https://github.com/RotherOSS/otobo/issues/1874)
+- 2022-08-12 10:56:05 +0200 Investigate error message when ACL with empty ConfigMatch is imported (https://github.com/RotherOSS/otobo/issues/1735)
+- 2022-08-11 16:18:11 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
+- 2022-08-01 17:03:20 +0200 Update TicketCreate.pm
+- 2022-07-07 07:48:27 +0200 [Bugfix]   "This feature is currently not available." when adding a calendar appointment. (https://github.com/RotherOSS/otobo/issues/1341)
+- 2022-07-06 15:28:45 +0200 [Bugfix]   Calendar Appointments not visible when SessionUseCookie not activated (https://github.com/RotherOSS/otobo/issues/1813)
+- 2022-07-06 14:17:40 +0200 Correct perl in GenericAgent.pm.
+- 2022-06-29 09:42:28 +0200 Solving problem by correcting order in lib parameter
+- 2022-06-17 14:50:30 +0200 Decide about legacy algorithm support in SMIME handling (https://github.com/RotherOSS/otobo/issues/1819) - in progress
+- 2022-06-10 15:32:04 +0200 [Bugfix]   Unittest failure in Selenium/Customer/DynamicFields/DynamicFieldDatabase.t (https://github.com/RotherOSS/otobo/issues/1810) - in progress
+- 2022-06-15 16:14:12 +0200 [Bugfix]   Bug in AgentTicketZoom with DynamicFields, using DynamicFieldScreens (https://github.com/RotherOSS/otobo/issues/1321)
+- 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
+- 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-07 16:32:31 +0200 Resolve unit test failures when syncing with S3 is enabled (https://github.com/RotherOSS/otobo/issues/1777) - in progress
+- 2022-06-07 12:30:19 +0200 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
+- 2022-06-06 13:45:13 +0200 Update the Docker Perl base image to Perl 5.36 (https://github.com/RotherOSS/otobo/issues/1808)
+- 2022-06-05 11:53:26 +0200 Key and certificate management in the S3 case (https://github.com/RotherOSS/otobo/issues/1799) - in progress
+- 2022-06-03 18:16:01 +0200 [Enhanced] Deprecate the use of XML::Parser, switch to XML::LibXML (https://github.com/RotherOSS/otobo/issues/88) - in progress
+- 2022-06-03 09:48:36 +0200 Missing character in comment
+- 2022-06-01 13:39:16 +0200 Fix code comments for two arguments to TicketSearch()
+- 2022-05-30 21:44:30 +0200 [Bugfix]   "Special" character issues when using the S3 storage backend (https://github.com/RotherOSS/otobo/issues/1795)
+- 2022-05-26 16:59:41 +0200 Install dependencies just like in code_policy workflow
+- 2022-05-21 14:51:43 +0200 [Tidied]   Path::Class is set up twice in bin/otobo.CheckModules.pl (https://github.com/RotherOSS/otobo/issues/1789)
+- 2022-05-18 17:02:16 +0200 Sync the files in Kernel/Config/Files/User when S3 syncing is active (https://github.com/RotherOSS/otobo/issues/1776)
+- 2022-05-18 12:53:25 +0200 Fix subaction specific access restrictions in the customer interface. (https://github.com/RotherOSS/otobo/issues/1549)
+- 2022-05-17 12:15:42 +0200 [Bugfix]   Autoselect does not hide initially set queue. (https://github.com/RotherOSS/otobo/issues/1785)
+- 2022-05-16 14:56:28 +0200 Issue #1777 fixed time and s3 (https://github.com/RotherOSS/otobo/issues/1778)
+- 2022-05-16 13:59:06 +0200 Remove a debug statement.
+- 2022-05-16 09:17:39 +0200 Followup to Issue #1297: Add used method.
+- 2022-05-14 17:43:37 +0200 Also sync the ZZZZUnitTest*.pm file via S3 (https://github.com/RotherOSS/otobo/issues/1769)
+- 2022-05-12 19:29:46 +0200 [Tidied]   Remove an useless 'do (https://github.com/RotherOSS/otobo/issues/1764)
+- 2022-05-12 14:38:54 +0200 [Enhanced] Add Test2::Harness as devel:test dependency (https://github.com/RotherOSS/otobo/issues/1690)
+- 2022-05-11 16:10:26 +0200 Kernel::System::ACL::DB::ACL::ACLDump() ignores the passed in location in the S3 case (https://github.com/RotherOSS/otobo/issues/1768)
+- 2022-05-10 16:23:29 +0200 [Enhanced] Handle docker_firsttime also in the Daemon containers (https://github.com/RotherOSS/otobo/issues/1759)
+- 2022-05-09 18:13:22 +0200 Fix Kernel::System::Storage::S3::DiscardObjects (https://github.com/RotherOSS/otobo/issues/1745)
+- 2022-05-09 12:50:51 +0200 [Enhanced] Adapt Daemon Module SystemConfigurationSyncManager to S3 scenario (https://github.com/RotherOSS/otobo/issues/1755) - in progress
+- 2022-05-07 12:26:33 +0200 [Tidied]   Check documentation of cron tasks (https://github.com/RotherOSS/otobo/issues/1761)
+- 2022-05-04 09:09:53 +0200 Translate footer links description in the customer interface.
+- 2022-05-04 08:19:06 +0200 Create new OTOBO language files.
+- 2022-04-28 14:07:55 +0000 Update translation files
+- 2022-05-04 08:08:04 +0200 [Bugfix]   Translation for AcceptGDPR (https://github.com/RotherOSS/otobo/issues/1754)
+- 2022-05-03 15:35:42 +0200 Fix path if no own template is used in kerberos.
+- 2022-05-03 11:34:42 +0200 Tickets get locked on FollowUp even if the owner is root@localhost (https://github.com/RotherOSS/otobo/issues/1475)
+- 2022-05-02 18:34:32 +0200 [Bugfix]   Make sure that the directory for cache files exists (https://github.com/RotherOSS/otobo/issues/1749)
+- 2022-04-30 18:06:23 +0200 Fix test Selenium/Output/Dashboard/CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1747)
+- 2022-04-30 15:03:02 +0200 Adapt mtime checks to S3 support for the MinIO case  (https://github.com/RotherOSS/otobo/issues/1744)
+- 2022-04-28 18:56:32 +0200 [Security] Bug in LDAP groups to OTOBO roles synchronization (https://github.com/RotherOSS/otobo/issues/1608)
+- 2022-04-28 15:22:29 +0200 Update CHANGES.
+
+
 # OTOBO 10.1.4 2022-04-28
 - 2022-04-28 18:21:59 +0200 [Bugfix]   Fix Role synchronization from LDAP. (https://github.com/RotherOSS/otobo/issues/1741)
 
@@ -1239,6 +1305,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
