@@ -15,16 +15,25 @@
 # --
 
 package Kernel::System::Log;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
 use Carp ();
 
+# CPAN modules
+
+# OTOBO modules
+
+# Inform the object manager about the hard dependencies.
+# This module must be discarded when one of the hard dependencies has been discarded.
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Encode',
@@ -72,7 +81,9 @@ sub new {
         Carp::confess('$Kernel::OM is not defined, please initialize your object manager');
     }
 
+    # extract some values from the config
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
     $Self->{ProductVersion} = $ConfigObject->Get('Product') . ' ';
     $Self->{ProductVersion} .= $ConfigObject->Get('Version');
 
@@ -245,6 +256,8 @@ sub Log {
         }
 
         $Error .= "\n";
+
+        # TODO: this should probably be the PSGI error filehandle
         print STDERR $Error;
 
         # store data (for the frontend)
@@ -257,7 +270,9 @@ sub Log {
         $Self->{ lc $Priority }->{Message} = $Message;
     }
 
-    # write shm cache log
+    # Prepend the current log line to the shared memory segment.
+    # The oldest log lines might fall out of the window.
+    # shmwrite() might append "\0" bytes for padding.
     if ( lc $Priority ne 'debug' && $Self->{IPC} ) {
 
         $Priority = lc $Priority;
@@ -307,7 +322,7 @@ sub GetLog {
     # Remove \0 bytes that shmwrite adds for padding.
     $String =~ s{\0}{}smxg;
 
-    # encode the string
+    # the string is UTF-8 encoded, decode it (even though the method is called EncodeInput)
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$String );
 
     return $String;
