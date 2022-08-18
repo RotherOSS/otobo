@@ -225,7 +225,7 @@ sub Run {
             color => $Self->{ANSI},
 
             # these libs are additional, $ENV{PERL5LIB} is still honored
-            lib => [ $Home, "$Home/Kernel/cpan-lib", "$Home/Custom" ],
+            lib => [ "$Home/Custom", "$Home/Kernel/cpan-lib", $Home ],
         }
     );
 

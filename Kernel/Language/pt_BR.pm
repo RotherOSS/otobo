@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.915410252340898;
+    $Self->{Completeness}        = 0.915119784229732;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4296,13 +4296,13 @@ sub Data {
         'No DeploymentID received!' => 'DeploymentID não recebido!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'O sistema não conseguiu atualizar a definição!',
         'You need to enable the setting before locking!' => 'Você precisa ativar esta definição antes de bloquear!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Você não consegue editar esta definição porque %s (%s) a está editando no momento.',
         'Missing setting name!' => 'Falta nome da definição!',
         'Missing ResetOptions!' => 'Opções de Redifinição Faltando!',
         'System was not able to lock the setting!' => 'O sistema não conseguiu bloquear a definição!',
-        'System was unable to update setting!' => 'O sistema não conseguiu atualizar a definição!',
         'Missing setting name.' => 'Falta nome de definição.',
         'Setting not found.' => 'Configuração não encontrada.',
         'Missing Settings!' => 'Faltam Definições!',
@@ -5538,6 +5538,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 ou superior é necessário.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partição OTOBO',
 
@@ -6649,6 +6653,8 @@ Obrigado pela ajuda!
             'Quebra de linha automatizada em mensagens de texto após x número de caracteres.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Automaticamente alterar o estado de um ticket com um proprietário inválido quando ele for desbloqueado. Mapeia de um tipo de estado para um novo estato de ticket.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Define e proprietário como e bloqueia o ticket para o Agente atual após abrir a tela de mover na interface de agente.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6734,7 +6740,6 @@ Obrigado pela ajuda!
             'Escolha para quais tipos de mudança de ticket você quer receber notificações. Observe que você não pode desativar completamente notificações marcadas como mandatórias.',
         'Choose which notifications you\'d like to receive.' => 'Escolha as notificações que você gostaria de receber.',
         'Christmas Eve' => 'Véspera de Natal',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Fechar',
         'Close this ticket' => 'Fechar este Chamado',
         'Closed Tickets' => '',
@@ -8563,7 +8568,7 @@ Obrigado pela ajuda!
         'Queues ↔ Auto Responses' => 'Filas ↔ Respostas Automáticas',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Reconstruir o índice de tickets para AgentTicketQueue.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

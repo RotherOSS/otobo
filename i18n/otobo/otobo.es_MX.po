@@ -17,13 +17,13 @@
 # Luis Armando Medina <lamedina@gmail.com>, 2019
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
-# Fredy Aragón <fredmac48@hotmail.com>, 2021.
+# Fredy Aragón <fredmac48@hotmail.com>, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
-"PO-Revision-Date: 2021-09-08 15:36+0000\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
+"PO-Revision-Date: 2022-05-28 16:16+0000\n"
 "Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
@@ -223,7 +223,7 @@ msgstr "Crear una nueva ALC al ingresar los datos del formulario. Una vez creada
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Acerca de"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -231,11 +231,11 @@ msgstr "Activar este widget"
 
 #. Template: AdminAbout
 msgid "This language is not present or enabled on the system. This text could be deleted if it is not needed anymore."
-msgstr ""
+msgstr "Este idioma no está presente o habilitado en el sistema. Este texto puede ser eliminado si ya no es necesario."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Quitar idioma"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -255,7 +255,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Agregar nuevo lenguaje"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -1231,15 +1231,15 @@ msgstr "Válido"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "Gestión de política de privacidad"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Política de privacidad"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "Eliminar la política de privacidad del lenguaje"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1579,7 +1579,7 @@ msgstr "Filtro para campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "Nuevos campos dinámicos"
 
 #. Template: AdminDynamicField
 msgid "Would you like to benefit from additional dynamic field types? You have full access to the following field types:"
@@ -1699,7 +1699,7 @@ msgstr "Éste es el orden en que se mostrará este campo en las pantallas en las
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "Mensaje de ayuda:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
@@ -8962,8 +8962,8 @@ msgid "go back to the previous page"
 msgstr "regresar a la página anterior"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr "Con un clic declaro mi consentimiento."
+msgid "Click to accept"
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -24881,7 +24881,7 @@ msgstr "Zoom del Ticket."
 
 #. SysConfig
 msgid "Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected)."
-msgstr ""
+msgstr "Atributos del ticket que deben estar disponibles en el frontend de configuración del invocador del ticket (0 = visible/seleccionado, 1 = predeterminado/preseleccionado)."
 
 #. SysConfig
 msgid "Ticket bulk module."
@@ -24913,7 +24913,7 @@ msgstr "Vista de resumen de los tickets"
 
 #. SysConfig
 msgid "Ticket plain view of an email."
-msgstr ""
+msgstr "Ticket a la vista de un correo electrónico."
 
 #. SysConfig
 msgid "Ticket split dialog."
@@ -25263,6 +25263,9 @@ msgstr "revertir"
 msgid "stats"
 msgstr "estadísticas"
 
+#~ msgid "Mit einem Klick erkläre ich meine Zustimmung."
+#~ msgstr "Con un clic declaro mi consentimiento."
+
 #~ msgid "Allows generic agent to execute custom command line scripts."
 #~ msgstr "Permite al agente genérico ejecutar scripts de línea de comandos personalizados."
 
@@ -25536,7 +25539,19 @@ msgstr "estadísticas"
 #~ msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
 #~ msgstr "p.e. https://local.otrs.com:8000/Webservice/Example"
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

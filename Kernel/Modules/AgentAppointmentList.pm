@@ -47,11 +47,13 @@ sub Run {
 
     KEY:
     for my $Key (@ParamNames) {
+
         next KEY if $Key eq 'AppointmentIDs';
-        $GetParam{$Key} = $ParamObject->GetParam( Param => $Key );
+
+        my $UnsafeParam = $ParamObject->GetParam( Param => $Key );
 
         my %SafeGetParam = $Kernel::OM->Get('Kernel::System::HTMLUtils')->Safety(
-            String       => $GetParam{$Key},
+            String       => $UnsafeParam,
             NoApplet     => 1,
             NoObject     => 1,
             NoEmbed      => 1,

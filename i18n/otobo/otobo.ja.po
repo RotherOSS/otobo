@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
 "PO-Revision-Date: 2022-02-03 02:40+0000\n"
 "Last-Translator: Kozo Sakurai <sakurai@io-architect.com>\n"
 "Language-Team: Japanese <https://translate.otobo.org/projects/otobo10/otobo/ja/>\n"
@@ -8956,8 +8956,8 @@ msgid "go back to the previous page"
 msgstr "直前のページに戻る"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr "ワンクリックで同意します。"
+msgid "Click to accept"
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -25268,6 +25268,9 @@ msgstr "反転"
 msgid "stats"
 msgstr "統計"
 
+#~ msgid "Mit einem Klick erkläre ich meine Zustimmung."
+#~ msgstr "ワンクリックで同意します。"
+
 #~ msgid "Off"
 #~ msgstr "オフ"
 
@@ -25694,7 +25697,19 @@ msgstr "統計"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "sales@otrs.comまでご連絡下さい。"
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

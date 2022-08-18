@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
 "PO-Revision-Date: 2022-02-11 01:40+0000\n"
 "Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/otobo10/otobo/pt_BR/>\n"
@@ -8996,8 +8996,8 @@ msgid "go back to the previous page"
 msgstr "retornar à página anterior"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr "Dou meu consentimento com um clique."
+msgid "Click to accept"
+msgstr ""
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -25297,6 +25297,9 @@ msgstr "reverso"
 msgid "stats"
 msgstr "estatísticas"
 
+#~ msgid "Mit einem Klick erkläre ich meine Zustimmung."
+#~ msgstr "Dou meu consentimento com um clique."
+
 #~ msgid "Defines the parameters for the dashboard backend. \"Cmd\" is used to specify command with parameters. \"Group\" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). \"Default\" indicates if the plugin is enabled by default or if the user needs to enable it manually. \"CacheTTL\" indicates the cache expiration period in minutes for the plugin. \"Mandatory\" determines if the plugin is always shown and can not be removed by agents."
 #~ msgstr "Define os parâmetros para o backend do painel. \"Cmd\" é utilizado para especificar comandos com parâmetros. \"Group\" é utilizado para restringir o acesso ao plugin (por exemplo, Group: admin;group1;group2;). \"Default\" indica se o plugin é ativado como padrão ou se o usuário precisa ativar manualmente. \"CacheTTL\" indica o tempo de expiração do  cache, em minutos, para o plugin. \"Mandatory\" determina se o plugin é exibido sempre e não pode ser removido pelos agentes."
 
@@ -25855,7 +25858,19 @@ msgstr "estatísticas"
 #~ msgid "Contact us at sales@otrs.com"
 #~ msgstr "Contacte-nos em sales@otrs.com"
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.696556102205999;
+    $Self->{Completeness}        = 0.696335078534031;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4295,13 +4295,13 @@ sub Data {
         'No DeploymentID received!' => 'Nie podano ID wdrożenia!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'Nie można zaktualizować ustawienia!',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Nie możesz edytować tego ustawienia ponieważ %s (%s) aktualnie nad nim pracuje.',
         'Missing setting name!' => 'Brak nazwy ustawienia!',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => 'Nie można zablokować ustawienia!',
-        'System was unable to update setting!' => 'Nie można zaktualizować ustawienia!',
         'Missing setting name.' => 'Brak nazwy ustawienia.',
         'Setting not found.' => '',
         'Missing Settings!' => 'Brak ustawienia!',
@@ -5537,6 +5537,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'Wymagany jest PostgreSQL w wersji 9.2 lub wyższej.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partycja dysku OTOBO',
 
@@ -6637,6 +6641,8 @@ Thanks for your help!
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6722,7 +6728,6 @@ Thanks for your help!
             'Wybierz, dla jakich rodzajów zmian w zgłoszeniach, chcesz otrzymywać powiadomienia. Zauważ, że nie można całkowicie wyłączyć powiadomień oznaczonych jako obowiązkowe.',
         'Choose which notifications you\'d like to receive.' => 'Wybierz jakie powiadomienia chcesz otrzymywać.',
         'Christmas Eve' => 'Wigilia Bożego Narodzenia',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Zamknij',
         'Close this ticket' => 'Zamknij to zgłoszenie',
         'Closed Tickets' => '',
@@ -8551,7 +8556,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => 'Kolejki ↔ Automatyczne Odpowiedzi',
         'Quick Close' => 'Szybkie zamknięcie',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

@@ -22,9 +22,9 @@ package Kernel::System::Log;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
 use Carp ();
@@ -326,6 +326,7 @@ sub Log {
     # Prepend the current log line to the shared memory segment.
     # The oldest log lines might fall out of the window.
     # shmwrite() might append "\0" bytes for padding.
+    # Encode the string as UTF-8, as since Perl 5.34 shmwrite() implicitly calls utf8::downgrade().
     if ( lc $Priority ne 'debug' && $Self->{IPC} ) {
 
         $Priority = lc $Priority;

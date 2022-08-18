@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999206475162673;
+    $Self->{Completeness}        = 0.998730763128669;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -759,14 +759,14 @@ sub Data {
         # Template: AdminEmail
         'Admin Message' => 'Administrator-Nachricht',
         'With this module, administrators can send messages to agents, group or role members.' =>
-            'Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder Rollenmitglieder senden.',
+            'Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen- oder Rollenmitglieder senden.',
         'Create Administrative Message' => 'Administrator-Nachricht erstellen',
         'Your message was sent to' => 'Ihre Nachricht wurde gesendet an',
         'From' => 'Von',
         'Send message to users' => 'Nachricht an Benutzer senden',
         'Send message to group members' => 'Nachricht an Gruppenmitglieder senden',
         'Group members need to have permission' => 'Gruppenmitglieder brauchen eine Berechtigung',
-        'Send message to role members' => 'Nachricht an Gruppenmitglieder senden',
+        'Send message to role members' => 'Nachricht an Rollenmitglieder senden',
         'Also send to customers in groups' => 'Auch an Kunden der Gruppe senden',
         'Body' => 'Text',
         'Send' => 'Senden',
@@ -3045,7 +3045,7 @@ sub Data {
         'go back to the previous page' => 'Zurück zur vorhergehenden Seite',
 
         # Template: CustomerAccept
-        'Click to accept' => '',
+        'Click to accept' => 'Mit einem Klick erkläre ich meine Zustimmung',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3804,8 +3804,8 @@ sub Data {
         'No data found for given source!' => 'Keine Daten in der angegebenen Quelle gefunden!',
 
         # Perl Module: Kernel/Modules/AdminCustomerAccept.pm
-        'Could not update Privacy Policy!' => 'Datenschutzvereinbarung konnte nicht aktualisiert werden!',
-        'Privacy Policy updated!' => 'Datenschutzvereinbarung aktualisiert!',
+        'Could not update Privacy Policy!' => 'Datenschutzhinweise konnten nicht aktualisiert werden!',
+        'Privacy Policy updated!' => 'Datenschutzhinweise aktualisiert!',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
         'Customer company updated!' => 'Kundenunternehmen aktualisiert!',
@@ -4291,13 +4291,13 @@ sub Data {
         'No DeploymentID received!' => 'Keine InbetriebnahmeID empfangen!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'Einstellung konnte nicht aktualisiert werden!',
         'You need to enable the setting before locking!' => 'Sie müssen die Einstellung vor der Bearbeitung aktivieren!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Sie können diese Einstellung nicht bearbeiten, da sie derzeit von %s (%s) bearbeitet wird.',
         'Missing setting name!' => 'Name der Einstellung fehlt!',
         'Missing ResetOptions!' => 'ResetOptions fehlen!',
         'System was not able to lock the setting!' => 'Einstellung konnte nicht zur Bearbeitung gesperrt werden!',
-        'System was unable to update setting!' => 'Einstellung konnte nicht aktualisiert werden!',
         'Missing setting name.' => 'Name der Einstellung fehlt.',
         'Setting not found.' => 'Einstellung nicht gefunden.',
         'Missing Settings!' => 'Fehlende Einstellungen!',
@@ -5533,6 +5533,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 oder höher wird benötigt.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO-Festplattenpartition',
 
@@ -6647,6 +6651,8 @@ Ihr Helpdesk-Team
             'Automatischer Zeilenumbruch in Textnachrichten nach x-Zeichen.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Status eines Tickets mit ungültigem Besitzer bei Entsperren automatisch ändern. Bildet den neuen Ticketstatus entsprechend des Statustyps.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Automatisches Sperren und setzen des aktuellen Agenten als Besitzer nachdem der Verschieben-Bildschirm im Agenten-Interface geöffnet wurde.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6732,7 +6738,6 @@ Ihr Helpdesk-Team
             'Legen Sie fest, bei welchen Ticketänderungen Sie benachrichtigt werden möchten. Bitte beachten Sie, dass Sie Benachrichtigungen, die als verpflichtend markiert sind, nicht vollständig abschalten können.',
         'Choose which notifications you\'d like to receive.' => 'Legen Sie fest, welche Benachrichtigungen Sie erhalten möchten.',
         'Christmas Eve' => 'Heiligabend',
-        'Cleans up old chat logs.' => 'Räumt alte Chat-Protokolle auf.',
         'Close' => 'Schließen',
         'Close this ticket' => 'Dieses Ticket schließen',
         'Closed Tickets' => 'Geschlossene Tickets',
@@ -6782,7 +6787,7 @@ Ihr Helpdesk-Team
         'Configure sending of support data to OTOBO Team for improved support.' =>
             'Konfigurieren Sie das Senden von Supportdaten an das OTOBO-Team für besseren Support.',
         'Configure the About information.' => 'About-Text / Impressum eingeben.',
-        'Configure the privacy policy.' => 'Datenschutzvereinbarung bearbeiten.',
+        'Configure the privacy policy.' => 'Datenschutzhinweise bearbeiten.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Konfigurieren Sie, welche Oberfläche angezeigt werden soll, nachdem ein neues Ticket erstellt wurde.',
         'Configure your own log text for PGP.' => 'Konfigurieren Sie Ihren eigenen Log-Text für PGP.',
@@ -8561,8 +8566,8 @@ Ihr Helpdesk-Team
         'Queues ↔ Auto Responses' => 'Queues ↔ Automatische Antworten',
         'Quick Close' => 'Sofort Schließen',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ticket-Index für AgentTicketQueue neu aufbauen.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
-            'Baut die Elasticsearch-Indizes neu auf – zum Beispiel, wenn Kundenbenutzer via LDAP authentifiziert werden. Achtung: Sehr ineffizient, da jedes Mal der gesamte Index neu aufgebaut wird.',
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
+            '',
         'Rebuilds the ACL preselection cache.' => 'Baut den Cache mit der ACL-Vorauswahl neu auf.',
         'Rebuilds the escalation index.' => 'Baut den Eskalationsindex neu auf.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
@@ -8693,7 +8698,7 @@ Ihr Helpdesk-Team
             'Sendet eine Erinnerung eines Entsperrten Tickets nachdem das Erinnerungsdatum erreicht wurde. (Nur zum Besitzer des Tickets gesendet).',
         'Sends the notifications which are configured in the admin interface under "Ticket Notifications".' =>
             'Sendet eine Benachrichtigung, welche im Admin-Interface unter "Ticket-Benachrichtigen" eingestellt ist.',
-        'Sent "%s" notification to "%s" via "%s".' => 'Benachrichtigung "%s" versandt and "%s" via "%s".',
+        'Sent "%s" notification to "%s" via "%s".' => 'Benachrichtigung "%s" versandt an "%s" via "%s".',
         'Sent auto follow-up to "%s".' => 'Automatische Rückfrage versandt an "%s".',
         'Sent auto reject to "%s".' => 'Automatische Ablehnung versandt an "%s".',
         'Sent auto reply to "%s".' => 'Automatische Antwort versandt an "%s".',

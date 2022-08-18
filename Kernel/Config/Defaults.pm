@@ -1072,7 +1072,7 @@ sub LoadDefaults {
         'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
-        'thirdparty/jquery-ui-1.13.1/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
         'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
@@ -1111,7 +1111,7 @@ sub LoadDefaults {
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-ui-1.13.1/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
         'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
         'thirdparty/jquery-pubsub/pubsub.js',

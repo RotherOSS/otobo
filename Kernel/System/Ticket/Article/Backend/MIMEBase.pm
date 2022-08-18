@@ -856,6 +856,7 @@ sub ArticleGet {
                 # Check if it's a queue.
                 if ( $Data{$Key} !~ /@/ ) {
                     $Data{ $Key . 'Realname' } = $Data{$Key};
+
                     next RECIPIENT;
                 }
 
@@ -867,7 +868,9 @@ sub ArticleGet {
                     if ( !$Name ) {
                         $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
                     }
+
                     next EMAILADDRESS if !$Name;
+
                     if ($Realname) {
                         $Realname .= ', ';
                     }
