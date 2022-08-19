@@ -252,6 +252,7 @@ sub PerlInfoGet {
         # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
         # Fh is not listed as it belongs to the distro CGI.
         # TODO: list MailTools instead of Mail::Address and Mail::Internet
+        # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
         my @ModuleList = qw(
             Algorithm::Diff
             Apache::DBI
@@ -268,7 +269,7 @@ sub PerlInfoGet {
             Crypt::PasswdMD5
             Crypt::Random::Source
             CSS::Minifier
-            Devel::REPL
+            Devel::REPL::Plugin::OTOBO
             Devel::StackTrace
             Email::Valid
             Encode::Locale
