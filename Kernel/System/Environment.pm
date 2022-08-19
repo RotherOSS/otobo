@@ -248,20 +248,44 @@ sub PerlInfoGet {
 
     if ( $Param{BundledModules} ) {
 
+        # Only the modules that correspond to their distribution are listed here.
+        # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
+        # Fh is not listed as it belongs to the distro CGI.
+        # TODO: list MailTools instead of Mail::Address and Mail::Internet
         my @ModuleList = qw(
             Algorithm::Diff
+            Apache::DBI
+            Apache2::Reload
             CGI
+            CGI::Emulate::PSGI
+            Class::Accessor
             Class::Inspector
+            Class::ReturnValue
+            CPAN::Audit
+            CPAN::DistnameInfo
+            Data::ICal
+            Date::ICal
             Crypt::PasswdMD5
             Crypt::Random::Source
             CSS::Minifier
+            Devel::REPL
+            Devel::StackTrace
             Email::Valid
             Encode::Locale
+            Excel::Writer::XLSX
             Exporter::Tiny
+            File::Slurp
+            File::Slurp::Tiny
+            Font::TTF
+            HTML::Tagset
+            HTML::TokeParser
+            HTTP::Message
             IO::Interactive
+            IO::String
             JavaScript::Minifier
             JSON
             JSON::PP
+            Lingua::Translit
             Linux::Distribution
             Locale::Codes
             LWP
@@ -270,18 +294,24 @@ sub PerlInfoGet {
             Math::Random::ISAAC
             Math::Random::Secure
             MIME::Tools
+            Module::CPANfile
             Module::Find
+            Module::Load
             Module::Refresh
             Mozilla::CA
             Net::IMAP::Simple
             Net::HTTP
             Net::SSLGlue
+            parent
             PDF::API2
+            Pod::Strip
+            REST::Client
+            Schedule::Cron::Events
             SOAP::Lite
             Sys::Hostname::Long
             Text::CSV
             Text::Diff
-            Types::TypeTiny
+            Type::Tiny
             YAML
             URI
         );
