@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-05 09:34+0000\n"
+"PO-Revision-Date: 2022-08-21 21:19+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "ACL Management"
-msgstr ""
+msgstr "إِدَارَةٌ-ACL"
 
 #. Template: AdminACL
 msgid "Actions"
@@ -29,49 +29,51 @@ msgstr "إجراءات"
 
 #. Template: AdminACL
 msgid "Create New ACL"
-msgstr ""
+msgstr "إنشاء ACL جديد"
 
 #. Template: AdminACL
 msgid "Deploy ACLs"
-msgstr ""
+msgstr "تشغل ACLs"
 
 #. Template: AdminACL
 msgid "Export ACLs"
-msgstr ""
+msgstr "تصدير ACLs"
 
 #. Template: AdminACL
 msgid "Filter for ACLs"
-msgstr ""
+msgstr "تَصْفِيَةٌ ACLs"
 
 #. Template: AdminACL
 msgid "Just start typing to filter..."
-msgstr ""
+msgstr "ابدأ الكتابة للتصفية ..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr ""
+msgstr "استيراد التكوين"
 
 #. Template: AdminACL
 msgid ""
 "Here you can upload a configuration file to import ACLs to your system. The "
 "file needs to be in .yml format as exported by the ACL editor module."
 msgstr ""
+"هنا يمكنك الاستيراد ACLs إلى النظام عبر ملف التكوين. يجب أن يكون هذا الملف "
+"بتنسيق .yml المستخدم بواسطة محرر ACL."
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr ""
+msgstr "هذا الحقل مطلوب."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
-msgstr ""
+msgstr "هل تريد استبدال قوائم ACLs الموجودة؟"
 
 #. Template: AdminACL
 msgid "Upload ACL configuration"
-msgstr ""
+msgstr "تحميل تكوين ACL"
 
 #. Template: AdminACL
 msgid "Import ACL configuration(s)"
-msgstr ""
+msgstr "استيراد تكوين (تكوينات) قائمة التحكم بالوصول (ACL)"
 
 #. Template: AdminACL
 msgid "Description"
@@ -82,6 +84,8 @@ msgid ""
 "To create a new ACL you can either import ACLs which were exported from "
 "another system or create a complete new one."
 msgstr ""
+"إذا كنت تريد إنشاء قائمة ACL، فيمكنك استيرادها من نظام آخر أو إنشاء ACL جديد "
+"بالكامل."
 
 #. Template: AdminACL
 msgid ""
@@ -89,10 +93,12 @@ msgid ""
 "deploy the ACL data afterwards. By deploying the ACL data, the newly made "
 "changes will be written to the configuration."
 msgstr ""
+"تسري التغييرات على قوائم ACLs فقط عندما تقوم بتشغيل ACLs. هنا يتم حفظ "
+"التغييرات في ملف التكوين."
 
 #. Template: AdminACL
 msgid "ACLs"
-msgstr ""
+msgstr "ACLs"
 
 #. Template: AdminACL
 msgid ""
@@ -100,10 +106,12 @@ msgid ""
 "need to change the order in which ACLs are executed, please change the names "
 "of the affected ACLs."
 msgstr ""
+"ملاحظة: يمثل هذا الجدول ترتيب تنفيذ قائمة ACLs. إذا كنت تريد تغيير الترتيب، "
+"فيرجى تغيير أسماء قوائم ACLs ذات الصلة."
 
 #. Template: AdminACL
 msgid "ACL name"
-msgstr ""
+msgstr "اسم ACL"
 
 #. Template: AdminACL
 msgid "Comment"
@@ -111,7 +119,7 @@ msgstr "تعليق"
 
 #. Template: AdminACL
 msgid "Validity"
-msgstr ""
+msgstr "صَلاحِيَة"
 
 #. Template: AdminACL
 msgid "Export"
@@ -130,12 +138,13 @@ msgid "No matches found."
 msgstr "لم يتم العثور على تطابق."
 
 #. Template: AdminACLEdit
+#, fuzzy
 msgid "Edit ACL %s"
-msgstr ""
+msgstr "تعديل ACL %s"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL"
-msgstr ""
+msgstr "تعديل ACL"
 
 #. Template: AdminACLEdit
 msgid "Go to overview"
@@ -143,15 +152,15 @@ msgstr "انتقل إلى نظرة عامة"
 
 #. Template: AdminACLEdit
 msgid "Delete ACL"
-msgstr ""
+msgstr "حذف ACL"
 
 #. Template: AdminACLEdit
 msgid "Delete Invalid ACL"
-msgstr ""
+msgstr "حذف ACL غير صالح"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "شروط التصفية"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -159,6 +168,9 @@ msgid ""
 "screen or 'PropertiesDatabase' to match attributes of the current ticket "
 "that are in the database."
 msgstr ""
+"قم بإعداد شروط التصفية لقائمة ACLs. استخدم \"Properties\" للتحقق من القيمة "
+"من الشاشة الحالية أو \"PropertiesDatabase\" لقيمة التذكرة كما تم تخزينها في "
+"قاعدة البيانات."
 
 #. Template: AdminACLEdit
 msgid "Change settings"
@@ -169,18 +181,20 @@ msgid ""
 "Set up what you want to change if the criteria match. Keep in mind that "
 "'Possible' is a white list, 'PossibleNot' a black list."
 msgstr ""
+"يضبط القيمة المتغيرة عند استيفاء شروط التصفية. حيث تكون \"Possible\" قائمة "
+"بيضاء و \"PossibleNot\" هي قائمة سلبية."
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "تحقق من الوثائق الرسمية sdocumentation%s%."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
-msgstr ""
+msgstr "إظهار أو إخفاء المحتوى"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Information"
-msgstr ""
+msgstr "تعديل معلومات ACL"
 
 #. Template: AdminACLEdit
 msgid "Name"
@@ -188,15 +202,15 @@ msgstr "الإسم"
 
 #. Template: AdminACLEdit
 msgid "Stop after match"
-msgstr ""
+msgstr "توقف بعد اصابة الهدف"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr ""
+msgstr "تعديل هيكل ACL"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
-msgstr ""
+msgstr "حفظ ACL"
 
 #. Template: AdminACLEdit
 msgid "Save"
@@ -216,13 +230,16 @@ msgstr "إِلْغاء"
 
 #. Template: AdminACLEdit
 msgid "Do you really want to delete this ACL?"
-msgstr ""
+msgstr "هل تريد حقًا حذف ACL؟"
 
 #. Template: AdminACLNew
+#, fuzzy
 msgid ""
 "Create a new ACL by submitting the form data. After creating the ACL, you "
 "will be able to add configuration items in edit mode."
 msgstr ""
+"قم بإنشاء ACL جديدة عن طريق إدخال البيانات. بعد إنشاء (ACL)، يمكن إدخال "
+"معلمات التكوين في وضع التحرير."
 
 #. Template: AdminAbout
 msgid "About"
@@ -237,6 +254,8 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"هذه اللغة غير موجودة أو ممكّنة على النظام. يمكن حذف هذا النص إذا لم تعد هناك "
+"حاجة إليه."
 
 #. Template: AdminAbout
 msgid "Remove Language"
@@ -256,15 +275,15 @@ msgstr "هذا الحقل مطلوب ويجب أن يحتوي على أقل من
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "إزالة اللغة"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "أضف لغة جديدة"
 
 #. Template: AdminAbout
 msgid "Save Changes"
-msgstr ""
+msgstr "حفظ التغييرات"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Management"
@@ -276,7 +295,7 @@ msgstr "إضافة تقويم"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr ""
+msgstr "تحرير التقويم"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -305,7 +324,7 @@ msgstr ""
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
-msgstr ""
+msgstr "الكتابة فوق الإدخالات الموجودة"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Upload calendar configuration"
@@ -317,7 +336,7 @@ msgstr "استيراد تقويم"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "تصفية التقاويم"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -340,14 +359,16 @@ msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
+"نقل إلى: يمكن للمستخدمين تحرير المواعيد في تقويم واحد، ولكن لا يمكنهم نقلها "
+"إلى تقويمات أخرى."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
-msgstr ""
+msgstr "إنشاء: يمكن للمستخدمين إنشاء وحذف المواعيد في التقويم."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "القراءة / الكتابة: يمكن للمستخدمين إدارة التقويمات بأنفسهم."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -411,15 +432,15 @@ msgstr "قاعدة"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
-msgstr ""
+msgstr "قم بإزالة هذا الإدخال"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove"
-msgstr ""
+msgstr "إزالة"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "تاريخ البدء"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
@@ -430,6 +451,7 @@ msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
 msgstr ""
+"استخدم الخيارات التالية لتحديد تواريخ التذاكر التي يجب إنشاؤها تلقائيًا."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -441,11 +463,11 @@ msgstr "فضلاً اختر قائمة تذاكر صحيحة."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "سمات البحث"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
-msgstr ""
+msgstr "إضافة إدخال"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add"
@@ -456,10 +478,11 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
+"حدد القواعد لإنشاء المواعيد تلقائيًا في هذا التقويم بناءً على تواريخ التذاكر."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "أضف القاعدة"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
