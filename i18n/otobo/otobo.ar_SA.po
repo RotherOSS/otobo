@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-21 21:19+0000\n"
+"PO-Revision-Date: 2022-08-22 14:34+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -486,25 +486,27 @@ msgstr "أضف القاعدة"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
-msgstr "تسليم"
+msgstr "أَرْسَلَ"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "استيراد المواعيد"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
-msgstr ""
+msgstr "رجوع"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "يجب أن يكون الملف الذي تم تحميله بتنسيق iCal صالح (ice.)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
+"إذا لم يكن التقويم المطلوب مدرجا هنا، يرجى التأكد من أن لديك على الأقل الإذن "
+"لإنشاء تقويمات."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -512,45 +514,47 @@ msgstr "تحميل"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "الكتابة فوق المواعيد الحالية؟"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
 msgstr ""
+"سيتم الكتابة فوق جميع المواعيد الحالية التي تحمل نفس \"UniqueID\" في التقويم "
+"المقابل."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "تحميل التقويم"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "استيراد المواعيد"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "إدارة إشعارات المواعيد"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
-msgstr ""
+msgstr "إضافة إشعار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Edit Notification"
-msgstr ""
+msgstr "تحرير الإشعار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Export Notifications"
-msgstr ""
+msgstr "تصدير الإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "فلاتر الإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "فلاتر الإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -558,22 +562,25 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"هنا يمكنك تحميل ملف تكوين يمكن استخدامه لاستيراد إشعارات المواعيد إلى "
+"النظام. يجب أن يكون الملف في مِلَفّ تنسيق (yml.)، تماما كما يتم تصديره "
+"بواسطة وحدة إشعار الموعد."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
-msgstr ""
+msgstr "الكتابة فوق الإشعارات الموجودة؟"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "تحميل تكوين الإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "استيراد تكوين الإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
-msgstr ""
+msgstr "قائِمَة"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete"
@@ -581,21 +588,21 @@ msgstr "حذف"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Delete this notification"
-msgstr ""
+msgstr "حذف هذا الإشعار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "العرض في إعدادات الوكيل"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "معلومات سريعة لإعدادات الوكيل الشخصي"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
-msgstr ""
+msgstr "يتم عرض هذه الرسالة كاختصار لهذا الإعلام في شاشة إعدادات الوكيل."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
