@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-22 14:34+0000\n"
+"PO-Revision-Date: 2022-08-22 15:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -618,10 +618,12 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"هنا يمكنك تحديد الأحداث التي تؤدي إلى تشغيل هذا الإشعار. يمكن تعيين فلتر "
+"مواعيد إضافي أدناه لإرسال الإشعارات فقط للمواعيد ذات الخصائص المعينة."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "فلتر المواعيد"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
