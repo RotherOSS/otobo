@@ -1680,16 +1680,18 @@ sub TicketAppointmentTypesGet {
 
         if ( $TypeKey =~ /DynamicField$/ ) {
 
-            # get list of all valid date and date/time dynamic fields
+            # get list of all valid ticket dynamic fields
             my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
                 ObjectType => 'Ticket',
             );
 
             DYNAMICFIELD:
             for my $DynamicField ( @{$DynamicFieldList} ) {
+
+                # only date and time dynamic fields are appointments
                 next DYNAMICFIELD if $DynamicField->{FieldType} ne 'Date' && $DynamicField->{FieldType} ne 'DateTime';
 
-                my $Key = sprintf( $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name} );
+                my $Key = sprintf $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name};
                 $TicketAppointmentTypes{$Key} = $TicketAppointmentConfig->{$TypeKey};
             }
 
