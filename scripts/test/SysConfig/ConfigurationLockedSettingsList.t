@@ -37,7 +37,6 @@ my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 my $RandomID    = $Helper->GetRandomID();
 my $SettingName = "Test$RandomID-";
 my $UserID      = 1;
-my @SettingDirtyNames;
 
 my $UnlockedAll = $SysConfigObject->SettingUnlock(
     UnlockAll => 1,

@@ -532,9 +532,6 @@ sub _GetDynamicFields {
     # dynamic fields search parameters for ticket search
     my %DynamicFieldSearchParameters;
 
-    # get single params
-    my %AttributeLookup;
-
     # get the dynamic fields for ticket object
     $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
         Valid      => 1,
@@ -543,7 +540,6 @@ sub _GetDynamicFields {
 
     my %DynamicFieldsRaw;
     if ( $Param{DynamicField} ) {
-        my %SearchParams;
         if ( IsHashRefWithData( $Param{DynamicField} ) ) {
             $DynamicFieldsRaw{ $Param{DynamicField}->{Name} } = $Param{DynamicField};
         }

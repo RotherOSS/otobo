@@ -2445,8 +2445,6 @@ sub Run {
             };
         }
 
-        # define dynamic field visibility
-        my %FieldVisibility;
         if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
             push @DynamicFieldAJAX, {
                 Name => 'Restrictions_Visibility',

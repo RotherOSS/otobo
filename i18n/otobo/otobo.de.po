@@ -49,8 +49,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
-"PO-Revision-Date: 2022-04-11 17:40+0000\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
+"PO-Revision-Date: 2022-05-17 21:01+0000\n"
 "Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/>\n"
 "Language: de\n"
@@ -2258,7 +2258,7 @@ msgstr "Administrator-Nachricht"
 
 #. Template: AdminEmail
 msgid "With this module, administrators can send messages to agents, group or role members."
-msgstr "Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen oder Rollenmitglieder senden."
+msgstr "Mit diesem Modul können Administratoren Nachrichten an Agenten, Gruppen- oder Rollenmitglieder senden."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
@@ -2286,7 +2286,7 @@ msgstr "Gruppenmitglieder brauchen eine Berechtigung"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
-msgstr "Nachricht an Gruppenmitglieder senden"
+msgstr "Nachricht an Rollenmitglieder senden"
 
 #. Template: AdminEmail
 msgid "Also send to customers in groups"
@@ -8989,8 +8989,8 @@ msgid "go back to the previous page"
 msgstr "Zurück zur vorhergehenden Seite"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
-msgstr "Mit einem Klick erkläre ich meine Zustimmung."
+msgid "Click to accept"
+msgstr "Mit einem Klick erkläre ich meine Zustimmung"
 
 #. Template: TicketCustomerIDSelection
 msgid "The customer ID is not changeable, no other customer ID can be assigned to this ticket."
@@ -10978,11 +10978,11 @@ msgstr "Keine Daten in der angegebenen Quelle gefunden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr "Datenschutzvereinbarung konnte nicht aktualisiert werden!"
+msgstr "Datenschutzhinweise konnten nicht aktualisiert werden!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr "Datenschutzvereinbarung aktualisiert!"
+msgstr "Datenschutzhinweise aktualisiert!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -18512,7 +18512,7 @@ msgstr "About-Text / Impressum eingeben."
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr "Datenschutzvereinbarung bearbeiten."
+msgstr "Datenschutzhinweise bearbeiten."
 
 #. SysConfig
 msgid "Configure which screen should be shown after a new ticket has been created."
@@ -23368,7 +23368,7 @@ msgstr "Sendet eine Benachrichtigung, welche im Admin-Interface unter \"Ticket-B
 
 #. SysConfig
 msgid "Sent \"%s\" notification to \"%s\" via \"%s\"."
-msgstr "Benachrichtigung \"%s\" versandt and \"%s\" via \"%s\"."
+msgstr "Benachrichtigung \"%s\" versandt an \"%s\" via \"%s\"."
 
 #. SysConfig
 msgid "Sent auto follow-up to \"%s\"."
@@ -25294,6 +25294,9 @@ msgstr "umgekehrt"
 msgid "stats"
 msgstr "Stats"
 
+#~ msgid "Mit einem Klick erkläre ich meine Zustimmung."
+#~ msgstr "Mit einem Klick erkläre ich meine Zustimmung."
+
 #~ msgid "Allows generic agent to execute custom command line scripts."
 #~ msgstr "Ermöglicht es dem GenericAgent, benutzerdefinierte Befehlszeilen-Skripte auszuführen."
 
@@ -25989,7 +25992,19 @@ msgstr "Stats"
 #~ msgid "This module is part of the admin area of OTOBO Community Edition."
 #~ msgstr "Diese Modul ist Teil des Admin-Bereichs von OTOBO."
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

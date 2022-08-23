@@ -468,7 +468,6 @@ sub Run {
     # ------------------------------------------------------------ #
     elsif ( $Self->{Subaction} eq 'AddActivityDialog' ) {
 
-        my %Params;
         my %Result;
         my $JSON;
 

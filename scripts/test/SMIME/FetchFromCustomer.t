@@ -312,8 +312,6 @@ for my $CustomerUser (@UnitTestCustomerUsers) {
 }
 
 # Add Table as CustomerUser Table in Config
-my $NewConfig;
-my $FileLocation;
 
 $ConfigObject->Set(
     Key   => "Customer::AuthModule10",

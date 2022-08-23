@@ -623,7 +623,6 @@ sub ArticleCreate {
     }
 
     # remember agent to exclude notifications / already sent
-    my %DoNotSendMute;
     if (
         $Param{ExcludeMuteNotificationToUserID}
         && ref $Param{ExcludeMuteNotificationToUserID} eq 'ARRAY'
@@ -857,6 +856,7 @@ sub ArticleGet {
                 # Check if it's a queue.
                 if ( $Data{$Key} !~ /@/ ) {
                     $Data{ $Key . 'Realname' } = $Data{$Key};
+
                     next RECIPIENT;
                 }
 
@@ -868,7 +868,9 @@ sub ArticleGet {
                     if ( !$Name ) {
                         $Name = $EmailParser->GetEmailAddress( Email => $EmailSplit );
                     }
+
                     next EMAILADDRESS if !$Name;
+
                     if ($Realname) {
                         $Realname .= ', ';
                     }

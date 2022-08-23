@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-05-04 06:18+0000\n"
+"POT-Creation-Date: 2022-08-18 11:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12287,6 +12287,10 @@ msgid "No DeploymentID received!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+msgid "System was unable to update setting!"
+msgstr ""
+
+#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
 msgstr ""
 
@@ -12304,10 +12308,6 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was not able to lock the setting!"
-msgstr ""
-
-#. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
-msgid "System was unable to update setting!"
 msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
@@ -15382,6 +15382,14 @@ msgstr ""
 msgid "PostgreSQL 9.2 or higher is required."
 msgstr ""
 
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
 msgstr ""
@@ -18038,6 +18046,10 @@ msgid "Automatically change the state of a ticket with an invalid owner once it 
 msgstr ""
 
 #. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
 msgid "Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface."
 msgstr ""
 
@@ -18295,10 +18307,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Christmas Eve"
-msgstr ""
-
-#. SysConfig
-msgid "Cleans up old chat logs."
 msgstr ""
 
 #. SysConfig
@@ -22958,7 +22966,7 @@ msgid "Rebuild the ticket index for AgentTicketQueue."
 msgstr ""
 
 #. SysConfig
-msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time."
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 
 #. SysConfig

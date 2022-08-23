@@ -40,8 +40,6 @@ $Kernel::OM->ObjectParamAdd(
 );
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
-my %Jobs;
-
 # create a Ticket to test JobRun and JobRunTicket
 my $TicketID = $TicketObject->TicketCreate(
     Title        => 'Testticket for Untittest of the Generic Agent',

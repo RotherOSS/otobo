@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.972067925726075;
+    $Self->{Completeness}        = 0.973346025702047;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -102,17 +102,17 @@ sub Data {
             'Crear una nueva ALC al ingresar los datos del formulario. Una vez creada la ACL, usted podrá añadir elementos de configuración en modo de edición.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Acerca de',
         'Toggle this widget' => 'Activar este widget',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Este idioma no está presente o habilitado en el sistema. Este texto puede ser eliminado si ya no es necesario.',
+        'Remove Language' => 'Quitar idioma',
         'Text' => 'Texto',
         'Message body' => 'Cuerpo del mensaje',
         'This field is required and must have less than 4000 characters.' =>
             'Este campo es requerido y debe tener menos de 4000 caracteres.',
         'Remove About Language' => '',
-        'Add new language' => '',
+        'Add new language' => 'Agregar nuevo lenguaje',
         'Save Changes' => 'Guardar Cambios',
 
         # Template: AdminAppointmentCalendarManage
@@ -417,9 +417,9 @@ sub Data {
         'Valid' => 'Válido',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'Gestión de política de privacidad',
+        'Privacy Policy' => 'Política de privacidad',
+        'Remove PrivacyPolicy Language' => 'Eliminar la política de privacidad del lenguaje',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Gestión de Clientes',
@@ -533,7 +533,7 @@ sub Data {
         'Add new field for object' => 'Agregar nuevo campo para el objeto',
         'Filter for Dynamic Fields' => 'Filtro para Campos Dinámcos',
         'Filter for dynamic fields' => 'Filtro para campos dinámicos',
-        'New Dynamic Fields' => '',
+        'New Dynamic Fields' => 'Nuevos campos dinámicos',
         'Would you like to benefit from additional dynamic field types? You have full access to the following field types:' =>
             '¿Desea beneficiarse de otros tipos de campos dinámicos? Tiene acceso completo a los siguientes tipos de campo:',
         'Database' => 'Base de Datos',
@@ -579,7 +579,7 @@ sub Data {
         'This field is required and must be numeric.' => 'Este campo es obligatorio y debe ser numérico.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Éste es el orden en que se mostrará este campo en las pantallas en las que esté activo.',
-        'Tooltip message:' => '',
+        'Tooltip message:' => 'Mensaje de ayuda:',
         'This is the tooltip message shown inside the customer interface.' =>
             '',
         'Is not possible to invalidate this entry, all config settings have to be changed beforehand.' =>
@@ -4291,13 +4291,13 @@ sub Data {
         'No DeploymentID received!' => '¡No se ha recibido ningún DeploymentID!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '¡El sistema no ha podido actualizar los ajustes!',
         'You need to enable the setting before locking!' => '¡Es necesario activar el ajuste antes de bloquear!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'No puede trabajar en esta configuración porque %s (%s) está trabajando actualmente en ella.',
         'Missing setting name!' => '¡Falta el nombre del ajuste!',
         'Missing ResetOptions!' => '¡Faltan opciones de reinicio!',
         'System was not able to lock the setting!' => '¡El sistema no ha podido bloquear el ajuste!',
-        'System was unable to update setting!' => '¡El sistema no ha podido actualizar los ajustes!',
         'Missing setting name.' => 'Falta el nombre del ajuste.',
         'Setting not found.' => 'Ajuste no encontrado.',
         'Missing Settings!' => '¡Faltan ajustes!',
@@ -5533,6 +5533,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'Se requiere PostgreSQL 9.2 o superior.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partición en disco para OTOBO',
 
@@ -6389,7 +6393,7 @@ Thanks for your help!
 ' => '
 Estimado cliente,
 
-Lamentablemente no hemos podido detectar un número de ticket válido 
+Lamentablemente no hemos podido detectar un número de ticket válido
 en su asunto, por lo que este correo no puede ser procesado.
 
 Por favor, cree un nuevo ticket a través del panel de cliente.
@@ -6644,6 +6648,8 @@ Gracias por su ayuda.
             'Salto de línea automático en los mensajes de texto después de x número de caracteres.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Cambia automáticamente el estado de un ticket con un propietario no válido una vez que se desbloquea. Asigna desde un tipo de estado a un nuevo estado del ticket.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Bloquear y fijar automáticamente el propietario al agente actual después de abrir la pantalla del ticket de traslado de la interfaz del agente.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6729,7 +6735,6 @@ Gracias por su ayuda.
             'Elija para qué tipo de cambios en los tickets quiere recibir notificaciones. Ten en cuenta que no puedes desactivar completamente las notificaciones marcadas como obligatorias.',
         'Choose which notifications you\'d like to receive.' => 'Elige qué notificaciones quieres recibir.',
         'Christmas Eve' => 'Noche buena',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Cerrar',
         'Close this ticket' => 'Cerrar este ticket',
         'Closed Tickets' => '',
@@ -8558,8 +8563,8 @@ Gracias por su ayuda.
         'Queues ↔ Auto Responses' => 'Colas ↔ Respuestas Automáticas',
         'Quick Close' => 'Cierre rápido',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Reconstruye el índice de tickets para AgentTicketQueue.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
-            'Reconstruye los índices de Elasticsearch. Se puede utilizar, por ejemplo, si CustomerUsers se autentifica a través de ldap. Sin embargo, es muy ineficiente, ya que todo el índice se reconstruye cada vez.',
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
+            '',
         'Rebuilds the ACL preselection cache.' => 'Reconstruye el caché de preselección ACL.',
         'Rebuilds the escalation index.' => 'Reconstruye el índice de escalación.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
@@ -9331,7 +9336,7 @@ Gracias por su ayuda.
         'Ticket Zoom' => 'Zoom del ticket',
         'Ticket Zoom.' => 'Zoom del Ticket.',
         'Ticket attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
-            '',
+            'Atributos del ticket que deben estar disponibles en el frontend de configuración del invocador del ticket (0 = visible/seleccionado, 1 = predeterminado/preseleccionado).',
         'Ticket bulk module.' => 'Módulo de tickets en masa.',
         'Ticket event module that triggers the escalation stop events.' =>
             'Módulo de eventos de Ticket, que dispara los eventos de finalización de tiempo para escalada.',
@@ -9340,7 +9345,7 @@ Gracias por su ayuda.
         'Ticket limit per page for Ticket Overview "Small".' => 'Límite de tickets por página para el resumen de tickets "Pequeño".',
         'Ticket notifications' => 'Notificaciones del ticket',
         'Ticket overview' => 'Vista de resumen de los tickets',
-        'Ticket plain view of an email.' => '',
+        'Ticket plain view of an email.' => 'Ticket a la vista de un correo electrónico.',
         'Ticket split dialog.' => 'Diálogo de división de tickets.',
         'Ticket title' => 'Título del ticket',
         'Ticket zoom view.' => 'Vista de zoom del ticket.',
