@@ -31,6 +31,7 @@ use Carp ();
 
 # CPAN modules
 use DateTime 1.08;
+use DateTime::Locale;
 
 # OTOBO modules
 

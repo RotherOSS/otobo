@@ -729,7 +729,8 @@ sub ProvideTestDatabase {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $TestDatabase = $ConfigObject->Get('TestDatabase');
-    return if !$TestDatabase;
+
+    return unless $TestDatabase;
 
     for (qw(DatabaseDSN DatabaseUser DatabasePw)) {
         if ( !$TestDatabase->{$_} ) {

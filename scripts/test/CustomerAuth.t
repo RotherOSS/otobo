@@ -18,10 +18,15 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
+
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -49,11 +54,11 @@ $ConfigObject->Set(
 );
 
 # add test user
-my $GlobalUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
 
 my $UserRand = 'example-user' . $Helper->GetRandomID();
 
-my $TestUserID = $GlobalUserObject->CustomerUserAdd(
+my $TestUserID = $CustomerUserObject->CustomerUserAdd(
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
     UserCustomerID => 'Customer246',
@@ -235,7 +240,7 @@ for my $CryptType (qw(plain crypt apr1 md5 sha1 sha2 sha512 bcrypt)) {
     }
 }
 
-my $Success = $GlobalUserObject->CustomerUserUpdate(
+my $Success = $CustomerUserObject->CustomerUserUpdate(
     ID             => $TestUserID,
     UserFirstname  => 'CustomerFirstname Test1',
     UserLastname   => 'CustomerLastname Test1',
@@ -265,12 +270,11 @@ $Self->True(
     }
 );
 
-my $CustomerUserObject;
 my $CustomerUserAuthObject;
 
 # Create customer users.
 for my $Test (@Tests) {
-    my $CustomerUserID = $GlobalUserObject->CustomerUserAdd(
+    my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
         UserFirstname  => $Test->{CryptType} . '-Firstname',
         UserLastname   => $Test->{CryptType} . '-Lastname',
         UserCustomerID => 'Customer246',
@@ -325,4 +329,4 @@ $Self->True(
 
 # cleanup is done by RestoreDatabase
 
-$Self->DoneTesting();
+done_testing();
