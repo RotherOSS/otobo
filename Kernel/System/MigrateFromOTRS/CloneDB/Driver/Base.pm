@@ -330,7 +330,7 @@ C<Messages> a list of messages, usually indicating the errors
 Altogether, there are five loops over the tables of the source database.
 
 The first loop determines which source tables need to be copied. Source tables that are marked as to be skipped
-and source tables that have no counterpart in the target are not copied.
+and source tables that have no counterpart in the target database are not copied.
 
 The second loop examines the to be copied tables of the source and target database and compiles basically
 a list of the required actions.
@@ -466,7 +466,7 @@ sub DataTransfer {
 
     # Handle the OTOBO table columns which must be shortened.
     # Usually because of InnodB max key size in MySQL 5.6 or earlier.
-    my $MaxLenghtShortenedColumns = 190;    # int( 767 / 4 ) - 1
+    my $MaxLengthShortenedColumns = 190;    # int( 767 / 4 ) - 1
     my %SourceColumnsString;
 
     # Determine the columns where the source might contain NULLs that are not allowed in the target.
@@ -486,7 +486,7 @@ sub DataTransfer {
         # the unique varchar columns may at most be int( 767 / 4) = 191 characters long.
         #
         # For some columns we need to shorten the values. In order to be on the safe side
-        # we cut to $MaxLenghtShortenedColumns=190 characters.
+        # we cut to $MaxLengthShortenedColumns=190 characters.
         #
         # See also: https://dev.mysql.com/doc/refman/5.7/en/innodb-limits.html
 
@@ -568,7 +568,7 @@ sub DataTransfer {
 
                 # Log info to apache error log and OTOBO log (syslog or file)
                 $MigrationBaseObject->MigrationLog(
-                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLenghtShortenedColumns chars",
+                    String   => "Column $SourceTable.$SourceColumn is shortened to $MaxLengthShortenedColumns chars",
                     Priority => 'notice',
                 );
             }
@@ -578,7 +578,7 @@ sub DataTransfer {
                 push @MaybeShortenedColumns,
                     $DoShorten
                     ?
-                    "SUBSTRING( $SourceColumn, 1, $MaxLenghtShortenedColumns )"
+                    "SUBSTRING( $SourceColumn, 1, $MaxLengthShortenedColumns )"
                     :
                     $SourceColumn;
 
