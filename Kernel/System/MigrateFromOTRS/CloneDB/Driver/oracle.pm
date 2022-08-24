@@ -56,7 +56,8 @@ Please look there for a detailed reference of the functions.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
-    # check OTRSDBSettings
+    # check OTRSDBSettings,
+    # in contrast to postgresql.pm and mysql.pm, DBDSN is used instead of DBHost and DBName
     for my $Needed (qw(DBDSN DBUser DBPassword DBType)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
