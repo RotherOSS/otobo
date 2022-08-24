@@ -109,11 +109,13 @@ sub new {
 
 =head2 CreateOTRSDBConnection()
 
-creates the target db object.
+creates the source DB object.
 
-    my $Success = $BackendObject->CreateOTRSDBConnection(
-        OTRSDBSettings             => $OTRSDBSettings, # a hash refs including target DB settings
+    my $OTRSDBObject = $BackendObject->CreateOTRSDBConnection(
+        OTRSDBSettings => $OTRSDBSettings, # a hash refs including target DB settings
     );
+
+Return C<undef> in case of a problem. The actual error can be found in the log.
 
 =cut
 
