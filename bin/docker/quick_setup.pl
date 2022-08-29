@@ -699,21 +699,29 @@ sub AddCustomerUser {
         $ConfigObject->Set( "CustomerAuthBackend$Count", '' );
     }
 
-    # TODO: create a customer company
+    # create a customer company
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $CustomerID            = $CustomerCompanyObject->CustomerCompanyAdd(
+        CustomerID             => 'Quick Example Company',
+        CustomerCompanyName    => 'First Light 💡 Inc.',
+        CustomerCompanyStreet  => 'Example Drive',
+        CustomerCompanyZIP     => '00000',
+        CustomerCompanyCity    => 'Ndumbakahehu',
+        CustomerCompanyCountry => 'Zambia',
+        CustomerCompanyURL     => 'http://example.com',
+        CustomerCompanyComment => 'created by quick_setup.pl',
+        ValidID                => 1,
+        UserID                 => 1,
     );
 
     # Create test customer user.
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $Firstname          = 'Tina';
-    my $Lastname           = 'Testcustomer-User';
     my $Login              = 'tina';
-
-    # Create test customer user.
-    my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
+    my $CustomerUserID     = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser',
-        UserFirstname  => $Firstname,
-        UserLastname   => $Lastname,
-        UserCustomerID => 'Testcustomer',
+        UserFirstname  => 'Tina',
+        UserLastname   => 'Tester',
+        UserCustomerID => $CustomerID,
         UserLogin      => $Login,
         UserEmail      => "$Login\@example.com",
         ValidID        => 1,
