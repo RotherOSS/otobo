@@ -65,7 +65,7 @@ Also set up the the Elasticsearch webservice.
 
 =item add-customer-user
 
-Add the customer user I<tina> of the non-existing customer company I<Testcustomer>.
+Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
 
 =back
 
@@ -209,9 +209,10 @@ sub Main {
     {
         # These setting are required for running the test suite
         my @Settings = (
-            [ 'DefaultLanguage' => 'en' ],
-            [ 'HttpType'        => 'http' ],
-            [ 'SecureMode'      => 1 ],
+            [ DefaultLanguage        => 'en' ],
+            [ HttpType               => 'http' ],
+            [ SecureMode             => 1 ],
+            [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
         if ($ActivateSyncWithS3) {
@@ -698,12 +699,10 @@ sub AddCustomerUser {
         $ConfigObject->Set( "CustomerAuthBackend$Count", '' );
     }
 
-    # disable email checks to create new user
-    $ConfigObject->Set(
-        Key   => 'CheckEmailAddresses',
-        Value => 0,
+    # TODO: create a customer company
     );
 
+    # Create test customer user.
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my $Firstname          = 'Tina';
     my $Lastname           = 'Testcustomer-User';
