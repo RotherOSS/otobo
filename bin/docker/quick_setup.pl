@@ -65,7 +65,7 @@ Also set up the the Elasticsearch webservice.
 
 =item add-customer-user
 
-Add the customer user I<tina> of the non-existing customer company I<Testcustomer>.
+Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
 
 =back
 
@@ -209,9 +209,10 @@ sub Main {
     {
         # These setting are required for running the test suite
         my @Settings = (
-            [ 'DefaultLanguage' => 'en' ],
-            [ 'HttpType'        => 'http' ],
-            [ 'SecureMode'      => 1 ],
+            [ DefaultLanguage        => 'en' ],
+            [ HttpType               => 'http' ],
+            [ SecureMode             => 1 ],
+            [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
         if ($ActivateSyncWithS3) {
@@ -698,23 +699,29 @@ sub AddCustomerUser {
         $ConfigObject->Set( "CustomerAuthBackend$Count", '' );
     }
 
-    # disable email checks to create new user
-    $ConfigObject->Set(
-        Key   => 'CheckEmailAddresses',
-        Value => 0,
+    # create a customer company
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $CustomerID            = $CustomerCompanyObject->CustomerCompanyAdd(
+        CustomerID             => 'Quick Example Company',
+        CustomerCompanyName    => 'First Light 💡 Inc.',
+        CustomerCompanyStreet  => 'Example Drive',
+        CustomerCompanyZIP     => '00000',
+        CustomerCompanyCity    => 'Ndumbakahehu',
+        CustomerCompanyCountry => 'Zambia',
+        CustomerCompanyURL     => 'http://example.com',
+        CustomerCompanyComment => 'created by quick_setup.pl',
+        ValidID                => 1,
+        UserID                 => 1,
     );
 
-    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-    my $Firstname          = 'Tina';
-    my $Lastname           = 'Testcustomer-User';
-    my $Login              = 'tina';
-
     # Create test customer user.
-    my $CustomerUserID = $CustomerUserObject->CustomerUserAdd(
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $Login              = 'tina';
+    my $CustomerUserID     = $CustomerUserObject->CustomerUserAdd(
         Source         => 'CustomerUser',
-        UserFirstname  => $Firstname,
-        UserLastname   => $Lastname,
-        UserCustomerID => 'Testcustomer',
+        UserFirstname  => 'Tina',
+        UserLastname   => 'Tester',
+        UserCustomerID => $CustomerID,
         UserLogin      => $Login,
         UserEmail      => "$Login\@example.com",
         ValidID        => 1,
