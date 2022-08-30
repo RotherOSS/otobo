@@ -2101,13 +2101,14 @@ sub new {
         return $Self;
     }
 
-    # load defaults
+    # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load config from Kernel/Config.pm
+    # load specific settings from Kernel/Config.pm
     $Self->Load();
 
-    # when in cluster mode, we must consider that files have changes in S3
+    # when in cluster mode, we must consider that files in Kernel/Config/Files
+    # might have been updated in S3
     $Self->SyncWithS3();
 
     # load extra config files
@@ -2304,6 +2305,7 @@ sub Translatable {
 }
 
 # Please see the documentation in Kernel/Config.pod.dist.
+# Not used in OTOBO core.
 sub ConfigChecksum {
     my $Self = shift;
 
@@ -2416,17 +2418,19 @@ sub SyncWithS3 {
             # do not sync ZZZ*.pm files when the local event file differs from the version in S3
             last CHECK_SYNC unless $Stat->size == $Properties->{Size};
             last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
+
+            # The event_package.json has apparently already been handled.
+            # Continue with checking the files in Kernel/Config/Files.
         }
 
+        # find files in the file system that have been updated in the S3 storage
         my @OutdatedFiles;
         {
-            # Files that need to be synced are recognised by patterns.  Currently there are two cases.
-            my @SyncFilePatterns = (
+            # Files that need to be synced are recognised by patterns or by a list.
+            my @FilePatterns = (
                 qr'ZZZZUnitTest.*\.pm$', # files that are used in the unit tests
                 qr'User/\d+\.pm$',       # user specific overrides of the SysConfig
             );
-
-            # The hardcoded list of ZZZ files is treated in special way, as they are never deleted in the file system.
             my %FileIsRelevant = map
                 { $_ => 1 }
                 ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
@@ -2436,20 +2440,22 @@ sub SyncWithS3 {
             SUB_PATH:
             for my $SubPath ( sort keys %SubPath2Properties ) {
 
-                # skip the not relevant objects
+                # collect the relevant objects
                 if ( $FileIsRelevant{$SubPath} ) {
                     push @CandidateOutdatedFiles, $SubPath;
 
                     next SUB_PATH;
                 }
 
-                for my $Pattern ( @SyncFilePatterns ) {
-                    if ( $SubPath =~ $Pattern ) {
+                for my $FilePattern ( @FilePatterns ) {
+                    if ( $SubPath =~ $FilePattern ) {
                         push @CandidateOutdatedFiles, $SubPath;
 
                         next SUB_PATH;
                     }
                 }
+
+                # disregard the not relevant objects
             }
 
             SUB_PATH:
@@ -2482,7 +2488,8 @@ sub SyncWithS3 {
             }
         }
 
-        # find files in the file system that have been discarded in the S3 storage
+        # Find files in the file system that have been discarded in the S3 storage.
+        # Note that the regular ZZZ*.pm files are never discarded.
         my @ObsoleteFiles;
         {
              # files that are used in the unit tests
@@ -2538,7 +2545,7 @@ sub SyncWithS3 {
         }
 
         # Doublecheck whether deployment wasn't still ongoing,
-        # or whether a new deployment had beed done in the meantime.
+        # or whether a new deployment had been done in the meantime.
         next CHECK_SYNC;
     }
 
