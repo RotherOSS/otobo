@@ -303,7 +303,6 @@ sub PerlInfoGet {
             Net::IMAP::Simple
             Net::HTTP
             Net::SSLGlue
-            parent
             PDF::API2
             Pod::Strip
             REST::Client
