@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-22 15:30+0000\n"
+"PO-Revision-Date: 2022-08-30 11:06+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -639,27 +639,27 @@ msgstr "الموقع"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "فَرِيقٌ"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "مَوْرِد"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
-msgstr ""
+msgstr "مرسل إليه"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to"
-msgstr ""
+msgstr "ارسل إلى"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to these agents"
-msgstr ""
+msgstr "أرسل إلى هؤلاء العمال"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "إرسال إلى جميع أعضاء المجموعة (ينطبق على العمال فقط)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -667,47 +667,50 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "أرسل على الرغم من خارج المكتب."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "أرسل أيضا عندما لا يكون المستخدم في العمل."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
-msgstr ""
+msgstr "مرة في اليوم"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"قم بإعلام المستخدم مرة واحدة فقط يوميًا بموعد واحد باستخدام وسيلة نقل محددة."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
-msgstr ""
+msgstr "طرق الإخطار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
 msgstr ""
+"هذه هي الطرق الممكنة التي يمكن استخدامها لإرسال هذا الإشعار إلى كل من "
+"المستلمين. يرجى تحديد طريقة واحدة على الأقل أدناه."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "قم بتمكين طريقة الإعلام هذه"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
-msgstr ""
+msgstr "نَقْلٌ"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "مطلوب طريقة واحدة على الأقل لكل إخطار."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "نشط بشكل افتراضي في إعدادات الوكيل"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -715,40 +718,45 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"هذه هي القيمة الافتراضية لوكلاء المستلمين المعينين الذين لم يقوموا بعد "
+"بتحديد هذا الإخطار في إعداداتهم. إذا تم تحديد المربع ، فسيتم تسليم الإخطار "
+"إلى هؤلاء الوكلاء."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
-msgstr ""
+msgstr "هذه الميزة غير متوفرة حاليا."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr ""
+msgstr "الترقية إلى٪ s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "لاستخدام هذا النقل ، يجب عليك أولاً تنشيطه."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
-msgstr ""
+msgstr "لاتوجد بيانات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No notification method found."
-msgstr ""
+msgstr "لم يتم العثور على طريقة إعلام."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Text"
-msgstr ""
+msgstr "نص الإخطار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
 msgstr ""
+"هذه اللغة غير متوفرة في النظام أو معطلة. يمكن حذف نص الإخطار إذا لم تعد هناك "
+"حاجة إليه."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "إزالة لغة الإخطار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -756,7 +764,7 @@ msgstr "العنوان"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "أضف لغة جديدة للإشعارات"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
@@ -764,11 +772,11 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr ""
+msgstr "يتم إرسال الإشعارات إلى وكيل."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
-msgstr ""
+msgstr "يمكنك استخدام العلامات التالية"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
@@ -776,70 +784,74 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "سمات الموعد"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr ""
+msgstr " على سبيل المثال."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "سمات التقويم"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "سمات بيانات المستخدم الخاصة بمستلم الإخطار"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
-msgstr ""
+msgstr "خيارات التكوين"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "مثال على الإخطار"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "عناوين البريد الإلكتروني للمستلمين الإضافية"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "لا يمكن أن يحتوي هذا الحقل إلا على 200 حرف بالضبط أو أقل."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "عنصر مرئي للزَبُون"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "An article will be created if the notification is sent to the customer or an "
 "additional email address."
 msgstr ""
+"يتم إنشاء مقال عندما يتم إرسال الإشعار إلى زَبُون أو إلى عنوان بريد إلكتروني "
+"إضافي."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "نَموذَج البريد الإلكتروني"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"استخدم هذا القالب لإنشاء البريد الإلكتروني الكامل (فقط لرسائل البريد "
+"الإلكتروني بتنسيق HTML)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "تمكين أمان البريد الإلكتروني"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "مستوى أمان البريد الإلكتروني"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "إذا كان مفتاح / شهادة التوقيع مفقودة"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "إذا كان مفتاح / شهادة التشفير مفقودة"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -847,19 +859,19 @@ msgstr "إدارة الملفات المرفقة"
 
 #. Template: AdminAttachment
 msgid "Add Attachment"
-msgstr ""
+msgstr "إضافة مرفق"
 
 #. Template: AdminAttachment
 msgid "Edit Attachment"
-msgstr ""
+msgstr "تحرير المرفق"
 
 #. Template: AdminAttachment
 msgid "Filter for Attachments"
-msgstr ""
+msgstr "تصفية المرفقات"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "تصفية المرفقات"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -867,15 +879,15 @@ msgstr "اسم الملف"
 
 #. Template: AdminAttachment
 msgid "Download file"
-msgstr ""
+msgstr "تحميل الملف"
 
 #. Template: AdminAttachment
 msgid "Delete this attachment"
-msgstr ""
+msgstr "إزالة هذا المرفق"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذا المرفق؟"
 
 #. Template: AdminAttachment
 msgid "Attachment"
@@ -887,19 +899,19 @@ msgstr "إدارة الرد الآلي"
 
 #. Template: AdminAutoResponse
 msgid "Add Auto Response"
-msgstr ""
+msgstr "أضف الرد التلقائي"
 
 #. Template: AdminAutoResponse
 msgid "Edit Auto Response"
-msgstr ""
+msgstr "تحرير الرد التلقائي"
 
 #. Template: AdminAutoResponse
 msgid "Filter for Auto Responses"
-msgstr ""
+msgstr "تصفية الردود التلقائية"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "تصفية الردود التلقائية"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -907,101 +919,105 @@ msgstr "الرد"
 
 #. Template: AdminAutoResponse
 msgid "Auto response from"
-msgstr ""
+msgstr "الرد التلقائي من"
 
 #. Template: AdminAutoResponse
 msgid "Reference"
-msgstr ""
+msgstr "مَرجِع"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
-msgstr ""
+msgstr "أول 20 حرفًا من الموضوع."
 
 #. Template: AdminAutoResponse
 msgid "To get the first 5 lines of the email."
-msgstr ""
+msgstr "الأسطر الخمسة الأولى من الرسالة."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "اسم مستخدم العميل (إن وجد) للتذكرة."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
-msgstr ""
+msgstr "سمات المقال"
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr ""
+msgstr "سمات العميل الحالي"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
-msgstr ""
+msgstr "سمات مالك التذكرة"
 
 #. Template: AdminAutoResponse
 msgid "Ticket responsible options"
-msgstr ""
+msgstr "سمات مَسْؤُولٌ التذكرة"
 
 #. Template: AdminAutoResponse
 msgid "Options of the current user who requested this action"
-msgstr ""
+msgstr "سمات المستخدم الحالي الذي طلب الإجراء"
 
 #. Template: AdminAutoResponse
 msgid "Options of the ticket data"
-msgstr ""
+msgstr "سمات بيانات التذكرة"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr ""
+msgstr "القيم الداخلية للحقول الديناميكية للتذكرة"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
 msgstr ""
+"عرض قيم الحقول الديناميكية للتذاكر، القابلة للاستخدام مع القائمة المنسدلة "
+"والاختيار المتعدد"
 
 #. Template: AdminAutoResponse
 msgid "Example response"
-msgstr ""
+msgstr "مثال الجواب"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "إدارة الخدمات السحابية"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "دعم تحليل البيانات"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "دعم تحليل البيانات"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
-msgstr ""
+msgstr "إشارَةٌ"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "يتم عرض بيانات الدعم حاليًا على هذا النظام فقط."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"في بعض الحالات ، يُنصح بإرسال هذه البيانات إلى فريق OTOBO للحصول على دعم "
+"أفضل."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
-msgstr ""
+msgstr "تَكْوينٌ"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Send support data"
-msgstr ""
+msgstr "إرسال بيانات الدعم"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
-msgstr ""
+msgstr "يتيح هذا الإعداد إرسال معلومات دعم إضافية إلى فريق OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1009,7 +1025,7 @@ msgstr "تحديث"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "System Registration"
-msgstr ""
+msgstr "تسجيل النظام"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
@@ -1017,120 +1033,124 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"لتمكين إرسال البيانات ، يرجى تسجيل النظام الخاص بك مع فريق OTOBO أو تحديث "
+"تسجيل النظام الخاص بك (قم بتمكين الخيار \"إرسال بيانات الدعم\".)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
-msgstr ""
+msgstr "سجل هذا النظام"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
 "System Registration is disabled for your system. Please check your "
 "configuration."
-msgstr ""
+msgstr "تم تعطيل تسجيل النظام لنظامك. يرجى التحقق من التكوين."
 
 #. Template: AdminCloudServices
 msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "التسجيل في النظام هي خدمة من فريق OTOBO تمنحك العديد من المزايا!"
 
 #. Template: AdminCloudServices
 msgid ""
 "Please note that the use of OTOBO cloud services requires the system to be "
 "registered."
-msgstr ""
+msgstr "يرجى ملاحظة أن استخدام خدمات OTOBO السحابية يتطلب نظامًا مسجلاً."
 
 #. Template: AdminCloudServices
 msgid "Register this system"
-msgstr ""
+msgstr "سجل هذا النظام"
 
 #. Template: AdminCloudServices
 msgid ""
 "Here you can configure available cloud services that communicate securely "
 "with %s."
-msgstr ""
+msgstr "يمكنك هنا تكوين الخدمات السحابية المتوفرة التي تتواصل بأمان مع٪ s."
 
 #. Template: AdminCloudServices
 msgid "Available Cloud Services"
-msgstr ""
+msgstr "الخدمات السحابية المتاحة"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "بروتوكول الاتصالات"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "النطاق الزمني"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "عرض فقط سجلات الاتصال التي تم جمعها في فترة زمنية محددة."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "تصفية الاتصالات"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "تصفية الاتصالات"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
-msgstr ""
+msgstr "في هذه الشاشة يمكنك رؤية نظرة عامة حول الاتصالات الواردة والصادرة."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
-msgstr ""
+msgstr "يمكنك تغيير ترتيب الأعمدة وترتيبها بالنقر فوق رؤوس الأعمدة."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed "
 "screen about the message."
 msgstr ""
+"إذا قمت بالنقر فوق الإدخالات المختلفة، فسيتم إعادة توجيهك إلى شاشة مفصلة حول "
+"الرسالة."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "الحالة ل: ٪ s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "الحسابات الفاشلة"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "بعض مشاكل الحساب"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "لا مشاكل الحساب"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "لا يوجد نشاط حساب"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "عدد الحسابات التي بها مشاكل: ٪ s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "عدد الحسابات التي بها تحذيرات: ٪ s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "الاتصالات الفاشلة"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "لا توجد مشاكل في الاتصال"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "لا توجد سجلات اتصال"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
