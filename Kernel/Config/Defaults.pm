@@ -2483,16 +2483,15 @@ sub SyncWithS3 {
         my @ObsoleteFiles;
         {
              # files that are used in the unit tests
-            push @ObsoleteFiles, grep
-                { !$SubPath2Properties{ basename($_) } }
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ basename($_) } }
                 glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
 
             # user specific overrides of the SysConfig
             # note that POSIX does not allow to match multiple digits, so we need an extra filter
-            push @ObsoleteFiles, grep
-                { !$SubPath2Properties{ basename($_) } }
-                grep
-                { m!/\d+\.pm^! }
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ 'User/' . basename($_) } }
+                grep { m!/\d+\.pm^! }
                 glob "$Self->{Home}/Kernel/Config/Files/User/[0-9]*.pm";
         }
 
