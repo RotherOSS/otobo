@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-30 11:17+0000\n"
+"PO-Revision-Date: 2022-08-30 13:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1166,15 +1166,15 @@ msgstr "لا توجد اتصالات نشطة"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "عدد الاتصالات المفتوحة: ٪ s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "متوسط وقت المعالجة"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "قائمة الاتصالات (٪ s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1182,41 +1182,41 @@ msgstr "اعدادات"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "إدخالات في كل صفحة"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "لم يتم العثور على اتصالات."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "٪ s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "حالة الحساب"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "الرجوع إلى النظرة العامة"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "تصفية الحسابات"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "تصفية الحسابات"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column "
 "header."
-msgstr ""
+msgstr "يمكنك تغيير ترتيب وترتيب هذه الأعمدة من خلال النقر على رؤوس الأعمدة."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "حالة الحساب ل: ٪ s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1224,7 +1224,7 @@ msgstr "الحالة"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "الحساب"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1232,15 +1232,15 @@ msgstr "تعديل"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "لم يتم العثور على حسابات."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "تفاصيل سجل الاتصال (٪ s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
-msgstr ""
+msgstr "اِتِّجَاهٌ"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Start Time"
