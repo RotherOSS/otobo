@@ -277,8 +277,6 @@ sub PerlInfoGet {
             File::Slurp
             File::Slurp::Tiny
             Font::TTF
-            HTML::Tagset
-            HTML::TokeParser
             HTTP::Message
             IO::Interactive
             IO::String
