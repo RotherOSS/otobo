@@ -269,7 +269,6 @@ sub PerlInfoGet {
             Crypt::PasswdMD5
             Crypt::Random::Source
             CSS::Minifier
-            Devel::REPL::Plugin::OTOBO
             Devel::StackTrace
             Email::Valid
             Encode::Locale
