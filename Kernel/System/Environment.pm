@@ -255,8 +255,6 @@ sub PerlInfoGet {
         # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
         my @ModuleList = qw(
             Algorithm::Diff
-            Apache::DBI
-            Apache2::Reload
             CGI
             CGI::Emulate::PSGI
             Class::Accessor
