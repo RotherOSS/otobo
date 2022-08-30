@@ -2114,29 +2114,19 @@ sub new {
     # load extra config files
     if ( -d "$Self->{Home}/Kernel/Config/Files/" ) {
 
-        # It is assumed that $Self->{Home} contains no spaces as otherwise
-        # glob would see at least two patterns.
-        # Note that the order of file names is deterministic as per default
-        # glob sorts in ascending ASCII order.
-        my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
-
-        # Resorting the filelist.
-        # Modules with 'Ticket' in their name have lower priority.
+        # Collect the list of .pm files in Kernel/Config/Files.pm in a particular order.
+        # Modules with 'Ticket' in their name have lower priority. Therfore we first collect
+        # the files which contain the string 'Ticket' and then all other files.
+        # Within these two blocks the files are sorted in ascending ASCII order.
+        my @Files;
         {
-            my @NewFileOrderPre;
-            my @NewFileOrderPost;
-
-            for my $File (@Files) {
-
-                if ( $File =~ m/Ticket/ ) {
-                    push @NewFileOrderPre, $File;
-                }
-                else {
-                    push @NewFileOrderPost, $File;
-                }
-            }
-
-            @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+            # It is assumed that $Self->{Home} contains no spaces as otherwise.
+            # glob would see at least two patterns.
+            # Note that the order of file names is deterministic as per default
+            # glob sorts in ascending ASCII order.
+            my @AllPMFiles = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+            push @Files, grep { $_ =~ m/Ticket/ } @AllPMFiles;
+            push @Files, grep { $_ !~ m/Ticket/ } @AllPMFiles;
         }
 
         FILE:
