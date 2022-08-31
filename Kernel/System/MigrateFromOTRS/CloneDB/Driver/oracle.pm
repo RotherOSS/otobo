@@ -16,9 +16,9 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 use namespace::autoclean;
 
@@ -116,9 +116,7 @@ sub ColumnsList {
     return [ map { $_->[0] } $Rows->@* ];
 }
 
-#
 # Reset the 'id' auto-increment field to the last one in the table.
-#
 sub ResetAutoIncrementField {
     my ( $Self, %Param ) = @_;
 
@@ -233,11 +231,8 @@ END_SQL
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -273,11 +268,8 @@ sub GetColumnInfos {
     return \%Result;
 }
 
-#
-#
 # Translate column infos
 # return DATA_TYPE
-
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -345,10 +337,7 @@ sub TranslateColumnInfos {
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
     my ( $Self, %Param ) = @_;
 
