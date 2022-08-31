@@ -16,9 +16,9 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 use namespace::autoclean;
 
@@ -29,7 +29,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DB;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -117,9 +117,7 @@ sub ColumnsList {
     return [ map { $_->[0] } $Rows->@* ];
 }
 
-#
 # Reset the 'id' auto-increment field to the last one in the table.
-#
 sub ResetAutoIncrementField {
     my ( $Self, %Param ) = @_;
 
@@ -218,12 +216,11 @@ sub BlobColumnsList {
     $Param{DBObject}->Prepare(
         SQL => <<'END_SQL',
 SELECT COLUMN_NAME, DATA_TYPE
-  FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = ?
-    AND TABLE_NAME = ?
+  FROM USER_TAB_COLUMNS
+  WHERE TABLE_NAME = ?
     AND DATA_TYPE = 'CLOB';
 END_SQL
-        Bind => [ \$Param{DBName}, \$Param{Table} ],
+        Bind => [ \$Param{Table} ],
     ) || return {};
 
     my %Result;
@@ -234,11 +231,8 @@ END_SQL
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -274,11 +268,8 @@ sub GetColumnInfos {
     return \%Result;
 }
 
-#
-#
 # Translate column infos
 # return DATA_TYPE
-
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -346,10 +337,7 @@ sub TranslateColumnInfos {
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
     my ( $Self, %Param ) = @_;
 

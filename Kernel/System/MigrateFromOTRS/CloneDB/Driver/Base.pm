@@ -206,7 +206,7 @@ sub SanityChecks {
         };
     }
 
-    # some table should not be migrated
+    # some table should not be migrated, thus the sanity check is not needed
     my %TableIsSkipped =
         map { $_ => 1 }
         $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables;
@@ -230,7 +230,7 @@ sub SanityChecks {
             Table    => $SourceTable,
         );
 
-        # table should exists
+        # table should exist
         if ( !defined $SourceRowCount ) {
             my $Comment = "The table '$SourceTable' does not seem to exist in the OTRS database!";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
