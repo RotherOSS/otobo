@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-31 10:45+0000\n"
+"PO-Revision-Date: 2022-08-31 14:25+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1380,27 +1380,27 @@ msgstr "قائمة (٪ s معروضة فقط - المزيد متوفر)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
-msgstr ""
+msgstr "كُلّيّ"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr ""
+msgstr "الرجاء إدخال مصطلح البحث للبحث عن العملاء."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
-msgstr ""
+msgstr "رقم العميل"
 
 #. Template: AdminCustomerCompany
 msgid "Please note"
-msgstr ""
+msgstr "يرجى ملاحظة"
 
 #. Template: AdminCustomerCompany
 msgid "This customer backend is read only!"
-msgstr ""
+msgstr "لا يمكن تحرير هذه الواجهة الخلفية للعملاء!"
 
 #. Template: AdminCustomerGroup
 msgid "Manage Customer-Group Relations"
-msgstr ""
+msgstr "إدارة مهام مجموعة العملاء"
 
 #. Template: AdminCustomerGroup
 msgid "Notice"
@@ -1408,52 +1408,56 @@ msgstr "ملاحظة"
 
 #. Template: AdminCustomerGroup
 msgid "This feature is disabled!"
-msgstr ""
+msgstr "تم تعطيل هذه الوظيفة!"
 
 #. Template: AdminCustomerGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customers."
-msgstr ""
+msgstr "استخدم هذه الوظيفة إذا كنت تريد تحديد أذونات المجموعة للعملاء."
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
-msgstr ""
+msgstr "تفعيل هنا!"
 
 #. Template: AdminCustomerGroup
 msgid "Edit Customer Default Groups"
-msgstr ""
+msgstr "تحرير المجموعات الافتراضية للعملاء"
 
 #. Template: AdminCustomerGroup
 msgid "These groups are automatically assigned to all customers."
-msgstr ""
+msgstr "يتم تعيين هذه المجموعات تلقائيا لجميع العملاء."
 
 #. Template: AdminCustomerGroup
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupCompanyAlwaysGroups\"."
 msgstr ""
+"يمكنك إدارة هذه المجموعات عبر إعداد التكوين "
+"\"CustomerGroupCompanyAlwaysGroups\"."
 
 #. Template: AdminCustomerGroup
 msgid "Filter for Groups"
-msgstr ""
+msgstr "الفلتر للمجموعات"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr ""
+msgstr "حدد أذونات المجموعة للعملاء."
 
 #. Template: AdminCustomerGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the customer)."
 msgstr ""
+"إذا لم يتم تحديد أي شيء ، فلن يكون للعميل أي حقوق في هذه المجموعة (ولا يمكنه "
+"الوصول إلى التذاكر)."
 
 #. Template: AdminCustomerGroup
 msgid "Search Results"
-msgstr ""
+msgstr "نتائج البحث"
 
 #. Template: AdminCustomerGroup
 msgid "Customers"
-msgstr ""
+msgstr "الزبائن"
 
 #. Template: AdminCustomerGroup
 msgid "Groups"
@@ -1461,65 +1465,68 @@ msgstr "المجموعات"
 
 #. Template: AdminCustomerGroup
 msgid "Change Group Relations for Customer"
-msgstr ""
+msgstr "تغيير علاقات المجموعة للعملاء"
 
 #. Template: AdminCustomerGroup
 msgid "Change Customer Relations for Group"
-msgstr ""
+msgstr "إدارة تعيينات العملاء للمجموعة"
 
 #. Template: AdminCustomerGroup
 msgid "Toggle %s Permission for all"
-msgstr ""
+msgstr "تبديل ٪s إذن للجميع"
 
 #. Template: AdminCustomerGroup
 msgid "Toggle %s permission for %s"
-msgstr ""
+msgstr "تبديل إذن ٪s ل ٪s"
 
 #. Template: AdminCustomerGroup
 msgid "Customer Default Groups:"
-msgstr ""
+msgstr "مجموعات العملاء الافتراضية:"
 
 #. Template: AdminCustomerGroup
 msgid "No changes can be made to these groups."
-msgstr ""
+msgstr "لا يمكن إجراء أي تغييرات على هذه المجموعات."
 
 #. Template: AdminCustomerGroup
 msgid "ro"
-msgstr ""
+msgstr "ro"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr ""
+msgstr "فقط اذن القراءة على التذاكر في هذه المجموعات / قوائم الانتظار."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
-msgstr ""
+msgstr "rw"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
 msgstr ""
+"الوصول الكامل للقراءة والكتابة إلى التذاكر في هذه المجموعة / قائمة الانتظار."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
-msgstr ""
+msgstr "إدارة مستخدم العميل"
 
 #. Template: AdminCustomerUser
 msgid "Add Customer User"
-msgstr ""
+msgstr "إضافة مستخدم العميل"
 
 #. Template: AdminCustomerUser
 msgid "Edit Customer User"
-msgstr ""
+msgstr "تحرير مستخدم العميل"
 
 #. Template: AdminCustomerUser
 msgid ""
 "Customer user are needed to have a customer history and to login via "
 "customer panel."
 msgstr ""
+"يحتاج مستخدم العميل إلى أن يكون لديه سجل عميل وأن يقوم بتسجيل الدخول عبر "
+"لوحة العميل."
 
 #. Template: AdminCustomerUser
 msgid "List (%s total)"
-msgstr ""
+msgstr "القائمة (٪s الإجمالية)"
 
 #. Template: AdminCustomerUser
 msgid "Username"
@@ -1531,29 +1538,31 @@ msgstr "البريد الإلكتروني"
 
 #. Template: AdminCustomerUser
 msgid "Last Login"
-msgstr ""
+msgstr "آخر تسجيل دخول"
 
 #. Template: AdminCustomerUser
 msgid "Login as"
-msgstr "تسجيل دخول كـ"
+msgstr "تسجيل دخول ك"
 
 #. Template: AdminCustomerUser
 msgid "Switch to customer"
-msgstr ""
+msgstr "التبديل إلى العميل"
 
 #. Template: AdminCustomerUser
 msgid ""
 "This customer backend is read only, but the customer user preferences can be "
 "changed!"
 msgstr ""
+"الواجهة الخلفية للعميل للقراءة فقط، ولكن يمكن تغيير تفضيلات المستخدم الخاصة "
+"بالعميل!"
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr ""
+msgstr "هذا الحقل مطلوب ويجب أن يكون عنوان بريد إلكتروني صالحًا."
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
-msgstr ""
+msgstr "عنوان البريد الإلكتروني هذا غير مسموح به بسبب تكوين النظام."
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
