@@ -442,8 +442,8 @@ Core.AJAX = (function (TargetNS) {
 
             // field has to be hidden
             if ( FieldInfo[1] == 0 ) {
-                Field.parent().parent('div.Row').hide();
-                Field.parent().parent('div.Row').addClass("oooACLHidden");
+                Field.closest('div.Row').hide();
+                Field.closest('div.Row').addClass("oooACLHidden");
 
                 // hidden fields cannot be mandatory
                 if ( Field.hasClass("Validate_Required") ) {
@@ -467,12 +467,12 @@ Core.AJAX = (function (TargetNS) {
                 }
             }
             // field has to be shown again
-            else if ( Field.parent().parent('div.Row').hasClass("oooACLHidden") ) {
-                Field.parent().parent('div.Row').show();
+            else if ( Field.closest('div.Row').hasClass("oooACLHidden") ) {
+                Field.closest('div.Row').show();
                 // if it was hidden via autoselect before
                 Field.parent().show();
                 $("label[for='" + Field[0] + "']").show();
-                Field.parent().parent('div.Row').removeClass("oooACLHidden");
+                Field.closest('div.Row').removeClass("oooACLHidden");
 
                 // restore validation on mandatory fields
                 if ( Field.hasClass("Validate_Required_IfVisible") ) {
