@@ -215,12 +215,11 @@ sub BlobColumnsList {
     $Param{DBObject}->Prepare(
         SQL => <<'END_SQL',
 SELECT COLUMN_NAME, DATA_TYPE
-  FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = ?
-    AND TABLE_NAME = ?
+  FROM USER_TAB_COLUMNS
+  WHERE TABLE_NAME = ?
     AND DATA_TYPE = 'CLOB';
 END_SQL
-        Bind => [ \$Param{DBName}, \$Param{Table} ],
+        Bind => [ \$Param{Table} ],
     ) || return {};
 
     my %Result;
