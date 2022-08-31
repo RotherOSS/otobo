@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-31 09:31+0000\n"
+"PO-Revision-Date: 2022-08-31 10:45+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1312,27 +1312,27 @@ msgstr "يرجى اختيار إدخال من القائمة."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
-msgstr ""
+msgstr "بيانات الاتصال"
 
 #. Template: AdminContactWD
 msgid "Contact with data"
-msgstr ""
+msgstr "بيانات الاتصال"
 
 #. Template: AdminContactWD
 msgid "Add contact with data"
-msgstr ""
+msgstr "أضف معلومات الاتصال"
 
 #. Template: AdminContactWD
 msgid "Edit contact with data"
-msgstr ""
+msgstr "تحرير معلومات الاتصال"
 
 #. Template: AdminContactWD
 msgid "Back to search results"
-msgstr ""
+msgstr "العودة إلى نتيجة البحث"
 
 #. Template: AdminContactWD
 msgid "Select"
-msgstr "أختر"
+msgstr "اِخْتِيَارٌ"
 
 #. Template: AdminContactWD
 msgid "Search"
@@ -1340,43 +1340,43 @@ msgstr "بحث"
 
 #. Template: AdminContactWD
 msgid "Wildcards like '*' are allowed."
-msgstr ""
+msgstr "يُسمح باستخدام أحرف البدل مثل \"*\"."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
-msgstr ""
+msgstr "الرجاء إدخال مصطلح البحث للبحث عن العملاء."
 
 #. Template: AdminContactWD
 msgid "Valid"
-msgstr "فعال"
+msgstr "صَالِحٌ"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy Management"
-msgstr ""
+msgstr "إدارة إشعارات الخصوصية"
 
 #. Template: AdminCustomerAccept
 msgid "Privacy Policy"
-msgstr ""
+msgstr "حماية الخصوصية"
 
 #. Template: AdminCustomerAccept
 msgid "Remove PrivacyPolicy Language"
-msgstr ""
+msgstr "إزالة اللغة لإشعارات الخصوصية"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
-msgstr ""
+msgstr "ادارة الزبائن"
 
 #. Template: AdminCustomerCompany
 msgid "Add Customer"
-msgstr ""
+msgstr "إضافة الزبون"
 
 #. Template: AdminCustomerCompany
 msgid "Edit Customer"
-msgstr ""
+msgstr "تحرير الزَّبُون"
 
 #. Template: AdminCustomerCompany
 msgid "List (only %s shown - more available)"
-msgstr ""
+msgstr "قائمة (٪ s معروضة فقط - المزيد متوفر)"
 
 #. Template: AdminCustomerCompany
 msgid "total"
