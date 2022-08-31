@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-30 13:31+0000\n"
+"PO-Revision-Date: 2022-08-31 09:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1244,23 +1244,23 @@ msgstr "اِتِّجَاهٌ"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Start Time"
-msgstr ""
+msgstr "وقت البدء"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "End Time"
-msgstr ""
+msgstr "وقت النهاية"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "لم يتم العثور على إدخالات السجل."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "مُدَّة"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1272,43 +1272,43 @@ msgstr "موديول"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Information"
-msgstr ""
+msgstr "مَعْلُومَة"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "لم يتم العثور على إدخالات السجل."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "طريقة عرض تفصيلية لاتصال ٪s بدأت عند ٪s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "تصفية لإدخالات السجل"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
-msgstr ""
+msgstr "تصفية لإدخالات السجل"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "عرض الإدخالات ذات الأولوية المحددة فقط (وأعلى):"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "نظرة عامة على بروتوكول الاتصال (٪ s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
-msgstr ""
+msgstr "لم يتم العثور على كائنات اتصال."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Details"
-msgstr ""
+msgstr "تفاصيل بروتوكول الاتصال"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Please select an entry from the list."
-msgstr ""
+msgstr "يرجى اختيار إدخال من القائمة."
 
 #. Template: AdminContactWD
 msgid "Contact with data management"
