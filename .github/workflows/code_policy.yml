@@ -74,10 +74,14 @@ jobs:
                 cp --no-clobber Kernel/Config.pm.docker.dist Kernel/Config.pm
                 perl -pi -e 's/^use lib /# disabled by syntax_check.yml: use lib/' Kernel/Config/Defaults.pm
 
-            # The actual test step.
+            # The actual test steps. Check syntax and the CodePolicy.
+
+            # There are situations where there are no added or modidied files. But with an empty
+            # argument list all files would be checked, which can easily lead to errors with missing dependencies.
+            # Therefore make sure that at least one argument is passed.
             # :: tells prove that whatever follows should be passed to the test script
             - name: prove
-              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: ${{ steps.files.outputs.added_modified }}'
+              run: 'prove -I . -I Kernel/cpan-lib -I Custom --verbose scripts/test/Compile.t :: Kernel/Config.pm ${{ steps.files.outputs.added_modified }}'
 
             - name: 'checkout codepolicy'
               uses: actions/checkout@v2
