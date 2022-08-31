@@ -1290,6 +1290,7 @@ sub DBSkipTables {
         communication_log
         gi_debugger_entry_content
         gi_debugger_entry
+        mail_queue
         package_repository
         process_id
         scheduler_future_task
