@@ -1278,9 +1278,9 @@ sub ResetConfigOption {
 
 # The listed tables will be not  migrated.
 # The table names must be in lower case.
-# This list is also used for truncating tables in a SQL-script produced by scripts/backup.pl.
-# Therefore is theorder of the tables relevant. Truncating must be possible
-# without violating foreign key constraints.
+# This list is also used for truncating tables in a SQL-script that is produced by scripts/backup.pl.
+# Therefore is the order of the tables relevant. Truncating must be possible without violating
+# foreign key constraints.
 sub DBSkipTables {
     return qw(
         cloud_service_config
