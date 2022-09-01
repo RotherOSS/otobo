@@ -209,6 +209,7 @@ sub BlobColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -243,6 +244,7 @@ sub GetColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -265,6 +267,7 @@ sub GetColumnInfos {
         $Result{LENGTH}      = $Row[2];
         $Result{IS_NULLABLE} = $Row[3];
     }
+
     return \%Result;
 }
 
@@ -280,6 +283,7 @@ sub TranslateColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -348,6 +352,7 @@ sub AlterTableAddColumn {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
@@ -372,8 +377,10 @@ sub AlterTableAddColumn {
             Priority => 'error',
             Message  => "Could not execute SQL statement: $SQL.",
         );
+
         return;
     }
+
     return 1;
 }
 

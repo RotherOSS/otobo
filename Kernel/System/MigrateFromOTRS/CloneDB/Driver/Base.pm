@@ -527,6 +527,7 @@ sub DataTransfer {
 
                 # shortening only for varchar (and the corresponding data types varchar2 and 'character varying')
                 next SOURCE_COLUMN unless IsHashRefWithData($SourceColumnInfos);
+
                 if ( none { $_ eq lc( $SourceColumnInfos->{DATA_TYPE} ) } ( 'varchar', 'character varying', 'varchar2' ) ) {
                     next SOURCE_COLUMN;
                 }
