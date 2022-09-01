@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-08-31 14:25+0000\n"
+"PO-Revision-Date: 2022-09-01 13:06+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1566,31 +1566,31 @@ msgstr "عنوان البريد الإلكتروني هذا غير مسموح ب
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
-msgstr ""
+msgstr "فشل التحقق من MX لعنوان البريد الإلكتروني هذا."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
-msgstr ""
+msgstr "مشكلة DNS، يرجى التحقق من التكوين الخاص بك وسجل الأخطاء."
 
 #. Template: AdminCustomerUser
 msgid "The syntax of this email address is incorrect."
-msgstr ""
+msgstr "صيغة عنوان البريد الإلكتروني هذا غير صحيحة."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr ""
+msgstr "رقم هذا الزَّبُون غير صالح."
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
-msgstr ""
+msgstr "أذونات فعالة لمستخدمي العملاء"
 
 #. Template: AdminCustomerUser
 msgid "Group Permissions"
-msgstr ""
+msgstr "أذونات المجموعة"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no group permissions."
-msgstr ""
+msgstr "ليس لدى مستخدم العميل هذا أذونات المجموعة."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1599,10 +1599,13 @@ msgid ""
 "groups). Note: The table does not consider changes made to this form without "
 "submitting it."
 msgstr ""
+"يوضح الجدول أعلاه أذونات المجموعة الفعالة لمستخدم العميل. تأخذ المصفوفة أيضا "
+"في الاعتبار جميع التفويضات الموروثة (على سبيل المثال من قبل مجموعات العملاء)"
+". ملاحظة: لا يعرض الجدول التغييرات في هذه الشاشة حتى تقوم بحفظها."
 
 #. Template: AdminCustomerUser
 msgid "Customer Access"
-msgstr ""
+msgstr "مَدْخَل العملاء"
 
 #. Template: AdminCustomerUser
 msgid "Customer"
@@ -1610,7 +1613,7 @@ msgstr "عميل"
 
 #. Template: AdminCustomerUser
 msgid "This customer user has no customer access."
-msgstr ""
+msgstr "هذا المستخدم العميل ليس لديه حق الوصول إلى العملاء."
 
 #. Template: AdminCustomerUser
 msgid ""
@@ -1619,14 +1622,18 @@ msgid ""
 "via customer groups). Note: The table does not consider changes made to this "
 "form without submitting it."
 msgstr ""
+"يوضح الجدول أعلاه وصول العميل الممنوح لمستخدم العميل حسب سياق التفويض. تأخذ "
+"المصفوفة أيضا في الاعتبار جميع التفويضات الموروثة (على سبيل المثال من قبل "
+"مجموعات العملاء). ملاحظة: لا يعرض الجدول التغييرات في هذه الشاشة حتى تقوم "
+"بحفظها."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Manage Customer User-Customer Relations"
-msgstr ""
+msgstr "إدارة علاقات العملاء والمستخدمين"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Select the customer user:customer relations."
-msgstr ""
+msgstr "حدد العلاقة بين مستخدم العميل والعميل."
 
 #. Template: AdminCustomerUserCustomer
 msgid "Customer Users"
@@ -1634,111 +1641,116 @@ msgstr "العملاء"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer Relations for Customer User"
-msgstr ""
+msgstr "تغيير علاقات العملاء لمستخدم العميل"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Change Customer User Relations for Customer"
-msgstr ""
+msgstr "تغيير علاقات المستخدم مع العملاء"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
-msgstr ""
+msgstr "تبديل الحالة النشطة للجميع"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Active"
-msgstr ""
+msgstr "نَشِط"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for %s"
-msgstr ""
+msgstr "تبديل الحالة النشطة ل ٪s"
 
 #. Template: AdminCustomerUserGroup
 msgid "Manage Customer User-Group Relations"
-msgstr ""
+msgstr "إدارة الارتباطات بين مستخدمي العملاء والمجموعات"
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "Just use this feature if you want to define group permissions for customer "
 "users."
-msgstr ""
+msgstr "استخدم هذه الميزة إذا كنت تريد تحديد أذونات المجموعة لمستخدمي العملاء."
 
 #. Template: AdminCustomerUserGroup
 msgid "Edit Customer User Default Groups"
-msgstr ""
+msgstr "تحرير المجموعات الافتراضية للمستخدمين العملاء"
 
 #. Template: AdminCustomerUserGroup
 msgid "These groups are automatically assigned to all customer users."
-msgstr ""
+msgstr "يتم تعيين هذه المجموعات تلقائيًا لجميع مستخدمي العملاء."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "You can manage these groups via the configuration setting "
 "\"CustomerGroupAlwaysGroups\"."
 msgstr ""
+"يمكنك تحرير هذه المجموعات باستخدام إعداد تكوين \"CustomerGroupAlwaysGroups\"."
 
 #. Template: AdminCustomerUserGroup
 msgid "Filter for groups"
-msgstr ""
+msgstr "عوامل التصفية للمجموعات"
 
 #. Template: AdminCustomerUserGroup
 msgid "Select the customer user - group permissions."
-msgstr ""
+msgstr "حدد أذونات المجموعة لمستخدمي العملاء."
 
 #. Template: AdminCustomerUserGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the customer user)."
 msgstr ""
+"إذا لم يتم تحديد أي شيء ، فلن يكون للعميل أي حقوق في هذه المجموعة (ولا يمكنه "
+"الوصول إلى التذاكر)."
 
 #. Template: AdminCustomerUserGroup
 msgid "Customer User Default Groups:"
-msgstr ""
+msgstr "المجموعات الافتراضية لمستخدم العميل:"
 
 #. Template: AdminCustomerUserService
 msgid "Manage Customer User-Service Relations"
-msgstr ""
+msgstr "إدارة تعيينات خدمة العملاء"
 
 #. Template: AdminCustomerUserService
 msgid "Edit default services"
-msgstr ""
+msgstr "تحرير الخدمات الافتراضية"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for Services"
-msgstr ""
+msgstr "تصفية للخدمات"
 
 #. Template: AdminCustomerUserService
 msgid "Filter for services"
-msgstr ""
+msgstr "تصفية للخدمات"
 
 #. Template: AdminCustomerUserService
 msgid "Services"
-msgstr ""
+msgstr "خدمات"
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields Management"
-msgstr ""
+msgstr "إدارة الحقول الديناميكية"
 
 #. Template: AdminDynamicField
 msgid "Add new field for object"
-msgstr ""
+msgstr "إضافة حقل جديد للكائن"
 
 #. Template: AdminDynamicField
 msgid "Filter for Dynamic Fields"
-msgstr ""
+msgstr "تصفية الحقول الديناميكية"
 
 #. Template: AdminDynamicField
 msgid "Filter for dynamic fields"
-msgstr ""
+msgstr "تصفية الحقول الديناميكية"
 
 #. Template: AdminDynamicField
 msgid "New Dynamic Fields"
-msgstr ""
+msgstr "حقول ديناميكية جديدة"
 
 #. Template: AdminDynamicField
 msgid ""
 "Would you like to benefit from additional dynamic field types? You have full "
 "access to the following field types:"
 msgstr ""
+"هل ترغب في الاستفادة من المجالات الديناميكية الأخرى؟ لديك حق الوصول الكامل "
+"إلى أنواع الحقول التالية:"
 
 #. Template: AdminDynamicField
 msgid "Database"
@@ -1748,20 +1760,23 @@ msgstr "قاعدة البيانات"
 msgid ""
 "Use external databases as configurable data sources for this dynamic field."
 msgstr ""
+"استخدم قواعد البيانات الخارجية كمصادر بيانات قابلة للتكوين لهذا الحقل "
+"الديناميكي."
 
 #. Template: AdminDynamicField
 msgid "Web service"
-msgstr ""
+msgstr "خدمة ويب"
 
 #. Template: AdminDynamicField
 msgid ""
 "External web services can be configured as data sources for this dynamic "
 "field."
-msgstr ""
+msgstr "يمكن تكوين خدمات ويب الخارجية كمصدر بيانات لهذا الحقل."
 
 #. Template: AdminDynamicField
 msgid "This feature allows to add (multiple) contacts with data to tickets."
 msgstr ""
+"تتيح لك هذه الميزة إضافة جهات اتصال (متعددة) تحتوي على بيانات إلى التذاكر."
 
 #. Template: AdminDynamicField
 msgid ""
@@ -1769,14 +1784,16 @@ msgid ""
 "object defines the boundary of the field and it can't be changed after the "
 "field creation."
 msgstr ""
+"لإضافة حقل جديد، حدد نوع الحقل من قائمة الأنواع المتوفرة لهذا الكائن. تحديد "
+"الكائن ملزم ولا يمكن تغييره لاحقا."
 
 #. Template: AdminDynamicField
 msgid "Dynamic Fields List"
-msgstr ""
+msgstr "قائمة الحقول الديناميكية"
 
 #. Template: AdminDynamicField
 msgid "Dynamic fields per page"
-msgstr ""
+msgstr "الحقول الديناميكية لكل صفحة"
 
 #. Template: AdminDynamicField
 msgid "Label"
