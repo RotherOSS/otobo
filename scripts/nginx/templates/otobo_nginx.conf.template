@@ -21,7 +21,7 @@ server {
     server_name _;
 
     # 301 Moved Permanently, (in 'SEO-speak', it is said that the 'link-juice' is sent to the new URL).
-    return 301 https://$host$request_uri;
+    return 301 https://$host:${OTOBO_WEB_HTTPS_PORT}$request_uri;
 }
 
 # serve HTTPS
