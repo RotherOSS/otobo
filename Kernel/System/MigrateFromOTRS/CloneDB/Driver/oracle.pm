@@ -252,15 +252,19 @@ sub GetColumnInfos {
         }
     }
 
+    # Internally OTOBO is using lower case table names.
+    # But Oracle has upper case names.
+    my $UcTable  = uc $Param{Table};
+    my $UcColumn = uc $Param{Column};
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = ?
-            AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+        SQL => <<'END_SQL',
+SELECT column_name, data_type, char_length, nullable
+  FROM user_tab_columns
+  WHERE table_name = ?
+    AND column_name = ?
+END_SQL
 
-        Bind => [
-            \$Param{DBName}, \$Param{Table}, \$Param{Column},
-        ],
+        Bind => [ \$UcTable, \$UcColumn ],
     ) || return {};
 
     my %Result;
@@ -268,7 +272,7 @@ sub GetColumnInfos {
         $Result{COLUMN}      = $Row[0];
         $Result{DATA_TYPE}   = $Row[1];
         $Result{LENGTH}      = $Row[2];
-        $Result{IS_NULLABLE} = $Row[3];
+        $Result{IS_NULLABLE} = ( $Row[3] eq 'N' ? 'NO' : 'YES' );
     }
 
     return \%Result;
