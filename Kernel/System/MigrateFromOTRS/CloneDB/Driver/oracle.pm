@@ -214,6 +214,9 @@ sub BlobColumnsList {
         }
     }
 
+    # Internally OTOBO is using lower case table names.
+    # But Oracle has upper case names.
+    my $UcTable = uc $Param{Table};
     $Param{DBObject}->Prepare(
         SQL => <<'END_SQL',
 SELECT COLUMN_NAME, DATA_TYPE
@@ -221,7 +224,7 @@ SELECT COLUMN_NAME, DATA_TYPE
   WHERE TABLE_NAME = ?
     AND DATA_TYPE = 'CLOB';
 END_SQL
-        Bind => [ \$Param{Table} ],
+        Bind => [ \$UcTable ],
     ) || return {};
 
     my %Result;
