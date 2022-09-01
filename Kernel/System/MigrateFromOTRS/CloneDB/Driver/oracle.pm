@@ -109,7 +109,7 @@ sub ColumnsList {
     # But Oracle has upper case names.
     my $UcTable = uc $Param{Table};
     my $Rows    = $Param{DBObject}->SelectAll(
-        SQL  => 'SELECT column_name FROM all_tab_columns WHERE table_name = ?',
+        SQL  => 'SELECT column_name FROM user_tab_columns WHERE table_name = ?',
         Bind => [ \$UcTable ],
     ) || return [];
 
@@ -217,7 +217,7 @@ sub BlobColumnsList {
     $Param{DBObject}->Prepare(
         SQL => <<'END_SQL',
 SELECT COLUMN_NAME, DATA_TYPE
-  FROM USER_TAB_COLUMNS
+  FROM user_tab_columns
   WHERE TABLE_NAME = ?
     AND DATA_TYPE = 'CLOB';
 END_SQL
