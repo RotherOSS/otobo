@@ -466,7 +466,10 @@ sub DataTransfer {
 
     # Handle the OTOBO table columns which must be shortened.
     # Usually because of InnodB max key size in MySQL 5.6 or earlier.
-    my $MaxLengthShortenedColumns = 190;    # int( 767 / 4 ) - 1
+    # Use a driver dependent SUBSTRING function because Oracle is not really conforming to the ANSI SQL standard.
+    my $SubstringFunction         = $TargetDBObject->GetDatabaseFunction('Substring');
+    my $MaxLengthShortenedColumns = 190;                                                 # int( 767 / 4 ) - 1
+
     my %SourceColumnsString;
 
     # Determine the columns where the source might contain NULLs that are not allowed in the target.
@@ -579,7 +582,7 @@ sub DataTransfer {
                 push @MaybeShortenedColumns,
                     $DoShorten
                     ?
-                    "SUBSTRING( $SourceColumn, 1, $MaxLengthShortenedColumns )"
+                    sprintf( $SubstringFunction, $SourceColumn, 1, $MaxLengthShortenedColumns )
                     :
                     $SourceColumn;
 

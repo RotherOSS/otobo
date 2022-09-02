@@ -73,6 +73,9 @@ sub LoadPreferences {
     # how to delete all rows of a table, use with sprintf for inserting the table name
     $Self->{'DB::PurgeTable'} = 'TRUNCATE TABLE %s';
 
+    # this is primarily needed during migration
+    $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
+
     # DBI/DBD::mysql attributes
     # disable automatic reconnects as they do not execute DB::Connect, which will
     # cause charset problems

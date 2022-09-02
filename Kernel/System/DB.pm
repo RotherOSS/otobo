@@ -990,6 +990,7 @@ to get database functions like
     - LikeEscapeString
     - Limit
     - ListTables
+    - PurgeTable
     - QuoteBack
     - QuoteSemicolon
     - QuoteSingle
@@ -997,8 +998,8 @@ to get database functions like
     - QuoteUnderscoreStart
     - ShellCommit
     - ShellConnect
+    - Substring
     - Version
-    - PurgeTable
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
