@@ -228,7 +228,7 @@ sub BlobColumnsList {
 SELECT COLUMN_NAME, DATA_TYPE
   FROM user_tab_columns
   WHERE TABLE_NAME = ?
-    AND DATA_TYPE = 'CLOB';
+    AND DATA_TYPE = 'CLOB'
 END_SQL
         Bind => [ \$UcTable ],
     ) || return {};
