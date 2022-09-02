@@ -28,7 +28,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DB;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
