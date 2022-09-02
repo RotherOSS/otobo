@@ -380,8 +380,9 @@ sub AlterTableAddColumn {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
     }
 
-    if ( $ColumnInfos{IS_NULLABLE} =~ /no/ ) {
-        $SQL .= " NOT NULL";
+    # IS_NULLABLE is either YES or NO
+    if ( $ColumnInfos{IS_NULLABLE} =~ m/no/i ) {
+        $SQL .= ' NOT NULL';
     }
 
     my $Success = $Param{DBObject}->Do(
