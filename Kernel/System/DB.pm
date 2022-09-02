@@ -415,8 +415,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid integer in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -428,8 +430,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid number in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -511,6 +515,7 @@ sub Do {
                     Priority => 'Error',
                     Message  => 'No SCALAR param in Bind!',
                 );
+
                 return;
             }
         }
@@ -559,6 +564,7 @@ sub Do {
             Priority => 'error',
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
+
         return;
     }
 
@@ -614,6 +620,7 @@ sub _InitSlaveDB {
 
             if ( $SlaveDBObject->Connect() ) {
                 $Self->{SlaveDBObject} = $SlaveDBObject;
+
                 return $Self->{SlaveDBObject};
             }
         }
@@ -773,6 +780,7 @@ sub Prepare {
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
@@ -782,6 +790,7 @@ sub Prepare {
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
@@ -826,6 +835,7 @@ sub FetchrowArray {
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
             $Self->{Cursor}->finish();
+
             return;
         }
         $Self->{LimitCounter}++;
@@ -836,6 +846,7 @@ sub FetchrowArray {
         for ( 1 .. $Self->{LimitStart} ) {
             if ( !$Self->{Cursor}->fetchrow_array() ) {
                 $Self->{LimitStart} = 0;
+
                 return ();
             }
             $Self->{LimitCounter}++;
@@ -1187,6 +1198,7 @@ sub SQLProcessorPost {
     if ( $Self->{Backend}->{Post} ) {
         my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
+
         return @Return;
     }
 
@@ -1259,6 +1271,7 @@ sub QueryCondition {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -1578,6 +1591,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ AND $/ ) {
@@ -1593,6 +1607,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ OR $/ ) {
@@ -1648,11 +1663,13 @@ sub QueryCondition {
                 'Values' => [],
             );
         }
+
         return "1=0";
     }
 
     if ($BindMode) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
@@ -1714,6 +1731,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Key!",
         );
+
         return;
     }
 
@@ -1722,6 +1740,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Values!",
         );
+
         return;
     }
 
@@ -1730,6 +1749,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "QuoteType 'Like' is not allowed for 'IN' conditions!",
         );
+
         return;
     }
 
@@ -1758,6 +1778,7 @@ sub QueryInCondition {
         @Values = map { $Self->Quote( $_, $Param{QuoteType} ) } @Values;
 
         # Something went wrong during the quoting, if the count is not equal.
+
         return if scalar @Values != scalar @{ $Param{Values} };
     }
 
@@ -1809,11 +1830,13 @@ sub QueryInCondition {
 
     if ( $Param{BindMode} ) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
         );
     }
+
     return $SQL;
 }
 
@@ -1842,6 +1865,7 @@ sub QueryStringEscape {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+
             return;
         }
     }
