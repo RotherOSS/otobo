@@ -19,7 +19,6 @@ package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 use v5.24;
 use strict;
 use warnings;
-use utf8;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
@@ -45,18 +44,19 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle
 
 =head1 DESCRIPTION
 
-This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Driver>.
+This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
 Please look there for a detailed reference of the functions.
 
 =head1 PUBLIC INTERFACE
 
 =cut
 
-# create external db connection. For oracle the connection is based on the DSN.
+# create external db connection.
+# For oracle the connection is based on the DSN.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
-    # check OTRSDBSettings,
+    # check OTRSDBSettings
     # in contrast to postgresql.pm and mysql.pm, DBDSN is used instead of DBHost and DBName
     for my $Needed (qw(DBDSN DBUser DBPassword DBType)) {
         if ( !$Param{$Needed} ) {
@@ -68,6 +68,8 @@ sub CreateOTRSDBConnection {
             return;
         }
     }
+
+    # for oracle the DSN must be passed in
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
@@ -109,7 +111,11 @@ sub ColumnsList {
     # But Oracle has upper case names.
     my $UcTable = uc $Param{Table};
     my $Rows    = $Param{DBObject}->SelectAll(
-        SQL  => 'SELECT column_name FROM user_tab_columns WHERE table_name = ?',
+        SQL => <<'END_SQL',
+SELECT column_name
+  FROM user_tab_columns
+  WHERE table_name = ?
+END_SQL
         Bind => [ \$UcTable ],
     ) || return [];
 
@@ -267,6 +273,7 @@ END_SQL
         Bind => [ \$UcTable, \$UcColumn ],
     ) || return {};
 
+    # collect the column info, actually we expect a single row
     my %Result;
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         $Result{COLUMN}      = $Row[0];
@@ -279,7 +286,7 @@ END_SQL
 }
 
 # Translate column infos
-# return DATA_TYPE
+# return a copy of the passed in ColumnInfo with a translated DATA_TYPE
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -295,11 +302,12 @@ sub TranslateColumnInfos {
         }
     }
 
-    my %ColumnInfos = %{ $Param{ColumnInfos} };
+    my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
     my %Result;
 
-    if ( $Param{DBType} =~ /mysql/ ) {
+    if ( $Param{DBType} =~ m/mysql/ ) {
+        my %Result;
         $Result{VARCHAR} = 'VARCHAR2';
         $Result{TEXT}    = 'TEXT';
 
@@ -322,6 +330,7 @@ sub TranslateColumnInfos {
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
     elsif ( $Param{DBType} =~ /postgresql/ ) {
+        my %Result;
         $Result{VARCHAR}             = 'VARCHAR2';
         $Result{'CHARACTER VARYING'} = 'VARCHAR2';
         $Result{TEXT}                = 'TEXT';
@@ -365,7 +374,7 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $SQL         = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = qq{ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}};
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";

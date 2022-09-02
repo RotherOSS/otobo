@@ -791,6 +791,7 @@ sub DataTransfer {
                     Column   => $SourceColumn,
                 );
 
+                # Translate the DATA_TYPE
                 my $TranslatedSourceColumnInfos = $TargetDBBackend->TranslateColumnInfos(
                     ColumnInfos => $SourceColumnInfos,
                     DBType      => $SourceDBObject->{'DB::Type'},
