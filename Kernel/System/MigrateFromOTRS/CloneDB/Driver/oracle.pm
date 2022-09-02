@@ -120,7 +120,7 @@ END_SQL
     ) || return [];
 
     # only the first element of each row is needed
-    return [ map { $_->[0] } $Rows->@* ];
+    return [ map { lc $_->[0] } $Rows->@* ];
 }
 
 # Reset the 'id' auto-increment field to the last one in the table.
@@ -235,7 +235,7 @@ END_SQL
 
     my %Result;
     while ( my ( $Column, $Type ) = $Param{DBObject}->FetchrowArray() ) {
-        $Result{$Column} = $Type;
+        $Result{ lc $Column } = $Type;
     }
 
     return \%Result;
