@@ -250,7 +250,6 @@ sub PerlInfoGet {
             qw(
             Algorithm::Diff
             CGI
-            CGI::Emulate::PSGI
             Class::Accessor
             Class::Inspector
             Class::ReturnValue
