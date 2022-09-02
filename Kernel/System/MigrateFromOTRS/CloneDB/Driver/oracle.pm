@@ -304,7 +304,8 @@ sub TranslateColumnInfos {
 
     my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
-    my %Result;
+    # no translation is necessary for the same DBType
+    return \%ColumnInfos if $Param{DBType} =~ m/oracle/;
 
     if ( $Param{DBType} =~ m/mysql/ ) {
         my %Result;
@@ -329,7 +330,7 @@ sub TranslateColumnInfos {
 
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
-    elsif ( $Param{DBType} =~ /postgresql/ ) {
+    elsif ( $Param{DBType} =~ m/postgresql/ ) {
         my %Result;
         $Result{VARCHAR}             = 'VARCHAR2';
         $Result{'CHARACTER VARYING'} = 'VARCHAR2';
@@ -347,11 +348,6 @@ sub TranslateColumnInfos {
         $Result{'DOUBLE PRECISION'} = 'FLOAT';
 
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
-    }
-    elsif ( $Param{DBType} =~ /oracle/ ) {
-
-        # no translation necessary
-        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
     }
 
     return \%ColumnInfos;

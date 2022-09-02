@@ -224,11 +224,10 @@ sub TranslateColumnInfos {
 
     my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
-    if ( $Param{DBType} =~ m/mysql/ ) {
+    # no translation is necessary for the same DBType
+    return \%ColumnInfos if $Param{DBType} =~ m/mysql/;
 
-        # no translation is necessary
-    }
-    elsif ( $Param{DBType} =~ m/postgresql/ ) {
+    if ( $Param{DBType} =~ m/postgresql/ ) {
         my %Result;
         $Result{VARCHAR}             = 'VARCHAR';
         $Result{'CHARACTER VARYING'} = 'VARCHAR';
