@@ -14,19 +14,21 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-#
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+
 # Tests for adding durations to DateTime object
-#
-my @TestConfigs = (
+my @SuccessTestConfigs = (
     {
         From => {
             Year     => 2016,
@@ -269,36 +271,62 @@ my @TestConfigs = (
             TimeZone  => 'Europe/Berlin',
         },
     },
+    {
+        From => {
+            Year   => 2022,
+            Month  => 9,
+            Day    => 5,
+            Hour   => 11,
+            Minute => 14,
+            Second => 11,
+
+            # TimeZone => 'Europe/Berlin', considering the time zone takes a lot of computation
+            TimeZone => 'UTC',    # effectively turn off time zone calculations
+        },
+        Add => {
+            Minutes => 10_000_000 * 365.2422 * 24 * 60,    # very far in the future
+        },
+        ExpectedResult => {
+            'MonthAbbr' => 'Jun',
+            'Hour'      => 11,
+            'Day'       => 19,
+            'DayOfWeek' => 4,
+            'Minute'    => 14,
+            'Year'      => 10002014,
+            'DayAbbr'   => 'Thu',
+            'Month'     => 6,
+            'TimeZone'  => 'UTC',
+            'Second'    => 11
+        },
+    },
 );
 
 TESTCONFIG:
-for my $TestConfig (@TestConfigs) {
+for my $TestConfig (@SuccessTestConfigs) {
 
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
         ObjectParams => $TestConfig->{From},
     );
-    $DateTimeObject->Add( %{ $TestConfig->{Add} } );
+    my $StartTimeFormatted = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S %{time_zone_long_name}' );
+    $DateTimeObject->Add( $TestConfig->{Add}->%* );
 
     my @AddStrings;
-    while ( my ( $Key, $Value ) = each %{ $TestConfig->{Add} } ) {
+    while ( my ( $Key, $Value ) = each $TestConfig->{Add}->%* ) {
         push @AddStrings, "$Value $Key";
     }
     my $AddString = join ', ', sort @AddStrings;
 
-    $Self->IsDeeply(
+    is(
         $DateTimeObject->Get(),
         $TestConfig->{ExpectedResult},
-        'Adding '
-            . $AddString . ' to '
-            . $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S %{time_zone_long_name}' )
-            . ' must match the expected values.',
+        "Adding $AddString to $StartTimeFormatted must match the expected values",
     );
 }
 
 # Tests for failing calls to Add()
-my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-@TestConfigs = (
+my $DateTimeObject     = $Kernel::OM->Create('Kernel::System::DateTime');
+my @FailingTestConfigs = (
     {
         Name   => 'without parameters',
         Params => {},
@@ -331,19 +359,16 @@ my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
     },
 );
 
-for my $TestConfig (@TestConfigs) {
+for my $TestConfig (@FailingTestConfigs) {
     my $DateTimeObjectClone = $DateTimeObject->Clone();
-    my $Result              = $DateTimeObjectClone->Add( %{ $TestConfig->{Params} } );
-    $Self->False(
-        $Result,
-        "Add() $TestConfig->{Name} must fail.",
-    );
+    my $AddSuccess          = $DateTimeObjectClone->Add( $TestConfig->{Params}->%* );
+    ok( !$AddSuccess, "Add() $TestConfig->{Name} must fail." );
 
-    $Self->IsDeeply(
+    is(
         $DateTimeObjectClone->Get(),
         $DateTimeObject->Get(),
         'DateTime object must be unchanged after failed Add().',
     );
 }
 
-$Self->DoneTesting();
+done_testing();
