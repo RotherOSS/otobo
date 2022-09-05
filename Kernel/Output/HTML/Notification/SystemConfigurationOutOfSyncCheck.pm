@@ -62,6 +62,11 @@ sub Run {
         },
     );
 
+    # effectively turn off potentially expensive time zone calculations
+    $DeploymentDateTimeObject->ToTimeZone(
+        TimeZone => 'UTC',
+    );
+
     my $AllowedDelayMinutes = $Param{Config}->{AllowedDelayMinutes} || 5;
     my $Success             = $DeploymentDateTimeObject->Add(
         Minutes => $AllowedDelayMinutes,
