@@ -14,18 +14,20 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-#
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+
 # Tests for adding durations to DateTime object
-#
 my @TestConfigs = (
     {
         From => {
@@ -286,7 +288,7 @@ for my $TestConfig (@TestConfigs) {
     }
     my $AddString = join ', ', sort @AddStrings;
 
-    $Self->IsDeeply(
+    is(
         $DateTimeObject->Get(),
         $TestConfig->{ExpectedResult},
         'Adding '
@@ -333,17 +335,14 @@ my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
 for my $TestConfig (@TestConfigs) {
     my $DateTimeObjectClone = $DateTimeObject->Clone();
-    my $Result              = $DateTimeObjectClone->Add( %{ $TestConfig->{Params} } );
-    $Self->False(
-        $Result,
-        "Add() $TestConfig->{Name} must fail.",
-    );
+    my $AddSuccess          = $DateTimeObjectClone->Add( $TestConfig->{Params}->%* );
+    ok( !$AddSuccess, "Add() $TestConfig->{Name} must fail." );
 
-    $Self->IsDeeply(
+    is(
         $DateTimeObjectClone->Get(),
         $DateTimeObject->Get(),
         'DateTime object must be unchanged after failed Add().',
     );
 }
 
-$Self->DoneTesting();
+done_testing();
