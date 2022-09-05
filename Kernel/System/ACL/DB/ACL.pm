@@ -27,7 +27,6 @@ use warnings;
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -36,9 +35,10 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
+    'Kernel::System::Ticket::FieldRestrictions',
     'Kernel::System::User',
     'Kernel::System::YAML',
-    'Kernel::System::Ticket::FieldRestrictions',
 );
 
 =head1 NAME
@@ -970,7 +970,7 @@ END_PM_FILE
         my $ZZZFilePath = $Param{Location};
         $ZZZFilePath =~ s{^$Home/*}{};
 
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
         # only write to S3, no extra copy in the file system
         return $StorageS3Object->StoreObject(
@@ -1185,8 +1185,8 @@ sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
     # those params are expected to only contain one line
-    for my $Key ( qw( CreateBy ChangeBy Comment ) ) {
-        ( $Param{ $Key } ) = $Param{ $Key } =~ /(.+?)$/m;
+    for my $Key (qw( CreateBy ChangeBy Comment )) {
+        ( $Param{$Key} ) = $Param{$Key} =~ /(.+?)$/m;
     }
 
     my $Output = "# Created: $Param{CreateTime} ($Param{CreateBy})\n";

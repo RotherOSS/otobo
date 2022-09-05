@@ -32,7 +32,6 @@ use File::Path qw(make_path);
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -44,6 +43,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Package',
     'Kernel::System::Storable',
+    'Kernel::System::Storage::S3',
     'Kernel::System::SysConfig::DB',
     'Kernel::System::SysConfig::XML',
     'Kernel::System::User',
@@ -3663,7 +3663,7 @@ sub ConfigurationDeploy {
     if ( $Self->{UseS3Backend} ) {
 
         # only write to S3, no extra copy in the file system
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $S3Key           = $StorageS3Object->StoreObject(
             Key     => $TargetPath,
             Content => $EffectiveValueStrg,
@@ -3786,7 +3786,7 @@ sub ConfigurationDeploySync {
         if ( $Self->{UseS3Backend} ) {
 
             # only write to S3
-            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
             my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZAAuto.pm';
             my $Success         = $StorageS3Object->StoreObject(
                 Key     => $ZZZFilePath,

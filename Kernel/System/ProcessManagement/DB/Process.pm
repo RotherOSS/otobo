@@ -31,7 +31,6 @@ use Kernel::System::ProcessManagement::DB::ActivityDialog;
 use Kernel::System::ProcessManagement::DB::Process::State;
 use Kernel::System::ProcessManagement::DB::Transition;
 use Kernel::System::ProcessManagement::DB::TransitionAction;
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -43,6 +42,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
     'Kernel::System::YAML',
 );
 
@@ -86,6 +86,9 @@ sub new {
     if ( $Kernel::OM->Get('Kernel::System::DB')->GetDatabaseFunction('CaseSensitive') ) {
         $Self->{Lower} = 'LOWER';
     }
+
+    # check whether the S3 backend is used
+    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     return $Self;
 }
@@ -1455,9 +1458,8 @@ EOF
     }
 
     # store the Perl module in S3 when S3 is active
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+    if ( $Self->{UseS3Backend} ) {
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
 
         # only write to S3, no extra copy in the file system

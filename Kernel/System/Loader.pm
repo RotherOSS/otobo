@@ -29,7 +29,6 @@ use CSS::Minifier qw();
 use JavaScript::Minifier qw();
 
 # OTOBO modules
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -38,6 +37,7 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
 );
 
 =head1 NAME
@@ -197,7 +197,7 @@ sub MinifyFiles {
         $LoaderFileExists = -r "$TargetDirectory/$Filename";
     }
     else {
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
         # the target directory is below the OTOBO home dir, adapt that to S3
         my $FilePath = join '/', $TargetDirectory, $Filename;
@@ -267,7 +267,7 @@ sub MinifyFiles {
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
         if ( $Self->{UseS3Backend} ) {
 
-            my $StorageS3Object = Kernel::System::Storage::S3->new();
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
             # the target directory is below the OTOBO home dir, adapt that to S3
             my $FilePath = join '/', $TargetDirectory, $Filename;
@@ -609,7 +609,7 @@ Returns the success of the the discard operations.
 =cut
 
 sub _S3CacheDelete {
-    my $StorageS3Object = Kernel::System::Storage::S3->new();
+    my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
     return $StorageS3Object->DiscardObjects(
         Prefix      => 'var/httpd/htdocs/',
