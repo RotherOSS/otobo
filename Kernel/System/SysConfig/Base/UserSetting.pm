@@ -373,18 +373,31 @@ sub UserConfigurationDeploySync {
         NoOutOfOffice => 1,
     );
 
+    # collect some info before discarding files in the S3 User dir
+    my ( $StorageS3Object, $S3UserPath, %S3UserIDFound );
+    if ( $Self->{UseS3Backend} ) {
+        $StorageS3Object = Kernel::System::Storage::S3->new();
+        $S3UserPath      = join '/', 'Kernel', 'Config', 'Files', 'User';
+        my %SubPath2Properties = $StorageS3Object->ListObjects(
+            Prefix    => "$S3UserPath/",
+            Delimiter => '',
+        );
+        %S3UserIDFound =
+            map { $_ => 1 }
+            map {s/\.pm$//r}
+            keys %SubPath2Properties;
+    }
+
     USERID:
     for my $UserID ( sort keys %UserList ) {
 
         # User has deployment -> handled below.
         next USERID if $UserDeploymentList{$UserID};
 
-        # delete in S3
-        if ( $Self->{UseS3Backend} ) {
-            my $StorageS3Object = Kernel::System::Storage::S3->new();
-            my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
+        # delete in S3 when there is an user file
+        if ( $Self->{UseS3Backend} && $S3UserIDFound{$UserID} ) {
             $StorageS3Object->DiscardObject(
-                Key => $S3Key,
+                Key => "$S3UserPath/$UserID.pm",
             );
         }
 

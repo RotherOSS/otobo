@@ -122,6 +122,7 @@ sub Run {
         Objects => [ 'Kernel::Config', ],
     );
 
+    # DeploymentID before the call to ConfigurationDeploySync()
     my $OldDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
     # Execute the deployment sync
