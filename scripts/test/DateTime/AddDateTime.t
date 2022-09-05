@@ -308,7 +308,8 @@ for my $TestConfig (@SuccessTestConfigs) {
         'Kernel::System::DateTime',
         ObjectParams => $TestConfig->{From},
     );
-    $DateTimeObject->Add( %{ $TestConfig->{Add} } );
+    my $StartTimeFormatted = $DateTimeObject->Format( Format => '%Y-%m-%d %H:%M:%S %{time_zone_long_name}' );
+    $DateTimeObject->Add( $TestConfig->{Add}->%* );
 
     my @AddStrings;
     while ( my ( $Key, $Value ) = each $TestConfig->{Add}->%* ) {
