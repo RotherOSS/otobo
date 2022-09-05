@@ -45,13 +45,14 @@
 # svo <svo@otrs.ch>, 2021.
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
 # Stefan Abel <sta@rother-oss.com>, 2022.
+# svo <svo@rother-oss.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-05-17 21:01+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2022-09-05 10:29+0000\n"
+"Last-Translator: svo <svo@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -17569,7 +17570,7 @@ msgstr "PostgreSQL 9.2 oder höher wird benötigt."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Certificate check"
-msgstr ""
+msgstr "Zertifikatsprüfung"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
