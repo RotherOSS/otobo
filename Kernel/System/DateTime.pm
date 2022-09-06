@@ -36,12 +36,13 @@ our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
 Exporter::export_ok_tags('all');
 
 # core modules
-use DateTime 1.08;      # need 1.08 because Kernel::System::DateTime overrides _core_time()
-use DateTime::TimeZone;
 use Scalar::Util qw(looks_like_number);
 use List::Util qw(none);
 
 # CPAN modules
+use DateTime 1.08;    # need 1.08 because Kernel::System::DateTime overrides _core_time()
+use DateTime::TimeZone;
+use DateTime::Locale;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw( IsArrayRefWithData IsHashRefWithData );
@@ -1531,7 +1532,7 @@ Returns:
 =cut
 
 sub TimeZoneList {
-    my @TimeZones = @{ DateTime::TimeZone->all_names() };
+    my @TimeZones = DateTime::TimeZone->all_names()->@*;
 
     # add missing UTC time zone for certain DateTime versions
     if ( none { $_ eq 'UTC' } @TimeZones ) {

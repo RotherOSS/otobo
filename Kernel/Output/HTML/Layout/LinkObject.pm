@@ -252,8 +252,6 @@ sub LinkObjectTableCreateComplex {
                     # build the delete link only if we also got target permission
                     if ($TargetPermission) {
 
-                        my %InstantLinkDeleteData;
-
                         # depending on the link type direction source and target must be switched
                         if ( $LinkList{ $Block->{Object} }->{ $ItemWithKey->{Key} }->{$LinkType} eq 'Source' ) {
                             $LinkDeleteData{SourceObject}     = $Block->{Object};

@@ -1346,7 +1346,6 @@ sub AgentMove {
 
     my %Data       = %{ $Param{MoveQueues} };
     my %MoveQueues = %Data;
-    my %UsedData;
 
     my $DynamicFieldNames = $Self->_GetFieldsToUpdate(
         OnlyDynamicFields => 1

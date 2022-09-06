@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.968576416441835;
+    $Self->{Completeness}        = 0.968110423607806;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4297,13 +4297,13 @@ sub Data {
         'No DeploymentID received!' => '没收到DeploymentID！',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '系统无法更新该设置！',
         'You need to enable the setting before locking!' => '锁定之前需要启用该设置！',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '你无法编辑此设置，因为%s（%s）目前正在编辑。',
         'Missing setting name!' => '缺少设置名称！',
         'Missing ResetOptions!' => '缺少重置选项！',
         'System was not able to lock the setting!' => '系统无法锁定该设置！',
-        'System was unable to update setting!' => '系统无法更新该设置！',
         'Missing setting name.' => '缺少设置名称。',
         'Setting not found.' => '没有找到设置。',
         'Missing Settings!' => '缺少设置！',
@@ -5539,6 +5539,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '需要PostgreSQL 9.2或更高版本。',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO磁盘分区',
 
@@ -6648,6 +6652,8 @@ Thanks for your help!
             '文本消息中在X个字符后自动换行。',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '工单解锁后，自动更改所有者无效的工单的状态。从一个状态类型映射到一个新的工单状态。',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '在服务人员界面处理转移工单后自动锁定并设置当前服务人员为工单所有者。',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6733,7 +6739,6 @@ Thanks for your help!
             '选择你要接收哪些工单变更的通知消息。 请注意，您不能完全禁用标记为强制性的通知。',
         'Choose which notifications you\'d like to receive.' => '选择您想要接收的通知。',
         'Christmas Eve' => '平安夜',
-        'Cleans up old chat logs.' => '',
         'Close' => '关闭',
         'Close this ticket' => '关闭工单',
         'Closed Tickets' => '',
@@ -8562,8 +8567,8 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '队列 ↔ 自动回复',
         'Quick Close' => '快速关闭',
         'Rebuild the ticket index for AgentTicketQueue.' => '为AgentTicketQueue（服务人员工单队列）重建工单索引。',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
-            '可以重建Elasticsearch索引，比如通过ldap对CustomerUsers进行了身份验证，就可以重建。不过这样效率很低，因为每次都需要重新构建整个索引。',
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
+            '',
         'Rebuilds the ACL preselection cache.' => '重建ACL预选缓存。',
         'Rebuilds the escalation index.' => '重建升级索引。',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>

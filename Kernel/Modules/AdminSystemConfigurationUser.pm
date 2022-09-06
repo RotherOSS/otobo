@@ -155,8 +155,6 @@ sub Run {
         SETTING:
         for my $SettingUserID ( sort keys %UsersList ) {
 
-            my %Versions;
-
             # Get modified by user setting values.
             my %UserValue = $SysConfigObject->SettingGet(
                 Name         => $SettingName,

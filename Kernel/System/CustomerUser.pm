@@ -232,7 +232,6 @@ sub CustomerSearch {
                 # search dynamic field values
                 if ( IsArrayRefWithData($SearchFields) ) {
                     my @SearchDynamicFieldNames = grep { exists $DynamicFieldNames{$_} } @{$SearchFields};
-                    my @SearchDynamicFieldIDs;
 
                     my %FoundDynamicFieldObjectIDs;
                     FIELDNAME:

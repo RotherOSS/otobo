@@ -56,7 +56,7 @@ sub Run {
 
     my $DynamicFieldName = $DynamicFieldNameLong;
     if ( defined $Param{ActivityDialogID} && $Param{ActivityDialogID} ) {
-        $DynamicFieldName = substr($DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
+        $DynamicFieldName = substr( $DynamicFieldName, 0, index( $DynamicFieldName, '_' . $Param{ActivityDialogID} ) );
     }
 
     # get the dynamic field value for the current ticket
@@ -70,7 +70,7 @@ sub Run {
             DynamicFieldConfig => $DynamicFieldConfig,
         },
     );
-    
+
     my $DynamicFieldDBObject = $Kernel::OM->Get('Kernel::System::DynamicFieldDB');
 
     # perform the search based on the given dynamic field config

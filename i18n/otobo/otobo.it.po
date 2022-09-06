@@ -18,14 +18,15 @@
 # Antonio Marchignoli <antonio@marchignoli.com>, 2019
 # catelotti remo <catelotti.remo@gmail.com>, 2019
 # Denis Renzi <itis05@virgilio.it>, 2020
-# niccord <cordioli.nicola@gmail.com>, 2021.
+# niccord <cordioli.nicola@gmail.com>, 2021, 2022.
+# Massimo Composta <m.composta@e-time.it>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
-"PO-Revision-Date: 2021-11-19 16:30+0000\n"
-"Last-Translator: niccord <cordioli.nicola@gmail.com>\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
+"PO-Revision-Date: 2022-07-25 11:04+0000\n"
+"Last-Translator: Massimo Composta <m.composta@e-time.it>\n"
 "Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +65,7 @@ msgstr "Digita qualche carattere per attivare il filtro..."
 
 #. Template: AdminACL
 msgid "Configuration Import"
-msgstr "Importazione configurazione"
+msgstr "Configurazione Import"
 
 #. Template: AdminACL
 msgid "Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module."
@@ -920,7 +921,7 @@ msgstr "Invia dati di supporto"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "This will allow the system to send additional support data information to the OTOBO team."
-msgstr ""
+msgstr "Questa impostazione consentirà l'invio dei dati di supporto al Team OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1056,7 +1057,7 @@ msgstr "Tempo medio di elaborazione"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr " Elenco delle comunicazioni (%s)"
+msgstr "Elenco delle comunicazioni (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1132,7 +1133,7 @@ msgstr "Orario di termine"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr " Nessuna voce del registro di comunicazione trovata."
+msgstr "Nessuna voce del registro di comunicazione trovata."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
@@ -1164,7 +1165,7 @@ msgstr "Vista dettagliata per %s la comunicazione iniziata alle %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr " Filtro per voci di registro"
+msgstr "Filtro per voci di registro"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
@@ -1440,7 +1441,7 @@ msgstr "La sintassi di questa email è errata."
 
 #. Template: AdminCustomerUser
 msgid "This CustomerID is invalid."
-msgstr "Questo CustomerID è  invalido"
+msgstr "Questo CustomerID non è valido"
 
 #. Template: AdminCustomerUser
 msgid "Effective Permissions for Customer User"
@@ -1880,7 +1881,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -5084,7 +5085,7 @@ msgstr "Interazioni dell'attività disponibili"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr "Nome: %s, EntityID:  %s"
+msgstr "Nome: %s, EntityID: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
@@ -8920,7 +8921,7 @@ msgstr "Bloccato"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
-msgstr "%s Ticket(s)"
+msgstr "%s Ticket"
 
 #. Template: TicketInformation
 msgid "Accounted time"
@@ -8963,7 +8964,7 @@ msgid "go back to the previous page"
 msgstr "torna alla pagina precedente"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
+msgid "Click to accept"
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -10052,7 +10053,7 @@ msgstr "Configura filtro"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr "Seleziona solo un elemento e togli  'Fisso'. "
+msgstr "Seleziona solo un elemento o togli il bottone 'Fisso'."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
@@ -10288,7 +10289,7 @@ msgstr "Modifica ricerca"
 
 #. Template: Actions
 msgid "Go back to admin: "
-msgstr "Torna all'amministratore:"
+msgstr "Torna all'amministratore: "
 
 #. Template: Actions
 msgid "Deployment"
@@ -11416,7 +11417,7 @@ msgstr "Impossibile determinare la configurazione per invoker %s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "InvokerType %s is not registered"
-msgstr "InvokerType  %s non è registrato"
+msgstr "InvokerType %s non registrato"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
@@ -11640,7 +11641,7 @@ msgstr "OTOBO come richiedente"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr "Invokers"
+msgstr "Invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
@@ -25675,7 +25676,19 @@ msgstr "statistiche"
 #~ msgid "e.g. https://local.otrs.com:8000/Webservice/Example"
 #~ msgstr "ad es. https://local.otrs.com:8000/Webservice/Example"
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

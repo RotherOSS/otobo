@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.431201396603714;
+    $Self->{Completeness}        = 0.434396319213073;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -110,17 +110,17 @@ sub Data {
             'Créer une nouvelle ACL en envoyant le contenu du formulaire. Après avoir créé l\'ACL, vous pourrez ajouter des éléments de configuration en mode édition.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'A propos',
         'Toggle this widget' => 'Afficher ou cacher ce cadre',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Cette langue n\'est pas présente ou activée sur le système. Ce texte pourrait être supprimé s\'il n\'est plus nécessaire.',
+        'Remove Language' => 'Supprimer la langue',
         'Text' => 'Texte',
         'Message body' => 'Corps du message',
         'This field is required and must have less than 4000 characters.' =>
             'Ce champ est requis et doit contenir moins de 4000 caractères.',
-        'Remove About Language' => '',
-        'Add new language' => '',
+        'Remove About Language' => 'Supprimer À propos de la langue',
+        'Add new language' => 'Ajouter une nouvelle langue',
         'Save Changes' => 'Enregistrer les modifications',
 
         # Template: AdminAppointmentCalendarManage
@@ -414,19 +414,19 @@ sub Data {
 
         # Template: AdminContactWD
         'Contact with data management' => 'Contact avec la gestion des données',
-        'Contact with data' => '',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Contact with data' => 'Contacter avec des données',
+        'Add contact with data' => 'Ajouter un contact avec des données',
+        'Edit contact with data' => 'Editer les données du contact',
         'Back to search results' => 'Retour aux résultats de la recherche',
         'Select' => 'Sélectionner',
         'Search' => 'Rechercher',
         'Wildcards like \'*\' are allowed.' => 'Les caractères génériques tels que \'*\ sont autorisés',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Please enter a search term to look for contacts with data.' => 'Veuillez entrer un terme de recherche pour rechercher des contacts avec des données.',
         'Valid' => 'Valide',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
+        'Privacy Policy Management' => 'Gestion de la politique de confidentialité',
+        'Privacy Policy' => 'Politique de confidentialité',
         'Remove PrivacyPolicy Language' => '',
 
         # Template: AdminCustomerCompany
@@ -497,7 +497,7 @@ sub Data {
         'Group Permissions' => 'Permissions au sein des groupes',
         'This customer user has no group permissions.' => 'Cet utilisateur client n\'a pas de permission de groupe.',
         'Table above shows effective group permissions for the customer user. The matrix takes into account all inherited permissions (e.g. via customer groups). Note: The table does not consider changes made to this form without submitting it.' =>
-            '',
+            'Le tableau ci-dessus montre les autorisations de groupe effectives pour l\'utilisateur client. La matrice prend en compte toutes les autorisations héritées (par exemple via les groupes de clients). Remarque : Le tableau ne prend pas en compte les modifications apportées à ce formulaire sans l\'avoir soumis.',
         'Customer Access' => 'Accès client',
         'Customer' => 'Client',
         'This customer user has no customer access.' => 'Cet utilisateur client n\'a pas d\'accès client.',
@@ -3105,9 +3105,9 @@ sub Data {
         'Request Account' => '',
         'Request New Password' => 'Demander un nouveau mot de passe',
         'Your User Name' => 'Votre nom',
-        'A new password will be sent to your email address.' => 'Un nouveau mot de passe sera envoyé à votre adresse e-mail',
+        'A new password will be sent to your email address.' => 'Un nouveau mot de passe sera envoyé à votre adresse e-mail.',
         'Create Account' => 'Créer un compte',
-        'Please fill out this form to receive login credentials.' => 'Veuillez remplir ce formulaire pour recevoir vos identifiants de connexion',
+        'Please fill out this form to receive login credentials.' => 'Veuillez remplir ce formulaire pour recevoir vos identifiants de connexion.',
         'How we should address you' => 'Comment devons-nous nous adresser à vous',
         'Your First Name' => 'Votre prénom',
         'Your Last Name' => 'Votre nom de famille',
@@ -3125,18 +3125,18 @@ sub Data {
         'Nr.' => '',
         'Welcome!' => 'Bienvenue !',
         'You have no tickets yet. Please click here, to create a new one.' =>
-            '',
-        'Nothing to show.' => '',
-        'Click here for an unfiltered list of all your tickets.' => '',
+            'Vous n\'avez pas encore de tickets. Veuillez cliquer ici pour en créer un nouveau.',
+        'Nothing to show.' => 'Rien à afficher.',
+        'Click here for an unfiltered list of all your tickets.' => 'Cliquez ici pour une liste non filtrée de tous vos billets.',
 
         # Template: CustomerTicketMessage
-        'Issue a new Ticket' => '',
+        'Issue a new Ticket' => 'Créer un nouveau ticket',
         'Service level agreement' => 'Contrat de niveau de service (SLA)',
 
         # Template: CustomerTicketOverview
-        'Your Tickets' => '',
+        'Your Tickets' => 'Vos Tickets',
         'Page' => 'Page',
-        'Sort' => '',
+        'Sort' => 'Trier',
 
         # Template: CustomerTicketSearch
         'Profile' => 'Profil',
@@ -3169,7 +3169,7 @@ sub Data {
         'Discard' => '',
         'Ticket Information' => 'Information Ticket',
         'Categories' => '',
-        'Further actions' => '',
+        'Further actions' => 'Actions supplémentaires',
 
         # Template: Chat
         'Expand article' => 'Déplier l\'article',
@@ -3181,7 +3181,7 @@ sub Data {
         'Warning' => 'Attention',
 
         # Template: TileNewTicket
-        'Issue%sa ticket' => '',
+        'Issue%sa ticket' => 'Ouvrir%sun ticket',
 
         # Template: DashboardEventsTicketCalendar
         'Event Information' => 'Information de l\'événement',
@@ -4299,13 +4299,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
-        'System was unable to update setting!' => '',
         'Missing setting name.' => 'Nom du paramètre manquant.',
         'Setting not found.' => 'Paramètre non trouvé.',
         'Missing Settings!' => 'Paramètres manquant !',
@@ -5541,6 +5541,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partition disque OTOBO',
 
@@ -6641,6 +6645,8 @@ Thanks for your help!
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6726,7 +6732,6 @@ Thanks for your help!
             'Choisissez les changements à propos desquels vous souhaitez être notifié(e). Notez que vous ne pouvez pas complétement désactiver les notifications marquées comme étant obligatoires.',
         'Choose which notifications you\'d like to receive.' => 'Choisissez quelles notifications vous souhaitez recevoir.',
         'Christmas Eve' => 'Réveillon de Noël',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Clôturer',
         'Close this ticket' => 'Clôturer ce ticket',
         'Closed Tickets' => '',
@@ -8555,7 +8560,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
@@ -9271,7 +9276,7 @@ Thanks for your help!
         'This configuration defines if only valids or all (invalids) dynamic fields should be shown.' =>
             '',
         'This configuration defines the number of iterations that should be performed at max for calculating the WorkingTime for a Ticket. Attention: Setting this configuration to high can lead to performance issues.' =>
-            '',
+            'Cette configuration définit le nombre d\'itérations à effectuer au maximum pour calculer le temps de travail d\'un Ticket. Attention : Définir cette configuration sur élevée peut entraîner des problèmes de performances.',
         'This configuration registers an OutputFilter module that injects the javascript functionality to remove PendingTime.' =>
             '',
         'This event module stores attributes from CustomerUser as DynamicFields tickets. Please see DynamicFieldFromCustomerUser::Mapping setting for how to configure the mapping.' =>

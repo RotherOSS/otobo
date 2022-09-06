@@ -870,7 +870,6 @@ sub SkinValidate {
     my $SkinType      = $Param{SkinType};
     my $PossibleSkins = $ConfigObject->Get("Loader::${SkinType}::Skin") || {};
     my $Home          = $ConfigObject->Get('Home');
-    my %ActiveSkins;
 
     # prepare the list of active skins
     for my $PossibleSkin ( values %{$PossibleSkins} ) {

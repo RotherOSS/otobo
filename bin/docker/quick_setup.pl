@@ -39,7 +39,8 @@ It's convenient the call this script via an alias.
 
 =head1 DESCRIPTION
 
-Useful for continous integration.
+Quickly creating a running system is useful for development and for continous integration. But please note that this scripts
+is not meant as an replacement for the OTOBO installer.
 
 =head1 OPTIONS
 
@@ -52,6 +53,19 @@ Optional. Print out the usage.
 =item db-password
 
 The admin password of the database.
+
+=item http-port
+
+Only used for the message where the newly configured system is available.
+The default value is 80
+
+=item activate-elasticsearch
+
+Also set up the the Elasticsearch webservice.
+
+=item add-customer-user
+
+Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
 
 =back
 
@@ -83,13 +97,15 @@ sub Main {
     my $DBPassword;                                          # required
     my $HTTPPort              = 80;                          # only used for success message
     my $ActivateElasticsearch = 0;                           # must be explicitly enabled
-    my $ActivateSyncWithS3    = $ENV{OTOBO_SYNC_WITH_S3};    # activate S3 in the SysConfig
+    my $AddCustomerUser       = 0;                           # must be explicitly enabled
+    my $ActivateSyncWithS3    = $ENV{OTOBO_SYNC_WITH_S3};    # activate S3 in the SysConfig, still experimental
 
     Getopt::Long::GetOptions(
         'help'                   => \$HelpFlag,
         'db-password=s'          => \$DBPassword,
         'http-port=i'            => \$HTTPPort,
         'activate-elasticsearch' => \$ActivateElasticsearch,
+        'add-customer-user'      => \$AddCustomerUser,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
         )
         || pod2usage(
@@ -108,7 +124,7 @@ sub Main {
         );
     }
 
-    $Kernel::OM = Kernel::System::ObjectManager->new(
+    local $Kernel::OM = Kernel::System::ObjectManager->new(
         'Kernel::System::Log' => {
             LogPrefix => 'quick_setup',
         },
@@ -193,9 +209,10 @@ sub Main {
     {
         # These setting are required for running the test suite
         my @Settings = (
-            [ 'DefaultLanguage' => 'en' ],
-            [ 'HttpType'        => 'http' ],
-            [ 'SecureMode'      => 1 ],
+            [ DefaultLanguage        => 'en' ],
+            [ HttpType               => 'http' ],
+            [ SecureMode             => 1 ],
+            [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
         if ($ActivateSyncWithS3) {
@@ -242,6 +259,16 @@ sub Main {
     }
     else {
         my ( $Success, $Message ) = DeactivateElasticsearch();
+
+        say $Message if defined $Message;
+
+        return 0 unless $Success;
+    }
+
+    if ($AddCustomerUser) {
+        my ( $Success, $Message ) = AddCustomerUser(
+            HTTPPort => $HTTPPort
+        );
 
         say $Message if defined $Message;
 
@@ -520,7 +547,7 @@ sub SetRootAtLocalhostPassword {
     return 0, 'Password for root@localhost could not be set' unless $Success;
 
     # Protocol http is fine, as there is an automatic redirect
-    return 1, "URL: http://localhost:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
+    return 1, "Agent: http://localhost:$Param{HTTPPort}/otobo/index.pl user: root\@localhost pw: $Password";
 }
 
 # update sysconfig settings in the database and deploy these settings
@@ -629,15 +656,13 @@ sub ActivateElasticsearch {
     return 1 unless $ESWebservice;
 
     # ctivate the Elasticsearch webservice
-    my $Success = $WebserviceObject->WebserviceUpdate(
+    my $UpdateSuccess = $WebserviceObject->WebserviceUpdate(
         $ESWebservice->%*,
         ValidID => 1,    # valid
         UserID  => 1,
     );
 
-    if ( !$Success ) {
-        return 0, 'Could not activate the web service Elasticsearch';
-    }
+    return 0, 'Could not activate the web service Elasticsearch' unless $UpdateSuccess;
 
     my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
 
@@ -646,11 +671,74 @@ sub ActivateElasticsearch {
         return 0, 'Elasticsearch is not available';
     }
 
-    ( $Success, my $FatalError ) = $ESObject->InitialSetup();
+    my ( $SetupSuccess, $FatalError ) = $ESObject->InitialSetup();
 
-    return 0, 'Initial setup of Elasticsearch was not successful' unless $Success;
+    return 0, 'Initial setup of Elasticsearch was not successful' unless $SetupSuccess;
 
-    return $Success;
+    return $SetupSuccess;
+}
+
+sub AddCustomerUser {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
+        my $SubName = ( caller(0) )[3];
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    # read in the config again
+    $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::Config'] );
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    $ConfigObject->Set( 'CustomerAuthBackend', 'DB' );
+
+    # no additional CustomerAuth backends
+    for my $Count ( 1 .. 10 ) {
+        $ConfigObject->Set( "CustomerAuthBackend$Count", '' );
+    }
+
+    # create a customer company
+    my $CustomerCompanyObject = $Kernel::OM->Get('Kernel::System::CustomerCompany');
+    my $CustomerID            = $CustomerCompanyObject->CustomerCompanyAdd(
+        CustomerID             => 'Quick Example Company',
+        CustomerCompanyName    => 'First Light 💡 Inc.',
+        CustomerCompanyStreet  => 'Example Drive',
+        CustomerCompanyZIP     => '00000',
+        CustomerCompanyCity    => 'Ndumbakahehu',
+        CustomerCompanyCountry => 'Zambia',
+        CustomerCompanyURL     => 'http://example.com',
+        CustomerCompanyComment => 'created by quick_setup.pl',
+        ValidID                => 1,
+        UserID                 => 1,
+    );
+
+    # Create test customer user.
+    my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
+    my $Login              = 'tina';
+    my $CustomerUserID     = $CustomerUserObject->CustomerUserAdd(
+        Source         => 'CustomerUser',
+        UserFirstname  => 'Tina',
+        UserLastname   => 'Tester',
+        UserCustomerID => $CustomerID,
+        UserLogin      => $Login,
+        UserEmail      => "$Login\@example.com",
+        ValidID        => 1,
+        UserID         => 1,
+    );
+
+    return 0, "Could not create the customer user $Login" unless $CustomerUserID;
+
+    my $PasswordSetSuccess = $CustomerUserObject->SetPassword(
+        UserLogin => $Login,
+        PW        => $Login,
+    );
+
+    return 0, "Could not set the password for $Login" unless $PasswordSetSuccess;
+
+    # looks good
+    return 1, "Customer: http://localhost:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
 }
 
 # do it

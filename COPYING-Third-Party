@@ -186,11 +186,6 @@ o Name:    CPAN Mozilla::CA
   License: Mozilla MPL 1.1 - http://www.mozilla.org/MPL/
   Note:    # Copyright Ask Bj�rn Hansen
 
-o Name:    CPAN parent
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    # Copyright (c) 2007-10 Max Maischein <corion@cpan.org>
-
 o Name:    CPAN Class::Inspector
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
@@ -236,20 +231,6 @@ o Name:    CPAN XML::Simple
   License: # This program is free software; you can redistribute it and/or modify it
            # under the same terms as Perl itself.
   Note:    # Copyright 1999-2004 Grant McLean <grantm@cpan.org>
-
-o Name:    CPAN HTML::TokeParser
-  Web:     n/a
-  License: # This library is free software; you can redistribute it and/or modify it
-           # under the same terms as Perl itself.
-  Note:    # Copyright 1998-2005 Gisle Aas.
-
-o Name:    CPAN HTML::Tagset
-  Web:     n/a
-  License: # This program is free software; you can redistribute it and/or modify it
-           # under the same terms as Perl itself.
-  Note:    # Copyright 1995-2000 Gisle Aas.
-           # Copyright 2000-2005 Sean M. Burke.
-           # Copyright 2005-2008 Andy Lester.
 
 o Name:    CPAN Pod::Strip
   Web:     n/a

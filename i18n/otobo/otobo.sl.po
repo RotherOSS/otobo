@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2022-04-28 14:06+0000\n"
+"POT-Creation-Date: 2022-05-04 06:18+0000\n"
 "PO-Revision-Date: 2018-09-20 13:03+0000\n"
 "Last-Translator: Blaz Drolc <blaz.drolc@gmail.com>, 2019\n"
 "Language-Team: Slovenian (https://translate.otobo.org/projects/otobo10/otobo/sl/)\n"
@@ -8947,7 +8947,7 @@ msgid "go back to the previous page"
 msgstr "Pojdi nazaj na prejšnjo stran"
 
 #. Template: CustomerAccept
-msgid "Mit einem Klick erkläre ich meine Zustimmung."
+msgid "Click to accept"
 msgstr ""
 
 #. Template: TicketCustomerIDSelection
@@ -25267,7 +25267,19 @@ msgstr ""
 #~ msgid "Free Fields"
 #~ msgstr "Dodatna polja"
 
-#. Template: CustomerAccept
-msgid "Click to accept"
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Certificate check"
+msgstr ""
+
+#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+msgid "Found obsolete cryptographic function."
+msgstr ""
+
+#. SysConfig
+msgid "Automatically generate statistics reports and email them to the specified recipients."
+msgstr ""
+
+#. SysConfig
+msgid "Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time."
 msgstr ""
 

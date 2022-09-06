@@ -946,8 +946,6 @@ sub _GetPossibleValues {
     my $DuplicateValueCounter = 0;
     my $PossibleValueConfig;
 
-    # get possible values
-    my $Values;
     VALUEINDEX:
     for my $ValueIndex ( 1 .. $ValueCounter ) {
         my $Key = $ParamObject->GetParam( Param => 'Key' . '_' . $ValueIndex );

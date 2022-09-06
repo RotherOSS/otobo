@@ -419,8 +419,6 @@ sub _GetParams {
         $GetParam->{Error}->{Template} = 'ServerError';
     }
 
-    # Get RegEx params.
-    my %RegExFilterConfig;
     TYPE:
     for my $Type (qw(Pre Post)) {
         my $ValueCounter = $ParamObject->GetParam( Param => $Type . 'ValueCounter' ) // 0;
