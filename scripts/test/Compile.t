@@ -18,6 +18,8 @@ use strict;
 use warnings;
 use utf8;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+
 # core modules
 
 # CPAN modules
@@ -52,6 +54,8 @@ my %FailureIsAccepted = (
 
 # some modules are only expected to compile when the S3 backend is active
 if ( -r 'Kernel/Config.pm' ) {
+    require Kernel::Config;
+
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
     my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
 
