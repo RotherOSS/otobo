@@ -202,9 +202,8 @@ for my $Test (@Tests) {
         my $Success = $SysConfigObject->ConfigurationDeploySync();
         is( $Success, $Test->{Success}, "ConfigurationDeploymentSync() result" );
 
-        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-            $ConfigObject->SyncWithS3();
-        }
+        # SyncWithS3() checks internally whether S3 is active
+        $ConfigObject->SyncWithS3();
 
         my $IDAfter = ReadDeploymentID( $Test->{Config}->%* );
         note("DeploymentID after sync: @{[ $IDAfter // 'undef' ]}");

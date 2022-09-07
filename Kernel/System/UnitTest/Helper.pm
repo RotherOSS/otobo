@@ -32,16 +32,16 @@ use Test2::API qw/context run_subtest/;
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::System::SysConfig;
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
-    'Kernel::System::DB',
     'Kernel::System::Cache',
     'Kernel::System::CustomerUser',
+    'Kernel::System::DB',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
     'Kernel::System::User',
     'Kernel::System::XML',
 );
@@ -96,7 +96,7 @@ sub new {
     my $Self = bless {}, $Type;
 
     # find out whether loader files are stored in S3 or in the file system
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -581,10 +581,10 @@ sub CustomCodeActivate {
 
     my $PackageName = join '', 'ZZZZUnitTest', $Identifier;
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
 
         # in the S3 case only write to the S3 compatible storage
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
         my $Key = "Kernel/Config/Files/$PackageName.pm";
         $StorageS3Object->StoreObject(
@@ -622,8 +622,8 @@ sub CustomFileCleanup {
     my ( $Self, %Param ) = @_;
 
     # also delete in the Backend
-    if ( $Self->{UseS3Backend} ) {
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+    if ( $Self->{S3Active} ) {
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         $StorageS3Object->DiscardObjects(
             Prefix      => 'Kernel/Config/Files/',
             Delimiter   => '',

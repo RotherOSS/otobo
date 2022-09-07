@@ -13,10 +13,12 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24.0;
 use strict;
 use warnings;
-use v5.24.0;
 use utf8;
+
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
 # core modules
 
@@ -51,15 +53,22 @@ my %FailureIsAccepted = (
 );
 
 # some modules are only expected to compile when the S3 backend is active
-if ( !$ENV{OTOBO_SYNC_WITH_S3} ) {
-    for my $File (
-        'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm',
-        'Kernel/System/Package/Event/SyncWithS3.pm',
-        'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm',
-        'Kernel/System/Plack/Loader/SyncWithS3.pm',
-        )
-    {
-        $FailureIsAccepted{$File} = 'Mojolicious and Mojo::AWS::S3 are not required when S3 is not active';
+if ( -r 'Kernel/Config.pm' ) {
+    require Kernel::Config;
+
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+
+    if ($S3Active) {
+        for my $File (
+            'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm',
+            'Kernel/System/Package/Event/SyncWithS3.pm',
+            'Kernel/System/Ticket/Article/Backend/MIMEBase/ArtickeStorageS3.pm',
+            'Kernel/System/Plack/Loader/SyncWithS3.pm',
+            )
+        {
+            $FailureIsAccepted{$File} = 'Mojolicious and Mojo::AWS::S3 are not required when S3 is not active';
+        }
     }
 }
 

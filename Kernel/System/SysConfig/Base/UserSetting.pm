@@ -241,7 +241,7 @@ sub UserConfigurationDeploy {
         }
 
         # delete in S3
-        if ( $Self->{UseS3Backend} ) {
+        if ( $Self->{S3Active} ) {
             my $StorageS3Object = Kernel::System::Storage::S3->new();
             my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$TargetUserID.pm";
             $StorageS3Object->DiscardObject(
@@ -327,7 +327,7 @@ sub UserConfigurationDeploy {
         }
     }
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
 
         # only write to S3
         my $StorageS3Object = Kernel::System::Storage::S3->new();
@@ -375,7 +375,7 @@ sub UserConfigurationDeploySync {
 
     # collect some info before discarding files in the S3 User dir
     my ( $StorageS3Object, $S3UserPath, %S3UserIDFound );
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
         $StorageS3Object = Kernel::System::Storage::S3->new();
         $S3UserPath      = join '/', 'Kernel', 'Config', 'Files', 'User';
         my %SubPath2Properties = $StorageS3Object->ListObjects(
@@ -395,7 +395,7 @@ sub UserConfigurationDeploySync {
         next USERID if $UserDeploymentList{$UserID};
 
         # delete in S3 when there is an user file
-        if ( $Self->{UseS3Backend} && $S3UserIDFound{$UserID} ) {
+        if ( $Self->{S3Active} && $S3UserIDFound{$UserID} ) {
             $StorageS3Object->DiscardObject(
                 Key => "$S3UserPath/$UserID.pm",
             );
@@ -444,7 +444,7 @@ sub UserConfigurationDeploySync {
         );
 
         # Write user specific settings.
-        if ( $Self->{UseS3Backend} ) {
+        if ( $Self->{S3Active} ) {
 
             # only write to S3
             my $StorageS3Object = Kernel::System::Storage::S3->new();

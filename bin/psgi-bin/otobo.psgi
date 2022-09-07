@@ -96,10 +96,10 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
+use Kernel::Config;
 use Kernel::System::ModuleRefresh;    # based on Module::Refresh
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 # Preload Net::DNS if it is installed. It is important to preload Net::DNS because otherwise loading
 #   could take more than 30 seconds.
@@ -109,6 +109,17 @@ eval {
 
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
+
+# the question whether there is a S3 backend must the resolved early
+my ( $S3Active, $ClearConfigObject );
+if ( -r "$Home/Kernel/Config.pm" ) {
+    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+}
+
+if ($S3Active) {
+    require Kernel::System::Storage::S3;
+}
 
 ################################################################################
 # Middlewares
@@ -290,7 +301,7 @@ my $SyncFromS3Middleware = sub {
             make_path( dirname($Location) );
 
             my $StorageS3Object = Kernel::System::Storage::S3->new(
-                ConfigObject => Kernel::Config->new( Level => 'Clear' ),
+                ConfigObject => $ClearConfigObject,
             );
             my $S3Key = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
             $StorageS3Object->SaveObjectToFile(
@@ -515,7 +526,7 @@ my $HtdocsApp = builder {
 
     # loader files might have to be synced from S3
     enable_if {
-        $ENV{OTOBO_SYNC_WITH_S3}
+        $S3Active
             &&
             (
                 $_[0]->{PATH_INFO} =~ m{skins/.*/.*/css-cache/.*\.(?:css|CSS)$}
@@ -547,7 +558,7 @@ my $OTOBOApp = builder {
     # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
-    enable_if { !$ENV{OTOBO_SYNC_WITH_S3} } $ModuleRefreshMiddleware;
+    enable_if { !$S3Active } $ModuleRefreshMiddleware;
 
     # add the Content-Length header, unless it already is set
     # this applies also to content from Kernel::System::Web::Exception
@@ -654,6 +665,8 @@ builder {
     # some static pages, '/' is already translate to '/index.html'
     mount "/robots.txt" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/robots.txt" )->to_app;
     mount "/index.html" => Plack::App::File->new( file => "$Home/var/httpd/htdocs/index.html" )->to_app;
+
+    # otherwise an error 404 it thrown, which is handled by Plack::Middleware::ErrorDocument
 };
 
 # enable for debugging: dump debugging info, including the PSGI environment, for any request

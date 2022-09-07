@@ -26,7 +26,13 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
+
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+if ( -r 'Kernel/Config.pm' ) {
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -122,8 +128,8 @@ my $Home = $ConfigObject->Get('Home');
 
     my $Location = $ConfigObject->Get('TempDir') . "/$MinifiedJSFilename";
 
-    if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+    if ($S3Active) {
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $FilePath        = $Location =~ s!^$Home/!!r;
         $StorageS3Object->SaveObjectToFile(
             Key      => $FilePath,

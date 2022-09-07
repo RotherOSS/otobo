@@ -28,7 +28,14 @@ use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
 
-skip_all('AdminLog unreliable with multiple instances of the web server') if $ENV{OTOBO_SYNC_WITH_S3};
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+if ( -r 'Kernel/Config.pm' ) {
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
+
+skip_all('AdminLog unreliable with multiple instances of the web server') if $S3Active;
 
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 

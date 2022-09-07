@@ -93,12 +93,12 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my $HelpFlag;                                            # print help
-    my $DBPassword;                                          # required
-    my $HTTPPort              = 80;                          # only used for success message
-    my $ActivateElasticsearch = 0;                           # must be explicitly enabled
-    my $AddCustomerUser       = 0;                           # must be explicitly enabled
-    my $ActivateSyncWithS3    = $ENV{OTOBO_SYNC_WITH_S3};    # activate S3 in the SysConfig, still experimental
+    my $HelpFlag;                      # print help
+    my $DBPassword;                    # required
+    my $HTTPPort              = 80;    # only used for success message
+    my $ActivateElasticsearch = 0;     # must be explicitly enabled
+    my $AddCustomerUser       = 0;     # must be explicitly enabled
+    my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
 
     Getopt::Long::GetOptions(
         'help'                   => \$HelpFlag,
