@@ -29,7 +29,14 @@ use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::UnitTest::Selenium;
 
-skip_all('Key management not implemented for the S3 case. See https://github.com/RotherOSS/otobo/issues/1799') if $ENV{OTOBO_SYNC_WITH_S3};
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+if ( -r 'Kernel/Config.pm' ) {
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
+
+skip_all('Key management not implemented for the S3 case. See https://github.com/RotherOSS/otobo/issues/1799') if $S3Active;
 
 our $Self;
 

@@ -27,7 +27,13 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
+
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+if ( -r 'Kernel/Config.pm' ) {
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
@@ -143,10 +149,10 @@ sub UpdateFile {
         $Content =~ s{ (\{'CurrentUserDeploymentID)('\})  }{$1Invalid$2}msx;
     }
 
-    if ( $ENV{OTOBO_SYNC_WITH_S4} ) {
+    if ($S3Active) {
 
         # first write to S3
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
 
         $StorageS3Object->StoreObject(
