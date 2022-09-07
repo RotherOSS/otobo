@@ -64,7 +64,7 @@ Set to I<localhost:5000> for running the test scripts in the otobo_web_1 contain
 
 =item S3 specific settings
 
-These are always enabled.
+S3 settings are disabled by default. They have to be enables manually if needed.
 
 =back
 
@@ -120,11 +120,12 @@ sub Load {
     # setting for running OTOBO under Docker, see the POD  #
     # ---------------------------------------------------- #
 
-    # These settings are for the S3 backend
-    if ( 1 ) {
+    # These settings are for the S3 backend.
+    if ( 0 ) {
+    #if ( 1 ) {
         $Self->{'Storage::S3::Active'}         = 1;
         $Self->{'Storage::S3::Region'}         = 'eu-central-1';
-        $Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-20220905a';
+        $Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-20220907a';
         $Self->{'Storage::S3::HomePrefix'}     = 'OTOBO';
         $Self->{'Storage::S3::AccessKey'}      = 'minio-otobo';
         $Self->{'Storage::S3::SecretKey'}      = 'minio-otobo'; # more than 8 chars
