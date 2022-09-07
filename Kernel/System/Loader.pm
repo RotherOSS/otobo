@@ -68,8 +68,8 @@ sub new {
     $Self->{CacheTTL}  = 60 * 60 * 24 * 20;
 
     # find out whether loader files are stored in S3 or in the file system
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
-    $Self->{UseFSBackend} = !$Self->{UseS3Backend};
+    $Self->{S3Active}     = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{UseFSBackend} = !$Self->{S3Active};
 
     return $Self;
 }
@@ -265,7 +265,7 @@ sub MinifyFiles {
 
         # When the S3 backend is active the loader file is not written to the file system.
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
-        if ( $Self->{UseS3Backend} ) {
+        if ( $Self->{S3Active} ) {
 
             my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
@@ -585,7 +585,7 @@ sub CacheDelete {
         }
     }
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
         $Self->_S3CacheDelete();
     }
 

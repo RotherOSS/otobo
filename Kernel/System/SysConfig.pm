@@ -77,8 +77,8 @@ sub new {
     $Self->{ConfigObject} = $Kernel::OM->Get('Kernel::Config');
 
     # get home directory and whether the S3 backend is active
-    $Self->{Home}         = $Self->{ConfigObject}->Get('Home');
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{Home}     = $Self->{ConfigObject}->Get('Home');
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # Kernel::Config is loaded because it was loaded by $Kernel::OM above.
     $Self->{ConfigDefaultObject} = Kernel::Config->new( Level => 'Default' );
@@ -3660,7 +3660,7 @@ sub ConfigurationDeploy {
         $EffectiveValueStrg = $LastDeployment{EffectiveValueStrg};
     }
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
 
         # only write to S3, no extra copy in the file system
         my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
@@ -3783,7 +3783,7 @@ sub ConfigurationDeploySync {
 
         # Write latest deployment to ZZZAAuto.pm
         my $PMFileContent = $LastDeployment{EffectiveValueStrg};
-        if ( $Self->{UseS3Backend} ) {
+        if ( $Self->{S3Active} ) {
 
             # only write to S3
             my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');

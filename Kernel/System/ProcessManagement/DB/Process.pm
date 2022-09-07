@@ -88,7 +88,7 @@ sub new {
     }
 
     # check whether the S3 backend is used
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     return $Self;
 }
@@ -1458,7 +1458,7 @@ EOF
     }
 
     # store the Perl module in S3 when S3 is active
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
         my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $ZZZFilePath     = join '/', 'Kernel', 'Config', 'Files', 'ZZZProcessManagement.pm';
 

@@ -96,7 +96,7 @@ sub new {
     my $Self = bless {}, $Type;
 
     # find out whether loader files are stored in S3 or in the file system
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # Remove any leftover custom files from aborted previous runs.
     $Self->CustomFileCleanup();
@@ -581,7 +581,7 @@ sub CustomCodeActivate {
 
     my $PackageName = join '', 'ZZZZUnitTest', $Identifier;
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
 
         # in the S3 case only write to the S3 compatible storage
         my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
@@ -622,7 +622,7 @@ sub CustomFileCleanup {
     my ( $Self, %Param ) = @_;
 
     # also delete in the Backend
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
         my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         $StorageS3Object->DiscardObjects(
             Prefix      => 'Kernel/Config/Files/',
