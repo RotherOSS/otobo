@@ -117,6 +117,10 @@ if ( -r "$Home/Kernel/Config.pm" ) {
     $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
 }
 
+if ($S3Active) {
+    require Kernel::System::Storage::S3;
+}
+
 ################################################################################
 # Middlewares
 ################################################################################
