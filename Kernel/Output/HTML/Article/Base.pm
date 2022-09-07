@@ -188,7 +188,7 @@ sub ArticleActions {
     my $ACL = $TicketObject->TicketAcl(
         Data          => \%PossibleActions,
         Action        => 'AgentTicketZoom',
-        TicketID      => $Param{Ticket}->{TicketID},
+        TicketID      => $Param{TicketID},
         ReturnType    => 'Action',
         ReturnSubType => '-',
         UserID        => $Param{UserID},
