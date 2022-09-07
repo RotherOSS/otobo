@@ -384,7 +384,7 @@ sub AppointmentCreate {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT id FROM calendar_appointment
-                WHERE unique_id=? AND parent_id IS NULL
+                WHERE unique_id = ? AND parent_id IS NULL
             ',
             Bind  => [ \$Param{UniqueID} ],
             Limit => 1,
@@ -601,7 +601,7 @@ sub AppointmentList {
             notify_custom, notify_custom_unit_count, notify_custom_unit, notify_custom_unit_point,
             notify_custom_date, ticket_appointment_rule_id
         FROM calendar_appointment
-        WHERE calendar_id=?
+        WHERE calendar_id = ?
     ';
 
     my @Bind;
@@ -1012,11 +1012,11 @@ sub AppointmentGet {
     ';
 
     if ( $Param{AppointmentID} ) {
-        $SQL .= 'id=? ';
+        $SQL .= 'id = ? ';
         push @Bind, \$Param{AppointmentID};
     }
     else {
-        $SQL .= 'unique_id=? AND calendar_id=? AND parent_id IS NULL ';
+        $SQL .= 'unique_id = ? AND calendar_id = ? AND parent_id IS NULL ';
         push @Bind, \$Param{UniqueID}, \$Param{CalendarID};
     }
 
@@ -1343,13 +1343,13 @@ sub AppointmentUpdate {
     my $SQL = '
         UPDATE calendar_appointment
         SET
-            calendar_id=?, title=?, description=?, location=?, start_time=?, end_time=?, all_day=?,
-            team_id=?, resource_id=?, recurring=?, recur_type=?, recur_freq=?, recur_count=?,
-            recur_interval=?, recur_until=?, recur_exclude=?, notify_time=?, notify_template=?,
-            notify_custom=?, notify_custom_unit_count=?, notify_custom_unit=?,
-            notify_custom_unit_point=?, notify_custom_date=?, ticket_appointment_rule_id=?,
-            change_time=current_timestamp, change_by=?
-        WHERE id=?
+            calendar_id = ?, title = ?, description = ?, location = ?, start_time = ?, end_time = ?, all_day = ?,
+            team_id = ?, resource_id = ?, recurring = ?, recur_type = ?, recur_freq = ?, recur_count = ?,
+            recur_interval = ?, recur_until = ?, recur_exclude = ?, notify_time = ?, notify_template = ?,
+            notify_custom = ?, notify_custom_unit_count = ?, notify_custom_unit = ?,
+            notify_custom_unit_point = ?, notify_custom_date = ?, ticket_appointment_rule_id = ?,
+            change_time = current_timestamp, change_by = ?
+        WHERE id = ?
     ';
 
     # update db record
@@ -1490,7 +1490,7 @@ sub AppointmentDelete {
     # delete appointment
     my $SQL = '
         DELETE FROM calendar_appointment
-        WHERE id=?
+        WHERE id = ?
     ';
 
     # delete db record
@@ -1564,7 +1564,7 @@ sub AppointmentDeleteOccurrence {
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id FROM calendar_appointment
-            WHERE unique_id=? AND calendar_id=? AND recur_id=?',
+            WHERE unique_id = ? AND calendar_id = ? AND recur_id = ?',
         Bind  => [ \$Param{UniqueID}, \$Param{CalendarID}, \$Param{RecurrenceID} ],
         Limit => 1,
     );
@@ -1579,7 +1579,7 @@ sub AppointmentDeleteOccurrence {
 
     # delete db record
     return if !$DBObject->Do(
-        SQL   => 'DELETE FROM calendar_appointment WHERE id=?',
+        SQL   => 'DELETE FROM calendar_appointment WHERE id = ?',
         Bind  => [ \$Appointment{AppointmentID} ],
         Limit => 1,
     );
@@ -2349,7 +2349,7 @@ sub _AppointmentRecurringDelete {
     # delete recurring appointments
     my $SQL = '
         DELETE FROM calendar_appointment
-        WHERE parent_id=?
+        WHERE parent_id = ?
     ';
 
     # delete db record
@@ -2382,7 +2382,7 @@ sub _AppointmentRecurringExclude {
 
     # db query
     return if !$DBObject->Prepare(
-        SQL  => 'SELECT recur_exclude FROM calendar_appointment WHERE id=?',
+        SQL  => 'SELECT recur_exclude FROM calendar_appointment WHERE id = ?',
         Bind => [ \$Param{ParentID} ],
     );
 
@@ -2402,7 +2402,7 @@ sub _AppointmentRecurringExclude {
 
     # update db record
     return if !$DBObject->Do(
-        SQL  => 'UPDATE calendar_appointment SET recur_exclude=? WHERE id=?',
+        SQL  => 'UPDATE calendar_appointment SET recur_exclude = ? WHERE id = ?',
         Bind => [ \$RecurrenceExclude, \$Param{ParentID} ],
     );
 
@@ -2430,7 +2430,7 @@ sub _AppointmentGetCalendarID {
     }
 
     # sql query
-    my $SQL  = 'SELECT calendar_id FROM calendar_appointment WHERE id=?';
+    my $SQL  = 'SELECT calendar_id FROM calendar_appointment WHERE id = ?';
     my @Bind = ( \$Param{AppointmentID} );
 
     # get database object
@@ -2466,7 +2466,7 @@ sub _AppointmentGetRecurrenceID {
     }
 
     # sql query
-    my $SQL  = 'SELECT recur_id FROM calendar_appointment WHERE id=?';
+    my $SQL  = 'SELECT recur_id FROM calendar_appointment WHERE id = ?';
     my @Bind = ( \$Param{AppointmentID} );
 
     # get database object
