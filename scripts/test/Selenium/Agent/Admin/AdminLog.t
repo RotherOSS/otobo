@@ -19,6 +19,8 @@ use strict;
 use warnings;
 use utf8;
 
+## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
+
 # core modules
 
 # CPAN modules
@@ -31,6 +33,8 @@ use Kernel::System::UnitTest::Selenium;
 # the question whether there is a S3 backend must the resolved early
 my ($S3Active);
 if ( -r 'Kernel/Config.pm' ) {
+    require Kernel::Config;
+
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
     $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
 }
