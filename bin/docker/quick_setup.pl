@@ -205,7 +205,7 @@ sub Main {
         return 0 unless $Success;
     }
 
-    # create SysConfig and adapt some settings
+    # create SysConfig and adapt some settings in the SysConfig
     {
         # These setting are required for running the test suite
         my @Settings = (
@@ -215,9 +215,13 @@ sub Main {
             [ CheckEmailValidAddress => '^(?:root@localhost|admin@localhost|tina@example.com)$' ],
         );
 
-        if ($ActivateSyncWithS3) {
+        # these settings are useful for testing and development
+        push @Settings, (
+            [ MinimumLogLevel => 'info' ],    # more verbose log output
+        );
 
-            # override some settings for running with S3 storage
+        # override some settings for running with S3 storage
+        if ($ActivateSyncWithS3) {
             push @Settings,
 
                 # activate article storage in S3
