@@ -115,10 +115,12 @@ my ( $S3Active, $ClearConfigObject );
 if ( -r "$Home/Kernel/Config.pm" ) {
     $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
     $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
-}
 
-if ($S3Active) {
-    require Kernel::System::Storage::S3;
+    if ($S3Active) {
+
+        # The S3 backend object will be needed in the SyncFromS3 middleware
+        require Kernel::System::Storage::S3;
+    }
 }
 
 ################################################################################
@@ -558,7 +560,7 @@ my $OTOBOApp = builder {
     # Check every 10s for changed Perl modules.
     # Exclude the modules in Kernel/Config/Files as these modules
     # are already reloaded Kernel::Config::Defaults::new().
-    enable_if { !$S3Active } $ModuleRefreshMiddleware;
+    enable $ModuleRefreshMiddleware;
 
     # add the Content-Length header, unless it already is set
     # this applies also to content from Kernel::System::Web::Exception
@@ -650,8 +652,7 @@ builder {
     # fixing PATH_INFO
     enable_if { ( $_[0]->{FCGI_ROLE} // '' ) eq 'RESPONDER' } $FixFCGIProxyMiddleware;
 
-    # Server the files in var/httpd/htdocs.
-    # Loader files, js and css, may be synced from S3 storage.
+    # Server the files in var/httpd/htdocs
     mount '/otobo-web' => $HtdocsApp;
 
     # uncomment for trouble shooting
