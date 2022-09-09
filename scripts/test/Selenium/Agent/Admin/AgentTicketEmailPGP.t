@@ -19,8 +19,6 @@ use strict;
 use warnings;
 use utf8;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-
 # core modules
 use File::Path qw(mkpath rmtree);
 
@@ -30,17 +28,16 @@ use Test2::V0;
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM and the test driver $Self
 use Kernel::System::UnitTest::Selenium;
+use Kernel::Config;
 
 # the question whether there is a S3 backend must the resolved early
-my ($S3Active);
-if ( -r 'Kernel/Config.pm' ) {
-    require Kernel::Config;
+{
 
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
-    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
-}
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
 
-skip_all('Key management not implemented for the S3 case. See https://github.com/RotherOSS/otobo/issues/1799') if $S3Active;
+    skip_all('Key management not implemented for the S3 case. See https://github.com/RotherOSS/otobo/issues/1799') if $S3Active;
+}
 
 our $Self;
 
