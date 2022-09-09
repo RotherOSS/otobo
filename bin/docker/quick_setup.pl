@@ -17,7 +17,7 @@
 
 =head1 NAME
 
-quick_setup.pl - a quick OTOBO setup script
+quick_setup.pl - a quick OTOBO setup script for development
 
 =head1 SYNOPSIS
 
@@ -67,6 +67,10 @@ Also set up the the Elasticsearch webservice.
 
 Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
 
+=item add-calendar
+
+Add the customer user I<tina> of the non-existing customer company I<Quick Example Company>.
+
 =back
 
 =cut
@@ -83,6 +87,7 @@ use lib "$Bin/../../Custom";
 # core modules
 use Getopt::Long;
 use Pod::Usage qw(pod2usage);
+use Sub::Util qw(subname);
 
 # CPAN modules
 use Path::Class qw(file dir);
@@ -98,6 +103,7 @@ sub Main {
     my $HTTPPort              = 80;    # only used for success message
     my $ActivateElasticsearch = 0;     # must be explicitly enabled
     my $AddCustomerUser       = 0;     # must be explicitly enabled
+    my $AddCalendar           = 0;     # must be explicitly enabled
     my $ActivateSyncWithS3    = 0;     # activate S3 in the SysConfig, still experimental
 
     Getopt::Long::GetOptions(
@@ -106,6 +112,7 @@ sub Main {
         'http-port=i'            => \$HTTPPort,
         'activate-elasticsearch' => \$ActivateElasticsearch,
         'add-customer-user'      => \$AddCustomerUser,
+        'add-calendar'           => \$AddCalendar,
         'activate-sync-with-S3'  => \$ActivateSyncWithS3,
         )
         || pod2usage(
@@ -279,6 +286,16 @@ sub Main {
         return 0 unless $Success;
     }
 
+    if ($AddCalendar) {
+        my ( $Success, $Message ) = AddCalendar();
+
+        say $Message if defined $Message;
+
+        return 0 unless $Success;
+    }
+
+    # add a blurb about MinIO
+
     # looks good
     say 'For running the unit tests please stop the OTOBO Daemon.';
     say "Finished running $0";
@@ -357,7 +374,7 @@ sub DBConnectAsRoot {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(DBPassword ) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -419,7 +436,7 @@ sub DBCreateUserAndDatabase {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -479,7 +496,7 @@ sub ExecuteSQL {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(XMLFiles) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -535,7 +552,7 @@ sub SetRootAtLocalhostPassword {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -560,7 +577,7 @@ sub AdaptSettings {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(Settings) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -687,7 +704,7 @@ sub AddCustomerUser {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -743,6 +760,35 @@ sub AddCustomerUser {
 
     # looks good
     return 1, "Customer: http://localhost:$Param{HTTPPort}/otobo/customer.pl user: $Login pw: $Login";
+}
+
+sub AddCalendar {
+    my %Param = @_;
+
+    # check the params
+    for my $Key ( grep { !$Param{$_} } qw() ) {
+        my $SubName = subname(__SUB__);
+
+        return 0, "$SubName: the parameter '$Key' is required";
+    }
+
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # create a calendar
+    my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
+    my $CalendarName   = 'Quick Setup Calendar 🚄';
+    my $CalendarID     = $CalendarObject->CalendarCreate(
+        CalendarName => $CalendarName,
+        GroupID      => 1,               # group users
+        Color        => '#007FFF',       # azure in hexadecimal RGB notation
+        ValidID      => 1,               # activate
+        UserID       => 1,               # root@localhost
+    );
+
+    return 0, "Could not create calendar $CalendarName" unless $CalendarID;
+
+    # looks good
+    return 1, "Calender $CalendarName created with ID=$CalendarID";
 }
 
 # do it
