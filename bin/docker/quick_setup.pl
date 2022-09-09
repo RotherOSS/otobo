@@ -17,7 +17,7 @@
 
 =head1 NAME
 
-quick_setup.pl - a quick OTOBO setup script
+quick_setup.pl - a quick OTOBO setup script for development
 
 =head1 SYNOPSIS
 
@@ -83,6 +83,7 @@ use lib "$Bin/../../Custom";
 # core modules
 use Getopt::Long;
 use Pod::Usage qw(pod2usage);
+use Sub::Util qw(subname);
 
 # CPAN modules
 use Path::Class qw(file dir);
@@ -357,7 +358,7 @@ sub DBConnectAsRoot {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(DBPassword ) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -419,7 +420,7 @@ sub DBCreateUserAndDatabase {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(DBPassword DBName OTOBODBUser OTOBODBPassword) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -479,7 +480,7 @@ sub ExecuteSQL {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(XMLFiles) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -535,7 +536,7 @@ sub SetRootAtLocalhostPassword {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -560,7 +561,7 @@ sub AdaptSettings {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(Settings) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
@@ -687,7 +688,7 @@ sub AddCustomerUser {
 
     # check the params
     for my $Key ( grep { !$Param{$_} } qw(HTTPPort) ) {
-        my $SubName = ( caller(0) )[3];
+        my $SubName = subname(__SUB__);
 
         return 0, "$SubName: the parameter '$Key' is required";
     }
