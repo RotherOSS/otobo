@@ -57,8 +57,7 @@ my %FailureIsAccepted = (
 {
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
     my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
-
-    if ($S3Active) {
+    if ( !$S3Active ) {
         for my $File (
             'Kernel/System/Daemon/DaemonModules/SyncWithS3.pm',
             'Kernel/System/Package/Event/SyncWithS3.pm',
