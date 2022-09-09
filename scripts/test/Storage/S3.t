@@ -19,8 +19,6 @@ use strict;
 use warnings;
 use utf8;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-
 # core modules
 
 # CPAN modules
@@ -28,19 +26,15 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use Kernel::Config;
 
-# the question whether there is a S3 backend must the resolved early
-my ($S3Active);
-if ( -r 'Kernel/Config.pm' ) {
-    require Kernel::Config;
-
+# Testing S3 backend only the S3 backend is active.
+{
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
-    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
-}
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
 
-# For now test only when running under Docker,
-# even though this route could also be available outside Docker.
-skip_all 'not running with S3 storage' unless $S3Active;
+    skip_all 'not running with S3 storage' unless $S3Active;
+}
 
 plan(24);
 

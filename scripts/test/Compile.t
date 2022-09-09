@@ -18,13 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
-
 # core modules
 
 # CPAN modules
 use Test2::V0;
 use Test::Compile::Internal;
+
+# OTBOO modules
+use Kernel::Config;
 
 # When there are extra arguments, then limit the checks to the passed files.
 # Is useful for github actions.
@@ -53,9 +54,7 @@ my %FailureIsAccepted = (
 );
 
 # some modules are only expected to compile when the S3 backend is active
-if ( -r 'Kernel/Config.pm' ) {
-    require Kernel::Config;
-
+{
     my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
     my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
 
