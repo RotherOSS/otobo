@@ -92,23 +92,21 @@ my $ElementExists = sub {
 
 $Selenium->RunTest(
     sub {
-        my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
-
+        my $Helper         = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $GroupObject    = $Kernel::OM->Get('Kernel::System::Group');
         my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
         my $TicketObject   = $Kernel::OM->Get('Kernel::System::Ticket');
 
+        # for random names
         my $RandomID = $Helper->GetRandomID();
 
-        # Create test group.
-        my $GroupName = "test-calendar-group-$RandomID";
-        my $GroupID   = $GroupObject->GroupAdd(
-            Name    => $GroupName,
+        # Create two test groups.
+        my $GroupName1 = "test-calendar-group-$RandomID";
+        my $GroupID1   = $GroupObject->GroupAdd(
+            Name    => $GroupName1,
             ValidID => 1,
             UserID  => 1,
         );
-
-        # Create test group.
         my $GroupName2 = "test-calendar-group2-$RandomID";
         my $GroupID2   = $GroupObject->GroupAdd(
             Name    => $GroupName2,
@@ -119,24 +117,21 @@ $Selenium->RunTest(
         # Change resolution (desktop mode).
         $Selenium->set_window_size( 768, 1050 );
 
-        # Create test user.
-        my $Language      = 'en';
-        my $TestUserLogin = $Helper->TestUserCreate(
-            Groups   => [ 'users', $GroupName ],
+        # Create two test users.
+        my $Language = 'en';
+
+        my $TestUserLogin1 = $Helper->TestUserCreate(
+            Groups   => [ 'users', $GroupName1 ],
             Language => $Language,
         ) || die 'Did not get test user';
-
-        # Get UserID.
-        my $UserID = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
-            UserLogin => $TestUserLogin,
+        my $UserID1 = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
+            UserLogin => $TestUserLogin1,
         );
 
         my $TestUserLogin2 = $Helper->TestUserCreate(
             Groups   => [ 'users', $GroupName2 ],
             Language => $Language,
         ) || die 'Did not get test user';
-
-        # Get UserID.
         my $UserID2 = $Kernel::OM->Get('Kernel::System::User')->UserLookup(
             UserLogin => $TestUserLogin2,
         );
@@ -149,8 +144,8 @@ $Selenium->RunTest(
         my %Calendar1 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar1 $RandomID",
             Color        => '#3A87AD',
-            GroupID      => $GroupID,
-            UserID       => $UserID,
+            GroupID      => $GroupID1,
+            UserID       => $UserID1,
             ValidID      => 1,
         );
         $Self->True(
@@ -161,8 +156,8 @@ $Selenium->RunTest(
         my %Calendar2 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar2 $RandomID",
             Color        => '#EC9073',
-            GroupID      => $GroupID,
-            UserID       => $UserID,
+            GroupID      => $GroupID1,
+            UserID       => $UserID1,
             ValidID      => 1,
         );
         $Self->True(
@@ -173,8 +168,8 @@ $Selenium->RunTest(
         my %Calendar3 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar3 $RandomID",
             Color        => '#6BAD54',
-            GroupID      => $GroupID,
-            UserID       => $UserID,
+            GroupID      => $GroupID1,
+            UserID       => $UserID1,
             ValidID      => 1,
         );
         $Self->True(
@@ -203,8 +198,8 @@ $Selenium->RunTest(
             State        => 'open',
             CustomerNo   => '123465',
             CustomerUser => 'customer@example.com',
-            OwnerID      => $UserID,
-            UserID       => $UserID,
+            OwnerID      => $UserID1,
+            UserID       => $UserID1,
         );
         $Self->True(
             $TicketID,
@@ -212,7 +207,7 @@ $Selenium->RunTest(
         );
         my $TicketNumber = $TicketObject->TicketNumberLookup(
             TicketID => $TicketID,
-            UserID   => $UserID,
+            UserID   => $UserID1,
         );
         $Self->True(
             $TicketNumber,
@@ -221,8 +216,8 @@ $Selenium->RunTest(
 
         $Selenium->Login(
             Type     => 'Agent',
-            User     => $TestUserLogin,
-            Password => $TestUserLogin,
+            User     => $TestUserLogin1,
+            Password => $TestUserLogin1,
         );
 
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
@@ -603,7 +598,7 @@ $Selenium->RunTest(
             Location    => 'Straubing',
             StartTime   => $StartTimeObject->ToString(),
             EndTime     => $EndTimeObject->ToString(),
-            UserID      => $UserID,
+            UserID      => $UserID1,
             TimezoneID  => 0,
         );
 
@@ -615,11 +610,11 @@ $Selenium->RunTest(
         # Add ro permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
-            UID        => $UserID,
+            UID        => $UserID1,
             Permission => {
                 ro => 1,
             },
-            UserID => $UserID,
+            UserID => $UserID1,
         );
 
         # Reload page.
@@ -749,12 +744,12 @@ $Selenium->RunTest(
         # Add move_into permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
-            UID        => $UserID,
+            UID        => $UserID1,
             Permission => {
                 ro        => 1,
                 move_into => 1,
             },
-            UserID => $UserID,
+            UserID => $UserID1,
         );
 
         # Click on appointment.
@@ -820,13 +815,13 @@ $Selenium->RunTest(
         # Add create permissions to the user.
         $GroupObject->PermissionGroupUserAdd(
             GID        => $GroupID2,
-            UID        => $UserID,
+            UID        => $UserID1,
             Permission => {
                 ro        => 1,
                 move_into => 1,
                 create    => 1,
             },
-            UserID => $UserID,
+            UserID => $UserID1,
         );
 
         # Click on appointment.
@@ -910,7 +905,7 @@ $Selenium->RunTest(
             for my $AppointmentID (@Appointments) {
                 $AppointmentObject->AppointmentDelete(
                     AppointmentID => $AppointmentID,
-                    UserID        => $UserID,
+                    UserID        => $UserID1,
                 );
             }
 
@@ -927,7 +922,7 @@ $Selenium->RunTest(
         # Delete test ticket.
         my $Success = $TicketObject->TicketDelete(
             TicketID => $TicketID,
-            UserID   => $UserID,
+            UserID   => $UserID1,
         );
 
         # Ticket deletion could fail if apache still writes to ticket history. Try again in this case.
@@ -935,7 +930,7 @@ $Selenium->RunTest(
             sleep 3;
             $Success = $TicketObject->TicketDelete(
                 TicketID => $TicketID,
-                UserID   => $UserID,
+                UserID   => $UserID1,
             );
         }
         $Self->True(
@@ -965,7 +960,7 @@ $Selenium->RunTest(
 
         # Delete group-user relations.
         $Success = $DBObject->Do(
-            SQL => "DELETE FROM group_user WHERE group_id = $GroupID OR group_id = $GroupID2",
+            SQL => "DELETE FROM group_user WHERE group_id = $GroupID1 OR group_id = $GroupID2",
         );
         if ($Success) {
             $Self->True(
@@ -976,7 +971,7 @@ $Selenium->RunTest(
 
         # Delete groups.
         $Success = $DBObject->Do(
-            SQL => "DELETE FROM groups_table WHERE id = $GroupID OR id = $GroupID2",
+            SQL => "DELETE FROM groups_table WHERE id = $GroupID1 OR id = $GroupID2",
         );
         $Self->True(
             $Success,
