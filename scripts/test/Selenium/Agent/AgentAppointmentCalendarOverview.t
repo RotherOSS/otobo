@@ -140,6 +140,13 @@ $Selenium->RunTest(
         my $TestCustomerUserLogin = $Helper->TestCustomerUserCreate()
             || die 'Did not get test customer user';
 
+        # Determine the initial numbers of calendars. Will be used later for waiting
+        # until all calendars are displayed.
+        my @CalendarList = $CalendarObject->CalendarList(
+            UserID => $UserID1,
+        );
+        my $InitialNumCalendars = scalar @CalendarList;
+
         # Create a few test calendars.
         my %Calendar1 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar1 $RandomID",
@@ -176,6 +183,9 @@ $Selenium->RunTest(
             $Calendar3{CalendarID},
             "Calendar3 $RandomID created successful.",
         );
+
+        # number of calendars for User 1
+        my $ExpectNumCalendars = $InitialNumCalendars + 3;
 
         my %Calendar4 = $CalendarObject->CalendarCreate(
             CalendarName => "Calendar4 $RandomID",
@@ -232,8 +242,9 @@ $Selenium->RunTest(
         # Go to previous week.
         $Selenium->find_element( '.fc-toolbar .fc-prev-button', 'css' )->click();
         $Selenium->WaitFor(
-            JavaScript =>
-                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".CalendarSwitch:visible").length == 3;'
+            JavaScript => sprintf
+                'return typeof($) === "function" && !$(".CalendarWidget.Loading").length && $(".CalendarSwitch:visible").length == %s;',
+            $ExpectNumCalendars
         );
 
         # Verify all three calendars are visible.
@@ -241,8 +252,8 @@ $Selenium->RunTest(
             $Selenium->execute_script(
                 "return \$('.CalendarSwitch:visible').length;"
             ),
-            3,
-            'All three calendars visible',
+            $ExpectNumCalendars,
+            'All calendars are visible, three plus the initial number',
         );
 
         # Verify copy-to-clipboard link.
