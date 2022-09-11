@@ -81,9 +81,6 @@ requires 'Plack';
 # Set HTTP headers
 requires 'Plack::Middleware::Header';
 
-# Watch for changed modules in %INC. Depends on Module::Refresh
-requires 'Plack::Middleware::Refresh';
-
 # Twist some HTTP variables so that the reverse proxy is transparent
 requires 'Plack::Middleware::ReverseProxy';
 

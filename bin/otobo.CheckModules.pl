@@ -877,17 +877,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'Plack::Middleware::Refresh',
-        Required  => 1,
-        Comment   => 'Watch for changed modules in %INC. Depends on Module::Refresh',
-        InstTypes => {
-            aptget => 'libplack-perl',
-            emerge => undef,
-            zypper => undef,
-            ports  => undef,
-        },
-    },
-    {
         Module    => 'Plack::Middleware::ReverseProxy',
         Required  => 1,
         Comment   => 'Twist some HTTP variables so that the reverse proxy is transparent',
