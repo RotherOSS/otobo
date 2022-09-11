@@ -81,7 +81,7 @@ sub run {
         die "ERROR: Could not load Kernel/Config.pm: $!\n";
     }
 
-    # Fill %Module::Refresh::Cache with all entries in %INC if that hasn't happened before.
+    # Fill %Module::Refresh::Cache with the OTOBO modules in %INC if that hasn't happened before.
     # Add $RelativeFile to %Module::Refresh::Cache as $RelativeFile was required above and thus surely is in %INC.
     # Check for every request whether Kernel/Config.pm has been modified.
     Module::Refresh->refresh_module_if_modified( 'Kernel/Config.pm' );
