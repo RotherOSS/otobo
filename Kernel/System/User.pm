@@ -1080,13 +1080,16 @@ sub UserName {
 
 =head2 UserList()
 
-return a hash with all users
+return a hash with user information.
 
     my %List = $UserObject->UserList(
         Type          => 'Short', # Short|Long, default Short
         Valid         => 1,       # default 1
         NoOutOfOffice => 1,       # (optional) default 0
     );
+
+Per default only valid users are reported. When the parameter Valid is passed with the value 0,
+then invalid users are reported as well.
 
 =cut
 
