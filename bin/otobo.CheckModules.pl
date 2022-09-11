@@ -44,10 +44,10 @@ bin/otobo.CheckModules.pl - a helper for checking CPAN dependencies
     bin/otobo.CheckModules.pl --finst <features>
 
     # Print a cpanfile with the required modules regardless whether they are already available.
-    bin/otobo.CheckModules.pl --cpanfile
+    bin/otobo.CheckModules.pl --cpanfile > cpanfile
 
     # Print a cpanfile with the required modules for a Docker-based installation.
-    bin/otobo.CheckModules.pl --docker-cpanfile
+    bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 
 =head1 DESCRIPTION
 
