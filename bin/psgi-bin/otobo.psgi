@@ -292,7 +292,7 @@ my $SyncFromS3Middleware = sub {
                 die "ERROR: Could not load Kernel/Config.pm: $!\n";
             }
 
-            # Fill %Module::Refresh::CACHE with all entries from %INC if that hasn't happened before.
+            # Fill %Module::Refresh::CACHE with OTOBO modules from %INC if that hasn't happened before.
             # Add Kernel/Config.pm to %Module::Refresh::CACHE as it was required above
             # and thus surely is in %INC.
             # Check for every request whether Kernel/Config.pm has been modified.
