@@ -136,7 +136,6 @@ END_PM
 
     # sanity check
     is( $UserDeploymentID, $DeploymentID, 'double check the user deployment ID' );
-
 }
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -202,8 +201,8 @@ sub ReadDeploymentID {
 
     ref_ok( $ContentSCALARRef, 'SCALAR', "$LocationUser FileRead() for ReadDeploymentID() is SCALAR ref" );
 
-    my $CurrentDeploymentID;
-    ($CurrentDeploymentID) = $ContentSCALARRef->$* =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(-?\d+)' }msx;
+    # greedily accept any deployment ID, even when they are not valid
+    my ($CurrentDeploymentID) = $ContentSCALARRef->$* =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(.*)' }msx;
 
     return $CurrentDeploymentID;
 }
@@ -261,7 +260,7 @@ my @Tests = (
         Config => {
             Remove => 1,
         },
-        DeploymentIDBefore => '',
+        DeploymentIDBefore => undef,
         DeploymentIDAfter  => $UserDeploymentID,
         Success            => 1,
     },
@@ -299,7 +298,6 @@ for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
 
-        my $FileDeploymentID;
         if ( $Test->{Config}->{RemoveDir} ) {
             my $Result = system("rm -rf $UserSettingsDir");
             ok(
@@ -308,13 +306,13 @@ for my $Test (@Tests) {
             );
         }
         else {
-            UpdateFile( %{ $Test->{Config} } );
+            UpdateFile( $Test->{Config}->%* );
 
-            $FileDeploymentID = ReadDeploymentID($LocationUser);
+            my $FileDeploymentID = ReadDeploymentID($LocationUser);
             is(
-                $FileDeploymentID // '',
+                $FileDeploymentID,
                 $Test->{DeploymentIDBefore},
-                "DeploymentID before ConfigurationDeploymentSync()",
+                'DeploymentID before ConfigurationDeploymentSync()',
             );
         }
 
