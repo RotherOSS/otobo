@@ -21,6 +21,7 @@ use warnings;
 use utf8;
 
 # core modules
+use List::Util qw(max);
 
 # CPAN modules
 use Test2::V0;
@@ -96,7 +97,12 @@ if ( !-d $UserSettingsDir ) {
     mkdir $UserSettingsDir;
 }
 
-my $EffectiveValueStrg = << "EOF";
+my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+# create a new deployment for the user
+my $UserDeploymentID;
+{
+    my $EffectiveValueStrg = << "END_PM";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::$UserID;
@@ -110,21 +116,28 @@ sub Load {
     return;
 }
 1;
-EOF
+END_PM
 
-my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+    my $DeploymentID = $SysConfigDBObject->DeploymentAdd(
+        Comments            => 'Unit Test',
+        EffectiveValueStrg  => \$EffectiveValueStrg,
+        TargetUserID        => $UserID,
+        DeploymentTimeStamp => '1977-12-12 12:00:00',
+        UserID              => $UserID,
+    );
 
-my $DeploymentID = $SysConfigDBObject->DeploymentAdd(
-    Comments            => 'Unit Test',
-    EffectiveValueStrg  => \$EffectiveValueStrg,
-    TargetUserID        => $UserID,
-    DeploymentTimeStamp => '1977-12-12 12:00:00',
-    UserID              => $UserID,
-);
+    # Get the id of the last deployment of the test user. The user should only have
+    # a single deployment, but get the max anyways.
+    my %UserDeploymentList = $SysConfigDBObject->DeploymentUserList();
+    $UserDeploymentID =
+        max
+        grep { $UserDeploymentList{$_} == $UserID }
+        keys %UserDeploymentList;
 
-my %UserDeploymentList   = $SysConfigDBObject->DeploymentUserList();
-my %DeploymentListLookup = reverse %UserDeploymentList;
-my $UserDeploymentID     = $DeploymentListLookup{$UserID};
+    # sanity check
+    is( $UserDeploymentID, $DeploymentID, 'double check the user deployment ID' );
+
+}
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -312,18 +325,18 @@ for my $Test (@Tests) {
             "ConfigurationDeploymentSync() result",
         );
 
-        $FileDeploymentID = ReadDeploymentID($LocationUser);
+        my $FileDeploymentID = ReadDeploymentID($LocationUser);
         is(
             $FileDeploymentID,
             $Test->{DeploymentIDAfter},
-            "DeploymentID after ConfigurationDeploymentSync()",
+            'DeploymentID after ConfigurationDeploymentSync()',
         );
     };
 }
 
 # Be sure to leave a clean system.
 $Success = $SysConfigDBObject->DeploymentDelete(
-    DeploymentID => $DeploymentID,
+    DeploymentID => $UserDeploymentID,
 );
 
 ok( $Success, "DeploymentDelete result", );
