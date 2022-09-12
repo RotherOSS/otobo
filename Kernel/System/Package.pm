@@ -816,7 +816,7 @@ sub PackageUpgrade {
     my $InstalledVersion = 0;
     for my $Package ( $Self->RepositoryList() ) {
 
-        if ( $Structure{Name}->{Content} eq $Package->{Name}->{Content} ) {
+        if ( lc $Structure{Name}->{Content} eq lc $Package->{Name}->{Content} ) {
 
             if ( $Package->{Status} =~ /^installed$/i ) {
                 $Installed          = 1;
@@ -3983,7 +3983,7 @@ sub _PackageFileCheck {
     PACKAGE:
     for my $Package ( $Self->RepositoryList() ) {
 
-        next PACKAGE if $Param{Structure}->{Name}->{Content} eq $Package->{Name}->{Content};
+        next PACKAGE if lc $Param{Structure}->{Name}->{Content} eq lc $Package->{Name}->{Content};
 
         for my $FileNew ( @{ $Param{Structure}->{Filelist} } ) {
 
