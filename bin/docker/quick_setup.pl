@@ -246,7 +246,7 @@ sub Main {
 
                 # with S3 sync there is no need to check the database
                 [
-                    'DaemonModules###SystemConfigurationSyncManager' =>
+                    'DaemonModules###SyncWithS3' =>
                     {
                         Module => 'Kernel::System::Daemon::DaemonModules::SyncWithS3',
                     }
