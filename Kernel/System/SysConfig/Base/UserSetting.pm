@@ -347,7 +347,8 @@ sub UserConfigurationDeploy {
 
 =head2 UserConfigurationDeploySync()
 
-Updates C<$UserID.pm> to the latest deployment found in the database.
+Remove user config files that do not have deployments in the database.
+Updates the C<$UserID.pm> files to the latest deployments found in the database.
 
     my $Success = $SysConfigObject->UserConfigurationDeploySync();
 
@@ -360,11 +361,11 @@ sub UserConfigurationDeploySync {
     my $SysConfigDBObject  = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
     my %UserDeploymentList = $SysConfigDBObject->DeploymentUserList();
 
-    my $Home       = $Self->{Home};
-    my $TargetBase = "$Home/Kernel/Config/Files/User/";
+    my $BasePath     = 'Kernel/Config/Files/User/';
+    my $FullBasePath = "$Self->{Home}/$BasePath";
 
-    if ( !-d $TargetBase ) {
-        mkdir $TargetBase;
+    if ( !-d $FullBasePath ) {
+        mkdir $FullBasePath;
     }
 
     # Also check users without deployments, to make sure their files are cleaned up.
@@ -388,10 +389,11 @@ sub UserConfigurationDeploySync {
             keys %SubPath2Properties;
     }
 
+    # clean up obsolete user settings
     USERID:
     for my $UserID ( sort keys %UserList ) {
 
-        # User has deployment -> handled below.
+        # do not discard user settings for users that have a deployment
         next USERID if $UserDeploymentList{$UserID};
 
         # delete in S3 when there is an user file
@@ -401,31 +403,30 @@ sub UserConfigurationDeploySync {
             );
         }
 
-        # User has no deployment, remove file if needed.
-        my $TargetPath = $TargetBase . $UserID . '.pm';
+        # delete the user setting file if it exists
+        my $FullTargetPath = $FullBasePath . $UserID . '.pm';
 
-        next USERID unless -e $TargetPath;
+        next USERID unless -e $FullTargetPath;
 
-        if ( !unlink $TargetPath ) {
+        if ( !unlink $FullTargetPath ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "The file $TargetPath could not be deleted!",
+                Message  => "The file $FullTargetPath could not be deleted!",
             );
         }
     }
 
-    return 1 if !%UserDeploymentList;
-
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
+    return 1 unless %UserDeploymentList;
 
     DEPLOYMENTID:
     for my $DeploymentID ( sort keys %UserDeploymentList ) {
         my $UserID = $UserDeploymentList{$DeploymentID};
 
-        my $TargetPath  = $TargetBase . $UserID . '.pm';
-        my $TargetClass = "Kernel::Config::Files::User::$UserID";
+        my $TargetPath     = $BasePath . $UserID . '.pm';
+        my $FullTargetPath = $FullBasePath . $UserID . '.pm';
+        my $TargetClass    = "Kernel::Config::Files::User::$UserID";
 
-        if ( -e $TargetPath ) {
+        if ( -e $FullTargetPath ) {
 
             # load a fresh copy the user setting file
             Kernel::System::ModuleRefresh->refresh_module($TargetPath);
@@ -444,7 +445,7 @@ sub UserConfigurationDeploySync {
         # Write user specific settings.
         if ( $Self->{S3Active} ) {
 
-            # only write to S3
+            # only write to S3, SyncWithS3() will be called later
             my $StorageS3Object = Kernel::System::Storage::S3->new();
             my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
             $StorageS3Object->StoreObject(
@@ -454,7 +455,7 @@ sub UserConfigurationDeploySync {
         }
         else {
             $Self->_FileWriteAtomic(
-                Filename => $TargetPath,
+                Filename => $FullTargetPath,
                 Content  => \$Deployment{EffectiveValueStrg},
             );
         }
