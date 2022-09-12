@@ -34,10 +34,10 @@ use warnings;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::ModuleRefresh;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
-    'Kernel::System::Main',
     'Kernel::System::SysConfig::DB',
     'Kernel::System::User',
 );
@@ -427,13 +427,11 @@ sub UserConfigurationDeploySync {
 
         if ( -e $TargetPath ) {
 
-            # Load the configuration file (but remove it from INC first to get always a fresh copy)
-            my %Config;
-            delete $INC{$TargetPath};
-            $MainObject->Require($TargetClass);
+            # load a fresh copy the user setting file
+            Kernel::System::ModuleRefresh->refresh_module($TargetPath);
 
-            # Persistent environments require to use do, check ConfigurationDeploymentSync.t
-            do $TargetPath;
+            # Get the setting from the user settings file
+            my %Config;
             $TargetClass->Load( \%Config );
 
             next DEPLOYMENTID if ( $Config{CurrentUserDeploymentID} || 0 ) eq $DeploymentID;
