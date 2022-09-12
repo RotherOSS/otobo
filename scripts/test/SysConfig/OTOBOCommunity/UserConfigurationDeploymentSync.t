@@ -164,6 +164,9 @@ sub UpdateFile {
 
     if ($S3Active) {
 
+        # make sure the SyncWithS3() actually syncs
+        sleep 1;
+
         # first write to S3
         my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
