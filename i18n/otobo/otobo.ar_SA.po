@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-13 14:38+0000\n"
+"PO-Revision-Date: 2022-09-13 16:14+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1931,27 +1931,30 @@ msgstr "القيمة الافتراضية"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
-msgstr ""
+msgstr "هذه هي القيمة الافتراضية لهذا الحقل."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add or edit contacts"
-msgstr ""
+msgstr "إضافة أو تحرير جهات الاتصال"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "To add contacts to this field please fill out all the needed information and "
 "save it."
 msgstr ""
+"لإضافة جهات اتصال إلى هذا الحقل ، يرجى ملء جميع المعلومات المطلوبة وحفظها."
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Click on the field name from the overview to edit it and find the "
 "corresponding action in the sidebar or from the 'Tickets' menu."
 msgstr ""
+"انقر على اسم الحقل في النظرة العامة لتحريره والعثور على الإجراء المقابل في "
+"الشريط الجانبي أو في القائمة \"التذاكر\"."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Name Field"
-msgstr ""
+msgstr "اسم الحقل"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "ValidID Field"
@@ -1959,35 +1962,35 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Other Fields"
-msgstr ""
+msgstr "مجالات أخرى"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Key"
-msgstr ""
+msgstr "مفتاح"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Value"
-msgstr ""
+msgstr "قيمة"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Remove value"
-msgstr ""
+msgstr "إزالة القيمة"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add Field"
-msgstr ""
+msgstr "إضافة حقل"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Add value"
-msgstr ""
+msgstr "إضافة قيمة"
 
 #. Template: AdminDynamicFieldContactWD
 msgid "These are the possible data attributes for contacts."
-msgstr ""
+msgstr "هذه هي سمات البيانات المحتملة لجهات الاتصال."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Mandatory fields"
-msgstr ""
+msgstr "الحقول المطلوبة"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
