@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-01 17:20+0000\n"
+"PO-Revision-Date: 2022-09-13 12:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1843,33 +1843,33 @@ msgstr "هنا يمكنك إدارة الحقول الديناميكية في ا
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Dynamic Fields"
-msgstr ""
+msgstr "الحقول الديناميكية"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Go back to overview"
-msgstr ""
+msgstr "ارجع إلى النظرة العامة"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "General"
-msgstr ""
+msgstr "عَامٌّ"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr ""
+msgstr "هذا الحقل مطلوب، ويجب أن تكون القيمة أحرف أبجدية ورقمية فقط."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
-msgstr ""
+msgstr "يجب أن تكون فريدة من نوعها ويجب أن تتكون فقط من الحروف والأرقام."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
-msgstr ""
+msgstr "سيتطلب تغيير هذه القيمة تغييرات يدوية في النظام."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
-msgstr ""
+msgstr "يظهر هذا الاسم على الشاشات التي يكون فيها هذا الحقل نشطا."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
