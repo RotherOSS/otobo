@@ -3808,7 +3808,7 @@ sub ConfigurationDeploySync {
     # Sync also user specific settings, always available in OTOBO
     $Self->UserConfigurationDeploySync();
 
-    # then update the file system from S3,
+    # then update the file system from S3 if S3 is active
     $Kernel::OM->Get('Kernel::Config')->SyncWithS3();
 
     return 1;

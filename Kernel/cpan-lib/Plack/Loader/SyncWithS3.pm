@@ -29,6 +29,7 @@ use File::stat;
 # CPAN modules
 
 # OTOBO modules
+use Kernel::System::ModuleRefresh;
 use Kernel::System::Storage::S3;
 
 =head1 NAME
