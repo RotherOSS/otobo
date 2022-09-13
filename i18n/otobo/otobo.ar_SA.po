@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-13 12:30+0000\n"
+"PO-Revision-Date: 2022-09-13 14:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -1873,59 +1873,61 @@ msgstr "يظهر هذا الاسم على الشاشات التي يكون في�
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
-msgstr ""
+msgstr "الترتيب الميداني"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
-msgstr ""
+msgstr "هذا الحقل مطلوب ويمكن أن يحتوي فقط على أرقام."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "This is the order in which this field will be shown on the screens where is "
 "active."
-msgstr ""
+msgstr "هذا هو الترتيب الذي سيظهر به هذا الحقل على الشاشات حيث يكون نشطًا."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Tooltip message:"
-msgstr ""
+msgstr "رسالة تلميح الأداة:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the tooltip message shown inside the customer interface."
-msgstr ""
+msgstr "هذه هي رسالة تلميح الأدوات المعروضة داخل واجهة العميل."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
 "Is not possible to invalidate this entry, all config settings have to be "
 "changed beforehand."
 msgstr ""
+"لا يمكن تعيين هذا الإدخال إلى غير صالح حتى يتم ضبط جميع التكوينات المتأثرة "
+"وفقا لذلك."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field type"
-msgstr ""
+msgstr "نوع الحقل"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Object type"
-msgstr ""
+msgstr "نوع الكائن"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Internal field"
-msgstr ""
+msgstr "المجال الداخلي"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is protected and can't be deleted."
-msgstr ""
+msgstr "هذا حقل داخلي محمي ولا يمكن حذفه."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This dynamic field is used in the following config settings:"
-msgstr ""
+msgstr "يتم استخدام هذا الحقل الديناميكي في إعدادات التكوين التالية:"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field Settings"
-msgstr ""
+msgstr "إعدادات الحقل"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Default value"
-msgstr ""
+msgstr "القيمة الافتراضية"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the default value for this field."
