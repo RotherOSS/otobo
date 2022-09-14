@@ -1158,4 +1158,34 @@ if ( !$DeveloperSystem ) {
     chmod 0755, $Home . '/' . 'bin/otobo.CheckSum.pl';
 }
 
+# Packages that only differ in the case of their name are considered as being different.
+subtest "packages only differing in capitalization" => sub {
+    my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
+<otobo_package version="1.0">
+  <Name>UpperLower</Name>
+  <Version>0.0.1</Version>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.de/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
+  <ChangeLog>2022-09-14 New package</ChangeLog>
+  <Description Lang="en">A test package for upper/lower package name.</Description>
+  <Framework>10.1.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="Test_UpperLower" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otobo_package>
+';
+
+    my $String2 = $String1;
+    $String2 =~ s/UpperLower/uPPERlOWER/;
+
+    my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String1 );
+    ok( $FirstPackageInstallOk, 'PackageInstall() 1', );
+
+    my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $String2 );
+    ok( $SecondPackageInstallOk, 'PackageInstall() 2', );
+};
+
 done_testing();
