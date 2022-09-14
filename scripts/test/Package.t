@@ -13,9 +13,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -39,7 +39,7 @@ my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 
 my $Home = $ConfigObject->Get('Home');
 
-my $CachePopulate = sub {
+sub CachePopulate {
     my $CacheSet = $CacheObject->Set(
         Type  => 'TicketTest',
         Key   => 'Package',
@@ -59,9 +59,11 @@ my $CachePopulate = sub {
         'PackageValue',
         "CacheSet value",
     );
-};
 
-my $CacheClearedCheck = sub {
+    return;
+}
+
+sub CacheClearedCheck {
     my $CacheValue = $CacheObject->Get(
         Type => 'TicketTest',
         Key  => 'Package',
@@ -71,7 +73,9 @@ my $CacheClearedCheck = sub {
         scalar undef,
         "CacheGet value was cleared",
     );
-};
+
+    return;
+}
 
 my $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
@@ -142,21 +146,21 @@ my $StringSecond = '<?xml version="1.0" encoding="utf-8" ?>
 
 # check if the package is already installed - check by name
 my $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
-$Self->True(
+ok(
     !$PackageIsInstalledByName,
     '#1 PackageIsInstalled() - check if the package is already installed - check by name',
 );
 
 # check if the package is already installed - check by XML string
 my $PackageIsInstalledByString = $PackageObject->PackageIsInstalled( String => $String );
-$Self->True(
+ok(
     !$PackageIsInstalledByString,
     '#1 PackageIsInstalled() - check if the package is already installed - check by string',
 );
 
 my $RepositoryAdd = $PackageObject->RepositoryAdd( String => $String );
 
-$Self->True(
+ok(
     $RepositoryAdd,
     '#1 RepositoryAdd()',
 );
@@ -166,10 +170,7 @@ my $PackageGet = $PackageObject->RepositoryGet(
     Version => '0.0.1',
 );
 
-$Self->True(
-    $String eq $PackageGet,
-    '#1 RepositoryGet()',
-);
+is( $String, $PackageGet, '#1 RepositoryGet()' );
 
 my @PackageList = $PackageObject->RepositoryList( Result => 'Short' );
 for my $Package (@PackageList) {
@@ -192,7 +193,7 @@ $Self->True(
     '#1 RepositoryRemove()',
 );
 
-$CachePopulate->();
+CachePopulate();
 
 # The package declared in $String contains Custom/Kernel/Modules/Test.pm.
 # For supporting the loading Custom/Kernel/Modules/Test.pm by the webserver,
@@ -225,7 +226,7 @@ $Self->True(
     '#1 PackageInstall() 2',
 );
 
-$CacheClearedCheck->();
+CacheClearedCheck();
 
 # check whether the package has been installed - check by name
 $PackageIsInstalledByName = $PackageObject->PackageIsInstalled( Name => 'Test' );
@@ -307,12 +308,12 @@ $Self->True(
 
 $PackageUninstall = $PackageObject->PackageUninstall( String => $StringSecond );
 
-$Self->True(
+ok(
     $PackageUninstall,
     '#1 PackageUninstall() Second',
 );
 
-$CachePopulate->();
+CachePopulate();
 
 my $PackageInstall2 = $PackageObject->PackageInstall( String => $PackageBuild );
 
@@ -321,7 +322,7 @@ $Self->True(
     '#1 PackageInstall() - 2',
 );
 
-$CacheClearedCheck->();
+CacheClearedCheck();
 
 my $DeployCheck2 = $PackageObject->DeployCheck(
     Name    => 'Test',
@@ -386,7 +387,7 @@ $Self->False(
     '#1 PackageReinstall() - TestFrameworkCheck reinstalled',
 );
 
-$CachePopulate->();
+CachePopulate();
 
 my $PackageUninstall2 = $PackageObject->PackageUninstall( String => $PackageBuild );
 
@@ -395,7 +396,7 @@ $Self->True(
     '#1 PackageUninstall() - 2',
 );
 
-$CacheClearedCheck->();
+CacheClearedCheck();
 
 $String = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
@@ -417,8 +418,8 @@ $String = '<?xml version="1.0" encoding="utf-8" ?>
 ';
 my $PackageInstall = $PackageObject->PackageInstall( String => $String );
 
-$Self->True(
-    !$PackageInstall || 0,
+ok(
+    !$PackageInstall,
     '#2 PackageInstall() - PackageRequired not installed',
 );
 
@@ -674,7 +675,7 @@ my $String3b = '<?xml version="1.0" encoding="utf-8" ?>
 </otobo_package>
 ';
 
-$CachePopulate->();
+CachePopulate();
 
 $PackageUpgrade = $PackageObject->PackageUpgrade( String => $String3b );
 
@@ -683,7 +684,7 @@ $Self->True(
     '#5 PackageUpgrade() - OK.',
 );
 
-$CacheClearedCheck->();
+CacheClearedCheck();
 
 $Self->True(
     !-f $TmpDir . '/test1',
@@ -1112,7 +1113,7 @@ if ( !$DeveloperSystem ) {
     );
 
     # reinstall
-    $CachePopulate->();
+    CachePopulate();
 
     my $PackageReinstall = $PackageObject->PackageReinstall( String => $String );
     $Self->True(
@@ -1120,7 +1121,7 @@ if ( !$DeveloperSystem ) {
         '#13 PackageReinstall() - TestFrameworkFileCheck reinstalled',
     );
 
-    $CacheClearedCheck->();
+    CacheClearedCheck();
 
     # check if save file exists
     $Self->True(
