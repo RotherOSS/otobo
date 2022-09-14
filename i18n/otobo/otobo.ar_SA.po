@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 12:47+0000\n"
+"PO-Revision-Date: 2022-09-14 14:01+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2432,7 +2432,7 @@ msgstr "أكد"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font style of the label."
-msgstr ""
+msgstr "نمط خط التسمية التوضيحية."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Size"
@@ -2440,65 +2440,71 @@ msgstr "الحجم"
 
 #. Template: AdminDynamicFieldTitle
 msgid "Font size of the label."
-msgstr ""
+msgstr "حجم خط التسمية التوضيحية."
 
 #. Template: AdminDynamicFieldTitle
 msgid "Color in hex."
-msgstr ""
+msgstr "اللون كقيمة HEX."
 
 #. Template: AdminDynamicFieldWebService
 msgid "This field is required"
-msgstr ""
+msgstr "هذا الحقل مطلوب"
 
 #. Template: AdminDynamicFieldWebService
 msgid "The web service to be executed for possible values."
-msgstr ""
+msgstr "خدمة الويب التي سيتم تنفيذها للقيم المحتملة."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Invoker"
-msgstr ""
+msgstr "المنادي على"
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "The invoker to be used to perform requests (invoker needs to be of type "
 "'Generic::PassThrough')."
 msgstr ""
+"المستحضر الذي سيتم استخدامه لتنفيذ الطلبات (يجب أن يكون المستحضر من النوع "
+"\"Generic :: PassThrough\")."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Activate this option to allow multiselect on results."
-msgstr ""
+msgstr "قم بتنشيط هذا الخيار للسماح بتحديدات متعددة على النتائج."
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache TTL"
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت TTL"
 
 #. Template: AdminDynamicFieldWebService
 msgid "Cache time to live (in minutes), to save the retrieved possible values."
-msgstr ""
+msgstr "تخزين TTL مؤقتًا (بالدقائق)، لحفظ القيم المحتملة التي تم استردادها."
 
 #. Template: AdminDynamicFieldWebService
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens. Optional HTTP link works only for single-select fields."
 msgstr ""
+"هنا يمكنك تحديد ارتباط HTTP اختياري لقيمة الحقل في لمحات عامة وطرق عرض "
+"التفاصيل. يعمل رابط HTTP الاختياري فقط مع الحقول ذات التحديد الفردي."
 
 #. Template: AdminEmail
 msgid "Admin Message"
-msgstr ""
+msgstr "رسالة المسؤول"
 
 #. Template: AdminEmail
 msgid ""
 "With this module, administrators can send messages to agents, group or role "
 "members."
 msgstr ""
+"تسمح هذه الوحدة للمسؤولين بإرسال رسائل إلى الوكلاء أو المجموعة أو أعضاء "
+"الأدوار."
 
 #. Template: AdminEmail
 msgid "Create Administrative Message"
-msgstr ""
+msgstr "إنشاء رسالة مسؤول"
 
 #. Template: AdminEmail
 msgid "Your message was sent to"
-msgstr ""
+msgstr "تم إرسال رسالتك إلى"
 
 #. Template: AdminEmail
 msgid "From"
@@ -2506,7 +2512,7 @@ msgstr "من"
 
 #. Template: AdminEmail
 msgid "Send message to users"
-msgstr ""
+msgstr "إرسال رسالة إلى المستخدمين"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
