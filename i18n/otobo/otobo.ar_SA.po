@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 14:02+0000\n"
+"PO-Revision-Date: 2022-09-14 17:42+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2520,15 +2520,15 @@ msgstr "إرسال رسالة إلى أعضاء المجموعة"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
-msgstr ""
+msgstr "أعضاء المجموعة بحاجة إلى الحصول على إذن"
 
 #. Template: AdminEmail
 msgid "Send message to role members"
-msgstr ""
+msgstr "إرسال رسالة إلى أعضاء الدور"
 
 #. Template: AdminEmail
 msgid "Also send to customers in groups"
-msgstr ""
+msgstr "أرسل أيضا إلى العملاء في مجموعات"
 
 #. Template: AdminEmail
 msgid "Body"
@@ -2536,31 +2536,31 @@ msgstr "نص الرسالة"
 
 #. Template: AdminEmail
 msgid "Send"
-msgstr ""
+msgstr "أَرْسَلَ"
 
 #. Template: AdminGenericAgent
 msgid "Generic Agent Job Management"
-msgstr ""
+msgstr "إدارة وظائف الوكيل العام"
 
 #. Template: AdminGenericAgent
 msgid "Edit Job"
-msgstr ""
+msgstr "تعديل الوظيفة"
 
 #. Template: AdminGenericAgent
 msgid "Add Job"
-msgstr ""
+msgstr "إضافة وظيفة"
 
 #. Template: AdminGenericAgent
 msgid "Run Job"
-msgstr ""
+msgstr "تشغيل الوظيفة"
 
 #. Template: AdminGenericAgent
 msgid "Filter for Jobs"
-msgstr ""
+msgstr "تصفية للوظائف"
 
 #. Template: AdminGenericAgent
 msgid "Filter for jobs"
-msgstr ""
+msgstr "تصفية للوظائف"
 
 #. Template: AdminGenericAgent
 msgid "Last run"
@@ -2568,55 +2568,55 @@ msgstr "آخر تشغيل"
 
 #. Template: AdminGenericAgent
 msgid "Run Now!"
-msgstr "تشغيل الآن"
+msgstr "تشغيل الآن!"
 
 #. Template: AdminGenericAgent
 msgid "Delete this task"
-msgstr ""
+msgstr "حذف هذا الطلب"
 
 #. Template: AdminGenericAgent
 msgid "Run this task"
-msgstr ""
+msgstr "تشغيل هذه المهمة"
 
 #. Template: AdminGenericAgent
 msgid "Job Settings"
-msgstr ""
+msgstr "إعدادات الوظيفة"
 
 #. Template: AdminGenericAgent
 msgid "Job name"
-msgstr ""
+msgstr "اسم الوظيفة"
 
 #. Template: AdminGenericAgent
 msgid "The name you entered already exists."
-msgstr ""
+msgstr "الاسم الذي أدخلته موجود بالفعل."
 
 #. Template: AdminGenericAgent
 msgid "Automatic Execution (Multiple Tickets)"
-msgstr ""
+msgstr "التنفيذ التلقائي (تذاكر متعددة)"
 
 #. Template: AdminGenericAgent
 msgid "Execution Schedule"
-msgstr ""
+msgstr "خطة التنفيذ"
 
 #. Template: AdminGenericAgent
 msgid "Schedule minutes"
-msgstr ""
+msgstr "تشغيل إلى دقيقة (دقائق)"
 
 #. Template: AdminGenericAgent
 msgid "Schedule hours"
-msgstr ""
+msgstr "تشغيل في ساعة (ساعات)"
 
 #. Template: AdminGenericAgent
 msgid "Schedule days"
-msgstr ""
+msgstr "تشغيل في اليوم (الأيام)"
 
 #. Template: AdminGenericAgent
 msgid "Automatic execution values are in the system timezone."
-msgstr ""
+msgstr "توجد قيم التنفيذ التلقائي في المنطقة الزمنية للنظام."
 
 #. Template: AdminGenericAgent
 msgid "Currently this generic agent job will not run automatically."
-msgstr ""
+msgstr "حاليا لن يتم تشغيل وظيفة الوكيل العام هذه تلقائيًا."
 
 #. Template: AdminGenericAgent
 msgid ""
