@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 07:54+0000\n"
+"PO-Revision-Date: 2022-09-14 11:01+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2140,105 +2140,111 @@ msgstr "ذاكرة التخزين المؤقت TTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
-msgstr ""
+msgstr "بادئة البحث"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchsuffix"
-msgstr ""
+msgstr "لاحقة البحث"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr ""
+msgstr "قيود النتائج"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
-msgstr ""
+msgstr "يميز بين الأحرف الكبيرة والصغيرة"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Default date difference"
-msgstr ""
+msgstr "فرق التاريخ الافتراضي"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "This field must be numeric."
-msgstr ""
+msgstr "يمكن أن يحتوي هذا الحقل على أرقام فقط."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "The difference from NOW (in seconds) to calculate the field default value (e."
 "g. 3600 or -60)."
 msgstr ""
+"يتم استخدام الفرق من الآن، بالثواني، لحساب القيمة الافتراضية للحقل (على سبيل "
+"المثال، 3600 أو -60)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Define years period"
-msgstr ""
+msgstr "تحديد النطاق السنوي"
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "Activate this feature to define a fixed range of years (in the future and in "
 "the past) to be displayed on the year part of the field."
 msgstr ""
+"قم بتنشيط هذه الميزة لتحديد نطاق ثابت من السنوات (في المستقبل وفي الماضي) "
+"ليتم عرضها في جزء السنة من الحقل."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past"
-msgstr ""
+msgstr "سنوات في الماضي"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the past to display (default: 5 years)."
-msgstr ""
+msgstr "السنوات الماضية المراد عرضها (الافتراضي: 5 سنوات)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future"
-msgstr ""
+msgstr "سنوات في المستقبل"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Years in the future to display (default: 5 years)."
-msgstr ""
+msgstr "السنوات المستقبلية التي يتم عرضها (الافتراضية: 5)."
 
 #. Template: AdminDynamicFieldDateTime
 msgid ""
 "If special characters (&, @, :, /, etc.) should not be encoded, use 'url' "
 "instead of 'uri' filter."
 msgstr ""
+"إذا كنت لا ترغب في ترميز الأحرف الخاصة (&، @، :، /، إلخ)، فاستخدم فلتر \"URL"
+"\" بدلا من عامل تصفية \"uri\"."
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Restrict entering of dates"
-msgstr ""
+msgstr "تقييد إدخال البيانات"
 
 #. Template: AdminDynamicFieldDateTime
 msgid "Here you can restrict the entering of dates of tickets."
-msgstr ""
+msgstr "هنا يمكنك تقييد إدخال البيانات في هذا الحقل."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add Value"
-msgstr ""
+msgstr "إضافة قيمة"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Add empty value"
-msgstr ""
+msgstr "إضافة قيمة فارغة"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to create an empty selectable value."
-msgstr ""
+msgstr "قم بتنشيط هذا الخيار لإنشاء قيمة فارغة قابلة للتحديد."
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Tree View"
-msgstr ""
+msgstr "عرض الشجرة"
 
 #. Template: AdminDynamicFieldDropdown
 msgid "Activate this option to display values as a tree."
-msgstr ""
+msgstr "قم بتنشيط هذا الخيار لعرض القيم كشجرة."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "%s - %s"
-msgstr ""
+msgstr "٪ s -٪ s"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the items you want to "
-msgstr ""
+msgstr "حدد العناصر التي تريدها "
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Select the desired elements and confirm the import with 'import'."
-msgstr ""
+msgstr "حدد العناصر المطلوبة وقم بتأكيد الاستيراد باستخدام \"استيراد\"."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
@@ -2246,63 +2252,67 @@ msgid ""
 "screens to import these on another system. The configuration file is "
 "exported in yml format."
 msgstr ""
+"هنا يمكنك تصدير ملف تكوين من الحقول الديناميكية وشاشات الحقول الديناميكية "
+"لاستيرادها على نظام آخر. يتم تصدير ملف التكوين بتنسيق yml."
 
 #. Template: AdminDynamicFieldImportExport
 msgid ""
 "The following dynamic fields can not be imported because of an invalid "
 "backend."
-msgstr ""
+msgstr "لا يمكن استيراد الحقول الديناميكية التالية بسبب خلفية غير صالحة."
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Toggle all available elements"
-msgstr ""
+msgstr "تبديل جميع العناصر المتاحة"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Fields"
-msgstr ""
+msgstr "حقول"
 
 #. Template: AdminDynamicFieldImportExport
 msgid "Screens"
-msgstr ""
+msgstr "شاشات"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Management of Dynamic Fields <-> Screens"
-msgstr ""
+msgstr "إدارة الحقول الديناميكية <-> شاشات"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Overview"
-msgstr "الملخص"
+msgstr "نظرة عامة"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Default Columns Screens"
-msgstr ""
+msgstr "شاشات الأعمدة الافتراضية"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Add DynamicField"
-msgstr ""
+msgstr "إضافة حقل ديناميكي"
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "You can assign elements to this Screen/Field by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"يمكنك تعيين عناصر لهذه الشاشة/الحقل عن طريق سحب العناصر بالماوس من القائمة "
+"اليسرى إلى القائمة اليمنى."
 
 #. Template: AdminDynamicFieldScreen
 msgid ""
 "Ordering the elements within the list is also possible by drag 'n' drop."
-msgstr ""
+msgstr "يمكن أيضا ترتيب العناصر عن طريق تحريكها باستخدام الماوس."
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter available elements"
-msgstr ""
+msgstr "تصفية العناصر المتوفرة"
 
 #. Template: AdminDynamicFieldScreen
 msgid "selected to available elements"
-msgstr ""
+msgstr "العناصر المختارة التي ستكون متاحة"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Available Elements"
-msgstr ""
+msgstr "العناصر المتوفرة"
 
 #. Template: AdminDynamicFieldScreen
 msgid "Filter disabled elements"
