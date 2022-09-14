@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 14:01+0000\n"
+"PO-Revision-Date: 2022-09-14 14:02+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2516,7 +2516,7 @@ msgstr "إرسال رسالة إلى المستخدمين"
 
 #. Template: AdminEmail
 msgid "Send message to group members"
-msgstr ""
+msgstr "إرسال رسالة إلى أعضاء المجموعة"
 
 #. Template: AdminEmail
 msgid "Group members need to have permission"
