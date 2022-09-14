@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 07:09+0000\n"
+"PO-Revision-Date: 2022-09-14 07:54+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2014,23 +2014,26 @@ msgstr ""
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Searchable fields"
-msgstr ""
+msgstr "الحقول القابلة للبحث"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "Comma separated list of searchable keys (optional). Key 'Name' is always "
 "searchable and doesn't have to be listed here."
 msgstr ""
+"قائمة مفصولة بفواصل للمفاتيح القابلة للبحث (اختياري). يمكن دائمًا البحث عن "
+"المفتاح \"Name\" ولا يلزم إدراجه هنا."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Translatable values"
-msgstr ""
+msgstr "قيم قابلة للترجمة"
 
 #. Template: AdminDynamicFieldContactWD
 msgid ""
 "If you activate this option the values will be translated to the user "
 "defined language."
 msgstr ""
+"إذا قمت بتنشيط هذا الخيار، فسيتم ترجمة القيم إلى اللغة التي يحددها المستخدم."
 
 #. Template: AdminDynamicFieldContactWD
 msgid "Note"
@@ -2040,37 +2043,39 @@ msgstr "ملاحظة"
 msgid ""
 "You need to add the translations manually into the language translation "
 "files."
-msgstr ""
+msgstr "تحتاج إلى إضافة الترجمات يدويا إلى ملفات ترجمة اللغة."
 
 #. Template: AdminDynamicFieldDB
 msgid "Possible values"
-msgstr ""
+msgstr "القيم المحتملة"
 
 #. Template: AdminDynamicFieldDB
 msgid "Datatype"
-msgstr ""
+msgstr "نوع البيانات"
 
 #. Template: AdminDynamicFieldDB
 msgid "Filter"
-msgstr "الترشيح"
+msgstr "فِلْتَر"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchfield"
-msgstr ""
+msgstr "مربع البحث"
 
 #. Template: AdminDynamicFieldDB
 msgid "Listfield"
-msgstr ""
+msgstr "مربع قائمة"
 
 #. Template: AdminDynamicFieldDB
 msgid "Show link"
-msgstr ""
+msgstr "إظهار الرابط"
 
 #. Template: AdminDynamicFieldDB
 msgid ""
 "Here you can specify an optional HTTP link for the field value in Overviews "
 "and Zoom screens."
 msgstr ""
+"هنا يمكنك تحديد ارتباط HTTP اختياري لقيمة الحقل في شاشات اللمحات العامة "
+"والتكبير/التصغير."
 
 #. Template: AdminDynamicFieldDB
 msgid "Example"
@@ -2078,7 +2083,7 @@ msgstr "مثال"
 
 #. Template: AdminDynamicFieldDB
 msgid "Link for preview"
-msgstr ""
+msgstr "رابط للمعاينة"
 
 #. Template: AdminDynamicFieldDB
 msgid ""
@@ -2086,6 +2091,8 @@ msgid ""
 "link is hovered in ticket zoom. Please note that for this to work, the "
 "regular URL field above needs to be filled in, too."
 msgstr ""
+"يتم استخدام عنوان URL هذا (إن وجد) للمعاينة عندما يكون الماوس فوق هذا الرابط "
+"في طريقة عرض التذكرة. لهذا الغرض، يجب أيضا ملء حقل عنوان URL أعلاه."
 
 #. Template: AdminDynamicFieldDB
 msgid "SID"
@@ -2093,19 +2100,19 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Driver"
-msgstr ""
+msgstr "برنامج تشغيل الجهاز"
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "خَادِمٌ"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
-msgstr ""
+msgstr "مَنْفَذٌ"
 
 #. Template: AdminDynamicFieldDB
 msgid "Table / View"
-msgstr ""
+msgstr "الجدول / العرض"
 
 #. Template: AdminDynamicFieldDB
 msgid "User"
@@ -2117,19 +2124,19 @@ msgstr "كلمة المرور"
 
 #. Template: AdminDynamicFieldDB
 msgid "Identifier"
-msgstr ""
+msgstr "المعرف"
 
 #. Template: AdminDynamicFieldDB
 msgid "Must be unique column from the table entered in Table/View."
-msgstr ""
+msgstr "يجب أن يكون عمودا فريدا من الجدول الذي تم إدخاله في الجدول/طريقة العرض."
 
 #. Template: AdminDynamicFieldDB
 msgid "Multiselect"
-msgstr ""
+msgstr "اختيار متعدد"
 
 #. Template: AdminDynamicFieldDB
 msgid "CacheTTL"
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت TTL"
 
 #. Template: AdminDynamicFieldDB
 msgid "Searchprefix"
