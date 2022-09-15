@@ -40,25 +40,19 @@ my $MainObject    = $Kernel::OM->Get('Kernel::System::Main');
 my $Home = $ConfigObject->Get('Home');
 
 sub CachePopulate {
-    my $CacheSet = $CacheObject->Set(
+    my $CacheSetSuccess = $CacheObject->Set(
         Type  => 'TicketTest',
         Key   => 'Package',
         Value => 'PackageValue',
         TTL   => 24 * 60 * 60,
     );
-    $Self->True(
-        $CacheSet,
-        "CacheSet successful",
-    );
+    ok( $CacheSetSuccess, "CacheSet successful" );
+
     my $CacheValue = $CacheObject->Get(
         Type => 'TicketTest',
         Key  => 'Package',
     );
-    $Self->Is(
-        $CacheValue,
-        'PackageValue',
-        "CacheSet value",
-    );
+    is( $CacheValue, 'PackageValue', "CacheSet value" );
 
     return;
 }
@@ -68,11 +62,7 @@ sub CacheClearedCheck {
         Type => 'TicketTest',
         Key  => 'Package',
     );
-    $Self->Is(
-        scalar $CacheValue,
-        scalar undef,
-        "CacheGet value was cleared",
-    );
+    is( $CacheValue, undef, "CacheGet value was cleared" );
 
     return;
 }
@@ -207,10 +197,7 @@ ok( stat($CoreTestModule)->mtime() < $TimeBeforeInstall, 'core Test.pm is old' )
 
 my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String );
 
-$Self->True(
-    $FirstPackageInstallOk,
-    '#1 PackageInstall()',
-);
+ok( $FirstPackageInstallOk, '#1 PackageInstall()' );
 
 # PackageInstall() should have touched the core module
 ok(
@@ -301,17 +288,11 @@ $Self->True(
 
 my $PackageUninstall = $PackageObject->PackageUninstall( String => $String );
 
-$Self->True(
-    $PackageUninstall,
-    '#1 PackageUninstall()',
-);
+ok( $PackageUninstall, '#1 PackageUninstall()' );
 
 $PackageUninstall = $PackageObject->PackageUninstall( String => $StringSecond );
 
-ok(
-    $PackageUninstall,
-    '#1 PackageUninstall() Second',
-);
+ok( $PackageUninstall, '#1 PackageUninstall() Second' );
 
 CachePopulate();
 

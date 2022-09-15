@@ -103,7 +103,9 @@ sub Run {
     SUBTASK:
     for my $SubTask (@SubTasks) {
 
-        next SUBTASK if !$PackageObject->PackageIsInstalled( Name => $SubTask->{Package} );
+        next SUBTASK unless $PackageObject->PackageIsInstalled(
+            Name => $SubTask->{Package}
+        );
 
         my $Epoch = $Kernel::OM->Create('Kernel::System::DateTime')->ToEpoch();
         $CacheObject->Set(

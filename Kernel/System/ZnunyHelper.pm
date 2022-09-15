@@ -502,7 +502,8 @@ sub _ValidDynamicFieldScreenListGet {
                 my $IsInstalled = $PackageObject->PackageIsInstalled(
                     Name => $Registration,
                 );
-                next REGISTRATION if !$IsInstalled;
+
+                next REGISTRATION unless $IsInstalled;
             }
 
             %{ $ValidScreens->{$Screen} } = (

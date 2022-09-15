@@ -2729,6 +2729,7 @@ sub PackageIsInstalled {
             Priority => 'error',
             Message  => 'Need String (PackageString) or Name (Name of the package)!',
         );
+
         return;
     }
 

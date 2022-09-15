@@ -64,7 +64,7 @@ if ( !$Kernel::OM->Get('Kernel::System::Main')->Require( 'Kernel::System::Calend
     $SkipTeam = 1;
 }
 
-# depending on the installed packages some module can be ignored
+# depending on the installed packages some modules can be ignored
 my $SkipITSM;
 {
     # check whether ITSMConfigurationManagment is installed

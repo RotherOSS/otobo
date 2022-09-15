@@ -1286,6 +1286,7 @@ sub Run {
                     FormID  => $FormID,
                 );
             }
+
             return $Self->_InstallHandling(
                 Package => $UploadStuff{Content},
                 FormID  => $FormID,
