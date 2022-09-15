@@ -2751,10 +2751,12 @@ sub PackageIsInstalled {
     # Depending on the database the lookup might be done in a case insensitive way.
     # This is the case with MySQL and MariaDB where the collation is usually utf8mb4_unicode_ci.
     $DBObject->Prepare(
-        SQL => "SELECT name FROM package_repository "
-            . "WHERE name = ? AND install_status = 'installed'",
-        Bind  => [ \$Param{Name} ],
-        Limit => 1,
+        SQL => <<'END_SQL',
+SELECT name FROM package_repository
+  WHERE name = ?
+    AND install_status = 'installed'
+END_SQL
+        Bind => [ \$Param{Name} ],
     );
 
     # Enforce case sensitivity here.
