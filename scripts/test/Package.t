@@ -1143,7 +1143,7 @@ if ( !$DeveloperSystem ) {
 subtest "packages only differing in capitalization" => sub {
     my $String1 = '<?xml version="1.0" encoding="utf-8" ?>
 <otobo_package version="1.0">
-  <Name>UpperLower</Name>
+  <Name>UPPER_lower🏔</Name>
   <Version>0.0.1</Version>
   <Vendor>Rother OSS GmbH</Vendor>
   <URL>https://otobo.de/</URL>
@@ -1154,19 +1154,25 @@ subtest "packages only differing in capitalization" => sub {
   <BuildDate>2005-11-10 21:17:16</BuildDate>
   <BuildHost>yourhost.example.com</BuildHost>
   <Filelist>
-    <File Location="Test_UpperLower" Permission="644" Encode="Base64">aGVsbG8K</File>
+    <File Location="Test_UPPER_lower" Permission="644" Encode="Base64">aGVsbG8K</File>
   </Filelist>
 </otobo_package>
 ';
 
     my $String2 = $String1;
-    $String2 =~ s/UpperLower/uPPERlOWER/;
+    $String2 =~ s/UPPER_lower/upper_LOWER/g;
 
     my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String1 );
-    ok( $FirstPackageInstallOk, 'PackageInstall() 1', );
+    ok( $FirstPackageInstallOk, 'PackageInstall() UPPER_lower', );
 
     my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $String2 );
-    ok( $SecondPackageInstallOk, 'PackageInstall() 2', );
+    ok( $SecondPackageInstallOk, 'PackageInstall() lower_UPPER', );
+
+    my $FirstPackageUninstallOk = $PackageObject->PackageUninstall( String => $String1 );
+    ok( $FirstPackageUninstallOk, 'PackageUninstall() UPPER_lower', );
+
+    my $SecondPackageUninstallOk = $PackageObject->PackageUninstall( String => $String1 );
+    ok( $SecondPackageUninstallOk, 'PackageUninstall() lower_UPPER', );
 };
 
 done_testing();
