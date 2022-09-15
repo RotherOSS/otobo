@@ -1159,8 +1159,7 @@ subtest "packages only differing in capitalization" => sub {
 </otobo_package>
 ';
 
-    my $String2 = $String1;
-    $String2 =~ s/UPPER_lower/upper_LOWER/g;
+    my $String2 = $String1 =~ s/UPPER_lower/upper_LOWER/gr;
 
     my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String1 );
     ok( $FirstPackageInstallOk, 'PackageInstall() UPPER_lower', );
@@ -1171,7 +1170,7 @@ subtest "packages only differing in capitalization" => sub {
     my $FirstPackageUninstallOk = $PackageObject->PackageUninstall( String => $String1 );
     ok( $FirstPackageUninstallOk, 'PackageUninstall() UPPER_lower', );
 
-    my $SecondPackageUninstallOk = $PackageObject->PackageUninstall( String => $String1 );
+    my $SecondPackageUninstallOk = $PackageObject->PackageUninstall( String => $String2 );
     ok( $SecondPackageUninstallOk, 'PackageUninstall() lower_UPPER', );
 };
 
