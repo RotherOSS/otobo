@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-14 17:42+0000\n"
+"PO-Revision-Date: 2022-09-15 07:33+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2623,22 +2623,24 @@ msgid ""
 "To enable automatic execution select at least one value from minutes, hours "
 "and days!"
 msgstr ""
+"لتمكين التنفيذ التلقائي، حدد قيمة واحدة على الأقل من الدقائق والساعات "
+"والأيام!"
 
 #. Template: AdminGenericAgent
 msgid "Event Based Execution (Single Ticket)"
-msgstr ""
+msgstr "التنفيذ القائم على الحدث (تذكرة واحدة)"
 
 #. Template: AdminGenericAgent
 msgid "Event Triggers"
-msgstr ""
+msgstr "محفزات الحدث"
 
 #. Template: AdminGenericAgent
 msgid "List of all configured events"
-msgstr ""
+msgstr "قائمة بجميع الأحداث التي تم تكوينها"
 
 #. Template: AdminGenericAgent
 msgid "Delete this event"
-msgstr ""
+msgstr "حذف هذا الحدث"
 
 #. Template: AdminGenericAgent
 msgid ""
