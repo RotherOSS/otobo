@@ -455,7 +455,7 @@ returns an array of hashes with select Appointment data or simple array of Appoi
 
 Result => 'HASH':
 
-    @Appointments = [
+    @Appointments = (
         {
             AppointmentID => 1,
             CalendarID    => 1,
@@ -504,11 +504,11 @@ Result => 'HASH':
             TicketAppointmentRuleID               => '9bb20ea035e7a9930652a9d82d00c725',    # for ticket appointments only!
         },
         ...
-    ];
+    );
 
 Result => 'ARRAY':
 
-    @Appointments = [ 1, 2, ... ]
+    @Appointments = ( 1, 2, ... )
 
 =cut
 
