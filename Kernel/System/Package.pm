@@ -2711,11 +2711,18 @@ sub PackageExport {
 
 =head2 PackageIsInstalled()
 
-returns true if the package is already installed
+returns true if the package is already installed. The lookup is done by the package name
+in a case sensitive way. The name is either passed via the parameter C<Name> or via a
+package declaration XML string in the parameter C<String>.
 
-    $PackageObject->PackageIsInstalled(
-        String => $PackageString,    # Attribute String or Name is required
+    my $IsInstalled = $PackageObject->PackageIsInstalled(
         Name   => $NameOfThePackage,
+    );
+
+or
+
+    my $IsInstalled = $PackageObject->PackageIsInstalled(
+        String => $PackageString,
     );
 
 =cut
@@ -2741,6 +2748,8 @@ sub PackageIsInstalled {
     # get database object
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
+    # Depending on the database the lookup might be done in a case insensitive way.
+    # This is the case with MySQL and MariaDB where the collation is usually utf8mb4_unicode_ci.
     $DBObject->Prepare(
         SQL => "SELECT name FROM package_repository "
             . "WHERE name = ? AND install_status = 'installed'",
@@ -2748,12 +2757,16 @@ sub PackageIsInstalled {
         Limit => 1,
     );
 
-    my $Flag = 0;
-    while ( my @Row = $DBObject->FetchrowArray() ) {
-        $Flag = 1;
+    # Enforce case sensitivity here.
+    my $IsInstalled = 0;
+    NAME:
+    while ( my ($Name) = $DBObject->FetchrowArray() ) {
+        next NAME unless $Name eq $Param{Name};
+
+        $IsInstalled = 1;
     }
 
-    return $Flag;
+    return $IsInstalled;
 }
 
 =head2 PackageInstallDefaultFiles()
