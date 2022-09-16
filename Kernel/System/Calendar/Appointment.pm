@@ -19,12 +19,15 @@ package Kernel::System::Calendar::Appointment;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
 use Digest::MD5;
 
-use vars qw(@ISA);
+# CPAN modules
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::EventHandler;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -63,12 +66,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    @ISA = qw(
-        Kernel::System::EventHandler
-    );
+    my $Self = bless {%Param}, $Type;
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -455,7 +453,7 @@ returns an array of hashes with select Appointment data or simple array of Appoi
 
 Result => 'HASH':
 
-    @Appointments = [
+    @Appointments = (
         {
             AppointmentID => 1,
             CalendarID    => 1,
@@ -504,11 +502,11 @@ Result => 'HASH':
             TicketAppointmentRuleID               => '9bb20ea035e7a9930652a9d82d00c725',    # for ticket appointments only!
         },
         ...
-    ];
+    );
 
 Result => 'ARRAY':
 
-    @Appointments = [ 1, 2, ... ]
+    @Appointments = ( 1, 2, ... )
 
 =cut
 
