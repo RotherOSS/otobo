@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-15 17:32+0000\n"
+"PO-Revision-Date: 2022-09-16 07:40+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2660,39 +2660,39 @@ msgstr ""
 
 #. Template: AdminGenericAgent
 msgid "Do you really want to delete this event trigger?"
-msgstr ""
+msgstr "هل تريد حقًا حذف مشغل هذا الحدث؟"
 
 #. Template: AdminGenericAgent
 msgid "Add Event Trigger"
-msgstr ""
+msgstr "إضافة مشغل الحدث"
 
 #. Template: AdminGenericAgent
 msgid "To add a new event select the event object and event name"
-msgstr ""
+msgstr "حدد كائن الحدث واسمه لإضافة حدث جديد"
 
 #. Template: AdminGenericAgent
 msgid "Select Tickets"
-msgstr ""
+msgstr "حدد التذاكر"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 10*5155 or 105658*)"
-msgstr ""
+msgstr "(على سبيل المثال 10 * 5155 أو 105658 *)"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. 234321)"
-msgstr ""
+msgstr "(مثال: 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr ""
+msgstr "رقم مستخدم العميل"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
-msgstr ""
+msgstr "(مثل U5150)"
 
 #. Template: AdminGenericAgent
 msgid "Fulltext-search in article (e. g. \"Mar*in\" or \"Baue*\")."
-msgstr ""
+msgstr "البحث عن النص الكامل في المقالات (مثل \"Mar*in\" أو \"Baue*\")."
 
 #. Template: AdminGenericAgent
 msgid "To"
@@ -2700,15 +2700,15 @@ msgstr "إلى"
 
 #. Template: AdminGenericAgent
 msgid "Cc"
-msgstr ""
+msgstr "Cc"
 
 #. Template: AdminGenericAgent
 msgid "Service"
-msgstr ""
+msgstr "خِدْمة"
 
 #. Template: AdminGenericAgent
 msgid "Service Level Agreement"
-msgstr ""
+msgstr "اتفاقية مستوى الخدمة"
 
 #. Template: AdminGenericAgent
 msgid "Queue"
@@ -2720,7 +2720,7 @@ msgstr "الحالة"
 
 #. Template: AdminGenericAgent
 msgid "Agent"
-msgstr "المشغل"
+msgstr "عَامِلٌ"
 
 #. Template: AdminGenericAgent
 msgid "Owner"
@@ -2732,67 +2732,67 @@ msgstr "مسؤوليات"
 
 #. Template: AdminGenericAgent
 msgid "Ticket lock"
-msgstr ""
+msgstr "قفل التذاكر"
 
 #. Template: AdminGenericAgent
 msgid "Dynamic fields"
-msgstr ""
+msgstr "الحقول الديناميكية"
 
 #. Template: AdminGenericAgent
 msgid "Add dynamic field"
-msgstr ""
+msgstr "إضافة حقل ديناميكي"
 
 #. Template: AdminGenericAgent
 msgid "Create times"
-msgstr ""
+msgstr "أوقات الإنشاء"
 
 #. Template: AdminGenericAgent
 msgid "No create time settings."
-msgstr ""
+msgstr "لا توجد إعدادات وقت الإنشاء."
 
 #. Template: AdminGenericAgent
 msgid "Ticket created"
-msgstr "البطاقة أنشئت"
+msgstr "تم إنشاء التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket created between"
-msgstr "البطاقة أنشئت بين"
+msgstr "تم إنشاء التذكرة بين"
 
 #. Template: AdminGenericAgent
 msgid "and"
-msgstr " و "
+msgstr "و"
 
 #. Template: AdminGenericAgent
 msgid "Last changed times"
-msgstr ""
+msgstr "آخر مرة تم تغييرها"
 
 #. Template: AdminGenericAgent
 msgid "No last changed time settings."
-msgstr ""
+msgstr "لا توجد إعدادات لآخر تعديل."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed"
-msgstr ""
+msgstr "آخر تعديل للتذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last changed between"
-msgstr ""
+msgstr "آخر تعديل للتذكرة بين"
 
 #. Template: AdminGenericAgent
 msgid "Change times"
-msgstr ""
+msgstr "تغيير الأوقات"
 
 #. Template: AdminGenericAgent
 msgid "No change time settings."
-msgstr ""
+msgstr "لا تغيير إعدادات الوقت."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
-msgstr ""
+msgstr "تم تغيير التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
-msgstr ""
+msgstr "تم تغيير التذكرة بين"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
