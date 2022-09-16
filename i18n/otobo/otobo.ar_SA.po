@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-16 07:40+0000\n"
+"PO-Revision-Date: 2022-09-17 14:52+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -2796,171 +2796,171 @@ msgstr "تم تغيير التذكرة بين"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
-msgstr ""
+msgstr "آخر أوقات الإغلاق"
 
 #. Template: AdminGenericAgent
 msgid "No last close time settings."
-msgstr ""
+msgstr "لا توجد إعدادات وقت الإغلاق الأخير."
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close"
-msgstr ""
+msgstr "آخر إغلاق للتذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket last close between"
-msgstr ""
+msgstr "آخر تذكرة تم إغلاقها بين"
 
 #. Template: AdminGenericAgent
 msgid "Close times"
-msgstr ""
+msgstr "أوقات الإغلاق"
 
 #. Template: AdminGenericAgent
 msgid "No close time settings."
-msgstr ""
+msgstr "لا توجد إعدادات وقت الإغلاق."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
-msgstr ""
+msgstr "تم إغلاق التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed between"
-msgstr ""
+msgstr "تم إغلاق التذكرة بين"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
-msgstr ""
+msgstr "أوقات التذكير"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr ""
+msgstr "لا توجد إعدادات وقت التذكير."
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
-msgstr ""
+msgstr "تم الوصول إلى وقت تذكير التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached between"
-msgstr ""
+msgstr "وقت تذكير التذكرة الذي تم الوصول إليه بين"
 
 #. Template: AdminGenericAgent
 msgid "Escalation times"
-msgstr ""
+msgstr "أوقات التصعيد"
 
 #. Template: AdminGenericAgent
 msgid "No escalation time settings."
-msgstr ""
+msgstr "لا توجد إعدادات وقت التصعيد."
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached"
-msgstr ""
+msgstr "تم الوصول إلى وقت تصعيد التذاكر"
 
 #. Template: AdminGenericAgent
 msgid "Ticket escalation time reached between"
-msgstr ""
+msgstr "تم الوصول إلى وقت تصعيد التذاكر بين"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - first response time"
-msgstr ""
+msgstr "التصعيد - حان وقت رد الفعل الأول"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached"
-msgstr ""
+msgstr "تم الوصول إلى وقت استجابة التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Ticket first response time reached between"
-msgstr ""
+msgstr "وقت استجابة التذكرة الذي تم الوصول إليه بين"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - update time"
-msgstr ""
+msgstr "التصعيد - وقت التحديث"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached"
-msgstr ""
+msgstr "تم الوصول إلى وقت تحديث التذاكر"
 
 #. Template: AdminGenericAgent
 msgid "Ticket update time reached between"
-msgstr ""
+msgstr "وقت تحديث التذاكر الذي تم الوصول إليه بين"
 
 #. Template: AdminGenericAgent
 msgid "Escalation - solution time"
-msgstr ""
+msgstr "التصعيد - وقت الحل"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached"
-msgstr ""
+msgstr "تم الوصول إلى وقت حل التذاكر"
 
 #. Template: AdminGenericAgent
 msgid "Ticket solution time reached between"
-msgstr ""
+msgstr "وقت حل التذكرة الذي تم الوصول إليه بين"
 
 #. Template: AdminGenericAgent
 msgid "Archive search option"
-msgstr ""
+msgstr "البحث في الأرشيف"
 
 #. Template: AdminGenericAgent
 msgid "Update/Add Ticket Attributes"
-msgstr ""
+msgstr "تحديث / إضافة سمات التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Set new service"
-msgstr ""
+msgstr "تعيين خدمة جديدة"
 
 #. Template: AdminGenericAgent
 msgid "Set new Service Level Agreement"
-msgstr ""
+msgstr "إنشاء اتفاقية مستوى خدمة جديدة"
 
 #. Template: AdminGenericAgent
 msgid "Set new priority"
-msgstr ""
+msgstr "تعيين أولوية جديدة"
 
 #. Template: AdminGenericAgent
 msgid "Set new queue"
-msgstr ""
+msgstr "تعيين قائمة انتظار جديدة"
 
 #. Template: AdminGenericAgent
 msgid "Set new state"
-msgstr ""
+msgstr "تعيين حالة جديدة"
 
 #. Template: AdminGenericAgent
 msgid "Pending date"
-msgstr "تاريخ الإنتظار"
+msgstr "انتظر حتى"
 
 #. Template: AdminGenericAgent
 msgid "Set new agent"
-msgstr ""
+msgstr "تعيين وكيل جديد"
 
 #. Template: AdminGenericAgent
 msgid "new owner"
-msgstr ""
+msgstr "مالك جديد"
 
 #. Template: AdminGenericAgent
 msgid "new responsible"
-msgstr ""
+msgstr "مسؤول جديد"
 
 #. Template: AdminGenericAgent
 msgid "Set new ticket lock"
-msgstr ""
+msgstr "تعيين قفل تذكرة جديد"
 
 #. Template: AdminGenericAgent
 msgid "New customer user ID"
-msgstr ""
+msgstr "رقم مستخدم العميل الجديد"
 
 #. Template: AdminGenericAgent
 msgid "New customer ID"
-msgstr ""
+msgstr "رقم عميل جديد"
 
 #. Template: AdminGenericAgent
 msgid "New title"
-msgstr ""
+msgstr "عنوان جديد"
 
 #. Template: AdminGenericAgent
 msgid "New type"
-msgstr ""
+msgstr "نوع جديد"
 
 #. Template: AdminGenericAgent
 msgid "Archive selected tickets"
-msgstr ""
+msgstr "أرشفة التذاكر المختارة"
 
 #. Template: AdminGenericAgent
 msgid "Add Note"
@@ -2968,51 +2968,53 @@ msgstr "إضافة ملاحظة"
 
 #. Template: AdminGenericAgent
 msgid "Visible for customer"
-msgstr ""
+msgstr "مرئي للعملاء"
 
 #. Template: AdminGenericAgent
 msgid "Time units"
-msgstr "وحدات الوقت"
+msgstr "وحدات زمنية"
 
 #. Template: AdminGenericAgent
 msgid "Execute Ticket Commands"
-msgstr ""
+msgstr "تنفيذ أوامر التذكرة"
 
 #. Template: AdminGenericAgent
 msgid "Send agent/customer notifications on changes"
-msgstr ""
+msgstr "إرسال إشعار وكيل / عميل بالتغييرات"
 
 #. Template: AdminGenericAgent
 msgid "CMD"
-msgstr ""
+msgstr "CMD"
 
 #. Template: AdminGenericAgent
 msgid ""
 "This command will be executed. ARG[0] will be the ticket number. ARG[1] the "
 "ticket id."
-msgstr "حذف بطاقات"
+msgstr ""
+"يتم تشغيل هذا الأمر مع رقم التذكرة كوسيطة أولى ومعرف التذكرة كوسيطة ثانية."
 
 #. Template: AdminGenericAgent
 msgid "Delete tickets"
-msgstr "حذف بطاقات"
+msgstr "حذف التذاكر"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Warning: All affected tickets will be removed from the database and cannot "
 "be restored!"
 msgstr ""
+"تحذير: سيتم حذف جميع التذاكر المتأثرة من قاعدة البيانات ولا يمكن استعادتها!"
 
 #. Template: AdminGenericAgent
 msgid "Execute Custom Module"
-msgstr ""
+msgstr "تنفيذ الوحدة النمطية المخصصة"
 
 #. Template: AdminGenericAgent
 msgid "Param %s key"
-msgstr ""
+msgstr "مفتاح Param٪ s"
 
 #. Template: AdminGenericAgent
 msgid "Param %s value"
-msgstr ""
+msgstr "قيمة المعلمة ٪s"
 
 #. Template: AdminGenericAgent
 msgid "Results"
@@ -3020,21 +3022,21 @@ msgstr "النتيجة"
 
 #. Template: AdminGenericAgent
 msgid "%s Tickets affected! What do you want to do?"
-msgstr ""
+msgstr "تأثرت التذاكر بنسبة ٪s! ماذا تريد أن تفعل؟"
 
 #. Template: AdminGenericAgent
 msgid "Warning: You used the DELETE option. All deleted tickets will be lost!"
-msgstr ""
+msgstr "تحذير: أنت تستخدم خيار الحذف. ستفقد جميع التذاكر المحذوفة!"
 
 #. Template: AdminGenericAgent
 msgid ""
 "Warning: There are %s tickets affected but only %s may be modified during "
 "one job execution!"
-msgstr ""
+msgstr "تحذير:٪ s تذاكر متأثرة، ولكن يمكن تغيير ٪s فقط أثناء تنفيذ الأمر!"
 
 #. Template: AdminGenericAgent
 msgid "Affected Tickets"
-msgstr ""
+msgstr "التذاكر المتأثرة"
 
 #. Template: AdminGenericAgent
 msgid "Age"
@@ -3042,19 +3044,19 @@ msgstr "عمر البطاقة"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "GenericInterface Web Service Management"
-msgstr ""
+msgstr "GenericInterface - إدارة خدمة الويب"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Web Service Management"
-msgstr ""
+msgstr "إدارة خدمة الويب"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Debugger"
-msgstr ""
+msgstr "مُصَحِّحٌ"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Go back to web service"
-msgstr ""
+msgstr "العودة إلى خدمة الويب"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Clear"
@@ -3062,11 +3064,11 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Do you really want to clear the debug log of this web service?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف سجل تصحيح الأخطاء لخدمة الويب هذه؟"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Request List"
-msgstr ""
+msgstr "قائمة الاستفسارات"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Time"
@@ -3074,104 +3076,108 @@ msgstr "الوقت"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Communication ID"
-msgstr ""
+msgstr "مُعرِّف الاتصال"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Remote IP"
-msgstr ""
+msgstr "Remote-IP"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Loading"
-msgstr ""
+msgstr "تحميل"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Select a single request to see its details."
-msgstr ""
+msgstr "حدد استفسار لمعرفة تفاصيله."
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by type"
-msgstr ""
+msgstr "تصفية حسب النوع"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter from"
-msgstr ""
+msgstr "تصفية من"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter to"
-msgstr ""
+msgstr "تصفية إلى"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Filter by remote IP"
-msgstr ""
+msgstr "تصفية بواسطة IP البعيد"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Limit"
-msgstr ""
+msgstr "حَدّ"
 
 #. Template: AdminGenericInterfaceDebugger
 msgid "Refresh"
-msgstr "تحديث"
+msgstr "تَحْدِيثٌ"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Add ErrorHandling"
-msgstr ""
+msgstr "إضافة معالجة الأخطاء"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Edit ErrorHandling"
-msgstr ""
+msgstr "تحرير معالجة الأخطاء"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Do you really want to delete this error handling module?"
-msgstr ""
+msgstr "هل تريد حقًا حذف وحدة معالجة الأخطاء هذه؟"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "All configuration data will be lost."
-msgstr ""
+msgstr "سيتم فقدان جميع بيانات التكوين."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "General options"
-msgstr ""
+msgstr "خيارات عامة"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "The name can be used to distinguish different error handling configurations."
-msgstr ""
+msgstr "يمكن استخدام الاسم للتمييز بين تكوينات معالجة الأخطاء المختلفة."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Please provide a unique name for this web service."
-msgstr ""
+msgstr "الرجاء إدخال اسم فريد لخدمة الويب هذه."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error handling module backend"
-msgstr ""
+msgstr "معالجة الأخطاء الخلفية"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This OTOBO error handling backend module will be called internally to "
 "process the error handling mechanism."
 msgstr ""
+"يتم استدعاء الواجهة الخلفية لمعالجة الأخطاء OTOBO داخليا لإجراء معالجة "
+"الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Processing options"
-msgstr ""
+msgstr "خيارات المعالجة"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Configure filters to control error handling module execution."
-msgstr ""
+msgstr "تكوين عوامل التصفية للتحكم في تنفيذ الوحدة النمطية لمعالجة الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only requests matching all configured filters (if any) will trigger module "
 "execution."
 msgstr ""
+"فقط الطلبات التي تطابق جميع عوامل التصفية التي تم تكوينها (إن وجدت) هي التي "
+"ستؤدي إلى تنفيذ الوحدة النمطية."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Operation filter"
-msgstr ""
+msgstr "مرشح التشغيل"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected operations."
-msgstr ""
+msgstr "تنفيذ وحدة معالجة الأخطاء فقط للعمليات المحددة."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
@@ -3179,99 +3185,111 @@ msgid ""
 "request data. Filters involving this error stage should not use operation "
 "filter."
 msgstr ""
+"ملاحظة: بالنسبة للأخطاء التي تحدث عند تلقي بيانات الطلب الوارد، تكون العملية "
+"غير محددة. يجب ألا تستخدم المرشحات التي تتضمن مرحلة الخطأ هذه مرشح التشغيل."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Invoker filter"
-msgstr ""
+msgstr "مرشح Invoker"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Only execute error handling module for selected invokers."
-msgstr ""
+msgstr "تنفيذ وحدة معالجة الأخطاء للمستدعين المختارين فقط."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message content filter"
-msgstr ""
+msgstr "تصفية لمحتوى رسائل الخطأ"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Enter a regular expression to restrict which error messages should cause "
 "error handling module execution."
 msgstr ""
+"أدخل تعبيرا عاديا لتقييد رسائل الخطأ التي يجب أن تتسبب في تنفيذ الوحدة "
+"النمطية لمعالجة الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Error message subject and data (as seen in the debugger error entry) will "
 "considered for a match."
 msgstr ""
+"يتم التحقق من عنوان رسالة الخطأ ومحتواها (كما هو موضح في إدخال خطأ مصحح "
+"الأخطاء المقابل) بحثا عن التطابقات."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Enter '^.*401 Unauthorized.*\\\\$' to handle only authentication "
 "related errors."
 msgstr ""
+"مثال: أدخل \"^. * 401 Unauthorized. * \\\\ $\" لمعالجة الأخطاء المتعلقة "
+"بالمصادقة فقط."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error stage filter"
-msgstr ""
+msgstr "تصفية لمراحل معالجة الخطأ"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Only execute error handling module on errors that occur during specific "
 "processing stages."
-msgstr ""
+msgstr "تشغيل وحدة معالجة الأخطاء فقط لمراحل المعالجة المحددة."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Example: Handle only errors where mapping for outgoing data could not be "
 "applied."
-msgstr ""
+msgstr "مثال: معالجة الأخطاء التي تحدث عند تعيين البيانات الصادرة فقط."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error code"
-msgstr ""
+msgstr "رمز الخطأ"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error identifier for this error handling module."
-msgstr ""
+msgstr "معرف خطأ لوحدة معالجة الأخطاء هذه."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This identifier will be available in XSLT-Mapping and shown in debugger "
 "output."
-msgstr ""
+msgstr "سيتوفر هذا المعرف في XSLT-Mapping ويظهر في إخراج مصحح الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Error message"
-msgstr ""
+msgstr "رسالة خطأ"
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "An error explanation for this error handling module."
-msgstr ""
+msgstr "تفسير خطأ لوحدة معالجة الأخطاء هذه."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "This message will be available in XSLT-Mapping and shown in debugger output."
-msgstr ""
+msgstr "ستتوفر هذه الرسالة في XSLT-Mapping وستظهر في إخراج مصحح الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid ""
 "Define if processing should be stopped after module was executed, skipping "
 "all remaining modules or only those of the same backend."
 msgstr ""
+"حدد ما إذا كان يجب إيقاف المعالجة بعد تنفيذ الوحدة النمطية، وتخطي جميع "
+"الوحدات المتبقية أو فقط تلك الموجودة في نفس الواجهة الخلفية."
 
 #. Template: AdminGenericInterfaceErrorHandlingDefault
 msgid "Default behavior is to resume, processing the next module."
-msgstr ""
+msgstr "السلوك الافتراضي هو استئناف، ومعالجة الوحدة التالية."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This module allows to configure scheduled retries for failed requests."
-msgstr ""
+msgstr "تسمح هذه الوحدة بتكوين عمليات إعادة المحاولة المجدولة للطلبات الفاشلة."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Default behavior of GenericInterface web services is to send each request "
 "exactly once and not to reschedule after errors."
 msgstr ""
+"السلوك الافتراضي لخدمات الويب GenericInterface هو إرسال كل طلب مرة واحدة "
+"بالضبط ولا تعيد جدولتها بعد حدوث الأخطاء."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3279,48 +3297,58 @@ msgid ""
 "individual request, the module executed last is authoritative and determines "
 "if a retry is scheduled."
 msgstr ""
+"إذا تم تنفيذ أكثر من وحدة واحدة لطلب ما ، مما يتيح التخطيط للتكرار ، فإن "
+"الوحدة النمطية الأخيرة المنفذة تكون حاسمة لاتخاذ قرار بشأن ما إذا كان "
+"التكرار مقررا أم لا."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Request retry options"
-msgstr ""
+msgstr "خيارات لإعادة محاولة الطلبات"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Retry options are applied when requests cause error handling module "
 "execution (based on processing options)."
 msgstr ""
+"يتم تطبيق خيارات إعادة المحاولة عندما تؤدي الطلبات إلى تشغيل الوحدة النمطية "
+"لمعالجة الأخطاء (استنادا إلى خيارات المعالجة)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Schedule retry"
-msgstr ""
+msgstr "جدولة إعادة المحاولة"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Should requests causing an error be triggered again at a later time?"
-msgstr ""
+msgstr "هل تريد تشغيل طلبات خاطئة مرة أخرى في وقت لاحق؟"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Initial retry interval"
-msgstr ""
+msgstr "الفاصل الزمني الأولي لإعادة المحاولة"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Interval after which to trigger the first retry."
-msgstr ""
+msgstr "الفاصل الزمني الذي يتم بعده تشغيل إعادة المحاولة الأولى."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: This and all further retry intervals are based on the error handling "
 "module execution time for the initial request."
 msgstr ""
+"ملاحظة: يتم حساب الفاصل الزمني لهذه التكرارات وجميع التكرارات الأخرى استنادا "
+"إلى وقت تنفيذ وحدة معالجة الأخطاء للطلب الأولي."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Factor for further retries"
-msgstr ""
+msgstr "عامل لمزيد من عمليات إعادة المحاولة"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "If a request returns an error even after a first retry, define if subsequent "
 "retries are triggered using the same interval or in increasing intervals."
 msgstr ""
+"إذا قام طلب بإرجاع خطأ حتى بعد إعادة المحاولة الأولى، فحدد ما إذا كانت "
+"عمليات إعادة المحاولة اللاحقة يتم تشغيلها باستخدام نفس الفاصل الزمني أو في "
+"فترات زمنية متزايدة."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
