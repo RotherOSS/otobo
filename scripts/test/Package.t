@@ -1191,4 +1191,63 @@ subtest "packages only differing in capitalization" => sub {
     ok( !$PackageObject->PackageIsInstalled( Name => 'upper_LOWER' ), 'upper_LOWER uninstalled', );
 };
 
+# Packages names are not unicode normalized.
+# See https://en.wikipedia.org/wiki/Precomposed_character.
+subtest "packages with precomosed characters" => sub {
+
+    # set up package XML declaration that differ only in the composedness
+    my $Template = <<'END_OPM';
+<?xml version="1.0" encoding="utf-8" ?>
+<otobo_package version="1.0">
+  <Name>__ASTROM__</Name>
+  <Version>0.0.1</Version>
+  <Vendor>Rother OSS GmbH</Vendor>
+  <URL>https://otobo.de/</URL>
+  <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
+  <ChangeLog>2022-09-14 New package</ChangeLog>
+  <Description Lang="en">A test package for upper/lower package name.</Description>
+  <Framework>10.1.x</Framework>
+  <BuildDate>2005-11-10 21:17:16</BuildDate>
+  <BuildHost>yourhost.example.com</BuildHost>
+  <Filelist>
+    <File Location="Test-__ASTROM__" Permission="644" Encode="Base64">aGVsbG8K</File>
+  </Filelist>
+</otobo_package>
+END_OPM
+
+    my $NamePrecomposed   = 'Åström';                                      # (U+00C5 U+0073 U+0074 U+0072 U+00F6 U+006D)
+    my $StringPrecomposed = $Template =~ s/__ASTROM__/$NamePrecomposed/gr;
+
+    my $NameCombined   = 'Åström';                                       # (U+0041 U+030A U+0073 U+0074 U+0072 U+006F U+0308 U+006D)
+    my $StringCombined = $Template =~ s/__ASTROM__/$NameCombined/gr;
+
+    # initially neither combined nor precomposed is installed
+    ok( !$PackageObject->PackageIsInstalled( Name => $NamePrecomposed ), 'precomposed not installed' );
+    ok( !$PackageObject->PackageIsInstalled( Name => $NameCombined ),    'combined not installed', );
+
+    # install precomposed
+    my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $StringPrecomposed );
+    ok( $FirstPackageInstallOk, 'PackageInstall() precomposed', );
+    ok( $PackageObject->PackageIsInstalled( Name  => $NamePrecomposed ), 'precomposed installed' );
+    ok( !$PackageObject->PackageIsInstalled( Name => $NameCombined ),    'combined still not installed', );
+
+    # this installs a second package
+    my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $StringCombined );
+    ok( $SecondPackageInstallOk, 'PackageInstall() lower_UPPER', );
+    ok( $PackageObject->PackageIsInstalled( Name => $NamePrecomposed ), 'precomposed still installed', );
+    ok( $PackageObject->PackageIsInstalled( Name => $NameCombined ),    'combined installed', );
+
+    # uninstall precomposed
+    my $FirstPackageUninstallOk = $PackageObject->PackageUninstall( String => $StringPrecomposed );
+    ok( $FirstPackageUninstallOk, 'PackageUninstall() precomposed', );
+    ok( !$PackageObject->PackageIsInstalled( Name => $NamePrecomposed ), 'precomposed uninstalled', );
+    ok( $PackageObject->PackageIsInstalled( Name  => $NameCombined ),    'combined still installed', );
+
+    # uninstall combined
+    my $SecondPackageUninstallOk = $PackageObject->PackageUninstall( String => $StringCombined );
+    ok( $SecondPackageUninstallOk, 'PackageUninstall() combined', );
+    ok( !$PackageObject->PackageIsInstalled( Name => $NamePrecomposed ), 'precomposed still uninstalled', );
+    ok( !$PackageObject->PackageIsInstalled( Name => $NameCombined ),    'combined uninstalled', );
+};
+
 done_testing();
