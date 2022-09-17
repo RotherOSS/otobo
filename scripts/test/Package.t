@@ -1159,19 +1159,36 @@ subtest "packages only differing in capitalization" => sub {
 </otobo_package>
 ';
 
+    # change only the case of the package name and of the installed file name
     my $String2 = $String1 =~ s/UPPER_lower/upper_LOWER/gr;
 
+    # initially neither UPPER_lower nor upper_LOWER is installed
+    ok( !$PackageObject->PackageIsInstalled( Name => 'UPPER_lower' ), 'UPPER_lower not installed', );
+    ok( !$PackageObject->PackageIsInstalled( Name => 'upper_LOWER' ), 'upper_LOWER not installed', );
+
+    # install UPPER_lower
     my $FirstPackageInstallOk = $PackageObject->PackageInstall( String => $String1 );
     ok( $FirstPackageInstallOk, 'PackageInstall() UPPER_lower', );
+    ok( $PackageObject->PackageIsInstalled( Name  => 'UPPER_lower' ), 'UPPER_lower installed', );
+    ok( !$PackageObject->PackageIsInstalled( Name => 'upper_LOWER' ), 'upper_LOWER still not installed', );
 
+    # this installs a second package
     my $SecondPackageInstallOk = $PackageObject->PackageInstall( String => $String2 );
     ok( $SecondPackageInstallOk, 'PackageInstall() lower_UPPER', );
+    ok( $PackageObject->PackageIsInstalled( Name => 'UPPER_lower' ), 'UPPER_lower still installed', );
+    ok( $PackageObject->PackageIsInstalled( Name => 'upper_LOWER' ), 'upper_LOWER installed', );
 
+    # uninstall UPPER_lower
     my $FirstPackageUninstallOk = $PackageObject->PackageUninstall( String => $String1 );
     ok( $FirstPackageUninstallOk, 'PackageUninstall() UPPER_lower', );
+    ok( !$PackageObject->PackageIsInstalled( Name => 'UPPER_lower' ), 'UPPER_lower uninstalled', );
+    ok( $PackageObject->PackageIsInstalled( Name  => 'upper_LOWER' ), 'upper_LOWER still installed', );
 
+    # uninstall upper_LOWER
     my $SecondPackageUninstallOk = $PackageObject->PackageUninstall( String => $String2 );
     ok( $SecondPackageUninstallOk, 'PackageUninstall() lower_UPPER', );
+    ok( !$PackageObject->PackageIsInstalled( Name => 'UPPER_lower' ), 'UPPER_lower still uninstalled', );
+    ok( !$PackageObject->PackageIsInstalled( Name => 'upper_LOWER' ), 'upper_LOWER uninstalled', );
 };
 
 done_testing();
