@@ -31,16 +31,22 @@ quick_setup.pl - a quick OTOBO setup script for development
     bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81
 
     # also activate Elasticsearch
-    bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81 --activate-elasticsearch
+    bin/docker/quick_setup.pl --db-password 'some-pass' --activate-elasticsearch
 
-It's convenient the call this script via an alias.
+    # create an initial customer user
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add-customer-user
 
-    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch"'
+    # add a calendar
+    bin/docker/quick_setup.pl --db-password 'some-pass' --add-calendar
+
+It might be convenient the call this script via an alias.
+
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch --add-customer-user --add-calendar"'
 
 =head1 DESCRIPTION
 
-Quickly creating a running system is useful for development and for continous integration. But please note that this scripts
-is not meant as an replacement for the OTOBO installer.
+Quickly create a running system that is useful for development and for continous integration.
+But please note that this script is not meant as an replacement for the OTOBO installer.
 
 =head1 OPTIONS
 
