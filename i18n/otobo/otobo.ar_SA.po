@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-17 14:52+0000\n"
+"PO-Revision-Date: 2022-09-19 13:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3357,22 +3357,30 @@ msgid ""
 "(1 minute), 10:03 (2*1=2 minutes), 10:07 (2*2=4 minutes), 10:15 (2*4=8 "
 "minutes), ..."
 msgstr ""
+"مثال: إذا تم تشغيل طلب في البداية في الساعة 10:00 مع الفاصل الزمني الأولي "
+"عند \"دقيقة واحدة\" وعامل إعادة المحاولة عند \"2\"، تشغيل عمليات إعادة "
+"المحاولة في الساعة 10:01 (دقيقة واحدة)، 10:03 (2 * 1 = 2 دقيقة)، 10:07 (2 * "
+"2 = 4 دقائق)، 10:15 (2 * 4 = 8 دقائق)، ......"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry interval"
-msgstr ""
+msgstr "الفاصل الزمني الأقصى لإعادة المحاولة"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "If a retry interval factor of '1.5' or '2' is selected, undesirably long "
 "intervals can be prevented by defining the largest interval allowed."
 msgstr ""
+"إذا تم تحديد عامل التكرار \"1.5\" أو \"2\"، فيمكن تجنب مسافات طويلة بشكل غير "
+"مرغوب فيه من خلال تحديد أكبر فاصل زمني ممكن."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Intervals calculated to exceed the maximum retry interval will then "
 "automatically be shortened accordingly."
 msgstr ""
+"سيتم بعد ذلك تلقائيًا تقصير الفترات المحسوبة لتجاوز الحد الأقصى للفاصل "
+"الزمني لإعادة المحاولة وفقًا لذلك."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3381,16 +3389,22 @@ msgid ""
 "retries would be triggered at 10:01 (1 minute), 10:03 (2 minutes), 10:07 (4 "
 "minutes), 10:12 (8=>5 minutes), 10:17, ..."
 msgstr ""
+"مثال: إذا تم تشغيل طلب مبدئيًا في الساعة 10:00 مع فاصل زمني أولي عند \"دقيقة "
+"واحدة\"، وأعد المحاولة عند \"2\" والفاصل الزمني الأقصى عند \"5 دقائق\"، "
+"فسيتم تشغيل عمليات إعادة المحاولة عند 10:01 (دقيقة واحدة)، 10 : 03 (دقيقتان)،"
+" 10:07 (4 دقائق)، 10:12 (8 => 5 دقائق)، 10:17، ..."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry count"
-msgstr ""
+msgstr "الحد الأقصى لعدد التكرارات"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Maximum number of retries before a failing request is discarded, not "
 "counting the initial request."
 msgstr ""
+"الحد الأقصى لعدد عمليات إعادة المحاولة قبل تجاهل الطلب الفاشل، دون احتساب "
+"الطلب الأولي."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3398,20 +3412,26 @@ msgid ""
 "at '1 minute', retry factor at '2' and maximum retry count at '2', retries "
 "would be triggered at 10:01 and 10:02 only."
 msgstr ""
+"مثال: إذا تم تشغيل طلب في البداية في الساعة 10:00 مع الفاصل الزمني الأولي "
+"عند \"دقيقة واحدة\" وعامل إعادة المحاولة عند \"2\" والحد الأقصى لعدد إعادة "
+"المحاولة عند \"2\"، تشغيل عمليات إعادة المحاولة في الساعة 10:01 والساعة 10:"
+"02 فقط."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry count might not be reached if a maximum retry period is "
 "configured as well and reached earlier."
 msgstr ""
+"ملاحظة: قد لا يتم الوصول إلى الحد الأقصى لعدد مرات إعادة المحاولة إذا تم "
+"تكوين الحد الأقصى لفترة إعادة المحاولة أيضًا وتم الوصول إليها في وقت سابق."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "This field must be empty or contain a positive number."
-msgstr ""
+msgstr "يجب أن يحتوي هذا الحقل على رقم موجب أو أن يظل فارغًا."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid "Maximum retry period"
-msgstr ""
+msgstr "الحد الأقصى لفترة إعادة المحاولة"
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3419,6 +3439,8 @@ msgid ""
 "discarded (based on the error handling module execution time for the initial "
 "request)."
 msgstr ""
+"الحد الأقصى من الوقت لإعادة محاولة الطلبات الفاشلة قبل تجاهلها (بناءً على "
+"وقت تنفيذ وحدة معالجة الأخطاء للطلب الأولي)."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3426,6 +3448,9 @@ msgid ""
 "(according to retry interval calculation) will automatically be triggered at "
 "maximum period exactly."
 msgstr ""
+"سيتم تشغيل عمليات إعادة المحاولة التي يتم تشغيلها عادةً بعد انقضاء الفترة "
+"القصوى (وفقًا لحساب الفاصل الزمني لإعادة المحاولة) تلقائيًا في أقصى فترة "
+"زمنية بالضبط."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
@@ -3434,137 +3459,151 @@ msgid ""
 "retries would be triggered at 10:01, 10:03, 10:07, 10:15 and finally at "
 "10:31=>10:30."
 msgstr ""
+"مثال: إذا تم تشغيل طلب في البداية في الساعة 10:00 مع الفاصل الزمني الأولي "
+"عند \"دقيقة واحدة\" وعامل إعادة المحاولة عند \"2\" والحد الأقصى لفترة إعادة "
+"المحاولة عند \"30 دقيقة\"، تشغيل عمليات إعادة المحاولة في الساعة 10:01 و10:"
+"03 و10:07 و10:15 وأخيرا في الساعة 10:31 = >10:30."
 
 #. Template: AdminGenericInterfaceErrorHandlingRequestRetry
 msgid ""
 "Note: Maximum retry period might not be reached if a maximum retry count is "
 "configured as well and reached earlier."
 msgstr ""
+"ملاحظة: قد لا يتم الوصول إلى الحد الأقصى لفترة إعادة المحاولة إذا تم تكوين "
+"الحد الأقصى لعدد مرات إعادة المحاولة أيضا وتم الوصول إليه في وقت سابق."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Invoker"
-msgstr ""
+msgstr "إضافة مستحضر (Invoker)"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit Invoker"
-msgstr ""
+msgstr "تحرير المستحضر (Invoker)"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Do you really want to delete this invoker?"
-msgstr ""
+msgstr "هل تريد حقا حذف هذا المستحضر؟"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker Details"
-msgstr ""
+msgstr "تفاصيل المستدعي"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The name is typically used to call up an operation of a remote web service."
-msgstr ""
+msgstr "يستخدم الاسم عادةً لاستدعاء عملية خدمة ويب بعيدة."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Invoker backend"
-msgstr ""
+msgstr "الواجهة الخلفية ل Invoker"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "This OTOBO invoker backend module will be called to prepare the data to be "
 "sent to the remote system, and to process its response data."
 msgstr ""
+"سيتم استدعاء وحدة الواجهة الخلفية OTOBO Invoker لإعداد البيانات لإرسالها إلى "
+"النظام البعيد، ومعالجة بيانات الاستجابة الخاصة به."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for outgoing request data"
-msgstr ""
+msgstr "تعيين بيانات الطلب الصادر"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Configure"
-msgstr ""
+msgstr "تهيئة"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The data from the invoker of OTOBO will be processed by this mapping, to "
 "transform it to the kind of data the remote system expects."
 msgstr ""
+"تتم معالجة بيانات استدعاء OTOBO بواسطة هذا التعيين لإعادة تشكيلها عندما "
+"يحتاج النظام البعيد إلى البيانات."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Mapping for incoming response data"
-msgstr ""
+msgstr "تعيين بيانات الاستجابة الواردة"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the invoker of OTOBO expects."
 msgstr ""
+"تتم معالجة بيانات الاستجابة للنظام البعيد بواسطة هذا التعيين لإعادة تشكيله "
+"كما هو مطلوب من قبل مستحضر OTOBO."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Asynchronous"
-msgstr ""
+msgstr "غير متزامن"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Condition"
-msgstr ""
+msgstr "شَرْط"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Edit this event"
-msgstr ""
+msgstr "تحرير هذا الحدث"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "This invoker will be triggered by the configured events."
-msgstr ""
+msgstr "يتم تشغيل هذا المستحضر بواسطة الأحداث التي تم تكوينها."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid "Add Event"
-msgstr ""
+msgstr "إضافة حدث"
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "To add a new event select the event object and event name and click on the "
 "\"+\" button"
-msgstr ""
+msgstr "لإضافة حدث جديد، حدد كائن الحدث واسم الحدث وانقر فوق الزر \"+\""
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Asynchronous event triggers are handled by the OTOBO Scheduler Daemon in "
 "background (recommended)."
 msgstr ""
+"تتم معالجة مشغلات الأحداث غير المتزامنة بواسطة OTOBO Scheduler Daemon في "
+"الخلفية (موصى به)."
 
 #. Template: AdminGenericInterfaceInvokerDefault
 msgid ""
 "Synchronous event triggers would be processed directly during the web "
 "request."
-msgstr ""
+msgstr "ستتم معالجة مشغلات الأحداث المتزامنة مباشرة أثناء طلب الويب."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "GenericInterface Invoker Event Settings for Web Service %s"
-msgstr ""
+msgstr "إعدادات حدث GenericInterface Invoker لخدمة الويب٪ s"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Go back to"
-msgstr ""
+msgstr "العودة إلى"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Delete all conditions"
-msgstr ""
+msgstr "حذف جميع الشروط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Do you really want to delete all the conditions for this event?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد حذف جميع الشروط لهذا الحدث؟"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "General Settings"
-msgstr ""
+msgstr "الإعدادات العامة"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Event type"
-msgstr ""
+msgstr "نوع الحدث"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions"
-msgstr ""
+msgstr "شُرُوط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions can only operate on non-empty fields."
-msgstr ""
+msgstr "يمكن للشروط فقط التحقق من الحقول غير الفارغة."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking between Conditions"
