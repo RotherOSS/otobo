@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-19 13:48+0000\n"
+"PO-Revision-Date: 2022-09-19 14:22+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3611,39 +3611,39 @@ msgstr "نوع الربط بين الشروط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Condition"
-msgstr ""
+msgstr "إزالة هذا الشرط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking"
-msgstr ""
+msgstr "نوع الارتباط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add a new Field"
-msgstr ""
+msgstr "أضف حقلاً جديدًا"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Field"
-msgstr ""
+msgstr "إزالة هذا الحقل"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "And can't be repeated on the same condition."
-msgstr ""
+msgstr "ولا يمكن تكرارها على نفس الحالة."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Add New Condition"
-msgstr ""
+msgstr "إضافة شرط جديد"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "General invoker data"
-msgstr ""
+msgstr "بيانات المستدعي العامة"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for outgoing request data"
-msgstr ""
+msgstr "إعدادات بيانات الطلبات الصادرة"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket fields"
-msgstr ""
+msgstr "حقول التذاكر"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
