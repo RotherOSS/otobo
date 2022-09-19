@@ -175,7 +175,7 @@ sub GeneratePDF {
     my %CustomerData;
     my %PrintingCustomerData;
 
-    elsif ( $Ticket{CustomerUserID} ) {
+    if ( $Ticket{CustomerUserID} ) {
         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
         );
