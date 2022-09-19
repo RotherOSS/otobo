@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-19 13:31+0000\n"
+"PO-Revision-Date: 2022-09-19 13:48+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3603,11 +3603,11 @@ msgstr "شُرُوط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Conditions can only operate on non-empty fields."
-msgstr "يمكن للشروط فقط التحقق من الحقول غير الفارغة."
+msgstr "يمكن أن تعمل الشروط فقط على الحقول غير الفارغة."
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Type of Linking between Conditions"
-msgstr ""
+msgstr "نوع الربط بين الشروط"
 
 #. Template: AdminGenericInterfaceInvokerEvent
 msgid "Remove this Condition"
