@@ -56,6 +56,7 @@ var/tmp/
 # ignore files that are only needed only for building the docker image
 bin/docker/build_docker_images.sh
 bin/docker/lint_docker_files.sh
+bin/docker/set_up_minio.sh
 bin/devel
 
 # ignore Config files that might have been added during development and testing
