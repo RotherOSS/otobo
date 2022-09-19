@@ -192,8 +192,7 @@ sub GeneratePDF {
         );
     }
 
-    if ( !%PrintingCustomerData )
-    {
+    if ( !%PrintingCustomerData ) {
         %PrintingCustomerData = %CustomerData;
     }
 
