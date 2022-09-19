@@ -371,7 +371,7 @@ sub Run {
                 );
             }
 
-            if ( $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
+            if ( $CurrentUserData{UserPassword} && $CurrentUserData{UserPassword} ne $GetParam{UserPassword} ) {
 
                 $UpdateSuccess = $CustomerUserObject->DeleteOnePreference(
                     Key    => 'UserLastPwChangeTime',
