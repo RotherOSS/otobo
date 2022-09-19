@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-19 14:22+0000\n"
+"PO-Revision-Date: 2022-09-20 08:04+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3648,50 +3648,52 @@ msgstr "حقول التذاكر"
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket fields will be considered for the request data."
-msgstr ""
+msgstr "يتم النظر فقط في حقول التذاكر المحددة لبيانات الطلب."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article fields"
-msgstr ""
+msgstr "حقول المقالات"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article fields will be considered for the request data."
-msgstr ""
+msgstr "سيتم النظر فقط في حقول المقالة المحددة لبيانات الطلب."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Ticket dynamic fields"
-msgstr ""
+msgstr "تذاكر الحقول الديناميكية"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected ticket dynamic fields will be considered for the request "
 "data."
-msgstr ""
+msgstr "سيتم النظر فقط في الحقول الديناميكية للتذكرة المحددة لبيانات الطلب."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Article dynamic fields"
-msgstr ""
+msgstr "الحقول الديناميكية للمقالة"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "Only the selected article dynamic fields will be considered for the request "
 "data."
-msgstr ""
+msgstr "سيتم النظر فقط في الحقول الديناميكية للمقالة المحددة لبيانات الطلب."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Number of articles"
-msgstr ""
+msgstr "عدد المقالات"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The outgoing request data will only contain the configured number of "
 "articles. If left empty, only 1 article will be sent."
 msgstr ""
+"ستحتوي بيانات الطلب الصادر فقط على عدد المقالات التي تم تكوينها. إذا تركت "
+"فارغة، سيتم إرسال مقالة 1 فقط."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Communication channels"
-msgstr ""
+msgstr "قنوات الاتصال"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3699,20 +3701,25 @@ msgid ""
 "communication channels. If left empty, articles created by all communication "
 "channels will be used."
 msgstr ""
+"ستأخذ بيانات الطلب الصادر في الاعتبار فقط المقالات الخاصة بقنوات الاتصال "
+"المحددة. إذا تُركت فارغة، فسيتم استخدام المقالات التي تم إنشاؤها بواسطة جميع "
+"قنوات الاتصال."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Customer visibility"
-msgstr ""
+msgstr "الرؤية للعملاء"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The outgoing request data will only consider articles created with the "
 "selected customer visibility."
 msgstr ""
+"لا تأخذ بيانات الطلبات الصادرة في الاعتبار سوى العناصر التي تم إنشاؤها "
+"باستخدام رؤية العميل المحددة."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Sender Types"
-msgstr ""
+msgstr "أنواع المرسل"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
@@ -3720,34 +3727,40 @@ msgid ""
 "selected sender types. If left empty, articles created by all sender types "
 "will be used."
 msgstr ""
+"ستأخذ بيانات الطلب الصادر في الاعتبار فقط المقالات التي تم إنشاؤها بواسطة "
+"أنواع المرسلين المحددين. إذا تركت فارغة، استخدام المقالات التي تم إنشاؤها "
+"بواسطة جميع أنواع المرسلين."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Mapping"
-msgstr ""
+msgstr "تَخْطِيطٌ"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Settings for incoming response data"
-msgstr ""
+msgstr "إعدادات بيانات الاستجابة الواردة"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Remote TicketID dynamic field"
-msgstr ""
+msgstr "الحقل الديناميكي ل TicketID البعيد"
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected ticket dynamic field is being used to store the remote TicketID."
-msgstr ""
+msgstr "يتم استخدام الحقل الديناميكي المحدد للتذكرة لتخزين TicketID البعيد."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "If left empty, the remote TicketID will not be stored, unless you define a "
 "system configuration value for this web service."
 msgstr ""
+"إذا ظلت فارغة، فلن يتم تخزين Remote TicketID إلا إذا تم تعريف قيمة لخدمة "
+"الويب هذه في تكوين النظام."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
 "The selected field is already in use by the Ticket dynamic fields option."
 msgstr ""
+"الحقل المحدد قيد الاستخدام بالفعل بواسطة خيار الحقول الديناميكية للتذكرة."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid ""
