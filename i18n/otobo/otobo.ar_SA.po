@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-20 08:04+0000\n"
+"PO-Revision-Date: 2022-09-21 08:18+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3768,62 +3768,64 @@ msgid ""
 "the incoming response data. If left empty, no dynamic field will be "
 "processed."
 msgstr ""
+"يتم النظر فقط في الحقول الديناميكية للبطاقة المحددة لمعالجة بيانات الاستجابة "
+"الواردة. إذا تُركت فارغة، فلن تتم معالجة أي حقل ديناميكي."
 
 #. Template: AdminGenericInterfaceInvokerTicket
 msgid "Event data"
-msgstr ""
+msgstr "بيانات الحدث"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping Simple"
-msgstr ""
+msgstr "رسم الخرائط البسيط"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped keys"
-msgstr ""
+msgstr "القاعدة الافتراضية للمفاتيح غير المعينة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all keys with no mapping rule."
-msgstr ""
+msgstr "يتم تطبيق هذه القاعدة على جميع المفاتيح التي لا تحتوي على قاعدة مطابقة."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Default rule for unmapped values"
-msgstr ""
+msgstr "القاعدة الافتراضية للقيم غير المعينة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "This rule will apply for all values with no mapping rule."
-msgstr ""
+msgstr "يتم تطبيق هذه القاعدة على كافة القيم بدون قاعدة مطابقة."
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New key map"
-msgstr ""
+msgstr "تعيين مفتاح جديد"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add key mapping"
-msgstr ""
+msgstr "إضافة تعيين مفتاح"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr ""
+msgstr "تعيين المفاتيح "
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
-msgstr ""
+msgstr "إزالة تعيين المفاتيح"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Key mapping"
-msgstr ""
+msgstr "تخطيط المفاتيح"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map key"
-msgstr ""
+msgstr "مفتاح الخريطة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "matching the"
-msgstr ""
+msgstr "مطابقة مع"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new key"
-msgstr ""
+msgstr "تعيين مفتاح جديد"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
