@@ -794,6 +794,7 @@ sub _FormatTime {
             );
         }
 
+        # adding an empty string is the only difference to the original subroutine
         push @Properties, '';
 
         return @Properties;
