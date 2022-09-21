@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -30,9 +30,12 @@ quick_setup.pl - a quick OTOBO setup script
     # do it when OTOBO runs on a special HTTP Port
     bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81
 
+    # also activate Elasticsearch
+    bin/docker/quick_setup.pl --db-password 'some-pass' --http-port 81 --activate-elasticsearch
+
 It's convenient the call this script via an alias.
 
-    alias otobo_docker_quick_setup="docker exec -t otobo_web_1 bash -c \"date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81\""
+    alias otobo_docker_quick_setup='docker exec -t otobo_web_1 bash -c "date ; hostname ; rm -f Kernel/Config/Files/ZZZAAuto.pm ; bin/docker/quick_setup.pl --db-password otobo_root --http-port 81 --activate-elasticsearch"'
 
 =head1 DESCRIPTION
 
@@ -76,14 +79,16 @@ use Const::Fast qw(const);
 use Kernel::System::ObjectManager;
 
 sub Main {
-    my $HelpFlag;         # print help
-    my $DBPassword;       # required
-    my $HTTPPort = 80;    # only used for success message
+    my $HelpFlag;                      # print help
+    my $DBPassword;                    # required
+    my $HTTPPort              = 80;    # only used for success message
+    my $ActivateElasticsearch = 0;     # must be explicitly enabled
 
     Getopt::Long::GetOptions(
-        'help'          => \$HelpFlag,
-        'db-password=s' => \$DBPassword,
-        'http-port=i'   => \$HTTPPort,
+        'help'                   => \$HelpFlag,
+        'db-password=s'          => \$DBPassword,
+        'http-port=i'            => \$HTTPPort,
+        'activate-elasticsearch' => \$ActivateElasticsearch,
         )
         || pod2usage(
             {
@@ -197,6 +202,14 @@ sub Main {
         return 0 unless $Success;
     }
 
+    if ($ActivateElasticsearch) {
+        my ( $Success, $Message ) = ActivateElasticsearch();
+
+        say $Message if defined $Message;
+
+        return 0 unless $Success;
+    }
+    else
     {
         my ( $Success, $Message ) = DeactivateElasticsearch();
 
@@ -555,6 +568,41 @@ sub DeactivateElasticsearch {
     }
 
     return 1;
+}
+
+sub ActivateElasticsearch {
+
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $ESWebservice     = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
+    );
+
+    # nothing to do when there is no Elasticsearch webservice
+    return 1 unless $ESWebservice;
+
+    # ctivate the Elasticsearch webservice
+    my $Success = $WebserviceObject->WebserviceUpdate(
+        $ESWebservice->%*,
+        ValidID => 1,    # valid
+        UserID  => 1,
+    );
+
+    if ( !$Success ) {
+        return 0, 'Could not activate the web service Elasticsearch';
+    }
+
+    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+
+    # test the connection
+    if ( !$ESObject->TestConnection() ) {
+        return 0, 'Elasticsearch is not available';
+    }
+
+    ( $Success, my $FatalError ) = $ESObject->InitialSetup();
+
+    return 0, 'Initial setup of Elasticsearch was not successful' unless $Success;
+
+    return $Success;
 }
 
 # do it

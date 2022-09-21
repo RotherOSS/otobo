@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 
 package Kernel::System::EmailParser;
 
+use v5.24;
 use strict;
 use warnings;
 
@@ -754,13 +755,18 @@ sub PartsAttachments {
     elsif ( $PartData{ContentType} eq 'message/rfc822' ) {
 
         my ($SubjectString) = $Part->as_string() =~ m/^Subject: ([^\n]*(\n[ \t][^\n]*)*)/m;
-        my $Subject = $Self->_DecodeString( String => $SubjectString ) . '.eml';
+        my $Subject = '';
+        if ($SubjectString) {
+            $Subject = $Self->_DecodeString( String => $SubjectString ) . '.eml';
+        }
 
         # cleanup filename
-        $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
-            Filename => $Subject,
-            Type     => 'Local',
-        );
+        if ($Subject) {
+            $Subject = $Kernel::OM->Get('Kernel::System::Main')->FilenameCleanUp(
+                Filename => $Subject,
+                Type     => 'Local',
+            );
+        }
 
         if ( $Subject eq '' ) {
             $Self->{NoFilenamePartCounter}++;
@@ -921,11 +927,11 @@ sub GetReferences {
     # get uniq
     my %Checked;
     my @References;
-    for ( reverse @ReferencesAll ) {
-        if ( !$Checked{$_} ) {
-            push @References, $_;
+    for my $Reference ( reverse @ReferencesAll ) {
+        if ( !$Checked{$Reference} ) {
+            push @References, $Reference;
         }
-        $Checked{$_} = 1;
+        $Checked{$Reference} = 1;
     }
     return @References;
 }

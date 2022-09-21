@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -158,9 +158,9 @@
                                 </a>
                             </td>
                             <td>[% Data.Count | html %]</td>
-                            <td>[% Data.Min | html %]s</td>
-                            <td>[% Data.Max | html %]s</td>
-                            <td>[% Data.Average | html %]s</td>
+                            <td>[% Data.Min | html %] s</td>
+                            <td>[% Data.Max | html %] s</td>
+                            <td>[% Data.Average | html %] s</td>
                         </tr>
 [% RenderBlockStart("OverviewRow") %]
                         <tr>
@@ -172,9 +172,9 @@
                                 </em>
                             </td>
                             <td><em>[% Data.Count | html %]</em></td>
-                            <td><em>[% Data.Min | html %]s</em></td>
-                            <td><em>[% Data.Max | html %]s</em></td>
-                            <td><em>[% Data.Average | html %]s</em></td>
+                            <td><em>[% Data.Min | html %] s</em></td>
+                            <td><em>[% Data.Max | html %] s</em></td>
+                            <td><em>[% Data.Average | html %] s</em></td>
                         </tr>
 [% RenderBlockEnd("OverviewRow") %]
 [% RenderBlockEnd("OverviewInterface") %]
@@ -214,9 +214,9 @@
                         <tr>
                             <td><em>[% Data.Date | Localize("TimeShort") %]</em></td>
                             <td><em>[% Data.Count | html %]</em></td>
-                            <td><em>[% Data.Min | html %]s</em></td>
-                            <td><em>[% Data.Max | html %]s</em></td>
-                            <td><em>[% Data.Average | html %]s</em></td>
+                            <td><em>[% Data.Min | html %] s</em></td>
+                            <td><em>[% Data.Max | html %] s</em></td>
+                            <td><em>[% Data.Average | html %] s</em></td>
                             <td><div class="Progressbar" style="width:[% Data.Width | html %];">&nbsp;</div></td>
                         </tr>
 [% RenderBlockEnd("ViewRow") %]

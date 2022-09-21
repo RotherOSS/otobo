@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -214,21 +214,21 @@ my @Tests = (
         Name  => '#3 - With Inline Images',
         Match => [
             {
-                Key   => 'X-OTRS-AttachmentExists',
+                Key   => 'X-OTOBO-AttachmentExists',
                 Value => 'yes',
             },
             {
-                Key   => 'X-OTRS-AttachmentCount',
+                Key   => 'X-OTOBO-AttachmentCount',
                 Value => 1,
             }
         ],
         Set => [
             {
-                Key   => 'X-OTRS-DynamicField-TicketFreeText1',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText1',
                 Value => 'This should not be set',
             },
             {
-                Key   => 'X-OTRS-DynamicField-TicketFreeText2',
+                Key   => 'X-OTOBO-DynamicField-TicketFreeText2',
                 Value => 'This should not be set',
             },
         ],

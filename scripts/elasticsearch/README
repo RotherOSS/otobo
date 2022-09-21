@@ -1,0 +1,2 @@
+This directory serves as the Docker build context for otobo.eleasticsearch.dockerfile.
+The dir is deliberately empty, because no files from OTOBO are needed for building that image.

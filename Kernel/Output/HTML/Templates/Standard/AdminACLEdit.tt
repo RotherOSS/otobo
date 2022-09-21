@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -61,7 +61,7 @@
                     <strong>[% Translate("Change settings") | html %]</strong>: [% Translate("Set up what you want to change if the criteria match. Keep in mind that 'Possible' is a white list, 'PossibleNot' a black list.") | html %]
                 </p>
                 <p class="FieldExplanation">
-                    [% Translate("Check the official %sdocumentation%s.") | html | ReplacePlaceholders('<a href="https://doc.otobo.org/manual/admin/stable/en/content/processes-automation/access-control-lists.html" target="_blank">', '</a>')  %]
+                    [% Translate("Check the official %sdocumentation%s.") | html | ReplacePlaceholders('<a href="https://doc.otobo.org/manual/admin/10.0/en/content/processes-automation/access-control-lists.html" target="_blank">', '</a>')  %]
                 </p>
             </div>
         </div>

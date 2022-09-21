@@ -7176,13 +7176,9 @@
                         <Item Key="25">25</Item>
                         <Item Key="30">30</Item>
                         <Item Key="35">35</Item>
-                        <Item Key="50">50</Item>
-                        <Item Key="100">100</Item>
-                        <Item Key="250">250</Item>
-                        <Item Key="500">500</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">100</Item>
+                <Item Key="DataSelected">20</Item>
                 <Item Key="PrefKey">UserTicketOverviewMediumPageShown</Item>
                 <Item Key="Prio">8100</Item>
                 <Item Key="Active">0</Item>
@@ -10713,13 +10709,6 @@
             <Item ValueType="String" ValueRegex="^[0-9]{1,6}$">50000</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::GenericAgentAllowCustomScriptExecution" Required="0" Valid="1">
-        <Description Translatable="1">Allows generic agent to execute custom command line scripts.</Description>
-        <Navigation>Core::Ticket</Navigation>
-        <Value>
-            <Item ValueType="Checkbox">1</Item>
-        </Value>
-    </Setting>
     <Setting Name="Ticket::GenericAgentAllowCustomModuleExecution" Required="0" Valid="1">
         <Description Translatable="1">Allows generic agent to execute custom modules.</Description>
         <Navigation>Core::Ticket</Navigation>
@@ -10855,6 +10844,39 @@
         <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
         <Value>
             <Item ValueType="String" ValueRegex="^\d+%?$">320</Item>
+        </Value>
+    </Setting>
+    <Setting Name="Ticket::Event::NotificationEvent::IgnoredAttributes###001-Framework" Required="0" Valid="1">
+        <Description Translatable="1">Ignores not ticket related attributes.</Description>
+        <Navigation>Core::Event::Ticket::NotificationEvent</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Recipients">1</Item>
+                <Item Key="SkipRecipients">1</Item>
+                <Item Key="RecipientAgents">1</Item>
+                <Item Key="RecipientGroups">1</Item>
+                <Item Key="RecipientRoles">1</Item>
+                <Item Key="TransportEmailTemplate">1</Item>
+                <Item Key="Events">1</Item>
+                <Item Key="ArticleSenderTypeID">1</Item>
+                <Item Key="ArticleIsVisibleForCustomer">1</Item>
+                <Item Key="ArticleCommunicationChannelID">1</Item>
+                <Item Key="ArticleAttachmentInclude">1</Item>
+                <Item Key="IsVisibleForCustomer">1</Item>
+                <Item Key="Transports">1</Item>
+                <Item Key="OncePerDay">1</Item>
+                <Item Key="VisibleForAgent">1</Item>
+                <Item Key="VisibleForAgentTooltip">1</Item>
+                <Item Key="LanguageID">1</Item>
+                <Item Key="SendOnOutOfOffice">1</Item>
+                <Item Key="AgentEnabledByDefault">1</Item>
+                <Item Key="EmailSecuritySettings">1</Item>
+                <Item Key="EmailSigningCrypting">1</Item>
+                <Item Key="EmailMissingCryptingKeys">1</Item>
+                <Item Key="EmailMissingSigningKeys">1</Item>
+                <Item Key="EmailDefaultSigningKeys">1</Item>
+                <Item Key="NotificationType">1</Item>
+            </Hash>
         </Value>
     </Setting>
     <Setting Name="Notification::Transport###Email" Required="0" Valid="1">
@@ -12238,9 +12260,13 @@ Thanks for your help!
                         <Item Key="25">25</Item>
                         <Item Key="30">30</Item>
                         <Item Key="35">35</Item>
+                        <Item Key="50">50</Item>
+                        <Item Key="100">100</Item>
+                        <Item Key="250">250</Item>
+                        <Item Key="500">500</Item>
                     </Hash>
                 </Item>
-                <Item Key="DataSelected">25</Item>
+                <Item Key="DataSelected">100</Item>
                 <Item Key="PrefKey">AdminDynamicFieldsOverviewPageShown</Item>
                 <Item Key="Prio">8000</Item>
                 <Item Key="Active">0</Item>

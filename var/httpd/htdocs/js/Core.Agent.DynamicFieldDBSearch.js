@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -133,7 +133,7 @@ Core.Agent.DynamicFieldDBSearch = (function(TargetNS) {
 
         // Load events when widget has expanded like e.g. in AdminGenericAgent screen (see bug#14590).
         $('.WidgetSimple.Collapsed .WidgetAction.Toggle').on('click', function () {
-            InitDynamicFields();
+            InitDynamicFields(this);
         });
 
         // change the position of the label for DB fields

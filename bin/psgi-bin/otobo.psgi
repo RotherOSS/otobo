@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -43,8 +43,7 @@ There are some requirements for running this application. Do something like the 
 in F<otobo.web.dockerfile>.
 
     cp cpanfile.docker cpanfile
-    cpanm --local-lib local Carton Net::DNS Gazelle
-    cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
+    cpanm --local-lib local Carton
     PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
 
 =head1 Profiling
@@ -345,6 +344,21 @@ my $FixFCGIProxyMiddleware = sub {
     };
 };
 
+# Squash slashes just like Apache2 does when MergeSlashes is enabled.
+# This is the default behaviour in Apache2 and in Nginx.
+my $MergeSlashesMiddleware = sub {
+    my $App = shift;
+
+    return sub {
+        my $Env = shift;
+
+        # squash duplicate slashes
+        $Env->{PATH_INFO} =~ s!/{2,}!/!g;
+
+        return $App->($Env);
+    };
+};
+
 # Translate '/' is translated to '/index.html'
 my $ExactlyRootMiddleware = sub {
     my $App = shift;
@@ -622,7 +636,8 @@ builder {
     # for debugging
     #enable 'Plack::Middleware::TrafficLog';
 
-    # fiddling with '/'
+    # fiddling with slashes
+    enable $MergeSlashesMiddleware;
     enable $ExactlyRootMiddleware;
 
     # fixing PATH_INFO

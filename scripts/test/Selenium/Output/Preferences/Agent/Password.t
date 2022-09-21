@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -51,10 +51,10 @@ $Selenium->RunTest(
         # go to agent preferences
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentPreferences;Subaction=Group;Group=UserProfile");
 
-        # change test user password preference, input incorrect current password
-        # TODO: test with accents: https://github.com/RotherOSS/otobo/issues/944
-        my $NewPw = "new" . $TestUserLogin;
-        $Selenium->find_element( "#CurPw",  'css' )->send_keys("incorrect");
+        # Change test user password preference to a password with accents.
+        # First input an incorrect current password.
+        my $NewPw = "newáél" . $TestUserLogin;
+        $Selenium->find_element( "#CurPw",  'css' )->send_keys('incorrect');
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);
 
@@ -78,7 +78,7 @@ $Selenium->RunTest(
             'Error message shows up correctly',
         );
 
-        # change test user password preference, correct input
+        # change test user password preference, use the correct current password this time
         $Selenium->find_element( "#CurPw",  'css' )->send_keys($TestUserLogin);
         $Selenium->find_element( "#NewPw",  'css' )->send_keys($NewPw);
         $Selenium->find_element( "#NewPw1", 'css' )->send_keys($NewPw);

@@ -8,9 +8,6 @@ requires 'Archive::Tar';
 # Required for compressed file generation.
 requires 'Archive::Zip';
 
-# for use in Autoload modules.
-requires 'Class::Method::Modifiers';
-
 requires 'Date::Format';
 
 requires 'DateTime', ">= 1.08";
@@ -234,9 +231,6 @@ requires 'Unicode::Collate';
 
     # Twist some HTTP variables so that the reverse proxy is transparent
     requires 'Plack::Middleware::ReverseProxy';
-
-    # Set environment variables
-    requires 'Plack::Middleware::Rewrite';
 
     # PSGI SOAP adapter
     requires 'SOAP::Transport::HTTP::Plack';

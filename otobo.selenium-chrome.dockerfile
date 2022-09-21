@@ -1,7 +1,7 @@
-# This is the build file for the OTOBO selenium-chrome docker image.
+# This is the build file for the OTOBO selenium-chrome Docker image.
 
-# See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See bin/docker/build_docker_images.sh for how to build locally.
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # note that selenium/standalone-chrome-debug:3.141.59-20210607 has changed behavior
 FROM selenium/standalone-chrome-debug:3.141.59-20210422
@@ -13,7 +13,8 @@ EXPOSE 5900/tcp
 RUN sudo mkdir --parent /opt/otobo/scripts/test
 RUN sudo chown -R seluser:seluser /opt/otobo
 
-COPY --chown=seluser:seluser scripts/test/sample /opt/otobo/scripts/test/sample
+# Build context is scripts/test/sample
+COPY --chown=seluser:seluser . /opt/otobo/scripts/test/sample
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.

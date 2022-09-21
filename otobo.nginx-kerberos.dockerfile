@@ -1,7 +1,7 @@
-# This is the build file for the OTOBO nginx docker image including Kerberos Single Sign On tools.
+# This is the build file for the OTOBO nginx Docker image including Kerberos Single Sign On tools.
 
-# See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See bin/docker/build_docker_images.sh for how to create local builds.
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # I have found no better way than to first compile NGINX in a BUILDER container and then copy the
 # finished ngx_http_auth_spnego_module.so into the NGINX container.
@@ -21,10 +21,10 @@ RUN apt-get update\
         libc-dev \
         make \
         libpcre3-dev \
-	libpcre++-dev \
+        libpcre++-dev \
         zlib1g-dev \
         libkrb5-dev \
-	wget
+        wget
 
 RUN set -x && \
     cd /usr/src \
@@ -67,6 +67,7 @@ RUN apt-get update\
  "krb5-multidev"\
  "libkrb5-dev"\
  "certbot"\
+ "python3-certbot-nginx"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
@@ -97,9 +98,12 @@ WORKDIR /etc/nginx
 RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
-# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
-COPY scripts/nginx/templates/ templates
-COPY scripts/nginx/snippets/  snippets
+# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
+COPY templates/ templates
+RUN mv templates/otobo_nginx.conf.template templates/otobo_nginx.conf.template.hidden
+COPY snippets/  snippets
 
 # Copy text to line 4 - load Kerberos module in nginx.conf
 RUN sed '4 i\load_module modules/ngx_http_auth_spnego_module.so;' -i /etc/nginx/nginx.conf

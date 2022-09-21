@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,7 +21,7 @@ use warnings;
 use utf8;
 
 use File::Path qw();
-use Time::HiRes qw(sleep);
+use Time::HiRes qw();
 
 use parent qw(Kernel::System::Daemon::BaseDaemon);
 
@@ -129,7 +129,7 @@ sub PreRun {
     # Check if database is on-line.
     return 1 if $Self->{DBObject}->Ping();
 
-    sleep 10;
+    Time::HiRes::sleep 10;
 
     return;
 }
@@ -277,7 +277,7 @@ sub Run {
 sub PostRun {
     my ( $Self, %Param ) = @_;
 
-    sleep $Self->{SleepPost};
+    Time::HiRes::sleep $Self->{SleepPost};
 
     # Check pid hash and pid file after sleep time to give the workers time to finish.
     return if !$Self->_WorkerPIDsCheck();

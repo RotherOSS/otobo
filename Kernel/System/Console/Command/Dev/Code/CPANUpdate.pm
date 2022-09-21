@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -95,10 +95,10 @@ sub Run {
 
     # Clean-up unwanted files.
     File::Path::remove_tree("$CPANDir/Test/Selenium");
-    system("find $CPANDir -name *.pod -exec rm -f {} +");
-    system("find $CPANDir -name *.pl -exec rm -f {} +");
-    system("find $CPANDir -name *.so -exec rm -f {} +");
-    system("find $CPANDir -name *.exists -exec rm -f {} +");
+    system("find $CPANDir -name '*.pod' -exec rm -f {} +");
+    system("find $CPANDir -name '*.pl*' -exec rm -f {} +");
+    system("find $CPANDir -name '*.so' -exec rm -f {} +");
+    system("find $CPANDir -name '*.exists' -exec rm -f {} +");
 
     # Fix unwanted 755 permissions.
     system("find $CPANDir -type f -exec chmod 640 {} +");

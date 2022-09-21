@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1165,6 +1165,11 @@ returns:
 sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
+    # those params are expected to only contain one line
+    for my $Key ( qw( CreateBy ChangeBy Comment ) ) {
+        ( $Param{ $Key } ) = $Param{ $Key } =~ /(.+?)$/m;
+    }
+
     my $Output = "# Created: $Param{CreateTime} ($Param{CreateBy})\n";
     $Output .= "# Changed: $Param{ChangeTime} ($Param{ChangeBy})\n";
 
@@ -1180,6 +1185,7 @@ sub _ACLItemOutput {
     $Output =~ s{\[empty\]}{}xmsg;
 
     my $Name = $Param{Key};
+    $Name =~ s{\\}{\\\\}xmsg;
     $Name =~ s{\'}{\\'}xmsg;
     my $Key = '$Self->{TicketAcl}->{\'' . $Name . '\'}';
 

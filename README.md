@@ -1,47 +1,77 @@
 What is OTOBO?
 ===================================
-OTOBO is one of the most flexible web-based ticketing
-systems used for Customer Service, Help Desk, and IT Service Management.
-It is based on the ((OTRS)) Community Edition.
-With a fast implementation and easy customization to your needs it
-helps you reducing costs and increasing the efficiency and transparency
-of your business communication. OTOBO offers always full [**OTOBO**](https://www.otobo.de) functionality.
+[OTOBO](https://www.otobo.de) is an extremely flexible, web-based open-source ticketing tool, 
+used to streamline communication in service organisations 
+such as IT Helpdesks, Customer Service, Call Centers etc. 
 
-You can find a list of features here
-[OTOBO Homepage](https://otobo.de/de/otobo-features/).
+It provides classical ticketing functionality, a knowledgebase/FAQs 
+with internal and external interface, helps to automate processes 
+and can be extended by an ITSM component with a CMDB to keep track 
+of IT components – or buildings, office plants, cars etc. 
+
+OTOBO is a fork based on ((OTRS)) Community Edition, 
+started in 2019 to go back to the roots and offer a 100 % free tool, 
+rooted in a strong community, and backed up by professional business services. 
+
+[Find a list of features here](https://otobo.de/en/otobo-features/).
 
 
 License
 =======
-It is distributed under the GNU General Public License - see the
-accompanying [COPYING](COPYING) file for more details.
+OTOBO is distributed under the GNU General Public License - see the
+accompanying [LICENSE](LICENSE) file for more details.
 
 
 Documentation
 =============
-You can find documentation [online](https://doc.otobo.org/). The source code of OTOBO and its public extension
-modules is available on [github](https://github.com/RotherOSS).
+OTOBO documentation can be found at https://doc.otobo.org/
+
+The source code of OTOBO and its extension modules 
+is available on [GitHub](https://github.com/RotherOSS).
 
 
 Professional Services for OTOBO
 ==============================
+OTOBO is a mighty and highly flexible tool. 
+Pretty much everything can be individualized and adapted to your needs. 
+And more often than not there is more than one way to achieve a goal.
 
-Whether you need help in configuring or customizing OTOBO or you want to be on the safe side,
-don't hesitate to contact us: We offer a wide range of professional services such as
-world-wide enterprise support, consulting and engineering including process design,
-implementation, customization, application support, and fully managed service.
+No reason to feel overwhelmed, though.
+We are happy to help adapt the system optimally to your needs, 
+make sure you take full advantage of it, and assist in securing your operations. 
+There’s also a fully managed version of OTOBO if you do not want to take care of that yourself.
 
-We offer best professional support from the Rother OSS OTOBO team, reliable OTOBO security and regular free updates.
+[We are Rother OSS GmbH](https://otobo.de/en/rother-oss/), source code owner of OTOBO. 
+Founder Stefan Rother was first employee of OTRS GmbH back in 2004, 
+and created Rother OSS when he left there in 2011. 
+We have been working with the ticketing tool ever since, and know what we are doing. 
 
-The [Rother OSS GmbH](https://www.otobo.de/) offers specific [training programs](https://otobo.de/de/angebot/beratung-schulung/) in
-different countries. You can either participate in one of our public OTOBO Administrator training seminars which take
-place regularly, or benefit from an inhouse training seminar that covers all the specific needs of your company.
+Read more about 
+- [our services](https://otobo.de/en/service/) – we provide consulting, trainings, 
+support and individual development / feature add-ons for OTOBO
+- [our partners all over the world](https://otobo.de/en/otobo-partners/) 
+
+Or directly [get in touch](https://otobo.de/en/rother-oss/#hallo).
+
 
 Software requirements
 =====================
-The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/stable/en/content/requirements.html)
+The software and hardware requirements [can be found in our documentation.](https://doc.otobo.org/manual/installation/10.1/en/content/requirements.html)
+
 
 How to contribute
 =================
-If you think you have found a bug, or have a request, please feel free to open an issue on [github](https://github.com/RotherOSS/otobo/issues) or visit our [forums](https://otobo.de/de/forums/otobo/otobo-forum/). As usual, please try to check, whether things are already reported and especially for bugs write your issues precise and complete, and try to describe how we can reproduce them. Feature request with no clear implementation plan at the moment are gathered in a dedicated [project](https://github.com/RotherOSS/otobo/projects/1).
-Please start a pull request, if you have implemented a feature, or fix yourself!
+We take the open-source idea very seriously and explicitly invite the community to engage with us. 
+
+If you have a request or think you have found a bug, please 
+[visit our forums](https://otobo.de/en/forums/otobo/otobo-forum/) 
+or [open an issue on GitHub](https://github.com/RotherOSS/otobo/issues). 
+
+To make our lives a bit easier, please 
+- Search the forums before issuing new topics
+- Try to be as precise and complete as possible when reporting bugs – it helps a lot if we know how to reproduce them
+- Use the [labels provided on GitHub](https://github.com/RotherOSS/otobo/labels) to categorize your request 
+- Start a pull request, if you have implemented a feature or fix yourself.
+
+THANK YOU!
+

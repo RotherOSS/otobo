@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -56,8 +56,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # get the Elasticsearch webservice id
     my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
@@ -691,6 +690,7 @@ sub ConfigItemSearch {
 =head2 TicketCreate()
 
 Explicitly creates a ticket in the Elasticsearch database. Happens event based in a productive system.
+E.g. when a Ticket is restored from the archive or when when a ticket is moved from an excluded queue.
 
     $ESObject->TicketCreate(
         TicketID => $TicketID,
@@ -892,12 +892,13 @@ sub ConfigItemCreate {
 
 Test the connection to the Elasticsearch server.
 
-    $ESObject->TestConnection();
+    my $Success = $ESObject->TestConnection();
 
 =cut
 
 sub TestConnection {
     my ( $Self, %Param ) = @_;
+
     my %DummyIndex = (
         index => '',
     );
@@ -911,15 +912,20 @@ sub TestConnection {
     );
 
     return $Result->{Success};
-
 }
 
 =head2 CreateIndex()
 
 Create a new index.
 
-    $ESObject->CreateIndex(
-        IndexName => 'name',
+    my $Success = $ESObject->CreateIndex(
+        IndexName => {
+            name => 'something',
+        },
+        Request   => {
+            settings => { ... },
+            mappings => { ... },
+        },
     );
 
 =cut
@@ -938,7 +944,6 @@ sub CreateIndex {
     );
 
     return $Result->{Success};
-
 }
 
 =head2 DropIndex()
@@ -962,8 +967,8 @@ sub DropIndex {
             IndexName => $Param{IndexName},
         }
     );
-    return $Result->{Success};
 
+    return $Result->{Success};
 }
 
 sub DeletePipeline {
@@ -979,7 +984,6 @@ sub DeletePipeline {
     );
 
     return $Result->{Success};
-
 }
 
 sub CreatePipeline {
@@ -1003,7 +1007,7 @@ sub CreatePipeline {
 
 Get settings for a certain index
 
-    $ESObject->IndexSettingsGet(
+    my $Settings = $ESObject->IndexSettingsGet(
         Config   => $Config,
         Template => $Template,
     ;)
@@ -1020,6 +1024,7 @@ sub IndexSettingsGet {
         Config       => $Config,
         LayoutObject => $Kernel::OM->Get('Kernel::Output::HTML::Layout'),
     );
+
     return $Settings;
 }
 
@@ -1038,6 +1043,7 @@ sub _ExpandTemplate {
                 LayoutObject => $Param{LayoutObject},
             );
         }
+
         return \%Expanded;
     }
     elsif ( ref $Node eq 'ARRAY' ) {
@@ -1052,6 +1058,7 @@ sub _ExpandTemplate {
                 )
             );
         }
+
         return \@Expanded;
     }
     elsif ( !defined($Node) ) {
@@ -1069,6 +1076,236 @@ sub _ExpandTemplate {
     else {
         return $Node;
     }
+}
+
+=head2 InitialSetup()
+
+This method is used by I<installer.pl> and by alternative install scripts to get a working
+initial setup.
+
+    my ($Success, $FatalError) = $ESObject->InitialSetup()
+
+=cut
+
+sub InitialSetup {
+    my ( $Self, %Param ) = @_;
+
+    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+    # activate Elasticsearch in the SysConfig
+    {
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Elasticsearch::Active',
+            IsValid           => 1,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+
+        # TODO: handle errors
+    }
+
+    my $Success = 1;
+
+    # initialize standard indices
+    if ($Success) {
+        my $Errors;
+        my $IndexConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexSettings');
+        my $DefaultConfig;
+        if ($IndexConfig) {
+            $DefaultConfig = $IndexConfig->{Default};
+        }
+        else {
+            $DefaultConfig = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::ArticleIndexCreationSettings');
+        }
+
+        # throw an fatal error when we are in a web context
+        return 0, 1 unless $DefaultConfig;
+
+        my $DefaultTemplate;
+        my $IndexTemplate = $Kernel::OM->Get('Kernel::Config')->Get('Elasticsearch::IndexTemplate');
+        if ($IndexTemplate) {
+            $DefaultTemplate = $IndexTemplate->{Default};
+        }
+        else {
+
+            # throw an fatal error when we are in a web context
+            return 0, 1;
+        }
+
+        # Create pipelines.
+        # Writing the string 'foreach' in a funny way, as some versions of the CodePolicy
+        # replaced it with the string 'for'.
+        my %Pipeline = (
+            description => "Extract external attachment information",
+            processors  => [
+                {
+                    q{foreach} => {
+                        field     => "Attachments",
+                        processor => {
+                            attachment => {
+                                target_field => "_ingest._value.attachment",
+                                field        => "_ingest._value.data"
+                            }
+                        }
+                    }
+                },
+                {
+                    q{foreach} => {
+                        field     => "Attachments",
+                        processor => {
+                            remove => {
+                                field => "_ingest._value.data"
+                            }
+                        }
+                    }
+                },
+            ]
+        );
+
+        my $Success = $Self->CreatePipeline(
+            Request => \%Pipeline,
+        );
+        $Errors++ unless $Success;
+
+        # create index for customer
+        my %RequestCustomer = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{Customer}   // $DefaultConfig,
+                Template => $IndexTemplate->{Customer} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    CustomerID => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'customer' },
+            Request   => \%RequestCustomer,
+        );
+        $Errors++ unless $Success;
+
+        # create index for customer users
+        my %RequestCustomerUser = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{CustomerUser}   // $DefaultConfig,
+                Template => $IndexTemplate->{CustomerUser} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    UserLogin => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'customeruser' },
+            Request   => \%RequestCustomerUser,
+        );
+        $Errors++ unless $Success;
+
+        # create index for tickets
+        my %RequestTicket = (
+            settings => $Self->IndexSettingsGet(
+                Config   => $IndexConfig->{Ticket}   // $DefaultConfig,
+                Template => $IndexTemplate->{Ticket} // $DefaultTemplate,
+            ),
+            mappings => {
+                properties => {
+                    GroupID => {
+                        type => 'integer',
+                    },
+                    QueueID => {
+                        type => 'integer',
+                    },
+                    CustomerID => {
+                        type => 'keyword',
+                    },
+                    CustomerUserID => {
+                        type => 'keyword',
+                    },
+                }
+            },
+        );
+        $Success = $Self->CreateIndex(
+            IndexName => { index => 'ticket' },
+            Request   => \%RequestTicket,
+        );
+        $Errors++ unless $Success;
+
+        $Success = 0 if $Errors;
+    }
+
+    if ($Success) {
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        my %Setting = $SysConfigObject->SettingGet(
+            Name => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Frontend::ToolBarModule###250-Ticket::ElasticsearchFulltext',
+            IsValid           => 1,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+            EffectiveValue    => $Setting{EffectiveValue},
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+    }
+    else {
+        # disable in case of failure
+        my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+        my $ESWebservice     = $WebserviceObject->WebserviceGet(
+            Name => 'Elasticsearch',
+        );
+
+        $WebserviceObject->WebserviceUpdate(
+            %{$ESWebservice},
+            ValidID => 2,
+            UserID  => 1,
+        );
+
+        # SysConfig
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+        $SysConfigObject->SettingUpdate(
+            Name              => 'Elasticsearch::Active',
+            IsValid           => 0,
+            UserID            => 1,
+            ExclusiveLockGUID => $ExclusiveLockGUID,
+        );
+        $SysConfigObject->SettingUnlock(
+            UnlockAll => 1,
+        );
+    }
+
+    # 'Rebuild' the configuration.
+    $SysConfigObject->ConfigurationDeploy(
+        Comments    => "Quick setup of Elasticsearch",
+        AllSettings => 1,
+        Force       => 1,
+        UserID      => 1,
+    );
+
+    return $Success, 0;
 }
 
 1;

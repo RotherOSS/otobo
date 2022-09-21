@@ -68,7 +68,7 @@ Content-Disposition: inline
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 Subject: [Ticket#2007070610001801] test mail
-X-Powered-BY: OTRS - Open Ticket Request System (http://otobo.org/)
+X-Powered-BY: OTOBO - (http://otobo.org/)
 X-Mailer: OTOBO Mail Service (2.1.7)
 Date: Fri, 6 Jul 2007 12:17:31 +0200
 Message-ID: <1183717051.586927.929001308.97809.36@otobo.otobo.org>

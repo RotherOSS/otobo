@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,6 +20,7 @@ use strict;
 use warnings;
 
 # core modules
+use Time::HiRes qw();
 
 # CPAN modules
 
@@ -69,8 +70,8 @@ sub new {
     # get debug level
     $Self->{Debug} = $Param{Debug} || 0;
 
-    # performance log
-    $Self->{PerformanceLogStart} = time();
+    # performance log based on high resolution timestamps
+    $Self->{PerformanceLogStart} = Time::HiRes::time();
 
     # register object params
     $Kernel::OM->ObjectParamAdd(
@@ -252,32 +253,51 @@ sub Run {
     # ->Run $Action with $FrontendObject
     $LayoutObject->Print( Output => \$FrontendObject->Run() );
 
-    # log request time
-    if ( $ConfigObject->Get('PerformanceLog') ) {
-        if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
-            $QueryString = 'Action=' . $Param{Action} . '&Subaction=' . $Param{Subaction};
-        }
-        my $File = $ConfigObject->Get('PerformanceLog::File');
+    # add extra scope in order to reduce diffs to InterfaceAgent
+    {
 
-        if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
-            print $Out time()
-                . '::Public::'
-                . ( time() - $Self->{PerformanceLogStart} )
-                . "::-::$QueryString\n";
-            close $Out;
+        # log request time for AdminPerformanceLog
+        if ( $ConfigObject->Get('PerformanceLog') ) {
+            my $File = $ConfigObject->Get('PerformanceLog::File');
 
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'debug',
-                Message  => 'Response::Public: '
-                    . ( time() - $Self->{PerformanceLogStart} )
-                    . "s taken (URL:$QueryString)",
-            );
-        }
-        else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "Can't write $File: $!",
-            );
+            # Write to PerformanceLog file only if it is smaller than size limit (see bug#14747).
+            if ( -s $File < ( 1024 * 1024 * $ConfigObject->Get('PerformanceLog::FileMax') ) ) {
+                if ( open my $Out, '>>', $File ) {    ## no critic qw(OTOBO::ProhibitOpen)
+
+                    # a fallback for the query string when the action is missing
+                    if ( ( !$QueryString && $Param{Action} ) || $QueryString !~ /Action=/ ) {
+                        $QueryString = 'Action=' . $Param{Action} . ';Subaction=' . $Param{Subaction};
+                    }
+
+                    my $Now = Time::HiRes::time();
+                    print $Out join '::',
+                        $Now,
+                        'Public',
+                        ( $Now - $Self->{PerformanceLogStart} ),
+                        '-',    # not used in the AdminPerformanceLog frontend
+                        "$QueryString\n";
+                    close $Out;
+
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'debug',
+                        Message  => 'Response::Public: '
+                            . ( $Now - $Self->{PerformanceLogStart} )
+                            . "s taken (URL:$QueryString:-)",
+                    );
+                }
+                else {
+                    $Kernel::OM->Get('Kernel::System::Log')->Log(
+                        Priority => 'error',
+                        Message  => "Can't write $File: $!",
+                    );
+                }
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "PerformanceLog file '$File' is too large, you need to reset it in PerformanceLog page!",
+                );
+            }
         }
     }
 

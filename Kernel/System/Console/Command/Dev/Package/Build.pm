@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -104,13 +104,14 @@ sub Run {
         String => $FileString,
     );
 
-    # just build it if PackageIsDownloadable flag is enable
+    # Don't build the opm if the PackageIsDownloadable flag is explicitly disabled.
     if (
         defined $Structure{PackageIsDownloadable}
         && !$Structure{PackageIsDownloadable}->{Content}
         )
     {
-        $Self->PrintError("Package cannot be built.\n");
+        $Self->PrintError("Package is not built because the flag PackageIsDownloadable is set to 0.\n");
+
         return $Self->ExitCodeError();
     }
 

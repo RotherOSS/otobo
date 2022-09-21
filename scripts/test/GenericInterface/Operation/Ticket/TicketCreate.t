@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -3541,7 +3541,7 @@ my @Tests        = (
                 AutoResponseType                => 'auto reply',
                 SenderType                      => 'agent',
                 IsVisibleForCustomer            => 1,
-                From                            => 'enjoy@otrs.com',
+                From                            => 'enjoy@otobo.org',
                 ContentType                     => 'text/plain; charset=UTF8',
                 HistoryType                     => 'NewTicket',
                 HistoryComment                  => '% % ',
@@ -4012,7 +4012,7 @@ my @Tests        = (
                 AutoResponseType                => 'auto reply',
                 SenderTypeID                    => 1,
                 IsVisibleForCustomer            => 1,
-                From                            => 'enjoy@otrs.com',
+                From                            => 'enjoy@otobo.org',
                 ContentType                     => 'text/plain; charset=utf8',
                 HistoryType                     => 'NewTicket',
                 HistoryComment                  => '% % ',

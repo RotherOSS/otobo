@@ -1,13 +1,13 @@
-# This is the build file for the OTOBO nginx docker image.
+# This is the build file for the OTOBO nginx Docker image.
 
-# See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See bin/docker/build_docker_images.sh for how to create local builds.
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # Use the latest nginx.
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
 
-# install some required and optional Debian packages
+# install some required and optional Debian packages 
 # hadolint ignore=DL3008
 RUN apt-get update\
  && apt-get -y --no-install-recommends install\
@@ -17,6 +17,7 @@ RUN apt-get update\
  "tree"\
  "vim"\
  "certbot"\
+ "python3-certbot-nginx"\
  && rm -rf /var/lib/apt/lists/*
 
 # No need to run on the low ports 80 and 443,
@@ -47,9 +48,12 @@ WORKDIR /etc/nginx
 RUN mv conf.d/default.conf conf.d/default.conf.hidden
 
 # new nginx config, will be modified by /docker-entrypoint.d/20-envsubst-on-templates.sh
-# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx
-COPY scripts/nginx/templates/ templates
-COPY scripts/nginx/snippets/  snippets
+# See 'Using environment variables in nginx configuration' in https://hub.docker.com/_/nginx .
+# Actually there are two config templates in the directory 'templates'. One for plain Nginx and one for Nginx with
+# Kerberos support. The not needed template is moved out of the way.
+COPY templates/ templates
+RUN mv templates/otobo_nginx-kerberos.conf.template templates/otobo_nginx-kerberos.conf.template.hidden
+COPY snippets/  snippets
 
 # Add some additional meta info to the image.
 # This done at the end of the Dockerfile as changed labels and changed args invalidate the layer cache.

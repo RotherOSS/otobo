@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -119,8 +119,8 @@ my $CreateTestData = sub {
 
     my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
     my %ElementData     = (
-        Sender    => 'mailqueue.test@otrs.com',
-        Recipient => 'mailqueue.test@otrs.com',
+        Sender    => 'mailqueue.test@otobo.org',
+        Recipient => 'mailqueue.test@otobo.org',
         Message   => {
             'Key1' => 'Value1',
             'Key2' => 'Value2',
@@ -139,9 +139,9 @@ my $CreateTestData = sub {
             Attempts => 3,
         },
 
-        'Recipient::mailqueue.test2@otrs.com' => {
+        'Recipient::mailqueue.test2@otobo.org' => {
             %ElementData,
-            Recipient => 'mailqueue.test2@otrs.com',
+            Recipient => 'mailqueue.test2@otobo.org',
         }
     );
 
@@ -164,7 +164,7 @@ my $MailQueueObject = $Kernel::OM->Get('Kernel::System::MailQueue');
 my $Result;
 
 my %BaseSearch = (
-    Sender => 'mailqueue.test@otrs.com',
+    Sender => 'mailqueue.test@otobo.org',
 );
 
 my $TestMessage = sub {
@@ -179,10 +179,10 @@ $Self->True(
 );
 
 # Get all the records for the sender X and recipient Y
-$Result = $MailQueueObject->List( %BaseSearch, Recipient => 'mailqueue.test2@otrs.com' );
+$Result = $MailQueueObject->List( %BaseSearch, Recipient => 'mailqueue.test2@otobo.org' );
 $Self->True(
     $Result && scalar( @{$Result} ) == 1,
-    $TestMessage->(q{ and recipient 'mailqueue.test2@otrs.com'}),
+    $TestMessage->(q{ and recipient 'mailqueue.test2@otobo.org'}),
 );
 
 # Get all the records for the sender X and attempts 3
@@ -199,11 +199,11 @@ $Self->True(
     $TestMessage->(" and article-id '$ArticleID'"),
 );
 
-# Get all the records for the sender X and recipent that match '@otrs.com'
-$Result = $MailQueueObject->List( %BaseSearch, Recipient => '@otrs.com' );
+# Get all the records for the sender X and recipent that match '@otobo.org'
+$Result = $MailQueueObject->List( %BaseSearch, Recipient => '@otobo.org' );
 $Self->True(
     $Result && scalar( @{$Result} ) == $TotalTestRecords,
-    $TestMessage->(q{ and recipent that match '@otrs.com'}),
+    $TestMessage->(q{ and recipent that match '@otobo.org'}),
 );
 
 # Get all the records for the sender that match 'mailqueue.test'

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -211,7 +211,7 @@ sub SanityChecks {
         };
     }
 
-    # some table should not be migrated
+    # some table should not be migrated, thus the sanity check is not needed
     my %TableIsSkipped =
         map { $_ => 1 }
         $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBSkipTables;
@@ -235,7 +235,7 @@ sub SanityChecks {
             Table    => $SourceTable,
         );
 
-        # table should exists
+        # table should exist
         if ( !defined $SourceRowCount ) {
             my $Comment = "The table '$SourceTable' does not seem to exist in the OTRS database!";
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -302,7 +302,7 @@ sub RowCount {
 
     # Log info to apache error log and OTOBO log (syslog or file)
     $MigrationBaseObject->MigrationLog(
-        String   => "Count of entrys in Table $Param{Table}: $NumRows.",
+        String   => "Count of entries in Table $Param{Table}: $NumRows.",
         Priority => "debug",
     );
 

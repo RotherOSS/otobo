@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -30,7 +30,6 @@ use utf8;
 
 our @ObjectDependencies = (
     'Kernel::System::Main',
-    'Kernel::System::MigrateFromOTRS::Base',
     'Kernel::System::Log',
 );
 
@@ -69,6 +68,8 @@ run migration task
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my %ResultFail = ( Successful => 0 );
+
     # check needed stuff
     for my $Needed (qw(Task UserID)) {
         if ( !$Param{$Needed} ) {
@@ -77,131 +78,48 @@ sub Run {
                 Message  => "Need $Needed!",
             );
 
-            return;
+            return \%ResultFail;
         }
     }
 
-    # don't attempt to run when the pre check failed
-    return unless $Self->_ExecutePreCheck(%Param);
+    my $Task       = $Param{Task};
+    my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task";
 
-    return $Self->_ExecuteRun(%Param);
+    return \%ResultFail unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
+
+    my $TaskObject = $Kernel::OM->Create($ModuleName);
+
+    return \%ResultFail unless $TaskObject;
+
+    # don't attempt to run when the pre check failed
+    return \%ResultFail unless $Self->_ExecutePreCheck( %Param, TaskObject => $TaskObject );
+
+    return $Self->_ExecuteRun( %Param, TaskObject => $TaskObject );
 }
 
 sub _ExecutePreCheck {
     my ( $Self, %Param ) = @_;
 
-    # determine the relevant tasks
-    my @Tasks;
-    {
-        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
+    my $TaskObject = delete $Param{TaskObject};
 
-        if ( $Param{Task} eq 'All' ) {
-            @Tasks = @AllTasks;
-        }
-        else {
-            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
-        }
-    }
+    # successful per default, CheckPreviousRequirement() is not a required method
+    return 1 unless $TaskObject->can('CheckPreviousRequirement');
 
-    if ( !@Tasks ) {
-        print STDERR "No valid Module $Param{Task} found. ",
-            q{Perhaps you need to add the new check to $Self->_TasksGet().};
-
-        return 0;
-    }
-
-    my $IsOK = 0;
-
-    TASK:
-    for my $Task (@Tasks) {
-
-        my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
-
-        # NOTE: This looks strange. When one check succeeded and next check can't be loaded that the
-        # check succeeds altogether.
-        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-        # NOTE: see the note above
-        $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-
-        last TASK unless $Self->{TaskObjects}->{$ModuleName};
-
-        # Execute previous check, printing a different message
-        # NOTE: when last check succeeds the the check succeeds altogether
-        if ( $Self->{TaskObjects}->{$ModuleName}->can('CheckPreviousRequirement') ) {
-            $IsOK = $Self->{TaskObjects}->{$ModuleName}->CheckPreviousRequirement(%Param);
-        }
-    }
-
-    return $IsOK;
+    return $TaskObject->CheckPreviousRequirement(%Param);
 }
 
 sub _ExecuteRun {
     my ( $Self, %Param ) = @_;
 
-    # determine the relevant tasks
-    my @Tasks;
-    {
-        my @AllTasks = grep { $_ && $_->{Module} } $Self->_TasksGet();
+    my $TaskObject = delete $Param{TaskObject};
 
-        if ( $Param{Task} eq 'All' ) {
-            @Tasks = @AllTasks;
-        }
-        else {
-            @Tasks = grep { $_->{Module} eq $Param{Task} } @AllTasks;
-        }
-    }
+    my %ResultFail = ( Successful => 0 );
 
-    if ( !@Tasks ) {
+    # a migration step must have a Run-method
+    return \%ResultFail unless $TaskObject->can('Run');
 
-        return {
-            Message => "invalid task $Param{Task}",
-            Comment => "No valid Module $Param{Task} found. "
-                . qq{Perhaps you need to add the new check to $Self->_TasksGet().},
-            Successful => 0,
-        };
-    }
-
-    my $CurrentStep = 1;
-    my %Result;
-
-    TASK:
-    for my $Task (@Tasks) {
-
-        my $ModuleName = "Kernel::System::MigrateFromOTRS::$Task->{Module}";
-
-        last TASK unless $Kernel::OM->Get('Kernel::System::Main')->Require($ModuleName);
-
-        $Self->{TaskObjects}->{$ModuleName} //= $Kernel::OM->Create($ModuleName);
-
-        last TASK unless $Self->{TaskObjects}->{$ModuleName};
-
-        # Execute Run-Component
-        if ( $Self->{TaskObjects}->{$ModuleName}->can('Run') ) {
-
-            $Result{ $Task->{Module} } = $Self->{TaskObjects}->{$ModuleName}->Run(%Param);
-
-            # Add counter to $Result.
-            $Result{ $Task->{Module} }->{CurrentStep} = $CurrentStep;
-        }
-
-        # Do not handle Run if task has no appropriate method.
-        else {
-            next TASK;
-        }
-
-        $CurrentStep++;
-    }
-
-    return \%Result;
-}
-
-sub _TasksGet {
-    my ( $Self, %Param ) = @_;
-
-    my $MigrationBaseObject = $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base');
-
-    return $MigrationBaseObject->TaskSecurityCheck();
+    # Execute Run-Component
+    return $TaskObject->Run(%Param);
 }
 
 1;

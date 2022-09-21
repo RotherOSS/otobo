@@ -5,7 +5,7 @@
 # Copyright (C) 2009 Artur Skalski <skal.ar at wp.pl>
 # Copyright (C) 2011-2013 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
 # Copyright (C) 2014 Wojciech Myrda <wmyrda at auticon.pl>, http://www.auticon.pl
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.715212455400584;
+    $Self->{Completeness}        = 0.714285714285714;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4584,6 +4584,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Błąd: Plik nie mógł zostać poprawnie usunięty. Proszę skontaktować się z administratorem (brak FileID).',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'Identyfikator wiadomości (ArticleID) jest wymagany!',
         'No TicketID for ArticleID (%s)!' => '',
@@ -5098,13 +5104,18 @@ sub Data {
         'No OTRS system found!' => 'Nie odnaleziono systemu OTRS!',
         'OTRS Version is correct: %s.' => 'Poprawna wersja OTRS: %s.',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             '',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             '',
-        'An error occured during SysConfig data migration.' => 'Wystąpił bład w czasie migracji SysConfig.',
         'SysConfig data migration completed.' => 'Migracja SysConfig zakończona.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5368,12 +5379,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partycja dysku OTOBO',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => 'Użycie dysku',
-        'The partition where OTOBO is located is almost full.' => 'Partycja na której znajduje się OTOBO jest prawie pełna.',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'Na partycji na której znajduje się OTOBO zabrakło wolnego miejsca.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Użycie miejsca partycji',
@@ -6660,7 +6665,6 @@ Thanks for your help!
             '',
         'Croatian' => 'Chorwacki',
         'Custom RSS Feed' => '',
-        'Custom RSS feed.' => 'Niestandardowe źródło RSS.',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '',
         'Customer Administration' => 'Zarządzanie klientami',

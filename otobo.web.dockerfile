@@ -1,7 +1,7 @@
 # This is the build file for the OTOBO web docker image.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
 # Use the latest maintainance release of the Perl 5.32.x series.
 # As of 2021-01-23 this is Perl 5.32.1. See https://perldoc.perl.org/perl5321delta.
@@ -26,6 +26,7 @@ RUN apt-get update\
  "less"\
  "nano"\
  "odbcinst1debian2" "libodbc1" "odbcinst" "unixodbc-dev" "unixodbc"\
+ "freetds-bin" "freetds-common" "tdsodbc"\
  "postgresql-client"\
  "redis-tools"\
  "sqlite3" "libsqliteodbc"\
@@ -43,18 +44,10 @@ ENV LANG C.UTF-8
 
 # required modules are installed in /opt/otobo_install/local
 # additional local modules might be installed in /opt/otobo/local
-ENV PERL5LIB "/opt/otobo_install/local/lib/perl5:/opt/otobo/local/lib/perl5"
-ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
+ENV PERL5LIB "/opt/otobo/local/lib/perl5:/opt/otobo_install/local/lib/perl5"
+ENV PATH "/opt/otobo/local/bin:/opt/otobo_install/local/bin:${PATH}"
 
 # Install packages from CPAN into the local lib /opt/otobo_install/local.
-#
-# The modules Net::DNS and Gazelle take a long time to build and test.
-# Install them early in a separate RUN in order to make rebuilds faster.
-# TODO: go back to install via the cpanfile
-#
-# Found no easy way to install with --force in the cpanfile. Therefore install
-# the modules with ignorable test failures with the option --force.
-# TODO: go back to install via the cpanfile
 #
 # Note that the modules in /opt/otobo/Kernel/cpan-lib are not considered by cpanm.
 # This hopefully reduces potential conflicts.
@@ -64,13 +57,10 @@ ENV PATH "/opt/otobo_install/local/bin:/opt/otobo/local/bin:${PATH}"
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
-RUN cpanm --local-lib local Net::DNS
-RUN cpanm --local-lib local Gazelle
-RUN cpanm --local-lib local --force XMLRPC::Transport::HTTP Net::Server Linux::Inotify2
-RUN cpanm --local-lib local Carton
 COPY cpanfile.docker cpanfile
-RUN PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install
-RUN rm -rf "$HOME/.cpanm"
+RUN cpanm --local-lib local Carton \
+    && PERL_CPANM_OPT="--local-lib /opt/otobo_install/local" carton install \
+    && rm -rf "$HOME/.cpanm"
 
 # create the otobo user
 #   --user-group            create group 'otobo' and add the user to the created group
@@ -144,6 +134,7 @@ RUN install -d var/stats var/packages var/article var/tmp \
 WORKDIR $OTOBO_HOME
 
 # Tell the web application and bin/otobo.SetPermissions.pl that it runs in a container.
+# Note that this setting is essential for a correct migration from OTRS 6.
 ENV OTOBO_RUNS_UNDER_DOCKER 1
 
 # the entrypoint is not in the volume

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -62,7 +62,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -85,12 +85,11 @@ sub Run {
     );
 
     # map wrong to correct tags
-    my %NotificationTagsOld2New = (
+    my %OldTag2NewTag = (
 
         # ATTENTION, don't use opening or closing tags here (< or >)
-        # because old notifications can contain quoted tags (&lt; or &gt;)
-        'OTRS_' => 'OTOBO_',
-        'OTRS'  => 'OTOBO',
+        # because old salutations can contain quoted tags (&lt; or &gt;)
+        'OTRS' => 'OTOBO',
     );
 
     # get needed objects
@@ -111,17 +110,17 @@ sub Run {
         };
     }
 
-    NOTIFICATIONMESSAGE:
+    SALUTATION:
     for my $Salutation (@Salutations) {
 
         # remember if we need to replace something
         my $NeedToReplace;
 
-        # get old notification tag
-        for my $OldTag ( sort keys %NotificationTagsOld2New ) {
+        # get old tag
+        for my $OldTag ( sort keys %OldTag2NewTag ) {
 
-            # get new notification tag
-            my $NewTag = $NotificationTagsOld2New{$OldTag};
+            # get new tag
+            my $NewTag = $OldTag2NewTag{$OldTag};
 
             # replace tags in Subject and Text
             ATTRIBUTE:
@@ -139,7 +138,7 @@ sub Run {
         }
 
         # only change the database if something has been really replaced
-        next NOTIFICATIONMESSAGE if !$NeedToReplace;
+        next SALUTATION unless $NeedToReplace;
 
         # update the database
         $DBObject->Do(

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -91,6 +91,7 @@ sub Run {
             Message => Translatable('Need TicketID!'),
         );
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
 
@@ -288,7 +289,7 @@ sub Run {
             $ElementChanged = $Uniformity{$ElementChanged};
         }
         for my $DiversID ( keys %Uniformity ) {
-            $GetParam{ $Uniformity{ $DiversID } } = $GetParam{ $DiversID };
+            $GetParam{ $Uniformity{$DiversID} } = $GetParam{$DiversID};
         }
 
         my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
@@ -447,9 +448,10 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
-
             }
 
             %ChangedElements        = %ChangedElementsDFStart;
@@ -632,6 +634,7 @@ sub Run {
                 Comment => Translatable('Create a new ticket!'),
             );
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -769,6 +772,7 @@ sub Run {
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
+
                     return $Output;
                 }
 
@@ -814,6 +818,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -920,6 +925,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -1270,9 +1276,10 @@ sub Run {
                     Priority => 'error',
                     Message  => "Ran into unresolvable loop!",
                 );
+
+                # TODO: is returning an empty list reasonable?
                 return;
             }
-
         }
 
         %ChangedElements        = %ChangedElementsDFStart;

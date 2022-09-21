@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2012-2019 Znuny GmbH, http://znuny.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,7 +20,9 @@ use strict;
 use warnings;
 
 our @ObjectDependencies = (
+    'Kernel::Config',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::Log',
     'Kernel::System::Web::Request',
 );
 
@@ -39,10 +41,32 @@ sub Run {
 
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $ExtURL = $ParamObject->GetParam( Param => 'URL' );
 
-    return $LayoutObject->Redirect( ExtURL => $ExtURL );
+    # check whether the URL is defined in the Config - prevents using OTOBO for phishing attacks
+    my $NavAgent    = $ConfigObject->Get('Frontend::Navigation');
+    my $NavCustomer = $ConfigObject->Get('CustomerFrontend::Navigation');
+
+    my @URLSets = ( $NavAgent && $NavAgent->{ExternalURLJump} ) ? ( values %{ $NavAgent->{ExternalURLJump} } ) : ();
+    push @URLSets, ( $NavCustomer && $NavCustomer->{ExternalURLJump} ) ? ( values %{ $NavCustomer->{ExternalURLJump} } ) : ();
+
+    for my $Set (@URLSets) {
+        LINK:
+        for my $Links ( @{$Set} ) {
+            next LINK if $Links->{Link} !~ /$ExtURL/;
+
+            return $LayoutObject->Redirect( ExtURL => $ExtURL );
+        }
+    }
+
+    $Kernel::OM->Get('Kernel::System::Log')->Log(
+        Priority => 'info',
+        Message  => "Prevented ExternalURLJump to '$ExtURL' because the link is not configured.",
+    );
+
+    return $LayoutObject->Redirect( OP => ' ' );
 }
 
 1;

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -43,7 +43,7 @@ my $TicketID = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'closed successful',
     CustomerNo   => '123465',
-    CustomerUser => 'unittest@otrs.com',
+    CustomerUser => 'unittest@otobo.org',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -322,7 +322,7 @@ for my $Test (@Tests) {
 # Cleanup is done by RestoreDatabase, but we need to delete the tickets to cleanup the filesystem too.
 my @DeleteTicketList = $TicketObject->TicketSearch(
     Result            => 'ARRAY',
-    CustomerUserLogin => 'unittest@otrs.com',
+    CustomerUserLogin => 'unittest@otobo.org',
     UserID            => 1,
 );
 for my $TicketID (@DeleteTicketList) {

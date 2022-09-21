@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,14 @@ package Kernel::Modules::AdminPerformanceLog;
 
 use strict;
 use warnings;
+use v5.24;
+use utf8;
+
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 
 our $ObjectManagerDisabled = 1;
 
@@ -25,10 +33,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
@@ -45,14 +50,14 @@ sub Run {
         );
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
 
     $LayoutObject->Block(
@@ -85,25 +90,25 @@ sub Run {
         $LayoutObject->Block( Name => 'ActionOverview' );
 
         my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
-        my %Action      = ();
-        my $MaxRequest  = 0;
-        my $Slot        = 60;
-        my $MinuteSlot  = $ParamObject->GetParam( Param => 'Minute' );
+        my %Action;
+        my $MaxRequest = 0;
+        my $MinuteSlot = $ParamObject->GetParam( Param => 'Minute' );
         $Param{Minute} = $MinuteSlot;
         my $Interface = $ParamObject->GetParam( Param => 'Interface' );
         my $Module    = $ParamObject->GetParam( Param => 'Module' );
 
+        my $Slot = 60;    # aggregate by 1 h when showing long long periods
         if ( $MinuteSlot < 31 ) {
-            $Slot = 1;
+            $Slot = 1;    # aggregate by 1 m when showing only the last half hour
         }
         elsif ( $MinuteSlot < 61 ) {
-            $Slot = 2;
+            $Slot = 2;    # aggregate by 2 m
         }
         elsif ( $MinuteSlot < 121 ) {
-            $Slot = 5;
+            $Slot = 5;    # aggregate by 5 m
         }
         elsif ( $MinuteSlot < 1141 ) {
-            $Slot = 30;
+            $Slot = 30;    # aggregate by half hour
         }
         my $Data = $Self->_DatabaseRead();
         $LayoutObject->Block(
@@ -126,6 +131,7 @@ sub Run {
         $Param{Interface} = $Interface;
         $Param{Module}    = $Module;
 
+        # Collect data per aggregation slot
         my $Minute = 0;
         my $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
@@ -181,30 +187,34 @@ sub Run {
                     last ROW;
                 }
             }
-            $Minute = $Minute + $Slot;
-            $Count  = $Count + $Slot;
+            $Minute += $Slot;
+            $Count  += $Slot;
         }
+
+        # display data per aggregation slot
         $Minute = 0;
         $Count  = 1;
         while ( $Count <= $MinuteSlot ) {
 
             my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
-            $DateTimeObject->Subtract( Minutes => $Minute * 60 );
+            $DateTimeObject->Subtract( Minutes => $Minute );
 
             # set output class
             if ( $Action{$Minute} ) {
                 my $Average = $Action{$Minute}->{Sum} / $Action{$Minute}->{Count};
-                $Average =~ s/^(.*\.\d\d).+?$/$1/g;
-                my $I = 100 / $MaxRequest;
-                my $W = $Action{$Minute}->{Count} * $I || 1;
+                my $I       = 100 / $MaxRequest;
+                my $Width   = $Action{$Minute}->{Count} * $I || 1;
 
                 $LayoutObject->Block(
                     Name => 'ViewRow',
                     Data => {
                         %{ $Action{$Minute} },
-                        Average => $Average,
+                        Sum     => sprintf( '%.3f', $Action{$Minute}->{Sum} || '0' ),
+                        Max     => sprintf( '%.3f', $Action{$Minute}->{Max} || '0' ),
+                        Min     => sprintf( '%.3f', $Action{$Minute}->{Min} || '0' ),
+                        Average => sprintf( '%.3f', $Average ),
                         Date    => $DateTimeObject->ToString(),
-                        Width   => $W . "%",
+                        Width   => $Width . '%',
                     },
                 );
             }
@@ -221,19 +231,19 @@ sub Run {
                     },
                 );
             }
-            $Minute = $Minute + $Slot;
-            $Count  = $Count + $Slot;
+            $Minute += $Slot;
+            $Count  += $Slot;
         }
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
 
     # show overview
@@ -248,18 +258,19 @@ sub Run {
                 $LayoutObject->Block(
                     Name => 'Reset',
                     Data => {
-                        Size => sprintf "%.1f MB",
+                        Size => sprintf '%.1f MB',
                         ( $Self->_DatabaseCheck() / ( 1024 * 1024 ) ),
                     },
                 );
-                my $Output = $LayoutObject->Header();
-                $Output .= $LayoutObject->NavigationBar();
-                $Output .= $LayoutObject->Output(
-                    TemplateFile => 'AdminPerformanceLog',
-                    Data         => \%Param,
-                );
-                $Output .= $LayoutObject->Footer();
-                return $Output;
+
+                return join '',
+                    $LayoutObject->Header(),
+                    $LayoutObject->NavigationBar(),
+                    $LayoutObject->Output(
+                        TemplateFile => 'AdminPerformanceLog',
+                        Data         => \%Param,
+                    ),
+                    $LayoutObject->Footer();
             }
             else {
                 $Data = $Self->_DatabaseRead();
@@ -271,11 +282,11 @@ sub Run {
         );
 
         for my $Minute ( 5, 30, 60, 2 * 60, 24 * 60, 2 * 24 * 60 ) {
-            my %Count  = ();
-            my %Action = ();
-            my %Sum    = ();
-            my %Max    = ();
-            my %Min    = ();
+            my %Count;
+            my %Action;
+            my %Sum;
+            my %Max;
+            my %Min;
             ROW:
             for my $Row ( reverse @{$Data} ) {
                 if ( $Row->[0] > time() - ( 60 * $Minute ) ) {
@@ -332,6 +343,7 @@ sub Run {
                     last ROW;
                 }
             }
+
             if (%Sum) {
                 $LayoutObject->Block(
                     Name => 'OverviewTable',
@@ -344,40 +356,40 @@ sub Run {
                     },
                 );
             }
+
             for my $Interface (qw(Agent Customer Public)) {
                 if ( defined $Sum{$Interface} ) {
 
                     my $Average = $Sum{$Interface} / $Count{$Interface};
-                    $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                     $LayoutObject->Block(
                         Name => 'OverviewInterface',
                         Data => {
                             Interface => $Interface,
-                            Average   => $Average,
+                            Average   => sprintf( '%.3f', $Average ),
                             Count     => $Count{$Interface} || 0,
                             Minute    => $Minute,
-                            Sum       => $Sum{$Interface} || '0',
-                            Max       => $Max{$Interface} || '0',
-                            Min       => $Min{$Interface} || '0',
+                            Sum       => sprintf( '%.3f', $Sum{$Interface} || '0' ),
+                            Max       => sprintf( '%.3f', $Max{$Interface} || '0' ),
+                            Min       => sprintf( '%.3f', $Min{$Interface} || '0' ),
                         },
                     );
+
                     for my $Module ( sort keys %Action ) {
                         if ( defined $Action{$Module}->{Sum}->{$Interface} ) {
 
                             my $Average = $Action{$Module}->{Sum}->{$Interface}
                                 / $Action{$Module}->{Count}->{$Interface};
-                            $Average =~ s/^(.*\.\d\d).+?$/$1/g;
                             $LayoutObject->Block(
                                 Name => 'OverviewRow',
                                 Data => {
                                     Interface => $Interface,
                                     Module    => $Module,
-                                    Average   => $Average,
+                                    Average   => sprintf( '%.3f', $Average ),
                                     Minute    => $Minute,
                                     Count     => $Action{$Module}->{Count}->{$Interface} || '0',
-                                    Sum       => $Action{$Module}->{Sum}->{$Interface}   || '0',
-                                    Max       => $Action{$Module}->{Max}->{$Interface}   || '0',
-                                    Min       => $Action{$Module}->{Min}->{$Interface}   || '0',
+                                    Sum       => sprintf( '%.3f', $Action{$Module}->{Sum}->{$Interface} || '0' ),
+                                    Max       => sprintf( '%.3f', $Action{$Module}->{Max}->{$Interface} || '0' ),
+                                    Min       => sprintf( '%.3f', $Action{$Module}->{Min}->{$Interface} || '0' ),
                                 },
                             );
                         }
@@ -387,16 +399,17 @@ sub Run {
         }
 
         # create & return output
-        my $Output = $LayoutObject->Header();
-        $Output .= $LayoutObject->NavigationBar();
-        $Output .= $LayoutObject->Output(
-            TemplateFile => 'AdminPerformanceLog',
-            Data         => \%Param,
-        );
-        $Output .= $LayoutObject->Footer();
-        return $Output;
+        return join '',
+            $LayoutObject->Header(),
+            $LayoutObject->NavigationBar(),
+            $LayoutObject->Output(
+                TemplateFile => 'AdminPerformanceLog',
+                Data         => \%Param,
+            ),
+            $LayoutObject->Footer();
     }
-    return;
+
+    return;    # never reached
 }
 
 sub _DatabaseCheck {
@@ -430,7 +443,7 @@ sub _DatabaseReset {
 sub _DatabaseRead {
     my ( $Self, %Param ) = @_;
 
-    my @Data     = ();
+    my @Data;
     my $File     = $Kernel::OM->Get('Kernel::Config')->Get('PerformanceLog::File');
     my $ArrayRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
         Location => $File,
@@ -441,9 +454,10 @@ sub _DatabaseRead {
         for ( @{$ArrayRef} ) {
             my $Line = $_;
             my @Row  = split( /::/, $Line );
-            push( @Data, \@Row );
+            push @Data, \@Row;
         }
     }
+
     return \@Data;
 }
 

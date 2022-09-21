@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -99,6 +99,7 @@ sub PrepareRequest {
                 }
             }
         );
+
         return {
             Success => 1,
             Data    => {
@@ -111,17 +112,20 @@ sub PrepareRequest {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # gather all fields which have to be stored
-    my $Store  = $ConfigObject->Get('Elasticsearch::CustomerCompanyStoreFields');
-    my $Search = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
+    # prepare request by gathering all fields which have to be stored
+    my %Content;
+    {
+        my $Store  = $ConfigObject->Get('Elasticsearch::CustomerCompanyStoreFields');
+        my $Search = $ConfigObject->Get('Elasticsearch::CustomerCompanySearchFields');
 
-    my %DataToStore;
-    for my $Field ( @{$Store}, @{$Search} ) {
-        $DataToStore{$Field} = 1;
+        my %DataToStore;
+        for my $Field ( @{$Store}, @{$Search} ) {
+            $DataToStore{$Field} = 1;
+        }
+
+        %Content = map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore;
     }
 
-    # prepare request
-    my %Content = ( map { $_ => $Param{Data}{NewData}{$_} } keys %DataToStore );
     my $API;
 
     # set CustomerCompanyKey
@@ -133,6 +137,7 @@ sub PrepareRequest {
         for my $Item ( @{ $BackendConfig->{Map} } ) {
             if ( $Item->[2] eq $BackendConfig->{CustomerCompanyKey} ) {
                 $CustomerCompanyKeyES = $Item->[0];
+
                 last ITEM;
             }
         }

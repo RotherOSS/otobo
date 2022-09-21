@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +16,9 @@
 
 package Kernel::System::UnitTest;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 use namespace::autoclean;
 
@@ -38,11 +38,26 @@ use Kernel::System::VariableCheck qw(IsHashRefWithData IsArrayRefWithData);
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Main',
+    'Kernel::System::Package',
 );
 
 =head1 NAME
 
 Kernel::System::UnitTest - functions to run all or some OTOBO unit tests
+
+=head1 DESCRIPTION
+
+The considered test scripts can be set up as:
+
+=over 4
+
+=item a list of files
+
+=item a single directory
+
+=item a list of .sopm files
+
+=back
 
 =head1 PUBLIC INTERFACE
 
@@ -71,11 +86,12 @@ sub new {
 run all or some tests located in C<scripts/test/**/*.t> and print the result.
 
     $UnitTestObject->Run(
-        Name                   => ['JSON', 'User'],     # optional, execute certain test files only
-        Directory              => 'Selenium',           # optional, execute tests in subdirectory
-        Verbose                => 1,                    # optional (default 0), only show result details for all tests, not just failing
-        PostTestScripts        => ['...'],              # Script(s) to execute after a test has been run.
-                                                        #  You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
+        Tests           => ['JSON', 'User'],           # optional, execute certain test files only
+        Directory       => 'Selenium',                 # optional, execute only the tests in a subdirectory relative to scripts/test
+        SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ], # optional, execute only the tests in the Filelist of the .sopm files
+        Verbose         => 1,                          # optional (default 0), only show result details for all tests, not just failing
+        PostTestScripts => ['...'],                    # Script(s) to execute after a test has been run.
+                                                       #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
     );
 
 Please note that the individual test files are not executed in the main process,
@@ -86,6 +102,8 @@ Tests listed in B<UnitTest::Blacklist> are not executed.
 
 Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
 
+The options C<Tests> and C<SOPMFiles> are combined to a merged white list.
+
 =cut
 
 sub Run {
@@ -93,8 +111,9 @@ sub Run {
 
     # handle parameters
     my $Verbosity           = $Param{Verbose} // 0;
-    my @ExecuteTestPatterns = @{ $Param{Tests} // [] };
     my $DirectoryParam      = $Param{Directory};
+    my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
+    my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
 
     # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -106,7 +125,42 @@ sub Run {
     my $Directory = "$Home/scripts/test";
     if ($DirectoryParam) {
         $Directory .= "/$DirectoryParam";
-        $Directory =~ s/\.//g;
+        $Directory =~ s/\.//g;    # why ???
+    }
+
+    # add the files from the .sopm files to the whitelist
+    if (@SOPMFiles) {
+        my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
+        FILE:
+        for my $File (@SOPMFiles) {
+
+            # for now we only consider local files
+            next FILE unless -f $File;
+            next FILE unless -r $File;
+
+            my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
+                Location => $File,
+                Mode     => 'utf8',
+                Result   => 'SCALAR',
+            );
+
+            return $Self->ExitCodeError unless ref $ContentRef eq 'SCALAR';
+            return $Self->ExitCodeError unless length $ContentRef->$*;
+
+            # Parse package.
+            my %Structure = $PackageObject->PackageParse(
+                String => $ContentRef,
+            );
+
+            next FILE unless IsArrayRefWithData( $Structure{Filelist} );
+
+            # for some reason the trailing .t is checked seperately
+            push @ExecuteTestPatterns,
+                map  {s/\.t$//r}
+                grep {m!^scripts/test/!}
+                map  { $_->{Location} }
+                $Structure{Filelist}->@*;
+        }
     }
 
     # Determine which tests should be skipped because of UnitTest::Blacklist
@@ -130,6 +184,8 @@ sub Run {
             }
         }
 
+        # Collect the files in the passed directory.
+        # An empty list will be returned when $Directory is empty or when it does not exist.
         my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
             Directory => $Directory,
             Filter    => '*.t',

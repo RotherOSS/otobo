@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -152,7 +152,6 @@ sub Output {
         $Self->{TemplateProviderObject} = Kernel::Output::Template::Provider->new(
             {
                 INCLUDE_PATH => \@TemplateFolders,
-                EVAL_PERL    => 1,
                 COMPILE_EXT  => '.ttc',
             }
         );
@@ -168,7 +167,6 @@ sub Output {
 
         my $Context = Template::Context->new(
             {
-                EVAL_PERL      => 1,
                 STASH          => Template::Stash::XS->new(),
                 LOAD_TEMPLATES => [ $Self->{TemplateProviderObject} ],
                 LOAD_PLUGINS   => [$Plugins],

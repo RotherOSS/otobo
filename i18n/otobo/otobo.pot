@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2021-08-21 12:47+0000\n"
+"POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -13110,6 +13110,14 @@ msgstr ""
 msgid "Error: the file could not be deleted properly. Please contact your administrator (missing FileID)."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid "Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid "Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
 msgstr ""
@@ -14306,6 +14314,22 @@ msgstr ""
 msgid "OTRS Version is correct: %s."
 msgstr ""
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migrate ITSM database tables."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Nothing to do, as the the table '%s' does not exist."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "UPDATE of the table '%s' failed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migration completed."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
 msgstr ""
@@ -14316,10 +14340,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -14928,18 +14948,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "Disk Usage"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTOBO is located is almost full."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTOBO is located has no disk space problems."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
@@ -18179,10 +18187,6 @@ msgstr ""
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
-
-#. SysConfig
-msgid "Custom RSS feed."
 msgstr ""
 
 #. SysConfig

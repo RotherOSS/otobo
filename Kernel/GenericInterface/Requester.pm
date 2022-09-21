@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -233,6 +233,13 @@ sub Run {
     # Extend the data include payload/
     $DataInclude{RequesterRequestPrepareOutput} = $FunctionResult->{Data};
 
+    my %CustomHeader;
+    if ( $FunctionResult->{Header} ) {
+        %CustomHeader = (
+            CustomHeader => $FunctionResult->{Header},
+        );
+    }
+
     #
     # Map the outgoing data.
     #
@@ -317,6 +324,7 @@ sub Run {
     $FunctionResult = $TransportObject->RequesterPerformRequest(
         Operation => $Param{Invoker},
         Data      => $DataOut,
+        %CustomHeader,
     );
 
     my $IsAsynchronousCall = $Param{Asynchronous} ? 1 : 0;

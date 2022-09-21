@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -106,10 +106,12 @@ $Selenium->RunTest(
         {
             my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
 
+            $Selenium->LogExecuteCommandActive(0);
             $Selenium->content_contains(
                 'Action=CustomerTicketProcess',
                 "NavBar 'New process ticket' button available",
             );
+            $Selenium->LogExecuteCommandActive(1);
         }
 
         # Clean up activities.
@@ -248,10 +250,12 @@ $Selenium->RunTest(
         {
             my $ToDo = todo(q{'New process ticket' is not implemented in customer interface, see #1002});
 
+            $Selenium->LogExecuteCommandActive(0);
             $Selenium->content_contains(
                 'Action=CustomerTicketProcess',
                 "'New process ticket' button IS available when no process is active and NavBarCustomerTicketProcess is disabled",
             );
+            $Selenium->LogExecuteCommandActive(1);
         }
 
         # Restore state of process.

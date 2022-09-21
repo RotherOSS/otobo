@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -188,7 +188,6 @@ sub Run {
                     Message => $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::QueueDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
         elsif ( $GetParam{Dest} ) {
@@ -381,6 +380,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 
@@ -492,6 +493,7 @@ sub Run {
         );
         $Output .= $LayoutObject->CustomerNavigationBar();
         $Output .= $LayoutObject->CustomerFooter();
+
         return $Output;
     }
     elsif ( $Self->{Subaction} eq 'StoreNew' ) {
@@ -538,7 +540,6 @@ sub Run {
                         $LayoutObject->{LanguageObject}->Translate( 'Check SysConfig setting for %s::TicketTypeDefault.', $Self->{Action} ),
                     Comment => Translatable('Please contact the administrator.'),
                 );
-                return;
             }
         }
 
@@ -648,6 +649,7 @@ sub Run {
                         Comment => Translatable('Please contact the administrator.'),
                     );
                     $Output .= $LayoutObject->CustomerFooter();
+
                     return $Output;
                 }
 
@@ -791,6 +793,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerNavigationBar();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -889,6 +892,7 @@ sub Run {
             );
             $Output .= $LayoutObject->CustomerError();
             $Output .= $LayoutObject->CustomerFooter();
+
             return $Output;
         }
 
@@ -1181,6 +1185,8 @@ sub Run {
                         Priority => 'error',
                         Message  => "Ran into unresolvable loop!",
                     );
+
+                    # TODO: is returning an empty list reasonable?
                     return;
                 }
 
@@ -1323,6 +1329,7 @@ sub Run {
                 @DynamicFieldAJAX,
             ],
         );
+
         return $LayoutObject->Attachment(
             ContentType => 'application/json; charset=' . $LayoutObject->{Charset},
             Content     => $JSON,
@@ -1336,7 +1343,6 @@ sub Run {
             Comment => Translatable('Please contact the administrator.'),
         );
     }
-
 }
 
 sub _GetPriorities {
@@ -1354,6 +1360,7 @@ sub _GetPriorities {
             CustomerUserID => $Self->{UserID},
         );
     }
+
     return \%Priorities;
 }
 
@@ -1647,6 +1654,7 @@ sub _MaskNew {
         if ( $Config->{SLA} ) {
             if ( $Param{ServiceID} ) {
                 %SLA = $TicketObject->TicketSLAList(
+                    QueueID        => 1,    # use default QueueID if none is provided in %Param
                     %Param,
                     Action         => $Self->{Action},
                     CustomerUserID => $Self->{UserID},

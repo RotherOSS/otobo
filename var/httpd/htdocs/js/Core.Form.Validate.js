@@ -2,7 +2,7 @@
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 // Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+// Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -141,7 +141,7 @@ Core.Form.Validate = (function (TargetNS) {
         // Get the target element and find the associated hidden div with the
         // error message.
         InputErrorMessageHTML = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType).html();
-        InputErrorMessageText = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType).text();
+        InputErrorMessageText = $('#' + Core.App.EscapeSelector($Element.attr('id')) + ErrorType + ' > p').first().html();
 
         if (InputErrorMessageHTML && InputErrorMessageHTML.length) {
             // If error field is a RTE, it is a little bit more difficult.

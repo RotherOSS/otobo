@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,7 @@ use utf8;
 # core modules
 use List::Util qw(first);
 use Data::Dumper;
-use File::Basename;
+use File::Basename qw(basename dirname fileparse);
 use File::Copy qw(move);
 use File::Path qw(make_path);
 
@@ -95,7 +95,6 @@ sub CleanLicenseHeader {
     my ( $Self, %Param ) = @_;
 
     my $FilePathAndName = $Param{File};
-    my $NewContent;
 
     # Open file
     open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
@@ -166,6 +165,7 @@ sub CleanLicenseHeader {
         return;
     }
 
+    my $NewContent;
     if ( $Parse->{New} ) {
         $NewContent = $Parse->{New}[0];
         if ($ExtraLicenses) {
@@ -327,17 +327,8 @@ sub CleanOTRSFileToOTOBOStyle {
     }
 
     my $FilePathAndName = $Param{File};
-    my $Suffix          = $Param{File};
-    $Suffix =~ s/^.*\.//g;
 
-    my ( $Filename, $Dirs, $SuffixNotWork ) = fileparse($FilePathAndName);
-
-    # Read parse content from _ChangeLicenseHeaderRules
-    my @ParserRegEx        = _ChangeFileInfo();
-    my @ParserRegExLicence = _ChangeLicenseHeaderRules();
-
-    my $NewContent;
-    open( my $FileHandle, '<:encoding(utf-8)', $FilePathAndName );    ## no critic qw(OTOBO::ProhibitOpen)
+    open my $FileHandle, '<:encoding(utf-8)', $FilePathAndName;    ## no critic qw(OTOBO::ProhibitOpen)
     if ( !$FileHandle ) {
 
         # Log info to apache error log and OTOBO log (syslog or file)
@@ -350,19 +341,21 @@ sub CleanOTRSFileToOTOBOStyle {
         return;
     }
 
+    # Read parse content from _ChangeLicenseHeaderRules
+    my @Replacements = _ChangeFileInfo($FilePathAndName);
+
+    my $NewContent;
     while ( my $Line = <$FileHandle> ) {
 
-        TYPE:
-        for my $Type (@ParserRegEx) {
+        REPLACEMENT:
+        for my $Replacement (@Replacements) {
 
-            # TODO: Check if work proper. Check if parse is build for this filetyp || All
-            next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
-            my $Search = $Type->{Search};
-            my $Change = $Type->{Change};
+            my $Search = $Replacement->{Search};
+            my $Change = $Replacement->{Change};
 
             $Line =~ s/$Search/$Change/g;
 
-            # If $1 exist, we need to check if we change OTOBO_XXX from ParserRegEx
+            # If $1 exist, we need to check if we change OTOBO_XXX from Replacements
             if ( my $Tmp = $1 ) {
                 $Line =~ s/OTOBO_XXX/$Tmp/g;
             }
@@ -427,12 +420,12 @@ sub CleanOTRSFilesToOTOBOStyleInDir {
     );
 
     for my $File (@UncleanDirAndFileList) {
-
         $Self->CleanOTRSFileToOTOBOStyle(
             File   => $File,
             UserID => 1,
         );
     }
+
     return 1;
 }
 
@@ -457,22 +450,22 @@ sub ChangePathFileName {
     $Suffix =~ s/^.*\.//g;
 
     # Read parse content from _ChangeFilePath
-    my @ParserRegEx = $Self->_ChangeFilePath();
+    my @Replacements = $Self->_ChangeFilePath();
 
-    TYPE:
-    for my $Type (@ParserRegEx) {
+    REPLACEMENT:
+    for my $Replacement (@Replacements) {
 
         # TODO: Check if work proper. Check if parse is build for this filetyp || All
-        next TYPE if $Suffix !~ /$Type->{FileTyp}/ && $Type->{FileTyp} ne 'All';
-        my $Search = $Type->{Search};
-        my $Change = $Type->{Change};
+        next REPLACEMENT if $Suffix !~ /$Replacement->{FileTyp}/ && $Replacement->{FileTyp} ne 'All';
+
+        my $Search = $Replacement->{Search};
+        my $Change = $Replacement->{Change};
 
         $NewFile =~ s/$Search/$Change/g;
     }
 
-    if ( $NewFile eq $File ) {
-        return 1;
-    }
+    # nothing to do when there are no changes
+    return 1 if $NewFile eq $File;
 
     # Check if new directory exists
     my $NewFileDirname = dirname($NewFile);
@@ -499,6 +492,7 @@ sub ChangePathFileName {
             String   => "The move operation failed: $!",
             Priority => 'error',
         );
+
     return 1;
 }
 
@@ -792,78 +786,6 @@ sub CopyFileAndSaveAsTmp {
     }
 }
 
-=head2 RebuildConfig()
-
-Refreshes the configuration to make sure that a ZZZAAuto.pm is present after the upgrade.
-
-    $MigrateFromOTRSObject->RebuildConfig(
-        UnitTestMode      => 1,         # (optional) Prevent discarding all objects at the end.
-        CleanUpIfPossible => 1,         # (optional) Removes leftover settings that are not contained in XML files,
-                                        #   but only if all XML files for installed packages are present.
-    );
-
-=cut
-
-sub RebuildConfig {
-    my ( $Self, %Param ) = @_;
-
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-    my $Verbose         = $Param{CommandlineOptions}->{Verbose} || 0;
-
-    my $CleanUp = $Param{CleanUpIfPossible} ? 1 : 0;
-
-    # Convert XML files to entries in the database
-    if (
-        !$SysConfigObject->ConfigurationXML2DB(
-            Force   => 1,
-            UserID  => 1,
-            CleanUp => $CleanUp,
-        )
-        )
-    {
-        # Log info to apache error log and OTOBO log (syslog or file)
-        $Self->MigrationLog(
-            String   => "There was a problem writing XML to DB.",
-            Priority => "error",
-        );
-        return;
-    }
-
-    # Rebuild ZZZAAuto.pm with current values
-    if (
-        !$SysConfigObject->ConfigurationDeploy(
-            Comments    => $Param{Comments} || "Configuration Rebuild",
-            AllSettings => 1,
-            Force       => 1,
-
-            #            NoValidation => 1,
-            UserID => 1,
-        )
-        )
-    {
-        # Log info to apache error log and OTOBO log (syslog or file)
-        $Self->MigrationLog(
-            String   => "There was a problem writing XML to DB.",
-            Priority => "error",
-        );
-        return;
-    }
-
-    # Force a reload of ZZZAuto.pm and ZZZAAuto.pm to get the new values
-    for my $Module ( sort keys %INC ) {
-        if ( $Module =~ m/ZZZAA?uto\.pm$/ ) {
-            delete $INC{$Module};
-        }
-    }
-
-    return 1 if $Param{UnitTestMode};
-
-    # create common objects with new default config
-    $Kernel::OM->ObjectsDiscard();
-
-    return 1;
-}
-
 =head2 CacheCleanup()
 
 Clean up the cache.
@@ -944,9 +866,8 @@ sub TableExists {
 
     my %TableNames = map { lc $_ => 1 } $DBObject->ListTables();
 
-    return if !$TableNames{ lc $Param{Table} };
-
-    return 1;
+    return 1 if $TableNames{ lc $Param{Table} };
+    return 0;
 }
 
 =head2 ColumnExists()
@@ -1060,6 +981,63 @@ sub IndexExists {
 
     return if !$Result[0];
 
+    return 1;
+}
+
+=head2 ReplaceSubstringsOfColumnValues()
+
+Update the passed columns of all rows of the passed table. The substitutions are given as an
+reference to an array of array references.
+
+    my $Success = $MigrateFromOTRSObject->ReplaceSubstringsOfColumnValues(
+        Table        => 'change_notification_message',
+        Columns      => [ qw(text) ],
+        Replacements =>
+            [
+                [ '<OTRS_', '<OTOBO_' ],
+                [ '&lt;OTRS_', '&lt;OTOBO_' ]
+            ],
+    );
+
+=cut
+
+sub ReplaceSubstringsOfColumnValues {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    for my $Needed (qw(Table Columns Replacements)) {
+        if ( !$Param{$Needed} ) {
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => "Need $Needed!",
+            );
+
+            return;
+        }
+    }
+
+    # the actual migration
+    # The function REPLACE( string, find_string, replace_with_string) does a global replacement in the the first parameter
+    # It exitst in MySQL, PostgreSQL, and Oracle
+    my @SQLs     = map {"UPDATE $Param{Table} SET $_ = REPLACE( $_, ?, ? )"} $Param{Columns}->@*;
+    my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
+    SQL:
+    for my $SQL (@SQLs) {
+
+        for my $Replacement ( $Param{Replacements}->@* ) {
+            my ( $FindStr, $ReplacementStr ) = $Replacement->@*;
+
+            # bail out at the first errro
+            my $Success = $DBObject->Do(
+                SQL  => $SQL,
+                Bind => [ \$FindStr, \$ReplacementStr ],
+            );
+
+            return unless $Success;
+        }
+    }
+
+    # all UPDATEs went well
     return 1;
 }
 
@@ -1298,10 +1276,11 @@ sub ResetConfigOption {
     };
 }
 
-# These tables will either be not  migrated or in some cases truncated.
+# The listed tables will be not  migrated.
 # The table names must be in lower case.
-# The order of the tables is relevant. Truncating must be possible
-# without violating foreign key constraints.
+# This list is also used for truncating tables in a SQL-script that is produced by scripts/backup.pl.
+# Therefore is the order of the tables relevant. Truncating must be possible without violating
+# foreign key constraints.
 sub DBSkipTables {
     return qw(
         cloud_service_config
@@ -1311,22 +1290,26 @@ sub DBSkipTables {
         communication_log
         gi_debugger_entry_content
         gi_debugger_entry
+        mail_queue
         package_repository
         process_id
+        scheduler_future_task
         scheduler_recurrent_task
+        scheduler_task
         sessions
         system_data
         web_upload_cache
     );
 }
 
-# OTOBO Table Name => OTRS Table Name
+# OTRS table name => OTOBO table name
 sub DBRenameTables {
 
     # the tables must be lower case
     return {
         article_data_otrs_chat => 'article_data_otobo_chat',
-        groups                 => 'groups_table',
+        groups                 => 'groups_table',              # OTRS 6.0, Znuny 6.0
+        permission_groups      => 'groups_table',              # Znuny 6.1
     };
 }
 
@@ -1644,42 +1627,40 @@ sub CopyFileListfromOTRSToOTOBO {
 }
 
 sub DoNotCleanFileList {
-    return (
+    return
         '/var/article',
-    );
+        ;
 }
 
 sub _ChangeFilePath {
 
-    return (
-        (
-            {
-                FileTyp => 'All',
-                Search  => 'OTRSBusiness',
-                Change  => 'OTOBOCommunity',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS',
-                Change  => 'OTOBO',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'otrs',
-                Change  => 'otobo',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'ContactWithData',
-                Change  => 'ContactWD',
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'DynamicFieldDatabase',
-                Change  => 'DynamicFieldDB',
-            },
-        ),
-    );
+    return
+        {
+            FileTyp => 'All',
+            Search  => 'OTRSBusiness',
+            Change  => 'OTOBOCommunity',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'OTRS',
+            Change  => 'OTOBO',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'otrs',
+            Change  => 'otobo',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'ContactWithData',
+            Change  => 'ContactWD',
+        },
+        {
+            FileTyp => 'All',
+            Search  => 'DynamicFieldDatabase',
+            Change  => 'DynamicFieldDB',
+        },
+        ;
 }
 
 sub IgnorePathList {
@@ -1701,108 +1682,124 @@ sub IgnorePathList {
 }
 
 sub _ChangeFileInfo {
+    my ($FilePathAndName) = @_;
 
-    return (
-        (
+    # /opt/otrs/Kernel/Config.pm would result in '/opt/otrs/Kernel', 'Config', '.pm'
+    my ( $Basename, $Dirs, $Suffix ) = fileparse( $FilePathAndName, qr/\.[^.]*/ );
+    my $FileName = $Basename . $Suffix;
 
-            {
-                FileTyp => 'All',
-                Search  => 'ContactWithData',
-                Change  => 'ContactWD'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'DynamicFieldDatabase',
-                Change  => 'DynamicFieldDB'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
-                Change  => 'Rother OSS GmbH'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTOBO Community Edition',
-                Change  => 'OTOBO Community'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRSBusiness',
-                Change  => 'OTOBOCommunity'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '((OTRS)) Community Edition',
-                Change  => 'OTOBO'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS 6',
-                Change  => 'OTOBO 10'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS Team',
-                Change  => 'OTOBO Team'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'OTRS Group',
-                Change  => 'Rother OSS GmbH'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'otrs-web',
-                Change  => 'otobo-web'
-            },
-            {
-                FileTyp => 'All',
-                Search  => 'sales@otrs.com',
-                Change  => 'hallo@otobo.de'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, ))https:\/\/otrs\.com',
-                Change  => 'https://otobo.de'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS',
-                Change  => 'OTOBO',
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
-                Change  => 'otobo'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))"otrs"',
-                Change  => '"otobo"'
-            },
-            {
-                FileTyp => 'All',
-                Search  => '\$Self-\>\{\'SecureMode\'\} \=  \'1\'\;',
-                Change  => '$Self->{\'SecureMode\'} =  \'0\';'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '\<Framework.*\>6\..*\<\/Framework\>',
-                Change  => '<Framework>10.0.x</Framework>'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
-                Change  => '<File Location="OTOBO_XXX" Permission="644" ></File>'
-            },
-            {
-                FileTyp => 'opm',
-                Search  => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
-                Change  => '<File Location="OTOBO_XXX" Permission="660" ></File>'
-            },
-        ),
-
+    # the actual replacement rules depend on the file
+    my @Candidates = (
+        {
+            FileType => 'All',
+            Search   => 'ContactWithData',
+            Change   => 'ContactWD'
+        },
+        {
+            FileType => 'All',
+            Search   => 'DynamicFieldDatabase',
+            Change   => 'DynamicFieldDB'
+        },
+        {
+            FileType => 'All',
+            Search   => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS AG',
+            Change   => 'Rother OSS GmbH'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTOBO Community Edition',
+            Change   => 'OTOBO Community'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRSBusiness',
+            Change   => 'OTOBOCommunity'
+        },
+        {
+            FileType => 'All',
+            Search   => '((OTRS)) Community Edition',
+            Change   => 'OTOBO'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS 6',
+            Change   => 'OTOBO 10'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS Team',
+            Change   => 'OTOBO Team'
+        },
+        {
+            FileType => 'All',
+            Search   => 'OTRS Group',
+            Change   => 'Rother OSS GmbH'
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => 'otrs-web',
+            Change            => 'otobo-web'
+        },
+        {
+            FileType => 'All',
+            Search   => 'sales@otrs.com',
+            Change   => 'hallo@otobo.de'
+        },
+        {
+            FileType => 'All',
+            Search   => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, ))https:\/\/otrs\.com',
+            Change   => 'https://otobo.de'
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d ))OTRS',
+            Change            => 'OTOBO',
+        },
+        {
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))otrs',
+            Change            => 'otobo'
+        },
+        {
+            # TODO: remove this rule, as it already is included in the preceeding rule
+            FileType          => 'All',
+            FileNameBlacklist => { 'Config.pm' => 1 },
+            Search            => '(?<!(Copyright \(\S\) \d\d\d\d-\d\d\d\d OTRS AG, https:\/\/))"otrs"',
+            Change            => '"otobo"'
+        },
+        {
+            # TODO: why is this included here
+            FileType => 'All',
+            Search   => '\$Self-\>\{\'SecureMode\'\} \=  \'1\'\;',
+            Change   => '$Self->{\'SecureMode\'} =  \'0\';'
+        },
+        {
+            FileType => 'opm',
+            Search   => '\<Framework.*\>6\..*\<\/Framework\>',
+            Change   => '<Framework>10.0.x</Framework>'
+        },
+        {
+            FileType => 'opm',
+            Search   => '<File Location\=\"(.*)\"\s.*\s.*\">.*<\/File>',
+            Change   => '<File Location="OTOBO_XXX" Permission="644" ></File>'
+        },
+        {
+            FileType => 'opm',
+            Search   => '<File Permission\=.*Location\=\"(.*)\"\s.*\">.*<\/File>',
+            Change   => '<File Location="OTOBO_XXX" Permission="660" ></File>'
+        },
     );
+
+    return grep
+        {
+            ( $Suffix =~ m/$_->{FileType}/ || $_->{FileType} eq 'All' )
+            &&
+            !( $_->{FileNameBlacklist} && $_->{FileNameBlacklist}->{$FileName} )
+        }
+        @Candidates;
 }
 
 sub _ChangeLicenseHeaderRules {
@@ -1833,7 +1830,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1868,7 +1865,7 @@ sub _ChangeLicenseHeaderRules {
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 ",
-                "# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+                "# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1903,7 +1900,7 @@ sub _ChangeLicenseHeaderRules {
 // OTOBO is a web-based ticketing system for service organisations.
 // --
 ",
-                "// Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+                "// Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 // --
 // This program is free software: you can redistribute it and/or modify it under
 // the terms of the GNU General Public License as published by the Free Software
@@ -1936,7 +1933,7 @@ sub _ChangeLicenseHeaderRules {
                 "/* OTOBO is a web-based ticketing system for service organisations.
 
 ",
-                "Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+                "Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -1949,96 +1946,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 */
 ",
             ],
-        },
-    );
-}
-
-# TODO: this sub seems to be misnamed
-sub TaskSecurityCheck {
-    return (
-        {
-            Message => 'Check filesystem connect',
-            Module  => 'OTOBOOTRSConnectionCheck',
-        },
-        {
-            Message => 'Check database connect',
-            Module  => 'OTOBOOTRSDBCheck',
-        },
-        {
-            Message => 'Check framework version',
-            Module  => 'OTOBOFrameworkVersionCheck',
-        },
-        {
-            Message => 'Check required Perl modules',
-            Module  => 'OTOBOPerlModulesCheck',
-        },
-        {
-            Message => 'Check installed CPAN modules for known vulnerabilities',
-            Module  => 'OTOBOOTRSPackageCheck',
-        },
-        {
-            Message => 'Copy needed files from OTRS',
-            Module  => 'OTOBOCopyFilesFromOTRS',
-        },
-        {
-            Message => 'Migrate database to OTOBO',
-            Module  => 'OTOBODatabaseMigrate',
-        },
-        {
-            Message => 'Migrate notification tags in Ticket notifications',
-            Module  => 'OTOBONotificationMigrate',
-        },
-        {
-            Message => 'Migrate salutations to OTOBO style',
-            Module  => 'OTOBOSalutationsMigrate',
-        },
-        {
-            Message => 'Migrate signatures to OTOBO style',
-            Module  => 'OTOBOSignaturesMigrate',
-        },
-        {
-            Message => 'Migrate response templates to OTOBO style',
-            Module  => 'OTOBOResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate auto response templates to OTOBO style',
-            Module  => 'OTOBOAutoResponseTemplatesMigrate',
-        },
-        {
-            Message => 'Migrate webservices and add OTOBO ElasticSearch services.',
-            Module  => 'OTOBOMigrateWebServiceConfiguration',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Migrate OTRS configuration',
-            Module  => 'OTOBOMigrateConfigFromOTRS',
-        },
-        {
-            Message => 'Migrate stats from OTRS to OTOBO',
-            Module  => 'OTOBOStatsMigrate',
-        },
-        {
-            Message => 'Clean up the cache',
-            Module  => 'OTOBOCacheCleanup',
-        },
-        {
-            Message => 'Deploy ACLs',
-            Module  => 'OTOBOACLDeploy',
-        },
-        {
-            Message => 'Deploy processes',
-            Module  => 'OTOBOProcessDeploy',
-        },
-        {
-            Message => 'Migrate postmaster filter from OTRS to OTOBO',
-            Module  => 'OTOBOPostmasterFilterMigrate',
-        },
-        {
-            Message => 'Package specific actions',
-            Module  => 'OTOBOPackageSpecifics',
         },
     );
 }

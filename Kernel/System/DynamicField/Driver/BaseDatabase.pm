@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -360,8 +360,13 @@ EOF
 
     if ( $Param{ServerError} ) {
 
-        my $ErrorMessage = $Param{ErrorMessage} || 'This field is required.';
-        my $DivID        = $FieldName . 'ServerError';
+        my $ErrorMessage = $Param{LayoutObject}->Output(
+            'Template' => '[% Translate(Data.ErrorMessage) | html %]',
+            'Data'     => {
+                'ErrorMessage' => $Param{ErrorMessage} || 'This field is required.',
+            }
+        );
+        my $DivID = $FieldName . 'ServerError';
 
         my $FieldRequiredMessage = $Param{LayoutObject}->{LanguageObject}->Translate($ErrorMessage);
 

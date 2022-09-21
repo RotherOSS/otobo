@@ -8,7 +8,7 @@
 # Copyright (C) 2009 Qingjiu Jia <jiaqj at yahoo.com>
 # Copyright (C) 2011 Martin Liu <liuzh66 at gmail.com> http://martinliu.cn
 # Copyright (C) 2013 Michael Shi <micshi at 163.com>
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.995945507622446;
+    $Self->{Completeness}        = 0.994973244689476;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -4586,6 +4586,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '错误：文件无法正确删除，请联系您的管理员（缺少文件ID）。',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '需要信件ID！',
         'No TicketID for ArticleID (%s)!' => '信件ID (%s)没有工单ID！',
@@ -5100,13 +5106,18 @@ sub Data {
         'No OTRS system found!' => '没发现OTRS系统！',
         'OTRS Version is correct: %s.' => 'OTRS版本正确：%s。',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '迁移配置设置。',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             'SysConfig数据迁移时发生错误或配置不存在。',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             '将XML写入DB时，在SysConfig迁移期间发生一个错误。',
-        'An error occured during SysConfig data migration.' => '在SysConfig数据迁移期间发生一个错误。',
         'SysConfig data migration completed.' => 'SysConfig数据迁移完成了。',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5370,12 +5381,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO磁盘分区',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => '硬盘使用情况',
-        'The partition where OTOBO is located is almost full.' => 'OTOBO分区已经快满了。',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'OTOBO分区没有磁盘空间问题了。',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => '硬盘使用情况',
@@ -6671,7 +6676,6 @@ Thanks for your help!
             '已创建工单 [%s]，在 "%s"，优先级为"%s" ，状态为"%s"。',
         'Croatian' => '克罗地亚语',
         'Custom RSS Feed' => '定制RSS订阅',
-        'Custom RSS feed.' => '定制RSS订阅。',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             '显示给还没有工单的客户的网页定制文本（如果您需要翻译这些文本，将它们添加到定制翻译模块）。',
         'Customer Administration' => '客户管理',

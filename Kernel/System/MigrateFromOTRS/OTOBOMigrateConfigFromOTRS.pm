@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -64,7 +64,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -95,7 +95,7 @@ sub Run {
     # Create tempdir to save sysconfig export tmp
     my $TmpDirectory = $Kernel::OM->Get('Kernel::System::FileTemp')->TempDir();
 
-    # Dump only changed SysConfig entrys in string $Export
+    # Dump only changed SysConfig entries in string $Export
     # This is essentially the OTRS config, as the database tables were copied from OTRS.
     my $Export = $Kernel::OM->Get('Kernel::System::SysConfig')->ConfigurationDump(
         SkipDefaultSettings => 1,
@@ -187,20 +187,23 @@ sub Run {
     }
 
     # Write ZZZAAuto.pm
-    my $Success = $SysConfigObject->ConfigurationDeploy(
-        Comments    => $Param{Comments} || "Migrate Configuration from OTRS to OTOBO",
+    my %DeployResult = $SysConfigObject->ConfigurationDeploy(
+        Comments    => $Param{Comments} || 'Migrate Configuration from OTRS to OTOBO',
         AllSettings => 1,
         Force       => 1,
         UserID      => 1,
     );
 
-    if ( !$Success ) {
-        my %Result;
-        $Result{Message}    = $Self->{LanguageObject}->Translate("Migrate configuration settings.");
-        $Result{Comment}    = $Self->{LanguageObject}->Translate("An error occured during SysConfig data migration.");
-        $Result{Successful} = 0;
-
-        return \%Result;
+    if ( !$DeployResult{Success} ) {
+        return {
+            Message => $Self->{LanguageObject}->Translate("Migrate configuration settings."),
+            Comment => $Self->{LanguageObject}->Translate(<<'END_COMMENT'),
+The merged configuration could not be deployed because it contains invalid values. Please try to fix the configuration
+by running these commands: "bin/otobo.Console.pl Admin::Config::ListInvalid" and "bin/otobo.Console.pl Admin::Config::FixInvalid".
+After fixing the configuration run "bin/otobo.Console.pl Maint::Config::Rebuild" and continue with the migration.
+END_COMMENT
+            Successful => 0,
+        };
     }
 
     return {

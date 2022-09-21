@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,7 +46,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otrs.com>',
+                ContentID          => '<part1.02040705.00020608@otobo.org>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -72,7 +72,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otrs.com>',
+                ContentID          => '<part1.02040705.00020608@otobo.org>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -98,7 +98,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otrs.com>',
+                ContentID          => '<part1.02040705.00020608@otobo.org>',
                 ContentAlternative => '1',
                 Disposition        => 'inline',
             },
@@ -112,7 +112,7 @@ my @Tests = (
             'testing.pdf' => {
                 Filename           => 'testing.pdf',
                 ContentType        => 'application/pdf; name="testing.pdf"',
-                ContentID          => '<part1.02040705.0001234@otrs.com>',
+                ContentID          => '<part1.02040705.0001234@otobo.org>',
                 ContentAlternative => '',
                 Disposition        => 'attachment',
             },
@@ -124,7 +124,7 @@ my @Tests = (
             'ceeibejd.png' => {
                 Filename           => 'ceeibejd.png',
                 ContentType        => 'image/png; name="ceeibejd.png"',
-                ContentID          => '<part1.02040705.00020608@otrs.com>',
+                ContentID          => '<part1.02040705.00020608@otobo.org>',
                 ContentAlternative => '1',
                 Disposition        => 'attachment',
             },

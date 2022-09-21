@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -152,10 +152,10 @@ my @Tests = (
     },
 
     # Local part of email address is too long according to RFC.
-    # See http://isemail.info/modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen%3Dotrs.com%40perl.apache.org
+    # See http://isemail.info/modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen%3Dotobo.org%40perl.apache.org
     {
         Email =>
-            'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otrs.com@perl.apache.org',
+            'modperl-uc.1384763750.ffhelkebjhfdihihkbce-michiel.beijen=otobo.org@perl.apache.org',
         Valid => 0,
     },
 
@@ -489,12 +489,12 @@ is(
     "CheckError() - 'some..body\@example.com'",
 );
 
-$Result = $CheckItemObject->CheckEmail( Address => 'somebody123456789@otrs.com' );
+$Result = $CheckItemObject->CheckEmail( Address => 'somebody123456789@otobo.org' );
 
 # Execute unit test.
 ok(
     $Result,
-    "CheckEmail() - 'somebody123456789\@otrs.com'",
+    "CheckEmail() - 'somebody123456789\@otobo.org'",
 );
 
 done_testing();

@@ -1,19 +1,21 @@
 # This is the build file for the OTOBO Elasticsearch docker image.
 
 # See also bin/docker/build_docker_images.sh
-# See also https://doc.otobo.org/manual/installation/stable/en/content/installation-docker.html
+# See also https://doc.otobo.org/manual/installation/10.0/en/content/installation-docker.html
 
-# Use 7.14.0, because latest flag is not available
-# This image is based on CentOS 7. The User is root.
-FROM docker.elastic.co/elasticsearch/elasticsearch:7.14.0
+# Use 7.17.3, because latest flag is not available
+# This image is based on Ubuntu 20.04. The User is root.
+FROM docker.elastic.co/elasticsearch/elasticsearch:7.17.3
 
-# install system tools
-# hadolint ignore=DL3008
-RUN yum install -y\
+# Install system tools
+# Hadolint ignore=DL3008
+RUN apt-get update \
+ && apt-get -y --no-install-recommends install -y\
  "less"\
  "nano"\
  "tree"\
- "vim"
+ "vim"\
+ && rm -rf /var/lib/apt/lists/*
 
 # Install important plugins
 RUN bin/elasticsearch-plugin install --batch ingest-attachment

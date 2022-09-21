@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -382,7 +382,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                 }
 
                 # follow up check
-                my @ContentNew = ();
+                my @ContentNew;
                 for my $Line (@Content) {
                     push @ContentNew, $Line;
                 }
@@ -494,7 +494,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
-                        'b50d85781d2ac10c210f99bf8142badc',
+                        '91346794644d70cd95553ab46d5f3334',
                         $NamePrefix . ' md5 body check',
                     );
 
@@ -579,7 +579,7 @@ for my $TicketSubjectConfig ( 'Right', 'Left' ) {
                     my $MD5 = $MainObject->MD5sum( String => $Article{Body} ) || '';
                     $Self->Is(
                         $MD5,
-                        '2ac290235a8cad953a1837c77701c5dc',
+                        '44da7f29cd0cca31532f6acd50b42da8',
                         $NamePrefix . ' md5 body check',
                     );
 

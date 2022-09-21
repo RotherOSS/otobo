@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,7 @@ package Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration;
 
 use strict;
 use warnings;
+use v5.24;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::Base);
@@ -34,6 +35,7 @@ our @ObjectDependencies = (
     'Kernel::System::Cache',
     'Kernel::System::DB',
     'Kernel::System::DateTime',
+    'Kernel::System::Elasticsearch',
     'Kernel::System::GenericInterface::Webservice',
     'Kernel::System::Main',
     'Kernel::System::Package',
@@ -47,6 +49,10 @@ Kernel::System::MigrateFromOTRS::OTOBOMigrateWebServiceConfiguration -  Migrate 
 =head1 SYNOPSIS
 
     # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 DESCRIPTION
+
+Currently only the web service I<Elasticsearch> is migrated.
 
 =head1 PUBLIC INTERFACE
 
@@ -68,7 +74,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -97,10 +103,16 @@ sub Run {
         Type => 'Webservice',
     );
 
+    # Get configuration for the web service Elasticsearch
     my %Webservices = $Self->_GetWebserviceConfigs();
     my %Result      = (
-        Message => $Self->{LanguageObject}->Translate("Migrate web service configuration."),
+        Message => $Self->{LanguageObject}->Translate('Migrate web service configuration.'),
+        Comment => '',
     );
+
+    # Keep track which web services were migrated,
+    # because we might need to adapt the SysConfig for these services.
+    my %WebserviceWasMigrated;
 
     WEBSERVICE:
     for my $Name ( sort keys %Webservices ) {
@@ -111,7 +123,7 @@ sub Run {
             Key   => 'MigrationState',
             Value => {
                 Task      => 'OTOBOMigrateWebServiceConfiguration',
-                SubTask   => 'Migrate $Name.',
+                SubTask   => "Migrate $Name.",
                 StartTime => $Epoch,
             },
         );
@@ -120,35 +132,46 @@ sub Run {
 
         # check if Elasticsearch is already present
         my $Webservice = $WebserviceObject->WebserviceGet(
-            Name => 'Elasticsearch',
+            Name => $Name,
         );
 
+        # nothing to do when the web service is already present
         if ( IsHashRefWithData($Webservice) ) {
             $Result{Comment} .= 'use existing; ';
+
             next WEBSERVICE;
         }
 
         my $ID = $WebserviceObject->WebserviceAdd(
             Name   => $Name,
             UserID => 1,
-            %{ $Webservices{$Name} },
+            $Webservices{$Name}->%*,
         );
 
         if ( !$ID ) {
             $Result{Comment} .= $Self->{LanguageObject}->Translate('Failed - see the log!');
             $Result{Successful} = 0;
+
             return \%Result;
         }
 
         $Result{Comment} .= 'added; ';
+        $WebserviceWasMigrated{$Name} = 1;
     }
 
-    $Result{Comment} .= '- please activate needed webservices manually.';
+    # adapt the SysConfig for specific web services
+    if ( $WebserviceWasMigrated{Elasticsearch} ) {
+        $Self->_HandleElasticsearch();
+    }
+
     $Result{Successful} = 1;
 
     return \%Result;
 }
 
+# Webservice configuration for Elasticsearch.
+# This config assumes that Elasticsearch in running on the host 'elastic' in the Docker case.
+# Otherwise Elasticsearch is assumed to run on localhost.
 sub _GetWebserviceConfigs {
 
     my %Invoker = (
@@ -354,7 +377,11 @@ sub _GetWebserviceConfigs {
         };
     }
 
-    return (
+    # some heuristics for where Elasticsearch is running.
+    my $ElasticsearchPort = 9200;
+    my $ElasticsearchHost = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? 'elastic' : 'localhost';
+
+    return
         Elasticsearch => {
             ValidID => 2,
             Config  => {
@@ -374,7 +401,7 @@ sub _GetWebserviceConfigs {
                     Transport => {
                         Config => {
                             DefaultCommand           => 'POST',
-                            Host                     => 'http://localhost:9200',
+                            Host                     => "http://$ElasticsearchHost:$ElasticsearchPort",
                             InvokerControllerMapping => $ICMapping{Elasticsearch},
                             Timeout                  => '30',
                         },
@@ -382,9 +409,39 @@ sub _GetWebserviceConfigs {
                     },
                 }
             },
-        },
+        };
+}
+
+# adapt the SysConfig for Elasticsearch
+# no error handling is implemented
+sub _HandleElasticsearch {
+    my ($Self) = @_;
+
+    # try initializing Elasticsearch
+    my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
+    my $ESWebservice     = $WebserviceObject->WebserviceGet(
+        Name => 'Elasticsearch',
     );
 
+    # activate it
+    if ($ESWebservice) {
+        my $Success = $WebserviceObject->WebserviceUpdate(
+            %{$ESWebservice},
+            ValidID => 1,
+            UserID  => 1,
+        );
+
+        return unless $Success;
+    }
+
+    # test the connection
+    my $ESObject = $Kernel::OM->Get('Kernel::System::Elasticsearch');
+    return unless $ESObject->TestConnection();
+
+    # try to set up Elasticsearch, ignoring errors
+    $ESObject->InitialSetup();
+
+    return;
 }
 
 1;

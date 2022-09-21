@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -104,6 +104,8 @@ sub new {
         $Self->{Params} = {};
     }
 
+    $Self->{StartTLS} = $ConfigObject->Get( 'Customer::AuthModule::LDAP::StartTLS' . $Param{Count} ) || '';
+
     return $Self;
 }
 
@@ -184,6 +186,22 @@ sub Auth {
             Message  => "Can't connect to $Self->{Host}: $@",
         );
         return;
+    }
+    if ( $Self->{StartTLS} ) {
+        my $Started = $LDAP->start_tls( verify => $Self->{StartTLS} );
+        if ( !$Started ) {
+            if ( $Self->{Die} ) {
+                die "start_tls on $Self->{Host} failed: $@";
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
+                );
+                $LDAP->disconnect();
+                return;
+            }
+        }
     }
     my $Result = '';
     if ( $Self->{SearchUserDN} && $Self->{SearchUserPw} ) {

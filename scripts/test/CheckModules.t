@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,50 +16,43 @@
 
 use strict;
 use warnings;
+use v5.24;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
 my $Home = $ConfigObject->Get('Home');
-my $TmpSumString;
 
-if ( open( $TmpSumString, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" ) )    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
+if ( open my $CheckModulesFh, '-|', "$^X $Home/bin/otobo.CheckModules.pl --all NoColors" )    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireBriefOpen)
 {
 
     LINE:
-    while (<$TmpSumString>) {
-        my $TmpLine = $_;
-        $TmpLine =~ s/\n//g;
+    while ( my $Line = <$CheckModulesFh> ) {
+        chomp $Line;
 
-        next LINE if !$TmpLine;
-        next LINE if $TmpLine !~ /^\s*o\s\w\w/;
+        next LINE unless $Line;
+        next LINE unless $Line =~ m/^\s*o\s\w\w/;
 
-        if ( $TmpLine =~ m{ok|optional}ismx ) {
-            $Self->True(
-                $TmpLine,
-                "$TmpLine",
-            );
+        if ( $Line =~ m{ok|optional}ismx ) {
+            pass(qq{got 'ok' or 'optional': $Line});
         }
         else {
-            $Self->False(
-                $TmpLine,
-                "Error in your installed perl modules: $TmpLine",
-            );
+            fail(qq{Error in your installed perl modules: $Line});
         }
     }
-    close $TmpSumString;
+    close $CheckModulesFh;
 }
 else {
-    $Self->False(
-        1,
-        'Unable to check Perl modules',
-    );
+    fail('Unable to check Perl modules');
 }
 
-$Self->DoneTesting();
+done_testing();

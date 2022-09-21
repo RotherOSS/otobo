@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -27,6 +27,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::Base);
 # core modules
 
 # CPAN modules
+use File::Spec qw();
 
 # OTOBO modules
 
@@ -44,6 +45,11 @@ Kernel::System::MigrateFromOTRS::OTOBOCopyFilesFromOTRS - Copy and migrate OTRS 
 =head1 SYNOPSIS
 
     # to be called from L<Kernel::Modules::MigrateFromOTRS>.
+
+=head1 DESCRIPTION
+
+License headers of the copied files are adapted.
+The file F<Kernel/Config.pm> is also adapted for use with OTOBO.
 
 =head1 PUBLIC INTERFACE
 
@@ -63,7 +69,7 @@ sub CheckPreviousRequirement {
 
 =head2 Run()
 
-Execute the migration task. Called by C<Kernel::System::Migrate::_ExecuteRun()>.
+Execute the migration task. Called by C<Kernel::System::MigrateFromOTRS::_ExecuteRun()>.
 
 =cut
 
@@ -114,12 +120,12 @@ sub Run {
                 Message  => "Need OTRSData->$Key!"
             );
 
-            my %Result;
-            $Result{Message}    = $Self->{LanguageObject}->Translate($Message);
-            $Result{Comment}    = $Self->{LanguageObject}->Translate( 'Need OTRSData->%s!', $Key );
-            $Result{Successful} = 0;
+            return {
+                Message    => $Self->{LanguageObject}->Translate($Message),
+                Comment    => $Self->{LanguageObject}->Translate( 'Need OTRSData->%s!', $Key ),
+                Successful => 0,
+            };
 
-            return \%Result;
         }
     }
 
@@ -160,29 +166,13 @@ sub Run {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS
-    my %OTOBOParams;
-    {
-        # remember the current DB-Settings
-        for my $Key (qw( DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home )) {
-            $OTOBOParams{$Key} = $ConfigObject->Get($Key);
-        }
-
-        # under Docker we also want to keep the log settings
-        if ( $ENV{OTOBO_RUNS_UNDER_DOCKER} ) {
-            for my $Key (qw( LogModule LogModule::LogFile )) {
-                $OTOBOParams{$Key} = $ConfigObject->Get($Key);
-            }
-        }
-    }
-
     # Now we copy and clean the files in for{}
     my $OTOBOHome = $ConfigObject->Get('Home');
     FILE:
     for my $File (@FileList) {
 
-        my $OTOBOPathFile = $OTOBOHome . $File;
-        my $OTRSPathFile  = $OTRS6path . $File;
+        my $OTOBOPathFile = File::Spec->catfile( $OTOBOHome, $File );
+        my $OTRSPathFile  = File::Spec->catfile( $OTRS6path, $File );
 
         # First we copy the file from OTRS HOME to OTOBO HOME
         next FILE unless -e $OTRSPathFile;
@@ -256,9 +246,47 @@ sub Run {
             );
         }
 
-        # At last we need to reconfigure database settings in Kernel Config.pm.
+        # At last we need to reconfigure basic settings in Kernel/Config.pm.
+        # Some of the setting of the OTOBO Kernel/Config.pm should reinjected in the file copied from OTRS.
+        # Note that the original setup with variables won't be preserved. E.g.
+        #     $Self->{'DatabaseDSN'} = "DBI:Pg:dbname=$Self->{Database};host=$Self->{DatabaseHost}";
+        # in the original OTOBO Kernel/Config.pm will end up as
+        #     $Self->{'DatabaseDSN'} = "DBI:mysql:database=otobo;host=127.0.0.1;"; # from original OTOBO config
+        # after the migration.
         if ( $OTOBOPathFile =~ m/Config\.pm/ ) {
-            $Self->ReConfigure(%OTOBOParams);
+
+            # remember the current basic settings, Database and installation dir
+            my %OTOBOParams = map { $_ => $ConfigObject->Get($_) } qw(DatabaseHost Database DatabaseUser DatabasePw DatabaseDSN Home);
+
+            # inject extra settings in the Docker case, see also Kernel/Config.pm.dist.docker
+            my $DockerSpecificSettings = $ENV{OTOBO_RUNS_UNDER_DOCKER} ? <<'END_SETTINGS' : undef;
+
+    # ---------------------------------------------------- #
+    # setting for running OTOBO under Docker, injected by OTOBOCopyFilesFromOTRS
+    # ---------------------------------------------------- #
+    $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
+    $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
+    $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
+    $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
+
+    # activate Selenium tests if the the host is available
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'selenium-chrome',
+        check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
+        port                => '4444',
+        browser_name        => 'chrome',
+        platform            => 'ANY',
+    };
+
+END_SETTINGS
+
+            $Self->ReConfigure(
+                %OTOBOParams,
+                ExtraSettings => $DockerSpecificSettings
+            );
         }
     }
 
@@ -271,9 +299,13 @@ sub Run {
     };
 }
 
-# Fix up Kernel/Config.pm
+# Fix up Kernel/Config.pm.
+# Extra settings will be injected after the line that sets 'Home'.
 sub ReConfigure {
     my ( $Self, %Param ) = @_;
+
+    # extract special params
+    my $ExtraSettings = delete $Param{ExtraSettings};
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -291,6 +323,7 @@ sub ReConfigure {
 
     # Read config file that was copied from /opt/otrs
     my $ConfigFile = $ConfigObject->Get('Home') . '/Kernel/Config.pm';
+    my $OTRSHomeFromConfigFile;
 
     # content of changed config file
     my $Config = '';
@@ -311,10 +344,23 @@ sub ReConfigure {
             # Other lines might be changed
             my $ChangedLine = $Line;
 
-            # Replace old path with OTOBO path
-            $ChangedLine =~ s/$Param{Home}/$ConfigFile/;
+            # Extract the value for OTRSHomeFromConfig from the OTRS file Kernel/Config.pm from a line like:
+            #   $Self->{Home} = '/opt/otrs';
+            # Note that he value OTRSHome can't be used here, as the OTRS home directory might have been copied.
+            if ( $ChangedLine =~ m/\$Self->\{\s*(?:"|'|)Home(?:"|'|)\s*\}\s+=\s+['"]([^'"]+)['"]/ ) {
+                $OTRSHomeFromConfigFile = $1;
+            }
 
-            # Need to comment out SecureMode
+            # Replace OTRS path with OTOBO path, usually /opt/otrs with /opt/otobo.
+            # This can be useful when e.g.  LogModule::LogFile is set to '/opt/otrs/var/log/otrs.log'
+            # Remember that CleanOTRSFileToOTOBOStyle() has an excemption for Config.pm, so that /opt/otrs is still in the file.
+            # Attention: this assumes that custom settings come after the standard settings
+            # Attention: this is an heuristic that won't give useful results for all installations.
+            if ($OTRSHomeFromConfigFile) {
+                $ChangedLine =~ s/$OTRSHomeFromConfigFile/$Param{Home}/;
+            }
+
+            # Need to comment out SecureMode, as it should be configured in the SysConfig
             if ( $ChangedLine =~ m/SecureMode/ ) {
                 chomp $ChangedLine;
                 $Config .= "# $ChangedLine  commented out by OTOBOCopyFilesFromOTRS\n";
@@ -340,6 +386,11 @@ sub ReConfigure {
                     s/(\$Self->\{\s*("|'|)$Key("|'|)\s*}\s+=.+?('|"));/\$Self->{'$Key'} = "$Param{$Key}"; # from original OTOBO config /g;
             }
             $Config .= $ChangedLine;
+
+            # extra setting are injected after the line with 'Home'
+            if ( $ExtraSettings && $ChangedLine =~ m/(\$Self->\{\s*("|'|)Home("|'|)\s*}\s+=.+?('|"));/ ) {
+                $Config .= $ExtraSettings;
+            }
         }
     }
 

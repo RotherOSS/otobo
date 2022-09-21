@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2021-07-08 11:22+0000\n"
+"POT-Creation-Date: 2021-10-08 14:22+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -13896,6 +13896,18 @@ msgid ""
 "administrator (missing FileID)."
 msgstr ""
 
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid ""
+"Registration for tile %s of CustomerDashboard is invalid! Either Module or "
+"Template needed."
+msgstr ""
+
+#. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+msgid ""
+"Registration for tile %s of CustomerDashboard is invalid! Order needs to be "
+"a unique number."
+msgstr ""
+
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
 msgstr ""
@@ -15068,10 +15080,6 @@ msgid "All needed files copied and migrated, perfect!"
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-msgid "Check if OTOBO version is correct."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
 msgstr ""
 
@@ -15089,6 +15097,10 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Data transfer completed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
+msgid "Check if OTOBO version is correct."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
@@ -15143,6 +15155,22 @@ msgstr ""
 msgid "OTRS Version is correct: %s."
 msgstr ""
 
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migrate ITSM database tables."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Nothing to do, as the the table '%s' does not exist."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "UPDATE of the table '%s' failed."
+msgstr ""
+
+#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+msgid "Migration completed."
+msgstr ""
+
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
 msgstr ""
@@ -15154,10 +15182,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
-msgstr ""
-
-#. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-msgid "An error occured during SysConfig data migration."
 msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
@@ -15793,18 +15817,6 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "Disk Usage"
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTOBO is located is almost full."
-msgstr ""
-
-#. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-msgid "The partition where OTOBO is located has no disk space problems."
 msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
@@ -19395,10 +19407,6 @@ msgid "Custom RSS Feed"
 msgstr ""
 
 #. SysConfig
-msgid "Custom RSS feed."
-msgstr ""
-
-#. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you "
 "need those text translated add them to a custom translation module)."
@@ -21888,14 +21896,17 @@ msgstr ""
 
 #. SysConfig
 msgid ""
-"Defines the type of protocol, used by the web server, to serve the "
-"application. If HTTP protocol will be used instead of secure HTTPS, it must "
-"be specified here. Since this has no affect on the web server's settings or "
-"behavior, it will not change the method of access to the application and, if "
-"it is wrong, it will not prevent you from logging into the application. This "
-"setting is only used as a variable, OTOBO_CONFIG_HttpType which is found in "
-"all forms of messaging used by the application, to build links to the "
-"tickets within your system."
+"Defines the type of protocol that is used by the web server to serve the "
+"application. If the webserver uses HTTP instead of of HTTPS, then 'http' "
+"must be specified here. The setting of 'HttpType' has no affect on the web "
+"server's settings or behavior. Specifically, it will not change the method "
+"of access to the application. If the setting is wrong, it will not prevent "
+"you from logging into the application. This setting is used mainly via the "
+"template variable OTOBO_CONFIG_HttpType. This variable is found in all forms "
+"of messaging used by the application. It is used to build links to the "
+"tickets within your system. Another effect of keeping 'HttpType' set to "
+"'https' is that the session management cookie will only be set for secure "
+"connections."
 msgstr ""
 
 #. SysConfig
@@ -24406,11 +24417,25 @@ msgid ""
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS) and replicas (NR) for the index ticket."
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index 'ticket'."
 msgstr ""
 
 #. SysConfig
-msgid "Number of shards (NS) and replicas (NR) for the index."
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the index. Note: "
+"'Elasticsearch::ArticleIndexCreationSettings' is deprecated. For upwards "
+"compatibility use 'Elasticsearch::IndexSettings###Default' instead."
+msgstr ""
+
+#. SysConfig
+msgid ""
+"Number of shards (NS), replicas (NR) and fields limit for the indices. This "
+"replaces 'Elasticsearch::ArticleIndexCreationSettings' in future versions. "
+"If both are present and not equal this one has priority. Use 'Elasticsearch::"
+"IndexSettings###...' if you want to define special settings for single "
+"indices.'...' may be one of 'Customer', 'CustomerUser', 'Ticket' or "
+"'ConfigItem'."
 msgstr ""
 
 #. SysConfig

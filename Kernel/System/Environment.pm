@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -248,20 +248,40 @@ sub PerlInfoGet {
 
     if ( $Param{BundledModules} ) {
 
+        # Only the modules that correspond to their distribution are listed here.
+        # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
+        # Fh is not listed as it belongs to the distro CGI.
+        # TODO: list MailTools instead of Mail::Address and Mail::Internet
+        # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
         my @ModuleList = qw(
             Algorithm::Diff
             CGI
+            CGI::Emulate::PSGI
+            Class::Accessor
             Class::Inspector
+            Class::ReturnValue
+            CPAN::Audit
+            CPAN::DistnameInfo
+            Data::ICal
+            Date::ICal
             Crypt::PasswdMD5
             Crypt::Random::Source
             CSS::Minifier
+            Devel::StackTrace
             Email::Valid
             Encode::Locale
+            Excel::Writer::XLSX
             Exporter::Tiny
+            File::Slurp
+            File::Slurp::Tiny
+            Font::TTF
+            HTTP::Message
             IO::Interactive
+            IO::String
             JavaScript::Minifier
             JSON
             JSON::PP
+            Lingua::Translit
             Linux::Distribution
             Locale::Codes
             LWP
@@ -270,18 +290,23 @@ sub PerlInfoGet {
             Math::Random::ISAAC
             Math::Random::Secure
             MIME::Tools
+            Module::CPANfile
             Module::Find
+            Module::Load
             Module::Refresh
             Mozilla::CA
             Net::IMAP::Simple
             Net::HTTP
             Net::SSLGlue
             PDF::API2
+            Pod::Strip
+            REST::Client
+            Schedule::Cron::Events
             SOAP::Lite
             Sys::Hostname::Long
             Text::CSV
             Text::Diff
-            Types::TypeTiny
+            Type::Tiny
             YAML
             URI
         );
@@ -358,7 +383,7 @@ returns:
         Version         => "3.3.1",
         DefaultLanguage => "en",
         Home            => "/opt/otobo",
-        Host            => "prod.otrs.com",
+        Host            => "otobo.example.org",
         SystemID        => 70,
     );
 

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -237,83 +237,83 @@ $Selenium->RunTest(
 
         for my $Test (@MandatoryTests) {
 
-            # Write test case description.
-            note("Test case for 'mandatory': $Test->{Name}");
+            subtest "Test case for 'mandatory': $Test->{Name}" => sub {
 
-            for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
+                for my $NoMandatoryField ( values $FreeTextFields{NoMandatory}->%* ) {
 
-                $Helper->ConfigSettingChange(
-                    Valid => 1,
-                    Key   => "Ticket::Frontend::AgentTicketFreeText###$NoMandatoryField",
-                    Value => $Test->{NoMandatory},
-                );
-            }
-
-            for my $MandatoryField ( values %{ $FreeTextFields{Mandatory} } ) {
-
-                $Helper->ConfigSettingChange(
-                    Valid => 1,
-                    Key   => "Ticket::Frontend::AgentTicketFreeText###$MandatoryField",
-                    Value => $Test->{Mandatory},
-                );
-            }
-
-            # Navigate to zoom view of created test ticket.
-            $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
-
-            # Wait until page has loaded.
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
-
-            # Force sub menus to be visible in order to be able to click one of the links.
-            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
-            $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
-            $Selenium->WaitFor(
-                JavaScript =>
-                    "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
-            );
-
-            # Click on 'Free Fields' and switch window.
-            $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
-
-            $Selenium->WaitFor( WindowCount => 2 );
-            my $Handles = $Selenium->get_window_handles();
-            $Selenium->switch_to_window( $Handles->[1] );
-
-            # Wait until page has loaded, if necessary.
-            $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
-
-            # Get NoMandatory/Mandatory fields for exist checking.
-            my $CheckFields = $Test->{CheckFields};
-
-            for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
-
-                if ( $Test->{ExpectedExist} == 0 ) {
-                    $Self->False(
-                        $Selenium->execute_script(
-                            "return \$('#$FieldID').length;"
-                        ),
-                        "FieldID $FieldID doesn't exist",
+                    $Helper->ConfigSettingChange(
+                        Valid => 1,
+                        Key   => "Ticket::Frontend::AgentTicketFreeText###$NoMandatoryField",
+                        Value => $Test->{NoMandatory},
                     );
                 }
-                else {
-                    $Self->True(
-                        $Selenium->execute_script("return \$('#$FieldID').length;"),
-                        "FieldID $FieldID exists",
+
+                for my $MandatoryField ( values %{ $FreeTextFields{Mandatory} } ) {
+
+                    $Helper->ConfigSettingChange(
+                        Valid => 1,
+                        Key   => "Ticket::Frontend::AgentTicketFreeText###$MandatoryField",
+                        Value => $Test->{Mandatory},
                     );
-                    if ( $CheckFields eq 'Mandatory' ) {
-                        $Self->Is(
-                            $Selenium->execute_script("return \$('label[for=$FieldID].Mandatory').length;"),
-                            1,
-                            "FieldID $FieldID is mandatory",
+                }
+
+                # Navigate to zoom view of created test ticket.
+                $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketZoom;TicketID=$TicketID");
+
+                # Wait until page has loaded.
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function";' );
+
+                # Force sub menus to be visible in order to be able to click one of the links.
+                $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('height', 'auto');");
+                $Selenium->execute_script("\$('#nav-Miscellaneous ul').css('opacity', '1');");
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return \$('#nav-Miscellaneous ul').css('height') !== '0px' && \$('#nav-Miscellaneous ul').css('opacity') == '1';"
+                );
+
+                # Click on 'Free Fields' and switch window.
+                $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketFreeText;TicketID=$TicketID' )]")->click();
+
+                $Selenium->WaitFor( WindowCount => 2 );
+                my $Handles = $Selenium->get_window_handles();
+                $Selenium->switch_to_window( $Handles->[1] );
+
+                # Wait until page has loaded, if necessary.
+                $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $(".CancelClosePopup").length;' );
+
+                # Get NoMandatory/Mandatory fields for exist checking.
+                my $CheckFields = $Test->{CheckFields};
+
+                for my $FieldID ( sort keys %{ $FreeTextFields{$CheckFields} } ) {
+
+                    if ( $Test->{ExpectedExist} == 0 ) {
+                        $Self->False(
+                            $Selenium->execute_script(
+                                "return \$('#$FieldID').length;"
+                            ),
+                            "FieldID $FieldID doesn't exist",
                         );
                     }
+                    else {
+                        $Self->True(
+                            $Selenium->execute_script("return \$('#$FieldID').length;"),
+                            "FieldID $FieldID exists",
+                        );
+                        if ( $CheckFields eq 'Mandatory' ) {
+                            $Self->Is(
+                                $Selenium->execute_script("return \$('label[for=$FieldID].Mandatory').length;"),
+                                1,
+                                "FieldID $FieldID is mandatory",
+                            );
+                        }
+                    }
                 }
-            }
 
-            # Close the window and switch back to the first screen.
-            $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
-            $Selenium->WaitFor( WindowCount => 1 );
-            $Selenium->switch_to_window( $Handles->[0] );
+                # Close the window and switch back to the first screen.
+                $Selenium->find_element( ".CancelClosePopup", 'css' )->click();
+                $Selenium->WaitFor( WindowCount => 1 );
+                $Selenium->switch_to_window( $Handles->[0] );
+            };
         }
 
         # Define field values.
@@ -427,59 +427,60 @@ $Selenium->RunTest(
         # Run test - in each iteration exactly one field is empty, last case is correct.
         for my $Test (@ClearTests) {
 
-            my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
+            subtest "Test case for 'clear': $Test->{Name}" => sub {
 
-            # Write test case description.
-            note("Test case for 'clear': $Test->{Name}");
+                my $ToDo = $Test->{ToDo} ? todo('Timeouts occur. See https://github.com/RotherOSS/otobo/issues/748') : '';
 
-            try_ok {
-                my $ExpectedErrorFieldID;
+                try_ok {
+                    my $ExpectedErrorFieldID;
 
-                TESTFIELD:
-                for my $FieldID ( sort keys $Test->%* ) {
+                    TESTFIELD:
+                    for my $FieldID ( sort keys $Test->%* ) {
 
-                    next TESTFIELD if $FieldID eq 'Name';
-                    next TESTFIELD if $FieldID eq 'Time';
+                        next TESTFIELD if $FieldID eq 'Name';
+                        next TESTFIELD if $FieldID eq 'Time';
+                        next TESTFIELD if $FieldID eq 'ToDo';
 
-                    if ( $Test->{$FieldID} eq '' ) {
-                        $ExpectedErrorFieldID = $FieldID;
+                        if ( $Test->{$FieldID} eq '' ) {
+                            $ExpectedErrorFieldID = $FieldID;
+                        }
+
+                        $Selenium->InputFieldValueSet(
+                            Element => "#$FieldID",
+                            Value   => $Test->{$FieldID},
+                            Time    => $Test->{Time},
+                        );
+
+                        # Wait for AJAX to finish.
+                        WaitForAJAX();
                     }
 
-                    $Selenium->InputFieldValueSet(
-                        Element => "#$FieldID",
-                        Value   => $Test->{$FieldID},
-                        Time    => $Test->{Time},
-                    );
+                    # Wait until opened field (due to error) has closed.
+                    $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
 
-                    # Wait for AJAX to finish.
-                    WaitForAJAX();
+                    # Submit.
+                    $Selenium->find_element( "#submitRichText", 'css' )->click();
+
+                    # Check if class Error exists in expected field ID.
+                    if ($ExpectedErrorFieldID) {
+                        ok(
+                            $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
+                            "FieldID $ExpectedErrorFieldID is empty",
+                        );
+                    }
+                    else {
+                        pass("All mandatory fields are filled - successful free text fields update");
+
+                        # Switch back to the main window.
+                        $Selenium->WaitFor( WindowCount => 1 );
+                        $Selenium->switch_to_window( $Handles->[0] );
+
+                        $Selenium->WaitFor(
+                            JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
+                        );
+                    }
                 }
-
-                # Wait until opened field (due to error) has closed.
-                $Selenium->WaitFor( JavaScript => 'return $("div.jstree-wholerow:visible").length == 0;' );
-
-                # Submit.
-                $Selenium->find_element( "#submitRichText", 'css' )->click();
-
-                # Check if class Error exists in expected field ID.
-                if ($ExpectedErrorFieldID) {
-                    ok(
-                        $Selenium->execute_script("return \$('#$ExpectedErrorFieldID.Error').length;"),
-                        "FieldID $ExpectedErrorFieldID is empty",
-                    );
-                }
-                else {
-                    pass("All mandatory fields are filled - successful free text fields update");
-
-                    # Switch back to the main window.
-                    $Selenium->WaitFor( WindowCount => 1 );
-                    $Selenium->switch_to_window( $Handles->[0] );
-
-                    $Selenium->WaitFor(
-                        JavaScript => "return typeof(\$) === 'function' && \$.active == 0;"
-                    );
-                }
-            }
+            };
         }
 
         # Define messages in ticket history screen.

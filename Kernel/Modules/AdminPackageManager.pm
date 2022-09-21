@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -254,6 +254,7 @@ sub Run {
         PACKAGEACTION:
         for my $PackageAction (qw(DownloadLocal Rebuild Reinstall)) {
 
+            # provide local download button on when the package allows it
             if (
                 $PackageAction eq 'DownloadLocal'
                 && (
@@ -405,6 +406,9 @@ sub Run {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
                             $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
+
+                        $Hash->{Content} = $Self->_GetSafeString( String => $Hash->{Content} );
+
                         $LayoutObject->Block(
                             Name => "PackageItemIntro",
                             Data => {
@@ -431,7 +435,7 @@ sub Run {
                             },
                         );
 
-                        # check if is possible to download files
+                        # check whether it is allowed to download files
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (
@@ -574,7 +578,7 @@ sub Run {
             Data => { %Param, %Frontend, },
         );
 
-        # allow to download only if package is allow to do it
+        # provide remote download button only when the package allows it
         if (
             !defined $Structure{PackageIsDownloadable}
             || (
@@ -705,6 +709,9 @@ sub Run {
                         if ( $Hash->{Format} && $Hash->{Format} =~ /plain/i ) {
                             $Hash->{Content} = '<pre class="contentbody">' . $Hash->{Content} . '</pre>';
                         }
+
+                        $Hash->{Content} = $Self->_GetSafeString( String => $Hash->{Content} );
+
                         $LayoutObject->Block(
                             Name => "PackageItemIntro",
                             Data => {
@@ -732,7 +739,7 @@ sub Run {
                             },
                         );
 
-                        # check if is possible to download files
+                        # check whether it is allowed to download files
                         if (
                             !defined $Structure{PackageIsDownloadable}
                             || (
@@ -1983,6 +1990,10 @@ sub _MessageGet {
         }
     }
     return if !$Description && !$Title;
+
+    $Description = $Self->_GetSafeString( String => $Description );
+    $Title       = $Self->_GetSafeString( String => $Title );
+
     return (
         Description => $Description,
         Title       => $Title,
@@ -2537,6 +2548,26 @@ sub _GetFeatureAddonData {
     );
 
     return $FAOFeed;
+}
+
+sub _GetSafeString {
+    my ( $Self, %Param ) = @_;
+
+    my $HTMLUtilsObject = $Kernel::OM->Get('Kernel::System::HTMLUtils');
+
+    my %SafeString = $HTMLUtilsObject->Safety(
+        String       => $Param{String} // '',
+        NoApplet     => 1,
+        NoObject     => 1,
+        NoEmbed      => 1,
+        NoSVG        => 1,
+        NoImg        => 1,
+        NoIntSrcLoad => 0,
+        NoExtSrcLoad => 1,
+        NoJavaScript => 1,
+    );
+
+    return $SafeString{String};
 }
 
 1;

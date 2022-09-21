@@ -3,7 +3,7 @@
 # --
 # OTOBO is a web-based ticketing system for service organisations.
 # --
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -36,24 +36,29 @@ export DOCKER_TAG="local-${otobo_version}"
 # build otobo
 export DOCKERFILE_PATH=otobo.web.dockerfile
 export IMAGE_NAME=otobo:$DOCKER_TAG
+export BUILD_PATH=.
 hooks/build || exit 1
 
 # build otobo-nginx-webproxy
-export DOCKERFILE_PATH=otobo.nginx.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx.dockerfile
 export IMAGE_NAME=otobo-nginx-webproxy:$DOCKER_TAG
+export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-nginx-kerberos-webproxy
-export DOCKERFILE_PATH=otobo.nginx-kerberos.dockerfile
+export DOCKERFILE_PATH=../../otobo.nginx-kerberos.dockerfile
 export IMAGE_NAME=otobo-nginx-kerberos-webproxy:$DOCKER_TAG
+export BUILD_PATH=scripts/nginx
 hooks/build || exit 1
 
 # build otobo-elasticsearch
-export DOCKERFILE_PATH=otobo.elasticsearch.dockerfile
+export DOCKERFILE_PATH=../../otobo.elasticsearch.dockerfile
 export IMAGE_NAME=otobo-elasticsearch:$DOCKER_TAG
+export BUILD_PATH=scripts/elasticsearch
 hooks/build || exit 1
 
 # build otobo-selenium-chrome
-export DOCKERFILE_PATH=otobo.selenium-chrome.dockerfile
+export DOCKERFILE_PATH=../../../otobo.selenium-chrome.dockerfile
 export IMAGE_NAME=otobo-selenium-chrome:$DOCKER_TAG
+export BUILD_PATH=scripts/test/sample
 hooks/build || exit 1

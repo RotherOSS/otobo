@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -33,9 +33,7 @@ sub Run {
     my $Self = shift;
 
     # Check if used OS is a Linux system
-    if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-        return $Self->GetResults();
-    }
+    return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd|darwin/i;
 
     my $Commandline = "df -lHx tmpfs -x iso9660 -x udf -x squashfs";
 
@@ -48,7 +46,7 @@ sub Run {
     my @Lines;
     if ( open( my $In, '-|', "$Commandline" ) ) {    ## no critic qw(OTOBO::ProhibitOpen)
         @Lines = <$In>;
-        close($In);
+        close $In;
     }
 
     # clean results, in some systems when partition is too long it splits the line in two, it is

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -34,14 +34,14 @@ sub GetDisplayPath {
 sub Run {
     my $Self = shift;
 
-    # Check if used OS is a linux system
-    if ( $^O !~ /(linux|unix|netbsd|freebsd|darwin)/i ) {
-        return $Self->GetResults();
-    }
+    # Check if used OS is a Linux system
+    return $Self->GetResults() unless $^O =~ m/linux|unix|netbsd|freebsd|darwin/i;
 
-    # find OTOBO partition
-    my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
-
+    # Find OTOBO partition. "df -P" returns something like:
+    #   Filesystem     1024-blocks     Used Available Capacity Mounted on
+    #   /dev/sda5         76371740 60836612  11612544      84% /
+    # The complete command then gives /dev/sda5
+    my $Home           = $Kernel::OM->Get('Kernel::Config')->Get('Home');
     my $OTOBOPartition = `df -P $Home | tail -1 | cut -d' ' -f 1`;
     chomp $OTOBOPartition;
 

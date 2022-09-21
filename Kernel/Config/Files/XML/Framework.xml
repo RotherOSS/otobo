@@ -3861,6 +3861,13 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
+    <Setting Name="Customer::AuthModule::LDAP::StartTLS" Required="0" Valid="0" ConfigLevel="200">
+        <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule and you wish to use TLS security to communicate with the LDAP server, the "verify" parameter can be specified here. See Net::LDAP::start_tls for more information about the parameter.</Description>
+        <Navigation>Core::Auth::Customer</Navigation>
+        <Value>
+            <Item ValueType="String" ValueRegex="">required</Item>
+        </Value>
+    </Setting>
     <Setting Name="Customer::AuthModule::LDAP::Die" Required="0" Valid="1" ConfigLevel="200">
         <Description Translatable="1">If "LDAP" was selected for Customer::AuthModule, you can specify if the applications will stop if e. g. a connection to a server can't be established due to network problems.</Description>
         <Navigation>Core::Auth::Customer</Navigation>
@@ -4147,7 +4154,7 @@ via the Preferences button after logging in.
                 </Item>
                 <Item Key="JavaScript">
                     <Array>
-                        <Item>thirdparty/momentjs-2.18.1/moment.min.js</Item>
+                        <Item>thirdparty/momentjs-2.29.3/moment.min.js</Item>
                         <Item>thirdparty/fullcalendar-3.10.2/fullcalendar.min.js</Item>
                         <Item>thirdparty/d3-3.5.6/d3.min.js</Item>
                         <Item>thirdparty/nvd3-1.7.1/nvd3.min.js</Item>
@@ -7020,7 +7027,7 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="WelcomeText">Welcome %s, to your OTOBO.</Item>
                 <Item Key="Name">UserFirstname</Item>
-                <Item Key="SubText">Have fun exploring this preliminary version of the OTOBO customer interface!</Item>
+                <Item Key="SubText">This service portal is available to you all day every day.</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7050,10 +7057,10 @@ via the Preferences button after logging in.
                     <Hash>
                         <Item Key="TextColor">#ffffff</Item>
                         <Item Key="BackgroundImage">/otobo-web/common/img/Dashboard/dashboard_bgfl.png</Item>
-                        <Item Key="HeaderText"># FAQ Article № 1</Item>
-                        <Item Key="MainText">List of features coming with the OTOBO beta version.</Item>
-                        <Item Key="FooterText">Show &gt;</Item>
-                        <Item Key="Link">https://otobo.de/de/otobo-features/</Item>
+                        <Item Key="HeaderText">That's new in OTOBO 10</Item>
+                        <Item Key="MainText">Highlights: Brand new customer portal, Elasticsearch, flexible forms, more safety, better performance</Item>
+                        <Item Key="FooterText">Explore &gt;</Item>
+                        <Item Key="Link">https://otobo.de/en/launch-otobo-helpdesk/</Item>
                     </Hash>
                 </Item>
             </Hash>
@@ -7273,7 +7280,7 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Public</Navigation>
         <Value>
             <Hash>
-                <Item Key="https://www.otrs.com">OTOBO Homepage</Item>
+                <Item Key="https://www.otobo.org">OTOBO Homepage</Item>
             </Hash>
         </Value>
     </Setting>
@@ -7648,22 +7655,6 @@ via the Preferences button after logging in.
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="DashboardBackend###0000-ProductNotify" Required="0" Valid="0">
-        <Description Translatable="1">Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
-        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
-        <Value>
-            <Hash>
-                <Item Key="Module">Kernel::Output::HTML::Dashboard::ProductNotify</Item>
-                <Item Key="Title" Translatable="1">Product News</Item>
-                <Item Key="Description" Translatable="1">News about OTOBO releases!</Item>
-                <Item Key="Block">ContentLarge</Item>
-                <Item Key="Group">admin</Item>
-                <Item Key="Default">1</Item>
-                <Item Key="CacheTTLLocal">1440</Item>
-                <Item Key="Mandatory">0</Item>
-            </Hash>
-        </Value>
-    </Setting>
     <Setting Name="DashboardBackend###0390-UserOutOfOffice" Required="0" Valid="1">
         <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
         <Navigation>Frontend::Agent::View::Dashboard</Navigation>
@@ -7726,24 +7717,20 @@ via the Preferences button after logging in.
             <Hash>
                 <Item Key="Module">Kernel::Output::HTML::Dashboard::RSS</Item>
                 <Item Key="Title" Translatable="1">Custom RSS Feed</Item>
-                <Item Key="Description" Translatable="1">Custom RSS feed.</Item>
-                <Item Key="URL">https://www.otrs.com/en/rss.xml</Item>
-                <Item Key="URL_de">https://www.otrs.com/de/rss.xml</Item>
-                <Item Key="URL_es">https://www.otrs.com/es/rss.xml</Item>
-                <Item Key="URL_nl">https://www.otrs.com/nl/rss.xml</Item>
-                <Item Key="URL_ru">https://www.otrs.com/ru/rss.xml</Item>
-                <Item Key="URL_zh">https://www.otrs.com/cn/rss.xml</Item>
+                <Item Key="Description" Translatable="1">OTOBO News</Item>
+                <Item Key="URL">https://otobo.de/en/feed/</Item>
+                <Item Key="URL_de">https://otobo.de/de/feed/</Item>
                 <Item Key="Block">ContentSmall</Item>
                 <Item Key="Limit">6</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
-                <Item Key="CacheTTL">360</Item>
+                <Item Key="CacheTTL">1440</Item>
                 <Item Key="Mandatory">0</Item>
             </Hash>
         </Value>
     </Setting>
     <Setting Name="DashboardBackend###0420-CmdOutput" Required="0" Valid="0">
-        <Description Translatable="1">Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.</Description>
         <Navigation>Frontend::Agent::View::Dashboard</Navigation>
         <Value>
             <Hash>
@@ -7768,7 +7755,7 @@ via the Preferences button after logging in.
                 <Item Key="Title" Translatable="1">A picture</Item>
                 <Item Key="Description" Translatable="1">Some picture description!</Item>
                 <Item Key="Block">ContentLarge</Item>
-                <Item Key="URL">https://www.otrs.com/wp-uploads//2013/10/OTOBO_Logo-300x170.png</Item>
+                <Item Key="URL">https://otobo.de/wp-content/uploads/2020/11/OTOBO-Rother-OSS-1.jpg</Item>
                 <Item Key="Group"></Item>
                 <Item Key="Default">1</Item>
                 <Item Key="Link">https://otobo.org/</Item>
@@ -8098,14 +8085,14 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
-                <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js</Item>
                 <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.0.1/nunjucks.js</Item>
+                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.JavaScriptEnhancements.js</Item>
                 <Item>Core.Debug.js</Item>
@@ -8145,15 +8132,6 @@ via the Preferences button after logging in.
                 <Item>Core.UI.Notification.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
                 <Item>Core.Agent.Responsive.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Agent::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
-        <Description Translatable="1">List of JS files to always be loaded for the agent interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
             </Array>
         </Value>
     </Setting>
@@ -8203,13 +8181,13 @@ via the Preferences button after logging in.
         <Navigation>Frontend::Base::Loader</Navigation>
         <Value>
             <Array>
-                <Item>thirdparty/jquery-3.5.1/jquery.js</Item>
+                <Item>thirdparty/jquery-3.6.0/jquery.min.js</Item>
                 <Item>thirdparty/jquery-browser-detection/jquery-browser-detection.js</Item>
                 <Item>thirdparty/jquery-validate-1.19.3/jquery.validate.js</Item>
-                <Item>thirdparty/jquery-ui-1.12.1/jquery-ui.js</Item>
+                <Item>thirdparty/jquery-ui-1.13.2/jquery-ui.min.js</Item>
                 <Item>thirdparty/jquery-pubsub/pubsub.js</Item>
                 <Item>thirdparty/jquery-jstree-3.3.7/jquery.jstree.js</Item>
-                <Item>thirdparty/nunjucks-3.0.1/nunjucks.js</Item>
+                <Item>thirdparty/nunjucks-3.2.2/nunjucks.min.js</Item>
                 <Item>Core.Init.js</Item>
                 <Item>Core.Debug.js</Item>
                 <Item>Core.Exception.js</Item>
@@ -8239,15 +8217,6 @@ via the Preferences button after logging in.
                 <Item>Core.Customer.Responsive.js</Item>
                 <Item>Core.UI.NavigationBar.js</Item>
                 <Item>Core.UI.Elasticsearch.js</Item>
-            </Array>
-        </Value>
-    </Setting>
-    <Setting Name="Loader::Customer::CommonJS###001-JQueryMigrate" Required="0" Valid="0">
-        <Description Translatable="1">List of JS files to always be loaded for the customer interface.</Description>
-        <Navigation>Frontend::Base::Loader</Navigation>
-        <Value>
-            <Array>
-                <Item>thirdparty/jquery-migrate-3.0.0/jquery-migrate.js</Item>
             </Array>
         </Value>
     </Setting>

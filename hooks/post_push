@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Set additional Docker image tags for automated build on Docker hub
+# Set additional Docker image tags for automated build on Docker hub.
 
 # DOCKER_REPO checks whether this script is called by an automated Docker Hub build.
 set -o nounset
@@ -8,11 +8,25 @@ set -o nounset
 : "$DOCKER_TAG"
 : "$IMAGE_NAME"
 
-# Check whether this is a build for a OTOBO release.
-[[ $DOCKER_TAG =~ ^rel\-[0-9].* ]] || exit 0
+# Check whether this is a release build for a OTOBO release.
+# No extra tags for rel-10_1_Beta2
+[[ $DOCKER_TAG =~ ^rel\-([0-9]+)_([0-9]+)_([0-9]+)$ ]] || exit 0
 
-# assign the additional label 'latest'
-tag=latest
+# extract the three parts of the version number
+major="${BASH_REMATCH[1]}"
+minor="${BASH_REMATCH[2]}"
+patch="${BASH_REMATCH[3]}"
+
+# assign the label 'latest' to patch releases in the 10.0 series
+if [[ ($major == "10") && ($minor == "0") ]]; then
+    tag='latest'
+    echo "adding the tag '$tag' to the image $IMAGE_NAME"
+    docker tag $IMAGE_NAME ${DOCKER_REPO}:${tag}
+    docker push ${DOCKER_REPO}:${tag}
+fi
+
+# assign the label 'latest-<major>_<minor>' to patch releases in their respective series
+tag=$(printf 'latest-%s_%s' $major $minor)
 echo "adding the tag '$tag' to the image $IMAGE_NAME"
 docker tag $IMAGE_NAME ${DOCKER_REPO}:${tag}
 docker push ${DOCKER_REPO}:${tag}
@@ -20,4 +34,4 @@ docker push ${DOCKER_REPO}:${tag}
 # See also https://docs.docker.com/docker-hub/builds/
 # See also https://docs.docker.com/docker-hub/builds/advanced/
 # See also https://windsock.io/automated-docker-image-builds-with-multiple-tags/
-# See also https://github.com/RotherOSS/otobo/issues/289
+# See also https://github.com/RotherOSS/otobo/issues/289 and https://github.com/RotherOSS/otobo/issues/1504

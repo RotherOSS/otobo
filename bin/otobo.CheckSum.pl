@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,6 +16,7 @@
 # --
 
 use v5.24;
+use strict;
 use warnings;
 use utf8;
 
@@ -25,11 +26,16 @@ use lib dirname($RealBin);
 use lib dirname($RealBin) . '/Kernel/cpan-lib';
 use lib dirname($RealBin) . '/Custom';
 
+# core modules
 use Getopt::Std;
 use Digest::MD5 qw(md5_hex);
 
+# CPAN modules
+
+# OTOBO modules
+
 my $Start = $RealBin;
-$Start =~ s{/bin}{/}smx;
+$Start =~ s{/bin}{/}smx;    # the top level dir, will be used in ProcessDirectory()
 my $Archive = '';
 my $Action  = 'compare';
 my %Compare;
@@ -77,14 +83,14 @@ if ( $Action eq 'create' ) {
 else {
     open( my $In, '<', $Archive ) || die "ERROR: Can't read: $Archive";      ## no critic qw(OTOBO::ProhibitOpen)
     while (<$In>) {
-        my @Row = split( /::/, $_ );
+        my @Row = split /::/, $_;
         chomp $Row[1];
         $Compare{ $Row[1] } = $Row[0];
     }
     close $In;
 }
 
-my @Dirs;
+# start recursing the top directory
 ProcessDirectory($Start);
 for my $File ( sort keys %Compare ) {
 
@@ -99,7 +105,7 @@ if ( $Action eq 'create' ) {
 sub ProcessDirectory {
     my $In = shift;
 
-    my @List = glob("$In/*");
+    my @List = glob "$In/*";
 
     FILE:
     for my $File (@List) {
@@ -116,35 +122,38 @@ sub ProcessDirectory {
         # ignore files used for docker version obgrades
         next FILE if $File =~ m{/docker_firsttime}smx;
 
-        # if it's a directory
+        # recurse into subdirectories, without chdir
         if ( -d $File ) {
             ProcessDirectory($File);
+
             next FILE;
         }
 
         # ignore all non-regular files as links, pipes, sockets etc.
-        next FILE if ( !-f $File );
+        next FILE unless -f $File;
 
-        # if it's a file
+        # only look at the relative paths from the original start dir
         my $OrigFile = $File;
         $File =~ s{$Start}{}smx;
         $File =~ s{^/(.*)$}{$1}smx;
 
         # ignore directories
         next FILE if $File =~ m{^doc/}smx;
-        next FILE if $File =~ m{^var/tmp}smx;
-        next FILE if $File =~ m{^var/log}smx;
-        next FILE if $File =~ m{^var/article}smx;
-        next FILE if $File =~ m{js-cache}smx;
-        next FILE if $File =~ m{css-cache}smx;
+        next FILE if $File =~ m{^var/tmp/}smx;
+        next FILE if $File =~ m{^var/log/}smx;
+        next FILE if $File =~ m{^var/article/}smx;
+        next FILE if $File =~ m{/js-cache/}smx;
+        next FILE if $File =~ m{/css-cache/}smx;
 
-        # next if not readable
-        open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
-
-        my $DigestGenerator = Digest::MD5->new();
-        $DigestGenerator->addfile($In);
-        my $Digest = $DigestGenerator->hexdigest();
-        close $In;
+        # generated the MD5 checksum
+        my $Digest;
+        {
+            open my $In, '<', $OrigFile or die "ERROR: $!";    ## no critic qw(OTOBO::ProhibitOpen OTOBO::ProhibitLowPrecedenceOps)
+            my $DigestGenerator = Digest::MD5->new();
+            $DigestGenerator->addfile($In);
+            $Digest = $DigestGenerator->hexdigest;
+            close $In;
+        }
 
         if ( $Action eq 'create' ) {
             print $Output $Digest . '::' . $File . "\n";

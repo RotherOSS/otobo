@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -122,287 +122,283 @@ $Selenium->RunTest(
             Type => 'Dashboard',
         );
 
-        {
-            my $ToDo = todo('sporadic failures, see #988');
+        try_ok {
+            $Selenium->VerifiedRefresh();
 
-            try_ok {
-                $Selenium->VerifiedRefresh();
+            # Navigate to dashboard screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
 
-                # Navigate to dashboard screen.
-                $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
-
-                # Check if 'Customer User ID' filter for TicketNew dashboard is set.
-                eval {
-                    $Self->True(
-                        $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]"),
-                        "'Customer User ID' filter for TicketNew dashboard is set",
-                    );
-                };
-                if ($@) {
-                    $Self->True(
-                        $@,
-                        "'Customer User ID' filter for TicketNew dashboard is not set",
-                    );
-                }
-                else {
-
-                    # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return $("div.ColumnSettingsBox").length'
-                    );
-
-                    # Select the first test 'Customer User ID' as filter for TicketNew generic dashboard overview.
-                    my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
-                    $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[0]->{CustomerUser} );
-                    sleep 1;
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Choose the value.
-                    $Selenium->execute_script(
-                        "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[0]->{CustomerUser}').trigger('change');"
-                    );
-
-                    # Wait for auto-complete action.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                            . $Tickets[1]->{TicketID}
-                            . '\']").length'
-                    );
-
-                    # Verify the first test ticket is found by filtering with the second customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) > -1,
-                        "Test ticket with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
-                    );
-
-                    # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
-                        "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
-                    );
-
-                    # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
-                    sleep 1;
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Delete the current filter.
-                    $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
-                    );
-
-                    # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return $("div.ColumnSettingsBox").length'
-                    );
-
-                    # Select test 'Customer User ID' as filter for TicketNew generic dashboard overview.
-                    $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
-                    $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[1]->{CustomerUser} );
-                    sleep 1;
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Choose the value.
-                    $Selenium->execute_script(
-                        "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[1]->{CustomerUser}').trigger('change');"
-                    );
-
-                    # Wait for auto-complete action.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                            . $Tickets[0]->{TicketID}
-                            . '\']").length'
-                    );
-
-                    # Verify the second test ticket is found by filtering with the second customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) > -1,
-                        "Test ticket TN $Tickets[1]->{TN} - found on screen after filtering with the customer - $Tickets[1]->{CustomerUser}",
-                    );
-
-                    # Verify the first test ticket is not found by filtering with the second customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) == -1,
-                        "Test ticket TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
-                    );
-
-                    # Cleanup
-                    # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
-                    sleep 1;
-
-                    # wait for AJAX to finish
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Delete the current filter.
-                    $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
-                    );
-                }
-
-                # Update configuration.
-                $Config                                     = $ConfigObject->Get('DashboardBackend')->{'0120-TicketNew'};
-                $Config->{DefaultColumns}->{CustomerUserID} = '0';
-                $Config->{DefaultColumns}->{CustomerID}     = '2';
-                $Helper->ConfigSettingChange(
-                    Valid => 1,
-                    Key   => 'DashboardBackend###0120-TicketNew',
-                    Value => $Config,
+            # Check if 'Customer User ID' filter for TicketNew dashboard is set.
+            eval {
+                $Self->True(
+                    $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]"),
+                    "'Customer User ID' filter for TicketNew dashboard is set",
                 );
-
-                # Refresh dashboard screen and clean it's cache.
-                $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
-                    Type => 'Dashboard',
+            };
+            if ($@) {
+                $Self->True(
+                    $@,
+                    "'Customer User ID' filter for TicketNew dashboard is not set",
                 );
-
-                $Selenium->VerifiedRefresh();
-
-                # Navigate to dashboard screen.
-                $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
-
-                # Check if 'Customer ID' filter for TicketNew dashboard is set.
-                eval {
-                    $Self->True(
-                        $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]"),
-                        "'Customer ID' filter for TicketNew dashboard is set",
-                    );
-                };
-                if ($@) {
-                    $Self->True(
-                        $@,
-                        "'Customer ID' filter for TicketNew dashboard is not set",
-                    );
-                }
-                else {
-
-                    # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return $("div.ColumnSettingsBox").length'
-                    );
-
-                    # Select the third test Customer ID as filter for TicketNew generic dashboard overview.
-                    my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
-                    $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[2]->{CustomerID} );
-                    sleep 1;
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Choose the value.
-                    $Selenium->execute_script(
-                        "\$('#ColumnFilterCustomerID0120-TicketNew').val('$Tickets[2]->{CustomerID}').trigger('change');"
-                    );
-
-                    # Wait for auto-complete action.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("a[href*=\'TicketID='
-                            . $Tickets[1]->{TicketID}
-                            . '\']").length'
-                    );
-
-                    # Verify the third test ticket is found  by filtering with the second customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[2]->{TN} ) > -1,
-                        "Test ticket with TN $Tickets[2]->{TN} - found on screen after filtering with customer - $Tickets[2]->{CustomerID}",
-                    );
-
-                    # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
-                        "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerID}",
-                    );
-
-                    # Click on column setting filter for CustomerID in TicketNew generic dashboard overview.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
-                    sleep 1;
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Delete the current filter.
-                    $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
-                    );
-
-                    # Verify if CustomerID containing special characters is filtered correctly. See bug#14982.
-                    $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('.CustomerIDAutoComplete:visible').length;"
-                    );
-
-                    $Selenium->find_element( ".CustomerIDAutoComplete", 'css' )->send_keys( $Tickets[3]->{CustomerID} );
-
-                    # Wait for AJAX to finish.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
-                    );
-
-                    # Choose the value.
-                    $Selenium->execute_script(
-                        "\$('#ColumnFilterCustomerID0120-TicketNew').val('$Tickets[3]->{CustomerID}').trigger('change');"
-                    );
-
-                    # Wait for autocomplete action.
-                    $Selenium->WaitFor(
-                        JavaScript =>
-                            "return typeof(\$) === 'function' && \$('td div[title=\"$Tickets[3]->{CustomerID}\"]').length == 1;"
-                    );
-
-                    # Verify CustomerID containing special characters is found.
-                    $Self->True(
-                        index( $Selenium->get_page_source(), $Tickets[3]->{TN} ) > -1,
-                        "Test ticket with TN $Tickets[3]->{TN} - found on screen after filtering with customer - $Tickets[3]->{CustomerID}",
-                    );
-                }
             }
-        }
+            else {
+
+                # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return $("div.ColumnSettingsBox").length'
+                );
+
+                # Select the first test 'Customer User ID' as filter for TicketNew generic dashboard overview.
+                my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
+                $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[0]->{CustomerUser} );
+                sleep 1;
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Choose the value.
+                $Selenium->execute_script(
+                    "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[0]->{CustomerUser}').trigger('change');"
+                );
+
+                # Wait for auto-complete action.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
+                        . $Tickets[1]->{TicketID}
+                        . '\']").length'
+                );
+
+                # Verify the first test ticket is found by filtering with the second customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) > -1,
+                    "Test ticket with TN $Tickets[0]->{TN} - found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                );
+
+                # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
+                    "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[0]->{CustomerUser}",
+                );
+
+                # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+                sleep 1;
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Delete the current filter.
+                $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
+                );
+
+                # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return $("div.ColumnSettingsBox").length'
+                );
+
+                # Select test 'Customer User ID' as filter for TicketNew generic dashboard overview.
+                $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
+                $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[1]->{CustomerUser} );
+                sleep 1;
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Choose the value.
+                $Selenium->execute_script(
+                    "\$('#ColumnFilterCustomerUserID0120-TicketNew').val('$Tickets[1]->{CustomerUser}').trigger('change');"
+                );
+
+                # Wait for auto-complete action.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
+                        . $Tickets[0]->{TicketID}
+                        . '\']").length'
+                );
+
+                # Verify the second test ticket is found by filtering with the second customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) > -1,
+                    "Test ticket TN $Tickets[1]->{TN} - found on screen after filtering with the customer - $Tickets[1]->{CustomerUser}",
+                );
+
+                # Verify the first test ticket is not found by filtering with the second customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[0]->{TN} ) == -1,
+                    "Test ticket TN $Tickets[0]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerUser}",
+                );
+
+                # Cleanup
+                # Click on column setting filter for 'Customer User ID' in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer User ID\' )]")->click();
+                sleep 1;
+
+                # wait for AJAX to finish
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Delete the current filter.
+                $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
+                );
+            }
+
+            # Update configuration.
+            $Config                                     = $ConfigObject->Get('DashboardBackend')->{'0120-TicketNew'};
+            $Config->{DefaultColumns}->{CustomerUserID} = '0';
+            $Config->{DefaultColumns}->{CustomerID}     = '2';
+            $Helper->ConfigSettingChange(
+                Valid => 1,
+                Key   => 'DashboardBackend###0120-TicketNew',
+                Value => $Config,
+            );
+
+            # Refresh dashboard screen and clean it's cache.
+            $Kernel::OM->Get('Kernel::System::Cache')->CleanUp(
+                Type => 'Dashboard',
+            );
+
+            $Selenium->VerifiedRefresh();
+
+            # Navigate to dashboard screen.
+            $Selenium->VerifiedGet("${ScriptAlias}index.pl?");
+
+            # Check if 'Customer ID' filter for TicketNew dashboard is set.
+            eval {
+                $Self->True(
+                    $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]"),
+                    "'Customer ID' filter for TicketNew dashboard is set",
+                );
+            };
+            if ($@) {
+                $Self->True(
+                    $@,
+                    "'Customer ID' filter for TicketNew dashboard is not set",
+                );
+            }
+            else {
+
+                # Click on column setting filter for the first customer in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return $("div.ColumnSettingsBox").length'
+                );
+
+                # Select the third test Customer ID as filter for TicketNew generic dashboard overview.
+                my $ParentElement = $Selenium->find_element( "div.ColumnSettingsBox", 'css' );
+                $Selenium->find_child_element( $ParentElement, "./input" )->send_keys( $Tickets[2]->{CustomerID} );
+                sleep 1;
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Choose the value.
+                $Selenium->execute_script(
+                    "\$('#ColumnFilterCustomerID0120-TicketNew').val('$Tickets[2]->{CustomerID}').trigger('change');"
+                );
+
+                # Wait for auto-complete action.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("a[href*=\'TicketID='
+                        . $Tickets[1]->{TicketID}
+                        . '\']").length'
+                );
+
+                # Verify the third test ticket is found  by filtering with the second customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[2]->{TN} ) > -1,
+                    "Test ticket with TN $Tickets[2]->{TN} - found on screen after filtering with customer - $Tickets[2]->{CustomerID}",
+                );
+
+                # Verify the second test ticket is not found by filtering with the first customer that is not in DB.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[1]->{TN} ) == -1,
+                    "Test ticket with TN $Tickets[1]->{TN} - not found on screen after filtering with customer - $Tickets[1]->{CustomerID}",
+                );
+
+                # Click on column setting filter for CustomerID in TicketNew generic dashboard overview.
+                $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
+                sleep 1;
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Delete the current filter.
+                $Selenium->find_element( "a.DeleteFilter", 'css' )->click();
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("#Dashboard0120-TicketNew-box.Loading").length'
+                );
+
+                # Verify if CustomerID containing special characters is filtered correctly. See bug#14982.
+                $Selenium->find_element("//a[contains(\@title, \'Customer ID\' )]")->click();
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('.CustomerIDAutoComplete:visible').length;"
+                );
+
+                $Selenium->find_element( ".CustomerIDAutoComplete", 'css' )->send_keys( $Tickets[3]->{CustomerID} );
+
+                # Wait for AJAX to finish.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        'return typeof($) === "function" && !$("span.AJAXLoader:visible").length'
+                );
+
+                # Choose the value.
+                $Selenium->execute_script(
+                    "\$('#ColumnFilterCustomerID0120-TicketNew').val('$Tickets[3]->{CustomerID}').trigger('change');"
+                );
+
+                # Wait for autocomplete action.
+                $Selenium->WaitFor(
+                    JavaScript =>
+                        "return typeof(\$) === 'function' && \$('td div[title=\"$Tickets[3]->{CustomerID}\"]').length == 1;"
+                );
+
+                # Verify CustomerID containing special characters is found.
+                $Self->True(
+                    index( $Selenium->get_page_source(), $Tickets[3]->{TN} ) > -1,
+                    "Test ticket with TN $Tickets[3]->{TN} - found on screen after filtering with customer - $Tickets[3]->{CustomerID}",
+                );
+            }
+        };
 
         # Delete test tickets.
         for my $Ticket (@Tickets) {
@@ -419,10 +415,7 @@ $Selenium->RunTest(
                     UserID   => 1,
                 );
             }
-            $Self->True(
-                $Success,
-                "Ticket ID $Ticket->{TicketID} - deleted"
-            );
+            ok( $Success, "Ticket ID $Ticket->{TicketID} - deleted" );
         }
 
         # Make sure cache is correct.

@@ -160,9 +160,10 @@ o Name:    CPAN CSS::Minifier
   Note:    Copyright (C) 2007 by Peter Michaux
 
 o Name:    CPAN JavaScript::Minifier
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-  Note:    Copyright (C) 2007 by Peter Michaux
+  Web:     https://github.com/zoffixznet/JavaScript-Minifier
+  License: # This library is free software; you can redistribute it
+           # and/or modify it under the same terms as Perl itself.
+  Note:    Copyright (C) 2021 by Peter Michaux
 
 o Name:    CPAN YAML
   Web:     n/a
@@ -378,10 +379,6 @@ o Name:    jQuery
 
 o Name:    jsTree
   Web:     http://www.jstree.com/
-  License: MIT License - http://www.opensource.org/licenses/mit-license.php
-
-o Name:    jQuery Migrate
-  Web:     https://github.com/jquery/jquery-migrate
   License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 o Name:    TableSorter

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -176,7 +176,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => $CustomerUserLogin,
-    CustomerUser => 'unittest@otrs.com',
+    CustomerUser => 'unittest@otobo.org',
     OwnerID      => 1,
     UserID       => 1,
 );
@@ -832,9 +832,9 @@ my @Tests = (
                 CommunicationChannel => 'Email',
                 SenderType           => 'agent',
                 From                 => 'hello@otobo.org',
-                To                   => 'someTo@otrs.com',
-                Cc                   => 'someCc@otrs.com',
-                Bcc                  => 'someBcc@otrs.com',
+                To                   => 'someTo@otobo.org',
+                Cc                   => 'someCc@otobo.org',
+                Bcc                  => 'someBcc@otobo.org',
                 Charset              => 'utf8',
                 MimeType             => 'text/plain',
                 HistoryType          => 'AddNote',
@@ -1325,7 +1325,7 @@ my $TicketIDNoOutOfOffice = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => $CustomerUserLogin,
-    CustomerUser => 'unittest@otrs.com',
+    CustomerUser => 'unittest@otobo.org',
     OwnerID      => $UserIDNoOutOfOffice,
     UserID       => 1,
 );
@@ -1338,7 +1338,7 @@ my $TicketIDOutOfOffice = $TicketObject->TicketCreate(
     Priority     => '3 normal',
     State        => 'new',
     CustomerID   => $CustomerUserLogin,
-    CustomerUser => 'unittest@otrs.com',
+    CustomerUser => 'unittest@otobo.org',
     OwnerID      => $UserIDOutOfOffice,
     UserID       => 1,
 );

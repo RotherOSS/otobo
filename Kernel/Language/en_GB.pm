@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.628932857606228;
+    $Self->{Completeness}        = 0.628344413815469;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -4583,6 +4583,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
         'No TicketID for ArticleID (%s)!' => 'No TicketID for ArticleID (%s)!',
@@ -5097,13 +5103,18 @@ sub Data {
         'No OTRS system found!' => '',
         'OTRS Version is correct: %s.' => '',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             '',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             '',
-        'An error occured during SysConfig data migration.' => '',
         'SysConfig data migration completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5367,12 +5378,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO Disk Partition',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => 'Disk Usage',
-        'The partition where OTOBO is located is almost full.' => 'The partition where OTOBO is located is almost full.',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'The partition where OTOBO is located has no disk space problems.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Disk Partitions Usage',
@@ -6670,7 +6675,6 @@ Thanks for your help!
             '',
         'Croatian' => 'Croatian',
         'Custom RSS Feed' => 'Custom RSS Feed',
-        'Custom RSS feed.' => '',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).',
         'Customer Administration' => 'Customer Administration',

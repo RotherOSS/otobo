@@ -3,7 +3,7 @@
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2010 Thomas Kaltenbrunner <tkaltenbrunner at opc.de>
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999351281219591;
+    $Self->{Completeness}        = 0.998378466028863;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4580,6 +4580,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Fehler: Die Datei konnte nicht korrekt gelöscht werden. Bitte kontaktieren Sie Ihren Administrator (fehlende FileID).',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => 'ArticleID wird benötigt!',
         'No TicketID for ArticleID (%s)!' => 'Keine TicketID für ArticleID (%s)!',
@@ -5094,13 +5100,18 @@ sub Data {
         'No OTRS system found!' => 'Kein OTRS-System gefunden!',
         'OTRS Version is correct: %s.' => 'OTRS-Version ist korrekt: %s.',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migriert die Konfigurationseinstellungen.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             'Bei der Migration der SysConfig-Daten ist ein Fehler aufgetreten oder es ist keine Konfiguration vorhanden.',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             'Beim Migrieren der SysConfig-Daten ist ein Fehler beim Schreiben der XML-Werte in die DB aufgetreten.',
-        'An error occured during SysConfig data migration.' => 'Bei der Migration der SysConfig-Daten ist ein Fehler aufgetreten.',
         'SysConfig data migration completed.' => 'Migration der SysConfig-Daten abgeschlossen.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5364,12 +5375,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO-Festplattenpartition',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => 'Festplatten-Verwendung',
-        'The partition where OTOBO is located is almost full.' => 'Die Partition, auf der OTOBO sich befindet, ist fast voll.',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'Die Partition, auf der OTOBO sich befindet, hat keine Platzprobleme.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Belegung der Festplatten-Partitionen',
@@ -6667,7 +6672,6 @@ Ihr Helpdesk-Team
             'Ticket erstellt [%s] in "%s" mit Priorität "%s" und Status "%s".',
         'Croatian' => 'Kroatisch',
         'Custom RSS Feed' => 'Benutzerspezifischer RSS Feed',
-        'Custom RSS feed.' => 'Persönlicher RSS Feed.',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Benutzerdefinierter Text für Kunden, die noch keine Tickets haben (wenn Sie für diesen Text eine Übersetzung wünschen, fügen Sie die Übersetzung in einem eigenen Übersetzungsmodul hinzu).',
         'Customer Administration' => 'Kundenverwaltung',

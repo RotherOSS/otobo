@@ -1,0 +1,62 @@
+# Config for nginx serving as a reverse proxy for the OTOBO web application.
+
+# This config is based on default.conf in the nginx installation
+
+# The master process runs as root.
+# When no user is configured then the workers will run as nobody.
+#user
+
+proxy_send_timeout 120;
+proxy_read_timeout 99999;
+proxy_buffering    off;
+tcp_nodelay        on;
+
+# Do not serve HTTP, redirect to HTTPS instead.
+# See https://linuxize.com/post/redirect-http-to-https-in-nginx/.
+server {
+    listen 8080;
+    listen [::]:8080;
+
+    # catch all domains
+    server_name _;
+
+    # 301 Moved Permanently, (in 'SEO-speak', it is said that the 'link-juice' is sent to the new URL).
+    return 301 https://$host$request_uri;
+}
+
+# serve HTTPS
+server {
+    listen 8443 ssl;
+    listen [::]:8443 ssl;
+
+    # see https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-in-ubuntu-18-04
+    include snippets/ssl-params.conf;
+    ssl_certificate     ${OTOBO_NGINX_SSL_CERTIFICATE};
+    ssl_certificate_key ${OTOBO_NGINX_SSL_CERTIFICATE_KEY};
+
+    server_name  localhost;
+
+    # allow large uploads of files
+    client_max_body_size 1G;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    # proxy to the otobo webapp accessible from the host
+    # pass on information about the client
+    location / {
+
+        # Settings for useing Kerberos SSO (mostly untested)
+        proxy_set_header REMOTE_USER $remote_user;
+        auth_gss on;
+        auth_gss_keytab /etc/krb5.keytab;
+        auth_gss_service_name ${OTOBO_NGINX_KERBEROS_SERVICE_NAME};
+        auth_gss_realm ${OTOBO_NGINX_KERBEROS_REALM};
+        auth_gss_allow_basic_fallback on;
+
+        proxy_set_header X-Forwarded-Host $host:$server_port;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass       http://${OTOBO_NGINX_WEB_HOST}:${OTOBO_NGINX_WEB_PORT}/;
+    }
+}

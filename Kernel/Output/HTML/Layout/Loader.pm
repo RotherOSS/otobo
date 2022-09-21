@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,9 +19,13 @@ package Kernel::Output::HTML::Layout::Loader;
 use strict;
 use warnings;
 
+# core modules
 use File::stat;
 use Digest::MD5;
 
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
@@ -147,6 +151,7 @@ sub LoaderCreateAgentCSSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
         }
 
@@ -179,8 +184,6 @@ sub LoaderCreateAgentCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -195,9 +198,6 @@ taking a list from the Loader::Agent::CommonJS config item.
 
 sub LoaderCreateAgentJSCalls {
     my ( $Self, %Param ) = @_;
-
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -214,6 +214,7 @@ sub LoaderCreateAgentJSCalls {
         KEY:
         for my $Key ( sort keys %{$CommonJSList} ) {
             next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
+
             push @FileList, @{ $CommonJSList->{$Key} };
         }
 
@@ -246,6 +247,7 @@ sub LoaderCreateAgentJSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
         }
 
@@ -276,7 +278,7 @@ sub LoaderCreateJavaScriptTemplateData {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # load theme
+    # determine theme
     my $Theme = $Self->{UserTheme} || $ConfigObject->Get('DefaultTheme') || Translatable('Standard');
 
     # force a theme based on host name
@@ -383,6 +385,7 @@ sub LoaderCreateJavaScriptTemplateData {
                 my $Stat = stat($Template);
                 if ( !$Stat ) {
                     print STDERR "Error: cannot stat file '$Template': $!";
+
                     next TEMPLATE;
                 }
 
@@ -524,6 +527,7 @@ sub LoaderCreateJavaScriptTranslationData {
     STRING:
     for my $String ( @{ $LanguageObject->{JavaScriptStrings} // [] } ) {
         next STRING if $TranslationData{$String};
+
         $TranslationData{$String} = $LanguageObject->{Translation}->{$String};
     }
 
@@ -644,6 +648,7 @@ sub LoaderCreateCustomerCSSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{CSS} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{CSS} || [] } );
         }
 
@@ -676,8 +681,6 @@ sub LoaderCreateCustomerCSSCalls {
         );
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
-
     return 1;
 }
 
@@ -693,9 +696,6 @@ taking a list from the Loader::Customer::CommonJS config item.
 sub LoaderCreateCustomerJSCalls {
     my ( $Self, %Param ) = @_;
 
-    #use Time::HiRes;
-    #my $t0 = Time::HiRes::gettimeofday();
-
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -710,6 +710,7 @@ sub LoaderCreateCustomerJSCalls {
         KEY:
         for my $Key ( sort keys %{$CommonJSList} ) {
             next KEY if $Key eq '100-CKEditor' && !$ConfigObject->Get('Frontend::RichText');
+
             push @FileList, @{ $CommonJSList->{$Key} };
         }
 
@@ -734,6 +735,7 @@ sub LoaderCreateCustomerJSCalls {
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
             next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+
             @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
         }
 
@@ -746,7 +748,6 @@ sub LoaderCreateCustomerJSCalls {
 
     }
 
-    #print STDERR "Time: " . Time::HiRes::tv_interval([$t0]);
     return;
 }
 
@@ -760,13 +761,14 @@ sub _HandleCSSList {
         push @Skins, $Param{Skin};
     }
 
-    #load default css files
+    # load default css files
     for my $Skin (@Skins) {
         my @FileList;
 
         CSSFILE:
         for my $CSSFile ( @{ $Param{List} } ) {
             my $SkinFile = "$Param{SkinHome}/$Param{SkinType}/$Skin/css/$CSSFile";
+
             next CSSFILE if ( !-e $SkinFile );
 
             if ( $Param{DoMinify} ) {
@@ -810,6 +812,7 @@ sub _HandleJSList {
     my ( $Self, %Param ) = @_;
 
     my $Content = $Param{Content};
+
     return if !$Param{List} && !$Content;
 
     my %UsedFiles;
@@ -866,6 +869,7 @@ sub _HandleJSList {
             },
         );
     }
+
     return 1;
 }
 
@@ -889,6 +893,7 @@ sub SkinValidate {
                 Message  => "Needed param: $Needed!",
                 Priority => 'error',
             );
+
             return;
         }
     }
@@ -911,12 +916,14 @@ sub SkinValidate {
             my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
             if ( -d $SkinDir ) {
                 $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = 1;
+
                 return 1;
             }
         }
     }
 
     $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} } = undef;
+
     return;
 }
 

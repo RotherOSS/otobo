@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,7 +19,14 @@ package Kernel::Modules::CustomerDashboardCommon;
 
 use strict;
 use warnings;
+use v5.24;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 
@@ -29,15 +36,13 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {%Param}, $Type;
 }
 
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    # get needed objects
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -47,21 +52,25 @@ sub Run {
 
     my $Output = $LayoutObject->CustomerHeader();
 
-    my $TileHTML;
+    my $TileHTML = '';
 
-    # generate the html of the individual tiles
+    # generate the HTML of the individual tiles
     my %OrderUsed;
-    for my $Tile ( sort { $UsedTiles->{$a}{Order} <=> $UsedTiles->{$b}{Order} } keys %{$UsedTiles} ) {
+    for my $Tile ( sort { $UsedTiles->{$a}->{Order} <=> $UsedTiles->{$b}->{Order} } keys $UsedTiles->%* ) {
 
         # check if the registration for each tile is valid
         if ( !$UsedTiles->{$Tile}{Module} ) {
             if ( !$UsedTiles->{$Tile}{Template} ) {
+                my $Message = $LayoutObject->{LanguageObject}->Translate(
+                    'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.',
+                    $Tile,
+                );
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  =>
-                        "Registration for tile $Tile of CustomerDashboard is invalid! Either Module or Template needed.",
+                    Message  => $Message,
                 );
-                return;
+
+                return $LayoutObject->ErrorScreen( Message => $Message );
             }
 
             $UsedTiles->{$Tile}{Module} = "Kernel::Output::HTML::CustomerDashboard::TileCommon";
@@ -72,25 +81,34 @@ sub Run {
 
         # check if backend field exists
         if ( !$MainObject->Require($BackendModule) ) {
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                q{Can't load the module for tile %s!},
+                $Tile,
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Can't load the module for tile $Tile!",
+                Message  => $Message,
             );
-            return;
+
+            return $LayoutObject->ErrorScreen( Message => $Message );
         }
 
         # create a backend object
         my $BackendObject = $BackendModule->new();
 
         # check if the Order is an unique number
-        my $TileID = sprintf( "%02d", $UsedTiles->{$Tile}{Order} );
-        if ( $TileID !~ /^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
+        my $TileID = sprintf '%02d', $UsedTiles->{$Tile}{Order};    # assuming Order being less than 100
+        if ( $TileID !~ m/^\d+$/ || ++$OrderUsed{$TileID} > 1 ) {
+            my $Message = $LayoutObject->{LanguageObject}->Translate(
+                'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.',
+                $Tile,
+            );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "Registration for tile $Tile of CustomerDashboard is invalid! Order needs to be a unique number.",
+                Message  => $Message,
             );
-            return;
+
+            return $LayoutObject->ErrorScreen( Message => $Message );
         }
 
         # get the HTML
@@ -134,7 +152,6 @@ sub Run {
     $Output .= $LayoutObject->CustomerFooter();
 
     return $Output;
-
 }
 
 1;

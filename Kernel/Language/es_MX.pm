@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.999189101524489;
+    $Self->{Completeness}        = 0.998864926220204;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -196,7 +196,7 @@ sub Data {
         'Appointment Filter' => 'Filtro de citas',
         'Type' => 'Tipo',
         'Title' => 'Título',
-        'Location' => 'Localidad',
+        'Location' => 'Ubicación',
         'Team' => 'Equipo',
         'Resource' => 'Recurso',
         'Recipients' => 'Recipientes',
@@ -1750,8 +1750,8 @@ sub Data {
         'Queue Management' => 'Gestión de Filas',
         'Add Queue' => 'Agregar Fila',
         'Edit Queue' => 'Modificar Fila',
-        'Filter for Queues' => 'Filtro para colas',
-        'Filter for queues' => 'Filtro para colas',
+        'Filter for Queues' => 'Filtro por colas',
+        'Filter for queues' => 'Filtro por colas',
         'A queue with this name already exists!' => '¡Ya existe una fila con este nombre!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             'Esta cola está presente en una configuración de SysConfig, ¡se necesita confirmación para actualizar la configuración para que apunte a la nueva cola!',
@@ -3708,7 +3708,7 @@ sub Data {
         'Change Group Relations for Customer User' => 'Modificar las relaciones de grupo para el usuario cliente',
 
         # Perl Module: Kernel/Modules/AdminCustomerUserService.pm
-        'Allocate Customer Users to Service' => 'Asignación de usuarios clientes al servicio',
+        'Allocate Customer Users to Service' => 'Asignación de usuarios clientes a servicios',
         'Allocate Services to Customer User' => 'Asignación de servicios al usuario cliente',
 
         # Perl Module: Kernel/Modules/AdminDynamicField.pm
@@ -4580,6 +4580,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             'Error: el archivo no ha podido ser eliminado correctamente. Por favor, póngase en contacto con su administrador (falta el FileID).',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '¡Se necesita el ArticleID!',
         'No TicketID for ArticleID (%s)!' => '¡No hay TicketID para ArticleID (%s)!',
@@ -5094,13 +5100,18 @@ sub Data {
         'No OTRS system found!' => '¡No se ha encontrado ningún sistema OTRS!',
         'OTRS Version is correct: %s.' => 'La versión de OTRS es correcta: %s.',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migrar los ajustes de configuración.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             'Se ha producido un error durante la migración de datos de SysConfig o no existe ninguna configuración.',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             'Se ha producido un error durante la migración de SysConfig al escribir XML en la base de datos.',
-        'An error occured during SysConfig data migration.' => 'Se ha producido un error durante la migración de datos de SysConfig.',
         'SysConfig data migration completed.' => 'Se ha completado la migración de datos de SysConfig.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5364,12 +5375,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partición en disco para OTOBO',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => 'Uso del disco',
-        'The partition where OTOBO is located is almost full.' => 'La partición donde se encuentra localizado OTOBO está casi llena.',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'La partición donde se encuentra OTOBO no tiene problemas de espacioen disco.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Uso de las particiones en disco',
@@ -6667,7 +6672,6 @@ Gracias por su ayuda.
             'Creado ticket [%s] en "%s" con prioridad "%s" y estado "%s".',
         'Croatian' => 'Croata',
         'Custom RSS Feed' => 'Feed RSS personalizado',
-        'Custom RSS feed.' => 'Fuente RSS personalizada.',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Texto personalizado para la página que se muestra a los clientes que aún no tienen boletos (si necesita esos textos traducidos agréguelos a un módulo de traducción personalizado).',
         'Customer Administration' => 'Administración de Clientes',
@@ -7430,7 +7434,7 @@ Gracias por su ayuda.
         'Defines the two-factor module to authenticate agents.' => 'Define el módulo de dos factores para autenticar a los agentes.',
         'Defines the two-factor module to authenticate customers.' => 'Define el módulo de dos factores para autenticar a los clientes.',
         'Defines the type of protocol that is used by the web server to serve the application. If the webserver uses HTTP instead of of HTTPS, then \'http\' must be specified here. The setting of \'HttpType\' has no affect on the web server\'s settings or behavior. Specifically, it will not change the method of access to the application. If the setting is wrong, it will not prevent you from logging into the application. This setting is used mainly via the template variable OTOBO_CONFIG_HttpType. This variable is found in all forms of messaging used by the application. It is used to build links to the tickets within your system. Another effect of keeping \'HttpType\' set to \'https\' is that the session management cookie will only be set for secure connections.' =>
-            '',
+            'Define el tipo de protocolo que utiliza el servidor web para servir la aplicación. Si el servidor web utiliza HTTP en lugar de HTTPS, entonces debe especificarse aquí \'http\'. La configuración de \'HttpType\' no afecta a la configuración o comportamiento del servidor web. Específicamente, no cambiará el método de acceso a la aplicación. Si la configuración es incorrecta, no impedirá que se acceda a la aplicación. Esta configuración se utiliza principalmente a través de la variable de plantilla OTOBO_CONFIG_HttpType. Esta variable se encuentra en todas las formas de mensajería utilizadas por la aplicación. Se utiliza para construir enlaces a los tickets dentro de su sistema. Otro efecto de mantener \'HttpType\' establecido en \'https\' es que la cookie de gestión de sesión sólo se establecerá para conexiones seguras.',
         'Defines the used character for plaintext email quotes in the ticket compose screen of the agent interface. If this is empty or inactive, original emails will not be quoted but appended to the response.' =>
             'Define el carácter utilizado para las citas de correo electrónico en texto plano en la pantalla de composición de tickets de la interfaz del agente. Si está vacío o inactivo, los correos electrónicos originales no se citarán sino que se añadirán a la respuesta.',
         'Defines the user identifier for the customer panel.' => 'Define el identificador de usuario para la interfaz del cliente.',
@@ -8191,11 +8195,11 @@ Gracias por su ayuda.
         'Number of lines (per ticket) that are shown by the search utility in the agent interface.' =>
             'Número de líneas (por ticket) que se muestran por la utilidad de búsqueda de la interfaz del agente.',
         'Number of shards (NS), replicas (NR) and fields limit for the index \'ticket\'.' =>
-            '',
+            'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice "ticket".',
         'Number of shards (NS), replicas (NR) and fields limit for the index. Note: \'Elasticsearch::ArticleIndexCreationSettings\' is deprecated. For upwards compatibility use \'Elasticsearch::IndexSettings###Default\' instead.' =>
-            '',
+            'Número de fragmentos (NS), réplicas (NR) y límite de campos para el índice. Nota: Elasticsearch::ArticleIndexCreationSettings\' está obsoleto. Para la compatibilidad hacia arriba, utilice \'Elasticsearch::IndexSettings###Default\' en su lugar.',
         'Number of shards (NS), replicas (NR) and fields limit for the indices. This replaces \'Elasticsearch::ArticleIndexCreationSettings\' in future versions. If both are present and not equal this one has priority. Use \'Elasticsearch::IndexSettings###...\' if you want to define special settings for single indices.\'...\' may be one of \'Customer\', \'CustomerUser\', \'Ticket\' or \'ConfigItem\'.' =>
-            '',
+            'Número de fragmentos (NS), réplicas (NR) y límite de campos para los índices. Esto reemplaza a \'Elasticsearch::ArticleIndexCreationSettings\' en futuras versiones. Si ambos están presentes y no son iguales este tiene prioridad. Utiliza \'Elasticsearch::IndexSettings##...\' si quieres definir ajustes especiales para índices individuales.\'...\' puede ser uno de \'Customer\', \'CustomerUser\', \'Ticket\' o \'ConfigItem\'.',
         'Number of tickets to be displayed in each page of a search result in the agent interface.' =>
             'Número de tickets desplegados en cada página del resultado de una búsqueda, en la interfaz del agente.',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>

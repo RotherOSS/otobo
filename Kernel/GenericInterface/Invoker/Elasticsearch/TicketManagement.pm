@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +18,7 @@ package Kernel::GenericInterface::Invoker::Elasticsearch::TicketManagement;
 
 use strict;
 use warnings;
+
 use Kernel::System::VariableCheck qw(:all);
 
 our $ObjectManagerDisabled = 1;
@@ -39,8 +40,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # check needed params and store them in $Self
     for my $Needed (qw/DebuggerObject WebserviceID/) {
@@ -104,6 +104,7 @@ sub PrepareRequest {
                 }
             }
         );
+
         return {
             Success => 1,
             Data    => {
@@ -126,6 +127,7 @@ sub PrepareRequest {
                     }
                 }
             );
+
             return {
                 Success => 1,
                 Data    => {
@@ -146,7 +148,7 @@ sub PrepareRequest {
                 TicketID => $Param{Data}{TicketID},
             );
 
-            # create the articles
+            # create the articles, when the ticket is already deleted then the article list will be empty
             my @ArticleList = $ArticleObject->ArticleList(
                 TicketID => $Param{Data}{TicketID}
             );
@@ -178,6 +180,17 @@ sub PrepareRequest {
             ArticleID => $Param{Data}{ArticleID},
         );
 
+        # Nothing to do when that article is not found.
+        # This happens frequently in unit tests.
+        # Use an explicit check of the type because it looks like
+        # Kernel::System::Ticket::Article::Backend::Invalid::ArticleAttachment() is not implemented.
+        if ( !$ArticleBackend || ref $ArticleBackend eq 'Kernel::System::Ticket::Article::Backend::Invalid' ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         my @Attachments;
         ATTACHMENT:
         for my $AttachmentIndex ( sort keys %{ $Param{Data}{AttachmentIndex} } ) {
@@ -185,6 +198,7 @@ sub PrepareRequest {
                 ArticleID => $Param{Data}{ArticleID},
                 FileID    => $AttachmentIndex,
             );
+
             next ATTACHMENT if !%ArticleAttachment;
 
             use MIME::Base64;
@@ -195,6 +209,7 @@ sub PrepareRequest {
 
             # Ingest attachment if only filesize less than defined in sysconfig
             next ATTACHMENT if $FileSize > $MaxFilesize;
+
             $FileType =~ /^.*?\/([\d\w]+)/;
             my $TypeFormat = $1;
             $FileName =~ /\.([\d\w]+)$/;
@@ -209,17 +224,14 @@ sub PrepareRequest {
                 push( @Attachments, \%Data );
             }
         }
-        my %Content = (
-            Attachments => \@Attachments,
-        );
 
         return {
             Success => 1,
             Data    => {
-                docapi => '_doc',
-                path   => 'Attachments',
-                id     => '',
-                %Content,
+                docapi      => '_doc',
+                path        => 'Attachments',
+                id          => '',
+                Attachments => \@Attachments,
             },
         };
     }
@@ -272,29 +284,30 @@ sub PrepareRequest {
     }
 
     # handle the regular updating and creation
+
     # get needed objects
-    my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
-    # gather all fields which have to be stored
-    my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
-    my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
-
-    # exclusions
+    # handle excluded queues
     my $ExcludedQueues = $ConfigObject->Get('Elasticsearch::ExcludedQueues');
-    $ExcludedQueues = $ExcludedQueues ? { map { $_ => 1 } @{$ExcludedQueues} } : undef;
-
-    # excluded queues
     if ($ExcludedQueues) {
+        my %QueueIsExcluded = map { $_ => 1 } $ExcludedQueues->@*;
+
         my %Ticket = $TicketObject->TicketGet(
             TicketID => $Param{Data}{TicketID},
         );
 
+        # if the ticket is not found, then it surely is not in an excluded queue
+        if ( !%Ticket ) {
+
+            # do nothing
+        }
+
         # if the queue is changed, check if the ticket has to be created or deleted in ES
-        if ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
+        elsif ( $Param{Data}{Event} eq 'TicketQueueUpdate' ) {
 
             # return if both, old and new queue are excluded
-            if ( $ExcludedQueues->{ $Ticket{Queue} } && $ExcludedQueues->{ $Param{Data}{OldTicketData}{Queue} } ) {
+            if ( $QueueIsExcluded{ $Ticket{Queue} } && $QueueIsExcluded{ $Param{Data}{OldTicketData}{Queue} } ) {
                 return {
                     Success           => 1,
                     StopCommunication => 1,
@@ -302,7 +315,7 @@ sub PrepareRequest {
             }
 
             # delete ticket, if moved to excluded queue
-            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+            elsif ( $QueueIsExcluded{ $Ticket{Queue} } ) {
                 my %Content = (
                     query => {
                         term => {
@@ -310,6 +323,7 @@ sub PrepareRequest {
                         }
                     }
                 );
+
                 return {
                     Success => 1,
                     Data    => {
@@ -321,7 +335,7 @@ sub PrepareRequest {
             }
 
             # restore ticket, if moved from excluded queue
-            elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+            elsif ( $QueueIsExcluded{ $Param{Data}{OldTicketData}{Queue} } ) {
                 my $ESObject      = $Kernel::OM->Get('Kernel::System::Elasticsearch');
                 my $ArticleObject = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 
@@ -330,7 +344,7 @@ sub PrepareRequest {
                     TicketID => $Param{Data}{TicketID},
                 );
 
-                # create the articles
+                # create the articles, when the ticket is already deleted then the article list will be empty
                 my @ArticleList = $ArticleObject->ArticleList(
                     TicketID => $Param{Data}{TicketID}
                 );
@@ -349,7 +363,7 @@ sub PrepareRequest {
         }
 
         # in all other cases just skip tickets in excluded queues
-        elsif ( $ExcludedQueues->{ $Ticket{Queue} } ) {
+        elsif ( $QueueIsExcluded{ $Ticket{Queue} } ) {
             return {
                 Success           => 1,
                 StopCommunication => 1,
@@ -357,8 +371,13 @@ sub PrepareRequest {
         }
     }
 
+    # gather all fields which have to be stored
+    my $Store  = $ConfigObject->Get('Elasticsearch::TicketStoreFields');
+    my $Search = $ConfigObject->Get('Elasticsearch::TicketSearchFields');
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
     my %DataToStore;
-    if ( $Param{Data}{Event} =~ /^Article/ ) {
+    if ( $Param{Data}{Event} =~ m/^Article/ ) {
 
         # standard fields
         for my $Field ( @{ $Store->{Article} }, @{ $Search->{Article} } ) {
@@ -370,7 +389,8 @@ sub PrepareRequest {
             my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFieldName,
             );
-            next DYNAMICFIELD if !$DynamicField;
+
+            next DYNAMICFIELD unless $DynamicField;
 
             if ( $DynamicField->{ObjectType} eq 'Article' ) {
                 $DataToStore{"DynamicField_$DynamicFieldName"} = 1;
@@ -388,7 +408,8 @@ sub PrepareRequest {
             my $DynamicField = $DynamicFieldObject->DynamicFieldGet(
                 Name => $DynamicFieldName,
             );
-            next DYNAMICFIELD if !$DynamicField;
+
+            next DYNAMICFIELD unless $DynamicField;
 
             if ( $DynamicField->{ObjectType} eq 'Ticket' ) {
                 $DataToStore{"DynamicField_$DynamicFieldName"} = 1;
@@ -416,8 +437,17 @@ sub PrepareRequest {
             DynamicFields => $GetDynamicFields,
         );
 
+        # Nothing to do when the newly created ticket is already gone.
+        # This happens frequently in unit tests.
+        if ( !%Ticket ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         # set content
-        %Content = ( map { $_ => $Ticket{$_} } keys %DataToStore );
+        %Content = map { $_ => $Ticket{$_} } keys %DataToStore;
 
         # initialize article array
         $Content{ArticlesExternal}    = [];
@@ -435,7 +465,6 @@ sub PrepareRequest {
         $Content{Created} = $DateTimeObject->ToEpoch();
 
         $API = '_doc';
-
     }
 
     # article create
@@ -448,12 +477,25 @@ sub PrepareRequest {
             TicketID  => $Param{Data}{TicketID},
             ArticleID => $Param{Data}{ArticleID},
         );
+
+        # Nothing to do when the newly created article is not found.
+        # This happens frequently in unit tests.
+        # Use an explicit check of the type because it looks like
+        # Kernel::System::Ticket::Article::Backend::Invalid::ArticleGet() returns a hash with the key SenderType
+        if ( !$ArticleBackend || ref $ArticleBackend eq 'Kernel::System::Ticket::Article::Backend::Invalid' ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
         my %Article = $ArticleBackend->ArticleGet(
             TicketID      => $Param{Data}{TicketID},
             ArticleID     => $Param{Data}{ArticleID},
             DynamicFields => $GetDynamicFields,
         );
-        my %ArticleContent = ( map { $_ => $Article{$_} } keys %DataToStore );
+
+        my %ArticleContent = map { $_ => $Article{$_} } keys %DataToStore;
         my $Destination    = $Article{IsVisibleForCustomer} ? 'External' : 'Internal';
 
         # put attachment and ingest it into tmpattachment
@@ -552,19 +594,18 @@ sub PrepareRequest {
         );
 
         $API = '_update';
+    }
 
+    # at ticket creation customerupdate is sent before ticketcreate and is not needed here
+    elsif ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
+        return {
+            Success           => 1,
+            StopCommunication => 1,
+        };
     }
 
     # diverse updates
     else {
-        # at ticket creation customerupdate is sent before ticketcreate and not needed here
-        if ( $Param{Data}{Event} eq 'TicketCustomerUpdate' && $Param{Data}{TicketCreated} == 1 ) {
-            return {
-                Success           => 1,
-                StopCommunication => 1,
-            };
-        }
-
         # get the ticket
         my $GetDynamicFields = ( IsArrayRefWithData( $Search->{DynamicField} ) || IsArrayRefWithData( $Store->{DynamicField} ) ) ? 1 : 0;
         my %Ticket           = $TicketObject->TicketGet(
@@ -572,7 +613,16 @@ sub PrepareRequest {
             DynamicField => $GetDynamicFields,
         );
 
-        # only submit potenitally changed values
+        # Nothing to do when the updated ticket is gone.
+        # This might happen in unit tests.
+        if ( !%Ticket ) {
+            return {
+                Success           => 1,
+                StopCommunication => 1,
+            };
+        }
+
+        # only submit potentially changed values
         delete $DataToStore{Created};
         delete $DataToStore{TicketNumber};
 
@@ -591,7 +641,6 @@ sub PrepareRequest {
             %Content,
         },
     };
-
 }
 
 =head2 HandleResponse()

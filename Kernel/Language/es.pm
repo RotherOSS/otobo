@@ -7,7 +7,7 @@
 # Copyright (C) 2009 Gustavo Azambuja <gazambuja at gmail.com>
 # Copyright (C) 2009 Emiliano Gonzalez <egonzalez@ergio.com.ar>
 # Copyright (C) 2013 Enrique Matías Sánchez <quique@unizar.es>
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.634609146934804;
+    $Self->{Completeness}        = 0.633857629317334;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -129,7 +129,7 @@ sub Data {
             'Mover_A: usuarios que pueden modificar citas en el calendario, pero sin cambiar la selección de calendario.',
         'Create: users can create and delete appointments in the calendar.' =>
             'Crear: usuarios que pueden crear y borrar citas en el calendario.',
-        'Read/write: users can manage the calendar itself.' => 'RW: usuario que pueden gestionar el calendario en sí',
+        'Read/write: users can manage the calendar itself.' => 'RW: usuario que pueden gestionar el calendario en sí.',
         'Group' => 'Grupo',
         'Changed' => 'Modificado',
         'Created' => 'Creado',
@@ -164,13 +164,13 @@ sub Data {
         # Template: AdminAppointmentImport
         'Appointment Import' => 'Importar Cita',
         'Go back' => 'Regresar',
-        'Uploaded file must be in valid iCal format (.ics).' => 'El archivo cargado tiene que estar en un formato iCal válido (.ics)',
+        'Uploaded file must be in valid iCal format (.ics).' => 'El archivo cargado tiene que estar en un formato iCal válido (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear"',
+            'Si el Calendario deseado no aparece en la lista, por favor asegúrese de que tenga al menos el permiso de "crear".',
         'Upload' => 'Cargar',
         'Update existing appointments?' => '¿Actualizar las citas existentes?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            'Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán',
+            'Todas las citas existentes en el calendario con el mismo UniqueID se sobrescribirán.',
         'Upload calendar' => 'Cargar calendario',
         'Import appointments' => 'Importar citas',
 
@@ -219,14 +219,14 @@ sub Data {
             'Estos son los posibles métodos que se pueden utilizar para enviar esta notificación a cada uno de los destinatarios. Por favor seleccione al menos un método en la sección inferior.',
         'Enable this notification method' => 'Habilitar este método de notificación',
         'Transport' => 'Transporte',
-        'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación',
+        'At least one method is needed per notification.' => 'Se necesita al menos un método por notificación.',
         'Active by default in agent preferences' => 'Activo por defecto en preferencias de agente',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'Este es el valor por defecto para los agentes receptores asignados que no realizaron una elección para esta notificación aún en sus preferencias. Si la casilla está activada, la notificación será enviada a dichos agentes.',
         'This feature is currently not available.' => 'Esta característica no está disponible en este momento.',
         'Upgrade to %s' => 'Actualizar a %s',
-        'Please activate this transport in order to use it.' => 'Por favor active el transporte para poder usarlo',
-        'No data found' => 'No se encontró ningún dato.',
+        'Please activate this transport in order to use it.' => 'Por favor active el transporte para poder usarlo.',
+        'No data found' => 'No se encontró ningún dato',
         'No notification method found.' => 'No se encontró un método de notificación.',
         'Notification Text' => 'Texto de la Notificación',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
@@ -240,17 +240,17 @@ sub Data {
         'Tag Reference' => 'Etiqueta de Referencia',
         'Notifications are sent to an agent.' => 'Las notificaciones se envían a un agente.',
         'You can use the following tags' => 'Puede usar las siguientes etiquetas',
-        'To get the first 20 character of the appointment title.' => 'Para obtener los primeros 20 caracteres del título de la cita',
+        'To get the first 20 character of the appointment title.' => 'Para obtener los primeros 20 caracteres del título de la cita.',
         'To get the appointment attribute' => 'Para obtener el atributo de la cita',
-        ' e. g.' => 'v. g.',
+        ' e. g.' => ' v. g.',
         'To get the calendar attribute' => 'Para obtener el atributo del calendario',
-        'Attributes of the recipient user for the notification' => 'Atributos del usuario destinatario para la notificación.',
+        'Attributes of the recipient user for the notification' => 'Atributos del usuario destinatario para la notificación',
         'Config options' => 'Opciones de configuración',
         'Example notification' => 'Notificación de ejemplo',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico.',
-        'This field must have less then 200 characters.' => 'Este campo debe tener menos de 200 caracteres',
+        'Additional recipient email addresses' => 'Direcciones adicionales del destinatario de correo electrónico',
+        'This field must have less then 200 characters.' => 'Este campo debe tener menos de 200 caracteres.',
         'Article visible for customer' => 'Artículo visible por cliente',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
             'Un artículo será creado si la notificación es enviada al cliente o a una dirección de correo adicional.',
@@ -285,7 +285,7 @@ sub Data {
         'Reference' => 'Referencia',
         'To get the first 20 character of the subject.' => 'Para obtener los primeros 20 caracteres del asunto.',
         'To get the first 5 lines of the email.' => 'Para obtener las primeras 5 líneas del correo.',
-        'To get the name of the ticket\'s customer user (if given).' => 'Para obtener el nombre del usuario de cliente de ticket (si lo habían entregado)',
+        'To get the name of the ticket\'s customer user (if given).' => 'Para obtener el nombre del usuario de cliente de ticket (si lo habían entregado).',
         'To get the article attribute' => 'Para obtener el atributo del artículo',
         'Options of the current customer user data' => 'Opciones de los datos del ciente usuario actual',
         'Ticket owner options' => 'Opciones del propietario del ticket',
@@ -312,7 +312,7 @@ sub Data {
         'Update' => 'Actualizar',
         'System Registration' => 'Registro del sistema',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            'Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO o actualice la información de registro de su sistema (asegúrese de activar la opción \'enviar datos de soporte\').',
+            'Para habilitar el envío de datos, registre su sistema con el equipo de OTOBO o actualice la información de registro de su sistema (asegúrese de activar la opción \'enviar datos de soporte\')',
         'Register this System' => 'Registre este Sistema',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'El Registro no está disponible para su sistema. Por favor revise su configuración.',
@@ -4585,6 +4585,12 @@ sub Data {
         'Error: the file could not be deleted properly. Please contact your administrator (missing FileID).' =>
             '',
 
+        # Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
+        'Registration for tile %s of CustomerDashboard is invalid! Either Module or Template needed.' =>
+            '',
+        'Registration for tile %s of CustomerDashboard is invalid! Order needs to be a unique number.' =>
+            '',
+
         # Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
         'ArticleID is needed!' => '',
         'No TicketID for ArticleID (%s)!' => 'Ningún TicketID para el ID de Artículo (%s)!',
@@ -5100,13 +5106,18 @@ sub Data {
         'No OTRS system found!' => '',
         'OTRS Version is correct: %s.' => '',
 
+        # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
+        'Migrate ITSM database tables.' => '',
+        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'UPDATE of the table \'%s\' failed.' => '',
+        'Migration completed.' => '',
+
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => '',
         'An error occured during SysConfig data migration or no configuration exists.' =>
             '',
         'An error occured during SysConfig migration when writing XML to DB.' =>
             '',
-        'An error occured during SysConfig data migration.' => '',
         'SysConfig data migration completed.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
@@ -5370,12 +5381,6 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partición del Disco OTOBO',
-
-        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpace.pm
-        'Disk Usage' => 'Uso del Disco',
-        'The partition where OTOBO is located is almost full.' => 'La partición donde se localiza OTOBO está casi lleno.',
-        'The partition where OTOBO is located has no disk space problems.' =>
-            'La partición donde se localiza OTOBO no tiene problemas de espacio de disco.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
         'Disk Partitions Usage' => 'Uso de la Partición del Disco',
@@ -6679,7 +6684,6 @@ El control del acceso adicional para demostrar o no demostrar éste enlace puede
             '',
         'Croatian' => 'Croata',
         'Custom RSS Feed' => 'RSS Feed Personalizado',
-        'Custom RSS feed.' => 'RSS feed personalizada.',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
             'Texto personalizado para la página que se muestra a los clientes que no tienen tickets todavía ( si necesita esos textos traducidos añadadalos a un módulo de traducción personalizado).',
         'Customer Administration' => 'Administración de Clientes',

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -134,8 +134,8 @@ sub Run {
         );
     }
 
-    # 2) check user, just lock it if user is valid and ticket was closed
-    elsif ( $UserInfo{ValidID} eq 1 ) {
+    # 2) check user, just lock it if user is valid, not root@localhost and ticket was closed
+    elsif ( $UserInfo{ValidID} eq 1 && $UserInfo{UserID} ne 1 ) {
 
         # set lock (if ticket should be locked on follow up)
         if ( $Lock && $Ticket{StateType} =~ /^close/i ) {
