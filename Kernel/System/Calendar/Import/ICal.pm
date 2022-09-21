@@ -16,13 +16,17 @@
 
 package Kernel::System::Calendar::Import::ICal;
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Data::ICal;
 use Data::ICal::Entry::Event;
-use Date::ICal;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
