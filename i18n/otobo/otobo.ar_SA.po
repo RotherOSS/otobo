@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-21 08:18+0000\n"
+"PO-Revision-Date: 2022-09-23 07:12+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3829,39 +3829,39 @@ msgstr "تعيين مفتاح جديد"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Value mapping"
-msgstr ""
+msgstr "تعيين القيمة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Map value"
-msgstr ""
+msgstr "أهَمِّيَّةٌ"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "to new value"
-msgstr ""
+msgstr "إلى قيمة جديدة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove value mapping"
-msgstr ""
+msgstr "إزالة تعيين القيمة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "New value map"
-msgstr ""
+msgstr "تعيين قيمة جديدة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Add value mapping"
-msgstr ""
+msgstr "إضافة تعيين القيمة"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Do you really want to delete this key mapping?"
-msgstr ""
+msgstr "هل تريد حقًا حذف تعيين المفتاح هذا؟"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "General Shortcuts"
-msgstr ""
+msgstr "اختصارات لوحة المفاتيح العامة"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "MacOS Shortcuts"
-msgstr ""
+msgstr "اختصارات لوحة مفاتيح MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
