@@ -18,33 +18,44 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+
+my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Config::Dump');
+my $JSONObject    = $Kernel::OM->Get('Kernel::System::JSON');
 
-my ( $Result, $ExitCode );
+my @Keys = qw(
+    Home
+    CurrentDeploymentID
+    ACLKeysLevel1Change
+    PerformanceLog::File
+    Loader::Agent::CommonCSS
+);
 
-{
-    local *STDOUT;
-    open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    $ExitCode = $CommandObject->Execute('Home');
+for my $Key (@Keys) {
+    subtest "config dump for key '$Key'" => sub {
+
+        # run the console command and capture the output
+        my ( $JSONString, $ExitCode );
+        {
+            local *STDOUT;
+            open STDOUT, '>:utf8', \$JSONString;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
+            $ExitCode = $CommandObject->Execute($Key);
+        }
+
+        is( $ExitCode, 0, "command ran successfully" );
+        is(
+            $JSONObject->Decode( Data => $JSONString ),
+            $ConfigObject->Get($Key),
+            'roundtrip',
+        );
+    };
 }
 
-$Self->Is(
-    $ExitCode,
-    0,
-    "Exit code",
-);
-
-chomp $Result;
-
-$Self->Is(
-    $Result,
-    $Kernel::OM->Get('Kernel::Config')->Get('Home'),
-    "Result",
-);
-
-$Self->DoneTesting();
+done_testing;
