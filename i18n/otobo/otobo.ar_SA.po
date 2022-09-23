@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-23 13:54+0000\n"
+"PO-Revision-Date: 2022-09-24 04:04+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3984,46 +3984,53 @@ msgid ""
 "Use cases are e.g. removing key prefixes that are undesired or correcting "
 "keys that are invalid as XML element names."
 msgstr ""
+"حالات الاستخدام هي على سبيل المثال إزالة بادئات المفاتيح غير المرغوب فيها أو "
+"تصحيح المفاتيح التي لا تمثل أسماء عناصر XML صالحة."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Example 1: Search = '^jira:' / Replace = '' turns 'jira:element' into "
 "'element'."
 msgstr ""
+"مثال 1: البحث = '^ jira:' / استبدال = '' يحول 'jira: element' إلى 'element'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Example 2: Search = '^' / Replace = '_' turns '16x16' into '_16x16'."
-msgstr ""
+msgstr "مثال 2: البحث = '^' / استبدال = '_' يحول '16x16' إلى '_16x16'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Example 3: Search = '^(?<number>\\\\d+) (?<text>.+?)\\\\$' / Replace = '_\\\\"
 "$+{text}_\\\\$+{number}' turns '16 elementname' into '_elementname_16'."
 msgstr ""
+"المثال 3: البحث = '^ (+number> \\\\ d>) (؟+.<text>؟) \\\\ $' / استبدال = '_ "
+"\\\\ $ + {text} _ \\\\ $ + {number}' يحول '16 elementname'إلى' "
+"elementname_16_'."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "For information about regular expressions in Perl please see here:"
-msgstr ""
+msgstr "يمكن العثور على معلومات حول التعبيرات النمطية في لغة Perl هنا:"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Perl regular expressions tutorial"
-msgstr ""
+msgstr "برنامج تعليمي عن التعبيرات العادية في لغة Perl"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "If modifiers are desired they have to be specified within the regexes "
 "themselves."
 msgstr ""
+"إذا كان استخدام المُعدِّلات مطلوبًا، فيجب تحديدها ضمن التعبيرات النمطية."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied before the XSLT mapping."
-msgstr ""
+msgstr "يتم تطبيق التعبيرات العادية المعرفة هنا قبل تعيين XSLT."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Regular expressions defined here will be applied after the XSLT mapping."
-msgstr ""
+msgstr "يتم تطبيق التعبيرات العادية المعرفة هنا بعد تعيين XSLT."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
