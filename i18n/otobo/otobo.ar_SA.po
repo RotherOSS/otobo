@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-23 07:12+0000\n"
+"PO-Revision-Date: 2022-09-23 13:54+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -3865,111 +3865,119 @@ msgstr "اختصارات لوحة مفاتيح MacOS"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Comment code"
-msgstr ""
+msgstr "كود التعليق"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Uncomment code"
-msgstr ""
+msgstr "لا تعلق على الكود"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Auto format code"
-msgstr ""
+msgstr "تنسيق التعليمات البرمجية تلقائيا"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Expand/Collapse code block"
-msgstr ""
+msgstr "توسيع / تصغير كتلة التعليمات البرمجية"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find"
-msgstr ""
+msgstr "بَحَثَ"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find next"
-msgstr ""
+msgstr "البحث عن التالي"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find previous"
-msgstr ""
+msgstr "البحث عن السابق"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace"
-msgstr ""
+msgstr "البحث والاستبدال"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Find and replace all"
-msgstr ""
+msgstr "ابحث عن واستبدل الكل"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT Mapping"
-msgstr ""
+msgstr "تعيين XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "XSLT stylesheet"
-msgstr ""
+msgstr "ورقة الأنماط XSLT"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "The entered data is not a valid XSLT style sheet."
-msgstr ""
+msgstr "البيانات التي تدخلها ليست ورقة أنماط XSLT صالحة."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Here you can add or modify your XSLT mapping code."
-msgstr ""
+msgstr "هنا يمكنك إضافة أو تعديل كود تعيين XSLT."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "The editing field allows you to use different functions like automatic "
 "formatting, window resize as well as tag- and bracket-completion."
 msgstr ""
+"يسمح حقل التحرير باستخدام وظائف مختلفة مثل التنسيق التلقائي وتغيير حجم "
+"النافذة وإكمال العلامة والأقواس."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data includes"
-msgstr ""
+msgstr "تتضمن البيانات"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "Select one or more sets of data that were created at earlier request/"
 "response stages to be included in mappable data."
 msgstr ""
+"حدد مجموعة واحدة أو أكثر من البيانات التي تم إنشاؤها في مراحل الطلب/"
+"الاستجابة السابقة ليتم تضمينها في البيانات القابلة للتعيين."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "These sets will appear in the data structure at '/DataInclude/"
 "<DataSetName>' (see debugger output of actual requests for details)."
 msgstr ""
+"ستظهر هذه المجموعات في بنية البيانات في '< DataInclude / <DataSetName/' ("
+"راجع إخراج مصحح الأخطاء للطلبات الفعلية للحصول على التفاصيل)."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (before mapping)"
-msgstr ""
+msgstr "عامل تصفية RegEx لمفاتيح البيانات (قبل التعيين)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Data key regex filters (after mapping)"
-msgstr ""
+msgstr "عامل تصفية RegEx لمفاتيح البيانات (بعد التعيين)"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Regular expressions"
-msgstr ""
+msgstr "التعبيرات العادية"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Replace"
-msgstr ""
+msgstr "اِسْتَبْدَلَ"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Remove regex"
-msgstr ""
+msgstr "إزالة regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "Add regex"
-msgstr ""
+msgstr "إضافة regex"
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid "These filters can be used to transform keys using regular expressions."
-msgstr ""
+msgstr "يمكن استخدام هذه المرشحات لتحويل المفاتيح باستخدام التعبيرات العادية."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
 "The data structure will be traversed recursively and all configured regexes "
 "will be applied to all keys."
 msgstr ""
+"سيتم اجتياز بنية البيانات بشكل متكرر ويتم تطبيق جميع التعبيرات العادية التي "
+"تم تكوينها على جميع المفاتيح."
 
 #. Template: AdminGenericInterfaceMappingXSLT
 msgid ""
