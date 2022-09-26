@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-24 04:04+0000\n"
+"PO-Revision-Date: 2022-09-27 02:40+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4034,75 +4034,81 @@ msgstr "يتم تطبيق التعبيرات العادية المعرفة هن�
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Add Operation"
-msgstr ""
+msgstr "إضافة عملية"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Edit Operation"
-msgstr ""
+msgstr "تحرير العملية"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Do you really want to delete this operation?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذه العملية؟"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation Details"
-msgstr ""
+msgstr "تفاصيل العملية"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The name is typically used to call up this web service operation from a "
 "remote system."
-msgstr ""
+msgstr "يستخدم الاسم عادةً لاستدعاء عملية خدمة الويب من نظام بعيد."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Operation backend"
-msgstr ""
+msgstr "الواجهة الخلفية للعمليات"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "This OTOBO operation backend module will be called internally to process the "
 "request, generating data for the response."
 msgstr ""
+"يتم استدعاء وحدة الواجهة الخلفية لعملية OTOBO داخليًا لمعالجة الطلب وإنشاء "
+"بيانات للاستجابة."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for incoming request data"
-msgstr ""
+msgstr "تعيين بيانات الطلب الوارد"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The request data will be processed by this mapping, to transform it to the "
 "kind of data OTOBO expects."
 msgstr ""
+"تتم معالجة بيانات الطلب الواردة من خلال هذا التعيين لتحويلها إلى الطريقة "
+"التي تحتاجها عملية OTOBO."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Mapping for outgoing response data"
-msgstr ""
+msgstr "تعيين بيانات الاستجابة الصادرة"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid ""
 "The response data will be processed by this mapping, to transform it to the "
 "kind of data the remote system expects."
 msgstr ""
+"تتم معالجة بيانات الاستجابة بواسطة هذا التعيين لإعادة تشكيلها عندما يحتاج "
+"النظام البعيد إلى البيانات."
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include Ticket Data"
-msgstr ""
+msgstr "تضمين بيانات التذكرة"
 
 #. Template: AdminGenericInterfaceOperationDefault
 msgid "Include ticket data in response."
-msgstr ""
+msgstr "تضمين بيانات التذكرة استجابة لذلك."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Network Transport"
-msgstr ""
+msgstr "شبكة النقل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Properties"
-msgstr ""
+msgstr "خَصَائص"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Route mapping for Operation"
-msgstr ""
+msgstr "تعيين الطريق للعملية"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4110,84 +4116,91 @@ msgid ""
 "by a ':' will get mapped to the entered name and passed along with the "
 "others to the mapping. (e.g. /Ticket/:TicketID)."
 msgstr ""
+"يحدد المسار الذي سيتم تعيينه للعملية. المتغيرات المميزة بعلامة \":\" يتم "
+"تعيينها إلى الاسم المُدخل وتمريرها إلى الوظيفة باستخدام المتغيرات الأخرى. ("
+"على سبيل المثال: / Ticket /: TicketID)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request methods for Operation"
-msgstr ""
+msgstr "طرق طلب صالحة للتشغيل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Limit this Operation to specific request methods. If no method is selected "
 "all requests will be accepted."
 msgstr ""
+"قصر هذه العملية على طرق طلب محددة. إذا لم يتم تحديد طريقة الطلب، فسيتم قبول "
+"جميع الطلبات."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Maximum message length"
-msgstr ""
+msgstr "الحد الأقصى لطول الرسالة"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "This field should be an integer number."
-msgstr ""
+msgstr "يجب أن يكون هذا الحقل عددًا صحيحًا."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "Here you can specify the maximum size (in bytes) of REST messages that OTOBO "
 "will process."
-msgstr ""
+msgstr "حدد الحجم الأقصى (بالبايت) لرسائل REST التي يجب أن يقبلها OTOBO."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Send Keep-Alive"
-msgstr ""
+msgstr "أرسل Keep-Alive"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "This configuration defines if incoming connections should get closed or kept "
 "alive."
 msgstr ""
+"يحدد هذا التكوين ما إذا كان يجب إغلاق الاتصالات الواردة أو الإبقاء عليها حية."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers"
-msgstr ""
+msgstr "رؤوس استجابة إضافية"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add response header"
-msgstr ""
+msgstr "أضف عنوان الرد"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Endpoint"
-msgstr ""
+msgstr "نقطة النهاية"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI to indicate specific location for accessing a web service."
-msgstr ""
+msgstr "عنوان URI لتحديد موقع معين للوصول إلى خدمة ويب."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. https://www.otobo.de:10745/api/v1.0 (without trailing backslash)"
 msgstr ""
+"على سبيل المثال https://www.otobo.de:10745/api/v1.0 (بدون الخط المائل العكسي)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout"
-msgstr ""
+msgstr "مُهْلَةٌ"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Timeout value for requests."
-msgstr ""
+msgstr "قيمة المهلة للطلبات."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Authentication"
-msgstr ""
+msgstr "مُصَادَقَةٌ"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "An optional authentication mechanism to access the remote system."
-msgstr ""
+msgstr "طريقة المصادقة الاختيارية للوصول إلى النظام البعيد."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth User"
-msgstr ""
+msgstr "مستخدم BasicAuth"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the remote system."
-msgstr ""
+msgstr "اسم المستخدم الذي سيتم استخدامه للوصول إلى النظام البعيد."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
