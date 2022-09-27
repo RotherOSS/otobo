@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-27 02:40+0000\n"
+"PO-Revision-Date: 2022-09-27 16:41+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4204,99 +4204,103 @@ msgstr "اسم المستخدم الذي سيتم استخدامه للوصول 
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "BasicAuth Password"
-msgstr ""
+msgstr "كلمة مرور BasicAuth"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the privileged user."
-msgstr ""
+msgstr "كلمة مرور المستخدم المصرح له."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use Proxy Options"
-msgstr ""
+msgstr "استخدام خيارات الوكيل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide Proxy options to connect to the remote system."
-msgstr ""
+msgstr "إظهار خيارات الوكيل أو إخفاؤها للاتصال بالنظام البعيد."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Server"
-msgstr ""
+msgstr "مخدم بروكسي"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "URI of a proxy server to be used (if needed)."
-msgstr ""
+msgstr "عنوان URI لخادم وكيل (اختياري)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. http://proxy_hostname:8080"
-msgstr ""
+msgstr "على سبيل المثال http://proxy_hostname:8080"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy User"
-msgstr ""
+msgstr "مستخدم الوكيل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The user name to be used to access the proxy server."
-msgstr ""
+msgstr "اسم المستخدم للوصول إلى الخادم الوكيل."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Proxy Password"
-msgstr ""
+msgstr "كلمة مرور الوكيل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the proxy user."
-msgstr ""
+msgstr "كلمة مرور مستخدم الوكيل."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
-msgstr ""
+msgstr "‮تخطي الوكيل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip proxy servers that might be configured globally?"
-msgstr ""
+msgstr "هل تريد تجاوز الخوادم الوكيلة المحتملة التي تم تكوينها عالميًا؟"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Use SSL Options"
-msgstr ""
+msgstr "استخدم خيارات SSL"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Show or hide SSL options to connect to the remote system."
-msgstr ""
+msgstr "إظهار أو إخفاء خيارات SSL للاتصال بالنظام البعيد."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate"
-msgstr ""
+msgstr "شهادة العميل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate file (must be in PEM, "
 "DER or PKCS#12 format)."
 msgstr ""
+"المسار الكامل واسم ملف شهادة عميل SSL (يجب أن يكون بتنسيق PEM أو DER أو "
+"PKCS#12)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/certificate.pem"
-msgstr ""
+msgstr "على سبيل المثال opt/otobo/var/certificates/SOAP/certificate.pem/"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key"
-msgstr ""
+msgstr "مفتاح شهادة العميل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the SSL client certificate key file (if not "
 "already included in certificate file)."
 msgstr ""
+"المسار الكامل واسم ملف مفتاح شهادة عميل SSL (إذا لم يكن مدرجًا بالفعل في ملف "
+"الشهادة)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/key.pem"
-msgstr ""
+msgstr "على سبيل المثال opt/otobo/var/certificates/SOAP/key.pem/"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Client Certificate Key Password"
-msgstr ""
+msgstr "كلمة المرور لمفتاح شهادة العميل"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password to open the SSL certificate if the key is encrypted."
-msgstr ""
+msgstr "كلمة المرور للوصول إلى شهادة SSL إذا كان المفتاح مشفرا."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
