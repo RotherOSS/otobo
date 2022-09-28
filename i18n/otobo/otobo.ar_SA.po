@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-27 16:41+0000\n"
+"PO-Revision-Date: 2022-09-28 17:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4304,35 +4304,35 @@ msgstr "كلمة المرور للوصول إلى شهادة SSL إذا كان �
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Certificate"
-msgstr ""
+msgstr "شهادة المرجع المصدق (CA)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path and name of the certification authority certificate file that "
 "validates SSL certificate."
-msgstr ""
+msgstr "المسار الكامل واسم ملف شهادة المرجع المصدق الذي يتحقق من صحة شهادة SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA/ca.pem"
-msgstr ""
+msgstr "على سبيل المثال opt/otobo/var/certificates/SOAP/CA/ca.pem/"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Certification Authority (CA) Directory"
-msgstr ""
+msgstr "دليل المرجع المصدق (CA)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "The full path of the certification authority directory where the CA "
 "certificates are stored in the file system."
-msgstr ""
+msgstr "المسار الكامل واسم الملف الخاص بدليل CA حيث يتم تخزين شهادات CA."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "e.g. /opt/otobo/var/certificates/SOAP/CA"
-msgstr ""
+msgstr "على سبيل المثال opt/otobo/var/certificates/SOAP/CA/"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "SSL hostname verification."
-msgstr ""
+msgstr "التحقق من اسم مضيف SSL."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4340,10 +4340,13 @@ msgid ""
 "Skipping verification is a security risk! Mainly for testing purposes in "
 "case of self-signed SSL certificates, or if you know what you are doing."
 msgstr ""
+"قم بإلغاء الطلب إذا كان لا يمكن التحقق من اسم المضيف. تعطيل بحذر! يعد تخطي "
+"التحقق مخاطرة أمنية! بشكل أساسي لأغراض الاختبار في حالة شهادات SSL الموقعة "
+"ذاتيًا، أو إذا كنت تعرف ما تفعله."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Controller mapping for Invoker"
-msgstr ""
+msgstr "تعيين وحدة التحكم للمستحضرين"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
@@ -4351,129 +4354,132 @@ msgid ""
 "a ':' will get replaced by the data value and passed along with the request. "
 "(e.g. /Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password)."
 msgstr ""
+"وحدة التحكم التي يجب على المستحضر إرسال الطلبات إليها. المتغيرات المميزة "
+"بعلامة \":\" سيتم استبدالها بقيمة البيانات وتمريرها مع الطلب. (على سبيل "
+"المثال Ticket/:TicketID?UserLogin=:UserLogin&Password=:Password/)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Valid request command for Invoker"
-msgstr ""
+msgstr "أمر طلب صالح للمستحضرين"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid ""
 "A specific HTTP command to use for the requests with this Invoker (optional)."
-msgstr ""
+msgstr "أمر HTTP محدد لاستخدامه للطلبات مع هذا المستحضر (اختياري)."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Default command"
-msgstr ""
+msgstr "الأمر الافتراضي"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The default HTTP command to use for the requests."
-msgstr ""
+msgstr "أمر HTTP الافتراضي المراد استخدامه للطلبات."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (all invokers)"
-msgstr ""
+msgstr "رؤوس طلبات إضافية (جميع المستدعين)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional request headers (invoker specific)"
-msgstr ""
+msgstr "رؤوس طلبات إضافية (خاص بالمستدعى)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this invoker"
-msgstr ""
+msgstr "إزالة كافة الرؤوس لهذا المستدعي"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for invoker"
-msgstr ""
+msgstr "رأس المستحضر"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (all operations)"
-msgstr ""
+msgstr "رؤوس استجابة إضافية (كل العمليات)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Additional response headers (operation specific)"
-msgstr ""
+msgstr "رؤوس استجابة إضافية (عمليات محددة)"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove all headers for this operation"
-msgstr ""
+msgstr "إزالة كافة الرؤوس لهذه العملية"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Headers for operation"
-msgstr ""
+msgstr "رؤوس للعملية"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Common headers"
-msgstr ""
+msgstr "الرؤوس المشتركة"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Header Name"
-msgstr ""
+msgstr "اسم الرأس"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Remove header"
-msgstr ""
+msgstr "إزالة الرأس"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Add header"
-msgstr ""
+msgstr "إضافة رأس"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. https://local.otobo.de:8000/Webservice/Example"
-msgstr ""
+msgstr "على سبيل المثال https://local.otobo.de:8000/Webservice/Example"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set SOAPAction"
-msgstr ""
+msgstr "إعداد SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"Yes\" in order to send a filled SOAPAction header."
-msgstr ""
+msgstr "اضبط على \"نعم\" لإرسال رأس SOAPAction مملوء."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to send an empty SOAPAction header."
-msgstr ""
+msgstr "اضبط على \"لا\" لإرسال رأس SOAPAction فارغ."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Set to \"Yes\" in order to check the received SOAPAction header (if not "
 "empty)."
-msgstr ""
+msgstr "اضبط على \"نعم\" للتحقق من رأس SOAPAction المستلم (إذا لم يكن فارغًا)."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Set to \"No\" in order to ignore the received SOAPAction header."
-msgstr ""
+msgstr "اضبط على \"لا\" لتجاهل رأس SOAPAction المستلم."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction scheme"
-msgstr ""
+msgstr "مخطط SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAPAction should be constructed."
-msgstr ""
+msgstr "حدد كيفية بناء SOAPAction."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services require a specific construction."
-msgstr ""
+msgstr "تتطلب بعض خدمات الويب تصميما محددا."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Some web services send a specific construction."
-msgstr ""
+msgstr "ترسل بعض خدمات الويب بنية محددة."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction separator"
-msgstr ""
+msgstr "فاصل SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Character to use as separator between name space and SOAP operation."
-msgstr ""
+msgstr "الحرف المراد استخدامه كفاصل بين مساحة الاسم وعملية SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Usually .Net web services use \"/\" as separator."
-msgstr ""
+msgstr "عادةً ما تستخدم خدمات الويب Net. \"/\" كفاصل."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "SOAPAction free text"
-msgstr ""
+msgstr "نص مجاني من SOAPAction"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as SOAPAction."
