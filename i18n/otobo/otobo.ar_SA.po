@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-29 13:55+0000\n"
+"PO-Revision-Date: 2022-09-30 10:01+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4498,47 +4498,50 @@ msgid ""
 "e.g. urn:otobo-com:soap:functions or http://www.otobo.de/GenericInterface/"
 "actions"
 msgstr ""
+"على سبيل المثال urn:otobo-com:soap:functions أو http://www.otobo.de/"
+"GenericInterface/actions"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name scheme"
-msgstr ""
+msgstr "طلب مخطط التسمية"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP request function wrapper should be constructed."
-msgstr ""
+msgstr "اختر كيفية إنشاء استدعاء وظيفة SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FunctionName' is used as example for actual invoker/operation name."
-msgstr ""
+msgstr "يستخدم \"FunctionName\" كمثال على الاسم الفعلي للمستحضر / العملية."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "'FreeText' is used as example for actual configured value."
-msgstr ""
+msgstr "يتم استخدام 'FreeText' كمثال على القيمة الفعلية المكونة."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Request name free text"
-msgstr ""
+msgstr "نص مجاني لأسماء الطلبات"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Text to be used to as function wrapper name suffix or replacement."
-msgstr ""
+msgstr "نص لاستخدامه كمرفق أو كبديل لاسم الوظيفة."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Please consider XML element naming restrictions (e.g. don't use '<' and '&')."
 msgstr ""
+"يرجى مراعاة قيود تسمية عناصر XML (على سبيل المثال، لا تستخدم \"<\" و \"&\")."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name scheme"
-msgstr ""
+msgstr "مخطط تسمية الاستجابة"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Select how SOAP response function wrapper should be constructed."
-msgstr ""
+msgstr "حدد كيفية إنشاء غلاف وظيفة استجابة SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Response name free text"
-msgstr ""
+msgstr "نص مجاني لاسم الإجابة"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
