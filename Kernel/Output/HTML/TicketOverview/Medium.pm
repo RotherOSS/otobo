@@ -36,6 +36,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::JSON',
     'Kernel::System::User',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
