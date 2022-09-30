@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-30 12:32+0000\n"
+"PO-Revision-Date: 2022-09-30 15:32+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4564,98 +4564,102 @@ msgstr "على سبيل المثال utf-8، latin1، iso-8859-1، cp1250، إل
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
-msgstr ""
+msgstr "خيارات الفرز"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Add new first level element"
-msgstr ""
+msgstr "أضف عنصرًا جديدًا في المستوى الأعلى"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Element"
-msgstr ""
+msgstr "عُنْصُر"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid ""
 "Outbound sort order for xml fields (structure starting below function name "
 "wrapper) - see documentation for SOAP transport."
 msgstr ""
+"الفرز لحقول XML الصادرة (البنية أسفل استدعاء الدالة) - راجع الوثائق الخاصة "
+"بنقل SOAP."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add Web Service"
-msgstr ""
+msgstr "إضافة خدمة ويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Edit Web Service"
-msgstr ""
+msgstr "تحرير خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone Web Service"
-msgstr ""
+msgstr "استنساخ خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr ""
+msgstr "يجب أن يكون الاسم فريدا."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
-msgstr ""
+msgstr "اِسْتِنْساخٌ"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Export Web Service"
-msgstr ""
+msgstr "تصدير خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import web service"
-msgstr ""
+msgstr "استيراد خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration File"
-msgstr ""
+msgstr "ملف التكوين"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The file must be a valid web service configuration YAML file."
-msgstr ""
+msgstr "يجب أن يكون الملف ملف تكوين خدمة ويب صالحًا بتنسيق YAML."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can specify a name for the webservice. If this field is empty, the "
 "name of the configuration file is used as name."
 msgstr ""
+"هنا يمكنك تحديد اسم لخدمة الويب. إذا كان هذا الحقل فارغًا، فسيتم استخدام اسم "
+"ملف التكوين كاسم."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import"
-msgstr "استيراد"
+msgstr "اِسْتِيراد"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Configuration History"
-msgstr ""
+msgstr "تاريخ التكوين"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete web service"
-msgstr ""
+msgstr "حذف خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Do you really want to delete this web service?"
-msgstr ""
+msgstr "هل تريد حقًا حذف خدمة الويب هذه؟"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Ready2Adopt Web Services"
-msgstr ""
+msgstr "خدمات الويب Ready2Adopt"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Here you can activate Ready2Adopt web services showcasing our best practices."
-msgstr ""
+msgstr "هنا يمكنك تفعيل خدمات الويب Ready2Adoption التي تعرض أفضل ممارساتنا."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Import Ready2Adopt web service"
-msgstr ""
+msgstr "استيراد خدمة ويب Ready2Adopt"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "After you save the configuration you will be redirected again to the edit "
 "screen."
-msgstr ""
+msgstr "بعد حفظ التكوين، ستتم إعادة توجيهك مرة أخرى إلى شاشة التحرير."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
