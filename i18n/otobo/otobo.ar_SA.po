@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-30 11:35+0000\n"
+"PO-Revision-Date: 2022-09-30 12:32+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4556,11 +4556,11 @@ msgstr "تَشْفِيْر"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
-msgstr ""
+msgstr "ترميز الأحرف لمحتوى رسالة SOAP."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "e.g. utf-8, latin1, iso-8859-1, cp1250, Etc."
-msgstr ""
+msgstr "على سبيل المثال utf-8، latin1، iso-8859-1، cp1250، إلخ."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Sort options"
