@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-30 10:01+0000\n"
+"PO-Revision-Date: 2022-09-30 11:35+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4548,10 +4548,11 @@ msgid ""
 "Here you can specify the maximum size (in bytes) of SOAP messages that OTOBO "
 "will process."
 msgstr ""
+"هنا يمكنك تحديد الحد الأقصى للحجم (بالبايت) لرسائل SOAP التي يعالجها OTOBO."
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "Encoding"
-msgstr ""
+msgstr "تَشْفِيْر"
 
 #. Template: AdminGenericInterfaceTransportHTTPSOAP
 msgid "The character encoding for the SOAP message contents."
