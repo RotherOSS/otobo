@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -158,39 +162,39 @@ my @Tests = (
 );
 
 for my $Test (@Tests) {
+    subtest $Test->{Name} => sub {
 
-    $SystemAddressObject->SystemAddressUpdate(
-        %SystemAddressData,
-        Realname => $Test->{SystemAddressName},
-        UserID   => 1,
-    );
-    $UserObject->UserUpdate(
-        %TestUser,
-        UserFirstname => $Test->{AgentFirstname},
-        UserLastname  => $Test->{AgentLastname},
-        ChangeUserID  => 1,
-    );
-
-    for my $DefineEmailFrom (qw(SystemAddressName AgentNameSystemAddressName AgentName)) {
-
-        $ConfigObject->Set(
-            Key   => 'Ticket::DefineEmailFrom',
-            Value => $DefineEmailFrom,
+        $SystemAddressObject->SystemAddressUpdate(
+            %SystemAddressData,
+            Realname => $Test->{SystemAddressName},
+            UserID   => 1,
+        );
+        $UserObject->UserUpdate(
+            %TestUser,
+            UserFirstname => $Test->{AgentFirstname},
+            UserLastname  => $Test->{AgentLastname},
+            ChangeUserID  => 1,
         );
 
-        my $Result = $TemplateGeneratorObject->Sender(
-            QueueID => $QueueID,
-            UserID  => $TestUser{UserID}
-        );
+        for my $DefineEmailFrom (qw(SystemAddressName AgentNameSystemAddressName AgentName)) {
 
-        $Self->Is(
-            $Result,
-            $Test->{Result}->{$DefineEmailFrom},
-            "$Test->{Name} - $DefineEmailFrom - Sender()",
-        );
-    }
+            $ConfigObject->Set(
+                Key   => 'Ticket::DefineEmailFrom',
+                Value => $DefineEmailFrom,
+            );
+
+            my $Result = $TemplateGeneratorObject->Sender(
+                QueueID => $QueueID,
+                UserID  => $TestUser{UserID}
+            );
+
+            is(
+                $Result,
+                $Test->{Result}->{$DefineEmailFrom},
+                "$DefineEmailFrom - Sender()",
+            );
+        }
+    };
 }
 
-# Cleanup is done by RestoreDatabase.
-
-$Self->DoneTesting();
+done_testing();
