@@ -19,7 +19,11 @@ package Kernel::Modules::AgentTicketPhoneCommon;
 use strict;
 use warnings;
 
-use Mail::Address;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
