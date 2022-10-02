@@ -122,6 +122,39 @@ my @Tests = (
             AgentName                  => qq|"Jack (the) Ripper" <$SystemAddressEmail>|,
         },
     },
+    {
+        Name              => 'SystemAddressName with special character, requires escaping',
+        AgentFirstname    => 'John',
+        AgentLastname     => 'Doe',
+        SystemAddressName => 'Foo[Bar]',
+        Result            => {
+            SystemAddressName          => qq|"Foo[Bar]" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Foo[Bar]" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name              => 'SystemAddressName with escaped double quotes',
+        AgentFirstname    => 'John',
+        AgentLastname     => 'Doe',
+        SystemAddressName => 'Foo\\"Bar\\"',
+        Result            => {
+            SystemAddressName          => qq|"Foo\\"Bar\\"" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Foo\\"Bar\\"" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
+    {
+        Name              => 'SystemAddressName with emoji',
+        AgentFirstname    => 'John',
+        AgentLastname     => 'Doe',
+        SystemAddressName => 'Chocolate Bar 🍫',
+        Result            => {
+            SystemAddressName          => qq|"Chocolate Bar 🍫" <$SystemAddressEmail>|,
+            AgentNameSystemAddressName => qq|"John Doe via Chocolate Bar 🍫" <$SystemAddressEmail>|,
+            AgentName                  => qq|John Doe <$SystemAddressEmail>|,
+        },
+    },
 );
 
 for my $Test (@Tests) {
