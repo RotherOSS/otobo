@@ -380,7 +380,7 @@ sub LinkAddPre {
 
 =head2 LinkAddPost()
 
-link add pre event module
+link add post event module
 
     $True = $LinkObject->LinkAddPost(
         Key          => 123,
