@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-04 09:00+0000\n"
+"PO-Revision-Date: 2022-10-04 13:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4774,7 +4774,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
-msgstr ""
+msgstr "قائمة محفوظات التكوين"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Version"
@@ -4782,28 +4782,28 @@ msgstr "النسخة"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Create time"
-msgstr ""
+msgstr "وقت الإنشاء"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Select a single configuration version to see its details."
-msgstr ""
+msgstr "حدد إصدار تكوين واحد للاطلاع على تفاصيله."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Export web service configuration"
-msgstr ""
+msgstr "تصدير تكوين خدمة ويب"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Restore web service configuration"
-msgstr ""
+msgstr "استعادة تكوين خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Do you really want to restore this version of the web service configuration?"
-msgstr ""
+msgstr "هل تريد حقًا استعادة هذا الإصدار من تكوين خدمة الويب؟"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Your current web service configuration will be overwritten."
-msgstr ""
+msgstr "سيتم الكتابة فوق تكوين خدمة الويب الحالي الخاص بك."
 
 #. Template: AdminGroup
 msgid "Group Management"
@@ -4811,17 +4811,19 @@ msgstr "إدارة المجموعات"
 
 #. Template: AdminGroup
 msgid "Add Group"
-msgstr ""
+msgstr "إضافة مجموعة"
 
 #. Template: AdminGroup
 msgid "Edit Group"
-msgstr ""
+msgstr "تحرير المجموعة"
 
 #. Template: AdminGroup
 msgid ""
 "The admin group is to get in the admin area and the stats group to get stats "
 "area."
 msgstr ""
+"مجموعة المسؤول هي الدخول إلى منطقة المسؤول ومجموعة الإحصائيات للحصول على "
+"منطقة الإحصائيات."
 
 #. Template: AdminGroup
 msgid ""
