@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-04 13:28+0000\n"
+"PO-Revision-Date: 2022-10-04 14:01+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4830,10 +4830,12 @@ msgid ""
 "Create new groups to handle access permissions for different groups of agent "
 "(e. g. purchasing department, support department, sales department, ...). "
 msgstr ""
+"إنشاء مجموعات جديدة للتعامل مع أذونات الوصول لمجموعات مختلفة من الوكلاء (مثل "
+"قسم المشتريات، قسم الدعم، قسم المبيعات، ...). "
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
-msgstr ""
+msgstr "هذا مفيد لحلول ASP. "
 
 #. Template: AdminLog
 msgid "System Log"
