@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-30 15:32+0000\n"
+"PO-Revision-Date: 2022-10-04 09:00+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4665,39 +4665,41 @@ msgstr "بعد حفظ التكوين، ستتم إعادة توجيهك مرة �
 msgid ""
 "If you want to return to overview please click the \"Go to overview\" button."
 msgstr ""
+"إذا كنت تريد العودة إلى النظرة العامة، يرجى استخدام زر \"الرجوع إلى النظرة "
+"العامة\"."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Remote system"
-msgstr ""
+msgstr "نظام التحكم عن بعد"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Provider transport"
-msgstr ""
+msgstr "مزود النقل"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Requester transport"
-msgstr ""
+msgstr "نقل مقدم الطلب"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Debug threshold"
-msgstr ""
+msgstr "مستوى التصحيح"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "In provider mode, OTOBO offers web services which are used by remote systems."
-msgstr ""
+msgstr "في وضع المزود، تقدم OTOBO خدمات الويب التي تستخدمها الأنظمة البعيدة."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "In requester mode, OTOBO uses web services of remote systems."
-msgstr ""
+msgstr "في وضع \"الطالب\"، يستخدم OTOBO نفسه خدمات الويب من الأنظمة الخارجية."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Network transport"
-msgstr ""
+msgstr "شبكة النقل"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Error Handling Modules"
-msgstr ""
+msgstr "وحدات معالجة الأخطاء"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
@@ -4705,47 +4707,54 @@ msgid ""
 "communication. Those modules are executed in a specific order, which can be "
 "changed by drag and drop."
 msgstr ""
+"تستخدم وحدات معالجة الأخطاء للاستجابة للأخطاء التي تحدث أثناء الاتصال. يتم "
+"تشغيل هذه الوحدات بترتيب ثابت، والذي يمكنك تغييره عن طريق تحريكها باستخدام "
+"الماوس."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Backend"
-msgstr ""
+msgstr "خَلْفِيَّة"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Add error handling module"
-msgstr ""
+msgstr "أضف وحدة معالجة الأخطاء"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Operations are individual system functions which remote systems can request."
-msgstr ""
+msgstr "العمليات هي وظائف نظام فردية يمكن للأنظمة البعيدة الاتصال بها."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "Invokers prepare data for a request to a remote web service, and process its "
 "response data."
 msgstr ""
+"يقوم المستدعون بإعداد البيانات لطلب إلى خدمة ويب بعيدة، ومعالجة بيانات "
+"الاستجابة الخاصة بها."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Controller"
-msgstr ""
+msgstr "وحدات تحكم"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Inbound mapping"
-msgstr ""
+msgstr "تعيين الخرائط الواردة"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Outbound mapping"
-msgstr ""
+msgstr "تعيين الخرائط الصادرة"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Delete this action"
-msgstr ""
+msgstr "حذف هذا الإجراء"
 
 #. Template: AdminGenericInterfaceWebservice
 msgid ""
 "At least one %s has a controller that is either not active or not present, "
 "please check the controller registration or delete the %s"
 msgstr ""
+"لا يزال هناك٪ s واحد على الأقل لديه وحدة تحكم غير نشطة أو غير موجودة، يرجى "
+"التحقق من تسجيل وحدة التحكم أو حذف٪ s"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "History"
@@ -4753,13 +4762,15 @@ msgstr "تاريخ"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Go back to Web Service"
-msgstr ""
+msgstr "العودة إلى خدمة الويب"
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid ""
 "Here you can view older versions of the current web service's configuration, "
 "export or even restore them."
 msgstr ""
+"هنا يمكنك عرض الإصدارات القديمة من تكوين خدمة الويب الحالية أو تصديرها أو "
+"حتى استعادتها."
 
 #. Template: AdminGenericInterfaceWebserviceHistory
 msgid "Configuration History List"
