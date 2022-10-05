@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-04 16:49+0000\n"
+"PO-Revision-Date: 2022-10-05 08:16+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4843,7 +4843,7 @@ msgstr "سجل النظام"
 
 #. Template: AdminLog
 msgid "Here you will find log information about your system."
-msgstr ""
+msgstr "ستجد هنا معلومات السجل حول نظامك."
 
 #. Template: AdminLog
 msgid "Hide this message"
