@@ -20,7 +20,7 @@ USER root
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
- && apt-get -y --no-install-recommends install\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "ack"\
  "cron"\
  "default-mysql-client"\
