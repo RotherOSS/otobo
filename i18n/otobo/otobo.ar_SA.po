@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-05 08:16+0000\n"
+"PO-Revision-Date: 2022-10-08 10:25+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -4847,11 +4847,11 @@ msgstr "ستجد هنا معلومات السجل حول نظامك."
 
 #. Template: AdminLog
 msgid "Hide this message"
-msgstr ""
+msgstr "إخفاء هذا الإشعار"
 
 #. Template: AdminLog
 msgid "Recent Log Entries"
-msgstr ""
+msgstr "الإدخالات الحالية في سجل النظام"
 
 #. Template: AdminLog
 msgid "Facility"
@@ -4863,33 +4863,35 @@ msgstr "رسالة"
 
 #. Template: AdminMailAccount
 msgid "Mail Account Management"
-msgstr ""
+msgstr "إدارة حساب البريد الإلكتروني"
 
 #. Template: AdminMailAccount
 msgid "Add Mail Account"
-msgstr ""
+msgstr "إضافة حساب بريد إلكتروني"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account for host"
-msgstr ""
+msgstr "تحرير حساب البريد الإلكتروني للمضيف"
 
 #. Template: AdminMailAccount
 msgid "and user account"
-msgstr ""
+msgstr "وحساب المستخدم"
 
 #. Template: AdminMailAccount
 msgid "Filter for Mail Accounts"
-msgstr ""
+msgstr "تصفية حسابات البريد الإلكتروني"
 
 #. Template: AdminMailAccount
 msgid "Filter for mail accounts"
-msgstr ""
+msgstr "تصفية حسابات البريد الإلكتروني"
 
 #. Template: AdminMailAccount
 msgid ""
 "All incoming emails with one account will be dispatched in the selected "
 "queue."
 msgstr ""
+"يتم فرز رسائل البريد الإلكتروني الواردة من حسابات POP3 في قائمة الانتظار "
+"المحددة."
 
 #. Template: AdminMailAccount
 msgid ""
@@ -4897,98 +4899,105 @@ msgid ""
 "at arrival time (for priority etc.) will be kept and used, for example in "
 "PostMaster filters."
 msgstr ""
+"إذا تم تمييز حسابك على أنه موثوق به، فسيتم الاحتفاظ برؤوس X-OTOBO الموجودة "
+"بالفعل في وقت الوصول (للأولوية وما إلى ذلك) واستخدامها، على سبيل المثال في "
+"مرشحات PostMaster."
 
 #. Template: AdminMailAccount
 msgid "Outgoing email can be configured via the Sendmail* settings in %s."
-msgstr ""
+msgstr "يمكن تكوين البريد الإلكتروني الصادر عبر إعدادات *Sendmail في ٪s."
 
 #. Template: AdminMailAccount
 msgid "System Configuration"
-msgstr ""
+msgstr "تكوين النظام"
 
 #. Template: AdminMailAccount
 msgid "Host"
-msgstr ""
+msgstr "مُضيف"
 
 #. Template: AdminMailAccount
 msgid "Delete account"
-msgstr ""
+msgstr "حذف الحساب"
 
 #. Template: AdminMailAccount
 msgid "Fetch mail"
-msgstr ""
+msgstr "جلب البريد"
 
 #. Template: AdminMailAccount
 msgid "Do you really want to delete this mail account?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد حذف حساب البريد الإلكتروني هذا؟"
 
 #. Template: AdminMailAccount
 msgid "Example: mail.example.com"
-msgstr ""
+msgstr "مثال: mail.example.com"
 
 #. Template: AdminMailAccount
 msgid "IMAP Folder"
-msgstr ""
+msgstr "مجلد IMAP"
 
 #. Template: AdminMailAccount
 msgid ""
 "Only modify this if you need to fetch mail from a different folder than "
 "INBOX."
 msgstr ""
+"قم بتغيير هذا الإعداد فقط إذا كان سيتم جلب رسائل البريد الإلكتروني من مجلد "
+"آخر غير \"INBOX\"."
 
 #. Template: AdminMailAccount
 msgid "Trusted"
-msgstr ""
+msgstr "موثوق"
 
 #. Template: AdminMailAccount
 msgid "Dispatching"
-msgstr ""
+msgstr "تَوْزِيعٌ"
 
 #. Template: AdminMailAccount
 msgid "Edit Mail Account"
-msgstr ""
+msgstr "تحرير حساب البريد الإلكتروني"
 
 #. Template: AdminNavigationBar
 msgid "Administration Overview"
-msgstr ""
+msgstr "نظرة عامة على الإدارة"
 
 #. Template: AdminNavigationBar
 msgid "Filter for Items"
-msgstr ""
+msgstr "تصفية للعناصر"
 
 #. Template: AdminNavigationBar
 msgid "Favorites"
-msgstr ""
+msgstr "الْمُفَضَّلَة"
 
 #. Template: AdminNavigationBar
 msgid ""
 "You can add favorites by moving your cursor over items on the right side and "
 "clicking the star icon."
 msgstr ""
+"يمكنك إضافة المفضلة عن طريق تحريك المؤشر فوق العناصر الموجودة على الجانب "
+"الأيسر والنقر فوق رمز النجمة."
 
 #. Template: AdminNavigationBar
 msgid "Links"
-msgstr ""
+msgstr "روابط"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual on Github"
-msgstr ""
+msgstr "دليل المسؤول على Github"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
-msgstr ""
+msgstr "لا يوجد تطابق"
 
 #. Template: AdminNavigationBar
 msgid "Sorry, your search didn't match any items."
-msgstr ""
+msgstr "عذرا، لم يتطابق بحثك مع أي عناصر."
 
 #. Template: AdminNavigationBar
 msgid "Set as favorite"
-msgstr ""
+msgstr "تعيين كمفضلة"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Notification Management"
-msgstr ""
+msgstr "إدارة إشعارات التذاكر"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -4996,6 +5005,9 @@ msgid ""
 "your system. The file needs to be in .yml format as exported by the Ticket "
 "Notification module."
 msgstr ""
+"هنا يمكنك تحميل ملف تكوين يمكن استخدامه لاستيراد إشعارات التذاكر إلى النظام. "
+"يجب أن يكون الملف في ملف تنسيق yml.، تماما كما يتم تصديره بواسطة وحدة إشعار "
+"التذكرة."
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5003,10 +5015,12 @@ msgid ""
 "additional ticket filter can be applied below to only send for ticket with "
 "certain criteria."
 msgstr ""
+"هنا يمكنك تحديد الأحداث التي تؤدي إلى تشغيل هذا الإشعار. يمكن تعيين مرشح "
+"تذاكر إضافي أدناه لإرسال الإشعار فقط بشأن التذاكر ذات الخصائص المحددة."
 
 #. Template: AdminNotificationEvent
 msgid "Ticket Filter"
-msgstr ""
+msgstr "فلتر التذاكر"
 
 #. Template: AdminNotificationEvent
 msgid "Lock"
@@ -5014,23 +5028,23 @@ msgstr "إقفال"
 
 #. Template: AdminNotificationEvent
 msgid "SLA"
-msgstr ""
+msgstr "SLA"
 
 #. Template: AdminNotificationEvent
 msgid "Customer User ID"
-msgstr ""
+msgstr "رقم مستخدم العميل"
 
 #. Template: AdminNotificationEvent
 msgid "Article Filter"
-msgstr ""
+msgstr "فلتر المقالة"
 
 #. Template: AdminNotificationEvent
 msgid "Only for ArticleCreate and ArticleSend event"
-msgstr ""
+msgstr "فقط للأحداث ArticleCreate و ArticleSend"
 
 #. Template: AdminNotificationEvent
 msgid "Article sender type"
-msgstr ""
+msgstr "نوع مرسل المقالة"
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5038,254 +5052,264 @@ msgid ""
 "specify an article filter as well. Please select at least one of the article "
 "filter fields."
 msgstr ""
+"إذا تم استخدام ArticleCreate أو ArticleSend كحدث محفز، فأنت بحاجة إلى تحديد "
+"عامل تصفية المقالة أيضًا. الرجاء تحديد حقل واحد على الأقل من حقول تصفية "
+"المقالات."
 
 #. Template: AdminNotificationEvent
 msgid "Communication channel"
-msgstr ""
+msgstr "قناة الاتصال"
 
 #. Template: AdminNotificationEvent
 msgid "Include attachments to notification"
-msgstr ""
+msgstr "إرفاق المرفقات بالإشعار"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Notify user just once per day about a single ticket using a selected "
 "transport."
 msgstr ""
+"قم بإخطار المستخدم مرة واحدة فقط يوميا بتذكرة واحدة باستخدام وسيلة نقل محددة."
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
-msgstr "التنبيه أرسل إلى مشغل أو عميل."
+msgstr "يتم إرسال الإشعارات إلى الوكلاء والعملاء."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest agent article)."
-msgstr ""
+msgstr "أول 20 حرفا من الموضوع (مقالة الوكيل الأخيرة)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest agent article)."
-msgstr ""
+msgstr "الأسطر الخمسة الأولى من الرسالة (مقالة الوكيل الأخيرة)."
 
 #. Template: AdminNotificationEvent
 msgid ""
 "To get the first 20 character of the subject (of the latest customer "
 "article)."
-msgstr ""
+msgstr "أول 20 حرفًا من الموضوع (من آخر مقالة للعميل)."
 
 #. Template: AdminNotificationEvent
 msgid "To get the first 5 lines of the body (of the latest customer article)."
-msgstr ""
+msgstr "الأسطر الخمسة الأولى من الرسالة (مقالة العميل الأخيرة)."
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current customer user data"
-msgstr ""
+msgstr "سمات سجل مستخدم الزبون الحالي"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket owner user data"
-msgstr ""
+msgstr "سمات بيانات مستخدم مالك التذكرة الحالي"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current ticket responsible user data"
-msgstr ""
+msgstr "سمات بيانات المستخدم المسؤولة عن التذكرة الحالية"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the current agent user who requested this action"
-msgstr ""
+msgstr "سمات بيانات المستخدم للوكيل الذي أدى إلى تنفيذ الإجراء"
 
 #. Template: AdminNotificationEvent
 msgid "Attributes of the ticket data"
-msgstr ""
+msgstr "سمات بيانات التذكرة"
 
 #. Template: AdminNotificationEvent
 msgid "Ticket dynamic fields internal key values"
-msgstr ""
+msgstr "المفاتيح الداخلية للحقول الديناميكية للتذكرة"
 
 #. Template: AdminNotificationEvent
 msgid ""
 "Ticket dynamic fields display values, useful for Dropdown and Multiselect "
 "fields"
-msgstr ""
+msgstr "عرض قيم الحقول الديناميكية للتذكرة، والتي يمكن استخدامها لحقول الاختيار"
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid "Use comma or semicolon to separate email addresses."
-msgstr ""
+msgstr "استخدم الفواصل أو الفاصلة المنقوطة للفصل بين عناوين البريد الإلكتروني."
 
 #. Template: AdminNotificationEventTransportEmailSettings
 msgid ""
 "You can use OTOBO-tags like <OTOBO_TICKET_DynamicField_...> to insert values "
 "from the current ticket."
 msgstr ""
+"يمكنك استخدام علامات OTOBO مثل <..._OTOBO_TICKET_DynamicField> لإدراج قيم "
+"التذكرة الحالية."
 
 #. Template: AdminPGP
 msgid "PGP Management"
-msgstr ""
+msgstr "إدارة PGP"
 
 #. Template: AdminPGP
 msgid "Add PGP Key"
-msgstr ""
+msgstr "إضافة مفتاح PGP"
 
 #. Template: AdminPGP
 msgid "PGP support is disabled"
-msgstr ""
+msgstr "تم تعطيل دعم PGP"
 
 #. Template: AdminPGP
 msgid "To be able to use PGP in OTOBO, you have to enable it first."
-msgstr ""
+msgstr "لتتمكن من استخدام PGP في OTOBO، يجب عليك تمكينه أولاً."
 
 #. Template: AdminPGP
 msgid "Enable PGP support"
-msgstr ""
+msgstr "تفعيل دعم PGP"
 
 #. Template: AdminPGP
 msgid "Faulty PGP configuration"
-msgstr ""
+msgstr "تكوين PGP غير صحيح"
 
 #. Template: AdminPGP
 msgid ""
 "PGP support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
 msgstr ""
+"تم تمكين دعم PGP، لكن التكوين غير صحيح. يرجى التحقق من التكوين بالنقر فوق "
+"الزر أدناه."
 
 #. Template: AdminPGP
 msgid "Configure it here!"
-msgstr ""
+msgstr "قم بتكوينه هنا!"
 
 #. Template: AdminPGP
 msgid "Check PGP configuration"
-msgstr ""
+msgstr "تحقق من تكوين PGP"
 
 #. Template: AdminPGP
 msgid "In this way you can directly edit the keyring configured in SysConfig."
 msgstr ""
+"وبهذه الطريقة يمكنك تحرير حلقة المفاتيح التي تم تكوينها مباشرة في SysConfig."
 
 #. Template: AdminPGP
 msgid "Introduction to PGP"
-msgstr ""
+msgstr "مقدمة في PGP"
 
 #. Template: AdminPGP
 msgid "Bit"
-msgstr ""
+msgstr "بِتْ"
 
 #. Template: AdminPGP
 msgid "Fingerprint"
-msgstr ""
+msgstr "بصمة الإصبع"
 
 #. Template: AdminPGP
 msgid "Expires"
-msgstr ""
+msgstr "تنتهي"
 
 #. Template: AdminPGP
 msgid "Delete this key"
-msgstr ""
+msgstr "حذف هذا المفتاح"
 
 #. Template: AdminPGP
 msgid "PGP key"
-msgstr ""
+msgstr "مفتاح PGP"
 
 #. Template: AdminPackageManager
 msgid "Package Manager"
-msgstr ""
+msgstr "إدارة الحزم"
 
 #. Template: AdminPackageManager
 msgid "Uninstall Package"
-msgstr ""
+msgstr "إلغاء تثبيت الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Uninstall package"
-msgstr ""
+msgstr "إلغاء تثبيت الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Do you really want to uninstall this package?"
-msgstr ""
+msgstr "هل تريد حقًا إلغاء تثبيت هذه الحزمة؟"
 
 #. Template: AdminPackageManager
 msgid "Reinstall package"
-msgstr ""
+msgstr "إعادة تثبيت الحزمة"
 
 #. Template: AdminPackageManager
 msgid ""
 "Do you really want to reinstall this package? Any manual changes will be "
 "lost."
 msgstr ""
+"هل أنت متأكد أنك تريد إعادة تثبيت هذه الحزمة؟ ستفقد جميع التغييرات اليدوية."
 
 #. Template: AdminPackageManager
 msgid "Go to updating instructions"
-msgstr ""
+msgstr "انتقل إلى تعليمات التحديث"
 
 #. Template: AdminPackageManager
 msgid "Go to the OTOBO customer portal"
-msgstr ""
+msgstr "انتقل إلى بوابة عملاء OTOBO"
 
 #. Template: AdminPackageManager
 msgid "package information"
-msgstr ""
+msgstr "معلومات الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Package installation requires a patch level update of OTOBO."
-msgstr ""
+msgstr "يتطلب تثبيت الحزمة تحديث مستوى التصحيح من OTOBO."
 
 #. Template: AdminPackageManager
 msgid "Package update requires a patch level update of OTOBO."
-msgstr ""
+msgstr "يتطلب تحديث الحزمة تحديث مستوى التصحيح من OTOBO."
 
 #. Template: AdminPackageManager
 msgid "Please note that your installed OTOBO version is %s."
-msgstr ""
+msgstr "يرجى ملاحظة أن إصدار OTOBO المثبت لديك هو٪ s."
 
 #. Template: AdminPackageManager
 msgid ""
 "To install this package, you need to update OTOBO to version %s or newer."
-msgstr ""
+msgstr "لتثبيت هذه الحزمة، يجب عليك أولاً تحديث OTOBO إلى الإصدار٪ s أو أحدث."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTOBO version %s or older."
-msgstr ""
+msgstr "يمكن تثبيت هذه الحزمة فقط على إصدار OTOBO ٪ s أو الأقدم."
 
 #. Template: AdminPackageManager
 msgid "This package can only be installed on OTOBO version %s or newer."
-msgstr ""
+msgstr "يمكن تثبيت هذه الحزمة فقط على إصدار OTOBO ٪ s أو الأحدث."
 
 #. Template: AdminPackageManager
 msgid "Why should I keep OTOBO up to date?"
-msgstr ""
+msgstr "لماذا يجب أن أبقي OTOBO محدثًا؟"
 
 #. Template: AdminPackageManager
 msgid "You will receive updates about relevant security issues."
-msgstr ""
+msgstr "ستتلقى تحديثات حول قضايا الأمان ذات الصلة."
 
 #. Template: AdminPackageManager
 msgid "You will receive updates for all other relevant OTOBO issues."
-msgstr ""
+msgstr "ستتلقى تحديثات لجميع المشكلات الأخرى ذات الصلة ب OTOBO."
 
 #. Template: AdminPackageManager
 msgid "How can I do a patch level update if I don’t have a contract?"
-msgstr ""
+msgstr "كيف يمكنني إجراء تحديث لمستوى التصحيح إذا لم يكن لدي عقد؟"
 
 #. Template: AdminPackageManager
 msgid ""
 "Please find all relevant information within the updating instructions at %s."
-msgstr ""
+msgstr "يرجى الاطلاع على جميع المعلومات ذات الصلة ضمن تعليمات التحديث على ٪s."
 
 #. Template: AdminPackageManager
 msgid ""
 "In case you would have further questions we would be glad to answer them."
-msgstr ""
+msgstr "إذا كان لديك أي أسئلة أخرى، سنكون سعداء بالإجابة عليها."
 
 #. Template: AdminPackageManager
 msgid "Please visit our customer portal and file a request."
-msgstr ""
+msgstr "يرجى زيارة بوابة العملاء وفتح استفسار."
 
 #. Template: AdminPackageManager
 msgid "Install Package"
-msgstr ""
+msgstr "تثبيت الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Update Package"
-msgstr ""
+msgstr "حزمة التحديث"
 
 #. Template: AdminPackageManager
 msgid "Continue"
-msgstr ""
+msgstr "التَّالِي"
 
 #. Template: AdminPackageManager
 msgid ""
@@ -5293,14 +5317,17 @@ msgid ""
 "currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
+"قم بتخصيص قاعدة البيانات الخاصة بك لقبول الحزم التي تزيد عن ٪s ميغا بايت (لا "
+"تقبل حاليًا سوى حزم يصل حجمها إلى٪ s ميغا بايت). يرجى ضبط إعداد "
+"\"max_allowed_packet\" على تكوين قاعدة البيانات لتجنب الأخطاء."
 
 #. Template: AdminPackageManager
 msgid "Install"
-msgstr "تخزين"
+msgstr "تثبيت"
 
 #. Template: AdminPackageManager
 msgid "Update repository information"
-msgstr ""
+msgstr "تحديث الدليل"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
