@@ -972,18 +972,20 @@ sub _NestedGroupSearch {
 
             # recursively search in Static Groups...
             my $MemberValues = $Entry->get_value( 'uniquemember', asref => 1 );
+            VALUE:
             for my $Value ( $MemberValues->@* ) {
 
                 # call search function again for each member
                 $FindMember->( $LDAP, $Value, $UserDN );
 
                 # stop if we found a match
-                last MATCH if $MemberConfirmed;
+                last VALUE if $MemberConfirmed;
             }
-            MATCH:
 
             # abort on LDAP errors
-            die $Result->error() if $Result->code();
+            if ( !$MemberConfirmed ) {
+                die $Result->error() if $Result->code();
+            }
         };
 
         return $MemberConfirmed;
