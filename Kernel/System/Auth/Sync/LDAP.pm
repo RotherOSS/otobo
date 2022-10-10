@@ -118,6 +118,7 @@ sub Sync {
             Priority => 'error',
             Message  => 'Need User!'
         );
+
         return;
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
@@ -147,6 +148,7 @@ sub Sync {
             Priority => 'error',
             Message  => "Can't connect to $Self->{Host}: $@",
         );
+
         return;
     }
     if ( $Self->{StartTLS} ) {
@@ -161,6 +163,7 @@ sub Sync {
                     Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
                 );
                 $LDAP->disconnect();
+
                 return;
             }
         }
@@ -180,6 +183,7 @@ sub Sync {
             Priority => 'error',
             Message  => 'First bind failed! ' . $Result->error(),
         );
+
         return;
     }
 
@@ -201,6 +205,7 @@ sub Sync {
             Priority => 'error',
             Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error(),
         );
+
         return;
     }
 
@@ -222,6 +227,7 @@ sub Sync {
 
         # take down session
         $LDAP->unbind();
+
         return;
     }
 
@@ -320,6 +326,7 @@ sub Sync {
 
                 # take down session
                 $LDAP->unbind();
+
                 return;
             }
             else {
@@ -433,13 +440,13 @@ sub Sync {
 
                 # check if nested group search is ENABLED
                 if ( $Self->{NestedGroupSearch} ) {
+
+                    # check if user was found with nested group search
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "Performing an extended nested group search",
                     );
                     my $NestedGroupResult = $Self->_NestedGroupSearch( $LDAP, $GroupDN, $UserDN );
-
-                    # check if user was found with nested group search
                     if ($NestedGroupResult) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'info',

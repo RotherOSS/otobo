@@ -509,7 +509,7 @@ sub ObjectsDiscard {
     # During an OTOBO package upgrade the packagesetup code module has just
     # recently been copied to its location in the file system.
     # In a persistent Perl environment an old version of the module might still be loaded,
-    # as watchdogs like Module::Refresh haven't had a chance to reload it.
+    # as watchdogs like Kernel::System::ModuleRefresh haven't had a chance to reload it.
     # So we need to make sure that the new version is being loaded.
     # Kernel::System::Main::Require() checks the relative file path, so we need to remove that from %INC.
     # This is only needed in persistent Perl environment, but does no harm in a CGI environment.

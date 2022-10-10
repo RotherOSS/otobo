@@ -37,7 +37,6 @@ use File::stat;
 
 # OTOBO modules
 use Kernel::System::ModuleRefresh; # based on Module::Refresh
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
 
@@ -2367,7 +2366,7 @@ sub SyncWithS3 {
     my ( $Self, %Param ) = @_;
 
     # nothing to do when S3 backend is not enabled
-    return unless $ENV{OTOBO_SYNC_WITH_S3};
+    return unless $Self->{'Storage::S3::Active'};
 
     # assign default values
     for my $Key (qw(ExtraFileNames)) {
@@ -2375,10 +2374,13 @@ sub SyncWithS3 {
     }
 
     # pass in a unfinished config object for bootstrapping
-    my $StorageS3Object = Kernel::System::Storage::S3->new(
-        ConfigObject => $Self
+    my $StorageS3Object = $Kernel::OM->Create(
+        'Kernel::System::Storage::S3',
+        ObjectParams => {
+            ConfigObject => $Self
+        },
     );
-    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
+    my $FilesPrefix = join '/', 'Kernel', 'Config', 'Files';
 
     # only a single process should sync with S3 at one time
     CHECK_SYNC:

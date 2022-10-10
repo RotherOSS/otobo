@@ -38,8 +38,6 @@ file. For changes do customer data sources you can copy the definitions
 from F<Kernel/Config/Defaults.pm> and paste them into this file.
 The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
 
-=back
-
 =cut
 
 use strict;

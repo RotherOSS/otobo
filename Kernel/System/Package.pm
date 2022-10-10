@@ -466,9 +466,6 @@ sub RepositoryRemove {
         Bind => \@Bind,
     );
 
-    # get cache object
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-
     # cleanup cache
     $Self->_RepositoryCacheClear();
 
@@ -4017,7 +4014,7 @@ Additionally this method creates a backup if needed.
 
 There is also special support for notifying the webserver about new modules
 in the F<Custom/Kernel> folder. These files may override core modules in F<Kernel>,
-but module refreshers like L<Module::Refresh> won't catch this. Therefore
+but module refreshers like L<Kernel::System::ModuleRefresh> won't catch this. Therefore
 _FileInstall() will touch the core module when it exists.
 
 Return undef on failure, 1 on success.
@@ -4163,7 +4160,7 @@ sub _FileInstall {
         return;
     }
 
-    # trigger Module::Refresh when a custom module overrides a core module
+    # trigger Kernel::System::ModuleRefresh when a custom module overrides a core module
     if ( $RealFile =~ m!^\Q$Home\E/Custom/Kernel/.*\.pm! ) {
         my $CoreModuleFn = $RealFile =~ s!^\Q$Home/Custom/!$Home/!r;
 

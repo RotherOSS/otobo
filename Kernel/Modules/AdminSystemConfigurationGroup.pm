@@ -59,7 +59,7 @@ sub Run {
         my %Result = (
             Data => {
                 SettingData => {},
-                HTMLStrg => '',
+                HTMLStrg    => '',
             },
         );
 
@@ -361,7 +361,7 @@ sub Run {
         my %Result = (
             Data => {
                 SettingData => {},
-                HTMLStrg => '',
+                HTMLStrg    => '',
             },
         );
 

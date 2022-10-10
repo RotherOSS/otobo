@@ -19,12 +19,16 @@ package Kernel::System::Calendar;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
 use Digest::MD5;
 use MIME::Base64 ();
 
-use Kernel::System::EventHandler;
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use vars qw(@ISA);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,12 +70,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    @ISA = qw(
-        Kernel::System::EventHandler
-    );
+    my $Self = bless {%Param}, $Type;
 
     # init of event handler
     $Self->EventHandlerInit(

@@ -38,11 +38,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::CalendarTemplateGenerator - signature lib
+Kernel::System::CalendarTemplateGenerator - calendar template generator lib
 
 =head1 DESCRIPTION
 
-All signature functions.
+All calendar template generator functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -52,7 +52,7 @@ create an object. Do not use it directly, instead use:
 
     use Kernel::System::ObjectManager;
     local $Kernel::OM = Kernel::System::ObjectManager->new();
-    my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::TemplateGenerator');
+    my $CalendarTemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator');
 
 =cut
 

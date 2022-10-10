@@ -19,12 +19,15 @@ package Kernel::System::Calendar::Appointment;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
 use Digest::MD5;
 
-use vars qw(@ISA);
+# CPAN modules
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::EventHandler;
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -63,12 +66,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    @ISA = qw(
-        Kernel::System::EventHandler
-    );
+    my $Self = bless {%Param}, $Type;
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -384,7 +382,7 @@ sub AppointmentCreate {
         return if !$DBObject->Prepare(
             SQL => '
                 SELECT id FROM calendar_appointment
-                WHERE unique_id=? AND parent_id IS NULL
+                WHERE unique_id = ? AND parent_id IS NULL
             ',
             Bind  => [ \$Param{UniqueID} ],
             Limit => 1,
@@ -455,7 +453,7 @@ returns an array of hashes with select Appointment data or simple array of Appoi
 
 Result => 'HASH':
 
-    @Appointments = [
+    @Appointments = (
         {
             AppointmentID => 1,
             CalendarID    => 1,
@@ -504,11 +502,11 @@ Result => 'HASH':
             TicketAppointmentRuleID               => '9bb20ea035e7a9930652a9d82d00c725',    # for ticket appointments only!
         },
         ...
-    ];
+    );
 
 Result => 'ARRAY':
 
-    @Appointments = [ 1, 2, ... ]
+    @Appointments = ( 1, 2, ... )
 
 =cut
 
@@ -601,7 +599,7 @@ sub AppointmentList {
             notify_custom, notify_custom_unit_count, notify_custom_unit, notify_custom_unit_point,
             notify_custom_date, ticket_appointment_rule_id
         FROM calendar_appointment
-        WHERE calendar_id=?
+        WHERE calendar_id = ?
     ';
 
     my @Bind;
@@ -1012,11 +1010,11 @@ sub AppointmentGet {
     ';
 
     if ( $Param{AppointmentID} ) {
-        $SQL .= 'id=? ';
+        $SQL .= 'id = ? ';
         push @Bind, \$Param{AppointmentID};
     }
     else {
-        $SQL .= 'unique_id=? AND calendar_id=? AND parent_id IS NULL ';
+        $SQL .= 'unique_id = ? AND calendar_id = ? AND parent_id IS NULL ';
         push @Bind, \$Param{UniqueID}, \$Param{CalendarID};
     }
 
@@ -1343,13 +1341,13 @@ sub AppointmentUpdate {
     my $SQL = '
         UPDATE calendar_appointment
         SET
-            calendar_id=?, title=?, description=?, location=?, start_time=?, end_time=?, all_day=?,
-            team_id=?, resource_id=?, recurring=?, recur_type=?, recur_freq=?, recur_count=?,
-            recur_interval=?, recur_until=?, recur_exclude=?, notify_time=?, notify_template=?,
-            notify_custom=?, notify_custom_unit_count=?, notify_custom_unit=?,
-            notify_custom_unit_point=?, notify_custom_date=?, ticket_appointment_rule_id=?,
-            change_time=current_timestamp, change_by=?
-        WHERE id=?
+            calendar_id = ?, title = ?, description = ?, location = ?, start_time = ?, end_time = ?, all_day = ?,
+            team_id = ?, resource_id = ?, recurring = ?, recur_type = ?, recur_freq = ?, recur_count = ?,
+            recur_interval = ?, recur_until = ?, recur_exclude = ?, notify_time = ?, notify_template = ?,
+            notify_custom = ?, notify_custom_unit_count = ?, notify_custom_unit = ?,
+            notify_custom_unit_point = ?, notify_custom_date = ?, ticket_appointment_rule_id = ?,
+            change_time = current_timestamp, change_by = ?
+        WHERE id = ?
     ';
 
     # update db record
@@ -1490,7 +1488,7 @@ sub AppointmentDelete {
     # delete appointment
     my $SQL = '
         DELETE FROM calendar_appointment
-        WHERE id=?
+        WHERE id = ?
     ';
 
     # delete db record
@@ -1564,7 +1562,7 @@ sub AppointmentDeleteOccurrence {
     return if !$DBObject->Prepare(
         SQL => '
             SELECT id FROM calendar_appointment
-            WHERE unique_id=? AND calendar_id=? AND recur_id=?',
+            WHERE unique_id = ? AND calendar_id = ? AND recur_id = ?',
         Bind  => [ \$Param{UniqueID}, \$Param{CalendarID}, \$Param{RecurrenceID} ],
         Limit => 1,
     );
@@ -1579,7 +1577,7 @@ sub AppointmentDeleteOccurrence {
 
     # delete db record
     return if !$DBObject->Do(
-        SQL   => 'DELETE FROM calendar_appointment WHERE id=?',
+        SQL   => 'DELETE FROM calendar_appointment WHERE id = ?',
         Bind  => [ \$Appointment{AppointmentID} ],
         Limit => 1,
     );
@@ -2349,7 +2347,7 @@ sub _AppointmentRecurringDelete {
     # delete recurring appointments
     my $SQL = '
         DELETE FROM calendar_appointment
-        WHERE parent_id=?
+        WHERE parent_id = ?
     ';
 
     # delete db record
@@ -2382,7 +2380,7 @@ sub _AppointmentRecurringExclude {
 
     # db query
     return if !$DBObject->Prepare(
-        SQL  => 'SELECT recur_exclude FROM calendar_appointment WHERE id=?',
+        SQL  => 'SELECT recur_exclude FROM calendar_appointment WHERE id = ?',
         Bind => [ \$Param{ParentID} ],
     );
 
@@ -2402,7 +2400,7 @@ sub _AppointmentRecurringExclude {
 
     # update db record
     return if !$DBObject->Do(
-        SQL  => 'UPDATE calendar_appointment SET recur_exclude=? WHERE id=?',
+        SQL  => 'UPDATE calendar_appointment SET recur_exclude = ? WHERE id = ?',
         Bind => [ \$RecurrenceExclude, \$Param{ParentID} ],
     );
 
@@ -2430,7 +2428,7 @@ sub _AppointmentGetCalendarID {
     }
 
     # sql query
-    my $SQL  = 'SELECT calendar_id FROM calendar_appointment WHERE id=?';
+    my $SQL  = 'SELECT calendar_id FROM calendar_appointment WHERE id = ?';
     my @Bind = ( \$Param{AppointmentID} );
 
     # get database object
@@ -2466,7 +2464,7 @@ sub _AppointmentGetRecurrenceID {
     }
 
     # sql query
-    my $SQL  = 'SELECT recur_id FROM calendar_appointment WHERE id=?';
+    my $SQL  = 'SELECT recur_id FROM calendar_appointment WHERE id = ?';
     my @Bind = ( \$Param{AppointmentID} );
 
     # get database object

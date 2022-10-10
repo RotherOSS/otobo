@@ -111,12 +111,13 @@ function exec_web() {
     # For debugging reload the complete application for each request by passing -L Shotgun
     #   exec plackup -L Shotgun --port 5000 bin/psgi-bin/otobo.psgi
 
-    # For production use Gazelle, which is implemented in C
-    # The special loader Plack::Loader::SyncWithS3 checks for updates in S3
-    if [[ -z "$OTOBO_SYNC_WITH_S3" || "$OTOBO_SYNC_WITH_S3" -eq "0" ]]; then
-        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
-    else
+    # For production use the web server Gazelle, which is implemented in C.
+    # The special loader Plack::Loader::SyncWithS3 is activated only when S3 is active. That loader module checks for updates in S3.
+    s3_active=$(perl -I . -I Kernel/cpan-lib/ -MKernel::Config -E 'my $Conf = Kernel::Config->new(Level => q{Clear}); print $Conf->Get(q{Storage::S3::Active});')
+    if [[ "$s3_active" -eq "1" ]]; then
         exec plackup --server Gazelle --env deployment --port 5000 -I /opt/otobo -I /opt/otobo/Kernel/cpan-lib --loader SyncWithS3  bin/psgi-bin/otobo.psgi
+    else
+        exec plackup --server Gazelle --env deployment --port 5000 bin/psgi-bin/otobo.psgi
     fi
 }
 

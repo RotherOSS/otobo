@@ -464,9 +464,8 @@ for my $Test (@Tests1) {
             Comments => 'Some comments',
         );
 
-        if ( $ENV{OTOBO_SYNC_WITH_S3} ) {
-            $ConfigObject->SyncWithS3( ExtraFileNames => [ $Test->{Config}->{FileName} ] );
-        }
+        # SyncWithS3() internally checks whether S3 is active
+        $ConfigObject->SyncWithS3( ExtraFileNames => [ $Test->{Config}->{FileName} ] );
 
         # Load the configuration file (but remove it from INC first to get always a fresh copy)
         my %Config;

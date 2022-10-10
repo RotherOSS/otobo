@@ -35,7 +35,11 @@ use Plack::Util;
 
 # OTOBO modules
 
-our $ObjectManagerDisabled = 1;
+our @ObjectDependencies = (
+    'Kernel::Config',
+    'Kernel::System::Encode',
+    'Kernel::System::Log',
+);
 
 =head1 NAME
 

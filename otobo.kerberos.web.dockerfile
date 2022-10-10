@@ -20,7 +20,7 @@ USER root
 # Create /opt/otobo_install already here, in order to reduce the number of build layers.
 # hadolint ignore=DL3008
 RUN apt-get update\
- && apt-get -y --no-install-recommends install\
+ && DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install\
  "ack"\
  "cron"\
  "default-mysql-client"\
@@ -39,6 +39,11 @@ RUN apt-get update\
  "vim"\
  "chromium"\
  "chromium-sandbox"\
+ "krb5-user"\
+ "libpam-krb5"\
+ "libpam-ccreds"\
+ "krb5-multidev"\
+ "libkrb5-dev"\
  && rm -rf /var/lib/apt/lists/*\
  && install -d /opt/otobo_install
 

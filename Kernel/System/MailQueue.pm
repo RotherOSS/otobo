@@ -19,11 +19,11 @@ package Kernel::System::MailQueue;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::EventHandler);
+
 use MIME::Base64;
 
 use Kernel::System::VariableCheck qw(:all);
-
-use parent qw(Kernel::System::EventHandler);
 
 our @ObjectDependencies = (
     'Kernel::Config',
