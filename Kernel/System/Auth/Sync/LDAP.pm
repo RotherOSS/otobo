@@ -908,7 +908,7 @@ sub _NestedGroupSearch {
         eval {
             my $Result = $LDAP->compare(
                 $GroupDN,
-                attr  => "uniquemember",
+                attr  => 'uniquemember',
                 value => $UserDN
             );
 
@@ -930,7 +930,7 @@ sub _NestedGroupSearch {
         # not a member, continue search...
         eval {
             # get list of group members
-            my @GroupAttributes = [ "uniquemember", "objectclass", "memberurl" ];
+            my @GroupAttributes = [ 'uniquemember', 'objectclass', 'memberurl' ];
             my $Result          = $LDAP->search(
                 base       => $GroupDN,
                 filter     => "(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))",
@@ -948,7 +948,7 @@ sub _NestedGroupSearch {
             $ItemsSeen{ $Entry->dn() } = 1;
 
             # search in Dynamic Groups...
-            my $UrlValues = $Entry->get_value( "memberurl", asref => 1 );
+            my $UrlValues = $Entry->get_value( 'memberurl', asref => 1 );
             for my $UrlValue ( @{$UrlValues} ) {
                 my $Uri        = URI->new($UrlValue);
                 my $Filter     = $Uri->filter();
@@ -970,9 +970,9 @@ sub _NestedGroupSearch {
                 };
             }
 
-            # search in Static Groups...
-            my $MemberValues = $Entry->get_value( "uniquemember", asref => 1 );
-            for my $Value ( @{$MemberValues} ) {
+            # recursively search in Static Groups...
+            my $MemberValues = $Entry->get_value( 'uniquemember', asref => 1 );
+            for my $Value ( $MemberValues->@* ) {
 
                 # call search function again for each member
                 $FindMember->( $LDAP, $Value, $UserDN );
