@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-08 10:25+0000\n"
+"PO-Revision-Date: 2022-10-10 14:07+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -5331,101 +5331,103 @@ msgstr "تحديث الدليل"
 
 #. Template: AdminPackageManager
 msgid "Cloud services are currently disabled."
-msgstr ""
+msgstr "الخدمات السحابية معطلة حاليا."
 
 #. Template: AdminPackageManager
 msgid "OTOBO Verify can not continue!"
-msgstr ""
+msgstr "OTOBO Verify لا يمكن أن يستمر!"
 
 #. Template: AdminPackageManager
 msgid "Enable cloud services"
-msgstr ""
+msgstr "تفعيل الخدمات السحابية"
 
 #. Template: AdminPackageManager
 msgid "Update all installed packages"
-msgstr ""
+msgstr "تحديث كافة الحزم المثبتة"
 
 #. Template: AdminPackageManager
 msgid "Online Repository"
-msgstr "النسخة"
+msgstr "الدليل الإلكتروني"
 
 #. Template: AdminPackageManager
 msgid "Vendor"
-msgstr "تطوير"
+msgstr "موفّر"
 
 #. Template: AdminPackageManager
 msgid "Action"
-msgstr "عملية"
+msgstr "إِجْرَاءٌ"
 
 #. Template: AdminPackageManager
 msgid "Module documentation"
-msgstr ""
+msgstr "وثائق الوحدة"
 
 #. Template: AdminPackageManager
 msgid "Local Repository"
-msgstr ""
+msgstr "الدليل المحلي"
 
 #. Template: AdminPackageManager
 msgid "This package is verified by OTOBOverify (tm)"
-msgstr ""
+msgstr "تمت مراجعة هذه الحزمة من قبل OTOBOVerify (tm)"
 
 #. Template: AdminPackageManager
 msgid "Uninstall"
-msgstr "حذف"
+msgstr "إلغاء تثبيت"
 
 #. Template: AdminPackageManager
 msgid "Package not correctly deployed! Please reinstall the package."
-msgstr ""
+msgstr "الحزمة غير مثبتة بشكل صحيح. الرجاء التثبيت مرة أخرى."
 
 #. Template: AdminPackageManager
 msgid "Reinstall"
-msgstr "إعادة التخزين"
+msgstr "إعادة التثبيت"
 
 #. Template: AdminPackageManager
 msgid "Features for %s customers only"
-msgstr ""
+msgstr "حصري: ميزات لعملاء ٪s"
 
 #. Template: AdminPackageManager
 msgid ""
 "With %s, you can benefit from the following optional features. Please make "
 "contact with %s if you need more information."
 msgstr ""
+"باستخدام ٪s، يمكنك الاستفادة من الميزات الاختيارية التالية. يرجى الاتصال ب ٪"
+"s لمزيد من المعلومات."
 
 #. Template: AdminPackageManager
 msgid "Package Information"
-msgstr ""
+msgstr "معلومات الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Download package"
-msgstr ""
+msgstr "تحميل الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Rebuild package"
-msgstr ""
+msgstr "إعادة بناء الحزمة"
 
 #. Template: AdminPackageManager
 msgid "Metadata"
-msgstr ""
+msgstr "بيانات تعريف"
 
 #. Template: AdminPackageManager
 msgid "Change Log"
-msgstr ""
+msgstr "سجل التغيير"
 
 #. Template: AdminPackageManager
 msgid "Date"
-msgstr "بيانات"
+msgstr "تَارِيخٌ"
 
 #. Template: AdminPackageManager
 msgid "List of Files"
-msgstr ""
+msgstr "قائمة الملفات"
 
 #. Template: AdminPackageManager
 msgid "Permission"
-msgstr ""
+msgstr "أذونات"
 
 #. Template: AdminPackageManager
 msgid "Download file from package!"
-msgstr ""
+msgstr "تحميل الملف من الحزمة!"
 
 #. Template: AdminPackageManager
 msgid "Required"
@@ -5433,31 +5435,31 @@ msgstr "مطلوب"
 
 #. Template: AdminPackageManager
 msgid "Primary Key"
-msgstr ""
+msgstr "المفتاح الأساسي"
 
 #. Template: AdminPackageManager
 msgid "Auto Increment"
-msgstr ""
+msgstr "زيادة تلقائية"
 
 #. Template: AdminPackageManager
 msgid "SQL"
-msgstr ""
+msgstr "SQL"
 
 #. Template: AdminPackageManager
 msgid "File Differences for File %s"
-msgstr ""
+msgstr "الاختلافات في الملف ٪s"
 
 #. Template: AdminPackageManager
 msgid "File differences for file %s"
-msgstr ""
+msgstr "الاختلافات في الملف ٪s"
 
 #. Template: AdminPerformanceLog
 msgid "Performance Log"
-msgstr ""
+msgstr "سجل الأداء"
 
 #. Template: AdminPerformanceLog
 msgid "Range"
-msgstr ""
+msgstr "نِطاق"
 
 #. Template: AdminPerformanceLog
 msgid "last"
@@ -5465,51 +5467,51 @@ msgstr "الأخير"
 
 #. Template: AdminPerformanceLog
 msgid "This feature is enabled!"
-msgstr ""
+msgstr "تم تمكين هذه الميزة!"
 
 #. Template: AdminPerformanceLog
 msgid "Just use this feature if you want to log each request."
-msgstr ""
+msgstr "ما عليك سوى استخدام هذه الميزة إذا كنت ترغب في تسجيل كل طلب."
 
 #. Template: AdminPerformanceLog
 msgid "Activating this feature might affect your system performance!"
-msgstr ""
+msgstr "يرجى ملاحظة أن تنشيط هذه الوظيفة يمكن أن يؤدي إلى انخفاض الأداء!"
 
 #. Template: AdminPerformanceLog
 msgid "Disable it here!"
-msgstr ""
+msgstr "قم بإلغاء التنشيط هنا!"
 
 #. Template: AdminPerformanceLog
 msgid "Logfile too large!"
-msgstr ""
+msgstr "ملف السجل كبير جدًا!"
 
 #. Template: AdminPerformanceLog
 msgid "The logfile is too large, you need to reset it"
-msgstr ""
+msgstr "ملف السجل كبير جدًا، ويجب إعادة تعيينه"
 
 #. Template: AdminPerformanceLog
 msgid "Interface"
-msgstr ""
+msgstr "وَاجِهَةٌ"
 
 #. Template: AdminPerformanceLog
 msgid "Requests"
-msgstr ""
+msgstr "طَلَبَات"
 
 #. Template: AdminPerformanceLog
 msgid "Min Response"
-msgstr ""
+msgstr "الحد الأدنى من وقت الاستجابة"
 
 #. Template: AdminPerformanceLog
 msgid "Max Response"
-msgstr ""
+msgstr "أقصى وقت استجابة"
 
 #. Template: AdminPerformanceLog
 msgid "Average Response"
-msgstr ""
+msgstr "متوسط وقت الاستجابة"
 
 #. Template: AdminPerformanceLog
 msgid "Period"
-msgstr ""
+msgstr "فَتْرة"
 
 #. Template: AdminPerformanceLog
 msgid "minutes"
@@ -5517,199 +5519,216 @@ msgstr "دقائق"
 
 #. Template: AdminPerformanceLog
 msgid "Min"
-msgstr ""
+msgstr "الحد الأدنى"
 
 #. Template: AdminPerformanceLog
 msgid "Max"
-msgstr ""
+msgstr "حدَ أقصى"
 
 #. Template: AdminPerformanceLog
 msgid "Average"
-msgstr ""
+msgstr "مُتَوَسِّطٌ"
 
 #. Template: AdminPostMasterFilter
 msgid "PostMaster Filter Management"
-msgstr ""
+msgstr "إدارة عامل التصفية Postmaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Add PostMaster Filter"
-msgstr ""
+msgstr "أضف عامل تصفية PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Edit PostMaster Filter"
-msgstr ""
+msgstr "تحرير عامل تصفية PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster Filters"
-msgstr ""
+msgstr "تصفية لفلاتر PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter for PostMaster filters"
-msgstr ""
+msgstr "تصفية لفلاتر PostMaster"
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "To dispatch or filter incoming emails based on email headers. Matching using "
 "Regular Expressions is also possible."
 msgstr ""
+"توزيع رسائل البريد الإلكتروني الواردة أو تصفيتها باستخدام رؤوس البريد "
+"الإلكتروني. يمكن أيضًا استخدام التعبيرات العادية في البحث."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you want to match only the email address, use EMAILADDRESS:info@example."
 "com in From, To or Cc."
 msgstr ""
+"إذا كنت تبحث فقط عن عنوان بريد إلكتروني، فاستخدم EMAILADDRESS: info@"
+"example.com في من أو إلى أو نسخة."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "If you use Regular Expressions, you also can use the matched value in () as "
 "[***] in the 'Set' action."
 msgstr ""
+"إذا كنت تستخدم التعبيرات العادية، يمكنك أيضًا استخدام القيمة المطابقة في () "
+"مثل [***] في إجراء \"التعيين\"."
 
 #. Template: AdminPostMasterFilter
 msgid ""
 "You can also use named captures %s and use the names in the 'Set' action %s "
 "(e.g. Regexp: %s, Set action: %s). A matched EMAILADDRESS has the name '%s'."
 msgstr ""
+"يمكنك أيضًا استخدام المجموعات المسماة٪ s والأسماء في إجراء \"المجموعة\"٪ s ("
+"على سبيل المثال، Regexp: %s, Set action: %s). تم العثور على EMAILADDRESS له "
+"الاسم \"٪ s\"."
 
 #. Template: AdminPostMasterFilter
 msgid "Delete this filter"
-msgstr ""
+msgstr "حذف هذا الفلتر"
 
 #. Template: AdminPostMasterFilter
 msgid "Do you really want to delete this postmaster filter?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف فلتر مدير البريد هذا؟"
 
 #. Template: AdminPostMasterFilter
 msgid "A postmaster filter with this name already exists!"
-msgstr ""
+msgstr "يوجد بالفعل مرشح مدير مكتب البريد بهذا الاسم!"
 
 #. Template: AdminPostMasterFilter
 msgid "Filter Condition"
-msgstr ""
+msgstr "حالة الفلتر"
 
 #. Template: AdminPostMasterFilter
 msgid "AND Condition"
-msgstr ""
+msgstr "\"و\" الشرط"
 
 #. Template: AdminPostMasterFilter
 msgid "Search header field"
-msgstr ""
+msgstr "استعراض حقل الرأس"
 
 #. Template: AdminPostMasterFilter
 msgid "for value"
-msgstr ""
+msgstr "حسب القيمة"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a valid regular expression or a literal word."
-msgstr ""
+msgstr "يجب أن يحتوي هذا الحقل على تعبير عادي أو كلمة صالحة."
 
 #. Template: AdminPostMasterFilter
 msgid "Negate"
-msgstr ""
+msgstr "أَبْطَلَ"
 
 #. Template: AdminPostMasterFilter
 msgid "Set Email Headers"
-msgstr ""
+msgstr "تعيين رؤوس البريد الإلكتروني"
 
 #. Template: AdminPostMasterFilter
 msgid "Set email header"
-msgstr ""
+msgstr "تعيين رؤوس البريد الإلكتروني"
 
 #. Template: AdminPostMasterFilter
 msgid "with value"
-msgstr ""
+msgstr "مع قيمة"
 
 #. Template: AdminPostMasterFilter
 msgid "The field needs to be a literal word."
-msgstr ""
+msgstr "يجب أن يكون الحقل كلمة حرفية."
 
 #. Template: AdminPostMasterFilter
 msgid "Header"
-msgstr "النوع"
+msgstr "عُنْوَان"
 
 #. Template: AdminPriority
 msgid "Priority Management"
-msgstr ""
+msgstr "إدارة الأولويات"
 
 #. Template: AdminPriority
 msgid "Add Priority"
-msgstr ""
+msgstr "إضافة أولوية"
 
 #. Template: AdminPriority
 msgid "Edit Priority"
-msgstr ""
+msgstr "تحرير الأولوية"
 
 #. Template: AdminPriority
 msgid "Filter for Priorities"
-msgstr ""
+msgstr "تصفية للأولويات"
 
 #. Template: AdminPriority
 msgid "Filter for priorities"
-msgstr ""
+msgstr "تصفية للأولويات"
 
 #. Template: AdminPriority
 msgid ""
 "This priority is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new priority is needed!"
 msgstr ""
+"توجد هذه الأولوية في إعداد SysConfig. التأكيد مطلوب لتحديث الإعداد إلى "
+"الأولوية الجديدة!"
 
 #. Template: AdminPriority
 msgid "This priority is used in the following config settings:"
-msgstr ""
+msgstr "يتم استخدام هذه الأولوية في إعدادات التكوين التالية:"
 
 #. Template: AdminProcessManagement
 msgid "Process Management"
-msgstr ""
+msgstr "ادارة العمليات"
 
 #. Template: AdminProcessManagement
 msgid "Filter for Processes"
-msgstr ""
+msgstr "تصفية العمليات"
 
 #. Template: AdminProcessManagement
 msgid "Filter for processes"
-msgstr ""
+msgstr "تصفية العمليات"
 
 #. Template: AdminProcessManagement
 msgid "Create New Process"
-msgstr ""
+msgstr "إنشاء عملية جديدة"
 
 #. Template: AdminProcessManagement
 msgid "Deploy All Processes"
-msgstr ""
+msgstr "وضع جميع العمليات موضع التنفيذ"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can upload a configuration file to import a process to your system. "
 "The file needs to be in .yml format as exported by process management module."
 msgstr ""
+"هنا يمكنك تحميل ملف تكوين لاستيراد عملية إلى نظامك. يجب أن يكون الملف بتنسيق "
+"YML، تمامًا كما يتم تصديره بواسطة إدارة العملية."
 
 #. Template: AdminProcessManagement
 msgid "Upload process configuration"
-msgstr ""
+msgstr "تحميل تكوين عملية"
 
 #. Template: AdminProcessManagement
 msgid "Import process configuration"
-msgstr ""
+msgstr "تكوين عملية الاستيراد"
 
 #. Template: AdminProcessManagement
 msgid "Ready2Adopt Processes"
-msgstr ""
+msgstr "عمليات Ready2Adopt"
 
 #. Template: AdminProcessManagement
 msgid ""
 "Here you can activate Ready2Adopt processes showcasing our best practices. "
 "Please note that some additional configuration may be required."
 msgstr ""
+"هنا يمكنك تنشيط عمليات Ready2Adoption لإظهار أفضل ممارساتنا. يرجى ملاحظة أنه "
+"قد تكون هناك حاجة إلى إعدادات إضافية."
 
 #. Template: AdminProcessManagement
 msgid "Import Ready2Adopt process"
-msgstr ""
+msgstr "استيراد عمليات Ready2Adopt"
 
 #. Template: AdminProcessManagement
 msgid ""
 "To create a new Process you can either import a Process that was exported "
 "from another system or create a complete new one."
 msgstr ""
+"لإنشاء عملية جديدة، يمكنك إما استيراد عملية من نظام آخر أو إنشاء عملية جديدة "
+"تمامًا."
 
 #. Template: AdminProcessManagement
 msgid ""
@@ -5717,6 +5736,8 @@ msgid ""
 "synchronize the Process data. By synchronizing the Processes, the newly made "
 "changes will be written to the Configuration."
 msgstr ""
+"لا تصبح التغييرات التي تطرأ على العمليات سارية المفعول حتى تقوم بمزامنة "
+"تكوين العملية. يتم تطبيق كافة التغييرات على تكوين النظام."
 
 #. Template: AdminProcessManagement
 msgid "Processes"
