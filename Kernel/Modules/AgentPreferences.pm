@@ -41,6 +41,7 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $UserObject   = $Kernel::OM->Get('Kernel::System::User');
     my $EditUserID   = $ParamObject->GetParam( Param => 'EditUserID' );
+    my $ConfigLevel  = $Kernel::OM->Get('Kernel::Config')->Get('ConfigLevel') || 0;
 
     $Self->{CurrentUserID} = $Self->{UserID};
     if (
@@ -299,6 +300,20 @@ sub Run {
             OverriddenInXML => 1,
             UserID          => 1,
         );
+
+        my %Result = (
+            Data => {},
+        );
+
+        # deny update if config level is not low enough
+        if ( $ConfigLevel && $Setting{HasConfigLevel} && $Setting{HasConfigLevel} < $ConfigLevel ) {
+            $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "System was unable to update setting!",
+            );
+
+            return $Self->_ReturnJSON( Response => \%Result );
+        }
+
         my $DataIsDifferent = DataIsDifferent(
             Data1 => $EffectiveValue,
             Data2 => $Setting{EffectiveValue},
@@ -307,8 +322,6 @@ sub Run {
         if ( !$DataIsDifferent ) {
             return $Self->_SettingReset( SettingName => $SettingName );
         }
-
-        my %Result;
 
         my %UpdateResult = $SysConfigObject->SettingUpdate(
             Name           => $SettingName,

@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y-%M-%D';
     $Self->{DateInputFormat}     = '%Y-%M-%D';
     $Self->{DateInputFormatLong} = '%Y-%M-%D - %T';
-    $Self->{Completeness}        = 0.904142199650849;
+    $Self->{Completeness}        = 0.903855306996668;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4296,13 +4296,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'A rendszer nem tudta frissíteni a beállítást!',
         'You need to enable the setting before locking!' => 'Engedélyeznie kell a beállítást zárolás előtt!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Nem dolgozhat ezzel a beállítással, mert jelenleg %s (%s) dolgozik vele.',
         'Missing setting name!' => 'Hiányzó beállításnév!',
         'Missing ResetOptions!' => 'Hiányzó visszaállítási lehetőségek!',
         'System was not able to lock the setting!' => 'A rendszer nem volt képes zárolni a beállítást!',
-        'System was unable to update setting!' => 'A rendszer nem tudta frissíteni a beállítást!',
         'Missing setting name.' => 'Hiányzó beállításnév.',
         'Setting not found.' => 'A beállítás nem található.',
         'Missing Settings!' => 'Hiányzó beállítások!',
@@ -5538,6 +5538,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 vagy újabb szükséges.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO lemezpartíció',
 
@@ -6649,6 +6653,8 @@ Az Ön segélyszolgálat csapata
             'Automatikus sortörés a szöveges üzenetekben x karakter után.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Egy érvénytelen tulajdonossal rendelkező jegy állapotának automatikus megváltoztatása, amikor az feloldásra kerül. Leképezi egy állapottípusról egy új jegyállapotra.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Automatikus zárolás és a tulajdonos beállítása az aktuális ügyintézőre az ügyintézői felület jegy áthelyezés képernyőjének megnyitása után.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6734,7 +6740,6 @@ Az Ön segélyszolgálat csapata
             'Annak kiválasztása, hogy mely típusú jegyváltozásokról szeretne értesítéseket kapni. Ne feledje, hogy nem tudja teljesen letiltani a kötelezőként megjelölt értesítéseket.',
         'Choose which notifications you\'d like to receive.' => 'Annak kiválasztása, hogy milyen értesítéseket szeretne kapni.',
         'Christmas Eve' => 'Szenteste',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Lezárás',
         'Close this ticket' => 'Jegy lezárása',
         'Closed Tickets' => '',
@@ -8563,7 +8568,7 @@ Az Ön segélyszolgálat csapata
         'Queues ↔ Auto Responses' => 'Várólisták ↔ Automatikus válaszok',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Az AgentTicketQueue jegyindexének újraépítése.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

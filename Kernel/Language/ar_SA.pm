@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.0733216949690525;
+    $Self->{Completeness}        = 0.0759955576709503;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -45,7 +45,7 @@ sub Data {
 
         # Template: AdminACL
         'ACL Management' => '',
-        'Actions' => '',
+        'Actions' => 'إجراءات',
         'Create New ACL' => '',
         'Deploy ACLs' => '',
         'Export ACLs' => '',
@@ -70,20 +70,20 @@ sub Data {
         'Comment' => 'تعليق',
         'Validity' => '',
         'Export' => 'تصدير',
-        'Copy' => '',
-        'No data found.' => '',
-        'No matches found.' => '',
+        'Copy' => 'نَسَخَ',
+        'No data found.' => 'لا توجد بيانات.',
+        'No matches found.' => 'لم يتم العثور على تطابق.',
 
         # Template: AdminACLEdit
         'Edit ACL %s' => '',
         'Edit ACL' => '',
-        'Go to overview' => '',
+        'Go to overview' => 'انتقل إلى نظرة عامة',
         'Delete ACL' => '',
         'Delete Invalid ACL' => '',
         'Match settings' => '',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             '',
-        'Change settings' => '',
+        'Change settings' => 'تغيير الاعدادات',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             '',
         'Check the official %sdocumentation%s.' => '',
@@ -94,9 +94,9 @@ sub Data {
         'Edit ACL Structure' => '',
         'Save ACL' => '',
         'Save' => 'حفظ',
-        'or' => ' أو ',
-        'Save and finish' => '',
-        'Cancel' => 'إلغاء',
+        'or' => 'أو',
+        'Save and finish' => 'احفظ و أَنْهَى',
+        'Cancel' => 'إِلْغاء',
         'Do you really want to delete this ACL?' => '',
 
         # Template: AdminACLNew
@@ -104,15 +104,15 @@ sub Data {
             '',
 
         # Template: AdminAbout
-        'About' => '',
-        'Toggle this widget' => '',
+        'About' => 'بِشَأْن',
+        'Toggle this widget' => 'تبديل هذه القطعة',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
             '',
-        'Remove Language' => '',
+        'Remove Language' => 'إزالة اللغة',
         'Text' => 'نص',
-        'Message body' => '',
+        'Message body' => 'نص الرسالة',
         'This field is required and must have less than 4000 characters.' =>
-            '',
+            'هذا الحقل مطلوب ويجب أن يحتوي على أقل من 4000 حرف.',
         'Remove About Language' => '',
         'Add new language' => '',
         'Save Changes' => '',
@@ -2217,7 +2217,7 @@ sub Data {
         'Deployment History' => '',
         'Filter for Deployments' => '',
         'Recent Deployments' => '',
-        'Restore' => '',
+        'Restore' => 'اِسْتَعادَ',
         'View Details' => '',
         'Restore this deployment.' => '',
         'Export this deployment.' => '',
@@ -4293,13 +4293,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
-        'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
@@ -5535,6 +5535,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => '',
 
@@ -6635,6 +6639,8 @@ Thanks for your help!
             '',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6720,7 +6726,6 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => '',
-        'Cleans up old chat logs.' => '',
         'Close' => 'إغلاق',
         'Close this ticket' => '',
         'Closed Tickets' => '',
@@ -8549,7 +8554,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',
@@ -9438,7 +9443,7 @@ Thanks for your help!
         'Your service selection of your preferred services. You also get notified about those services via email if enabled.' =>
             '',
         'Zoom' => 'تكبير',
-        'attachment' => '',
+        'attachment' => 'مُرْفَقٌ',
         'bounce' => '',
         'compose' => '',
         'debug' => '',
@@ -9447,12 +9452,12 @@ Thanks for your help!
         'info' => '',
         'inline' => '',
         'normal' => 'عادي',
-        'notice' => '',
-        'pending' => '',
+        'notice' => 'مُلاحَظَة',
+        'pending' => 'مُعَلّق',
         'phone' => 'رقم الهاتف',
         'responsible' => '',
         'reverse' => 'عكس',
-        'stats' => '',
+        'stats' => 'إحصائيات',
 
     };
 

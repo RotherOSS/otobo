@@ -82,7 +82,6 @@ $Selenium->RunTest(
 
         my @DeactivatedProcesses;
         my $ProcessName = "TestProcess";
-        my $TestProcessExists;
 
         # If there had been some active processes before testing, set them to inactive.
         PROCESS:

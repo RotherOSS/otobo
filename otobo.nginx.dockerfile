@@ -7,7 +7,7 @@
 # This image is based on Debian 10 (Buster). The User is root.
 FROM nginx:mainline
 
-# install some required and optional Debian packages 
+# install some required and optional Debian packages
 # hadolint ignore=DL3008
 RUN apt-get update\
  && apt-get -y --no-install-recommends install\
@@ -36,6 +36,7 @@ ENV LANG C.UTF-8
 # starting HTTP with 'docker-compose -f docker-compose.yml up'
 ENV OTOBO_NGINX_WEB_HOST          172.17.0.1
 ENV OTOBO_NGINX_WEB_PORT          5000
+ENV OTOBO_WEB_HTTPS_PORT          443
 
 # Not that these file need to be copied into a container.
 # Alternatively /etc/ssl can be exported as a volume to the host.

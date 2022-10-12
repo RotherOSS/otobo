@@ -149,12 +149,15 @@ sub Error {
 
 =head2 GetParam()
 
-to get single request parameters. By default, trimming is performed on the data.
+to get the value of a single request parameter. Per default, left and right trimming is performed
+on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
         Raw   => 1,       # optional, input data is not changed
     );
+
+When the parameter is not part of the query then C<undef> is returned.
 
 =cut
 
@@ -173,8 +176,7 @@ sub GetParam {
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
-    my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
-
+    my $Raw = $Param{Raw} // 0;
     if ( !$Raw ) {
 
         # If it is a plain string, perform trimming

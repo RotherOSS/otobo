@@ -102,8 +102,6 @@ continue {
     sleep 1;
 }
 
-my %DeploymentIDs;
-
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
 CHILDINDEX:

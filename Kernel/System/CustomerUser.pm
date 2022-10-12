@@ -19,9 +19,9 @@ package Kernel::System::CustomerUser;
 use strict;
 use warnings;
 
-use Kernel::System::VariableCheck qw(:all);
-
 use parent qw(Kernel::System::EventHandler);
+
+use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -232,7 +232,6 @@ sub CustomerSearch {
                 # search dynamic field values
                 if ( IsArrayRefWithData($SearchFields) ) {
                     my @SearchDynamicFieldNames = grep { exists $DynamicFieldNames{$_} } @{$SearchFields};
-                    my @SearchDynamicFieldIDs;
 
                     my %FoundDynamicFieldObjectIDs;
                     FIELDNAME:

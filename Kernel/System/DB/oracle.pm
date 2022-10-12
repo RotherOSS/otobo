@@ -63,6 +63,9 @@ sub LoadPreferences {
     # how to delete all rows of a table, use with sprintf for inserting the table name
     $Self->{'DB::PurgeTable'} = 'TRUNCATE TABLE %s';
 
+    # this is primarily needed during migration
+    $Self->{'DB::Substring'} = 'SUBSTR(%s, %s, %s)';
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {
         LongTruncOk => 1,

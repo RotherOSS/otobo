@@ -128,8 +128,7 @@ $Selenium->RunTest(
         }
 
         # Check breadcrumb on Create New screen.
-        my $Count = 1;
-        my $IsLinkedBreadcrumbText;
+        my $Count                = 1;
         my $SecondBreadcrumbText = $LanguageObject->Translate('ACL Management');
         my $ThirdBreadcrumbText  = $LanguageObject->Translate('Create New ACL');
         for my $BreadcrumbText ( $SecondBreadcrumbText, $ThirdBreadcrumbText ) {

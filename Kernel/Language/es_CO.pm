@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.320425329312807;
+    $Self->{Completeness}        = 0.321116928446771;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -51,19 +51,19 @@ sub Data {
         'Just start typing to filter...' => 'Solo empieza a escribir para filtrar...',
         'Configuration Import' => 'Importe de Configuración',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
-            '',
+            'Aquí puedes subir un fichero para importar ACLs al sistema. El fichero debe tener extensión .yml y estar formateado como lo exporta el modulo de edición de ACL.',
         'This field is required.' => 'Este es un campo obligatorio.',
         'Overwrite existing ACLs?' => 'Reemplazar ACLs existentes?',
         'Upload ACL configuration' => 'Cargar configuración de ACL',
         'Import ACL configuration(s)' => 'Importar configuración(es) de ACL',
         'Description' => 'Descripción',
         'To create a new ACL you can either import ACLs which were exported from another system or create a complete new one.' =>
-            '',
+            'Para crear una nueva ACL puedes importar una ACL exportada de otro sistema o crear una completamente nueva.',
         'Changes to the ACLs here only affect the behavior of the system, if you deploy the ACL data afterwards. By deploying the ACL data, the newly made changes will be written to the configuration.' =>
-            '',
-        'ACLs' => '',
+            'Los cambios en las ACL solo afectan al comportamiento del sistema si se despliega de nuevo la ACL después de la modificación. Solo después de volver a desplegar la ACL, los cambios serán guardados en la configuración.',
+        'ACLs' => 'ACLs',
         'Please note: This table represents the execution order of the ACLs. If you need to change the order in which ACLs are executed, please change the names of the affected ACLs.' =>
-            '',
+            'Ten en cuenta: Esta tabla representa el orden de ejecución de las ACLs. Si es necesario cambiar el orden en el que se ejecutan las ACL, por favor, cambia los nombres de las ACL afectadas.',
         'ACL name' => 'Nombre del ACL',
         'Comment' => 'Comentario',
         'Validity' => 'Validez',
@@ -4291,13 +4291,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => '',
         'You need to enable the setting before locking!' => '',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             '',
         'Missing setting name!' => '',
         'Missing ResetOptions!' => '',
         'System was not able to lock the setting!' => '',
-        'System was unable to update setting!' => '',
         'Missing setting name.' => '',
         'Setting not found.' => '',
         'Missing Settings!' => '',
@@ -5533,6 +5533,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => '',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => '',
 
@@ -6633,6 +6637,8 @@ Thanks for your help!
             'Salto de línea automático en los mensajes de texto después de x número de caracteres.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             '',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             '',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6718,7 +6724,6 @@ Thanks for your help!
             '',
         'Choose which notifications you\'d like to receive.' => '',
         'Christmas Eve' => 'Noche buena',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Cerrar',
         'Close this ticket' => 'Cerrar este ticket',
         'Closed Tickets' => '',
@@ -8547,7 +8552,7 @@ Thanks for your help!
         'Queues ↔ Auto Responses' => '',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => '',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

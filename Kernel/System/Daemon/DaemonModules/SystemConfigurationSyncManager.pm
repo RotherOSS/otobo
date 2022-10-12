@@ -48,7 +48,7 @@ Kernel::System::Daemon::DaemonModules::SystemConfigurationSyncManager - daemon t
 
 This Daemon module performs two tasks. The first task is to check whether there is a new deployment in the database
 that is for some reason not reflected in the config cache F<Kernel/Config/Files/ZZZAAuto.pm>. It performs a new deployment when there
-is a discrepancy. When OTOBO_SYNC_WITH_S3 is active then the new ZZZ files are deployed first to the S3 compatible storage.
+is a discrepancy. When the S3 backend is active then the new ZZZ files are deployed first to the S3 compatible storage.
 This means that potential other nodes don't need to sync the deployment again. But they should restart because the config cache has changed.
 
 The second task is to reload the Daemon in case there is a change in the F<Kernel/Config/Files/*.pm> files. This happens
@@ -122,6 +122,7 @@ sub Run {
         Objects => [ 'Kernel::Config', ],
     );
 
+    # DeploymentID before the call to ConfigurationDeploySync()
     my $OldDeploymentID = $Kernel::OM->Get('Kernel::Config')->Get('CurrentDeploymentID') || 0;
 
     # Execute the deployment sync

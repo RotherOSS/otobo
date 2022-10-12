@@ -74,8 +74,9 @@ ENV OTOBO_GROUP otobo
 ENV OTOBO_HOME  /opt/otobo
 RUN useradd --user-group --home-dir $OTOBO_HOME --create-home --shell /bin/bash --comment 'OTOBO user' $OTOBO_USER
 
-# copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir
-# skip the files set up in .dockerignore
+# Copy the OTOBO installation to /opt/otobo_install/otobo_next and use it as the working dir.
+# The files that are set up in .dockerignore. This means that a potentially existing Kernel/Config.pm
+# won't be copied. Instead Kernel/Config.pm.docker.dist will be copied to Kernel/Config.pm in entrypoint.sh.
 COPY --chown=$OTOBO_USER:$OTOBO_GROUP . /opt/otobo_install/otobo_next
 WORKDIR /opt/otobo_install/otobo_next
 
@@ -125,7 +126,6 @@ RUN perl -p -i.orig -e "s{Host: http://localhost:9200}{Host: http://elastic:9200
 # Add a .vimrc.
 # make Docker image identifyable via the files git-(repo|branch|commit).txt
 # Create ARCHIVE with hashes of the files in the workdir
-# Config.pm.docker.dist will be copied to Config.pm in entrypoint.sh when it does not already exist.
 ARG GIT_REPO=unspecified
 ARG GIT_BRANCH=unspecified
 ARG GIT_COMMIT=unspecified

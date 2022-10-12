@@ -26,18 +26,21 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
+use Kernel::Config;
 
-# For now test only when running under Docker,
-# even though this route could also be available outside Docker.
-skip_all 'not running with S3 storage' unless $ENV{OTOBO_SYNC_WITH_S3};
+# Testing S3 backend only the S3 backend is active.
+{
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    my $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+
+    skip_all 'not running with S3 storage' unless $S3Active;
+}
 
 plan(24);
 
-ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
-
-my $StorageS3Object = Kernel::System::Storage::S3->new();
+my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 isa_ok( $StorageS3Object, 'Kernel::System::Storage::S3' );
+ok( $INC{'Kernel/System/Storage/S3.pm'}, 'Kernel::System::Storage::S3 was loaded' );
 
 # expecting that ZZZAAuto.pm already exists
 subtest 'ListObjects() ZZZAAuto.pm' => sub {

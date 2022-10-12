@@ -19,12 +19,16 @@ package Kernel::System::Calendar;
 use strict;
 use warnings;
 
+use parent qw(Kernel::System::EventHandler);
+
+# core modules
 use Digest::MD5;
 use MIME::Base64 ();
 
-use Kernel::System::EventHandler;
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use vars qw(@ISA);
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -66,12 +70,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {%Param};
-    bless( $Self, $Type );
-
-    @ISA = qw(
-        Kernel::System::EventHandler
-    );
+    my $Self = bless {%Param}, $Type;
 
     # init of event handler
     $Self->EventHandlerInit(
@@ -1264,7 +1263,6 @@ sub TicketAppointmentProcessRule {
     return if !IsHashRefWithData( $Param{Rule} );
 
     my $Error;
-    my $AppointmentType;
     my %AppointmentData;
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -1681,16 +1679,18 @@ sub TicketAppointmentTypesGet {
 
         if ( $TypeKey =~ /DynamicField$/ ) {
 
-            # get list of all valid date and date/time dynamic fields
+            # get list of all valid ticket dynamic fields
             my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
                 ObjectType => 'Ticket',
             );
 
             DYNAMICFIELD:
             for my $DynamicField ( @{$DynamicFieldList} ) {
+
+                # only date and time dynamic fields are appointments
                 next DYNAMICFIELD if $DynamicField->{FieldType} ne 'Date' && $DynamicField->{FieldType} ne 'DateTime';
 
-                my $Key = sprintf( $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name} );
+                my $Key = sprintf $TicketAppointmentConfig->{$TypeKey}->{Key}, $DynamicField->{Name};
                 $TicketAppointmentTypes{$Key} = $TicketAppointmentConfig->{$TypeKey};
             }
 

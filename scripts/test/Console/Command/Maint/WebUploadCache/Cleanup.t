@@ -34,8 +34,6 @@ my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::WebUploadCache::Cleanup');
 
-my ( $Result, $ExitCode );
-
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
 for my $Module (qw(DB FS)) {
@@ -92,7 +90,7 @@ for my $Module (qw(DB FS)) {
     );
 
     # delete upload cache - should not remove cached form
-    $ExitCode = $CommandObject->Execute();
+    my $ExitCode = $CommandObject->Execute();
     $Self->Is(
         $ExitCode,
         0,

@@ -118,7 +118,6 @@ $Selenium->RunTest(
 
         # Check breadcrumb on allocate screen.
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
             'Manage Customer User-Service Relations',
             'Allocate Services to Customer User \''

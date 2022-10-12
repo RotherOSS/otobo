@@ -15,19 +15,18 @@
 # --
 
 package Kernel::System::DB;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Pod::FunctionPod)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 # core modules
-use List::Util();
+use List::Util ();
 
 # CPAN modules
 use DBI;
-
-# DBIx::Connector is used for all database connections
 use DBIx::Connector;
 
 # OTOBO modules
@@ -412,8 +411,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid integer in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -425,8 +426,10 @@ sub Quote {
                 Priority => 'error',
                 Message  => "Invalid number in query '$Text'!",
             );
+
             return;
         }
+
         return $Text;
     }
 
@@ -504,6 +507,7 @@ sub Do {
                     Priority => 'Error',
                     Message  => 'No SCALAR param in Bind!',
                 );
+
                 return;
             }
         }
@@ -549,6 +553,7 @@ sub Do {
             Priority => 'error',
             Message  => "$DBI::errstr, SQL: '$Param{SQL}'",
         );
+
         return;
     }
 
@@ -604,6 +609,7 @@ sub _InitSlaveDB {
 
             if ( $SlaveDBObject->Connect() ) {
                 $Self->{SlaveDBObject} = $SlaveDBObject;
+
                 return $Self->{SlaveDBObject};
             }
         }
@@ -618,14 +624,14 @@ sub _InitSlaveDB {
 to prepare and execute a SELECT statement
 
     $DBObject->Prepare(
-        SQL   => "SELECT id, name FROM table",
+        SQL   => 'SELECT id, name FROM table',
         Limit => 10,
     );
 
 or in case you want just to get row 10 until 30
 
     $DBObject->Prepare(
-        SQL   => "SELECT id, name FROM table",
+        SQL   => 'SELECT id, name FROM table',
         Start => 10,
         Limit => 20,
     );
@@ -633,7 +639,7 @@ or in case you want just to get row 10 until 30
 in case you don't want utf-8 encoding for some columns, use this:
 
     $DBObject->Prepare(
-        SQL    => "SELECT id, name, content FROM table",
+        SQL    => 'SELECT id, name, content FROM table',
         Encode => [ 1, 1, 0 ],
     );
 
@@ -643,7 +649,7 @@ It is recommended to use bind variables:
     my $Var2 = 'dog2';
 
     $DBObject->Prepare(
-        SQL    => "SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?",
+        SQL    => 'SELECT id, name, content FROM table WHERE name_a = ? AND name_b = ?',
         Encode => [ 1, 1, 0 ],
         Bind   => [ \$Var1, \$Var2 ],
     );
@@ -670,7 +676,7 @@ sub Prepare {
     if ( $Param{Bind} && ref $Param{Bind} ne 'ARRAY' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => 'Bind must be and array reference!',
+            Message  => 'Bind must be an array reference!',
         );
     }
 
@@ -698,7 +704,7 @@ sub Prepare {
     if ($Limit) {
         if ($Start) {
             $Limit = $Limit + $Start;
-            $Self->{LimitStart} = $Start;
+            $Self->{LimitStart} = $Start;            # for some reason "LIMIT  100, 10" is not supported
         }
         if ( $Self->{Backend}->{'DB::Limit'} eq 'limit' ) {
             $SQL .= " LIMIT $Limit";
@@ -707,6 +713,8 @@ sub Prepare {
             $SQL =~ s{ \A \s* (SELECT ([ ]DISTINCT|)) }{$1 TOP $Limit}xmsi;
         }
         else {
+
+            # workaround for Oracle
             $Self->{Limit} = $Limit;
         }
     }
@@ -748,22 +756,25 @@ sub Prepare {
 
     return unless $Self->Connect();
 
-    # do
+    # prepare a statement handle and store it in $Self->{Cursor}
     if ( !( $Self->{Cursor} = $Self->{dbh}->prepare($SQL) ) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
+    # execute the statement handle
     if ( !$Self->{Cursor}->execute(@Array) ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Caller   => 1,
             Priority => 'Error',
             Message  => "$DBI::errstr, SQL: '$SQL'",
         );
+
         return;
     }
 
@@ -804,10 +815,11 @@ sub FetchrowArray {
         return $Self->{SlaveDBObject}->FetchrowArray();
     }
 
-    # work with cursors if database don't support limit
+    # work with cursors if database don't support limit, e.g. Oracle prior to 12c
     if ( !$Self->{Backend}->{'DB::Limit'} && $Self->{Limit} ) {
         if ( $Self->{Limit} <= $Self->{LimitCounter} ) {
             $Self->{Cursor}->finish();
+
             return;
         }
         $Self->{LimitCounter}++;
@@ -818,6 +830,7 @@ sub FetchrowArray {
         for ( 1 .. $Self->{LimitStart} ) {
             if ( !$Self->{Cursor}->fetchrow_array() ) {
                 $Self->{LimitStart} = 0;
+
                 return ();
             }
             $Self->{LimitCounter}++;
@@ -972,6 +985,7 @@ to get database functions like
     - LikeEscapeString
     - Limit
     - ListTables
+    - PurgeTable
     - QuoteBack
     - QuoteSemicolon
     - QuoteSingle
@@ -979,8 +993,8 @@ to get database functions like
     - QuoteUnderscoreStart
     - ShellCommit
     - ShellConnect
+    - Substring
     - Version
-    - PurgeTable
 
     my $What = $DBObject->GetDatabaseFunction('DirectBlob');
 
@@ -1168,6 +1182,7 @@ sub SQLProcessorPost {
     if ( $Self->{Backend}->{Post} ) {
         my @Return = @{ $Self->{Backend}->{Post} };
         undef $Self->{Backend}->{Post};
+
         return @Return;
     }
 
@@ -1240,6 +1255,7 @@ sub QueryCondition {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
@@ -1559,6 +1575,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ AND $/ ) {
@@ -1574,6 +1591,7 @@ sub QueryCondition {
                         Message  =>
                             "Invalid condition '$Param{Value}', simultaneous usage both AND and OR conditions!",
                     );
+
                     return "1=0";
                 }
                 elsif ( $SQL !~ m/ OR $/ ) {
@@ -1629,11 +1647,13 @@ sub QueryCondition {
                 'Values' => [],
             );
         }
+
         return "1=0";
     }
 
     if ($BindMode) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
@@ -1695,6 +1715,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Key!",
         );
+
         return;
     }
 
@@ -1703,6 +1724,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "Need Values!",
         );
+
         return;
     }
 
@@ -1711,6 +1733,7 @@ sub QueryInCondition {
             Priority => 'error',
             Message  => "QuoteType 'Like' is not allowed for 'IN' conditions!",
         );
+
         return;
     }
 
@@ -1739,6 +1762,7 @@ sub QueryInCondition {
         @Values = map { $Self->Quote( $_, $Param{QuoteType} ) } @Values;
 
         # Something went wrong during the quoting, if the count is not equal.
+
         return if scalar @Values != scalar @{ $Param{Values} };
     }
 
@@ -1790,11 +1814,13 @@ sub QueryInCondition {
 
     if ( $Param{BindMode} ) {
         my $BindRefList = [ map { \$_ } @BindValues ];
+
         return (
             'SQL'    => $SQL,
             'Values' => $BindRefList,
         );
     }
+
     return $SQL;
 }
 
@@ -1823,6 +1849,7 @@ sub QueryStringEscape {
                 Priority => 'error',
                 Message  => "Need $Key!"
             );
+
             return;
         }
     }

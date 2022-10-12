@@ -37,7 +37,6 @@ use File::stat;
 
 # OTOBO modules
 use Kernel::System::ModuleRefresh; # based on Module::Refresh
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @EXPORT = qw(Translatable); ## no critic qw(Modules::ProhibitAutomaticExportation)
 
@@ -1072,7 +1071,7 @@ sub LoadDefaults {
         'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
         'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
-        'thirdparty/jquery-ui-1.13.1/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-pubsub/pubsub.js',
         'thirdparty/jquery-jstree-3.3.7/jquery.jstree.js',
         'thirdparty/nunjucks-3.2.2/nunjucks.min.js',
@@ -1111,7 +1110,7 @@ sub LoadDefaults {
     $Self->{'Loader::Agent::CommonJS'}->{'000-Framework'} = [
         'thirdparty/jquery-3.6.0/jquery.min.js',
         'thirdparty/jquery-browser-detection/jquery-browser-detection.js',
-        'thirdparty/jquery-ui-1.13.1/jquery-ui.min.js',
+        'thirdparty/jquery-ui-1.13.2/jquery-ui.min.js',
         'thirdparty/jquery-ui-touch-punch-0.2.3/jquery.ui.touch-punch.js',
         'thirdparty/jquery-validate-1.19.3/jquery.validate.js',
         'thirdparty/jquery-pubsub/pubsub.js',
@@ -2101,41 +2100,32 @@ sub new {
         return $Self;
     }
 
-    # load defaults
+    # load default settings from Kernel/Config/Defaults.pm
     $Self->LoadDefaults();
 
-    # load config from Kernel/Config.pm
+    # load specific settings from Kernel/Config.pm
     $Self->Load();
 
-    # when in cluster mode, we must consider that files have changes in S3
+    # when in cluster mode, we must consider that files in Kernel/Config/Files
+    # might have been updated in S3
     $Self->SyncWithS3();
 
     # load extra config files
     if ( -d "$Self->{Home}/Kernel/Config/Files/" ) {
 
-        # It is assumed that $Self->{Home} contains no spaces as otherwise
-        # glob would see at least two patterns.
-        # Note that the order of file names is deterministic as per default
-        # glob sorts in ascending ASCII order.
-        my @Files = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
-
-        # Resorting the filelist.
-        # Modules with 'Ticket' in their name have lower priority.
+        # Collect the list of .pm files in Kernel/Config/Files.pm in a particular order.
+        # Modules with 'Ticket' in their name have lower priority. Therfore we first collect
+        # the files which contain the string 'Ticket' and then all other files.
+        # Within these two blocks the files are sorted in ascending ASCII order.
+        my @Files;
         {
-            my @NewFileOrderPre;
-            my @NewFileOrderPost;
-
-            for my $File (@Files) {
-
-                if ( $File =~ m/Ticket/ ) {
-                    push @NewFileOrderPre, $File;
-                }
-                else {
-                    push @NewFileOrderPost, $File;
-                }
-            }
-
-            @Files = ( @NewFileOrderPre, @NewFileOrderPost );
+            # It is assumed that $Self->{Home} contains no spaces as otherwise.
+            # glob would see at least two patterns.
+            # Note that the order of file names is deterministic as per default
+            # glob sorts in ascending ASCII order.
+            my @AllPMFiles = glob "$Self->{Home}/Kernel/Config/Files/*.pm";
+            push @Files, grep { $_ =~ m/Ticket/ } @AllPMFiles;
+            push @Files, grep { $_ !~ m/Ticket/ } @AllPMFiles;
         }
 
         FILE:
@@ -2304,6 +2294,7 @@ sub Translatable {
 }
 
 # Please see the documentation in Kernel/Config.pod.dist.
+# Not used in OTOBO core.
 sub ConfigChecksum {
     my $Self = shift;
 
@@ -2375,7 +2366,7 @@ sub SyncWithS3 {
     my ( $Self, %Param ) = @_;
 
     # nothing to do when S3 backend is not enabled
-    return unless $ENV{OTOBO_SYNC_WITH_S3};
+    return unless $Self->{'Storage::S3::Active'};
 
     # assign default values
     for my $Key (qw(ExtraFileNames)) {
@@ -2383,10 +2374,13 @@ sub SyncWithS3 {
     }
 
     # pass in a unfinished config object for bootstrapping
-    my $StorageS3Object = Kernel::System::Storage::S3->new(
-        ConfigObject => $Self
+    my $StorageS3Object = $Kernel::OM->Create(
+        'Kernel::System::Storage::S3',
+        ObjectParams => {
+            ConfigObject => $Self
+        },
     );
-    my $FilesPrefix     = join '/', 'Kernel', 'Config', 'Files';
+    my $FilesPrefix = join '/', 'Kernel', 'Config', 'Files';
 
     # only a single process should sync with S3 at one time
     CHECK_SYNC:
@@ -2416,17 +2410,19 @@ sub SyncWithS3 {
             # do not sync ZZZ*.pm files when the local event file differs from the version in S3
             last CHECK_SYNC unless $Stat->size == $Properties->{Size};
             last CHECK_SYNC unless int($Stat->mtime) == int($Properties->{Mtime});
+
+            # The event_package.json has apparently already been handled.
+            # Continue with checking the files in Kernel/Config/Files.
         }
 
+        # find files in the file system that have been updated in the S3 storage
         my @OutdatedFiles;
         {
-            # Files that need to be synced are recognised by patterns.  Currently there are two cases.
-            my @SyncFilePatterns = (
+            # Files that need to be synced are recognised by patterns or by a list.
+            my @FilePatterns = (
                 qr'ZZZZUnitTest.*\.pm$', # files that are used in the unit tests
                 qr'User/\d+\.pm$',       # user specific overrides of the SysConfig
             );
-
-            # The hardcoded list of ZZZ files is treated in special way, as they are never deleted in the file system.
             my %FileIsRelevant = map
                 { $_ => 1 }
                 ( qw(ZZZAAuto.pm ZZZACL.pm ZZZProcessManagement.pm), $Param{ExtraFileNames}->@* );
@@ -2436,20 +2432,22 @@ sub SyncWithS3 {
             SUB_PATH:
             for my $SubPath ( sort keys %SubPath2Properties ) {
 
-                # skip the not relevant objects
+                # collect the relevant objects
                 if ( $FileIsRelevant{$SubPath} ) {
                     push @CandidateOutdatedFiles, $SubPath;
 
                     next SUB_PATH;
                 }
 
-                for my $Pattern ( @SyncFilePatterns ) {
-                    if ( $SubPath =~ $Pattern ) {
+                for my $FilePattern ( @FilePatterns ) {
+                    if ( $SubPath =~ $FilePattern ) {
                         push @CandidateOutdatedFiles, $SubPath;
 
                         next SUB_PATH;
                     }
                 }
+
+                # disregard the not relevant objects
             }
 
             SUB_PATH:
@@ -2482,20 +2480,20 @@ sub SyncWithS3 {
             }
         }
 
-        # find files in the file system that have been discarded in the S3 storage
+        # Find files in the file system that have been discarded in the S3 storage.
+        # Note that the regular ZZZ*.pm files are never discarded.
         my @ObsoleteFiles;
         {
              # files that are used in the unit tests
-            push @ObsoleteFiles, grep
-                { !$SubPath2Properties{ basename($_) } }
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ basename($_) } }
                 glob "$Self->{Home}/Kernel/Config/Files/ZZZZUnitTest*.pm";
 
             # user specific overrides of the SysConfig
             # note that POSIX does not allow to match multiple digits, so we need an extra filter
-            push @ObsoleteFiles, grep
-                { !$SubPath2Properties{ basename($_) } }
-                grep
-                { m!/\d+\.pm^! }
+            push @ObsoleteFiles,
+                grep { !$SubPath2Properties{ 'User/' . basename($_) } }
+                grep { m!/\d+\.pm^! }
                 glob "$Self->{Home}/Kernel/Config/Files/User/[0-9]*.pm";
         }
 
@@ -2538,7 +2536,7 @@ sub SyncWithS3 {
         }
 
         # Doublecheck whether deployment wasn't still ongoing,
-        # or whether a new deployment had beed done in the meantime.
+        # or whether a new deployment had been done in the meantime.
         next CHECK_SYNC;
     }
 

@@ -16,10 +16,9 @@
 
 package Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
-use utf8;
 use namespace::autoclean;
 
 use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
@@ -29,7 +28,7 @@ use parent qw(Kernel::System::MigrateFromOTRS::CloneDB::Driver::Base);
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::VariableCheck qw(:all);
+use Kernel::System::DB;
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
@@ -45,18 +44,20 @@ Kernel::System::MigrateFromOTRS::CloneDB::Driver::oracle
 
 =head1 DESCRIPTION
 
-This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Driver>.
+This module implements the public interface of L<Kernel::System::MigrateFromOTRS::CloneDB::Backend>.
 Please look there for a detailed reference of the functions.
 
 =head1 PUBLIC INTERFACE
 
 =cut
 
-# create external db connection. For oracle the connection is based on the DSN.
+# create external db connection.
+# For oracle the connection is based on the DSN.
 sub CreateOTRSDBConnection {
     my ( $Self, %Param ) = @_;
 
     # check OTRSDBSettings
+    # in contrast to postgresql.pm and mysql.pm, DBDSN is used instead of DBHost and DBName
     for my $Needed (qw(DBDSN DBUser DBPassword DBType)) {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -67,6 +68,8 @@ sub CreateOTRSDBConnection {
             return;
         }
     }
+
+    # for oracle the DSN must be passed in
 
     # create target DB object
     my $OTRSDBObject = Kernel::System::DB->new(
@@ -108,17 +111,19 @@ sub ColumnsList {
     # But Oracle has upper case names.
     my $UcTable = uc $Param{Table};
     my $Rows    = $Param{DBObject}->SelectAll(
-        SQL  => 'SELECT column_name FROM all_tab_columns WHERE table_name = ?',
+        SQL => <<'END_SQL',
+SELECT column_name
+  FROM user_tab_columns
+  WHERE table_name = ?
+END_SQL
         Bind => [ \$UcTable ],
     ) || return [];
 
     # only the first element of each row is needed
-    return [ map { $_->[0] } $Rows->@* ];
+    return [ map { lc $_->[0] } $Rows->@* ];
 }
 
-#
 # Reset the 'id' auto-increment field to the last one in the table.
-#
 sub ResetAutoIncrementField {
     my ( $Self, %Param ) = @_;
 
@@ -210,34 +215,34 @@ sub BlobColumnsList {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
+    # Internally OTOBO is using lower case table names.
+    # But Oracle has upper case names.
+    my $UcTable = uc $Param{Table};
     $Param{DBObject}->Prepare(
         SQL => <<'END_SQL',
 SELECT COLUMN_NAME, DATA_TYPE
-  FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE TABLE_SCHEMA = ?
-    AND TABLE_NAME = ?
-    AND DATA_TYPE = 'CLOB';
+  FROM user_tab_columns
+  WHERE TABLE_NAME = ?
+    AND DATA_TYPE = 'CLOB'
 END_SQL
-        Bind => [ \$Param{DBName}, \$Param{Table} ],
+        Bind => [ \$UcTable ],
     ) || return {};
 
     my %Result;
     while ( my ( $Column, $Type ) = $Param{DBObject}->FetchrowArray() ) {
-        $Result{$Column} = $Type;
+        $Result{ lc $Column } = $Type;
     }
 
     return \%Result;
 }
 
-#
-#
 # Get column infos
 # return DATA_TYPE
-
 sub GetColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -248,36 +253,40 @@ sub GetColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
+    # Internally OTOBO is using lower case table names.
+    # But Oracle has upper case names.
+    my $UcTable  = uc $Param{Table};
+    my $UcColumn = uc $Param{Column};
     $Param{DBObject}->Prepare(
-        SQL => "
-            SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG = ?
-            AND TABLE_NAME = ? AND COLUMN_NAME = ?",
+        SQL => <<'END_SQL',
+SELECT column_name, data_type, char_length, nullable
+  FROM user_tab_columns
+  WHERE table_name = ?
+    AND column_name = ?
+END_SQL
 
-        Bind => [
-            \$Param{DBName}, \$Param{Table}, \$Param{Column},
-        ],
+        Bind => [ \$UcTable, \$UcColumn ],
     ) || return {};
 
+    # collect the column info, actually we expect a single row
     my %Result;
     while ( my @Row = $Param{DBObject}->FetchrowArray() ) {
         $Result{COLUMN}      = $Row[0];
         $Result{DATA_TYPE}   = $Row[1];
         $Result{LENGTH}      = $Row[2];
-        $Result{IS_NULLABLE} = $Row[3];
+        $Result{IS_NULLABLE} = ( $Row[3] eq 'N' ? 'NO' : 'YES' );
     }
+
     return \%Result;
 }
 
-#
-#
 # Translate column infos
-# return DATA_TYPE
-
+# return a copy of the passed in ColumnInfo with a translated DATA_TYPE
 sub TranslateColumnInfos {
     my ( $Self, %Param ) = @_;
 
@@ -288,15 +297,18 @@ sub TranslateColumnInfos {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
-    my %ColumnInfos = %{ $Param{ColumnInfos} };
+    my %ColumnInfos = $Param{ColumnInfos}->%*;    # the copy will be returned, possibly modified
 
-    my %Result;
+    # no translation is necessary for the same DBType
+    return \%ColumnInfos if $Param{DBType} =~ m/oracle/;
 
-    if ( $Param{DBType} =~ /mysql/ ) {
+    if ( $Param{DBType} =~ m/mysql/ ) {
+        my %Result;
         $Result{VARCHAR} = 'VARCHAR2';
         $Result{TEXT}    = 'TEXT';
 
@@ -318,7 +330,8 @@ sub TranslateColumnInfos {
 
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
-    elsif ( $Param{DBType} =~ /postgresql/ ) {
+    elsif ( $Param{DBType} =~ m/postgresql/ ) {
+        my %Result;
         $Result{VARCHAR}             = 'VARCHAR2';
         $Result{'CHARACTER VARYING'} = 'VARCHAR2';
         $Result{TEXT}                = 'TEXT';
@@ -336,19 +349,11 @@ sub TranslateColumnInfos {
 
         $ColumnInfos{DATA_TYPE} = $Result{ $Param{ColumnInfos}->{DATA_TYPE} };
     }
-    elsif ( $Param{DBType} =~ /oracle/ ) {
-
-        # no translation necessary
-        $ColumnInfos{DATA_TYPE} = $Param{ColumnInfos}->{DATA_TYPE};
-    }
 
     return \%ColumnInfos;
 }
 
-#
-#
 # Alter table add column
-#
 sub AlterTableAddColumn {
     my ( $Self, %Param ) = @_;
 
@@ -359,19 +364,21 @@ sub AlterTableAddColumn {
                 Priority => 'error',
                 Message  => "Need $Needed!",
             );
+
             return;
         }
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $SQL         = "ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}";
+    my $SQL         = qq{ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}};
 
     if ( $ColumnInfos{LENGTH} ) {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
     }
 
-    if ( $ColumnInfos{IS_NULLABLE} =~ /no/ ) {
-        $SQL .= " NOT NULL";
+    # IS_NULLABLE is either YES or NO
+    if ( $ColumnInfos{IS_NULLABLE} =~ m/no/i ) {
+        $SQL .= ' NOT NULL';
     }
 
     my $Success = $Param{DBObject}->Do(
@@ -383,8 +390,10 @@ sub AlterTableAddColumn {
             Priority => 'error',
             Message  => "Could not execute SQL statement: $SQL.",
         );
+
         return;
     }
+
     return 1;
 }
 

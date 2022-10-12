@@ -150,7 +150,6 @@ $Selenium->RunTest(
 
         # Check breadcrumb on change screen.
         my $Count = 1;
-        my $IsLinkedBreadcrumbText;
         for my $BreadcrumbText (
             'Manage Customer User-Group Relations',
             'Change Customer User Relations for Group \'' . $GroupRandomID . '\''

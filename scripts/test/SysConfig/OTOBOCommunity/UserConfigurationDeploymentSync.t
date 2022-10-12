@@ -21,13 +21,21 @@ use warnings;
 use utf8;
 
 # core modules
+use List::Util qw(max);
 
 # CPAN modules
 use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
+use Kernel::Config;
+
+# the question whether there is a S3 backend must the resolved early
+my ($S3Active);
+{
+    my $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+    $S3Active = $ClearConfigObject->Get('Storage::S3::Active');
+}
 
 # Do not use database restore in this one as ConfigurationDeploymentSync discards Kernel::Config
 #   and a new DB object will created (because of discard cascade) the new object will not be in
@@ -89,7 +97,12 @@ if ( !-d $UserSettingsDir ) {
     mkdir $UserSettingsDir;
 }
 
-my $EffectiveValueStrg = << "EOF";
+my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+
+# create a new deployment for the user
+my $UserDeploymentID;
+{
+    my $EffectiveValueStrg = << "END_PM";
 # OTOBO config file (automatically generated)
 # VERSION:2.0
 package Kernel::Config::Files::User::$UserID;
@@ -103,21 +116,27 @@ sub Load {
     return;
 }
 1;
-EOF
+END_PM
 
-my $SysConfigDBObject = $Kernel::OM->Get('Kernel::System::SysConfig::DB');
+    my $DeploymentID = $SysConfigDBObject->DeploymentAdd(
+        Comments            => 'Unit Test',
+        EffectiveValueStrg  => \$EffectiveValueStrg,
+        TargetUserID        => $UserID,
+        DeploymentTimeStamp => '1977-12-12 12:00:00',
+        UserID              => $UserID,
+    );
 
-my $DeploymentID = $SysConfigDBObject->DeploymentAdd(
-    Comments            => 'Unit Test',
-    EffectiveValueStrg  => \$EffectiveValueStrg,
-    TargetUserID        => $UserID,
-    DeploymentTimeStamp => '1977-12-12 12:00:00',
-    UserID              => $UserID,
-);
+    # Get the id of the last deployment of the test user. The user should only have
+    # a single deployment, but get the max anyways.
+    my %UserDeploymentList = $SysConfigDBObject->DeploymentUserList();
+    $UserDeploymentID =
+        max
+        grep { $UserDeploymentList{$_} == $UserID }
+        keys %UserDeploymentList;
 
-my %UserDeploymentList   = $SysConfigDBObject->DeploymentUserList();
-my %DeploymentListLookup = reverse %UserDeploymentList;
-my $UserDeploymentID     = $DeploymentListLookup{$UserID};
+    # sanity check
+    is( $UserDeploymentID, $DeploymentID, 'double check the user deployment ID' );
+}
 
 my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -143,10 +162,13 @@ sub UpdateFile {
         $Content =~ s{ (\{'CurrentUserDeploymentID)('\})  }{$1Invalid$2}msx;
     }
 
-    if ( $ENV{OTOBO_SYNC_WITH_S4} ) {
+    if ($S3Active) {
+
+        # make sure the SyncWithS3() actually syncs
+        sleep 1;
 
         # first write to S3
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
         my $S3Key           = join '/', 'Kernel', 'Config', 'Files', 'User', "$UserID.pm";
 
         $StorageS3Object->StoreObject(
@@ -182,8 +204,8 @@ sub ReadDeploymentID {
 
     ref_ok( $ContentSCALARRef, 'SCALAR', "$LocationUser FileRead() for ReadDeploymentID() is SCALAR ref" );
 
-    my $CurrentDeploymentID;
-    ($CurrentDeploymentID) = $ContentSCALARRef->$* =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(-?\d+)' }msx;
+    # greedily accept any deployment ID, even when they are not valid
+    my ($CurrentDeploymentID) = $ContentSCALARRef->$* =~ m{ \{'CurrentUserDeploymentID'\} [ ] = [ ] '(.*)' }msx;
 
     return $CurrentDeploymentID;
 }
@@ -241,7 +263,7 @@ my @Tests = (
         Config => {
             Remove => 1,
         },
-        DeploymentIDBefore => '',
+        DeploymentIDBefore => undef,
         DeploymentIDAfter  => $UserDeploymentID,
         Success            => 1,
     },
@@ -279,7 +301,6 @@ for my $Test (@Tests) {
 
     subtest $Test->{Name} => sub {
 
-        my $FileDeploymentID;
         if ( $Test->{Config}->{RemoveDir} ) {
             my $Result = system("rm -rf $UserSettingsDir");
             ok(
@@ -288,13 +309,13 @@ for my $Test (@Tests) {
             );
         }
         else {
-            UpdateFile( %{ $Test->{Config} } );
+            UpdateFile( $Test->{Config}->%* );
 
-            $FileDeploymentID = ReadDeploymentID($LocationUser);
+            my $FileDeploymentID = ReadDeploymentID($LocationUser);
             is(
-                $FileDeploymentID // '',
+                $FileDeploymentID,
                 $Test->{DeploymentIDBefore},
-                "DeploymentID before ConfigurationDeploymentSync()",
+                'DeploymentID before ConfigurationDeploymentSync()',
             );
         }
 
@@ -305,18 +326,18 @@ for my $Test (@Tests) {
             "ConfigurationDeploymentSync() result",
         );
 
-        $FileDeploymentID = ReadDeploymentID($LocationUser);
+        my $FileDeploymentID = ReadDeploymentID($LocationUser);
         is(
             $FileDeploymentID,
             $Test->{DeploymentIDAfter},
-            "DeploymentID after ConfigurationDeploymentSync()",
+            'DeploymentID after ConfigurationDeploymentSync()',
         );
     };
 }
 
 # Be sure to leave a clean system.
 $Success = $SysConfigDBObject->DeploymentDelete(
-    DeploymentID => $DeploymentID,
+    DeploymentID => $UserDeploymentID,
 );
 
 ok( $Success, "DeploymentDelete result", );

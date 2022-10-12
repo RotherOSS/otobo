@@ -73,8 +73,6 @@ sub Run {
     # ------------------------------------------------------------ #
     if ( $Self->{Subaction} eq 'Import' ) {
 
-        my $Success;
-
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 

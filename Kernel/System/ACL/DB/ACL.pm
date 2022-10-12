@@ -27,7 +27,6 @@ use warnings;
 # OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
-use if $ENV{OTOBO_SYNC_WITH_S3}, 'Kernel::System::Storage::S3';
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -36,9 +35,10 @@ our @ObjectDependencies = (
     'Kernel::System::Encode',
     'Kernel::System::Log',
     'Kernel::System::Main',
+    'Kernel::System::Storage::S3',
+    'Kernel::System::Ticket::FieldRestrictions',
     'Kernel::System::User',
     'Kernel::System::YAML',
-    'Kernel::System::Ticket::FieldRestrictions',
 );
 
 =head1 NAME
@@ -66,7 +66,7 @@ sub new {
     my $Self = bless {}, $Type;
 
     # find out whether loader files are stored in S3 or in the file system
-    $Self->{UseS3Backend} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
+    $Self->{S3Active} = $Kernel::OM->Get('Kernel::Config')->Get('Storage::S3::Active') ? 1 : 0;
 
     # get the cache TTL (in seconds)
     $Self->{CacheTTL} = int( $Kernel::OM->Get('Kernel::Config')->Get('ACL::CacheTTL') || 3600 );
@@ -464,6 +464,9 @@ sub ACLUpdate {
     # define Description field if not present
     $Param{Description} //= '';
 
+    # set StopAfterMatch if undefined
+    $Param{StopAfterMatch} //= 0;
+
     my $ConfigMatch  = '';
     my $ConfigChange = '';
 
@@ -552,8 +555,8 @@ sub ACLUpdate {
         && $CurrentDescription eq $Param{Description}
         && $CurrentStopAfterMatch eq $Param{StopAfterMatch}
         && $CurrentValidID eq $Param{ValidID}
-        && $CurrentConfigMatch eq $Param{ConfigMatch}
-        && $CurrentConfigChange eq $Param{ConfigChange}
+        && $CurrentConfigMatch eq $ConfigMatch
+        && $CurrentConfigChange eq $ConfigChange
         )
     {
         return 1;
@@ -960,14 +963,14 @@ sub Load {
 1;
 END_PM_FILE
 
-    if ( $Self->{UseS3Backend} ) {
+    if ( $Self->{S3Active} ) {
 
         # remove the leading /opt/otobo as the home prefix is added automatically in the S3 storage object
         my $Home        = $Kernel::OM->Get('Kernel::Config')->Get('Home');
         my $ZZZFilePath = $Param{Location};
         $ZZZFilePath =~ s{^$Home/*}{};
 
-        my $StorageS3Object = Kernel::System::Storage::S3->new();
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
 
         # only write to S3, no extra copy in the file system
         return $StorageS3Object->StoreObject(
@@ -1182,8 +1185,8 @@ sub _ACLItemOutput {
     my ( $Self, %Param ) = @_;
 
     # those params are expected to only contain one line
-    for my $Key ( qw( CreateBy ChangeBy Comment ) ) {
-        ( $Param{ $Key } ) = $Param{ $Key } =~ /(.+?)$/m;
+    for my $Key (qw( CreateBy ChangeBy Comment )) {
+        ( $Param{$Key} ) = $Param{$Key} =~ /(.+?)$/m;
     }
 
     my $Output = "# Created: $Param{CreateTime} ($Param{CreateBy})\n";

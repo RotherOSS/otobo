@@ -90,7 +90,6 @@ FixedTimeSet(
 );
 
 # test FormDraftAdd and FormDraftListGet functions
-my $FormDraftID;
 for ( 1 .. 3 ) {
 
     # create FormDraft

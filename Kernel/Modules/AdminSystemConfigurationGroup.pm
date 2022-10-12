@@ -56,7 +56,21 @@ sub Run {
             UserID          => $Self->{UserID},
         );
 
-        my %Result;
+        my %Result = (
+            Data => {
+                SettingData => {},
+                HTMLStrg    => '',
+            },
+        );
+
+        # deny update if config level is not low enough
+        if ( $ConfigLevel && $Setting{HasConfigLevel} && $Setting{HasConfigLevel} < $ConfigLevel ) {
+            $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "System was unable to update setting!",
+            );
+
+            return $Self->_ReturnJSON( Response => \%Result );
+        }
 
         my %LockStatus = $SysConfigObject->SettingLockCheck(
             DefaultID           => $Setting{DefaultID},
@@ -344,12 +358,26 @@ sub Run {
             );
         }
 
-        my %Result;
+        my %Result = (
+            Data => {
+                SettingData => {},
+                HTMLStrg    => '',
+            },
+        );
 
         # Get setting
         my %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
         );
+
+        # deny update if config level is not low enough
+        if ( $ConfigLevel && $Setting{HasConfigLevel} && $Setting{HasConfigLevel} < $ConfigLevel ) {
+            $Result{Data}->{Error} = $Kernel::OM->Get('Kernel::Language')->Translate(
+                "System was unable to update setting!",
+            );
+
+            return $Self->_ReturnJSON( Response => \%Result );
+        }
 
         # try to lock to the current user
         if (

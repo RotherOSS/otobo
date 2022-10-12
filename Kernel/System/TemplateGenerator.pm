@@ -48,11 +48,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::TemplateGenerator - signature lib
+Kernel::System::TemplateGenerator - template generator lib
 
 =head1 DESCRIPTION
 
-All signature functions.
+All template generator functions.
 
 =head1 PUBLIC INTERFACE
 

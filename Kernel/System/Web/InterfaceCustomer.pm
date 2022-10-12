@@ -344,7 +344,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
                 );
             }
 
-            if ($PreventBruteForceConfig) {
+            if ( $PreventBruteForceConfig && $PostUser ) {
 
                 # prevent brute force
                 my $Banned = $Self->_StoreFailedLogins(

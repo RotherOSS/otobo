@@ -86,8 +86,6 @@ EOF
 
 );
 
-my $TicketID;
-
 # First run the tests for a ticket that has the customer as an "unknown" customer.
 for my $Test (@Tests) {
     my @Return;

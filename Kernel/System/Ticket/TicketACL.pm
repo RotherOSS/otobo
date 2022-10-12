@@ -293,8 +293,6 @@ sub TicketAcl {
     my %NewData;
     my $UseNewMasterParams = 0;
 
-    my %NewDefaultActionData;
-
     if ( $Param{ReturnType} eq 'Action' ) {
 
         if ( !IsHashRefWithData( $Param{Data} ) ) {

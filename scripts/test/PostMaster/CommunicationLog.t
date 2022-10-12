@@ -108,7 +108,7 @@ package FakeClient {
 # package defined in this test file, there's no pm file.
 # Another possible solution would be "use parent -norequire, 'FakeClient'".
 package FakeIMAPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-    our @ISA = ('FakeClient');
+    our @ISA = ('FakeClient');    ## no critic qw(ClassHierarchies::ProhibitExplicitISA);
 
     sub select {
         my $Self = shift;
@@ -145,7 +145,7 @@ my $MockIMAP = mock 'Kernel::System::MailAccount::IMAP' => (
 # package defined in this test file, there's no pm file.
 # Another possible solution would be "use parent -norequire, 'FakeClient'".
 package FakePOPClient {    ## no critic qw(Modules::ProhibitMultiplePackages)
-    our @ISA = ('FakeClient');
+    our @ISA = ('FakeClient');    ## no critic qw(ClassHierarchies::ProhibitExplicitISA);
 
     sub list {
         my $Self = shift;

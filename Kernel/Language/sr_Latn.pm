@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.902555149976194;
+    $Self->{Completeness}        = 0.902268760907504;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -4297,13 +4297,13 @@ sub Data {
         'No DeploymentID received!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
+        'System was unable to update setting!' => 'Sistem nije uspeo da sačuva podešavanje!',
         'You need to enable the setting before locking!' => 'Morate uključiti podešavanje pre zaključavanja!',
         'You can\'t work on this setting because %s (%s) is currently working on it.' =>
             'Ne možete urediti ovo podešavanje zato što %s (%s) trenutno radi na njemu.',
         'Missing setting name!' => 'Nedostaje naziv podešavanja!',
         'Missing ResetOptions!' => 'Nedostaje ResetOptions!',
         'System was not able to lock the setting!' => 'Sistem nije uspeo da zaključa podešavanje!',
-        'System was unable to update setting!' => 'Sistem nije uspeo da sačuva podešavanje!',
         'Missing setting name.' => 'Nedostaje naziv podešavanja.',
         'Setting not found.' => 'Podešavanje nije pronađeno.',
         'Missing Settings!' => 'Nedostaje Settings!',
@@ -5539,6 +5539,10 @@ sub Data {
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
         'PostgreSQL 9.2 or higher is required.' => 'Neophodan je PostgreSQL 9.2 ili više.',
 
+        # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
+        'Certificate check' => '',
+        'Found obsolete cryptographic function.' => '',
+
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO particija na disku',
 
@@ -6650,6 +6654,8 @@ Vaša tehnička podrška
             'Automatski kraj reda u tekstualnim porukama posle h karaktera.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Automatski promeni stanje tiketa sa nevažećim vlasnikom kada se otključa. Mapirajte tip stanja na novo stanje tiketa.',
+        'Automatically generate statistics reports and email them to the specified recipients.' =>
+            '',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Automatsko zaključavanje i podešavanje vlasnika na aktuelnog operatera posle otvaranja prozora za premeštanje tiketa u interfejsu operatera.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6735,7 +6741,6 @@ Vaša tehnička podrška
             'Izaberite za kakve promene tiketa želite da primate obaveštenja. Molimo obratite pažnju da ne možete u potpunosti da isključite obaveštenja koja su označena kao obavezna.',
         'Choose which notifications you\'d like to receive.' => 'Izaberite koja obaveštenja želite da primate.',
         'Christmas Eve' => 'Badnje veče',
-        'Cleans up old chat logs.' => '',
         'Close' => 'Zatvori',
         'Close this ticket' => 'Zatvori ovaj tiket',
         'Closed Tickets' => '',
@@ -8564,7 +8569,7 @@ Vaša tehnička podrška
         'Queues ↔ Auto Responses' => 'Redovi ↔ automatski odgovori',
         'Quick Close' => '',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ponovo izradi indeks tiketa za operaterski red tiketa.',
-        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via ldap. Highly inefficient however, as the whole index is rebuild every time.' =>
+        'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
             '',
         'Rebuilds the ACL preselection cache.' => '',
         'Rebuilds the escalation index.' => '',

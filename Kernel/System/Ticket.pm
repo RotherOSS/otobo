@@ -19,10 +19,7 @@ package Kernel::System::Ticket;
 
 use strict;
 use warnings;
-
-use File::Path;
 use utf8;
-use Encode ();
 
 use parent qw(
     Kernel::System::EventHandler
@@ -30,6 +27,13 @@ use parent qw(
     Kernel::System::Ticket::TicketACL
 );
 
+# core modules
+use File::Path;
+use Encode ();
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
 

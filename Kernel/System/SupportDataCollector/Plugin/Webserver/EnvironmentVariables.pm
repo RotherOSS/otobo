@@ -52,8 +52,6 @@ sub Run {
         delete $Environment{$NotNeededString};
     }
 
-    my @Result;
-
     for my $Variable ( sort { $a cmp $b } keys %Environment ) {
         $Self->AddResultInformation(
             Identifier => $Variable,

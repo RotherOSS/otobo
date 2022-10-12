@@ -162,7 +162,7 @@ $Selenium->RunTest(
             $Selenium->find_element("//a[contains(\@href, \'Subaction=ProcessSync' )]")->VerifiedClick();
         }
 
-        # We have to allow a 11 second delay for Apache2::Reload or Module::Refresh to pick up the changed process cache.
+        # We have to allow a 11 second delay for Apache2::Reload or Kernel::System::ModuleRefresh to pick up the changed process cache.
         # TODO: https://github.com/RotherOSS/otobo/issues/932
         sleep 11;
 

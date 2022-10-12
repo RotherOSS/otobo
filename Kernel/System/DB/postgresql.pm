@@ -79,6 +79,9 @@ EOF
     # how to delete all rows of a table, use with sprintf for inserting the table name
     $Self->{'DB::PurgeTable'} = 'DELETE FROM %s';
 
+    # this is primarily needed during migration
+    $Self->{'DB::Substring'} = 'SUBSTRING(%s, %s, %s)';
+
     # dbi attributes
     $Self->{'DB::Attribute'} = {};
 

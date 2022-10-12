@@ -647,7 +647,6 @@ sub RequesterPerformRequest {
     }
 
     # Add SSL options if configured.
-    my %SSLOptions;
     if (
         IsHashRefWithData( $Config->{SSL} )
         && IsStringWithData( $Config->{SSL}->{UseSSL} )
