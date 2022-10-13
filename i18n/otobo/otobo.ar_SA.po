@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-10 14:07+0000\n"
+"PO-Revision-Date: 2022-10-13 22:33+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -5741,265 +5741,278 @@ msgstr ""
 
 #. Template: AdminProcessManagement
 msgid "Processes"
-msgstr ""
+msgstr "عمليات"
 
 #. Template: AdminProcessManagement
 msgid "Process name"
-msgstr ""
+msgstr "اسم العملية"
 
 #. Template: AdminProcessManagement
 msgid "Print"
-msgstr "طباعة"
+msgstr "طَبَعَ"
 
 #. Template: AdminProcessManagement
 msgid "Export Process Configuration"
-msgstr ""
+msgstr "تصدير عملية التكوين"
 
 #. Template: AdminProcessManagement
 msgid "Copy Process"
-msgstr ""
+msgstr "عملية النسخ"
 
 #. Template: AdminProcessManagementActivity
 msgid "Cancel & close"
-msgstr ""
+msgstr "إلغاء وإغلاق"
 
 #. Template: AdminProcessManagementActivity
 msgid "Go Back"
-msgstr ""
+msgstr "الرجوع للخلف"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "Please note, that changing this activity will affect the following processes"
-msgstr ""
+msgstr "تحذير: ستؤثر التغييرات في هذا النشاط على العمليات التالية"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity"
-msgstr ""
+msgstr "نَشَاطٌ"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Name"
-msgstr ""
+msgstr "اسم النشاط"
 
 #. Template: AdminProcessManagementActivity
 msgid "Activity Dialogs"
-msgstr ""
+msgstr "حوارات النشاط"
 
 #. Template: AdminProcessManagementActivity
 msgid ""
 "You can assign Activity Dialogs to this Activity by dragging the elements "
 "with the mouse from the left list to the right list."
 msgstr ""
+"يمكنك تخصيص مربعات حوار النشاط لهذا النشاط عن طريق تحريك العناصر من القائمة "
+"اليسرى إلى القائمة اليمنى بالماوس."
 
 #. Template: AdminProcessManagementActivity
 msgid "Filter available Activity Dialogs"
-msgstr ""
+msgstr "تصفية مربعات حوار الأنشطة المتاحة"
 
 #. Template: AdminProcessManagementActivity
 msgid "Available Activity Dialogs"
-msgstr ""
+msgstr "حوارات النشاط المتوفرة"
 
 #. Template: AdminProcessManagementActivity
 msgid "Name: %s, EntityID: %s"
-msgstr ""
+msgstr "Name: %s, EntityID: %s"
 
 #. Template: AdminProcessManagementActivity
 msgid "Create New Activity Dialog"
-msgstr ""
+msgstr "إنشاء مربع حوار نشاط جديد"
 
 #. Template: AdminProcessManagementActivity
 msgid "Assigned Activity Dialogs"
-msgstr ""
+msgstr "مربعات حوار النشاط المعينة"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that changing this activity dialog will affect the following "
 "activities"
-msgstr ""
+msgstr "يرجى ملاحظة أن تغيير مربع حوار النشاط هذا سيؤثر على الأنشطة التالية"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "Please note that customer users will not be able to see or use the following "
 "fields: Owner, Responsible, Lock, PendingTime and CustomerID."
 msgstr ""
+"يرجى ملاحظة أن المستخدمين العملاء لن يتمكنوا من رؤية أو استخدام الحقول "
+"التالية: المالك (Owner) والمسؤول (Responsible) والقفل (Lock) ووقت الانتظار "
+"(PendingTime) ومعرف العميل (CustomerID)."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "The Queue field can only be used by customers when creating a new ticket."
 msgstr ""
+"لا يمكن تحديد حقل قائمة الانتظار إلا من قبل العملاء عند إنشاء تذكرة جديدة."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity Dialog"
-msgstr ""
+msgstr "حوار النشاط"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Activity dialog Name"
-msgstr ""
+msgstr "اسم مربع حوار النشاط"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available in"
-msgstr ""
+msgstr "متوفر في"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (short)"
-msgstr ""
+msgstr "الوصف (قصير)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Description (long)"
-msgstr ""
+msgstr "الوصف (طويل)"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected permission does not exist."
-msgstr ""
+msgstr "الإذن المحدد غير موجود."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Required Lock"
-msgstr ""
+msgstr "القفل المطلوب"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "The selected required lock does not exist."
-msgstr ""
+msgstr "القفل المحدد غير موجود."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Advice Text"
-msgstr ""
+msgstr "نص الملاحظة عند الإرسال"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Submit Button Text"
-msgstr ""
+msgstr "نص تلميح للزر \"إرسال\""
 
 #. Template: AdminProcessManagementActivityDialog
 msgid ""
 "You can assign Fields to this Activity Dialog by dragging the elements with "
 "the mouse from the left list to the right list."
 msgstr ""
+"يمكنك تعيين حقول لمربع حوار النشاط هذا عن طريق سحبها من القائمة اليمنى إلى "
+"القائمة اليسرى بالماوس."
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Filter available fields"
-msgstr ""
+msgstr "تصفية الحقول المتوفرة"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Available Fields"
-msgstr ""
+msgstr "الحقول المتاحة"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Assigned Fields"
-msgstr ""
+msgstr "الحقول المعينة"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Communication Channel"
-msgstr ""
+msgstr "قناة الاتصال"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Is visible for customer"
-msgstr ""
+msgstr "مرئي للعملاء"
 
 #. Template: AdminProcessManagementActivityDialog
 msgid "Display"
-msgstr ""
+msgstr "إِظْهار"
 
 #. Template: AdminProcessManagementPath
 msgid "Path"
-msgstr ""
+msgstr "مَسَار"
 
 #. Template: AdminProcessManagementPath
 msgid "Edit this transition"
-msgstr ""
+msgstr "تحرير هذا الانتقال"
 
 #. Template: AdminProcessManagementPath
 msgid "Transition Actions"
-msgstr ""
+msgstr "إجراءات الانتقال"
 
 #. Template: AdminProcessManagementPath
 msgid ""
 "You can assign Transition Actions to this Transition by dragging the "
 "elements with the mouse from the left list to the right list."
 msgstr ""
+"يمكنك تعيين إجراءات الانتقال لهذا الانتقال عن طريق سحب العناصر بالماوس من "
+"القائمة اليسرى إلى القائمة اليمنى."
 
 #. Template: AdminProcessManagementPath
 msgid "Filter available Transition Actions"
-msgstr ""
+msgstr "تصفية إجراءات الانتقال المتاحة"
 
 #. Template: AdminProcessManagementPath
 msgid "Available Transition Actions"
-msgstr ""
+msgstr "إجراءات الانتقال المتاحة"
 
 #. Template: AdminProcessManagementPath
 msgid "Create New Transition Action"
-msgstr ""
+msgstr "إنشاء إجراء انتقالي جديد"
 
 #. Template: AdminProcessManagementPath
 msgid "Assigned Transition Actions"
-msgstr ""
+msgstr "إجراءات الانتقال المعينة"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Activities"
-msgstr ""
+msgstr "النَشَاطَات"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activities..."
-msgstr ""
+msgstr "تصفية الأنشطة ..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Activity"
-msgstr ""
+msgstr "إنشاء نشاط جديد"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Activity Dialogs..."
-msgstr ""
+msgstr "مربعات حوار تصفية النشاط ..."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Transitions"
-msgstr ""
+msgstr "انتقالات"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transitions..."
-msgstr ""
+msgstr "تصفية الانتقالات. . ."
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Create New Transition"
-msgstr ""
+msgstr "إنشاء انتقال جديد"
 
 #. Template: AdminProcessManagementProcessAccordion
 msgid "Filter Transition Actions..."
-msgstr ""
+msgstr "تصفية إجراءات الانتقال ..."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process"
-msgstr ""
+msgstr "تحرير العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Print process information"
-msgstr ""
+msgstr "طباعة معلومات العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Process"
-msgstr ""
+msgstr "حذف العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Delete Inactive Process"
-msgstr ""
+msgstr "حذف العملية غير النشطة"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Available Process Elements"
-msgstr ""
+msgstr "عناصر العملية المتاحة"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "The Elements listed above in this sidebar can be moved to the canvas area on "
 "the right by using drag'n'drop."
 msgstr ""
+"يمكن سحب العناصر المدرجة في الشريط الجانبي إلى منطقة الرسم باستخدام الماوس."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "You can place Activities on the canvas area to assign this Activity to the "
 "Process."
-msgstr ""
+msgstr "يمكنك وضع الأنشطة في منطقة الرسم لربط هذه الأنشطة بالعملية."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "To assign an Activity Dialog to an Activity drop the Activity Dialog element "
 "from this sidebar over the Activity placed in the canvas area."
 msgstr ""
+"يمكنك تعيين مربعات حوار النشاط لنشاط ما عن طريق سحبها من الشريط الجانبي فوق "
+"النشاط في منطقة الرسم."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
@@ -6007,28 +6020,31 @@ msgid ""
 "element over the Start Activity of the connection. After that you can move "
 "the loose end of the arrow to the End Activity."
 msgstr ""
+"يمكنك إنشاء اتصال بين الأنشطة عن طريق سحب عنصر الانتقال إلى نشاط بدء "
+"الاتصال. يمكنك بعد ذلك سحب النهاية الحرة للسهم إلى النشاط المستهدف."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Actions can be assigned to a Transition by dropping the Action Element onto "
 "the label of a Transition."
 msgstr ""
+"يمكن تعيين الإجراءات للانتقال عن طريق سحب عنصر الإجراء إلى اسم الانتقال."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit Process Information"
-msgstr ""
+msgstr "تحرير معلومات العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Process Name"
-msgstr ""
+msgstr "اسم العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "The selected state does not exist."
-msgstr ""
+msgstr "الحالة المحددة غير موجودة."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Add and Edit Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "إضافة وتحرير الأنشطة ومربعات حوار النشاط والانتقالات"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
