@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-13 22:33+0000\n"
+"PO-Revision-Date: 2022-10-14 18:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -6048,59 +6048,63 @@ msgstr "إضافة وتحرير الأنشطة ومربعات حوار النش�
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Show EntityIDs"
-msgstr ""
+msgstr "إظهار EntityIDs"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the width of the Canvas"
-msgstr ""
+msgstr "زيادة عرض منطقة الرسم"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Extend the height of the Canvas"
-msgstr ""
+msgstr "زيادة ارتفاع منطقة الرسم"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Remove the Activity from this Process"
-msgstr ""
+msgstr "إزالة النشاط من هذه العملية"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Edit this Activity"
-msgstr ""
+msgstr "تعديل هذا النشاط"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Save Activities, Activity Dialogs and Transitions"
-msgstr ""
+msgstr "حفظ الأنشطة ومربعات حوار الأنشطة والانتقالات"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Process?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذه العملية؟"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف هذا النشاط؟"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Activity Dialog?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد حذف مربع حوار النشاط هذا؟"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد حذف هذا الانتقال؟"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid "Do you really want to delete this Transition Action?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف إجراء الانتقال هذا؟"
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this activity from the canvas? This can only be "
 "undone by leaving this screen without saving."
 msgstr ""
+"هل أنت متأكد من أنك تريد إزالة هذا النشاط من منطقة الرسم؟ لا يمكن التراجع عن "
+"ذلك إلا إذا تركت طريقة العرض هذه دون حفظ."
 
 #. Template: AdminProcessManagementProcessEdit
 msgid ""
 "Do you really want to remove this transition from the canvas? This can only "
 "be undone by leaving this screen without saving."
 msgstr ""
+"هل أنت متأكد من أنك تريد إزالة هذا الانتقال من لوح الرسم؟ لا يمكن التراجع عن "
+"هذا إلا إذا غادرت هذه النافذة دون حفظ."
 
 #. Template: AdminProcessManagementProcessNew
 msgid ""
@@ -6108,135 +6112,139 @@ msgid ""
 "process available to users, please make sure to set its state to 'Active' "
 "and synchronize after completing your work."
 msgstr ""
+"‮هنا يمكنك إنشاء عملية جديدة. لجعل العملية متاحة للمستخدمين، يجب عليك تعيين "
+"الحالة إلى \"نشط\" وإجراء المزامنة عند الانتهاء من عملك."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "cancel & close"
-msgstr ""
+msgstr "إلغاء وإغلاق"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Start Activity"
-msgstr ""
+msgstr "بدء النشاط"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Contains %s dialog(s)"
-msgstr ""
+msgstr "يحتوي على مربع (مربعات) حوار ٪s"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned dialogs"
-msgstr ""
+msgstr "مربعات الحوار المعينة"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activities are not being used in this process."
-msgstr ""
+msgstr "لا يتم استخدام أي أنشطة في هذه العملية."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Assigned fields"
-msgstr ""
+msgstr "الحقول المعينة"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Activity dialogs are not being used in this process."
-msgstr ""
+msgstr "لا يتم استخدام مربعات حوار النشاط في هذه العملية."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Condition linking"
-msgstr ""
+msgstr "روابط شرطية"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transitions are not being used in this process."
-msgstr ""
+msgstr "لا يتم استخدام الانتقالات في هذه العملية."
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Module name"
-msgstr ""
+msgstr "اسم الوحدة"
 
 #. Template: AdminProcessManagementProcessPrint
 msgid "Transition actions are not being used in this process."
-msgstr ""
+msgstr "لا يتم استخدام إجراءات الانتقال في هذه العملية."
 
 #. Template: AdminProcessManagementTransition
 msgid ""
 "Please note that changing this transition will affect the following processes"
-msgstr ""
+msgstr "يرجى ملاحظة أن تغيير هذا الانتقال سيؤثر على العمليات التالية"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition"
-msgstr ""
+msgstr "اِنْتِقالٌ"
 
 #. Template: AdminProcessManagementTransition
 msgid "Transition Name"
-msgstr ""
+msgstr "اسم الانتقال"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid ""
 "Please note that changing this transition action will affect the following "
 "processes"
-msgstr ""
+msgstr "يرجى ملاحظة أن تغيير إجراء الانتقال هذا سيؤثر على العمليات التالية"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action"
-msgstr ""
+msgstr "إجراء انتقالي"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Name"
-msgstr ""
+msgstr "اسم إجراء الانتقال"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Transition Action Module"
-msgstr ""
+msgstr "وحدة إجراء الانتقال"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Config Parameters"
-msgstr ""
+msgstr "معلمات التكوين"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Add a new Parameter"
-msgstr ""
+msgstr "أضف معاملاً جديدًا"
 
 #. Template: AdminProcessManagementTransitionAction
 msgid "Remove this Parameter"
-msgstr ""
+msgstr "إزالة هذه المعلمة"
 
 #. Template: AdminQueue
 msgid "Queue Management"
-msgstr ""
+msgstr "إدارة قائمة الانتظار"
 
 #. Template: AdminQueue
 msgid "Add Queue"
-msgstr ""
+msgstr "إضافة قائمة الانتظار"
 
 #. Template: AdminQueue
 msgid "Edit Queue"
-msgstr ""
+msgstr "تحرير قائمة الانتظار"
 
 #. Template: AdminQueue
 msgid "Filter for Queues"
-msgstr ""
+msgstr "تصفية لقوائم الانتظار"
 
 #. Template: AdminQueue
 msgid "Filter for queues"
-msgstr ""
+msgstr "تصفية لقوائم الانتظار"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr ""
+msgstr "توجد قائمة انتظار بهذا الاسم بالفعل!"
 
 #. Template: AdminQueue
 msgid ""
 "This queue is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new queue is needed!"
 msgstr ""
+"قائمة الانتظار هذه موجودة في إعداد SysConfig. مطلوب تأكيد لتحديث الإعداد إلى "
+"قائمة الانتظار الجديدة!"
 
 #. Template: AdminQueue
 msgid "Sub-queue of"
-msgstr ""
+msgstr "قائمة انتظار فرعية من"
 
 #. Template: AdminQueue
 msgid "Unlock timeout"
-msgstr ""
+msgstr "فتح المهلة"
 
 #. Template: AdminQueue
 msgid "0 = no unlock"
-msgstr ""
+msgstr "0 = بدون إلغاء قفل"
 
 #. Template: AdminQueue
 msgid "hours"
@@ -6244,7 +6252,7 @@ msgstr "ساعات"
 
 #. Template: AdminQueue
 msgid "Only business hours are counted."
-msgstr ""
+msgstr "يتم أخذ ساعات العمل فقط في الاعتبار."
 
 #. Template: AdminQueue
 msgid ""
@@ -6252,10 +6260,12 @@ msgid ""
 "has passed, the ticket will unlock and will become available for other "
 "agents."
 msgstr ""
+"إذا أقفل الوكيل تذكرة ولم يغلقها قبل وقت الفتح، فسيتم إلغاء قفلها وإتاحتها "
+"مرة أخرى للوكلاء الآخرين."
 
 #. Template: AdminQueue
 msgid "Notify by"
-msgstr ""
+msgstr "إخطار من قبل"
 
 #. Template: AdminQueue
 msgid "0 = no escalation"
@@ -6266,6 +6276,8 @@ msgid ""
 "If there is not added a customer contact, either email-external or phone, to "
 "a new ticket before the time defined here expires, the ticket is escalated."
 msgstr ""
+"إذا لم يكن هناك استجابة من العميل (بريد إلكتروني خارجي أو هاتف) قبل الوقت "
+"المحدد، فسيتم تصعيد التذكرة."
 
 #. Template: AdminQueue
 msgid ""
@@ -6274,50 +6286,59 @@ msgid ""
 "contact, either email-external or phone, added to a ticket before the time "
 "defined here expires, the ticket is escalated."
 msgstr ""
+"عندما يضيف العميل عنصرا - على سبيل المثال عن طريق البريد الإلكتروني أو في "
+"منطقة العميل - تتم إعادة تعيين وقت التصعيد. إذا لم يتم الاتصال بالعميل مرة "
+"أخرى بحلول الوقت المحدد، فإن التذكرة تتصاعد."
 
 #. Template: AdminQueue
 msgid ""
 "If the ticket is not set to closed before the time defined here expires, the "
 "ticket is escalated."
 msgstr ""
+"إذا لم يتم ضبط التذكرة على الإغلاق قبل انتهاء الوقت المحدد هنا، فسيتم تصعيد "
+"التذكرة."
 
 #. Template: AdminQueue
 msgid "Follow up Option"
-msgstr "خيار المتابعة"
+msgstr "خيار الطلب"
 
 #. Template: AdminQueue
 msgid ""
 "Specifies if follow up to closed tickets would re-open the ticket, be "
 "rejected or lead to a new ticket."
 msgstr ""
+"يحدد ما إذا كانت الاستجابة لتذكرة مغلقة تعيد فتح تلك التذكرة أو يتم رفضها أو "
+"تؤدي إلى تذكرة جديدة."
 
 #. Template: AdminQueue
 msgid "Ticket lock after a follow up"
-msgstr "إقفال البطاقة بعد إضافة متابعة"
+msgstr "إقفال البطاقة بعد الرد"
 
 #. Template: AdminQueue
 msgid ""
 "If a ticket is closed and the customer sends a follow up the ticket will be "
 "locked to the old owner."
-msgstr ""
+msgstr "إذا تم إغلاق تذكرة وأرسل العميل ردا، فسيتم قفل التذكرة للمالك القديم."
 
 #. Template: AdminQueue
 msgid "System address"
-msgstr ""
+msgstr "عنوان النظام"
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr ""
+msgstr "عنوان المرسل لرسائل البريد الإلكتروني من قائمة الانتظار هذه."
 
 #. Template: AdminQueue
 msgid "Default sign key"
-msgstr ""
+msgstr "مفتاح التوقيع الافتراضي"
 
 #. Template: AdminQueue
 msgid ""
 "To use a sign key, PGP keys or S/MIME certificates need to be added with "
 "identifiers for selected queue system address."
 msgstr ""
+"لاستخدام مفتاح توقيع، يجب إضافة مفاتيح PGP أو شهادات S / MIME مع معرفات "
+"لعنوان النظام المحدد إلى قائمة الانتظار."
 
 #. Template: AdminQueue
 msgid "Salutation"
@@ -6325,7 +6346,7 @@ msgstr "التحية"
 
 #. Template: AdminQueue
 msgid "The salutation for email answers."
-msgstr ""
+msgstr "التحية لردود البريد الإلكتروني."
 
 #. Template: AdminQueue
 msgid "Signature"
@@ -6333,269 +6354,276 @@ msgstr "التوقيع"
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
-msgstr ""
+msgstr "التوقيع لردود البريد الإلكتروني."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
-msgstr ""
+msgstr "يتم استخدام قائمة الانتظار هذه في إعدادات التكوين التالية:"
 
 #. Template: AdminQueueAutoResponse
 msgid "Manage Queue-Auto Response Relations"
-msgstr ""
+msgstr "إدارة تعيين قوائم الانتظار والردود التلقائية"
 
 #. Template: AdminQueueAutoResponse
 msgid "Change Auto Response Relations for Queue"
-msgstr ""
+msgstr "تغيير تعيينات الاستجابة التلقائية لقائمة الانتظار"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show queues without auto responses"
-msgstr ""
+msgstr "يسمح لك هذا الفلتر بإظهار قوائم الانتظار بدون ردود تلقائية"
 
 #. Template: AdminQueueAutoResponse
 msgid "Queues without Auto Responses"
-msgstr ""
+msgstr "قوائم الانتظار بدون ردود تلقائية"
 
 #. Template: AdminQueueAutoResponse
 msgid "This filter allow you to show all queues"
-msgstr ""
+msgstr "يسمح هذا المرشح بعرض جميع قوائم الانتظار"
 
 #. Template: AdminQueueAutoResponse
 msgid "Show All Queues"
-msgstr ""
+msgstr "إظهار جميع قوائم الانتظار"
 
 #. Template: AdminQueueAutoResponse
 msgid "Auto Responses"
-msgstr "الردود الآليةلي"
+msgstr "الردود التلقائية"
 
 #. Template: AdminQueueTemplates
 msgid "Manage Template-Queue Relations"
-msgstr ""
+msgstr "إدارة تخصيص القوالب لقوائم الانتظار"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for Templates"
-msgstr ""
+msgstr "تصفية القوالب"
 
 #. Template: AdminQueueTemplates
 msgid "Filter for templates"
-msgstr ""
+msgstr "تصفية القوالب"
 
 #. Template: AdminQueueTemplates
 msgid "Templates"
-msgstr ""
+msgstr "نماذج"
 
 #. Template: AdminRegistration
 msgid "System Registration Management"
-msgstr ""
+msgstr "إدارة تسجيل النظام"
 
 #. Template: AdminRegistration
 msgid "Edit System Registration"
-msgstr ""
+msgstr "تحرير تسجيل النظام"
 
 #. Template: AdminRegistration
 msgid "System Registration Overview"
-msgstr ""
+msgstr "نظرة عامة على تسجيل النظام"
 
 #. Template: AdminRegistration
 msgid "Register System"
-msgstr ""
+msgstr "نظام التسجيل"
 
 #. Template: AdminRegistration
 msgid "Validate OTOBO-ID"
-msgstr ""
+msgstr "التحقق من صحة OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid "Deregister System"
-msgstr ""
+msgstr "نظام إلغاء التسجيل"
 
 #. Template: AdminRegistration
 msgid "Edit details"
-msgstr ""
+msgstr "تعديل التفاصيل"
 
 #. Template: AdminRegistration
 msgid "Show transmitted data"
-msgstr ""
+msgstr "إظهار البيانات المرسلة"
 
 #. Template: AdminRegistration
 msgid "Deregister system"
-msgstr ""
+msgstr "نظام إلغاء التسجيل"
 
 #. Template: AdminRegistration
 msgid "Overview of registered systems"
-msgstr ""
+msgstr "نظرة عامة على الأنظمة المسجلة"
 
 #. Template: AdminRegistration
 msgid "This system is registered with OTOBO Team."
-msgstr ""
+msgstr "هذا النظام مسجل لدى مجموعة OTOBO."
 
 #. Template: AdminRegistration
 msgid "System type"
-msgstr ""
+msgstr "نوع النظام"
 
 #. Template: AdminRegistration
 msgid "Unique ID"
-msgstr ""
+msgstr "Unique ID"
 
 #. Template: AdminRegistration
 msgid "Last communication with registration server"
-msgstr ""
+msgstr "آخر اتصال مع خادم التسجيل"
 
 #. Template: AdminRegistration
 msgid "System Registration not Possible"
-msgstr ""
+msgstr "التسجيل في النظام غير ممكن"
 
 #. Template: AdminRegistration
 msgid ""
 "Please note that you can't register your system if OTOBO Daemon is not "
 "running correctly!"
 msgstr ""
+"يرجى ملاحظة أنه لا يمكنك تسجيل النظام الخاص بك إذا كان OTOBO Daemon لا يعمل!"
 
 #. Template: AdminRegistration
 msgid "Instructions"
-msgstr ""
+msgstr "تَعْلِيمَاتٌ"
 
 #. Template: AdminRegistration
 msgid "System Deregistration not Possible"
-msgstr ""
+msgstr "تعذر إلغاء تسجيل النظام"
 
 #. Template: AdminRegistration
 msgid "OTOBO-ID Login"
-msgstr ""
+msgstr "تسجيل الدخول إلى OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid ""
 "System registration is a service of OTOBO Team, which provides a lot of "
 "advantages!"
-msgstr ""
+msgstr "تسجيل النظام هي خدمة من مجموعة OTOBO تمنحك العديد من المزايا!"
 
 #. Template: AdminRegistration
 msgid "Read more"
-msgstr ""
+msgstr "اقرأ أكثر"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTOBO-ID to register your system."
-msgstr ""
+msgstr "لتسجيل النظام الخاص بك ، يرجى تسجيل الدخول باستخدام OTOBO-ID الخاص بك."
 
 #. Template: AdminRegistration
 msgid ""
 "Your OTOBO-ID is the email address you used to sign up on the OTOBO.com "
 "webpage."
 msgstr ""
+"OTOBO-ID الخاص بك هو عنوان البريد الإلكتروني الذي استخدمته للتسجيل في صفحة "
+"الويب OTOBO.com."
 
 #. Template: AdminRegistration
 msgid "Data Protection"
-msgstr ""
+msgstr "حماية الخصوصية"
 
 #. Template: AdminRegistration
 msgid "What are the advantages of system registration?"
-msgstr ""
+msgstr "ما هي مميزات التسجيل في النظام؟"
 
 #. Template: AdminRegistration
 msgid "You will receive updates about relevant security releases."
-msgstr ""
+msgstr "سيتم إعلامك بالإصدارات المتعلقة بالأمان."
 
 #. Template: AdminRegistration
 msgid ""
 "With your system registration we can improve our services for you, because "
 "we have all relevant information available."
 msgstr ""
+"يتيح تسجيل نظامك لمجموعة OTOBO خدمتك بشكل أسرع وأكثر كفاءة لأن لدينا بالفعل "
+"معلومات مهمة حول نظامك تجعل الاستفسارات المتكررة غير ضرورية."
 
 #. Template: AdminRegistration
 msgid "This is only the beginning!"
-msgstr ""
+msgstr "هذه ليست سوى البداية!"
 
 #. Template: AdminRegistration
 msgid "We will inform you about our new services and offerings soon."
-msgstr ""
+msgstr "كن متشوقًا لمعرفة المزيد من خدماتنا وعروضنا الجديدة التي سنقدمها لك."
 
 #. Template: AdminRegistration
 msgid "Can I use OTOBO without being registered?"
-msgstr ""
+msgstr "هل يمكنني استخدام OTOBO بدون تسجيل؟"
 
 #. Template: AdminRegistration
 msgid "System registration is optional."
-msgstr ""
+msgstr "تسجيل النظام اختياري."
 
 #. Template: AdminRegistration
 msgid "You can download and use OTOBO without being registered."
-msgstr ""
+msgstr "يمكنك أيضا تنزيل واستخدام OTOBO بالكامل دون تسجيل."
 
 #. Template: AdminRegistration
 msgid "Is it possible to deregister?"
-msgstr ""
+msgstr "هل من الممكن إلغاء التسجيل؟"
 
 #. Template: AdminRegistration
 msgid "You can deregister at any time."
-msgstr ""
+msgstr "يمكنك إلغاء التسجيل في أي وقت."
 
 #. Template: AdminRegistration
 msgid "Which data is transfered when registering?"
-msgstr ""
+msgstr "ما هي البيانات التي يتم نقلها عند التسجيل؟"
 
 #. Template: AdminRegistration
 msgid "A registered system sends the following data to OTOBO Team:"
-msgstr ""
+msgstr "يرسل النظام المسجل البيانات التالية إلى فريق OTOBO:"
 
 #. Template: AdminRegistration
 msgid ""
 "Fully Qualified Domain Name (FQDN), OTOBO version, Database, Operating "
 "System and Perl version."
 msgstr ""
+"اسم المجال المؤهل بالكامل (FQDN) وإصدار OTOBO وقاعدة البيانات ونظام التشغيل "
+"وإصدار Perl."
 
 #. Template: AdminRegistration
 msgid "Why do I have to provide a description for my system?"
-msgstr ""
+msgstr "لماذا يجب وصف النظام؟"
 
 #. Template: AdminRegistration
 msgid "The description of the system is optional."
-msgstr ""
+msgstr "وصف النظام اختياري."
 
 #. Template: AdminRegistration
 msgid ""
 "The description and system type you specify help you to identify and manage "
 "the details of your registered systems."
-msgstr ""
+msgstr "سيساعدك نوع النظام ووصفه في تحديد أنظمتك وإدارة سجل النظام."
 
 #. Template: AdminRegistration
 msgid "How often does my OTOBO system send updates?"
-msgstr ""
+msgstr "كم مرة يرسل OTOBO الخاص بي التحديثات؟"
 
 #. Template: AdminRegistration
 msgid ""
 "Your system will send updates to the registration server at regular "
 "intervals."
-msgstr ""
+msgstr "سيرسل نظامك تحديثات إلى خادم التسجيل على فترات منتظمة."
 
 #. Template: AdminRegistration
 msgid "Typically this would be around once every three days."
-msgstr ""
+msgstr "عادة ما يكون هذا حوالي مرة واحدة كل ثلاثة أيام."
 
 #. Template: AdminRegistration
 msgid "If you deregister your system, you will lose these benefits:"
-msgstr ""
+msgstr "إذا قمت بإلغاء تسجيل نظامك، فستفقد المزايا التالية:"
 
 #. Template: AdminRegistration
 msgid "You need to log in with your OTOBO-ID to deregister your system."
-msgstr ""
+msgstr "تحتاج إلى تسجيل الدخول باستخدام OTOBO-ID الخاص بك لإلغاء تسجيل نظامك."
 
 #. Template: AdminRegistration
 msgid "OTOBO-ID"
-msgstr ""
+msgstr "OTOBO-ID"
 
 #. Template: AdminRegistration
 msgid "You don't have an OTOBO-ID yet?"
-msgstr ""
+msgstr "ليس لديك OTOBO-ID حتى الآن؟"
 
 #. Template: AdminRegistration
 msgid "Sign up now"
-msgstr ""
+msgstr "سجل الآن"
 
 #. Template: AdminRegistration
 msgid "Forgot your password?"
-msgstr ""
+msgstr "هل نسيت كلمة المرور؟"
 
 #. Template: AdminRegistration
 msgid "Retrieve a new one"
-msgstr ""
+msgstr "استرداد واحدة جديدة"
 
 #. Template: AdminRegistration
 msgid "Next"
@@ -6605,248 +6633,252 @@ msgstr "التالي"
 msgid ""
 "This data will be frequently transferred to OTOBO Team when you register "
 "this system."
-msgstr ""
+msgstr "سيتم نقل هذه البيانات بشكل متكرر إلى فريق OTOBO عند تسجيل هذا النظام."
 
 #. Template: AdminRegistration
 msgid "Attribute"
-msgstr ""
+msgstr "سِمَة"
 
 #. Template: AdminRegistration
 msgid "FQDN"
-msgstr ""
+msgstr "FQDN"
 
 #. Template: AdminRegistration
 msgid "OTOBO Version"
-msgstr ""
+msgstr "إصدار OTOBO"
 
 #. Template: AdminRegistration
 msgid "Operating System"
-msgstr ""
+msgstr "نظام التشغيل"
 
 #. Template: AdminRegistration
 msgid "Perl Version"
-msgstr ""
+msgstr "إصدار Perl"
 
 #. Template: AdminRegistration
 msgid "Optional description of this system."
-msgstr ""
+msgstr "وصف اختياري لهذا النظام."
 
 #. Template: AdminRegistration
 msgid ""
 "This will allow the system to send additional support data information to "
 "OTOBO Team."
-msgstr ""
+msgstr "يتيح هذا الإعداد إرسال معلومات دعم إضافية إلى مجموعة OTOBO."
 
 #. Template: AdminRegistration
 msgid "Register"
-msgstr ""
+msgstr "سَجَّلَ"
 
 #. Template: AdminRegistration
 msgid "Continuing with this step will deregister the system from OTOBO Team."
-msgstr ""
+msgstr "سيؤدي الاستمرار في هذه الخطوة إلى إلغاء تسجيل النظام من فريق OTOBO."
 
 #. Template: AdminRegistration
 msgid "Deregister"
-msgstr ""
+msgstr "إلغاء التسجيل"
 
 #. Template: AdminRegistration
 msgid "You can modify registration settings here."
-msgstr ""
+msgstr "يمكنك تعديل إعدادات التسجيل هنا."
 
 #. Template: AdminRegistration
 msgid "Overview of Transmitted Data"
-msgstr ""
+msgstr "نظرة عامة على البيانات المرسلة"
 
 #. Template: AdminRegistration
 msgid "There is no data regularly sent from your system to %s."
-msgstr ""
+msgstr "لا يتم إرسال أي بيانات بشكل منتظم إلى٪ s من نظامك."
 
 #. Template: AdminRegistration
 msgid ""
 "The following data is sent at minimum every 3 days from your system to %s."
-msgstr ""
+msgstr "يتم نقل البيانات التالية من نظامك إلى٪ s كل 3 أيام على الأقل."
 
 #. Template: AdminRegistration
 msgid ""
 "The data will be transferred in JSON format via a secure https connection."
-msgstr ""
+msgstr "سيتم نقل البيانات بتنسيق JSON عبر اتصال https آمن."
 
 #. Template: AdminRegistration
 msgid "System Registration Data"
-msgstr ""
+msgstr "بيانات تسجيل النظام"
 
 #. Template: AdminRegistration
 msgid "Support Data"
-msgstr ""
+msgstr "بيانات الدعم"
 
 #. Template: AdminRole
 msgid "Role Management"
-msgstr ""
+msgstr "إدارة الأدوار"
 
 #. Template: AdminRole
 msgid "Add Role"
-msgstr ""
+msgstr "إضافة دور"
 
 #. Template: AdminRole
 msgid "Edit Role"
-msgstr ""
+msgstr "تحرير الدور"
 
 #. Template: AdminRole
 msgid "Filter for Roles"
-msgstr ""
+msgstr "تصفية الأدوار"
 
 #. Template: AdminRole
 msgid "Filter for roles"
-msgstr ""
+msgstr "تصفية الأدوار"
 
 #. Template: AdminRole
 msgid "Create a role and put groups in it. Then add the role to the users."
-msgstr ""
+msgstr "إنشاء دور ووضع المجموعات فيه. ثم أضف الدور إلى المستخدمين."
 
 #. Template: AdminRole
 msgid ""
 "There are no roles defined. Please use the 'Add' button to create a new role."
-msgstr ""
+msgstr "لا توجد أدوار محددة. الرجاء استخدام الزر \"إضافة\" لإنشاء دور جديد."
 
 #. Template: AdminRoleGroup
 msgid "Manage Role-Group Relations"
-msgstr ""
+msgstr "إدارة تعيينات الأدوار للمجموعات"
 
 #. Template: AdminRoleGroup
 msgid "Roles"
-msgstr ""
+msgstr "ادوار"
 
 #. Template: AdminRoleGroup
 msgid "Select the role:group permissions."
-msgstr ""
+msgstr "حدد الدور:أذونات المجموعة."
 
 #. Template: AdminRoleGroup
 msgid ""
 "If nothing is selected, then there are no permissions in this group (tickets "
 "will not be available for the role)."
 msgstr ""
+"إذا لم يتم تحديد أي شيء، فإن الدور في تلك المجموعة ليس لديه أذونات (ولا "
+"يمكنه الوصول إلى التذاكر)."
 
 #. Template: AdminRoleGroup
 msgid "Toggle %s permission for all"
-msgstr ""
+msgstr "تبديل إذن٪ s للجميع"
 
 #. Template: AdminRoleGroup
 msgid "move_into"
-msgstr ""
+msgstr "الانتقال إلى"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to move tickets into this group/queue."
-msgstr ""
+msgstr "أذونات لنقل التذاكر إلى هذه المجموعة/قائمة الانتظار."
 
 #. Template: AdminRoleGroup
 msgid "create"
-msgstr ""
+msgstr "أَنْشَأَ"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to create tickets in this group/queue."
-msgstr ""
+msgstr "أذونات لإنشاء تذاكر في هذه المجموعة / قائمة الانتظار."
 
 #. Template: AdminRoleGroup
 msgid "note"
-msgstr "ملاحظة"
+msgstr "مُلاحَظَة"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to add notes to tickets in this group/queue."
-msgstr ""
+msgstr "أذونات لإضافة ملاحظات إلى التذاكر في هذه المجموعة / قائمة الانتظار."
 
 #. Template: AdminRoleGroup
 msgid "owner"
-msgstr ""
+msgstr "مَالِك"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the owner of tickets in this group/queue."
-msgstr ""
+msgstr "أذونات لتغيير مالك التذاكر في هذه المجموعة / قائمة الانتظار."
 
 #. Template: AdminRoleGroup
 msgid "priority"
-msgstr ""
+msgstr "أَوْلَوِيَّةٌ"
 
 #. Template: AdminRoleGroup
 msgid "Permissions to change the ticket priority in this group/queue."
-msgstr ""
+msgstr "أذونات لتغيير أولوية التذكرة في هذه المجموعة / قائمة الانتظار."
 
 #. Template: AdminRoleUser
 msgid "Manage Agent-Role Relations"
-msgstr ""
+msgstr "إدارة العلاقات بين الوكيل والدور"
 
 #. Template: AdminRoleUser
 msgid "Add Agent"
-msgstr ""
+msgstr "إضافة وكيل"
 
 #. Template: AdminRoleUser
 msgid "Filter for Agents"
-msgstr ""
+msgstr "تصفية للوكلاء"
 
 #. Template: AdminRoleUser
 msgid "Filter for agents"
-msgstr ""
+msgstr "تصفية للوكلاء"
 
 #. Template: AdminRoleUser
 msgid "Agents"
-msgstr ""
+msgstr "الوكلاء"
 
 #. Template: AdminRoleUser
 msgid "Manage Role-Agent Relations"
-msgstr ""
+msgstr "إدارة العلاقات بين الدور والوكيل"
 
 #. Template: AdminSLA
 msgid "SLA Management"
-msgstr ""
+msgstr "إدارة اتفاقية مستوى الخدمة"
 
 #. Template: AdminSLA
 msgid "Edit SLA"
-msgstr ""
+msgstr "تحرير اتفاقية مستوى الخدمة"
 
 #. Template: AdminSLA
 msgid "Add SLA"
-msgstr ""
+msgstr "إضافة اتفاقية مستوى الخدمة"
 
 #. Template: AdminSLA
 msgid "Filter for SLAs"
-msgstr ""
+msgstr "تصفية لاتفاقيات مستوى الخدمة"
 
 #. Template: AdminSLA
 msgid "Please write only numbers!"
-msgstr ""
+msgstr "الرجاء كتابة الأرقام فقط!"
 
 #. Template: AdminSMIME
 msgid "S/MIME Management"
-msgstr ""
+msgstr "إدارة S/MIME"
 
 #. Template: AdminSMIME
 msgid "Add Certificate"
-msgstr ""
+msgstr "إضافة شهادة"
 
 #. Template: AdminSMIME
 msgid "Add Private Key"
-msgstr ""
+msgstr "إضافة مفتاح خاص"
 
 #. Template: AdminSMIME
 msgid "SMIME support is disabled"
-msgstr ""
+msgstr "تم تعطيل دعم SMIME"
 
 #. Template: AdminSMIME
 msgid "To be able to use SMIME in OTOBO, you have to enable it first."
-msgstr ""
+msgstr "لتتمكن من استخدام SMIME في OTOBO، يجب عليك تمكينه أولا."
 
 #. Template: AdminSMIME
 msgid "Enable SMIME support"
-msgstr ""
+msgstr "تفعيل دعم SMIME"
 
 #. Template: AdminSMIME
 msgid "Faulty SMIME configuration"
-msgstr ""
+msgstr "تكوين SMIME خاطئ"
 
 #. Template: AdminSMIME
 msgid ""
 "SMIME support is enabled, but the relevant configuration contains errors. "
 "Please check the configuration using the button below."
 msgstr ""
+"تم تمكين دعم SMIME، ولكن التكوين ذي الصلة يحتوي على أخطاء. يرجى التحقق من "
+"التكوين باستخدام الزر أدناه."
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
