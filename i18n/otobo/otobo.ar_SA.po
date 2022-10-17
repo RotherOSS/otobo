@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-14 18:38+0000\n"
+"PO-Revision-Date: 2022-10-17 10:04+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -6882,23 +6882,23 @@ msgstr ""
 
 #. Template: AdminSMIME
 msgid "Check SMIME configuration"
-msgstr ""
+msgstr "التحقق من تكوين S/MIME"
 
 #. Template: AdminSMIME
 msgid "Filter for Certificates"
-msgstr ""
+msgstr "تصفية الشهادات"
 
 #. Template: AdminSMIME
 msgid "Filter for certificates"
-msgstr ""
+msgstr "تصفية الشهادات"
 
 #. Template: AdminSMIME
 msgid "To show certificate details click on a certificate icon."
-msgstr ""
+msgstr "لعرض تفاصيل الشهادة، انقر على أيقونة الشهادة."
 
 #. Template: AdminSMIME
 msgid "To manage private certificate relations click on a private key icon."
-msgstr ""
+msgstr "لإدارة ارتباطات الشهادات، يمكنك النقر فوق رمز المفتاح الخاص."
 
 #. Template: AdminSMIME
 msgid ""
@@ -6906,20 +6906,23 @@ msgid ""
 "embedded to the S/MIME signature every time you use this certificate to sign "
 "an email."
 msgstr ""
+"يمكنك هنا إضافة علاقات إلى شهادتك الخاصة، والتي تتم إضافتها إلى توقيع S/MIME "
+"في كل مرة تستخدم فيها هذه الشهادة لتوقيع رسالة بريد إلكتروني."
 
 #. Template: AdminSMIME
 msgid "See also"
-msgstr ""
+msgstr "أنظر أيضا"
 
 #. Template: AdminSMIME
 msgid ""
 "In this way you can directly edit the certification and private keys in file "
 "system."
 msgstr ""
+"بهذه الطريقة، يمكنك تحرير الشهادات والمفاتيح الخاصة مباشرةً في نظام الملفات."
 
 #. Template: AdminSMIME
 msgid "Hash"
-msgstr ""
+msgstr "تجزئة"
 
 #. Template: AdminSMIME
 msgid "Create"
@@ -6927,15 +6930,15 @@ msgstr "إنشاء"
 
 #. Template: AdminSMIME
 msgid "Handle related certificates"
-msgstr ""
+msgstr "إدارة الشهادات المرتبطة"
 
 #. Template: AdminSMIME
 msgid "Read certificate"
-msgstr ""
+msgstr "قراءة الشهادة"
 
 #. Template: AdminSMIME
 msgid "Delete this certificate"
-msgstr ""
+msgstr "حذف هذه الشهادة"
 
 #. Template: AdminSMIME
 msgid "File"
@@ -6943,95 +6946,97 @@ msgstr "ملف"
 
 #. Template: AdminSMIME
 msgid "Secret"
-msgstr ""
+msgstr "خَفِيَّةٌ"
 
 #. Template: AdminSMIME
 msgid "Related Certificates for"
-msgstr ""
+msgstr "الشهادات المرتبطة ب"
 
 #. Template: AdminSMIME
 msgid "Delete this relation"
-msgstr ""
+msgstr "حذف هذه العلاقة"
 
 #. Template: AdminSMIME
 msgid "Available Certificates"
-msgstr ""
+msgstr "الشهادات المتاحة"
 
 #. Template: AdminSMIME
 msgid "Filter for S/MIME certs"
-msgstr ""
+msgstr "تصفية لشهادات S/MIME"
 
 #. Template: AdminSMIME
 msgid "Relate this certificate"
-msgstr ""
+msgstr "ربط هذه الشهادة"
 
 #. Template: AdminSMIMECertRead
 msgid "S/MIME Certificate"
-msgstr ""
+msgstr "شهادة S/MIME"
 
 #. Template: AdminSMIMECertRead
 msgid "Certificate Details"
-msgstr ""
+msgstr "تفاصيل الشهادة"
 
 #. Template: AdminSMIMECertRead
 msgid "Close this dialog"
-msgstr ""
+msgstr "إغلاق مربع الحوار هذا"
 
 #. Template: AdminSalutation
 msgid "Salutation Management"
-msgstr ""
+msgstr "إدارة التحية"
 
 #. Template: AdminSalutation
 msgid "Add Salutation"
-msgstr ""
+msgstr "إضافة تحية"
 
 #. Template: AdminSalutation
 msgid "Edit Salutation"
-msgstr ""
+msgstr "تحرير التحية"
 
 #. Template: AdminSalutation
 msgid "Filter for Salutations"
-msgstr ""
+msgstr "تصفية التحية"
 
 #. Template: AdminSalutation
 msgid "Filter for salutations"
-msgstr ""
+msgstr "تصفية التحية"
 
 #. Template: AdminSalutation
 msgid "e. g."
-msgstr ""
+msgstr "على سبيل المثال."
 
 #. Template: AdminSalutation
 msgid "Example salutation"
-msgstr ""
+msgstr "مثال على التحية"
 
 #. Template: AdminSecureMode
 msgid "Secure Mode Needs to be Enabled!"
-msgstr ""
+msgstr "يجب تمكين الوضع الآمن!"
 
 #. Template: AdminSecureMode
 msgid ""
 "Secure mode will (normally) be set after the initial installation is "
 "completed."
-msgstr ""
+msgstr "عادةً ما يتم تشغيل الوضع الآمن بعد اكتمال التثبيت."
 
 #. Template: AdminSecureMode
 msgid ""
 "If secure mode is not activated, activate it via SysConfig because your "
 "application is already running."
 msgstr ""
+"إذا لم يكن وضع الأمان نشطًا، فيمكنك تمكينه باستخدام SysConfig نظرًا لأن "
+"نظامك قيد التشغيل بالفعل."
 
 #. Template: AdminSelectBox
 msgid "SQL Box"
-msgstr ""
+msgstr "صندوق SQL"
 
 #. Template: AdminSelectBox
 msgid "Filter for Results"
-msgstr ""
+msgstr "تصفية النتائج"
 
 #. Template: AdminSelectBox
 msgid "Filter for results"
-msgstr ""
+msgstr "تصفية النتائج"
 
 #. Template: AdminSelectBox
 msgid ""
