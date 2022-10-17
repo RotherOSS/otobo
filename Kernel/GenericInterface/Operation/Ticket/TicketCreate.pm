@@ -1207,11 +1207,11 @@ sub _CheckAttachment {
 creates a ticket with its article and sets dynamic fields and attachments if specified.
 
     my $Response = $OperationObject->_TicketCreate(
-        Ticket       => $Ticket,                  # all ticket parameters
-        Article      => $Article,                 # all attachment parameters
-        DynamicField => $DynamicField,            # all dynamic field parameters
-        Attachment   => $Attachment,             # all attachment parameters
-        UserID       => 123,
+        Ticket         => $Ticket,       # all ticket parameters
+        Article        => $Article,      # all attachment parameters
+        DynamicField   => $DynamicField, # all dynamic field parameters
+        AttachmentList => $Attachment,   # all attachment parameters
+        UserID         => 123,
     );
 
     returns:
