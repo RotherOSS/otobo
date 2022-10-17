@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-17 10:04+0000\n"
+"PO-Revision-Date: 2022-10-17 13:24+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7044,10 +7044,12 @@ msgid ""
 "is not possible to change the content of the tables, only select queries are "
 "allowed."
 msgstr ""
+"هنا يمكنك إدخال SQL لإرساله مباشرة إلى قاعدة بيانات التطبيق. لا يمكن تغيير "
+"محتوى الجداول، يسمح فقط بتحديد الاستعلامات."
 
 #. Template: AdminSelectBox
 msgid "Here you can enter SQL to send it directly to the application database."
-msgstr ""
+msgstr "هنا يمكنك إدخال SQL التي سيتم إرسالها إلى قاعدة البيانات."
 
 #. Template: AdminSelectBox
 msgid "Options"
@@ -7055,152 +7057,152 @@ msgstr "خيارات"
 
 #. Template: AdminSelectBox
 msgid "Only select queries are allowed."
-msgstr ""
+msgstr "يسمح فقط بتحديد الاستعلامات."
 
 #. Template: AdminSelectBox
 msgid "The syntax of your SQL query has a mistake. Please check it."
-msgstr ""
+msgstr "يحتوي بناء جملة استعلام SQL على خطأ. يرجى التحقق من ذلك."
 
 #. Template: AdminSelectBox
 msgid ""
 "There is at least one parameter missing for the binding. Please check it."
-msgstr ""
+msgstr "معلمة واحدة على الأقل للربط مفقودة. يرجى التحقق."
 
 #. Template: AdminSelectBox
 msgid "Result format"
-msgstr ""
+msgstr "شكل النتيجة"
 
 #. Template: AdminSelectBox
 msgid "Run Query"
-msgstr ""
+msgstr "تنفيذ الاستفسار"
 
 #. Template: AdminSelectBox
 msgid "%s Results"
-msgstr ""
+msgstr "نتائج٪ s"
 
 #. Template: AdminSelectBox
 msgid "Query is executed."
-msgstr ""
+msgstr "الطلب قيد التنفيذ."
 
 #. Template: AdminService
 msgid "Service Management"
-msgstr ""
+msgstr "إدارة الخدمات"
 
 #. Template: AdminService
 msgid "Add Service"
-msgstr ""
+msgstr "إضافة خدمة"
 
 #. Template: AdminService
 msgid "Edit Service"
-msgstr ""
+msgstr "تحرير الخدمة"
 
 #. Template: AdminService
 msgid "Service name maximum length is 200 characters (with Sub-service)."
-msgstr ""
+msgstr "الحد الأقصى لطول اسم الخدمة هو 200 حرف (مع الخدمة الفرعية)."
 
 #. Template: AdminService
 msgid "Sub-service of"
-msgstr ""
+msgstr "الخدمة الفرعية ل"
 
 #. Template: AdminSession
 msgid "Session Management"
-msgstr ""
+msgstr "إدارة الجلسة"
 
 #. Template: AdminSession
 msgid "Detail Session View for %s (%s)"
-msgstr ""
+msgstr "عرض الجلسة التفصيلية ل٪ s (٪ s)"
 
 #. Template: AdminSession
 msgid "All sessions"
-msgstr ""
+msgstr "جميع الجلسات"
 
 #. Template: AdminSession
 msgid "Agent sessions"
-msgstr ""
+msgstr "جلسات الوكلاء"
 
 #. Template: AdminSession
 msgid "Customer sessions"
-msgstr ""
+msgstr "جلسات العملاء"
 
 #. Template: AdminSession
 msgid "Unique agents"
-msgstr ""
+msgstr "وكلاء فريدون"
 
 #. Template: AdminSession
 msgid "Unique customers"
-msgstr ""
+msgstr "عملاء فريدون"
 
 #. Template: AdminSession
 msgid "Kill all sessions"
-msgstr ""
+msgstr "إنهاء كل الجلسات"
 
 #. Template: AdminSession
 msgid "Kill this session"
-msgstr ""
+msgstr "إنهاء هذه الجلسة"
 
 #. Template: AdminSession
 msgid "Filter for Sessions"
-msgstr ""
+msgstr "تصفية للجلسات"
 
 #. Template: AdminSession
 msgid "Filter for sessions"
-msgstr ""
+msgstr "تصفية للجلسات"
 
 #. Template: AdminSession
 msgid "Session"
-msgstr ""
+msgstr "جلسة"
 
 #. Template: AdminSession
 msgid "Kill"
-msgstr ""
+msgstr "إنْهَاءٌ"
 
 #. Template: AdminSession
 msgid "Detail View for SessionID: %s - %s"
-msgstr ""
+msgstr "طريقة عرض التفاصيل ل SessionID: ٪s - ٪s"
 
 #. Template: AdminSignature
 msgid "Signature Management"
-msgstr ""
+msgstr "إدارة التوقيع"
 
 #. Template: AdminSignature
 msgid "Add Signature"
-msgstr ""
+msgstr "إضافة توقيع"
 
 #. Template: AdminSignature
 msgid "Edit Signature"
-msgstr ""
+msgstr "تحرير التوقيع"
 
 #. Template: AdminSignature
 msgid "Filter for Signatures"
-msgstr ""
+msgstr "تصفية التواقيع"
 
 #. Template: AdminSignature
 msgid "Filter for signatures"
-msgstr ""
+msgstr "تصفية التواقيع"
 
 #. Template: AdminSignature
 msgid "Example signature"
-msgstr ""
+msgstr "مثال على التوقيع"
 
 #. Template: AdminState
 msgid "State Management"
-msgstr "الحالة"
+msgstr "إدارة الحالة"
 
 #. Template: AdminState
 msgid "Add State"
-msgstr ""
+msgstr "إضافة حالة"
 
 #. Template: AdminState
 msgid "Edit State"
-msgstr ""
+msgstr "تحرير الحالة"
 
 #. Template: AdminState
 msgid "Filter for States"
-msgstr ""
+msgstr "تصفية الحالة"
 
 #. Template: AdminState
 msgid "Filter for states"
-msgstr ""
+msgstr "تصفية الحالة"
 
 #. Template: AdminState
 msgid "Attention"
@@ -7208,23 +7210,25 @@ msgstr "تنبيه"
 
 #. Template: AdminState
 msgid "Please also update the states in SysConfig where needed."
-msgstr ""
+msgstr "يرجى أيضًا تحديث الحالات في SysConfig عند الحاجة."
 
 #. Template: AdminState
 msgid ""
 "This state is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
 msgstr ""
+"توجد هذه الحالة في إعداد SysConfig. من الضروري وجود تأكيد لتحديث الإعداد إلى "
+"الحالة الجديدة!"
 
 #. Template: AdminState
 msgid "State type"
-msgstr ""
+msgstr "نوع الحالة"
 
 #. Template: AdminState
 msgid ""
 "It's not possible to invalidate this entry because there is no other merge "
 "states in system!"
-msgstr ""
+msgstr "لا يمكن إبطال هذا الإدخال لأنه لا توجد حالات دمج أخرى في النظام!"
 
 #. Template: AdminState
 msgid "This state is used in the following config settings:"
