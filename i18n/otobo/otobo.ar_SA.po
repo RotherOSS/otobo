@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-17 16:07+0000\n"
+"PO-Revision-Date: 2022-10-18 10:00+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7490,58 +7490,65 @@ msgstr ""
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Please review the changed settings and deploy afterwards."
-msgstr ""
+msgstr "يرجى مراجعة الإعدادات التي تم تغييرها ونشرها بعد ذلك."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "An empty list of changes means that there are no differences between the "
 "restored and the current state of the affected settings."
 msgstr ""
+"تعني قائمة التغييرات الفارغة عدم وجود اختلافات بين الحالة المستعادة والحالية "
+"للإعدادات المتأثرة."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Changes Overview"
-msgstr ""
+msgstr "نظرة عامة على التغييرات"
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are %s changed settings which will be deployed in this run."
-msgstr ""
+msgstr "في هذا التشغيل، يتم تشغيل إعدادات ٪s التي تم تغييرها."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Switch to basic mode to deploy settings only changed by you."
 msgstr ""
+"قم بالتبديل إلى الوضع الأساسي لاستخدام الإعدادات التي قمت بتغييرها بنفسك فقط."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "You have %s changed settings which will be deployed in this run."
-msgstr ""
+msgstr "في هذا التشغيل، يتم تشغيل إعدادات ٪s التي تم تغييرها."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Switch to advanced mode to deploy settings changed by other users, too."
 msgstr ""
+"قم بالتبديل إلى الوضع المتقدم لبدء الإعدادات التي تم تغييرها بواسطة وكلاء "
+"آخرين."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "There are no settings to be deployed."
-msgstr ""
+msgstr "لا توجد إعدادات ليتم نشرها."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid ""
 "Switch to advanced mode to see deployable settings changed by other users."
 msgstr ""
+"قم بالتبديل إلى الوضع المتقدم للاطلاع على الإعدادات التي تم تغييرها بواسطة "
+"وكلاء آخرين وجاهزة للتشغيل."
 
 #. Template: AdminSystemConfigurationDeployment
 msgid "Deploy selected changes"
-msgstr ""
+msgstr "قم بتنشيط الإعدادات المحددة"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Deployment History"
-msgstr ""
+msgstr "تاريخ التكليف"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Filter for Deployments"
-msgstr ""
+msgstr "تصفية لعمليات النشر"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Recent Deployments"
-msgstr ""
+msgstr "عمليات النشر الأخيرة"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore"
@@ -7549,19 +7556,19 @@ msgstr "اِسْتَعادَ"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "View Details"
-msgstr ""
+msgstr "عرض التفاصيل"
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Restore this deployment."
-msgstr ""
+msgstr "استعادة التكليف."
 
 #. Template: AdminSystemConfigurationDeploymentHistory
 msgid "Export this deployment."
-msgstr ""
+msgstr "تصدير هذا النشر."
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "Deployment Details"
-msgstr ""
+msgstr "تفاصيل التكليف"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "by"
@@ -7569,39 +7576,42 @@ msgstr "بواسطة"
 
 #. Template: AdminSystemConfigurationDeploymentHistoryDetails
 msgid "No settings have been deployed in this run."
-msgstr ""
+msgstr "لم يتم تفويض أي إعدادات في هذا التشغيل."
 
 #. Template: AdminSystemConfigurationGroup
 msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups."
 msgstr ""
+"لا تحتوي هذه المجموعة على أي إعدادات. يرجى محاولة الانتقال إلى إحدى "
+"مجموعاتها الفرعية."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import & Export"
-msgstr ""
+msgstr "استيراد و تصدير"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid ""
 "Upload a file to be imported to your system (.yml format as exported from "
 "the System Configuration module)."
 msgstr ""
+"اختر ملفًا لاستيراده إلى نظامك (بتنسيق .yml تم تصديره بواسطة تكوين النظام)."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Upload system configuration"
-msgstr ""
+msgstr "تحميل تكوين النظام"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Import system configuration"
-msgstr ""
+msgstr "استيراد تكوين النظام"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Download current configuration settings of your system in a .yml file."
-msgstr ""
+msgstr "قم بتنزيل إعدادات التكوين الحالية لنظامك في ملف .yml."
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Include user settings"
-msgstr ""
+msgstr "تضمين إعدادات المستخدم"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Export current configuration"
