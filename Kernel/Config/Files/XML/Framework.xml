@@ -9888,8 +9888,8 @@ via the Preferences button after logging in.
                         <Item Key="Name" Translatable="1">Jump to OTOBO!</Item>
                         <Item Key="Link">Action=ExternalURLJump;URL=http://otobo.de/</Item>
                         <Item Key="LinkOption">target="_blank"</Item>
-                        <Item Key="NavBar"></Item>
-                        <Item Key="Type"></Item>
+                        <Item Key="NavBar">Ticket</Item>
+                        <Item Key="Type">Menu</Item>
                         <Item Key="Block"></Item>
                         <Item Key="AccessKey">e</Item>
                         <Item Key="Prio">10000</Item>
