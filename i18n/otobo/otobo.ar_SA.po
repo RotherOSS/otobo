@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-18 10:00+0000\n"
+"PO-Revision-Date: 2022-10-18 15:57+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7615,63 +7615,63 @@ msgstr "تضمين إعدادات المستخدم"
 
 #. Template: AdminSystemConfigurationImportExport
 msgid "Export current configuration"
-msgstr ""
+msgstr "تصدير التكوين الحالي"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for"
-msgstr ""
+msgstr "البحث عن"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Search for category"
-msgstr ""
+msgstr "البحث عن فئة"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Settings I'm currently editing"
-msgstr ""
+msgstr "الإعدادات التي أقوم بتحريرها حاليًا"
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" did not return any results."
-msgstr ""
+msgstr "لم يؤد بحثك عن \"٪ s\" في الفئة \"٪ s\" إلى أي نتائج."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned one result."
-msgstr ""
+msgstr "أدى بحثك عن \"٪s\" في الفئة \"٪s\" إلى إرجاع نتيجة واحدة."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "Your search for \"%s\" in category \"%s\" returned %s results."
-msgstr ""
+msgstr "أدى البحث عن \"٪ s\" في الفئة \"٪ s\" إلى إرجاع٪ s من النتائج."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently not editing any settings."
-msgstr ""
+msgstr "أنت لا تقوم حاليًا بتحرير أي إعدادات."
 
 #. Template: AdminSystemConfigurationSearch
 msgid "You're currently editing %s setting(s)."
-msgstr ""
+msgstr "أنت تقوم حاليا بتحرير إعداد (إعدادات) ٪s."
 
 #. Template: AdminSystemConfigurationSearchDialog
 msgid "Category"
-msgstr "تصنيف"
+msgstr "فِئَةٌ"
 
 #. Template: AdminSystemConfigurationSearchDialog
 msgid "Run search"
-msgstr ""
+msgstr "بدء البحث"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History"
-msgstr ""
+msgstr "تاريخ التكليف"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "Change History of %s"
-msgstr ""
+msgstr "سجل التغييرات في ٪s"
 
 #. Template: AdminSystemConfigurationSettingHistoryDetails
 msgid "No modified values for this setting, the default value is used."
-msgstr ""
+msgstr "لا توجد تغييرات لهذا الإعداد، يتم استخدام القيمة الافتراضية."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Review users setting value"
-msgstr ""
+msgstr "مراجعة تغييرات المستخدم"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
