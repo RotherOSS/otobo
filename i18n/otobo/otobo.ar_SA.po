@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-19 09:20+0000\n"
+"PO-Revision-Date: 2022-10-20 01:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7861,104 +7861,109 @@ msgid ""
 "for Answer and Forward, latest for Note template type). This tag is not "
 "supported for other template types."
 msgstr ""
+"للحصول على أول 5 أسطر من نص المقالة الحالية / الأخيرة (الحالية للإجابة "
+"وإعادة التوجيه، الأحدث لنوع قالب الملاحظات). هذه العلامة غير مدعومة لأنواع "
+"القوالب الأخرى."
 
 #. Template: AdminTemplate
 msgid "Create type templates only supports this smart tags"
-msgstr ""
+msgstr "نماذج لإنشاء تدعم فقط هذه \"العلامات الذكية\""
 
 #. Template: AdminTemplate
 msgid "Example template"
-msgstr ""
+msgstr "مثال على القالب"
 
 #. Template: AdminTemplate
 msgid "The current ticket state is"
-msgstr "حالة البطاقة الآن هي"
+msgstr "حالة التذكرة الحالية هي"
 
 #. Template: AdminTemplate
 msgid "Your email address is"
-msgstr ""
+msgstr "عنوان بريدك الإلكتروني هو"
 
 #. Template: AdminTemplateAttachment
 msgid "Manage Template-Attachment Relations"
-msgstr ""
+msgstr "إدارة علاقات المرفقات بالقوالب"
 
 #. Template: AdminTemplateAttachment
 msgid "Toggle active for all"
-msgstr ""
+msgstr "التبديل النشط للجميع"
 
 #. Template: AdminTemplateAttachment
 msgid "Link %s to selected %s"
-msgstr ""
+msgstr "ربط ٪s ب٪s (محدد)"
 
 #. Template: AdminType
 msgid "Type Management"
-msgstr ""
+msgstr "إدارة أنواع"
 
 #. Template: AdminType
 msgid "Add Type"
-msgstr ""
+msgstr "إضافة نوع"
 
 #. Template: AdminType
 msgid "Edit Type"
-msgstr ""
+msgstr "تحرير النوع"
 
 #. Template: AdminType
 msgid "Filter for Types"
-msgstr ""
+msgstr "تصفية الأنواع"
 
 #. Template: AdminType
 msgid "Filter for types"
-msgstr ""
+msgstr "تصفية الأنواع"
 
 #. Template: AdminType
 msgid "A type with this name already exists!"
-msgstr ""
+msgstr "يوجد بالفعل نوع بهذا الاسم!"
 
 #. Template: AdminType
 msgid ""
 "This type is present in a SysConfig setting, confirmation for updating "
 "settings to point to the new type is needed!"
 msgstr ""
+"هذا النوع موجود في إعداد SysConfig، يلزم تأكيد تحديث الإعدادات للإشارة إلى "
+"النوع الجديد!"
 
 #. Template: AdminType
 msgid "This type is used in the following config settings:"
-msgstr ""
+msgstr "يستخدم هذا النوع في إعدادات التكوين التالية:"
 
 #. Template: AdminUser
 msgid "Agent Management"
-msgstr ""
+msgstr "إدارة الوكلاء"
 
 #. Template: AdminUser
 msgid "Edit Agent"
-msgstr ""
+msgstr "تحرير عميل"
 
 #. Template: AdminUser
 msgid "Edit personal preferences for this agent"
-msgstr ""
+msgstr "تعديل الإعدادات الشخصية لهذا الوكيل"
 
 #. Template: AdminUser
 msgid "Agents will be needed to handle tickets."
-msgstr ""
+msgstr "ستكون هناك حاجة إلى وكلاء للتعامل مع التذاكر."
 
 #. Template: AdminUser
 msgid "Don't forget to add a new agent to groups and/or roles!"
-msgstr ""
+msgstr "لا تنس إضافة عميل جديد إلى المجموعات و/أو الأدوار!"
 
 #. Template: AdminUser
 msgid "Please enter a search term to look for agents."
-msgstr ""
+msgstr "الرجاء إدخال مصطلح البحث للبحث عن وكلاء."
 
 #. Template: AdminUser
 msgid "Last login"
-msgstr ""
+msgstr "آخر تسجيل دخول"
 
 #. Template: AdminUser
 msgid "Switch to agent"
-msgstr ""
+msgstr "التبديل إلى العميل"
 
 #. Template: AdminUser
 msgid "Title or salutation"
-msgstr ""
+msgstr "العنوان أو التحية"
 
 #. Template: AdminUser
 msgid "Firstname"
@@ -7970,11 +7975,11 @@ msgstr "الإسم الأخير"
 
 #. Template: AdminUser
 msgid "A user with this username already exists!"
-msgstr ""
+msgstr "يوجد مستخدم باسم المستخدم هذا بالفعل!"
 
 #. Template: AdminUser
 msgid "Will be auto-generated if left empty."
-msgstr ""
+msgstr "سيتم إنشاؤها تلقائيًا إذا تركت فارغة."
 
 #. Template: AdminUser
 msgid "Mobile"
@@ -7982,7 +7987,7 @@ msgstr "رقم الجوال"
 
 #. Template: AdminUser
 msgid "Effective Permissions for Agent"
-msgstr ""
+msgstr "أذونات صالحة للوكيل"
 
 #. Template: AdminUser
 msgid "This agent has no group permissions."
