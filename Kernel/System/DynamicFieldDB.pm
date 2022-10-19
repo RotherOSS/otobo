@@ -557,9 +557,7 @@ sub DatabaseSearchByConfig {
 
         my @ResultItem;
 
-        my $RowCount = scalar @Row;
-
-        for my $Key ( 0 .. $RowCount ) {
+        for my $Key ( 0 .. $#Row ) {
 
             my %ResultItemField;
 
@@ -684,10 +682,8 @@ sub DatabaseSearchDetails {
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $RowCount = scalar @Row;
-
         KEY:
-        for my $Key ( 0 .. $RowCount ) {
+        for my $Key ( 0 .. $#Row ) {
 
             my %ResultItemField;
 
