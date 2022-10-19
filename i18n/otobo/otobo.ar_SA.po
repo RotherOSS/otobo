@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-18 15:57+0000\n"
+"PO-Revision-Date: 2022-10-19 09:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7675,137 +7675,139 @@ msgstr "مراجعة تغييرات المستخدم"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Users Value"
-msgstr ""
+msgstr "تغيير المستخدم"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "For"
-msgstr ""
+msgstr "من أجل"
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "Delete all user values."
-msgstr ""
+msgstr "تجاهل جميع تغييرات المستخدم."
 
 #. Template: AdminSystemConfigurationUserModifiedDetails
 msgid "No user value for this setting."
-msgstr ""
+msgstr "لا يوجد تغيير للمستخدم لهذا الإعداد."
 
 #. Template: AdminSystemConfigurationView
 msgid "View a custom List of Settings"
-msgstr ""
+msgstr "عرض قائمة إعدادات مخصصة"
 
 #. Template: AdminSystemConfigurationView
 msgid "View single Setting: %s"
-msgstr ""
+msgstr "الإعداد: إظهار٪ s"
 
 #. Template: AdminSystemConfigurationView
 msgid "Go back to Deployment Details"
-msgstr ""
+msgstr "ارجع إلى تفاصيل التكليف"
 
 #. Template: AdminSystemMaintenance
 msgid "System Maintenance Management"
-msgstr ""
+msgstr "إدارة صيانة النظام"
 
 #. Template: AdminSystemMaintenance
 msgid "Schedule New System Maintenance"
-msgstr ""
+msgstr "جدولة صيانة النظام الجديد"
 
 #. Template: AdminSystemMaintenance
 msgid "Filter for System Maintenances"
-msgstr ""
+msgstr "مرشح صيانة النظام"
 
 #. Template: AdminSystemMaintenance
 msgid "Filter for system maintenances"
-msgstr ""
+msgstr "مرشح صيانة النظام"
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Schedule a system maintenance period for announcing the Agents and Customers "
 "the system is down for a time period."
-msgstr ""
+msgstr "جدولة نافذة صيانة النظام لتنبيه الوكلاء والعملاء إلى وقت التوقف."
 
 #. Template: AdminSystemMaintenance
 msgid ""
 "Some time before this system maintenance starts the users will receive a "
 "notification on each screen announcing about this fact."
-msgstr ""
+msgstr "قبل صيانة النظام ببعض الوقت، سيرى المستخدمون إشعارًا على كل شاشة."
 
 #. Template: AdminSystemMaintenance
 msgid "Stop date"
-msgstr ""
+msgstr "وقت الانتهاء"
 
 #. Template: AdminSystemMaintenance
 msgid "Delete System Maintenance"
-msgstr ""
+msgstr "إزالة صيانة النظام"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance"
-msgstr ""
+msgstr "تحرير صيانة النظام"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Edit System Maintenance Information"
-msgstr ""
+msgstr "تحرير معلومات صيانة النظام"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Date invalid!"
-msgstr ""
+msgstr "التاريخ غير صالح!"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Login message"
-msgstr ""
+msgstr "رسالة عند تسجيل الدخول"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "This field must have less then 250 characters."
-msgstr ""
+msgstr "يجب أن يحتوي هذا الحقل على أقل من 250 حرفا."
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Show login message"
-msgstr ""
+msgstr "إظهار رسالة تسجيل الدخول"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Notify message"
-msgstr ""
+msgstr "نص تلميح"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Manage Sessions"
-msgstr ""
+msgstr "إدارة الجلسات"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "All Sessions"
-msgstr ""
+msgstr "جميع الجلسات"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Agent Sessions"
-msgstr ""
+msgstr "جلسات الوكلاء"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Customer Sessions"
-msgstr ""
+msgstr "جلسات العملاء"
 
 #. Template: AdminSystemMaintenanceEdit
 msgid "Kill all Sessions, except for your own"
-msgstr ""
+msgstr "إنهاء جميع الجلسات، باستثناء جلساتك"
 
 #. Template: AdminTemplate
 msgid "Template Management"
-msgstr ""
+msgstr "إدارة القوالب"
 
 #. Template: AdminTemplate
 msgid "Add Template"
-msgstr ""
+msgstr "إضافة قالب"
 
 #. Template: AdminTemplate
 msgid "Edit Template"
-msgstr ""
+msgstr "تحرير القالب"
 
 #. Template: AdminTemplate
 msgid ""
 "A template is a default text which helps your agents to write faster "
 "tickets, answers or forwards."
 msgstr ""
+"القالب هو نص قياسي يمكن أن يساعد وكلاؤك في إنشاء التذاكر أو الرد عليها أو "
+"إعادة توجيهها بشكل أسرع."
 
 #. Template: AdminTemplate
 msgid "Don't forget to add new templates to queues."
-msgstr ""
+msgstr "لا تنس تعيين قوالب جديدة لقوائم الانتظار."
 
 #. Template: AdminTemplate
 msgid "Attachments"
@@ -7813,11 +7815,11 @@ msgstr "ملفات مرفقه"
 
 #. Template: AdminTemplate
 msgid "Delete this entry"
-msgstr ""
+msgstr "حذف هذا الإدخال"
 
 #. Template: AdminTemplate
 msgid "Do you really want to delete this template?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذا النموذج؟"
 
 #. Template: AdminTemplate
 msgid "A standard template with this name already exists!"
