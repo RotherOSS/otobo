@@ -55,7 +55,7 @@ Notification event transport layer.
 
 create a notification transport object. Do not use it directly, instead use:
 
-    my $TransportObject = $Kernel::OM->Get('Kernel::System::Ticket::Event::NotificationEvent::Transport::Email');
+    my $TransportObject = $Kernel::OM->Get('Kernel::System::Calendar::Event::Transport::Email');
 
 =cut
 
@@ -449,10 +449,9 @@ sub SecurityOptionsGet {
             Search => $NotificationSenderEmail,
         );
 
-        # take just valid keys
+        # Take just valid keys.
         @SignKeys = grep { $_->{Status} eq 'good' } @SignKeys;
 
-        # get public keys
         @EncryptKeys = $PGPObject->PublicKeySearch(
             Search => $Param{Recipient}->{UserEmail},
         );
