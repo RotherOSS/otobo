@@ -476,12 +476,14 @@ sub SecurityOptionsGet {
             return;
         }
 
-        @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->PrivateSearch(
+        # Take just valid keys.
+        @SignKeys = $SMIMEObject->PrivateSearch(
             Search => $NotificationSenderEmail,
             Valid  => 1,
         );
 
-        @EncryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
+        # Take just valid keys.
+        @EncryptKeys = $SMIMEObject->CertificateSearch(
             Search => $Param{Recipient}->{UserEmail},
             Valid  => 1,
         );
