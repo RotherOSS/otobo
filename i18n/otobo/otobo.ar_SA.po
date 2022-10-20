@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-20 01:28+0000\n"
+"PO-Revision-Date: 2022-10-20 20:50+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -7991,17 +7991,19 @@ msgstr "أذونات صالحة للوكيل"
 
 #. Template: AdminUser
 msgid "This agent has no group permissions."
-msgstr ""
+msgstr "لا يملك هذا الوكيل أذونات مجموعة."
 
 #. Template: AdminUser
 msgid ""
 "Table above shows effective group permissions for the agent. The matrix "
 "takes into account all inherited permissions (e.g. via roles)."
 msgstr ""
+"يظهر الجدول أعلاه أذونات المجموعة الصالحة للوكيل. وتأخذ المصفوفة في الاعتبار "
+"جميع الأذونات الموروثة (مثلا عن طريق الأدوار)."
 
 #. Template: AdminUserGroup
 msgid "Manage Agent-Group Relations"
-msgstr ""
+msgstr "إدارة العلاقات بين الوكيل والمجموعة"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Agenda Overview"
@@ -8021,7 +8023,7 @@ msgstr "اليوم"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "All-day"
-msgstr ""
+msgstr "طوال اليوم"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Repeat"
@@ -8033,7 +8035,7 @@ msgstr "التنبيهات"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "Yes"
-msgstr "نعم"
+msgstr "نَعَمْ"
 
 #. Template: AgentAppointmentAgendaOverview
 msgid "No"
@@ -8048,7 +8050,7 @@ msgstr ""
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Add new Appointment"
-msgstr ""
+msgstr "إضافة موعد جديد"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
