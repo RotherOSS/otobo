@@ -557,7 +557,7 @@ sub DatabaseSearchByConfig {
 
         my @ResultItem;
 
-        for my $Key ( 0 .. $#Row ) {
+        for my $Item ( @Row ) {
 
             my %ResultItemField;
 
@@ -571,15 +571,15 @@ sub DatabaseSearchByConfig {
                 $ResultItemField{Datatype} = $ResultDataTemplate[$Count]->{Datatype};
 
                 # save the value as identifier
-                $ResultItemField{Identifier} = $Row[$Key];
+                $ResultItemField{Identifier} = $Item;
 
                 # check if the value should also be displayed
                 if ( $ResultDataTemplate[$Count]->{Listfield} ) {
-                    $ResultItemField{Data} = $Row[$Key];
+                    $ResultItemField{Data} = $Item;
                 }
             }
             else {
-                $ResultItemField{Data} = $Row[$Key];
+                $ResultItemField{Data} = $Item;
             }
 
             $Count++;
