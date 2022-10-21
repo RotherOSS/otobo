@@ -51,8 +51,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-09-05 10:29+0000\n"
-"Last-Translator: svo <svo@rother-oss.com>\n"
+"PO-Revision-Date: 2022-10-05 11:32+0000\n"
+"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -2805,7 +2805,7 @@ msgstr "(z. B. 234321)"
 
 #. Template: AdminGenericAgent
 msgid "Customer user ID"
-msgstr "Kundenbenutzer-Nummer"
+msgstr "Kundenbenutzer Benutzername"
 
 #. Template: AdminGenericAgent
 msgid "(e. g. U5150)"
@@ -17574,7 +17574,7 @@ msgstr "Zertifikatsprüfung"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
-msgstr ""
+msgstr "Veraltete kryptographische Funktion gefunden."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
@@ -20881,6 +20881,8 @@ msgid ""
 "Automatically generate statistics reports and email them to the specified "
 "recipients."
 msgstr ""
+"Automatisch Statistikberichte erstellen und diese an definierte Empfänger "
+"versenden."
 
 #. SysConfig
 msgid ""
@@ -24596,6 +24598,14 @@ msgid ""
 "agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config."
 "pm."
 msgstr ""
+"Definiert die Parameter für die Übersicht. \"Cmd\" wird verwendet um einen "
+"Befehl mit Parametern zu spezifizieren. \"Group\" wird verwendet um den "
+"Zugriff auf das Plugin einzuschränken (z.B. Group: admin;group1;group2;). "
+"\"Default\" zeigt an, ob das Plugin standardmäßig aktiviert ist oder ob der "
+"Anwender es manuell aktivieren muss. \"CacheTTL\" zeigt die Ablaufzeit für "
+"den Plugin-Cache in Minuten an. \"Mandatory\" bestimmt, ob das Plugin immer "
+"angezeigt und nicht von Agenten entfernt werden kann. Es funktioniert nur, "
+"wenn DashboardBackend::AllowCmdOutput in der Datei Config.pm aktiviert wurde."
 
 #. SysConfig
 msgid ""
@@ -27234,7 +27244,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Ignores not ticket related attributes."
-msgstr ""
+msgstr "Ignoriert Attribute ohne Ticket-Zusammenhang."
 
 #. SysConfig
 msgid "Import appointments screen."
@@ -29253,6 +29263,9 @@ msgid ""
 "are authenticated via LDAP. Highly inefficient however, as the whole index "
 "is rebuild every time."
 msgstr ""
+"Erstellt die Elasticsearch-Indizes neu. Kann etwa verwendet werden, wenn "
+"Kundenbenutzer sich via LDAP authentifizieren. Jedoch höchst ineffizient, da "
+"jedes Mal, da der gesamte Index immer komplett neu generiert wird."
 
 #. SysConfig
 msgid "Rebuilds the ACL preselection cache."

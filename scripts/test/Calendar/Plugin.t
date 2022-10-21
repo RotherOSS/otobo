@@ -161,7 +161,7 @@ if ($PluginKeyTicket) {
         "TicketNumberLookup() - $TicketNumber",
     );
 
-    # crete test calendar
+    # create test calendar
     my %Calendar = $CalendarObject->CalendarCreate(
         CalendarName => 'Test Calendar ' . $RandomID,
         Color        => '#3A87AD',

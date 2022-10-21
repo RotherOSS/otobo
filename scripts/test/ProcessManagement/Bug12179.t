@@ -198,7 +198,7 @@ my $TicketID1 = $TicketObject->TicketCreate(
 $Self->IsNot(
     $TicketID1,
     undef,
-    'TicketCrete() for Ticket 1'
+    'TicketCreate() for Ticket 1'
 );
 my $TicketID2 = $TicketObject->TicketCreate(
     %TicketTemplate,
@@ -207,7 +207,7 @@ my $TicketID2 = $TicketObject->TicketCreate(
 $Self->IsNot(
     $TicketID1,
     undef,
-    'TicketCrete() for Ticket 2'
+    'TicketCreate() for Ticket 2'
 );
 
 # Create articles.
@@ -228,7 +228,7 @@ my $ArticleID1 = $ArticleBackendObject->ArticleCreate(
 $Self->IsNot(
     $ArticleID1,
     undef,
-    'ArticleCrete() for Ticket 1'
+    'ArticleCreate() for Ticket 1'
 );
 my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
     %ArticleTemplate,
@@ -237,7 +237,7 @@ my $ArticleID2 = $ArticleBackendObject->ArticleCreate(
 $Self->IsNot(
     $ArticleID2,
     undef,
-    'ArticleCrete() for Ticket 2'
+    'ArticleCreate() for Ticket 2'
 );
 
 # Get Dynamic Fields Configuration

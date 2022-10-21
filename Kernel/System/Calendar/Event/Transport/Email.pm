@@ -55,7 +55,7 @@ Notification event transport layer.
 
 create a notification transport object. Do not use it directly, instead use:
 
-    my $TransportObject = $Kernel::OM->Get('Kernel::System::Ticket::Event::NotificationEvent::Transport::Email');
+    my $TransportObject = $Kernel::OM->Get('Kernel::System::Calendar::Event::Transport::Email');
 
 =cut
 
@@ -77,7 +77,7 @@ sub SendNotification {
         if ( !$Param{$Needed} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => 'Need $Needed!',
+                Message  => "Need $Needed!",
             );
             return;
         }
@@ -449,10 +449,9 @@ sub SecurityOptionsGet {
             Search => $NotificationSenderEmail,
         );
 
-        # take just valid keys
+        # Take just valid keys.
         @SignKeys = grep { $_->{Status} eq 'good' } @SignKeys;
 
-        # get public keys
         @EncryptKeys = $PGPObject->PublicKeySearch(
             Search => $Param{Recipient}->{UserEmail},
         );
@@ -477,12 +476,14 @@ sub SecurityOptionsGet {
             return;
         }
 
-        @SignKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->PrivateSearch(
+        # Take just valid keys.
+        @SignKeys = $SMIMEObject->PrivateSearch(
             Search => $NotificationSenderEmail,
             Valid  => 1,
         );
 
-        @EncryptKeys = $Kernel::OM->Get('Kernel::System::Crypt::SMIME')->CertificateSearch(
+        # Take just valid keys.
+        @EncryptKeys = $SMIMEObject->CertificateSearch(
             Search => $Param{Recipient}->{UserEmail},
             Valid  => 1,
         );

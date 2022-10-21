@@ -4767,6 +4767,7 @@ sub CustomerNavigationBar {
             }
         }
 
+        # use the round OTOBO O as the default icon
         if ( !$SVGString ) {
             $SVGString =
 

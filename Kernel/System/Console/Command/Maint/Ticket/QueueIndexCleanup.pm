@@ -41,6 +41,7 @@ sub PreRun {
     if ( $Module =~ m{StaticDB} ) {
         my $Error = "$Module is the active queue index, aborting.\n";
         $Error .= "Use Maint::Ticket::QueueIndexRebuild to regenerate the active index.\n";
+
         die $Error;
     }
 
@@ -54,8 +55,7 @@ sub Run {
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
-    my $Records;
-
+    my $Records = 0;
     $DBObject->Prepare(
         SQL => 'SELECT count(*) from ticket_index'
     );
@@ -71,18 +71,19 @@ sub Run {
 
     if ( !$Records ) {
         $Self->Print("<green>Queue index is already clean.</green>\n");
+
         return $Self->ExitCodeOk();
     }
 
-    $Kernel::OM->Get('Kernel::System::DB')->Do(
+    $DBObject->Do(
         SQL => 'DELETE FROM ticket_index',
     );
-
     $DBObject->Do(
         SQL => 'DELETE FROM ticket_lock_index',
     );
 
     $Self->Print("<green>Done ($Records records deleted).</green>\n");
+
     return $Self->ExitCodeOk();
 }
 
