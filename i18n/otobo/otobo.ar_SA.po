@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-20 20:50+0000\n"
+"PO-Revision-Date: 2022-10-22 11:21+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -8054,15 +8054,15 @@ msgstr "إضافة موعد جديد"
 
 #. Template: AgentAppointmentCalendarOverview
 msgid "Calendars"
-msgstr ""
+msgstr "تَقْويمٌ"
 
 #. Template: AgentAppointmentEdit
 msgid "Basic information"
-msgstr ""
+msgstr "معلومات أساسية"
 
 #. Template: AgentAppointmentEdit
 msgid "Date/Time"
-msgstr ""
+msgstr "التاريخ/الوقت"
 
 #. Template: AgentAppointmentEdit
 msgid "Invalid date!"
@@ -8070,31 +8070,31 @@ msgstr "التاريخ غير صحيح!"
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value before End date."
-msgstr ""
+msgstr "يرجى تحديد قيمة قبل تاريخ الانتهاء."
 
 #. Template: AgentAppointmentEdit
 msgid "Please set this to value after Start date."
-msgstr ""
+msgstr "الرجاء وضع قيمة بعد تاريخ البدء."
 
 #. Template: AgentAppointmentEdit
 msgid "This an occurrence of a repeating appointment."
-msgstr ""
+msgstr "هذا عنصر في موعد متكرر."
 
 #. Template: AgentAppointmentEdit
 msgid "Click here to see the parent appointment."
-msgstr ""
+msgstr "انقر هنا لمشاهدة الموعد الأصلي."
 
 #. Template: AgentAppointmentEdit
 msgid "Click here to edit the parent appointment."
-msgstr ""
+msgstr "انقر هنا لتحرير الموعد الأصلي."
 
 #. Template: AgentAppointmentEdit
 msgid "Frequency"
-msgstr ""
+msgstr "تَكْرارٌ"
 
 #. Template: AgentAppointmentEdit
 msgid "Every"
-msgstr ""
+msgstr "كُلّ"
 
 #. Template: AgentAppointmentEdit
 msgid "day(s)"
@@ -8118,7 +8118,7 @@ msgstr "تفعيل"
 
 #. Template: AgentAppointmentEdit
 msgid "Monday"
-msgstr ""
+msgstr "الاِثْنَيْن"
 
 #. Template: AgentAppointmentEdit
 msgid "Mon"
@@ -8126,15 +8126,15 @@ msgstr "الإثنين"
 
 #. Template: AgentAppointmentEdit
 msgid "Tuesday"
-msgstr ""
+msgstr "الثُّلاثاء"
 
 #. Template: AgentAppointmentEdit
 msgid "Tue"
-msgstr "الثلثاء"
+msgstr "الثّلاَثاء"
 
 #. Template: AgentAppointmentEdit
 msgid "Wednesday"
-msgstr ""
+msgstr "الأَرْبِعاء"
 
 #. Template: AgentAppointmentEdit
 msgid "Wed"
@@ -8142,15 +8142,15 @@ msgstr "الأربعاء"
 
 #. Template: AgentAppointmentEdit
 msgid "Thursday"
-msgstr ""
+msgstr "الخَمِيس"
 
 #. Template: AgentAppointmentEdit
 msgid "Thu"
-msgstr "الخميس"
+msgstr "خَمِيس"
 
 #. Template: AgentAppointmentEdit
 msgid "Friday"
-msgstr ""
+msgstr "الجُمْعَة"
 
 #. Template: AgentAppointmentEdit
 msgid "Fri"
@@ -8158,7 +8158,7 @@ msgstr "الجمعة"
 
 #. Template: AgentAppointmentEdit
 msgid "Saturday"
-msgstr ""
+msgstr "السَّبْت"
 
 #. Template: AgentAppointmentEdit
 msgid "Sat"
@@ -8166,7 +8166,7 @@ msgstr "السبت"
 
 #. Template: AgentAppointmentEdit
 msgid "Sunday"
-msgstr ""
+msgstr "الأَحَد"
 
 #. Template: AgentAppointmentEdit
 msgid "Sun"
@@ -8174,87 +8174,87 @@ msgstr "الأحد"
 
 #. Template: AgentAppointmentEdit
 msgid "January"
-msgstr "يناير"
+msgstr "يَنَاير"
 
 #. Template: AgentAppointmentEdit
 msgid "Jan"
-msgstr "يناير"
+msgstr "يَنَاير"
 
 #. Template: AgentAppointmentEdit
 msgid "February"
-msgstr "فبراير"
+msgstr "فِبْراير"
 
 #. Template: AgentAppointmentEdit
 msgid "Feb"
-msgstr "فبراير"
+msgstr "فِبْراير"
 
 #. Template: AgentAppointmentEdit
 msgid "March"
-msgstr "مارس"
+msgstr "مارِس"
 
 #. Template: AgentAppointmentEdit
 msgid "Mar"
-msgstr "مارس"
+msgstr "مارِس"
 
 #. Template: AgentAppointmentEdit
 msgid "April"
-msgstr "أبريل"
+msgstr "أبْرِيل"
 
 #. Template: AgentAppointmentEdit
 msgid "Apr"
-msgstr "أبريل"
+msgstr "أبْرِيل"
 
 #. Template: AgentAppointmentEdit
 msgid "May_long"
-msgstr "مايو"
+msgstr "مايُو"
 
 #. Template: AgentAppointmentEdit
 msgid "May"
-msgstr "مايو"
+msgstr "مايُو"
 
 #. Template: AgentAppointmentEdit
 msgid "June"
-msgstr "جون"
+msgstr "يُونْيُو"
 
 #. Template: AgentAppointmentEdit
 msgid "Jun"
-msgstr "جون"
+msgstr "يُونْيُو"
 
 #. Template: AgentAppointmentEdit
 msgid "July"
-msgstr "يوليو"
+msgstr "يُولْيُو"
 
 #. Template: AgentAppointmentEdit
 msgid "Jul"
-msgstr "يوليو"
+msgstr "يُولْيُو"
 
 #. Template: AgentAppointmentEdit
 msgid "August"
-msgstr "اغسطس"
+msgstr "أُغُسْطُس"
 
 #. Template: AgentAppointmentEdit
 msgid "Aug"
-msgstr "أغسطس"
+msgstr "أُغُسْطُس"
 
 #. Template: AgentAppointmentEdit
 msgid "September"
-msgstr "سبتمبر"
+msgstr "سِبْتمبر"
 
 #. Template: AgentAppointmentEdit
 msgid "Sep"
-msgstr "سبتمبر"
+msgstr "سِبْتمبر"
 
 #. Template: AgentAppointmentEdit
 msgid "October"
-msgstr "اكتوبر"
+msgstr "أُكْتُوبر"
 
 #. Template: AgentAppointmentEdit
 msgid "Oct"
-msgstr "أكتوبر"
+msgstr "أُكْتُوبر"
 
 #. Template: AgentAppointmentEdit
 msgid "November"
-msgstr "نوفمبر"
+msgstr "نُوفَمْبِر"
 
 #. Template: AgentAppointmentEdit
 msgid "Nov"
@@ -8262,7 +8262,7 @@ msgstr "نوفمبر"
 
 #. Template: AgentAppointmentEdit
 msgid "December"
-msgstr "ديسمبر"
+msgstr "دِيسِمْبر"
 
 #. Template: AgentAppointmentEdit
 msgid "Dec"
@@ -8270,7 +8270,7 @@ msgstr "ديسمبر"
 
 #. Template: AgentAppointmentEdit
 msgid "Relative point of time"
-msgstr ""
+msgstr "نقطة زمنية نسبية"
 
 #. Template: AgentAppointmentEdit
 msgid "Link"
@@ -8278,11 +8278,11 @@ msgstr "رابط"
 
 #. Template: AgentAppointmentEdit
 msgid "Remove entry"
-msgstr ""
+msgstr "إزالة الإدخال"
 
 #. Template: AgentCustomerInformationCenter
 msgid "Customer Information Center"
-msgstr ""
+msgstr "مركز معلومات العملاء"
 
 #. Template: AgentCustomerInformationCenterSearch
 msgid "Customer User"
@@ -8290,81 +8290,81 @@ msgstr "العميل"
 
 #. Template: AgentCustomerTableView
 msgid "Note: Customer is invalid!"
-msgstr ""
+msgstr "ملاحظة: العميل غير صالح!"
 
 #. Template: AgentCustomerTableView
 msgid "Start chat"
-msgstr ""
+msgstr "بدء الدردشة"
 
 #. Template: AgentCustomerTableView
 msgid "Video call"
-msgstr ""
+msgstr "مكالمة فيديو"
 
 #. Template: AgentCustomerTableView
 msgid "Audio call"
-msgstr ""
+msgstr "مكالمة صوتية"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Customer User Address Book"
-msgstr ""
+msgstr "دفتر عناوين العميل"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search for recipients and add the results as '%s'."
-msgstr ""
+msgstr "ابحث عن المستلمين وأضف النتائج ك '٪s'."
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Search template"
-msgstr ""
+msgstr "قالب البحث"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Create Template"
-msgstr ""
+msgstr "إنشاء قالب"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Create New"
-msgstr ""
+msgstr "إنشاء جديد"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Save changes in template"
-msgstr ""
+msgstr "حفظ التغييرات في القالب"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Filters in use"
-msgstr ""
+msgstr "الفلاتر المستخدمة"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Additional filters"
-msgstr ""
+msgstr "عوامل تصفية إضافية"
 
 #. Template: AgentCustomerUserAddressBook
 msgid "Add another attribute"
-msgstr ""
+msgstr "إضافة سمة أخرى"
 
 #. Template: AgentCustomerUserAddressBook
 msgid ""
 "The attributes with the identifier '(Customer)' are from the customer "
 "company."
-msgstr ""
+msgstr "تنتمي السمات المسماة '(العميل)' إلى شركة العميل."
 
 #. Template: AgentCustomerUserAddressBook
 msgid "(e. g. Term* or *Term*)"
-msgstr ""
+msgstr "(على سبيل المثال، المصطلح* أو *المصطلح*)"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select all"
-msgstr ""
+msgstr "تحديد الكل"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "The customer user is already selected in the ticket mask."
-msgstr ""
+msgstr "تم تحديد العميل بالفعل في قناع التذكرة."
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Select this customer user"
-msgstr ""
+msgstr "تحديد مستخدم العميل هذا"
 
 #. Template: AgentCustomerUserAddressBookOverview
 msgid "Add selected customer user to"
-msgstr ""
+msgstr "إضافة مستخدم العميل المحدد إلى"
 
 #. Template: AgentCustomerUserAddressBookOverviewNavBar
 msgid "Change search options"
