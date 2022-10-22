@@ -1273,6 +1273,7 @@ sub ResetConfigOption {
         'CustomerLogo'                                                => '1',
         'PDF::LogoFile'                                               => '1',
         'Package::RepositoryList'                                     => '1',
+        'Package::RepositoryRoot'                                     => '1',
     };
 }
 
