@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-22 11:21+0000\n"
+"PO-Revision-Date: 2022-10-25 06:06+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -8372,21 +8372,23 @@ msgstr "تغيير خصائص البحث"
 
 #. Template: AgentCustomerUserInformationCenter
 msgid "Customer User Information Center"
-msgstr ""
+msgstr "مركز معلومات مستخدم العميل"
 
 #. Template: AgentDaemonInfo
 msgid ""
 "The OTOBO Daemon is a daemon process that performs asynchronous tasks, e.g. "
 "ticket escalation triggering, email sending, etc."
 msgstr ""
+"OTOBO Daemon عبارة عن عملية برنامج يقوم بتنفيذ مهام غير متزامنة، مثل تشغيل "
+"تصعيد التذكرة وإرسال البريد الإلكتروني وما إلى ذلك."
 
 #. Template: AgentDaemonInfo
 msgid "A running OTOBO Daemon is mandatory for correct system operation."
-msgstr ""
+msgstr "يعد تشغيل OTOBO Daemon إلزاميًا لتشغيل النظام بشكل صحيح."
 
 #. Template: AgentDaemonInfo
 msgid "Starting the OTOBO Daemon"
-msgstr ""
+msgstr "بدء تشغيل برنامج Otobo Daemon"
 
 #. Template: AgentDaemonInfo
 msgid ""
@@ -8394,25 +8396,30 @@ msgid ""
 "will check every 5 minutes if the OTOBO Daemon is running and start it if "
 "needed."
 msgstr ""
+"تأكد من وجود الملف '٪s' (بدون ملحق . dist). ستقوم مهمة cron هذه بالتحقق كل 5 "
+"دقائق مما إذا كان OTOBO Daemon قيد التشغيل وبدء تشغيله إذا لزم الأمر."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "Execute '%s start' to make sure the cron jobs of the 'otobo' user are active."
 msgstr ""
+"قم بتنفيذ '٪s start' للتأكد من أن وظائف cron الخاصة بالمستخدم 'otobo' نشطة."
 
 #. Template: AgentDaemonInfo
 msgid ""
 "After 5 minutes, check that the OTOBO Daemon is running in the system ('bin/"
 "otobo.Daemon.pl status')."
 msgstr ""
+"بعد 5 دقائق، تحقق من تشغيل برنامج OTOBO Daemon في النظام (\"bin / "
+"otobo.Daemon.pl status\")."
 
 #. Template: AgentDashboard
 msgid "Dashboard"
-msgstr ""
+msgstr "نَظْرَة عامة"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "New Appointment"
-msgstr ""
+msgstr "موعد جديد"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Tomorrow"
@@ -8420,11 +8427,11 @@ msgstr "غداً"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Soon"
-msgstr ""
+msgstr "قَرِيباً"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "5 days"
-msgstr ""
+msgstr "5 أيام"
 
 #. Template: AgentDashboardAppointmentCalendar
 msgid "Start"
@@ -8436,206 +8443,208 @@ msgstr "بدون"
 
 #. Template: AgentDashboardCalendarOverview
 msgid "in"
-msgstr ""
+msgstr "فِي"
 
 #. Template: AgentDashboardCommon
 msgid "Save settings"
-msgstr ""
+msgstr "حفظ الإعدادات"
 
 #. Template: AgentDashboardCommon
 msgid "Close this widget"
-msgstr ""
+msgstr "أغلق هذه الأداة"
 
 #. Template: AgentDashboardCommon
 msgid "more"
-msgstr ""
+msgstr "أكثر"
 
 #. Template: AgentDashboardCommon
 msgid "Available Columns"
-msgstr ""
+msgstr "الأعمدة المتوفرة"
 
 #. Template: AgentDashboardCommon
 msgid "Visible Columns (order by drag & drop)"
-msgstr ""
+msgstr "الأعمدة المرئية (ترتيب بالسحب والإفلات)"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Change Customer Relations"
-msgstr ""
+msgstr "تغيير التعيينات للعملاء"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Open"
-msgstr ""
+msgstr "مَفْتُوح"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Closed"
-msgstr ""
+msgstr "مُغْلَق"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "%s open ticket(s) of %s"
-msgstr ""
+msgstr "٪s تذكرة (تذاكر) مفتوحة ل ٪s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "%s closed ticket(s) of %s"
-msgstr ""
+msgstr "٪ s تذكرة (تذاكر) مغلقة ل٪ s"
 
 #. Template: AgentDashboardCustomerIDList
 msgid "Edit customer ID"
-msgstr ""
+msgstr "تعديل رقم العميل"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Escalated tickets"
-msgstr ""
+msgstr "تصعيد التذاكر"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Open tickets"
-msgstr ""
+msgstr "تذاكر مفتوحة"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Closed tickets"
-msgstr ""
+msgstr "التذاكر المغلقة"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "All tickets"
-msgstr "جميع البطاقات"
+msgstr "جميع التذاكر"
 
 #. Template: AgentDashboardCustomerIDStatus
 msgid "Archived tickets"
-msgstr ""
+msgstr "التذاكر المحفوظة في الأرشيف"
 
 #. Template: AgentDashboardCustomerUserInformation
 msgid "Note: Customer User is invalid!"
-msgstr ""
+msgstr "ملاحظة: مستخدم العميل غير صالح!"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Customer user information"
-msgstr ""
+msgstr "معلومات مستخدم العميل"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Phone ticket"
-msgstr ""
+msgstr "تذكرة الهاتف"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "Email ticket"
-msgstr ""
+msgstr "تذكرة البريد الإلكتروني"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New phone ticket from %s"
-msgstr ""
+msgstr "تذكرة هاتف جديدة من٪ s"
 
 #. Template: AgentDashboardCustomerUserList
 msgid "New email ticket to %s"
-msgstr ""
+msgstr "تذكرة بريد إلكتروني جديدة إلى ٪s"
 
 #. Template: AgentDashboardMyLastChangedTickets
 msgid "No tickets found."
-msgstr ""
+msgstr "لم يتم العثور على تذاكر."
 
 #. Template: AgentDashboardProductNotify
 msgid "%s %s is available!"
-msgstr ""
+msgstr "٪s ٪s متاح!"
 
 #. Template: AgentDashboardProductNotify
 msgid "Please update now."
-msgstr ""
+msgstr "يرجى التحديث الآن."
 
 #. Template: AgentDashboardProductNotify
 msgid "Release Note"
-msgstr ""
+msgstr "إصدار"
 
 #. Template: AgentDashboardProductNotify
 msgid "Level"
-msgstr ""
+msgstr "مُسْتَوى"
 
 #. Template: AgentDashboardRSSOverview
 msgid "Posted %s ago."
-msgstr ""
+msgstr "تم النشر قبل ٪s."
 
 #. Template: AgentDashboardStats
 msgid ""
 "The configuration for this statistic widget contains errors, please review "
 "your settings."
-msgstr ""
+msgstr "يحتوي تكوين أداة الإحصاءات هذه على أخطاء، يرجى التحقق من إعداداتك."
 
 #. Template: AgentDashboardStats
 msgid "Download as SVG file"
-msgstr ""
+msgstr "تنزيل كملف SVG"
 
 #. Template: AgentDashboardStats
 msgid "Download as PNG file"
-msgstr ""
+msgstr "تنزيل كملف PNG"
 
 #. Template: AgentDashboardStats
 msgid "Download as CSV file"
-msgstr ""
+msgstr "تنزيل كملف CSV"
 
 #. Template: AgentDashboardStats
 msgid "Download as Excel file"
-msgstr ""
+msgstr "تنزيل كملف Excel"
 
 #. Template: AgentDashboardStats
 msgid "Download as PDF file"
-msgstr ""
+msgstr "تنزيل كملف PDF"
 
 #. Template: AgentDashboardStats
 msgid ""
 "Please select a valid graph output format in the configuration of this "
 "widget."
-msgstr ""
+msgstr "الرجاء تحديد تنسيق إخراج صالح في تكوين هذه الأداة."
 
 #. Template: AgentDashboardStats
 msgid ""
 "The content of this statistic is being prepared for you, please be patient."
-msgstr ""
+msgstr "يتم إعداد محتويات هذه الإحصاءات. يرجى التحلي بالصبر."
 
 #. Template: AgentDashboardStats
 msgid ""
 "This statistic can currently not be used because its configuration needs to "
 "be corrected by the statistics administrator."
 msgstr ""
+"لا يمكن إستخدام هذه الإحصائية حاليا لأن تكوينها يحتاج إلى تصحيح من قبل مسؤول "
+"الإحصاءات."
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Assigned to customer user"
-msgstr ""
+msgstr "مخصص للعميل"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Accessible for customer user"
-msgstr ""
+msgstr "يمكن الوصول إليه للعملاء"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My locked tickets"
-msgstr ""
+msgstr "تذاكري المقفلة"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My watched tickets"
-msgstr ""
+msgstr "تذاكري المراقبة"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "My responsibilities"
-msgstr ""
+msgstr "مسؤولياتي"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Queues"
-msgstr ""
+msgstr "تذاكر في قوائم الانتظار الخاصة بي"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Tickets in My Services"
-msgstr ""
+msgstr "تذاكر في خدماتي"
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
-msgstr ""
+msgstr "وقت الخدمة"
 
 #. Template: AgentDashboardTicketQueueOverview
 msgid "Total"
-msgstr ""
+msgstr "مجموع"
 
 #. Template: AgentDashboardUserOnline
 msgid "out of office"
-msgstr ""
+msgstr "خارج المكتب"
 
 #. Template: AgentDashboardUserOutOfOffice
 msgid "until"
-msgstr ""
+msgstr "إلَى"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Back"
@@ -8643,107 +8652,110 @@ msgstr "السابق"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Detailed search"
-msgstr ""
+msgstr "بحث مفصل"
 
 #. Template: AgentDynamicFieldDBDetailedSearch
 msgid "Add an additional attribute"
-msgstr ""
+msgstr "إضافة سمة أخرى"
 
 #. Template: AgentDynamicFieldDBDetails
 msgid "Details view"
-msgstr ""
+msgstr "عرض التفاصيل"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "Tickets"
-msgstr "البطاقات"
+msgstr "تذاكر"
 
 #. Template: AgentElasticsearchQuickResult
 msgid "ConfigItems"
-msgstr ""
+msgstr "عناصر التكوين"
 
 #. Template: AgentInfo
 msgid "To accept some news, a license or some changes."
-msgstr ""
+msgstr "تأكيد الأخبار أو الترخيص أو التغييرات."
 
 #. Template: AgentInfo
 msgid "Yes, accepted."
-msgstr ""
+msgstr "نعم، مقبول."
 
 #. Template: AgentLinkObject
 msgid "Manage links for %s"
-msgstr ""
+msgstr "إدارة الارتباطات ل ٪s"
 
 #. Template: AgentLinkObject
 msgid "Create new links"
-msgstr ""
+msgstr "إنشاء روابط جديدة"
 
 #. Template: AgentLinkObject
 msgid "Manage existing links"
-msgstr ""
+msgstr "إدارة الارتباطات الموجودة"
 
 #. Template: AgentLinkObject
 msgid "Link with"
-msgstr ""
+msgstr "رابط إلى"
 
 #. Template: AgentLinkObject
 msgid "Start search"
-msgstr ""
+msgstr "بدء البحث"
 
 #. Template: AgentLinkObject
 msgid ""
 "There are currently no links. Please click 'Create new Links' on the top to "
 "link this item to other objects."
 msgstr ""
+"لا توجد حاليا أي روابط. يرجى النقر فوق \"إنشاء روابط جديدة\" في الأعلى لربط "
+"هذا العنصر بكائنات أخرى."
 
 #. Template: AgentPassword
 msgid "Password Policy"
-msgstr ""
+msgstr "نهج كلمة المرور"
 
 #. Template: AgentPassword
 msgid "Your current password is older than %s days. You need to set a new one."
-msgstr ""
+msgstr "كلمة المرور الحالية أقدم من ٪s يوم. يجب أن تقوم بتعيين واحدة جديدة."
 
 #. Template: AgentPassword
 msgid "Change password"
-msgstr ""
+msgstr "تغيير كلمة المرور"
 
 #. Template: AgentPassword
 msgid "Current password"
-msgstr ""
+msgstr "كلمة المرور الحالية"
 
 #. Template: AgentPassword
 msgid "New password"
-msgstr "كلمة المرور الجديدة"
+msgstr "كلمة مرور جديدة"
 
 #. Template: AgentPassword
 msgid "Repeat new password"
-msgstr ""
+msgstr "كرر كلمة المرور الجديدة"
 
 #. Template: AgentPassword
 msgid "Password needs to be renewed every %s days."
-msgstr ""
+msgstr "يجب إعادة تعيين كلمة المرور كل ٪s يوما."
 
 #. Template: AgentPassword
 msgid ""
 "Password history is active, you can't use a password which was used the last "
 "%s times."
 msgstr ""
+"سجل كلمات المرور نشط. لا يمكنك إعادة استخدام أي من كلمات مرور ٪s الأخيرة."
 
 #. Template: AgentPassword
 msgid "Password length must be at least %s characters."
-msgstr ""
+msgstr "يجب أن يكون طول كلمة المرور ٪s على الأقل."
 
 #. Template: AgentPassword
 msgid "Password requires at least two lower- and two uppercase characters."
-msgstr ""
+msgstr "يجب أن تحتوي كلمة المرور على الأقل على حرفين كبيرين وحرفين صغيرين."
 
 #. Template: AgentPassword
 msgid "Password requires at least two characters."
-msgstr ""
+msgstr "تتطلب كلمة المرور حرفين على الأقل."
 
 #. Template: AgentPassword
 msgid "Password requires at least one digit."
-msgstr ""
+msgstr "يجب أن تحتوي كلمة المرور على رقم واحد على الأقل."
 
 #. Template: AgentPassword
 msgid "Change config options"
