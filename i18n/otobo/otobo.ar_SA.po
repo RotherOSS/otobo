@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-25 06:06+0000\n"
+"PO-Revision-Date: 2022-10-25 19:50+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -8759,19 +8759,19 @@ msgstr "يجب أن تحتوي كلمة المرور على رقم واحد عل
 
 #. Template: AgentPassword
 msgid "Change config options"
-msgstr ""
+msgstr "تخصيص خيارات التكوين"
 
 #. Template: AgentPassword
 msgid "Admin permissions are required!"
-msgstr ""
+msgstr "أذونات المسؤول مطلوبة!"
 
 #. Template: AgentPreferences
 msgid "Edit your preferences"
-msgstr ""
+msgstr "تحرير الإعدادات الشخصية"
 
 #. Template: AgentPreferences
 msgid "Personal Preferences"
-msgstr ""
+msgstr "الإعدادات الشخصية"
 
 #. Template: AgentPreferences
 msgid "Preferences"
@@ -8779,45 +8779,48 @@ msgstr "إعدادات"
 
 #. Template: AgentPreferences
 msgid "Please note: you're currently editing the preferences of %s."
-msgstr ""
+msgstr "يرجى ملاحظة: أنت تقوم حاليا بتحرير إعدادات ٪s."
 
 #. Template: AgentPreferences
 msgid "Go back to editing this agent"
-msgstr ""
+msgstr "العودة إلى تحرير الوكيل"
 
 #. Template: AgentPreferences
 msgid ""
 "Set up your personal preferences. Save each setting by clicking the "
 "checkmark on the right."
 msgstr ""
+"حدد إعداداتك الشخصية. احفظ الإعدادات بالنقر فوق رمز علامة الاختيار على "
+"اليمين."
 
 #. Template: AgentPreferences
 msgid ""
 "You can use the navigation tree below to only show settings from certain "
 "groups."
-msgstr ""
+msgstr "يمكنك إستخدام شجرة التنقل أدناه لإظهار الإعدادات من مجموعات معينة فقط."
 
 #. Template: AgentPreferences
 msgid "Dynamic Actions"
-msgstr ""
+msgstr "الإجراءات الديناميكية"
 
 #. Template: AgentPreferences
 msgid "Filter settings..."
-msgstr ""
+msgstr "إعدادات التصفية..."
 
 #. Template: AgentPreferences
 msgid "Filter for settings"
-msgstr ""
+msgstr "تصفية الإعدادات"
 
 #. Template: AgentPreferences
 msgid "Save all settings"
-msgstr ""
+msgstr "حفظ كافة الإعدادات"
 
 #. Template: AgentPreferences
 msgid ""
 "Avatars have been disabled by the system administrator. You'll see your "
 "initials instead."
 msgstr ""
+"تم تعطيل الصور الرمزية من قبل مسؤول النظام. سترى الأحرف الأولى بدلاً من ذلك."
 
 #. Template: AgentPreferences
 msgid ""
@@ -8825,313 +8828,324 @@ msgid ""
 "at %s. Please note that it can take some time until your new avatar becomes "
 "available because of caching."
 msgstr ""
+"يمكنك تغيير صورتك الرمزية بالتسجيل باستخدام عنوان بريدك الإلكتروني٪ s في٪ s. "
+"يرجى ملاحظة أن الأمر قد يستغرق بعض الوقت حتى تصبح صورتك الرمزية الجديدة "
+"متاحة بسبب التخزين المؤقت."
 
 #. Template: AgentPreferences
 msgid "End"
-msgstr ""
+msgstr "نِهَايَةٌ"
 
 #. Template: AgentPreferences
 msgid "This setting can currently not be saved."
-msgstr ""
+msgstr "يتعذر حفظ هذا الإعداد حاليًا."
 
 #. Template: AgentPreferences
 msgid "This setting can currently not be saved"
-msgstr ""
+msgstr "يتعذر حفظ هذا الإعداد حاليًا"
 
 #. Template: AgentPreferences
 msgid "Save this setting"
-msgstr ""
+msgstr "حفظ هذا الإعداد"
 
 #. Template: AgentPreferences
 msgid "Did you know? You can help translating OTOBO at %s."
-msgstr ""
+msgstr "هل تعلم؟ يمكنك المساعدة في ترجمة OTOBO على ٪s."
 
 #. Template: SettingsList
 msgid "Reset to default"
-msgstr ""
+msgstr "إعادة التعيين إلى الافتراضي"
 
 #. Template: AgentPreferencesOverview
 msgid ""
 "Choose from the groups on the right to find the settings you'd wish to "
 "change."
-msgstr ""
+msgstr "في المربعات الموجودة على اليمين، اختر الإعدادات التي تريد تغييرها."
 
 #. Template: AgentPreferencesOverview
 msgid "Did you know?"
-msgstr ""
+msgstr "هل تعلم؟"
 
 #. Template: AgentPreferencesOverview
 msgid ""
 "You can change your avatar by registering with your email address %s on %s"
 msgstr ""
+"يمكنك تغيير صورتك الرمزية بالتسجيل باستخدام عنوان بريدك الإلكتروني٪ s على٪ s"
 
 #. Template: AgentSplitSelection
 msgid "Target"
-msgstr ""
+msgstr "هَدَفٌ"
 
 #. Template: AgentSplitSelection
 msgid "Process"
-msgstr ""
+msgstr "عَمَليَّة"
 
 #. Template: AgentSplitSelection
 msgid "Split"
-msgstr ""
+msgstr "تَقْسِيم"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "إدارة الإحصاءات"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
-msgstr ""
+msgstr "إضافة إحصائيات"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTOBO"
-msgstr ""
+msgstr "قراءة المزيد حول الإحصائيات في OTOBO"
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic Matrix"
-msgstr ""
+msgstr "مصفوفة ديناميكية"
 
 #. Template: AgentStatisticsAdd
 msgid "Each cell contains a singular data point."
-msgstr ""
+msgstr "تحتوي كل خلية على نقطة بيانات واحدة."
 
 #. Template: AgentStatisticsAdd
 msgid "Dynamic List"
-msgstr ""
+msgstr "قائمة ديناميكية"
 
 #. Template: AgentStatisticsAdd
 msgid "Each row contains data of one entity."
-msgstr ""
+msgstr "يحتوي كل صف على بيانات كيان واحد."
 
 #. Template: AgentStatisticsAdd
 msgid "Static"
-msgstr ""
+msgstr "ثَابِتٌ"
 
 #. Template: AgentStatisticsAdd
 msgid "Non-configurable complex statistics."
-msgstr ""
+msgstr "إحصائيات معقدة غير قابلة للتكوين."
 
 #. Template: AgentStatisticsAdd
 msgid "General Specification"
-msgstr ""
+msgstr "مواصفات عامة"
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "إنشاء إحصائيات"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "تحرير الإحصائيات"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "تشغيل"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
-msgstr ""
+msgstr "معاينة الإحصائيات"
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
-msgstr ""
+msgstr "حفظ الإحصائية"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "إستيراد الإحصائيات"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
-msgstr ""
+msgstr "إستيراد تكوين الإحصائيات"
 
 #. Template: AgentStatisticsOverview
 msgid "Statistics"
-msgstr ""
+msgstr "إحصائيات"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
-msgstr ""
+msgstr "تَشْغِيلٌ"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
-msgstr ""
+msgstr "تحرير الإحصائيات \"٪s\"."
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic \"%s\""
-msgstr ""
+msgstr "تصدير الإحصائيات \"٪s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Export statistic %s"
-msgstr ""
+msgstr "تصدير الإحصائيات ٪s"
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic \"%s\""
-msgstr ""
+msgstr "حذف الإحصائية \"٪s\""
 
 #. Template: AgentStatisticsOverview
 msgid "Delete statistic %s"
-msgstr ""
+msgstr "حذف إحصائيات ٪s"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "إدارة التقارير"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "إضافة تقرير"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "تحرير التقرير"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Here you can combine several statistics to a report which you can generate "
 "as a PDF manually or automatically at configured times."
 msgstr ""
+"يمكنك هنا دمج العديد من الإحصائيات في تقرير واحد وإنشاء ملف PDF منه يدويًا "
+"أو تلقائيًا في أوقات محددة مسبقًا."
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Please note that you can only select charts as statistics output format if "
 "you configured one of the renderer binaries on your system."
 msgstr ""
+"ملاحظة: يمكنك فقط تحديد المخططات كتنسيق إخراج الإحصائيات إذا كان لديك أحد "
+"ملفات العرض التي تم تكوينها على نظامك."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
-msgstr ""
+msgstr "تكوين PhantomJS"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
-msgstr ""
+msgstr "تكوين GoogleChrome"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "General settings"
-msgstr ""
+msgstr "الإعدادات العامة"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
-msgstr ""
+msgstr "إعدادات الإنشاء التلقائي"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation times (cron)"
-msgstr ""
+msgstr "أوقات الإنشاء التلقائي (cron)"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
 "Specify when the report should be automatically generated in cron format, e. "
 "g. \"10 1 * * *\" for every day at 1:10 am."
 msgstr ""
+"حدد في تنسيق cron وقت إنشاء تقرير تلقائيًا، على سبيل المثال \"10 1 * * *\" "
+"لكل يوم الساعة 01:10."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Times are in the system timezone."
-msgstr ""
+msgstr "تتوافق الأوقات مع المنطقة الزمنية للنظام."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Last automatic generation time"
-msgstr ""
+msgstr "وقت الإنشاء التلقائي الأخير"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Next planned automatic generation time"
-msgstr ""
+msgstr "وقت الإنشاء التلقائي المجدول التالي"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation language"
-msgstr ""
+msgstr "لغة الإنشاء التلقائي"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "The language to be used when the report is automatically generated."
-msgstr ""
+msgstr "اللغة التي سيتم إستخدامها عند إنشاء التقرير تلقائيا."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
-msgstr ""
+msgstr "موضوع البريد الإلكتروني"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the subject for the automatically generated email."
-msgstr ""
+msgstr "الرجاء إدخال موضوع للبريد الإلكتروني الذي تم إنشاؤه تلقائيًا."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email body"
-msgstr ""
+msgstr "نص البريد الإلكتروني"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the text for the automatically generated email."
-msgstr ""
+msgstr "حدد النص للبريد الإلكتروني الذي تم إنشاؤه تلقائيا."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email recipients"
-msgstr ""
+msgstr "مستلم البريد الإلكتروني"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify recipient email addresses (comma separated)."
-msgstr ""
+msgstr "أدخل عناوين البريد الإلكتروني للمستلمين (مفصولة بفاصلة)."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Output settings"
-msgstr ""
+msgstr "إعدادات الإخراج"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Headline"
-msgstr ""
+msgstr "عُنْوَان"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for preamble"
-msgstr ""
+msgstr "عنوان المقدمة"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Preamble"
-msgstr ""
+msgstr "مُقَدِّمَةٌ"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for epilogue"
-msgstr ""
+msgstr "العنوان للكلمة الأخيرة"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Epilogue"
-msgstr ""
+msgstr "خاتِمَة"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Add statistic to report"
-msgstr ""
+msgstr "إضافة إحصائيات إلى التقرير"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
-msgstr ""
+msgstr "تقارير إحصائية"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Edit statistics report \"%s\"."
-msgstr ""
+msgstr "تحرير تقرير الإحصائيات \"٪s\"."
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Delete statistics report \"%s\""
-msgstr ""
+msgstr "حذف تقرير الإحصائيات \"٪s\""
 
 #. Template: AgentStatisticsReportsView
 msgid "View Report"
-msgstr ""
+msgstr "عرض التقرير"
 
 #. Template: AgentStatisticsReportsView
 msgid ""
 "This statistics report contains configuration errors and can currently not "
 "be used."
 msgstr ""
+"يحتوي تقرير الإحصائيات هذا على أخطاء في التكوين ولا يمكن استخدامه حاليًا."
 
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
-msgstr ""
+msgstr "نظرة عامة على الإحصائيات"
 
 #. Template: AgentStatisticsView
 msgid "View Statistics"
-msgstr ""
+msgstr "عرض الإحصائيات"
 
 #. Template: AgentStatisticsView
 msgid "Statistics Information"
-msgstr ""
+msgstr "معلومات إحصائية"
 
 #. Template: AgentStatisticsView
 msgid "Created by"
-msgstr "أنشيء من خلال"
+msgstr "تم الإنشاء بواسطة"
 
 #. Template: AgentStatisticsView
 msgid "Changed by"
@@ -9139,52 +9153,52 @@ msgstr "تم تغييره من خلال"
 
 #. Template: AgentStatisticsView
 msgid "Sum rows"
-msgstr ""
+msgstr "مجموع الصفوف"
 
 #. Template: AgentStatisticsView
 msgid "Sum columns"
-msgstr ""
+msgstr "مجموع الأعمدة"
 
 #. Template: AgentStatisticsView
 msgid "Show as dashboard widget"
-msgstr ""
+msgstr "إظهار كعنصر واجهة لوحة المعلومات"
 
 #. Template: AgentStatisticsView
 msgid "Cache"
-msgstr ""
+msgstr "ذاكرة تخزين مؤقت"
 
 #. Template: AgentStatisticsView
 msgid ""
 "This statistic contains configuration errors and can currently not be used."
-msgstr ""
+msgstr "تحتوي هذه الإحصائية على أخطاء في التكوين ولا يمكن استخدامها حاليًا."
 
 #. Template: AgentTicketActionCommon
 msgid "Change Free Text of %s%s%s"
-msgstr ""
+msgstr "تغيير النص الحر ل ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Owner of %s%s%s"
-msgstr ""
+msgstr "تغيير ملكية ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Close %s%s%s"
-msgstr ""
+msgstr "إغلاق ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Add Note to %s%s%s"
-msgstr ""
+msgstr "إضافة ملاحظة إلى ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Set Pending Time for %s%s%s"
-msgstr ""
+msgstr "تعيين وقت الانتظار ل ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Priority of %s%s%s"
-msgstr ""
+msgstr "تغيير أولوية ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "Change Responsible of %s%s%s"
-msgstr ""
+msgstr "التغيير مسؤول عن ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "The ticket has been locked"
