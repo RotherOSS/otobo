@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-25 19:50+0000\n"
+"PO-Revision-Date: 2022-10-27 10:16+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9202,27 +9202,27 @@ msgstr "التغيير مسؤول عن ٪s٪s٪s"
 
 #. Template: AgentTicketActionCommon
 msgid "The ticket has been locked"
-msgstr ""
+msgstr "تم تأمين التذكرة"
 
 #. Template: AgentTicketActionCommon
 msgid "Undo & close"
-msgstr ""
+msgstr "التراجع والخروج"
 
 #. Template: AgentTicketActionCommon
 msgid "Ticket Settings"
-msgstr ""
+msgstr "إعدادات التذكرة"
 
 #. Template: AgentTicketActionCommon
 msgid "Queue invalid."
-msgstr ""
+msgstr "قائمة الانتظار غير صالحة."
 
 #. Template: AgentTicketActionCommon
 msgid "Service invalid."
-msgstr ""
+msgstr "الخدمة غير صالحة."
 
 #. Template: AgentTicketActionCommon
 msgid "SLA invalid."
-msgstr ""
+msgstr "SLA غير صالحة."
 
 #. Template: AgentTicketActionCommon
 msgid "New Owner"
@@ -9230,23 +9230,23 @@ msgstr "مالك جديد"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new owner!"
-msgstr ""
+msgstr "الرجاء تعيين مالك جديد!"
 
 #. Template: AgentTicketActionCommon
 msgid "Owner invalid."
-msgstr ""
+msgstr "المالك غير صالح."
 
 #. Template: AgentTicketActionCommon
 msgid "New Responsible"
-msgstr ""
+msgstr "مسؤول جديد"
 
 #. Template: AgentTicketActionCommon
 msgid "Please set a new responsible!"
-msgstr ""
+msgstr "الرجاء تعيين مسؤول جديد!"
 
 #. Template: AgentTicketActionCommon
 msgid "Responsible invalid."
-msgstr ""
+msgstr "المسؤول غير صالح."
 
 #. Template: AgentTicketActionCommon
 msgid "Next state"
@@ -9254,19 +9254,19 @@ msgstr "الحالة التالية"
 
 #. Template: AgentTicketActionCommon
 msgid "State invalid."
-msgstr ""
+msgstr "الحالة غير صالحة."
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr ""
+msgstr "لجميع الحالات المعلقة*."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
-msgstr ""
+msgstr "إضافة مقالة"
 
 #. Template: AgentTicketActionCommon
 msgid "Create an Article"
-msgstr ""
+msgstr "إنشاء مقالة"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
