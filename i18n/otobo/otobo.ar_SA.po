@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-28 14:42+0000\n"
+"PO-Revision-Date: 2022-10-28 15:21+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9369,7 +9369,7 @@ msgstr "تنفيذ إجراء مجمع"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
-msgstr ""
+msgstr "إنشاء الإجابة ل ٪s٪s٪s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
