@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-27 10:16+0000\n"
+"PO-Revision-Date: 2022-10-28 14:42+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9270,53 +9270,54 @@ msgstr "إنشاء مقالة"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform agents"
-msgstr ""
+msgstr "إبلاغ الوكلاء"
 
 #. Template: AgentTicketActionCommon
 msgid "Inform involved agents"
-msgstr ""
+msgstr "إبلاغ الوكلاء المعنيين"
 
 #. Template: AgentTicketActionCommon
 msgid ""
 "Here you can select additional agents which should receive a notification "
 "regarding the new article."
-msgstr ""
+msgstr "هنا يمكنك تحديد وكلاء إضافيين يجب أن يتلقوا إشعارًا بالمقال الجديد."
 
 #. Template: AgentTicketActionCommon
 msgid "Text will also be received by"
-msgstr ""
+msgstr "سيتم إستلام النص أيضا بواسطة"
 
 #. Template: AgentTicketActionCommon
 msgid "Text Template"
-msgstr ""
+msgstr "قالب النص"
 
 #. Template: AgentTicketActionCommon
 msgid "Setting a template will overwrite any text or attachment."
-msgstr ""
+msgstr "سيؤدي تحديد قالب إلى حذف النص أو المرفقات الموجودة."
 
 #. Template: AgentTicketActionCommon
 msgid "Invalid time!"
-msgstr "الوقت غير صحيح!"
+msgstr "وقت غير صالح!"
 
 #. Template: AgentTicketBounce
 msgid "Bounce %s%s%s"
-msgstr ""
+msgstr "إعادة توجيه ٪ s٪ s٪ s"
 
 #. Template: AgentTicketBounce
 msgid "Bounce to"
-msgstr ""
+msgstr "إعادة التوجيه إلى"
 
 #. Template: AgentTicketBounce
 msgid "You need a email address."
-msgstr ""
+msgstr "تحتاج إلى عنوان بريد إلكتروني."
 
 #. Template: AgentTicketBounce
 msgid "Need a valid email address or don't use a local email address."
 msgstr ""
+"تحتاج إلى عنوان بريد إلكتروني صالح أو لا تستخدم عنوان بريد إلكتروني محلي."
 
 #. Template: AgentTicketBounce
 msgid "Next ticket state"
-msgstr "حالة البطاقة بعد إنشائها"
+msgstr "حالة التذكرة التالية"
 
 #. Template: AgentTicketBounce
 msgid "Inform sender"
@@ -9344,27 +9345,27 @@ msgstr "دمج إلى"
 
 #. Template: AgentTicketBulk
 msgid "Invalid ticket identifier!"
-msgstr ""
+msgstr "معرف تذكرة غير صالح!"
 
 #. Template: AgentTicketBulk
 msgid "Merge to oldest"
-msgstr ""
+msgstr "دمج إلى الأقدم"
 
 #. Template: AgentTicketBulk
 msgid "Link together"
-msgstr ""
+msgstr "ربط مع بعض"
 
 #. Template: AgentTicketBulk
 msgid "Link to parent"
-msgstr ""
+msgstr "الارتباط بالآباء"
 
 #. Template: AgentTicketBulk
 msgid "Unlock tickets"
-msgstr ""
+msgstr "إلغاء تأمين التذاكر"
 
 #. Template: AgentTicketBulk
 msgid "Execute Bulk Action"
-msgstr ""
+msgstr "تنفيذ إجراء مجمع"
 
 #. Template: AgentTicketCompose
 msgid "Compose Answer for %s%s%s"
