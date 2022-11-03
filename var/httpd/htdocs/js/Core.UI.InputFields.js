@@ -562,6 +562,13 @@ Core.UI.InputFields = (function (TargetNS) {
                         $SearchObj.trigger('focus');
                     });
 
+                var SelectionClose;
+                if ( Config.CustomerInterface === true ) {
+                    SelectionClose = '<div class="ooofo ooofo-close" ></div>';
+                }
+                else {
+                    SelectionClose = '<div class="fa fa-close"></div>';
+                }
                 // Remove button
                 if (PossibleNone || Multiple) {
                     $RemoveObj = $('<div />').appendTo($SelectionObj);
@@ -569,7 +576,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         .append(
                             $('<a />').attr('href', '#')
                                 .attr('title', Core.Language.Translate('Remove selection'))
-                                .text('x')
+                                .append(SelectionClose)
                                 .attr('role', 'button')
                                 .attr('tabindex', '-1')
                                 .attr(
