@@ -95,15 +95,12 @@ Return
                 },
                 {
                     Content => 'Description',
-                    Width   => 200,
                 },
                 {
                     Content => 'Start Time',
-                    Width   => 150,
                 },
                 {
                     Content => 'End Time',
-                    Width   => 150,
                 },
             ],
             ItemList => [

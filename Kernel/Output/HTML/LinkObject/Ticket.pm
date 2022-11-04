@@ -110,14 +110,12 @@ Return
             Headline  => [
                 {
                     Content => 'Number#',
-                    Width   => 130,
                 },
                 {
                     Content => 'Title',
                 },
                 {
                     Content => 'Created',
-                    Width   => 110,
                 },
             ],
             ItemList => [

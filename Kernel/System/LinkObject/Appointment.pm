@@ -107,9 +107,10 @@ sub LinkListWithData {
                     AppointmentID => $AppointmentID,
                 );
 
-                # remove id from hash if no service data was found
+                # remove id from hash if no appointment data was found
                 if ( !%Appointment ) {
                     delete $Param{LinkList}->{$LinkType}->{$Direction}->{$AppointmentID};
+
                     next APPOINTMENT;
                 }
 

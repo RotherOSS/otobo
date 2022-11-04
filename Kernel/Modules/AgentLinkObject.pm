@@ -306,12 +306,9 @@ sub Run {
         # challenge token check for write action
         $LayoutObject->ChallengeTokenCheck();
 
-        # get target identifier and redirect URL
+        # get target identifier and target components
         my $TargetIdentifier = $ParamObject->GetParam( Param => 'TargetIdentifier' );
-        my $Redirect         = $ParamObject->GetParam( Param => 'Redirect' );
-
-        # get target components
-        my @Target = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
+        my @Target           = $TargetIdentifier =~ m{^ ( [^:]+? ) :: (.+?) :: ( [^:]+? ) $}smx;
 
         if (
             $Target[0]       # TargetObject
