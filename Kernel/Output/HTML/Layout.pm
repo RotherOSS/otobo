@@ -3384,29 +3384,6 @@ sub NavigationBar {
         Data         => \%Param,
     );
 
-    # run nav bar output modules
-    my $NavBarOutputModuleConfig = $ConfigObject->Get('Frontend::NavBarOutputModule');
-    if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
-        my %Jobs = $NavBarOutputModuleConfig->%*;
-
-        JOB:
-        for my $Job ( sort keys %Jobs ) {
-
-            # load module
-            next JOB unless $MainObject->Require( $Jobs{$Job}->{Module} );
-
-            my $Object = $Jobs{$Job}->{Module}->new(
-                %{$Self},
-                LayoutObject => $Self,
-            );
-
-            next JOB unless $Object;
-
-            # run module
-            $Output .= $Object->Run( %Param, Config => $Jobs{$Job} );
-        }
-    }
-
     # run notification modules
     my $FrontendNotifyModuleConfig = $ConfigObject->Get('Frontend::NotifyModule');
     if ( ref $FrontendNotifyModuleConfig eq 'HASH' ) {
