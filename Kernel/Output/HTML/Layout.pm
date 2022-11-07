@@ -3254,7 +3254,8 @@ sub NavigationBar {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # run menu item modules
+    # Run the menu item modules for tweaking the main menu.
+    # These modules may add or remove items in the dropdown lists.
     if ( ref $ConfigObject->Get('Frontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Frontend::NavBarModule') };
 
@@ -3281,7 +3282,7 @@ sub NavigationBar {
         }
     }
 
-    # show nav bar
+    # show the main menu
     ITEM:
     for my $Key ( sort keys %NavBar ) {
         next ITEM if $Key eq 'Sub';
