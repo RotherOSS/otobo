@@ -506,8 +506,13 @@ sub Block {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
+
+    # $Self->{BlockData} will be used in the subroutine Output()
+    # which is provided by the base module Kernel::Output::HTML::Layout::Template
+    $Self->{BlockData} //= [];
     push @{ $Self->{BlockData} },
         {
             Name => $Param{Name},
