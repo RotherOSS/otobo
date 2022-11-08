@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-08 11:43+0000\n"
+"PO-Revision-Date: 2022-11-08 19:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9393,23 +9393,23 @@ msgstr "إزالة تذكرة العميل"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
-msgstr ""
+msgstr "نقل إلى Cc"
 
 #. Template: AgentTicketCompose
 msgid "Move to Bcc"
-msgstr ""
+msgstr "نقل إلى Bcc"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
-msgstr ""
+msgstr "الرجاء إزالة هذا الإدخال وإدخال قيمة صالحة."
 
 #. Template: AgentTicketCompose
 msgid "This address already exists on the address list."
-msgstr ""
+msgstr "هذا العنوان موجود بالفعل في قائمة العناوين."
 
 #. Template: AgentTicketCompose
 msgid "Remove Cc"
-msgstr ""
+msgstr "إزالة Cc"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
