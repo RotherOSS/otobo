@@ -3390,7 +3390,9 @@ sub NavigationBar {
         Data         => \%Param,
     );
 
-    # run nav bar output modules
+    # Run nav bar output modules. Nav bar output are not used in OTOBO core,
+    # but can be used by OTOBO packages. The output of a nav bar output module
+    # is spliced in between the main menu and the notification.
     my $NavBarOutputModuleConfig = $ConfigObject->Get('Frontend::NavBarOutputModule');
     if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
         my %Jobs = $NavBarOutputModuleConfig->%*;
