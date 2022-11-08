@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-10-28 15:21+0000\n"
+"PO-Revision-Date: 2022-11-08 11:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9373,23 +9373,23 @@ msgstr "إنشاء الإجابة ل ٪s٪s٪s"
 
 #. Template: AgentTicketCompose
 msgid "This address is registered as system address and cannot be used: %s"
-msgstr ""
+msgstr "تم تسجيل هذا العنوان كعنوان للنظام ولا يمكن إستخدامه: ٪s"
 
 #. Template: AgentTicketCompose
 msgid "Please include at least one recipient"
-msgstr ""
+msgstr "الرجاء تضمين مستلم واحد على الأقل"
 
 #. Template: AgentTicketCompose
 msgid "Select one or more recipients from the customer user address book."
-msgstr ""
+msgstr "حدد مستلمًا واحدًا أو أكثر من دفتر عناوين المستخدم الخاص بالعميل."
 
 #. Template: AgentTicketCompose
 msgid "Customer user address book"
-msgstr ""
+msgstr "دفتر عناوين مستخدم العميل"
 
 #. Template: AgentTicketCompose
 msgid "Remove Ticket Customer"
-msgstr ""
+msgstr "إزالة تذكرة العميل"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
