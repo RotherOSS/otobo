@@ -58,14 +58,8 @@ $Selenium->RunTest(
                 "return typeof(\$) === 'function' && \$('#nav-Admin.CanDrag').length;"
         );
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
-        }
-        else {
+        # drag and drop tests
+        {
 
             # Try to drag the admin item to the front of the nav bar.
             # Specifying offsets is a bit tricky. So simply drag Admin on top of Dashboard.
