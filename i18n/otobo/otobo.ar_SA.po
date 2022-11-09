@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-09 15:37+0000\n"
+"PO-Revision-Date: 2022-11-09 19:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9589,71 +9589,71 @@ msgstr "المرسل"
 
 #. Template: AgentTicketOverviewMedium
 msgid "First Response Time"
-msgstr ""
+msgstr "وقت الاستجابة الأول"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Update Time"
-msgstr ""
+msgstr "وقت التحديث"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Solution Time"
-msgstr ""
+msgstr "وقت الحل"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Move ticket to a different queue"
-msgstr ""
+msgstr "نقل التذكرة إلى قائمة انتظار مختلفة"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Change queue"
-msgstr "تغيير القائمة"
+msgstr "تغيير قائمة الانتظار"
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Remove active filters for this screen."
-msgstr ""
+msgstr "إزالة عوامل التصفية النشطة لهذه الشاشة."
 
 #. Template: AgentTicketOverviewNavBar
 msgid "Tickets per page"
-msgstr ""
+msgstr "التذاكر لكل صفحة"
 
 #. Template: AgentTicketOverviewPreview
 msgid "Missing channel"
-msgstr ""
+msgstr "قناة مفقودة"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Reset overview"
-msgstr ""
+msgstr "إعادة تعيين نظرة عامة"
 
 #. Template: AgentTicketOverviewSmall
 msgid "Column Filters Form"
-msgstr ""
+msgstr "نموذج عوامل تصفية الأعمدة"
 
 #. Template: AgentTicketPhone
 msgid "Split Into New Phone Ticket"
-msgstr ""
+msgstr "تقسيم إلى تذكرة هاتف جديدة"
 
 #. Template: AgentTicketPhone
 msgid "Save Chat Into New Phone Ticket"
-msgstr ""
+msgstr "حفظ المحادثة في تذكرة الهاتف الجديدة"
 
 #. Template: AgentTicketPhone
 msgid "Create New Phone Ticket"
-msgstr ""
+msgstr "إنشاء تذكرة هاتف جديدة"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr ""
+msgstr "يرجى تضمين عميل واحد على الأقل للتذكرة."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
-msgstr ""
+msgstr "إلى قائمة الانتظار"
 
 #. Template: AgentTicketPhone
 msgid "Chat protocol"
-msgstr ""
+msgstr "بروتوكول المحادثة"
 
 #. Template: AgentTicketPhone
 msgid "The chat will be appended as a separate article."
-msgstr ""
+msgstr "سيتم إلحاق الدردشة كمقالة منفصلة."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
