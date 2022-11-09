@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-08 19:03+0000\n"
+"PO-Revision-Date: 2022-11-09 10:19+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9413,23 +9413,23 @@ msgstr "إزالة Cc"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
-msgstr ""
+msgstr "نقل إلى To"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
-msgstr ""
+msgstr "(نسخة مخفية الوجهة) Bcc"
 
 #. Template: AgentTicketCompose
 msgid "Remove Bcc"
-msgstr ""
+msgstr "إزالة Bcc"
 
 #. Template: AgentTicketCompose
 msgid "Date Invalid!"
-msgstr ""
+msgstr "التاريخ غير صحيح!"
 
 #. Template: AgentTicketCustomer
 msgid "Change Customer of %s%s%s"
-msgstr ""
+msgstr "تغيير عميل ٪s٪s٪s"
 
 #. Template: AgentTicketCustomer
 msgid "Customer Information"
@@ -9437,51 +9437,51 @@ msgstr "بيانات العميل"
 
 #. Template: AgentTicketCustomer
 msgid "Customer user"
-msgstr ""
+msgstr "مستخدم العميل"
 
 #. Template: AgentTicketEmail
 msgid "Create New Email Ticket"
-msgstr ""
+msgstr "إنشاء تذكرة بريد إلكتروني جديدة"
 
 #. Template: AgentTicketEmail
 msgid "Example Template"
-msgstr ""
+msgstr "مثال على القالب"
 
 #. Template: AgentTicketEmail
 msgid "To customer user"
-msgstr ""
+msgstr "إلى مستخدم العميل"
 
 #. Template: AgentTicketEmail
 msgid "Please include at least one customer user for the ticket."
-msgstr ""
+msgstr "الرجاء إدخال مستخدم عميل واحد على الأقل للتذكرة."
 
 #. Template: AgentTicketEmail
 msgid "Select this customer as the main customer."
-msgstr ""
+msgstr "حدد هذا العميل باعتباره العميل الرئيسي."
 
 #. Template: AgentTicketEmail
 msgid "Remove Ticket Customer User"
-msgstr ""
+msgstr "إزالة مستخدم عميل التذكرة"
 
 #. Template: AgentTicketEmail
 msgid "From queue"
-msgstr ""
+msgstr "من قائمة الانتظار"
 
 #. Template: AgentTicketEmail
 msgid "Get all"
-msgstr ""
+msgstr "إحضار كل شيء"
 
 #. Template: AgentTicketEmailOutbound
 msgid "Outbound Email for %s%s%s"
-msgstr ""
+msgstr "البريد الإلكتروني الصادر ل ٪s٪s٪s"
 
 #. Template: AgentTicketEmailResend
 msgid "Resend Email for %s%s%s"
-msgstr ""
+msgstr "إعادة إرسال البريد الإلكتروني ل ٪s٪s٪s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr ""
+msgstr "التذكرة ٪s: انتهت مدة الاستجابة الأولى (٪s/٪s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
