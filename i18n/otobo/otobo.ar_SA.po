@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-09 10:19+0000\n"
+"PO-Revision-Date: 2022-11-09 15:37+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9481,47 +9481,47 @@ msgstr "إعادة إرسال البريد الإلكتروني ل ٪s٪s٪s"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time is over (%s/%s)!"
-msgstr "التذكرة ٪s: انتهت مدة الاستجابة الأولى (٪s/٪s)!"
+msgstr "التذكرة ٪s: انتهت مدة الاستجابة الأولى (٪s٪/s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: first response time will be over in %s/%s!"
-msgstr ""
+msgstr "التذكرة ٪s: ستنتهي فترة الاستجابة الأولى في ٪s٪/s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time is over (%s/%s)!"
-msgstr ""
+msgstr "التذكرة ٪s: وقت التحديث قد انتهى (٪s٪/s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: update time will be over in %s/%s!"
-msgstr ""
+msgstr "التذكرة ٪s: سيتم إنهاء وقت التحديث في ٪s٪/s!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time is over (%s/%s)!"
-msgstr ""
+msgstr "التذكرة ٪s: وقت الحل قد انتهى (٪s٪/s)!"
 
 #. Template: AgentTicketEscalation
 msgid "Ticket %s: solution time will be over in %s/%s!"
-msgstr ""
+msgstr "التذكرة ٪s: سينتهي وقت الحل في ٪s٪/s!"
 
 #. Template: AgentTicketForward
 msgid "Forward %s%s%s"
-msgstr ""
+msgstr "إعادة توجيه ٪s٪s٪s"
 
 #. Template: AgentTicketHistory
 msgid "History of %s%s%s"
-msgstr ""
+msgstr "محفوظات ٪s٪s٪s"
 
 #. Template: AgentTicketHistory
 msgid "Filter for history items"
-msgstr ""
+msgstr "تصفية عناصر المحفوظات"
 
 #. Template: AgentTicketHistory
 msgid "Expand/collapse all"
-msgstr ""
+msgstr "توسيع / تصغير الكل"
 
 #. Template: AgentTicketHistory
 msgid "CreateTime"
-msgstr ""
+msgstr "إنشاء الوقت"
 
 #. Template: AgentTicketHistory
 msgid "Article"
@@ -9529,43 +9529,43 @@ msgstr "موضوع"
 
 #. Template: AgentTicketMerge
 msgid "Merge %s%s%s"
-msgstr ""
+msgstr "دمج ٪s٪s٪s"
 
 #. Template: AgentTicketMerge
 msgid "Merge Settings"
-msgstr ""
+msgstr "إعدادات الدمج"
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr "يجب إستخدام رقم البطاقة!"
+msgstr "يجب إستخدام رقم تذكرة!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
-msgstr ""
+msgstr "مطلوب رقم تذكرة صالح."
 
 #. Template: AgentTicketMerge
 msgid "Try typing part of the ticket number or title in order to search by it."
-msgstr ""
+msgstr "حاول كتابة جزء من رقم التذكرة أو عنوانها لكي تبحث به."
 
 #. Template: AgentTicketMerge
 msgid "Limit the search to tickets with same Customer ID (%s)."
-msgstr ""
+msgstr "قصر البحث على التذاكر المخصصة لنفس رقم العميل (٪s)."
 
 #. Template: AgentTicketMerge
 msgid "Inform Sender"
-msgstr ""
+msgstr "إعلام المرسل"
 
 #. Template: AgentTicketMerge
 msgid "Need a valid email address."
-msgstr ""
+msgstr "تحتاج إلى عنوان بريد إلكتروني صالح."
 
 #. Template: AgentTicketMove
 msgid "Move %s%s%s"
-msgstr ""
+msgstr "نقل ٪s٪s٪s"
 
 #. Template: AgentTicketMove
 msgid "New Queue"
-msgstr "قائمة بطاقات جديدة"
+msgstr "قائمة انتظار جديدة"
 
 #. Template: AgentTicketMove
 msgid "Move"
@@ -9573,15 +9573,15 @@ msgstr "نقل"
 
 #. Template: AgentTicketOverviewMedium
 msgid "No ticket data found."
-msgstr ""
+msgstr "لم يتم العثور على بيانات تذكرة."
 
 #. Template: AgentTicketOverviewMedium
 msgid "Open / Close ticket action menu"
-msgstr ""
+msgstr "فتح/إغلاق قائمة إجراءات التذاكر"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Select this ticket"
-msgstr ""
+msgstr "تحديد هذه التذكرة"
 
 #. Template: AgentTicketOverviewMedium
 msgid "Sender"
