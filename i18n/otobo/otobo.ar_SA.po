@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-09 19:03+0000\n"
+"PO-Revision-Date: 2022-11-10 17:54+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9657,11 +9657,11 @@ msgstr "سيتم إلحاق الدردشة كمقالة منفصلة."
 
 #. Template: AgentTicketPhoneCommon
 msgid "Phone Call for %s%s%s"
-msgstr ""
+msgstr "مكالمة هاتفية ل ٪s٪s٪s"
 
 #. Template: AgentTicketPlain
 msgid "View Email Plain Text for %s%s%s"
-msgstr ""
+msgstr "عرض نص البريد الإلكتروني العادي ل ٪s٪s٪s"
 
 #. Template: AgentTicketPlain
 msgid "Plain"
@@ -9669,19 +9669,19 @@ msgstr "عادي"
 
 #. Template: AgentTicketPlain
 msgid "Download this email"
-msgstr ""
+msgstr "تنزيل هذا البريد الإلكتروني"
 
 #. Template: AgentTicketProcess
 msgid "Create New Process Ticket"
-msgstr ""
+msgstr "إنشاء تذكرة عملية جديدة"
 
 #. Template: AgentTicketProcessSmall
 msgid "Enroll Ticket into a Process"
-msgstr ""
+msgstr "تسجيل التذكرة في عملية"
 
 #. Template: AgentTicketSearch
 msgid "Profile link"
-msgstr ""
+msgstr "رابط الملف الشخصي"
 
 #. Template: AgentTicketSearch
 msgid "Output"
@@ -9689,103 +9689,103 @@ msgstr "نموذج النتيجة"
 
 #. Template: AgentTicketSearch
 msgid "Fulltext"
-msgstr "كامل النص"
+msgstr "النص الكامل"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (complex search)"
-msgstr ""
+msgstr "رقم العميل (بحث معقد)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. 234*)"
-msgstr ""
+msgstr "(على سبيل المثال: 234*)"
 
 #. Template: AgentTicketSearch
 msgid "Customer ID (exact match)"
-msgstr ""
+msgstr "رقم العميل (بحث دقيق)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (complex search)"
-msgstr ""
+msgstr "مخصص لتسجيل دخول مستخدم العميل (بحث معقد)"
 
 #. Template: AgentTicketSearch
 msgid "(e. g. U51*)"
-msgstr ""
+msgstr "(على سبيل المثال: U51*)"
 
 #. Template: AgentTicketSearch
 msgid "Assigned to Customer User Login (exact match)"
-msgstr ""
+msgstr "مخصص لتسجيل دخول مستخدم العميل (يطابق تماما)"
 
 #. Template: AgentTicketSearch
 msgid "Accessible to Customer User Login (exact match)"
-msgstr ""
+msgstr "يمكن الوصول إليه من خلال تسجيل دخول مستخدم العميل (تطابق تام)"
 
 #. Template: AgentTicketSearch
 msgid "Created in Queue"
-msgstr "أنشئت في القائمة"
+msgstr "تم الإنشاء في قائمة الانتظار"
 
 #. Template: AgentTicketSearch
 msgid "Lock state"
-msgstr ""
+msgstr "حالة القفل"
 
 #. Template: AgentTicketSearch
 msgid "Watcher"
-msgstr ""
+msgstr "مُرَاقِب"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (before/after)"
-msgstr ""
+msgstr "وقت إنشاء المقالة (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Article Create Time (between)"
-msgstr ""
+msgstr "وقت إنشاء المقالة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Please set this to value before end date."
-msgstr ""
+msgstr "الرجاء تعيين هذه القيمة قبل تاريخ الانتهاء."
 
 #. Template: AgentTicketSearch
 msgid "Please set this to value after start date."
-msgstr ""
+msgstr "الرجاء تعيين هذه القيمة بعد تاريخ البدء."
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (before/after)"
-msgstr ""
+msgstr "وقت إنشاء التذكرة (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Create Time (between)"
-msgstr ""
+msgstr "وقت إنشاء التذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (before/after)"
-msgstr ""
+msgstr "وقت تغيير التذكرة (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Change Time (between)"
-msgstr ""
+msgstr "وقت تغيير التذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (before/after)"
-msgstr ""
+msgstr "آخر وقت لتغيير التذاكر (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Last Change Time (between)"
-msgstr ""
+msgstr "وقت آخر تغيير للتذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Pending Until Time (before/after)"
-msgstr ""
+msgstr "تذكرة معلقة حتى الوقت (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Pending Until Time (between)"
-msgstr ""
+msgstr "التذكرة معلقة حتى الوقت (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (before/after)"
-msgstr ""
+msgstr "وقت إغلاق التذكرة (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Close Time (between)"
-msgstr ""
+msgstr "وقت إغلاق التذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
