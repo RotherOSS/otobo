@@ -50,6 +50,12 @@
                     </div>
                     <div class="Clear"></div>
 
+                    <label for="DBPort">[% Translate("Port") | html %]:</label>
+                    <div class="Field">
+                        <input type="text" id="DBPort" name="DBPort" value="[% Config("DatabasePort") %]" class="W50pc" />
+                    </div>
+                    <div class="Clear"></div>
+
 [% RenderBlockStart("DatabaseMySQLUseExisting") %]
                     <label for="DBName">[% Translate("Database name") | html %]:</label>
                     <div class="Field">
