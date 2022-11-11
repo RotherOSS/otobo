@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-10 17:54+0000\n"
+"PO-Revision-Date: 2022-11-12 06:23+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -9789,71 +9789,71 @@ msgstr "وقت إغلاق التذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (before/after)"
-msgstr ""
+msgstr "وقت تصعيد التذكرة (قبل/بعد)"
 
 #. Template: AgentTicketSearch
 msgid "Ticket Escalation Time (between)"
-msgstr ""
+msgstr "وقت تصعيد التذكرة (بين)"
 
 #. Template: AgentTicketSearch
 msgid "Archive Search"
-msgstr ""
+msgstr "البحث في الأرشيف"
 
 #. Template: AgentTicketZoom
 msgid "Sender Type"
-msgstr ""
+msgstr "نوع المرسل"
 
 #. Template: AgentTicketZoom
 msgid "Save filter settings as default"
-msgstr ""
+msgstr "حفظ إعدادات عامل التصفية كافتراضي"
 
 #. Template: AgentTicketZoom
 msgid "Event Type"
-msgstr ""
+msgstr "نوع الحدث"
 
 #. Template: AgentTicketZoom
 msgid "Save as default"
-msgstr ""
+msgstr "حفظ كافتراضي"
 
 #. Template: AgentTicketZoom
 msgid "Drafts"
-msgstr ""
+msgstr "مسودات"
 
 #. Template: AgentTicketZoom
 msgid "Change Queue"
-msgstr ""
+msgstr "تغيير قائمة الانتظار"
 
 #. Template: AgentTicketZoom
 msgid "There are no dialogs available at this point in the process."
-msgstr ""
+msgstr "لا تتوفر أي مربعات حوار في هذه المرحلة من العملية."
 
 #. Template: AgentTicketZoom
 msgid "This item has no articles yet."
-msgstr ""
+msgstr "لا يحتوي هذا العنصر على مقالات حتى الآن."
 
 #. Template: AgentTicketZoom
 msgid "Ticket Timeline View"
-msgstr ""
+msgstr "عرض سجل التذكرة"
 
 #. Template: AgentTicketZoom
 msgid "Article Overview - %s Article(s)"
-msgstr ""
+msgstr "نظرة عامة على المقالة - ٪s مقالة (مقالات)"
 
 #. Template: AgentTicketZoom
 msgid "Page %s"
-msgstr ""
+msgstr "الصفحة ٪s"
 
 #. Template: AgentTicketZoom
 msgid "Add Filter"
-msgstr ""
+msgstr "إضافة عامل تصفية"
 
 #. Template: AgentTicketZoom
 msgid "Set"
-msgstr ""
+msgstr "تحديد"
 
 #. Template: AgentTicketZoom
 msgid "Reset Filter"
-msgstr ""
+msgstr "إعادة تعيين عامل التصفية"
 
 #. Template: AgentTicketZoom
 msgid "No."
@@ -9861,99 +9861,105 @@ msgstr "لا"
 
 #. Template: AgentTicketZoom
 msgid "Unread articles"
-msgstr ""
+msgstr "مقالات غير مقروءة"
 
 #. Template: AgentTicketZoom
 msgid "Via"
-msgstr ""
+msgstr "عَنْ طَرِيق"
 
 #. Template: AgentTicketZoom
 msgid "Important"
-msgstr ""
+msgstr "مُهِمّ"
 
 #. Template: AgentTicketZoom
 msgid "Unread Article!"
-msgstr ""
+msgstr "مقالة غير مقروءة!"
 
 #. Template: AgentTicketZoom
 msgid "Incoming message"
-msgstr ""
+msgstr "رسالة واردة"
 
 #. Template: AgentTicketZoom
 msgid "Outgoing message"
-msgstr ""
+msgstr "رسالة صادرة"
 
 #. Template: AgentTicketZoom
 msgid "Internal message"
-msgstr ""
+msgstr "رسالة داخلية"
 
 #. Template: AgentTicketZoom
 msgid "Sending of this message has failed."
-msgstr ""
+msgstr "فشل إرسال هذه الرسالة."
 
 #. Template: AgentTicketZoom
 msgid "Resize"
-msgstr ""
+msgstr "تغيير الحجم"
 
 #. Template: AgentTicketZoom
 msgid "Mark this article as read"
-msgstr ""
+msgstr "وضع علامة مقروءة على هذه المقالة"
 
 #. Template: AgentTicketZoom
 msgid "Show Full Text"
-msgstr ""
+msgstr "إظهار النص الكامل"
 
 #. Template: AgentTicketZoom
 msgid "Full Article Text"
-msgstr ""
+msgstr "نص المقالة الكاملة"
 
 #. Template: AgentTicketZoom
 msgid "No more events found. Please try changing the filter settings."
 msgstr ""
+"لم يتم العثور على المزيد من الأحداث. الرجاء محاولة تغيير إعدادات عامل "
+"التصفية."
 
 #. Template: Chat
 msgid "#%s"
-msgstr ""
+msgstr "#%s"
 
 #. Template: Chat
 msgid "via %s"
-msgstr ""
+msgstr "عبر ٪s"
 
 #. Template: Chat
 msgid "by %s"
-msgstr ""
+msgstr "بواسطة ٪s"
 
 #. Template: Chat
 msgid "Toggle article details"
-msgstr ""
+msgstr "تبديل تفاصيل المقالة"
 
 #. Template: MIMEBase
 msgid ""
 "This message is being processed. Already tried to send %s time(s). Next try "
 "will be %s."
 msgstr ""
+"تتم معالجة هذه الرسالة. تم بالفعل محاولة إرسال ٪s مرة (مرات). ستكون المحاولة "
+"التالية ٪s."
 
 #. Template: MIMEBase
 msgid ""
 "To open links in the following article, you might need to press Ctrl or Cmd "
 "or Shift key while clicking the link (depending on your browser and OS)."
 msgstr ""
+"لفتح الارتباطات في المقالة التالية، قد تحتاج إلى الضغط على مفتاح Ctrl أو Cmd "
+"أو مفتاح Shift أثناء النقر فوق الارتباط (وفقا للمستعرض ونظام التشغيل)."
 
 #. Template: MIMEBase
 msgid "Close this message"
-msgstr ""
+msgstr "إغلاق هذه الرسالة"
 
 #. Template: MIMEBase
 msgid "Image"
-msgstr ""
+msgstr "صورة"
 
 #. Template: MIMEBase
 msgid "PDF"
-msgstr ""
+msgstr "PDF"
 
 #. Template: MIMEBase
 msgid "Unknown"
-msgstr ""
+msgstr "غير معروف"
 
 #. Template: MIMEBase
 msgid "View"
@@ -9961,19 +9967,19 @@ msgstr "عرض"
 
 #. Template: LinkTable
 msgid "Linked Objects"
-msgstr ""
+msgstr "الكائنات المرتبطة"
 
 #. Template: TicketInformation
 msgid "Archive"
-msgstr ""
+msgstr "أرشيف"
 
 #. Template: TicketInformation
 msgid "This ticket is archived."
-msgstr ""
+msgstr "هذه التذكرة محفوظة في الأرشيف."
 
 #. Template: TicketInformation
 msgid "Note: Type is invalid!"
-msgstr ""
+msgstr "ملاحظة: النوع غير صالح!"
 
 #. Template: TicketInformation
 msgid "Pending till"
@@ -9985,7 +9991,7 @@ msgstr "مقفل"
 
 #. Template: TicketInformation
 msgid "%s Ticket(s)"
-msgstr ""
+msgstr "٪s تذكرة (بطاقات)"
 
 #. Template: TicketInformation
 msgid "Accounted time"
@@ -9995,87 +10001,87 @@ msgstr "الوقت المحسوب"
 msgid ""
 "Preview of this article is not possible because %s channel is missing in the "
 "system."
-msgstr ""
+msgstr "معاينة هذه المقالة غير ممكنة لأن قناة ٪s مفقودة في النظام."
 
 #. Template: Invalid
 msgid "Please re-install %s package in order to display this article."
-msgstr ""
+msgstr "الرجاء إعادة تثبيت حزمة ٪s لعرض هذه المقالة."
 
 #. Template: AttachmentBlocker
 msgid "To protect your privacy, remote content was blocked."
-msgstr ""
+msgstr "لحماية خصوصيتك، تم حظر المحتوى البعيد."
 
 #. Template: AttachmentBlocker
 msgid "Load blocked content."
-msgstr ""
+msgstr "تحميل محتوى محظور."
 
 #. Template: Breadcrumb
 msgid "Home"
-msgstr ""
+msgstr "الصفحة الرئيسية"
 
 #. Template: Breadcrumb
 msgid "Back to admin overview"
-msgstr ""
+msgstr "الرجوع إلى النظرة العامة"
 
 #. Template: CloudServicesDisabled
 msgid "This Feature Requires Cloud Services"
-msgstr ""
+msgstr "تتطلب هذه الميزة خدمات السحابة"
 
 #. Template: CloudServicesDisabled
 msgid "You can"
-msgstr ""
+msgstr "يمكنك ذلك"
 
 #. Template: CloudServicesDisabled
 msgid "go back to the previous page"
-msgstr ""
+msgstr "العودة إلى الصفحة السابقة"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "انقر للقبول"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "The customer ID is not changeable, no other customer ID can be assigned to "
 "this ticket."
-msgstr ""
+msgstr "لا يمكن تغيير رقم العميل، ولا يمكن تعيين رقم عميل آخر إلى التذكرة."
 
 #. Template: TicketCustomerIDSelection
 msgid ""
 "First select a customer user, then you can select a customer ID to assign to "
 "this ticket."
-msgstr ""
+msgstr "حدد أولا مستخدم عميل، ثم يمكنك تحديد رقم عميل لتعيينه لهذه التذكرة."
 
 #. Template: TicketCustomerIDSelection
 msgid "Select a customer ID to assign to this ticket."
-msgstr ""
+msgstr "حدد رقم العميل لتعيين التذكرة إليه."
 
 #. Template: TicketCustomerIDSelection
 msgid "From all Customer IDs"
-msgstr ""
+msgstr "من جميع أرقام العملاء"
 
 #. Template: TicketCustomerIDSelection
 msgid "From assigned Customer IDs"
-msgstr ""
+msgstr "من جميع أرقام العملاء المعينة"
 
 #. Template: CustomerDashboard
 msgid "Ticket Search"
-msgstr ""
+msgstr "البحث عن التذكرة"
 
 #. Template: CustomerDashboard
 msgid "New Ticket"
-msgstr "بطاقة جديدة"
+msgstr "تذكرة جديدة"
 
 #. Template: CustomerError
 msgid "An Error Occurred"
-msgstr ""
+msgstr "حدث خطأ"
 
 #. Template: CustomerError
 msgid "Error Details"
-msgstr ""
+msgstr "تفاصيل الخطأ"
 
 #. Template: CustomerError
 msgid "Traceback"
-msgstr "طباعة"
+msgstr "تتبع الأثر"
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10083,6 +10089,8 @@ msgid ""
 "page manually or wait until your browser has re-established the connection "
 "on its own."
 msgstr ""
+"اكتشف ٪s مشاكل الشبكة المحتملة. يمكنك إما محاولة إعادة تحميل الصفحة يدويا أو "
+"الانتظار حتى يتم إعادة الاتصال بالمتصفح."
 
 #. Template: CustomerFooterJS
 msgid ""
@@ -10091,49 +10099,56 @@ msgid ""
 "order to be able to use all elements correctly again, it is strongly "
 "recommended to reload this page."
 msgstr ""
+"تم إستعادة الاتصال بعد انقطاع مؤقت. لذلك، بعض عناصر الصفحة الحالية قد لا "
+"تعمل بشكل صحيح (بعد الآن). حتى تتمكن من إستخدام كل العناصر كما تريد، يجب "
+"إعادة تحميل الصفحة الحالية."
 
 #. Template: CustomerLogin
 msgid "JavaScript Not Available"
-msgstr ""
+msgstr "JavaScript غير متوفر"
 
 #. Template: CustomerLogin
 msgid ""
 "In order to experience this software, you'll need to enable JavaScript in "
 "your browser."
-msgstr ""
+msgstr "من أجل تجربة هذا البرنامج، ستحتاج إلى تمكين JavaScript في المستعرض."
 
 #. Template: CustomerLogin
 msgid "Browser Warning"
-msgstr ""
+msgstr "تحذير المستعرض"
 
 #. Template: CustomerLogin
 msgid "The browser you are using is too old."
-msgstr ""
+msgstr "المستعرض الذي تستخدمه قديم جدا."
 
 #. Template: CustomerLogin
 msgid ""
 "This software runs with a huge lists of browsers, please upgrade to one of "
 "these."
 msgstr ""
+"يعمل هذا البرنامج مع مجموعة كبيرة من متصفحات الويب التي يمكنك الاختيار منها. "
+"الرجاء تثبيت مستعرض ويب أحدث أو تحديث مستعرض ويب الحالي."
 
 #. Template: CustomerLogin
 msgid "Please see the documentation or ask your admin for further information."
-msgstr ""
+msgstr "يرجى الاطلاع على المستندات أو طلب المزيد من المعلومات من المسؤول."
 
 #. Template: CustomerLogin
 msgid ""
 "The browser you are using doesn't support css-grid. It's likely too old."
-msgstr ""
+msgstr "لا يعتمد المستعرض الذي تستخدمه شبكة css. من المحتمل أنه قديم جدا."
 
 #. Template: CustomerLogin
 msgid ""
 "Internet Explorer is functional, but not all features are fully supported. "
 "Please consider updating to a modern browser."
 msgstr ""
+"يعمل Internet Explorer، ولكن لا يتم دعم كافة الميزات بشكل كامل. الرجاء "
+"مراعاة التحديث إلى مستعرض حديث."
 
 #. Template: CustomerLogin
 msgid "One moment please, you are being redirected..."
-msgstr ""
+msgstr "لحظة واحدة من فضلك، يتم إعادة توجيهك..."
 
 #. Template: CustomerLogin
 msgid "Login"
@@ -10141,27 +10156,27 @@ msgstr "تسجيل الدخول"
 
 #. Template: CustomerLogin
 msgid "Your user name"
-msgstr ""
+msgstr "اسم المستخدم الخاص بك"
 
 #. Template: CustomerLogin
 msgid "User name"
-msgstr ""
+msgstr "اسم المستخدم"
 
 #. Template: CustomerLogin
 msgid "Your password"
-msgstr ""
+msgstr "كلمة المرور الخاصة بك"
 
 #. Template: CustomerLogin
 msgid "Forgot password?"
-msgstr ""
+msgstr "هل نسيت كلمة المرور؟"
 
 #. Template: CustomerLogin
 msgid "Your 2 Factor Token"
-msgstr ""
+msgstr "الرمز المميز ثنائي العامل"
 
 #. Template: CustomerLogin
 msgid "2 Factor Token"
-msgstr ""
+msgstr "رمز مميز ثنائي العامل"
 
 #. Template: CustomerLogin
 msgid "Log In"
@@ -10169,15 +10184,15 @@ msgstr "تسجيل الدخول"
 
 #. Template: CustomerLogin
 msgid "Request Account"
-msgstr ""
+msgstr "طلب حساب"
 
 #. Template: CustomerLogin
 msgid "Request New Password"
-msgstr ""
+msgstr "طلب كلمة مرور جديدة"
 
 #. Template: CustomerLogin
 msgid "Your User Name"
-msgstr ""
+msgstr "اسم المستخدم الخاص بك"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
