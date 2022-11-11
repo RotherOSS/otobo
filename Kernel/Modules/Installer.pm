@@ -269,7 +269,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         if ( $CheckMode eq 'DB' ) {
             my %DBCredentials;
             for my $Param (
-                qw(DBUser DBPassword DBHost DBType DBPort DBSID DBName InstallType OTOBODBUser OTOBODBPassword)
+                qw(DBUser DBPassword DBHost DBPort DBType DBPort DBSID DBName InstallType OTOBODBUser OTOBODBPassword)
                 )
             {
                 $DBCredentials{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
@@ -433,7 +433,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
 
         my %DBCredentials;
         for my $Param (
-            qw(DBUser DBPassword DBHost DBType DBName DBSID DBPort InstallType OTOBODBUser OTOBODBPassword)
+            qw(DBUser DBPassword DBHost DBPort DBType DBName DBSID DBPort InstallType OTOBODBUser OTOBODBPassword)
             )
         {
             $DBCredentials{$Param} = $ParamObject->GetParam( Param => $Param ) || '';
@@ -500,8 +500,8 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                         }
                     }
 
-                    # Strip off port, i.e. 'localhost:14962' should become 'localhost'.
-                    $Host =~ s{:\d*\z}{}xms;
+                    # Strip off port, i.e. 'localhost:14962' or 'localhost;port=14962' should become 'localhost'.
+                    $Host =~ s{(:|;port=)\d*\z}{}xms;
                 }
 
                 # SQL for creating the OTOBO user.
@@ -532,8 +532,8 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             }
 
             # Set DSN for Config.pm.
-            $DB{ConfigDSN} = 'DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost}';
-            $DB{DSN}       = "DBI:mysql:database=$DB{DBName};host=$DB{DBHost}";
+            $DB{ConfigDSN} = 'DBI:mysql:database=$Self->{Database};host=$Self->{DatabaseHost};port=$Self->{DatabasePort}';
+            $DB{DSN}       = "DBI:mysql:database=$DB{DBName};host=$DB{DBHost};port=$DB{DBPort}";
         }
         elsif ( $DB{DBType} eq 'postgresql' ) {
 
@@ -624,6 +624,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
             $ReConfigure = $Self->ReConfigure(
                 DatabaseDSN  => $DB{ConfigDSN},
                 DatabaseHost => $DB{DBHost},
+                DatabasePort => $DB{DBPort},
                 Database     => $DB{DBName},
                 DatabaseUser => $DB{OTOBODBUser},
                 DatabasePw   => $DB{OTOBODBPassword},
@@ -1059,6 +1060,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 Item        => Translatable('Finished'),
                 Step        => $StepCounter,
                 Host        => $Host,
+                Port        => $Port,
                 Scheme      => $Scheme,
                 OTOBOHandle => $OTOBOHandle,
                 Password    => $Password,
