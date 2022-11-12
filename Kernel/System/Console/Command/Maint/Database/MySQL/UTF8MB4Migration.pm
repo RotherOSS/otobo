@@ -82,7 +82,7 @@ sub Run {
 
     my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
 
-    # Get all tables that have MyISAM
+    # Get all columns != utf8mb4
     $Kernel::OM->Get('Kernel::System::DB')->Prepare(
         SQL => "select table_name, column_name, data_type, CHARACTER_MAXIMUM_LENGTH , IS_NULLABLE, character_set_name, collation_name from information_schema.columns where table_schema = \"" . $ConfigObject->Get('Database') . "\" and CHARACTER_SET_NAME is not null AND CHARACTER_SET_NAME <> 'utf8mb4'",
     );
@@ -119,8 +119,12 @@ sub Run {
         $Self->Print("Change column <yellow>$TableColumn->{column_name} $TableColumn->{data_type} $TableColumn->{CHARACTER_MAXIMUM_LENGTH} $TableColumn->{IS_NULLABLE}</yellow> from table <yellow>$TableColumn->{table_name}</yellow> to utf8mb4...\n");
 
         my $SQL;
-        $SQL = "ALTER TABLE ". $TableColumn->{table_name} . " DEFAULT CHARACTER SET utf8mb4, MODIFY " . $TableColumn->{column_name} . " ". $TableColumn->{"data_type"} . '(' . $TableColumn->{"CHARACTER_MAXIMUM_LENGTH"} . ')';
- 
+        $SQL = "ALTER TABLE ". $TableColumn->{table_name} . " DEFAULT CHARACTER SET utf8mb4, MODIFY " . $TableColumn->{column_name} . " ". $TableColumn->{"data_type"};
+	
+	if ( $TableColumn->{"data_type"} =~ /varchar/i ) {
+	    $SQL .= '(' . $TableColumn->{"CHARACTER_MAXIMUM_LENGTH"} . ')';
+        }
+
         if ( $TableColumn->{"IS_NULLABLE"} eq 'NO' ) {
            $SQL .= ' NOT NULL,';
         } else {
