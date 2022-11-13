@@ -944,13 +944,10 @@ sub _FindMember {
     eval {
 
         # get list of group members
-        my @GroupAttributes = [ 'uniquemember', 'objectclass', 'memberurl' ];
-        my $Result          = $LDAP->search(
+        # the members of the result set will contain the default attributes
+        my $Result = $LDAP->search(
             base   => $GroupDN,
             filter => '(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))',
-
-            # TODO: really pass an array, why not param attrs
-            Attributes => @GroupAttributes
         );
 
         # pop_entry() dies when no entry was found. This is fine as further search
@@ -967,15 +964,14 @@ sub _FindMember {
         # search in Dynamic Groups...
         my $UrlValues = $Entry->get_value( 'memberurl', asref => 1 );
         for my $UrlValue ( $UrlValues->@* ) {
-            my $Uri        = URI->new($UrlValue);
-            my $Filter     = $Uri->filter();
-            my @Attributes = $Uri->attributes();
+            my $Uri    = URI->new($UrlValue);
+            my $Filter = $Uri->filter();
 
+            # the members of the result set will contain the default attributes
             my $Result = $LDAP->search(
-                base       => $UserDN,
-                scope      => "base",
-                filter     => $Filter,
-                Attributes => \@Attributes
+                base   => $UserDN,
+                scope  => 'base',
+                filter => $Filter,
             );
 
             # check if we found an entry
