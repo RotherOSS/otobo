@@ -506,8 +506,13 @@ sub Block {
             Priority => 'error',
             Message  => 'Need Name!'
         );
+
         return;
     }
+
+    # $Self->{BlockData} will be used in the subroutine Output()
+    # which is provided by the base module Kernel::Output::HTML::Layout::Template
+    $Self->{BlockData} //= [];
     push @{ $Self->{BlockData} },
         {
             Name => $Param{Name},
@@ -3249,7 +3254,8 @@ sub NavigationBar {
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
-    # run menu item modules
+    # Run the menu item modules for tweaking the main menu.
+    # These modules may add or remove items in the dropdown lists.
     if ( ref $ConfigObject->Get('Frontend::NavBarModule') eq 'HASH' ) {
         my %Jobs = %{ $ConfigObject->Get('Frontend::NavBarModule') };
 
@@ -3276,7 +3282,7 @@ sub NavigationBar {
         }
     }
 
-    # show nav bar
+    # show the main menu
     ITEM:
     for my $Key ( sort keys %NavBar ) {
         next ITEM if $Key eq 'Sub';
@@ -3384,7 +3390,9 @@ sub NavigationBar {
         Data         => \%Param,
     );
 
-    # run nav bar output modules
+    # Run nav bar output modules. Nav bar output are not used in OTOBO core,
+    # but can be used by OTOBO packages. The output of a nav bar output module
+    # is spliced in between the main menu and the notification.
     my $NavBarOutputModuleConfig = $ConfigObject->Get('Frontend::NavBarOutputModule');
     if ( ref $NavBarOutputModuleConfig eq 'HASH' ) {
         my %Jobs = $NavBarOutputModuleConfig->%*;
