@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-12 06:23+0000\n"
+"PO-Revision-Date: 2022-11-14 08:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10196,7 +10196,7 @@ msgstr "اسم المستخدم الخاص بك"
 
 #. Template: CustomerLogin
 msgid "A new password will be sent to your email address."
-msgstr ""
+msgstr "سيتم إرسال كلمة مرور جديدة إلى عنوان بريدك الإلكتروني."
 
 #. Template: CustomerLogin
 msgid "Create Account"
@@ -10204,23 +10204,23 @@ msgstr "إنشاء حساب جديد"
 
 #. Template: CustomerLogin
 msgid "Please fill out this form to receive login credentials."
-msgstr ""
+msgstr "يرجى ملء هذا النموذج لتلقي تفاصيل التسجيل الخاصة بك."
 
 #. Template: CustomerLogin
 msgid "How we should address you"
-msgstr ""
+msgstr "كيف يجب أن نخاطبك"
 
 #. Template: CustomerLogin
 msgid "Your First Name"
-msgstr ""
+msgstr "اسمك الأول"
 
 #. Template: CustomerLogin
 msgid "Your Last Name"
-msgstr ""
+msgstr "اسمك الأخير"
 
 #. Template: CustomerLogin
 msgid "Your email address (this will become your username)"
-msgstr ""
+msgstr "عنوان بريدك الإلكتروني (سيصبح اسم المستخدم الخاص بك)"
 
 #. Template: CustomerNavigationBar
 msgid "Logout"
@@ -10228,45 +10228,47 @@ msgstr "تسجيل الخروج"
 
 #. Template: CustomerPassword
 msgid "Change Password"
-msgstr ""
+msgstr "تغيير كلمة المرور"
 
 #. Template: CustomerPassword
 msgid ""
 "Password needs to contain at least 3 of the character classes: lower char, "
 "upper char, digit, special character."
 msgstr ""
+"يجب أن تحتوي كلمة المرور على ٣ على الأقل من فئات الحرف التالية: حروف صغيرة، "
+"حروف كبيرة، أرقام، حروف خاصة."
 
 #. Template: CustomerTicketList
 msgid "Nr."
-msgstr ""
+msgstr "رقم."
 
 #. Template: CustomerTicketList
 msgid "Welcome!"
-msgstr ""
+msgstr "أهلا بكم!"
 
 #. Template: CustomerTicketList
 msgid "You have no tickets yet. Please click here, to create a new one."
-msgstr ""
+msgstr "ليس لديك تذاكر حتى الآن. يرجى النقر هنا، لإنشاء واحدة جديدة."
 
 #. Template: CustomerTicketList
 msgid "Nothing to show."
-msgstr ""
+msgstr "لا شيء لإظهاره."
 
 #. Template: CustomerTicketList
 msgid "Click here for an unfiltered list of all your tickets."
-msgstr ""
+msgstr "انقر هنا للحصول على قائمة غير مفلترة بجميع تذاكرك."
 
 #. Template: CustomerTicketMessage
 msgid "Issue a new Ticket"
-msgstr ""
+msgstr "إنشاء تذكرة جديدة"
 
 #. Template: CustomerTicketMessage
 msgid "Service level agreement"
-msgstr ""
+msgstr "إتفاقية مستوى الخدمة"
 
 #. Template: CustomerTicketOverview
 msgid "Your Tickets"
-msgstr ""
+msgstr "تذاكرك"
 
 #. Template: CustomerTicketOverview
 msgid "Page"
@@ -10274,15 +10276,15 @@ msgstr "الصفحة"
 
 #. Template: CustomerTicketOverview
 msgid "Sort"
-msgstr ""
+msgstr "فَرَزَ"
 
 #. Template: CustomerTicketSearch
 msgid "Profile"
-msgstr "الملف"
+msgstr "ملف تعريف"
 
 #. Template: CustomerTicketSearch
 msgid "e. g. 10*5155 or 105658*"
-msgstr ""
+msgstr "على سبيل المثال 10*5155 أو *105658"
 
 #. Template: CustomerTicketSearch
 msgid "CustomerID"
