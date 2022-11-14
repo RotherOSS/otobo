@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-14 08:58+0000\n"
+"PO-Revision-Date: 2022-11-14 09:34+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10292,19 +10292,19 @@ msgstr "رقم العميل"
 
 #. Template: CustomerTicketSearch
 msgid "Fulltext Search in Tickets (e. g. \"John*n\" or \"Will*\")"
-msgstr ""
+msgstr "بحث النص الكامل في التذاكر (على سبيل المثال. \"John*n\" أو \"Will*\""
 
 #. Template: CustomerTicketSearch
 msgid "Types"
-msgstr ""
+msgstr "أنواع"
 
 #. Template: CustomerTicketSearch
 msgid "Time Restrictions"
-msgstr ""
+msgstr "قيود الوقت"
 
 #. Template: CustomerTicketSearch
 msgid "No time settings"
-msgstr ""
+msgstr "لا توجد إعدادات للوقت"
 
 #. Template: CustomerTicketSearch
 msgid "All"
@@ -10312,11 +10312,11 @@ msgstr "الكل"
 
 #. Template: CustomerTicketSearch
 msgid "Specific date"
-msgstr ""
+msgstr "تاريخ محدد"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created"
-msgstr ""
+msgstr "فقط التذاكر التي تم إنشاؤها"
 
 #. Template: CustomerTicketSearch
 msgid "Date range"
