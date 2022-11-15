@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-14 09:34+0000\n"
+"PO-Revision-Date: 2022-11-15 17:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10320,39 +10320,39 @@ msgstr "فقط التذاكر التي تم إنشاؤها"
 
 #. Template: CustomerTicketSearch
 msgid "Date range"
-msgstr ""
+msgstr "نطاق التاريخ"
 
 #. Template: CustomerTicketSearch
 msgid "Only tickets created between"
-msgstr ""
+msgstr "فقط التذاكر التي تم إنشاؤها بين"
 
 #. Template: CustomerTicketSearch
 msgid "Ticket Archive System"
-msgstr ""
+msgstr "نظام أرشيف التذاكر"
 
 #. Template: CustomerTicketSearch
 msgid "Save Search as Template?"
-msgstr ""
+msgstr "هل تريد حفظ البحث كقالب؟"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template?"
-msgstr ""
+msgstr "هل تريد الحفظ كقالب؟"
 
 #. Template: CustomerTicketSearch
 msgid "Save as Template"
-msgstr ""
+msgstr "حفظ كقالب"
 
 #. Template: CustomerTicketSearch
 msgid "Template Name"
-msgstr ""
+msgstr "اسم القالب"
 
 #. Template: CustomerTicketSearch
 msgid "Pick a profile name"
-msgstr ""
+msgstr "حدد اسم ملف التعريف"
 
 #. Template: CustomerTicketSearch
 msgid "Output to"
-msgstr "نموذج النتيجة"
+msgstr "الإخراج حسب"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "of"
@@ -10360,39 +10360,39 @@ msgstr "من"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Search Results for"
-msgstr ""
+msgstr "نتائج البحث عن"
 
 #. Template: CustomerTicketSearchResultShort
 msgid "Remove this Search Term."
-msgstr ""
+msgstr "إزالة مصطلح البحث هذا."
 
 #. Template: CustomerTicketZoom
 msgid "Reply"
-msgstr ""
+msgstr "رَدّ"
 
 #. Template: CustomerTicketZoom
 msgid "Discard"
-msgstr ""
+msgstr "تَخَلّصَ مِنْ"
 
 #. Template: CustomerTicketZoom
 msgid "Ticket Information"
-msgstr ""
+msgstr "معلومات التذكرة"
 
 #. Template: CustomerTicketZoom
 msgid "Categories"
-msgstr ""
+msgstr "فِئَات"
 
 #. Template: CustomerTicketZoom
 msgid "Further actions"
-msgstr ""
+msgstr "إجراءات أخرى"
 
 #. Template: Chat
 msgid "Expand article"
-msgstr ""
+msgstr "توسيع المقالة"
 
 #. Template: MIMEBase
 msgid "Article Information"
-msgstr ""
+msgstr "معلومات المقالة"
 
 #. Template: CustomerWarning
 msgid "Warning"
@@ -10400,7 +10400,7 @@ msgstr "تحذير"
 
 #. Template: TileNewTicket
 msgid "Issue%sa ticket"
-msgstr ""
+msgstr "إنشاء تذكرة s%"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
