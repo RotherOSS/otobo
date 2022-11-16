@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-15 17:43+0000\n"
+"PO-Revision-Date: 2022-11-17 00:42+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10404,11 +10404,11 @@ msgstr "إنشاء تذكرة s%"
 
 #. Template: DashboardEventsTicketCalendar
 msgid "Event Information"
-msgstr ""
+msgstr "معلومات الحدث"
 
 #. Template: Error
 msgid "Send a bugreport"
-msgstr ""
+msgstr "إرسال تقرير الخطأ"
 
 #. Template: Error
 msgid "Expand"
@@ -10416,57 +10416,58 @@ msgstr "توسيع"
 
 #. Template: Footer
 msgid "Powered by %s"
-msgstr ""
+msgstr "مشغل بواسطة ٪s"
 
 #. Template: AttachmentList
 msgid "Click to delete this attachment."
-msgstr ""
+msgstr "انقر لحذف هذا المرفق."
 
 #. Template: DraftButtons
 msgid "Update draft"
-msgstr ""
+msgstr "تحديث المسودة"
 
 #. Template: DraftButtons
 msgid "Save as new draft"
-msgstr ""
+msgstr "حفظ كمسودة جديدة"
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\"."
-msgstr ""
+msgstr "لقد قمت بتحميل المسودة \"٪s\"."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". You last changed it %s."
-msgstr ""
+msgstr "لقد قمت بتحميل المسودة \"٪s\". آخر تغيير قمت به هو ٪s."
 
 #. Template: DraftNotifications
 msgid "You have loaded the draft \"%s\". It was last changed %s by %s."
-msgstr ""
+msgstr "لقد قمت بتحميل المسودة \"٪s\". تم تغييره للمرة الأخيرة ٪s بواسطة ٪s."
 
 #. Template: DraftNotifications
 msgid ""
 "Please note that this draft is outdated because the ticket was modified "
 "since this draft was created."
 msgstr ""
+"الرجاء ملاحظة أن هذه المسودة قديمة نظرا لتعديل التذكرة منذ إنشاء هذه المسودة."
 
 #. Template: Header
 msgid "Edit personal preferences"
-msgstr ""
+msgstr "تحرير الإعدادات الشخصية"
 
 #. Template: Header
 msgid "Personal preferences"
-msgstr ""
+msgstr "الإعدادات الشخصية"
 
 #. Template: Header
 msgid "You are logged in as"
-msgstr ""
+msgstr "تم تسجيل دخولك ك"
 
 #. Template: Installer
 msgid "JavaScript not available"
-msgstr ""
+msgstr "JavaScript غير متوفر"
 
 #. Template: Installer
 msgid "Step %s"
-msgstr ""
+msgstr "الخطوة ٪s"
 
 #. Template: Installer
 msgid "License"
@@ -10474,131 +10475,131 @@ msgstr "الترخيص"
 
 #. Template: Installer
 msgid "Database Settings"
-msgstr ""
+msgstr "إعدادات قاعدة البيانات"
 
 #. Template: Installer
 msgid "General Specifications and Mail Settings"
-msgstr ""
+msgstr "الإعدادات العامة وإعدادات البريد الإلكتروني"
 
 #. Template: Installer
 msgid "Finish"
-msgstr ""
+msgstr "إِنْهاء"
 
 #. Template: Installer
 msgid "Welcome to %s"
-msgstr ""
+msgstr "مرحبا بك في ٪s"
 
 #. Template: Installer
 msgid "Germany"
-msgstr ""
+msgstr "ألمانيا"
 
 #. Template: Installer
 msgid "Phone"
-msgstr "رقم الهاتف"
+msgstr "هاتف"
 
 #. Template: Installer
 msgid "Web site"
-msgstr ""
+msgstr "موقع ويب"
 
 #. Template: InstallerConfigureMail
 msgid "Configure Outbound Mail"
-msgstr ""
+msgstr "تكوين البريد الصادر"
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail type"
-msgstr "النوع"
+msgstr "نوع البريد الصادر"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
-msgstr ""
+msgstr "حدد نوع البريد الصادر."
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail port"
-msgstr ""
+msgstr "منفذ البريد الصادر"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail port."
-msgstr ""
+msgstr "تحديد منفذ البريد الصادر."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
-msgstr ""
+msgstr "SMTP-Host"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host."
-msgstr ""
+msgstr "SMTP-Host."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP authentication"
-msgstr ""
+msgstr "مصادقة SMTP"
 
 #. Template: InstallerConfigureMail
 msgid "Does your SMTP host need authentication?"
-msgstr ""
+msgstr "هل يحتاج SMTP-Host إلى مصادقة؟"
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth user"
-msgstr ""
+msgstr "مستخدم مصادقة SMTP"
 
 #. Template: InstallerConfigureMail
 msgid "Username for SMTP auth."
-msgstr ""
+msgstr "اسم المستخدم لمصادقة SMTP."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP auth password"
-msgstr ""
+msgstr "كلمة مرور مصادقة SMTP"
 
 #. Template: InstallerConfigureMail
 msgid "Password for SMTP auth."
-msgstr ""
+msgstr "كلمة مرور لمصادقة SMTP."
 
 #. Template: InstallerConfigureMail
 msgid "Configure Inbound Mail"
-msgstr ""
+msgstr "تكوين البريد الوارد"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail type"
-msgstr "النوع"
+msgstr "نوع البريد الوارد"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
-msgstr ""
+msgstr "تحديد نوع البريد الوارد."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host"
-msgstr ""
+msgstr "مضيف البريد الوارد"
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host."
-msgstr ""
+msgstr "مضيف البريد الوارد."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail user"
-msgstr "مستخدم"
+msgstr "مستخدم البريد الوارد"
 
 #. Template: InstallerConfigureMail
 msgid "User for inbound mail."
-msgstr ""
+msgstr "مستخدم للبريد الوارد."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail password"
-msgstr "كلمة المرور"
+msgstr "كلمة مرور البريد الوارد"
 
 #. Template: InstallerConfigureMail
 msgid "Password for inbound mail."
-msgstr ""
+msgstr "كلمة المرور للبريد الوارد."
 
 #. Template: InstallerConfigureMail
 msgid "Result of mail configuration check"
-msgstr ""
+msgstr "نتيجة فحص تكوين البريد الإلكتروني"
 
 #. Template: InstallerConfigureMail
 msgid "Check mail configuration"
-msgstr ""
+msgstr "فحص تكوين البريد الإلكتروني"
 
 #. Template: InstallerConfigureMail
 msgid "Skip this step"
-msgstr ""
+msgstr "تخطي هذه الخطوة"
 
 #. Template: InstallerDBResult
 msgid "Done"
@@ -10610,45 +10611,47 @@ msgstr "خطأ"
 
 #. Template: InstallerDBResult
 msgid "Database setup successful!"
-msgstr ""
+msgstr "تم إنشاء قاعدة البيانات بنجاح!"
 
 #. Template: InstallerDBStart
 msgid "Install Type"
-msgstr ""
+msgstr "نوع التثبيت"
 
 #. Template: InstallerDBStart
 msgid "Create a new database for OTOBO"
-msgstr ""
+msgstr "إنشاء قاعدة بيانات جديدة ل OTOBO"
 
 #. Template: InstallerDBStart
 msgid "Use an existing database for OTOBO"
-msgstr ""
+msgstr "إستخدام قاعدة بيانات موجودة ل OTOBO"
 
 #. Template: InstallerDBmssql
 msgid ""
 "If you have set a root password for your database, it must be entered here. "
 "If not, leave this field empty."
 msgstr ""
+"إذا قمت بتعيين كلمة مرور جذرية لقاعدة البيانات، فيجب إدخالها هنا. إذا لم يكن "
+"الأمر كذلك، أترك هذا الحقل فارغا."
 
 #. Template: InstallerDBmssql
 msgid "Database name"
-msgstr ""
+msgstr "اسم قاعدة البيانات"
 
 #. Template: InstallerDBmssql
 msgid "Check database settings"
-msgstr ""
+msgstr "التحقق من إعدادات قاعدة البيانات"
 
 #. Template: InstallerDBmssql
 msgid "Result of database check"
-msgstr ""
+msgstr "نتيجة فحص قاعدة البيانات"
 
 #. Template: InstallerDBmssql
 msgid "Database check successful."
-msgstr ""
+msgstr "تم التحقق من قاعدة البيانات بنجاح."
 
 #. Template: InstallerDBmssql
 msgid "Database User"
-msgstr ""
+msgstr "مستخدم قاعدة البيانات"
 
 #. Template: InstallerDBmssql
 msgid "New"
@@ -10658,83 +10661,85 @@ msgstr "جديد"
 msgid ""
 "A new database user with limited permissions will be created for this OTOBO "
 "system."
-msgstr ""
+msgstr "سيتم إنشاء مستخدم قاعدة بيانات جديد بأذونات محدودة لنظام OTOBO هذا."
 
 #. Template: InstallerDBmssql
 msgid "Generated password"
-msgstr ""
+msgstr "كلمة المرور التي تم إنشاؤها"
 
 #. Template: InstallerDBmssql
 msgid "Repeat Password"
-msgstr ""
+msgstr "كرر كلمة المرور"
 
 #. Template: InstallerDBmssql
 msgid "Passwords do not match"
-msgstr ""
+msgstr "كلمات المرور غير متطابقة"
 
 #. Template: InstallerFinish
 msgid "Start page"
-msgstr ""
+msgstr "الصفحة الرئيسية"
 
 #. Template: InstallerFinish
 msgid "Your OTOBO Team"
-msgstr ""
+msgstr "فريق OTOBO الخاص بك"
 
 #. Template: InstallerLicense
 msgid "Don't accept license"
-msgstr ""
+msgstr "عدم قبول الترخيص"
 
 #. Template: InstallerLicense
 msgid "Accept license and continue"
-msgstr ""
+msgstr "قبول الترخيص والمتابعة"
 
 #. Template: InstallerSystem
 msgid "SystemID"
-msgstr ""
+msgstr "معرف النظام"
 
 #. Template: InstallerSystem
 msgid ""
 "The identifier of the system. Each ticket number and each HTTP session ID "
 "contain this number."
-msgstr ""
+msgstr "معرف النظام. يحتوي كل رقم تذكرة وكل معرف جلسة عمل HTTP على هذا الرقم."
 
 #. Template: InstallerSystem
 msgid "HTTP Type"
-msgstr ""
+msgstr "نوع HTTP"
 
 #. Template: InstallerSystem
 msgid ""
 "Set the request scheme used for cookies and various links. For production "
 "purposes always use https."
 msgstr ""
+"يحدد النظام المستخدم لاسترداد ملفات تعريف الارتباط والروابط المختلفة. استخدم "
+"دائمًا HTTPS في بيئات الإنتاج."
 
 #. Template: InstallerSystem
 msgid "System FQDN"
-msgstr ""
+msgstr "نظام FQDN"
 
 #. Template: InstallerSystem
 msgid "Fully qualified domain name of your system."
-msgstr ""
+msgstr "اسم المجال المؤهل بالكامل لنظامك."
 
 #. Template: InstallerSystem
 msgid "AdminEmail"
-msgstr ""
+msgstr "البريد الإلكتروني للمسؤول"
 
 #. Template: InstallerSystem
 msgid "Email address of the system administrator."
-msgstr ""
+msgstr "عنوان البريد الإلكتروني لمسؤول النظام."
 
 #. Template: InstallerSystem
 msgid "Organization"
-msgstr ""
+msgstr "مُؤسَّسَة"
 
 #. Template: InstallerSystem
 msgid "Log"
-msgstr ""
+msgstr "سِجِلّ"
 
 #. Template: InstallerSystem
 msgid "LogModule"
-msgstr ""
+msgstr "وحدة السجل"
 
 #. Template: InstallerSystem
 msgid "Log backend to use."
