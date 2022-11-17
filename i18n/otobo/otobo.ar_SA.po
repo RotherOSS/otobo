@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 08:28+0000\n"
+"PO-Revision-Date: 2022-11-17 09:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10814,83 +10814,89 @@ msgstr "حذف الارتباط"
 
 #. Template: LinkObject
 msgid "Object#"
-msgstr ""
+msgstr "رقم الكائن"
 
 #. Template: LinkObject
 msgid "Add links"
-msgstr ""
+msgstr "إضافة إرتباطات"
 
 #. Template: LinkObject
 msgid "Delete links"
-msgstr ""
+msgstr "حذف الارتباطات"
 
 #. Template: Login
 msgid "Lost your password?"
-msgstr "فقدت كلمة المرور؟"
+msgstr "هل نسيت كلمة المرور؟"
 
 #. Template: Login
 msgid "Back to login"
-msgstr ""
+msgstr "العودة إلى تسجيل الدخول"
 
 #. Template: MetaFloater
 msgid "Scale preview content"
-msgstr ""
+msgstr "قياس محتوى المعاينة"
 
 #. Template: MetaFloater
 msgid "Open URL in new tab"
-msgstr ""
+msgstr "فتح URL في علامة تبويب جديدة"
 
 #. Template: MetaFloater
 msgid "Close preview"
-msgstr ""
+msgstr "إغلاق المعاينة"
 
 #. Template: MetaFloater
 msgid ""
 "A preview of this website can't be provided because it didn't allow to be "
 "embedded."
-msgstr ""
+msgstr "لا يمكن توفير معاينة لموقع الويب هذا لأنه لا يسمح بتضمينه."
 
 #. Template: Copy
 msgid "Start migration"
-msgstr ""
+msgstr "بدء الترحيل"
 
 #. Template: Copy
 msgid "Result of data migration"
-msgstr ""
+msgstr "نتيجة ترحيل البيانات"
 
 #. Template: Copy
 msgid "Last successful task:"
-msgstr ""
+msgstr "آخر مهمة ناجحة:"
 
 #. Template: Copy
 msgid ""
 "Migration will restart from the last successfully finished task. Please do a "
 "complete rerun if you changed your system in the meantime."
 msgstr ""
+"ستتم إعادة تشغيل الترحيل من المهمة الأخيرة التي تم الانتهاء منها بنجاح. "
+"الرجاء إجراء إعادة تشغيل كاملة إذا قمت بتغيير النظام في هذه الأثناء."
 
 #. Template: Copy
 msgid "Clean up and finish"
-msgstr ""
+msgstr "التنظيف والانتهاء"
 
 #. Template: Finish
 msgid ""
 "The migration is complete, thank you for trying out OTOBO - we hope you will "
 "like it."
 msgstr ""
+"لقد اكتملت عملية الترحيل، شكرا لك على تجربتك لتطبيق OTOBO - نأمل أن ينال "
+"الإعجاب."
 
 #. Template: Finish
 msgid ""
 "To be able to use OTOBO you have to enter the following line in your command "
 "line (Terminal/Shell) as root."
 msgstr ""
+"لتتمكن من إستخدام OTOBO، يجب إدخال السطر التالي في سطر الأوامر (Terminal/"
+"Shell) كجذر."
 
 #. Template: Finish
 msgid "Restart your webserver"
-msgstr ""
+msgstr "إعادة تشغيل خادم ويب"
 
 #. Template: Finish
 msgid "After doing so your OTOBO is up and running."
-msgstr ""
+msgstr "بعد القيام بذلك ، يتم تشغيل OTOBO الخاص بك."
 
 #. Template: Intro
 msgid ""
