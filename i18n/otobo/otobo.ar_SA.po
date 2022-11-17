@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 08:00+0000\n"
+"PO-Revision-Date: 2022-11-17 08:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10763,7 +10763,7 @@ msgstr "اللغة الافتراضية."
 
 #. Template: InstallerSystem
 msgid "CheckMXRecord"
-msgstr ""
+msgstr "تحقق من MXRecord"
 
 #. Template: InstallerSystem
 msgid ""
@@ -10771,20 +10771,23 @@ msgid ""
 "found in DNS. Don't use this option if your DNS is slow or does not resolve "
 "public addresses."
 msgstr ""
+"يتم التحقق من عناوين البريد الإلكتروني التي تم إدخالها يدويا مقابل سجلات MX "
+"الموجودة في DNS. لا تستخدم هذا الخيار إذا كان DNS بطيئا أو لا يحل العناوين "
+"العامة."
 
 #. Template: InstallerSystem
 msgid "Elasticsearch"
-msgstr ""
+msgstr "البحث المرن"
 
 #. Template: InstallerSystem
 msgid "Initialize Elasticsearch"
-msgstr ""
+msgstr "تهيئة البحث المرن"
 
 #. Template: InstallerSystem
 msgid ""
 "Elasticsearch server was found, and it has been activated automatically for "
 "OTOBO."
-msgstr ""
+msgstr "تم العثور على خادم Elasticsearch، وتم تنشيطه تلقائيا ل OTOBO."
 
 #. Template: InstallerSystem
 msgid ""
@@ -10795,14 +10798,19 @@ msgid ""
 "ElasticsearchFulltext' in the SysConfig and run the otobo.Console command "
 "'Maint::Elasticsearch::Migration'."
 msgstr ""
+"يبدو أنه لا يوجد خادم Elasticsearch نظيف قيد التشغيل، أو أنه لا يستخدم "
+"التكوين القياسي. لتنشيط Elasticsearch يدويا، الرجاء تحرير خدمة ويب في واجهة "
+"المسؤول إذا لزم الأمر، قم بتنشيط 'Elasticsearch::Active' "
+"و'FrontTend::ToolBarModule##250-Ticket::ElasticsearchFulltext' في SysConfig "
+"وقم بتشغيل الأمر otobo.Console 'Maint::Elasticsearch::Migration'."
 
 #. Template: LinkObject
 msgid "Delete link"
-msgstr ""
+msgstr "حذف الارتباط"
 
 #. Template: LinkObject
 msgid "Delete Link"
-msgstr ""
+msgstr "حذف الارتباط"
 
 #. Template: LinkObject
 msgid "Object#"
