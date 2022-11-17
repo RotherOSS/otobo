@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 11:13+0000\n"
+"PO-Revision-Date: 2022-11-17 12:52+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -11042,11 +11042,11 @@ msgstr "تم التحقق من الإعدادات بنجاح."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
-msgstr ""
+msgstr "تنفيذ الفحوصات المسبقة للترحيل"
 
 #. Template: MobileNotAvailableWidget
 msgid "Feature not Available"
-msgstr ""
+msgstr "الميزة غير متوفرة"
 
 #. Template: MobileNotAvailableWidget
 msgid ""
@@ -11054,66 +11054,69 @@ msgid ""
 "devices. If you'd like to use it, you can either switch to desktop mode or "
 "use your regular desktop device."
 msgstr ""
+"عذرا، ولكن هذه الميزة من OTOBO غير متوفرة حاليا للأجهزة المحمولة. إذا كنت "
+"ترغب في إستخدامه، فيمكنك إما التبديل إلى وضع سطح المكتب أو إستخدام جهاز سطح "
+"المكتب العادي."
 
 #. Template: Motd
 msgid "Message of the Day"
-msgstr ""
+msgstr "رسالة اليوم"
 
 #. Template: Motd
 msgid "This is the message of the day. You can edit this in %s."
-msgstr ""
+msgstr "هذه هي رسالة اليوم. يمكنك تحرير هذا في ٪s."
 
 #. Template: NoPermission
 msgid "Insufficient Rights"
-msgstr ""
+msgstr "حقوق غير كافية"
 
 #. Template: NoPermission
 msgid "Back to the previous page"
-msgstr ""
+msgstr "العودة إلى الصفحة السابقة"
 
 #. Template: Alert
 msgid "Alert"
-msgstr ""
+msgstr "تَحْذِير"
 
 #. Template: Alert
 msgid "Powered by"
-msgstr "أنتج بواسطة"
+msgstr "مشغل بواسطة"
 
 #. Template: Pagination
 msgid "Show first page"
-msgstr ""
+msgstr "إظهار الصفحة الأولى"
 
 #. Template: Pagination
 msgid "Show previous pages"
-msgstr ""
+msgstr "إظهار الصفحات السابقة"
 
 #. Template: Pagination
 msgid "Show page %s"
-msgstr ""
+msgstr "إظهار الصفحة ٪s"
 
 #. Template: Pagination
 msgid "Show next pages"
-msgstr ""
+msgstr "إظهار الصفحات التالية"
 
 #. Template: Pagination
 msgid "Show last page"
-msgstr ""
+msgstr "إظهار الصفحة الأخيرة"
 
 #. Template: PictureUpload
 msgid "Need FormID!"
-msgstr ""
+msgstr "مطلوب FormID!"
 
 #. Template: PictureUpload
 msgid "No file found!"
-msgstr ""
+msgstr "لم يتم العثور على ملف!"
 
 #. Template: PictureUpload
 msgid "The file is not an image that can be shown inline!"
-msgstr ""
+msgstr "الملف ليس صورة يمكن عرضها في السطر!"
 
 #. Template: PreferencesNotificationEvent
 msgid "No user configurable notifications found."
-msgstr ""
+msgstr "لم يتم العثور على إعلامات قابلة للتكوين من قبل المستخدم."
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
