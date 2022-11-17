@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 00:42+0000\n"
+"PO-Revision-Date: 2022-11-17 08:00+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10743,23 +10743,23 @@ msgstr "وحدة السجل"
 
 #. Template: InstallerSystem
 msgid "Log backend to use."
-msgstr ""
+msgstr "سجل الخلفية للاستخدام."
 
 #. Template: InstallerSystem
 msgid "LogFile"
-msgstr ""
+msgstr "ملف السجل"
 
 #. Template: InstallerSystem
 msgid "Webfrontend"
-msgstr ""
+msgstr "واجهة ويب"
 
 #. Template: InstallerSystem
 msgid "Default language"
-msgstr ""
+msgstr "اللغة الافتراضية"
 
 #. Template: InstallerSystem
 msgid "Default language."
-msgstr ""
+msgstr "اللغة الافتراضية."
 
 #. Template: InstallerSystem
 msgid "CheckMXRecord"
