@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 09:38+0000\n"
+"PO-Revision-Date: 2022-11-17 10:24+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10904,28 +10904,34 @@ msgid ""
 "migrating your ticket system from OTRS or ((OTRS)) Community Edition version "
 "6 to OTOBO 10."
 msgstr ""
+"سيقودك هذا البرنامج النصي للترحيل خطوة بخطوة خلال عملية ترحيل نظام تذكرتك من "
+"OTRS أو ((OTRS) Community Edition الإصدار 6 إلى OTOBO 10."
 
 #. Template: Intro
 msgid ""
 "There is no danger whatsoever for your original system: nothing is changed "
 "there."
-msgstr ""
+msgstr "لا يوجد أي خطر على الإطلاق على نظامك الأصلي: لا يوجد أي تغيير هناك."
 
 #. Template: Intro
 msgid ""
 "Instructions and details on migration prerequisites can be found in the "
 "migration manual. We strongly recommend reading it before starting migration."
 msgstr ""
+"ويمكن الاطلاع على التعليمات والتفاصيل المتعلقة بالشروط الأساسية للهجرة في "
+"دليل الهجرة. نوصي بشدة بقراءتها قبل بدء الترحيل."
 
 #. Template: Intro
 msgid ""
 "In case you have to suspend migration, you can resume it anytime at the same "
 "point as long as the cache has not been deleted."
 msgstr ""
+"في حال اضطررت إلى إيقاف الترحيل مؤقتا، يمكنك إستئنافه في أي وقت عند نفس "
+"النقطة طالما لم يتم حذف ذاكرة التخزين المؤقت."
 
 #. Template: Intro
 msgid "All entered passwords are cached until the migration is finished."
-msgstr ""
+msgstr "يتم تخزين كل كلمات المرور المدخلة مؤقتا حتى انتهاء الترحيل."
 
 #. Template: Intro
 msgid ""
@@ -10933,40 +10939,45 @@ msgid ""
 "Directory will be able to read them. If you abort the migration, you are "
 "given the option to clear the cache by visiting this page again."
 msgstr ""
+" سيتمكن أي شخص لديه حق الوصول إلى هذه الصفحة أو إذن القراءة ل \"دليل OTOBO "
+"الرئيسي\" من قراءتها. إذا قمت بإجهاض الترحيل، سيتم إعطاؤك خيار مسح ذاكرة "
+"التخزين المؤقت عن طريق زيارة هذه الصفحة مرة أخرى."
 
 #. Template: Intro
 msgid "If you need support, just ask our experts – either at"
-msgstr ""
+msgstr "إذا كنت بحاجة إلى الدعم، فما عليك سوى أن تسأل خبراءنا - إما على"
 
 #. Template: Intro
 msgid "OTOBO forum"
-msgstr ""
+msgstr "منتدى OTOBO"
 
 #. Template: Intro
 msgid "or directly via mail to"
-msgstr ""
+msgstr "أو مباشرة عن طريق البريد الإلكتروني إلى"
 
 #. Template: Intro
 msgid "Cached data found"
-msgstr ""
+msgstr "تم العثور على البيانات المخزنة مؤقتا"
 
 #. Template: Intro
 msgid ""
 "You will continue where you aborted the migration last time. If you do not "
 "want this, please discard your previous progress."
 msgstr ""
+"ستتم المتابعة حيث قمت بإجهاض الترحيل في المرة الأخيرة. إذا كنت تريد بدء "
+"الترحيل مرة أخرى من الصفر، تجاهل كل التغييرات السابقة."
 
 #. Template: Intro
 msgid "An error occured."
-msgstr ""
+msgstr "حدث خطأ."
 
 #. Template: Intro
 msgid "Discard previous progress"
-msgstr ""
+msgstr "تجاهل التغييرات السابقة"
 
 #. Template: Intro
 msgid "Insecure HTTP connection"
-msgstr ""
+msgstr "اتصال HTTP غير آمن"
 
 #. Template: Intro
 msgid ""
@@ -10975,6 +10986,10 @@ msgid ""
 "unencrypted. Anyone between you and the OTOBO server will be able to read "
 "them! Please consider setting up https instead."
 msgstr ""
+"أنت تستخدم البرنامج النصي للترحيل عبر http. وهذا أمر غير آمن إلى حد كبير لأن "
+"هناك حاجة إلى كلمات مرور مختلفة أثناء العملية، وسيتم نقلها دون تشفير. سيتمكن "
+"أي شخص بينك وبين خادم OTOBO من قراءتها! الرجاء التفكير في إعداد https بدلا "
+"من ذلك."
 
 #. Template: Intro
 msgid "Continue anyways :("
