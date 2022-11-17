@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 12:52+0000\n"
+"PO-Revision-Date: 2022-11-17 23:24+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -11120,48 +11120,50 @@ msgstr "لم يتم العثور على إعلامات قابلة للتكوين
 
 #. Template: PreferencesNotificationEvent
 msgid "Receive messages for notification '%s' by transport method '%s'."
-msgstr ""
+msgstr "تلقي رسائل للإخطار '٪s' باستخدام أسلوب النقل '٪s'."
 
 #. Template: ActivityDialogHeader
 msgid "Process Information"
-msgstr ""
+msgstr "معلومات العملية"
 
 #. Template: ActivityDialogHeader
 msgid "Dialog"
-msgstr ""
+msgstr "حِوَارٌ"
 
 #. Template: Article
 msgid "Inform Agent"
-msgstr "أبلغ المشغل"
+msgstr "إعلام العميل"
 
 #. Template: PublicDefault
 msgid "Welcome"
-msgstr ""
+msgstr "أهلا بكم"
 
 #. Template: PublicDefault
 msgid ""
 "This is the default public interface of OTOBO! There was no action parameter "
 "given."
-msgstr ""
+msgstr "هذه هي الواجهة العامة الافتراضية ل OTOBO! لم يتم توفير معلمة إجراء."
 
 #. Template: PublicDefault
 msgid ""
 "You could install a custom public module (via the package manager), for "
 "example the FAQ module, which has a public interface."
 msgstr ""
+"يمكنك تثبيت وحدة نمطية عامة مخصصة (من خلال إدارة الحزمة)، على سبيل المثال، "
+"الوحدة النمطية للأسئلة المتداولة، والتي لها واجهة عامة."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Permissions"
-msgstr ""
+msgstr "أذونات"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "You can select one or more groups to define access for different agents."
-msgstr ""
+msgstr "يمكنك تحديد مجموعة واحدة أو أكثر لمنح حقوق الوصول لوكلاء مختلفين."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Result formats"
-msgstr ""
+msgstr "تنسيقات النتائج"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Time Zone"
@@ -11169,123 +11171,132 @@ msgstr "المنطقة الزمنية"
 
 #. Template: GeneralSpecificationsWidget
 msgid "The selected time periods in the statistic are time zone neutral."
-msgstr ""
+msgstr "تعتبر الفترات الزمنية المحددة للإحصاءات مستقلة عن المنطقة الزمنية."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation row"
-msgstr ""
+msgstr "إنشاء صف تجميع"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional row containing sums for all data rows."
-msgstr ""
+msgstr "أنشئ صفًا إضافيًا بإجماليات جميع صفوف البيانات."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Create summation column"
-msgstr ""
+msgstr "إنشاء عمود تجميع"
 
 #. Template: GeneralSpecificationsWidget
 msgid "Generate an additional column containing sums for all data columns."
-msgstr ""
+msgstr "إنشاء عمود إضافي بإجماليات كافة أعمدة البيانات."
 
 #. Template: GeneralSpecificationsWidget
 msgid "Cache results"
-msgstr ""
+msgstr "نتائج ذاكرة التخزين المؤقت"
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Stores statistics result data in a cache to be used in subsequent views with "
 "the same configuration (requires at least one selected time field)."
 msgstr ""
+"يخزن بيانات نتائج الإحصائيات في ذاكرة تخزين مؤقت لاستخدامها في طرق العرض "
+"اللاحقة بنفس التكوين (يتطلب حقل وقت محددًا واحدًا على الأقل)."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Provide the statistic as a widget that agents can activate in their "
 "dashboard."
 msgstr ""
+"قدم هذه الإحصائية كعنصر واجهة مستخدم للوحة المعلومات يمكن للوكلاء تمكينه على "
+"لوحة المعلومات الخاصة بك."
 
 #. Template: GeneralSpecificationsWidget
 msgid ""
 "Please note that enabling the dashboard widget will activate caching for "
 "this statistic in the dashboard."
 msgstr ""
+"الرجاء ملاحظة أن تمكين عنصر واجهة مستخدم لوحة المعلومات سيقوم بتنشيط التخزين "
+"المؤقت لهذه الإحصائية في لوحة المعلومات."
 
 #. Template: GeneralSpecificationsWidget
 msgid "If set to invalid end users can not generate the stat."
 msgstr ""
+"إذا كانت الحالة \"غير صالحة\" ، فلن يتمكن المستخدمون من تشغيل الإحصائيات."
 
 #. Template: PreviewWidget
 msgid "There are problems in the configuration of this statistic:"
-msgstr ""
+msgstr "هناك مشاكل في تكوين هذه الإحصائية:"
 
 #. Template: PreviewWidget
 msgid "You may now configure the X-axis of your statistic."
-msgstr ""
+msgstr "يمكنك الآن تكوين المحور X للإحصائية الخاصة بك."
 
 #. Template: PreviewWidget
 msgid "This statistic does not provide preview data."
-msgstr ""
+msgstr "لا توفر هذه الإحصائية بيانات معاينة."
 
 #. Template: PreviewWidget
 msgid "Preview format"
-msgstr ""
+msgstr "تنسيق المعاينة"
 
 #. Template: PreviewWidget
 msgid ""
 "Please note that the preview uses random data and does not consider data "
 "filters."
 msgstr ""
+"يرجى ملاحظة أن المعاينة تستخدم بيانات عشوائية ولا تأخذ في الاعتبار عوامل "
+"تصفية البيانات."
 
 #. Template: PreviewWidget
 msgid "Configure X-Axis"
-msgstr ""
+msgstr "تكوين المحور X"
 
 #. Template: PreviewWidget
 msgid "X-axis"
-msgstr ""
+msgstr "المحور X"
 
 #. Template: PreviewWidget
 msgid "Configure Y-Axis"
-msgstr ""
+msgstr "تكوين المحور Y"
 
 #. Template: PreviewWidget
 msgid "Y-axis"
-msgstr ""
+msgstr "المحور Y"
 
 #. Template: PreviewWidget
 msgid "Configure Filter"
-msgstr ""
+msgstr "تكوين عامل التصفية"
 
 #. Template: RestrictionsWidget
 msgid "Please select only one element or turn off the button 'Fixed'."
-msgstr ""
+msgstr "الرجاء تحديد عنصر واحد فقط أو إلغاء تحديد مربع الاختيار \"ثابت\"."
 
 #. Template: RestrictionsWidget
 msgid "Absolute period"
-msgstr ""
+msgstr "الفترة المطلقة"
 
 #. Template: RestrictionsWidget
 msgid "Between %s and %s"
-msgstr ""
+msgstr "بين ٪s و ٪s"
 
 #. Template: RestrictionsWidget
 msgid "Relative period"
-msgstr ""
+msgstr "الفترة النسبية"
 
 #. Template: RestrictionsWidget
 msgid "The past complete %s and the current+upcoming complete %s %s"
-msgstr ""
+msgstr "الماضي ٪s والحالي+القادم ٪s ٪s"
 
 #. Template: RestrictionsWidget
 msgid "Do not allow changes to this element when the statistic is generated."
-msgstr ""
+msgstr "لا تسمح بإجراء تغييرات على هذا العنصر عند إنشاء الإحصائية."
 
 #. Template: StatsParamsWidget
 msgid "Format"
-msgstr ""
+msgstr "تنسيق"
 
 #. Template: StatsParamsWidget
 msgid "Exchange Axis"
-msgstr ""
+msgstr "محاور التبادل"
 
 #. Template: StatsParamsWidget
 msgid "Configurable Params of Static Stat"
