@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 10:51+0000\n"
+"PO-Revision-Date: 2022-11-17 11:13+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -11014,31 +11014,31 @@ msgstr "انتباه - خيار خبير! تعمل فقط إذا كان التر
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
-msgstr ""
+msgstr "تخطي."
 
 #. Template: OTRSFileSettings
 msgid "OTRS server"
-msgstr ""
+msgstr "خادم OTRS"
 
 #. Template: OTRSFileSettings
 msgid "SSH User"
-msgstr ""
+msgstr "مستخدم SSH"
 
 #. Template: OTRSFileSettings
 msgid "OTRS home directory"
-msgstr ""
+msgstr "الدليل الرئيسي ل OTRS"
 
 #. Template: OTRSFileSettings
 msgid "Check settings"
-msgstr ""
+msgstr "التحقق من الإعدادات"
 
 #. Template: OTRSFileSettings
 msgid "Result of settings check"
-msgstr ""
+msgstr "نتيجة فحص الإعدادات"
 
 #. Template: OTRSFileSettings
 msgid "Settings check successful."
-msgstr ""
+msgstr "تم التحقق من الإعدادات بنجاح."
 
 #. Template: PreChecks
 msgid "Execute migration pre-checks"
