@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 10:24+0000\n"
+"PO-Revision-Date: 2022-11-17 10:51+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -10993,24 +10993,24 @@ msgstr ""
 
 #. Template: Intro
 msgid "Continue anyways :("
-msgstr ""
+msgstr "تابع على كل حال :("
 
 #. Template: Intro
 msgid " Continue anyways :("
-msgstr ""
+msgstr " تابع على كل حال :("
 
 #. Template: OTRSDBSettings
 msgid "DSN"
-msgstr ""
+msgstr "DSN"
 
 #. Template: OTRSDBSettings
 msgid "Skip DB migration"
-msgstr ""
+msgstr "تخطي ترحيل قاعدة البيانات"
 
 #. Template: OTRSDBSettings
 msgid ""
 "Expert option! Only works if the migration has already been done by hand."
-msgstr ""
+msgstr "انتباه - خيار خبير! تعمل فقط إذا كان الترحيل قد تم بالفعل يدويا."
 
 #. Template: OTRSDBSettings
 msgid "Skipped."
