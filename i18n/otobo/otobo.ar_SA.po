@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-17 23:24+0000\n"
+"PO-Revision-Date: 2022-11-19 00:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -11300,92 +11300,98 @@ msgstr "محاور التبادل"
 
 #. Template: StatsParamsWidget
 msgid "Configurable Params of Static Stat"
-msgstr ""
+msgstr "معلمات قابلة للتكوين للإحصاءات الثابتة"
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr "لم يتم تحديد أي عنصر"
+msgstr "لم يتم تحديد أي عنصر."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
-msgstr ""
+msgstr "تَصْعِيدٌ"
 
 #. Template: StatsParamsWidget
 msgid "show more"
-msgstr ""
+msgstr "إظهار المزيد"
 
 #. Template: StatsParamsWidget
 msgid "show less"
-msgstr ""
+msgstr "إظهار أقل"
 
 #. Template: D3
 msgid "Download SVG"
-msgstr ""
+msgstr "تنزيل SVG"
 
 #. Template: D3
 msgid "Download PNG"
-msgstr ""
+msgstr "تنزيل PNG"
 
 #. Template: XAxisWidget
 msgid ""
 "The selected time period defines the default time frame for this statistic "
 "to collect data from."
 msgstr ""
+"تحدد الفترة الزمنية المحددة الوقت (الافتراضي) الذي تجمع منه هذه الإحصائية "
+"البيانات."
 
 #. Template: XAxisWidget
 msgid ""
 "Defines the time unit that will be used to split the selected time period "
 "into reporting data points."
 msgstr ""
+"يحدد الوحدة الزمنية التي يتم بها تقسيم الفترة الزمنية المحددة إلى نقاط "
+"بيانات التقرير."
 
 #. Template: YAxisWidget
 msgid ""
 "Please remember that the scale for the Y-axis has to be larger than the "
 "scale for the X-axis (e.g. X-axis => Month, Y-Axis => Year)."
 msgstr ""
+"يرجى تذكر أن مقياس المحور Y يجب أن يكون أكبر من مقياس المحور X (على سبيل "
+"المثال ، المحور X = > الشهر ، المحور Y = > السنة)."
 
 #. Template: StatsWidget
 msgid "Remove statistic"
-msgstr ""
+msgstr "إزالة الإحصائية"
 
 #. Template: StatsWidget
 msgid ""
 "If you don't specify a title here, the title of the statistic will be used."
-msgstr ""
+msgstr "إذا لم تحدد عنوانا هنا، فسيتم إستخدام عنوان الإحصائية."
 
 #. Template: StatsWidget
 msgid "Preface"
-msgstr ""
+msgstr "مُقَدِّمَةٌ"
 
 #. Template: StatsWidget
 msgid "Postface"
-msgstr ""
+msgstr "خَاتِمة"
 
 #. Template: SettingHistoryListCompare
 msgid "On "
-msgstr ""
+msgstr "إلَى "
 
 #. Template: SettingHistoryListCompare
 msgid "Reset to this value"
-msgstr ""
+msgstr "إعادة التعيين إلى هذه القيمة"
 
 #. Template: SettingsList
 msgid "This setting is disabled."
-msgstr ""
+msgstr "تم تعطيل هذا الإعداد."
 
 #. Template: SettingsList
 msgid "This setting is fixed but not deployed yet!"
-msgstr ""
+msgstr "تم تصحيح الإعداد، ولكن لم يتم تشغيله بعد!"
 
 #. Template: SettingsList
 msgid ""
 "This setting is currently being overridden in %s and can't thus be changed "
 "here!"
-msgstr ""
+msgstr "يتم الكتابة فوق هذا الإعداد حاليًا في٪ s وبالتالي لا يمكن تغييره هنا!"
 
 #. Template: SettingsList
 msgid "Changing this setting is only available in a higher config level!"
-msgstr ""
+msgstr "لا يتوفر تغيير هذا الإعداد إلا في مستوى تكوين أعلى!"
 
 #. Template: SettingsList
 msgid "%s (%s) is currently working on this setting."
@@ -11393,185 +11399,189 @@ msgstr ""
 
 #. Template: SettingsList
 msgid "Toggle advanced options for this setting"
-msgstr ""
+msgstr "إظهار/إخفاء الخيارات المتقدمة لهذا الإعداد"
 
 #. Template: SettingsList
 msgid "Disable this setting, so it is no longer effective"
-msgstr ""
+msgstr "تعطيل الإعداد بحيث لا يعود له أي تأثير"
 
 #. Template: SettingsList
 msgid "Disable"
-msgstr ""
+msgstr "تعطيل"
 
 #. Template: SettingsList
 msgid "Enable this setting, so it becomes effective"
-msgstr ""
+msgstr "تمكين هذا الإعداد، بحيث يصبح فعالا"
 
 #. Template: SettingsList
 msgid "Enable"
-msgstr ""
+msgstr "تمكين"
 
 #. Template: SettingsList
 msgid "Reset this setting to its default state"
-msgstr ""
+msgstr "إعادة تعيين الإعداد إلى الإعداد الافتراضي"
 
 #. Template: SettingsList
 msgid "Reset setting"
-msgstr ""
+msgstr "إعادة تعيين الإعداد"
 
 #. Template: SettingsList
 msgid ""
 "Allow users to adapt this setting from within their personal preferences"
-msgstr ""
+msgstr "السماح للمستخدمين بضبط هذا الإعداد في إعداداتهم الشخصية"
 
 #. Template: SettingsList
 msgid "Allow users to update"
-msgstr ""
+msgstr "السماح للمستخدمين بالتحديث"
 
 #. Template: SettingsList
 msgid ""
 "Do not longer allow users to adapt this setting from within their personal "
 "preferences"
-msgstr ""
+msgstr "لم يعد يسمح للمستخدمين بضبط هذا الإعداد في إعداداتهم الشخصية"
 
 #. Template: SettingsList
 msgid "Forbid users to update"
-msgstr ""
+msgstr "منع المستخدمين من التحديث"
 
 #. Template: SettingsList
 msgid "Show user specific changes for this setting"
-msgstr ""
+msgstr "إظهار التغييرات التي قام بها المستخدمون لهذا الإعداد"
 
 #. Template: SettingsList
 msgid "Show user settings"
-msgstr ""
+msgstr "إظهار إعدادات المستخدم"
 
 #. Template: SettingsList
 msgid "Copy a direct link to this setting to your clipboard"
-msgstr ""
+msgstr "نسخ إرتباط مباشر إلى هذا الإعداد إلى الحافظة الخاصة بك"
 
 #. Template: SettingsList
 msgid "Copy direct link"
-msgstr ""
+msgstr "نسخ الارتباط المباشر"
 
 #. Template: SettingsList
 msgid "Remove this setting from your favorites setting"
-msgstr ""
+msgstr "إزالة هذا الإعداد من إعداد المفضلة"
 
 #. Template: SettingsList
 msgid "Remove from favourites"
-msgstr ""
+msgstr "إزالة من المفضلة"
 
 #. Template: SettingsList
 msgid "Add this setting to your favorites"
-msgstr ""
+msgstr "إضافة هذا الإعداد إلى المفضلة"
 
 #. Template: SettingsList
 msgid "Add to favourites"
-msgstr ""
+msgstr "إضافة إلى المفضلة"
 
 #. Template: SettingsList
 msgid "Cancel editing this setting"
-msgstr ""
+msgstr "إلغاء تحرير هذا الإعداد"
 
 #. Template: SettingsList
 msgid "Save changes on this setting"
-msgstr ""
+msgstr "حفظ التغييرات على هذا الإعداد"
 
 #. Template: SettingsList
 msgid "Edit this setting"
-msgstr ""
+msgstr "تحرير هذا الإعداد"
 
 #. Template: SettingsList
 msgid "Enable this setting"
-msgstr ""
+msgstr "تمكين هذا الإعداد"
 
 #. Template: SettingsList
 msgid ""
 "This group doesn't contain any settings. Please try navigating to one of its "
 "sub groups or another group."
 msgstr ""
+"لا تحتوي هذه المجموعة على أي إعدادات. الرجاء محاولة الانتقال إلى إحدى "
+"مجموعاتها الفرعية أو مجموعة أخرى."
 
 #. Template: SettingsListCompare
 msgid "Now"
-msgstr ""
+msgstr "الآن"
 
 #. Template: SettingsListCompare
 msgid "User modification"
-msgstr ""
+msgstr "تعديل المستخدم"
 
 #. Template: SettingsListCompare
 msgid "enabled"
-msgstr ""
+msgstr "مُمَكّنٌ"
 
 #. Template: SettingsListCompare
 msgid "disabled"
-msgstr ""
+msgstr "معطّل"
 
 #. Template: SettingsListCompare
 msgid "Setting state"
-msgstr ""
+msgstr "حالة الإعداد"
 
 #. Template: Actions
 msgid "Edit search"
-msgstr ""
+msgstr "تحرير البحث"
 
 #. Template: Actions
 msgid "Go back to admin: "
-msgstr ""
+msgstr "العودة إلى المسؤول: "
 
 #. Template: Actions
 msgid "Deployment"
-msgstr ""
+msgstr "تَفْعِيلٌ"
 
 #. Template: Actions
 msgid "My favourite settings"
-msgstr ""
+msgstr "الإعدادات المفضلة لدي"
 
 #. Template: Actions
 msgid "Invalid settings"
-msgstr ""
+msgstr "إعدادات غير صالحة"
 
 #. Template: DynamicActions
 msgid "Filter visible settings..."
-msgstr ""
+msgstr "تصفية الإعدادات المرئية..."
 
 #. Template: DynamicActions
 msgid "Enable edit mode for all settings"
-msgstr ""
+msgstr "تمكين وضع التحرير لكافة الإعدادات"
 
 #. Template: DynamicActions
 msgid "Save all edited settings"
-msgstr ""
+msgstr "حفظ كافة الإعدادات المحررة"
 
 #. Template: DynamicActions
 msgid "Cancel editing for all settings"
-msgstr ""
+msgstr "إلغاء التحرير لكافة الإعدادات"
 
 #. Template: DynamicActions
 msgid ""
 "All actions from this widget apply to the visible settings on the right only."
 msgstr ""
+"كل الإجراءات من عنصر واجهة المستخدم هذا تنطبق على الإعدادات المرئية الموجودة "
+"على اليمين فقط."
 
 #. Template: Help
 msgid "Currently edited by me."
-msgstr ""
+msgstr "تم تحريره حاليا بواسطتي."
 
 #. Template: Help
 msgid "Modified but not yet deployed."
-msgstr ""
+msgstr "تم تحريره ولكن لم يتم تشغيله بعد."
 
 #. Template: Help
 msgid "Currently edited by another user."
-msgstr ""
+msgstr "تم تحريره حاليا من قبل مستخدم آخر."
 
 #. Template: Help
 msgid "Different from its default value."
-msgstr ""
+msgstr "تختلف عن قيمتها الافتراضية."
 
 #. Template: Help
 msgid "Save current setting."
-msgstr ""
+msgstr "حفظ الإعداد الحالي."
 
 #. Template: Help
 msgid "Cancel editing current setting."
