@@ -352,10 +352,11 @@ sub _Edit {
         SelectedID => $Param{ValidID} || $ValidListReverse{valid},
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'ValidIDInvalid'} || '' ),
     );
+    # default selected state type is 'pending reminder'
     $Param{StateTypeOption} = $LayoutObject->BuildSelection(
         Data       => { $StateObject->StateTypeList( UserID => 1 ), },
         Name       => 'TypeID',
-        SelectedID => $Param{TypeID},
+        SelectedID => $Param{TypeID} || 4,
         Class      => 'Modernize Validate_Required ' . ( $Param{Errors}->{'TypeIDInvalid'} || '' ),
     );
     $LayoutObject->Block(
