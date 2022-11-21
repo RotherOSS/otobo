@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-19 00:30+0000\n"
+"PO-Revision-Date: 2022-11-22 05:03+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -11585,115 +11585,115 @@ msgstr "حفظ الإعداد الحالي."
 
 #. Template: Help
 msgid "Cancel editing current setting."
-msgstr ""
+msgstr "إلغاء تحرير الإعداد الحالي."
 
 #. Template: Navigation
 msgid "Navigation"
-msgstr ""
+msgstr "التصفح"
 
 #. Template: UsersSettingListCompare
 msgid "Delete user's value."
-msgstr ""
+msgstr "تجاهل تغيير المستخدم."
 
 #. Template: Test
 msgid "OTOBO Test Page"
-msgstr "صفحة التجربة ل OTOBO"
+msgstr "صفحة إختبار OTOBO"
 
 #. Template: Test
 msgid "Unlock"
-msgstr "فك"
+msgstr "الغاء القفل"
 
 #. Template: Test
 msgid "Welcome %s %s"
-msgstr ""
+msgstr "مرحبا ٪s ٪s"
 
 #. Template: Test
 msgid "Counter"
-msgstr "العداد"
+msgstr "عَدَّاد"
 
 #. Template: Warning
 msgid "Go back to the previous page"
-msgstr ""
+msgstr "العودة إلى الصفحة السابقة"
 
 #. JS Template: CalendarSettingsDialog
 msgid "Show"
-msgstr ""
+msgstr "إظهار"
 
 #. JS Template: FormDraftAddDialog
 msgid "Draft title"
-msgstr ""
+msgstr "عنوان المسودة"
 
 #. JS Template: ArticleViewSettingsDialog
 msgid "Article display"
-msgstr ""
+msgstr "عرض المقالة"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Do you really want to delete \"%s\"?"
-msgstr ""
+msgstr "هل تريد حقا حذف \"٪s\"؟"
 
 #. JS Template: FormDraftDeleteDialog
 msgid "Confirm"
-msgstr ""
+msgstr "تأكيد"
 
 #. JS Template: WidgetLoading
 msgid "Loading, please wait..."
-msgstr ""
+msgstr "يتم الآن التحميل، الرجاء الانتظار..."
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show all"
-msgstr ""
+msgstr "إظهار الكل"
 
 #. JS Template: ToggleMoreLessCustomer
 msgid "Show less"
-msgstr ""
+msgstr "إظهار أقل"
 
 #. JS Template: UploadContainer
 msgid "Click to select a file for upload."
-msgstr ""
+msgstr "انقر لتحديد ملف للتحميل."
 
 #. JS Template: UploadContainer
 msgid "Click to select or drop files here."
-msgstr ""
+msgstr "انقر لتحديد أو إسقاط الملفات هنا."
 
 #. JS Template: UploadContainer
 msgid "Click to select files or just drop them here."
-msgstr ""
+msgstr "انقر لتحديد الملفات أو قم بإفلاتها هنا."
 
 #. JS Template: UploadContainer
 msgid "Click to select a file or just drop it here."
-msgstr ""
+msgstr "انقر لتحديد ملف أو قم بإفلاته هنا."
 
 #. JS Template: UploadContainer
 msgid "Uploading..."
-msgstr ""
+msgstr "يتم الآن التحميل..."
 
 #. JS Template: MigrationState
 msgid "Time needed"
-msgstr ""
+msgstr "الوقت اللازم"
 
 #. JS Template: PackageResolve
 msgid "Package"
-msgstr ""
+msgstr "حُزْمَةٌ"
 
 #. JS Template: PackageResolve
 msgid "Uninstall from OTOBO"
-msgstr ""
+msgstr "إزالة التثبيت من OTOBO"
 
 #. JS Template: PackageResolve
 msgid "Ignore"
-msgstr ""
+msgstr "تجاهل"
 
 #. JS Template: PackageResolve
 msgid "Migrate"
-msgstr ""
+msgstr "تَرْحِيلٌ"
 
 #. JS Template: InformationDialog
 msgid "Process state"
-msgstr ""
+msgstr "حالة العملية"
 
 #. JS Template: InformationDialog
 msgid "Running"
-msgstr ""
+msgstr "مُسْتَمِرٌّ"
 
 #. JS Template: InformationDialog
 msgid "Finished"
@@ -11701,67 +11701,67 @@ msgstr "انتهى"
 
 #. JS Template: InformationDialog
 msgid "No package information available."
-msgstr ""
+msgstr "لا تتوفر معلومات الحزمة."
 
 #. JS Template: AddButton
 msgid "Add new entry"
-msgstr ""
+msgstr "إضافة إدخال جديد"
 
 #. JS Template: AddHashKey
 msgid "Add key"
-msgstr ""
+msgstr "إضافة مفتاح"
 
 #. JS Template: DialogDeployment
 msgid "Deployment comment..."
-msgstr ""
+msgstr "تعليق النشر..."
 
 #. JS Template: DialogDeployment
 msgid "This field can have no more than 250 characters."
-msgstr ""
+msgstr "لا يمكن أن يحتوي هذا الحقل على أكثر من 250 حرفا."
 
 #. JS Template: DialogDeployment
 msgid "Deploying, please wait..."
-msgstr ""
+msgstr "يتم التنفيذ، يرجى الانتظار..."
 
 #. JS Template: DialogDeployment
 msgid "Preparing to deploy, please wait..."
-msgstr ""
+msgstr "يتم الآن التحضير للتنفيذ، الرجاء الانتظار..."
 
 #. JS Template: DialogDeployment
 msgid "Deploy now"
-msgstr ""
+msgstr "ضعها موضع التنفيذ الآن"
 
 #. JS Template: DialogDeployment
 msgid "Try again"
-msgstr ""
+msgstr "حاول مرة أخرى"
 
 #. JS Template: DialogReset
 msgid "Reset options"
-msgstr ""
+msgstr "خيارات إعادة الضبط"
 
 #. JS Template: DialogReset
 msgid "Reset setting on global level."
-msgstr ""
+msgstr "إعادة تعيين الإعداد على المستوى العمومي."
 
 #. JS Template: DialogReset
 msgid "Reset globally"
-msgstr ""
+msgstr "إعادة تعيين بشكل عمومي"
 
 #. JS Template: DialogReset
 msgid "Remove all user changes."
-msgstr ""
+msgstr "إزالة كافة تغييرات المستخدم."
 
 #. JS Template: DialogReset
 msgid "Reset locally"
-msgstr ""
+msgstr "إعادة التعيين محليا"
 
 #. JS Template: DialogReset
 msgid "user(s) have modified this setting."
-msgstr ""
+msgstr "قام المستخدم (المستخدمين) بتعديل هذا الإعداد."
 
 #. JS Template: DialogReset
 msgid "Do you really want to reset this setting to it's default value?"
-msgstr ""
+msgstr "هل تريد حقا إعادة تعيين هذا الإعداد إلى قيمته الافتراضية؟"
 
 #. JS Template: HelpDialog
 msgid ""
@@ -11769,10 +11769,12 @@ msgid ""
 "entries from the selected category. As soon as you select the category, the "
 "tree will be re-built."
 msgstr ""
+"يمكنك إستخدام تحديد الفئة لتقييد شجرة التصفح بإدخالات من الفئة المحددة. عند "
+"تحديد مدخل، سيتم إعادة بناء الشجرة تلقائيا."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Database Backend"
-msgstr ""
+msgstr "قاعدة البيانات الخلفية"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "CustomerIDs"
@@ -11800,19 +11802,19 @@ msgstr "الدولة"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Mr."
-msgstr "سيد "
+msgstr "سيد"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Mrs."
-msgstr "سيدة "
+msgstr "سيدة"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Address"
-msgstr ""
+msgstr "العنوان"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "View system log messages."
-msgstr ""
+msgstr "عرض رسائل سجل النظام."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Edit the system configuration settings."
@@ -11820,7 +11822,7 @@ msgstr "تحرير إعدادات تكوين النظام."
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Update and extend your system with software packages."
-msgstr ""
+msgstr "قم بتحديث النظام الخاص بك وتوسيعه باستخدام حزم البرامج."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
@@ -11835,222 +11837,231 @@ msgid ""
 "ACLs could not be Imported due to a unknown error, please check OTOBO logs "
 "for more information"
 msgstr ""
+"تعذر استيراد قوائم التحكم في الوصول (ACLs) بسبب خطأ غير معروف، يرجى مراجعة "
+"سجلات OTOBO لمزيد من المعلومات"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been added successfully: %s"
-msgstr ""
+msgstr "تمت إضافة قوائم التحكم بالوصول (ACLs) التالية بنجاح: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "The following ACLs have been updated successfully: %s"
-msgstr ""
+msgstr "تم تحديث قوائم التحكم بالوصول (ACLs) التالية بنجاح: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "There where errors adding/updating the following ACLs: %s. Please check the "
 "log file for more information."
 msgstr ""
+"هناك أخطاء في إضافة/تحديث قوائم التحكم بالوصول (ACLs) التالية: ٪s. الرجاء "
+"التحقق من ملف السجل للحصول على مزيد من المعلومات."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error creating the ACL"
-msgstr ""
+msgstr "حدث خطأ في إنشاء قائمة التحكم بالوصول (ACL)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Need ACLID!"
-msgstr ""
+msgstr "تحتاج إلى ACL-ID!"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Could not get data for ACLID %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات ل ACL-ID ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error updating the ACL"
-msgstr ""
+msgstr "حدث خطأ في تحديث قائمة التحكم بالوصول (ACL)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error setting the entity sync status."
-msgstr ""
+msgstr "حدث خطأ أثناء تعيين حالة المزامنة."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error synchronizing the ACLs."
-msgstr ""
+msgstr "حدث خطأ أثناء مزامنة قوائم التحكم بالوصول (ACLs)."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "ACL %s could not be deleted"
-msgstr ""
+msgstr "تعذر حذف قوائم التحكم في الوصول (ACL) ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "There was an error getting data for ACL with ID %s"
 msgstr ""
+"حدث خطأ في الحصول على بيانات لقوائم التحكم في الوصول (ACL) باستخدام ID ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "%s (copy) %s"
-msgstr ""
+msgstr "٪s (نسخة) ٪s"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid ""
 "Please note that ACL restrictions will be ignored for the Superuser account "
 "(UserID 1)."
-msgstr ""
+msgstr "يرجى ملاحظة أن قيود ACL لا تنطبق على حساب المستخدم المتميز (UserID 1)."
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Exact match"
-msgstr ""
+msgstr "تطابق تام"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated exact match"
-msgstr ""
+msgstr "نفي المطابقة التامة"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression"
-msgstr ""
+msgstr "تعبير نمطي"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Regular expression (ignore case)"
-msgstr ""
+msgstr "التعبير النمطي (تجاهل حالة الأحرف)"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression"
-msgstr ""
+msgstr "نفي التعبير العادي"
 
 #. Perl Module: Kernel/Modules/AdminACL.pm
 msgid "Negated regular expression (ignore case)"
-msgstr ""
+msgstr "التعبير العادي المنفي (تجاهل الحالة)"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "Could not update About message!"
-msgstr ""
+msgstr "تعذر تحديث حول الرسالة!"
 
 #. Perl Module: Kernel/Modules/AdminAbout.pm
 msgid "About message updated!"
-msgstr ""
+msgstr "حول الرسالة التي تم تحديثها!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "System was unable to create Calendar!"
-msgstr ""
+msgstr "تعذر على النظام إنشاء تقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Please contact the administrator."
-msgstr ""
+msgstr "الرجاء الاتصال بالمسؤول."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "No CalendarID!"
-msgstr ""
+msgstr "لا يوجد معرف تقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "You have no access to this calendar!"
-msgstr ""
+msgstr "ليس لديك حق الوصول إلى هذا التقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Error updating the calendar!"
-msgstr ""
+msgstr "خطأ في تحديث التقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Couldn't read calendar configuration file."
-msgstr ""
+msgstr "تعذر قراءة ملف تكوين التقويم."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Please make sure your file is valid."
-msgstr ""
+msgstr "الرجاء التأكد من أن ملفك صالح."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Could not import the calendar!"
-msgstr ""
+msgstr "تعذر إستيراد التقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Calendar imported!"
-msgstr ""
+msgstr "تم إستيراد التقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Need CalendarID!"
-msgstr ""
+msgstr "بحاجة إلى معرف التقويم!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Could not retrieve data for given CalendarID"
-msgstr ""
+msgstr "تعذر إسترداد البيانات ل معرف تقويم المحدد"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "Successfully imported %s appointment(s) to calendar %s."
-msgstr ""
+msgstr "تم إستيراد ٪s موعد/مواعيد بنجاح إلى التقويم ٪s."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+5 minutes"
-msgstr ""
+msgstr "+5 دقائق"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+15 minutes"
-msgstr ""
+msgstr "+15 دقيقة"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+30 minutes"
-msgstr ""
+msgstr "+30 دقيقة"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentCalendarManage.pm
 msgid "+1 hour"
-msgstr ""
+msgstr "+1 ساعة"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "No permissions"
-msgstr ""
+msgstr "لا توجد أذونات"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "System was unable to import file!"
-msgstr ""
+msgstr "تعذر على النظام إستيراد الملف!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentImport.pm
 msgid "Please check the log for more information."
-msgstr ""
+msgstr "الرجاء مراجعة السجل للحصول على مزيد من المعلومات."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification name already exists!"
-msgstr ""
+msgstr "اسم الإخطار موجود بالفعل!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification added!"
-msgstr ""
+msgstr "تمت إضافة إخطار!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error getting data for Notification with ID:%s!"
-msgstr ""
+msgstr "حدث خطأ أثناء إسترداد البيانات للإشعار بالمعرف ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Unknown Notification %s!"
-msgstr ""
+msgstr "إخطار غير معروف ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "%s (copy)"
-msgstr ""
+msgstr "٪s (نسخة)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "There was an error creating the Notification"
-msgstr ""
+msgstr "حدث خطأ في إنشاء الإخطار"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "Notifications could not be Imported due to a unknown error, please check "
 "OTOBO logs for more information"
 msgstr ""
+"تعذر استيراد الإخطارات بسبب خطأ غير معروف، يرجى مراجعة سجلات OTOBO لمزيد من "
+"المعلومات"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been added successfully: %s"
-msgstr ""
+msgstr "تمت إضافة الإخطارات التالية بنجاح: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "The following Notifications have been updated successfully: %s"
-msgstr ""
+msgstr "تم تحديث الإخطارات التالية بنجاح: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "There where errors adding/updating the following Notifications: %s. Please "
 "check the log file for more information."
 msgstr ""
+"هناك أخطاء في إضافة/تحديث الإخطارات التالية: ٪s. الرجاء التحقق من ملف السجل "
+"للحصول على مزيد من المعلومات."
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Notification updated!"
-msgstr ""
+msgstr "تم تحديث الإخطار!"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "Agent (resources), who are selected within the appointment"
-msgstr ""
+msgstr "الوكيل (الموارد)، الذي يتم إختياره ضمن الموعد"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
