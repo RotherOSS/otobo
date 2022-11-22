@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-22 05:03+0000\n"
+"PO-Revision-Date: 2022-11-23 04:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -12066,95 +12066,95 @@ msgstr "الوكيل (الموارد)، الذي يتم إختياره ضمن ا
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid ""
 "All agents with (at least) read permission for the appointment (calendar)"
-msgstr ""
+msgstr "جميع الوكلاء الذين لديهم (على الأقل) إذن القراءة للموعد (التقويم)"
 
 #. Perl Module: Kernel/Modules/AdminAppointmentNotificationEvent.pm
 msgid "All agents with write permission for the appointment (calendar)"
-msgstr ""
+msgstr "جميع الوكلاء الذين لديهم إذن الكتابة للموعد (التقويم)"
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "Attachment added!"
-msgstr ""
+msgstr "تمت إضافة المرفق!"
 
 #. Perl Module: Kernel/Modules/AdminAutoResponse.pm
 msgid "Auto Response added!"
-msgstr ""
+msgstr "تمت إضافة الاستجابة التلقائية!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid CommunicationID!"
-msgstr ""
+msgstr "معرف الاتصال غير صالح!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "All communications"
-msgstr ""
+msgstr "جميع الاتصالات"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 1 hour"
-msgstr ""
+msgstr "آخر ساعة"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 3 hours"
-msgstr ""
+msgstr "آخر 3 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 6 hours"
-msgstr ""
+msgstr "آخر 6 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 12 hours"
-msgstr ""
+msgstr "آخر 12 ساعة"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last 24 hours"
-msgstr ""
+msgstr "آخر 24 ساعة"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last week"
-msgstr ""
+msgstr "الأسبوع الماضي"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Last month"
-msgstr ""
+msgstr "الشهر الماضي"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid StartTime: %s!"
-msgstr ""
+msgstr "وقت بدء غير صالح: ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Successful"
-msgstr ""
+msgstr "نَاجِحٌ"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Processing"
-msgstr ""
+msgstr "تمت معالجتها"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Failed"
-msgstr ""
+msgstr "فشل"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Invalid Filter: %s!"
-msgstr ""
+msgstr "فشل عامل التصفية غير صالح: ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Less than a second"
-msgstr ""
+msgstr "أقل من ثانية"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted descending"
-msgstr ""
+msgstr "فرز تنازلي"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "sorted ascending"
-msgstr ""
+msgstr "فرز تصاعدي"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Trace"
-msgstr ""
+msgstr "وَثَّقَ"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Debug"
-msgstr ""
+msgstr "تصحيح الأخطاء"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Info"
@@ -12162,7 +12162,7 @@ msgstr "معلومات"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "Warn"
-msgstr ""
+msgstr "تحذير"
 
 #. Perl Module: Kernel/Modules/AdminCommunicationLog.pm
 msgid "days"
@@ -12190,45 +12190,47 @@ msgstr "ثانية"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No contact is given!"
-msgstr ""
+msgstr "لا توجد تفاصيل جهة الاتصال!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given contact in given source!"
-msgstr ""
+msgstr "تعذر العثور على بيانات جهة الاتصال في المصدر المحدد!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact updated!"
-msgstr ""
+msgstr "تم تحديث جهة الاتصال!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No field data found!"
-msgstr ""
+msgstr "لم يتم العثور على بيانات الحقل!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Contact created!"
-msgstr ""
+msgstr "تم إنشاء جهة اتصال!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "Error creating contact!"
-msgstr ""
+msgstr "خطأ في إنشاء جهة اتصال!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid ""
 "No sources found, at least one \"Contact with data\" dynamic field must be "
 "added to the system!"
 msgstr ""
+"لم يتم العثور على مصادر. الرجاء إضافة حقل ديناميكي واحد على الأقل \"بيانات "
+"الاتصال\" إلى النظام!"
 
 #. Perl Module: Kernel/Modules/AdminContactWD.pm
 msgid "No data found for given source!"
-msgstr ""
+msgstr "لم يتم العثور على بيانات في المصدر المحدد!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Could not update Privacy Policy!"
-msgstr ""
+msgstr "تعذر تحديث نهج الخصوصية!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerAccept.pm
 msgid "Privacy Policy updated!"
-msgstr ""
+msgstr "تم تحديث نهج الخصوصية!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
@@ -12236,15 +12238,15 @@ msgstr "تم تحديث شركة العميل!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
-msgstr ""
+msgstr "لم يتم العثور على الحقل الديناميكي ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Unable to set value for dynamic field %s!"
-msgstr ""
+msgstr "يتعذر تعيين قيمة للحقل الديناميكي ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer Company %s already exists!"
-msgstr ""
+msgstr "شركة العميل ٪s موجودة بالفعل!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company added!"
@@ -12252,15 +12254,15 @@ msgstr "تمت اضافة شركة العميل!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
-msgstr ""
+msgstr "لم يتم العثور على تكوين ل 'CustomerGroupPermissionContext'!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Please check system configuration."
-msgstr ""
+msgstr "الرجاء التحقق من تكوين النظام."
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "Invalid permission context configuration:"
-msgstr ""
+msgstr "تكوين سياق الإذن غير صالح:"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer updated!"
@@ -12268,511 +12270,513 @@ msgstr "تم تحديث العميل!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New phone ticket"
-msgstr ""
+msgstr "تذكرة هاتف جديدة"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New email ticket"
-msgstr ""
+msgstr "تذكرة بريد إلكتروني جديدة"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer %s added"
-msgstr ""
+msgstr "تمت إضافة العميل ٪s"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer user updated!"
-msgstr ""
+msgstr "تم تحديث مستخدم العميل!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Same Customer"
-msgstr ""
+msgstr "نفس العميل"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Direct"
-msgstr ""
+msgstr "مُبَاشِرٌ"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Indirect"
-msgstr ""
+msgstr "غَيْرُ مُبَاشِر"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Customer User Relations for Group"
-msgstr ""
+msgstr "تغيير علاقات مستخدم العميل للمجموعة"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserGroup.pm
 msgid "Change Group Relations for Customer User"
-msgstr ""
+msgstr "إدارة مهام المجموعة لمستخدمي العملاء"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Customer Users to Service"
-msgstr ""
+msgstr "تعيين مستخدمي العملاء إلى الخدمات"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUserService.pm
 msgid "Allocate Services to Customer User"
-msgstr ""
+msgstr "تخصيص الخدمات لمستخدم العميل"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Fields configuration is not valid"
-msgstr ""
+msgstr "تكوين الحقول غير صالح"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid "Objects configuration is not valid"
-msgstr ""
+msgstr "تكوين الكائن غير صالح"
 
 #. Perl Module: Kernel/Modules/AdminDynamicField.pm
 msgid ""
 "Could not reset Dynamic Field order properly, please check the error log for "
 "more details."
 msgstr ""
+"تعذر إعادة تعيين ترتيب \"الحقل الديناميكي\" بشكل صحيح، الرجاء التحقق من سجل "
+"الأخطاء للحصول على مزيد من التفاصيل."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Undefined subaction."
-msgstr ""
+msgstr "إجراء فرعي غير معرف."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need %s"
-msgstr ""
+msgstr "الحاجة إلى ٪s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Add %s field"
-msgstr ""
+msgstr "إضافة حقل ٪s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field does not contain only ASCII letters and numbers."
-msgstr ""
+msgstr "لا يحتوي الحقل على أحرف وأرقام ASCII فقط."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "There is another field with the same name."
-msgstr ""
+msgstr "يوجد حقل آخر يحمل نفس الاسم."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The field must be numeric."
-msgstr ""
+msgstr "قد يحتوي الحقل على أرقام فقط."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ValidID"
-msgstr ""
+msgstr "مطلوب معرف صالح"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not create the new field"
-msgstr ""
+msgstr "تعذر إنشاء الحقل الجديد"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Need ID"
-msgstr ""
+msgstr "بحاجة إلى معرف"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not get data for dynamic field %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات للحقل الديناميكي ٪s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Change %s field"
-msgstr ""
+msgstr "تغيير حقل ٪s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "The name for this field should not change."
-msgstr ""
+msgstr "يجب عدم تغيير اسم هذا الحقل."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Could not update the field %s"
-msgstr ""
+msgstr "تعذر تحديث الحقل ٪s"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Currently"
-msgstr ""
+msgstr "حالياً"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Unchecked"
-msgstr ""
+msgstr "غير محدد"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldCheckbox.pm
 msgid "Checked"
-msgstr ""
+msgstr "مُنْتَقىً"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldContactWD.pm
 msgid "This field key is duplicated."
-msgstr ""
+msgstr "مفتاح الحقل هذا موجود بالفعل."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDB.pm
 msgid "This field value is duplicated."
-msgstr ""
+msgstr "هذه القيمة موجودة بالفعل."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the future"
-msgstr ""
+msgstr "منع إدخال التواريخ في المستقبل"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldDateTime.pm
 msgid "Prevent entry of dates in the past"
-msgstr ""
+msgstr "منع إدخال التواريخ في الماضي"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were saved."
-msgstr ""
+msgstr "تم حفظ الإعدادات."
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to save the setting!"
-msgstr ""
+msgstr "تعذر على النظام حفظ الإعداد!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Setting is locked by another user!"
-msgstr ""
+msgstr "تم تأمين الإعداد بواسطة مستخدم آخر!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "System was not able to reset the setting!"
-msgstr ""
+msgstr "تعذر على النظام إعادة تعيين الإعداد!"
 
 #. Perl Module: Kernel/Modules/AdminDynamicFieldScreen.pm
 msgid "Settings were reset."
-msgstr ""
+msgstr "تم إعادة تعيين الإعدادات."
 
 #. Perl Module: Kernel/Modules/AdminEmail.pm
 msgid "Select at least one recipient."
-msgstr ""
+msgstr "حدد مستلما واحدا على الأقل."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "minute(s)"
-msgstr "دقسقة/دقائق"
+msgstr "دقيقة (دقائق)"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "hour(s)"
-msgstr "ساعة/ساعات"
+msgstr "ساعة (ساعات)"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Time unit"
-msgstr "وحدات قياس الوقت"
+msgstr "وحدة قياس الوقت"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "within the last ..."
-msgstr "خلال ال ... الماضيه"
+msgstr "في آخر ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "within the next ..."
-msgstr "خلال ال ... القادمة"
+msgstr "خلال الفترة القادمة . . ."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "more than ... ago"
-msgstr "أكثر من ... في الماضي"
+msgstr "أكثر من ... قبل"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Unarchived tickets"
-msgstr ""
+msgstr "تذاكر غير محفوظة في الأرشيف"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "archive tickets"
-msgstr ""
+msgstr "تذاكر الأرشيف"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "restore tickets from archive"
-msgstr ""
+msgstr "إستعادة التذاكر من الأرشيف"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Need Profile!"
-msgstr ""
+msgstr "مطلوب ملف التعريف!"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Got no values to check."
-msgstr ""
+msgstr "لا توجد قيم للتحقق منها."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "selection:"
-msgstr ""
+msgstr "الرجاء إزالة الكلمات التالية لأنه لا يمكن إستخدامها لتحديد التذاكر:"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Need WebserviceID!"
-msgstr ""
+msgstr "بحاجة إلى معرف خدمة الويب!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "Could not get data for WebserviceID %s"
-msgstr ""
+msgstr "تعذر العثور على بيانات لمعرف خدمة ويب ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "ascending"
-msgstr ""
+msgstr "تصاعدي"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceDebugger.pm
 msgid "descending"
-msgstr ""
+msgstr "تنازلي"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need communication type!"
-msgstr ""
+msgstr "نوع الاتصال مطلوب!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Communication type needs to be 'Requester' or 'Provider'!"
-msgstr ""
+msgstr "يجب أن يكون نوع الاتصال 'الطالب' أو 'الموفر'!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invalid Subaction!"
-msgstr ""
+msgstr "إجراء فرعي غير صالح!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandlingType!"
-msgstr ""
+msgstr "تحتاج إلى نوع معالجة الخطأ!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "ErrorHandlingType %s is not registered"
-msgstr ""
+msgstr "خطأ في معالجة النوع ٪s غير مسجل"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not update web service"
-msgstr ""
+msgstr "تعذر تحديث خدمة ويب"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Need ErrorHandling"
-msgstr ""
+msgstr "تحتاج معالجة الخطأ"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Could not determine config for error handler %s"
-msgstr ""
+msgstr "تعذر تحديد التكوين لمعالج الأخطاء ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing outgoing request data"
-msgstr ""
+msgstr "يقوم Invoker بمعالجة بيانات الطلب الصادر"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing request data"
-msgstr ""
+msgstr "تعيين بيانات الطلب الصادر"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport processing request into response"
-msgstr ""
+msgstr "طلب معالجة النقل إلى إستجابة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming response data"
-msgstr ""
+msgstr "تعيين بيانات الاستجابة الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker processing incoming response data"
-msgstr ""
+msgstr "معالجة Invoker لبيانات الاستجابة الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport receiving incoming request data"
-msgstr ""
+msgstr "نقل بيانات الطلبات الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping incoming request data"
-msgstr ""
+msgstr "تعيين بيانات الطلب الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation processing incoming request data"
-msgstr ""
+msgstr "معالجة بيانات الطلب الوارد للعملية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Mapping outgoing response data"
-msgstr ""
+msgstr "تعيين بيانات الاستجابة الصادرة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Transport sending outgoing response data"
-msgstr ""
+msgstr "النقل يرسل بيانات الاستجابة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip same backend modules only"
-msgstr ""
+msgstr "تخطي نفس وحدات الطرف الخلفي فقط"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "skip all modules"
-msgstr ""
+msgstr "تخطي كافة الوحدات النمطية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Operation deleted"
-msgstr ""
+msgstr "تم حذف العملية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingDefault.pm
 msgid "Invoker deleted"
-msgstr ""
+msgstr "تم حذف Invoker"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "0 seconds"
-msgstr ""
+msgstr "0 ثانية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 seconds"
-msgstr ""
+msgstr "15 ثانية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 seconds"
-msgstr ""
+msgstr "30 ثانية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "45 seconds"
-msgstr ""
+msgstr "45 ثانية"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 minute"
-msgstr ""
+msgstr "دقيقة واحدة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 minutes"
-msgstr ""
+msgstr "دقيقتان"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 minutes"
-msgstr ""
+msgstr "3 دقائق"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 minutes"
-msgstr ""
+msgstr "4 دقائق"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 minutes"
-msgstr ""
+msgstr "5 دقائق"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "10 minutes"
-msgstr " 10 دقائق"
+msgstr "10 دقائق"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "15 minutes"
-msgstr " 15 دقيقة"
+msgstr "15 دقيقة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "30 minutes"
-msgstr ""
+msgstr "30 دقيقة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 hour"
-msgstr ""
+msgstr "ساعة واحدة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 hours"
-msgstr ""
+msgstr "ساعتان"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 hours"
-msgstr ""
+msgstr "3 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 hours"
-msgstr ""
+msgstr "4 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "5 hours"
-msgstr ""
+msgstr "5 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 hours"
-msgstr ""
+msgstr "6 ساعات"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "12 hours"
-msgstr ""
+msgstr "12 ساعة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "18 hours"
-msgstr ""
+msgstr "18 ساعة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 day"
-msgstr ""
+msgstr "يوم واحد"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "2 days"
-msgstr ""
+msgstr "يومان"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "3 days"
-msgstr ""
+msgstr "3 أيام"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "4 days"
-msgstr ""
+msgstr "4 أيام"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "6 days"
-msgstr ""
+msgstr "6 أيام"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceErrorHandlingRequestRetry.pm
 msgid "1 week"
-msgstr ""
+msgstr "أسبوع واحد"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "Could not determine config for invoker %s"
-msgstr ""
+msgstr "تعذر تحديد التكوين للمدعي ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "InvokerType %s is not registered"
-msgstr ""
+msgstr "نوع المدعو ٪s غير مسجل"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerDefault.pm
 msgid "MappingType %s is not registered"
-msgstr ""
+msgstr "نوع التعيين ٪s غير مسجل"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Invoker!"
-msgstr ""
+msgstr "تحتاج إلى Invoker!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Need Event!"
-msgstr ""
+msgstr "بحاجة الى حدث!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get registered modules for Invoker"
-msgstr ""
+msgstr "تعذر إسترداد الوحدات المسجلة للمستدعين"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not get backend for Invoker %s"
-msgstr ""
+msgstr "تعذر استدعاء الواجهة الخلفية للمستدعي ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "The event %s is not valid."
-msgstr ""
+msgstr "الحدث ٪s غير صالح."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Could not update configuration data for WebserviceID %s"
-msgstr ""
+msgstr "تعذر تحديث بيانات التكوين لمعرف خدمة ويب ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "This sub-action is not valid"
-msgstr ""
+msgstr "هذا الإجراء الفرعي غير صالح"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "xor"
-msgstr ""
+msgstr "حصري أو (xor)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "String"
-msgstr ""
+msgstr "سلسلة أحرف"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Regexp"
-msgstr ""
+msgstr "Regexp"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerEvent.pm
 msgid "Validation Module"
-msgstr ""
+msgstr "وحدة التحقق"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Invisible only"
-msgstr ""
+msgstr "غير مرئي فقط"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Visible only"
-msgstr ""
+msgstr "مرئي فقط"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceInvokerTicket.pm
 msgid "Visible and invisible"
-msgstr ""
+msgstr "مرئي وغير مرئي"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Outgoing Data"
-msgstr ""
+msgstr "تعيين بسيط للبيانات الصادرة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Simple Mapping for Incoming Data"
-msgstr ""
+msgstr "تعيين بسيط للبيانات الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get registered configuration for action type %s"
-msgstr ""
+msgstr "تعذر الحصول على تكوين مسجل لنوع الإجراء ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Could not get backend for %s %s"
-msgstr ""
+msgstr "تعذر الحصول على النهاية الخلفية ل ٪s ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Keep (leave unchanged)"
-msgstr ""
+msgstr "الاحتفاظ (ترك دون تغيير)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
