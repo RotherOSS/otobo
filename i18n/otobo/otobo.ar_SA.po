@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-23 04:56+0000\n"
+"PO-Revision-Date: 2022-11-24 18:00+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -12780,165 +12780,169 @@ msgstr "الاحتفاظ (ترك دون تغيير)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop key/value pair)"
-msgstr ""
+msgstr "تجاهل (إزالة زوج المفاتيح/القيمة)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Map to (use provided value as default)"
-msgstr ""
+msgstr "تعيين إلى (إستخدام القيمة المقدمة كقيمة افتراضية)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Exact value(s)"
-msgstr ""
+msgstr "القيمة (القيم) بالضبط"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingSimple.pm
 msgid "Ignore (drop Value/value pair)"
-msgstr ""
+msgstr "تجاهل (إسقاط زوج القيمة/القيمة)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Outgoing Data"
-msgstr ""
+msgstr "تعيين XSLT للبيانات الصادرة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "XSLT Mapping for Incoming Data"
-msgstr ""
+msgstr "تعيين XSLT للبيانات الواردة"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Could not find required library %s"
-msgstr ""
+msgstr "تعذر العثور على المكتبة المطلوبة ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before processing (RequesterRequestInput)"
-msgstr ""
+msgstr "بيانات الطلب الصادر قبل المعالجة (RequesterRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data before mapping (RequesterRequestPrepareOutput)"
-msgstr ""
+msgstr "بيانات الطلب الصادر قبل التعيين (RequesterRequestPrepareOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing request data after mapping (RequesterRequestMapOutput)"
-msgstr ""
+msgstr "بيانات الطلب الصادر بعد التعيين (RequesterRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming response data before mapping (RequesterResponseInput)"
-msgstr ""
+msgstr "بيانات الاستجابة الواردة قبل التعيين (RequesterResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(RequesterErrorHandlingOutput)"
 msgstr ""
+"بيانات معالج أخطاء الصادر بعد معالجة الخطأ (RequesterErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data before mapping (ProviderRequestInput)"
-msgstr ""
+msgstr "بيانات الطلب الواردة قبل التعيين (ProviderRequestInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Incoming request data after mapping (ProviderRequestMapOutput)"
-msgstr ""
+msgstr "بيانات الطلب الواردة بعد التعيين (ProviderRequestMapOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid "Outgoing response data before mapping (ProviderResponseInput)"
-msgstr ""
+msgstr "بيانات الاستجابة الصادرة قبل التعيين (ProviderResponseInput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceMappingXSLT.pm
 msgid ""
 "Outgoing error handler data after error handling "
 "(ProviderErrorHandlingOutput)"
 msgstr ""
+"بيانات معالج أخطاء الصادر بعد معالجة الخطأ (ProviderErrorHandlingOutput)"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "Could not determine config for operation %s"
-msgstr ""
+msgstr "تعذر تحديد التكوين للعملية ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceOperationDefault.pm
 msgid "OperationType %s is not registered"
-msgstr ""
+msgstr "نوع العملية ٪s غير مسجل"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "Need valid Subaction!"
-msgstr ""
+msgstr "الحاجة إلى إجراء فرعي صالح!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "This field should be an integer."
-msgstr ""
+msgstr "يجب أن يكون هذا الحقل عددًا صحيحًا."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceTransportHTTPREST.pm
 msgid "File or Directory not found."
-msgstr ""
+msgstr "لم يتم العثور على الملف أو الدليل."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There is another web service with the same name."
-msgstr ""
+msgstr "توجد خدمة ويب أخرى بنفس الاسم."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error updating the web service."
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث خدمة ويب."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "There was an error creating the web service."
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء خدمة ويب."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" created!"
-msgstr ""
+msgstr "تم إنشاء خدمة ويب \"٪s\"!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need Name!"
-msgstr ""
+msgstr "تحتاج إلى اسم!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need ExampleWebService!"
-msgstr ""
+msgstr "تحتاج إلى عينة من خدمة الويب!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not load %s."
-msgstr ""
+msgstr "تعذر تحميل ٪s."
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Could not read %s!"
-msgstr ""
+msgstr "تعذر قراءة ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Need a file to import!"
-msgstr ""
+msgstr "تحتاج إلى ملف لاستيراده!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid ""
 "The imported file has not valid YAML content! Please check OTOBO log for "
 "details"
 msgstr ""
+"الملف الذي تم إستيراده لا يحتوي على محتوى YAML صحيح! يرجى مراجعة سجل OTOBO "
+"للحصول على التفاصيل"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Web service \"%s\" deleted!"
-msgstr ""
+msgstr "تم حذف خدمة ويب \"٪s\"!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "OTOBO as provider"
-msgstr ""
+msgstr "OTOBO كمزود"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Operations"
-msgstr ""
+msgstr "العمليات"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "OTOBO as requester"
-msgstr ""
+msgstr "OTOBO كطالب"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebservice.pm
 msgid "Invokers"
-msgstr ""
+msgstr "المستدعون"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Got no WebserviceHistoryID!"
-msgstr ""
+msgstr "لم يتم استلام معرف سجل خدمة الويب!"
 
 #. Perl Module: Kernel/Modules/AdminGenericInterfaceWebserviceHistory.pm
 msgid "Could not get history data for WebserviceHistoryID %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات المحفوظات لمعرف محفوظات خدمة الويب ٪s"
 
 #. Perl Module: Kernel/Modules/AdminGroup.pm
 msgid "Group updated!"
-msgstr ""
+msgstr "تم تحديث المجموعة!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
@@ -12949,74 +12953,76 @@ msgid ""
 "Email account fetch already fetched by another process. Please try again "
 "later!"
 msgstr ""
+"إحضار حساب البريد الإلكتروني بالفعل من قبل عملية أخرى. الرجاء المحاولة مرة "
+"أخرى لاحقا!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by email To: field."
-msgstr ""
+msgstr "الإرسال عبر البريد الإلكتروني إلى: الحقل."
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Dispatching by selected Queue."
-msgstr ""
+msgstr "الإرسال حسب قائمة الانتظار المحددة."
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who created the ticket"
-msgstr ""
+msgstr "الوكيل الذي أنشأ التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who owns the ticket"
-msgstr ""
+msgstr "الوكيل الذي يملك التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Agent who is responsible for the ticket"
-msgstr ""
+msgstr "الوكيل المسؤول عن التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents watching the ticket"
-msgstr ""
+msgstr "جميع العملاء الذين يراقبون التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents with write permission for the ticket"
-msgstr ""
+msgstr "كل الوكلاء الذين لديهم إذن كتابة للتذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's queue"
-msgstr ""
+msgstr "جميع الوكلاء المشتركين في قائمة انتظار التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to the ticket's service"
-msgstr ""
+msgstr "جميع الوكلاء مشتركون في خدمة التذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All agents subscribed to both the ticket's queue and service"
-msgstr ""
+msgstr "جميع الوكلاء مشتركون في كل من قائمة انتظار التذكرة والخدمة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Customer user of the ticket"
-msgstr ""
+msgstr "مستخدم العميل للتذكرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the first article"
-msgstr ""
+msgstr "كل المتلقين للمقال الأول"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "All recipients of the last article"
-msgstr ""
+msgstr "جميع المستلمين في المقالة الأخيرة"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Invisible to customer"
-msgstr ""
+msgstr "غير مرئي للعميل"
 
 #. Perl Module: Kernel/Modules/AdminNotificationEvent.pm
 msgid "Visible to customer"
-msgstr ""
+msgstr "مرئي للعميل"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "PGP environment is not working. Please check log for more info!"
-msgstr ""
+msgstr "بيئة PGP لا تعمل. الرجاء التحقق من السجل للحصول على مزيد من المعلومات!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to delete!"
-msgstr ""
+msgstr "تحتاج إلى مفتاح param للحذف!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Key %s deleted!"
