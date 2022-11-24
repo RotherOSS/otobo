@@ -7,20 +7,22 @@
 # Gyunay Daud <prohause@gmail.com>, 2018
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Plamen Petkov <plamen_3592@abv.bg>, 2019
-#
+# Yasen Arsov <jarsov@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: Plamen Petkov <plamen_3592@abv.bg>, 2019\n"
-"Language-Team: Bulgarian (https://translate.otobo.org/projects/otobo10/otobo/"
-"bg/)\n"
+"PO-Revision-Date: 2022-11-24 18:00+0000\n"
+"Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
+"Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/otobo/"
+"bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -65,7 +67,7 @@ msgstr ""
 
 #. Template: AdminACL
 msgid "This field is required."
-msgstr "Това поле е задължително"
+msgstr "Това поле е задължително."
 
 #. Template: AdminACL
 msgid "Overwrite existing ACLs?"
@@ -137,7 +139,7 @@ msgstr "Коперане"
 
 #. Template: AdminACL
 msgid "No data found."
-msgstr "Няма намерена информация"
+msgstr "Няма намерена информация."
 
 #. Template: AdminACL
 msgid "No matches found."
@@ -211,7 +213,7 @@ msgstr "Спри след съвпадението"
 
 #. Template: AdminACLEdit
 msgid "Edit ACL Structure"
-msgstr "Редактиране ACL структура "
+msgstr "Редактиране ACL структура"
 
 #. Template: AdminACLEdit
 msgid "Save ACL"
@@ -322,7 +324,7 @@ msgid ""
 "management module."
 msgstr ""
 "От тук можете да качите конфигурационен файл за импортиране на календар към "
-"вашата системата. Файлът трябва да бъде. yml формат. "
+"вашата системата. Файлът трябва да бъде .yml формат."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Overwrite existing entities"
@@ -597,7 +599,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
-msgstr "Събития."
+msgstr "Събития"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Event"
@@ -660,7 +662,7 @@ msgstr "Изпрати извън офис"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr "Изпрати също ако този потребител и извън офис"
+msgstr "Изпрати също, ако този потребител и извън офис."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -717,7 +719,7 @@ msgstr "Понастоящем тази функция не е наразпол�
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upgrade to %s"
-msgstr "Обновете до  %s"
+msgstr "Обновете до %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
@@ -777,7 +779,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "др."
+msgstr " др."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -912,7 +914,7 @@ msgstr "Препратка"
 
 #. Template: AdminAutoResponse
 msgid "To get the first 20 character of the subject."
-msgstr "За да се вземат първите 20 символа от \"Относно\" полето"
+msgstr "За да се вземат първите 20 символа от \"Относно\" полето."
 
 #. Template: AdminAutoResponse
 msgid "To get the first 5 lines of the email."
@@ -928,7 +930,7 @@ msgstr "За да получите атрибута на статията"
 
 #. Template: AdminAutoResponse
 msgid "Options of the current customer user data"
-msgstr "Опции на текущите потребителски данни."
+msgstr "Опции на текущите потребителски данни"
 
 #. Template: AdminAutoResponse
 msgid "Ticket owner options"
@@ -1393,7 +1395,7 @@ msgstr "Бележка"
 
 #. Template: AdminCustomerGroup
 msgid "This feature is disabled!"
-msgstr "Тази функционалност е забранена"
+msgstr "Тази функционалност е забранена!"
 
 #. Template: AdminCustomerGroup
 msgid ""
@@ -1404,7 +1406,7 @@ msgstr ""
 
 #. Template: AdminCustomerGroup
 msgid "Enable it here!"
-msgstr "Разрешаване на фунционалността тук"
+msgstr "Разрешаване на функционалността тук!"
 
 #. Template: AdminCustomerGroup
 msgid "Edit Customer Default Groups"
@@ -1478,7 +1480,7 @@ msgstr "само за четене"
 
 #. Template: AdminCustomerGroup
 msgid "Read only access to the ticket in this group/queue."
-msgstr "Достъп само за четене за билетите в тази група/опашка"
+msgstr "Достъп само за четене за билетите в тази група/опашка."
 
 #. Template: AdminCustomerGroup
 msgid "rw"
@@ -1486,7 +1488,7 @@ msgstr "четене/запис"
 
 #. Template: AdminCustomerGroup
 msgid "Full read and write access to the tickets in this group/queue."
-msgstr "Пълен достъп за билетите в тази група/опашка"
+msgstr "Пълен достъп за билетите в тази група/опашка."
 
 #. Template: AdminCustomerUser
 msgid "Customer User Management"
@@ -1625,7 +1627,7 @@ msgstr ""
 
 #. Template: AdminCustomerUserCustomer
 msgid "Toggle active state for all"
-msgstr "Превключете активното състояние за всички."
+msgstr "Превключете активното състояние за всички"
 
 #. Template: AdminCustomerUserCustomer
 msgid "Active"
@@ -2067,7 +2069,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldDB
 msgid "Server"
-msgstr ""
+msgstr "Сървър"
 
 #. Template: AdminDynamicFieldDB
 msgid "Port"
@@ -2353,7 +2355,7 @@ msgstr ""
 
 #. Template: AdminDynamicFieldText
 msgid "RegEx"
-msgstr "RegEx"
+msgstr "Регулярен израз"
 
 #. Template: AdminDynamicFieldText
 msgid "Invalid RegEx"
@@ -2775,11 +2777,11 @@ msgstr "Няма затворени временни настройки."
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed"
-msgstr "Билета и затворен."
+msgstr "Билета е затворен"
 
 #. Template: AdminGenericAgent
 msgid "Ticket closed between"
-msgstr "Билета е затворен между "
+msgstr "Билета е затворен между"
 
 #. Template: AdminGenericAgent
 msgid "Pending times"
@@ -2787,7 +2789,7 @@ msgstr "Времето за изчакване"
 
 #. Template: AdminGenericAgent
 msgid "No pending time settings."
-msgstr "Няма настройки за време на очакване"
+msgstr "Няма настройки за време на очакване."
 
 #. Template: AdminGenericAgent
 msgid "Ticket pending time reached"
@@ -3706,7 +3708,7 @@ msgstr "Добавяне на картографиране на ключ"
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Mapping for Key "
-msgstr "Картографиране за ключ"
+msgstr "Картографиране за ключ "
 
 #. Template: AdminGenericInterfaceMappingSimple
 msgid "Remove key mapping"
@@ -4137,7 +4139,7 @@ msgstr "Прокси парола"
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "The password for the proxy user."
-msgstr "Паролата за Прокси потребител"
+msgstr "Паролата за Прокси потребител."
 
 #. Template: AdminGenericInterfaceTransportHTTPREST
 msgid "Skip Proxy"
@@ -4497,7 +4499,7 @@ msgstr ""
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "The name must be unique."
-msgstr "Името трябва да бъде уникално"
+msgstr "Името трябва да бъде уникално."
 
 #. Template: AdminGenericInterfaceWebservice
 msgid "Clone"
@@ -4736,11 +4738,11 @@ msgid ""
 "(e. g. purchasing department, support department, sales department, ...). "
 msgstr ""
 "Създайте нови групи, за да управлявате разрешенията за достъп за различни "
-"Агенти (например отдел за покупки, отдел за поддръжка, отдел продажби, ...)."
+"Агенти (например отдел за покупки, отдел за поддръжка, отдел продажби, ...). "
 
 #. Template: AdminGroup
 msgid "It's useful for ASP solutions. "
-msgstr "Това е полезно за ASP решения."
+msgstr "Това е полезно за ASP решения. "
 
 #. Template: AdminLog
 msgid "System Log"
@@ -4972,7 +4974,7 @@ msgstr ""
 
 #. Template: AdminNotificationEvent
 msgid "Notifications are sent to an agent or a customer."
-msgstr "Уведомления се изпращат на агент или клиент-потребител"
+msgstr "Уведомления се изпращат на агент или клиент-потребител."
 
 #. Template: AdminNotificationEvent
 msgid ""
@@ -5095,7 +5097,7 @@ msgstr "Fingerprint"
 
 #. Template: AdminPGP
 msgid "Expires"
-msgstr "Expires"
+msgstr "Изтича"
 
 #. Template: AdminPGP
 msgid "Delete this key"
@@ -5374,7 +5376,7 @@ msgstr ""
 
 #. Template: AdminPerformanceLog
 msgid "Disable it here!"
-msgstr "Забраняване на фукционалността тук"
+msgstr "Забраняване на функционалността тук!"
 
 #. Template: AdminPerformanceLog
 msgid "Logfile too large!"
@@ -6169,7 +6171,7 @@ msgstr ""
 
 #. Template: AdminQueue
 msgid "Will be the sender address of this queue for email answers."
-msgstr "Ще бъде адресът на изпраща за тази опашка при еМейл отговорите"
+msgstr "Ще бъде адресът на изпраща за тази опашка при е-поща отговорите."
 
 #. Template: AdminQueue
 msgid "Default sign key"
@@ -6187,7 +6189,7 @@ msgstr "Обръщение"
 
 #. Template: AdminQueue
 msgid "The salutation for email answers."
-msgstr "Обръщението за отговорите по еМейл"
+msgstr "Обръщението за отговорите по е-поща."
 
 #. Template: AdminQueue
 msgid "Signature"
@@ -6195,7 +6197,7 @@ msgstr "Подпис"
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
-msgstr "Подписът за отговорите по еМейл"
+msgstr "Подписът за отговорите по е-поща."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
@@ -8390,7 +8392,7 @@ msgstr ""
 
 #. Template: AgentDashboardTicketGeneric
 msgid "Service Time"
-msgstr "Service Time"
+msgstr "Време за обслужване"
 
 #. Template: AgentDashboardTicketQueueOverview
 msgid "Total"
@@ -8630,7 +8632,7 @@ msgstr ""
 
 #. Template: AgentSplitSelection
 msgid "Split"
-msgstr "Разделение."
+msgstr "Разделение"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
@@ -9065,7 +9067,7 @@ msgstr "Да се информира изпращачът"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
-msgstr "Изпратете еМейл!"
+msgstr "Изпратете е-поща"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
@@ -9073,7 +9075,7 @@ msgstr "Събирателно действие"
 
 #. Template: AgentTicketBulk
 msgid "Send Email"
-msgstr "Изпратете еМейл!"
+msgstr "Изпратете е-поща"
 
 #. Template: AgentTicketBulk
 msgid "Merge"
@@ -9277,7 +9279,7 @@ msgstr ""
 
 #. Template: AgentTicketMerge
 msgid "You need to use a ticket number!"
-msgstr "Необходимо е да използвате номер на билета"
+msgstr "Необходимо е да използвате номер на билета!"
 
 #. Template: AgentTicketMerge
 msgid "A valid ticket number is required."
@@ -10538,7 +10540,7 @@ msgstr ""
 
 #. Template: Login
 msgid "Lost your password?"
-msgstr "Забравена парола"
+msgstr "Забравена парола?"
 
 #. Template: Login
 msgid "Back to login"
@@ -10596,7 +10598,7 @@ msgid ""
 "line (Terminal/Shell) as root."
 msgstr ""
 "За да може да използвате OTOBO, Вие трябва да въведете, като superuser root "
-"в командния ред (Terminal/Shell) следната команда"
+"в командния ред (Terminal/Shell) следната команда."
 
 #. Template: Finish
 msgid "Restart your webserver"
@@ -10983,7 +10985,7 @@ msgstr ""
 
 #. Template: StatsParamsWidget
 msgid "No element selected."
-msgstr "Няма избран елемент"
+msgstr "Няма избран елемент."
 
 #. Template: StatsParamsWidget
 msgid "Scale"
@@ -11732,7 +11734,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminAttachment.pm
 msgid "Attachment added!"
-msgstr "Прикаченият файл е добавен."
+msgstr "Прикаченият файл е добавен!"
 
 #. Perl Module: Kernel/Modules/AdminAutoResponse.pm
 msgid "Auto Response added!"
@@ -11890,7 +11892,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company updated!"
-msgstr "Клиентската компания е обновена."
+msgstr "Клиентската компания е обновена!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Dynamic field %s not found!"
@@ -11906,7 +11908,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerCompany.pm
 msgid "Customer company added!"
-msgstr "Клиентската компания е добавена."
+msgstr "Клиентската компания е добавена!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerGroup.pm
 msgid "No configuration for 'CustomerGroupPermissionContext' found!"
@@ -11922,7 +11924,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer updated!"
-msgstr "Клиента е обновен."
+msgstr "Клиента е обновен!"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "New phone ticket"
@@ -11934,7 +11936,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer %s added"
-msgstr "Клиент %s е добавен."
+msgstr "Клиент %s е добавен"
 
 #. Perl Module: Kernel/Modules/AdminCustomerUser.pm
 msgid "Customer user updated!"
@@ -12100,15 +12102,15 @@ msgstr "Единица време"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "within the last ..."
-msgstr "в рамките на последните "
+msgstr "в рамките на последните ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "within the next ..."
-msgstr "в рамките на следващите"
+msgstr "в рамките на следващите ..."
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "more than ... ago"
-msgstr "преди повече от "
+msgstr "преди повече ... от"
 
 #. Perl Module: Kernel/Modules/AdminGenericAgent.pm
 msgid "Unarchived tickets"
@@ -12592,11 +12594,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminGroup.pm
 msgid "Group updated!"
-msgstr "Групата е обновена."
+msgstr "Групата е обновена!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid "Mail account added!"
-msgstr "Електроната поща е добавена."
+msgstr "Електронната поща е добавена!"
 
 #. Perl Module: Kernel/Modules/AdminMailAccount.pm
 msgid ""
@@ -12800,7 +12802,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminPriority.pm
 msgid "Priority added!"
-msgstr "Приоритет е добавен"
+msgstr "Приоритет е добавен!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
@@ -13073,7 +13075,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
-msgstr "Опашката е обвонена."
+msgstr "Опашката е обновена!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
@@ -13117,11 +13119,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
-msgstr "Правилото е обновено"
+msgstr "Правилото е обновено!"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role added!"
-msgstr "Правилото е добавено."
+msgstr "Правилото е добавено!"
 
 #. Perl Module: Kernel/Modules/AdminRoleGroup.pm
 msgid "Change Group Relations for Role"
@@ -13209,11 +13211,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature updated!"
-msgstr "Подписа е обновен"
+msgstr "Подписа е обновен!"
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature added!"
-msgstr "Подписа е добавен"
+msgstr "Подписа е добавен!"
 
 #. Perl Module: Kernel/Modules/AdminState.pm
 msgid "State added!"
@@ -13225,7 +13227,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AdminSystemAddress.pm
 msgid "System e-mail address added!"
-msgstr "Системната Е-поща е добавена."
+msgstr "Системната Е-поща е добавена!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Invalid Settings"
@@ -13407,7 +13409,7 @@ msgstr "Типа е добавен!"
 
 #. Perl Module: Kernel/Modules/AdminUser.pm
 msgid "Agent updated!"
-msgstr "Агентът беше актуализиран."
+msgstr "Агентът беше актуализиран!"
 
 #. Perl Module: Kernel/Modules/AdminUserGroup.pm
 msgid "Change Group Relations for Agent"
@@ -13797,7 +13799,7 @@ msgstr "записано"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Message from"
-msgstr "Съобщение от "
+msgstr "Съобщение от"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "End message"
@@ -13966,7 +13968,7 @@ msgstr "Напомнянето е достигнато"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "My Locked Tickets"
-msgstr "Мойте заключени билети."
+msgstr "Моите заключени билети"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
@@ -14024,7 +14026,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "The selected process is invalid!"
-msgstr "Избрания процес е невалиден."
+msgstr "Избрания процес е невалиден!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process %s is invalid!"
@@ -14105,7 +14107,7 @@ msgstr "В очакване-дата"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
-msgstr "за състояния в очакване* "
+msgstr "за състояния в очакване*"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
@@ -14211,7 +14213,7 @@ msgstr "Преглед на опашката"
 
 #. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
 msgid "My Responsible Tickets"
-msgstr "Мойте отворени билети."
+msgstr "Моите отворени билети"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "last-search"
@@ -14259,7 +14261,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "in more than ..."
-msgstr "в повече от "
+msgstr "в повече от ..."
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
@@ -14493,7 +14495,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward article via mail"
-msgstr "Препратете статията като поща."
+msgstr "Препратете статията като е-поща"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward"
@@ -14692,7 +14694,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the database user."
-msgstr "Въведете парола за достъп до базата данни"
+msgstr "Въведете парола за достъп до базата данни."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
@@ -14704,7 +14706,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the administrative database user."
-msgstr "Въведете парола за достъп до администраторската база данни"
+msgstr "Въведете парола за достъп до администраторската база данни."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
@@ -14760,11 +14762,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Mail"
-msgstr "Конфигурирайте Е-пощата."
+msgstr "Конфигурирайте Е-пощата"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Mail Configuration"
-msgstr "Конфигурация на Е-поща "
+msgstr "Конфигурация на Е-поща"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Subaction %s!"
@@ -14780,7 +14782,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database already contains data - it should be empty!"
-msgstr "Базата данни вече съдържа данни - тя трябва да е празна."
+msgstr "Базата данни вече съдържа данни - тя трябва да е празна!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -14848,7 +14850,7 @@ msgstr "Отхвърли"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketCompose.pm
 msgid "Reply All"
-msgstr "Отговори на всички."
+msgstr "Отговори на всички"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend this article"
@@ -14872,7 +14874,7 @@ msgstr "Отговор на бележка"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPhone.pm
 msgid "Split this article"
-msgstr "Разделяне на статията."
+msgstr "Разделяне на статията"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "View the source for this Article"
@@ -14880,11 +14882,11 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "Plain Format"
-msgstr "Обикновен формат."
+msgstr "Обикновен формат"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPrint.pm
 msgid "Print this article"
-msgstr "Отпечатайте статията."
+msgstr "Отпечатайте статията"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
@@ -14900,7 +14902,7 @@ msgstr "Маркирай"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Unmark"
-msgstr "Размаркиране."
+msgstr "Размаркиране"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
@@ -15160,7 +15162,7 @@ msgstr "натиснете тук"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "to open it in a new window."
-msgstr "да го отворите в нов прозорец"
+msgstr "да го отворите в нов прозорец."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Year"
@@ -15176,7 +15178,7 @@ msgstr "Минути"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Check to activate this date"
-msgstr "Проверете преди да активирате тази дата. "
+msgstr "Проверете преди да активирате тази дата"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
@@ -15256,7 +15258,7 @@ msgstr "Агент(и) онлайн: %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
 msgid "There are more escalated tickets!"
-msgstr "Има повече ескалирани билети."
+msgstr "Има повече ескалирани билети!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
 msgid ""
@@ -15316,7 +15318,7 @@ msgstr ""
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
-msgstr "Предпочитанията са обновени успешно"
+msgstr "Предпочитанията са обновени успешно!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
@@ -15332,7 +15334,7 @@ msgstr "Проверка на парола"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr "Текущата парола не е правилна. Моля, опитайте отново"
+msgstr "Текущата парола не е правилна. Моля, опитайте отново!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
@@ -15353,7 +15355,7 @@ msgstr ""
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
 msgstr ""
-"Не може да се актуализира паролата ви, тя трябва да е поне %s символа дълга."
+"Не може да се актуализира паролата ви, тя трябва да е поне %s символа дълга!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -15495,15 +15497,15 @@ msgstr "Съдържание"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Unlock to give it back to the queue"
-msgstr "Отключете го за да се върне обратно в опашката."
+msgstr "Отключете го за да се върне обратно в опашката"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
 msgid "Lock it to work on it"
-msgstr "Заключете го, за да работите върху него."
+msgstr "Заключете го, за да работите върху него"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
 msgid "Unwatch"
-msgstr "Не наблюдаван."
+msgstr "Не наблюдаван"
 
 #. Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
 msgid "Remove from list of watched tickets"
@@ -15539,7 +15541,7 @@ msgstr "Нови отговорни билети"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Reminder Reached"
-msgstr "Напомняме за отговорен билет "
+msgstr "Напомняме за отговорен билет"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
 msgid "Responsible Tickets Total"
@@ -15547,7 +15549,7 @@ msgstr "Общо отговорни билети"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
 msgid "Watched Tickets New"
-msgstr "Нови наблюдавани билети "
+msgstr "Нови наблюдавани билети"
 
 #. Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
 msgid "Watched Tickets Reminder Reached"
@@ -15605,7 +15607,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session invalid. Please log in again."
-msgstr "Невалидна сесия. Моля влезте отново"
+msgstr "Невалидна сесия. Моля влезте отново."
 
 #. Perl Module: Kernel/System/AuthSession/DB.pm
 msgid "Session has timed out. Please log in again."
@@ -15707,7 +15709,7 @@ msgstr "Твърде дълго съдържание на полето!"
 
 #. Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
 msgid "Maximum size is %s characters."
-msgstr "Масималният брой символи е %s"
+msgstr "Максималният брой символи е %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
 msgid "Sanity checks for database."
@@ -17142,7 +17144,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
-msgstr "Функцията не е активна"
+msgstr "Функцията не е активна!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
@@ -17822,7 +17824,7 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr "Настина ли искате да изтрийте това езиково известие? "
+msgstr "Настина ли искате да изтрийте това езиково известие?"
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification?"
@@ -18850,7 +18852,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Added subscription for user \"%s\"."
+msgstr "Добавен е абонамент за потребител „%s“."
 
 #. SysConfig
 msgid "Added system request (%s)."
@@ -18919,7 +18921,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Admin."
-msgstr "Админ"
+msgstr "Администратор."
 
 #. SysConfig
 msgid "Administration"
@@ -19106,7 +19108,7 @@ msgstr "Всички ескалирани билети"
 
 #. SysConfig
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr "Всички нови билети, тези билети все още не са работили по тях."
+msgstr "Всички нови билети, тези билети все още не са работили по тях"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
@@ -19601,7 +19603,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Change the owner for this ticket"
-msgstr "Променете собственика на билета."
+msgstr "Променете собственика на билета"
 
 #. SysConfig
 msgid "Change the priority for this ticket"
@@ -23418,7 +23420,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Escalated Tickets"
-msgstr "Ескалирани билети."
+msgstr "Ескалирани билети"
 
 #. SysConfig
 msgid "Escalation view"
@@ -23635,7 +23637,7 @@ msgstr ""
 
 #. SysConfig
 msgid "First Christmas Day"
-msgstr "Първия Коледен ден."
+msgstr "Първия Коледен ден"
 
 #. SysConfig
 msgid "First Queue"
@@ -23816,7 +23818,7 @@ msgstr ""
 
 #. SysConfig
 msgid "GenericAgent"
-msgstr "GenericAgent"
+msgstr "Общ агент"
 
 #. SysConfig
 msgid "GenericInterface Debugger GUI"
@@ -23924,7 +23926,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Go to dashboard!"
-msgstr "Отидете в контролния панел."
+msgstr "Отидете в контролния панел!"
 
 #. SysConfig
 msgid "Good PGP signature."
@@ -24437,7 +24439,7 @@ msgstr ""
 
 #. SysConfig
 msgid "International Workers' Day"
-msgstr "Национален ден на работниците."
+msgstr "Международен ден на труда"
 
 #. SysConfig
 msgid ""
@@ -24603,7 +24605,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Link this ticket to other objects"
-msgstr "Свържете този билет с други обекти."
+msgstr "Свържете този билет с други обекти"
 
 #. SysConfig
 msgid "Links 2 tickets with a \"Normal\" type link."
@@ -24847,7 +24849,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Mark as Spam!"
-msgstr "Отбележи като спам"
+msgstr "Отбележи като спам!"
 
 #. SysConfig
 msgid "Mark this ticket as junk!"
@@ -25136,7 +25138,7 @@ msgstr ""
 
 #. SysConfig
 msgid "New Tickets"
-msgstr "Нови билети."
+msgstr "Нови билети"
 
 #. SysConfig
 msgid "New Window"
@@ -25248,7 +25250,7 @@ msgstr ""
 
 #. SysConfig
 msgid "OTOBO News"
-msgstr "Новини за OTOBO."
+msgstr "Новини за OTOBO"
 
 #. SysConfig
 msgid "OTOBO Team Services"
@@ -25333,7 +25335,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Out Of Office Time"
-msgstr "Време извън офиса."
+msgstr "Време извън офиса"
 
 #. SysConfig
 msgid "Out of Office users."
@@ -25792,11 +25794,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Phone Call Inbound"
-msgstr "Входящо телефонен разговор."
+msgstr "Входящ телефонен разговор"
 
 #. SysConfig
 msgid "Phone Call Outbound"
-msgstr "Изходящо телефонен разговор."
+msgstr "Изходящ телефонен разговор"
 
 #. SysConfig
 msgid "Phone Call."
@@ -25992,7 +25994,7 @@ msgstr "Напомнящи билети"
 
 #. SysConfig
 msgid "Removed subscription for user \"%s\"."
-msgstr "Removed subscription for user \"%s\"."
+msgstr "Премахнат абонамент за потребител „%s“."
 
 #. SysConfig
 msgid ""
@@ -27143,7 +27145,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Show the ticket history"
-msgstr "Покажи историята на билетите."
+msgstr "Покажи историята на билетите"
 
 #. SysConfig
 msgid "Show various content."
@@ -28465,15 +28467,15 @@ msgstr ""
 
 #. SysConfig
 msgid "Ticket Overview \"Medium\" Limit"
-msgstr "Общ преглед на билетите с \"Среден\" лимит."
+msgstr "Общ преглед на билетите с \"Среден\" лимит"
 
 #. SysConfig
 msgid "Ticket Overview \"Preview\" Limit"
-msgstr "Лимит за \"Преглед\" на билетите."
+msgstr "Лимит за \"Преглед\" на билетите"
 
 #. SysConfig
 msgid "Ticket Overview \"Small\" Limit"
-msgstr "Общ преглед на билетите с \"Малък\" лимит."
+msgstr "Общ преглед на билетите с \"Малък\" лимит"
 
 #. SysConfig
 msgid "Ticket Owner."
@@ -28697,7 +28699,7 @@ msgstr "Нагоре"
 
 #. SysConfig
 msgid "Upcoming Events"
-msgstr "Предстоящи събития."
+msgstr "Предстоящи събития"
 
 #. SysConfig
 msgid ""
