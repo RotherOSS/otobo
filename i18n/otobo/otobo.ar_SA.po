@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-24 18:00+0000\n"
+"PO-Revision-Date: 2022-11-25 13:53+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -13026,412 +13026,418 @@ msgstr "تحتاج إلى مفتاح param للحذف!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Key %s deleted!"
-msgstr ""
+msgstr "تم حذف المفتاح ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminPGP.pm
 msgid "Need param Key to download!"
-msgstr ""
+msgstr "تحتاج إلى مفتاح Param للتنزيل!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such package!"
-msgstr ""
+msgstr "لا يوجد مثل هذه الحزمة!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in package!"
-msgstr ""
+msgstr "لا يوجد مثل هذا الملف ٪s في الحزمة!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "No such file %s in local file system!"
-msgstr ""
+msgstr "لا يوجد مثل هذا الملف ٪s في نظام الملفات المحلي!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't read %s!"
-msgstr ""
+msgstr "لا يمكن قراءة ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "File is OK"
-msgstr ""
+msgstr "الملف على ما يرام"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package has locally modified files."
-msgstr ""
+msgstr "تحتوي الحزمة على ملفات معدلة محليا."
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package not verified by the OTOBO Team!"
-msgstr ""
+msgstr "لم يتم التحقق من الحزمة من قبل فريق OTOBO!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not Started"
-msgstr ""
+msgstr "لم يتم البدء"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Updated"
-msgstr ""
+msgstr "تم التحديث"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Already up-to-date"
-msgstr ""
+msgstr "محدث بالفعل"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Installed"
-msgstr ""
+msgstr "مثبت"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not correctly deployed"
-msgstr ""
+msgstr "لم يتم النشر بشكل صحيح"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package updated correctly"
-msgstr ""
+msgstr "تم تحديث الحزمة بشكل صحيح"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package was already updated"
-msgstr ""
+msgstr "تم تحديث الحزمة بالفعل"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependency installed correctly"
-msgstr ""
+msgstr "تم تثبيت التبعية بشكل صحيح"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package needs to be reinstalled"
-msgstr ""
+msgstr "يجب إعادة تثبيت الحزمة"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "The package contains cyclic dependencies"
-msgstr ""
+msgstr "تحتوي الحزمة على تبعيات دورية"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Not found in on-line repositories"
-msgstr ""
+msgstr "غير موجود في المستودعات على الإنترنت"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Required version is higher than available"
-msgstr ""
+msgstr "الإصدار المطلوب أعلى من المتوفر"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Dependencies fail to upgrade or install"
-msgstr ""
+msgstr "فشلت التبعيات في الترقية أو التثبيت"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be installed"
-msgstr ""
+msgstr "تعذر تثبيت الحزمة"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Package could not be upgraded"
-msgstr ""
+msgstr "تعذر ترقية الحزمة"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Repository List"
-msgstr ""
+msgstr "قائمة المستودعات"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "No packages found in selected repository. Please check log for more info!"
 msgstr ""
+"لم يتم العثور على أي حزم في المستودع المحدد. الرجاء التحقق من السجل للحصول "
+"على مزيد من المعلومات!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid ""
 "Package not verified due a communication issue with verification server!"
-msgstr ""
+msgstr "لم يتم التحقق من الحزمة بسبب مشكلة في الاتصال مع خادم التحقق!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't connect to OTOBO Feature Add-on list server!"
-msgstr ""
+msgstr "يتعذر الاتصال بخادم قائمة الميزات الإضافية OTOBO!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTOBO Feature Add-on list from server!"
-msgstr ""
+msgstr "يتعذر الحصول على قائمة الوظائف الإضافية لميزة OTOBO من الخادم!"
 
 #. Perl Module: Kernel/Modules/AdminPackageManager.pm
 msgid "Can't get OTOBO Feature Add-on from server!"
-msgstr ""
+msgstr "يتعذر الحصول على الوظيفة الإضافية لميزة OTOBO من الخادم!"
 
 #. Perl Module: Kernel/Modules/AdminPostMasterFilter.pm
 msgid "No such filter: %s"
-msgstr ""
+msgstr "لا يوجد عامل تصفية من هذا القبيل: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminPriority.pm
 msgid "Priority added!"
-msgstr ""
+msgstr "تمت إضافة الأولوية!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "Process Management information from database is not in sync with the system "
 "configuration, please synchronize all processes."
 msgstr ""
+"معلومات إدارة العملية من قاعدة البيانات غير متزامنة مع تكوين النظام، الرجاء "
+"مزامنة كافة العمليات."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ExampleProcesses!"
-msgstr ""
+msgstr "الحاجة إلى عمليات نموذجية!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need ProcessID!"
-msgstr ""
+msgstr "يلزم معرف العملية!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Yes (mandatory)"
-msgstr ""
+msgstr "نعم (إلزامي)"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Unknown Process %s!"
-msgstr ""
+msgstr "عملية غير معروفة ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error generating a new EntityID for this Process"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء EntityID جديد لهذه العملية"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The StateEntityID for state Inactive does not exists"
-msgstr ""
+msgstr "StateEntityID للحالة غير نشط غير موجود"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error creating the Process"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء العملية"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid ""
 "There was an error setting the entity sync status for Process entity: %s"
-msgstr ""
+msgstr "حدث خطأ أثناء إعداد حالة المزامنة لإدخال العملية ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get data for ProcessID %s"
-msgstr ""
+msgstr "تعذر تعريف البيانات لمعرف العملية ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error updating the Process"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث العملية"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s could not be deleted"
-msgstr ""
+msgstr "تعذر حذف العملية: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error synchronizing the processes."
-msgstr ""
+msgstr "حدث خطأ أثناء مزامنة العمليات."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s is still in use"
-msgstr ""
+msgstr "لا يزال ٪s:٪s قيد الاستخدام"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "The %s:%s has a different EntityID"
-msgstr ""
+msgstr "يحتوي ٪s:٪s على معرف كيان مختلف"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not delete %s:%s"
-msgstr ""
+msgstr "تعذر حذف ٪s:٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "There was an error setting the entity sync status for %s entity: %s"
-msgstr ""
+msgstr "حدث خطأ أثناء تعيين حالة مزامنة الكيان للكيان ٪s: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Could not get %s"
-msgstr ""
+msgstr "تعذر الحصول على ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Need %s!"
-msgstr ""
+msgstr "الحاجة إلى ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagement.pm
 msgid "Process: %s is not Inactive"
-msgstr ""
+msgstr "العملية: ٪s ليست غير نشطة"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error generating a new EntityID for this Activity"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء EntityID جديد لهذا النشاط"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error creating the Activity"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء النشاط"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "There was an error setting the entity sync status for Activity entity: %s"
-msgstr ""
+msgstr "حدث خطأ أثناء تعيين حالة مزامنة الكيان لكيان النشاط: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Need ActivityID!"
-msgstr ""
+msgstr "يلزم معرف النشاط!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Could not get data for ActivityID %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات ل ActivityID ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "There was an error updating the Activity"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث النشاط"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Missing Parameter: Need Activity and ActivityDialog!"
-msgstr ""
+msgstr "المعلمات المفقودة: تحتاج إلى مربع حوار النشاط والنشاط!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Activity not found!"
-msgstr ""
+msgstr "لم يتم العثور على النشاط!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "ActivityDialog not found!"
-msgstr ""
+msgstr "لم يتم العثور على مربع حوار النشاط!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid ""
 "ActivityDialog already assigned to Activity. You cannot add an "
 "ActivityDialog twice!"
 msgstr ""
+"تم بالفعل تعيين مربع حوار النشاط للنشاط. لا يمكنك تخصيص مربع حوار النشاط "
+"نفسه أكثر من مرة!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Error while saving the Activity to the database!"
-msgstr ""
+msgstr "حدث خطأ أثناء حفظ النشاط إلى قاعدة البيانات!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "This subaction is not valid"
-msgstr ""
+msgstr "هذا الإجراء الفرعي غير صالح"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivity.pm
 msgid "Edit Activity \"%s\""
-msgstr ""
+msgstr "تحرير النشاط \"٪s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error generating a new EntityID for this ActivityDialog"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء EntityID جديد لمربع حوار النشاط هذا"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error creating the ActivityDialog"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء مربع حوار النشاط"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid ""
 "There was an error setting the entity sync status for ActivityDialog entity: "
 "%s"
-msgstr ""
+msgstr "حدث خطأ أثناء تعيين حالة المزامنة لمربع حوار النشاط ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Need ActivityDialogID!"
-msgstr ""
+msgstr "تحتاج إلى ActivityDialogID!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Could not get data for ActivityDialogID %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات ل ActivityDialogID ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "There was an error updating the ActivityDialog"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث مربع حوار النشاط"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Edit Activity Dialog \"%s\""
-msgstr ""
+msgstr "تحرير مربع حوار النشاط \"٪s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent Interface"
-msgstr ""
+msgstr "واجهة الوكيل"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Customer Interface"
-msgstr ""
+msgstr "واجهة العميل"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Agent and Customer Interface"
-msgstr ""
+msgstr "واجهة العميل والوكيل"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Do not show Field"
-msgstr ""
+msgstr "عدم إظهار الحقل"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field"
-msgstr ""
+msgstr "إظهار الحقل"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementActivityDialog.pm
 msgid "Show Field As Mandatory"
-msgstr ""
+msgstr "إظهار الحقل كإلزامي"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementPath.pm
 msgid "Edit Path"
-msgstr ""
+msgstr "تحرير المسار"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error generating a new EntityID for this Transition"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء معرف كيان جديد لهذا الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error creating the Transition"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid ""
 "There was an error setting the entity sync status for Transition entity: %s"
-msgstr ""
+msgstr "حدث خطأ أثناء تعيين حالة مزامنة الكيان لكيان الانتقال: ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Need TransitionID!"
-msgstr ""
+msgstr "بحاجة إلى معرف الانتقال!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Could not get data for TransitionID %s"
-msgstr ""
+msgstr "تعذر تعريف البيانات لمعرف الانتقال ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "There was an error updating the Transition"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Edit Transition \"%s\""
-msgstr ""
+msgstr "تحرير الانتقال \"٪s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransition.pm
 msgid "Transition validation module"
-msgstr ""
+msgstr "وحدة التحقق من صحة الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "At least one valid config parameter is required."
-msgstr ""
+msgstr "مطلوب معلمة تكوين صالحة واحدة على الأقل."
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error generating a new EntityID for this TransitionAction"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء معرف كيان جديد للإجراء الانتقالي هذا"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error creating the TransitionAction"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid ""
 "There was an error setting the entity sync status for TransitionAction "
 "entity: %s"
-msgstr ""
+msgstr "حدث خطأ أثناء إعداد حالة المزامنة للإجراء الانتقالي ٪s"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Need TransitionActionID!"
-msgstr ""
+msgstr "بحاجة إلى معرف إجراء النقل!"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Could not get data for TransitionActionID %s"
-msgstr ""
+msgstr "تعذر العثور على بيانات ل ٪s معرف إجراء الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "There was an error updating the TransitionAction"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث الانتقال"
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Edit Transition Action \"%s\""
-msgstr ""
+msgstr "تحرير إجراء الانتقال \"٪s\""
 
 #. Perl Module: Kernel/Modules/AdminProcessManagementTransitionAction.pm
 msgid "Error: Not all keys seem to have values or vice versa."
-msgstr ""
+msgstr "خطأ: لا يبدو أن كل المفاتيح لها قيم أو العكس."
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Queue updated!"
-msgstr ""
+msgstr "تم تحديث قائمة الانتظار!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Don't use :: in queue name!"
-msgstr ""
+msgstr "الرجاء عدم استخدام \"::\" ضمن اسم قائمة الانتظار!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "Click back and change it!"
-msgstr ""
+msgstr "يرجى العودة وتغييره!"
 
 #. Perl Module: Kernel/Modules/AdminQueue.pm
 msgid "-none-"
@@ -13439,11 +13445,11 @@ msgstr "-بدون-"
 
 #. Perl Module: Kernel/Modules/AdminQueueAutoResponse.pm
 msgid "Queues ( without auto responses )"
-msgstr ""
+msgstr "قوائم الانتظار (بدون إجابات تلقائية)"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Queue Relations for Template"
-msgstr ""
+msgstr "تغيير علاقات قائمة الانتظار للقالب"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Template Relations for Queue"
