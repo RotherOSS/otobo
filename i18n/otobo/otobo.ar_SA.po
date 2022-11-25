@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-25 14:51+0000\n"
+"PO-Revision-Date: 2022-11-25 18:18+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -13526,55 +13526,55 @@ msgstr "يجب أن يكون CAFingerprint مختلفا عن CertFingerprint"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
-msgstr ""
+msgstr "العلاقة موجودة!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation added!"
-msgstr ""
+msgstr "تمت إضافة العلاقة!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to add relation!"
-msgstr ""
+msgstr "تعذر إضافة العلاقة!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation doesn't exists"
-msgstr ""
+msgstr "العلاقة غير موجودة"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation deleted!"
-msgstr ""
+msgstr "تم حذف العلاقة!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Impossible to delete relation!"
-msgstr ""
+msgstr "تعذر حذف العلاقة!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Certificate %s could not be read!"
-msgstr ""
+msgstr "تعذر قراءة الشهادة %s!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed Fingerprint"
-msgstr ""
+msgstr "تحتاج إلى بصمة الإصبع"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Handle Private Certificate Relations"
-msgstr ""
+msgstr "معالجة علاقات الشهادات الخاصة"
 
 #. Perl Module: Kernel/Modules/AdminSalutation.pm
 msgid "Salutation added!"
-msgstr ""
+msgstr "أضيفت التحية!"
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature updated!"
-msgstr ""
+msgstr "تم تحديث التوقيع!"
 
 #. Perl Module: Kernel/Modules/AdminSignature.pm
 msgid "Signature added!"
-msgstr ""
+msgstr "تم إضافة التوقيع!"
 
 #. Perl Module: Kernel/Modules/AdminState.pm
 msgid "State added!"
-msgstr ""
+msgstr "تمت إضافة الحالة!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
