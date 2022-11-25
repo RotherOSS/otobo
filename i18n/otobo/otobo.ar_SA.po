@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-25 13:53+0000\n"
+"PO-Revision-Date: 2022-11-25 14:51+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -13453,51 +13453,51 @@ msgstr "تغيير علاقات قائمة الانتظار للقالب"
 
 #. Perl Module: Kernel/Modules/AdminQueueTemplates.pm
 msgid "Change Template Relations for Queue"
-msgstr ""
+msgstr "تغيير علاقات القوالب لقائمة الانتظار"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Production"
-msgstr ""
+msgstr "إنتاجي"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Test"
-msgstr ""
+msgstr "إختبار"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Training"
-msgstr ""
+msgstr "تَدْرِيبٌ"
 
 #. Perl Module: Kernel/Modules/AdminRegistration.pm
 msgid "Development"
-msgstr ""
+msgstr "تَطْوِيرٌ"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role updated!"
-msgstr ""
+msgstr "تم تحديث الدور!"
 
 #. Perl Module: Kernel/Modules/AdminRole.pm
 msgid "Role added!"
-msgstr ""
+msgstr "تمت إضافة الدور!"
 
 #. Perl Module: Kernel/Modules/AdminRoleGroup.pm
 msgid "Change Group Relations for Role"
-msgstr ""
+msgstr "تغيير علاقات المجموعة للدور"
 
 #. Perl Module: Kernel/Modules/AdminRoleGroup.pm
 msgid "Change Role Relations for Group"
-msgstr ""
+msgstr "تغيير علاقات الأدوار للمجموعة"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Role"
-msgstr ""
+msgstr "دور"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Role Relations for Agent"
-msgstr ""
+msgstr "تغيير علاقات دور الوكيل"
 
 #. Perl Module: Kernel/Modules/AdminRoleUser.pm
 msgid "Change Agent Relations for Role"
-msgstr ""
+msgstr "تغيير علاقات الوكيل للدور"
 
 #. Perl Module: Kernel/Modules/AdminSLA.pm
 msgid "Please activate %s first!"
@@ -13506,22 +13506,23 @@ msgstr "فضلاً فعل %s أولاً!"
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "S/MIME environment is not working. Please check log for more info!"
 msgstr ""
+"بيئة S/MIME لا تعمل. الرجاء التحقق من السجل للحصول على مزيد من المعلومات!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to delete!"
-msgstr ""
+msgstr "تحتاج المعلمة \"اسم الملف\" لحذف!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Need param Filename to download!"
-msgstr ""
+msgstr "تحتاج المعلمة \"اسم الملف\" لتحميل!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Needed CertFingerprint and CAFingerprint!"
-msgstr ""
+msgstr "تحتاج إلى CertFingerprint و CAFingerprint!"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "CAFingerprint must be different than CertFingerprint"
-msgstr ""
+msgstr "يجب أن يكون CAFingerprint مختلفا عن CertFingerprint"
 
 #. Perl Module: Kernel/Modules/AdminSMIME.pm
 msgid "Relation exists!"
