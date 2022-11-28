@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-25 18:18+0000\n"
+"PO-Revision-Date: 2022-11-28 17:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -13578,7 +13578,7 @@ msgstr "تمت إضافة الحالة!"
 
 #. Perl Module: Kernel/Modules/AdminSupportDataCollector.pm
 msgid "File %s could not be read!"
-msgstr ""
+msgstr "تعذر قراءة الملف ٪s!"
 
 #. Perl Module: Kernel/Modules/AdminSystemAddress.pm
 msgid "System e-mail address added!"
@@ -13586,33 +13586,35 @@ msgstr "تمت إضافة عنوان البريد الإلكتروني الخا�
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Invalid Settings"
-msgstr ""
+msgstr "إعدادات غير صالحة"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "There are no invalid settings active at this time."
-msgstr ""
+msgstr "لا توجد حاليا إعدادات غير صالحة نشطة."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "You currently don't have any favourite settings."
-msgstr ""
+msgstr "ليس لديك حاليا أي إعدادات مفضلة."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "The following settings could not be found: %s"
-msgstr ""
+msgstr "تعذر العثور على الإعدادات التالية: %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Import not allowed!"
-msgstr ""
+msgstr "الاستيراد غير مسموح به!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid ""
 "System Configuration could not be imported due to an unknown error, please "
 "check OTOBO logs for more information."
 msgstr ""
+"تعذر استيراد تكوين النظام بسبب خطأ غير معروف، يرجى التحقق من سجلات OTOBO "
+"لمزيد من المعلومات."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
 msgid "Category Search"
-msgstr ""
+msgstr "بحث عن الفئة"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeployment.pm
 msgid ""
@@ -13620,143 +13622,145 @@ msgid ""
 "configuration or it was not possible to update them. Please check the OTOBO "
 "log for more information."
 msgstr ""
+"بعض الإعدادات المستوردة غير موجودة في الحالة الحالية للتكوين أو تعذر "
+"تحديثها. الرجاء مراجعة سجل OTOBO للحصول على مزيد من المعلومات."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "This deployment does not contain changes in the setting values!"
-msgstr ""
+msgstr "لا يحتوي هذا النشر على تغييرات في قيم الإعداد!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationDeploymentHistory.pm
 msgid "No DeploymentID received!"
-msgstr ""
+msgstr "لم يتم استلام معرف التكليف!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was unable to update setting!"
-msgstr ""
+msgstr "تعذر على النظام تحديث الإعداد!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "You need to enable the setting before locking!"
-msgstr ""
+msgstr "يجب تنشيط الإعداد قبل التحرير!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid ""
 "You can't work on this setting because %s (%s) is currently working on it."
-msgstr ""
+msgstr "لا يمكنك تحرير هذا الإعداد لأنه يتم تحريره حاليا بواسطة s% (s%)."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name!"
-msgstr ""
+msgstr "اسم الإعداد مفقود!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing ResetOptions!"
-msgstr ""
+msgstr "خيارات إعادة التعيين مفقودة!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "System was not able to lock the setting!"
-msgstr ""
+msgstr "لا يمكن قفل الإعداد للتحرير!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing setting name."
-msgstr ""
+msgstr "اسم الإعداد مفقود."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Setting not found."
-msgstr ""
+msgstr "لم يتم العثور على الإعداد."
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationGroup.pm
 msgid "Missing Settings!"
-msgstr ""
+msgstr "إعدادات مفقودة!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name received!"
-msgstr ""
+msgstr "لم يتم تلقي اسم إعداد!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Modified Version"
-msgstr ""
+msgstr "الإصدار المعدل"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Reset To Default"
-msgstr ""
+msgstr "إعادة التعيين إلى الافتراضي"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Default Version"
-msgstr ""
+msgstr "الإصدار الافتراضي"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "No setting name or modified version id received!"
-msgstr ""
+msgstr "لم يتم تلقي اسم إعداد أو معرف إصدار معدل!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationSettingHistory.pm
 msgid "Was not possible to revert the historical value!"
-msgstr ""
+msgstr "لم يكن من الممكن إعادة الضبط إلى القيمة التاريخية!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "Missing setting name or modified id!"
-msgstr ""
+msgstr "اسم إعداد مفقود أو معرف معدل!"
 
 #. Perl Module: Kernel/Modules/AdminSystemConfigurationUser.pm
 msgid "System was not able to delete the user setting values!"
-msgstr ""
+msgstr "تعذر على النظام حذف قيم إعداد المستخدم!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Start date shouldn't be defined after Stop date!"
-msgstr ""
+msgstr "يجب عدم تحديد تاريخ البدء بعد تاريخ الإيقاف!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error creating the System Maintenance"
-msgstr ""
+msgstr "حدث خطأ أثناء إنشاء صيانة النظام"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Need SystemMaintenanceID!"
-msgstr ""
+msgstr "بحاجة إلى معرف صيانة النظام!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Could not get data for SystemMaintenanceID %s"
-msgstr ""
+msgstr "تعذر الحصول على بيانات ل SystemMaintenanceID %s"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was added successfully!"
-msgstr ""
+msgstr "تمت إضافة صيانة النظام بنجاح!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "System Maintenance was updated successfully!"
-msgstr ""
+msgstr "تم تحديث صيانة النظام بنجاح!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Session has been killed!"
-msgstr ""
+msgstr "تم إغلاق الجلسة!"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "All sessions have been killed, except for your own."
-msgstr ""
+msgstr "تم إغلاق جميع الجلسات، ما عدا جلستك."
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "There was an error updating the System Maintenance"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث صيانة النظام"
 
 #. Perl Module: Kernel/Modules/AdminSystemMaintenance.pm
 msgid "Was not possible to delete the SystemMaintenance entry: %s!"
-msgstr ""
+msgstr "تعذر حذف الإدخال %s الخاص بصيانة النظام!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template updated!"
-msgstr ""
+msgstr "تم تحديث القالب!"
 
 #. Perl Module: Kernel/Modules/AdminTemplate.pm
 msgid "Template added!"
-msgstr ""
+msgstr "تمت إضافة القالب!"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Attachment Relations for Template"
-msgstr ""
+msgstr "تغيير علاقات المرفقات للقالب"
 
 #. Perl Module: Kernel/Modules/AdminTemplateAttachment.pm
 msgid "Change Template Relations for Attachment"
-msgstr ""
+msgstr "تغيير علاقات القوالب للمرفق"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Need Type!"
-msgstr ""
+msgstr "تحتاج نوع!"
 
 #. Perl Module: Kernel/Modules/AdminType.pm
 msgid "Type added!"
@@ -13764,15 +13768,15 @@ msgstr "تمت اضافة النوع!"
 
 #. Perl Module: Kernel/Modules/AdminUser.pm
 msgid "Agent updated!"
-msgstr ""
+msgstr "تم تحديث الوكيل!"
 
 #. Perl Module: Kernel/Modules/AdminUserGroup.pm
 msgid "Change Group Relations for Agent"
-msgstr ""
+msgstr "تغيير علاقات المجموعة للوكيل"
 
 #. Perl Module: Kernel/Modules/AdminUserGroup.pm
 msgid "Change Agent Relations for Group"
-msgstr ""
+msgstr "تغيير علاقات الوكيل للمجموعة"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Month"
@@ -13780,7 +13784,7 @@ msgstr "الشهر"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Week"
-msgstr ""
+msgstr "أسبوع"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentAgendaOverview.pm
 msgid "Day"
@@ -13788,331 +13792,331 @@ msgstr "يوم"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "All appointments"
-msgstr ""
+msgstr "جميع المواعيد"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Appointments assigned to me"
-msgstr ""
+msgstr "المواعيد المعينة لي"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentCalendarOverview.pm
 msgid "Showing only appointments assigned to you! Change settings"
-msgstr ""
+msgstr "سيتم عرض المواعيد المعينة لك فقط! تغيير الإعدادات"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Appointment not found!"
-msgstr ""
+msgstr "لم يتم العثور على موعد!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Never"
-msgstr ""
+msgstr "أبداً"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Day"
-msgstr ""
+msgstr "كل يوم"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Week"
-msgstr ""
+msgstr "كل أسبوع"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Month"
-msgstr ""
+msgstr "كل شهر"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Every Year"
-msgstr ""
+msgstr "كل عام"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Custom"
-msgstr ""
+msgstr "مخصص"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Daily"
-msgstr ""
+msgstr "يوميا"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Weekly"
-msgstr ""
+msgstr "أسبوعيا"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Monthly"
-msgstr ""
+msgstr "شهريا"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Yearly"
-msgstr ""
+msgstr "سنويا"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "every"
-msgstr ""
+msgstr "كل"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for %s time(s)"
-msgstr ""
+msgstr "لمدة %s من الوقت (الأوقات)"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until ..."
-msgstr ""
+msgstr "حتى ..."
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "for ... time(s)"
-msgstr ""
+msgstr "من أجل ... تكرار"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "until %s"
-msgstr ""
+msgstr "حتى %s"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No notification"
-msgstr ""
+msgstr "لا يوجد إشعار"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s minute(s) before"
-msgstr ""
+msgstr "%s دقيقة (دقائق) قبل"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s hour(s) before"
-msgstr ""
+msgstr "%s ساعة (ساعات) قبل"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s day(s) before"
-msgstr ""
+msgstr "%s يوم (أيام) قبل"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "%s week before"
-msgstr ""
+msgstr "%s أسبوع (أسابيع) قبل"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "before the appointment starts"
-msgstr ""
+msgstr "قبل بدء الموعد"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "after the appointment has been started"
-msgstr ""
+msgstr "بعد بدء الموعد"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "before the appointment ends"
-msgstr ""
+msgstr "قبل انتهاء الموعد"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "after the appointment has been ended"
-msgstr ""
+msgstr "بعد إنتهاء الموعد"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permission!"
-msgstr ""
+msgstr "لا يوجد إذن!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "Cannot delete ticket appointment!"
-msgstr ""
+msgstr "لا يمكن حذف موعد التذكرة!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentEdit.pm
 msgid "No permissions!"
-msgstr ""
+msgstr "لا توجد أذونات!"
 
 #. Perl Module: Kernel/Modules/AgentAppointmentList.pm
 msgid "+%s more"
-msgstr ""
+msgstr "+%s أكثر"
 
 #. Perl Module: Kernel/Modules/AgentCustomerSearch.pm
 msgid "Customer History"
-msgstr ""
+msgstr "تاريخ العملاء"
 
 #. Perl Module: Kernel/Modules/AgentCustomerUserAddressBook.pm
 msgid "No RecipientField is given!"
-msgstr ""
+msgstr "لم يتم إعطاء RecipientField!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No such config for %s"
-msgstr ""
+msgstr "لا يوجد مثل هذا التكوين ل %s"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Statistic"
-msgstr ""
+msgstr "إحصائية"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "No preferences for %s!"
-msgstr ""
+msgstr "لا توجد إعدادات ل %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get element data of %s!"
-msgstr ""
+msgstr "يتعذر الحصول على بيانات عنصر %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Can't get filter content data of %s!"
-msgstr ""
+msgstr "يتعذر الحصول على بيانات محتوى عامل التصفية ل %s!"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer Name"
-msgstr ""
+msgstr "اسم العميل"
 
 #. Perl Module: Kernel/Modules/AgentDashboardCommon.pm
 msgid "Customer User Name"
-msgstr ""
+msgstr "اسم مستخدم العميل"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Need SourceObject and SourceKey!"
-msgstr ""
+msgstr "تحتاج إلى SourceObject و SourceKey!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "You need ro permission!"
-msgstr ""
+msgstr "أنت بحاجة إلى إذن ro!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not delete link with %s!"
-msgstr ""
+msgstr "لا يمكن حذف الارتباط مع %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s Link(s) deleted successfully."
-msgstr ""
+msgstr "%s تم حذف الارتباط (الارتباطات) بنجاح."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s! Object already linked as %s."
-msgstr ""
+msgstr "لا يمكن إنشاء إرتباط مع %s! تم ربط الكائن بالفعل ك %s."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "Can not create link with %s!"
-msgstr ""
+msgstr "لا يمكن إنشاء إرتباط مع %s!"
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "%s links added successfully."
-msgstr ""
+msgstr "%s الارتباطات المضافة بنجاح."
 
 #. Perl Module: Kernel/Modules/AgentLinkObject.pm
 msgid "The object %s cannot link with other object!"
-msgstr ""
+msgstr "يتعذر على الكائن %s الارتباط بكائن آخر!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Param Group is required!"
-msgstr ""
+msgstr "المعلمة \"المجموعة\" مطلوبة!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "This feature is not available."
-msgstr ""
+msgstr "هذه الميزة غير متوفرة."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Updated user preferences"
-msgstr ""
+msgstr "تم تحديث إعدادات المستخدم"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to deploy your changes."
-msgstr ""
+msgstr "تعذر على النظام نشر التغييرات."
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "Setting not found!"
-msgstr ""
+msgstr "لم يتم العثور على الإعداد!"
 
 #. Perl Module: Kernel/Modules/AgentPreferences.pm
 msgid "System was unable to reset the setting!"
-msgstr ""
+msgstr "تعذر على النظام إعادة تعيين الإعداد!"
 
 #. Perl Module: Kernel/Modules/AgentSplitSelection.pm
 msgid "Process ticket"
-msgstr ""
+msgstr "عملية التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Parameter %s is missing."
-msgstr ""
+msgstr "المعلمة %s مفقودة."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Invalid Subaction."
-msgstr ""
+msgstr "إجراء فرعي غير صالح."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Statistic could not be imported."
-msgstr ""
+msgstr "تعذر إستيراد الإحصائيات."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Please upload a valid statistic file."
-msgstr ""
+msgstr "الرجاء تحميل ملف إحصائي صالح."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Export: Need StatID!"
-msgstr ""
+msgstr "التصدير: StatID مطلوب!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Delete: Get no StatID!"
-msgstr ""
+msgstr "حذف: لم يتم تلقي StatID!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Need StatID!"
-msgstr ""
+msgstr "أحتاج إلى StatID!"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not load stat."
-msgstr ""
+msgstr "تعذر تحميل الحالة."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Add New Statistic"
-msgstr ""
+msgstr "إضافة إحصائية جديدة"
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Could not create statistic."
-msgstr ""
+msgstr "تعذر إنشاء إحصائيات."
 
 #. Perl Module: Kernel/Modules/AgentStatistics.pm
 msgid "Run: Get no %s!"
-msgstr ""
+msgstr "تشغيل: لم يتم تلقي %s!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Got no %s!"
-msgstr ""
+msgstr "%s غير موجودة!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Add New Statistics Report"
-msgstr ""
+msgstr "إضافة تقرير إحصائيات جديد"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "This name is already in use, please choose a different one."
-msgstr ""
+msgstr "هذا الاسم قيد الاستخدام بالفعل، الرجاء إختيار اسم آخر."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not create report."
-msgstr ""
+msgstr "تعذر إنشاء تقرير."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Need StatsReportID!"
-msgstr ""
+msgstr "مطلوب StatsReportID!"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Edit Statistics Report"
-msgstr ""
+msgstr "تحرير تقرير الإحصائيات"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not find report."
-msgstr ""
+msgstr "تعذر العثور على التقرير."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Please provide a valid cron entry."
-msgstr ""
+msgstr "يرجى توفير إدخال cron صالح."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Could not update report."
-msgstr ""
+msgstr "تعذر تحديث التقرير."
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "View Statistics Report"
-msgstr ""
+msgstr "عرض تقرير الإحصائيات"
 
 #. Perl Module: Kernel/Modules/AgentStatisticsReports.pm
 msgid "Delete: Got no StatsReportID!"
-msgstr ""
+msgstr "حذف: لم يتم الحصول على StatsReportID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No TicketID is given!"
-msgstr ""
+msgstr "لم يتم إعطاء TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "You need %s permissions!"
-msgstr ""
+msgstr "تحتاج إلى أذونات %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Loading draft failed!"
-msgstr ""
+msgstr "فشل تحميل المسودة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Sorry, you need to be the ticket owner to perform this action."
-msgstr ""
+msgstr "عذرا، يجب أن تكون مالك التذكرة لتنفيذ هذا الإجراء."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
