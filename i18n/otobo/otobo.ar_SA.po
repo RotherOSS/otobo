@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-28 17:30+0000\n"
+"PO-Revision-Date: 2022-11-30 04:01+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14120,31 +14120,31 @@ msgstr "عذرا، يجب أن تكون مالك التذكرة لتنفيذ ه�
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Please change the owner first."
-msgstr ""
+msgstr "الرجاء تغيير المالك أولا."
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft functionality disabled!"
-msgstr ""
+msgstr "لم يتم تنشيط وظيفة المسودة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Draft name is required!"
-msgstr ""
+msgstr "اسم المسودة مطلوب!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "FormDraft name %s is already in use!"
-msgstr ""
+msgstr "تم تعيين الاسم %s بالفعل!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not perform validation on field %s!"
-msgstr ""
+msgstr "تعذر إجراء التحقق من الصحة على الحقل %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "No subject"
-msgstr ""
+msgstr "لا يوجد عنوان"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Could not delete draft!"
-msgstr ""
+msgstr "تعذر حذف المسودة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Previous Owner"
@@ -14156,96 +14156,104 @@ msgstr "كتب"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "Message from"
-msgstr ""
+msgstr "رسالة من"
 
 #. Perl Module: Kernel/Modules/AgentTicketActionCommon.pm
 msgid "End message"
-msgstr ""
+msgstr "نهاية الرسالة"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "%s is needed!"
-msgstr ""
+msgstr "%s مطلوب!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Plain article not found for article %s!"
-msgstr ""
+msgstr "لم يتم العثور على نسخة نصية فقط للمقالة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Article does not belong to ticket %s!"
-msgstr ""
+msgstr "لا تنتمي المقالة إلى التذكرة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't bounce email!"
-msgstr ""
+msgstr "لا يمكن رفض البريد الإلكتروني!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Can't send email!"
-msgstr ""
+msgstr "لا يمكن إرسال البريد الإلكتروني!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBounce.pm
 msgid "Wrong Subaction!"
-msgstr ""
+msgstr "إجراء فرعي غير صحيح!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Can't lock Tickets, no TicketIDs are given!"
-msgstr ""
+msgstr "لا يمكن قفل التذاكر، لا يتم إعطاء TicketIDs!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Ticket (%s) is not unlocked!"
-msgstr ""
+msgstr "لم يتم إلغاء تأمين التذكرة (%s)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to tickets: %s."
 msgstr ""
+"تم تجاهل التذاكر التالية لأنها مؤمنة بواسطة وكيل آخر أو ليس لديك حق الوصول "
+"للكتابة إلى التذاكر: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following ticket was ignored because it is locked by another agent or "
 "you don't have write access to ticket: %s."
 msgstr ""
+"تم تجاهل التذكرة التالية لأنها مؤمنة بواسطة عميل آخر أو ليس لديك حق الوصول "
+"للكتابة إلى التذكرة: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "You need to select at least one ticket."
-msgstr ""
+msgstr "يجب تحديد تذكرة واحدة على الأقل."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "Bulk feature is not enabled!"
-msgstr ""
+msgstr "لم يتم تنشيط ميزة معالجة الدفعات!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "No selectable TicketID is given!"
-msgstr ""
+msgstr "لم يتم توفير TicketID قابل للتحديد!"
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "You either selected no ticket or only tickets which are locked by other "
 "agents."
 msgstr ""
+"إما أنك لم تقم بتحديد تذكرة أو التذاكر فقط التي تم تأمينها بواسطة وكلاء "
+"آخرين."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid ""
 "The following tickets were ignored because they are locked by another agent "
 "or you don't have write access to these tickets: %s."
 msgstr ""
+"تم تجاهل التذاكر التالية لأنها مؤمنة بواسطة وكيل آخر أو ليس لديك حق الوصول "
+"للكتابة إلى هذه التذاكر: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketBulk.pm
 msgid "The following tickets were locked: %s."
-msgstr ""
+msgstr "تم تأمين التذاكر التالية: %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid ""
 "Article subject will be empty if the subject contains only the ticket hook!"
-msgstr ""
+msgstr "سيكون موضوع المقالة فارغا إذا كان الموضوع يحتوي على Ticket-Hook فقط!"
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Address %s replaced with registered customer address."
-msgstr ""
+msgstr "تم إستبدال العنوان %s بعنوان عميل مسجل."
 
 #. Perl Module: Kernel/Modules/AgentTicketCompose.pm
 msgid "Customer user automatically added in Cc."
-msgstr ""
+msgstr "تمت إضافة مستخدم العميل تلقائيا في Cc."
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "Ticket \"%s\" created!"
@@ -14253,19 +14261,19 @@ msgstr "البطاقة \"%s\" أنشئت!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmail.pm
 msgid "No Subaction!"
-msgstr ""
+msgstr "لا يوجد إجراء فرعي!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "Got no TicketID!"
-msgstr ""
+msgstr "لم تحصل على TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailOutbound.pm
 msgid "System Error!"
-msgstr ""
+msgstr "خطأ في النظام!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEmailResend.pm
 msgid "No ArticleID is given!"
-msgstr ""
+msgstr "لا يوجد ArticleID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Next week"
@@ -14273,47 +14281,47 @@ msgstr "الأسبوع القادم"
 
 #. Perl Module: Kernel/Modules/AgentTicketEscalationView.pm
 msgid "Ticket Escalation View"
-msgstr ""
+msgstr "طريقة عرض تصعيد التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Article %s could not be found!"
-msgstr ""
+msgstr "تعذر العثور على المقالة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "Forwarded message from"
-msgstr ""
+msgstr "رسالة تمت إعادة توجيهها من"
 
 #. Perl Module: Kernel/Modules/AgentTicketForward.pm
 msgid "End forwarded message"
-msgstr ""
+msgstr "نهاية الرسالة المعاد توجيهها"
 
 #. Perl Module: Kernel/Modules/AgentTicketHistory.pm
 msgid "Can't show history, no TicketID is given!"
-msgstr ""
+msgstr "لا يمكن إظهار السجل، لم يتم استلام TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Can't lock Ticket, no TicketID is given!"
-msgstr ""
+msgstr "لا يمكن تأمين التذكرة، لا يتم إعطاء TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Sorry, the current owner is %s!"
-msgstr ""
+msgstr "عذرا، المالك الحالي هو %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Please become the owner first."
-msgstr ""
+msgstr "من فضلك كن المالك أولا."
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Ticket (ID=%s) is locked by %s!"
-msgstr ""
+msgstr "تم تأمين التذكرة (ID=%s) بواسطة ٪s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
-msgstr ""
+msgstr "تغيير المالك!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "New Article"
-msgstr ""
+msgstr "مقالة جديدة"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "Pending"
@@ -14321,47 +14329,47 @@ msgstr "تحت الإنتظار"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "Reminder Reached"
-msgstr ""
+msgstr "تم الوصول إلى التذكير"
 
 #. Perl Module: Kernel/Modules/AgentTicketLockedView.pm
 msgid "My Locked Tickets"
-msgstr ""
+msgstr "تذاكري المقفلة"
 
 #. Perl Module: Kernel/Modules/AgentTicketMerge.pm
 msgid "Can't merge ticket with itself!"
-msgstr ""
+msgstr "لا يمكن دمج التذكرة مع نفسها!"
 
 #. Perl Module: Kernel/Modules/AgentTicketMove.pm
 msgid "You need move permissions!"
-msgstr ""
+msgstr "تحتاج إلى أذونات النقل!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "Chat is not active."
-msgstr ""
+msgstr "الدردشة غير نشطة."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "No permission."
-msgstr ""
+msgstr "لا يوجد إذن."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "%s has left the chat."
-msgstr ""
+msgstr "%s غادر المحادثة."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhone.pm
 msgid "This chat has been closed and will be removed in %s hours."
-msgstr ""
+msgstr "تم إغلاق هذه المحادثة وسيتم إزالتها خلال %s ساعة/ساعات."
 
 #. Perl Module: Kernel/Modules/AgentTicketPhoneCommon.pm
 msgid "Ticket locked."
-msgstr ""
+msgstr "تم تأمين التذكرة."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "No ArticleID!"
-msgstr ""
+msgstr "لا يوجد ArticleID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid "This is not an email article."
-msgstr ""
+msgstr "هذه ليست مقالة بريد إلكتروني."
 
 #. Perl Module: Kernel/Modules/AgentTicketPlain.pm
 msgid ""
