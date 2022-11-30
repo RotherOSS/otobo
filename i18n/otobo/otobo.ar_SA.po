@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-30 04:01+0000\n"
+"PO-Revision-Date: 2022-11-30 09:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14313,7 +14313,7 @@ msgstr "من فضلك كن المالك أولا."
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Ticket (ID=%s) is locked by %s!"
-msgstr "تم تأمين التذكرة (ID=%s) بواسطة ٪s!"
+msgstr "تم تأمين التذكرة (ID=%s) بواسطة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketLock.pm
 msgid "Change the owner!"
@@ -14376,18 +14376,20 @@ msgid ""
 "Can't read plain article! Maybe there is no plain email in backend! Read "
 "backend message."
 msgstr ""
+"لا يمكن قراءة مقال النص العادي. قد لا يكون إصدار النص العادي موجودًا. الرجاء "
+"قراءة الرسالة الخلفية."
 
 #. Perl Module: Kernel/Modules/AgentTicketPrint.pm
 msgid "Need TicketID!"
-msgstr ""
+msgstr "بحاجة إلى TicketID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "تعذر العثور على ActivityDialogEntityID %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No Process configured!"
-msgstr ""
+msgstr "لم يتم تكوين أي عملية!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "The selected process is invalid!"
@@ -14395,80 +14397,84 @@ msgstr "العلملية التي تم إختيارها غير صحيحة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process %s is invalid!"
-msgstr ""
+msgstr "العملية %s غير صالحة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Subaction is invalid!"
-msgstr ""
+msgstr "الإجراء الفرعي غير صالح!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Parameter %s is missing in %s."
-msgstr ""
+msgstr "المعلمة %s مفقودة في %s."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "No ActivityDialog configured for %s in _RenderAjax!"
-msgstr ""
+msgstr "لا يوجد مربع حوار نشاط ل %s المحدد في _RenderAjax!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Got no Start ActivityEntityID or Start ActivityDialogEntityID for Process: "
 "%s in _GetParam!"
 msgstr ""
+"لم يتم الحصول على Start ActivityEntityID أو Start ActivityDialogEntityID "
+"للعملية: %s في _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Ticket for TicketID: %s in _GetParam!"
-msgstr ""
+msgstr "تعذر الحصول على تذكرة ل TicketID: %s في _GetParam!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Couldn't determine ActivityEntityID. DynamicField or Config isn't set "
 "properly!"
-msgstr ""
+msgstr "تعذر تعريف ActivityEntityID. حقل ديناميكي أو تكوين غير صحيح!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Process::Default%s Config Value missing!"
-msgstr ""
+msgstr "العملية: القيمة الافتراضية%s للتكوين مفقودة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Got no ProcessEntityID or TicketID and ActivityDialogEntityID!"
-msgstr ""
+msgstr "لم يتم الحصول على ProcessEntityID أو TicketID و ActivityDialogEntityID!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get StartActivityDialog and StartActivityDialog for the "
 "ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "يتعذر الحصول على StartActivityDialog لمعرف ProcessEntityID %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Ticket \"%s\"!"
-msgstr ""
+msgstr "لا يمكن الحصول على تذكرة \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get ProcessEntityID or ActivityEntityID for Ticket \"%s\"!"
-msgstr ""
+msgstr "يتعذر الحصول على ProcessEntityID أو ActivityEntityID للتذكرة \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get Activity configuration for ActivityEntityID \"%s\"!"
-msgstr ""
+msgstr "يتعذر العثور على تكوين النشاط ل \"ActivityEntityID \"%s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Can't get ActivityDialog configuration for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "يتعذر العثور على تكوين مربع حوار النشاط ل ActivityDialogEntityID %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Can't get data for Field \"%s\" of ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "لا يمكن الحصول على بيانات للحقل \"%s\" في مربع حوار النشاط \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "PendingTime can just be used if State or StateID is configured for the same "
 "ActivityDialog. ActivityDialog: %s!"
 msgstr ""
+"لا يمكن استخدام وقت الانتظار إلا إذا تم تكوين الحالة أو معرّف الحالة لمربع "
+"حوار النشاط. مربع حوار النشاط: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Pending Date"
-msgstr "تاريخ الإنتظار"
+msgstr "انتظر حتى"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "for pending* states"
@@ -14476,11 +14482,11 @@ msgstr "حالة الإنتظار*"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "ActivityDialogEntityID missing!"
-msgstr ""
+msgstr "ActivityDialogEntityID مفقود!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't get Config for ActivityDialogEntityID \"%s\"!"
-msgstr ""
+msgstr "تعذر تحديد تكوين ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
