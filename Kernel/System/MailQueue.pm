@@ -614,6 +614,10 @@ sub Send {
 
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
+    # Lookup for the communication id for the processing mail-queue item.
+    $Param{CommunicationLogObject} = $Self->_GetCommunicationLog( %Param, );
+    $Param{CommunicationID}        = $Param{CommunicationLogObject}->CommunicationIDGet();
+
     # Check for required data.
     for my $Argument (qw(ID Recipient Message)) {
         if ( !$Param{$Argument} ) {
@@ -666,9 +670,7 @@ sub Send {
         }
     }
 
-    # Lookup for the communication id for the processing mail-queue item.
-    $Param{CommunicationLogObject} = $Self->_GetCommunicationLog( %Param, );
-    $Param{CommunicationID}        = $Param{CommunicationLogObject}->CommunicationIDGet();
+
 
     # If DueTime is bigger than current time, skip, it is not time to run yet.
     my $CurrentSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
