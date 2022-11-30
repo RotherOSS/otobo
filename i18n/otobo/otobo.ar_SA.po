@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-30 09:28+0000\n"
+"PO-Revision-Date: 2022-12-01 01:39+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14490,24 +14490,24 @@ msgstr "تعذر تحديد تكوين ActivityDialogEntityID \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't use CustomerID as an invisible field."
-msgstr ""
+msgstr "تعذر إستخدام CustomerID كحقل غير مرئي."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID, check your ActivityDialogHeader.tt!"
-msgstr ""
+msgstr "ProcessEntityID مفقود، الرجاء التحقق من ActivityDialogHeader.tt!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "No StartActivityDialog or StartActivityDialog for Process \"%s\" configured!"
-msgstr ""
+msgstr "لم يتم تكوين StartActivityDialog أو StartActivityDialog للعملية \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't create ticket for Process with ProcessEntityID \"%s\"!"
-msgstr ""
+msgstr "لم يتم تكوين StartActivityDialog للعملية \"٪s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ProcessEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "تعذر تعيين معرف ProcessEntityID \"%s\" للتذكرة \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
