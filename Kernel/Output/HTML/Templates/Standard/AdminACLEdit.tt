@@ -242,7 +242,7 @@
                 </div>
             </div>
 
-            <div class="WidgetSimple ScreenXL">
+            <div class="WidgetSimple Expanded">
                 <div class="Header">
                     <h2>[% Translate("Save ACL") | html %]</h2>
                 </div>
