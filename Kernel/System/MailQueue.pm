@@ -670,8 +670,6 @@ sub Send {
         }
     }
 
-
-
     # If DueTime is bigger than current time, skip, it is not time to run yet.
     my $CurrentSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
     my $DueTime            = $Param{DueTime};
