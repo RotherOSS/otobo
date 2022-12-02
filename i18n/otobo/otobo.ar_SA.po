@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-02 16:10+0000\n"
+"PO-Revision-Date: 2022-12-03 05:09+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14720,15 +14720,15 @@ msgstr "تمت إضافة الملاحظة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
-msgstr ""
+msgstr "تمت إضافة الملاحظة (العميل)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added"
-msgstr ""
+msgstr "تم إضافة رسائل SMS"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SMS Added (Customer)"
-msgstr ""
+msgstr "SMS المضافة (العميل)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "State Updated"
