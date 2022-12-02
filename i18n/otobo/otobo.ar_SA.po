@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-01 10:04+0000\n"
+"PO-Revision-Date: 2022-12-02 16:10+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14511,19 +14511,19 @@ msgstr "تعذر تعيين معرف ProcessEntityID \"%s\" للتذكرة \"%s\
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Couldn't set ActivityEntityID \"%s\" on TicketID \"%s\"!"
-msgstr ""
+msgstr "تعذر تعيين ActivityEntityID \"%s\" على التذكرة \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not store ActivityDialog, invalid TicketID: %s!"
-msgstr ""
+msgstr "تعذر حفظ مربع حوار النشاط، معرف تذكرة غير صالح: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Invalid TicketID: %s!"
-msgstr ""
+msgstr "معرف التذكرة غير صالح: %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ActivityEntityID in Ticket %s!"
-msgstr ""
+msgstr "ActivityEntityID مفقود للتذكرة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14531,21 +14531,26 @@ msgid ""
 "ticket '%s%s%s'! Another user changed this ticket in the meantime. Please "
 "close this window and reload the ticket."
 msgstr ""
+"لم تعد هذه الخطوة جزءا من نشاط العملية الحالي للتذكرة '%s%s%s'! قام مستخدم "
+"آخر بتغيير التذكرة في غضون ذلك. الرجاء إغلاق هذه النافذة وإعادة تحميل "
+"التذكرة."
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Missing ProcessEntityID in Ticket %s!"
-msgstr ""
+msgstr "ProcessEntityID مفقود للتذكرة %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set DynamicField value for %s of Ticket with ID \"%s\" in "
 "ActivityDialog \"%s\"!"
 msgstr ""
+"تعذر حفظ الحقل الديناميكي \"%s\" لمعرف التذكرة \"%s\" في مربع حوار النشاط \"%"
+"s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
 "Could not set PendingTime for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "تعذر توفير وقت الانتظار%s لمعرّف التذكرة %s في مربع حوار النشاط \"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid ""
@@ -14553,54 +14558,57 @@ msgid ""
 "(Please change its configuration to be Display => 0 / Do not show field or "
 "Display => 2 / Show field as mandatory)!"
 msgstr ""
+"تكوين حقل غير صحيح في مربع حوار النشاط: لا يمكن أن تحتوي %s على القيمة 1 (= "
+"إظهار الحقل) للعرض. يرجى تغيير التكوين إلى عرض = > 0 (لا تظهر الحقل) أو عرض "
+"= > 2 (إظهار كحقل إلزامي)!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Could not set %s for Ticket with ID \"%s\" in ActivityDialog \"%s\"!"
-msgstr ""
+msgstr "تعذر تعيين %s للتذكرة ذات المعرف \"%s\" في ActivityDialog\"%s\"!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s missing!"
-msgstr ""
+msgstr "التكوين الافتراضي ل Process::Default%s مفقود!"
 
 #. Perl Module: Kernel/Modules/AgentTicketProcess.pm
 msgid "Default Config for Process::Default%s invalid!"
-msgstr ""
+msgstr "التكوين الافتراضي ل Process::Default%s غير صالح!"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "Available tickets"
-msgstr ""
+msgstr "التذاكر المتوفرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "including subqueues"
-msgstr ""
+msgstr "تضمين قوائم الانتظار الفرعية"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "excluding subqueues"
-msgstr ""
+msgstr "إستثناء قوائم الانتظار الفرعية"
 
 #. Perl Module: Kernel/Modules/AgentTicketQueue.pm
 msgid "QueueView"
-msgstr "عرض القائمة"
+msgstr "عرض قائمة الانتظار"
 
 #. Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
 msgid "My Responsible Tickets"
-msgstr ""
+msgstr "تذاكر مسؤوليتي"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "last-search"
-msgstr ""
+msgstr "آخر بحث"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Untitled"
-msgstr ""
+msgstr "بدون عنوان"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket Number"
-msgstr "رقم البطاقة"
+msgstr "رقم التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Ticket"
-msgstr "البطاقة"
+msgstr "التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
@@ -14608,27 +14616,27 @@ msgstr "طبع بواسطة"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (complex search)"
-msgstr ""
+msgstr "رقم العميل (بحث معقد)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (exact match)"
-msgstr ""
+msgstr "رقم العميل (مطابق تماما)"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Invalid Users"
-msgstr ""
+msgstr "مستخدمون غير صالحين"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Normal"
-msgstr "عادي"
+msgstr "عَادِيٌّ"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "Excel"
-msgstr ""
+msgstr "Excel"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "in more than ..."
@@ -14636,79 +14644,79 @@ msgstr "في أكثر من ..."
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Feature not enabled!"
-msgstr ""
+msgstr "لم يتم تمكين الميزة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketService.pm
 msgid "Service View"
-msgstr ""
+msgstr "عرض حسب الخدمات"
 
 #. Perl Module: Kernel/Modules/AgentTicketStatusView.pm
 msgid "Status View"
-msgstr ""
+msgstr "عرض حسب الحالة"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatchView.pm
 msgid "My Watched Tickets"
-msgstr ""
+msgstr "التذاكر المرصودة لي"
 
 #. Perl Module: Kernel/Modules/AgentTicketWatcher.pm
 msgid "Feature is not active"
-msgstr ""
+msgstr "الميزة غير نشطة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Deleted"
-msgstr ""
+msgstr "تم حذف الارتباط"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Locked"
-msgstr ""
+msgstr "التذكرة مقفلة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Pending Time Set"
-msgstr ""
+msgstr "تعيين وقت الانتظار"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Dynamic Field Updated"
-msgstr ""
+msgstr "تم تحديث الحقل الديناميكي"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email (internal)"
-msgstr ""
+msgstr "البريد الإلكتروني الصادر (داخلي)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Created"
-msgstr ""
+msgstr "تم إنشاء التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Type Updated"
-msgstr ""
+msgstr "تم تحديث النوع"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time In Effect"
-msgstr ""
+msgstr "تم تفعيل تصعيد \"وقت التحديث\""
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Update Time Stopped"
-msgstr ""
+msgstr "تم إيقاف وقت تحديث التصعيد"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation First Response Time Stopped"
-msgstr ""
+msgstr "تم إيقاف وقت الاستجابة الأولى للتصعيد"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Customer Updated"
-msgstr ""
+msgstr "تم تحديث العميل"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Internal Chat"
-msgstr ""
+msgstr "الدردشة (داخلية)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Follow-Up Sent"
-msgstr ""
+msgstr "تم إرسال الاستعلام التلقائي"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added"
-msgstr ""
+msgstr "تمت إضافة الملاحظة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Note Added (Customer)"
