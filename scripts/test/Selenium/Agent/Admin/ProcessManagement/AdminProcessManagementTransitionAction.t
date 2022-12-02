@@ -99,7 +99,7 @@ $Selenium->RunTest(
 
         # Input fields and submit.
         my $TransitionActionModule = "Kernel::System::ProcessManagement::TransitionAction::TicketArticleCreate";
-        my $TransitionActionKey    = "Key" . $RandomID;
+        my $TransitionActionKey    = "Body";
         my $TransitionActionValue  = "Value" . $RandomID;
 
         $Selenium->find_element( "#Name", 'css' )->send_keys($TransitionActionRandom);
@@ -107,8 +107,7 @@ $Selenium->RunTest(
             Element => '#Module',
             Value   => $TransitionActionModule,
         );
-        $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKey);
-        $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValue);
+        $Selenium->find_element(".//*[\@id='ConfigValue[5]']")->send_keys($TransitionActionValue);
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Switch back to main window.
@@ -216,6 +215,11 @@ $Selenium->RunTest(
             "ConfigValue stored value",
         );
 
+        # Remove all except one rows
+        while ( scalar @{ $Selenium->find_elements( ".RemoveButton", 'css' ) } > 2 ) {
+            $Selenium->find_element( ".RemoveButton", 'css' )->click();
+        }
+
         # Try to remove only possible Config Parameters.
         $Selenium->find_element( ".RemoveButton", 'css' )->click();
 
@@ -226,16 +230,18 @@ $Selenium->RunTest(
             "Unable to remove only field - JS is success"
         );
 
+        $Selenium->find_element(".//*[\@id='ConfigValue[13]']")->send_keys($TransitionActionValue);
+
         # Add new Config key and value.
         $Selenium->find_element( "#ConfigAdd", 'css' )->click();
 
         # Verify newly added fields.
         $Self->True(
-            $Selenium->find_element(".//*[\@id='ConfigKey[2]']"),
+            $Selenium->find_element(".//*[\@id='ConfigKey[14]']"),
             "New Config key field is added - JS is success"
         );
         $Self->True(
-            $Selenium->find_element(".//*[\@id='ConfigValue[2]']"),
+            $Selenium->find_element(".//*[\@id='ConfigValue[14]']"),
             "New Config value field is added - JS is success"
         );
 
@@ -250,14 +256,15 @@ $Selenium->RunTest(
             "New Config key and value fields are removed - JS is success"
         );
 
+        $DB::single = 1;
         # Edit test TransactionAction values.
         my $TransitionActionKeyEdit   = $TransitionActionKey . "edit";
         my $TransitionActionValueEdit = $TransitionActionValue . "edit";
         $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
-        $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->clear();
-        $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->send_keys($TransitionActionKeyEdit);
-        $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->clear();
-        $Selenium->find_element(".//*[\@id='ConfigValue[1]']")->send_keys($TransitionActionValueEdit);
+        $Selenium->find_element(".//*[\@id='ConfigKey[13]']")->clear();
+        $Selenium->find_element(".//*[\@id='ConfigKey[13]']")->send_keys($TransitionActionKeyEdit);
+        $Selenium->find_element(".//*[\@id='ConfigValue[13]']")->clear();
+        $Selenium->find_element(".//*[\@id='ConfigValue[13]']")->send_keys($TransitionActionValueEdit);
         $Selenium->find_element( "#Submit", 'css' )->click();
 
         # Return to main window after the popup closed, as the popup sends commands to the main window.
