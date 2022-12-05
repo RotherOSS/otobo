@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-05 13:19+0000\n"
+"PO-Revision-Date: 2022-12-05 22:09+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15007,44 +15007,46 @@ msgstr "تم إنشاؤه قبل أكثر من ..."
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
 "Please remove the following words because they cannot be used for the search:"
-msgstr ""
+msgstr "الرجاء إزالة الكلمات التالية لأنه لا يمكن إستخدامها للبحث:"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Could not load process module."
-msgstr ""
+msgstr "تعذر تحميل وحدة العملية."
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Can't reopen ticket, not possible in this queue!"
-msgstr ""
+msgstr "تعذر إعادة فتح التذكرة. غير ممكن في قائمة الانتظار هذه!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketZoom.pm
 msgid "Create a new ticket!"
-msgstr ""
+msgstr "إنشاء تذكرة جديدة!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "SecureMode active!"
-msgstr ""
+msgstr "الوضع الآمن نشط!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to re-run the Installer, disable the SecureMode in the SysConfig."
 msgstr ""
+"إذا كنت ترغب في إعادة تشغيل برنامج التثبيت، فقم بتعطيل الوضع الآمن "
+"\"SecureMode\" في إعدادات التكوين \"SysConfig\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" doesn't exist!"
-msgstr ""
+msgstr "الدليل ‎\"%s\"‎ غير موجود!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure \"Home\" in Kernel/Config.pm first!"
-msgstr ""
+msgstr "قم أولا بتكوين \"الصفحة الرئيسية\" في Kernel/Config.pm!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/Kernel/Config.pm\" not found!"
-msgstr ""
+msgstr "تعذر العثور على الملف ‎\"%s/Kernel/Config.pm\"‎!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Directory \"%s\" not found!"
-msgstr ""
+msgstr "الدليل \"‎‎%s\" غير موجود!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO"
@@ -15056,13 +15058,15 @@ msgstr "مقدمة"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Kernel/Config.pm isn't writable!"
-msgstr ""
+msgstr "Kernel/Config.pm غير قابل للكتابة!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
 "If you want to use the installer, set the Kernel/Config.pm writable for the "
 "webserver user!"
 msgstr ""
+"إذا كنت ترغب في إستخدام المثبت، فتأكد من أن مستخدم خادم الويب قابل للكتابة "
+"على Kernel/Config.pm!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database Selection"
@@ -15070,11 +15074,11 @@ msgstr "اختيار قاعدة البيانات"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Check!"
-msgstr ""
+msgstr "فحص غير معروف!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "The check \"%s\" doesn't exist!"
-msgstr ""
+msgstr "التحقق \"‎%s\" غير موجود!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the database user."
@@ -15082,11 +15086,11 @@ msgstr "ادخل كلمة المرور لمستخدم قاعدة البيانا�
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure MySQL"
-msgstr ""
+msgstr "تكوين MySQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database %s"
-msgstr ""
+msgstr "قاعدة البيانات ‎%s"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Enter the password for the administrative database user."
@@ -15094,19 +15098,19 @@ msgstr "ادخل كلمة المرور المستخدم المسؤول لقاع�
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure PostgreSQL"
-msgstr ""
+msgstr "تكوين PostgreSQL"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Oracle"
-msgstr ""
+msgstr "تكوين Oracle"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown database type \"%s\"."
-msgstr ""
+msgstr "نوع قاعدة البيانات غير معروف \"‎%s\"."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Please go back."
-msgstr ""
+msgstr "من فضلك ارجع."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Create Database"
@@ -15114,27 +15118,27 @@ msgstr "إنشاء قاعدة بيانات"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Install OTOBO - Error"
-msgstr ""
+msgstr "تثبيت OTOBO - خطأ"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "File \"%s/%s.xml\" not found!"
-msgstr ""
+msgstr "لم يتم العثور على الملف \"‎%s/%s.xml\"!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Contact your Admin!"
-msgstr ""
+msgstr "اتصل بالمسؤول!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Execution of SQL statement failed: "
-msgstr ""
+msgstr "فشل تنفيذ جملة SQL: "
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
-msgstr ""
+msgstr "https"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "http"
-msgstr ""
+msgstr "http"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "System Settings"
@@ -15142,7 +15146,7 @@ msgstr "إعدادات النظام"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Syslog"
-msgstr ""
+msgstr "سجل النظام (Syslog)"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Configure Mail"
@@ -15154,19 +15158,20 @@ msgstr "اعدادات البريد الإلكتروني"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Unknown Subaction %s!"
-msgstr ""
+msgstr "إجراء فرعي غير معروف ‎%s!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, Perl module DBD::%s not installed!"
-msgstr ""
+msgstr "يتعذر الاتصال بقاعدة البيانات، لم يتم تثبيت وحدة Perl النمطية ‎DBD::%s!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Can't connect to database, read comment!"
-msgstr ""
+msgstr "يتعذر الاتصال بقاعدة البيانات، الرجاء قراءة الملاحظة!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Database already contains data - it should be empty!"
-msgstr "تحتوي قاعدة البيانات على بيانات حالياً - يفترض أن تكون فارغه!"
+msgstr ""
+"تحتوي قاعدة البيانات بالفعل على بيانات، على الرغم من أنها يجب أن تكون فارغة!"
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -15174,6 +15179,9 @@ msgid ""
 "(it currently only accepts packages up to %s MB). Please adapt the "
 "max_allowed_packet setting of your database in order to avoid errors."
 msgstr ""
+"خطأ: الرجاء التأكد من قبول قاعدة البيانات للحزم التي يزيد حجمها عن ‎%s "
+"ميغابايت (تقبل حاليا الحزم حتى ‎%s ميغابايت فقط). الرجاء تعديل إعداد "
+"max_allowed_packet لقاعدة البيانات لتجنب الأخطاء."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid ""
@@ -15181,12 +15189,17 @@ msgid ""
 "least %s MB (current: %s MB, recommended: %s MB). For more information, "
 "please have a look at %s."
 msgstr ""
+"خطأ: الرجاء تعيين قيمة INNODB_log_file_size في قاعدة البيانات إلى ‎%s "
+"ميغابايت على الأقل (الحالي: ‎%s ميغابايت، مستحسن: ‎%s ميغابايت). لمزيد من "
+"المعلومات، الرجاء إلقاء نظرة على ‎%s."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
 "the SysConfig."
 msgstr ""
+"إذا كنت تريد تشغيل أداة الترحيل MigrateFromOTRS مرة أخرى، فقم بتعطيل الوضع "
+"الآمن \"SecureMode\" في إعدادات التكوين (SysConfig)."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
