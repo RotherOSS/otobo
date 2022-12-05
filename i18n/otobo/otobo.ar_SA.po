@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-03 05:09+0000\n"
+"PO-Revision-Date: 2022-12-05 13:19+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -14732,272 +14732,277 @@ msgstr "SMS المضافة (العميل)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "State Updated"
-msgstr ""
+msgstr "تم تحديث الحالة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Answer"
-msgstr ""
+msgstr "إجابة صادرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Service Updated"
-msgstr ""
+msgstr "تم تحديث الخدمة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Link Added"
-msgstr ""
+msgstr "تمت إضافة الارتباط"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Customer Email"
-msgstr ""
+msgstr "البريد الإلكتروني الوارد (العميل)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Web Request"
-msgstr ""
+msgstr "طلب ويب وارد"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Priority Updated"
-msgstr ""
+msgstr "تم تحديث الأولوية"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Unlocked"
-msgstr ""
+msgstr "تم إلغاء تأمين التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Email"
-msgstr ""
+msgstr "البريد الإلكتروني الصادر"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Title Updated"
-msgstr ""
+msgstr "تم تحديث العنوان"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Ticket Merged"
-msgstr ""
+msgstr "تم دمج التذكرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Outgoing Phone Call"
-msgstr ""
+msgstr "مكالمة هاتفية صادرة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forwarded Message"
-msgstr ""
+msgstr "رسالة تمت إعادة توجيهها"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Removed User Subscription"
-msgstr ""
+msgstr "تمت إزالة اشتراك المستخدم"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Time Accounted"
-msgstr ""
+msgstr "الوقت المحسوب"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Phone Call"
-msgstr ""
+msgstr "مكالمة هاتفية واردة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "System Request."
-msgstr ""
+msgstr "طلب النظام."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Incoming Follow-Up"
-msgstr ""
+msgstr "استفسار وارد"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reply Sent"
-msgstr ""
+msgstr "تم إرسال الرد التلقائي"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Automatic Reject Sent"
-msgstr ""
+msgstr "تم إرسال الرفض التلقائي"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time In Effect"
-msgstr ""
+msgstr "التصعيد \"وقت الحل\" نشط"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Solution Time Stopped"
-msgstr ""
+msgstr "توقف التصعيد في وقت الحل"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time In Effect"
-msgstr ""
+msgstr "التصعيد في وقت الاستجابة نشط"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Escalation Response Time Stopped"
-msgstr ""
+msgstr "توقف التصعيد في وقت الاستجابة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "SLA Updated"
-msgstr ""
+msgstr "تم تحديث إتفاقية مستوى الخدمة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "External Chat"
-msgstr ""
+msgstr "الدردشة (خارجية)"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Queue Changed"
-msgstr ""
+msgstr "تم تغيير قائمة الانتظار"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Notification Was Sent"
-msgstr ""
+msgstr "تم إرسال الإخطار"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state."
 msgstr ""
+"هذه التذكرة غير موجودة أو ليس لديك الإذن للوصول إلى هذه التذكرة في حالتها "
+"الحالية."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Missing FormDraftID!"
-msgstr ""
+msgstr "FormDraftID مفقود!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Can't get for ArticleID %s!"
-msgstr ""
+msgstr "تعذر الحصول على معرّف العنصر %s!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article filter settings were saved."
-msgstr ""
+msgstr "تم حفظ إعدادات عامل تصفية المقالات."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Event type filter settings were saved."
-msgstr ""
+msgstr "تم حفظ إعدادات عامل تصفية نوع الحدث."
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Need ArticleID!"
-msgstr ""
+msgstr "مطلوب معرف المقالة!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Invalid ArticleID!"
-msgstr ""
+msgstr "معرف المقالة غير صالح!"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward article via mail"
-msgstr ""
+msgstr "إعادة توجيه المقالة عبر البريد الإلكتروني"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Forward"
-msgstr "تقديم"
+msgstr "إعادة توجيه"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Fields with no group"
-msgstr ""
+msgstr "حقول بدون مجموعة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Article could not be opened! Perhaps it is on another article page?"
-msgstr ""
+msgstr "تعذر فتح المقالة! ربما يكون على صفحة مقالة أخرى؟"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show one article"
-msgstr ""
+msgstr "إظهار مقالة واحدة"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show all articles"
-msgstr ""
+msgstr "إظهار كافة المقالات"
 
 #. Perl Module: Kernel/Modules/AgentTicketZoom.pm
 msgid "Show Ticket Timeline View"
-msgstr ""
+msgstr "عرض الجدول الزمني للتذكرة"
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid "Got no FormID."
-msgstr ""
+msgstr "FormID مفقود."
 
 #. Perl Module: Kernel/Modules/AjaxAttachment.pm
 msgid ""
 "Error: the file could not be deleted properly. Please contact your "
 "administrator (missing FileID)."
-msgstr ""
+msgstr "خطأ: تعذر حذف الملف بشكل صحيح. الرجاء الاتصال بالمسؤول (مفقود FileID)."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Either Module or "
 "Template needed."
 msgstr ""
+"تعذر تسجيل المربع %s في لوحة معلومات العميل! الوحدة النمطية أو القالب مفقود."
 
 #. Perl Module: Kernel/Modules/CustomerDashboardCommon.pm
 msgid ""
 "Registration for tile %s of CustomerDashboard is invalid! Order needs to be "
 "a unique number."
 msgstr ""
+"التسجيل في المربع %s من لوحة معلومات العميل غير صالح! يجب أن يكون الطلب رقمً"
+"ا فريدًا."
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Need Key!"
-msgstr ""
+msgstr "بحاجة الى مفتاح!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Invalid Key!"
-msgstr ""
+msgstr "مفتاح غير صالح!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Failed to load Content!"
-msgstr ""
+msgstr "فشل تحميل المحتوى!"
 
 #. Perl Module: Kernel/Modules/CustomerGenericContent.pm
 msgid "Destination unknown."
-msgstr ""
+msgstr "الوجهة غير معروفة."
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "ArticleID is needed!"
-msgstr ""
+msgstr "مطلوب معرف المقالة!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "No TicketID for ArticleID (%s)!"
-msgstr ""
+msgstr "لا يوجد معرف تذكرة لمعرف المقالة (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketArticleContent.pm
 msgid "HTML body attachment is missing!"
-msgstr ""
+msgstr "مرفق نص HTML مفقود!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "FileID and ArticleID are needed!"
-msgstr ""
+msgstr "يلزم وجود معرف الملف ومعرف المقالة!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketAttachment.pm
 msgid "No such attachment (%s)!"
-msgstr ""
+msgstr "لم يتم العثور على المرفق (%s)!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::QueueDefault."
-msgstr ""
+msgstr "تحقق من إعدادات التكوين ل‮‮ ‫‏‎%s::QueueDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid "Check SysConfig setting for %s::TicketTypeDefault."
-msgstr ""
+msgstr "تحقق من إعدادات التكوين ل ‏‎ %s::TicketTypeDefault."
 
 #. Perl Module: Kernel/Modules/CustomerTicketMessage.pm
 msgid ""
 "You don't have sufficient permissions for ticket creation in default queue."
-msgstr ""
+msgstr "ليس لديك أذونات كافية لإنشاء بطاقة في قائمة الانتظار الافتراضية."
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Need CustomerID!"
-msgstr ""
+msgstr "تحتاج إلى معرف العميل!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "My Tickets"
-msgstr ""
+msgstr "تذاكري"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Company Tickets"
-msgstr ""
+msgstr "تذاكر الشركة"
 
 #. Perl Module: Kernel/Modules/CustomerTicketOverview.pm
 msgid "Untitled!"
-msgstr ""
+msgstr "بدون عنوان!"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Customer Realname"
-msgstr ""
+msgstr "اسم العميل"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Created within the last"
-msgstr "تم إنشائها خلال ... الماضية"
+msgstr "تم إنشاؤه في آخر"
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid "Created more than ... ago"
-msgstr "تم إنشائها منذ أكثر من"
+msgstr "تم إنشاؤه قبل أكثر من ..."
 
 #. Perl Module: Kernel/Modules/CustomerTicketSearch.pm
 msgid ""
