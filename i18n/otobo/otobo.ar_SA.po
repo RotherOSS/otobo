@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-05 22:09+0000\n"
+"PO-Revision-Date: 2022-12-07 09:21+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15203,79 +15203,79 @@ msgstr ""
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
-msgstr ""
+msgstr "ترحيل OTRS إلى OTOBO"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No %s!"
-msgstr ""
+msgstr "لا ‎%s!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "No such user!"
-msgstr ""
+msgstr "لم يتم العثور على مستخدم!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid calendar!"
-msgstr ""
+msgstr "تقويم غير صالح!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "Invalid URL!"
-msgstr ""
+msgstr "عنوان URL غير صحيح!"
 
 #. Perl Module: Kernel/Modules/PublicCalendar.pm
 msgid "There was an error exporting the calendar!"
-msgstr ""
+msgstr "حدث خطأ أثناء تصدير التقويم!"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Need config Package::RepositoryAccessRegExp"
-msgstr ""
+msgstr "تحتاج التكوين Package::RepositoryAccessRegExp"
 
 #. Perl Module: Kernel/Modules/PublicRepository.pm
 msgid "Authentication failed from %s!"
-msgstr ""
+msgstr "فشلت المصادقة من ‎%s!"
 
 #. Perl Module: Kernel/Output/HTML/Article/Chat.pm
 msgid "Chat"
-msgstr ""
+msgstr "دردشة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
 msgid "Bounce Article to a different mail address"
-msgstr ""
+msgstr "إعادة توجيه العناصر عن طريق البريد الإلكتروني"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketBounce.pm
 msgid "Bounce"
-msgstr ""
+msgstr "إعادة توجيه"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketCompose.pm
 msgid "Reply All"
-msgstr ""
+msgstr "الرد على الكل"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend this article"
-msgstr ""
+msgstr "إعادة إرسال هذه المقالة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
 msgid "Resend"
-msgstr ""
+msgstr "إرسال مرة أخرى"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "View message log details for this article"
-msgstr ""
+msgstr "عرض سجل الرسائل لهذا العنصر"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketMessageLog.pm
 msgid "Message Log"
-msgstr ""
+msgstr "سجل الرسائل"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketNote.pm
 msgid "Reply to note"
-msgstr ""
+msgstr "الرد على الملاحظة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPhone.pm
 msgid "Split this article"
-msgstr ""
+msgstr "تقسيم هذه المقالة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "View the source for this Article"
-msgstr ""
+msgstr "عرض مصدر هذه المقالة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "Plain Format"
