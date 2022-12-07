@@ -20,13 +20,14 @@
 # Denis Renzi <itis05@virgilio.it>, 2020
 # niccord <cordioli.nicola@gmail.com>, 2021, 2022.
 # Massimo Composta <m.composta@e-time.it>, 2022.
+# Marco Ferrante <marco@csita.unige.it>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-07-25 11:04+0000\n"
-"Last-Translator: Massimo Composta <m.composta@e-time.it>\n"
+"PO-Revision-Date: 2022-12-07 21:26+0000\n"
+"Last-Translator: Marco Ferrante <marco@csita.unige.it>\n"
 "Language-Team: Italian <https://translate.otobo.org/projects/otobo10/otobo/"
 "it/>\n"
 "Language: it\n"
@@ -311,7 +312,7 @@ msgstr "Aggiungi Calendario"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Edit Calendar"
-msgstr "Modifica Celendario"
+msgstr "Modifica Calendario"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar Overview"
@@ -2835,11 +2836,11 @@ msgstr "Nessuna modifica tempo."
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed"
-msgstr "Ticket cambiato"
+msgstr "Ticket modificato"
 
 #. Template: AdminGenericAgent
 msgid "Ticket changed between"
-msgstr "Ticket cambiato fra"
+msgstr "Ticket modificato fra"
 
 #. Template: AdminGenericAgent
 msgid "Last close times"
@@ -20320,11 +20321,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "Dettagli"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Modifica i dettagli del ticket"
 
 #. SysConfig
 msgid "Change queue!"
