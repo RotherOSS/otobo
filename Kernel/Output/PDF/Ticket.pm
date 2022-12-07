@@ -258,9 +258,7 @@ sub GeneratePDF {
         'DateFormat',
     );
     if ( $Interface{Agent} ) {
-        $PrintedBy .= ' ' . $TicketInfo{User}{UserFullname} . ' ('
-            . $TicketInfo{User}{UserEmail} . ')'
-            . ', ' . $Time;
+        $PrintedBy .= " $TicketInfo{User}{UserFullname} ($TicketInfo{User}{UserEmail}), $Time";
     }
     elsif ( $Interface{Customer} ) {
         my %PrintingCustomerData = $CustomerUserObject->CustomerUserDataGet(
@@ -270,9 +268,7 @@ sub GeneratePDF {
             %PrintingCustomerData = %CustomerData;
         }
 
-        $PrintedBy .= ' ' . $PrintingCustomerData{UserFullname} . ' ('
-            . $PrintingCustomerData{UserEmail} . ')'
-            . ', ' . $Time;
+        $PrintedBy .= " $PrintingCustomerData{UserFullname} ($PrintingCustomerData{UserEmail}), $Time";
     }
 
     $PDFObject->Text(
