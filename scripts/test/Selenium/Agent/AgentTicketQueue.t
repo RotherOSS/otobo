@@ -384,6 +384,17 @@ $Selenium->RunTest(
             "Title for filtered AgentTicketQueue screen is not translated.",
         );
 
+        # PR #1958
+        # set filter
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Small;Filter=Unlocked;ColumnFilterState=4"
+        );
+        # medium view
+        $Selenium->VerifiedGet(
+            "${ScriptAlias}index.pl?Action=AgentTicketQueue;QueueID=$Queues[2]->{QueueID};View=Medium;ColumnFilterState=4"
+        );
+        $Selenium->find_element_by_css_ok('.RemoveFilters', 'trash can');
+
         # Check state ID for states 'open' and 'new'.
         my $StateObject = $Kernel::OM->Get('Kernel::System::State');
         my $OpenStateID = $StateObject->StateLookup(
