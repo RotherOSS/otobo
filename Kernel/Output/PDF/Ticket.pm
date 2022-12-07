@@ -173,7 +173,6 @@ sub GeneratePDF {
     # Get customer info.
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my %CustomerData;
-
     if ( $Ticket{CustomerUserID} ) {
         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             User => $Ticket{CustomerUserID},
