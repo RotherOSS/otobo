@@ -173,7 +173,6 @@ sub GeneratePDF {
     # Get customer info.
     my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
     my %CustomerData;
-    my %PrintingCustomerData;
 
     if ( $Ticket{CustomerUserID} ) {
         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
@@ -184,16 +183,6 @@ sub GeneratePDF {
         %CustomerData = $CustomerUserObject->CustomerUserDataGet(
             CustomerID => $Ticket{CustomerID},
         );
-    }
-
-    if ( $Interface{Customer} ) {
-        %PrintingCustomerData = $CustomerUserObject->CustomerUserDataGet(
-            User => $Param{UserID},
-        );
-    }
-
-    if ( !%PrintingCustomerData ) {
-        %PrintingCustomerData = %CustomerData;
     }
 
     # Transform time values into human readable form.
@@ -275,6 +264,13 @@ sub GeneratePDF {
             . ', ' . $Time;
     }
     elsif ( $Interface{Customer} ) {
+        my %PrintingCustomerData = $CustomerUserObject->CustomerUserDataGet(
+            User => $Param{UserID},
+        );
+        if ( !%PrintingCustomerData ) {
+            %PrintingCustomerData = %CustomerData;
+        }
+
         $PrintedBy .= ' ' . $PrintingCustomerData{UserFullname} . ' ('
             . $PrintingCustomerData{UserEmail} . ')'
             . ', ' . $Time;
