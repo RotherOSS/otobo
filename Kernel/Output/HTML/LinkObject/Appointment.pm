@@ -79,11 +79,15 @@ sub new {
 
 =head2 TableCreateComplex()
 
-return an array with the block data
+return a list of table definitions
+
+Note:
+
+normally it returns a hash reference
 
 Return
 
-    $BlockData = {
+    my @BlockData = (
         {
             ObjectName => 'SourceObjectID',
             ObjectID   => 1,
@@ -146,9 +150,9 @@ Return
                 ....
             ],
         },
-    };
+    );
 
-    $BlockData = $BackendObject->TableCreateComplex(
+    my @BlockData = $BackendObject->TableCreateComplex(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
