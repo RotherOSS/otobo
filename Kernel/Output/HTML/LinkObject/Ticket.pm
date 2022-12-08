@@ -102,6 +102,10 @@ Note:
 
 normally it returns a hash reference
 
+my @BlockData = $BackendObject->TableCreateComplex(
+    ObjectLinkListWithData => $ObjectLinkListRef,
+);
+
 Return
 
     my @BlockData = (
@@ -201,10 +205,6 @@ Return
                 ....
             ],
         },
-    );
-
-    my @BlockData = $BackendObject->TableCreateComplex(
-        ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
 =cut
