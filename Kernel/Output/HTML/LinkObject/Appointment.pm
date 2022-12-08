@@ -83,7 +83,7 @@ return an array with the block data
 
 Return
 
-    %BlockData = (
+    $BlockData = {
         {
             ObjectName => 'SourceObjectID',
             ObjectID   => 1,
@@ -146,9 +146,9 @@ Return
                 ....
             ],
         },
-    );
+    };
 
-    @BlockData = $BackendObject->TableCreateComplex(
+    $BlockData = $BackendObject->TableCreateComplex(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 

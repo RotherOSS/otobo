@@ -100,7 +100,7 @@ return an array with the block data
 
 Return
 
-    %BlockData = (
+    $BlockData = {
         {
             ObjectName  => 'TicketID',
             ObjectID    => '14785',
@@ -197,9 +197,9 @@ Return
                 ....
             ],
         },
-    );
+    };
 
-    @BlockData = $BackendObject->TableCreateComplex(
+    $BlockData = $BackendObject->TableCreateComplex(
         ObjectLinkListWithData => $ObjectLinkListRef,
     );
 

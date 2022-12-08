@@ -158,15 +158,15 @@ sub LinkObjectTableCreateComplex {
         next OBJECT if !$BackendObject;
 
         # get block data
-        my @BlockData = $BackendObject->TableCreateComplex(
+        my $BlockData = $BackendObject->TableCreateComplex(
             ObjectLinkListWithData => $Param{LinkListWithData}->{$Object},
             Action                 => $Self->{Action},
             ObjectID               => $Param{ObjectID},
         );
 
-        next OBJECT if !@BlockData;
+        next OBJECT if !$BlockData;
 
-        push @OutputData, @BlockData;
+        push @OutputData, $BlockData;
     }
 
     # error handling
