@@ -126,6 +126,25 @@ Return
                     },
                 ],
             ],
+            AllColumns => [
+                {
+                    ColumnName      => 'CalendarName',
+                    ColumnTranslate => 'Calendar name',
+                },
+                {
+                    ColumnName      => 'StartTime',
+                    ColumnTranslate => 'Start date',
+                },
+                {
+                    ColumnName      => 'EndTime',
+                    ColumnTranslate => 'End date',
+                },
+                {
+                    ColumnName      => 'NotificationTime',
+                    ColumnTranslate => 'Notification',
+                },
+                ....
+            ],
         },
     );
 
