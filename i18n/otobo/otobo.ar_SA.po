@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-07 09:21+0000\n"
+"PO-Revision-Date: 2022-12-08 12:27+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15279,23 +15279,23 @@ msgstr "عرض مصدر هذه المقالة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
 msgid "Plain Format"
-msgstr ""
+msgstr "طريقة عرض غير منسقة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPrint.pm
 msgid "Print this article"
-msgstr ""
+msgstr "طباعة هذه المقالة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Contact us at hello@otobo.de"
-msgstr ""
+msgstr "اكتب لنا على hello@otobo.de"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
 msgid "Get Help"
-msgstr ""
+msgstr "الحصول على المساعدة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Mark"
-msgstr "حدد"
+msgstr "حَدَّدَ"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
 msgid "Unmark"
@@ -15303,63 +15303,63 @@ msgstr "أحذف التحديد"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install Package"
-msgstr ""
+msgstr "إعادة تثبيت الحزمة"
 
 #. Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
 msgid "Re-install"
-msgstr ""
+msgstr "إعادة التثبيت"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Crypted"
-msgstr ""
+msgstr "مشفر"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Sent message encrypted to recipient!"
-msgstr ""
+msgstr "إرسال رسالة مشفرة إلى المستلم!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "Signed"
-msgstr "موقع"
+msgstr "وَقَّعَ"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/PGP.pm
 msgid "\"PGP SIGNED MESSAGE\" header found, but invalid!"
-msgstr ""
+msgstr "تم العثور على رأس ‏\"PGP SIGNED MESSAGE\"، ولكن غير صالح!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Internal error during verification!"
-msgstr ""
+msgstr "خطأ داخلي أثناء التحقق!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
-msgstr ""
+msgstr "تعذر فك التشفير: لم يتم العثور على المفتاح الخاص!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
-msgstr ""
+msgstr "تعذر فك التشفير: لم يتم العثور على المفتاح الخاص للبريد الإلكتروني!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Successful decryption"
-msgstr ""
+msgstr "فك التشفير بنجاح"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no encryption keys available for the addresses: '%s'. "
-msgstr ""
+msgstr "لا تتوفر مفاتيح تشفير للعناوين: ‏'‎%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "There are no selected encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "لا توجد مفاتيح تشفير محددة للعناوين: ‏'‎%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use expired encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "يتعذر إستخدام مفاتيح التشفير المنتهية الصلاحية للعناوين: '‎%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Cannot use revoked encryption keys for the addresses: '%s'. "
-msgstr ""
+msgstr "يتعذر إستخدام مفاتيح التشفير الملغاة للعناوين: '‎%s'. "
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid "Encrypt"
-msgstr ""
+msgstr "تَشْفَير"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Crypt.pm
 msgid ""
@@ -15367,10 +15367,13 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"سيتم إظهار المفاتيح/الشهادات فقط للمستلمين الذين لديهم أكثر من مفتاح/شهادة. "
+"سيتم تحديد أول مفتاح/شهادة تم العثور عليها مسبقا. الرجاء التأكد من تحديد "
+"الخيار الصحيح."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "Email security"
-msgstr ""
+msgstr "أمان البريد الإلكتروني"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Security.pm
 msgid "PGP sign"
