@@ -96,11 +96,19 @@ sub new {
 
 =head2 TableCreateComplex()
 
-return an array with the block data
+return a list of table definitions
+
+Note:
+
+normally it returns a hash reference
+
+my @BlockData = $BackendObject->TableCreateComplex(
+    ObjectLinkListWithData => $ObjectLinkListRef,
+);
 
 Return
 
-    %BlockData = (
+    my @BlockData = (
         {
             ObjectName  => 'TicketID',
             ObjectID    => '14785',
@@ -153,11 +161,50 @@ Return
                     },
                 ],
             ],
+            AllColumns => [
+                {
+                    ColumnName      => 'EscalationTime',
+                    ColumnTranslate => 'Service Time',
+                },
+                {
+                    ColumnName      => 'EscalationResponseTime',
+                    ColumnTranslate => 'First Response Time',
+                },
+                {
+                    ColumnName      => 'EscalationSolutionTime',
+                    ColumnTranslate => 'Solution Time',
+                },
+                {
+                    ColumnName      => 'EscalationUpdateTime',
+                    ColumnTranslate => 'Update Time',
+                },
+                {
+                    ColumnName      => 'PendingTime',
+                    ColumnTranslate => 'Pending till',
+                },
+                {
+                    ColumnName      => 'CustomerCompanyName',
+                    ColumnTranslate => 'Customer Name',
+                },
+                {
+                    ColumnName      => 'CustomerID',
+                    ColumnTranslate => 'Customer ID',
+                },
+                {
+                    ColumnName      => 'CustomerName',
+                    ColumnTranslate => 'Customer User Name',
+                },
+                {
+                    ColumnName      => 'CustomerUserID',
+                    ColumnTranslate => 'Customer User ID',
+                },
+                {
+                    ColumnName      => 'DynamicField_XXX',
+                    ColumnTranslate => 'XXX',
+                },
+                ....
+            ],
         },
-    );
-
-    @BlockData = $BackendObject->TableCreateComplex(
-        ObjectLinkListWithData => $ObjectLinkListRef,
     );
 
 =cut
