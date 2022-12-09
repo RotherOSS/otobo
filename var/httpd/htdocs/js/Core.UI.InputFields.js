@@ -1548,7 +1548,8 @@ Core.UI.InputFields = (function (TargetNS) {
                         // set left position
                         $ListContainerObj
                             .css({
-                                left: $InputContainerObj.offset().left + parseInt($InputContainerObj.children().first().css('margin-left'), 10)
+                                // incorporate margin into positioning for ticket search profile dropdown
+                                left: $InputContainerObj.offset().left + (parseInt($InputContainerObj.children('#ToolBarSearchProfile_Search').css('margin-left'), 10) || 0)
                             });
                         if ( Config.CustomerInterface === true ) {
                             $ListContainerObj
