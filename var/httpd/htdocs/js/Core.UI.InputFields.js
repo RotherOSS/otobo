@@ -1548,7 +1548,7 @@ Core.UI.InputFields = (function (TargetNS) {
                         // set left position
                         $ListContainerObj
                             .css({
-                                left: $InputContainerObj.offset().left
+                                left: $InputContainerObj.offset().left + parseInt($InputContainerObj.children().first().css('margin-left'), 10)
                             });
                         if ( Config.CustomerInterface === true ) {
                             $ListContainerObj
