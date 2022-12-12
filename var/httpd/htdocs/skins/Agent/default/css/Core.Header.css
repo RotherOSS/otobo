@@ -150,6 +150,11 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar > a.Active {
     100% { border-bottom: 2px solid #fef235; border-left: 2px solid #fef235; border-top: 2px solid #fef235; border-right: 2px solid #fef235; }
 }
 
+#ToolBar form[name="SearchFulltext"],
+#ToolBar form[name="SearchProfile"] {
+    margin-left: 10px;
+}
+
 #ToolBar li.UserAvatar img {
     width: 35px;
     height: 35px;
@@ -277,8 +282,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
 
 #ToolBar .Extended.SearchProfile {
     position: relative;
-    padding-left: 10px;
-    margin-right: 0px;
 }
 
 #ToolBar .Extended.SearchProfile input[type=text] {
@@ -293,7 +296,6 @@ body.Visible-ScreenXL #ToolBar li.UserAvatar div a:hover {
     position: relative;
 /*    top: -1px;
     margin-right: -5px; */
-    margin-left: 10px;
     text-overflow: ellipsis;
     font-size: 11px;
     transition: all ease 0.3s;
