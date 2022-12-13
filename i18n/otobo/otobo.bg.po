@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-24 18:00+0000\n"
+"PO-Revision-Date: 2022-12-14 11:48+0000\n"
 "Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/otobo/"
 "bg/>\n"
@@ -193,7 +193,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Проверете официалната %sдокументация%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -249,7 +249,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "За проекта"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -260,10 +260,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Този език не присъства или не е активиран в системата. Този текст може да "
+"бъде изтрит, ако вече не е необходим."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Премахване на език"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -275,15 +277,15 @@ msgstr "Тяло на съобщението"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Това поле е задължително и трябва да съдържа по-малко от 4000 знака."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Премахване на “За езика“"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Добавете нов език"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -340,7 +342,7 @@ msgstr "Импортиране Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Филтър за календари"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -351,24 +353,31 @@ msgid ""
 "Depending on the group field, the system will allow users the access to the "
 "calendar according to their permission level."
 msgstr ""
+"В зависимост от груповото поле, системата ще позволи на потребителите достъп "
+"до календара според тяхното ниво на права."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read only: users can see and export all appointments in the calendar."
 msgstr ""
+"Само за четене: потребителите могат да виждат и експортират всички срещи в "
+"календара."
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Move into: users can modify appointments in the calendar, but without "
 "changing the calendar selection."
 msgstr ""
+"Преместване в: потребителите могат да променят срещи в календара, но без да "
+"променят избрания календар."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Create: users can create and delete appointments in the calendar."
 msgstr ""
+"Създаване: потребителите могат да създават и изтриват срещи в календара."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Read/write: users can manage the calendar itself."
-msgstr ""
+msgstr "Четене/запис: потребителите могат да управляват самия календар."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Group"
@@ -388,19 +397,19 @@ msgstr "Сваляне"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Export calendar"
-msgstr ""
+msgstr "Експортиране на календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Download calendar"
-msgstr ""
+msgstr "Изтегляне на календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Copy public calendar URL"
-msgstr ""
+msgstr "Копирайте URL адреса на публичния календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar"
@@ -408,49 +417,51 @@ msgstr "Календар"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar name"
-msgstr ""
+msgstr "Име на календара"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Calendar with same name already exists."
-msgstr ""
+msgstr "Календар със същото име вече съществува."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Color"
-msgstr ""
+msgstr "Цвят"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Permission group"
-msgstr ""
+msgstr "Групови права"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Ticket Appointments"
-msgstr ""
+msgstr "Назначаване на билети"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Rule"
-msgstr ""
+msgstr "Правило"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove this entry"
-msgstr ""
+msgstr "Премахнете този запис"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Remove"
-msgstr ""
+msgstr "Премахване"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Start date"
-msgstr ""
+msgstr "Начална дата"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "End date"
-msgstr ""
+msgstr "Крайна дата"
 
 #. Template: AdminAppointmentCalendarManage
 msgid ""
 "Use options below to narrow down for which tickets appointments will be "
 "automatically created."
 msgstr ""
+"Използвайте опциите по-долу, за да стесните срещите за кои билети ще бъдат "
+"създадени автоматично."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Queues"
@@ -458,15 +469,15 @@ msgstr "Опашки"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Please select a valid queue."
-msgstr ""
+msgstr "Моля, изберете валидна опашка."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Search attributes"
-msgstr ""
+msgstr "Атрибути за търсене"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add entry"
-msgstr ""
+msgstr "Добавете запис"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add"
@@ -477,10 +488,12 @@ msgid ""
 "Define rules for creating automatic appointments in this calendar based on "
 "ticket data."
 msgstr ""
+"Дефинирайте правила за създаване на автоматични срещи в този календар въз "
+"основа на данните за билети."
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Add Rule"
-msgstr ""
+msgstr "Добавяне на правило"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Submit"
@@ -488,7 +501,7 @@ msgstr "Изпратете"
 
 #. Template: AdminAppointmentImport
 msgid "Appointment Import"
-msgstr ""
+msgstr "Импортиране на срещи"
 
 #. Template: AdminAppointmentImport
 msgid "Go back"
@@ -496,13 +509,15 @@ msgstr "Назад"
 
 #. Template: AdminAppointmentImport
 msgid "Uploaded file must be in valid iCal format (.ics)."
-msgstr ""
+msgstr "Каченият файл трябва да е във валиден iCal формат (.ics)."
 
 #. Template: AdminAppointmentImport
 msgid ""
 "If desired Calendar is not listed here, please make sure that you have at "
 "least 'create' permissions."
 msgstr ""
+"Ако желаният Календар не е посочен тук, моля, уверете се, че имате поне "
+"разрешения за „създаване“."
 
 #. Template: AdminAppointmentImport
 msgid "Upload"
@@ -510,25 +525,27 @@ msgstr "Качване"
 
 #. Template: AdminAppointmentImport
 msgid "Update existing appointments?"
-msgstr ""
+msgstr "Актуализиране на съществуващи срещи?"
 
 #. Template: AdminAppointmentImport
 msgid ""
 "All existing appointments in the calendar with same UniqueID will be "
 "overwritten."
 msgstr ""
+"Всички съществуващи срещи в календара със същия UniqueID ще бъдат "
+"презаписани."
 
 #. Template: AdminAppointmentImport
 msgid "Upload calendar"
-msgstr ""
+msgstr "Качване на календар"
 
 #. Template: AdminAppointmentImport
 msgid "Import appointments"
-msgstr ""
+msgstr "Импортиране на срещи"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Notification Management"
-msgstr ""
+msgstr "Управление на известията за срещи"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add Notification"
@@ -544,11 +561,11 @@ msgstr "Експортиране на известия"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for Notifications"
-msgstr ""
+msgstr "Филтър за известия"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Filter for notifications"
-msgstr ""
+msgstr "Филтър за известия"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -556,6 +573,9 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Тук можете да качите конфигурационен файл, за да импортирате известия за "
+"срещи във вашата система. Файлът трябва да бъде във формат .yml, както е "
+"експортиран от модула за уведомяване за срещи."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -611,10 +631,13 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Тук можете да изберете кои събития ще задействат това известие. По-долу може "
+"да се приложи допълнителен филтър за срещи, за да изпращате само срещи с "
+"определени критерии."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
-msgstr ""
+msgstr "Филтър за срещи"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Type"
@@ -630,11 +653,11 @@ msgstr "Местоположение"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Team"
-msgstr ""
+msgstr "Екип"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Resource"
-msgstr ""
+msgstr "Ресурс"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Recipients"
@@ -650,7 +673,7 @@ msgstr "Изпращане до тези Агенти"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Изпращане до всички членове на групата (само агенти)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -673,6 +696,8 @@ msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"Уведомете потребителя само веднъж на ден за една среща, използвайки избран "
+"транспорт."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -723,7 +748,7 @@ msgstr "Обновете до %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Моля, активирайте този начин на предаване, за да го използвате."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -763,7 +788,7 @@ msgstr "Референтен маркер"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
-msgstr ""
+msgstr "Известията се изпращат до агент."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "You can use the following tags"
@@ -771,11 +796,11 @@ msgstr "Можете да използвате следните маркери"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the first 20 character of the appointment title."
-msgstr ""
+msgstr "За да получите първите 20 знака от заглавието на срещата."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the appointment attribute"
-msgstr ""
+msgstr "За да получите атрибута за среща"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
@@ -783,11 +808,11 @@ msgstr " др."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
-msgstr ""
+msgstr "За да получите атрибута календар"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Атрибути на потребителя получател за известието"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -795,50 +820,53 @@ msgstr "Опции за конфигуриране"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Примерно известие"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Допълнителни имейл адреси на получатели"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Това поле трябва да има по-малко от 200 знака."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Артикулът е видим за клиента"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "An article will be created if the notification is sent to the customer or an "
 "additional email address."
 msgstr ""
+"Ще бъде създадена статия, ако известието бъде изпратено до клиента или "
+"допълнителен имейл адрес."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
-msgstr ""
+msgstr "Шаблон за имейл"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
 msgstr ""
+"Използвайте този шаблон, за да генерирате пълния имейл (само за HTML имейли)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Активирайте защитата на имейла"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Ниво на сигурност на имейла"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Ако ключ/сертификат за подписване липсва"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Ако ключ/сертификат за криптиране липсва"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -854,11 +882,11 @@ msgstr "Редактиране на прикачен файл"
 
 #. Template: AdminAttachment
 msgid "Filter for Attachments"
-msgstr ""
+msgstr "Филтър за прикачени файлове"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Филтър за прикачени файлове"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -894,11 +922,11 @@ msgstr "Редактиране автоматичен отговор"
 
 #. Template: AdminAutoResponse
 msgid "Filter for Auto Responses"
-msgstr ""
+msgstr "Филтър за автоматични отговори"
 
 #. Template: AdminAutoResponse
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Филтър за автоматични отговори"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -978,7 +1006,7 @@ msgstr "Поддръжка за събиране на данни"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
-msgstr ""
+msgstr "Подсказка"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
@@ -989,6 +1017,8 @@ msgid ""
 "It is sometimes recommended to send this data to the OTOBO team in order to "
 "get better support."
 msgstr ""
+"Понякога се препоръчва да изпратите тези данни на екипа на OTOBO, за да "
+"получите по-добра поддръжка."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Configuration"
@@ -1003,6 +1033,8 @@ msgid ""
 "This will allow the system to send additional support data information to "
 "the OTOBO team."
 msgstr ""
+"Това ще позволи на системата да изпраща допълнителна информация за данни за "
+"поддръжка на екипа на OTOBO."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Update"
@@ -1018,6 +1050,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"За да активирате изпращането на данни, моля, регистрирайте системата си с "
+"екипа на OTOBO или актуализирайте информацията за регистрация на системата ("
+"уверете се, че сте активирали опцията „изпращане на данни за поддръжка“.)"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1036,6 +1071,8 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"Регистрацията в системата е услуга на екипа на OTOBO, която предоставя много "
+"предимства!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1063,105 +1100,113 @@ msgstr "Налични облачни услуги"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Комуникационен дневник"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Времеви интервал"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
 msgstr ""
+"Показване само на комуникационни дневници, създадени в определен период от "
+"време."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Филтър за комуникации"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Филтър за комуникации"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
 msgstr ""
+"В този екран можете да видите общ преглед на входящите и изходящите "
+"комуникации."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
 msgstr ""
+"Можете да промените сортирането и реда на колоните, като щракнете върху "
+"заглавката на колоната."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed "
 "screen about the message."
 msgstr ""
+"Ако щракнете върху различните записи, ще бъдете пренасочени към подробен "
+"екран за съобщението."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Състояние за: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Неуспешни акаунти"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Някои проблеми с акаунта"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Няма проблеми с акаунта"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Няма активност в акаунта"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Брой акаунти с проблеми: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Брой акаунти с проблеми: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Неуспешни комуникации"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Няма проблеми с комуникацията"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Няма регистрационни файлове за комуникация"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Брой докладвани проблеми: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Отворени комуникации"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Няма активни комуникации"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Брой отворени съобщения: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Средно време за обработка"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Списък с комуникации (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1169,41 +1214,43 @@ msgstr "Настройки"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Записи на страница"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Няма намерени комуникации."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Състояние на акаунта"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Назад към прегледа"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Филтър за акаунти"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Филтър за акаунти"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column "
 "header."
 msgstr ""
+"Можете да промените сортирането и реда на тези колони, като щракнете върху "
+"заглавката на колоната."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Състояние на акаунта за: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1211,7 +1258,7 @@ msgstr "Статус"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Акаунт"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1219,11 +1266,11 @@ msgstr "Редакция"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Няма намерени акаунти."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Подробности за регистъра на комуникацията (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1239,15 +1286,15 @@ msgstr "Край"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "Няма намерени записи в дневника за комуникация."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Продължителност"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1259,27 +1306,27 @@ msgstr "Модул"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Няма намерени записи в регистрационния файл."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Подробен изглед за %s комуникация, започнала в %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Филтър за записи в журнала"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Филтър за записи в журнала"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Показване само на записи със специфичен приоритет и по-висок:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
