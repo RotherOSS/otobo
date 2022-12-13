@@ -1120,7 +1120,7 @@ END_HEADER
 }
 elsif ($DoPrintDockerCpanfile) {
     say <<'END_HEADER';
-# Do not change this file manually except if you want to invalidate the cache just in the github ci workflow.
+# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
 # Instead adapt bin/otobo.CheckModules.pl and call
 #    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
 END_HEADER
