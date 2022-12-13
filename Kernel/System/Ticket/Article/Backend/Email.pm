@@ -19,8 +19,12 @@ package Kernel::System::Ticket::Article::Backend::Email;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Mail::Address;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 use parent 'Kernel::System::Ticket::Article::Backend::MIMEBase';
@@ -656,8 +660,9 @@ sub SendAutoResponse {
         return;
     }
 
-    # Format sender realname and address because it maybe contains comma or other special symbols (see bug#13130).
-    my $From = Mail::Address->new( $AutoResponse{SenderRealname} // '', $AutoResponse{SenderAddress} );
+    # Format sender realname and address conformant to RFC 5322. This is relevant when the real name contain commas
+    # or other special symbols.
+    my $From = Mail::Address->new( $AutoResponse{SenderRealname}, $AutoResponse{SenderAddress} );
 
     # send email
     my $ArticleID = $Self->ArticleSend(

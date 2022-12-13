@@ -19,12 +19,15 @@ package Kernel::Modules::AgentSplitSelection;
 use strict;
 use warnings;
 
-use Mail::Address;
+# core modules
 
-our $ObjectManagerDisabled = 1;
+# CPAN modules
 
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 use Kernel::System::VariableCheck qw(:all);
+
+our $ObjectManagerDisabled = 1;
 
 sub new {
     my ( $Type, %Param ) = @_;
