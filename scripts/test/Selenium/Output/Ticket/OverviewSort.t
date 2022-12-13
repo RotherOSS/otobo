@@ -256,15 +256,8 @@ $Selenium->RunTest(
             "CustomerID $TestCompany is found in the table"
         );
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
-        }
-        else {
-
+        # drag and drop tests
+        {
             # Open ticket overview setting dialog.
             $Selenium->find_element( "#ShowContextSettingsDialog", 'css' )->click();
 

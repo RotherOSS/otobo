@@ -18,12 +18,18 @@ package Kernel::System::Auth::Sync::LDAP;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
+use v5.24;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Net::LDAP;
 use Net::LDAP::Util qw(escape_filter_value);
 use URI;
+
+# OTOBO modules
 
 our @ObjectDependencies = (
     'Kernel::Config',
@@ -40,8 +46,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     # Debug 0=off 1=on
     $Self->{Debug} = 0;
@@ -55,6 +60,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::Host$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( !defined $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} ) ) {
@@ -62,6 +68,7 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::BaseDN$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
     if ( !$ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} ) ) {
@@ -69,23 +76,21 @@ sub new {
             Priority => 'error',
             Message  => "Need AuthSyncModule::LDAP::UID$Param{Count} in Kernel/Config.pm",
         );
+
         return;
     }
-    $Self->{Count}        = $Param{Count} || '';
-    $Self->{Die}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
-    $Self->{Host}         = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
-    $Self->{BaseDN}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
-    $Self->{UID}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
-    $Self->{SearchUserDN} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} ) || '';
-    $Self->{SearchUserPw} = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} ) || '';
-    $Self->{GroupDN}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )
-        || '';
-    $Self->{AccessAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )
-        || 'memberUid';
-    $Self->{UserAttr} = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )
-        || 'DN';
-    $Self->{DestCharset} = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )
-        || 'utf-8';
+
+    $Self->{Count}             = $Param{Count} || '';
+    $Self->{Die}               = $ConfigObject->Get( 'AuthSyncModule::LDAP::Die' . $Param{Count} );
+    $Self->{Host}              = $ConfigObject->Get( 'AuthSyncModule::LDAP::Host' . $Param{Count} );
+    $Self->{BaseDN}            = $ConfigObject->Get( 'AuthSyncModule::LDAP::BaseDN' . $Param{Count} );
+    $Self->{UID}               = $ConfigObject->Get( 'AuthSyncModule::LDAP::UID' . $Param{Count} );
+    $Self->{SearchUserDN}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserDN' . $Param{Count} )      || '';
+    $Self->{SearchUserPw}      = $ConfigObject->Get( 'AuthSyncModule::LDAP::SearchUserPw' . $Param{Count} )      || '';
+    $Self->{GroupDN}           = $ConfigObject->Get( 'AuthSyncModule::LDAP::GroupDN' . $Param{Count} )           || '';
+    $Self->{AccessAttr}        = $ConfigObject->Get( 'AuthSyncModule::LDAP::AccessAttr' . $Param{Count} )        || 'memberUid';
+    $Self->{UserAttr}          = $ConfigObject->Get( 'AuthSyncModule::LDAP::UserAttr' . $Param{Count} )          || 'DN';
+    $Self->{DestCharset}       = $ConfigObject->Get( 'AuthSyncModule::LDAP::Charset' . $Param{Count} )           || 'utf-8';
     $Self->{NestedGroupSearch} = $ConfigObject->Get( 'AuthSyncModule::LDAP::NestedGroupSearch' . $Param{Count} ) || '';
 
     # ldap filter always used
@@ -113,6 +118,7 @@ sub Sync {
             Priority => 'error',
             Message  => 'Need User!'
         );
+
         return;
     }
     $Param{User} = $Self->_ConvertTo( $Param{User}, 'utf-8' );
@@ -142,6 +148,7 @@ sub Sync {
             Priority => 'error',
             Message  => "Can't connect to $Self->{Host}: $@",
         );
+
         return;
     }
     if ( $Self->{StartTLS} ) {
@@ -156,6 +163,7 @@ sub Sync {
                     Message  => "start_tls: '$Self->{StartTLS}' on $Self->{Host} failed: $@",
                 );
                 $LDAP->disconnect();
+
                 return;
             }
         }
@@ -175,6 +183,7 @@ sub Sync {
             Priority => 'error',
             Message  => 'First bind failed! ' . $Result->error(),
         );
+
         return;
     }
 
@@ -196,6 +205,7 @@ sub Sync {
             Priority => 'error',
             Message  => "Search failed! ($Self->{BaseDN}) filter='$Filter' " . $Result->error(),
         );
+
         return;
     }
 
@@ -217,6 +227,7 @@ sub Sync {
 
         # take down session
         $LDAP->unbind();
+
         return;
     }
 
@@ -315,6 +326,7 @@ sub Sync {
 
                 # take down session
                 $LDAP->unbind();
+
                 return;
             }
             else {
@@ -428,13 +440,13 @@ sub Sync {
 
                 # check if nested group search is ENABLED
                 if ( $Self->{NestedGroupSearch} ) {
+
+                    # check if user was found with nested group search
                     $Kernel::OM->Get('Kernel::System::Log')->Log(
                         Priority => 'debug',
                         Message  => "Performing an extended nested group search",
                     );
                     my $NestedGroupResult = _NestedGroupSearch( $LDAP, $GroupDN, $UserDN );
-
-                    # check if user was found with nested group search
                     if ($NestedGroupResult) {
                         $Kernel::OM->Get('Kernel::System::Log')->Log(
                             Priority => 'info',
@@ -821,13 +833,14 @@ sub Sync {
 sub _ConvertTo {
     my ( $Self, $Text, $Charset ) = @_;
 
-    return if !defined $Text;
+    return unless defined $Text;
 
     # get encode object
     my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
 
     if ( !$Charset || !$Self->{DestCharset} ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
@@ -849,6 +862,7 @@ sub _ConvertFrom {
 
     if ( !$Charset || !$Self->{DestCharset} ) {
         $EncodeObject->EncodeInput( \$Text );
+
         return $Text;
     }
 
@@ -862,6 +876,7 @@ sub _ConvertFrom {
 
 sub _NestedGroupSearch {
     my ( $LDAP, $GroupDN, $UserDN ) = @_;
+
     my $MemberConfirmed = 0;
 
     # protect against circular nesting (=infinite loop)
@@ -885,6 +900,7 @@ sub _NestedGroupSearch {
                 Message  => "Nested group search found circular nesting in "
                     . "$GroupDN (while searching for user $UserDN)",
             );
+
             return $MemberConfirmed;
         }
 
@@ -892,7 +908,7 @@ sub _NestedGroupSearch {
         eval {
             my $Result = $LDAP->compare(
                 $GroupDN,
-                attr  => "uniquemember",
+                attr  => 'uniquemember',
                 value => $UserDN
             );
 
@@ -903,6 +919,7 @@ sub _NestedGroupSearch {
                     Message  => "Nested group search result: $UserDN is a member of $GroupDN",
                 );
                 $MemberConfirmed = 1;
+
                 return $MemberConfirmed;
             }
         };
@@ -913,7 +930,7 @@ sub _NestedGroupSearch {
         # not a member, continue search...
         eval {
             # get list of group members
-            my @GroupAttributes = [ "uniquemember", "objectclass", "memberurl" ];
+            my @GroupAttributes = [ 'uniquemember', 'objectclass', 'memberurl' ];
             my $Result          = $LDAP->search(
                 base       => $GroupDN,
                 filter     => "(|(objectclass=groupOfUniqueNames)(objectclass=groupOfUrls))",
@@ -931,7 +948,7 @@ sub _NestedGroupSearch {
             $ItemsSeen{ $Entry->dn() } = 1;
 
             # search in Dynamic Groups...
-            my $UrlValues = $Entry->get_value( "memberurl", asref => 1 );
+            my $UrlValues = $Entry->get_value( 'memberurl', asref => 1 );
             for my $UrlValue ( @{$UrlValues} ) {
                 my $Uri        = URI->new($UrlValue);
                 my $Filter     = $Uri->filter();
@@ -948,24 +965,27 @@ sub _NestedGroupSearch {
                 eval {
                     my $Entry = $Result->pop_entry();
                     $MemberConfirmed = 1;
+
                     return $MemberConfirmed;
                 };
             }
 
-            # search in Static Groups...
-            my $MemberValues = $Entry->get_value( "uniquemember", asref => 1 );
-            for my $Value ( @{$MemberValues} ) {
+            # recursively search in Static Groups...
+            my $MemberValues = $Entry->get_value( 'uniquemember', asref => 1 );
+            VALUE:
+            for my $Value ( $MemberValues->@* ) {
 
                 # call search function again for each member
                 $FindMember->( $LDAP, $Value, $UserDN );
 
                 # stop if we found a match
-                last MATCH if $MemberConfirmed;
+                last VALUE if $MemberConfirmed;
             }
-            MATCH:
 
             # abort on LDAP errors
-            die $Result->error() if $Result->code();
+            if ( !$MemberConfirmed ) {
+                die $Result->error() if $Result->code();
+            }
         };
 
         return $MemberConfirmed;

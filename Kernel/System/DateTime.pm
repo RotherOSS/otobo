@@ -212,11 +212,13 @@ Returns:
     my $DateTimeSettings = {
         Year      => 2016,
         Month     => 1,         # starting at 1
+        MonthAbbr => 'Jan',
         Day       => 22,
         Hour      => 16,
         Minute    => 35,
         Second    => 59,
         DayOfWeek => 5,         # starting with 1 for Monday, ending with 7 for Sunday
+        DayAbbr   => 'Tue',
         TimeZone  => 'Europe/Berlin',
     };
 

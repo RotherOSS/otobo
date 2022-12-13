@@ -19,8 +19,12 @@ package Kernel::Modules::AgentTicketPhone;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
 use Mail::Address;
 
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -175,8 +179,7 @@ sub Run {
 
                 # check email address
                 for my $Email ( Mail::Address->parse($CustomerElement) ) {
-                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) )
-                    {
+                    if ( !$CheckItemObject->CheckEmail( Address => $Email->address() ) ) {
                         $CustomerErrorMsg = $CheckItemObject->CheckErrorType()
                             . 'ServerErrorMsg';
                         $CustomerError = 'ServerError';

@@ -466,9 +466,6 @@ sub RepositoryRemove {
         Bind => \@Bind,
     );
 
-    # get cache object
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-
     # cleanup cache
     $Self->_RepositoryCacheClear();
 

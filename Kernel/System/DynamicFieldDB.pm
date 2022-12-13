@@ -557,9 +557,7 @@ sub DatabaseSearchByConfig {
 
         my @ResultItem;
 
-        my $RowCount = scalar @Row;
-
-        for my $Key ( 0 .. $RowCount ) {
+        for my $Item ( @Row ) {
 
             my %ResultItemField;
 
@@ -573,15 +571,15 @@ sub DatabaseSearchByConfig {
                 $ResultItemField{Datatype} = $ResultDataTemplate[$Count]->{Datatype};
 
                 # save the value as identifier
-                $ResultItemField{Identifier} = $Row[$Key];
+                $ResultItemField{Identifier} = $Item;
 
                 # check if the value should also be displayed
                 if ( $ResultDataTemplate[$Count]->{Listfield} ) {
-                    $ResultItemField{Data} = $Row[$Key];
+                    $ResultItemField{Data} = $Item;
                 }
             }
             else {
-                $ResultItemField{Data} = $Row[$Key];
+                $ResultItemField{Data} = $Item;
             }
 
             $Count++;
@@ -684,10 +682,8 @@ sub DatabaseSearchDetails {
 
     while ( my @Row = $Self->{DBObject}->FetchrowArray() ) {
 
-        my $RowCount = scalar @Row;
-
         KEY:
-        for my $Key ( 0 .. $RowCount ) {
+        for my $Key ( 0 .. $#Row ) {
 
             my %ResultItemField;
 

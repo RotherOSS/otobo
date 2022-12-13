@@ -21,7 +21,11 @@ use parent 'Kernel::Output::HTML::Base';
 use strict;
 use warnings;
 
-use Mail::Address;
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::Language qw(Translatable);
 
 our @ObjectDependencies = (

@@ -48,11 +48,11 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::TemplateGenerator - signature lib
+Kernel::System::TemplateGenerator - template generator lib
 
 =head1 DESCRIPTION
 
-All signature functions.
+All template generator functions.
 
 =head1 PUBLIC INTERFACE
 
@@ -351,14 +351,9 @@ sub Sender {
         }
     }
 
-    # prepare realname quote
-    if ( $Address{RealName} =~ /([.]|,|@|\(|\)|:)/ && $Address{RealName} !~ /^("|')/ ) {
-        $Address{RealName} =~ s/"//g;    # remove any quotes that are already present
-        $Address{RealName} = '"' . $Address{RealName} . '"';
-    }
-    my $Sender = "$Address{RealName} <$Address{Email}>";
-
-    return $Sender;
+    # Format sender realname and address conformant to RFC 5322. This is relevant when the real name contain commas
+    # or other special symbols.
+    return Mail::Address->new( $Address{RealName}, $Address{Email} )->format();
 }
 
 =head2 Template()

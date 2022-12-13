@@ -459,9 +459,9 @@ This will be reset when the Helper object is destroyed.
 Please note that this will not work correctly in clustered environments.
 
     $Helper->ConfigSettingChange(
-        Valid => 1,            # (optional) enable or disable setting
-        Key   => 'MySetting',  # setting name
-        Value => { ... } ,     # setting value
+        Valid => 1,            # (optional) enable or disable setting, the default is 1
+        Key   => 'MySetting',  # (required) setting name
+        Value => { ... } ,     # setting value, will be ignored when the parameter Valid is false
     );
 
 =cut

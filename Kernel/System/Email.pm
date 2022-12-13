@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::Email;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
 use strict;
 use warnings;

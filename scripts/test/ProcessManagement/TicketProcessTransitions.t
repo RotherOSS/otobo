@@ -179,7 +179,7 @@ for my $Test (@Tests) {
     $Self->IsNot(
         $TicketID,
         undef,
-        'TicketCrete()'
+        'TicketCreate()'
     );
 
     # Create article.
@@ -200,7 +200,7 @@ for my $Test (@Tests) {
     $Self->IsNot(
         $ArticleID,
         undef,
-        'ArticleCrete()'
+        'ArticleCreate()'
     );
 
     # Get Dynamic Fields Configuration

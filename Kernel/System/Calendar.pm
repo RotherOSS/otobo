@@ -231,7 +231,7 @@ sub CalendarCreate {
 
 =head2 CalendarGet()
 
-Get calendar by name or id.
+Get calendar by name or by id.
 
     my %Calendar = $CalendarObject->CalendarGet(
         CalendarName => 'Meetings',          # (required) Calendar name
@@ -265,6 +265,10 @@ Returns Calendar data:
         ChangeBy   => 1,
         ValidID    => 1,
     );
+
+Returns an empty list when no calendar is found.
+
+Returns an empty list the the parameter C<UserID> was passed and the passed user has no permission to access the calendar.
 
 =cut
 

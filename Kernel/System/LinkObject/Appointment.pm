@@ -76,7 +76,7 @@ sub LinkListWithData {
     # check needed stuff
     for my $Argument (qw(LinkList UserID)) {
         if ( !$Param{$Argument} ) {
-            $Self->{LogObject}->Log(
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Argument!",
             );
@@ -88,7 +88,7 @@ sub LinkListWithData {
 
     # check link list
     if ( ref $Param{LinkList} ne 'HASH' ) {
-        $Self->{LogObject}->Log(
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'LinkList must be a hash reference!',
         );
@@ -107,9 +107,10 @@ sub LinkListWithData {
                     AppointmentID => $AppointmentID,
                 );
 
-                # remove id from hash if no service data was found
+                # remove id from hash if no appointment data was found
                 if ( !%Appointment ) {
                     delete $Param{LinkList}->{$LinkType}->{$Direction}->{$AppointmentID};
+
                     next APPOINTMENT;
                 }
 
@@ -350,7 +351,7 @@ sub LinkAddPre {
 
 =head2 LinkAddPost()
 
-link add pre event module
+link add post event module
 
     $True = $LinkObject->LinkAddPost(
         Key          => 123,
