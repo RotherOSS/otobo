@@ -46,13 +46,14 @@
 # Andreas Erhard <erhard@wor.net>, 2021, 2022.
 # Stefan Abel <sta@rother-oss.com>, 2022.
 # svo <svo@rother-oss.com>, 2022.
+# sr <sr@rother-oss.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-11-10 17:54+0000\n"
-"Last-Translator: Stefan Abel <sta@rother-oss.com>\n"
+"PO-Revision-Date: 2022-12-13 11:14+0000\n"
+"Last-Translator: sr <sr@rother-oss.com>\n"
 "Language-Team: German <https://translate.otobo.org/projects/otobo10/otobo/de/"
 ">\n"
 "Language: de\n"
@@ -2255,7 +2256,7 @@ msgstr "Suchsuffix"
 
 #. Template: AdminDynamicFieldDB
 msgid "Result Limit"
-msgstr "Ergebnis-Beschränkung"
+msgstr "Anzahl angezeigter Ergebnisse"
 
 #. Template: AdminDynamicFieldDB
 msgid "Case Sensitive"
