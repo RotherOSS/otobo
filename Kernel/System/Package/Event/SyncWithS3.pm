@@ -31,8 +31,6 @@ use Mojo::JSON qw(encode_json);
 use Kernel::System::Storage::S3;
 
 our @ObjectDependencies = (
-    'Kernel::Config',
-    'Kernel::System::Encode',
     'Kernel::System::Log',
 );
 
