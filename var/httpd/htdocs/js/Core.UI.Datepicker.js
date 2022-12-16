@@ -340,6 +340,10 @@ Core.UI.Datepicker = (function (TargetNS) {
             return false;
         });
 
+        $('#ui-datepicker-div').on('click', function (event) {
+            event.stopPropagation();
+        });
+
         // do not show the datepicker container div.
         $('#ui-datepicker-div').hide();
     };
