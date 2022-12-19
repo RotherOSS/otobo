@@ -258,14 +258,17 @@ sub GeneratePDF {
         'DateFormat',
     );
     if ( $Interface{Agent} ) {
-        $PrintedBy .= ' ' . $TicketInfo{User}{UserFullname} . ' ('
-            . $TicketInfo{User}{UserEmail} . ')'
-            . ', ' . $Time;
+        $PrintedBy .= " $TicketInfo{User}{UserFullname} ($TicketInfo{User}{UserEmail}), $Time";
     }
     elsif ( $Interface{Customer} ) {
-        $PrintedBy .= ' ' . $CustomerData{UserFullname} . ' ('
-            . $CustomerData{UserEmail} . ')'
-            . ', ' . $Time;
+        my %PrintingCustomerData = $CustomerUserObject->CustomerUserDataGet(
+            User => $Param{UserID},
+        );
+        if ( !%PrintingCustomerData ) {
+            %PrintingCustomerData = %CustomerData;
+        }
+
+        $PrintedBy .= " $PrintingCustomerData{UserFullname} ($PrintingCustomerData{UserEmail}), $Time";
     }
 
     $PDFObject->Text(
