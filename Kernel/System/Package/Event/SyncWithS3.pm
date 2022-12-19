@@ -60,13 +60,23 @@ sub Run {
     # TODO: get a more sensible content
     my $JSONContent     = encode_json( \%Param );
     my $StorageS3Object = Kernel::System::Storage::S3->new();
-    my $EventFilePath   = join '/', 'Kernel', 'Config', 'Files', 'event_package.json';
+    my $EventFileName   = 'event_package.json';
+    my $EventFilePath   = join '/', 'Kernel', 'Config', 'Files', $EventFileName;
 
-    # only write to S3, no extra copy in the file system
-    return $StorageS3Object->StoreObject(
+    # write to S3,
+    # give up when the JSON could not be stored
+    return unless $StorageS3Object->StoreObject(
         Key     => $EventFilePath,
         Headers => { 'Content-Type' => 'application/json' },
         Content => $JSONContent,
+    );
+
+    # extra copy in the file system with the same timestamp as in S3
+    my $TargetLocation = "/opt/otobo/Kernel/Config/Files/$EventFileName";
+
+    return $StorageS3Object->SaveObjectToFile(
+        Key      => $EventFilePath,
+        Location => $TargetLocation,
     );
 }
 
