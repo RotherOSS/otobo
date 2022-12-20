@@ -1469,7 +1469,7 @@ sub Run {
             my $MaxLines = $ConfigObject->Get('Ticket::Frontend::ResponseQuoteMaxLines');
 
             # split body - one element per line
-            my @Body = split "\n", $Data{Body};
+            my @Body = split /\n/, $Data{Body};
 
             # only modify if body is longer than allowed
             if ( scalar @Body > $MaxLines ) {

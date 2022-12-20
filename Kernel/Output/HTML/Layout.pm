@@ -2063,7 +2063,7 @@ sub Ascii2Html {
 
     # max lines
     if ( $Param{VMax} ) {
-        my @TextList = split( "\n", ${$Text} );
+        my @TextList = split /\n/, ${$Text};
         ${$Text} = '';
         my $Counter = 1;
         for (@TextList) {

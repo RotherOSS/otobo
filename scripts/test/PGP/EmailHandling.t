@@ -364,8 +364,6 @@ for my $Test (@CryptTests) {
                 ExcludeInline    => 1,
             );
 
-            use Data::Dumper;
-            warn Dumper( \%AtmIndex );
             FILEID:
             for my $FileID ( sort keys %AtmIndex ) {
 
@@ -723,7 +721,7 @@ for my $Test (@TestVariations) {
 
         # Add ticket number to subject (to ensure mail will be attached to original ticket)
         my @FollowUp;
-        for my $Line ( split "\n", $Email ) {
+        for my $Line ( split /\n/, $Email ) {
             if ( $Line =~ /^Subject:/ ) {
                 $Line = 'Subject: ' . $TicketObject->TicketSubjectBuild(
                     TicketNumber => $TicketNumber,
