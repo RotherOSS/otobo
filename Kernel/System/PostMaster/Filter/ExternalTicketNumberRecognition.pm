@@ -162,7 +162,7 @@ sub Run {
             @StateTypeIDs = split /;/, $Param{JobConfig}->{TicketStateTypes};
         }
         else {
-            @StateTypeIDs = split ' ', $Param{JobConfig}->{TicketStateTypes};
+            @StateTypeIDs = split ' ', $Param{JobConfig}->{TicketStateTypes};    # pattern ' ' is treated as /\s+/
         }
 
         STATETYPE:

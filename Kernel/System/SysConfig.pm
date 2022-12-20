@@ -4458,7 +4458,7 @@ sub ConfigurationSearch {
         }
 
         $Param{Search} =~ s{ +}{ }g;
-        my @SearchTerms = split ' ', $Param{Search};
+        my @SearchTerms = split ' ', $Param{Search};    # pattern treated as /\s+/
 
         SEARCHTERM:
         for my $SearchTerm (@SearchTerms) {
