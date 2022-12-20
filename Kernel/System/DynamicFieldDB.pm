@@ -557,7 +557,7 @@ sub DatabaseSearchByConfig {
 
         my @ResultItem;
 
-        for my $Item ( @Row ) {
+        for my $Item (@Row) {
 
             my %ResultItemField;
 
