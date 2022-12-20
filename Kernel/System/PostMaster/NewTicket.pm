@@ -335,7 +335,7 @@ sub Run {
         return;
     }
 
-    my $TicketCreateMessage = <<"Message";
+    my $TicketCreateMessage = <<"END_MESSAGE";
 New Ticket created:
 
 TicketNumber: $NewTn
@@ -345,7 +345,7 @@ State: $State
 CustomerID: $GetParam{'X-OTOBO-CustomerNo'}
 CustomerUser: $GetParam{'X-OTOBO-CustomerUser'}
 
-Message
+END_MESSAGE
 
     for my $Value (qw(Type Service SLA Lock)) {
 
