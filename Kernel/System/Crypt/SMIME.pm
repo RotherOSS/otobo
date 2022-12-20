@@ -586,7 +586,7 @@ sub Verify {
         # Determine email address(es) from attributes of signer certificate.
         my %SignerCertAttributes;
         $Self->_FetchAttributesFromCert( $SignerFile, \%SignerCertAttributes );
-        my @SignersArray = split( ', ', $SignerCertAttributes{Email} );
+        my @SignersArray = split /, /, $SignerCertAttributes{Email};
 
         # Include additional certificate attributes in the message:
         #   - signer(s) email address(es)

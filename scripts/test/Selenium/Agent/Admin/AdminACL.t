@@ -369,7 +369,7 @@ JAVASCRIPT
             Value   => 2,
         );
 
-        my @AclID1     = split( 'ID=', $Selenium->get_current_url() );
+        my @AclID1     = split /ID=/, $Selenium->get_current_url();
         my $ACLfirstID = $AclID1[1];
 
         $Selenium->find_element( "#Submit", 'css' )->VerifiedClick();
@@ -392,7 +392,7 @@ JAVASCRIPT
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        my @AclID2      = split( 'ID=', $Selenium->get_current_url() );
+        my @AclID2      = split /ID=/, $Selenium->get_current_url();
         my $ACLSecondID = $AclID2[1];
 
         # Click 'Save and Finish'.

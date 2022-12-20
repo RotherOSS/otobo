@@ -790,7 +790,7 @@ sub _GetCommunicationLog {
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
     # $Param{AccountID} can be like 'DoNotSendEmail' or 'IMAPS::1', for example.
-    my ( $AccountType, $AccountID ) = split '::', $Param{AccountID};
+    my ( $AccountType, $AccountID ) = split /::/, $Param{AccountID};
 
     my $CommunicationLogDBObj   = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
     my $CommunicationLogObjects = $CommunicationLogDBObj->ObjectLogList(

@@ -190,7 +190,7 @@ $Selenium->RunTest(
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#CustomerID").val().length;' );
         $Selenium->find_element( ".Primary.CallForAction", 'css' )->VerifiedClick();
 
-        my @Ticket          = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket          = split /TicketID=/, $Selenium->get_current_url();
         my $TicketIDProcess = $Ticket[1];
 
         # Navigate to zoom view and create note visible for customer.

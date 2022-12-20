@@ -266,7 +266,7 @@ sub ArticleWriteAttachment {
     # Remove the file name from the disposition
     my $Disposition;
     if ( $Param{Disposition} ) {
-        ($Disposition) = split ';', $Param{Disposition}, 2;
+        ($Disposition) = split /;/, $Param{Disposition}, 2;
     }
     $Disposition //= '';
 

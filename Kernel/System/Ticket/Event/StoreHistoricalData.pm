@@ -242,7 +242,7 @@ sub Run {
         }
         else {
 
-            my @CommaSeparatedValues = split ',', $Param{Value};
+            my @CommaSeparatedValues = split /,/, $Param{Value};
 
             if ( IsArrayRefWithData( \@CommaSeparatedValues ) ) {
                 @IdentifierValues = @CommaSeparatedValues;

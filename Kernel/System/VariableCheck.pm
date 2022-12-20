@@ -334,7 +334,7 @@ sub IsIPv6Address {
         $TestData .= 'X';
         $SkipLast = 1;
     }
-    my @Part = split ':', $TestData;
+    my @Part = split /:/, $TestData;
     if ($SkipFirst) {
         shift @Part;
     }

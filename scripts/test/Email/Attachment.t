@@ -309,7 +309,7 @@ for my $Test (@Tests) {
         my %Result;
         for my $Header ( split '\n', ${$Body} ) {
             if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$2} = ( split ': ', $Header )[1];
+                $Result{$2} = ( split /: /, $Header )[1];
             }
         }
 
@@ -340,7 +340,7 @@ for my $Test (@Tests) {
 
     for my $Header ( @{$Headers} ) {
         if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-            $Result{$2} = ( split ': ', $Header )[1];
+            $Result{$2} = ( split /: /, $Header )[1];
         }
     }
 

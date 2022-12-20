@@ -390,7 +390,7 @@ sub Run {
         );
 
         # split the identifier
-        my @Type = split q{::}, $TypeIdentifier;
+        my @Type = split /::/, $TypeIdentifier;
 
         if ( $Type[0] && $Type[1] && ( $Type[1] eq 'Source' || $Type[1] eq 'Target' ) ) {
 

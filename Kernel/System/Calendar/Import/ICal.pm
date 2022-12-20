@@ -302,7 +302,7 @@ sub Import {
         {
             my ( $Frequency, $Until, $Interval, $Count, $DayNames, $MonthDay, $Months );
 
-            my @Rules = split ';', $Properties->{'rrule'}->[0]->{'value'};
+            my @Rules = split /;/, $Properties->{'rrule'}->[0]->{'value'};
 
             RULE:
             for my $Rule (@Rules) {
@@ -347,7 +347,7 @@ sub Import {
                     my @Days;
 
                     # SU,MO,TU,WE,TH,FR,SA
-                    for my $DayName ( split( ',', $DayNames ) ) {
+                    for my $DayName ( split( /,/, $DayNames ) ) {
 
                         if ( uc $DayName eq 'MO' ) {
                             push @Days, 1;
@@ -404,7 +404,7 @@ sub Import {
 
                     # Custom
                     # FREQ=MONTHLY;UNTIL=20170101T080000Z;BYMONTHDAY=16,31'
-                    my @Days = split( ',', $MonthDay );
+                    my @Days = split( /,/, $MonthDay );
 
                     $Parameters{Recurring}           = 1;
                     $Parameters{RecurrenceType}      = "CustomMonthly";
@@ -431,7 +431,7 @@ sub Import {
                     next ENTRY;
                 }
 
-                my @Months = split( ',', $Months || '' );
+                my @Months = split( /,/, $Months || '' );
 
                 my $StartTimeObject = $Kernel::OM->Create(
                     'Kernel::System::DateTime',
@@ -531,7 +531,7 @@ sub Import {
                 && $Properties->{'x-otobo-team'}->[0]->{'value'}
                 )
             {
-                my @Teams = split( ",", $Properties->{'x-otobo-team'}->[0]->{'value'} );
+                my @Teams = split( /,/, $Properties->{'x-otobo-team'}->[0]->{'value'} );
 
                 if (@Teams) {
                     my @TeamIDs;
@@ -555,7 +555,7 @@ sub Import {
                 && $Properties->{'x-otobo-resource'}->[0]->{'value'}
                 )
             {
-                my @Resources = split( ",", $Properties->{'x-otobo-resource'}->[0]->{'value'} );
+                my @Resources = split( /,/, $Properties->{'x-otobo-resource'}->[0]->{'value'} );
 
                 if (@Resources) {
                     my @Users;
@@ -594,7 +594,7 @@ sub Import {
                 my $PluginKey = $PluginKeys->{$PluginKeyLC};
                 next PLUGINFIELD if !$PluginKey;
 
-                my @PluginData = split( ",", $Properties->{$PluginField}->[0]->{'value'} );
+                my @PluginData = split( /,/, $Properties->{$PluginField}->[0]->{'value'} );
                 $LinkedObjects{$PluginKey} = \@PluginData;
             }
         }

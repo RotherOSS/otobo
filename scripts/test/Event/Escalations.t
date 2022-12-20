@@ -142,7 +142,7 @@ for my $Hours ( sort keys %WorkingHours ) {
     # on every day of the week and outside usual business hours.
     {
         my %Week;
-        my @WindowTime = split ',', $WorkingHours{$Hours};
+        my @WindowTime = split /,/, $WorkingHours{$Hours};
         for my $Day (qw(Sun Mon Tue Wed Thu Fri Sat)) {
             $Week{$Day} = \@WindowTime;
         }

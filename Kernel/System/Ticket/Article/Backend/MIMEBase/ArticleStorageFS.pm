@@ -431,7 +431,7 @@ sub ArticleWriteAttachment {
     # Write attachment disposition to the file system.
     if ( $Param{Disposition} ) {
 
-        my ($Disposition) = split ';', $Param{Disposition}, 2;
+        my ($Disposition) = split /;/, $Param{Disposition}, 2;
 
         $MainObject->FileWrite(
             Directory       => $Param{Path},

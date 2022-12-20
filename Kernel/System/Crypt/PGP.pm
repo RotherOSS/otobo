@@ -1145,7 +1145,7 @@ sub _ParseGPGKeyList {
         # The option '--with-colons' causes gpg to output a machine-parsable format where the
         # individual fields are separated by a colon (':') - for a detailed description,
         # see the file doc/DETAILS in the gpg source distribution.
-        my @Fields = split ':', $Line;
+        my @Fields = split /:/, $Line;
         my $Type   = $Fields[0];
 
         # 'sec' or 'pub' indicate the start of a info block for a specific key

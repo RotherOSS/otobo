@@ -2194,7 +2194,7 @@ Returns:
 sub SettingNavigationToPath {
     my ( $Self, %Param ) = @_;
 
-    my @NavigationNames = split( '::', $Param{Navigation} );
+    my @NavigationNames = split /::/, $Param{Navigation};
     my @Path;
 
     INDEX:
@@ -2905,7 +2905,7 @@ sub ConfigurationNavigationTree {
 
     my @RootNavigation;
     if ( $Param{RootNavigation} ) {
-        @RootNavigation = split "::", $Param{RootNavigation};
+        @RootNavigation = split /::/, $Param{RootNavigation};
     }
 
     # Remember ancestors.
@@ -2918,7 +2918,7 @@ sub ConfigurationNavigationTree {
 
         next SETTING if !$Setting->{Navigation};
 
-        my @Path = split "::", $Setting->{Navigation};
+        my @Path = split /::/, $Setting->{Navigation};
 
         # Remember ancestors.
         for my $Index ( 1 .. $#Path ) {
@@ -4821,7 +4821,7 @@ sub OverriddenFileNameGet {
     my $LoadedEffectiveValue = $Self->GlobalEffectiveValueGet(
         SettingName => $Param{SettingName},
     );
-    my @SettingStructure = split( '###', $Param{SettingName} );
+    my @SettingStructure = split /###/, $Param{SettingName};
 
     my $EffectiveValue = $Param{EffectiveValue};
 
@@ -4961,7 +4961,7 @@ sub GlobalEffectiveValueGet {
 
     my $LoadedEffectiveValue;
 
-    my @SettingStructure = split( '###', $Param{SettingName} );
+    my @SettingStructure = split /###/, $Param{SettingName};
     for my $Key (@SettingStructure) {
         if ( !defined $LoadedEffectiveValue ) {
 

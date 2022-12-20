@@ -923,7 +923,7 @@ sub _RecipientsGet {
 
                     next ALLRECIPIENTS if !$Article{$Header};
 
-                    push @TmpRecipients, split ',', $Article{$Header};
+                    push @TmpRecipients, split /,/, $Article{$Header};
                 }
 
                 # Loop through recipients.

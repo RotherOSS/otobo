@@ -325,7 +325,7 @@ for my $Test (@Tests) {
         for my $Header ( split '\n', ${ $Email->{Body} } ) {
 
             if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
-                $Result{$Counter} = ( split ': ', $Header )[1];
+                $Result{$Counter} = ( split /: /, $Header )[1];
                 $Counter++;
             }
         }

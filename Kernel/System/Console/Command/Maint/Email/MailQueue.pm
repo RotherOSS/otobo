@@ -340,7 +340,7 @@ sub _ValidateParams {
     PARAM:
     for my $FilterParam ( @{ $Param{Filter} } ) {
 
-        my ( $Key, $Value ) = split '::', $FilterParam;
+        my ( $Key, $Value ) = split /::/, $FilterParam;
 
         next PARAM if $Key !~ m{^(ID|ArticleID|CommunicationID|Sender|Recipient|Attempts)$}xms;
 

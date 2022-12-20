@@ -214,7 +214,7 @@ sub Run {
             return $Self->_ReturnJSON( Response => \%Result );
         }
 
-        my @Options = split ",", $ResetOptions;
+        my @Options = split /,/, $ResetOptions;
 
         my %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
