@@ -94,7 +94,7 @@ $Selenium->RunTest(
             );
 
             $Navigation =~ s/\n\s+/@/g;
-            my @Navigation = split '@', $Navigation;
+            my @Navigation = split /\@/, $Navigation;
 
             is(
                 $Navigation[0],
