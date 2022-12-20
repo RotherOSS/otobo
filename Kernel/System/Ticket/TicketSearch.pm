@@ -1658,7 +1658,7 @@ sub TicketSearch {
             }
             $CompareOlderNewerDate = $SystemTime;
 
-            $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $Param{ $Key . 'OlderDate' } . "')";
+            $SQLExt .= " AND ($ArticleTime{$Key} <= '" . $SystemTime->ToString() . "')";
 
         }
 
@@ -1705,7 +1705,7 @@ sub TicketSearch {
             # don't execute queries if older/newer date restriction show now valid timeframe
             return if $CompareOlderNewerDate && $SystemTime > $CompareOlderNewerDate;
 
-            $SQLExt .= " AND ($ArticleTime{$Key} >= '" . $Param{ $Key . 'NewerDate' } . "')";
+            $SQLExt .= " AND ($ArticleTime{$Key} >= '" . $SystemTime->ToString() . "')";
         }
     }
 
@@ -1911,8 +1911,7 @@ sub TicketSearch {
         );
         return if !$THRef;
 
-        $SQLExt .= " AND ${ THRef }.create_time <= '"
-            . $DBObject->Quote( $Param{TicketChangeTimeOlderDate} ) . "'";
+        $SQLExt .= " AND ${ THRef }.create_time <= '" . $Time->ToString() . "'";
     }
 
     # get tickets based on ticket history changed newer than xxxx-xx-xx xx:xx date
@@ -1957,8 +1956,7 @@ sub TicketSearch {
         );
         return if !$THRef;
 
-        $SQLExt .= " AND ${ THRef }.create_time >= '"
-            . $DBObject->Quote( $Param{TicketChangeTimeNewerDate} ) . "'";
+        $SQLExt .= " AND ${ THRef }.create_time >= '" . $Time->ToString() . "'";
     }
 
     # get tickets changed older than x minutes
@@ -2018,8 +2016,7 @@ sub TicketSearch {
         }
         $CompareLastChangeTimeOlderNewerDate = $Time;
 
-        $SQLExt .= " AND st.change_time <= '"
-            . $DBObject->Quote( $Param{TicketLastChangeTimeOlderDate} ) . "'";
+        $SQLExt .= " AND st.change_time <= '" . $Time->ToString() . "'";
     }
 
     # get tickets changed newer than xxxx-xx-xx xx:xx date
@@ -2060,8 +2057,7 @@ sub TicketSearch {
         return
             if $CompareLastChangeTimeOlderNewerDate && $Time > $CompareLastChangeTimeOlderNewerDate;
 
-        $SQLExt .= " AND st.change_time >= '"
-            . $DBObject->Quote( $Param{TicketLastChangeTimeNewerDate} ) . "'";
+        $SQLExt .= " AND st.change_time >= '" . $Time->ToString() . "'";
     }
 
     # get tickets closed older than x minutes
@@ -2140,7 +2136,7 @@ sub TicketSearch {
                 $THRef,
                 ( join ', ', sort @List ),
                 $THRef,
-                $DBObject->Quote( $Param{TicketCloseTimeOlderDate} )
+                $Time->ToString()
             );
         }
     }
@@ -2202,7 +2198,7 @@ sub TicketSearch {
                 $THRef,
                 ( join ', ', sort @List ),
                 $THRef,
-                $DBObject->Quote( $Param{TicketCloseTimeNewerDate} )
+                $Time->ToString()
             );
         }
     }
@@ -2298,7 +2294,7 @@ sub TicketSearch {
                 $THRef,
                 ( join ', ', sort @List ),
                 $THRef,
-                $DBObject->Quote( $Param{TicketLastCloseTimeOlderDate} ),
+                $Time->ToString(),
                 $THRef,
                 ( join ', ', sort @StateID ),
                 ( join ', ', sort @List )
@@ -2378,7 +2374,7 @@ sub TicketSearch {
                 $THRef,
                 ( join ', ', sort @List ),
                 $THRef,
-                $DBObject->Quote( $Param{TicketLastCloseTimeNewerDate} ),
+                $Time->ToString(),
                 $THRef,
                 ( join ', ', sort @StateID ),
                 ( join ', ', sort @List )
