@@ -549,7 +549,7 @@ sub Run {
         my $IDSuffix  = $ParamObject->GetParam( Param => 'IDSuffix' )  || '';
         my $Structure = $ParamObject->GetParam( Param => 'Structure' ) || '';
 
-        my @SettingStructure = split '\.', $Structure;
+        my @SettingStructure = split /\./, $Structure;
         pop @SettingStructure;
 
         my %Result;
@@ -598,7 +598,7 @@ sub Run {
         my $IDSuffix  = $ParamObject->GetParam( Param => 'IDSuffix' )  || '';
         my $Structure = $ParamObject->GetParam( Param => 'Structure' ) || '';
 
-        my @SettingStructure = split '\.', $Structure;
+        my @SettingStructure = split /\./, $Structure;
         pop @SettingStructure;
 
         my %Result;

@@ -277,7 +277,7 @@ sub IsIPv4Address {
 
     return if !IsStringWithData(@_);
     return if $TestData !~ m{ \A [\d\.]+ \z }xms;
-    my @Part = split '\.', $TestData;
+    my @Part = split /\./, $TestData;
 
     # four parts delimited by '.' needed
     return if scalar @Part ne 4;

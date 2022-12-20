@@ -3943,7 +3943,7 @@ sub HumanReadableDataSize {
         else {
 
             # Get integer and decimal parts.
-            my ( $Integer, $Float ) = split( m{\.}, sprintf( "%.1f", $Number ) );
+            my ( $Integer, $Float ) = split( /\./, sprintf( "%.1f", $Number ) );
 
             my $Separator = $Self->{LanguageObject}->{DecimalSeparator} || '.';
 
