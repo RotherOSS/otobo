@@ -33,7 +33,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y - %T';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.193558622877995;
+    $Self->{Completeness}        = 0.212914485165794;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -53,7 +53,7 @@ sub Data {
         'Configuration Import' => 'Конфигурация на Импорт',
         'Here you can upload a configuration file to import ACLs to your system. The file needs to be in .yml format as exported by the ACL editor module.' =>
             'Тук можете да качите конфигурационен файл, за да импортирате ACL във вашата система. Файлът трябва да бъде във формат .yml, както е експортиран от модула за редактиране на ACL.',
-        'This field is required.' => 'Това поле е задължително',
+        'This field is required.' => 'Това поле е задължително.',
         'Overwrite existing ACLs?' => 'Да се запишат ли съществуващите ACL?',
         'Upload ACL configuration' => 'Качете конфигурацията на ACL',
         'Import ACL configuration(s)' => 'Импортиране на конфигурацията\те на ACL',
@@ -70,7 +70,7 @@ sub Data {
         'Validity' => 'Валидност',
         'Export' => 'Експортиране',
         'Copy' => 'Коперане',
-        'No data found.' => 'Няма намерена информация',
+        'No data found.' => 'Няма намерена информация.',
         'No matches found.' => 'Не бяха открити резултати.',
 
         # Template: AdminACLEdit
@@ -85,12 +85,12 @@ sub Data {
         'Change settings' => 'Промяна на настройките',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Настройте какво искате да промените, ако критериите се съвпадат. Имайте предвид, че "Възможно" е бял списък, "Не е възможно" е черен списък.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Проверете официалната %sдокументация%s.',
         'Show or hide the content' => 'Покажи или скрий компонента',
         'Edit ACL Information' => 'Редактиране ACL информация',
         'Name' => 'Име',
         'Stop after match' => 'Спри след съвпадението',
-        'Edit ACL Structure' => 'Редактиране ACL структура ',
+        'Edit ACL Structure' => 'Редактиране ACL структура',
         'Save ACL' => 'Запази ACL',
         'Save' => 'Съхраняване',
         'or' => 'или',
@@ -103,17 +103,17 @@ sub Data {
             'Създайте нов ACL, като изпратите данните за формуляра. След като създадете ACL, ще можете да добавяте конфигурационни елементи в режим на редактиране.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'За проекта',
         'Toggle this widget' => 'Превключете тази джаджа',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Този език не присъства или не е активиран в системата. Този текст може да бъде изтрит, ако вече не е необходим.',
+        'Remove Language' => 'Премахване на език',
         'Text' => 'Текст',
         'Message body' => 'Тяло на съобщението',
         'This field is required and must have less than 4000 characters.' =>
-            '',
-        'Remove About Language' => '',
-        'Add new language' => '',
+            'Това поле е задължително и трябва да съдържа по-малко от 4000 знака.',
+        'Remove About Language' => 'Премахване на “За езика“',
+        'Add new language' => 'Добавете нов език',
         'Save Changes' => 'Запази промените',
 
         # Template: AdminAppointmentCalendarManage
@@ -125,74 +125,74 @@ sub Data {
         'Import Appointments' => 'Добавяне срещи',
         'Calendar Import' => 'Импортиране Календар',
         'Here you can upload a configuration file to import a calendar to your system. The file needs to be in .yml format as exported by calendar management module.' =>
-            'От тук можете да качите конфигурационен файл за импортиране на календар към вашата системата. Файлът трябва да бъде. yml формат. ',
+            'От тук можете да качите конфигурационен файл за импортиране на календар към вашата системата. Файлът трябва да бъде .yml формат.',
         'Overwrite existing entities' => 'Презаписване съществуващите субекти',
         'Upload calendar configuration' => 'Качване конфигурация на календара',
         'Import Calendar' => 'Импортиране Календар',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Филтър за календари',
         'Filter for calendars' => 'Филтър за календари',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
-            '',
+            'В зависимост от груповото поле, системата ще позволи на потребителите достъп до календара според тяхното ниво на права.',
         'Read only: users can see and export all appointments in the calendar.' =>
-            '',
+            'Само за четене: потребителите могат да виждат и експортират всички срещи в календара.',
         'Move into: users can modify appointments in the calendar, but without changing the calendar selection.' =>
-            '',
+            'Преместване в: потребителите могат да променят срещи в календара, но без да променят избрания календар.',
         'Create: users can create and delete appointments in the calendar.' =>
-            '',
-        'Read/write: users can manage the calendar itself.' => '',
+            'Създаване: потребителите могат да създават и изтриват срещи в календара.',
+        'Read/write: users can manage the calendar itself.' => 'Четене/запис: потребителите могат да управляват самия календар.',
         'Group' => 'Група',
         'Changed' => 'Променен',
         'Created' => 'Създаден',
         'Download' => 'Сваляне',
-        'URL' => '',
-        'Export calendar' => '',
-        'Download calendar' => '',
-        'Copy public calendar URL' => '',
+        'URL' => 'URL',
+        'Export calendar' => 'Експортиране на календар',
+        'Download calendar' => 'Изтегляне на календар',
+        'Copy public calendar URL' => 'Копирайте URL адреса на публичния календар',
         'Calendar' => 'Календар',
-        'Calendar name' => '',
-        'Calendar with same name already exists.' => '',
-        'Color' => '',
-        'Permission group' => '',
-        'Ticket Appointments' => '',
-        'Rule' => '',
-        'Remove this entry' => '',
-        'Remove' => '',
-        'Start date' => '',
-        'End date' => '',
+        'Calendar name' => 'Име на календара',
+        'Calendar with same name already exists.' => 'Календар със същото име вече съществува.',
+        'Color' => 'Цвят',
+        'Permission group' => 'Групови права',
+        'Ticket Appointments' => 'Назначаване на билети',
+        'Rule' => 'Правило',
+        'Remove this entry' => 'Премахнете този запис',
+        'Remove' => 'Премахване',
+        'Start date' => 'Начална дата',
+        'End date' => 'Крайна дата',
         'Use options below to narrow down for which tickets appointments will be automatically created.' =>
-            '',
+            'Използвайте опциите по-долу, за да стесните срещите за кои билети ще бъдат създадени автоматично.',
         'Queues' => 'Опашки',
-        'Please select a valid queue.' => '',
-        'Search attributes' => '',
-        'Add entry' => '',
+        'Please select a valid queue.' => 'Моля, изберете валидна опашка.',
+        'Search attributes' => 'Атрибути за търсене',
+        'Add entry' => 'Добавете запис',
         'Add' => 'Добавяне',
         'Define rules for creating automatic appointments in this calendar based on ticket data.' =>
-            '',
-        'Add Rule' => '',
+            'Дефинирайте правила за създаване на автоматични срещи в този календар въз основа на данните за билети.',
+        'Add Rule' => 'Добавяне на правило',
         'Submit' => 'Изпратете',
 
         # Template: AdminAppointmentImport
-        'Appointment Import' => '',
+        'Appointment Import' => 'Импортиране на срещи',
         'Go back' => 'Назад',
-        'Uploaded file must be in valid iCal format (.ics).' => '',
+        'Uploaded file must be in valid iCal format (.ics).' => 'Каченият файл трябва да е във валиден iCal формат (.ics).',
         'If desired Calendar is not listed here, please make sure that you have at least \'create\' permissions.' =>
-            '',
+            'Ако желаният Календар не е посочен тук, моля, уверете се, че имате поне разрешения за „създаване“.',
         'Upload' => 'Качване',
-        'Update existing appointments?' => '',
+        'Update existing appointments?' => 'Актуализиране на съществуващи срещи?',
         'All existing appointments in the calendar with same UniqueID will be overwritten.' =>
-            '',
-        'Upload calendar' => '',
-        'Import appointments' => '',
+            'Всички съществуващи срещи в календара със същия UniqueID ще бъдат презаписани.',
+        'Upload calendar' => 'Качване на календар',
+        'Import appointments' => 'Импортиране на срещи',
 
         # Template: AdminAppointmentNotificationEvent
-        'Appointment Notification Management' => '',
+        'Appointment Notification Management' => 'Управление на известията за срещи',
         'Add Notification' => 'Добавяне на известие',
         'Edit Notification' => 'Редактиране на известие',
         'Export Notifications' => 'Експортиране на известия',
-        'Filter for Notifications' => '',
-        'Filter for notifications' => '',
+        'Filter for Notifications' => 'Филтър за известия',
+        'Filter for notifications' => 'Филтър за известия',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Тук можете да качите конфигурационен файл, за да импортирате известия за срещи във вашата система. Файлът трябва да бъде във формат .yml, както е експортиран от модула за уведомяване за срещи.',
         'Overwrite existing notifications?' => 'Да се запишат съществуващите известия?',
         'Upload Notification configuration' => 'Конфигурация за известия за качване',
         'Import Notification configuration' => 'Конфигурация за уведомление за импортиране',
@@ -203,26 +203,26 @@ sub Data {
         'Agent preferences tooltip' => 'Подсказка за предпочитанията на Агент',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
             'Това съобщение ще се покаже на екрана на предпочитанията на Агента като подсказка за това известие.',
-        'Events' => 'Събития.',
+        'Events' => 'Събития',
         'Event' => 'Събитие',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
-        'Appointment Filter' => '',
+            'Тук можете да изберете кои събития ще задействат това известие. По-долу може да се приложи допълнителен филтър за срещи, за да изпращате само срещи с определени критерии.',
+        'Appointment Filter' => 'Филтър за срещи',
         'Type' => 'Тип',
         'Title' => 'Заглавие',
         'Location' => 'Местоположение',
-        'Team' => '',
-        'Resource' => '',
+        'Team' => 'Екип',
+        'Resource' => 'Ресурс',
         'Recipients' => 'Получатели',
         'Send to' => 'Изпращане до',
         'Send to these agents' => 'Изпращане до тези Агенти',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Изпращане до всички членове на групата (само агенти)',
         'Send to all role members' => 'Изпращане до всички членове на ролята',
         'Send on out of office' => 'Изпрати извън офис',
-        'Also send if the user is currently out of office.' => 'Изпрати също ако този потребител и извън офис',
+        'Also send if the user is currently out of office.' => 'Изпрати също, ако този потребител и извън офис.',
         'Once per day' => 'Един път на ден',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Уведомете потребителя само веднъж на ден за една среща, използвайки избран транспорт.',
         'Notification Methods' => 'Методи за известие',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
             'Това са възможните методи, които могат да се използват за изпращане на това известие до всеки от получателите. Моля, изберете най-малко един от методите по-долу.',
@@ -233,8 +233,8 @@ sub Data {
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
             'Това е стойността по подразбиране за присвоени Агенти на получатели, които все още не са направили избор за това известие в предпочитанията си. Ако полето е активирано, уведомлението ще бъде изпратено до такива Агенти.',
         'This feature is currently not available.' => 'Понастоящем тази функция не е наразположение.',
-        'Upgrade to %s' => 'Обновете до  %s',
-        'Please activate this transport in order to use it.' => '',
+        'Upgrade to %s' => 'Обновете до %s',
+        'Please activate this transport in order to use it.' => 'Моля, активирайте този начин на предаване, за да го използвате.',
         'No data found' => 'Информацията не е открита',
         'No notification method found.' => 'Не беше намерен метод за известяване.',
         'Notification Text' => 'Текст за известията',
@@ -244,36 +244,36 @@ sub Data {
         'Subject' => 'Относно',
         'Add new notification language' => 'Дованявене на нова езиково известие',
         'Tag Reference' => 'Референтен маркер',
-        'Notifications are sent to an agent.' => '',
+        'Notifications are sent to an agent.' => 'Известията се изпращат до агент.',
         'You can use the following tags' => 'Можете да използвате следните маркери',
-        'To get the first 20 character of the appointment title.' => '',
-        'To get the appointment attribute' => '',
-        ' e. g.' => 'др.',
-        'To get the calendar attribute' => '',
-        'Attributes of the recipient user for the notification' => '',
+        'To get the first 20 character of the appointment title.' => 'За да получите първите 20 знака от заглавието на срещата.',
+        'To get the appointment attribute' => 'За да получите атрибута за среща',
+        ' e. g.' => ' др.',
+        'To get the calendar attribute' => 'За да получите атрибута календар',
+        'Attributes of the recipient user for the notification' => 'Атрибути на потребителя получател за известието',
         'Config options' => 'Опции за конфигуриране',
-        'Example notification' => '',
+        'Example notification' => 'Примерно известие',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
-        'This field must have less then 200 characters.' => '',
-        'Article visible for customer' => '',
+        'Additional recipient email addresses' => 'Допълнителни имейл адреси на получатели',
+        'This field must have less then 200 characters.' => 'Това поле трябва да има по-малко от 200 знака.',
+        'Article visible for customer' => 'Артикулът е видим за клиента',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
-        'Email template' => '',
+            'Ще бъде създадена статия, ако известието бъде изпратено до клиента или допълнителен имейл адрес.',
+        'Email template' => 'Шаблон за имейл',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
-        'Enable email security' => '',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+            'Използвайте този шаблон, за да генерирате пълния имейл (само за HTML имейли).',
+        'Enable email security' => 'Активирайте защитата на имейла',
+        'Email security level' => 'Ниво на сигурност на имейла',
+        'If signing key/certificate is missing' => 'Ако ключ/сертификат за подписване липсва',
+        'If encryption key/certificate is missing' => 'Ако ключ/сертификат за криптиране липсва',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Управление на прикачен файл',
         'Add Attachment' => 'Добавяне на прикачен файл',
         'Edit Attachment' => 'Редактиране на прикачен файл',
-        'Filter for Attachments' => '',
-        'Filter for attachments' => '',
+        'Filter for Attachments' => 'Филтър за прикачени файлове',
+        'Filter for attachments' => 'Филтър за прикачени файлове',
         'Filename' => 'Име на файл',
         'Download file' => 'Изтегли файл',
         'Delete this attachment' => 'Изтрийте прикачения файл',
@@ -284,16 +284,16 @@ sub Data {
         'Auto Response Management' => 'Управление на автоматичният отговор',
         'Add Auto Response' => 'Добавете автоматичен отговор',
         'Edit Auto Response' => 'Редактиране автоматичен отговор',
-        'Filter for Auto Responses' => '',
-        'Filter for auto responses' => '',
+        'Filter for Auto Responses' => 'Филтър за автоматични отговори',
+        'Filter for auto responses' => 'Филтър за автоматични отговори',
         'Response' => 'Отговор',
         'Auto response from' => 'Автоматичен отговор от',
         'Reference' => 'Препратка',
-        'To get the first 20 character of the subject.' => 'За да се вземат първите 20 символа от "Относно" полето',
+        'To get the first 20 character of the subject.' => 'За да се вземат първите 20 символа от "Относно" полето.',
         'To get the first 5 lines of the email.' => 'За да се вземат първите 5 реда от съобщението.',
         'To get the name of the ticket\'s customer user (if given).' => 'За да получите името на потребителя на билета ( ID дадено).',
         'To get the article attribute' => 'За да получите атрибута на статията',
-        'Options of the current customer user data' => 'Опции на текущите потребителски данни.',
+        'Options of the current customer user data' => 'Опции на текущите потребителски данни',
         'Ticket owner options' => 'Опции на собственика на билета',
         'Ticket responsible options' => 'Настройки за отговор на билета',
         'Options of the current user who requested this action' => 'Опции на текущия потребител, който е поискал това действие',
@@ -307,25 +307,25 @@ sub Data {
         'Cloud Service Management' => 'Управление на облачните услуги',
         'Support Data Collector' => 'Поддръжка за събиране на данни',
         'Support data collector' => 'Поддръжка за събиране на данни',
-        'Hint' => '',
+        'Hint' => 'Подсказка',
         'Currently support data is only shown in this system.' => 'Данните за поддръжка се показват само в тази система.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Понякога се препоръчва да изпратите тези данни на екипа на OTOBO, за да получите по-добра поддръжка.',
         'Configuration' => 'Конфигуриране',
         'Send support data' => 'Изпратете данни за поддръжката',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Това ще позволи на системата да изпраща допълнителна информация за данни за поддръжка на екипа на OTOBO.',
         'Update' => 'Обновяване',
         'System Registration' => 'Системна регистрация',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'За да активирате изпращането на данни, моля, регистрирайте системата си с екипа на OTOBO или актуализирайте информацията за регистрация на системата (уверете се, че сте активирали опцията „изпращане на данни за поддръжка“.)',
         'Register this System' => 'Регистриране на тази Система',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Регистрацията на системата е деактивирана на вашата система. Моля, проверете конфигурацията си.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'Регистрацията в системата е услуга на екипа на OTOBO, която предоставя много предимства!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Моля, имайте предвид, че използването на облачни услуги на OTOBO изисква системата да бъде регистрирана.',
         'Register this system' => 'Регистриране на тази Система',
@@ -334,72 +334,72 @@ sub Data {
         'Available Cloud Services' => 'Налични облачни услуги',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Комуникационен дневник',
+        'Time Range' => 'Времеви интервал',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for Communications' => '',
-        'Filter for communications' => '',
+            'Показване само на комуникационни дневници, създадени в определен период от време.',
+        'Filter for Communications' => 'Филтър за комуникации',
+        'Filter for communications' => 'Филтър за комуникации',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'В този екран можете да видите общ преглед на входящите и изходящите комуникации.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Можете да промените сортирането и реда на колоните, като щракнете върху заглавката на колоната.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+            'Ако щракнете върху различните записи, ще бъдете пренасочени към подробен екран за съобщението.',
+        'Status for: %s' => 'Състояние за: %s',
+        'Failing accounts' => 'Неуспешни акаунти',
+        'Some account problems' => 'Някои проблеми с акаунта',
+        'No account problems' => 'Няма проблеми с акаунта',
+        'No account activity' => 'Няма активност в акаунта',
+        'Number of accounts with problems: %s' => 'Брой акаунти с проблеми: %s',
+        'Number of accounts with warnings: %s' => 'Брой акаунти с проблеми: %s',
+        'Failing communications' => 'Неуспешни комуникации',
+        'No communication problems' => 'Няма проблеми с комуникацията',
+        'No communication logs' => 'Няма регистрационни файлове за комуникация',
+        'Number of reported problems: %s' => 'Брой докладвани проблеми: %s',
+        'Open communications' => 'Отворени комуникации',
+        'No active communications' => 'Няма активни комуникации',
+        'Number of open communications: %s' => 'Брой отворени съобщения: %s',
+        'Average processing time' => 'Средно време за обработка',
+        'List of communications (%s)' => 'Списък с комуникации (%s)',
         'Settings' => 'Настройки',
-        'Entries per page' => '',
-        'No communications found.' => '',
-        '%s s' => '',
+        'Entries per page' => 'Записи на страница',
+        'No communications found.' => 'Няма намерени комуникации.',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
-        'Back to overview' => '',
-        'Filter for Accounts' => '',
-        'Filter for accounts' => '',
+        'Account Status' => 'Състояние на акаунта',
+        'Back to overview' => 'Назад към прегледа',
+        'Filter for Accounts' => 'Филтър за акаунти',
+        'Filter for accounts' => 'Филтър за акаунти',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Можете да промените сортирането и реда на тези колони, като щракнете върху заглавката на колоната.',
+        'Account status for: %s' => 'Състояние на акаунта за: %s',
         'Status' => 'Статус',
-        'Account' => '',
+        'Account' => 'Акаунт',
         'Edit' => 'Редакция',
-        'No accounts found.' => '',
-        'Communication Log Details (%s)' => '',
+        'No accounts found.' => 'Няма намерени акаунти.',
+        'Communication Log Details (%s)' => 'Подробности за регистъра на комуникацията (%s)',
         'Direction' => 'Посока',
         'Start Time' => 'Начално време',
         'End Time' => 'Край',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Няма намерени записи в дневника за комуникация.',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Продължителност',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Приоритет',
         'Module' => 'Модул',
-        'Information' => '',
-        'No log entries found.' => '',
+        'Information' => 'Информация',
+        'No log entries found.' => 'Няма намерени записи в регистрационния файл.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Filter for Log Entries' => '',
-        'Filter for log entries' => '',
-        'Show only entries with specific priority and higher:' => '',
+        'Detail view for %s communication started at %s' => 'Подробен изглед за %s комуникация, започнала в %s',
+        'Filter for Log Entries' => 'Филтър за записи в журнала',
+        'Filter for log entries' => 'Филтър за записи в журнала',
+        'Show only entries with specific priority and higher:' => 'Показване само на записи със специфичен приоритет и по-висок:',
         'Communication Log Overview (%s)' => '',
         'No communication objects found.' => '',
         'Communication Log Details' => '',
@@ -436,10 +436,10 @@ sub Data {
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Управление на Клиенти-Групи',
         'Notice' => 'Бележка',
-        'This feature is disabled!' => 'Тази функционалност е забранена',
+        'This feature is disabled!' => 'Тази функционалност е забранена!',
         'Just use this feature if you want to define group permissions for customers.' =>
             'Трябва да използвате тази функция, ако искате да дефинирате групови разрешения на клиенти.',
-        'Enable it here!' => 'Разрешаване на фунционалността тук',
+        'Enable it here!' => 'Разрешаване на функционалността тук!',
         'Edit Customer Default Groups' => 'Редактиране на Групи по подразбиране на Клиенти',
         'These groups are automatically assigned to all customers.' => 'Тези групи автоматично се задават на всички клиенти.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
@@ -458,10 +458,10 @@ sub Data {
         'Customer Default Groups:' => 'Групи по подразбиране клиенти :',
         'No changes can be made to these groups.' => 'Не могат да се правят промени в тези групи.',
         'ro' => 'само за четене',
-        'Read only access to the ticket in this group/queue.' => 'Достъп само за четене за билетите в тази група/опашка',
+        'Read only access to the ticket in this group/queue.' => 'Достъп само за четене за билетите в тази група/опашка.',
         'rw' => 'четене/запис',
         'Full read and write access to the tickets in this group/queue.' =>
-            'Пълен достъп за билетите в тази група/опашка',
+            'Пълен достъп за билетите в тази група/опашка.',
 
         # Template: AdminCustomerUser
         'Customer User Management' => 'Управление на клиенти',
@@ -503,7 +503,7 @@ sub Data {
         'Customer Users' => 'Клиент-потребители',
         'Change Customer Relations for Customer User' => '',
         'Change Customer User Relations for Customer' => '',
-        'Toggle active state for all' => 'Превключете активното състояние за всички.',
+        'Toggle active state for all' => 'Превключете активното състояние за всички',
         'Active' => 'Активна',
         'Toggle active state for %s' => 'Превключване на активното състояние за %s',
 
@@ -641,7 +641,7 @@ sub Data {
             'Ако е попълнен, този URL адрес ще бъде използван за визуализация, която се показва, когато тази връзка се движи в увеличение на билета. Моля, имайте предвид, че за да работи това, трябва да се попълни и полето с обикновен URL адрес.',
         'SID' => '',
         'Driver' => '',
-        'Server' => '',
+        'Server' => 'Сървър',
         'Port' => '',
         'Table / View' => '',
         'User' => 'Потребител',
@@ -728,7 +728,7 @@ sub Data {
         'Check RegEx' => 'Проверете RegEx',
         'Here you can specify a regular expression to check the value. The regex will be executed with the modifiers xms.' =>
             'Тук можете да зададете регулярен израз, за да проверите стойността. Regexp ще бъде изпълнен с модификаторите xms.',
-        'RegEx' => 'RegEx',
+        'RegEx' => 'Регулярен израз',
         'Invalid RegEx' => 'Невалиден RegEx',
         'Error Message' => 'Съобщение за грешка',
         'Add RegEx' => 'Добави RegEx',
@@ -844,10 +844,10 @@ sub Data {
         'Ticket last close between' => '',
         'Close times' => 'Времето за затваряне',
         'No close time settings.' => 'Няма затворени временни настройки.',
-        'Ticket closed' => 'Билета и затворен.',
-        'Ticket closed between' => 'Билета е затворен между ',
+        'Ticket closed' => 'Билета е затворен',
+        'Ticket closed between' => 'Билета е затворен между',
         'Pending times' => 'Времето за изчакване',
-        'No pending time settings.' => 'Няма настройки за време на очакване',
+        'No pending time settings.' => 'Няма настройки за време на очакване.',
         'Ticket pending time reached' => 'Времето на очакване за билета достигнато',
         'Ticket pending time reached between' => 'Времето на очакване за билета достигнато между',
         'Escalation times' => 'Времето за ескалиране',
@@ -1113,7 +1113,7 @@ sub Data {
         'This rule will apply for all values with no mapping rule.' => 'Това правило ще се прилага за всички стойности без правилото за картографиране.',
         'New key map' => 'Нова ключова карта',
         'Add key mapping' => 'Добавяне на картографиране на ключ',
-        'Mapping for Key ' => 'Картографиране за ключ',
+        'Mapping for Key ' => 'Картографиране за ключ ',
         'Remove key mapping' => 'Премахване на картографиране на ключ',
         'Key mapping' => 'Картографиране на ключ',
         'Map key' => 'Бутон за карта',
@@ -1237,7 +1237,7 @@ sub Data {
         'Proxy User' => 'Прокси потребител',
         'The user name to be used to access the proxy server.' => 'Потребителското име, което трябва да се използва за достъп до прокси сървъра.',
         'Proxy Password' => 'Прокси парола',
-        'The password for the proxy user.' => 'Паролата за Прокси потребител',
+        'The password for the proxy user.' => 'Паролата за Прокси потребител.',
         'Skip Proxy' => '',
         'Skip proxy servers that might be configured globally?' => '',
         'Use SSL Options' => 'Използвайте опциите за SSL',
@@ -1339,7 +1339,7 @@ sub Data {
         'Add Web Service' => '',
         'Edit Web Service' => '',
         'Clone Web Service' => '',
-        'The name must be unique.' => 'Името трябва да бъде уникално',
+        'The name must be unique.' => 'Името трябва да бъде уникално.',
         'Clone' => 'Дубликиране',
         'Export Web Service' => '',
         'Import web service' => 'Импортиране на уеб услугата',
@@ -1407,8 +1407,8 @@ sub Data {
         'The admin group is to get in the admin area and the stats group to get stats area.' =>
             'Групата admin достъпва администраторската зона, а stat групата достъпва зоната за статистики.',
         'Create new groups to handle access permissions for different groups of agent (e. g. purchasing department, support department, sales department, ...). ' =>
-            'Създайте нови групи, за да управлявате разрешенията за достъп за различни Агенти (например отдел за покупки, отдел за поддръжка, отдел продажби, ...).',
-        'It\'s useful for ASP solutions. ' => 'Това е полезно за ASP решения.',
+            'Създайте нови групи, за да управлявате разрешенията за достъп за различни Агенти (например отдел за покупки, отдел за поддръжка, отдел продажби, ...). ',
+        'It\'s useful for ASP solutions. ' => 'Това е полезно за ASP решения. ',
 
         # Template: AdminLog
         'System Log' => 'Системен журнал',
@@ -1451,7 +1451,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
-        'View the admin manual on Github' => '',
+        'View the admin manual' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
         'Set as favorite' => '',
@@ -1475,7 +1475,7 @@ sub Data {
         'Include attachments to notification' => 'Включете прикачените файлове към известието',
         'Notify user just once per day about a single ticket using a selected transport.' =>
             'Информирай поребителя веднъж за деня с един билет използвайси избрания път.',
-        'Notifications are sent to an agent or a customer.' => 'Уведомления се изпращат на агент или клиент-потребител',
+        'Notifications are sent to an agent or a customer.' => 'Уведомления се изпращат на агент или клиент-потребител.',
         'To get the first 20 character of the subject (of the latest agent article).' =>
             'За да получите първите 20 знака на темата (на най-новата статия на Агента).',
         'To get the first 5 lines of the body (of the latest agent article).' =>
@@ -1516,7 +1516,7 @@ sub Data {
         'Introduction to PGP' => '',
         'Bit' => 'Бит',
         'Fingerprint' => 'Fingerprint',
-        'Expires' => 'Expires',
+        'Expires' => 'Изтича',
         'Delete this key' => '',
         'PGP key' => '',
 
@@ -1600,7 +1600,7 @@ sub Data {
         'Just use this feature if you want to log each request.' => 'Използвайте тази функционалност ако искате да се журналира всяка заявка.',
         'Activating this feature might affect your system performance!' =>
             '',
-        'Disable it here!' => 'Забраняване на фукционалността тук',
+        'Disable it here!' => 'Забраняване на функционалността тук!',
         'Logfile too large!' => 'Журналния файл е прекалено голям!',
         'The logfile is too large, you need to reset it' => '',
         'Interface' => 'Интерфейс',
@@ -1841,14 +1841,14 @@ sub Data {
         'If a ticket is closed and the customer sends a follow up the ticket will be locked to the old owner.' =>
             '',
         'System address' => '',
-        'Will be the sender address of this queue for email answers.' => 'Ще бъде адресът на изпраща за тази опашка при еМейл отговорите',
+        'Will be the sender address of this queue for email answers.' => 'Ще бъде адресът на изпраща за тази опашка при е-поща отговорите.',
         'Default sign key' => '',
         'To use a sign key, PGP keys or S/MIME certificates need to be added with identifiers for selected queue system address.' =>
             '',
         'Salutation' => 'Обръщение',
-        'The salutation for email answers.' => 'Обръщението за отговорите по еМейл',
+        'The salutation for email answers.' => 'Обръщението за отговорите по е-поща.',
         'Signature' => 'Подпис',
-        'The signature for email answers.' => 'Подписът за отговорите по еМейл',
+        'The signature for email answers.' => 'Подписът за отговорите по е-поща.',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -2570,7 +2570,7 @@ sub Data {
         'My responsibilities' => '',
         'Tickets in My Queues' => '',
         'Tickets in My Services' => '',
-        'Service Time' => 'Service Time',
+        'Service Time' => 'Време за обслужване',
 
         # Template: AgentDashboardTicketQueueOverview
         'Total' => 'Общо',
@@ -2663,7 +2663,7 @@ sub Data {
         # Template: AgentSplitSelection
         'Target' => '',
         'Process' => '',
-        'Split' => 'Разделение.',
+        'Split' => 'Разделение',
 
         # Template: AgentStatisticsAdd
         'Statistics Management' => '',
@@ -2799,11 +2799,11 @@ sub Data {
             '',
         'Next ticket state' => 'Следващо състояние за билетът',
         'Inform sender' => 'Да се информира изпращачът',
-        'Send mail' => 'Изпратете еМейл!',
+        'Send mail' => 'Изпратете е-поща',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Събирателно действие',
-        'Send Email' => 'Изпратете еМейл!',
+        'Send Email' => 'Изпратете е-поща',
         'Merge' => 'Изравняване',
         'Merge to' => 'Изравняване с',
         'Invalid ticket identifier!' => '',
@@ -2875,7 +2875,7 @@ sub Data {
         # Template: AgentTicketMerge
         'Merge %s%s%s' => '',
         'Merge Settings' => '',
-        'You need to use a ticket number!' => 'Необходимо е да използвате номер на билета',
+        'You need to use a ticket number!' => 'Необходимо е да използвате номер на билета!',
         'A valid ticket number is required.' => '',
         'Try typing part of the ticket number or title in order to search by it.' =>
             '',
@@ -3315,7 +3315,7 @@ sub Data {
         'Delete links' => '',
 
         # Template: Login
-        'Lost your password?' => 'Забравена парола',
+        'Lost your password?' => 'Забравена парола?',
         'Back to login' => '',
 
         # Template: MetaFloater
@@ -3337,7 +3337,7 @@ sub Data {
         'The migration is complete, thank you for trying out OTOBO - we hope you will like it.' =>
             '',
         'To be able to use OTOBO you have to enter the following line in your command line (Terminal/Shell) as root.' =>
-            'За да може да използвате OTOBO, Вие трябва да въведете, като superuser root в командния ред (Terminal/Shell) следната команда',
+            'За да може да използвате OTOBO, Вие трябва да въведете, като superuser root в командния ред (Terminal/Shell) следната команда.',
         'Restart your webserver' => 'Рестарт на web сървъра',
         'After doing so your OTOBO is up and running.' => 'След извършването на това, Вашият OTOBO е напълно работоспособен.',
 
@@ -3485,7 +3485,7 @@ sub Data {
         'Format' => 'Формат',
         'Exchange Axis' => 'Размяна на осите',
         'Configurable Params of Static Stat' => '',
-        'No element selected.' => 'Няма избран елемент',
+        'No element selected.' => 'Няма избран елемент.',
         'Scale' => 'Мащаб',
         'show more' => '',
         'show less' => '',
@@ -3759,7 +3759,7 @@ sub Data {
             '',
 
         # Perl Module: Kernel/Modules/AdminAttachment.pm
-        'Attachment added!' => 'Прикаченият файл е добавен.',
+        'Attachment added!' => 'Прикаченият файл е добавен!',
 
         # Perl Module: Kernel/Modules/AdminAutoResponse.pm
         'Auto Response added!' => '',
@@ -3809,11 +3809,11 @@ sub Data {
         'Privacy Policy updated!' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerCompany.pm
-        'Customer company updated!' => 'Клиентската компания е обновена.',
+        'Customer company updated!' => 'Клиентската компания е обновена!',
         'Dynamic field %s not found!' => '',
         'Unable to set value for dynamic field %s!' => '',
         'Customer Company %s already exists!' => '',
-        'Customer company added!' => 'Клиентската компания е добавена.',
+        'Customer company added!' => 'Клиентската компания е добавена!',
 
         # Perl Module: Kernel/Modules/AdminCustomerGroup.pm
         'No configuration for \'CustomerGroupPermissionContext\' found!' =>
@@ -3822,10 +3822,10 @@ sub Data {
         'Invalid permission context configuration:' => '',
 
         # Perl Module: Kernel/Modules/AdminCustomerUser.pm
-        'Customer updated!' => 'Клиента е обновен.',
+        'Customer updated!' => 'Клиента е обновен!',
         'New phone ticket' => '',
         'New email ticket' => '',
-        'Customer %s added' => 'Клиент %s е добавен.',
+        'Customer %s added' => 'Клиент %s е добавен',
         'Customer user updated!' => '',
         'Same Customer' => '',
         'Direct' => '',
@@ -3887,9 +3887,9 @@ sub Data {
         'minute(s)' => 'минута(и)',
         'hour(s)' => 'час(ове)',
         'Time unit' => 'Единица време',
-        'within the last ...' => 'в рамките на последните ',
-        'within the next ...' => 'в рамките на следващите',
-        'more than ... ago' => 'преди повече от ',
+        'within the last ...' => 'в рамките на последните ...',
+        'within the next ...' => 'в рамките на следващите ...',
+        'more than ... ago' => 'преди повече ... от',
         'Unarchived tickets' => 'Невалидни билети',
         'archive tickets' => '',
         'restore tickets from archive' => '',
@@ -4045,10 +4045,10 @@ sub Data {
         'Could not get history data for WebserviceHistoryID %s' => '',
 
         # Perl Module: Kernel/Modules/AdminGroup.pm
-        'Group updated!' => 'Групата е обновена.',
+        'Group updated!' => 'Групата е обновена!',
 
         # Perl Module: Kernel/Modules/AdminMailAccount.pm
-        'Mail account added!' => 'Електроната поща е добавена.',
+        'Mail account added!' => 'Електронната поща е добавена!',
         'Email account fetch already fetched by another process. Please try again later!' =>
             '',
         'Dispatching by email To: field.' => 'Разпределяне по поле To: от писмото.',
@@ -4113,7 +4113,7 @@ sub Data {
         'No such filter: %s' => '',
 
         # Perl Module: Kernel/Modules/AdminPriority.pm
-        'Priority added!' => 'Приоритет е добавен',
+        'Priority added!' => 'Приоритет е добавен!',
 
         # Perl Module: Kernel/Modules/AdminProcessManagement.pm
         'Process Management information from database is not in sync with the system configuration, please synchronize all processes.' =>
@@ -4205,7 +4205,7 @@ sub Data {
         'Error: Not all keys seem to have values or vice versa.' => '',
 
         # Perl Module: Kernel/Modules/AdminQueue.pm
-        'Queue updated!' => 'Опашката е обвонена.',
+        'Queue updated!' => 'Опашката е обновена!',
         'Don\'t use :: in queue name!' => '',
         'Click back and change it!' => '',
         '-none-' => '-няма-',
@@ -4224,8 +4224,8 @@ sub Data {
         'Development' => '',
 
         # Perl Module: Kernel/Modules/AdminRole.pm
-        'Role updated!' => 'Правилото е обновено',
-        'Role added!' => 'Правилото е добавено.',
+        'Role updated!' => 'Правилото е обновено!',
+        'Role added!' => 'Правилото е добавено!',
 
         # Perl Module: Kernel/Modules/AdminRoleGroup.pm
         'Change Group Relations for Role' => '',
@@ -4260,8 +4260,8 @@ sub Data {
         'Salutation added!' => '',
 
         # Perl Module: Kernel/Modules/AdminSignature.pm
-        'Signature updated!' => 'Подписа е обновен',
-        'Signature added!' => 'Подписа е добавен',
+        'Signature updated!' => 'Подписа е обновен!',
+        'Signature added!' => 'Подписа е добавен!',
 
         # Perl Module: Kernel/Modules/AdminState.pm
         'State added!' => 'Състоянието е добавено!',
@@ -4270,7 +4270,7 @@ sub Data {
         'File %s could not be read!' => '',
 
         # Perl Module: Kernel/Modules/AdminSystemAddress.pm
-        'System e-mail address added!' => 'Системната Е-поща е добавена.',
+        'System e-mail address added!' => 'Системната Е-поща е добавена!',
 
         # Perl Module: Kernel/Modules/AdminSystemConfiguration.pm
         'Invalid Settings' => '',
@@ -4340,7 +4340,7 @@ sub Data {
         'Type added!' => 'Типа е добавен!',
 
         # Perl Module: Kernel/Modules/AdminUser.pm
-        'Agent updated!' => 'Агентът беше актуализиран.',
+        'Agent updated!' => 'Агентът беше актуализиран!',
 
         # Perl Module: Kernel/Modules/AdminUserGroup.pm
         'Change Group Relations for Agent' => '',
@@ -4466,7 +4466,7 @@ sub Data {
         'Could not delete draft!' => '',
         'Previous Owner' => 'Предишен собственик',
         'wrote' => 'записано',
-        'Message from' => 'Съобщение от ',
+        'Message from' => 'Съобщение от',
         'End message' => 'Край на съобщението',
 
         # Perl Module: Kernel/Modules/AgentTicketBounce.pm
@@ -4533,7 +4533,7 @@ sub Data {
         'New Article' => 'Нов текст',
         'Pending' => 'В очакване',
         'Reminder Reached' => 'Напомнянето е достигнато',
-        'My Locked Tickets' => 'Мойте заключени билети.',
+        'My Locked Tickets' => 'Моите заключени билети',
 
         # Perl Module: Kernel/Modules/AgentTicketMerge.pm
         'Can\'t merge ticket with itself!' => '',
@@ -4562,7 +4562,7 @@ sub Data {
         # Perl Module: Kernel/Modules/AgentTicketProcess.pm
         'Couldn\'t get ActivityDialogEntityID "%s"!' => '',
         'No Process configured!' => '',
-        'The selected process is invalid!' => 'Избрания процес е невалиден.',
+        'The selected process is invalid!' => 'Избрания процес е невалиден!',
         'Process %s is invalid!' => '',
         'Subaction is invalid!' => '',
         'Parameter %s is missing in %s.' => '',
@@ -4588,7 +4588,7 @@ sub Data {
         'PendingTime can just be used if State or StateID is configured for the same ActivityDialog. ActivityDialog: %s!' =>
             '',
         'Pending Date' => 'В очакване-дата',
-        'for pending* states' => 'за състояния в очакване* ',
+        'for pending* states' => 'за състояния в очакване*',
         'ActivityDialogEntityID missing!' => '',
         'Couldn\'t get Config for ActivityDialogEntityID "%s"!' => '',
         'Couldn\'t use CustomerID as an invisible field.' => '',
@@ -4624,7 +4624,7 @@ sub Data {
         'QueueView' => 'Преглед на опашката',
 
         # Perl Module: Kernel/Modules/AgentTicketResponsibleView.pm
-        'My Responsible Tickets' => 'Мойте отворени билети.',
+        'My Responsible Tickets' => 'Моите отворени билети',
 
         # Perl Module: Kernel/Modules/AgentTicketSearch.pm
         'last-search' => 'Последно търсено',
@@ -4638,7 +4638,7 @@ sub Data {
         'Normal' => 'Нормална',
         'CSV' => '',
         'Excel' => '',
-        'in more than ...' => 'в повече от ',
+        'in more than ...' => 'в повече от ...',
 
         # Perl Module: Kernel/Modules/AgentTicketService.pm
         'Feature not enabled!' => '',
@@ -4707,7 +4707,7 @@ sub Data {
         'Event type filter settings were saved.' => '',
         'Need ArticleID!' => '',
         'Invalid ArticleID!' => '',
-        'Forward article via mail' => 'Препратете статията като поща.',
+        'Forward article via mail' => 'Препратете статията като е-поща',
         'Forward' => 'Препратете',
         'Fields with no group' => '',
         'Article could not be opened! Perhaps it is on another article page?' =>
@@ -4782,10 +4782,10 @@ sub Data {
         'Database Selection' => 'Избор на база данни',
         'Unknown Check!' => '',
         'The check "%s" doesn\'t exist!' => '',
-        'Enter the password for the database user.' => 'Въведете парола за достъп до базата данни',
+        'Enter the password for the database user.' => 'Въведете парола за достъп до базата данни.',
         'Configure MySQL' => '',
         'Database %s' => '',
-        'Enter the password for the administrative database user.' => 'Въведете парола за достъп до администраторската база данни',
+        'Enter the password for the administrative database user.' => 'Въведете парола за достъп до администраторската база данни.',
         'Configure PostgreSQL' => '',
         'Configure Oracle' => '',
         'Unknown database type "%s".' => '',
@@ -4799,13 +4799,13 @@ sub Data {
         'http' => '',
         'System Settings' => 'Системни настройки',
         'Syslog' => '',
-        'Configure Mail' => 'Конфигурирайте Е-пощата.',
-        'Mail Configuration' => 'Конфигурация на Е-поща ',
+        'Configure Mail' => 'Конфигурирайте Е-пощата',
+        'Mail Configuration' => 'Конфигурация на Е-поща',
         'Unknown Subaction %s!' => '',
         'Can\'t connect to database, Perl module DBD::%s not installed!' =>
             '',
         'Can\'t connect to database, read comment!' => '',
-        'Database already contains data - it should be empty!' => 'Базата данни вече съдържа данни - тя трябва да е празна.',
+        'Database already contains data - it should be empty!' => 'Базата данни вече съдържа данни - тя трябва да е празна!',
         'Error: Please make sure your database accepts packages over %s MB in size (it currently only accepts packages up to %s MB). Please adapt the max_allowed_packet setting of your database in order to avoid errors.' =>
             '',
         'Error: Please set the value for innodb_log_file_size on your database to at least %s MB (current: %s MB, recommended: %s MB). For more information, please have a look at %s.' =>
@@ -4835,7 +4835,7 @@ sub Data {
         'Bounce' => 'Отхвърли',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketCompose.pm
-        'Reply All' => 'Отговори на всички.',
+        'Reply All' => 'Отговори на всички',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketEmailResend.pm
         'Resend this article' => '',
@@ -4849,14 +4849,14 @@ sub Data {
         'Reply to note' => 'Отговор на бележка',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPhone.pm
-        'Split this article' => 'Разделяне на статията.',
+        'Split this article' => 'Разделяне на статията',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPlain.pm
         'View the source for this Article' => '',
-        'Plain Format' => 'Обикновен формат.',
+        'Plain Format' => 'Обикновен формат',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/AgentTicketPrint.pm
-        'Print this article' => 'Отпечатайте статията.',
+        'Print this article' => 'Отпечатайте статията',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/GetHelpLink.pm
         'Contact us at hello@otobo.de' => '',
@@ -4864,7 +4864,7 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/MarkAsImportant.pm
         'Mark' => 'Маркирай',
-        'Unmark' => 'Размаркиране.',
+        'Unmark' => 'Размаркиране',
 
         # Perl Module: Kernel/Output/HTML/ArticleAction/ReinstallPackageLink.pm
         'Re-install Package' => '',
@@ -4972,11 +4972,11 @@ sub Data {
         'This is a' => 'Това е',
         'email' => 'е-поща',
         'click here' => 'натиснете тук',
-        'to open it in a new window.' => 'да го отворите в нов прозорец',
+        'to open it in a new window.' => 'да го отворите в нов прозорец.',
         'Year' => '',
         'Hours' => 'Часа',
         'Minutes' => 'Минути',
-        'Check to activate this date' => 'Проверете преди да активирате тази дата. ',
+        'Check to activate this date' => 'Проверете преди да активирате тази дата',
         '%s TB' => '',
         '%s GB' => '',
         '%s MB' => '',
@@ -5008,7 +5008,7 @@ sub Data {
         'Online Agent: %s' => 'Агент(и) онлайн: %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
-        'There are more escalated tickets!' => 'Има повече ескалирани билети.',
+        'There are more escalated tickets!' => 'Има повече ескалирани билети!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
         'Please select a time zone in your preferences and confirm it by clicking the save button.' =>
@@ -5048,7 +5048,7 @@ sub Data {
         # Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
             '',
-        'Preferences updated successfully!' => 'Предпочитанията са обновени успешно',
+        'Preferences updated successfully!' => 'Предпочитанията са обновени успешно!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
         '(in process)' => '',
@@ -5058,14 +5058,14 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
         'Verify password' => 'Проверка на парола',
-        'The current password is not correct. Please try again!' => 'Текущата парола не е правилна. Моля, опитайте отново',
+        'The current password is not correct. Please try again!' => 'Текущата парола не е правилна. Моля, опитайте отново!',
         'Please supply your new password!' => '',
         'Can\'t update password, the new password and the repeated password do not match.' =>
             '',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             '',
         'Can\'t update password, it must be at least %s characters long!' =>
-            'Не може да се актуализира паролата ви, тя трябва да е поне %s символа дълга.',
+            'Не може да се актуализира паролата ви, тя трябва да е поне %s символа дълга!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
             '',
         'Can\'t update password, it must contain at least 1 digit!' => 'Не може да се актуализира паролата, тя трябва да съдържа поне 1 цифра!',
@@ -5116,11 +5116,11 @@ sub Data {
         'Content' => 'Съдържание',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
-        'Unlock to give it back to the queue' => 'Отключете го за да се върне обратно в опашката.',
-        'Lock it to work on it' => 'Заключете го, за да работите върху него.',
+        'Unlock to give it back to the queue' => 'Отключете го за да се върне обратно в опашката',
+        'Lock it to work on it' => 'Заключете го, за да работите върху него',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
-        'Unwatch' => 'Не наблюдаван.',
+        'Unwatch' => 'Не наблюдаван',
         'Remove from list of watched tickets' => 'Премахване от списъка с наблюдавани билети',
         'Watch' => 'Наблюдавам',
         'Add to list of watched tickets' => 'Добавяне в списъка с наблюдавани билети',
@@ -5135,11 +5135,11 @@ sub Data {
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
         'Responsible Tickets New' => 'Нови отговорни билети',
-        'Responsible Tickets Reminder Reached' => 'Напомняме за отговорен билет ',
+        'Responsible Tickets Reminder Reached' => 'Напомняме за отговорен билет',
         'Responsible Tickets Total' => 'Общо отговорни билети',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
-        'Watched Tickets New' => 'Нови наблюдавани билети ',
+        'Watched Tickets New' => 'Нови наблюдавани билети',
         'Watched Tickets Reminder Reached' => 'Напомнянето за наблюдавани билети е достигнато',
         'Watched Tickets Total' => 'Общо наблюдавани билети',
 
@@ -5169,7 +5169,7 @@ sub Data {
         'Session per user limit reached!' => '',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
-        'Session invalid. Please log in again.' => 'Невалидна сесия. Моля влезте отново',
+        'Session invalid. Please log in again.' => 'Невалидна сесия. Моля влезте отново.',
         'Session has timed out. Please log in again.' => 'Моля, оторизирайте се отново. Тази сесия вече е затворена.',
 
         # Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
@@ -5212,7 +5212,7 @@ sub Data {
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
         'This field is required or' => 'Това поле е задължително или',
         'The field content is too long!' => 'Твърде дълго съдържание на полето!',
-        'Maximum size is %s characters.' => 'Масималният брой символи е %s',
+        'Maximum size is %s characters.' => 'Максималният брой символи е %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
         'Sanity checks for database.' => '',
@@ -5820,7 +5820,7 @@ sub Data {
             '',
         'Can`t remove SessionID.' => '',
         'Logout successful.' => '',
-        'Feature not active!' => 'Функцията не е активна',
+        'Feature not active!' => 'Функцията не е активна!',
         'Sent password reset instructions. Please check your email.' => 'Изпратете инструкции за нулиране на паролата. Моля, проверете електронната си поща.',
         'Invalid Token!' => 'Невализно взета стойност!',
         'Sent new password to %s. Please check your email.' => 'Изпратете нова парола за %s. Моля, проверете електронната си поща.',
@@ -6049,7 +6049,7 @@ sub Data {
             '',
 
         # JS File: Core.Agent.Admin.NotificationEvent
-        'Do you really want to delete this notification language?' => 'Настина ли искате да изтрийте това езиково известие? ',
+        'Do you really want to delete this notification language?' => 'Настина ли искате да изтрийте това езиково известие?',
         'Do you really want to delete this notification?' => 'Наистина ли искате да изтриете това известие?',
 
         # JS File: Core.Agent.Admin.PGP
@@ -6457,7 +6457,7 @@ Thanks for your help!
         'Added note (%s).' => '',
         'Added phone call from customer.' => '',
         'Added phone call to customer.' => '',
-        'Added subscription for user "%s".' => 'Added subscription for user "%s".',
+        'Added subscription for user "%s".' => 'Добавен е абонамент за потребител „%s“.',
         'Added system request (%s).' => '',
         'Added web request from customer.' => '',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
@@ -6476,7 +6476,7 @@ Thanks for your help!
         'Admin area navigation for the agent interface.' => '',
         'Admin contact with data.' => '',
         'Admin modules overview.' => '',
-        'Admin.' => 'Админ',
+        'Admin.' => 'Администратор.',
         'Administration' => '',
         'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
@@ -6529,7 +6529,7 @@ Thanks for your help!
         'All closed tickets.' => '',
         'All customer users of a CustomerID' => '',
         'All escalated tickets' => 'Всички ескалирани билети',
-        'All new tickets, these tickets have not been worked on yet' => 'Всички нови билети, тези билети все още не са работили по тях.',
+        'All new tickets, these tickets have not been worked on yet' => 'Всички нови билети, тези билети все още не са работили по тях',
         'All open tickets, these tickets have already been worked on.' =>
             '',
         'All tickets with a reminder set where the reminder date has been reached' =>
@@ -6684,7 +6684,7 @@ Thanks for your help!
         'Change Ticket information' => '',
         'Change queue!' => '',
         'Change the customer for this ticket' => '',
-        'Change the owner for this ticket' => 'Променете собственика на билета.',
+        'Change the owner for this ticket' => 'Променете собственика на билета',
         'Change the priority for this ticket' => '',
         'Change the responsible for this ticket' => '',
         'Change your avatar image.' => '',
@@ -7840,7 +7840,7 @@ Thanks for your help!
         'Enroll process for this ticket' => '',
         'Enter your shared secret to enable two factor authentication. WARNING: Make sure that you add the shared secret to your generator application and the application works well. Otherwise you will be not able to login anymore without the two factor token.' =>
             '',
-        'Escalated Tickets' => 'Ескалирани билети.',
+        'Escalated Tickets' => 'Ескалирани билети',
         'Escalation view' => '',
         'EscalationTime' => '',
         'Estonian' => '',
@@ -7910,7 +7910,7 @@ Thanks for your help!
             '',
         'Filter incoming emails.' => '',
         'Finnish' => '',
-        'First Christmas Day' => 'Първия Коледен ден.',
+        'First Christmas Day' => 'Първия Коледен ден',
         'First Queue' => '',
         'First response time' => '',
         'FirstLock' => '',
@@ -7962,7 +7962,7 @@ Thanks for your help!
             '',
         'Generate dashboard statistics.' => '',
         'Generic Info module.' => '',
-        'GenericAgent' => 'GenericAgent',
+        'GenericAgent' => 'Общ агент',
         'GenericInterface Debugger GUI' => '',
         'GenericInterface ErrorHandling GUI' => '',
         'GenericInterface Invoker Event GUI' => '',
@@ -7995,7 +7995,7 @@ Thanks for your help!
         'Gives end users the possibility to override the separator character for CSV files, defined in the translation files. Please note: setting \'Active\' to 0 will only prevent agents from editing settings of this group in their personal preferences, but will still allow administrators to edit the settings of another user\'s behalf. Use \'PreferenceGroup\' to control in which area these settings should be shown in the user interface.' =>
             '',
         'Global Search Module.' => '',
-        'Go to dashboard!' => 'Отидете в контролния панел.',
+        'Go to dashboard!' => 'Отидете в контролния панел!',
         'Good PGP signature.' => '',
         'Google Authenticator' => '',
         'Graph: Bar Chart' => '',
@@ -8151,7 +8151,7 @@ Thanks for your help!
         'Input' => '',
         'Interface language' => '',
         'Internal communication channel.' => '',
-        'International Workers\' Day' => 'Национален ден на работниците.',
+        'International Workers\' Day' => 'Международен ден на труда',
         'It is possible to configure different skins, for example to distinguish between diferent agents, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
             '',
         'It is possible to configure different skins, for example to distinguish between diferent customers, to be used on a per-domain basis within the application. Using a regular expression (regex), you can configure a Key/Content pair to match a domain. The value in "Key" should match the domain, and the value in "Content" should be a valid skin on your system. Please see the example entries for the proper form of the regex.' =>
@@ -8192,7 +8192,7 @@ Thanks for your help!
         'Link roles to groups.' => '',
         'Link templates to attachments.' => '',
         'Link templates to queues.' => '',
-        'Link this ticket to other objects' => 'Свържете този билет с други обекти.',
+        'Link this ticket to other objects' => 'Свържете този билет с други обекти',
         'Links 2 tickets with a "Normal" type link.' => '',
         'Links 2 tickets with a "ParentChild" type link.' => '',
         'Links appointments and tickets with a "Normal" type link.' => '',
@@ -8261,7 +8261,7 @@ Thanks for your help!
         'Manage support data.' => '',
         'Manage system registration.' => '',
         'Manage tasks triggered by event or time based execution.' => '',
-        'Mark as Spam!' => 'Отбележи като спам',
+        'Mark as Spam!' => 'Отбележи като спам!',
         'Mark this ticket as junk!' => '',
         'Max size (in characters) of the customer information table (phone and email) in the compose screen.' =>
             '',
@@ -8354,7 +8354,7 @@ Thanks for your help!
         'Name of custom service. The custom service is a service selection of your preferred services and can be selected in the preferences settings.' =>
             '',
         'NameX' => '',
-        'New Tickets' => 'Нови билети.',
+        'New Tickets' => 'Нови билети',
         'New Window' => '',
         'New Year\'s Day' => 'Нова година',
         'New Year\'s Eve' => 'Нова Година',
@@ -8385,7 +8385,7 @@ Thanks for your help!
             '',
         'Number of tickets to be displayed in each page of a search result in the customer interface.' =>
             '',
-        'OTOBO News' => 'Новини за OTOBO.',
+        'OTOBO News' => 'Новини за OTOBO',
         'OTOBO Team Services' => '',
         'OTOBO can use one or more readonly mirror databases for expensive operations like fulltext search or statistics generation. Here you can specify the DSN for the first mirror database.' =>
             '',
@@ -8410,7 +8410,7 @@ Thanks for your help!
             '',
         'Other Customers' => '',
         'Out Of Office' => '',
-        'Out Of Office Time' => 'Време извън офиса.',
+        'Out Of Office Time' => 'Време извън офиса',
         'Out of Office users.' => '',
         'Outbound request headers not allowed to be used in frontend configuration.' =>
             '',
@@ -8511,8 +8511,8 @@ Thanks for your help!
         'Permitted width for compose email windows.' => '',
         'Permitted width for compose note windows.' => '',
         'Persian' => '',
-        'Phone Call Inbound' => 'Входящо телефонен разговор.',
-        'Phone Call Outbound' => 'Изходящо телефонен разговор.',
+        'Phone Call Inbound' => 'Входящ телефонен разговор',
+        'Phone Call Outbound' => 'Изходящ телефонен разговор',
         'Phone Call.' => '',
         'Phone call' => 'Телефонно обаждане',
         'Phone communication channel.' => '',
@@ -8564,7 +8564,7 @@ Thanks for your help!
         'Registers a log module, that can be used to log communication related information.' =>
             '',
         'Reminder Tickets' => 'Напомнящи билети',
-        'Removed subscription for user "%s".' => 'Removed subscription for user "%s".',
+        'Removed subscription for user "%s".' => 'Премахнат абонамент за потребител „%s“.',
         'Removes old generic interface debug log entries created before the specified amount of days.' =>
             '',
         'Removes old system configuration deployments (Sunday mornings).' =>
@@ -8931,7 +8931,7 @@ Thanks for your help!
         'Show the current owner in the customer interface.' => '',
         'Show the current queue in the customer interface.' => '',
         'Show the history for this ticket' => '',
-        'Show the ticket history' => 'Покажи историята на билетите.',
+        'Show the ticket history' => 'Покажи историята на билетите',
         'Show various content.' => '',
         'Shows a count of attachments in the ticket zoom, if the article has attachments.' =>
             '',
@@ -9176,7 +9176,7 @@ Thanks for your help!
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             '',
@@ -9313,9 +9313,9 @@ Thanks for your help!
         'Ticket Note.' => '',
         'Ticket Notifications' => '',
         'Ticket Outbound Email.' => '',
-        'Ticket Overview "Medium" Limit' => 'Общ преглед на билетите с "Среден" лимит.',
-        'Ticket Overview "Preview" Limit' => 'Лимит за "Преглед" на билетите.',
-        'Ticket Overview "Small" Limit' => 'Общ преглед на билетите с "Малък" лимит.',
+        'Ticket Overview "Medium" Limit' => 'Общ преглед на билетите с "Среден" лимит',
+        'Ticket Overview "Preview" Limit' => 'Лимит за "Преглед" на билетите',
+        'Ticket Overview "Small" Limit' => 'Общ преглед на билетите с "Малък" лимит',
         'Ticket Owner.' => '',
         'Ticket Pending.' => '',
         'Ticket Print.' => '',
@@ -9378,7 +9378,7 @@ Thanks for your help!
             '',
         'Unlocked ticket.' => 'Билета е отключен.',
         'Up' => 'Нагоре',
-        'Upcoming Events' => 'Предстоящи събития.',
+        'Upcoming Events' => 'Предстоящи събития',
         'Update Ticket "Seen" flag if every article got seen or a new Article got created.' =>
             '',
         'Update time' => '',

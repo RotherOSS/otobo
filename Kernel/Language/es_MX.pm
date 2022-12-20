@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.973346025702047;
+    $Self->{Completeness}        = 0.973028716484214;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1450,7 +1450,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Puedes añadir favoritos moviendo el cursor sobre los elementos de la derecha y haciendo clic en el icono de la estrella.',
         'Links' => 'Vínculos',
-        'View the admin manual on Github' => 'Ver el manual del administrador en Github',
+        'View the admin manual' => '',
         'No Matches' => 'No hay coincidencias',
         'Sorry, your search didn\'t match any items.' => 'Lo sentimos, su búsqueda no ha encontrado ningún artículo.',
         'Set as favorite' => 'Fijar como favorito',
@@ -6393,7 +6393,7 @@ Thanks for your help!
 ' => '
 Estimado cliente,
 
-Lamentablemente no hemos podido detectar un número de ticket válido
+Lamentablemente no hemos podido detectar un número de ticket válido 
 en su asunto, por lo que este correo no puede ser procesado.
 
 Por favor, cree un nuevo ticket a través del panel de cliente.
@@ -9186,8 +9186,8 @@ Gracias por su ayuda.
             'Especifique la contraseña para autenticar la primera base de datos espejo.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Especifique el nombre de usuario para autenticar la primera base de datos espejo.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Permisos estándar disponibles para los agentes en la aplicación. Si se requieren más permisos, pueden especificarse aquí, pero para que sean efectivos, es necesario definirlos. Otros permisos útiles también se proporcionaron, incorporados al sistema: nota, cerrar, pendiente, cliente, texto libre, mover, redactar, responsable, reenviar y rebotar. Asegúrese de que "rw" permanezca siempre como el último permiso registrado.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Número de inicio para el conteo de estadísticas. Cada estadística nueva incrementa este número.',
         'Started response time escalation.' => 'Se ha iniciado la tiempo de escalado de la respuesta.',
