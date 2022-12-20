@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-08-18 11:39+0000\n"
-"PO-Revision-Date: 2022-12-10 04:39+0000\n"
+"PO-Revision-Date: 2022-12-20 14:48+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15413,11 +15413,11 @@ msgstr "لا تتوفر مفاتيح توقيع للعناوين '‎%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "There are no selected signing keys for the addresses '%s'."
-msgstr ""
+msgstr "لا توجد مفاتيح توقيع محددة للعناوين '‏‎%s'."
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid "Sign"
-msgstr "وقع"
+msgstr "وَقَّعَ"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCompose/Sign.pm
 msgid ""
@@ -15425,66 +15425,69 @@ msgid ""
 "certificate. The first found key/certificate will be pre-selected. Please "
 "make sure to select the correct one."
 msgstr ""
+"سيتم إظهار المفاتيح/الشهادات فقط للمرسل الذي لديه أكثر من مفتاح/شهادة. سيتم "
+"تحديد أول مفتاح/شهادة تم العثور عليها مسبقا. الرجاء التأكد من تحديد الخيار "
+"الصحيح."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Shown"
-msgstr ""
+msgstr "عرض"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "Refresh (minutes)"
-msgstr ""
+msgstr "تحديث (دقائق)"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/AppointmentCalendar.pm
 msgid "off"
-msgstr "تعطيل"
+msgstr "مُطْفَأٌ"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerIDList.pm
 msgid "Shown customer ids"
-msgstr ""
+msgstr "أرقام العملاء المعروضة"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Shown customer users"
-msgstr ""
+msgstr "مستخدمو العملاء المعروضون"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Offline"
-msgstr ""
+msgstr "غير متصل"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently offline."
-msgstr ""
+msgstr "المستخدم غير متصل حاليا."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User is currently active."
-msgstr ""
+msgstr "المستخدم نشط حاليا."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "Away"
-msgstr ""
+msgstr "غَائِبٌ"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/CustomerUserList.pm
 msgid "User was inactive for a while."
-msgstr ""
+msgstr "كان المستخدم غير نشط لفترة من الوقت."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/EventsTicketCalendar.pm
 msgid "The start time of a ticket has been set after the end time!"
-msgstr ""
+msgstr "تم تعيين وقت بدء التذكرة إلى وقت ما بعد وقت الانتهاء!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/MyLastChangedTickets.pm
 msgid "Shown Tickets"
-msgstr "البطاقات المعروضة"
+msgstr "التذاكر المعروضة"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't connect to OTOBO News server!"
-msgstr ""
+msgstr "يتعذر الاتصال بخادم أخبار OTOBO!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/News.pm
 msgid "Can't get OTOBO News from server!"
-msgstr ""
+msgstr "يتعذر الحصول على أخبار OTOBO من الخادم!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't connect to Product News server!"
-msgstr ""
+msgstr "يتعذر الاتصال بخادم أخبار المنتج!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/ProductNotify.pm
 msgid "Can't get Product News from server!"
