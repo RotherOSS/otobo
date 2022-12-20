@@ -302,12 +302,12 @@ for my $Test (@Tests) {
 
     # some MIME::Tools workaround
     my $Email = ${$Header} . "\n" . ${$Body};
-    my @Array = split '\n', $Email;
+    my @Array = split /\n/, $Email;
 
     # Processing with Send headersif constant SEND set to 1
     if ($SEND) {
         my %Result;
-        for my $Header ( split '\n', ${$Body} ) {
+        for my $Header ( split /\n/, ${$Body} ) {
             if ( $Header =~ /^Content\-Type\:\ (.*?)\;.*?\"(.*?)\"/x ) {
                 $Result{$2} = ( split /: /, $Header )[1];
             }
