@@ -954,7 +954,7 @@ sub _ComputeFields {
             $Param{GetParam}->{$Field} = '';
             next FIELD;
         }
-        my @Attributes = split ',', $Param{GetParam}->{$Field};
+        my @Attributes = split /,/, $Param{GetParam}->{$Field};
         $Param{GetParam}->{$Field} = '';
         ATTRIBUTE:
         for my $Attribute (@Attributes) {
@@ -970,7 +970,7 @@ sub _ComputeFields {
     }
 
     # Add and filter (= allow only possible values) complete sorted field.
-    my @SortOrderComputed = split ',', $Param{GetParam}->{SortOrder};
+    my @SortOrderComputed = split /,/, $Param{GetParam}->{SortOrder};
     @SortOrderComputed = grep { $Param{PossibleValues}->{$_} } @SortOrderComputed;
     my %PreSorted = map { $_ => 1 } @SortOrderComputed;
     FIELD:
@@ -990,7 +990,7 @@ sub _ComputeFields {
             push @Computed, 'ValidID';
         }
         ATTRIBUTE:
-        for my $Attribute ( split ',', $Param{GetParam}->{$Field} ) {
+        for my $Attribute ( split /,/, $Param{GetParam}->{$Field} ) {
             next ATTRIBUTE if $Attribute eq '';
             $Attribute =~ s{ \A \s+ }{}xms;
             $Attribute =~ s{ \s+ \z }{}xms;

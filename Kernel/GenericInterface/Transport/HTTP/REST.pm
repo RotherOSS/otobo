@@ -145,7 +145,7 @@ sub ProviderProcessRequest {
         #        Password  => 'secret',
         #      );
         for my $QueryParam ( split /[;&]/, $QueryParamsStr ) {
-            my ( $Key, $Value ) = split '=', $QueryParam;
+            my ( $Key, $Value ) = split /=/, $QueryParam;
 
             # Convert + characters to its encoded representation, see bug#11917.
             $Value =~ s{\+}{%20}g;

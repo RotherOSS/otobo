@@ -572,7 +572,7 @@ for my $ModuleFile (@BackendModuleFiles) {
         TESTFILE:
         for my $TestFile (@TestFiles) {
 
-            my @FileParts = split '/', $TestFile;
+            my @FileParts = split /\//, $TestFile;
             my $FileName  = $FileParts[-1];
 
             # read content of the testfile

@@ -420,7 +420,7 @@ sub SearchStringStopWordsFind {
 
         my %Words;
         for my $Value ( @{ $Result{Values} } ) {
-            my @Words = split '\s+', $$Value;
+            my @Words = split /\s+/, $$Value;
             for my $Word (@Words) {
                 $Words{ lc $Word } = 1;
             }

@@ -264,7 +264,7 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Get created test ticket ID and number.
-        my @Ticket = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket = split /TicketID=/, $Selenium->get_current_url();
 
         my $TicketID = $Ticket[1];
 

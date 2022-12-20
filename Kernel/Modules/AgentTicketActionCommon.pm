@@ -1223,7 +1223,7 @@ sub Run {
             my @NotifyUserIDs;
 
             # get list of users that will be informed without selection in informed/involved list
-            my @UserListWithoutSelection = split( ',', $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "" );
+            my @UserListWithoutSelection = split /,/, $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "";
 
             # get inform user list
             my @InformUserID = $ParamObject->GetArray( Param => 'InformUserID' );

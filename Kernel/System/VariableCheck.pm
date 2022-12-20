@@ -277,7 +277,7 @@ sub IsIPv4Address {
 
     return if !IsStringWithData(@_);
     return if $TestData !~ m{ \A [\d\.]+ \z }xms;
-    my @Part = split '\.', $TestData;
+    my @Part = split /\./, $TestData;
 
     # four parts delimited by '.' needed
     return if scalar @Part ne 4;
@@ -334,7 +334,7 @@ sub IsIPv6Address {
         $TestData .= 'X';
         $SkipLast = 1;
     }
-    my @Part = split ':', $TestData;
+    my @Part = split /:/, $TestData;
     if ($SkipFirst) {
         shift @Part;
     }

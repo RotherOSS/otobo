@@ -425,7 +425,7 @@ sub RetrieveObject {
 
     my $FullDisposition = $Transaction->res->headers->content_disposition;
     if ($FullDisposition) {
-        ( $Data{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
+        ( $Data{Disposition} ) = split /;/, $FullDisposition, 2;    # ignore the filename part
     }
 
     # if no content disposition is set images with content id should be inline

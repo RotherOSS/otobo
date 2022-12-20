@@ -71,7 +71,7 @@ sub Run {
         my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
         # extract permission list
-        my @PermissionList = split ',', $Queues->{ $Ticket{Queue} };
+        my @PermissionList = split /,/, $Queues->{ $Ticket{Queue} };
 
         my %PermissionList;
         STRING:

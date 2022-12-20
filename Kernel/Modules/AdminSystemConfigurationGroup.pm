@@ -214,7 +214,7 @@ sub Run {
             return $Self->_ReturnJSON( Response => \%Result );
         }
 
-        my @Options = split ",", $ResetOptions;
+        my @Options = split /,/, $ResetOptions;
 
         my %Setting = $SysConfigObject->SettingGet(
             Name => $SettingName,
@@ -549,7 +549,7 @@ sub Run {
         my $IDSuffix  = $ParamObject->GetParam( Param => 'IDSuffix' )  || '';
         my $Structure = $ParamObject->GetParam( Param => 'Structure' ) || '';
 
-        my @SettingStructure = split '\.', $Structure;
+        my @SettingStructure = split /\./, $Structure;
         pop @SettingStructure;
 
         my %Result;
@@ -598,7 +598,7 @@ sub Run {
         my $IDSuffix  = $ParamObject->GetParam( Param => 'IDSuffix' )  || '';
         my $Structure = $ParamObject->GetParam( Param => 'Structure' ) || '';
 
-        my @SettingStructure = split '\.', $Structure;
+        my @SettingStructure = split /\./, $Structure;
         pop @SettingStructure;
 
         my %Result;

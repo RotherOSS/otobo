@@ -926,7 +926,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
             );
 
             # if the wrong scheme is used, delete also the "other" cookie - issue #251
-            my ($RequestScheme) = split '/', $ParamObject->ServerProtocol, 2;
+            my ($RequestScheme) = split /\//, $ParamObject->ServerProtocol, 2;
             if ( $RequestScheme ne $ConfigObject->Get('HttpType') ) {
                 $Kernel::OM->ObjectParamAdd(
                     'Kernel::Output::HTML::Layout' => {

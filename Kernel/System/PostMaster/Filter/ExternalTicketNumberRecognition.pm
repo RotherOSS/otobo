@@ -159,10 +159,10 @@ sub Run {
         # if StateTypes contains semicolons, use that for split,
         # otherwise split on spaces (for compat)
         if ( $Param{JobConfig}->{TicketStateTypes} =~ m{;} ) {
-            @StateTypeIDs = split ';', $Param{JobConfig}->{TicketStateTypes};
+            @StateTypeIDs = split /;/, $Param{JobConfig}->{TicketStateTypes};
         }
         else {
-            @StateTypeIDs = split ' ', $Param{JobConfig}->{TicketStateTypes};
+            @StateTypeIDs = split ' ', $Param{JobConfig}->{TicketStateTypes};    # pattern ' ' is treated as /\s+/
         }
 
         STATETYPE:

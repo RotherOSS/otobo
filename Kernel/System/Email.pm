@@ -733,7 +733,7 @@ sub SendExecute {
     # Normalize 'To', always use an arrayref.
     my $To = $Param{'To'};
     if ( !( ref $To ) ) {
-        $To = [ split( ',', $To, ) ];
+        $To = [ split /,/, $To ];
     }
 
     my $LogMessage = sprintf(

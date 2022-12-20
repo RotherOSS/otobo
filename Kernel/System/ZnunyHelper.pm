@@ -513,7 +513,7 @@ sub _ValidDynamicFieldScreenListGet {
 
         # check if config is already valid / defined
         for my $CurrentConfig ( sort keys %{ $ValidScreens->{$Screen} } ) {
-            my ( $ConfigPath, $Key ) = split '###', $CurrentConfig;
+            my ( $ConfigPath, $Key ) = split /###/, $CurrentConfig;
             my $ConfigData = $ConfigObject->Get($ConfigPath);
 
             delete $ValidScreens->{$Screen}->{$CurrentConfig} if !defined $ConfigData->{$Key};
@@ -596,7 +596,7 @@ sub _DefaultColumnsGet {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -699,7 +699,7 @@ sub _DefaultColumnsEnable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -840,7 +840,7 @@ sub _DefaultColumnsDisable {
             $FrontendPath = "Ticket::Frontend::$View";
         }
 
-        my @Keys   = split '###', $FrontendPath;
+        my @Keys   = split /###/, $FrontendPath;
         my $Config = $ConfigObject->Get( $Keys[0] );
 
         # check if config has DefaultColumns attribute and set it
@@ -1051,7 +1051,7 @@ sub _DynamicFieldsScreenGet {
     my %Config;
     CONFIGITEM:
     for my $ConfigItem ( @{ $Param{ConfigItems} } ) {
-        my @Keys = split '###', $ConfigItem;
+        my @Keys = split /###/, $ConfigItem;
 
         my $ConfigItemConfig = $ConfigObject->Get( $Keys[0] );
         INDEX:
@@ -1166,7 +1166,7 @@ sub _DynamicFieldsScreenEnable {
         if ( $View =~ m{(\w+::)+\w+}xmsi ) {
             $FrontendPath = $View;
         }
-        my @Keys = split '###', $FrontendPath;
+        my @Keys = split /###/, $FrontendPath;
 
         if ( !$#Keys ) {
             push @Keys, 'DynamicField';
@@ -1306,7 +1306,7 @@ sub _DynamicFieldsScreenDisable {
         if ( $View =~ m{(\w+::)+\w+}xmsi ) {
             $FrontendPath = $View;
         }
-        my @Keys = split '###', $FrontendPath;
+        my @Keys = split /###/, $FrontendPath;
 
         if ( !$#Keys ) {
             push @Keys, 'DynamicField';
@@ -2758,7 +2758,7 @@ sub _ServiceCreateIfNotExists {
     return $ItemID if $ItemID;
 
     # split string to check for possible sub services
-    my @ServiceArray = split( '::', $Name );
+    my @ServiceArray = split /::/, $Name;
 
     # create service with parent
     my $CompleteServiceName = '';
@@ -3066,7 +3066,7 @@ sub _QueueCreateIfNotExists {
     return $ItemID if $ItemID;
 
     # split string to check for possible sub Queues
-    my @QueueArray = split( '::', $Name );
+    my @QueueArray = split /::/, $Name;
 
     # create Queue with parent
     my $CompleteQueueName = '';
@@ -4822,7 +4822,7 @@ sub _ModuleGroupAdd {
 
     # Split module "path" (e. g. Admin###001-Framework)
     my $Module = $Param{Module};
-    my @ModulePathElements = split '###', $Module;
+    my @ModulePathElements = split /###/, $Module;
 
     my $ModuleRegistration = $FrontendList;
     for my $ModulePathElement (@ModulePathElements) {
@@ -4935,7 +4935,7 @@ sub _ModuleGroupRemove {
 
     # Split module "path" (e. g. Admin###001-Framework)
     my $Module = $Param{Module};
-    my @ModulePathElements = split '###', $Module;
+    my @ModulePathElements = split /###/, $Module;
 
     my $ModuleRegistration = $FrontendList;
     for my $ModulePathElement (@ModulePathElements) {

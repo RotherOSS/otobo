@@ -417,7 +417,7 @@ sub GetActiveSessions {
         next SESSIONID if !$StateData;
         next SESSIONID if ref $StateData ne 'SCALAR';
 
-        my @SessionData = split '####', ${$StateData};
+        my @SessionData = split /####/, ${$StateData};
 
         # get needed data
         my $UserType        = $SessionData[0] || '';
@@ -490,7 +490,7 @@ sub GetExpiredSessionIDs {
         next SESSIONID if !$StateData;
         next SESSIONID if ref $StateData ne 'SCALAR';
 
-        my @SessionData = split '####', ${$StateData};
+        my @SessionData = split /####/, ${$StateData};
 
         # get needed data
         my $UserSessionStart = $SessionData[2] || $TimeNow;

@@ -1323,7 +1323,7 @@ sub Run {
 
                 if ( $GetParam{RecurrenceCustomType} eq 'CustomWeekly' ) {
                     if ( $GetParam{Days} ) {
-                        my @Days = split( ",", $GetParam{Days} );
+                        my @Days = split /,/, $GetParam{Days};
                         $GetParam{RecurrenceFrequency} = \@Days;
                     }
                     else {
@@ -1339,7 +1339,7 @@ sub Run {
                 }
                 elsif ( $GetParam{RecurrenceCustomType} eq 'CustomMonthly' ) {
                     if ( $GetParam{MonthDays} ) {
-                        my @MonthDays = split( ",", $GetParam{MonthDays} );
+                        my @MonthDays = split /,/, $GetParam{MonthDays};
                         $GetParam{RecurrenceFrequency} = \@MonthDays;
                     }
                     else {
@@ -1355,7 +1355,7 @@ sub Run {
                 }
                 elsif ( $GetParam{RecurrenceCustomType} eq 'CustomYearly' ) {
                     if ( $GetParam{Months} ) {
-                        my @Months = split( ",", $GetParam{Months} );
+                        my @Months = split /,/, $GetParam{Months};
                         $GetParam{RecurrenceFrequency} = \@Months;
                     }
                     else {

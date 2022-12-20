@@ -209,7 +209,7 @@ $Selenium->RunTest(
         $Selenium->find_element("//button[\@value='Submit'][\@type='submit']")->VerifiedClick();
 
         # Remember created ticket, to delete the ticket at the end of the test.
-        my @TicketID = split( 'TicketID=', $Selenium->get_current_url() );
+        my @TicketID = split /TicketID=/, $Selenium->get_current_url();
         push @DeleteTicketIDs, $TicketID[1];
 
         $Selenium->WaitFor(

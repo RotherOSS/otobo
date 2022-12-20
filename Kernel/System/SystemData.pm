@@ -431,7 +431,7 @@ sub _SystemDataCacheKeyDelete {
     );
 
     # delete cache for groups if needed
-    my @Parts = split '::', $Param{Key};
+    my @Parts = split /::/, $Param{Key};
 
     return 1 if scalar @Parts <= 1;
 

@@ -161,7 +161,7 @@ sub Create {
     my $RecipientRef = ref $Recipient;
 
     if ( !$RecipientRef ) {
-        $Recipient = [ split( ',', $Recipient, ) ];
+        $Recipient = [ split /,/, $Recipient ];
     }
 
     my $OnErrorSetArticleTransmissionError = sub {
@@ -346,7 +346,7 @@ sub List {
             ArticleID       => $Row[1],
             Attempts        => $Row[2],
             Sender          => $Row[3],
-            Recipient       => [ split( ',', $Row[4], ) ],
+            Recipient       => [ split /,/, $Row[4] ],
             Message         => $Message,
             DueTime         => $DueTime,
             LastSMTPCode    => $Row[7],
@@ -477,7 +477,7 @@ sub Update {
 
         if ( $Col eq 'Sender' || $Col eq 'Recipient' ) {
             if ( $Col eq 'Recipient' && !ref $Value ) {
-                $Value = [ split( ',', $Value, ) ];
+                $Value = [ split /,/, $Value ];
             }
 
             return if !$Self->_CheckValidEmailAddresses(

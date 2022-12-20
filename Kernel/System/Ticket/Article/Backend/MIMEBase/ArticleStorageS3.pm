@@ -332,7 +332,7 @@ sub ArticleAttachmentIndexRaw {
 
             my $FullDisposition = $Headers->content_disposition;
             if ($FullDisposition) {
-                ( $Item->{Disposition} ) = split ';', $FullDisposition, 2;    # ignore the filename part
+                ( $Item->{Disposition} ) = split /;/, $FullDisposition, 2;    # ignore the filename part
             }
 
             # if no content disposition is set images with content id should be inline

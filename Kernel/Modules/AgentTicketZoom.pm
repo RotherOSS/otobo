@@ -1734,7 +1734,7 @@ sub MaskAgentZoom {
             my $GroupFieldsString = $Self->{DisplaySettings}->{ProcessWidgetDynamicFieldGroups}->{$GroupName};
 
             $GroupFieldsString =~ s{\s}{}xmsg;
-            my @GroupFields = split( ',', $GroupFieldsString );
+            my @GroupFields = split /,/, $GroupFieldsString;
 
             if ( $#GroupFields + 1 ) {
 

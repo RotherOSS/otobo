@@ -632,7 +632,7 @@ sub _PDFOutputLinkedObjects {
     for my $LinkTypeLinkDirection ( sort { lc $a cmp lc $b } keys %{ $Param{LinkData} } ) {
 
         # Investigate link type name.
-        my @LinkData     = split q{::}, $LinkTypeLinkDirection;
+        my @LinkData     = split /::/, $LinkTypeLinkDirection;
         my $LinkTypeName = $TypeList{ $LinkData[0] }->{ $LinkData[1] . 'Name' };
         $LinkTypeName = $LayoutObject->{LanguageObject}->Translate($LinkTypeName);
 

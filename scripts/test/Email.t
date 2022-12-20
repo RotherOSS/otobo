@@ -200,7 +200,7 @@ for my $Encoding ( '', qw(base64 quoted-printable 8bit) ) {
         # check Content-Type
         if ( $Test->{Data}->{Type} ) {
             $Self->Is(
-                ( split ';', $ParserObject->GetContentType() )[0],
+                ( split /;/, $ParserObject->GetContentType() )[0],
                 $Test->{Data}->{Type},
                 "$Name GetContentType()",
             );

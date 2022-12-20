@@ -413,7 +413,7 @@ sub _Overview {
         $Search =~ s{ \A \s+ }{}xms;
         $Search =~ s{ \s+ \z }{}xms;
         $Search = 'A' . $Search . 'Z';
-        my @SearchParts = split '\*', $Search;
+        my @SearchParts = split /\*/, $Search;
         for my $SearchPart (@SearchParts) {
             $SearchPart = quotemeta($SearchPart);
         }
