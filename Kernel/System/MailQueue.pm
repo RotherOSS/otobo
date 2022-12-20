@@ -614,9 +614,21 @@ sub Send {
 
     my $LogObject = $Kernel::OM->Get('Kernel::System::Log');
 
+    # Lookup for the communication id for the processing mail-queue item.
+    $Param{CommunicationLogObject} = $Self->_GetCommunicationLog( %Param, );
+    $Param{CommunicationID}        = $Param{CommunicationLogObject}->CommunicationIDGet();
+
     # Check for required data.
     for my $Argument (qw(ID Recipient Message)) {
         if ( !$Param{$Argument} ) {
+            $Self->_SendError(
+                Item       => \%Param,
+                Delete     => 1,
+                SendResult => {
+                   ErrorMessage => 'Canceled. Message stored erroneously.',
+                },
+            );
+
             return {
                 Status  => 'Failed',
                 Message => "Need $Argument.",
@@ -626,6 +638,14 @@ sub Send {
 
     # Message should be a HashRef
     if ( !IsHashRefWithData( $Param{Message} ) ) {
+        $Self->_SendError(
+            Item       => \%Param,
+            Delete     => 1,
+            SendResult => {
+               ErrorMessage => 'Canceled. Message stored erroneously.',
+            },
+        );
+
         return {
             Status  => 'Failed',
             Message => 'Invalid Message, should be a HashRef!',
@@ -635,16 +655,20 @@ sub Send {
     # Check for message required data.
     for my $Argument (qw(Header Body)) {
         if ( !$Param{Message}->{$Argument} ) {
+            $Self->_SendError(
+                Item       => \%Param,
+                Delete     => 1,
+                SendResult => {
+                   ErrorMessage => 'Canceled. Message stored erroneously.',
+                },
+            );
+
             return {
                 Status  => 'Failed',
                 Message => "Need Message - $Argument!",
             };
         }
     }
-
-    # Lookup for the communication id for the processing mail-queue item.
-    $Param{CommunicationLogObject} = $Self->_GetCommunicationLog( %Param, );
-    $Param{CommunicationID}        = $Param{CommunicationLogObject}->CommunicationIDGet();
 
     # If DueTime is bigger than current time, skip, it is not time to run yet.
     my $CurrentSysDTObject = $Kernel::OM->Create('Kernel::System::DateTime');
@@ -806,6 +830,7 @@ sub _SendSuccess {
 
 Handles Send errors.
 Situations where the mail queue item is deleted:
+    - Delete => 1, e.g. when message is stored erroneously
     - SMTP 5?? errors codes, considered permanent errors.
     - reached maximum attempts
 
@@ -847,6 +872,7 @@ sub _SendError {
 
     # If is a permanent error or reach the maximum attempts, remove the element from the queue.
     if (
+        ( $Param{Delete} ) ||
         ( $SendResult->{SMTPError} && $SendResult->{Code} && substr( $SendResult->{Code}, 0, 1 ) == 5 ) ||
         ( $ItemAttempts >= $ItemMaxAttempts )
         )

@@ -306,29 +306,19 @@ $Selenium->RunTest(
             Value   => 10,
         );
 
-        # TODO: remove limitation to firefox.
-        if ( $Selenium->{browser_name} eq 'firefox' ) {
-            $Self->True(
-                1,
-                "TODO: DragAndDrop is currently disabled in Firefox",
-            );
-        }
-        else {
+        # Move responsible from left to the right side.
+        $Selenium->mouse_move_to_location(
+            element => $Selenium->find_element( '//li[@data-fieldname="Responsible"]', 'xpath' ),
+        );
 
-            # Move responsible from left to the right side.
-            $Selenium->mouse_move_to_location(
-                element => $Selenium->find_element( '//li[@data-fieldname="Responsible"]', 'xpath' ),
-            );
-
-            $Selenium->DragAndDrop(
-                Element      => 'li[data-fieldname="Responsible"]',
-                Target       => '#AssignedFields-DashboardAgentTicketStatusView',
-                TargetOffset => {
-                    X => 185,
-                    Y => 10,
-                },
-            );
-        }
+        $Selenium->DragAndDrop(
+            Element      => 'li[data-fieldname="Responsible"]',
+            Target       => '#AssignedFields-DashboardAgentTicketStatusView',
+            TargetOffset => {
+                X => 185,
+                Y => 10,
+            },
+        );
 
         $Selenium->find_element( "#DialogButton1", 'css' )->click();
         $Selenium->WaitFor(
