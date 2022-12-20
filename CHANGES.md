@@ -1,4 +1,26 @@
 
+# OTOBO 10.0.17 2022-12-20
+- 2022-12-20 10:35:45 +0100 [Security] Fix SQL Injection Bug in TicketSearch. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2049)
+- 2022-10-25 15:52:04 +0200 Correcting template toolkit data insertion
+- 2022-12-16 16:45:49 +0100 [Bugfix]   Appointment notifications are not sent when IsVisibleForCustomer is set (https://github.com/RotherOSS/otobo/issues/1954)
+- 2022-10-17 18:12:02 +0200 [Tidied]   Fix name of test script ArticleStorageNameLenght.t (https://github.com/RotherOSS/otobo/issues/1980)
+- 2022-10-06 11:37:11 +0200 [Bugfix]   Admin Documentation Link points to wrong URL (https://github.com/RotherOSS/otobo/issues/1312)
+- 2022-08-31 15:43:56 +0200 [Bugfix]   CLOB colums are not base64 decoded when migrating from Oracle to MariaDB (https://github.com/RotherOSS/otobo/issues/1905)
+- 2022-08-31 11:02:31 +0200 Skip migration of the database table mail_queue (https://github.com/RotherOSS/otobo/issues/1888)
+- 2022-08-31 10:10:12 +0200 Avoid empty argument list for Compile.t
+- 2022-08-30 16:49:03 +0200 [Tidied]   List of bundled distributions is not up to date (https://github.com/RotherOSS/otobo/issues/1878)
+- 2022-08-30 15:39:44 +0200 [Tidied]   Remove Kernel/cpan-lib/parent.pm as parent.pm is in core (https://github.com/RotherOSS/otobo/issues/1896)
+- 2022-08-18 14:47:57 +0200 Fix the Perl 5.34 shmwrite problem in OTOBO 10.0.x (https://github.com/RotherOSS/otobo/issues/1876)
+- 2022-08-11 16:18:11 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
+- 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
+- 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-05-16 14:56:28 +0200 Issue #1777 fixed time and s3 (https://github.com/RotherOSS/otobo/issues/1778)
+- 2022-05-16 09:17:39 +0200 Followup to Issue #1297: Add used method.
+- 2022-04-30 18:06:23 +0200 Fix test Selenium/Output/Dashboard/CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1747)
+- 2022-04-28 18:56:32 +0200 [Security] Bug in LDAP groups to OTOBO roles synchronization (https://github.com/RotherOSS/otobo/issues/1608)
+
+
 # OTOBO 10.0.16 2022-04-28
 - 2022-04-20 08:34:56 +0200 Fixed XSS vulnerability in package manager GUI (CVE-2022-0475).
 - 2022-04-28 08:49:06 +0200 [Security] Prohibit system calls of OTOBO Admin. (https://github.com/RotherOSS/otobo/issues/1740)
@@ -898,6 +920,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
