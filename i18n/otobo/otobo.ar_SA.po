@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-12-20 16:01+0000\n"
+"PO-Revision-Date: 2022-12-21 14:19+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15499,31 +15499,31 @@ msgstr "يتعذر الاتصال ب ‎%s!"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "Shown Columns"
-msgstr ""
+msgstr "الأعمدة المعروضة"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter not active"
-msgstr ""
+msgstr "عامل التصفية غير نشط"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "filter active"
-msgstr ""
+msgstr "عامل تصفية نشط"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
 msgid "This ticket has no title or subject"
-msgstr ""
+msgstr "هذه التذكرة ليس لها عنوان أو موضوع"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
 msgid "7 Day Stats"
-msgstr "الإحصائيات ل ٧ أيام"
+msgstr "إحصاءات 7 أيام"
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "User set their status to unavailable."
-msgstr ""
+msgstr "قام المستخدم بتعيين حالته إلى \"غير متوفر\"."
 
 #. Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
 msgid "Unavailable"
-msgstr ""
+msgstr "غير متوفر"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Standard"
@@ -15531,29 +15531,31 @@ msgstr "قياسي"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "The following tickets are not updated: %s."
-msgstr ""
+msgstr "لم يتم تحديث التذاكر التالية: ‎%s."
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "h"
-msgstr "س"
+msgstr "ح"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "m"
-msgstr "ش"
+msgstr "م"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "d"
-msgstr "ي"
+msgstr "د"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid ""
 "This ticket does not exist, or you don't have permissions to access it in "
 "its current state. You can take one of the following actions:"
 msgstr ""
+"هذه التذكرة غير موجودة، أو ليس لديك أذونات للوصول إليها في حالتها الحالية. "
+"يمكنك إتخاذ أحد الإجراءات التالية:"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "This is a"
-msgstr ""
+msgstr "هذا هو"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "email"
@@ -15581,27 +15583,27 @@ msgstr "دقائق"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Check to activate this date"
-msgstr ""
+msgstr "حدد لتمكين هذا التاريخ"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s TB"
-msgstr ""
+msgstr "‎%s تيرابايت (TB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s GB"
-msgstr ""
+msgstr "‎%s غيغابايت (GB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s MB"
-msgstr ""
+msgstr "‎%s ميغابايت (MG)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s KB"
-msgstr ""
+msgstr "‎%s كيلوبايت (KB)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "%s B"
-msgstr ""
+msgstr "‎%s بايت (B)"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission!"
@@ -15609,7 +15611,7 @@ msgstr "لا توجد صلاحيات!"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "No Permission"
-msgstr ""
+msgstr "لا توجد صلاحيات"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Show Tree Selection"
@@ -15617,11 +15619,11 @@ msgstr "عرض الاختيار الشجري"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Split Quote"
-msgstr ""
+msgstr "تقسيم الاقتباس"
 
 #. Perl Module: Kernel/Output/HTML/Layout.pm
 msgid "Remove Quote"
-msgstr ""
+msgstr "إزالة الاقتباس"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Linked as"
