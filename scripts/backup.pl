@@ -577,6 +577,7 @@ END_MESSAGE
 
             # substitutions for changing the character set
             $Line =~ s/DEFAULT CHARSET=utf8/DEFAULT CHARSET=utf8mb4/;    # for CREATE TABLE
+            $Line =~ s/CHARACTER SET .*?\s//;                            # for CREATE COLUMN
             $Line =~ s/utf8mb4mb4/utf8mb4/;                              # in case it already was utf8mb4
             $Line =~ s/utf8mb3mb4/utf8mb4/;                              # in case of some mixup
             $Line =~ s/utf8mb4mb3/utf8mb4/;                              # in case of some mixup
