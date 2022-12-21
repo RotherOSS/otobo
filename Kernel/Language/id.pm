@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.613676027288593;
+    $Self->{Completeness}        = 0.613517372679676;
 
     # csv separator
     $Self->{Separator}         = ',';
@@ -1450,7 +1450,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
-        'View the admin manual on Github' => '',
+        'View the admin manual' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
         'Set as favorite' => '',
@@ -9189,8 +9189,8 @@ Helpdesk Team Anda
             'Tentukan password untuk otentikasi untuk database cermin pertama.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Tentukan username untuk otentikasi untuk database cermin pertama.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'izin tersedia standar untuk agen dalam aplikasi. Jika lebih banyak izin yang diperlukan, mereka dapat dimasukkan di sini. Izin harus didefinisikan untuk menjadi efektif. Beberapa izin yang baik lainnya juga telah tersedia built-in: dicatat, dekat, tertunda, pelanggan, FREETEXT, bergerak, menulis, bertanggung jawab, maju, dan mental. Pastikan bahwa "rw" selalu izin terdaftar terakhir.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Mulai nomor untuk statistik menghitung. Setiap kenaikan statebaru nomor ini.',
         'Started response time escalation.' => '',

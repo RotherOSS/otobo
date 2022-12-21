@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.627003014437569;
+    $Self->{Completeness}        = 0.626844359828653;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -1455,7 +1455,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
-        'View the admin manual on Github' => '',
+        'View the admin manual' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
         'Set as favorite' => '',
@@ -9191,8 +9191,8 @@ Thanks for your help!
             'رمز عبور مشخص برای احراز هویت برای پایگاه داده آینه است.',
         'Specify the username to authenticate for the first mirror database.' =>
             'نام مشخص کاربری برای تأیید هویت برای پایگاه داده آینه است.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'مجوز دسترس استاندارد برای عوامل داخل نرم افزار. اگر مجوزهای بیشتری مورد نیاز است، می توان آنها را در اینجا وارد شده است. مجوز باید تعریف شود، موثر باشد. برخی از مجوز خوب دیگر نیز ارائه ساخته شده در: توجه داشته باشید، نزدیک، در انتظار، مشتری، گه از FREETEXT، حرکت، آهنگسازی، مسئول، به جلو، و گزاف گویی. مطمئن شوید که \ "RW " همیشه آخرین اجازه ثبت شده است.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'شروع تعداد آمار شمارش. هر آمار جدید واحد افزایش این عدد است.',
         'Started response time escalation.' => '',

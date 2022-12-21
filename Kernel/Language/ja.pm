@@ -35,7 +35,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y/%M/%D';
     $Self->{DateInputFormat}     = '%Y/%M/%D';
     $Self->{DateInputFormatLong} = '%Y/%M/%D - %T';
-    $Self->{Completeness}        = 0.781532603522132;
+    $Self->{Completeness}        = 0.7812152943043;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1453,7 +1453,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '右側のアイテムにカーソルを合わせてスターアイコンをクリックすると、お気に入りを追加できます。',
         'Links' => 'リンク',
-        'View the admin manual on Github' => 'Githubの管理マニュアルを表示',
+        'View the admin manual' => '',
         'No Matches' => 'マッチなし',
         'Sorry, your search didn\'t match any items.' => '申し訳ありませんが、あなたの検索はどのアイテムにも一致しませんでした。',
         'Set as favorite' => 'お気に入りに指定',
@@ -9199,8 +9199,8 @@ Search_DynamicField_XTimeSlotStartYear=1974; Search_DynamicField_XTimeSlotStartM
             'データベースの第一ミラーの認証パスワードを指定してください。',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'アプリケーション内で担当者にとって標準的に利用可能な許可です。もし、さらに多くの許可が必要であれば、ここで加えることができます。許可は、効果的になるように設定する必要があります。いくつか他の良い許可も、ビルト・インで提供されています：note, close, pending, customer, freetext, move, compose, responsible, forward, bounce。“rw”は、常に最後の登録許可であることを確認してください。',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             '統計カウンティングの数をスタートします。全ての新規統計はこの数字を増加させます。',
         'Started response time escalation.' => '初回応答期限を開始しました。',

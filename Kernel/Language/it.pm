@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.596699984134539;
+    $Self->{Completeness}        = 0.596858638743455;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -126,7 +126,7 @@ sub Data {
         # Template: AdminAppointmentCalendarManage
         'Calendar Management' => 'Gestione Calendario',
         'Add Calendar' => 'Aggiungi Calendario',
-        'Edit Calendar' => 'Modifica Celendario',
+        'Edit Calendar' => 'Modifica Calendario',
         'Calendar Overview' => 'Panoramica calendario',
         'Add new Calendar' => 'Aggiungi nuovo Calendario',
         'Import Appointments' => 'Importa Appuntamenti',
@@ -843,8 +843,8 @@ sub Data {
         'Ticket last changed between' => 'Ultima modifica apportata al ticket fra',
         'Change times' => 'Modifica orari',
         'No change time settings.' => 'Nessuna modifica tempo.',
-        'Ticket changed' => 'Ticket cambiato',
-        'Ticket changed between' => 'Ticket cambiato fra',
+        'Ticket changed' => 'Ticket modificato',
+        'Ticket changed between' => 'Ticket modificato fra',
         'Last close times' => '',
         'No last close time settings.' => '',
         'Ticket last close' => '',
@@ -1458,7 +1458,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Puoi aggiungere i preferiti spostando il cursore sugli elementi a destra e facendo clic sull\'icona a forma di stella.',
         'Links' => 'Collegamenti',
-        'View the admin manual on Github' => 'Visualizza il manuale di amministrazione su Github',
+        'View the admin manual' => '',
         'No Matches' => 'Nessuna corrispondenza',
         'Sorry, your search didn\'t match any items.' => 'Siamo spiacenti, la tua ricerca non ha prodotto risultati.',
         'Set as favorite' => 'Imposta come preferito',
@@ -6687,8 +6687,8 @@ Thanks for your help!
             '',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             '',
-        'Change Ticket' => '',
-        'Change Ticket information' => '',
+        'Change Ticket' => 'Dettagli',
+        'Change Ticket information' => 'Modifica i dettagli del ticket',
         'Change queue!' => 'Cambio coda!',
         'Change the customer for this ticket' => 'Cambia il cliente di questo ticket',
         'Change the owner for this ticket' => 'Cambia proprietario di questo ticket',
@@ -9183,7 +9183,7 @@ Thanks for your help!
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             '',

@@ -96,7 +96,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-use Kernel::Config;
+#use Kernel::Config; # usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
 use Kernel::System::ModuleRefresh;    # based on Module::Refresh
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
@@ -111,17 +111,18 @@ eval {
 my $Home = abs_path("$Bin/../..");
 
 # the question whether there is a S3 backend must the resolved early
+# usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
 my ( $S3Active, $ClearConfigObject );
-if ( -r "$Home/Kernel/Config.pm" ) {
-    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
-    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
-
-    if ($S3Active) {
-
-        # The S3 backend object will be needed in the SyncFromS3 middleware
-        require Kernel::System::Storage::S3;
-    }
-}
+#if ( -r "$Home/Kernel/Config.pm" ) {
+#    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
+#    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
+#
+#    if ($S3Active) {
+#
+#        # The S3 backend object will be needed in the SyncFromS3 middleware
+#        require Kernel::System::Storage::S3;
+#    }
+#}
 
 ################################################################################
 # Middlewares

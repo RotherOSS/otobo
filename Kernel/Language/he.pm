@@ -1456,7 +1456,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             '',
         'Links' => '',
-        'View the admin manual on Github' => '',
+        'View the admin manual' => '',
         'No Matches' => '',
         'Sorry, your search didn\'t match any items.' => '',
         'Set as favorite' => '',
@@ -9181,7 +9181,7 @@ Thanks for your help!
             '',
         'Specify the username to authenticate for the first mirror database.' =>
             '',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
             '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             '',
