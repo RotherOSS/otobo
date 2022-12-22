@@ -291,7 +291,12 @@ sub AlterTableAddColumn {
         $SQL .= " \($ColumnInfos{LENGTH}\)";
     }
 
-    if ( $ColumnInfos{IS_NULLABLE} =~ m/no/ ) {
+    if ( $ColumnInfos{COLUMN_DEFAULT} ) {
+        $SQL .= " DEFAULT \"$ColumnInfos{COLUMN_DEFAULT}\"";
+    }
+
+    # IS_NULLABLE is either YES or NO
+    if ( $ColumnInfos{IS_NULLABLE} eq "NO" ) {
         $SQL .= ' NOT NULL';
     }
 
