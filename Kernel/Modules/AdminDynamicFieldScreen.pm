@@ -401,7 +401,7 @@ sub _ShowEdit {
     );
 
     # shows sidebar selection
-    for my $Element ( sort keys %OtherElements ) {
+    for my $Element ( sort { $OtherElements{$a} cmp $OtherElements{$b} } keys %OtherElements ) {
 
         # output row
         $LayoutObject->Block(
