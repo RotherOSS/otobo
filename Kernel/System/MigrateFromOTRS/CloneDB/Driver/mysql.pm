@@ -269,6 +269,7 @@ sub TranslateColumnInfos {
 }
 
 # Alter table add column
+# Note: add also custom columns which not belongs to standard
 sub AlterTableAddColumn {
     my ( $Self, %Param ) = @_;
 
@@ -285,32 +286,23 @@ sub AlterTableAddColumn {
     }
 
     my %ColumnInfos = %{ $Param{ColumnInfos} };
-    my $SQL         = qq{ALTER TABLE ? ADD ? ?};
-
-    my @Bind = (
-        \$Param{Table},
-        \$Param{Column},
-        \$ColumnInfos{DATA_TYPE},
-    );
+    my $SQL         = qq{ALTER TABLE $Param{Table} ADD $Param{Column} $ColumnInfos{DATA_TYPE}};
 
     if ( $ColumnInfos{LENGTH} ) {
-        $SQL .= " (?)";
-        push(@Bind, \$ColumnInfos{LENGTH});
+        $SQL .= " ($ColumnInfos{LENGTH})";
     }
 
     if ( $ColumnInfos{COLUMN_DEFAULT} ) {
-        $SQL .= qq{ DEFAULT "?"};
-        push(@Bind, \$ColumnInfos{COLUMN_DEFAULT});
+        $SQL .= " DEFAULT '$ColumnInfos{COLUMN_DEFAULT}'";
     }
 
     # IS_NULLABLE is either YES or NO
     if ( $ColumnInfos{IS_NULLABLE} eq "NO" ) {
-        $SQL .= ' NOT NULL';
+        $SQL .= " NOT NULL";
     }
 
     my $Success = $Param{DBObject}->Do(
         SQL  => $SQL,
-        Bind => \@Bind,
     );
 
     if ( !$Success ) {
