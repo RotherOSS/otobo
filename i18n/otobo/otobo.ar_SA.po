@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-12-22 15:30+0000\n"
+"PO-Revision-Date: 2022-12-23 22:48+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15639,15 +15639,15 @@ msgstr "مرتبط"
 
 #. Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
 msgid "Bulk"
-msgstr ""
+msgstr "إجراء جمع"
 
 #. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
 msgid "Lite"
-msgstr "خفيف"
+msgstr "سَهْل"
 
 #. Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
 msgid "Unread article(s) available"
-msgstr ""
+msgstr "تتوفر مقالة (مقالات) غير مقروءة"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Appointment.pm
 msgid "Appointment"
@@ -15655,7 +15655,7 @@ msgstr "موعد"
 
 #. Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
 msgid "Archive search"
-msgstr ""
+msgstr "البحث في الأرشيف"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
 msgid "Online Agent: %s"
@@ -15663,21 +15663,21 @@ msgstr "المشغلون المتواجدون حالياً : %s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
 msgid "There are more escalated tickets!"
-msgstr ""
+msgstr "تتوفر العديد من التذاكر المتصاعدة!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
 msgid ""
 "Please select a time zone in your preferences and confirm it by clicking the "
 "save button."
-msgstr ""
+msgstr "الرجاء تحديد منطقة زمنية في إعداداتك والتأكيد بالنقر فوق زر حفظ."
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
 msgid "Online Customer: %s"
-msgstr "العملاء المتواجدون حالياً : %s"
+msgstr "العميل متصل الان : ‎%s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid "System maintenance is active!"
-msgstr ""
+msgstr "صيانة النظام نشطة!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
