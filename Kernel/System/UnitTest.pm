@@ -27,7 +27,7 @@ use File::stat;
 use Storable();
 use Term::ANSIColor();
 use TAP::Harness;
-use List::Util qw(any);
+use List::Util qw(any uniq);
 use Sys::Hostname qw(hostname);
 
 # CPAN modules
@@ -208,7 +208,6 @@ sub Run {
 
         # Collect the files in default directory or in the passed directories.
         # An empty list will be returned when $Directory is empty or when it does not exist.
-        # It is quite possiple that a file is included multiple times.
         my @Files;
         for my $Directory (@Directories) {
             push @Files,
@@ -218,6 +217,9 @@ sub Run {
                     Recursive => 1,
                 );
         }
+
+        # Weed out duplicate files.
+        @Files = uniq @Files;
 
         FILE:
         for my $File (@Files) {
