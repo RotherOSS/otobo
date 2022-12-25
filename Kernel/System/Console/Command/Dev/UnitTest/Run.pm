@@ -40,9 +40,10 @@ sub Configure {
     $Self->Description('Execute unit test scripts in scripts/test using TAP::Harness.');
     $Self->AddOption(
         Name        => 'directory',
-        Description => 'Run only test files in the specified subdirectory of scripts/test.',
+        Description => 'Can be specified several times. Run only test files in the specified sub directories of scripts/test.',
         Required    => 0,
         HasValue    => 1,
+        Multiple    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
