@@ -187,7 +187,8 @@ sub Run {
     # Determine which tests should be skipped because of UnitTest::Blacklist
     my ( @SkippedTests, @ActualTests );
     {
-        # Get patterns for blacklisted tests
+        # Get patterns for blacklisted tests. The blacklisted tests are given
+        # relative to $HOME/scripts/test.
         my @BlacklistPatterns;
         my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
         if ( IsHashRefWithData($UnitTestBlacklist) ) {
@@ -227,7 +228,7 @@ sub Run {
             }
 
             # Check blacklisted files.
-            if ( any { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistPatterns ) {
+            if ( any { $File =~ m{\Q$TestDirectory/$_\E$}smx } @BlacklistPatterns ) {
                 push @SkippedTests, $File;
 
                 next FILE;
