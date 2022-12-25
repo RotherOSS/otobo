@@ -95,13 +95,9 @@ sub Run {
         },
     );
 
-    # Allow specification of a default directory to limit test execution.
-    # TODO: eliminate this
-    my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
-
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
         Tests           => $Self->GetOption('test'),
-        Directory       => $Self->GetOption('directory') || $DefaultDirectory,
+        Directory       => $Self->GetOption('directory'),
         SOPMFiles       => $Self->GetOption('sopm'),
         Verbose         => $Self->GetOption('verbose'),
         PostTestScripts => $Self->GetOption('post-test-script'),
