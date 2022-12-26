@@ -69,6 +69,12 @@ sub Configure {
         HasValue    => 0,
     );
     $Self->AddOption(
+        Name        => 'shuffle',
+        Description => 'Run the test scripts in random order.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
         Name        => 'post-test-script',
         Description => 'Script(s) to execute after a test has been run. You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.',
         Required    => 0,
@@ -96,7 +102,6 @@ sub Run {
     );
 
     # Allow specification of a default directory to limit test execution.
-    # TODO: eliminate this
     my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
@@ -104,6 +109,7 @@ sub Run {
         Directory       => $Self->GetOption('directory') || $DefaultDirectory,
         SOPMFiles       => $Self->GetOption('sopm'),
         Verbose         => $Self->GetOption('verbose'),
+        Shuffle         => $Self->GetOption('shuffle'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );
 

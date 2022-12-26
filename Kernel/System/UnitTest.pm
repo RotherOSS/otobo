@@ -27,7 +27,7 @@ use File::stat;
 use Storable();
 use Term::ANSIColor();
 use TAP::Harness;
-use List::Util qw(any uniq);
+use List::Util qw(any uniq shuffle);
 use Sys::Hostname qw(hostname);
 
 # CPAN modules
@@ -57,7 +57,7 @@ The considered test scripts can be set up as:
 
 =item a list of filters that filter the list of test scripts
 
-=item a list of .sopm files
+=item a list of .sopm files that add the files referenced in FileList to the filter list
 
 =back
 
@@ -102,6 +102,13 @@ You can also specify multiple directories:
         Directory  => [ 'SysConfig/DB', 'Selenium' ]   # optional, run test scripts from multiple directories
     );
 
+It is a goal that there are no dependencies between the test scripts. This can be tested
+by randomly ordering the test scripts.
+
+    $UnitTestObject->Run(
+        Shuffle  => 1, # randomly order the test scripts
+    );
+
 Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
@@ -119,7 +126,8 @@ sub Run {
 
     # handle parameters
     my $Verbosity           = $Param{Verbose} // 0;
-    my $DirectoryParam      = $Param{Directory};      # either a scalar or an array ref
+    my $DoShuffle           = $Param{Shuffle} // 0;
+    my $DirectoryParam      = $Param{Directory};    # either a scalar or an array ref
     my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
     my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
 
@@ -220,6 +228,11 @@ sub Run {
 
         # Weed out duplicate files.
         @Files = uniq @Files;
+
+        # shuffle if requested
+        if ($DoShuffle) {
+            @Files = shuffle @Files;
+        }
 
         FILE:
         for my $File (@Files) {
