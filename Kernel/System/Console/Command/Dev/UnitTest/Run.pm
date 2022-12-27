@@ -16,7 +16,7 @@
 
 package Kernel::System::Console::Command::Dev::UnitTest::Run;
 
-use v5.24.0;
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -40,9 +40,10 @@ sub Configure {
     $Self->Description('Execute unit test scripts in scripts/test using TAP::Harness.');
     $Self->AddOption(
         Name        => 'directory',
-        Description => 'Run only test files in the specified subdirectory of scripts/test.',
+        Description => 'Can be specified several times. Run only test files in the specified sub directories of scripts/test.',
         Required    => 0,
         HasValue    => 1,
+        Multiple    => 1,
         ValueRegex  => qr/.*/smx,
     );
     $Self->AddOption(
@@ -64,6 +65,12 @@ sub Configure {
     $Self->AddOption(
         Name        => 'verbose',
         Description => 'Show details for all tests, not just failing.',
+        Required    => 0,
+        HasValue    => 0,
+    );
+    $Self->AddOption(
+        Name        => 'shuffle',
+        Description => 'Run the test scripts in random order.',
         Required    => 0,
         HasValue    => 0,
     );
@@ -95,7 +102,6 @@ sub Run {
     );
 
     # Allow specification of a default directory to limit test execution.
-    # TODO: eliminate this
     my $DefaultDirectory = $Kernel::OM->Get('Kernel::Config')->Get('UnitTest::DefaultDirectory');
 
     my $FunctionResult = $Kernel::OM->Get('Kernel::System::UnitTest')->Run(
@@ -103,6 +109,7 @@ sub Run {
         Directory       => $Self->GetOption('directory') || $DefaultDirectory,
         SOPMFiles       => $Self->GetOption('sopm'),
         Verbose         => $Self->GetOption('verbose'),
+        Shuffle         => $Self->GetOption('shuffle'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );
 

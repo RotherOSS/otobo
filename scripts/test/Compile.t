@@ -13,7 +13,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use v5.24.0;
+use v5.24;
 use strict;
 use warnings;
 use utf8;

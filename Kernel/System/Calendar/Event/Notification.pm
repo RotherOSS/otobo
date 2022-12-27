@@ -334,6 +334,7 @@ sub _NotificationFilter {
         next KEY if $Key eq 'SendOnOutOfOffice';
         next KEY if $Key eq 'AgentEnabledByDefault';
         next KEY if $Key eq 'NotificationType';
+        next KEY if $Key eq 'IsVisibleForCustomer';
 
         # check recipient fields from transport methods
         if ( $Key =~ m{\A Recipient}xms ) {

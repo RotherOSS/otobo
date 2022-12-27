@@ -2726,6 +2726,8 @@ Or for AJAX html snippets:
         NoCache     => 1,               # optional
     );
 
+As a side effect the headers of the HTTP response are set in the object C<Kernel::System::Web::Response>.
+
 =cut
 
 sub Attachment {

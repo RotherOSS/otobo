@@ -1,4 +1,125 @@
 
+# OTOBO 10.1.6 2022-12-20
+- 2022-12-20 17:15:45 +0100 Create new OTOBO language files.
+- 2022-12-20 14:56:23 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2022-12-13 16:35:33 +0000 Translated using Weblate (Bulgarian)
+- 2022-12-13 06:07:09 +0000 Translated using Weblate (German)
+- 2022-12-07 13:49:10 +0000 Translated using Weblate (Italian)
+- 2022-12-20 15:45:10 +0100 [Bugfix]   User 'otobo' has access denied to DB during or after running installer.pl (https://github.com/RotherOSS/otobo/issues/2056)
+- 2022-12-20 10:35:45 +0100 [Security] Fix SQL Injection Bug in TicketSearch. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2049)
+- 2022-10-25 15:52:04 +0200 Correcting template toolkit data insertion
+- 2022-12-19 16:29:43 +0100 [Bugfix]   Dynamic Field Database search backend produces undefined data due to off by one error (https://github.com/RotherOSS/otobo/issues/1984)
+- 2022-12-16 16:45:49 +0100 [Bugfix]   Appointment notifications are not sent when IsVisibleForCustomer is set (https://github.com/RotherOSS/otobo/issues/1954)
+- 2022-12-13 12:38:54 +0100 Spelling: github ci => GitHub CI
+- 2022-12-12 11:39:12 +0100  Frontend::ToolBarModule###210-Ticket::TicketSearchProfile Dropdown too much on the left (https://github.com/RotherOSS/otobo/issues/1996)
+- 2022-12-08 13:19:06 +0100 POD of the method TableCreateComplex (https://github.com/RotherOSS/otobo/issues/1995)
+- 2022-12-07 14:11:50 +0100 Replacing single quoted concatenations with one double quoted string
+- 2022-12-07 14:05:27 +0100 [Bugfix]   Print company ticket in CustomerTicketOverview shows wrong "printed by" information (https://github.com/RotherOSS/otobo/issues/1938)
+- 2022-11-16 13:20:32 +0100 [Bugfix]   Fixed hidden filters for Medium and Preview (https://github.com/RotherOSS/otobo/issues/1958)
+- 2022-09-29 22:30:15 +0000 Fixed hidden filters for Medium and Preview
+- 2022-12-01 12:30:43 +0100 Remove an unneeded nofilter declaration for Perl::Tidy
+- 2022-11-16 10:03:45 +0100 Mention the side effect of Attachment() in the POD.
+- 2022-12-01 10:52:46 +0100 Mobile view: editing ACLs not possible (https://github.com/RotherOSS/otobo/issues/2020)
+- 2022-12-01 10:54:33 +0100 [Bugfix]   Emails which cannot be sent because of missing information should also be removed from the mail queue. (https://github.com/RotherOSS/otobo/issues/2019)
+- 2022-12-01 10:21:58 +0100 [Bugfix]   Have a look at style options for images in the CKEditor. (https://github.com/RotherOSS/otobo/issues/1882)
+- 2022-11-14 12:31:55 +0100 Document the failure modes of CalendarGet().
+- 2022-11-14 10:34:04 +0100 Fix spelling in code comment.
+- 2022-11-12 07:51:02 +0100 Handle charset that are declared per column (https://github.com/RotherOSS/otobo/issues/1881) - in progress
+- 2022-11-10 18:31:18 +0100 Update Framework.xml
+- 2022-11-08 20:00:07 +0100 Reactivate DragAndDrop Selenium tests for Firefox (https://github.com/RotherOSS/otobo/issues/2006)
+- 2022-11-08 14:16:09 +0100 [Bugfix]   Do not run BasePassword preapplication modules for AjaxAttachment action  (https://github.com/RotherOSS/otobo/issues/2007)
+- 2022-11-08 12:40:43 +0100 [Tidied]   Remove obsolete support for setting Frontend::NavBarOutputModule' (https://github.com/RotherOSS/otobo/issues/2002)
+- 2022-11-07 17:16:31 +0100 Enhance a code comment.
+- 2022-11-04 16:51:57 +0100 Add code comment about where the attribute BlockData will be used
+- 2022-10-31 11:40:18 +0100 Remove the unused variable $Redirect
+- 2022-10-26 17:01:37 +0200 Fix POD of TableCreateComplex().
+- 2022-10-26 17:00:22 +0200 Update a code comment.
+- 2022-10-22 13:18:36 +0200 [Bugfix]   migration.pl correct setting for Package::RepositoryRoot (https://github.com/RotherOSS/otobo/issues/1976)
+- 2022-10-20 11:34:42 +0200 Use the already existing $SMIMEObject
+- 2022-10-20 11:31:02 +0200 Fix message when parameters are missing.
+- 2022-10-20 11:29:37 +0200 Fix POD of constructor.
+- 2022-10-18 19:39:03 +0200 [Bugfix]   CustomerFrontend::Navigation###ExternalURLJump###1 impossible to enable (https://github.com/RotherOSS/otobo/issues/1975)
+- 2022-10-18 14:49:31 +0200 Fix spelling in code comment
+- 2022-10-18 09:24:06 +0200 Changed operator
+- 2022-10-17 18:12:02 +0200 [Tidied]   Fix name of test script ArticleStorageNameLenght.t (https://github.com/RotherOSS/otobo/issues/1980)
+- 2022-10-17 18:06:56 +0200 Mention that the default for Valid is 1
+- 2022-10-17 15:23:25 +0200 Fix spelling in test descriptions.
+- 2022-10-17 13:12:17 +0200 Fix parameter in POD: Attachment -> AttachmentList
+- 2022-10-17 12:04:00 +0200 Tidying: Initialize a variable to 0 before adding to it.
+- 2022-10-14 15:37:10 +0200 Add DayAbbr and MonthAbbr to POD of Get()
+- 2022-10-14 13:14:56 +0200 Kernel::System::Calendar::Appointment uses uninitialized Log object (https://github.com/RotherOSS/otobo/issues/1942)
+- 2022-10-10 16:11:34 +0200 [Bugfix]   Log spam: Exiting subroutine via last at... (https://github.com/RotherOSS/otobo/issues/1811)
+- 2022-10-10 15:45:41 +0200 [Tidied]   Tidying of Kernel::System::Auth::Sync::LDAP (https://github.com/RotherOSS/otobo/issues/1573) - in progress
+- 2022-10-08 12:23:57 +0200 Tidying: opening brace on same line as 'if'
+- 2022-10-06 11:37:11 +0200 [Bugfix]   Admin Documentation Link points to wrong URL (https://github.com/RotherOSS/otobo/issues/1312)
+- 2022-10-05 13:13:49 +0200 [Enhanced] Create new docker file otobo.kerberos.web.docker (https://github.com/RotherOSS/otobo/issues/1963)
+- 2022-10-05 10:16:48 +0200 Add new docker file for REST Service Kerberos Authenticato
+- 2022-10-04 18:46:34 +0200 Fix POD: pre event -> post event
+- 2022-10-04 18:43:09 +0200 Mention the parameter PluginURL in the POD
+- 2022-10-02 16:16:43 +0200 [Bugfix]   Sender display name not always quoted (https://github.com/RotherOSS/otobo/issues/1953)
+- 2022-10-01 10:06:32 +0200 [Bugfix]   Redirect from HTTP does not honor OTOBO_WEB_HTTPS_PORT (https://github.com/RotherOSS/otobo/issues/1892)
+- 2022-09-29 22:36:43 +0000 Added dependencies
+- 2022-09-29 22:30:15 +0000 Fixed hidden filters for Medium and Preview
+- 2022-09-29 23:33:29 +0200 Fixed uninitialized value warning in AdminSystemMaintenance
+- 2022-09-29 15:55:02 +0200 [Enhanced] Script to solve utf8 / utf8mb3 problems (https://github.com/RotherOSS/otobo/issues/1956)
+- 2022-09-28 08:38:52 +0200 [Bugfix] Do not try to track login attempt if no user was provided. (OIDC and brute force protection.)
+- 2022-09-23 12:48:10 +0200 Fix inconsistent POD.
+- 2022-08-18 11:40:25 +0000 Update translation files
+- 2022-09-21 13:06:18 +0200 Consistent indention for the arguments to Core.AJAX.FunctionCall()
+- 2022-09-21 12:40:30 +0200 [Tidied]   Kernel::System::Calendar::Import::ICal does not depend on Date::ICal (https://github.com/RotherOSS/otobo/issues/1950)
+- 2022-09-19 16:21:22 +0200 [Enhanced] Set up MinIO in bin/docker/quick_setup.pl (https://github.com/RotherOSS/otobo/issues/1917)
+- 2022-09-17 16:51:42 +0200 Remove unused variable $CacheObject
+- 2022-09-17 16:48:58 +0200 Accept suggestion from Perl::Tidy
+- 2022-09-17 16:46:39 +0200 Remove erroneous "=back" in POD
+- 2022-09-17 16:45:49 +0200 Allow warranted use of @ISA.
+- 2022-09-16 09:36:04 +0200 [Tidied]   Do not use @ISA directly (https://github.com/RotherOSS/otobo/issues/1940)
+- 2022-09-15 19:31:38 +0200 Fix POD of AppointmentList()
+- 2022-09-12 12:29:54 +0200 [Enhanced] Issues with ConfigurationDeploySync (https://github.com/RotherOSS/otobo/issues/1909)
+- 2022-09-11 19:37:51 +0200 Document the parameter Valid in UserList()
+- 2022-09-11 19:30:08 +0200 [Enhanced] Do not use Module::Refresh directly (https://github.com/RotherOSS/otobo/issues/1933)
+- 2022-09-10 18:50:58 +0200 [Enhanced] Add a test calendar in bin/docker/quick_setup.pl (https://github.com/RotherOSS/otobo/issues/1929)
+- 2022-09-09 13:12:31 +0200 Do not skip tests when running with S3 backend (https://github.com/RotherOSS/otobo/issues/1923)
+- 2022-09-08 19:26:12 +0200 [Enhanced] otobo.psgi: Reactive the module refresh middleware when running with the S3 backend (https://github.com/RotherOSS/otobo/issues/1921)
+- 2022-09-08 19:13:54 +0200 [Enhanced] quick_setup.pl:  Activate more logging in devel-Installations (https://github.com/RotherOSS/otobo/issues/1922)
+- 2022-09-08 19:04:10 +0200 [Enhanced] Eliminate the environment variable OTOBO_SYNC_WITH_S3 (https://github.com/RotherOSS/otobo/issues/1912)
+- 2022-09-08 13:19:59 +0200 Enhance the documentation of the method GetParam().
+- 2022-09-07 15:18:45 +0200 Clean up SQL. Spaces around '=' for readablity
+- 2022-08-11 11:47:52 +0200 Fix in sub ArticleActions re ACL restrictions
+- 2022-09-07 10:47:00 +0200 [Bugfix]   Generic Agent persistently sets SendNoNotification for all following Events. (https://github.com/RotherOSS/otobo/issues/1918)
+- 2022-09-05 12:15:24 +0200 [Enhanced] Avoid high CPU load in SystemConfigurationOutOfSyncCheck notification (https://github.com/RotherOSS/otobo/issues/1910)
+- 2022-09-02 18:55:53 +0200 [Bugfix]   CLOB colums are not base64 decoded when migrating from Oracle to MariaDB (https://github.com/RotherOSS/otobo/issues/1905)
+- 2022-09-01 13:44:15 +0200 [Tidied]   List of bundled distributions is not up to date (https://github.com/RotherOSS/otobo/issues/1878)
+- 2022-08-31 11:02:31 +0200 Skip migration of the database table mail_queue (https://github.com/RotherOSS/otobo/issues/1888)
+- 2022-08-31 10:10:12 +0200 Avoid empty argument list for Compile.t
+- 2022-08-30 16:40:15 +0200 [Tidied]   Remove CGI::Switch from Kernel/cpan-lib (https://github.com/RotherOSS/otobo/issues/1900)
+- 2022-08-30 16:23:18 +0200 [Tidied]   Issue #1899: remove HTML::Tagset and HTML::TokeParser (https://github.com/RotherOSS/otobo/issues/1899)
+- 2022-08-30 15:39:44 +0200 [Tidied]   Remove Kernel/cpan-lib/parent.pm as parent.pm is in core (https://github.com/RotherOSS/otobo/issues/1896)
+- 2022-08-30 13:04:14 +0200 Issue #1894: Include 'User/' when checking user config files
+- 2022-08-30 13:02:27 +0200 Issue #1894: a more intuitive way of ordering files
+- 2022-08-30 13:01:05 +0200 Issue #1894: trying to improve code comments
+- 2022-08-30 11:29:05 +0200 Fix typo on customer logo
+- 2022-08-29 16:22:23 +0200 Issue #1844: add a customer company
+- 2022-08-29 16:21:43 +0200 Issue #1844: explicitly allow tina@example.com
+- 2022-08-29 08:32:17 +0200 Issue #1890: Use closest() instead of providing exact parent level HideShow js.
+- 2022-08-24 17:13:34 +0200 Issue #1886: fix spelling in variable name
+- 2022-08-24 16:17:12 +0200 Issue #1886: let the backend check the required parameters
+- 2022-08-24 16:16:14 +0200 Issue #1886: Correct POD of CreateOTRSDBConnection()
+- 2022-08-23 12:51:54 +0200 Issue #1844: load DateTime::Locale
+- 2022-08-23 12:43:46 +0200 Issue #1844: load DateTime::Locale
+- 2022-08-22 16:34:01 +0200 Be more precise in code comments
+- 2022-08-18 14:47:57 +0200 Issue #1876: add code comment
+- 2022-08-18 14:20:10 +0200 Issue #1876: remove the UTF-8 flag before shmwrite
+- 2022-08-18 14:18:50 +0200 Issue #1876: minor code improvements
+- 2022-08-18 14:15:38 +0200 Issue #1876: enhance code comments
+- 2022-07-20 12:36:31 +0200 Issue #1844: localise $Kernel::OM
+- 2022-07-18 16:12:23 +0200 Issue #1844: tidying
+- 2022-07-18 16:08:17 +0200 Issue #1844: add support for --add-customer-user
+- 2022-07-18 16:06:29 +0200 Issue #1844: saner variable name
+- 2022-07-18 16:05:53 +0200 Issue #1844: tidying, start using Test2::V0
+- 2022-06-07 17:24:08 +0200 Issue #1818: tidyall
+- 2022-06-07 17:21:44 +0200 Issue #1818: declared but not used
+
+
 # OTOBO 10.1.5 2022-08-18
 - 2022-08-18 13:39:59 +0200 Create new OTOBO language files.
 - 2022-08-04 15:00:21 +0000 Translated using Weblate (Arabic (Saudi Arabia))
@@ -27,7 +148,7 @@
 - 2022-06-15 16:14:12 +0200 [Bugfix]   Bug in AgentTicketZoom with DynamicFields, using DynamicFieldScreens (https://github.com/RotherOSS/otobo/issues/1321)
 - 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
 - 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
-- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
 - 2022-06-07 16:32:31 +0200 Resolve unit test failures when syncing with S3 is enabled (https://github.com/RotherOSS/otobo/issues/1777) - in progress
 - 2022-06-07 12:30:19 +0200 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
 - 2022-06-06 13:45:13 +0200 Update the Docker Perl base image to Perl 5.36 (https://github.com/RotherOSS/otobo/issues/1808)

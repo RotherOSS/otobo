@@ -27,7 +27,7 @@ use File::stat;
 use Storable();
 use Term::ANSIColor();
 use TAP::Harness;
-use List::Util qw(any);
+use List::Util qw(any uniq shuffle);
 use Sys::Hostname qw(hostname);
 
 # CPAN modules
@@ -51,11 +51,13 @@ The considered test scripts can be set up as:
 
 =over 4
 
-=item a list of files
-
 =item a single directory
 
-=item a list of .sopm files
+=item multiple directories
+
+=item a list of filters that filter the list of test scripts
+
+=item a list of .sopm files that add the files referenced in FileList to the filter list
 
 =back
 
@@ -94,6 +96,19 @@ run all or some tests located in C<scripts/test/**/*.t> and print the result.
                                                        #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
     );
 
+You can also specify multiple directories:
+
+    $UnitTestObject->Run(
+        Directory  => [ 'SysConfig/DB', 'Selenium' ]   # optional, run test scripts from multiple directories
+    );
+
+It is a goal that there are no dependencies between the test scripts. This can be tested
+by randomly ordering the test scripts.
+
+    $UnitTestObject->Run(
+        Shuffle  => 1, # randomly order the test scripts
+    );
+
 Please note that the individual test files are not executed in the main process,
 but instead in separate forked child processes which are controlled by L<Kernel::System::UnitTest::Driver>.
 Their results will be transmitted to the main process via a local file.
@@ -111,7 +126,8 @@ sub Run {
 
     # handle parameters
     my $Verbosity           = $Param{Verbose} // 0;
-    my $DirectoryParam      = $Param{Directory};
+    my $DoShuffle           = $Param{Shuffle} // 0;
+    my $DirectoryParam      = $Param{Directory};    # either a scalar or an array ref
     my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
     my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
 
@@ -122,10 +138,23 @@ sub Run {
     my $Host         = hostname();
 
     # run tests in a subdir when requested
-    my $Directory = "$Home/scripts/test";
-    if ($DirectoryParam) {
-        $Directory .= "/$DirectoryParam";
-        $Directory =~ s/\.//g;    # why ???
+    my $TestDirectory = "$Home/scripts/test";
+    my @Directories;
+    if ( !$DirectoryParam ) {
+        push @Directories, $TestDirectory;
+    }
+    elsif ( ref $DirectoryParam eq 'ARRAY' ) {
+        for my $Directory ( $DirectoryParam->@* ) {
+            push @Directories, "$TestDirectory/$Directory";
+        }
+    }
+    else {
+        push @Directories, "$TestDirectory/$DirectoryParam";
+    }
+
+    # some cleanp, why ???
+    for my $Directory (@Directories) {
+        $Directory =~ s/\.//g;
     }
 
     # add the files from the .sopm files to the whitelist
@@ -166,7 +195,8 @@ sub Run {
     # Determine which tests should be skipped because of UnitTest::Blacklist
     my ( @SkippedTests, @ActualTests );
     {
-        # Get patterns for blacklisted tests
+        # Get patterns for blacklisted tests. The blacklisted tests are given
+        # relative to $HOME/scripts/test.
         my @BlacklistPatterns;
         my $UnitTestBlacklist = $ConfigObject->Get('UnitTest::Blacklist');
         if ( IsHashRefWithData($UnitTestBlacklist) ) {
@@ -184,13 +214,25 @@ sub Run {
             }
         }
 
-        # Collect the files in the passed directory.
+        # Collect the files in default directory or in the passed directories.
         # An empty list will be returned when $Directory is empty or when it does not exist.
-        my @Files = $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
-            Directory => $Directory,
-            Filter    => '*.t',
-            Recursive => 1,
-        );
+        my @Files;
+        for my $Directory (@Directories) {
+            push @Files,
+                $Kernel::OM->Get('Kernel::System::Main')->DirectoryRead(
+                    Directory => $Directory,
+                    Filter    => '*.t',
+                    Recursive => 1,
+                );
+        }
+
+        # Weed out duplicate files.
+        @Files = uniq @Files;
+
+        # shuffle if requested
+        if ($DoShuffle) {
+            @Files = shuffle @Files;
+        }
 
         FILE:
         for my $File (@Files) {
@@ -201,7 +243,7 @@ sub Run {
             }
 
             # Check blacklisted files.
-            if ( any { $File =~ m{\Q$Directory/$_\E$}smx } @BlacklistPatterns ) {
+            if ( any { $File =~ m{\Q$TestDirectory/$_\E$}smx } @BlacklistPatterns ) {
                 push @SkippedTests, $File;
 
                 next FILE;

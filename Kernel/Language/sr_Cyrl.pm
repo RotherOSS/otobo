@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.902268760907504;
+    $Self->{Completeness}        = 0.901951451689672;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1450,7 +1450,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Можете додати омиљене превлачењем курсора преко ставке са десне стране и кликом на иконицу звезде.',
         'Links' => 'Везе',
-        'View the admin manual on Github' => 'Прегледајте упутство за администраторе на Github',
+        'View the admin manual' => '',
         'No Matches' => 'Ништа није пронађено',
         'Sorry, your search didn\'t match any items.' => 'Жао нам је, ваша претрага није вратила резултате.',
         'Set as favorite' => 'Стави у омиљене',
@@ -9186,8 +9186,8 @@ Thanks for your help!
             'Наведи лозинку за ауторизацију на прву пресликану базу података.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Наведи корисничко име за ауторизацију на прву пресликану базу података.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Стандардне расположиве дозволе за оператере унутар апликације. Уколико је потребно више дозвола они могу унети овде. Дозволе морају бити дефинисане да буду ефективне. Неке друге дозволе су такође обезбеђене уграђивањем у: напомену, затвори, на чекању, клијент, слободан текст, помери, отвори, одговоран, проследи и поврати. Обезбедите да "rw" увек буде последња регистрована дозвола.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Почетни број за бројанје статистика. Свака нова статистика повећава овај број.',
         'Started response time escalation.' => 'Започета ескалација времена одговора.',

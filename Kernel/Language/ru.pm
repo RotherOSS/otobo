@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.866254164683484;
+    $Self->{Completeness}        = 0.865936855465651;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -1461,7 +1461,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Можно добавить отдельные настройки в Избранные кликнув мышкой по "звездочке" справа в списке параметров.',
         'Links' => 'Ссылки',
-        'View the admin manual on Github' => 'Смотрите руководство администратора на Github',
+        'View the admin manual' => '',
         'No Matches' => 'Совпадений не найдено',
         'Sorry, your search didn\'t match any items.' => 'К сожалению, поиск не дал результатов.',
         'Set as favorite' => 'Назначить избранным',
@@ -9197,8 +9197,8 @@ Thanks for your help!
             'Задайте пароль для аутентификации для первой зеркалируемой БД.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Задайте имя пользователя для аутентификации в первой зеркалируемой БД.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Задает набор доступных прав агентов в системе. Если требуются дополнительные права, они могут быть заданы здесь. Права должны быть определены, чтобы использоваться в системе. Некоторые другие полезные права, также встроены в систему: note, close, pending, customer, freetext, move, compose, responsible, forward, и bounce. Последней строкой в таблице всегда дорлжна быть строка с "rw".',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Начальный номер для нумерации отчетов. Каждый новый отчет увеличивает этот номер.',
         'Started response time escalation.' => '',

@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.998730763128669;
+    $Self->{Completeness}        = 0.999365381564334;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -651,7 +651,7 @@ sub Data {
         'CacheTTL' => 'CacheTTL',
         'Searchprefix' => 'Suchpräfix',
         'Searchsuffix' => 'Suchsuffix',
-        'Result Limit' => 'Ergebnis-Beschränkung',
+        'Result Limit' => 'Anzahl angezeigter Ergebnisse',
         'Case Sensitive' => 'Groß-/Kleinschreibung unterscheiden',
 
         # Template: AdminDynamicFieldDateTime
@@ -809,7 +809,7 @@ sub Data {
         'Select Tickets' => 'Tickets selektieren',
         '(e. g. 10*5155 or 105658*)' => '(z .B. 10*5155 oder 105658*)',
         '(e. g. 234321)' => '(z. B. 234321)',
-        'Customer user ID' => 'Kundenbenutzer-Nummer',
+        'Customer user ID' => 'Kundenbenutzer Benutzername',
         '(e. g. U5150)' => '(z. B. U5150)',
         'Fulltext-search in article (e. g. "Mar*in" or "Baue*").' => 'Volltextsuche in Artikeln (z. B. "Mar*in" oder "Baue*").',
         'To' => 'An',
@@ -1450,7 +1450,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Sie können Favoriten hinzufügen, indem Sie Ihren Mauszeiger über Einträge auf der rechten Seite bewegen und dann das Sternsymbol anklicken.',
         'Links' => 'Verknüpfungen',
-        'View the admin manual on Github' => 'Administrator-Handbuch auf Github',
+        'View the admin manual' => '',
         'No Matches' => 'Keine Treffer',
         'Sorry, your search didn\'t match any items.' => 'Es wurden leider keine passenden Einträge gefunden.',
         'Set as favorite' => 'Als Favorit markieren',
@@ -5534,8 +5534,8 @@ sub Data {
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 oder höher wird benötigt.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
-        'Certificate check' => '',
-        'Found obsolete cryptographic function.' => '',
+        'Certificate check' => 'Zertifikatsprüfung',
+        'Found obsolete cryptographic function.' => 'Veraltete kryptographische Funktion gefunden.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'OTOBO-Festplattenpartition',
@@ -6652,7 +6652,7 @@ Ihr Helpdesk-Team
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Status eines Tickets mit ungültigem Besitzer bei Entsperren automatisch ändern. Bildet den neuen Ticketstatus entsprechend des Statustyps.',
         'Automatically generate statistics reports and email them to the specified recipients.' =>
-            '',
+            'Automatisch Statistikberichte erstellen und diese an definierte Empfänger versenden.',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Automatisches Sperren und setzen des aktuellen Agenten als Besitzer nachdem der Verschieben-Bildschirm im Agenten-Interface geöffnet wurde.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -7519,7 +7519,7 @@ Ihr Helpdesk-Team
         'Defines the number of tickets shown in the widget.' => 'Definiert die Anzahl der im Widget dargestellten Tickets.',
         'Defines the parameters for the customer preferences table.' => 'Definiert die Parameter der Tabelle mit den Kunden-Einstellungen.',
         'Defines the parameters for the dashboard backend. "Cmd" is used to specify command with parameters. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents. Only works if DashboardBackend::AllowCmdOutput is enabled in Config.pm.' =>
-            '',
+            'Definiert die Parameter für die Übersicht. "Cmd" wird verwendet um einen Befehl mit Parametern zu spezifizieren. "Group" wird verwendet um den Zugriff auf das Plugin einzuschränken (z.B. Group: admin;group1;group2;). "Default" zeigt an, ob das Plugin standardmäßig aktiviert ist oder ob der Anwender es manuell aktivieren muss. "CacheTTL" zeigt die Ablaufzeit für den Plugin-Cache in Minuten an. "Mandatory" bestimmt, ob das Plugin immer angezeigt und nicht von Agenten entfernt werden kann. Es funktioniert nur, wenn DashboardBackend::AllowCmdOutput in der Datei Config.pm aktiviert wurde.',
         'Defines the parameters for the dashboard backend. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
             'Legt die Parameter für das Dashboard-Backend fest. "Group" beschränkt den Zugang zum jeweiligen Dashlet (z. B. Group: admin;group1;group2). "Default" bestimmt, ob das Dashlet standardmäßig aktiv ist oder vom Nutzer manuell aktiviert werden muss. "CacheTTL" bestimmt die Cachingdauer für das Dashlet in Minuten. Mit "Mandatory" kann das Dashlet so konfiguriert werden, dass Nutzer es nicht ausblenden können.',
         'Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTL" indicates the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.' =>
@@ -8147,7 +8147,7 @@ Ihr Helpdesk-Team
             'Informiert andere Benutzer über den genauen Zeitraum ihrer Abwesenheit.',
         'Ignore system sender article types (e. g. auto responses or email notifications) to be flagged as \'Unread Article\' in AgentTicketZoom or expanded automatically in Large view screens.' =>
             'System-Artikeltypen (z. B. Auto-Antworten oder E-Mail-Benachrichtigungen) werden in AgentTicketZoom nicht als ungelesene Artikel markiert oder in Large-Übersichten nicht automatisch aufgeklappt.',
-        'Ignores not ticket related attributes.' => '',
+        'Ignores not ticket related attributes.' => 'Ignoriert Attribute ohne Ticket-Zusammenhang.',
         'Import appointments screen.' => 'Termin-Import Oberfläche.',
         'Include tickets of subqueues per default when selecting a queue.' =>
             'Tickets von Unterqueues automatisch mit einschließen, wenn eine Queue ausgewählt wird.',
@@ -8567,7 +8567,7 @@ Ihr Helpdesk-Team
         'Quick Close' => 'Sofort Schließen',
         'Rebuild the ticket index for AgentTicketQueue.' => 'Ticket-Index für AgentTicketQueue neu aufbauen.',
         'Rebuilds Elasticsearch indices. Can be used for example, if CustomerUsers are authenticated via LDAP. Highly inefficient however, as the whole index is rebuild every time.' =>
-            '',
+            'Erstellt die Elasticsearch-Indizes neu. Kann etwa verwendet werden, wenn Kundenbenutzer sich via LDAP authentifizieren. Jedoch höchst ineffizient, da jedes Mal, da der gesamte Index immer komplett neu generiert wird.',
         'Rebuilds the ACL preselection cache.' => 'Baut den Cache mit der ACL-Vorauswahl neu auf.',
         'Rebuilds the escalation index.' => 'Baut den Eskalationsindex neu auf.',
         'Recognize if a ticket is a follow-up to an existing ticket using an external ticket number. Note: the first capturing group from the \'NumberRegExp\' expression will be used as the ticket number value.' =>
@@ -9189,8 +9189,8 @@ Ihr Helpdesk-Team
             'Geben Sie das Passwort für die Authentifikation mit der ersten Spiegeldatenbank an.',
         'Specify the username to authenticate for the first mirror database.' =>
             'Geben Sie den Benutzernamen für die Authentifikation mit der ersten Spiegeldatenbank an.',
-        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Make sure that "rw" is always the last registered permission.' =>
-            'Innerhalb der Applikation verfügbare Standardberechtigungen für Agenten. Wenn mehr Berechtigungen benötigt werden, können diese hier hinterlegt werden. Berechtigungen müssen definiert werden, um Auswirkungen zu haben. Einige zusätzliche Berechtigungen sind bereits zur Nutzung vorbereitet: note, close, pending, customer, freetext, move, compose, responsible, forward, and bounce. Bitte stellen Sie beim Anlegen neuer Berechtigungen sicher, dass "rw" immer der letzte Eintrag bleibt.',
+        'Standard available permissions for agents within the application. If more permissions are needed, they can be entered here. Permissions must be defined to be effective. Some other good permissions have also been provided built-in: note, close, pending, customer, freetext, move, compose, responsible, forward and bounce. Make sure that "rw" is always the last registered permission, as rw automatically grants all additional permissions.' =>
+            '',
         'Start number for statistics counting. Every new stat increments this number.' =>
             'Startzahl für das Zählen von Statistiken. Jede neue Statistik erhöht die hier eingestellte Zahl.',
         'Started response time escalation.' => 'Antwortzeit-Eskalation gestartet.',

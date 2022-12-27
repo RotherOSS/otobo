@@ -59,7 +59,7 @@ Core.Agent.LinkObject = (function (TargetNS) {
                 function(Response) {
                     if (parseInt(Response.Success, 10)) {
 
-                        // check if the current item is the only item in the sorrounding table
+                        // check if the current item is the only item in the surrounding table
                         if ($TriggerObj.closest('tbody').find('tr').length == 1) {
                             $TriggerObj.closest('.WidgetSimple').fadeOut(function() {
                                 $(this).remove();
