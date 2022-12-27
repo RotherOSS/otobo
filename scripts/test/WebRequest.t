@@ -21,15 +21,15 @@ use utf8;
 # core modules
 
 # CPAN modules
+use Test2::V0;
 use CGI;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Web::Request;
 
-our $Self;
-
 {
+
     # %ENV will be picked up in CGI->new()
     local %ENV = (
         REQUEST_METHOD => 'GET',
@@ -40,19 +40,19 @@ our $Self;
     my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
 
     my @ParamNames = $Request->GetParamNames();
-    $Self->IsDeeply(
+    is(
         [ sort @ParamNames ],
         [qw/a b/],
         'ParamNames',
     );
 
-    $Self->Is(
+    is(
         $Request->GetParam( Param => 'a' ),
         4,
         'SingleParam',
     );
 
-    $Self->Is(
+    is(
         $Request->GetParam( Param => 'aia' ),
         undef,
         'SingleParam - not defined',
@@ -62,7 +62,7 @@ our $Self;
 
     $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
 
-    $Self->Is(
+    is(
         $Request->Error(),
         'Unittest failed ;-) - POST_MAX=1KB',
         'Error()',
@@ -87,29 +87,29 @@ our $Self;
     my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
 
     my @ParamNames = $Request->GetParamNames();
-    $Self->IsDeeply(
+    is(
         [ sort @ParamNames ],
         [qw/a b c d/],
         'ParamNames',
     );
 
-    $Self->IsDeeply(
+    is(
         [ $Request->GetArray( Param => 'a' ) ],
         [4],
         'Param a, from POST',
     );
 
-    $Self->IsDeeply(
+    is(
         [ $Request->GetArray( Param => 'b' ) ],
         [5],
         'Param b, from POST (GET ignored)',
     );
-    $Self->IsDeeply(
+    is(
         [ $Request->GetArray( Param => 'c' ) ],
         [ 4, 5 ],
         'Param c, from GET',
     );
-    $Self->IsDeeply(
+    is(
         [ $Request->GetArray( Param => 'd' ) ],
         [2],
         'Param d, from POST',
@@ -117,4 +117,4 @@ our $Self;
 
 }
 
-$Self->DoneTesting();
+done_testing;
