@@ -253,12 +253,12 @@ sub SetFilePermissions {
     }
     else {
         # Executable bit for script files.
-        EXEXUTABLE_REGEX:
+        EXECUTABLE_REGEX:
         for my $ExecutableRegex (@ExecutableFiles) {
             if ( $RelativeFile =~ $ExecutableRegex ) {
                 $TargetPermission = 0770;
 
-                last EXEXUTABLE_REGEX;
+                last EXECUTABLE_REGEX;
             }
         }
 
