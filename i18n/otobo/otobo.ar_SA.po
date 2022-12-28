@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-12-23 22:48+0000\n"
+"PO-Revision-Date: 2022-12-29 03:11+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -15682,44 +15682,47 @@ msgstr "صيانة النظام نشطة!"
 #. Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
 msgid ""
 "A system maintenance period will start at: %s and is expected to stop at: %s"
-msgstr ""
+msgstr "ستبدأ فترة صيانة النظام في: ‎%s ومن المتوقع أن تتوقف في: ‎%s"
 
 #. Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
 msgid "OTOBO Daemon is not running."
-msgstr ""
+msgstr "OTOBO Daemon لا يعمل."
 
 #. Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
 msgid "You have Out of Office enabled, would you like to disable it?"
-msgstr ""
+msgstr "تم تمكين \"خارج المكتب\"، هل تريد تعطيله؟"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
 msgid ""
 "You have %s invalid setting(s) deployed. Click here to show invalid settings."
 msgstr ""
+"تم نشر ‎%s إعداد (إعدادات) غير صالحة. انقر هنا لإظهار إعدادات غير صالحة."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
 msgid "You have undeployed settings, would you like to deploy them?"
-msgstr ""
+msgstr "هناك إعدادات لم يتم تشغيلها بعد. هل ترغب في بدء تشغيل الآن؟"
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "The configuration is being updated, please be patient..."
-msgstr ""
+msgstr "يتم تحديث التكوين، يرجى التحلي بالصبر..."
 
 #. Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
 msgid "There is an error updating the system configuration!"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث تكوين النظام!"
 
 #. Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
 msgid ""
 "Don't use the Superuser account to work with %s! Create new Agents and work "
 "with these accounts instead."
 msgstr ""
+"الرجاء عدم إستخدام حساب المستخدم المتميز في ‎%s! الرجاء إنشاء عملاء جدد "
+"واستخدامهم."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid ""
 "Please make sure you've chosen at least one transport method for mandatory "
 "notifications."
-msgstr ""
+msgstr "الرجاء التأكد من إختيار أسلوب نقل واحد على الأقل للإخطارات الإلزامية."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
 msgid "Preferences updated successfully!"
@@ -15727,63 +15730,69 @@ msgstr "تم تحديث الإعدادات بنجاح!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Language.pm
 msgid "(in process)"
-msgstr ""
+msgstr "(قيد التنفيذ)"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
 msgid "Please specify an end date that is after the start date."
-msgstr ""
+msgstr "الرجاء تحديد تاريخ انتهاء بعد تاريخ البدء."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Verify password"
-msgstr ""
+msgstr "التحقق من كلمة المرور"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "The current password is not correct. Please try again!"
-msgstr ""
+msgstr "كلمة المرور الحالية غير صحيحة. الرجاء المحاولة مرة أخرى!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Please supply your new password!"
-msgstr ""
+msgstr "الرجاء تأكيد كلمة المرور الجديدة!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, the new password and the repeated password do not "
 "match."
-msgstr ""
+msgstr "يتعذر تحديث كلمة المرور! كلمات المرور التي تم إدخالها مختلفة."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "This password is forbidden by the current system configuration. Please "
 "contact the administrator if you have additional questions."
 msgstr ""
+"تم حظر كلمة المرور هذه من قبل تكوين النظام الحالي. الرجاء الاتصال بالمسؤول "
+"إذا كانت لديك أسئلة إضافية."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must be at least %s characters long!"
-msgstr ""
+msgstr "يتعذر تحديث كلمة المرور. يجب أن يكون طوله ‎%s على الأقل!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, it must contain at least 2 lowercase and 2 uppercase "
 "letter characters!"
 msgstr ""
+"لا يمكن تحديث كلمة المرور، يجب أن تحتوي على 2 أحرف صغيرة على الأقل وحرفين "
+"كبيرة!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 1 digit!"
-msgstr ""
+msgstr "يتعذر تحديث كلمة المرور. يجب أن يحتوي على رقم واحد على الأقل!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid "Can't update password, it must contain at least 2 letter characters!"
-msgstr ""
+msgstr "يتعذر تحديث كلمة المرور. يجب أن يحتوي على حرفين على الأقل!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
 "Can't update password, it must contain at least 3 of 4 (lower char, upper "
 "char, digit, special character)!"
 msgstr ""
+"يتعذر تحديث كلمة المرور. يجب أن تحتوي على ٣ من ٤ فئات حروف على الأقل (حروف "
+"صغيرة، حروف كبيرة، أرقام، حروف خاصة)!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
-msgstr ""
+msgstr "تم تحديث المنطقة الزمنية بنجاح!"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "invalid"
@@ -15795,75 +15804,75 @@ msgstr "فعال"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "No (not supported)"
-msgstr ""
+msgstr "لا (غير مدعوم)"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No past complete or the current+upcoming complete relative time value "
 "selected."
-msgstr ""
+msgstr "لم يتم تحديد فترة نسبية."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected time period is larger than the allowed time period."
-msgstr ""
+msgstr "الفترة الزمنية المحددة أكبر من الفترة الزمنية المسموح بها."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "No time scale value available for the current selected time scale value on "
 "the X axis."
-msgstr ""
+msgstr "لا يتوفر أي مقياس زمني لقيمة مقياس الوقت على المحور X المحدد حاليًا."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected date is not valid."
-msgstr ""
+msgstr "التاريخ المحدد غير صالح."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "The selected end time is before the start time."
-msgstr ""
+msgstr "وقت الانتهاء المحدد قبل وقت البدء."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "There is something wrong with your time selection."
-msgstr ""
+msgstr "الرجاء التحقق من تحديد الوقت."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select only one element or allow modification at stat generation time."
-msgstr ""
+msgstr "يرجى تحديد عنصر واحد فقط أو السماح بالتحرير في وقت إنشاء الإحصاءات."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please select at least one value of this field or allow modification at stat "
 "generation time."
-msgstr ""
+msgstr "يرجى تحديد عنصر واحد فقط أو السماح بالتحرير في وقت إنشاء الإحصاءات."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select one element for the X-axis."
-msgstr ""
+msgstr "الرجاء تحديد عنصر واحد للمحور X."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one time element for the Y axis."
-msgstr ""
+msgstr "يمكنك استخدام عنصر وقت واحد فقط للمحور Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "You can only use one or two elements for the Y axis."
-msgstr ""
+msgstr "يمكنك فقط استخدام عنصر واحد أو عنصرين للمحور Y."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select at least one value of this field."
-msgstr ""
+msgstr "الرجاء تحديد قيمة واحدة على الأقل في هذا الحقل."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please provide a value or allow modification at stat generation time."
-msgstr ""
+msgstr "الرجاء إدخال قيمة أو السماح بالتحرير في وقت إنشاء الإحصائيات."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "Please select a time scale."
-msgstr ""
+msgstr "يرجى تحديد جدول زمني."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Your reporting time interval is too small, please use a larger time scale."
-msgstr ""
+msgstr "الفترة المحددة صغيرة جدا، الرجاء إستخدام مقياس زمني أكبر."
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "second(s)"
@@ -15871,17 +15880,18 @@ msgstr "ثانية/ثواني"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "quarter(s)"
-msgstr "ربع (أرباع) سنويه"
+msgstr "ربع (أرباع)"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid "half-year(s)"
-msgstr ""
+msgstr "نصف سنة"
 
 #. Perl Module: Kernel/Output/HTML/Statistics/View.pm
 msgid ""
 "Please remove the following words because they cannot be used for the ticket "
 "restrictions: %s."
 msgstr ""
+"الرجاء إزالة الكلمات التالية لأنه لا يمكن إستخدامها لتقييد التذاكر: ‎%s."
 
 #. Perl Module: Kernel/Output/HTML/SysConfig.pm
 msgid "Cancel editing and unlock this setting"
