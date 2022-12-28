@@ -22,22 +22,16 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use CGI;
+use HTTP::Request;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Web::Request;
 
-{
-
-    # %ENV will be picked up in CGI->new()
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => 'a=4;b=5',
+subtest 'GET request' => sub {
+    my $Request = Kernel::System::Web::Request->new(
+        HTTPRequest => HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' ),
     );
-
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
 
     my @ParamNames = $Request->GetParamNames();
     is(
@@ -46,45 +40,23 @@ use Kernel::System::Web::Request;
         'ParamNames',
     );
 
-    is(
-        $Request->GetParam( Param => 'a' ),
-        4,
-        'SingleParam',
+    is( $Request->GetParam( Param => 'a' ),   4,     'SingleParam a' );
+    is( $Request->GetParam( Param => 'b' ),   5,     'SingleParam b' );
+    is( $Request->GetParam( Param => 'aia' ), undef, 'SingleParam - not defined' );
+
+};
+
+# TODO: test support for POST_MAX
+
+subtest 'POST request with URL params' => sub {
+    my $HTTPRequest = HTTP::Request->new(
+        'POST',
+        'http://www.example.com?c=4;c=5;b=6',
+        [ 'Content-Type' => 'application/x-www-form-urlencoded' ],
+        'a=4&b=5;d=2',
     );
 
-    is(
-        $Request->GetParam( Param => 'aia' ),
-        undef,
-        'SingleParam - not defined',
-    );
-
-    local $CGI::POST_MAX = 1024;
-
-    $Request->{Query}->{'.cgi_error'} = 'Unittest failed ;-)';
-
-    is(
-        $Request->Error(),
-        'Unittest failed ;-) - POST_MAX=1KB',
-        'Error()',
-    );
-
-}
-
-{
-    my $PostData = 'a=4&b=5;d=2';
-
-    # %ENV will be picked up in CGI->new()
-    local %ENV = (
-        REQUEST_METHOD => 'POST',
-        CONTENT_LENGTH => length($PostData),
-        QUERY_STRING   => 'c=4;c=5;b=6',
-    );
-
-    local *STDIN;
-    open STDIN, '<:utf8', \$PostData;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-
-    CGI->initialize_globals();
-    my $Request = Kernel::System::Web::Request->new( WebRequest => CGI->new() );
+    my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
 
     my @ParamNames = $Request->GetParamNames();
     is(
@@ -114,7 +86,6 @@ use Kernel::System::Web::Request;
         [2],
         'Param d, from POST',
     );
-
-}
+};
 
 done_testing;

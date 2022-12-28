@@ -26,6 +26,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
+use HTTP::Message::PSGI qw(req_to_psgi);
 use Plack::Request;
 
 # OTOBO modules
@@ -71,13 +72,12 @@ The regular usage in the web interface modules, e.g. in L<Kernel::System::Web::I
 
 In the test scripts it is convenient to pass in a request object directly.
 
-    use CGI;
+    use HTTP::Request;
     use Kernel::System::UnitTest::RegisterDriver;
 
-    CGI::initialize_globals();
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
+            HTTPRequest => HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' ),
         }
     );
 
@@ -88,47 +88,37 @@ If Kernel::System::Web::Request is instantiated several times, they will share t
 same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
 
-If you need to reset the CGI data before creating a new instance, use
-
-    CGI::initialize_globals();
-
-before calling Kernel::System::Web::Request->new();
-
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
-
     # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    #my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # max 5 MB posts
     # TODO: POST_MAX for Plack::Request
     #$CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
     # query object when PSGI env is passed, the recommended usage
+    my $PSGIEnv;
     if ( $Param{PSGIEnv} ) {
-        $Self->{Query} = Plack::Request->new( $Param{PSGIEnv} );
+        $PSGIEnv = $Param{PSGIEnv};
     }
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
-    elsif ( $Param{WebRequest} ) {
-
-        # TODO: pass PSGIEnv in test scripts
-        $Self->{Query} = $Param{WebRequest};
+    # a HTTP::Request object, used primarily in test scripts
+    elsif ( $Param{HTTPRequest} ) {
+        $PSGIEnv = $Param{PSGIEnv} = req_to_psgi( $Param{HTTPRequest} );
     }
 
-    # Use an empty CGI object as a fallback.
+    # Use a basic request as a fallback.
     # This is needed because the ParamObject is sometimes created outside a web context.
-    # Pass an empty string, in order to avoid that params in %ENV are considered.
     else {
-        $Self->{Query} = Plack::Request->new();
+        $PSGIEnv = req_to_psgi( HTTP::Request->new( 'GET' => '/' ) );
     }
 
-    return $Self;
+    # allocate new hash for object
+    return bless { Query => Plack::Request->new($PSGIEnv) }, $Type;
 }
 
 =head2 GetParam()
@@ -148,6 +138,7 @@ When the parameter is not part of the query then C<undef> is returned.
 sub GetParam {
     my ( $Self, %Param ) = @_;
 
+    # CGI compatible method
     my $Value = $Self->{Query}->param( $Param{Param} );
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
