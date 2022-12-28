@@ -340,7 +340,7 @@ This is a wrapper around C<Plack::Requests::address()>.
 sub RemoteAddr {
     my ($Self) = @_;
 
-    return $Self->{Query}->remote_addr;
+    return $Self->{Query}->address;
 }
 
 =head2 RemoteUser()
