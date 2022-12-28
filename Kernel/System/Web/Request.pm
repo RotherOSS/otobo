@@ -138,7 +138,7 @@ When the parameter is not part of the query then C<undef> is returned.
 sub GetParam {
     my ( $Self, %Param ) = @_;
 
-    # CGI compatible method
+    # CGI.pm compatible method
     my $Value = $Self->{Query}->param( $Param{Param} );
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
@@ -213,7 +213,7 @@ sub GetArray {
     VALUE:
     for my $Value (@Values) {
 
-        # don't validate CGI::File::Temp objects from file uploads
+        # don't validate objects from file uploads
         next VALUE if !$Value || ref \$Value ne 'SCALAR';
 
         $CheckItemObject->StringClean(
@@ -331,7 +331,7 @@ sub GetCookie {
 =head2 RemoteAddr()
 
 get the remote address of the HTTP client.
-This is a wrapper around C<CGI::remote_addr()>.
+This is a wrapper around C<Plack::Requests::address()>.
 
     my $RemoteAddr = $ParamObject->RemoteAddr();
 
@@ -346,7 +346,7 @@ sub RemoteAddr {
 =head2 RemoteUser()
 
 get the remote user.
-This is a wrapper around C<CGI::remote_user()>.
+This is a wrapper around C<Plack::Request::remote_user()>.
 
     my $RemoteUser = $ParamObject->RemoteUser();
 
@@ -361,7 +361,7 @@ sub RemoteUser {
 =head2 ScriptName()
 
 return the script name as a partial URL, for self-referring scripts.
-This is a wrapper around C<CGI::script_name()>.
+This is a wrapper around C<Plack::Request::script_name()>.
 
     my $ScriptName = $ParamObject->ScriptName();
 
@@ -380,7 +380,7 @@ sub ScriptName {
 =head2 ServerProtocol()
 
 return info about the protocol.
-This is a wrapper around C<CGI::server_protocol()>.
+This is a wrapper around C<Plack::Request::server_protocol()>.
 
     my $ServerProtocol = $ParamObject->ServerProtocol();
 
@@ -395,7 +395,7 @@ sub ServerProtocol {
 =head2 ServerSoftware()
 
 return info which server is running.
-This is a wrapper around C<CGI::server_software()>.
+This is a wrapper around C<Plack::Request::server_software()>.
 
     my $ServerSoftware = $ParamObject->ServerSoftware();
 
@@ -410,7 +410,7 @@ sub ServerSoftware {
 =head2 RequestURI()
 
 Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
-This is a wrapper around C<CGI::request_uri()>.
+This is a wrapper around C<Plack::Request::request_uri()>.
 
     my $RequestURI = $ParamObject->RequestURI();
 
@@ -425,7 +425,7 @@ sub RequestURI {
 =head2 ContentType()
 
 Returns content-type header.
-This is a wrapper around C<CGI::content_type()>.
+This is a wrapper around C<Plack::Request::content_type()>.
 
     my $ContentType = $ParamObject->ContentType();
 
@@ -440,7 +440,7 @@ sub ContentType {
 =head2 QueryString()
 
 Returns the query string.
-This is a wrapper around C<CGI::query_string()>.
+This is a wrapper around C<Plack::Request::query_string()>.
 
     my $QueryString = $ParamObject->QueryString();
 
@@ -455,7 +455,7 @@ sub QueryString {
 =head2 RequestMethod()
 
 Usually either GET or POST.
-This is a wrapper around C<CGI::request_method()>.
+This is a wrapper around C<Plack::Request::request_method()>.
 
     my $RequestMethod = $ParamObject->RequestMethod();
 
@@ -470,7 +470,7 @@ sub RequestMethod {
 =head2 PathInfo()
 
 Returns additional path information from the script URL.
-This is a wrapper around C<CGI::path_info()>.
+This is a wrapper around C<Plack::Request::path_info()>.
 
     my $PathInfo = $ParamObject->PathInfo();
 
@@ -485,7 +485,7 @@ sub PathInfo {
 =head2 HTTP()
 
 get the HTTP environment variable. Called with a single argument get the specific environment variable.
-This is a wrapper around C<CGI::http()>.
+This is a wrapper around C<Plack::Request::http()>.
 
     my $UserAgent = $ParamObject->HTTP('USER_AGENT');
 
@@ -510,7 +510,6 @@ sub HTTP {
 =head2 HTTPS()
 
 same as HTTP(), but operate on the HTTPS environment variables.
-This is a wrapper around C<CGI::https()>.
 
     my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
 
