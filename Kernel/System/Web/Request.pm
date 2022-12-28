@@ -501,9 +501,19 @@ This is a wrapper around C<CGI::http()>.
 =cut
 
 sub HTTP {
-    my ( $Self, @Params ) = @_;
+    my ( $Self, $Parameter ) = @_;
 
-    return $Self->{Query}->http(@Params);
+    if ( defined $Parameter ) {
+        $Parameter =~ tr/-a-z/_A-Z/;
+        if ( $Parameter =~ m/^HTTP(?:_|$)/ ) {
+            return $Self->{Query}->env->{$Parameter};
+        }
+
+        return $Self->{Query}->env->{"HTTP_$Parameter"};
+    }
+
+    # return list of keys when no parameter was passed
+    return grep {m/^HTTP(?:_|$)/} sort keys $Self->{Query}->env->%*;
 }
 
 =head2 HTTPS()
@@ -516,9 +526,21 @@ This is a wrapper around C<CGI::https()>.
 =cut
 
 sub HTTPS {
-    my ( $Self, @Params ) = @_;
+    my ( $Self, $Parameter ) = @_;
 
-    return $Self->{Query}->https(@Params);
+    if ( defined $Parameter ) {
+        $Parameter =~ tr/-a-z/_A-Z/;
+        if ( $Parameter =~ m/^HTTPS(?:_|$)/ ) {
+            return $Self->{Query}->env->{$Parameter};
+        }
+
+        return $Self->{Query}->env->{"HTTPS_$Parameter"};
+    }
+
+    # return list of keys when no parameter was passed
+    return wantarray
+        ? grep {m/^HTTPS(?:_|$)/} sort keys $Self->{Query}->env->%*
+        : $ENV{HTTPS};
 }
 
 =head2 IsAJAXRequest()
