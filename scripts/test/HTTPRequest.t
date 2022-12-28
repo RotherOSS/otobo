@@ -71,11 +71,16 @@ subtest 'POST request with URL params' => sub {
         'Param a, from POST',
     );
 
-    is(
-        [ $Request->GetArray( Param => 'b' ) ],
-        [5],
-        'Param b, from POST (GET ignored)',
-    );
+    {
+        my $ToDo = todo(q{merging body and URL parameters might be more sensible, see #1683});
+
+        is(
+            [ $Request->GetArray( Param => 'b' ) ],
+            [5],
+            'Param b, from POST (GET ignored)',
+        );
+    }
+
     is(
         [ $Request->GetArray( Param => 'c' ) ],
         [ 4, 5 ],
