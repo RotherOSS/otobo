@@ -25,12 +25,7 @@ use CGI;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
-
-# give the SupportDataCollector an empty HTTP request
-local $Kernel::OM = Kernel::System::ObjectManager->new(
-    'Kernel::System::Web::Request' => { WebRequest => CGI->new() }
-);
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
 plan(2);
 
