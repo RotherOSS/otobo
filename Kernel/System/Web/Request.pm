@@ -139,7 +139,10 @@ sub GetParam {
     my ( $Self, %Param ) = @_;
 
     # CGI.pm compatible method
-    my $Value = $Self->{Query}->param( $Param{Param} );
+    # Plack Request does no decoding, so pass a byte array as key.
+    my $Key = $Param{Param};
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
+    my $Value = $Self->{Query}->param($Key);
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
