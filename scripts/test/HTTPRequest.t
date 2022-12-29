@@ -29,11 +29,10 @@ use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Web::Request;
 
 subtest 'GET request' => sub {
-    my $Request = Kernel::System::Web::Request->new(
-        HTTPRequest => HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' ),
-    );
+    my $HTTPRequest = HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' );
+    my $Request     = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
 
-    my @ParamNames = $Request->GetParamNames();
+    my @ParamNames = $Request->GetParamNames;
     is(
         [ sort @ParamNames ],
         [qw/a b/],
@@ -48,6 +47,46 @@ subtest 'GET request' => sub {
 
 # TODO: test support for POST_MAX
 
+subtest 'POST request' => sub {
+    my $HTTPRequest = HTTP::Request->new(
+        'POST',
+        'http://www.example.com',
+        [ 'Content-Type' => 'application/x-www-form-urlencoded' ],
+        'a=4&b=5;d=2',
+    );
+    my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
+
+    my @ParamNames = $Request->GetParamNames;
+    is(
+        [ sort @ParamNames ],
+        [qw/a b d/],
+        'ParamNames',
+    );
+
+    is(
+        [ $Request->GetArray( Param => 'a' ) ],
+        [4],
+        'Param a, from POST',
+    );
+
+    is(
+        [ $Request->GetArray( Param => 'b' ) ],
+        [5],
+        'Param b, from POST',
+    );
+
+    is(
+        [ $Request->GetArray( Param => 'c' ) ],
+        [],
+        'Param c not in body',
+    );
+    is(
+        [ $Request->GetArray( Param => 'd' ) ],
+        [2],
+        'Param d, from POST',
+    );
+};
+
 subtest 'POST request with URL params' => sub {
     my $HTTPRequest = HTTP::Request->new(
         'POST',
@@ -55,10 +94,9 @@ subtest 'POST request with URL params' => sub {
         [ 'Content-Type' => 'application/x-www-form-urlencoded' ],
         'a=4&b=5;d=2',
     );
-
     my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
 
-    my @ParamNames = $Request->GetParamNames();
+    my @ParamNames = $Request->GetParamNames;
     is(
         [ sort @ParamNames ],
         [qw/a b c d/],
