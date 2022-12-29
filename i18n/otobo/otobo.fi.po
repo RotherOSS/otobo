@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-02-21 12:33+0000\n"
+"PO-Revision-Date: 2022-12-31 11:47+0000\n"
 "Last-Translator: Markus Hynnä <markus.hynna@mynamaki.fi>\n"
 "Language-Team: Finnish <https://translate.otobo.org/projects/otobo10/otobo/"
 "fi/>\n"
@@ -748,7 +748,7 @@ msgstr ""
 
 #. Template: AdminAppointmentNotificationEvent
 msgid " e. g."
-msgstr "esim."
+msgstr " esim."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "To get the calendar attribute"
@@ -1332,7 +1332,7 @@ msgstr "yhteensä"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr "Lisää hakutermi etsiäksesi asiakkaita"
+msgstr "Lisää hakutermi etsiäksesi asiakkaita."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
@@ -5904,7 +5904,7 @@ msgstr "Suodata jonoja"
 
 #. Template: AdminQueue
 msgid "A queue with this name already exists!"
-msgstr "Jonon nimi on jo käytössä"
+msgstr "Jonon nimi on jo käytössä!"
 
 #. Template: AdminQueue
 msgid ""
@@ -5930,7 +5930,7 @@ msgstr "tuntia"
 
 #. Template: AdminQueue
 msgid "Only business hours are counted."
-msgstr "Vain työaika huomioidaan"
+msgstr "Vain työaika huomioidaan."
 
 #. Template: AdminQueue
 msgid ""
@@ -6019,7 +6019,7 @@ msgstr "Allekirjoitus"
 
 #. Template: AdminQueue
 msgid "The signature for email answers."
-msgstr "Allekirjoitus sähköpostiviesteissä"
+msgstr "Allekirjoitus sähköpostiviesteissä."
 
 #. Template: AdminQueue
 msgid "This queue is used in the following config settings:"
@@ -6572,7 +6572,7 @@ msgid ""
 "system."
 msgstr ""
 "Tällä tavoin voi suoraan muokata sertifikaatteja sekä yksityisavaimia "
-"tiedostojärjestelmässä. "
+"tiedostojärjestelmässä."
 
 #. Template: AdminSMIME
 msgid "Hash"
@@ -8457,11 +8457,11 @@ msgstr "Jaa"
 
 #. Template: AgentStatisticsAdd
 msgid "Statistics Management"
-msgstr ""
+msgstr "Tilastojen hallinta"
 
 #. Template: AgentStatisticsAdd
 msgid "Add Statistics"
-msgstr ""
+msgstr "Lisää tilastoja"
 
 #. Template: AgentStatisticsAdd
 msgid "Read more about statistics in OTOBO"
@@ -8497,15 +8497,15 @@ msgstr ""
 
 #. Template: AgentStatisticsAdd
 msgid "Create Statistic"
-msgstr ""
+msgstr "Luo tilasto"
 
 #. Template: AgentStatisticsEdit
 msgid "Edit Statistics"
-msgstr ""
+msgstr "Muokkaa tilastoa"
 
 #. Template: AgentStatisticsEdit
 msgid "Run now"
-msgstr ""
+msgstr "Suorita nyt"
 
 #. Template: AgentStatisticsEdit
 msgid "Statistics Preview"
@@ -8513,11 +8513,11 @@ msgstr ""
 
 #. Template: AgentStatisticsEdit
 msgid "Save Statistic"
-msgstr ""
+msgstr "Tallenna tilasto"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics"
-msgstr ""
+msgstr "Tuo tilastoja"
 
 #. Template: AgentStatisticsImport
 msgid "Import Statistics Configuration"
@@ -8529,7 +8529,7 @@ msgstr "Tilastot"
 
 #. Template: AgentStatisticsOverview
 msgid "Run"
-msgstr ""
+msgstr "Suorita"
 
 #. Template: AgentStatisticsOverview
 msgid "Edit statistic \"%s\"."
@@ -8553,15 +8553,15 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Report Management"
-msgstr ""
+msgstr "Raporttien hallinta"
 
 #. Template: AgentStatisticsReportsAdd
 msgid "Add Report"
-msgstr ""
+msgstr "Lisää raportti"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Edit Report"
-msgstr ""
+msgstr "Muokkaa raporttia"
 
 #. Template: AgentStatisticsReportsEdit
 msgid ""
@@ -8822,7 +8822,7 @@ msgstr ""
 
 #. Template: AgentTicketActionCommon
 msgid "For all pending* states."
-msgstr "* kaikille odottaville tiloille"
+msgstr "* kaikille odottaville tiloille."
 
 #. Template: AgentTicketActionCommon
 msgid "Add Article"
@@ -8888,7 +8888,7 @@ msgstr "Informoi lähettäjää"
 
 #. Template: AgentTicketBounce
 msgid "Send mail"
-msgstr "Lähetä sähköposti!"
+msgstr "Lähetä sähköposti"
 
 #. Template: AgentTicketBulk
 msgid "Ticket Bulk Action"
@@ -9204,7 +9204,7 @@ msgstr "Lisää uusi puhelintiketti"
 
 #. Template: AgentTicketPhone
 msgid "Please include at least one customer for the ticket."
-msgstr "Valitse ainakin yksi asiakas tiketille"
+msgstr "Valitse ainakin yksi asiakas tiketille."
 
 #. Template: AgentTicketPhone
 msgid "To queue"
@@ -10056,7 +10056,7 @@ msgstr "Lähtevän postin tyyppi"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail type."
-msgstr "Valitse lähtevän postin tyyppi"
+msgstr "Valitse lähtevän postin tyyppi."
 
 #. Template: InstallerConfigureMail
 msgid "Outbound mail port"
@@ -10064,7 +10064,7 @@ msgstr "Lähtevän postin portti"
 
 #. Template: InstallerConfigureMail
 msgid "Select outbound mail port."
-msgstr "Valitse lähtevän postin portti"
+msgstr "Valitse lähtevän postin portti."
 
 #. Template: InstallerConfigureMail
 msgid "SMTP host"
@@ -10108,7 +10108,7 @@ msgstr "Saapuvan postin tyyppi"
 
 #. Template: InstallerConfigureMail
 msgid "Select inbound mail type."
-msgstr "Valitse saapuvan postin tyyppi"
+msgstr "Valitse saapuvan postin tyyppi."
 
 #. Template: InstallerConfigureMail
 msgid "Inbound mail host"
@@ -11294,11 +11294,11 @@ msgstr "Maa"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Mr."
-msgstr "Mr."
+msgstr "Herra"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Mrs."
-msgstr "Mrs."
+msgstr "Rouva"
 
 #. Perl Module: Kernel/Config/Defaults.pm
 msgid "Address"
@@ -14050,7 +14050,7 @@ msgstr "Tiketti"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "printed by"
-msgstr "tulostaja: "
+msgstr "tulostaja:"
 
 #. Perl Module: Kernel/Modules/AgentTicketSearch.pm
 msgid "CustomerID (complex search)"
@@ -17013,7 +17013,7 @@ msgid ""
 "New account created. Sent login information to %s. Please check your email."
 msgstr ""
 "Uusi tunnus lisätty. Lähetetty kirjautumistiedot osoitteeseen %s. Ole hyvä "
-"ja tarkasta postisi. "
+"ja tarkasta postisi."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid ""
@@ -18724,7 +18724,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Administration"
-msgstr "Ylläpitö"
+msgstr "Ylläpito"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
@@ -20470,7 +20470,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines an alternate URL, where the logout link refers to."
-msgstr "Määrittele vaihtoehtoinen URL,  jonne uloskirjaus johtaa."
+msgstr "Määrittele vaihtoehtoinen URL, jonne uloskirjaus johtaa."
 
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel.."
@@ -28552,7 +28552,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Users, Groups & Roles"
-msgstr ""
+msgstr "Käyttäjät, ryhmät & roolit"
 
 #. SysConfig
 msgid "Uses richtext for viewing and editing ticket notification."
