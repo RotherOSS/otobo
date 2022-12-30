@@ -471,7 +471,7 @@ sub QueryString {
 =head2 RequestMethod()
 
 Usually either GET or POST.
-This is a wrapper around C<Plack::Request::request_method()>.
+This is a wrapper around C<Plack::Request::method()>.
 
     my $RequestMethod = $ParamObject->RequestMethod();
 
@@ -480,7 +480,7 @@ This is a wrapper around C<Plack::Request::request_method()>.
 sub RequestMethod {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->request_method(@Params);
+    return $Self->{Query}->method(@Params);
 }
 
 =head2 PathInfo()
