@@ -27,10 +27,10 @@
     <meta id="viewport" name="viewport" content="">
     <script>
         (function(doc, win) {
-            var viewport = doc.getElementById('viewport'),
-                isIFrame = (win.top.location.href !== win.location.href),
-                isPopup = (win.name.search(/^OTOBOPopup_/) != -1);
             try {
+                var viewport = doc.getElementById('viewport'),
+                    isIFrame = (win.top.location.href !== win.location.href),
+                    isPopup = (win.name.search(/^OTOBOPopup_/) != -1);
               if (((!isIFrame && !isPopup) || (isIFrame && isPopup)) && (!localStorage.getItem("DesktopMode") || parseInt(localStorage.getItem("DesktopMode"), 10) <= 0)) {
                   viewport.setAttribute("content", "width=device-width, initial-scale=1.0, user-scalable=no");
               }
