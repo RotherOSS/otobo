@@ -220,7 +220,7 @@ for my $Fail ( 0 .. 1 ) {
             # process the request with the dummy HTTP::Test transport object
             my ( $Result, $WebException );
             {
-                # prepare the test Request
+                # prepare the test request
                 $EncodeObject->EncodeOutput( \$TestEntry->{RequestContent} );
                 my $HTTPRequest = HTTP::Request->new(
                     'POST',

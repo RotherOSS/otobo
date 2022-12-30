@@ -138,9 +138,22 @@ When the parameter is not part of the query then C<undef> is returned.
 sub GetParam {
     my ( $Self, %Param ) = @_;
 
+    my $Key = $Param{Param};
+
+    # special case for the body
+    my $Method = $Self->{Query}->method;
+    if (
+        ( $Method eq 'POST' || $Method eq 'PUT' || $Method eq 'PATCH' )
+        &&
+        $Key eq "${Method}DATA"
+        )
+    {
+        # TODO: what about encoding
+        return $Self->{Query}->content;
+    }
+
     # CGI.pm compatible method
     # Plack Request does no decoding, so pass a byte array as key.
-    my $Key = $Param{Param};
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
     my $Value = $Self->{Query}->param($Key);
 
