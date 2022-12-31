@@ -26,6 +26,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
+use HTTP::Request;
 use HTTP::Message::PSGI qw(req_to_psgi);
 use Plack::Request;
 
