@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -119,7 +119,7 @@ sub new {
     }
 
     # allocate new hash for object
-    return bless { Query => Plack::Request->new($PSGIEnv) }, $Type;
+    return bless { PlackRequest => Plack::Request->new($PSGIEnv) }, $Type;
 }
 
 =head2 GetParam()
@@ -142,7 +142,7 @@ sub GetParam {
     my $Key = $Param{Param};
 
     # special case for the body
-    my $Method = $Self->{Query}->method;
+    my $Method = $Self->{PlackRequest}->method;
     if (
         ( $Method eq 'POST' || $Method eq 'PUT' || $Method eq 'PATCH' )
         &&
@@ -150,13 +150,13 @@ sub GetParam {
         )
     {
         # TODO: what about encoding
-        return $Self->{Query}->content;
+        return $Self->{PlackRequest}->content;
     }
 
     # CGI.pm compatible method
     # Plack Request does no decoding, so pass a byte array as key.
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
-    my $Value = $Self->{Query}->param($Key);
+    my $Value = $Self->{PlackRequest}->param($Key);
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
@@ -218,7 +218,7 @@ By default, trimming is performed on the data.
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Values = $Self->{Query}->param( $Param{Param} );
+    my @Values = $Self->{PlackRequest}->param( $Param{Param} );
 
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
@@ -263,7 +263,7 @@ sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
     # get upload
-    my $Uploads = $Self->{Query}->uploads;
+    my $Uploads = $Self->{PlackRequest}->uploads;
 
     my $Upload = $Uploads->{ $Param{Param} };
 
@@ -342,7 +342,7 @@ get a cookie
 sub GetCookie {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Query}->cookies->{ $Param{Key} };
+    return $Self->{PlackRequest}->cookies->{ $Param{Key} };
 }
 
 =head2 RemoteAddr()
@@ -357,7 +357,7 @@ This is a wrapper around C<Plack::Requests::address()>.
 sub RemoteAddr {
     my ($Self) = @_;
 
-    return $Self->{Query}->address;
+    return $Self->{PlackRequest}->address;
 }
 
 =head2 RemoteUser()
@@ -372,7 +372,7 @@ This is a wrapper around C<Plack::Request::remote_user()>.
 sub RemoteUser {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->remote_user(@Params);
+    return $Self->{PlackRequest}->remote_user(@Params);
 }
 
 =head2 ScriptName()
@@ -388,7 +388,7 @@ sub ScriptName {
     my ( $Self, @Params ) = @_;
 
     # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
-    my $ScriptName = $Self->{Query}->script_name(@Params);
+    my $ScriptName = $Self->{PlackRequest}->script_name(@Params);
     $ScriptName =~ s{^//+}{/};
 
     return $ScriptName;
@@ -406,7 +406,7 @@ This is a wrapper around C<Plack::Request::server_protocol()>.
 sub ServerProtocol {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->server_protocol(@Params);
+    return $Self->{PlackRequest}->server_protocol(@Params);
 }
 
 =head2 ServerSoftware()
@@ -421,7 +421,7 @@ This is a wrapper around C<Plack::Request::server_software()>.
 sub ServerSoftware {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->server_software(@Params);
+    return $Self->{PlackRequest}->server_software(@Params);
 }
 
 =head2 RequestURI()
@@ -436,7 +436,7 @@ This is a wrapper around C<Plack::Request::request_uri()>.
 sub RequestURI {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->request_uri(@Params);
+    return $Self->{PlackRequest}->request_uri(@Params);
 }
 
 =head2 ContentType()
@@ -451,7 +451,7 @@ This is a wrapper around C<Plack::Request::content_type()>.
 sub ContentType {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->content_type(@Params);
+    return $Self->{PlackRequest}->content_type(@Params);
 }
 
 =head2 QueryString()
@@ -466,7 +466,7 @@ This is a wrapper around C<Plack::Request::query_string()>.
 sub QueryString {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->query_string(@Params);
+    return $Self->{PlackRequest}->query_string(@Params);
 }
 
 =head2 RequestMethod()
@@ -481,7 +481,7 @@ This is a wrapper around C<Plack::Request::method()>.
 sub RequestMethod {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->method(@Params);
+    return $Self->{PlackRequest}->method(@Params);
 }
 
 =head2 PathInfo()
@@ -496,7 +496,7 @@ This is a wrapper around C<Plack::Request::path_info()>.
 sub PathInfo {
     my ( $Self, @Params ) = @_;
 
-    return $Self->{Query}->path_info(@Params);
+    return $Self->{PlackRequest}->path_info(@Params);
 }
 
 =head2 HTTP()
@@ -514,14 +514,14 @@ sub HTTP {
     if ( defined $Parameter ) {
         $Parameter =~ tr/-a-z/_A-Z/;
         if ( $Parameter =~ m/^HTTP(?:_|$)/ ) {
-            return $Self->{Query}->env->{$Parameter};
+            return $Self->{PlackRequest}->env->{$Parameter};
         }
 
-        return $Self->{Query}->env->{"HTTP_$Parameter"};
+        return $Self->{PlackRequest}->env->{"HTTP_$Parameter"};
     }
 
     # return list of keys when no parameter was passed
-    return grep {m/^HTTP(?:_|$)/} sort keys $Self->{Query}->env->%*;
+    return grep {m/^HTTP(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*;
 }
 
 =head2 HTTPS()
@@ -538,15 +538,15 @@ sub HTTPS {
     if ( defined $Parameter ) {
         $Parameter =~ tr/-a-z/_A-Z/;
         if ( $Parameter =~ m/^HTTPS(?:_|$)/ ) {
-            return $Self->{Query}->env->{$Parameter};
+            return $Self->{PlackRequest}->env->{$Parameter};
         }
 
-        return $Self->{Query}->env->{"HTTPS_$Parameter"};
+        return $Self->{PlackRequest}->env->{"HTTPS_$Parameter"};
     }
 
     # return list of keys when no parameter was passed
     return wantarray
-        ? grep {m/^HTTPS(?:_|$)/} sort keys $Self->{Query}->env->%*
+        ? grep {m/^HTTPS(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*
         : $ENV{HTTPS};
 }
 
@@ -561,7 +561,7 @@ checks if the current request was sent by AJAX
 sub IsAJAXRequest {
     my ( $Self, %Param ) = @_;
 
-    return ( $Self->{Query}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
+    return ( $Self->{PlackRequest}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
 }
 
 =head2 LoadFormDraft()
@@ -604,6 +604,8 @@ sub LoadFormDraft {
     KEY:
     for my $Key ( sort keys %{ $FormDraft->{FormData} } ) {
         my $Value = $FormDraft->{FormData}->{$Key} // '';
+
+        # TODO: avoid meddling with the innards of Plack::Request
 
         # array value
         if ( IsArrayRefWithData($Value) ) {

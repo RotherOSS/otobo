@@ -21,7 +21,6 @@ use utf8;
 # core modules
 
 # CPAN modules
-use CGI;
 use Test2::V0;
 
 # OTOBO modules
