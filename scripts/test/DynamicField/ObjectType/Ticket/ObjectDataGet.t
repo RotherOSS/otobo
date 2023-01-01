@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-use CGI;
+# core modules
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
-our $Self;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -66,10 +68,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID => 1,
 );
 
-$Self->True(
-    $TicketID,
-    "TicketCreate()",
-);
+ok( $TicketID, "TicketCreate()" );
 
 my %TicketData = $TicketObject->TicketGet(
     TicketID      => $TicketID,
@@ -157,16 +156,11 @@ my $ObjectHandlerObject = $Kernel::OM->Get('Kernel::System::DynamicField::Object
 TEST:
 for my $Test (@Tests) {
 
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
-    );
-
     # force the ParamObject to use the new request params
-    CGI::initialize_globals();
+    my $QueryString = $Test->{Request} // '';
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
+            HTTPRequest => GET( 'http://example.com/example?' . $QueryString ),
         }
     );
 
@@ -174,15 +168,16 @@ for my $Test (@Tests) {
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
 
     if ( !$Test->{Success} ) {
-        $Self->IsDeeply(
+        is(
             \%ObjectData,
             {},
             "$Test->{Name} - ObjectDataGet() unsuccessful",
         );
+
         next TEST;
     }
 
-    $Self->IsDeeply(
+    is(
         \%ObjectData,
         $Test->{ExectedResult},
         "$Test->{Name} ObjectDataGet()",
@@ -194,6 +189,4 @@ continue {
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

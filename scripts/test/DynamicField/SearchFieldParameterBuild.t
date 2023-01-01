@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,16 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
+use HTTP::Request::Common qw(POST);
+use Test2::V0;
+
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
-use CGI;
-
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Web::Request;
-
 use Kernel::System::VariableCheck qw(:all);
 
 my $DFBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
@@ -77,11 +77,7 @@ for my $Process ( sort keys %ProcessLookup ) {
         UserID => $UserID,
     );
 
-    $Self->True(
-        $ProcessID,
-        "Process is created - $ProcessID.",
-    );
-
+    ok( $ProcessID, "Process is created - $ProcessID." );
 }
 
 my %ActivityLookup = (
@@ -102,10 +98,7 @@ for my $Activity ( sort keys %ActivityLookup ) {
         UserID => $UserID,
     );
 
-    $Self->True(
-        $ActivityID,
-        "Activity is created - $ActivityID.",
-    );
+    ok( $ActivityID, "Activity is created - $ActivityID." );
 }
 
 my $DynamicFieldProcessID = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
@@ -1452,7 +1445,7 @@ for my $Test (@Tests) {
     {
         my $Result = $DFBackendObject->SearchFieldParameterBuild( %{ $Test->{Config} } );
 
-        $Self->Is(
+        is(
             $Result,
             undef,
             "$Test->{Name} | SearchFieldParameterBuild() (should be undef)",
@@ -1467,11 +1460,10 @@ for my $Test (@Tests) {
 
             if ( $CGIEnabled && ref $Test->{Config}->{CGIParam} eq 'HASH' ) {
 
-                # create a new CGI object to simulate a web request
-                my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
-
+                # create a new HTTP::Request object to simulate a web request
+                my $HTTPRequest      = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
                 my $LocalParamObject = Kernel::System::Web::Request->new(
-                    WebRequest => $WebRequest,
+                    HTTPRequest => $HTTPRequest,
                 );
 
                 # include ParamObject in function call
@@ -1489,21 +1481,22 @@ for my $Test (@Tests) {
 
                 if ( $CGIEnabled && IsHashRefWithData $Test->{ExpectedResultsWebRequest} )
                 {
-                    $Self->IsDeeply(
+                    is(
                         $Result,
                         $Test->{ExpectedResultsWebRequest},
                         "$Test->{Name} in $TestType | SearchFieldParameterBuild()",
                     );
+
                     next TESTOPTION;
                 }
-                $Self->IsDeeply(
+                is(
                     $Result,
                     $Test->{ExpectedResults},
                     "$Test->{Name} in $TestType | SearchFieldParameterBuild()",
                 );
             }
             else {
-                $Self->Is(
+                is(
                     $Result,
                     undef,
                     "$Test->{Name} | SearchFieldParameterBuild() (should be undef)",
@@ -1513,6 +1506,4 @@ for my $Test (@Tests) {
     }
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;

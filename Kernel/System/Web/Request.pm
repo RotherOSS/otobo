@@ -26,7 +26,7 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use HTTP::Request;
+use HTTP::Request::Common qw(GET);
 use HTTP::Message::PSGI qw(req_to_psgi);
 use Plack::Request;
 
@@ -73,21 +73,24 @@ The regular usage in the web interface modules, e.g. in L<Kernel::System::Web::I
 
 In the test scripts it is convenient to pass in a request object directly.
 
-    use HTTP::Request;
     use Kernel::System::UnitTest::RegisterDriver;
+    use HTTP::Request::Common qw(GET);
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            HTTPRequest => HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' ),
+            HTTPRequest => GET('http://www.example.com?a=4;b=5'),
         }
     );
 
-    # later in the test script or in the used modules
+    # the added parameter is used automatically later in the test script or in the used modules
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
 same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
+
+When no C<PSGIEnv> or C<HTTPRequest> is registered than C<GET('/')> is used as a fallback.
+This is relevant sometimes when an instance of C<Kernel::System::Web::Request> is needed outside a web context.
 
 =cut
 
@@ -115,7 +118,7 @@ sub new {
     # Use a basic request as a fallback.
     # This is needed because the ParamObject is sometimes created outside a web context.
     else {
-        $PSGIEnv = req_to_psgi( HTTP::Request->new( 'GET' => '/' ) );
+        $PSGIEnv = req_to_psgi( GET('/') );
     }
 
     # allocate new hash for object

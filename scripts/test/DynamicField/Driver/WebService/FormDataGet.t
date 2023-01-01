@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2019 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,12 +22,11 @@ use utf8;
 use URI::Escape;
 
 # CPAN modules
-use CGI;
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;
-
-our $Self;
 
 my $Helper       = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -105,24 +104,19 @@ my $DynamicFieldDriverObject = $Kernel::OM->Get('Kernel::System::DynamicField::D
 TEST:
 for my $Test (@Tests) {
 
-    # %ENV will be picked up in Kernel::System::Web::Request::new().
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
-    );
+    # create a new HTTP::Request object to simulate a web request
+    my $QueryString = $Test->{Request} // '';
+    my $HTTPRequest = GET( 'http://example.com/example?' . $QueryString );
 
     # force the ParamObject to use the new request params
-    CGI::initialize_globals();
     $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
-        }
+        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
     );
 
     # _FormDataGet() implicitly calls Kernel::System::Web::Request->new();
     my $FormData = $DynamicFieldDriverObject->_FormDataGet();
 
-    $Self->IsDeeply(
+    is(
         $FormData,
         $Test->{ExectedResult},
         "$Test->{Name} FormDataGet()",
@@ -134,4 +128,4 @@ continue {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

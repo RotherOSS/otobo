@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-use CGI;
+# core modules
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# CPAN modules
+use Test2::V0;
+use HTTP::Request::Common qw(GET);
 
-our $Self;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Get config object.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -42,39 +44,27 @@ my $Success = $ConfigObject->Set(
     Key   => 'SendmailModule',
     Value => 'Kernel::System::Email::DoNotSendEmail',
 );
-$Self->True(
-    $Success,
-    "Set Send Mail Module to DoNotSendEmail",
-);
+ok( $Success, "Set Send Mail Module to DoNotSendEmail" );
 
 # Set default language to English.
 $Success = $ConfigObject->Set(
     Key   => 'DefaultLanguage',
     Value => 'en',
 );
-$Self->True(
-    $Success,
-    "Set default language to English",
-);
+ok( $Success, "Set default language to English" );
 
 # Disable email checks to create new user.
 $Success = $ConfigObject->Set(
     Key   => 'CheckMXRecord',
     Value => 0,
 );
-$Self->True(
-    $Success,
-    "Disabled CheckMXRecord",
-);
+ok( $Success, "Disabled CheckMXRecord" );
 
 $Success = $ConfigObject->Set(
     Key   => 'CheckEmailAddresses',
     Value => 0,
 );
-$Self->True(
-    $Success,
-    "Disabled CheckEmailAddress",
-);
+ok( $Success, "Disabled CheckEmailAddress" );
 
 # Enable lock after create event.
 $Success = $ConfigObject->Set(
@@ -86,10 +76,7 @@ $Success = $ConfigObject->Set(
         Transaction => 0,
     },
 );
-$Self->True(
-    $Success,
-    "Enabled event LockAfterCreate",
-);
+ok( $Success, "Enabled event LockAfterCreate" );
 
 # Create a new user for current test.
 my $UserLogin = $Helper->TestUserCreate(
@@ -163,18 +150,10 @@ my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 for my $Test (@Tests) {
 
     # Fake a web request, as Action is used by the LockAfterCreate event.
-    # %ENV will be picked up in CGI->new()
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} || '',
-    );
-
-    # force the ParamObject to use the new request params
-    CGI::initialize_globals();
+    my $QueryString = $Test->{Request} // '';
+    my $HTTPRequest = GET( 'http://example.com/example?' . $QueryString );
     $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
-        }
+        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
     );
 
     # Create an unlocked ticket,
@@ -182,14 +161,11 @@ for my $Test (@Tests) {
         %TicketCreateTemplate,
         %{ $Test->{TicketCreate} }
     );
-    $Self->True(
-        $TicketID,
-        "$Test->{Name} TicketCreate() successful for Ticket ID $TicketID",
-    );
+    ok( $TicketID, "$Test->{Name} TicketCreate() successful for Ticket ID $TicketID" );
 
     # Check ticket lock.
     my $TicketLock = $TicketObject->TicketLockGet( TicketID => $TicketID );
-    $Self->Is(
+    is(
         $TicketLock // 0,
         $Test->{Success},
         "$Test->{Name} TicketLockGet() for Ticket ID $TicketID",
@@ -205,4 +181,4 @@ continue {
 
 # Cleanup is done by RestoreDatabase.
 
-$Self->DoneTesting();
+done_testing;
