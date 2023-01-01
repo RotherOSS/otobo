@@ -197,7 +197,7 @@ sub GetParamNames {
     my $Self = shift;
 
     # fetch all names
-    my @ParamNames = keys $Self->{Query}->parameters()->%*;
+    my @ParamNames = keys $Self->{PlackRequest}->parameters()->%*;
 
     for my $Name (@ParamNames) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
@@ -373,9 +373,9 @@ This is a wrapper around C<Plack::Request::remote_user()>.
 =cut
 
 sub RemoteUser {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->remote_user(@Params);
+    return $Self->{PlackRequest}->remote_user;
 }
 
 =head2 ScriptName()
@@ -388,10 +388,10 @@ This is a wrapper around C<Plack::Request::script_name()>.
 =cut
 
 sub ScriptName {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
     # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
-    my $ScriptName = $Self->{PlackRequest}->script_name(@Params);
+    my $ScriptName = $Self->{PlackRequest}->script_name;
     $ScriptName =~ s{^//+}{/};
 
     return $ScriptName;
@@ -407,9 +407,9 @@ This is a wrapper around C<Plack::Request::server_protocol()>.
 =cut
 
 sub ServerProtocol {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->server_protocol(@Params);
+    return $Self->{PlackRequest}->server_protocol;
 }
 
 =head2 ServerSoftware()
@@ -422,9 +422,9 @@ This is a wrapper around C<Plack::Request::server_software()>.
 =cut
 
 sub ServerSoftware {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->server_software(@Params);
+    return $Self->{PlackRequest}->server_software;
 }
 
 =head2 RequestURI()
@@ -437,9 +437,9 @@ This is a wrapper around C<Plack::Request::request_uri()>.
 =cut
 
 sub RequestURI {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->request_uri(@Params);
+    return $Self->{PlackRequest}->request_uri;
 }
 
 =head2 ContentType()
@@ -452,9 +452,9 @@ This is a wrapper around C<Plack::Request::content_type()>.
 =cut
 
 sub ContentType {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->content_type(@Params);
+    return $Self->{PlackRequest}->content_type;
 }
 
 =head2 QueryString()
@@ -467,24 +467,26 @@ This is a wrapper around C<Plack::Request::query_string()>.
 =cut
 
 sub QueryString {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->query_string(@Params);
+    return $Self->{PlackRequest}->query_string;
 }
 
 =head2 RequestMethod()
 
-Usually either GET or POST.
+Most of the time either GET or POST.
 This is a wrapper around C<Plack::Request::method()>.
 
     my $RequestMethod = $ParamObject->RequestMethod();
 
+No parameters are handled.
+
 =cut
 
 sub RequestMethod {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->method(@Params);
+    return $Self->{PlackRequest}->method;
 }
 
 =head2 PathInfo()
@@ -494,12 +496,14 @@ This is a wrapper around C<Plack::Request::path_info()>.
 
     my $PathInfo = $ParamObject->PathInfo();
 
+No parameters are handled.
+
 =cut
 
 sub PathInfo {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{PlackRequest}->path_info(@Params);
+    return $Self->{PlackRequest}->path_info;
 }
 
 =head2 HTTP()
@@ -562,7 +566,7 @@ checks if the current request was sent by AJAX
 =cut
 
 sub IsAJAXRequest {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
     return ( $Self->{PlackRequest}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
 }
