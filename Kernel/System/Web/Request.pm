@@ -74,8 +74,8 @@ The regular usage in the web interface modules, e.g. in L<Kernel::System::Web::I
 
 In the test scripts it is convenient to pass in a request object directly.
 
-    use Kernel::System::UnitTest::RegisterDriver;
     use HTTP::Request::Common qw(GET);
+    use Kernel::System::UnitTest::RegisterDriver;
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
@@ -394,6 +394,8 @@ This is a wrapper around C<Plack::Requests::address()>.
 
     my $RemoteAddr = $ParamObject->RemoteAddr();
 
+No parameters are handled.
+
 =cut
 
 sub RemoteAddr {
@@ -405,16 +407,18 @@ sub RemoteAddr {
 =head2 RemoteUser()
 
 get the remote user.
-This is a wrapper around C<Plack::Request::remote_user()>.
+This is a wrapper around C<Plack::Request::user()>.
 
     my $RemoteUser = $ParamObject->RemoteUser();
+
+No parameters are handled.
 
 =cut
 
 sub RemoteUser {
     my ($Self) = @_;
 
-    return $Self->{PlackRequest}->remote_user;
+    return $Self->{PlackRequest}->user;
 }
 
 =head2 ScriptName()
@@ -423,6 +427,8 @@ return the script name as a partial URL, for self-referring scripts.
 This is a wrapper around C<Plack::Request::script_name()>.
 
     my $ScriptName = $ParamObject->ScriptName();
+
+No parameters are handled.
 
 =cut
 
@@ -443,6 +449,8 @@ This is a wrapper of C<Plack::Request::protocol()>.
 
     my $ServerProtocol = $ParamObject->ServerProtocol();
 
+No parameters are handled.
+
 =cut
 
 sub ServerProtocol {
@@ -457,6 +465,8 @@ return info which server is running.
 This is a re-implementation of C<CGI::server_software()>.
 
     my $ServerSoftware = $ParamObject->ServerSoftware();
+
+No parameters are handled.
 
 =cut
 
@@ -473,6 +483,8 @@ This is a wrapper around C<Plack::Request::request_uri()>.
 
     my $RequestURI = $ParamObject->RequestURI();
 
+No parameters are handled.
+
 =cut
 
 sub RequestURI {
@@ -488,6 +500,8 @@ This is a wrapper around C<Plack::Request::content_type()>.
 
     my $ContentType = $ParamObject->ContentType();
 
+No parameters are handled.
+
 =cut
 
 sub ContentType {
@@ -502,6 +516,8 @@ Returns the query string.
 This is a wrapper around C<Plack::Request::query_string()>.
 
     my $QueryString = $ParamObject->QueryString();
+
+No parameters are handled.
 
 =cut
 
@@ -799,7 +815,7 @@ sub SaveFormDraft {
     }
 
     # create new draft
-    return if !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftAdd(%FormDraft);
+    return unless $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftAdd(%FormDraft);
     return 1;
 }
 
