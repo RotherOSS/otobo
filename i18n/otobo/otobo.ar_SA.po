@@ -1,13 +1,13 @@
 # Translators:
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Mohammed AlGarni <mjalgarni@gmail.com>, 2018
-# khh <khh@rother-oss.com>, 2022.
+# khh <khh@rother-oss.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-12-31 11:47+0000\n"
+"PO-Revision-Date: 2023-01-02 18:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -16585,79 +16585,79 @@ msgstr "تقييم بواسطة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket/Article Accounted Time"
-msgstr ""
+msgstr "التذكرة/العنصر - الوقت المحسوب"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Create Time"
-msgstr ""
+msgstr "وقت إنشاء التذكرة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Close Time"
-msgstr ""
+msgstr "وقت إغلاق التذكرة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Accounted time by Agent"
-msgstr ""
+msgstr "الوقت المعين من قبل الوكيل"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Total Time"
-msgstr ""
+msgstr "الوقت الإجمالي"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Average"
-msgstr ""
+msgstr "متوسط الوقت لكل تذكرة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Min Time"
-msgstr ""
+msgstr "الحد الأدنى لوقت التذكرة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Ticket Max Time"
-msgstr ""
+msgstr "الحد الأقصى لوقت التذكرة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Number of Tickets"
-msgstr ""
+msgstr "عدد التذاكر"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Article Average"
-msgstr ""
+msgstr "متوسط الوقت لكل عنصر(مقالة)"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Article Min Time"
-msgstr ""
+msgstr "الحد الأدنى لوقت المقالة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Article Max Time"
-msgstr ""
+msgstr "الحد الأقصى لوقت المقالة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
 msgid "Number of Articles"
-msgstr ""
+msgstr "عدد المقالات"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "unlimited"
-msgstr ""
+msgstr "غير محدود"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Attributes to be printed"
-msgstr ""
+msgstr "السمات المراد طباعتها"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Sort sequence"
-msgstr ""
+msgstr "تسلسل الفرز"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Historic"
-msgstr ""
+msgstr "تاريخ الحالة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "State Type Historic"
-msgstr ""
+msgstr "تاريخ نوع الحالة"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Historic Time Range"
-msgstr ""
+msgstr "النطاق الزمني التاريخي"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Number"
@@ -16665,15 +16665,15 @@ msgstr "الرقم"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
 msgid "Last Changed"
-msgstr ""
+msgstr "آخر تعديل"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Average"
-msgstr ""
+msgstr "متوسط وقت الحل"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Min Time"
-msgstr ""
+msgstr "الحد الأدنى من وقت الحل"
 
 #. Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
 msgid "Solution Max Time"
