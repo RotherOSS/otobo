@@ -400,7 +400,7 @@ sub ScriptName {
 =head2 ServerProtocol()
 
 return info about the protocol.
-This is a wrapper around C<Plack::Request::server_protocol()>.
+This is a wrapper of C<Plack::Request::protocol()>.
 
     my $ServerProtocol = $ParamObject->ServerProtocol();
 
@@ -409,13 +409,13 @@ This is a wrapper around C<Plack::Request::server_protocol()>.
 sub ServerProtocol {
     my ($Self) = @_;
 
-    return $Self->{PlackRequest}->server_protocol;
+    return $Self->{PlackRequest}->protocol;
 }
 
 =head2 ServerSoftware()
 
 return info which server is running.
-This is a wrapper around C<Plack::Request::server_software()>.
+This is a re-implementation of C<CGI::server_software()>.
 
     my $ServerSoftware = $ParamObject->ServerSoftware();
 
@@ -424,7 +424,7 @@ This is a wrapper around C<Plack::Request::server_software()>.
 sub ServerSoftware {
     my ($Self) = @_;
 
-    return $Self->{PlackRequest}->server_software;
+    return $Self->{PlackRequest}->env->{SERVER_SOFTWARE};
 }
 
 =head2 RequestURI()
@@ -509,7 +509,7 @@ sub PathInfo {
 =head2 HTTP()
 
 get the HTTP environment variable. Called with a single argument get the specific environment variable.
-This is a wrapper around C<Plack::Request::http()>.
+This is a re-implementation of C<CGI::http()>.
 
     my $UserAgent = $ParamObject->HTTP('USER_AGENT');
 
@@ -534,6 +534,7 @@ sub HTTP {
 =head2 HTTPS()
 
 same as HTTP(), but operate on the HTTPS environment variables.
+This is a re-implementation of C<CGI::https()>.
 
     my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
 
