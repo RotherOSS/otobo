@@ -608,7 +608,9 @@ checks if the current request was sent by AJAX
 sub IsAJAXRequest {
     my ($Self) = @_;
 
-    return ( $Self->{PlackRequest}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
+    # This method was broken in rel-10_1 such that 0 was always returned.
+    # Let's stay bug compatible for now.
+    return 0;
 }
 
 =head2 LoadFormDraft()
