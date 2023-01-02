@@ -131,6 +131,7 @@ sub new {
         $PlackRequest = Plack::Request->new($PSGIEnv);
 
         # actually parse the input and cache the result
+        # this instializes $PlackRequest->env->{'plack.request.merged'}
         $PlackRequest->parameters;
     }
     catch {
@@ -235,7 +236,7 @@ sub GetParamNames {
     my $Self = shift;
 
     # fetch all names
-    my @ParamNames = keys $Self->{PlackRequest}->parameters()->%*;
+    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
 
     for my $Name (@ParamNames) {
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
@@ -655,18 +656,13 @@ sub LoadFormDraft {
 
         # array value
         if ( IsArrayRefWithData($Value) ) {
-            $Self->{Query}->param(
-                -name   => $Key,
-                -values => $Value,
-            );
+            $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value->@* );
+
             next KEY;
         }
 
         # scalar value
-        $Self->{Query}->param(
-            -name  => $Key,
-            -value => $Value,
-        );
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value );
     }
 
     # add UploadCache data
