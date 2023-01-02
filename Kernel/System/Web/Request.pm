@@ -29,6 +29,7 @@ use namespace::autoclean;
 use HTTP::Request::Common qw(GET);
 use HTTP::Message::PSGI qw(req_to_psgi);
 use Plack::Request;
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -121,8 +122,45 @@ sub new {
         $PSGIEnv = req_to_psgi( GET('/') );
     }
 
-    # allocate new hash for object
-    return bless { PlackRequest => Plack::Request->new($PSGIEnv) }, $Type;
+    # Plack::Request has no cgi_error() method. This means that failures in object creation
+    # and in input parsing are only communcated via exceptions. Let'c catch the exception so
+    # that the status can be checked with the Error() method.
+    my ( $PlackRequest, $Error );
+    try {
+        # calling now only stores the environment
+        $PlackRequest = Plack::Request->new($PSGIEnv);
+
+        # actually parse the input and cache the result
+        $PlackRequest->parameters;
+    }
+    catch {
+        $Error = $_;
+    };
+
+    # the error case
+    return bless { Error => $_ }, $Type if $Error;
+
+    # construction went fine
+    return bless { PlackRequest => $PlackRequest }, $Type;
+}
+
+=head2 Error()
+
+to get the error back.
+The error usually does not contain a HTTP status code.
+
+    if ( $ParamObject->Error() ) {
+        print STDERR $ParamObject->Error() . "\n";
+    }
+
+=cut
+
+sub Error {
+    my ( $Self, %Param ) = @_;
+
+    return unless defined $Self->{Error};
+
+    return $Self->{Error};
 }
 
 =head2 GetParam()
