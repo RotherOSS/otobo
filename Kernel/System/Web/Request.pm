@@ -286,6 +286,23 @@ sub GetArray {
     return @Values;
 }
 
+=head2 Content
+
+Returns the request content in a raw byte string for POST requests.
+This is a wrapper around C<Plack::Requests::address()>.
+
+    my $RawBody = $ParamObject->Content();
+
+No parameters are handled.
+
+=cut
+
+sub Content {
+    my ($Self) = @_;
+
+    return $Self->{PlackRequest}->content;
+}
+
 =head2 GetUploadAll()
 
 gets file upload data.

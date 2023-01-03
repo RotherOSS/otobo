@@ -43,17 +43,18 @@ subtest 'GET request' => sub {
     is( $Request->GetParam( Param => 'a' ),   4,     'SingleParam a' );
     is( $Request->GetParam( Param => 'b' ),   5,     'SingleParam b' );
     is( $Request->GetParam( Param => 'aia' ), undef, 'SingleParam - not defined' );
-
+    is( $Request->Content, '', 'no body in GET request' );
 };
 
 # TODO: test support for POST_MAX
 
 subtest 'POST request' => sub {
+    my $Body        = 'a=4&b=5;d=2';
     my $HTTPRequest = HTTP::Request->new(
         'POST',
         'http://www.example.com',
         [ 'Content-Type' => 'application/x-www-form-urlencoded' ],
-        'a=4&b=5;d=2',
+        $Body,
     );
     my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
 
@@ -130,6 +131,7 @@ subtest 'POST request with URL params' => sub {
         [2],
         'Param d, from POST',
     );
+    is( $Request->Content, $Body, 'body in mixed request' );
 };
 
 done_testing;
