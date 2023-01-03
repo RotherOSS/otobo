@@ -26,8 +26,9 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use HTTP::Request::Common qw(GET);
 use HTTP::Message::PSGI qw(req_to_psgi);
+use HTTP::Request::Common qw(GET);
+use Path::Class qw(file);
 use Plack::Request;
 use Try::Tiny;
 
@@ -299,36 +300,32 @@ gets file upload data.
         Content     => 'Some text',
     );
 
+Returns an empty list when no uploaded file was found.
+
 =cut
 
 sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
     # get upload
-    my $Uploads = $Self->{PlackRequest}->uploads;
-
-    my $Upload = $Uploads->{ $Param{Param} };
+    my $Upload = $Self->{PlackRequest}->uploads->{ $Param{Param} };
 
     return unless $Upload;
 
-    # get real file name
+    # get real file name from the Plack::Request::Upload object
     my $UploadFilenameOrig = $Upload->filename;
 
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
+    # TODO: is this still needed ???
     $NewFileName =~ s/.:\\(.*)/$1/g;
     $NewFileName =~ s/.*\\(.+?)/$1/g;
 
-    # return a string
-    my $Content = '';
-    while (<$Upload>) {
-        $Content .= $_;
-    }
-    close $Upload;
-
-    my $ContentType = $Upload->content_type();
+    # $Upload->path return the path to the temporary file
+    my $Content     = file( $Upload->path )->slurp;
+    my $ContentType = $Upload->content_type;
 
     return (
         Filename    => $NewFileName,
