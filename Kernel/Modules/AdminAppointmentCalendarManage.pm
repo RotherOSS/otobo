@@ -726,9 +726,9 @@ sub _Overview {
     for my $Calendar (@Calendars) {
 
         # group name
-        $Calendar->{Group} = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
+        $Calendar->{Group} = $Calendar->{GroupID} ? $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
             GroupID => $Calendar->{GroupID},
-        );
+        ) : '';
 
         # valid text
         $Calendar->{Valid} = $Kernel::OM->Get('Kernel::System::Valid')->ValidLookup(

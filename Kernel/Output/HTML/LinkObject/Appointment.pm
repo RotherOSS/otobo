@@ -27,6 +27,8 @@ our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::Output::HTML::Layout',
     'Kernel::System::Calendar',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
     'Kernel::System::Log',
     'Kernel::System::Web::Request',
     'Kernel::System::JSON',
@@ -74,6 +76,12 @@ sub new {
         ObjectName => 'SourceObjectID',
     };
 
+    # Get all appointment dynamic fields..
+    $Self->{DynamicField} = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid      => 0,
+        ObjectType => ['Appointment'],
+    );
+
     return $Self;
 }
 
@@ -103,12 +111,15 @@ Return
                 },
                 {
                     Content => 'Description',
+                    Width   => 200,
                 },
                 {
                     Content => 'Start Time',
+                    Width   => 150,
                 },
                 {
                     Content => 'End Time',
+                    Width   => 150,
                 },
             ],
             ItemList => [
@@ -319,6 +330,23 @@ sub TableCreateComplex {
         }
         elsif ( $Column eq 'NotificationTime' ) {
             $ColumnTranslate = Translatable('Notification');
+        }
+        elsif ( $Column =~ m{ \A DynamicField_ }xms ) {
+            my $DynamicFieldConfig;
+
+            DYNAMICFIELD:
+            for my $DFConfig ( @{ $Self->{DynamicField} } ) {
+                next DYNAMICFIELD if !IsHashRefWithData($DFConfig);
+                next DYNAMICFIELD if 'DynamicField_' . $DFConfig->{Name} ne $Column;
+
+                $DynamicFieldConfig = $DFConfig;
+
+                last DYNAMICFIELD;
+            }
+
+            next COLUMN if !IsHashRefWithData($DynamicFieldConfig);
+
+            $ColumnTranslate = $DynamicFieldConfig->{Label};
         }
 
         push @AllColumns, {

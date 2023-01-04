@@ -588,6 +588,10 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
         // Auto open appointment create screen.
         if (Core.Config.Get('AppointmentCreate')) {
             TargetNS.OpenEditDialog({
+                Title: Core.Config.Get('AppointmentCreate').Title ? Core.Config.Get('AppointmentCreate').Title : null,
+                Description: Core.Config.Get('AppointmentCreate').Description ? Core.Config.Get('AppointmentCreate').Description : null,
+                Location: Core.Config.Get('AppointmentCreate').Location ? Core.Config.Get('AppointmentCreate').Location : null,
+                CalendarID: Core.Config.Get('AppointmentCreate').CalendarID ? Core.Config.Get('AppointmentCreate').CalendarID : null,
                 Start: Core.Config.Get('AppointmentCreate').Start ? $.fullCalendar.moment(Core.Config.Get('AppointmentCreate').Start) : $.fullCalendar.moment().add(1, 'hours').startOf('hour'),
                 End: Core.Config.Get('AppointmentCreate').End ? $.fullCalendar.moment(Core.Config.Get('AppointmentCreate').End) : $.fullCalendar.moment().add(2, 'hours').startOf('hour'),
                 PluginKey: Core.Config.Get('AppointmentCreate').PluginKey ? Core.Config.Get('AppointmentCreate').PluginKey : null,
@@ -754,6 +758,10 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             Action: 'AgentAppointmentEdit',
             Subaction: 'EditMask',
             AppointmentID: AppointmentData.CalEvent ? AppointmentData.CalEvent.id : null,
+            Title: AppointmentData.Title ? AppointmentData.Title : null,
+            Description: AppointmentData.Description ? AppointmentData.Description : null,
+            Location: AppointmentData.Location ? AppointmentData.Location : null,
+            CalendarID: AppointmentData.CalendarID ? AppointmentData.CalendarID : null,
             StartYear: !AppointmentData.CalEvent ? AppointmentData.Start.year() : null,
             StartMonth: !AppointmentData.CalEvent ? AppointmentData.Start.month() + 1 : null,
             StartDay: !AppointmentData.CalEvent ? AppointmentData.Start.date() : null,
@@ -790,7 +798,7 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                 function (HTML) {
                     Core.UI.Dialog.ShowContentDialog(HTML, Core.Language.Translate('Appointment'), '10px', 'Center', true, undefined, true);
                     Core.UI.InputFields.Activate($('.Dialog:visible'));
-
+                    Core.Agent.CustomerSearchAutoComplete.Init();
                     TargetNS.AgentAppointmentEdit();
                 },
                 'html'
@@ -1817,6 +1825,12 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
             var $Element = $(this),
                 PluginKey = $Element.data('pluginKey'),
                 PluginURL = $Element.data('pluginUrl');
+            var CalendarList = [];
+            $('#CalendarID > option').each(function() {
+                if ( $(this).val() && $(this).val() != '-' ) {
+                    CalendarList.push($(this).val());
+                }
+            });
 
             // Skip already initialized fields
             if ($Element.hasClass('ui-autocomplete-input')) {
@@ -1831,7 +1845,8 @@ Core.Agent.AppointmentCalendar = (function (TargetNS) {
                             Action: 'AgentAppointmentPluginSearch',
                             PluginKey: PluginKey,
                             Term: Request.term + '*',
-                            MaxResults: 20
+                            MaxResults: 20,
+                            CalendarList: CalendarList
                         };
 
                     $Element.data(

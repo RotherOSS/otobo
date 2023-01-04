@@ -16,9 +16,13 @@
 
 package Kernel::System::Calendar::Event::Notification;
 
+use v5.24;
 use strict;
 use warnings;
 
+use Data::ICal;
+use Data::ICal::Entry::Event;
+use Date::ICal;
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -33,6 +37,11 @@ our @ObjectDependencies = (
     'Kernel::System::CalendarTemplateGenerator',
     'Kernel::System::Ticket',
     'Kernel::System::User',
+    'Kernel::System::Calendar::Participation',
+    'Kernel::System::CheckItem',
+    'Kernel::System::CustomerUser',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
 );
 
 sub new {
@@ -83,6 +92,21 @@ sub Run {
 
         return 1;
     }
+    # Prepare sending of ICS file (if needed).
+    my %SendICSFileEvents = (
+        AppointmentCreate   => 1,
+        AppointmentUpdate   => 1,
+        AppointmentDelete   => 1,
+        ParticipationCreate => 1,
+        ParticipationUpdate => 1,
+        ParticipationDelete => 1,
+    );
+    my $SendICSFile = ( $SendICSFileEvents{ $Param{Event} } ) ? 1 : 0;
+
+    my %OldAppointment;
+    if ( $Param{Event} eq 'AppointmentUpdate' && IsHashRefWithData( $Param{Data}->{OldAppointment} ) ) {
+        %OldAppointment = %{ $Param{Data}->{OldAppointment} };
+    }
 
     my $AppointmentObject = $Kernel::OM->Get('Kernel::System::Calendar::Appointment');
     my $CalendarObject    = $Kernel::OM->Get('Kernel::System::Calendar');
@@ -93,6 +117,7 @@ sub Run {
     if ( $Param{Data}->{AppointmentID} ) {
         %Appointment = $AppointmentObject->AppointmentGet(
             AppointmentID => $Param{Data}->{AppointmentID},
+            DynamicFields => 1,
         );
         %Calendar = $CalendarObject->CalendarGet(
             CalendarID => $Appointment{CalendarID} || $Param{Data}->{CalendarID},
@@ -102,6 +127,29 @@ sub Run {
         %Calendar = $CalendarObject->CalendarGet(
             CalendarID => $Param{Data}->{CalendarID},
         );
+    }
+    # Set current appointment data, if given.
+    # In case of appointment deletion, a subsequent call to AppointmentGet()
+    #   could return an empty hash, but maybe we need this data in the notification text.
+    if ( IsHashRefWithData( $Param{Data}->{Appointment} ) ) {
+        %Appointment = %{ $Param{Data}->{Appointment} };
+
+        %Calendar = $CalendarObject->CalendarGet(
+            CalendarID => $Appointment{CalendarID},
+        );
+    }
+    return if !IsHashRefWithData( \%Appointment ) && !IsHashRefWithData( \%Calendar );
+
+    # get dynamic fields
+    my $DynamicFieldList = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
+        Valid      => 1,
+        ObjectType => ['Appointment'],
+    );
+
+    # create a dynamic field config lookup table
+    my %DynamicFieldConfigLookup;
+    for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+        $DynamicFieldConfigLookup{ $DynamicFieldConfig->{Name} } = $DynamicFieldConfig;
     }
 
     NOTIFICATIONID:
@@ -117,6 +165,7 @@ sub Run {
             Appointment  => \%Appointment,
             Calendar     => \%Calendar,
             Notification => \%Notification,
+            DynamicFieldConfigLookup => \%DynamicFieldConfigLookup,
         );
 
         next NOTIFICATIONID if !$PassFilter;
@@ -128,6 +177,48 @@ sub Run {
             Calendar     => \%Calendar,
             Notification => \%Notification,
         );
+        # Prepare ICS file sending.
+
+        my %Recipients = map { $_->{UserID} => $_ } @RecipientUsers;
+
+        if (
+            $SendICSFile
+            && IsArrayRefWithData( $Notification{Data}->{SendICSFile} )
+            && $Notification{Data}->{SendICSFile}->[0]
+            )
+        {
+            # Check for old recipients.
+            my %OldRecipients;
+            if ( IsHashRefWithData( \%OldAppointment ) ) {
+                my @OldRecipientUsers = $Self->_RecipientsGet(
+                    %Param,
+                    Appointment  => \%OldAppointment,
+                    Calendar     => \%Calendar,
+                    Notification => \%Notification,
+                );
+
+                %OldRecipients = map { $_->{UserID} => $_ } @OldRecipientUsers;
+            }
+
+            # We do have two types of ICS files:
+            #   - regular ICS file for all current recipients
+            #   - ICS file with a cancellation for all former recipients
+
+            # Determine old recipients for cancellation ICS file.
+            if ( IsHashRefWithData( \%OldRecipients ) ) {
+
+                OLDRECIPIENT:
+                for my $OldRecipient ( sort keys %OldRecipients ) {
+
+                    $OldRecipients{ $OldRecipient }->{ICSFileType} = 'Cancellation';
+                    next OLDRECIPIENT if !$Recipients{ $OldRecipient };
+
+                    delete $OldRecipients{ $OldRecipient };
+                }
+            }
+
+            %Recipients = ( %Recipients, %OldRecipients );
+        }
 
         my @NotificationBundle;
 
@@ -135,7 +226,9 @@ sub Run {
         my $TemplateGeneratorObject = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator');
 
         # parse all notification tags for each user
-        for my $Recipient (@RecipientUsers) {
+        for my $RecipientUserID ( sort keys %Recipients ) {
+
+            my $Recipient = $Recipients{$RecipientUserID};
 
             my %ReplacedNotification = $TemplateGeneratorObject->NotificationEvent(
                 AppointmentID => $Param{Data}->{AppointmentID},
@@ -143,6 +236,7 @@ sub Run {
                 Recipient     => $Recipient,
                 Notification  => \%Notification,
                 UserID        => $Param{UserID},
+                Appointment   => \%Appointment,
             );
 
             my $UserNotificationTransport = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
@@ -240,6 +334,8 @@ sub Run {
                 }
 
                 my $Success = $Self->_SendRecipientNotification(
+                    Appointment => \%Appointment,
+                    SendICSFile => $SendICSFile,
                     AppointmentID         => $Appointment{AppointmentID} || '',
                     CalendarID            => $Calendar{CalendarID} || $Appointment{CalendarID} || '',
                     Notification          => $Bundle->{Notification},
@@ -261,10 +357,66 @@ sub Run {
                 Notification => \%Notification,
             );
 
+            # Send a mail to the customer that is concerned in the handled participation.
+            # The mail address is either taken from the existing customer user or from
+            # calendar_participation.participant_email.
+            # Agents are not notified.
+            # Note that the @TransportRecipients array is a bit abused here,
+            # as these recipients are not specific for the transport configuration.
+            if ( $Param{Event} =~ m/^Participation/ && $Param{Data}->{ParticipationID} ) {
+
+                # Include only valid email recipients.
+                my $ParticipationObject = $Kernel::OM->Get('Kernel::System::Calendar::Participation');
+                my %Participation       = $ParticipationObject->ParticipationGet(
+                    ParticipationID => $Param{Data}->{ParticipationID},
+                    UserID          => $Param{UserID},
+                );
+
+                # The invitee could be a customer user
+                my $CustomerUserID = $Participation{CustomerUserID};
+                if ( $CustomerUserID ) {
+                    my %CustomerUser = $Kernel::OM->Get('Kernel::System::CustomerUser')->CustomerUserDataGet(
+                        User => $CustomerUserID,
+                    );
+                    if ( $CustomerUser{UserEmail} ) {
+                        push @TransportRecipients, {
+                            Realname             => '',
+                            Type                 => 'Customer',
+                            UserEmail            => $CustomerUser{UserEmail},
+                            IsVisibleForCustomer => $Notification{Data}->{IsVisibleForCustomer},
+                        };
+                    }
+                    else {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'info',
+                            Message  => "Send no customer notification because of missing "
+                                . "customer email (CustomerUserID=$CustomerUserID)!",
+                        );
+                    }
+                }
+
+                # Or the invitee could be an arbitrary email adress
+                my $ParticipantEmail = $Participation{ParticipantEmail};
+                if ( $ParticipantEmail && $ParticipantEmail =~ m/@/ ) {
+                    push @TransportRecipients, {
+                        Realname             => '',
+                        Type                 => 'Customer',
+                        UserEmail            => $ParticipantEmail,
+                        IsVisibleForCustomer => $Notification{Data}->{IsVisibleForCustomer},
+                    };
+                }
+            }
+
             next TRANSPORT if !@TransportRecipients;
 
             RECIPIENT:
             for my $Recipient (@TransportRecipients) {
+                if ($SendICSFile) {
+                    $Recipient->{ICSFileType}
+                        = $Param{Event} eq 'AppointmentDelete'   ? 'Cancellation'
+                        : $Param{Event} eq 'ParticipationDelete' ? 'Cancellation'
+                        :                                          'Invitation';
+                }
 
                 # replace all notification tags for each special recipient
                 my %ReplacedNotification = $TemplateGeneratorObject->NotificationEvent(
@@ -273,9 +425,12 @@ sub Run {
                     Notification          => \%Notification,
                     CustomerMessageParams => $Param{Data}->{CustomerMessageParams} || {},
                     UserID                => $Param{UserID},
+                    Appointment => \%Appointment,
                 );
 
                 my $Success = $Self->_SendRecipientNotification(
+                    Appointment => \%Appointment,
+                    SendICSFile => $SendICSFile,
                     AppointmentID         => $Appointment{AppointmentID} || '',
                     CalendarID            => $Calendar{CalendarID} || $Appointment{CalendarID} || '',
                     Notification          => \%ReplacedNotification,
@@ -334,6 +489,7 @@ sub _NotificationFilter {
         next KEY if $Key eq 'SendOnOutOfOffice';
         next KEY if $Key eq 'AgentEnabledByDefault';
         next KEY if $Key eq 'NotificationType';
+        next KEY if $Key eq 'SendICSFile';
         next KEY if $Key eq 'IsVisibleForCustomer';
 
         # check recipient fields from transport methods
@@ -592,6 +748,15 @@ sub _RecipientsGet {
             !$ConfigObject->Get('AgentSelfNotifyOnAction')
             && $User{UserID} == $Param{UserID}
             && !$PrecalculatedUserIDs{ $Param{UserID} }
+            # Do not skip user that triggers the event,
+            #   if ICS file sending is active.
+            && (
+                !IsArrayRefWithData( $Notification{Data}->{SendICSFile} )
+                || (
+                    IsArrayRefWithData( $Notification{Data}->{SendICSFile} )
+                    && !$Notification{Data}->{SendICSFile}->[0]
+                )
+            )
             )
         {
             next RECIPIENT;
@@ -631,6 +796,13 @@ sub _RecipientsGet {
         next RECIPIENT if $User{UserID} == $PostmasterUserID;
 
         $User{Type} = 'Agent';
+        if (
+            IsArrayRefWithData( $Notification{Data}->{SendICSFile} )
+            && $Notification{Data}->{SendICSFile}->[0]
+            )
+        {
+            $User{ICSFileType} = ( $Param{Event} eq 'AppointmentDelete' ) ? 'Cancellation' : 'Invitation';
+        }
 
         push @RecipientUsers, \%User;
     }
@@ -649,6 +821,333 @@ sub _SendRecipientNotification {
                 Message  => "Need $Needed!",
             );
         }
+    }
+
+    # add an .ics attachment in the case of invitations
+    if (
+        $Param{SendICSFile}
+        && $Param{Recipient}->{ICSFileType}
+        && IsHashRefWithData( $Param{Appointment} )
+        )
+    {
+        my %Calendar = $Kernel::OM->Get('Kernel::System::Calendar')->CalendarGet(
+            CalendarID => $Param{CalendarID},
+            UserID     => $Param{UserID},
+        );
+        my $ICalCalendar = Data::ICal->new(
+            calname => $Calendar{CalendarName},
+        );
+
+        # Export color for Apple calendar.
+        $ICalCalendar->add_property(
+            'x-apple-calendar-color' => $Calendar{Color},
+        );
+
+        my %Appointment = $Param{Appointment}->%*;
+
+        # Calculate start time.
+        my $StartTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Appointment{StartTime},
+            },
+        );
+        my $ICalStartTime = Date::ICal->new(
+            epoch => $StartTimeObject->ToEpoch(),
+        );
+
+        # Calculate end time.
+        my $EndTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Appointment{EndTime},
+            },
+        );
+        my $ICalEndTime = Date::ICal->new(
+            epoch => $EndTimeObject->ToEpoch(),
+        );
+
+        # Recalculate for all day appointment, discard time data.
+        if ( $Appointment{AllDay} ) {
+            my $StartTimeSettings = $StartTimeObject->Get();
+            $ICalStartTime = Date::ICal->new(
+                year   => $StartTimeSettings->{Year},
+                month  => $StartTimeSettings->{Month},
+                day    => $StartTimeSettings->{Day},
+                offset => 0,   # UTC, $ENV{TZ} is not used
+            );
+
+            my $EndTimeSettings = $EndTimeObject->Get();
+            $ICalEndTime = Date::ICal->new(
+                year   => $EndTimeSettings->{Year},
+                month  => $EndTimeSettings->{Month},
+                day    => $EndTimeSettings->{Day},
+                offset => 0,   # UTC, $ENV{TZ} is not used
+            );
+        }
+
+        # create iCalendar event entry
+        my $ICalEvent = Data::ICal::Entry::Event->new();
+
+        # optional and repeatable properties
+        my (%ICalEventProperties, @ICalRepeatableProperties);
+
+        if ( $Appointment{Description} ) {
+            $ICalEventProperties{description} = $Appointment{Description};
+
+            # Maybe use additional description as well.
+            my $Template = $Calendar{Settings}->{AdditionalDescription} // '';
+
+            if (
+                IsStringWithData( $Template )
+                && $Kernel::OM->Get('Kernel::Config')->Get('AppointmentCalendar::ICSFiles::UseAppointmentDescription')
+            )
+            {
+                my $Text = $Template;
+
+                # Do not call the calendar template generator if there are no tags.
+                if ( $Text =~ m{\<OTOBO_.+?\>} ) {
+
+                    $Text = $Kernel::OM->Get('Kernel::System::CalendarTemplateGenerator')->_Replace(
+                        RichText      => 0,
+                        Text          => $Text,
+                        ReplaceValue  => '',
+                        AppointmentID => $Appointment{AppointmentID},
+                        CalendarID    => $Appointment{CalendarID},
+                        UserID        => $Param{UserID},
+                    );
+                }
+
+                # Sanitize.
+                $Text =~ s{\<.+?\>}{}gs;
+                $Text =~ s{^\s*}{}mg;
+
+                $ICalEventProperties{description} .= "\n" . $Text;
+            }
+
+        }
+
+        if ( $Appointment{Location} ) {
+            $ICalEventProperties{location} = $Appointment{Location};
+        }
+
+        if ( $Appointment{Recurring} ) {
+            my %ValueParams;
+
+            if ( $Appointment{RecurrenceType} eq 'Daily' ) {
+                $ValueParams{FREQ} = 'DAILY';
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'Weekly' ) {
+                $ValueParams{FREQ} = 'WEEKLY';
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'Monthly' ) {
+                $ValueParams{FREQ} = 'MONTHLY';
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'Yearly' ) {
+                $ValueParams{FREQ} = 'YEARLY';
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'CustomDaily' ) {
+                $ValueParams{FREQ}     = 'DAILY';
+                $ValueParams{INTERVAL} = $Appointment{RecurrenceInterval};
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'CustomWeekly' ) {
+                $ValueParams{FREQ}     = 'WEEKLY';
+                $ValueParams{INTERVAL} = $Appointment{RecurrenceInterval};
+
+                if ( IsArrayRefWithData( $Appointment{RecurrenceFrequency} ) ) {
+                    my @DayNames;
+                    for my $Day ( $Appointment{RecurrenceFrequency}->@* ) {
+                        if ( $Day == 1 ) {
+                            push @DayNames, 'MO';
+                        }
+                        elsif ( $Day == 2 ) {
+                            push @DayNames, 'TU';
+                        }
+                        elsif ( $Day == 3 ) {
+                            push @DayNames, 'WE';
+                        }
+                        elsif ( $Day == 4 ) {
+                            push @DayNames, 'TH';
+                        }
+                        elsif ( $Day == 5 ) {
+                            push @DayNames, 'FR';
+                        }
+                        elsif ( $Day == 6 ) {
+                            push @DayNames, 'SA';
+                        }
+                        elsif ( $Day == 7 ) {
+                            push @DayNames, 'SU';
+                        }
+                    }
+
+                    $ValueParams{BYDAY} = join ',', @DayNames;
+                }
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'CustomMonthly' ) {
+                $ValueParams{FREQ}       = 'MONTHLY';
+                $ValueParams{INTERVAL}   = $Appointment{RecurrenceInterval};
+                $ValueParams{BYMONTHDAY} = join ',', $Appointment{RecurrenceFrequency}->@*;
+            }
+            elsif ( $Appointment{RecurrenceType} eq 'CustomYearly' ) {
+                $ValueParams{FREQ}       = 'YEARLY';
+                $ValueParams{INTERVAL}   = $Appointment{RecurrenceInterval};
+
+                my $StartTimeSettings       = $StartTimeObject->Get();
+                $ValueParams{BYMONTHDAY} = $StartTimeSettings->{Day};
+                $ValueParams{BYMONTH}    = join ',', $Appointment{RecurrenceFrequency}->@*;
+                # RRULE:FREQ=YEARLY;UNTIL=20200602T080000Z;INTERVAL=2;BYMONTHDAY=1;BYMONTH=4
+            }
+
+            if ( $Appointment{RecurrenceUntil} ) {
+                my $RecurrenceUntilObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $Appointment{RecurrenceUntil},
+                    },
+                );
+                my $ICalRecurrenceUntil = Date::ICal->new(
+                    epoch => $RecurrenceUntilObject->ToEpoch(),
+                );
+                # TODO: why ???
+                $ValueParams{UNTIL} = substr $ICalRecurrenceUntil->ical(), 0, -1;
+            }
+            elsif ( $Appointment{RecurrenceCount} ) {
+                $ValueParams{COUNT} = $Appointment{RecurrenceCount};
+            }
+
+            # rrule has no property params, just a funny value
+            if ( %ValueParams ) {
+                my $Value = join ';',
+                    map { "$_=$ValueParams{$_}" }
+                    sort keys %ValueParams;
+                $ICalEventProperties{rrule} = $Value;
+            }
+
+            # add the excluded dates as a repeatable property
+            if ( $Appointment{RecurrenceExclude} ) {
+                RECURRENCE_EXCLUDE:
+                for my $RecurrenceExclude ( $Appointment{RecurrenceExclude}->@* ) {
+                    next RECURRENCE_EXCLUDE unless $RecurrenceExclude;
+
+                    my $RecurrenceExcludeObject = $Kernel::OM->Create(
+                        'Kernel::System::DateTime',
+                        ObjectParams => {
+                            String => $RecurrenceExclude,
+                        },
+                    );
+                    my $ICalRecurrenceID = Date::ICal->new(
+                        epoch => $RecurrenceExcludeObject->ToEpoch(),
+                    );
+
+                    # TODO: cut off the time part too?
+                    push @ICalRepeatableProperties, {
+                        Property => 'exdate',
+                        Value    => $Appointment{AllDay}
+                        ? substr( $ICalRecurrenceID->ical(), 0, -1 )
+                        : $ICalRecurrenceID->ical(),
+                    };
+                }
+            }
+        }
+
+        # Add the user that emitted the event as the organizer.
+        # E.g. ORGANIZER;CN="Sally Example":mailto:sally@example.com
+        {
+            my $UserObject = $Kernel::OM->Get('Kernel::System::User');
+            my %User = $UserObject->GetUserData(
+                UserID => $Appointment{ChangeBy},
+                Valid  => 1,
+            );
+            if ( $User{UserEmail} ) {
+                my %PropertyParams;
+                if ( $User{UserFullname} ) {
+                    $PropertyParams{CN} = $User{UserFullname};
+                }
+                $ICalEventProperties{organizer} = [ "MAILTO:$User{UserEmail}", \%PropertyParams ];
+            }
+        }
+
+        # Only add the user email as the attendee in order to not leak information to customers.
+        if ( $Param{Recipient}->{UserEmail} ) {
+            $ICalEventProperties{attendee} = [ "MAILTO:$Param{Recipient}->{UserEmail}", ];
+        }
+
+        # Calculate last modified time.
+        my $ChangeTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Appointment{ChangeTime},
+            },
+        );
+        my $ICalChangeTime = Date::ICal->new(
+            epoch => $ChangeTimeObject->ToEpoch(),
+        );
+
+        # Add both required and optional properties.
+        # Remove time zone flag for all day appointments.
+        # TODO: cut off the time part too?
+        $ICalEvent->add_properties(
+            summary         => $Appointment{Title},
+            dtstart         => $Appointment{AllDay} ? substr( $ICalStartTime->ical(), 0, -1 ) : $ICalStartTime->ical(),
+            dtend           => $Appointment{AllDay} ? substr( $ICalEndTime->ical(), 0, -1 ) : $ICalEndTime->ical(),
+            uid             => $Appointment{UniqueID},
+            'last-modified' => $ICalChangeTime->ical(),
+            %ICalEventProperties,
+        );
+
+        # Add repeatable properties.
+        for my $Repeatable (@ICalRepeatableProperties) {
+            $ICalEvent->add_properties(
+                $Repeatable->{Property} => $Repeatable->{Value},
+            );
+        }
+
+        $ICalCalendar->add_entry($ICalEvent);
+
+        my $ICSContent = $ICalCalendar->as_string();
+
+        # Set METHOD, STATUS, TRANSP + SEQUENCE.
+        # TODO: why are these not added with add_properties() ???
+        my %ICSFileParameter = (
+            Invitation => {
+                METHOD => 'REQUEST',
+                STATUS => 'CONFIRMED',
+                TRANSP => 'OPAQUE',
+            },
+            Cancellation => {
+                METHOD => 'CANCEL',
+                STATUS => 'CANCELLED',
+                TRANSP => 'TRANSPARENT',
+            },
+        );
+        my $Method   = $ICSFileParameter{ $Param{Recipient}->{ICSFileType} }->{METHOD};
+        my $Status   = $ICSFileParameter{ $Param{Recipient}->{ICSFileType} }->{STATUS};
+        my $Transp   = $ICSFileParameter{ $Param{Recipient}->{ICSFileType} }->{TRANSP};
+        my $Sequence = $Appointment{DynamicField_AppointmentSequence};
+        $ICSContent =~ s{(.*) (PRODID: [^\n]* ) (.*)}{$1$2\nMETHOD:${Method}$3}xms;
+        $ICSContent =~ s{(.*) (DTEND: [^\n]* ) (.*)}{$1$2\nSTATUS:${Status}$3}xms;
+        $ICSContent =~ s{(.*) (DTEND: [^\n]* ) (.*)}{$1$2\nTRANSP:${Transp}$3}xms;
+        $ICSContent =~ s{(.*) (DTEND: [^\n]* ) (.*)}{$1$2\nSEQUENCE:${Sequence}$3}xms;
+
+        $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
+            StringRef => \$ICSContent,
+        );
+
+        # Add the .ics file as an attachment to the mail.
+        # The invitation must be the first attachment as this position is
+        # checked for application/ics attachments when constructing the MIME messsage.
+        # See https://devguide.calconnect.org/iMIP/iMIPBest-Practices?utm_source=pocket_saves
+        # Apparently Exchange adds the MIME header "Content-Class: urn:content-classes:calendarmessage"
+        # to the application/ics attachment. But this header is not added here,
+        # as Kernel::System::Email::Send() does not support extra headers.
+        $Param{Attachments} //= [];
+        unshift $Param{Attachments}->@*,
+            {
+                Filename    => 'otobo_invite.ics', # the file name should have .ics extension, base name is arbitrary
+                Content     => $ICSContent,
+                ContentType => qq{application/ics; method=$Method; charset="UTF-8"; name="otobo_invite.ics"},
+                Disposition => 'attachment',
+            };
     }
 
     my $TransportObject = $Param{TransportObject};
@@ -699,6 +1198,16 @@ sub _FutureTaskUpdate {
     }
 
     return 1;
+}
+
+{
+    no warnings 'redefine'; ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
+
+    # Include product name and version in product ID property for debugging purposes, by redefining
+    #   external library method.
+    sub Data::ICal::product_id { ## no critic 'OTOBO::RequireCamelCase'
+        return 'OTOBO ' . $Kernel::OM->Get('Kernel::Config')->Get('Version');
+    }
 }
 
 1;

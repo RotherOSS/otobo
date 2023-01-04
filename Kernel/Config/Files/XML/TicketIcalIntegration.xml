@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otobo_config version="2.0" init="Application">
+
+    <!-- Settings for the AgentParticipation frontend module -->
+
+    <Setting Name="Frontend::Module###AgentParticipation" Required="0" Valid="1">
+        <Description Translatable="1">Frontend module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration</Navigation>
+        <Value>
+            <Item ValueType="FrontendRegistration">
+                <Hash>
+                    <Item Key="Group">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="GroupRo">
+                        <Array>
+                        </Array>
+                    </Item>
+                    <Item Key="Description" Translatable="1">Participation in appointments.</Item>
+                    <Item Key="NavBarName">Participation</Item>
+                    <Item Key="Title" Translatable="1">Show information about participations in appointments.</Item>
+                </Hash>
+            </Item>
+        </Value>
+    </Setting>
+
+    <Setting Name="Loader::Module::AgentParticipation###008-TicketIcalIntegration" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.CustomerSearch.js</Item>
+                        <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
+                        <Item>Core.Agent.AppointmentParticipationWidget.js</Item>
+                    </Array>
+                </Item>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.css</Item>
+                        <Item>Core.Agent.Participation.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="Frontend::Navigation###AgentParticipation###008-TicketIcalIntegration" Required="0" Valid="1">
+        <Description Translatable="1">Main menu item registration.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::MainMenu</Navigation>
+        <Value>
+            <Array>
+                <DefaultItem ValueType="FrontendNavigation">
+                    <Hash>
+                    </Hash>
+                </DefaultItem>
+                <Item>
+                    <Hash>
+                        <Item Key="Group">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="GroupRo">
+                            <Array>
+                            </Array>
+                        </Item>
+                        <Item Key="Description" Translatable="1">Appointment Participation manage screen.</Item>
+                        <Item Key="Name" Translatable="1">Manage Participations</Item>
+                        <Item Key="Link">Action=AgentParticipation</Item>
+                        <Item Key="LinkOption"></Item>
+                        <Item Key="NavBar">Calendar</Item>
+                        <Item Key="Type"></Item>
+                        <Item Key="Block">ItemArea</Item>
+                        <Item Key="AccessKey"></Item>
+                        <Item Key="Prio">9500</Item>
+                    </Hash>
+                </Item>
+            </Array>
+        </Value>
+    </Setting>
+
+    <!-- notification module -->
+    <Setting Name="Frontend::NotifyModule###3500-ShowAgentParticipation" Required="0" Valid="1">
+        <Description Translatable="1">Defines the module that shows if at least one participation exists for the logged in agent.</Description>
+        <Navigation>Frontend::Agent::FrontendNotification</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Notification::AgentParticipation</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <!-- Include new JavaScript and CSS in relevant frontends -->
+
+    <Setting Name="Loader::Module::AgentTicketZoom###003-TicketIcalIntegration" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.js</Item>
+                    </Array>
+                </Item>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="Loader::Module::AgentDashboard###002-TicketIcalIntegration" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.js</Item>
+                    </Array>
+                </Item>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="Loader::Module::AgentAppointmentCalendarOverview###003-TicketIcalIntegration" Required="0" Valid="1">
+        <Description Translatable="1">Loader module registration for the agent interface.</Description>
+        <Navigation>Frontend::Agent::ModuleRegistration::Loader</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="JavaScript">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.js</Item>
+                        <Item>Core.Agent.CustomerSearch.js</Item>
+                        <Item>Core.Agent.CustomerSearchAutoComplete.js</Item>
+                    </Array>
+                </Item>
+                <Item Key="CSS">
+                    <Array>
+                        <Item>Core.Agent.AppointmentParticipationWidget.css</Item>
+                    </Array>
+                </Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <!-- Dashboard -->
+
+    <Setting Name="DashboardBackend###0050-AppointmentParticipation" Required="0" Valid="1">
+        <Description Translatable="1">Defines the parameters for the dashboard backend. "Limit" defines the number of entries displayed by default. "Group" is used to restrict access to the plugin (e. g. Group: admin;group1;group2;). "Default" indicates if the plugin is enabled by default or if the user needs to enable it manually. "CacheTTLLocal" defines the cache expiration period in minutes for the plugin. "Mandatory" determines if the plugin is always shown and can not be removed by agents.</Description>
+        <Navigation>Frontend::Agent::View::Dashboard</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::Dashboard::AppointmentParticipation</Item>
+                <Item Key="Title" Translatable="1">Invitations</Item>
+                <Item Key="Description" Translatable="1">Open, declined or accepted invitations</Item>
+                <Item Key="ShowEmail">0</Item>
+                <Item Key="IdleMinutes">60</Item>
+                <Item Key="SortBy">UserFullname</Item>
+                <Item Key="Filter">Today</Item>
+                <Item Key="Block">ContentSmall</Item>
+                <Item Key="Limit">10</Item>
+                <Item Key="Group"></Item>
+                <Item Key="Default">1</Item>
+                <Item Key="CacheTTLLocal">5</Item>
+                <Item Key="Mandatory">0</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <!-- Dynamic Fields -->
+
+    <Setting Name="DynamicFields::ObjectType###Appointment" Required="0" Valid="1">
+        <Description Translatable="1">DynamicField object registration.</Description>
+        <Navigation>Core::DynamicFields::ObjectTypeRegistration</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="DisplayName" Translatable="1">Appointment</Item>
+                <Item Key="Module">Kernel::System::DynamicField::ObjectType::Appointment</Item>
+                <Item Key="Prio">300</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <!-- Event modules -->
+
+    <Setting Name="Ticket::EventModulePost###950-TicketInvitation" Required="0" Valid="1">
+        <Description Translatable="1"><![CDATA[
+Create invitations based on incoming e-mails which have an iCalendar attachments.
+The created invitations will be linked to the ticket via the linking table calendar_appointment_ticket.
+The invitation will be shown to the owner and the responsible agent of the ticket.
+        ]]></Description>
+        <Navigation>Core::Event::Ticket</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Ticket::Event::TicketInvitation</Item>
+                <Item Key="Event">ArticleCreate</Item>
+                <Item Key="Transaction">1</Item>
+                <Item Key="CalendarName">Customer invitations</Item>
+                <Item Key="RuleID">Customer invitation</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="Events###Participation" Required="1" Valid="1">
+        <Description Translatable="1">List of all participation events to be displayed in the GUI.</Description>
+        <Navigation>Frontend::Admin</Navigation>
+        <Value>
+            <Array>
+                <Item>ParticipationCreate</Item>
+                <Item>ParticipationUpdate</Item>
+                <Item>ParticipationDelete</Item>
+            </Array>
+        </Value>
+    </Setting>
+
+    <Setting Name="AppointmentCalendar::EventModulePost###300-ParticipationNotification" Required="0" Valid="1">
+        <Description Translatable="1"><![CDATA[
+Appointment calendar event module that prepares notification entries for participations.
+This event handler uses the same module as AppointmentCalendar::EventModulePost###100-Notification but is
+triggered by different events.
+        ]]></Description>
+        <Navigation>Core::Event::AppointmentCalendar</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Calendar::Event::Notification</Item>
+                <Item Key="Event">(ParticipationCreate|ParticipationUpdate|ParticipationDelete)</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+    <Setting Name="AppointmentCalendar::EventModulePost###400-Participation" Required="0" Valid="1">
+        <Description Translatable="1"><![CDATA[
+Appointment calendar event module that updates the status of participations
+when an appointment was moved. Changes in the title or the description don't lead to a reset of participation status.
+        ]]></Description>
+        <Navigation>Core::Event::AppointmentCalendar</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::System::Calendar::Event::Participation</Item>
+                <Item Key="Event">AppointmentUpdate</Item>
+            </Hash>
+        </Value>
+    </Setting>
+    <Setting Name="Frontend::Admin::AdminAppointmentNotificationEvent###EventObjectTypes" Required="0" Valid="1">
+        <Description Translatable="1">Defines the event object types that will be handled via AdminAppointmentNotificationEvent.</Description>
+        <Navigation>Frontend::Admin::View::NotificationEvent</Navigation>
+        <Value>
+            <Array>
+                <Item>Calendar</Item>
+                <Item>Appointment</Item>
+                <Item>Participation</Item>
+            </Array>
+        </Value>
+    </Setting>
+
+    <!--- widget for AgentTicketZoom -->
+
+    <Setting Name="Ticket::Frontend::AgentTicketZoom###Widgets###0050-AppointmentParticipation" Required="0" Valid="1">
+        <Description Translatable="1">AgentTicketZoom widget that displays appointment participations in the side bar.</Description>
+        <Navigation>Frontend::Agent::View::TicketZoom</Navigation>
+        <Value>
+            <Hash>
+                <Item Key="Module">Kernel::Output::HTML::TicketZoom::AppointmentParticipation</Item>
+                <Item Key="Location">Sidebar</Item>
+            </Hash>
+        </Value>
+    </Setting>
+
+</otobo_config>

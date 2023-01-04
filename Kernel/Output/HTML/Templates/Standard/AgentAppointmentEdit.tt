@@ -38,6 +38,9 @@
                 <p id="Title" class="ReadOnlyValue">[% Data.Title | html %]</p>
 [% ELSE %]
                 <input type="text" id="Title" name="Title" value="[% Data.Title | html %]" class="W75pc Validate_Required" />
+                <a href="#" class="RefreshTitle Hidden" title="[% Translate("Refresh title") | html %]">
+                    <i class="fa fa-refresh"></i>
+                </a>
                 <div id="TitleError" class="TooltipErrorMessage">
                     <p>[% Translate("This field is required.") | html %]</p>
                 </div>
@@ -54,6 +57,9 @@
                 <p id="Description" class="ReadOnlyValue">[% Data.Description || "-" | html %]</p>
 [% ELSE %]
                 <textarea id="Description" name="Description" class="W75pc" rows="4">[% Data.Description | html %]</textarea>
+                <a href="#" class="RefreshDescription Hidden" title="[% Translate("Refresh description") | html %]">
+                    <i class="fa fa-refresh"></i>
+                </a>
 [% END %]
             </div>
             <div class="Clear"></div>
@@ -63,6 +69,9 @@
                 <p id="Location" class="ReadOnlyValue">[% Data.Location || "-" | html %]</p>
 [% ELSE %]
                 <input type="text" id="Location" name="Location" value="[% Data.Location | html %]" class="W50pc" />
+                <a href="#" class="RefreshLocation Hidden" title="[% Translate("Refresh location") | html %]">
+                    <i class="fa fa-refresh"></i>
+                </a>
 [% END %]
 [% RenderBlockStart("LocationLink") %]
                 <a class="LocationLink Hidden [% Data.CSSClass | html %]" href="[% Data.URL | html %][% Data.Location | uri %]" data-base-url="[% Data.URL | html %]" title="[% Translate(Data.Text) | html %]" target="[% Data.Target | html %]">
@@ -90,6 +99,12 @@
                 </div>
 [% END %]
             </div>
+        </fieldset>
+        <fieldset class="TableLike Hidden" id="AppointmentDynamicFields">
+            <legend>
+                <span>[% Translate("Dynamic fields") | html %]</span>
+            </legend>
+            [% Data.DynamicFields %]
         </fieldset>
 [% IF Data.TeamIDStrg %]
         <fieldset class="TableLike">
@@ -445,6 +460,108 @@
 [% END %]
         </fieldset>
 [% END %]
+
+        <fieldset class="TableLike">
+            <legend><span>[% Translate("Invite") | html %]</span></legend>
+            <label for="AgentUserID">[% Translate("Agents") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="AgentUserID" class="ReadOnlyValue">[% Data.Participation.AgentUserID | html %]</p>
+[% ELSE %]
+                [% Data.AgentStrg %]
+                <div id="AgentUserIDError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid agent.") | html %]</p>
+                </div>
+                <div id="AgentUserIDServerError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid agent.") | html %]</p>
+                </div>
+[% END %]
+            </div>
+            <div class="Clear"></div>
+            <label for="CustomerUser">[% Translate("Other participants") | html %]:</label>
+            <div class="Field">
+[% IF Data.PermissionLevel < 2 %]
+                <p id="CustomerUser" class="ReadOnlyValue">[% Data.Participation.CustomerUserID | html %]</p>
+[% ELSE %]
+                <input type="text" id="CustomerUser" name="CustomerUser" value="" class="W90pc CustomerAutoComplete" />
+                <div id="CustomerUserError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid customer email.") | html %]</p>
+                </div>
+                <div id="CustomerUserServerError" class="TooltipErrorMessage">
+                    <p>[% Translate("Invalid customer email.") | html %]</p>
+                </div>
+[% END %]
+            </div>
+            <div class="Clear"></div>
+
+            <div class="Field Hidden">
+                <div class="CustomerTicketTemplateCustomerUser SpacingTopSmall Hidden">
+                    <input name="CustomerInitialValue" id="CustomerInitialValue" type="hidden" value="[% Data.From | html %]" />
+                    <input name="CustomerKey" id="CustomerKey" class="CustomerKey" type="hidden" value=""/>
+                    <input class="CustomerTicketText" title="[% Translate("To") | html %]" name="CustomerTicketText" id="CustomerTicketText" type="text" value="" readonly="readonly" />
+                    <a href="#" id="RemoveCustomerTicket" class="RemoveButton CustomerTicketRemove">
+                        <i class="fa fa-minus-square-o"></i>
+                        <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
+                    </a>
+                </div>
+
+                <div id="TicketCustomerContentCustomerUser" class="CustomerContainer">
+[% RenderBlockStart("MultipleCustomer") %]
+                    <div class="SpacingTopSmall ">
+                        <input name="CustomerKey_[% Data.Count | html %]" id="CustomerKey_[% Data.Count | html %]" class="CustomerKey" type="hidden" value="[% Data.CustomerKey | html %]"/>
+                        <input name="CustomerQueue_[% Data.Count | html %]" id="CustomerQueue_[% Data.Count | html %]" class="CustomerQueue" type="hidden" value="[% Data.CustomerQueue | html %]"/>
+                        <input class="CustomerTicketText [% Data.CustomerError | html %]" name="CustomerTicketText_[% Data.Count %]" id="CustomerTicketText_[% Data.Count %]" type="text" value="[% Data.CustomerElement | html %]" readonly="readonly" />
+                        <a href="#" id="RemoveCustomerTicket_[% Data.Count %]" class="RemoveButton CustomerTicketRemove">
+                            <i class="fa fa-minus-square-o"></i>
+                            <span class="InvisibleText">[% Translate("Remove Ticket Customer") | html %]</span>
+                        </a>
+[% RenderBlockStart("CustomerErrorExplantion") %]
+                        <p class="Explanation Error">[% Translate("Please remove this entry and enter a new one with the correct value.") | html %]</p>
+[% RenderBlockEnd("CustomerErrorExplantion") %]
+
+                        <div id="CustomerTicketText_[% Data.Count %]ServerError" class="TooltipErrorMessage">
+[% RenderBlockStart("CustomerGenericServerErrorMsg") %]
+                            <p>[% Translate("This field is required.") | html %]</p>
+[% RenderBlockEnd("CustomerGenericServerErrorMsg") %]
+[% RenderBlockStart("InvalidConfigServerErrorMsg") %]
+                            <p>[% Translate("This email address is not allowed due to the system configuration.") | html %]</p>
+[% RenderBlockEnd("InvalidConfigServerErrorMsg") %]
+[% RenderBlockStart("InvalidMXServerErrorMsg") %]
+                            <p>[% Translate("This email address failed MX check.") | html %]</p>
+[% RenderBlockEnd("InvalidMXServerErrorMsg") %]
+[% RenderBlockStart("InvalidDNSServerErrorMsg") %]
+                            <p>[% Translate("DNS problem, please check your configuration and the error log.") | html %]</p>
+[% RenderBlockEnd("InvalidDNSServerErrorMsg") %]
+[% RenderBlockStart("InvalidSyntaxServerErrorMsg") %]
+                            <p>[% Translate("The syntax of this email address is incorrect.") | html %]</p>
+[% RenderBlockEnd("InvalidSyntaxServerErrorMsg") %]
+[% RenderBlockStart("IsDuplicatedServerErrorMsg") %]
+                            <p>[% Translate("This address already exists on the address list.") | html %]</p>
+[% RenderBlockEnd("IsDuplicatedServerErrorMsg") %]
+                        </div>
+                    </div>
+[% RenderBlockEnd("MultipleCustomer") %]
+                </div>
+[% RenderBlockStart("MultipleCustomerCounter") %]
+                <input name="CustomerTicketCounterCustomerUser" id="CustomerTicketCounterCustomerUser" type="hidden" value="[% Data.CustomerCounter | html %]"/>
+[% RenderBlockEnd("MultipleCustomerCounter") %]
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockStart("ParticipationsTable") %]
+            <label>[% Translate("Participants") | html %]:</label>
+            <div class="Field">
+                    <table>
+                        [% FOREACH Participation IN Data.ParticipationsList %]
+                        <tr>
+                            <td><i title="[% Translate(Participation.ParticipationStatus) | html %]" class="fa [% Participation.ParticipationIconClass %]" style="[% Participation.ParticipationIconStyle %]"></i></td>
+                            <td><p class="Value">[% Participation.ParticipantString | html %]</p></td>
+                        </tr>
+                        [% END %]
+                    </table>
+            </div>
+[% RenderBlockEnd("ParticipationsTable") %]
+        </fieldset>
+
     </form>
 </div>
 

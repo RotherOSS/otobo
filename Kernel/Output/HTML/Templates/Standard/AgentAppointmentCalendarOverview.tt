@@ -94,6 +94,63 @@
             </div>
         </div>
 [% RenderBlockEnd("CalendarWidget") %]
+[% RenderBlockStart("ParticipationWidget") %]
+<div class="WidgetSimple">
+    <div class="Header">
+        <h2>[% Translate("Invitations") | html %]</h2>
+    </div>
+    <div class="Content">
+[% RenderBlockStart("ContentSmallParticipationFilter") %]
+        <div class="DashboardActions">
+            <ul class="ParticipationFilter Tab Actions">
+                <li class="[% Data.item("Today::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Today" class="[% Data.item("Today::Selected") | html %]" title="[% Translate("Today") | html %]">[% Translate("Today") | html %] ([% Data.TodayCount | html %])</a></li>
+                <li class="[% Data.item("Tomorrow::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Tomorrow" class="[% Data.item("Tomorrow::Selected") | html %]" title="[% Translate("Tomorrow") | html %]">[% Translate("Tomorrow") | html %] ([% Data.TomorrowCount | html %])</a></li>
+                <li class="[% Data.item("Soon::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Soon" class="[% Data.item("Soon::Selected") | html %]" title="[% Translate("Soon") | html %] ([% Translate("5 days") | html %])">[% Translate("Soon") | html %] ([% Data.SoonCount | html %])</a></li>
+            </ul>
+        </div>
+[% RenderBlockStart("ContentSmallParticipationFilterNavBar") %]
+        <span class="SpacingTop Pagination">
+            [% Data.SiteNavBar %]
+        </span>
+[% RenderBlockEnd("ContentSmallParticipationFilterNavBar") %]
+
+[% RenderBlockEnd("ContentSmallParticipationFilter") %]
+
+[% RenderBlockStart("ContentSmallTable") %]
+        <fieldset class="TableLike AppointmentParticipationData">
+[% RenderBlockStart("ContentSmallParticipationRow") %]
+            <label>[% Data.Title | html %]</label>
+            <div class="Field">[% Data.ActionString %]</div>
+            <div class="TooltipContainer AppointmentParticipationTooltip">
+                <div class="Tooltip">
+                    <div class="Content">
+                        <fieldset Class="TableLike">
+                            <label>[% Translate("Title") | html %]:</label>
+                            <p class="Value">[% Data.Appointment.Title %]</p>
+                            <div class="Clear"></div>
+                            <label>[% Translate("Description") | html %]:</label>
+                            <p class="Value">[% Data.Appointment.Description %]</p>
+                            <div class="Clear"></div>
+                            <label>[% Translate("Location") | html %]:</label>
+                            <p class="Value">[% Data.Appointment.Location %]</p>
+                            <div class="Clear"></div>
+                            <label>[% Translate("Start date") | html %]:</label>
+                            <p class="Value">[% Data.Appointment.StartTimeFormatted %]</p>
+                            <div class="Clear"></div>
+                            <label>[% Translate("End date") | html %]:</label>
+                            <p class="Value">[% Data.Appointment.EndTimeFormatted %]</p>
+                            <div class="Clear"></div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            [% Data.CalendarSelectionString %]
+[% RenderBlockEnd("ContentSmallParticipationRow") %]
+        </fieldset>
+[% RenderBlockEnd("ContentSmallTable") %]
+    </div>
+</div>
+[% RenderBlockEnd("ParticipationWidget") %]
     </div>
 
     <div class="ContentColumn">

@@ -1,0 +1,99 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+
+    <h1 class="InvisibleText">[% Translate("Participations") | html %]</h1>
+
+    <div class="SidebarColumn">
+    </div>
+
+    <div class="ContentColumn">
+
+        <div>
+[% IF Data.Participation %]
+            <fieldset class="TableLike">
+                <label>[% Translate("Participant") | html %]:</label>
+                <p class="Value" title="[% Data.Participation.Participant %]">[% Data.Participation.Participant %]</p>
+                <div class="Clear"/>
+                <label>[% Translate("Inviter") | html %]:</label>
+                <p class="Value" title="[% Data.Participation.Inviter %]">[% Data.Participation.Inviter %]</p>
+                <div class="Clear"/>
+                <label>[% Translate("Title") | html %]:</label>
+                <p class="Value" title="{% Data.Participation.Title %}">[% Data.Participation.Title %]</p>
+                <div class="Clear"/>
+                <label>[% Translate("Description") | html %]:</label>
+                <p class="Value" title="[% Data.Participation.Description %]">[% Data.Participation.Description %]</p>
+                <div class="Clear"/>
+
+#                <div class="Field SpacingTop">
+#                    <button class="Primary CallForAction" id="submitRichText" accesskey="g" title="[% Translate("Create") | html %] (g)" type="submit" value="[% Translate("Create") | html %]"><span><i class="ooofo ooofo-add"></i> [% Translate("Create") | html %]</span></button>
+#                </div>
+            </fieldset>
+[% END %]
+        </div>
+        <div class="Clear"/>
+
+[% RenderBlockStart("Overview") %]
+        <div class="WidgetSimple">
+            <div class="Header">
+                <h2>[% Translate(Data.Title) | html %]</h2>
+            </div>
+            <div class="Content">
+                <table class="DataTable" id="Calendars">
+                    <thead>
+                        <tr>
+                            <th>[% Translate("Title") | html %]</th>
+                            <th>[% Translate("Calendar/Ticket#") | html %]</th>
+                            <th>[% Translate("Start") | html %]</th>
+                            <th>[% Translate("End") | html %]</th>
+                            <th>[% Translate("Status") | html %]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+[% RenderBlockStart("Participation") %]
+                        <tr>
+                            <td>[% Data.Title | html %]</td>
+                            <td>
+                                <a href="[% Env("Baselink") %][% Data.ObjectLink %]">
+                                    [% Data.ObjectName | html %]
+                                </a>
+                            </td>
+                            <td>[% Data.StartTime | html %]</td>
+                            <td>[% Data.EndTime | html %]</td>
+                            <td>[% Data.ParticipationStatusSelectionString %][% Data.CalendarSelectionString %]</td>
+                        </tr>
+[% RenderBlockEnd("Participation") %]
+[% RenderBlockStart("ParticipationNoDataRow") %]
+                        <tr>
+                            <td colspan="8">
+                                [% Translate("No data found.") | html %]
+                            </td>
+                        </tr>
+[% RenderBlockEnd("ParticipationNoDataRow") %]
+                        <tr class="FilterMessage Hidden">
+                            <td colspan="8" style="background-color: #fff !important;">[% Translate("No matches found.") | html %]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+[% RenderBlockEnd("Overview") %]
+
+    </div>
+   <div class="Clear"/>
+
+</div>

@@ -539,6 +539,15 @@ sub _Replace {
 
         # replace the tags
         $Param{Text} =~ s{$MatchTag$End}{$Replacement}egx;
+
+        # include lenght restrictions
+        if ( $Param{Text} =~ /$MatchTag\[(.+?)\]$End/ ) {
+            my $Length = $1;
+            if ( $Length =~ /^\d+$/ && length($Replacement) > $Length ) {
+                $Replacement = substr($Replacement, 0, $Length) . '...';
+            }
+            $Param{Text} =~ s{$MatchTag\[.+?\]$End}{$Replacement}egx;
+        }
     }
 
     # cleanup
@@ -592,7 +601,7 @@ sub _Replace {
         }
 
         # process group id
-        elsif ( $Attribute eq 'GroupID' ) {
+        elsif ( $Attribute eq 'GroupID' && $Calendar{$Attribute} ) {
             $Replacement = $Kernel::OM->Get('Kernel::System::Group')->GroupLookup(
                 GroupID => $Calendar{$Attribute},
             );

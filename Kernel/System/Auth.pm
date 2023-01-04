@@ -30,6 +30,7 @@ our @ObjectDependencies = (
     'Kernel::System::SystemMaintenance',
     'Kernel::System::User',
     'Kernel::System::Valid',
+    'Kernel::System::Calendar',
 );
 
 =head1 NAME
@@ -354,6 +355,48 @@ sub Auth {
                 || Translatable("It is currently not possible to login due to a scheduled system maintenance.");
 
             return;
+        }
+    }
+
+    my $PersonalCalendarGroup = $ConfigObject->Get('PersonalCalendar::Group');
+    if ( $PersonalCalendarGroup ) {
+        my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
+
+        my $HasPermission = $GroupObject->PermissionCheck(
+            UserID    => $UserID,
+            GroupName => $PersonalCalendarGroup,
+            Type      => 'ro',
+        );
+
+        if ( $HasPermission ) {
+            my $CalendarObject = $Kernel::OM->Get('Kernel::System::Calendar');
+
+            my @Calendars = $CalendarObject->CalendarList(
+                UserID     => $UserID,
+                Permission => 'rw',
+            );
+
+            # create a new personal calendar if user doesn't have one already
+            if ( !grep { $_->{OwnerID} && $_->{OwnerID} eq $UserID } @Calendars ) {
+                my %CalendarSettings = $ConfigObject->Get('PersonalCalendar::Settings')->%*;
+                my %User             = $UserObject->GetUserData(
+                    UserID => $UserID,
+                );
+
+                if ( $User{UserLogin} ) {
+                    $CalendarSettings{GroupID} = $CalendarSettings{Group} ? $GroupObject->GroupLookup(
+                        Group => $CalendarSettings{Group},
+                    ) : undef;
+                    $CalendarSettings{CalendarName} .= $CalendarSettings{CalendarName} ? ' ' : '';
+                    $CalendarSettings{CalendarName} .= "$User{UserLogin} ($User{UserFirstname} $User{UserLastname})";
+
+                    $CalendarObject->CalendarCreate(
+                        %CalendarSettings,
+                        OwnerID => $UserID,
+                        UserID  => $UserID,
+                    );
+                }
+            }
         }
     }
 

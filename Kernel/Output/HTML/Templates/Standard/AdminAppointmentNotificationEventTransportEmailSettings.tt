@@ -42,6 +42,17 @@
 </div>
 <div class="Clear"></div>
 
+<label for="SendICSFile">[% Translate("Send ICS file") | html %]: </label>
+<div class="Field">
+    <input type="checkbox" name="SendICSFile" id="SendICSFile" value="1" [% IF Data.Data.SendICSFile %] checked="checked" [% END %]/>
+    <p class="FieldExplanation">
+        [% Translate("An ICS file for calendar apps will be created and sent to the notification recipients.") | html %]
+        <br />
+        [% Translate("Be careful: The file is only created for events AppointmentCreate, AppointmentUpdate and AppointmentDelete.") | html %]
+    </p>
+</div>
+<div class="Clear"></div>
+
 <label for="TransportEmailTemplate">[% Translate("Email template") | html %]: </label>
 <div class="Field">
     [% Data.TransportEmailTemplateStrg %]

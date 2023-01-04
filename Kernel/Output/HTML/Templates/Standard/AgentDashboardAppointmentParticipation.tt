@@ -1,0 +1,64 @@
+# --
+# OTOBO is a web-based ticketing system for service organisations.
+# --
+# Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# --
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later version.
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+# --
+
+[% RenderBlockStart("ContentSmallParticipationFilter") %]
+<div class="DashboardActions">
+    <ul class="ParticipationFilter Tab Actions">
+        <li class="[% Data.item("Today::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Today" class="[% Data.item("Today::Selected") | html %]" title="[% Translate("Today") | html %]">[% Translate("Today") | html %] ([% Data.TodayCount | html %])</a></li>
+        <li class="[% Data.item("Tomorrow::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Tomorrow" class="[% Data.item("Tomorrow::Selected") | html %]" title="[% Translate("Tomorrow") | html %]">[% Translate("Tomorrow") | html %] ([% Data.TomorrowCount | html %])</a></li>
+        <li class="[% Data.item("Soon::Selected") | html %]"><a href="#" id="Dashboard[% Data.Name | html %]Soon" class="[% Data.item("Soon::Selected") | html %]" title="[% Translate("Soon") | html %] ([% Translate("5 days") | html %])">[% Translate("Soon") | html %] ([% Data.SoonCount | html %])</a></li>
+    </ul>
+</div>
+[% RenderBlockStart("ContentSmallParticipationFilterNavBar") %]
+<span class="SpacingTop Pagination">
+    [% Data.SiteNavBar %]
+</span>
+[% RenderBlockEnd("ContentSmallParticipationFilterNavBar") %]
+
+[% RenderBlockEnd("ContentSmallParticipationFilter") %]
+
+[% RenderBlockStart("ContentSmallTable") %]
+<fieldset class="TableLike AppointmentParticipationData">
+[% RenderBlockStart("ContentSmallParticipationRow") %]
+    <label>[% Data.Title | html %]</label>
+    <div class="Field">[% Data.ActionString %]</div>
+    <div class="TooltipContainer AppointmentParticipationTooltip">
+        <div class="Tooltip">
+            <div class="Content">
+                <fieldset Class="TableLike">
+                    <label>[% Translate("Title") | html %]:</label>
+                    <p class="Value">[% Data.Appointment.Title | html %]</p>
+                    <div class="Clear"></div>
+                    <label>[% Translate("Description") | html %]:</label>
+                    <p class="Value">[% Data.Appointment.Description | html %]</p>
+                    <div class="Clear"></div>
+                    <label>[% Translate("Location") | html %]:</label>
+                    <p class="Value">[% Data.Appointment.Location | html %]</p>
+                    <div class="Clear"></div>
+                    <label>[% Translate("Start date") | html %]:</label>
+                    <p class="Value">[% Data.Appointment.StartTimeFormatted %]</p>
+                    <div class="Clear"></div>
+                    <label>[% Translate("End date") | html %]:</label>
+                    <p class="Value">[% Data.Appointment.EndTimeFormatted %]</p>
+                    <div class="Clear"></div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    [% Data.CalendarSelectionString %]
+[% RenderBlockEnd("ContentSmallParticipationRow") %]
+</fieldset>
+[% RenderBlockEnd("ContentSmallTable") %]

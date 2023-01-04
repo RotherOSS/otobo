@@ -148,6 +148,15 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         margin-top: 5px;
     }
 
+    .Dialog fieldset.TableLike > .Field > div.CustomerContainer {
+        width: calc( 90% - 7px );
+    }
+
+    .TooltipContainer {
+        margin-left: 0px !important;
+        margin-right: -100px;
+    }
+
     .ReadOnlyValue#Location {
         display: inline-block;
     }

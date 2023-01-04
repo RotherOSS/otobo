@@ -1058,21 +1058,39 @@ sub _CreateMimeEntity {
         );
     }
 
-    # For HTML mails create a plain text version of the body.
-    # Put both, the HTML version and the plaintext version into a multipart/alternative.
+    # For HTML Emails set the plain text version as the body
+    # and the orignal HTML content as the first attachment.
+    # Before sending these two pieces will be wrapped in an multipart/alternative.
     my $HTMLEmail = 0;
     if ( $Param{MimeType} && $Param{MimeType} =~ /html/i ) {
         $HTMLEmail = 1;
 
-        # Add HTML as first attachment.
+        # Handle the special case of HTML emails with an iCalendar invitation as the first attachment.
+        # The invitation attachments will be duplicated and added within the multipart/alternative.
         $Param{Attachment} //= [];
-        unshift
-            $Param{Attachment}->@*,
-            {
-                Content     => $Param{Body},
-                ContentType => qq{text/html; charset="$Param{Charset}"},
-                Filename    => '',
-            };
+        if ( $Param{Attachment}->[0] && $Param{Attachment}->[0]->{ContentType} =~ m/application\/ics/i ) {
+            my $ICSAttachment = $Param{Attachment}->[0];
+
+            unshift $Param{Attachment}->@*,
+                {
+                    Content     => $ICSAttachment->{Content},
+                    ContentType => q{text/calendar; charset="UTF-8"; method=REQUEST},
+                    Filename    => '',
+                };
+        }
+
+        # Add html as first attachment.
+        my $Attach = {
+            Content     => $Param{Body},
+            ContentType => "text/html; charset=\"$Param{Charset}\"",
+            Filename    => '',
+        };
+        if ( !$Param{Attachment} ) {
+            @{ $Param{Attachment} } = ($Attach);
+        }
+        else {
+            @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
+        }
 
         # Remember html body for later comparison.
         $Param{HTMLBody} = $Param{Body};
@@ -1183,6 +1201,10 @@ sub _CreateMimeEntity {
                 if ( $Count == 1 ) {
                     $Entity->make_multipart('alternative;');
                     $PartType = 'alternative';
+                }
+                elsif ( $Count == 2 && $Upload->{ContentType} =~ m/text\/calendar/i ) {
+                    # Encountered an invitaion within a HTML email.
+                    # Nothing to do as the multipart/alternative is already in effect
                 }
                 else {
 

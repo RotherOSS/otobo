@@ -1,0 +1,78 @@
+/* OTOBO is a web-based ticketing system for service organisations.
+
+Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
+Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
+ * @package     Skin "Default"
+ * @section     Agent Appointment Participation Widget
+ */
+
+.AppointmentParticipationData {
+    min-width: 250px;
+}
+
+.AppointmentParticipationData > label,
+.AppointmentParticipationTooltip > .Tooltip label {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 40%;
+    text-align: left;
+    margin-left: 8px;
+}
+
+.AppointmentParticipationTooltip > .Tooltip > .Content > fieldset.TableLike > label {
+    margin-left: 8px;
+    width: 35%;
+}
+
+.AppointmentParticipationTooltip > .Tooltip > .Content > fieldset.TableLike > p.Value {
+    max-width: 65%;
+    margin-left: 35%;
+    padding-right: 6px;
+}
+
+label:hover + .Field + .AppointmentParticipationTooltip {
+    display: block;
+}
+
+.AppointmentParticipationTooltip {
+    margin-top: -5px;
+    box-shadow: 0 1px 4px 0 rgba(4, 0, 71, 0.16);
+    border-radius: 10px;
+    width: 330px;
+    margin-left: -100px;
+}
+
+.AppointmentParticipationTooltip > .Tooltip {
+    width: 100%;
+}
+
+.AppointmentParticipationTooltip .Content {
+    border-radius: 10px;
+    width: 100%;
+}
+
+.AppointmentParticipationTooltip:hover {
+    display: block;
+}
+
+#AppointmentConflictWarning {
+    padding-left: 10px;
+    margin-left: 30%;
+}
+
+#AppointmentConflictWarning > p {
+    color: #ff505e;
+}

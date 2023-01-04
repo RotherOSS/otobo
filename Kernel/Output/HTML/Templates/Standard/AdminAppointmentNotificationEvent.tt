@@ -308,6 +308,20 @@
                             [% Data.ResourceStrg %]
                         </div>
                         <div class="Clear"></div>
+[% RenderBlockStart("DynamicField") %]
+                        <div class="SpacingTop"></div>
+                        <label><h4>[% Translate("Dynamic Fields") | html %]</h4></label>
+                        <div class="Clear"></div>
+                        <div class="SpacingTop"></div>
+[% RenderBlockStart("DynamicFieldElement") %]
+                        [% Data.Label %]
+                        <div class="Field">
+                            [% Data.Field %]
+                        </div>
+                        <div class="Clear"></div>
+[% RenderBlockEnd("DynamicFieldElement") %]
+                        <div class="SpacingTop"></div>
+[% RenderBlockEnd("DynamicField") %]
 
                     </fieldset>
                 </div>
@@ -416,11 +430,6 @@
                             </p>
                         </div>
 [% RenderBlockEnd("TransportRowDisabled") %]
-#[% RenderBlockStart("TransportRowRecommendation") %]  # Svencheck
-#                        <div class="Field Info">
-#                            <a href="[% Env("Baselink") %]Action=AdminOTOBOCommunity" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Upgrade to %s") | html | ReplacePlaceholders(OTOBOCommunityLabel) %]</a>
-#                        </div>
-#[% RenderBlockEnd("TransportRowRecommendation") %]
 [% RenderBlockStart("TransportRowNotActive") %]
                         <div class="Field Info">
                             <a href="[% Env("Baselink") %]Action=AdminCloudServices" class="Button"><i class="fa fa-angle-double-up"></i> [% Translate("Please activate this transport in order to use it.") | html %]</a>

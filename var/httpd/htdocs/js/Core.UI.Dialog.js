@@ -575,7 +575,7 @@ Core.UI.Dialog = (function (TargetNS) {
             $(document).off('click.Dialog').on('click.Dialog', function (event) {
                 // If target element is removed before this event triggers, the enclosing div.Dialog can't be found anymore
                 // We check, if we can find a parent HTML element to be sure, that the element is not removed
-                if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0) {
+                if ($(event.target).parents('html').length && $(event.target).closest('div.Dialog').length === 0 && !$(event.target).hasClass('ui-menu-item-wrapper')) {
                     HandleClosingAction();
                 }
             });

@@ -187,6 +187,7 @@ Core.Agent.Dashboard = (function (TargetNS) {
         });
 
         Core.Agent.TableFilters.SetAllocationList();
+        Core.Agent.AppointmentParticipationWidget.Init();
 
     };
 

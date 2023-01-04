@@ -30,6 +30,13 @@ sub new {
     bless( $Self, $Type );
 
     $Self->{OverviewScreen} = 'CalendarOverview';
+    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    $Self->{Filter} = $ParamObject->GetParam( Param => 'Filter' ) || '';
+
+    # set default filter if not set yet
+    if ( !$Self->{Filter} ) {
+        $Self->{Filter} = $Self->{Config}->{Filter} || 'Today';
+    }
 
     return $Self;
 }
@@ -89,6 +96,10 @@ sub Run {
             $LayoutObject->AddJSData(
                 Key   => 'AppointmentCreate',
                 Value => {
+                    Title       => $ParamObject->GetParam( Param => 'Title' )       // undef,
+                    Description => $ParamObject->GetParam( Param => 'Description' ) // undef,
+                    Location    => $ParamObject->GetParam( Param => 'Location' )    // undef,
+                    CalendarID  => $ParamObject->GetParam( Param => 'CalendarID' )  // undef,
                     Start     => $ParamObject->GetParam( Param => 'Start' )     // undef,
                     End       => $ParamObject->GetParam( Param => 'End' )       // undef,
                     PluginKey => $ParamObject->GetParam( Param => 'PluginKey' ) // undef,
@@ -184,6 +195,325 @@ sub Run {
 
         my $CalendarSelection = $Kernel::OM->Get('Kernel::System::JSON')->Decode(
             Data => $Preferences{ 'User' . $Self->{OverviewScreen} . 'CalendarSelection' } || '[]',
+        );
+
+        # collect calendar and appointment data
+        # separate appointments to today, tomorrow
+        # and the next five days (soon)
+        my %Calendars;
+        my @CalendarList;
+        my %Participations;
+        my %ParticipationsCount;
+
+        for my $CalendarID ( $CalendarSelection->@* ) {
+            push @CalendarList, { $Kernel::OM->Get('Kernel::System::Calendar')->CalendarGet( CalendarID => $CalendarID ) };
+        }
+
+        CALENDAR:
+        for my $Calendar (@CalendarList) {
+
+            next CALENDAR if !$Calendar;
+            next CALENDAR if !IsHashRefWithData($Calendar);
+            next CALENDAR if $Calendars{ $Calendar->{CalendarID} };
+
+            $Calendars{ $Calendar->{CalendarID} } = $Calendar;
+        }
+
+        # prepare calendar participations
+        my %ParticipationsUnsorted;
+
+        my $ParticipationObject = $Kernel::OM->Get('Kernel::System::Calendar::Participation');
+        my $DateTimeObject      = $Kernel::OM->Create('Kernel::System::DateTime');
+
+        CALENDARID:
+        for my $CalendarID (1) {
+
+            next CALENDARID if !$CalendarID;
+
+            my @Participations = $ParticipationObject->ParticipationList(
+                AgentUserID         => $Self->{UserID},
+                ParticipationStatus => ['NEEDS-ACTION'],
+            );
+
+            next CALENDARID unless IsArrayRefWithData( \@Participations );
+
+            PARTICIPATION:
+            for my $Participation (@Participations) {
+
+                next PARTICIPATION if !$Participation;
+                next PARTICIPATION if !IsHashRefWithData($Participation);
+
+                # Save system time of StartTime.
+                my $StartTimeObject = $Kernel::OM->Create(
+                    'Kernel::System::DateTime',
+                    ObjectParams => {
+                        String => $Participation->{Appointment}->{StartTime},
+                    },
+                );
+                $Participation->{Appointment}->{SystemTimeStart} = $StartTimeObject->ToEpoch();
+
+                # save appointment in new hash for later sorting
+                $ParticipationsUnsorted{ $Participation->{ParticipationID} } = $Participation;
+            }
+        }
+
+        # get datetime strings for the dates with related offsets
+        # (today, tomorrow and soon - which means the next 5 days
+        # except today and tomorrow counted from current timestamp)
+        my %DateOffset = (
+            Today    => 0,
+            Tomorrow => 86400,
+        );
+
+        my %Dates;
+
+        my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+
+        for my $DateOffsetKey ( sort keys %DateOffset ) {
+
+            # Get date components with current offset.
+            my $OffsetTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $CurrentSystemTime + $DateOffset{$DateOffsetKey},
+                },
+            );
+            my $OffsetTimeSettings = $OffsetTimeObject->Get();
+
+            $Dates{$DateOffsetKey} = sprintf(
+                "%02d-%02d-%02d",
+                $OffsetTimeSettings->{Year},
+                $OffsetTimeSettings->{Month},
+                $OffsetTimeSettings->{Day}
+            );
+        }
+
+        $ParticipationsCount{Today}    = 0;
+        $ParticipationsCount{Tomorrow} = 0;
+        $ParticipationsCount{Soon}     = 0;
+
+        PARTICIPATIONID:
+        for my $ParticipationID ( sort keys %ParticipationsUnsorted ) {
+
+            next PARTICIPATIONID unless $ParticipationID;
+            next PARTICIPATIONID unless IsHashRefWithData( $ParticipationsUnsorted{$ParticipationID} );
+            next PARTICIPATIONID unless $ParticipationsUnsorted{$ParticipationID}->{Appointment}->{StartTime};
+            next PARTICIPATIONID unless $ParticipationsUnsorted{$ParticipationID}->{Appointment}->{EndTime};
+
+            # Extract current date (without time).
+            my $StartTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $ParticipationsUnsorted{$ParticipationID}->{Appointment}->{StartTime},
+                },
+            );
+            my $StartTimeSettings = $StartTimeObject->Get();
+            my $StartDate         = sprintf(
+                "%02d-%02d-%02d",
+                $StartTimeSettings->{Year},
+                $StartTimeSettings->{Month},
+                $StartTimeSettings->{Day}
+            );
+
+            my $EndTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $ParticipationsUnsorted{$ParticipationID}->{Appointment}->{EndTime},
+                },
+            );
+            my $EndTimeSettings = $EndTimeObject->Get();
+            my $EndDate         = sprintf(
+                "%02d-%02d-%02d",
+                $EndTimeSettings->{Year},
+                $EndTimeSettings->{Month},
+                $EndTimeSettings->{Day}
+            );
+
+            if ( $EndDate lt $Dates{Today} ) {
+                    # Do nothing
+            }
+            # today
+            elsif ( $StartDate le $Dates{Today} ) {
+
+                $ParticipationsCount{Today}++;
+
+                if ( $Self->{Filter} eq 'Today' ) {
+                    $Participations{$ParticipationID} = $ParticipationsUnsorted{$ParticipationID};
+                }
+
+            }
+            # tomorrow
+            elsif ( $StartDate eq $Dates{Tomorrow} ) {
+
+                $ParticipationsCount{Tomorrow}++;
+
+                if ( $Self->{Filter} eq 'Tomorrow' ) {
+                    $Participations{$ParticipationID} = $ParticipationsUnsorted{$ParticipationID};
+                }
+
+            }
+            # soon
+            else {
+
+                $ParticipationsCount{Soon}++;
+
+                if ( $Self->{Filter} eq 'Soon' ) {
+                    $Participations{$ParticipationID} = $ParticipationsUnsorted{$ParticipationID};
+                }
+
+            }
+        }
+
+        my $AppointmentTableBlock = 'ContentSmallTable';
+
+        my $Count = 0;
+        my $Shown = 0;
+
+        my %WidgetConfig = (
+            Name => '0050-AppointmentParticipation',
+            NameHTMl => '0050_AppointmentParticipation',
+            Title => 'Invitations',
+            Description => 'Open, declined or accepted invitations',
+            Filter => $Self->{Filter} || 'Today',
+            Default => '0',
+        );
+        $LayoutObject->AddJSData(
+            Key => 'AppointmentParticipation',
+            Value => \%WidgetConfig,
+        );
+
+        $LayoutObject->Block(
+            Name => 'ParticipationWidget',
+        );
+
+        # prepare appointments table
+        $LayoutObject->Block(
+            Name => 'ContentSmallTable',
+        );
+
+        PARTICIPATIONID:
+        for my $ParticipationID (
+            sort {
+                $Participations{$a}->{Appointment}->{SystemTimeStart} <=> $Participations{$b}->{Appointment}->{SystemTimeStart}
+                    || $Participations{$a}->{ParticipationID} <=> $Participations{$b}->{ParticipationID}
+            } keys %Participations
+            )
+        {
+            my $StartTimeObject = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    String => $Participations{$ParticipationID}->{Appointment}->{StartTime},
+                },
+            );
+
+            # Convert time to user time zone.
+            if ( $Self->{UserTimeZone} ) {
+                $StartTimeObject->ToTimeZone(
+                    TimeZone => $Self->{UserTimeZone},
+                );
+            }
+
+            my $StartTimeSettings = $StartTimeObject->Get();
+            my $StartDate         = sprintf(
+                "%02d-%02d-%02d",
+                $StartTimeSettings->{Year},
+                $StartTimeSettings->{Month},
+                $StartTimeSettings->{Day}
+            );
+
+            my $DateTimeObject    = $Kernel::OM->Create('Kernel::System::DateTime');
+            my $CurrentSystemTime = $DateTimeObject->ToEpoch();
+            my $TodayTimeObject   = $Kernel::OM->Create(
+                'Kernel::System::DateTime',
+                ObjectParams => {
+                    Epoch => $CurrentSystemTime,
+                },
+            );
+            my $TodayTimeSettings = $TodayTimeObject->Get();
+            my $TodayDate         = sprintf(
+                "%02d-%02d-%02d",
+                $TodayTimeSettings->{Year},
+                $TodayTimeSettings->{Month},
+                $TodayTimeSettings->{Day}
+            );
+
+            my $ActionString = $LayoutObject->BuildSelection(
+                Data => {
+                    'AcceptInvitation'            => 'Accept',
+                    'TentativelyAcceptInvitation' => 'Accept Tentatively',
+                    'InstantDeclineInvitation'    => 'Decline',
+                },
+                Name => 'CalendarParticipationAction_' . $ParticipationID,
+                Multiple => 0,
+                Class => 'Modernize W70pc CalendarParticipationAction',
+                PossibleNone => 1,
+                OnChange => '',
+            );
+
+            # collect appointment data for the display
+            my $StartTimeFormatted = $LayoutObject->{LanguageObject}->FormatTimeString( $Participations{$ParticipationID}->{Appointment}->{StartTime} ) || '';
+            my $EndTimeFormatted   = $LayoutObject->{LanguageObject}->FormatTimeString( $Participations{$ParticipationID}->{Appointment}->{EndTime} )   || '';
+
+            my $Description =
+                length( $Participations{$ParticipationID}->{Appointment}{Description} ) > 250
+                ? (( substr $Participations{$ParticipationID}->{Appointment}{Description}, 0, 250) . '...')
+                : $Participations{$ParticipationID}->{Appointment}{Description};
+
+            my %Appointment = (
+                Title              => $Participations{$ParticipationID}->{Appointment}{Title},
+                Description        => $Description || '',
+                Location           => $Participations{$ParticipationID}->{Appointment}{Location} || '',
+                StartTimeFormatted => $StartTimeFormatted,
+                EndTimeFormatted   => $EndTimeFormatted,
+            );
+
+            # build hidden calendar selection
+            my $CalendarSelectionString = $LayoutObject->BuildSelection(
+                Data         => { map { $_->{CalendarID} => $_->{CalendarName} } @CalendarList },
+                Name         => 'CalendarSelection_' . $ParticipationID,
+                Multiple     => 0,
+                Class        => 'Modernize Hidden CalendarSelection',
+                PossibleNone => 0,
+                SelectedID   => $Participations{$ParticipationID}->{Appointment}{CalendarID},
+            );
+
+            $LayoutObject->Block(
+                Name => 'ContentSmallParticipationRow',
+                Data => {
+                    AppointmentID           => $Participations{$ParticipationID}->{AppointmentID},
+                    Title                   => $Participations{$ParticipationID}->{Appointment}->{Title},
+                    ActionString            => $ActionString,
+                    Appointment             => \%Appointment,
+                    CalendarSelectionString => $CalendarSelectionString,
+                },
+            );
+
+            # increase shown item count
+            $Shown++;
+        }
+
+        if ( !IsHashRefWithData( \%Participations ) ) {
+
+            # show up message for no appointments
+            $LayoutObject->Block(
+                Name => 'ContentSmallParticipationNone',
+            );
+        }
+
+        # set css class
+        my %Summary;
+        $Summary{ $Self->{Filter} . '::Selected' } = 'Selected';
+
+        # filter bar
+        $LayoutObject->Block(
+            Name => 'ContentSmallParticipationFilter',
+            Data => {
+                %WidgetConfig,
+                %Summary,
+                TodayCount    => $ParticipationsCount{Today},
+                TomorrowCount => $ParticipationsCount{Tomorrow},
+                SoonCount     => $ParticipationsCount{Soon},
+            },
         );
 
         my $CurrentCalendar = 1;

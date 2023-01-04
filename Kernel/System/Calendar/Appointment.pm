@@ -36,6 +36,10 @@ our @ObjectDependencies = (
     'Kernel::System::DB',
     'Kernel::System::Daemon::SchedulerDB',
     'Kernel::System::DateTime',
+    'Kernel::System::Calendar::Participation',
+    'Kernel::System::DynamicField',
+    'Kernel::System::DynamicField::Backend',
+    'Kernel::System::DynamicFieldValue',
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::System::Main',
@@ -409,6 +413,18 @@ sub AppointmentCreate {
             Appointment => \%Param,
         );
     }
+    my $AppointmentSequenceDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        Name => 'AppointmentSequence',
+    );
+    if ( IsHashRefWithData( $AppointmentSequenceDF ) ) {
+
+        my $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+            DynamicFieldConfig => $AppointmentSequenceDF,
+            ObjectID           => $AppointmentID,
+            Value              => 1,
+            UserID             => $Param{UserID},
+        );
+    }
 
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -447,6 +463,8 @@ get a hash of Appointments.
         TeamID              => 1,                                       # (optional) Filter by team
         ResourceID          => 2,                                       # (optional) Filter by resource
         Result              => 'HASH',                                  # (optional), HASH|ARRAY
+        DynamicFields       => 0|1,                                     # (optional, default 0) include dynamic field data as well
+        OnlyInvitations     => 1, # (optional) Filter only invitations
     );
 
 returns an array of hashes with select Appointment data or simple array of AppointmentIDs:
@@ -536,6 +554,7 @@ sub AppointmentList {
     my $CacheKeyEnd      = $Param{EndTime}     || 'any';
     my $CacheKeyTeam     = $Param{TeamID}      || 'any';
     my $CacheKeyResource = $Param{ResourceID}  || 'any';
+    my $CacheKeyInvitation = $Param{Invitation}  || 'any';
 
     if ( defined $Param{Title} && $Param{Title} =~ /^[\*]+$/ ) {
         $CacheKeyTitle = 'any';
@@ -547,7 +566,7 @@ sub AppointmentList {
         $CacheKeyLocation = 'any';
     }
 
-    my $CacheKey = "$CacheKeyTitle-$CacheKeyDesc-$CacheKeyLocation-$CacheKeyStart-$CacheKeyEnd-$CacheKeyTeam-$CacheKeyResource-$Param{Result}";
+    my $CacheKey = "$CacheKeyTitle-$CacheKeyDesc-$CacheKeyLocation-$CacheKeyStart-$CacheKeyEnd-$CacheKeyTeam-$CacheKeyResource-$CacheKeyInvitation$Param{Result}";
 
     # check cache
     my $Data = $Kernel::OM->Get('Kernel::System::Cache')->Get(
@@ -691,6 +710,37 @@ sub AppointmentList {
             TicketAppointmentRuleID               => $Row[20],
         );
         push @Result, \%Appointment;
+    }
+    if ( $Param{DynamicFields} ) {
+
+        my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        # Get all dynamic fields for the object type Appointment.
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+            ObjectType => 'Appointment',
+        );
+
+        for my $Appointment (@Result) {
+
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+
+                # Validate each dynamic field.
+                next DYNAMICFIELD if !$DynamicFieldConfig;
+                next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+                next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+                # Get the current value for each dynamic field.
+                my $Value = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $Appointment->{AppointmentID},
+                );
+
+                # Set the dynamic field name and value into the appointment hash.
+                $Appointment->{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+            }
+        }
     }
 
     # if Result was ARRAY, output only IDs
@@ -918,6 +968,7 @@ Get appointment data.
                                                              # or
         UniqueID      => '20160101T160000-71E386@localhost', # (required) will return only parent for recurring appointments
         CalendarID    => 1,                                  # (required)
+        DynamicFields => 0|1,                                # (optional, default 0) include dynamic field data as well
     );
 
 Returns a hash:
@@ -976,6 +1027,7 @@ sub AppointmentGet {
         );
         return;
     }
+    my $FetchDynamicFields = $Param{DynamicFields} ? 1 : 0;
 
     my $Data;
 
@@ -986,7 +1038,7 @@ sub AppointmentGet {
         # check cache
         $Data = $CacheObject->Get(
             Type => $Self->{CacheType},
-            Key  => $Param{AppointmentID},
+            Key  => $Param{AppointmentID} . '::' . $FetchDynamicFields,
         );
     }
 
@@ -1074,13 +1126,68 @@ sub AppointmentGet {
         $Result{ChangeTime}                            = $Row[30];
         $Result{ChangeBy}                              = $Row[31];
     }
+    # check if need to return DynamicFields
+    if ( $FetchDynamicFields && IsHashRefWithData( \%Result ) ) {
+
+        my $DynamicFieldObject        = $Kernel::OM->Get('Kernel::System::DynamicField');
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+        # Get all dynamic fields for the object type Appointment.
+        my $DynamicFieldList = $DynamicFieldObject->DynamicFieldListGet(
+            ObjectType => 'Appointment',
+        );
+
+        DYNAMICFIELD:
+        for my $DynamicFieldConfig ( @{$DynamicFieldList} ) {
+
+            # Validate each dynamic field.
+            next DYNAMICFIELD if !$DynamicFieldConfig;
+            next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+            next DYNAMICFIELD if !$DynamicFieldConfig->{Name};
+
+            # Get the current value for each dynamic field.
+            my $Value = $DynamicFieldBackendObject->ValueGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+                ObjectID           => $Result{AppointmentID},
+            );
+
+            # Set the dynamic field name and value into the appointment hash.
+            $Result{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Value;
+        }
+    }
+
+    # Calculate appointment age.
+    if ( $Result{CreateTime} ) {
+
+        my $AppointmentCreatedDTObj = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Result{CreateTime},
+            },
+        );
+
+        my $AgeDelta = $AppointmentCreatedDTObj->Delta( DateTimeObject => $Kernel::OM->Create('Kernel::System::DateTime') );
+
+        $Result{Age} = $AgeDelta->{AbsoluteSeconds};
+    }
+
+    if ( $Result{AppointmentID} ) {
+
+        # Only the participation data is retrieded and added to the result.
+        my $ParticipationObject = $Kernel::OM->Get('Kernel::System::Calendar::Participation');
+        $Result{Participations} = [
+            $ParticipationObject->ParticipationList(
+                AppointmentIDs => [ $Result{AppointmentID} ],
+             )
+        ];
+    }
 
     if ( $Param{AppointmentID} ) {
 
         # cache
         $CacheObject->Set(
             Type  => $Self->{CacheType},
-            Key   => $Param{AppointmentID},
+            Key   => $Param{AppointmentID} . '::' . $FetchDynamicFields,
             Value => \%Result,
             TTL   => $Self->{CacheTTL},
         );
@@ -1150,6 +1257,10 @@ sub AppointmentUpdate {
             return;
         }
     }
+    my %OldAppointment = $Self->AppointmentGet(
+        AppointmentID => $Param{AppointmentID},
+        DynamicFields => 1,
+    );
 
     # prepare possible notification params
     my $Success = $Self->_AppointmentNotificationPrepare(
@@ -1373,12 +1484,30 @@ sub AppointmentUpdate {
             Appointment => \%Param,
         );
     }
+    my $AppointmentSequenceDF = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldGet(
+        Name => 'AppointmentSequence',
+    );
+
+    if ( IsHashRefWithData( $AppointmentSequenceDF ) ) {
+
+        my $IncrementedSequence = ( $OldAppointment{DynamicField_AppointmentSequence} // 0 ) + 1;
+
+        my $Success = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->ValueSet(
+            DynamicFieldConfig => $AppointmentSequenceDF,
+            ObjectID           => $Param{AppointmentID},
+            Value              => $IncrementedSequence,
+            UserID             => $Param{UserID},
+        );
+    }
 
     # delete cache
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => $Param{AppointmentID},
-    );
+    for my $Counter ( 0 .. 1 ) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $Param{AppointmentID} . '::' . $Counter,
+        );
+    }
 
     # clean up list methods cache
     my @CalendarIDs = ( $Param{CalendarID} );
@@ -1398,6 +1527,7 @@ sub AppointmentUpdate {
         Data  => {
             AppointmentID => $Param{AppointmentID},
             CalendarID    => $Param{CalendarID},
+            OldAppointment => \%OldAppointment,
         },
         UserID => $Param{UserID},
     );
@@ -1462,7 +1592,20 @@ sub AppointmentDelete {
 
     my %Appointment = $Self->AppointmentGet(
         AppointmentID => $Param{AppointmentID},
+        DynamicFields => 1,
     );
+
+
+    # delete participations
+    my @AppointmentParticipations = $Kernel::OM->Get('Kernel::System::Calendar::Participation')->ParticipationList(
+        AppointmentIDs => [$Appointment{AppointmentID}],
+    );
+    for my $Participation ( @AppointmentParticipations ) {
+        $Kernel::OM->Get('Kernel::System::Calendar::Participation')->ParticipationDelete(
+            ParticipationID => $Participation->{ParticipationID},
+            UserID          => $Param{UserID},
+        );
+    }
 
     # save exclusion info to parent appointment
     if ( $Appointment{ParentID} && $Appointment{RecurrenceID} ) {
@@ -1484,6 +1627,31 @@ sub AppointmentDelete {
         );
         return;
     }
+    # Delete dynamic field values for this appointment.
+    my $ObjectValuesDeleteSuccess = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
+        ObjectType => 'Appointment',
+        ObjectID   => $Param{AppointmentID},
+        UserID     => $Param{UserID},
+    );
+
+    if ( !$ObjectValuesDeleteSuccess ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Dynamic field values couldn\'t be deleted!',
+        );
+        return;
+    }
+
+    # Delete customer invitation entry in calendar_appointment_ticket
+    return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
+        SQL  => '
+                 DELETE FROM calendar_appointment_ticket
+                 WHERE rule_id = "Customer invitation" AND appointment_id = ?
+                ',
+        Bind => [
+            \$Param{AppointmentID},
+        ],
+    );
 
     # delete appointment
     my $SQL = '
@@ -1510,10 +1678,13 @@ sub AppointmentDelete {
     );
 
     # delete cache
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => $Param{AppointmentID},
-    );
+    for my $Counter ( 0 .. 1 ) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $Param{AppointmentID} . '::' . $Counter,
+        );
+    }
 
     # clean up list methods cache
     $CacheObject->CleanUp(
@@ -1574,6 +1745,20 @@ sub AppointmentDeleteOccurrence {
         $Appointment{AppointmentID} = $Row[0];
     }
     return if !%Appointment;
+    # Delete dynamic field values for this appointment.
+    my $ObjectValuesDeleteSuccess = $Kernel::OM->Get('Kernel::System::DynamicFieldValue')->ObjectValuesDelete(
+        ObjectType => 'Appointment',
+        ObjectID   => $Appointment{AppointmentID},
+        UserID     => $Param{UserID},
+    );
+
+    if ( !$ObjectValuesDeleteSuccess ) {
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => 'Dynamic field values couldn\'t be deleted!',
+        );
+        return;
+    }
 
     # delete db record
     return if !$DBObject->Do(
@@ -1586,10 +1771,13 @@ sub AppointmentDeleteOccurrence {
     my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # delete cache
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => $Appointment{AppointmentID},
-    );
+    for my $Counter ( 0 .. 1 ) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $Appointment{AppointmentID} . '::' . $Counter,
+        );
+    }
 
     # clean up list methods cache
     $CacheObject->CleanUp(
@@ -2405,10 +2593,13 @@ sub _AppointmentRecurringExclude {
     );
 
     # delete cache
-    $CacheObject->Delete(
-        Type => $Self->{CacheType},
-        Key  => $Param{ParentID},
-    );
+    for my $Counter ( 0 .. 1 ) {
+
+        $CacheObject->Delete(
+            Type => $Self->{CacheType},
+            Key  => $Param{ParentID} . '::' . $Counter,
+        );
+    }
 
     return 1;
 }

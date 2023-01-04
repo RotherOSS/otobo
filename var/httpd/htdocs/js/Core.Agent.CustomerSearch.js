@@ -502,6 +502,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     || Core.Config.Get('Action') === 'AgentTicketForward'
                     || Core.Config.Get('Action') === 'AgentTicketEmailOutbound'
                     || Core.Config.Get('Action') === 'AgentTicketEmailResend'
+                    || Core.Config.Get('Action') === 'AgentAppointmentCalendarOverview'
                     )
                 {
                     $Element.val('');
@@ -514,6 +515,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                     && Core.Config.Get('Action') !== 'AgentTicketForward'
                     && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
                     && Core.Config.Get('Action') !== 'AgentTicketEmailResend'
+                && Core.Config.Get('Action') !== 'AgentAppointmentCalendarOverview'
                     )
                 {
                     // set hidden field SelectedCustomerUser
@@ -608,6 +610,7 @@ Core.Agent.CustomerSearch = (function (TargetNS) {
                 && Core.Config.Get('Action') !== 'AgentTicketForward'
                 && Core.Config.Get('Action') !== 'AgentTicketEmailOutbound'
                 && Core.Config.Get('Action') !== 'AgentTicketEmailResend'
+                && Core.Config.Get('Action') !== 'AgentAppointmentCalendarOverview'
                 )
             {
                 $Element.blur(function () {

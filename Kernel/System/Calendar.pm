@@ -44,6 +44,9 @@ our @ObjectDependencies = (
     'Kernel::System::Storable',
     'Kernel::System::Ticket',
     'Kernel::System::Valid',
+    'Kernel::System::Calendar::Participation',
+    'Kernel::System::CalendarEvent',
+    'Kernel::System::Ticket::Article',
 );
 
 =head1 NAME
@@ -89,7 +92,8 @@ creates a new calendar for given user.
 
     my %Calendar = $CalendarObject->CalendarCreate(
         CalendarName    => 'Meetings',          # (required) Personal calendar name
-        GroupID         => 3,                   # (required) GroupID
+        GroupID         => 3,                   # GroupID or OwnerID is required
+        OwnerID           => $UserID,
         Color           => '#FF7700',           # (required) Color in hexadecimal RGB notation
         UserID          => 4,                   # (required) UserID
 
@@ -118,6 +122,7 @@ returns Calendar hash if successful:
         ChangeTime   => '2016-01-01 08:00:00',
         ChangeBy     => 4,
         ValidID      => 1,
+        OwnerID      => 1,
     );
 
 Events:
@@ -130,7 +135,7 @@ sub CalendarCreate {
 
     # check needed stuff
     for my $Needed (qw(CalendarName GroupID Color UserID)) {
-        if ( !$Param{$Needed} ) {
+        if ( !$Param{$Needed} && ( $Needed ne 'GroupID' || !$Param{OwnerID} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -182,15 +187,16 @@ sub CalendarCreate {
 
     my $SQL = '
         INSERT INTO calendar
-            (group_id, name, salt_string, color, ticket_appointments, create_time, create_by,
+            (owner_id, group_id, name, salt_string, color, ticket_appointments, create_time, create_by,
             change_time, change_by, valid_id)
-        VALUES (?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?, ?)
     ';
 
     # create db record
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL  => $SQL,
         Bind => [
+            \$Param{OwnerID},
             \$Param{GroupID},     \$Param{CalendarName}, \$SaltString,    \$Param{Color},
             \$TicketAppointments, \$Param{UserID},       \$Param{UserID}, \$ValidID
         ],
@@ -246,6 +252,7 @@ Returns Calendar data:
     %Calendar = (
         CalendarID         => 2,
         GroupID            => 3,
+        OwnerID            => 1,
         CalendarName       => 'Meetings',
         Color              => '#FF7700',
         TicketAppointments => [
@@ -305,7 +312,7 @@ sub CalendarGet {
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         my $SQL = '
-            SELECT id, group_id, name, color, ticket_appointments, create_time, create_by,
+            SELECT id, group_id, owner_id, name, color, ticket_appointments, create_time, create_by,
             change_time, change_by, valid_id
             FROM calendar
             WHERE
@@ -336,8 +343,8 @@ sub CalendarGet {
 
             # decode and deserialize ticket appointment data
             my $TicketAppointments;
-            if ( $Row[4] ) {
-                my $DecodedData = MIME::Base64::decode_base64( $Row[4] );
+            if ( $Row[5] ) {
+                my $DecodedData = MIME::Base64::decode_base64( $Row[5] );
                 $TicketAppointments = $Kernel::OM->Get('Kernel::System::Storable')->Deserialize(
                     Data => $DecodedData,
                 );
@@ -346,14 +353,15 @@ sub CalendarGet {
 
             $Calendar{CalendarID}         = $Row[0];
             $Calendar{GroupID}            = $Row[1];
-            $Calendar{CalendarName}       = $Row[2];
-            $Calendar{Color}              = $Row[3];
+            $Calendar{OwnerID}            = $Row[2];
+            $Calendar{CalendarName}       = $Row[3];
+            $Calendar{Color}              = $Row[4];
             $Calendar{TicketAppointments} = $TicketAppointments;
-            $Calendar{CreateTime}         = $Row[5];
-            $Calendar{CreateBy}           = $Row[6];
-            $Calendar{ChangeTime}         = $Row[7];
-            $Calendar{ChangeBy}           = $Row[8];
-            $Calendar{ValidID}            = $Row[9];
+            $Calendar{CreateTime}         = $Row[6];
+            $Calendar{CreateBy}           = $Row[7];
+            $Calendar{ChangeTime}         = $Row[8];
+            $Calendar{ChangeBy}           = $Row[9];
+            $Calendar{ValidID}            = $Row[10];
         }
 
         if ( $Param{CalendarID} ) {
@@ -367,7 +375,16 @@ sub CalendarGet {
             );
         }
 
-        if ( $Param{UserID} && $Calendar{GroupID} ) {
+        if ( $Param{UserID} ) {
+
+            # user has access on his own calendar
+            return %Calendar if $Calendar{OwnerID} && $Calendar{OwnerID} eq $Param{UserID};
+
+            # if there is no group defined for a personal calendar no other user has access
+            return () if $Calendar{OwnerID} && !$Calendar{GroupID};
+
+            # should not occur - just for backwards compatibility
+            return %Calendar if !$Calendar{GroupID};
 
             # get user groups
             my %GroupList = $Kernel::OM->Get('Kernel::System::Group')->PermissionUserGet(
@@ -404,6 +421,7 @@ Returns:
         {
             CalendarID   => 2,
             GroupID      => 3,
+            OwnerID      => 1,
             CalendarName => 'Meetings',
             Color        => '#FF7700',
             CreateTime   => '2016-01-01 08:00:00',
@@ -415,6 +433,7 @@ Returns:
         {
             CalendarID   => 3,
             GroupID      => 3,
+            OwnerID      => 2,
             CalendarName => 'Customer presentations',
             Color        => '#BB00BB',
             CreateTime   => '2016-01-01 08:00:00',
@@ -450,7 +469,7 @@ sub CalendarList {
         my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         my $SQL = '
-            SELECT id, group_id, name, color, create_time, create_by, change_time, change_by,
+            SELECT id, group_id, owner_id, name, color, create_time, create_by, change_time, change_by,
             valid_id
             FROM calendar
             WHERE 1=1
@@ -474,13 +493,14 @@ sub CalendarList {
             my %Calendar;
             $Calendar{CalendarID}   = $Row[0];
             $Calendar{GroupID}      = $Row[1];
-            $Calendar{CalendarName} = $Row[2];
-            $Calendar{Color}        = $Row[3];
-            $Calendar{CreateTime}   = $Row[4];
-            $Calendar{CreateBy}     = $Row[5];
-            $Calendar{ChangeTime}   = $Row[6];
-            $Calendar{ChangeBy}     = $Row[7];
-            $Calendar{ValidID}      = $Row[8];
+            $Calendar{OwnerID}      = $Row[2];
+            $Calendar{CalendarName} = $Row[3];
+            $Calendar{Color}        = $Row[4];
+            $Calendar{CreateTime}   = $Row[5];
+            $Calendar{CreateBy}     = $Row[6];
+            $Calendar{ChangeTime}   = $Row[7];
+            $Calendar{ChangeBy}     = $Row[8];
+            $Calendar{ValidID}      = $Row[9];
             push @Result, \%Calendar;
         }
 
@@ -506,7 +526,10 @@ sub CalendarList {
         my @Result;
 
         for my $Item ( @{$Data} ) {
-            if ( grep { $Item->{GroupID} == $_ } keys %GroupList ) {
+            if (
+                ( $Item->{OwnerID} && $Param{UserID} eq $Item->{OwnerID} ) ||
+                ( $Item->{GroupID} && grep { $Item->{GroupID} == $_ } keys %GroupList )
+            ) {
                 push @Result, $Item;
             }
         }
@@ -523,7 +546,8 @@ updates an existing calendar.
 
     my $Success = $CalendarObject->CalendarUpdate(
         CalendarID       => 1,                   # (required) CalendarID
-        GroupID          => 2,                   # (required) Calendar group
+        GroupID          => 2,                   # GroupID or OwnerID is required
+        OwnerID          => $UserID,
         CalendarName     => 'Meetings',          # (required) Personal calendar name
         Color            => '#FF9900',           # (required) Color in hexadecimal RGB notation
         UserID           => 4,                   # (required) UserID (who made update)
@@ -554,7 +578,7 @@ sub CalendarUpdate {
 
     # check needed stuff
     for my $Needed (qw(CalendarID GroupID CalendarName Color UserID ValidID)) {
-        if ( !$Param{$Needed} ) {
+        if ( !$Param{$Needed} && ( $Needed ne 'GroupID' || $Param{OwnerID} ) ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
                 Message  => "Need $Needed!",
@@ -592,11 +616,12 @@ sub CalendarUpdate {
 
     my $SQL = '
         UPDATE calendar
-        SET group_id=?, name=?, color=?, ticket_appointments=?, change_time=current_timestamp,
+        SET owner_id=?, group_id=?, name=?, color=?, ticket_appointments=?, change_time=current_timestamp,
         change_by=?, valid_id=?
     ';
 
     my @Bind;
+    push @Bind, \$Param{OwnerID};
     push @Bind, \$Param{GroupID}, \$Param{CalendarName}, \$Param{Color}, \$TicketAppointments,
         \$Param{UserID}, \$Param{ValidID};
 
@@ -869,6 +894,7 @@ sub CalendarExport {
     for my $AppointmentID (@Appointments) {
         my %Appointment = $AppointmentObject->AppointmentGet(
             AppointmentID => $AppointmentID,
+            DynamicFields => 1,
         );
         next APPOINTMENTID if !%Appointment;
         next APPOINTMENTID if $Appointment{TicketAppointmentRuleID};
@@ -920,6 +946,12 @@ sub CalendarPermissionGet {
         CalendarID => $Param{CalendarID},
     );
 
+    # rw access on personal calendars
+    return 'rw' if $Calendar{OwnerID} && $Param{UserID} eq $Calendar{OwnerID};
+
+    # skip further checks if no GroupID is defined
+    return '' if !$Calendar{GroupID};
+
     my $Result = '';
 
     my $GroupObject = $Kernel::OM->Get('Kernel::System::Group');
@@ -942,6 +974,182 @@ sub CalendarPermissionGet {
 
     return $Result;
 }
+
+=head2 TicketInvitationProcessArticle()
+
+Create ticket appointments based on invitation sent by customers.
+
+    $CalendarObject->TicketInvitationProcessArticle(
+        TicketID   => 12,
+        ArticleID  => 13,
+        CalendarID => 14,
+        RuleID     => 'Customer invitation',
+        UserID     => 2,
+    );
+
+This method does not have return value.
+
+=cut
+
+sub TicketInvitationProcessArticle {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    NEEDED:
+    for my $Needed ( qw(TicketID ArticleID CalendarID RuleID UserID) ) {
+
+        next NEEDED if $Param{$Needed};
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $Needed!",
+        );
+
+        return;
+    }
+
+    my ( $TicketID, $ArticleID, $CalendarID, $RuleID, $UserID ) = @Param{qw(TicketID ArticleID CalendarID RuleID UserID)};
+
+    # later we need info on the article
+    my $ArticleObject  = $Kernel::OM->Get('Kernel::System::Ticket::Article');
+    my $ArticleBackend = $ArticleObject->BackendForArticle(
+        TicketID  => $TicketID,
+        ArticleID => $ArticleID,
+    );
+
+    # Look at the attachments and extract the invitations that need to be handled.
+    my @AttachmentCalendarEvents;
+    {
+        # get the list of attachments of the article
+        my %AttachmentIndex = $ArticleBackend->ArticleAttachmentIndex(
+            ArticleID       => $ArticleID,
+            ExcludeHTMLBody => 1,
+        );
+
+        my $CalendarEventObject = $Kernel::OM->Get('Kernel::System::CalendarEvent');
+        my $CalendarEventsData  = $CalendarEventObject->Parse(
+            TicketID    => $TicketID,
+            ArticleID   => $ArticleID,
+            Attachments => {
+                Type => 'Article',
+                Data => \%AttachmentIndex,
+            },
+        ) // {};
+
+        @AttachmentCalendarEvents =
+            grep { IsArrayRefWithData( $_->{Data}->{Events} ) }
+            ( $CalendarEventsData->{Attachments} // [] )->@*;
+    }
+
+    return unless @AttachmentCalendarEvents;
+
+    # Get the inviter from the article that contained iCalendar attachment
+    my $Inviter;
+    {
+        my %Article = $ArticleBackend->ArticleGet(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+        );
+
+        $Inviter = $Article{From};
+    }
+
+    ATTACHMENTCALENDAREVENT:
+    for my $AttachmentCalendarEvent (@AttachmentCalendarEvents) {
+
+        # one iCalendar attachment may contain multiple events
+        for my $Event ( $AttachmentCalendarEvent->{Data}->{Events}->@* ) {
+
+            # one event may contain multiple dates
+            for my $Date ( $Event->{Dates}->@* ) {
+
+                # TODO: use  $Self->_TicketAppointmentCreate( once we can leave out the empty participation
+                # create appointment
+                my $AppointmentID = $Kernel::OM->Get('Kernel::System::Calendar::Appointment')->AppointmentCreate(
+                    CalendarID  => $Param{CalendarID},
+                    UniqueID    => $Event->{UID},
+                    Title       => $Event->{Title},
+                    Description => $Event->{Description},
+                    Location    => $Event->{Location},
+                    StartTime   => $Date->{Start}->{String},
+                    EndTime     => $Date->{End}->{String},
+                    UserID      => $UserID,
+                );
+
+                # save the relation in database
+                $Kernel::OM->Get('Kernel::System::DB')->Do(
+                    SQL => '
+                        INSERT INTO calendar_appointment_ticket
+                            (calendar_id, ticket_id, appointment_id, rule_id)
+                        VALUES (?, ?, ?, ?)
+                    ',
+                    Bind => [ \$Param{CalendarID}, \$Param{TicketID}, \$AppointmentID, \$Param{RuleID}, ],
+                );
+
+                # add participation as a marker that there is a ticket invitation
+                my $ParticipationID = $Kernel::OM->Get('Kernel::System::Calendar::Participation')->ParticipationCreate(
+                    AppointmentID      => $AppointmentID,
+                    IsTicketInvitation => 1,
+                    UserID             => $UserID,
+                    Inviter            => $Inviter,
+                );
+            }
+        }
+    }
+
+    return;
+}
+
+=head2 ResetParticipationStatus()
+
+Set all participation entries to the status B<NEEDS-ACTION> when the time of a invitation has changed.
+This method is usually called from an event handler on C<AppointmentUpdate>.
+
+    $CalendarObject->ResetParticipationStatus(
+        AppointmentID => 1234,
+    );
+
+This method does not have return value.
+
+=cut
+
+sub ResetParticipationStatus {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    NEEDED:
+    for my $Needed ( qw(AppointmentID) ) {
+        next NEEDED if $Param{$Needed};
+
+        $Kernel::OM->Get('Kernel::System::Log')->Log(
+            Priority => 'error',
+            Message  => "Need $Needed!",
+        );
+
+        return;
+    }
+
+    my ($AppointmentID)     = @Param{qw(AppointmentID)};
+
+    # Use ParticipationUpdate() because the update must trigger customer notifications.
+    # Even if the status already is NEEDS-ACTION or DECLINED.
+    my $ParticipationObject = $Kernel::OM->Get('Kernel::System::Calendar::Participation');
+    my @Participations = $ParticipationObject->ParticipationList(
+        AppointmentIDs => [ $AppointmentID ],
+    );
+
+    PARTICIPATION:
+    for my $Participation ( @Participations ) {
+        $ParticipationObject->ParticipationUpdate(
+            ParticipationID     => $Participation->{ParticipationID},
+            ParticipationStatus => 'NEEDS-ACTION',
+            UserID              => 1,
+        );
+    }
+
+    return;
+}
+
 
 =head2 TicketAppointmentProcessTicket()
 

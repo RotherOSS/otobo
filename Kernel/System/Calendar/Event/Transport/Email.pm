@@ -376,6 +376,8 @@ sub TransportParamSettingsGet {
         qw(RecipientEmail TransportEmailTemplate
         EmailSigningCrypting EmailMissingSigningKeys EmailMissingCryptingKeys
         EmailSecuritySettings)
+        ,
+        qw(SendICSFile)
         )
     {
         my @Data = $ParamObject->GetArray( Param => $Parameter );
