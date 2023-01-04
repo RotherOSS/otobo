@@ -189,7 +189,9 @@ sub SanityChecks {
     }
 
     # get a list of tables on OTRS DB
-    my @SourceTables = $SourceDBObject->ListTables();
+    my @SourceTables = $SourceDBObject->ListTables(
+        Original => 1,
+    );
 
     # no need to migrate when the source has no tables
     if ( !@SourceTables ) {
@@ -406,13 +408,17 @@ sub DataTransfer {
     my @SourceTablesToBeCopied;
     {
         # get a complete list of tables on OTRS DB
-        my @AllSourceTables = $SourceDBObject->ListTables();
+        my @AllSourceTables = $SourceDBObject->ListTables(
+            Original => 1,
+        );
 
         # filter the tables that should be skipped
         my %TableIsSkipped = map { $_ => 1 } $MigrationBaseObject->DBSkipTables;
 
         # filter the tables that have no counterpart in the target database
-        my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables();
+        my %TargetTableExists = map { $_ => 1 } $TargetDBObject->ListTables(
+            Original => 1,
+        );
 
         SOURCE_TABLE:
         for my $SourceTable (@AllSourceTables) {

@@ -899,7 +899,7 @@ The table names are lower cased.
 =cut
 
 sub ListTables {
-    my $Self = shift;
+    my ( $Self, %Param ) = @_;
 
     my $SQL = $Self->GetDatabaseFunction('ListTables');
 
@@ -920,7 +920,11 @@ sub ListTables {
 
     my @Tables;
     while ( my ($Table) = $Self->FetchrowArray() ) {
-        push @Tables, lc $Table;
+        if ( $Param{Original} ) {
+            push @Tables, $Table;
+        } else {
+            push @Tables, lc $Table;
+        }
     }
 
     return @Tables;
