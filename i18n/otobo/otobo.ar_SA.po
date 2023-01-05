@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-05 12:56+0000\n"
+"PO-Revision-Date: 2023-01-06 06:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -16800,27 +16800,27 @@ msgstr "مجموعة أحرف خادم قاعدة البيانات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
-msgstr ""
+msgstr "الرجاء تحويل قاعدة البيانات إلى مجموعة الأحرف 'utf8mb4'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Table Charset"
-msgstr ""
+msgstr "مجموعة أحرف الجدول"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "There were tables found which do not have 'utf8mb4' as charset."
-msgstr ""
+msgstr "تم العثور على الجداول باستخدام مجموعة أحرف أخرى غير 'utf8mb4'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "InnoDB Log File Size"
-msgstr ""
+msgstr "حجم ملف سجل InnoDB"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
 msgid "The setting innodb_log_file_size must be at least 256 MB."
-msgstr ""
+msgstr "يجب ألا يقل حجم الإعداد innodb_log_file_size عن 256 ميغابايت."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid "Invalid Default Values"
-msgstr ""
+msgstr "قيم افتراضية غير صالحة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
 msgid ""
@@ -16828,45 +16828,49 @@ msgid ""
 "automatically, please run: bin/otobo.Console.pl Maint::Database::Check --"
 "repair"
 msgstr ""
+"تم العثور على جداول ذات قيم افتراضية غير صالحة. لإصلاحها تلقائيا ، يرجى "
+"تنفيذ الأمر التالي: bin/otobo.Console.pl Maint::Database::Check --repair"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "Maximum Query Size"
-msgstr ""
+msgstr "الحد الأقصى لحجم الطلب"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
 msgid "The setting 'max_allowed_packet' must be 64 MB or higher."
-msgstr ""
+msgstr "اضبط \"max_allowed_packet\" على 64 ميغابايت أو أكثر."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid "Query Cache Size"
-msgstr ""
+msgstr "حجم ذاكرة التخزين المؤقت للاستعلام (للطلب)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
 msgid ""
 "The setting 'query_cache_size' should be used (higher than 10 MB but not "
 "more than 512 MB)."
 msgstr ""
+"يجب استخدام إعداد query_cache_size (أكثر من 10 ميغابايت ولكن ليس أكثر من 512 "
+"ميغابايت)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Default Storage Engine"
-msgstr ""
+msgstr "محرك التخزين الافتراضي"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid "Table Storage Engine"
-msgstr ""
+msgstr "محرك تخزين الجدول"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
 msgid ""
 "Tables with a different storage engine than the default engine were found."
-msgstr ""
+msgstr "تم العثور على الجداول التي لا تستخدم المحرك الافتراضي."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
 msgid "MySQL 5.x or higher is required."
-msgstr ""
+msgstr "مطلوب MySQL 5.x أو أعلى."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG Setting"
-msgstr ""
+msgstr "إعداد NLS_LANG"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8)."
