@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-03 12:34+0000\n"
+"PO-Revision-Date: 2023-01-05 12:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -16768,35 +16768,35 @@ msgstr "خطأ داخلي: تعذر قراءة الملف."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
 msgid "Tables found which are not present in the database."
-msgstr ""
+msgstr "توجد جداول مفقودة من قاعدة البيانات."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
 msgid "Database Size"
-msgstr ""
+msgstr "حجم قاعدة البيانات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
 msgid "Could not determine database size."
-msgstr ""
+msgstr "تعذر تحديد حجم قاعدة البيانات."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
 msgid "Database Version"
-msgstr ""
+msgstr "إصدار قاعدة البيانات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
 msgid "Could not determine database version."
-msgstr ""
+msgstr "تعذر تحديد إصدار قاعدة البيانات."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Client Connection Charset"
-msgstr ""
+msgstr "مجموعة معلومات اتصال العميل"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Setting character_set_client needs to be utf8."
-msgstr ""
+msgstr "يجب أن يكون 'utf8' تعيين charter_set_client."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Server Database Charset"
-msgstr ""
+msgstr "مجموعة أحرف خادم قاعدة البيانات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
 msgid "Please convert your database to the character set 'utf8mb4'."
