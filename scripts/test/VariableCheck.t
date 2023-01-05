@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -918,6 +918,11 @@ my %Hash1 = (
 my %Hash2 = %Hash1;
 $Hash2{AdditionalKey} = 1;
 
+# This is a case that was encountered when converting
+# scripts/test/DynamicField/ObjectType/Article/ObjectDataGet.t to Test2::V0
+my %Hash3 = %Hash1;
+$Hash3{AdditionalKeyWithUndefinedValue} = undef;
+
 my @List1 = ( 1, 2, 3, );
 my @List2 = (
     1,
@@ -934,24 +939,24 @@ my $Scalar2 = {
     test => [ 1, 2, 3 ],
 };
 
-my $Count = 0;
-for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-    $Count++;
+my $Count1 = 0;
+for my $Value1 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+    $Count1++;
     $Self->Is(
         scalar DataIsDifferent(
             Data1 => $Value1,
             Data2 => $Value1
         ),
-        scalar undef,
-        'DataIsDifferent() - Test ' . $Count,
+        undef,
+        'DataIsDifferent() - Test ' . $Count1,
     );
 
     my $Count2 = 0;
-    VALUE2: for my $Value2 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-        if ( $Value2 == $Value1 ) {
-            next VALUE2;
-        }
+    VALUE2:
+    for my $Value2 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
         $Count2++;
+
+        next VALUE2 if $Count1 == $Count2;
 
         $Self->Is(
             scalar DataIsDifferent(
@@ -959,7 +964,7 @@ for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
                 Data2 => $Value2
             ),
             1,
-            'DataIsDifferent() - Test ' . $Count . ':' . $Count2,
+            'DataIsDifferent() - Test ' . $Count1 . ':' . $Count2,
         );
     }
 }
@@ -1037,6 +1042,18 @@ my @Tests = (
         Data1       => \\undef,
         Data2       => \\undef,
         Result      => undef,
+    },
+    {
+        Description => 'DataIsDifferent() Data1 is empty hashref, Data2 has key with an undefined value',
+        Data1       => {},
+        Data2       => { sample_key => undef },
+        Result      => 1,
+    },
+    {
+        Description => 'DataIsDifferent() Data2 is empty hashref, Data1 has key with an undefined value',
+        Data1       => { sample_key => undef },
+        Data2       => {},
+        Result      => 1,
     },
 );
 
