@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,7 +23,7 @@ use utf8;
 
 # CPAN modules
 use LWP::UserAgent;
-use CGI;
+use HTTP::Request;
 use Test2::V0;
 
 # OTOBO modules
@@ -296,25 +296,25 @@ for my $Test (@Tests) {
         for my $RequestMethod (qw(get post)) {
             for my $WebserviceAccess ( sort keys %WebserviceAccess2PathInfo ) {
                 my $PathInfo     = $WebserviceAccess2PathInfo{$WebserviceAccess};
-                my $RequestData  = '';
                 my $ResponseData = '';
                 my $WebException;
                 {
-                    ## no critic (Perl::Critic::Policy::Variables::RequireLocalizedPunctuationVars)
-
-                    # %ENV will be picked up in Kernel::System::Web::Request::new().
-                    local %ENV;
+                    my $HTTPRequest;
 
                     if ( $RequestMethod eq 'post' ) {
-
-                        # prepare CGI environment variables
-                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo";
-                        $ENV{REQUEST_METHOD} = 'POST';
-                        $RequestData         = CreateQueryString(
+                        my $RequestData = CreateQueryString(
                             Data   => $Test->{RequestData},
                             Encode => 0,
                         );
-                        $ENV{CONTENT_LENGTH} = bytes::length($RequestData);
+                        $HTTPRequest = HTTP::Request->new(
+                            'POST',
+                            "http://localhost/otobo/nph-genericinterface.pl/$PathInfo",
+                            [
+                                'Content-Type'   => 'application/x-www-form-urlencoded',
+                                'Content-Length' => bytes::length($RequestData),
+                            ],
+                            $RequestData,
+                        );
                     }
                     else {    # GET
 
@@ -322,26 +322,21 @@ for my $Test (@Tests) {
                             Data   => $Test->{RequestData},
                             Encode => 1,
                         );
+                        $HTTPRequest = HTTP::Request->new(
+                            'GET',
+                            "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?$QueryString",
+                            [
+                                'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8;',
+                            ],
+                            '',
+                        );
 
-                        # prepare CGI environment variables
-                        $ENV{REQUEST_URI}    = "http://localhost/otobo/nph-genericinterface.pl/$PathInfo?" . $QueryString;
-                        $ENV{QUERY_STRING}   = $QueryString;
-                        $ENV{REQUEST_METHOD} = 'GET';
                     }
 
-                    $ENV{CONTENT_TYPE} = 'application/x-www-form-urlencoded; charset=utf-8;';
-
-                    # redirect STDIN from String so that the transport layer will use this data
-                    local *STDIN;
-                    open STDIN, '<:encoding(UTF-8)', \$RequestData;    ## no critic qw(OTOBO::ProhibitOpen)
-
                     # force the ParamObject to use the new request params
-                    CGI::initialize_globals();
                     $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
                     $Kernel::OM->ObjectParamAdd(
-                        'Kernel::System::Web::Request' => {
-                            WebRequest => CGI->new(),
-                        }
+                        'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
                     );
 
                     eval {
@@ -421,12 +416,24 @@ for my $Test (@Tests) {
                         $Response = $UserAgent->get($URL);
                     }
                     elsif ( $RequestMethod eq 'POST' ) {
+
+                        # The Content-Type is set implicitly as 'application/x-www-form-urlencoded'
                         $Response = $UserAgent->post( $URL, Content => $QueryString );
                     }
                     else {    # PATCH, PUT
 
+                        $DB::single = 1;
+
                         # LWP::UserAgent has no patch() or put() method, use the generic method request()
-                        my $Request = HTTP::Request->new( $RequestMethod, $URL, [], $QueryString );
+                        # The Content-Type has to be set, so that the body will be parsed.
+                        my $Request = HTTP::Request->new(
+                            $RequestMethod,
+                            $URL,
+                            [
+                                'Content-Type' => 'application/x-www-form-urlencoded',
+                            ],
+                            $QueryString
+                        );
                         $Response = $UserAgent->request($Request);
                     }
                     chomp( $ResponseData = $Response->decoded_content() );
