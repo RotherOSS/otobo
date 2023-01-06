@@ -540,12 +540,12 @@ sub _MetaArticleGet {
     }
 
     # Use ArticleList() internally to benefit from its ticket-level cache.
-    my @MetaArticleIndex = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
+    my ($FirstMetaArticle) = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleList(
         TicketID  => $Param{TicketID},
         ArticleID => $Param{ArticleID},
     );
 
-    return %{ $MetaArticleIndex[0] // {} };
+    return %{ $FirstMetaArticle // {} };
 }
 
 =head2 _MetaArticleDelete()
