@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,15 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
-use CGI;
-
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::Web::Request;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
@@ -2704,48 +2703,29 @@ my @Tests = (
 );
 
 # execute tests
+TEST:
 for my $Test (@Tests) {
 
-    my $Value;
+    next TEST unless IsHashRefWithData( $Test->{Config} );
 
-    if ( IsHashRefWithData( $Test->{Config} ) ) {
-        my %Config = %{ $Test->{Config} };
+    my %Config = $Test->{Config}->%*;
 
-        if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
-
-            # create a new CGI object to simulate a web request
-            my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
-
-            my $LocalParamObject = Kernel::System::Web::Request->new(
-                WebRequest => $WebRequest,
-            );
-
-            %Config = (
-                %Config,
-                ParamObject => $LocalParamObject,
-            );
-        }
-        $Value = $DFBackendObject->EditFieldValueGet(%Config);
+    # When CGI parameters are given,
+    # then create a new CGI object to simulate a web request.
+    if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
+        $Config{ParamObject} = Kernel::System::Web::Request->new(
+            WebRequest => CGI->new( $Test->{Config}->{CGIParam} ),
+        );
     }
-    else {
-        $Value = $DFBackendObject->EditFieldValueGet( %{ $Test->{Config} } );
-    }
+
+    my $Value = $DFBackendObject->EditFieldValueGet(%Config);
+
     if ( $Test->{Success} ) {
-        $Self->IsDeeply(
-            $Value,
-            $Test->{ExpectedResults},
-            "$Test->{Name} | EditFieldValueLGet()",
-        );
+        is( $Value, $Test->{ExpectedResults}, "$Test->{Name} | EditFieldValueLGet()" );
     }
     else {
-        $Self->Is(
-            $Value,
-            undef,
-            "$Test->{Name} | EditFieldValueLGet() (should be undef)",
-        );
+        ok( !defined $Value, "$Test->{Name} | EditFieldValueLGet() returns undef", );
     }
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;
