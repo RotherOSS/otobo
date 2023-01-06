@@ -712,8 +712,11 @@ my @Tests = (
             ReturnValueStructure    => 1,
             ReturnTemplateStructure => 0,
         },
-        ExpectedResults => {},
-        Success         => 1,
+        ExpectedResults => {
+            FieldValue => undef,
+            UsedValue  => undef,
+        },
+        Success => 1,
     },
     {
         Name   => 'Checkbox: UTF8 template and empty ParamObject (ValueStructure)',
@@ -768,9 +771,9 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => undef,
+            DynamicField_CheckboxField     => undef,
+            DynamicField_CheckboxFieldUsed => undef,
         },
-
         Success => 1,
     },
     {
@@ -784,7 +787,8 @@ my @Tests = (
             ReturnTemplateStructure => 1,
         },
         ExpectedResults => {
-            DynamicField_CheckboxField => undef,
+            DynamicField_CheckboxField     => undef,
+            DynamicField_CheckboxFieldUsed => undef,
         },
         Success => 1,
     },
