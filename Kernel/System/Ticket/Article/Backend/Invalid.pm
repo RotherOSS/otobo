@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -98,9 +98,10 @@ sub ArticleGet {
 
     my %MetaArticle = $Self->_MetaArticleGet(%Param);
 
-    my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList();
+    return unless %MetaArticle;
 
     # Include sender type lookup.
+    my %ArticleSenderTypeList = $Kernel::OM->Get('Kernel::System::Ticket::Article')->ArticleSenderTypeList();
     $MetaArticle{SenderType} = $ArticleSenderTypeList{ $MetaArticle{SenderTypeID} };
 
     return %MetaArticle;
