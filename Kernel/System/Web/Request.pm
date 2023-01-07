@@ -175,6 +175,7 @@ sub Error {
 
 to get the value of a single request parameter.
 URL and body parameters are merged.
+For file uploads the entered file name is returned.
 Per default, left and right trimming is performed
 on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
 
@@ -196,10 +197,11 @@ sub GetParam {
 
     # TODO: document differences to 10.1
 
-    my $Key = $Param{Param};
+    my $Key          = $Param{Param};
+    my $PlackRequest = $Self->{PlackRequest};
 
     # special case for the body
-    my $Method = $Self->{PlackRequest}->method;
+    my $Method = $PlackRequest->method;
     if (
         ( $Method eq 'POST' || $Method eq 'PUT' || $Method eq 'PATCH' )
         &&
@@ -207,7 +209,7 @@ sub GetParam {
         )
     {
         # TODO: what about encoding
-        return $Self->{PlackRequest}->content;
+        return $PlackRequest->content;
     }
 
     # In rel-10_1 the method CGI::param() was used here. This method returnes the first value
@@ -217,12 +219,23 @@ sub GetParam {
     # and go with the default behavior of Plack::Request.
     # Plack Request does no decoding, so pass a byte array as key.
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
-    my $Value = $Self->{PlackRequest}->parameters->{$Key};
+    my $Value = $PlackRequest->parameters->{$Key};
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
+    # Stay compatible with CGI.pm by checking for file uploads.
+    # The name of the file is returned when a file upload was found
+    if ( !defined $Value && $PlackRequest->uploads->{$Key} ) {
+        $Value = $PlackRequest->uploads->{$Key}->filename;
+    }
+
+    # no string cleaning is needed for undefined values
+    return $Value unless defined $Value;
+
+    # no string cleaning when specifically so requested
     return $Value if $Param{Raw};
 
     # If it is a plain string, perform trimming
+    # TODO: can this ever happen ???
     return $Value unless ref \$Value eq 'SCALAR';
 
     $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
@@ -688,7 +701,7 @@ sub LoadFormDraft {
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
     );
-    return if !IsHashRefWithData($FormDraft);
+    return unless IsHashRefWithData($FormDraft);
 
     # Verify action.
     my $Action = $Self->GetParam( Param => 'Action' );
@@ -722,7 +735,7 @@ sub LoadFormDraft {
     # add UploadCache data
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
     for my $File ( @{ $FormDraft->{FileData} } ) {
-        return if !$UploadCacheObject->FormIDAddFile(
+        return unless $UploadCacheObject->FormIDAddFile(
             %{$File},
             FormID => $FormID,
         );
@@ -763,7 +776,7 @@ sub SaveFormDraft {
             Param => $Param,
         );
     }
-    return if !$MetaParams{Action};
+    return unless $MetaParams{Action};
 
     # determine session name param (SessionUseCookie = 0) for exclusion
     my $SessionName = $Kernel::OM->Get('Kernel::Config')->Get('SessionName') || 'SessionID';
@@ -811,7 +824,7 @@ sub SaveFormDraft {
         # get other values from param object
         if ( !defined $Value ) {
             my @Values = $Self->GetArray( Param => $Param );
-            next PARAM if !IsArrayRefWithData( \@Values );
+            next PARAM unless IsArrayRefWithData( \@Values );
 
             # store single occurances as string
             if ( scalar @Values == 1 ) {
@@ -846,7 +859,7 @@ sub SaveFormDraft {
 
     # update draft
     if ( $MetaParams{FormDraftID} ) {
-        return if !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftUpdate(%FormDraft);
+        return unless $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftUpdate(%FormDraft);
         return 1;
     }
 
