@@ -99,27 +99,33 @@ This is relevant sometimes when an instance of C<Kernel::System::Web::Request> i
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # get config object
-    #my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
-    # max 5 MB posts
     # TODO: POST_MAX for Plack::Request
+    # max 5 MB posts
+    #my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     #$CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
-    # query object when PSGI env is passed, the recommended usage
     my $PSGIEnv;
     if ( $Param{PSGIEnv} ) {
+
+        # query object when PSGI env is passed, the recommended usage
         $PSGIEnv = $Param{PSGIEnv};
     }
-
-    # a HTTP::Request object, used primarily in test scripts
     elsif ( $Param{HTTPRequest} ) {
-        $PSGIEnv = $Param{PSGIEnv} = req_to_psgi( $Param{HTTPRequest} );
-    }
 
-    # Use a basic request as a fallback.
-    # This is needed because the ParamObject is sometimes created outside a web context.
+        # a HTTP::Request object, used primarily in test scripts
+        $PSGIEnv = req_to_psgi( $Param{HTTPRequest} );
+
+        # req_to_psgi() does not split SCRIPT_NAME from PATH_INFO like it is done in otobo.psgi.
+        # So, let's emulate this here. Note that the first '.*' matches greedily.
+        if ( $PSGIEnv->{PATH_INFO} =~ m!(.*) / (.+)!x ) {
+            $PSGIEnv->{PATH_INFO}   = $1;
+            $PSGIEnv->{SCRIPT_NAME} = $2;
+        }
+    }
     else {
+
+        # Use a basic request as a fallback.
+        # This is needed because the ParamObject is sometimes created outside a web context.
         $PSGIEnv = req_to_psgi( GET('/') );
     }
 
@@ -132,7 +138,7 @@ sub new {
         $PlackRequest = Plack::Request->new($PSGIEnv);
 
         # actually parse the input and cache the result
-        # this instializes $PlackRequest->env->{'plack.request.merged'}
+        # this initializes $PlackRequest->env->{'plack.request.merged'}
         $PlackRequest->parameters;
     }
     catch {
@@ -167,7 +173,9 @@ sub Error {
 
 =head2 GetParam()
 
-to get the value of a single request parameter. Per default, left and right trimming is performed
+to get the value of a single request parameter.
+URL and body parameters are merged.
+Per default, left and right trimming is performed
 on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
@@ -177,10 +185,16 @@ on the returned value. The trimming can be turned of by passing the parameter C<
 
 When the parameter is not part of the query then C<undef> is returned.
 
+The parameters B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> are a special case.
+If the parameter corresponds to the request method, then the body of the request
+is returned.
+
 =cut
 
 sub GetParam {
     my ( $Self, %Param ) = @_;
+
+    # TODO: document differences to 10.1
 
     my $Key = $Param{Param};
 
@@ -196,11 +210,14 @@ sub GetParam {
         return $Self->{PlackRequest}->content;
     }
 
-    # CGI.pm compatible method
+    # In rel-10_1 the method CGI::param() was used here. This method returnes the first value
+    # in the case of multi-valued parameters. But Hash::MultiValue::{} returns
+    # the last value. The assumption is that this was an accidental feature
+    # and that getting the last value is equally sensible. So let's take the easy way
+    # and go with the default behavior of Plack::Request.
     # Plack Request does no decoding, so pass a byte array as key.
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
-    my $Value = $Self->{PlackRequest}->param($Key);
-
+    my $Value = $Self->{PlackRequest}->parameters->{$Key};
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
     return $Value if $Param{Raw};
@@ -219,7 +236,8 @@ sub GetParam {
 
 =head2 GetParamNames()
 
-to get names of all parameters passed to the script.
+to get the names of all parameters passed in the request.
+URL and body parameters are merged.
 
     my @ParamNames = $ParamObject->GetParamNames();
 
@@ -228,20 +246,21 @@ Example:
 Called URL: index.pl?Action=AdminSystemConfiguration;Subaction=Save;Name=Config::Option::Valid
 
     my @ParamNames = $ParamObject->GetParamNames();
-    print join " :: ", @ParamNames;
+    print join ' :: ', @ParamNames;
     #prints Action :: Subaction :: Name
+
+For multi value parameters the last value is returned. URL parameters come before body parameters.
 
 =cut
 
 sub GetParamNames {
     my $Self = shift;
 
-    # fetch all names
-    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
+    # TODO: document differences to 10.1
 
-    for my $Name (@ParamNames) {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
-    }
+    # fetch all names, URL and body is already merged
+    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@ParamNames );
 
     return @ParamNames;
 }
@@ -256,13 +275,16 @@ By default, trimming is performed on the data.
         Raw   => 1,     # optional, input data is not changed
     );
 
+URL and body parameters are merged. URL parameters come before body parameters
+
 =cut
 
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Values = $Self->{PlackRequest}->param( $Param{Param} );
+    # TODO: document differences to 10.1
 
+    my @Values = $Self->{PlackRequest}->parameters->get_all( $Param{Param} );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
     return @Values if $Param{Raw};
