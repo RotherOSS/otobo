@@ -141,14 +141,19 @@ subtest 'POST with URL params' => sub {
     );
     is(
         $Request->GetParam( Param => 'b' ),
-        5,
-        'Param b, from POST as the last value is taken',
+        6,
+        'Param b taken from URL as the first value is taken',
     );
 
     is(
         [ $Request->GetArray( Param => 'c' ) ],
         [ 4, 5 ],
         'Param c, from GET',
+    );
+    is(
+        $Request->GetParam( Param => 'c' ),
+        4,
+        'Param c taken from URL, the first value is taken',
     );
     is(
         [ $Request->GetArray( Param => 'd' ) ],

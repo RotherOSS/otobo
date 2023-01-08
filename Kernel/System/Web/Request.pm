@@ -174,7 +174,7 @@ sub Error {
 =head2 GetParam()
 
 to get the value of a single request parameter.
-URL and body parameters are merged.
+URL and body parameters are merged. URL params are first. The first value is taken.
 For file uploads the entered file name is returned.
 Per default, left and right trimming is performed
 on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
@@ -214,12 +214,10 @@ sub GetParam {
 
     # In rel-10_1 the method CGI::param() was used here. This method returnes the first value
     # in the case of multi-valued parameters. But Hash::MultiValue::{} returns
-    # the last value. The assumption is that this was an accidental feature
-    # and that getting the last value is equally sensible. So let's take the easy way
-    # and go with the default behavior of Plack::Request.
+    # the last value. For the sake of compatablity the CGI.pm behavior is reproduced.
     # Plack Request does no decoding, so pass a byte array as key.
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
-    my $Value = $PlackRequest->parameters->{$Key};
+    my ($Value) = $PlackRequest->parameters->get_all($Key);
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
     # Stay compatible with CGI.pm by checking for file uploads.
