@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -242,14 +242,12 @@ sub PerlInfoGet {
         # Add bundled modules and their version.
         # Only the modules that correspond to their distribution are listed here.
         # E.g. Error::TypeTiny and Types::TypeTiny are not listed, as they belong to the distro Type::Tiny.
-        # Fh is not listed as it belongs to the distro CGI.
         # TODO: list MailTools instead of Mail::Address and Mail::Internet
         # Devel::REPL::Plugin::OTOBO is supplied by OTOBO
         my %ModuleToVersion =
             map { $_ => $Self->ModuleVersionGet( Module => $_ ) }
             qw(
             Algorithm::Diff
-            CGI
             Class::Accessor
             Class::Inspector
             Class::ReturnValue

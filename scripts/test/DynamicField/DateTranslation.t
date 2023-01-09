@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,13 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# modules from CPAN
+use HTTP::Request::Common qw(POST);
+use Test2::V0;
 
-use CGI;
-
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::Output::HTML::Layout;
 use Kernel::System::Web::Request;
 
@@ -67,10 +68,7 @@ my $TicketID = $TicketObject->TicketCreate(
 );
 
 # sanity check
-$Self->True(
-    $TicketID,
-    "TicketCreate() successful for Ticket ID $TicketID",
-);
+ok( $TicketID, "TicketCreate() successful for Ticket ID $TicketID" );
 
 # create dynamic fields
 my @DynamicFields = (
@@ -111,10 +109,7 @@ for my $DynamicField (@DynamicFields) {
     my $FieldID = $DynamicFieldObject->DynamicFieldAdd( %{$DynamicField} );
 
     # sanity check
-    $Self->True(
-        $FieldID,
-        "DynamicFieldAdd() successful for Field ID $FieldID",
-    );
+    ok( $FieldID, "DynamicFieldAdd() successful for Field ID $FieldID" );
 
     my $DynamicFieldConfig = $DynamicFieldObject->DynamicFieldGet(
         ID => $FieldID,
@@ -518,11 +513,10 @@ for my $Test (@Tests) {
         }
         else {
 
-            # create a new CGI object to simulate a web request
-            my $WebRequest = CGI->new( $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam} );
-
+            # create a new HTTP::Request object to simulate a web request
+            my $HTTPRequest      = POST( '/', [ $Test->{Config}->{EditFieldRender}->{$Type}->{CGIParam}->%* ] );
             my $LocalParamObject = Kernel::System::Web::Request->new(
-                WebRequest => $WebRequest,
+                HTTPRequest => $HTTPRequest,
             );
 
             %Config = (
@@ -578,7 +572,7 @@ for my $Test (@Tests) {
             "OTOBO" =~ m{OTOBO};
         }
 
-        $Self->IsDeeply(
+        is(
             \%HTMLResult,
             $Test->{ExpectedResults}->{EditFieldRender}->{$Type},
             "EditFieldRender() for type $Type: Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
@@ -588,11 +582,10 @@ for my $Test (@Tests) {
         );
     }
 
-    # create a new CGI object to simulate a web request
-    my $WebRequest = CGI->new( $Test->{Config}->{EditFieldValueGet}->{CGIParam} );
-
+    # create a new HTTP::Request object to simulate a web request
+    my $HTTPRequest      = POST( '/', [ $Test->{Config}->{EditFieldValueGet}->{CGIParam}->%* ] );
     my $LocalParamObject = Kernel::System::Web::Request->new(
-        WebRequest => $WebRequest,
+        HTTPRequest => $HTTPRequest,
     );
 
     # get the value from the web request
@@ -603,7 +596,7 @@ for my $Test (@Tests) {
         LayoutObject => $LayoutObject,
     );
 
-    $Self->Is(
+    is(
         $Value,
         $Test->{ExpectedResults}->{EditFieldValueGet},
         "EditFieldValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
@@ -622,7 +615,7 @@ for my $Test (@Tests) {
         %{ $Test->{Config}->{ValueSetGet} }
     );
 
-    $Self->Is(
+    is(
         $Value,
         $Test->{ExpectedResults}->{ValueSetGet},
         "ValueGet(): Field type $Test->{Config}->{Type}, OTOBO time zone $Test->{Config}->{OTOBOTimeZone}, "
@@ -632,6 +625,4 @@ for my $Test (@Tests) {
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

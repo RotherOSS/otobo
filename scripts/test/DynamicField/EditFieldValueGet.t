@@ -21,6 +21,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use HTTP::Request::Common qw(POST);
 use Test2::V0;
 
 # OTOBO modules
@@ -2718,7 +2719,7 @@ for my $Test (@Tests) {
     # then create a new CGI object to simulate a web request.
     if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
         $Config{ParamObject} = Kernel::System::Web::Request->new(
-            WebRequest => CGI->new( $Test->{Config}->{CGIParam} ),
+            HTTPRequest => POST( '/', [ $Test->{Config}->{CGIParam}->%* ] ),
         );
     }
 

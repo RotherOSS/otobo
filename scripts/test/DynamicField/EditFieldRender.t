@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,14 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
+# core modules
+
+# CPAN modules
+use HTTP::Request::Common qw(POST);
+use Test2::V0;
+
+# OTOBO modules
 use Kernel::System::UnitTest::MockTime qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;
-
-use vars (qw($Self));
-
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::Output::HTML::Layout;
-
 use Kernel::System::VariableCheck qw(:all);
 
 # get needed objects
@@ -3352,11 +3354,10 @@ for my $Test (@Tests) {
 
         if ( IsHashRefWithData( $Test->{Config}->{CGIParam} ) ) {
 
-            # create a new CGI object to simulate a web request
-            my $WebRequest = CGI->new( $Test->{Config}->{CGIParam} );
-
+            # create a new HTTP::Request object to simulate a web request
+            my $HTTPRequest      = POST( '/', [ $Test->{Config}->{CGIParam}->%* ] );
             my $LocalParamObject = Kernel::System::Web::Request->new(
-                WebRequest => $WebRequest,
+                HTTPRequest => $HTTPRequest,
             );
 
             %Config = (
@@ -3386,14 +3387,14 @@ for my $Test (@Tests) {
             $Test->{ExpectedResults}->{Field} =~ s/\n+$//;
         }
 
-        $Self->IsDeeply(
+        is(
             $FieldHTML,
             $Test->{ExpectedResults},
             "$Test->{Name} | EditFieldRender()",
         );
     }
     else {
-        $Self->Is(
+        is(
             $FieldHTML,
             undef,
             "$Test->{Name} | EditFieldRender() (should be undef)",
@@ -3401,6 +3402,4 @@ for my $Test (@Tests) {
     }
 }
 
-# we don't need any cleanup
-
-$Self->DoneTesting();
+done_testing;

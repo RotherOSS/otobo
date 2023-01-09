@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,8 +26,11 @@ use namespace::autoclean;
 # core modules
 
 # CPAN modules
-use CGI;    # must be loaded before $CGI::POST_MAX is set
-use CGI::PSGI;
+use HTTP::Message::PSGI qw(req_to_psgi);
+use HTTP::Request::Common qw(GET);
+use Path::Class qw(file);
+use Plack::Request;
+use Try::Tiny;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
@@ -72,66 +75,87 @@ The regular usage in the web interface modules, e.g. in L<Kernel::System::Web::I
 
 In the test scripts it is convenient to pass in a request object directly.
 
-    use CGI;
+    use HTTP::Request::Common qw(GET);
     use Kernel::System::UnitTest::RegisterDriver;
 
-    CGI::initialize_globals();
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
+            HTTPRequest => GET('http://www.example.com?a=4;b=5'),
         }
     );
 
-    # later in the test script or in the used modules
+    # the added parameter is used automatically later in the test script or in the used modules
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
 If Kernel::System::Web::Request is instantiated several times, they will share the
 same web request data. This can be helpful in filters which do not have access to the
 ParamObject, for example.
 
-If you need to reset the CGI data before creating a new instance, use
-
-    CGI::initialize_globals();
-
-before calling Kernel::System::Web::Request->new();
+When no C<PSGIEnv> or C<HTTPRequest> is registered than C<GET('/')> is used as a fallback.
+This is relevant sometimes when an instance of C<Kernel::System::Web::Request> is needed outside a web context.
 
 =cut
 
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # allocate new hash for object
-    my $Self = bless {}, $Type;
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
+    # TODO: POST_MAX for Plack::Request
     # max 5 MB posts
-    $CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+    #my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    #$CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
 
-    # query object when PSGI env is passed, the recommended usage
+    my $PSGIEnv;
     if ( $Param{PSGIEnv} ) {
-        $Self->{Query} = CGI::PSGI->new( $Param{PSGIEnv} );
-    }
 
-    # query object (in case use already existing WebRequest, e. g. fast cgi or classic cgi)
-    elsif ( $Param{WebRequest} ) {
-        $Self->{Query} = $Param{WebRequest};
+        # query object when PSGI env is passed, the recommended usage
+        $PSGIEnv = $Param{PSGIEnv};
     }
+    elsif ( $Param{HTTPRequest} ) {
 
-    # Use an empty CGI object as a fallback.
-    # This is needed because the ParamObject is sometimes created outside a web context.
-    # Pass an empty string, in order to avoid that params in %ENV are considered.
+        # a HTTP::Request object, used primarily in test scripts
+        $PSGIEnv = req_to_psgi( $Param{HTTPRequest} );
+
+        # req_to_psgi() does not split SCRIPT_NAME from PATH_INFO like it is done in otobo.psgi.
+        # So, let's emulate this here. Note that the first '.*' matches greedily.
+        if ( $PSGIEnv->{PATH_INFO} =~ m!(.*) / (.+)!x ) {
+            $PSGIEnv->{PATH_INFO}   = $1;
+            $PSGIEnv->{SCRIPT_NAME} = $2;
+        }
+    }
     else {
-        $Self->{Query} = CGI->new('');
+
+        # Use a basic request as a fallback.
+        # This is needed because the ParamObject is sometimes created outside a web context.
+        $PSGIEnv = req_to_psgi( GET('/') );
     }
 
-    return $Self;
+    # Plack::Request has no cgi_error() method. This means that failures in object creation
+    # and in input parsing are only communcated via exceptions. Let'c catch the exception so
+    # that the status can be checked with the Error() method.
+    my ( $PlackRequest, $Error );
+    try {
+        # calling now only stores the environment
+        $PlackRequest = Plack::Request->new($PSGIEnv);
+
+        # actually parse the input and cache the result
+        # this initializes $PlackRequest->env->{'plack.request.merged'}
+        $PlackRequest->parameters;
+    }
+    catch {
+        $Error = $_;
+    };
+
+    # the error case
+    return bless { Error => $_ }, $Type if $Error;
+
+    # construction went fine
+    return bless { PlackRequest => $PlackRequest }, $Type;
 }
 
 =head2 Error()
 
-to get the error back
+to get the error back.
+The error usually does not contain a HTTP status code.
 
     if ( $ParamObject->Error() ) {
         print STDERR $ParamObject->Error() . "\n";
@@ -142,14 +166,17 @@ to get the error back
 sub Error {
     my ( $Self, %Param ) = @_;
 
-    return if !$Self->{Query}->cgi_error();
+    return unless defined $Self->{Error};
 
-    return $Self->{Query}->cgi_error() . ' - POST_MAX=' . ( $CGI::POST_MAX / 1024 ) . 'KB';
+    return $Self->{Error};
 }
 
 =head2 GetParam()
 
-to get the value of a single request parameter. Per default, left and right trimming is performed
+to get the value of a single request parameter.
+URL and body parameters are merged. URL params are first. The first value is taken.
+For file uploads the entered file name is returned.
+Per default, left and right trimming is performed
 on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
@@ -159,42 +186,69 @@ on the returned value. The trimming can be turned of by passing the parameter C<
 
 When the parameter is not part of the query then C<undef> is returned.
 
+The parameters B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> are a special case.
+If the parameter corresponds to the request method, then the body of the request
+is returned.
+
 =cut
 
 sub GetParam {
     my ( $Self, %Param ) = @_;
 
-    my $Value = $Self->{Query}->param( $Param{Param} );
+    # TODO: document differences to 10.1
 
-    # Fallback to query string for mixed requests.
-    if ( !defined $Value ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            $Value = $Self->{Query}->url_param( $Param{Param} );
-        }
+    my $Key          = $Param{Param};
+    my $PlackRequest = $Self->{PlackRequest};
+
+    # special case for the body
+    my $Method = $PlackRequest->method;
+    if (
+        ( $Method eq 'POST' || $Method eq 'PUT' || $Method eq 'PATCH' )
+        &&
+        $Key eq "${Method}DATA"
+        )
+    {
+        # TODO: what about encoding
+        return $PlackRequest->content;
     }
 
+    # In rel-10_1 the method CGI::param() was used here. This method returnes the first value
+    # in the case of multi-valued parameters. But Hash::MultiValue::{} returns
+    # the last value. For the sake of compatablity the CGI.pm behavior is reproduced.
+    # Plack Request does no decoding, so pass a byte array as key.
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeOutput( \$Key );
+    my ($Value) = $PlackRequest->parameters->get_all($Key);
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Value );
 
-    my $Raw = $Param{Raw} // 0;
-    if ( !$Raw ) {
-
-        # If it is a plain string, perform trimming
-        if ( ref \$Value eq 'SCALAR' ) {
-            $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
-                StringRef => \$Value,
-                TrimLeft  => 1,
-                TrimRight => 1,
-            );
-        }
+    # Stay compatible with CGI.pm by checking for file uploads.
+    # The name of the file is returned when a file upload was found
+    if ( !defined $Value && $PlackRequest->uploads->{$Key} ) {
+        $Value = $PlackRequest->uploads->{$Key}->filename;
     }
+
+    # no string cleaning is needed for undefined values
+    return $Value unless defined $Value;
+
+    # no string cleaning when specifically so requested
+    return $Value if $Param{Raw};
+
+    # If it is a plain string, perform trimming
+    # TODO: can this ever happen ???
+    return $Value unless ref \$Value eq 'SCALAR';
+
+    $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
+        StringRef => \$Value,
+        TrimLeft  => 1,
+        TrimRight => 1,
+    );
 
     return $Value;
 }
 
 =head2 GetParamNames()
 
-to get names of all parameters passed to the script.
+to get the names of all parameters passed in the request.
+URL and body parameters are merged.
 
     my @ParamNames = $ParamObject->GetParamNames();
 
@@ -203,35 +257,21 @@ Example:
 Called URL: index.pl?Action=AdminSystemConfiguration;Subaction=Save;Name=Config::Option::Valid
 
     my @ParamNames = $ParamObject->GetParamNames();
-    print join " :: ", @ParamNames;
+    print join ' :: ', @ParamNames;
     #prints Action :: Subaction :: Name
+
+For multi value parameters the last value is returned. URL parameters come before body parameters.
 
 =cut
 
 sub GetParamNames {
     my $Self = shift;
 
-    # fetch all names
-    my @ParamNames = $Self->{Query}->param();
+    # TODO: document differences to 10.1
 
-    # Fallback to query string for mixed requests.
-    my $RequestMethod = $Self->{Query}->request_method() // '';
-    if ( $RequestMethod eq 'POST' ) {
-        my %POSTNames;
-        @POSTNames{@ParamNames} = @ParamNames;
-        my @GetNames = $Self->{Query}->url_param();
-        GETNAME:
-        for my $GetName (@GetNames) {
-            next GETNAME unless defined $GetName;
-            next GETNAME if exists $POSTNames{$GetName};
-
-            push @ParamNames, $GetName;
-        }
-    }
-
-    for my $Name (@ParamNames) {
-        $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Name );
-    }
+    # fetch all names, URL and body is already merged
+    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
+    $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@ParamNames );
 
     return @ParamNames;
 }
@@ -246,45 +286,54 @@ By default, trimming is performed on the data.
         Raw   => 1,     # optional, input data is not changed
     );
 
+URL and body parameters are merged. URL parameters come before body parameters
+
 =cut
 
 sub GetArray {
     my ( $Self, %Param ) = @_;
 
-    my @Values = $Self->{Query}->multi_param( $Param{Param} );
+    # TODO: document differences to 10.1
 
-    # Fallback to query string for mixed requests.
-    if ( !@Values ) {
-        my $RequestMethod = $Self->{Query}->request_method() // '';
-        if ( $RequestMethod eq 'POST' ) {
-            @Values = $Self->{Query}->url_param( $Param{Param} );
-        }
-    }
-
+    my @Values = $Self->{PlackRequest}->parameters->get_all( $Param{Param} );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
 
-    my $Raw = defined $Param{Raw} ? $Param{Raw} : 0;
+    return @Values if $Param{Raw};
 
-    if ( !$Raw ) {
+    # get check item object
+    my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
 
-        # get check item object
-        my $CheckItemObject = $Kernel::OM->Get('Kernel::System::CheckItem');
+    VALUE:
+    for my $Value (@Values) {
 
-        VALUE:
-        for my $Value (@Values) {
+        # don't validate objects from file uploads
+        next VALUE if !$Value || ref \$Value ne 'SCALAR';
 
-            # don't validate CGI::File::Temp objects from file uploads
-            next VALUE if !$Value || ref \$Value ne 'SCALAR';
-
-            $CheckItemObject->StringClean(
-                StringRef => \$Value,
-                TrimLeft  => 1,
-                TrimRight => 1,
-            );
-        }
+        $CheckItemObject->StringClean(
+            StringRef => \$Value,
+            TrimLeft  => 1,
+            TrimRight => 1,
+        );
     }
 
     return @Values;
+}
+
+=head2 Content
+
+Returns the request content in a raw byte string for POST requests.
+This is a wrapper around C<Plack::Requests::address()>.
+
+    my $RawBody = $ParamObject->Content();
+
+No parameters are handled.
+
+=cut
+
+sub Content {
+    my ($Self) = @_;
+
+    return $Self->{PlackRequest}->content;
 }
 
 =head2 GetUploadAll()
@@ -301,58 +350,38 @@ gets file upload data.
         Content     => 'Some text',
     );
 
+Returns an empty list when no uploaded file was found.
+
 =cut
 
 sub GetUploadAll {
     my ( $Self, %Param ) = @_;
 
     # get upload
-    my $Upload = $Self->{Query}->upload( $Param{Param} );
-    return if !$Upload;
+    my $Upload = $Self->{PlackRequest}->uploads->{ $Param{Param} };
 
-    # get real file name
-    my $UploadFilenameOrig = $Self->GetParam( Param => $Param{Param} ) || 'unknown';
+    return unless $Upload;
+
+    # get real file name from the Plack::Request::Upload object
+    my $UploadFilenameOrig = $Upload->filename;
 
     my $NewFileName = "$UploadFilenameOrig";    # use "" to get filename of anony. object
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$NewFileName );
 
     # replace all devices like c: or d: and dirs for IE!
+    # TODO: is this still needed ???
     $NewFileName =~ s/.:\\(.*)/$1/g;
     $NewFileName =~ s/.*\\(.+?)/$1/g;
 
-    # return a string
-    my $Content = '';
-    while (<$Upload>) {
-        $Content .= $_;
-    }
-    close $Upload;
-
-    my $ContentType = $Self->_GetUploadInfo(
-        Filename => $UploadFilenameOrig,
-        Header   => 'Content-Type',
-    );
+    # $Upload->path return the path to the temporary file
+    my $Content     = file( $Upload->path )->slurp;
+    my $ContentType = $Upload->content_type;
 
     return (
         Filename    => $NewFileName,
         Content     => $Content,
         ContentType => $ContentType,
     );
-}
-
-sub _GetUploadInfo {
-    my ( $Self, %Param ) = @_;
-
-    # get file upload info
-    my $FileInfo = $Self->{Query}->uploadInfo( $Param{Filename} );
-
-    # return if no upload info exists
-    return 'application/octet-stream' if !$FileInfo;
-
-    # return if no content type of upload info exists
-    return 'application/octet-stream' if !$FileInfo->{ $Param{Header} };
-
-    # return content type of upload info
-    return $FileInfo->{ $Param{Header} };
 }
 
 =head2 SetCookie()
@@ -402,53 +431,59 @@ get a cookie
 sub GetCookie {
     my ( $Self, %Param ) = @_;
 
-    return $Self->{Query}->cookie( $Param{Key} );
+    return $Self->{PlackRequest}->cookies->{ $Param{Key} };
 }
 
 =head2 RemoteAddr()
 
 get the remote address of the HTTP client.
-This is a wrapper around C<CGI::remote_addr()>.
+This is a wrapper around C<Plack::Requests::address()>.
 
     my $RemoteAddr = $ParamObject->RemoteAddr();
+
+No parameters are handled.
 
 =cut
 
 sub RemoteAddr {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->remote_addr(@Params);
+    return $Self->{PlackRequest}->address;
 }
 
 =head2 RemoteUser()
 
 get the remote user.
-This is a wrapper around C<CGI::remote_user()>.
+This is a wrapper around C<Plack::Request::user()>.
 
     my $RemoteUser = $ParamObject->RemoteUser();
+
+No parameters are handled.
 
 =cut
 
 sub RemoteUser {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->remote_user(@Params);
+    return $Self->{PlackRequest}->user;
 }
 
 =head2 ScriptName()
 
 return the script name as a partial URL, for self-referring scripts.
-This is a wrapper around C<CGI::script_name()>.
+This is a wrapper around C<Plack::Request::script_name()>.
 
     my $ScriptName = $ParamObject->ScriptName();
+
+No parameters are handled.
 
 =cut
 
 sub ScriptName {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
     # fix erroneous double slashes at the beginning of SCRIPT_NAME as it worked in OTRS
-    my $ScriptName = $Self->{Query}->script_name(@Params);
+    my $ScriptName = $Self->{PlackRequest}->script_name;
     $ScriptName =~ s{^//+}{/};
 
     return $ScriptName;
@@ -457,136 +492,172 @@ sub ScriptName {
 =head2 ServerProtocol()
 
 return info about the protocol.
-This is a wrapper around C<CGI::server_protocol()>.
+This is a wrapper of C<Plack::Request::protocol()>.
 
     my $ServerProtocol = $ParamObject->ServerProtocol();
+
+No parameters are handled.
 
 =cut
 
 sub ServerProtocol {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->server_protocol(@Params);
+    return $Self->{PlackRequest}->protocol;
 }
 
 =head2 ServerSoftware()
 
 return info which server is running.
-This is a wrapper around C<CGI::server_software()>.
+This is a re-implementation of C<CGI::server_software()>.
 
     my $ServerSoftware = $ParamObject->ServerSoftware();
+
+No parameters are handled.
 
 =cut
 
 sub ServerSoftware {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->server_software(@Params);
+    return $Self->{PlackRequest}->env->{SERVER_SOFTWARE};
 }
 
 =head2 RequestURI()
 
 Returns the interpreted pathname of the requested document or CGI (relative to the document root). Or undef if not set.
-This is a wrapper around C<CGI::request_uri()>.
+This is a wrapper around C<Plack::Request::request_uri()>.
 
     my $RequestURI = $ParamObject->RequestURI();
+
+No parameters are handled.
 
 =cut
 
 sub RequestURI {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->request_uri(@Params);
+    return $Self->{PlackRequest}->request_uri;
 }
 
 =head2 ContentType()
 
 Returns content-type header.
-This is a wrapper around C<CGI::content_type()>.
+This is a wrapper around C<Plack::Request::content_type()>.
 
     my $ContentType = $ParamObject->ContentType();
+
+No parameters are handled.
 
 =cut
 
 sub ContentType {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->content_type(@Params);
+    return $Self->{PlackRequest}->content_type;
 }
 
 =head2 QueryString()
 
 Returns the query string.
-This is a wrapper around C<CGI::query_string()>.
+This is a wrapper around C<Plack::Request::query_string()>.
 
     my $QueryString = $ParamObject->QueryString();
+
+No parameters are handled.
 
 =cut
 
 sub QueryString {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->query_string(@Params);
+    return $Self->{PlackRequest}->query_string;
 }
 
 =head2 RequestMethod()
 
-Usually either GET or POST.
-This is a wrapper around C<CGI::request_method()>.
+Most of the time either GET or POST.
+This is a wrapper around C<Plack::Request::method()>.
 
     my $RequestMethod = $ParamObject->RequestMethod();
+
+No parameters are handled.
 
 =cut
 
 sub RequestMethod {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->request_method(@Params);
+    return $Self->{PlackRequest}->method;
 }
 
 =head2 PathInfo()
 
 Returns additional path information from the script URL.
-This is a wrapper around C<CGI::path_info()>.
+This is a wrapper around C<Plack::Request::path_info()>.
 
     my $PathInfo = $ParamObject->PathInfo();
+
+No parameters are handled.
 
 =cut
 
 sub PathInfo {
-    my ( $Self, @Params ) = @_;
+    my ($Self) = @_;
 
-    return $Self->{Query}->path_info(@Params);
+    return $Self->{PlackRequest}->path_info;
 }
 
 =head2 HTTP()
 
 get the HTTP environment variable. Called with a single argument get the specific environment variable.
-This is a wrapper around C<CGI::http()>.
+This is a re-implementation of C<CGI::http()>.
 
     my $UserAgent = $ParamObject->HTTP('USER_AGENT');
 
 =cut
 
 sub HTTP {
-    my ( $Self, @Params ) = @_;
+    my ( $Self, $Parameter ) = @_;
 
-    return $Self->{Query}->http(@Params);
+    if ( defined $Parameter ) {
+        $Parameter =~ tr/-a-z/_A-Z/;
+        if ( $Parameter =~ m/^HTTP(?:_|$)/ ) {
+            return $Self->{PlackRequest}->env->{$Parameter};
+        }
+
+        return $Self->{PlackRequest}->env->{"HTTP_$Parameter"};
+    }
+
+    # return list of keys when no parameter was passed
+    return grep {m/^HTTP(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*;
 }
 
 =head2 HTTPS()
 
 same as HTTP(), but operate on the HTTPS environment variables.
-This is a wrapper around C<CGI::https()>.
+This is a re-implementation of C<CGI::https()>.
 
     my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
 
 =cut
 
 sub HTTPS {
-    my ( $Self, @Params ) = @_;
+    my ( $Self, $Parameter ) = @_;
 
-    return $Self->{Query}->https(@Params);
+    if ( defined $Parameter ) {
+        $Parameter =~ tr/-a-z/_A-Z/;
+        if ( $Parameter =~ m/^HTTPS(?:_|$)/ ) {
+            return $Self->{PlackRequest}->env->{$Parameter};
+        }
+
+        return $Self->{PlackRequest}->env->{"HTTPS_$Parameter"};
+    }
+
+    # return list of keys when no parameter was passed
+    return wantarray
+        ? grep {m/^HTTPS(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*
+        : $ENV{HTTPS};
 }
 
 =head2 IsAJAXRequest()
@@ -598,9 +669,11 @@ checks if the current request was sent by AJAX
 =cut
 
 sub IsAJAXRequest {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
-    return ( $Self->{Query}->http('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
+    # This method was broken in rel-10_1 such that 0 was always returned.
+    # Let's stay bug compatible for now.
+    return 0;
 }
 
 =head2 LoadFormDraft()
@@ -626,7 +699,7 @@ sub LoadFormDraft {
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
     );
-    return if !IsHashRefWithData($FormDraft);
+    return unless IsHashRefWithData($FormDraft);
 
     # Verify action.
     my $Action = $Self->GetParam( Param => 'Action' );
@@ -644,26 +717,23 @@ sub LoadFormDraft {
     for my $Key ( sort keys %{ $FormDraft->{FormData} } ) {
         my $Value = $FormDraft->{FormData}->{$Key} // '';
 
+        # TODO: avoid meddling with the innards of Plack::Request
+
         # array value
         if ( IsArrayRefWithData($Value) ) {
-            $Self->{Query}->param(
-                -name   => $Key,
-                -values => $Value,
-            );
+            $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value->@* );
+
             next KEY;
         }
 
         # scalar value
-        $Self->{Query}->param(
-            -name  => $Key,
-            -value => $Value,
-        );
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value );
     }
 
     # add UploadCache data
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
     for my $File ( @{ $FormDraft->{FileData} } ) {
-        return if !$UploadCacheObject->FormIDAddFile(
+        return unless $UploadCacheObject->FormIDAddFile(
             %{$File},
             FormID => $FormID,
         );
@@ -704,7 +774,7 @@ sub SaveFormDraft {
             Param => $Param,
         );
     }
-    return if !$MetaParams{Action};
+    return unless $MetaParams{Action};
 
     # determine session name param (SessionUseCookie = 0) for exclusion
     my $SessionName = $Kernel::OM->Get('Kernel::Config')->Get('SessionName') || 'SessionID';
@@ -752,7 +822,7 @@ sub SaveFormDraft {
         # get other values from param object
         if ( !defined $Value ) {
             my @Values = $Self->GetArray( Param => $Param );
-            next PARAM if !IsArrayRefWithData( \@Values );
+            next PARAM unless IsArrayRefWithData( \@Values );
 
             # store single occurances as string
             if ( scalar @Values == 1 ) {
@@ -787,12 +857,12 @@ sub SaveFormDraft {
 
     # update draft
     if ( $MetaParams{FormDraftID} ) {
-        return if !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftUpdate(%FormDraft);
+        return unless $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftUpdate(%FormDraft);
         return 1;
     }
 
     # create new draft
-    return if !$Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftAdd(%FormDraft);
+    return unless $Kernel::OM->Get('Kernel::System::FormDraft')->FormDraftAdd(%FormDraft);
     return 1;
 }
 

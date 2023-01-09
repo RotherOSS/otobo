@@ -14,6 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -22,14 +23,12 @@ use utf8;
 
 # CPAN modules
 use Test2::V0;
-use CGI;
+use HTTP::Request;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Transport;
-
-our $Self;
 
 # get encode object
 my $EncodeObject = $Kernel::OM->Get('Kernel::System::Encode');
@@ -55,7 +54,7 @@ my $DebuggerObject = Kernel::GenericInterface::Debugger->new(
 
 note('failing backend');
 
-{
+subtest 'TransportObject instantiated with an incorrect backend' => sub {
     my $TransportObject = Kernel::GenericInterface::Transport->new(
         DebuggerObject  => $DebuggerObject,
         TransportConfig => {
@@ -63,22 +62,10 @@ note('failing backend');
         },
     );
 
-    $Self->Is(
-        ref $TransportObject,
-        'HASH',
-        'TransportObject instantiated with an incorrect backend',
-    );
-
-    $Self->False(
-        $TransportObject->{Success},
-        'TransportObject instantiated with an incorrect backend, failure detected',
-    );
-
-    $Self->True(
-        $TransportObject->{ErrorMessage},
-        'TransportObject instantiated with an incorrect backend, error message provided',
-    );
-}
+    ref_ok( $TransportObject, 'HASH', 'got a hash reference' );
+    ok( !$TransportObject->{Success},     'failure detected' );
+    ok( $TransportObject->{ErrorMessage}, 'error message provided' );
+};
 
 # test backend
 for my $Fail ( 0 .. 1 ) {
@@ -92,9 +79,9 @@ for my $Fail ( 0 .. 1 ) {
         },
     );
 
-    $Self->Is(
-        ref $TransportObject,
-        'Kernel::GenericInterface::Transport',
+    isa_ok(
+        $TransportObject,
+        ['Kernel::GenericInterface::Transport'],
         "TransportObject instantiated with testing backend (Fail $Fail)",
     );
 
@@ -170,22 +157,15 @@ for my $Fail ( 0 .. 1 ) {
                 ok( $Result->{Success}, "success" );
 
                 for my $QueryStringPart ( split m{&}, $TestEntry->{ResultData} ) {
-                    $Self->True(
+                    ok(
                         index( $Result->{Data}->{ResponseContent}, $QueryStringPart ) > -1,
                         "result contains $QueryStringPart",
                     );
                 }
             }
             else {
-                $Self->False(
-                    $Result->{Success},
-                    "fail detected",
-                );
-
-                $Self->True(
-                    $Result->{ErrorMessage},
-                    "error message found",
-                );
+                ok( !$Result->{Success},     'fail detected' );
+                ok( $Result->{ErrorMessage}, 'error message found' );
             }
         };
     }
@@ -196,7 +176,7 @@ for my $Fail ( 0 .. 1 ) {
 
     my @PPRTestData = (
         {
-            Name           => "TransportObject ProviderProcessRequest()",
+            Name           => "TransportObject ProviderProcessRequest() single param",
             RequestContent => 'A=A',
             ResultData     => {
                 A => 'A',
@@ -205,7 +185,7 @@ for my $Fail ( 0 .. 1 ) {
             ResultSuccess => 1,
         },
         {
-            Name           => "TransportObject ProviderProcessRequest()",
+            Name           => "TransportObject ProviderProcessRequest() two params",
             RequestContent => 'A=A&b=b',
             ResultData     => {
                 A => 'A',
@@ -237,29 +217,23 @@ for my $Fail ( 0 .. 1 ) {
 
         subtest "$TestEntry->{Name} (Fail $Fail)" => sub {
 
+            # process the request with the dummy HTTP::Test transport object
             my ( $Result, $WebException );
             {
-                # prepare CGI environment variables
-                # %ENV will be picked up in CGI->new()
-                local $ENV{REQUEST_METHOD} = 'POST';
-                local $ENV{CONTENT_LENGTH} = length( $TestEntry->{RequestContent} );
-                local $ENV{CONTENT_TYPE}   = 'application/x-www-form-urlencoded; charset=utf-8;';
-
+                # prepare the test request
                 $EncodeObject->EncodeOutput( \$TestEntry->{RequestContent} );
-
-                # redirect STDIN from String so that the transport layer will use this data
-                local *STDIN;
-                open STDIN, '<:encoding(UTF-8)', \$TestEntry->{RequestContent};    ## no critic qw(OTOBO::ProhibitOpen)
-
-                # force the ParamObject to use the new request params
-                CGI::initialize_globals();
+                my $HTTPRequest = HTTP::Request->new(
+                    'POST',
+                    'http://www.example.com',
+                    [ 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8;' ],
+                    $TestEntry->{RequestContent},
+                );
                 $Kernel::OM->ObjectsDiscard( Objects => ['Kernel::System::Web::Request'] );
                 $Kernel::OM->ObjectParamAdd(
-                    'Kernel::System::Web::Request' => {
-                        WebRequest => CGI->new(),
-                    }
+                    'Kernel::System::Web::Request' => { HTTPRequest => $HTTPRequest }
                 );
 
+                # process
                 $Result = eval {
                     $TransportObject->ProviderProcessRequest();
                 };
@@ -268,34 +242,13 @@ for my $Fail ( 0 .. 1 ) {
 
             if ( !$Fail && $TestEntry->{ResultSuccess} ) {
                 is( $WebException, '', 'no exception' );
-
-                $Self->True(
-                    $Result->{Success},
-                    "success",
-                );
-
-                $Self->Is(
-                    $Result->{Operation},
-                    $TestEntry->{Operation},
-                    "operation",
-                );
-
-                $Self->IsDeeply(
-                    $Result->{Data},
-                    $TestEntry->{ResultData},
-                    "data result",
-                );
+                ok( $Result->{Success}, 'success' );
+                is( $Result->{Operation}, $TestEntry->{Operation},  "operation" );
+                is( $Result->{Data},      $TestEntry->{ResultData}, "data result" );
             }
             else {
-                $Self->False(
-                    $Result->{Success},
-                    "fail detected",
-                );
-
-                $Self->True(
-                    $Result->{ErrorMessage},
-                    "error message found",
-                );
+                ok( !$Result->{Success},     'fail detected' );
+                ok( $Result->{ErrorMessage}, 'error message found' );
             }
 
             #can_ok( $WebException, [ 'as_psgi' ], 'exception with as_psgi() method' );

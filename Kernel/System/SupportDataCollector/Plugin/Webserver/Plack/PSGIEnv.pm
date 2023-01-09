@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -52,11 +52,13 @@ sub Run {
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
-    return $Self->GetResults() unless $ParamObject->{Query};
-    return $Self->GetResults() unless $ParamObject->{Query}->can('env');
+    # no data when there is a strange or missing Plack::Request object
+    return $Self->GetResults() unless $ParamObject->{PlackRequest};
+    return $Self->GetResults() unless $ParamObject->{PlackRequest}->can('env');
 
-    # Accessing the Query attribute directly is a bit hackish
-    my $PSGIEnv = $ParamObject->{Query}->env();
+    # Accessing the PlackRequest attribute directly is a bit hackish,
+    # but acceptable for introspection.
+    my $PSGIEnv = $ParamObject->{PlackRequest}->env;
     KEY:
     for my $Key ( sort { $a cmp $b } keys $PSGIEnv->%* ) {
 

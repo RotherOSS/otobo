@@ -21,7 +21,7 @@ use utf8;
 # core modules
 
 # CPAN modules
-use CGI;
+use HTTP::Request::Common qw(GET);
 use Test2::V0;
 
 # OTOBO modules
@@ -208,16 +208,11 @@ my $ObjectHandlerObject = $Kernel::OM->Get('Kernel::System::DynamicField::Object
 TEST:
 for my $Test (@Tests) {
 
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{Request} // '',
-    );
-
     # force the ParamObject to use the new request params
-    CGI::initialize_globals();
+    my $QueryString = $Test->{Request} // '';
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
+            HTTPRequest => GET( 'http://example.com/example?' . $QueryString ),
         }
     );
 

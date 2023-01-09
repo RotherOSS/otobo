@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,13 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
-# This setting will be picked up whenever an instance of Kernel::System::Web::Request is created.
-local $ENV{SCRIPT_NAME} = 'index.pl';
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 my $Helper = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
@@ -33,6 +34,11 @@ $Kernel::OM->ObjectParamAdd(
         Lang      => 'de',
         SessionID => 123,
     },
+    $Kernel::OM->ObjectParamAdd(
+        'Kernel::System::Web::Request' => {
+            HTTPRequest => GET('/index.pl'),
+        }
+    ),
 );
 my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
@@ -250,7 +256,7 @@ my @Tests = (
     {
         Name => 'transform content charset',
         Data => {
-            Content => <<EOF,
+            Content => <<'EOF',
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html lang="de-de">
 <head>
@@ -273,7 +279,7 @@ EOF
         },
         LoadExternalImages => 1,
         Result             => {
-            Content => <<EOF,
+            Content => <<'EOF',
 <!DOCTYPE html SYSTEM "about:legacy-compat">
 <html lang="de-de">
 <head>
@@ -375,19 +381,21 @@ EOF
 );
 
 for my $Test (@Tests) {
-    my %HTML = $LayoutObject->RichTextDocumentServe(
-        %{$Test},
-    );
-    $Self->Is(
-        $HTML{Content},
-        $Test->{Result}->{Content},
-        "$Test->{Name} - Content"
-    );
-    $Self->Is(
-        $HTML{ContentType},
-        $Test->{Result}->{ContentType},
-        "$Test->{Name} - ContentType"
-    );
+    subtest $Test->{Name} => sub {
+        my %HTML = $LayoutObject->RichTextDocumentServe(
+            $Test->%*,
+        );
+        is(
+            $HTML{Content},
+            $Test->{Result}->{Content},
+            "Content"
+        );
+        is(
+            $HTML{ContentType},
+            $Test->{Result}->{ContentType},
+            'ContentType'
+        );
+    };
 }
 
-$Self->DoneTesting();
+done_testing;

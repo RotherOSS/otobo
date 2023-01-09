@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use utf8;
 
-use CGI;
+# core modules
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# CPAN modules
+use HTTP::Request::Common qw(GET);
+use Test2::V0;
 
-our $Self;
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -41,11 +43,7 @@ my $PriorityID = $Kernel::OM->Get('Kernel::System::Priority')->PriorityAdd(
     ValidID => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $PriorityID,
-    undef,
-    "PriorityAdd() for Priority $RandomID",
-);
+ok( defined $PriorityID, "PriorityAdd() for Priority $RandomID" );
 
 my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Name            => $RandomID,
@@ -57,11 +55,7 @@ my $QueueID = $Kernel::OM->Get('Kernel::System::Queue')->QueueAdd(
     Comment         => 'Some comment',
     UserID          => 1,
 );
-$Self->IsNot(
-    $QueueID,
-    undef,
-    "QueueAdd() for Queue $RandomID",
-);
+ok( defined $QueueID, "QueueAdd() for Queue $RandomID" );
 
 my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateAdd(
     Name    => $RandomID,
@@ -70,22 +64,14 @@ my $StateID = $Kernel::OM->Get('Kernel::System::State')->StateAdd(
     TypeID  => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $StateID,
-    undef,
-    "StateAdd() for State $RandomID",
-);
+ok( defined $StateID, "StateAdd() for State $RandomID" );
 
 my $TypeID = $Kernel::OM->Get('Kernel::System::Type')->TypeAdd(
     Name    => $RandomID,
     ValidID => 1,
     UserID  => 1,
 );
-$Self->IsNot(
-    $TypeID,
-    undef,
-    "TypeAdd() for Type $RandomID",
-);
+ok( defined $TypeID, "TypeAdd() for Type $RandomID" );
 
 my @Tests = (
     {
@@ -169,17 +155,11 @@ my @Tests = (
 TEST:
 for my $Test (@Tests) {
 
-    # used in Kernel::System::Web::Request::new()
-    local %ENV = (
-        REQUEST_METHOD => 'GET',
-        QUERY_STRING   => $Test->{QueryString} // '',
-    );
-
     # force the ParamObject to use the new request params
-    CGI::initialize_globals();
+    my $QueryString = $Test->{QueryString} // '';
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Web::Request' => {
-            WebRequest => CGI->new(),
+            HTTPRequest => GET( 'http://example.com/example?' . $QueryString ),
         }
     );
 
@@ -189,19 +169,12 @@ for my $Test (@Tests) {
     );
 
     if ( !$Test->{Success} ) {
-        $Self->Is(
-            $EntityName,
-            undef,
-            "$Test->{Name} EntityLookupFromWebRequest() - EntityName (No Success)",
-        );
+        ok( !defined $EntityName, "$Test->{Name} EntityLookupFromWebRequest() - EntityName (No Success)" );
+
         next TEST;
     }
 
-    $Self->Is(
-        $EntityName,
-        $Test->{ExpectedValue},
-        "$Test->{Name} EntityLookupFromWebRequest() - EntityName",
-    );
+    is( $EntityName, $Test->{ExpectedValue}, "$Test->{Name} EntityLookupFromWebRequest() - EntityName" );
 }
 continue {
     $Kernel::OM->ObjectsDiscard(
@@ -209,4 +182,4 @@ continue {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

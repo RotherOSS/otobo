@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -34,7 +34,6 @@ my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive 
 
 $Selenium->RunTest(
     sub {
-
         my $Helper        = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
         my $SLAObject     = $Kernel::OM->Get('Kernel::System::SLA');
@@ -50,10 +49,10 @@ $Selenium->RunTest(
             # SLA data
             SLAs => [
                 {
-                    Name => "TestSLA - " . $Helper->GetRandomID(),
+                    Name => 'TestSLA - ' . $Helper->GetRandomID(),
                 },
                 {
-                    Name => "TestSLA - " . $Helper->GetRandomID(),
+                    Name => 'TestSLA - ' . $Helper->GetRandomID(),
                 },
             ],
         };
@@ -67,10 +66,10 @@ $Selenium->RunTest(
         # Add Services.
         my @ServiceIDs;
         SERVICE:
-        for my $Service ( @{ $Config->{Services} } ) {
+        for my $Service ( $Config->{Services}->@* ) {
 
-            next SERVICE if !$Service;
-            next SERVICE if !%{$Service};
+            next SERVICE unless $Service;
+            next SERVICE unless $Service->%*;
 
             my $ServiceID = $ServiceObject->ServiceAdd(
                 %{$Service},
@@ -99,8 +98,8 @@ $Selenium->RunTest(
         SLA:
         for my $SLA ( @{ $Config->{SLAs} } ) {
 
-            next SLA if !$SLA;
-            next SLA if !%{$SLA};
+            next SLA unless $SLA;
+            next SLA unless $SLA->%*;
 
             my $SLAID = $SLAObject->SLAAdd(
                 %{$SLA},
@@ -172,11 +171,11 @@ $Selenium->RunTest(
             Format      => 'D3::BarChart',
         );
 
-        # Check for imported values on test stat.
+        # Check for the imported values on test stat.
         for my $StatsValue ( sort keys %StatsValues ) {
-            ok(
-                index( $Selenium->get_page_source(), $StatsValues{$StatsValue} ) > -1,
-                "expected param $StatsValue for imported stat is found - $StatsValues{$StatsValue}"
+            $Selenium->content_contains(
+                $StatsValues{$StatsValue},
+                "found expected param $StatsValue for imported stat - $StatsValues{$StatsValue}"
             );
         }
 
