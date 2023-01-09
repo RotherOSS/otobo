@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -503,17 +503,17 @@ sub TableAlter {
 
             # remove possible default
             push @SQL, sprintf(
-                <<END
+                <<'END_SQL'
                 DECLARE \@defname%s VARCHAR(200), \@cmd%s VARCHAR(2000)
-                SET \@defname%s = (
+                SET @defname%s = (
                     SELECT name FROM sysobjects so JOIN sysconstraints sc ON so.id = sc.constid
                     WHERE object_name(so.parent_obj) = '%s' AND so.xtype = 'D' AND sc.colid = (
                         SELECT colid FROM syscolumns WHERE id = object_id('%s') AND name = '%s'
                     )
                 )
-                SET \@cmd%s = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname%s
-                EXEC(\@cmd%s)
-END
+                SET @cmd%s = 'ALTER TABLE %s DROP CONSTRAINT ' + \@defname%s
+                EXEC(@cmd%s)
+END_SQL
                 ,       $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table,
                 $Table, $Tag->{Name},          $Table . $Tag->{Name}, $Table,                $Table . $Tag->{Name},
                 $Table . $Tag->{Name},
@@ -521,19 +521,19 @@ END
 
             # remove all possible constrains
             push @SQL, sprintf(
-                <<HEREDOC
-                    DECLARE \@sql%s NVARCHAR(4000)
+                <<'END_SQL'
+                    DECLARE @sql%s NVARCHAR(4000)
 
                     WHILE 1=1
                     BEGIN
-                        SET \@sql%s = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
+                        SET @sql%s = (SELECT TOP 1 'ALTER TABLE %s DROP CONSTRAINT [' + constraint_name + ']'
                         -- SELECT *
                         FROM information_schema.CONSTRAINT_COLUMN_USAGE where table_name='%s' and column_name='%s'
                         )
-                        IF \@sql%s IS NULL BREAK
-                        EXEC (\@sql%s)
+                        IF @sql%s IS NULL BREAK
+                        EXEC (@sql%s)
                     END
-HEREDOC
+END_SQL
                 , $Table . $Tag->{Name}, $Table . $Tag->{Name}, $Table, $Table, $Tag->{Name},
                 $Table . $Tag->{Name}, $Table . $Tag->{Name},
             );
