@@ -82,7 +82,7 @@ $Self->True(
 );
 
 # Prepare two new file-type config settings.
-my $ValidSettingXML = <<"EOF",
+my $ValidSettingXML = <<"END_XML";
 <?xml version="1.0" encoding="utf-8" ?>
 <otobo_config version="2.0" init="Framework">
     <Setting Name="Test1" Required="1" Valid="1">
@@ -100,10 +100,10 @@ my $ValidSettingXML = <<"EOF",
         </Value>
     </Setting>
 </otobo_config>
-EOF
+END_XML
 
-    my $ConfigFileLocation = $ConfigObject->Get('Home') . '/Kernel/Config/Files/XML/UnitTest' . $HelperObject->GetRandomNumber() . '.xml';
-my $ConfigFileWriteOk = $MainObject->FileWrite(
+my $ConfigFileLocation = $ConfigObject->Get('Home') . '/Kernel/Config/Files/XML/UnitTest' . $HelperObject->GetRandomNumber() . '.xml';
+my $ConfigFileWriteOk  = $MainObject->FileWrite(
     Location => $ConfigFileLocation,
     Content  => \$ValidSettingXML,
 );
