@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -37,7 +37,7 @@ my @Tests = (
         Name       => 'Simple test, no hooks',
         HookConfig => {},
         Blocks     => [qw(Block1 Block11 Block1 Block2)],
-        Result     => <<EOF,
+        Result     => <<'EOF',
 Content1
 Content11
 Content1
@@ -56,7 +56,7 @@ EOF
             },
         },
         Blocks => [qw(Block1 Block11 Block1 Block2)],
-        Result => <<EOF,
+        Result => <<'EOF',
 <!--HookStartBlock1-->
 Content1
 Content11
@@ -81,7 +81,7 @@ EOF
             },
         },
         Blocks => [qw(Block1 Block11 Block1 Block2)],
-        Result => <<EOF,
+        Result => <<'EOF',
 <!--HookStartBlock1-->
 Content1
 <!--HookStartBlock11-->

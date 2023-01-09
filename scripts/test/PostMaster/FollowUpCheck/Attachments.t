@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -89,7 +89,7 @@ my $Subject = $TicketObject->TicketSubjectBuild(
 my @Tests = (
     {
         Name  => 'Ticket number in body, no attachments (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Subject: Test
@@ -101,7 +101,7 @@ EOF
     },
     {
         Name  => 'Ticket number in body of HTML email, no attachments (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 From: Customer <$CustomerAddress>
 To: Agent <$AgentAddress>
 Content-Type: text/html; charset="iso-8859-1"; format=flowed
@@ -114,7 +114,7 @@ EOF
     },
     {
         Name  => 'Plain email, ticket number in body, attachment without ticket number (new ticket)',
-        Email => <<EOF,
+        Email => <<"EOF",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -144,7 +144,7 @@ EOF
     },
     {
         Name  => 'Plain email, attachment with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Date: Thu, 21 Jun 2012 17:06:27 +0200
 From: "Peter Pruchnerovic - MALL.cz" <peter.pruchnerovic\@mall.cz>
 MIME-Version: 1.0
@@ -174,7 +174,7 @@ EOF
     },
     {
         Name  => 'HTML email, body with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200
@@ -226,7 +226,7 @@ EOF
 
     {
         Name  => 'HTML email, attachment with ticket number',
-        Email => <<EOF,
+        Email => <<"EOF",
 Content-Type: multipart/alternative; boundary="Apple-Mail=_BA4B97EF-C2DC-42FB-BF6F-A71DBDC93F10"
 Subject: test multipart/mixed HTML
 Date: Fri, 9 Sep 2016 09:03:57 +0200

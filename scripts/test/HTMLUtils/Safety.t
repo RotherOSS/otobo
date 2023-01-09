@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -472,14 +472,14 @@ PT
     },
     {
         Name  => 'Safety - UTF7 tags',
-        Input => <<EOF,
+        Input => <<'EOF',
 script:+ADw-script+AD4-alert(1);+ADw-/script+AD4-
 applet:+ADw-applet+AD4-alert(1);+ADw-/applet+AD4-
 embed:+ADw-embed src=test+AD4-
 object:+ADw-object+AD4-alert(1);+ADw-/object+AD4-
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 script:
 applet:
 embed:
@@ -489,12 +489,12 @@ EOF
         },
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <div style="width: expression(alert(\'XSS\');); height: 200px;" style="width: 400px">
 <div style='width: expression(alert("XSS");); height: 200px;' style='width: 400px'>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <div style="width: 400px">
 <div style='width: 400px'>
 EOF
@@ -503,11 +503,11 @@ EOF
         Name => 'Safety - Filter out MS CSS expressions'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <div><XSS STYLE="xss:expression(alert('XSS'))"></div>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <div><XSS></div>
 EOF
             Replace => 1,
@@ -515,11 +515,11 @@ EOF
         Name => 'Safety - Microsoft CSS expression on invalid tag'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <div class="svg"><svg some-attribute evil="true"><someevilsvgcontent></svg></div>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <div class="svg"></div>
 EOF
             Replace => 1,
@@ -527,11 +527,11 @@ EOF
         Name => 'Safety - Filter out SVG'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <div><script ></script ><applet ></applet ></div >
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <div></div >
 EOF
             Replace => 1,
@@ -539,7 +539,7 @@ EOF
         Name => 'Safety - Closing tag with space'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <style type="text/css">
 div > span {
     width: 200px;
@@ -557,7 +557,7 @@ div > span > div {
 </style>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <style type="text/css">
 div > span {
     width: 200px;
@@ -575,13 +575,13 @@ EOF
         Name => 'Safety - Style tags with CSS expressions are filtered out'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <s<script>...</script><script>...<cript type="text/javascript">
 document.write("Hello World!");
 </s<script>//<cript>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 
 EOF
             Replace => 1,
@@ -589,13 +589,13 @@ EOF
         Name => 'Safety - Nested script tags'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img src="/img1.png"/>
 <iframe src="  javascript:alert('XSS Exploit');"></iframe>
 <img src="/img2.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <img src="/img1.png"/>
 <iframe src=""></iframe>
 <img src="/img2.png"/>
@@ -605,7 +605,7 @@ EOF
         Name => 'Safety - javascript source with space'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img src="/img1.png"/>
 <iframe src='  javascript:alert(
     "XSS Exploit"
@@ -613,7 +613,7 @@ EOF
 <img src="/img2.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <img src="/img1.png"/>
 <iframe src=""></iframe>
 <img src="/img2.png"/>
@@ -623,13 +623,13 @@ EOF
         Name => 'Safety - javascript source with space'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img src="/img1.png"/>
 <iframe src=javascript:alert('XSS_Exploit');></iframe>
 <img src="/img2.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <img src="/img1.png"/>
 <iframe src=""></iframe>
 <img src="/img2.png"/>
@@ -639,13 +639,13 @@ EOF
         Name => 'Safety - javascript source without delimiters'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img src="/img1.png"/>
 <iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
 <img src="/img2.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <img src="/img1.png"/>
 <iframe src="" data-src="javascript:alert('XSS Exploit');"></iframe>
 <img src="/img2.png"/>
@@ -655,14 +655,14 @@ EOF
         Name => 'Safety - javascript source in data tag, keep'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 Some
 <META HTTP-EQUIV="Refresh" CONTENT="2;
 URL=http://www.rbrasileventos.com.br/9asdasd/">
 Content
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 Some
 
 Content
@@ -672,11 +672,11 @@ EOF
         Name => 'Safety - meta refresh tag removed'
     },
     {
-        Input => <<EOF,
+        Input => <<"EOF",
 <img/onerror="alert(\'XSS1\')"src=a>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <img>
 EOF
             Replace => 1,
@@ -684,11 +684,11 @@ EOF
         Name => 'Safety - / as attribute delimiter'
     },
     {
-        Input => <<EOF,
+        Input => <<"EOF",
 <iframe src=javasc&#x72ipt:alert(\'XSS2\') >
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <iframe src="" >
 EOF
             Replace => 1,
@@ -696,11 +696,11 @@ EOF
         Name => 'Safety - entity encoding in javascript attribute'
     },
     {
-        Input => <<EOF,
+        Input => <<"EOF",
 <iframe/src=javasc&#x72ipt:alert(\'XSS2\') >
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <iframe/src="" >
 EOF
             Replace => 1,
@@ -708,11 +708,11 @@ EOF
         Name => 'Safety - entity encoding in javascript attribute with / separator'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img src="http://example.com/image.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 
 EOF
             Replace => 1,
@@ -720,11 +720,11 @@ EOF
         Name => 'Safety - external image'
     },
     {
-        Input => <<EOF,
+        Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 
 EOF
             Replace => 1,
@@ -766,14 +766,14 @@ for my $Test (@Tests) {
 @Tests = (
     {
         Name  => 'Safety - img tag',
-        Input => <<EOF,
+        Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
         Config => {
             NoImg => 1,
         },
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 
 EOF
             Replace => 1,
@@ -781,7 +781,7 @@ EOF
     },
     {
         Name  => 'Safety - img tag replacement',
-        Input => <<EOF,
+        Input => <<'EOF',
 <img/src="http://example.com/image.png"/>
 EOF
         Config => {
@@ -789,7 +789,7 @@ EOF
             ReplacementStr => '...'
         },
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 ...
 EOF
             Replace => 1,
@@ -797,7 +797,7 @@ EOF
     },
     {
         Name  => 'Safety - Filter out SVG replacement',
-        Input => <<EOF,
+        Input => <<'EOF',
 <div class="svg"><svg some-attribute evil="true"><someevilsvgcontent></svg></div>
 EOF
         Config => {
@@ -805,7 +805,7 @@ EOF
             ReplacementStr => '...'
         },
         Result => {
-            Output => <<EOF,
+            Output => <<'EOF',
 <div class="svg">...</div>
 EOF
             Replace => 1,
