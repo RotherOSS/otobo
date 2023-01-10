@@ -24,10 +24,8 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
-
-use vars (qw($Self));
 
 # standard variables
 my $ExpectedTestResults = {};
@@ -40,24 +38,24 @@ my $RunTests = sub {
 
         # variable names defined for this function should return 1
         if ( $ExpectedResults->{$VariableKey} ) {
-            $Self->True(
-                ( \&$FunctionName )->( $Variables->{$VariableKey} ) || 0,
+            ok(
+                ( \&$FunctionName )->( $Variables->{$VariableKey} ),
                 "VariableCheck $FunctionName True ($VariableKey)",
             );
         }
 
         # variable names not defined for this function should return undef
         else {
-            $Self->False(
-                ( \&$FunctionName )->( $Variables->{$VariableKey} ) || 0,
+            ok(
+                !( \&$FunctionName )->( $Variables->{$VariableKey} ),
                 "VariableCheck $FunctionName False ($VariableKey)",
             );
         }
     }
 
     # all functions should only accept a single param
-    $Self->False(
-        ( \&$FunctionName )->( undef, undef ) || 0,
+    ok(
+        !( \&$FunctionName )->( undef, undef ),
         "VariableCheck $FunctionName False (Array)",
     );
 
@@ -946,7 +944,7 @@ my $Scalar2 = {
 my $Count1 = 0;
 for my $Value1 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
     $Count1++;
-    $Self->Is(
+    is(
         scalar DataIsDifferent(
             Data1 => $Value1,
             Data2 => $Value1
@@ -962,7 +960,7 @@ for my $Value1 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scala
 
         next VALUE2 if $Count1 == $Count2;
 
-        $Self->Is(
+        is(
             scalar DataIsDifferent(
                 Data1 => $Value1,
                 Data2 => $Value2
