@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-06 06:43+0000\n"
+"PO-Revision-Date: 2023-01-10 21:44+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -16875,112 +16875,120 @@ msgstr "إعداد NLS_LANG"
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8)."
 msgstr ""
+"يجب تعيين NLS_LANG إلى al32utf8 (على سبيل المثال، GERMAN_GERMANY. AL32UTF8)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting"
-msgstr ""
+msgstr "إعداد NLS_DATE_FORMAT"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT must be set to 'YYYY-MM-DD HH24:MI:SS'."
-msgstr ""
+msgstr "يجب تعيين NLS_DATE_FORMAT إلى 'YYYY-MM-DD HH24:MI:SS'."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
 msgid "NLS_DATE_FORMAT Setting SQL Check"
-msgstr ""
+msgstr "إعداد NLS_DATE_FORMAT فحص SQL"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid "Primary Key Sequences and Triggers"
-msgstr ""
+msgstr "سلاسل المفاتيح الأساسية والمشغلات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
 msgid ""
 "The following sequences and/or triggers with possible wrong names have been "
 "found. Please rename them manually."
 msgstr ""
+"تم العثور على التسلسلات و/أو المشغلات التالية التي قد تكون أسماء غير صحيحة. "
+"الرجاء تغيير الأسماء يدويا."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting client_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "يجب أن يكون إعداد client_encoding UNICODE أو UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
 msgid "Setting server_encoding needs to be UNICODE or UTF8."
-msgstr ""
+msgstr "يجب أن يكون الإعداد server_encoding UNICODE أو UTF8."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Date Format"
-msgstr ""
+msgstr "تنسيق التاريخ"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
 msgid "Setting DateStyle needs to be ISO."
-msgstr ""
+msgstr "يجب أن يكون إعداد DateStyle هو ISO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid "Primary Key Sequences"
-msgstr ""
+msgstr "تسلسلات المفاتيح الأساسية"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
 msgid ""
 "The following sequences with possible wrong names have been found. Please "
 "rename them manually."
 msgstr ""
+"تم العثور على التسلسلات التالية التي قد تكون أسماء غير صحيحة. الرجاء تغيير "
+"الأسماء يدويا."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
 msgid "PostgreSQL 9.2 or higher is required."
-msgstr ""
+msgstr "مطلوب PostgreSQL 9. 2 أو أعلى."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Certificate check"
-msgstr ""
+msgstr "التحقق من الشهادة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
-msgstr ""
+msgstr "تم العثور على وظيفة تشفير قديمة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
-msgstr ""
+msgstr "قسم القرص الثابت ل OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
 msgid "Disk Partitions Usage"
-msgstr ""
+msgstr "تخصيص أقسام القرص الصلب"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Distribution"
-msgstr ""
+msgstr "تَوْزِيعٌ"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
 msgid "Could not determine distribution."
-msgstr ""
+msgstr "لا يمكن تحديد التوزيع."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
 msgid "Kernel Version"
-msgstr ""
+msgstr "إصدار النواة (Kernel)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
 msgid "Could not determine kernel version."
-msgstr ""
+msgstr "تعذر تحديد إصدار النواة (kernel)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid "System Load"
-msgstr ""
+msgstr "حمل النظام (load)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
 msgid ""
 "The system load should be at maximum the number of CPUs the system has (e.g. "
 "a load of 8 or less on a system with 8 CPUs is OK)."
 msgstr ""
+"يجب أن يكون حمل النظام في الحد الأقصى لعدد وحدات المعالجة المركزية (CPU) "
+"الموجودة في النظام (على سبيل المثال، لا بأس بحمل يبلغ 8 أو أقل على نظام "
+"يحتوي على 8 وحدات معالجة مركزية (CPU))."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Perl Modules"
-msgstr ""
+msgstr "وحدات بيرل (Perl)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
 msgid "Not all required Perl modules are correctly installed."
-msgstr ""
+msgstr "لم يتم تثبيت جميع وحدات Perl المطلوبة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid "Perl Modules Audit"
-msgstr ""
+msgstr "تدقيق وحدة بيرل (Perl)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
@@ -16988,152 +16996,155 @@ msgid ""
 "vulnerabilities. Please note that there might be false positives for "
 "distributions patching Perl modules without changing their version number."
 msgstr ""
+"CPAN :: ذكرت المراجعة أن واحدة أو أكثر من وحدات Perl المثبتة بها نقاط ضعف "
+"معروفة. يرجى ملاحظة أنه قد تكون هناك إيجابيات خاطئة للتوزيعات التي تقوم "
+"بتصحيح وحدات Perl دون تغيير رقم الإصدار الخاص بها."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
 msgid ""
 "CPAN::Audit did not report any known vulnerabilities in the installed Perl "
 "modules."
-msgstr ""
+msgstr "CPAN::لم يبلغ التدقيق عن أي ثغرات أمنية معروفة في وحدات Perl المثبتة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Free Swap Space (%)"
-msgstr ""
+msgstr "مساحة التبادل الحرة (%)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "No swap enabled."
-msgstr ""
+msgstr "لم يتم تمكين التبديل."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "Used Swap Space (MB)"
-msgstr ""
+msgstr "المساحة المتبادلة المستخدمة (ميغابايت)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be more than 60% free swap space."
-msgstr ""
+msgstr "يجب أن يكون هناك أكثر من 60% من مساحة المبادلة المتاحة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
 msgid "There should be no more than 200 MB swap space used."
-msgstr ""
+msgstr "يجب ألا تكون هناك مساحة تبادل أكثر من 200 ميغابايت مستخدمة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "OTOBO"
-msgstr ""
+msgstr "OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Article Search Index Status"
-msgstr ""
+msgstr "حالة فهرس البحث عن التذاكر"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
 msgid "Indexed Articles"
-msgstr ""
+msgstr "المقالات المفهرسة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
 msgid "Articles Per Communication Channel"
-msgstr ""
+msgstr "مقالات لكل قناة اتصال"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Incoming communications"
-msgstr ""
+msgstr "الاتصالات الواردة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Outgoing communications"
-msgstr ""
+msgstr "الاتصالات الصادرة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Failed communications"
-msgstr ""
+msgstr "الاتصالات الفاشلة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
 msgid "Average processing time of communications (s)"
-msgstr ""
+msgstr "متوسط وقت معالجة الاتصالات (المراسلات)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "Communication Log Account Status (last 24 hours)"
-msgstr ""
+msgstr "حالة حساب سجل الاتصالات (آخر 24 ساعة)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "No connections found."
-msgstr ""
+msgstr "لم يتم العثور على إتصالات."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "ok"
-msgstr ""
+msgstr "OK"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "permanent connection errors"
-msgstr ""
+msgstr "أخطاء الاتصال المستمرة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
 msgid "intermittent connection errors"
-msgstr ""
+msgstr "خطأ اتصال مؤقت"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Config Settings"
-msgstr ""
+msgstr "إعدادات التكوين"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
 msgid "Could not determine value."
-msgstr ""
+msgstr "تعذر تحديد القيمة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon"
-msgstr ""
+msgstr "Daemon"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is running."
-msgstr ""
+msgstr "البرنامج (Daemon) قيد التشغيل."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
 msgid "Daemon is not running."
-msgstr ""
+msgstr "البرنامج (Daemon) لا يعمل."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Database Records"
-msgstr ""
+msgstr "إدخالات قاعدة البيانات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Ticket History Entries"
-msgstr ""
+msgstr "إدخالات محفوظات التذاكر"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Articles"
-msgstr ""
+msgstr "مقالة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Attachments (DB, Without HTML)"
-msgstr ""
+msgstr "المرفقات (في قاعدة البيانات، بدون HTML)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Customers With At Least One Ticket"
-msgstr ""
+msgstr "العملاء الذين لديهم تذكرة واحدة على الأقل"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Dynamic Field Values"
-msgstr ""
+msgstr "القيم في الحقول الديناميكية"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Fields"
-msgstr ""
+msgstr "الحقول الديناميكية غير صالحة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Invalid Dynamic Field Values"
-msgstr ""
+msgstr "القيم في الحقول الديناميكية غير صحيحة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "GenericInterface Webservices"
-msgstr ""
+msgstr "خدمات ويب ل GenericInterface"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Process Tickets"
-msgstr ""
+msgstr "تذاكر العمليات"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Months Between First And Last Ticket"
-msgstr ""
+msgstr "شهور بين التذكرة الأولى والأخيرة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Tickets Per Month (avg)"
-msgstr ""
+msgstr "التذاكر في الشهر (متوسط)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Open Tickets"
