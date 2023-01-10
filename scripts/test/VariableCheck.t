@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $Self and $Kernel::OM
+use Kernel::System::VariableCheck qw(:all);
 
 use vars (qw($Self));
-
-use Kernel::System::VariableCheck qw(:all);
 
 # standard variables
 my $ExpectedTestResults = {};
@@ -970,7 +974,8 @@ for my $Value1 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scala
 }
 
 # Test DataIsDifferent() when parameters are undef (see bug#14008).
-my @Tests = (
+my $Blessed = bless {}, 'Some::Name::Space';
+my @Tests   = (
     {
         Description => 'DataIsDifferent() - Data1 is undef, Data2 is scalar',
         Data1       => undef,
@@ -1055,10 +1060,40 @@ my @Tests = (
         Data2       => {},
         Result      => 1,
     },
+    {
+        Description => q{DataIsDifferent() 1.2 stringifies to '1.2'},
+        Data1       => 1.2,
+        Data2       => '1.2',
+        Result      => undef,
+    },
+    {
+        Description => q{DataIsDifferent() 1.2 does not stringify to '1.20'},
+        Data1       => 1.2,
+        Data2       => '1.20',
+        Result      => 1,
+    },
+    {
+        Description => q{DataIsDifferent() blessed objects compare as different'},
+        Data1       => $Blessed,
+        Data2       => $Blessed,
+        Result      => 1,
+    },
+    {
+        Description => q{DataIsDifferent() does string comparison within ARRAY'},
+        Data1       => [$Blessed],
+        Data2       => [$Blessed],
+        Result      => undef,
+    },
+    {
+        Description => q{DataIsDifferent() does string comparison within HASH'},
+        Data1       => { Key => $Blessed },
+        Data2       => { Key => $Blessed },
+        Result      => undef,
+    },
 );
 
 for my $Test (@Tests) {
-    $Self->Is(
+    is(
         scalar DataIsDifferent(
             Data1 => $Test->{Data1},
             Data2 => $Test->{Data2},
@@ -1068,4 +1103,4 @@ for my $Test (@Tests) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;
