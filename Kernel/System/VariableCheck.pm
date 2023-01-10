@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -275,9 +275,10 @@ returns 1 if data matches criteria or undef otherwise
 sub IsIPv4Address {
     my $TestData = $_[0];
 
-    return if !IsStringWithData(@_);
-    return if $TestData !~ m{ \A [\d\.]+ \z }xms;
-    my @Part = split '\.', $TestData;
+    return unless IsStringWithData(@_);
+    return unless $TestData =~ m{ \A [\d\.]+ \z }xms;
+
+    my @Part = split /\./, $TestData;
 
     # four parts delimited by '.' needed
     return if scalar @Part ne 4;
@@ -309,10 +310,10 @@ returns 1 if data matches criteria or undef otherwise
 sub IsIPv6Address {
     my $TestData = $_[0];
 
-    return if !IsStringWithData(@_);
+    return unless IsStringWithData(@_);
 
     # only hex characters (0-9,A-Z) plus separator ':' allowed
-    return if $TestData !~ m{ \A [\da-f:]+ \z }xmsi;
+    return unless $TestData =~ m{ \A [\da-f:]+ \z }xmsi;
 
     # special case - equals only zeroes
     return 1 if $TestData eq '::';
@@ -334,7 +335,7 @@ sub IsIPv6Address {
         $TestData .= 'X';
         $SkipLast = 1;
     }
-    my @Part = split ':', $TestData;
+    my @Part = split /:/, $TestData;
     if ($SkipFirst) {
         shift @Part;
     }
