@@ -375,15 +375,25 @@ sub ObjectLookupSet {
 Gets the object lookup information.
 
     my $Result = $CommunicationLogObject->ObjectLookupGet(
-        TargetObjectID   => '...',
-        TargetObjectType => '...',
+        ObjectLogID      => 123,           # (optional)
+        TargetObjectID   => 456,           # (optional)
+        TargetObjectType => 'Article',     # (required)
     );
+
+Either C<ObjectLogID> or C<TargetObjectID> must be passed along with C<TargetObjectType>.
 
 Returns:
 
+    $Result = {
+        CommunicationID  => '...',
+        ObjectLogID      => '...',
+        TargetObjectType => '...',
+        TargetObjectID   => '...',
+    }
+
     <undef> - if any error occur
     An hashref with object lookup information - in case info exists
-    An empty hasref                           - in case info doesn't exists
+    An empty hashref                          - in case info doesn't exists
 
 =cut
 
