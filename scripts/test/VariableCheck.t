@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,11 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
 
 # standard variables
@@ -36,24 +38,24 @@ my $RunTests = sub {
 
         # variable names defined for this function should return 1
         if ( $ExpectedResults->{$VariableKey} ) {
-            $Self->True(
-                ( \&$FunctionName )->( $Variables->{$VariableKey} ) || 0,
+            ok(
+                ( \&$FunctionName )->( $Variables->{$VariableKey} ),
                 "VariableCheck $FunctionName True ($VariableKey)",
             );
         }
 
         # variable names not defined for this function should return undef
         else {
-            $Self->False(
-                ( \&$FunctionName )->( $Variables->{$VariableKey} ) || 0,
+            ok(
+                !( \&$FunctionName )->( $Variables->{$VariableKey} ),
                 "VariableCheck $FunctionName False ($VariableKey)",
             );
         }
     }
 
     # all functions should only accept a single param
-    $Self->False(
-        ( \&$FunctionName )->( undef, undef ) || 0,
+    ok(
+        !( \&$FunctionName )->( undef, undef ),
         "VariableCheck $FunctionName False (Array)",
     );
 
@@ -918,6 +920,11 @@ my %Hash1 = (
 my %Hash2 = %Hash1;
 $Hash2{AdditionalKey} = 1;
 
+# This is a case that was encountered when converting
+# scripts/test/DynamicField/ObjectType/Article/ObjectDataGet.t to Test2::V0
+my %Hash3 = %Hash1;
+$Hash3{AdditionalKeyWithUndefinedValue} = undef;
+
 my @List1 = ( 1, 2, 3, );
 my @List2 = (
     1,
@@ -934,38 +941,39 @@ my $Scalar2 = {
     test => [ 1, 2, 3 ],
 };
 
-my $Count = 0;
-for my $Value1 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-    $Count++;
-    $Self->Is(
+my $Count1 = 0;
+for my $Value1 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
+    $Count1++;
+    is(
         scalar DataIsDifferent(
             Data1 => $Value1,
             Data2 => $Value1
         ),
-        scalar undef,
-        'DataIsDifferent() - Test ' . $Count,
+        undef,
+        'DataIsDifferent() - Test ' . $Count1,
     );
 
     my $Count2 = 0;
-    VALUE2: for my $Value2 ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
-        if ( $Value2 == $Value1 ) {
-            next VALUE2;
-        }
+    VALUE2:
+    for my $Value2 ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 ) {
         $Count2++;
 
-        $Self->Is(
+        next VALUE2 if $Count1 == $Count2;
+
+        is(
             scalar DataIsDifferent(
                 Data1 => $Value1,
                 Data2 => $Value2
             ),
             1,
-            'DataIsDifferent() - Test ' . $Count . ':' . $Count2,
+            'DataIsDifferent() - Test ' . $Count1 . ':' . $Count2,
         );
     }
 }
 
 # Test DataIsDifferent() when parameters are undef (see bug#14008).
-my @Tests = (
+my $Blessed = bless {}, 'Some::Name::Space';
+my @Tests   = (
     {
         Description => 'DataIsDifferent() - Data1 is undef, Data2 is scalar',
         Data1       => undef,
@@ -1038,10 +1046,52 @@ my @Tests = (
         Data2       => \\undef,
         Result      => undef,
     },
+    {
+        Description => 'DataIsDifferent() Data1 is empty hashref, Data2 has key with an undefined value',
+        Data1       => {},
+        Data2       => { sample_key => undef },
+        Result      => 1,
+    },
+    {
+        Description => 'DataIsDifferent() Data2 is empty hashref, Data1 has key with an undefined value',
+        Data1       => { sample_key => undef },
+        Data2       => {},
+        Result      => 1,
+    },
+    {
+        Description => q{DataIsDifferent() 1.2 stringifies to '1.2'},
+        Data1       => 1.2,
+        Data2       => '1.2',
+        Result      => undef,
+    },
+    {
+        Description => q{DataIsDifferent() 1.2 does not stringify to '1.20'},
+        Data1       => 1.2,
+        Data2       => '1.20',
+        Result      => 1,
+    },
+    {
+        Description => q{DataIsDifferent() blessed objects compare as different'},
+        Data1       => $Blessed,
+        Data2       => $Blessed,
+        Result      => 1,
+    },
+    {
+        Description => q{DataIsDifferent() does string comparison within ARRAY'},
+        Data1       => [$Blessed],
+        Data2       => [$Blessed],
+        Result      => undef,
+    },
+    {
+        Description => q{DataIsDifferent() does string comparison within HASH'},
+        Data1       => { Key => $Blessed },
+        Data2       => { Key => $Blessed },
+        Result      => undef,
+    },
 );
 
 for my $Test (@Tests) {
-    $Self->Is(
+    is(
         scalar DataIsDifferent(
             Data1 => $Test->{Data1},
             Data2 => $Test->{Data2},
@@ -1051,4 +1101,4 @@ for my $Test (@Tests) {
     );
 }
 
-$Self->DoneTesting();
+done_testing;

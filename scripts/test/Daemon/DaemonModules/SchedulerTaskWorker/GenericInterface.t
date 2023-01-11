@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -243,11 +243,12 @@ my @Test = (
             TaskID   => 123,
             TaskName => 'Invoker-test_operation',
             Data     => {
-                WebserviceID => $WebserviceID,
-                Invoker      => 'test_operation',
-                Data         => {
+                Data => {
                     ReSchedule => 1,
                 },
+                Invoker           => 'test_operation',
+                PastExecutionData => undef,
+                WebserviceID      => $WebserviceID,
             },
         },
         Result             => 0,
@@ -260,12 +261,13 @@ my @Test = (
             TaskID   => 123,
             TaskName => 'Invoker-test_operation',
             Data     => {
-                WebserviceID => $WebserviceID,
-                Invoker      => 'test_operation',
-                Data         => {
-                    ReSchedule    => 1,
+                Data => {
                     ExecutionTime => '2030-12-12 12:00:00',
+                    ReSchedule    => 1,
                 },
+                Invoker           => 'test_operation',
+                PastExecutionData => undef,
+                WebserviceID      => $WebserviceID,
             },
         },
         Result                  => 0,

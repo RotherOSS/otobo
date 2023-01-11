@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -661,7 +661,9 @@ for my $Test (@Tests) {
         Result             => {
             ChannelsInvalid => [ $TestChannels[0]->{ChannelName} ],
         },
-        ChannelGet => {},
+        ChannelGet => {
+            ChannelID => undef,
+        },
     },
     {
         Name   => 'ChannelSync - Remove Email channel registration',
@@ -722,6 +724,8 @@ for my $Test (@Tests) {
     );
 
     if ( $Test->{ChannelGet} ) {
+
+        # This might return an empty list.
         my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
             ChannelName => $Test->{ChannelName},
         );
