@@ -48,7 +48,6 @@ $ObjectManager->ObjectParamAdd(
         Data2 => 'Test payload 2',
     },
 );
-
 is(
     $ObjectManager->{Param}->{'Kernel::Config'},
     {
@@ -60,16 +59,18 @@ is(
 
 $ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
-        Data => undef,
+        Data  => undef,
+        Data3 => undef,
     },
 );
-
 is(
     $ObjectManager->{Param}->{'Kernel::Config'},
     {
+        Data  => undef,
         Data2 => 'Test payload 2',
+        Data3 => undef,
     },
-    'ObjectParamAdd removed key',
+    'ObjectParamAdd keys with undefined value',
 );
 
 $ObjectManager->ObjectParamAdd(
@@ -80,8 +81,12 @@ $ObjectManager->ObjectParamAdd(
 
 is(
     $ObjectManager->{Param}->{'Kernel::Config'},
-    {},
-    'ObjectParamAdd removed key',
+    {
+        Data  => undef,
+        Data2 => undef,
+        Data3 => undef,
+    },
+    'ObjectParamAdd another key with undefined value',
 );
 
 done_testing;
