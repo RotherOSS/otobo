@@ -225,6 +225,12 @@ Third-party software
 --------------------
 \\-
 
+Usage
+=====
+
+Setup
+-----
+
 END
 }
 
@@ -245,7 +251,7 @@ sub ConfigReference {
 
     my $ConfigReference =
         "Configuration Reference\n" .
-        "=======================\n\n";
+        "-----------------------\n\n";
 
     for my $NavEntry ( sort keys %Navigation ) {
         $ConfigReference .=
