@@ -1611,10 +1611,10 @@ sub _GetCommunicationLog {
         TargetObjectID   => $Param{ID},
     );
 
-    # To prevent that $LookupInfo contains an ObjectLogID
+    # To prevent that $LookupInfo contains an old ObjectLogID
     # because if it tries to create or recover a communication log and it doesn't work, it returns an empty object
     my $CommunicationLogObject;
-    if ( $LookupInfo->{ObjectLogID} ) {
+    if ( $LookupInfo && $LookupInfo->{ObjectLogID} ) {
         $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
             ObjectParams => {
