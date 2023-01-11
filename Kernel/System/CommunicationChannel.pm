@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -132,13 +132,15 @@ sub ChannelAdd {
 
 =head2 ChannelGet()
 
-Get a communication channel.
+Get a communication channel either by ID or by name.
 
     my %CommunicationChannel = $CommunicationChannelObject->ChannelGet(
         ChannelID   => '1',      # (optional) Communication channel id
                                  # or
         ChannelName => 'Email',  # (optional) Communication channel name
     );
+
+Returns an empty list in the case of an error or when no channel was found.
 
 Returns:
 
@@ -168,6 +170,7 @@ sub ChannelGet {
             Priority => 'error',
             Message  => 'Need ChannelID or ChannelName!',
         );
+
         return;
     }
 
@@ -214,7 +217,7 @@ sub ChannelGet {
         push @Bind, \$Param{ChannelName};
     }
     else {
-        $SQL .= "id = ? ";
+        $SQL .= 'id = ? ';
         push @Bind, \$Param{ChannelID};
     }
 
