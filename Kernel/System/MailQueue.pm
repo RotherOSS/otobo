@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -161,7 +161,7 @@ sub Create {
     my $RecipientRef = ref $Recipient;
 
     if ( !$RecipientRef ) {
-        $Recipient = [ split( ',', $Recipient, ) ];
+        $Recipient = [ split /,/, $Recipient ];
     }
 
     my $OnErrorSetArticleTransmissionError = sub {
@@ -346,7 +346,7 @@ sub List {
             ArticleID       => $Row[1],
             Attempts        => $Row[2],
             Sender          => $Row[3],
-            Recipient       => [ split( ',', $Row[4], ) ],
+            Recipient       => [ split /,/, $Row[4] ],
             Message         => $Message,
             DueTime         => $DueTime,
             LastSMTPCode    => $Row[7],
@@ -477,7 +477,7 @@ sub Update {
 
         if ( $Col eq 'Sender' || $Col eq 'Recipient' ) {
             if ( $Col eq 'Recipient' && !ref $Value ) {
-                $Value = [ split( ',', $Value, ) ];
+                $Value = [ split /,/, $Value ];
             }
 
             return if !$Self->_CheckValidEmailAddresses(
@@ -1633,7 +1633,6 @@ sub _GetCommunicationLog {
 
     my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
     my $LookupInfo            = $CommunicationLogDBObj->ObjectLookupGet(
-        ObjectLogType    => 'Message',
         TargetObjectType => 'MailQueueItem',
         TargetObjectID   => $Param{ID},
     );
