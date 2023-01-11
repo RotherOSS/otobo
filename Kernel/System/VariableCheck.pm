@@ -573,6 +573,9 @@ sub DataIsDifferent {
         KEY:
         for my $Key ( sort keys %A ) {
 
+            # non-existence is different to existence
+            return 1 unless exists $B{$Key};
+
             # Check if both are undefined
             if ( !defined $A{$Key} && !defined $B{$Key} ) {
                 delete $A{$Key};
