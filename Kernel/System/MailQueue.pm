@@ -1611,10 +1611,22 @@ sub _GetCommunicationLog {
         TargetObjectID   => $Param{ID},
     );
 
+    # To prevent that $LookupInfo contains an old ObjectLogID
+    # because if it tries to create or recover a communication log and it doesn't work, it returns an empty object
+    my $CommunicationLogObject;
+    if ( $LookupInfo && $LookupInfo->{ObjectLogID} ) {
+        $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                ObjectLogID => $LookupInfo->{ObjectLogID},
+            },
+        );
+    }
+
     # IF for any reason we can't get the lookup information (error or no record found),
     #   lets create a new communication log and communication log message.
-    if ( !$LookupInfo || !%{$LookupInfo} ) {
-        my $CommunicationLogObject = $Kernel::OM->Create(
+    if ( !$CommunicationLogObject ) {
+        $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
             ObjectParams => {
                 Transport => 'Email',
@@ -1647,16 +1659,9 @@ sub _GetCommunicationLog {
                 Message  => 'Error while updating the communication message for ID: ' . $Param{ID},
             );
         }
-
-        return $CommunicationLogObject;
     }
 
-    return $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            ObjectLogID => $LookupInfo->{ObjectLogID},
-        },
-    );
+    return $CommunicationLogObject;
 }
 
 1;
