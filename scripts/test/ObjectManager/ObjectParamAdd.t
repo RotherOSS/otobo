@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,37 +18,39 @@ use strict;
 use warnings;
 use v5.24;
 
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
-
-use vars (qw($Self));
-
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 use Kernel::System::ObjectManager;
 
-local $Kernel::OM = Kernel::System::ObjectManager->new();
+my $ObjectManager = Kernel::System::ObjectManager->new();
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data => 'Test payload',
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
         Data => 'Test payload',
     },
     'ObjectParamAdd set key',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data2 => 'Test payload 2',
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
         Data  => 'Test payload',
         Data2 => 'Test payload 2',
@@ -56,30 +58,30 @@ $Self->IsDeeply(
     'ObjectParamAdd set key',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data => undef,
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {
         Data2 => 'Test payload 2',
     },
     'ObjectParamAdd removed key',
 );
 
-$Kernel::OM->ObjectParamAdd(
+$ObjectManager->ObjectParamAdd(
     'Kernel::Config' => {
         Data2 => undef,
     },
 );
 
-$Self->IsDeeply(
-    $Kernel::OM->{Param}->{'Kernel::Config'},
+is(
+    $ObjectManager->{Param}->{'Kernel::Config'},
     {},
     'ObjectParamAdd removed key',
 );
 
-$Self->DoneTesting();
+done_testing;
