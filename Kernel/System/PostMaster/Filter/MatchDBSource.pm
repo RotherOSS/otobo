@@ -142,9 +142,9 @@ sub Run {
             elsif (
                 defined $Param{GetParam}->{$Key} &&
                 (
-                    ( !$Config{Not}->[$Index]->{Value} && $Param{GetParam}->{$Key} =~ m{$Value}i )
+                    ( !$Config{Not}->[$Index]->{Value} && $Param{GetParam}->{$Key} =~ m{$Value}si )
                     ||
-                    ( $Config{Not}->[$Index]->{Value} && $Param{GetParam}->{$Key} !~ m{$Value}i )
+                    ( $Config{Not}->[$Index]->{Value} && $Param{GetParam}->{$Key} !~ m{$Value}si )
                 )
                 )
             {
