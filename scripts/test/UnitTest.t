@@ -193,7 +193,7 @@ note('Testing IsDeeply() and IsNotDeeply()');
     # This is a case that was encountered when converting
     # scripts/test/DynamicField/ObjectType/Article/ObjectDataGet.t to Test2::V0
     my %Hash3 = %Hash1;
-    $Hash2{AdditionalKeyWithUndefinedValue} = undef;
+    $Hash3{AdditionalKeyWithUndefinedValue} = undef;
 
     my @List1 = ( 1, 2, 3, );
     my @List2 = (
