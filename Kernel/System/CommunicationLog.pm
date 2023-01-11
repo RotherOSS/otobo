@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -61,6 +61,14 @@ Please use the object manager as follows for this class:
             CommunicationID => 123,
         }
     );
+    my $CommunicationLogObject = $Kernel::OM->Create(
+        'Kernel::System::CommunicationLog',
+        ObjectParams => {
+            ObjectLogID => 456,
+        }
+    );
+
+C<undef> is returned when an already existing communication cannot be recovered.
 
 =cut
 
@@ -68,8 +76,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
+    my $Self = bless {}, $Type;
 
     if ( IsStringWithData( $Param{CommunicationID} ) || IsStringWithData( $Param{ObjectLogID} ) ) {
         return $Self->_RecoverCommunicationObject(%Param);
