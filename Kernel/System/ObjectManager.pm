@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,7 +22,7 @@ package Kernel::System::ObjectManager;
 
 use strict;
 use warnings;
-use feature qw(current_sub);
+use feature qw(current_sub);    # support for __SUB__
 
 # core modules
 use Carp ();
@@ -61,7 +61,7 @@ Kernel::System::ObjectManager - Central singleton manager and object instance ge
 
     # Remove singleton objects and all their dependencies.
     $Kernel::OM->ObjectsDiscard(
-        Objects            => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
+        Objects => ['Kernel::System::Ticket', 'Kernel::System::Queue'],
     );
 
 =head1 DESCRIPTION
@@ -169,6 +169,7 @@ attempt to destroy them.
 
 sub new {
     my ( $Type, %Param ) = @_;
+
     my $Self = bless {}, $Type;
 
     $Self->{Debug} = delete $Param{Debug};
@@ -187,7 +188,7 @@ sub new {
 
 =head2 Get()
 
-Retrieves a singleton object, and if it not yet exists, implicitly creates one for you.
+Retrieves a singleton object, and if it does not exist yet, implicitly creates one for you.
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -374,19 +375,15 @@ sub ObjectInstanceRegister {
 
 Adds arguments that will be passed to constructors of classes
 when they are created, in the same format as the C<L<new()>> method
-receives them.
+receives them. Existing constructor arguments are overwritten. Already
+existing constructor arguments are kept.
 
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::Ticket' => {
-            Key => 'Value',
-        },
-    );
-
-To remove a key again, send undef as a value:
-
-    $Kernel::OM->ObjectParamAdd(
-        'Kernel::System::Ticket' => {
-            Key => undef,               # this will remove the key from the hash
+            KeyW => 'ValueX',
+            KeyX => 22,
+            KeyY => undef,
+            KeyZ => [ 1 .. 10 ],
         },
     );
 
@@ -396,7 +393,7 @@ sub ObjectParamAdd {
     my ( $Self, %Param ) = @_;
 
     for my $Package ( sort keys %Param ) {
-        if ( ref( $Param{$Package} ) eq 'HASH' ) {
+        if ( ref $Param{$Package} eq 'HASH' ) {
             for my $Key ( sort keys %{ $Param{$Package} } ) {
                 if ( defined $Key ) {
                     $Self->{Param}->{$Package}->{$Key} = $Param{$Package}->{$Key};
@@ -407,9 +404,12 @@ sub ObjectParamAdd {
             }
         }
         else {
+
+            # Attention: things might break when $Param{$Package} is not a hash ref
             $Self->{Param}->{$Package} = $Param{$Package};
         }
     }
+
     return;
 }
 
