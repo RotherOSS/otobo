@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1412,15 +1412,15 @@ sub ObjectLookupSearch {
         CommunicationID  => 'clo.communication_id',
     );
 
-    my @FilterFields = ();
-    my @Bind         = ();
+    my @FilterFields;
+    my @Bind;
 
     POSSIBLE_FILTER:
     for my $PossibleFilter ( sort keys %PossibleFilters ) {
         my $Value = $Param{$PossibleFilter};
-        if ( !defined $Value || !length $Value ) {
-            next POSSIBLE_FILTER;
-        }
+
+        next POSSIBLE_FILTER unless defined $Value;
+        next POSSIBLE_FILTER unless length $Value;
 
         my $FilterDBName = $PossibleFilters{$PossibleFilter};
 
@@ -1434,13 +1434,14 @@ sub ObjectLookupSearch {
     }
 
     my $DBObject = $Kernel::OM->Get('Kernel::System::DB');
-    return if !$DBObject->Prepare(
+
+    return unless $DBObject->Prepare(
         SQL   => join( ' ', @SQL ),
         Bind  => \@Bind,
         Limit => $Param{Limit},
     );
 
-    my @List = ();
+    my @List;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         push @List, {
             CommunicationID  => $Row[0],
@@ -1458,10 +1459,12 @@ sub ObjectLookupSearch {
 Gets the object lookup information.
 
     my $Result = $CommunicationDBObject->ObjectLookupGet(
-        ObjectLogID      => '123',         # (optional)
-        TargetObjectID   => '123',         # (optional)
-        TargetObjectType => '123',         # (optional)
+        ObjectLogID      => 123,           # (optional)
+        TargetObjectID   => 456,           # (optional)
+        TargetObjectType => 'Article',     # (required)
     );
+
+Either C<ObjectLogID> or C<TargetObjectID> must be passed along with C<TargetObjectType>.
 
 Returns:
 
@@ -1472,9 +1475,9 @@ Returns:
         TargetObjectID   => '...',
     }
 
-    <undef> - if any error occur
+    <undef>                                   - if any error occur
     An hashref with object lookup information - in case info exists
-    An empty hasref                           - in case info doesn't exists
+    An empty hashref                          - in case info doesn't exist
 
 =cut
 
@@ -1482,14 +1485,13 @@ sub ObjectLookupGet {
     my ( $Self, %Param ) = @_;
 
     # Check for required arguments.
-    my @RequiredCombinations = (
+    my @SupportedCombinations = (
         [qw( ObjectLogID TargetObjectType )],
         [qw( TargetObjectID TargetObjectType )],
     );
-
     my $MatchedCombination;
     REQUIRED_COMBINATION:
-    for my $RequiredCombination (@RequiredCombinations) {
+    for my $RequiredCombination (@SupportedCombinations) {
         $MatchedCombination = $RequiredCombination;
         for my $RequiredParam ( @{$RequiredCombination} ) {
             if ( !$Param{$RequiredParam} ) {
@@ -1503,7 +1505,7 @@ sub ObjectLookupGet {
     if ( !$MatchedCombination ) {
         my @ErrorMessage = (
             'Need',
-            ( join ' OR ', map { join ' and ', @{$_} } @RequiredCombinations ),
+            ( join ' OR ', map { join ' and ', @{$_} } @SupportedCombinations ),
             '!',
         );
 
@@ -1511,8 +1513,7 @@ sub ObjectLookupGet {
     }
 
     my $List = $Self->ObjectLookupSearch(
-        CommunicationID => $Param{CommunicationID},
-        map { $_ => $Param{$_} } @{$MatchedCombination},
+        map { $_ => $Param{$_} } $MatchedCombination->@*,
     );
 
     if ($List) {
