@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,13 +26,11 @@ use Test2::V0;
 use Test2::API qw(intercept);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Self and $Kernel::OM
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 use Kernel::System::UnitTest;
 
 # Testing Kernel::System::UnitTest::Driver.
 # See https://metacpan.org/pod/Test2::Manual::Tooling::Testing.
-
-our $Self;
 my $UnitTestObject = Kernel::System::UnitTest::Driver->new();
 
 note('Testing True() and False()');
@@ -192,6 +190,11 @@ note('Testing IsDeeply() and IsNotDeeply()');
     my %Hash2 = %Hash1;
     $Hash2{AdditionalKey} = 1;
 
+    # This is a case that was encountered when converting
+    # scripts/test/DynamicField/ObjectType/Article/ObjectDataGet.t to Test2::V0
+    my %Hash3 = %Hash1;
+    $Hash3{AdditionalKeyWithUndefinedValue} = undef;
+
     my @List1 = ( 1, 2, 3, );
     my @List2 = (
         1,
@@ -209,7 +212,7 @@ note('Testing IsDeeply() and IsNotDeeply()');
     };
 
     # loop over the cross product of the values
-    my @Values = ( \%Hash1, \%Hash2, \@List1, \@List2, \$Scalar1, \$Scalar2 );
+    my @Values = ( \%Hash1, \%Hash2, \%Hash3, \@List1, \@List2, \$Scalar1, \$Scalar2 );
     my $Count1 = 0;
     for my $Value1 (@Values) {
 
@@ -237,4 +240,4 @@ note('Testing IsDeeply() and IsNotDeeply()');
     }
 }
 
-$Self->DoneTesting();
+done_testing;

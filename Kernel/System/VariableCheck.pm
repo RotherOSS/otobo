@@ -19,7 +19,14 @@ package Kernel::System::VariableCheck;
 use strict;
 use warnings;
 
+# core modules
 use Exporter qw(import);
+
+# CPAN modules
+
+# OTOBO modules
+
+# set up the exported symbols
 our %EXPORT_TAGS = (    ## no critic qw(OTOBO::RequireCamelCase)
     all => [
         'IsArrayRefWithData',
@@ -94,6 +101,14 @@ The functions can be grouped as follows:
 =item * L</IsIPv6Address()>
 
 =item * L</IsMD5Sum()>
+
+=back
+
+=head2 Generic comparison
+
+=over 4
+
+=item * L</DataIsDifferent()>
 
 =back
 
@@ -275,16 +290,18 @@ returns 1 if data matches criteria or undef otherwise
 sub IsIPv4Address {
     my $TestData = $_[0];
 
-    return if !IsStringWithData(@_);
-    return if $TestData !~ m{ \A [\d\.]+ \z }xms;
+    return unless IsStringWithData(@_);
+    return unless $TestData =~ m{ \A [\d\.]+ \z }xms;
+
     my @Part = split /\./, $TestData;
 
     # four parts delimited by '.' needed
-    return if scalar @Part ne 4;
+    return unless scalar @Part eq 4;
+
     for my $Part (@Part) {
 
         # allow numbers 0 to 255, no leading zeroes
-        return if $Part !~ m{
+        return unless $Part =~ m{
             \A (?: \d | [1-9] \d | [1] \d{2} | [2][0-4]\d | [2][5][0-5] ) \z
         }xms;
     }
@@ -309,10 +326,10 @@ returns 1 if data matches criteria or undef otherwise
 sub IsIPv6Address {
     my $TestData = $_[0];
 
-    return if !IsStringWithData(@_);
+    return unless IsStringWithData(@_);
 
     # only hex characters (0-9,A-Z) plus separator ':' allowed
-    return if $TestData !~ m{ \A [\da-f:]+ \z }xmsi;
+    return unless $TestData =~ m{ \A [\da-f:]+ \z }xmsi;
 
     # special case - equals only zeroes
     return 1 if $TestData eq '::';
@@ -402,20 +419,80 @@ sub IsMD5Sum {
 compares two data structures with each other. Returns 1 if
 they are different, undef otherwise.
 
-Data parameters need to be passed by reference and can be SCALAR,
-ARRAY or HASH.
+Non-references are compared by their stringified values.
 
     my $DataIsDifferent = DataIsDifferent(
-        Data1 => \$Data1,
-        Data2 => \$Data2,
-    );
+        Data1 => 2.4,
+        Data2 => '2.4',
+    ); # not different
+
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => 2.4,
+        Data2 => '2.40',
+    ); # different
+
+Data parameters can be passed by reference. The supported types, as returned by C<ref>, are
+"SCALAR", "ARRAY", "HASH", or "REF". When the parameters are references to different types
+then they are reported as different.
+Blessed references are always reported as different. References of all other types,
+such as "CODE", "FORMAT", "IO", GLOB", "LVALUE", or "REGEXP", are also always reported as being different.
+
+    my $Blessed = bless {}, 'Some::Name::Space';
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => $Blessed,
+        Data2 => $Blessed,
+    ); # different
+
+References to SCALAR are compared by their stringified dereferenced values.
+
+    my ($Num, $Canonical, $NonCanonical) = ( 3.6, '3.6', '3.60');
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => \$Num,
+        Data2 => \$Canonical,
+    ); # not different
+
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => \$Num,
+        Data2 => \$NonCanonical,
+    ); # different
+
+References to "ARRAY" recursively compares the respective elements. But beware that
+a string comparison is made before recursive descent.
+
+    my $Blessed = bless {}, 'Some::Name::Space';
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => [$Blessed],
+        Data2 => [$Blessed],
+    ); # not different
+
+References to "HASH" recursively compares the respective elements. But beware that
+a string comparison is made before the recursive descent.
+
+    my $Blessed = bless {}, 'Some::Name::Space';
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => { Key => $Blessed },
+        Data2 => { Key => $Blessed },
+    ); # not different
+
+References to REF are compared by recursively calling C<DataIsDifferent()> on their dereferenced values.
+
+    my ($Num, $Canonical, $NonCanonical) = ( 4.8, '4.8', '4.80');
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => \\$Num,
+        Data2 => \\$Canonical,
+    ); # not different
+
+    my $DataIsDifferent = DataIsDifferent(
+        Data1 => \\$Num,
+        Data2 => \\$NonCanonical,
+    ); # different
 
 =cut
 
 sub DataIsDifferent {
     my (%Param) = @_;
 
-    # ''
+    # non-references
     if ( ref $Param{Data1} eq '' && ref $Param{Data2} eq '' ) {
 
         # do nothing, it's ok
@@ -462,17 +539,24 @@ sub DataIsDifferent {
             # do nothing, it's ok
             next COUNT if !defined $A[$Count] && !defined $B[$Count];
 
-            # return diff, because its different
-            return 1 if !defined $A[$Count] || !defined $B[$Count];
+            # Left and right side are not both undefined,
+            # so either side being undefined implies a difference.
+            return 1 unless defined $A[$Count];
+            return 1 unless defined $B[$Count];
 
+            # Note that string equality also holds for arbitrary references
+            # to the same underlying data structure.
             if ( $A[$Count] ne $B[$Count] ) {
                 if ( ref $A[$Count] eq 'ARRAY' || ref $A[$Count] eq 'HASH' ) {
                     return 1 if DataIsDifferent(
                         Data1 => $A[$Count],
                         Data2 => $B[$Count]
                     );
+
                     next COUNT;
                 }
+
+                # this also holds for ref to SCALAR, that are not different when compared directly
                 return 1;
             }
         }
@@ -481,26 +565,37 @@ sub DataIsDifferent {
 
     # HASH
     if ( ref $Param{Data1} eq 'HASH' && ref $Param{Data2} eq 'HASH' ) {
-        my %A = %{ $Param{Data1} };
-        my %B = %{ $Param{Data2} };
+
+        # make a shallow copy as the comparison modifies the data structures
+        my %A = $Param{Data1}->%*;
+        my %B = $Param{Data2}->%*;
 
         # compare %A with %B and remove it if checked
         KEY:
         for my $Key ( sort keys %A ) {
 
+            # non-existence is different to existence
+            return 1 unless exists $B{$Key};
+
             # Check if both are undefined
             if ( !defined $A{$Key} && !defined $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
+
                 next KEY;
             }
 
-            # return diff, because its different
-            return 1 if !defined $A{$Key} || !defined $B{$Key};
+            # Left and right side are not both undefined,
+            # so either side being undefined implies a difference.
+            return 1 unless defined $A{$Key};
+            return 1 unless defined $B{$Key};
 
+            # Note that string equality also holds for arbitrary references
+            # to the same underlying data structure.
             if ( $A{$Key} eq $B{$Key} ) {
                 delete $A{$Key};
                 delete $B{$Key};
+
                 next KEY;
             }
 
@@ -512,13 +607,18 @@ sub DataIsDifferent {
                 );
                 delete $A{$Key};
                 delete $B{$Key};
+
                 next KEY;
             }
+
+            # this also holds for ref to SCALAR, that are not different when compared directly
             return 1;
         }
 
-        # check rest
+        # extra attributes on the left side imply a difference
         return 1 if %B;
+
+        # no difference was found
         return;
     }
 
@@ -530,6 +630,8 @@ sub DataIsDifferent {
         return;
     }
 
+    # Everything else is considered to be different,
+    # even if the params stringify to the same string.
     return 1;
 }
 
