@@ -1513,7 +1513,6 @@ sub ObjectLookupGet {
     }
 
     my $List = $Self->ObjectLookupSearch(
-        CommunicationID => $Param{CommunicationID},
         map { $_ => $Param{$_} } $MatchedCombination->@*,
     );
 
