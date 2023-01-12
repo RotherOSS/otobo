@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-10 21:44+0000\n"
+"PO-Revision-Date: 2023-01-12 16:21+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17148,11 +17148,11 @@ msgstr "التذاكر في الشهر (متوسط)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
 msgid "Open Tickets"
-msgstr ""
+msgstr "تذاكر مفتوحة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid "Default Admin Password"
-msgstr ""
+msgstr "كلمة مرور المسؤول الافتراضية"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
 msgid ""
