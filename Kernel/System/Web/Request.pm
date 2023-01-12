@@ -24,6 +24,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
+use List::Util qw(uniq);
 
 # CPAN modules
 use HTTP::Message::PSGI qw(req_to_psgi);
@@ -248,7 +249,8 @@ sub GetParam {
 =head2 GetParamNames()
 
 to get the names of all parameters passed in the request.
-URL and body parameters are merged.
+URL and body parameters are always merged.
+File uploads are also included.
 
     my @ParamNames = $ParamObject->GetParamNames();
 
@@ -260,17 +262,17 @@ Called URL: index.pl?Action=AdminSystemConfiguration;Subaction=Save;Name=Config:
     print join ' :: ', @ParamNames;
     #prints Action :: Subaction :: Name
 
-For multi value parameters the last value is returned. URL parameters come before body parameters.
+Attention: In OTOBO 10.1.x URL and body params were not merged.
 
 =cut
 
 sub GetParamNames {
     my $Self = shift;
 
-    # TODO: document differences to 10.1
-
     # fetch all names, URL and body is already merged
-    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
+    my @ParamNames = uniq
+        keys $Self->{PlackRequest}->parameters->%*,
+        keys $Self->{PlackRequest}->uploads->%*;
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@ParamNames );
 
     return @ParamNames;

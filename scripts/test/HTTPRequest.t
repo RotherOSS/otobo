@@ -29,8 +29,9 @@ from an instance of L<HTTP::Request>.
 # core modules
 
 # CPAN modules
-use Test2::V0;
+use HTTP::Request::Common qw(POST);
 use HTTP::Request;
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
@@ -170,6 +171,69 @@ subtest 'POST with URL params' => sub {
     is( $Request->Content,                         $Body,       'body in mixed request' );
     is( $Request->GetParam( Param => 'POSTDATA' ), $Body,       'POSTDATA gets body' );
     is( $Request->ScriptName,                      'script.py', 'script name script.py' );
+};
+
+subtest 'POST with file upload' => sub {
+    my $Body         = 'a=4&b=5;d=2';
+    my $ContentFile1 = <<'END_TXT';
+File1 line1
+File1 line2
+END_TXT
+    my $ContentFile2 = <<'END_TXT';
+File2 line1
+File2 line2
+END_TXT
+
+    my $HTTPRequest = POST(
+        '/',
+        {
+            a     => ord 'a',
+            b     => ord 'b',
+            File1 => [
+                undef, 'file1.txt',
+                Content      => $ContentFile1,
+                Content_Type => 'text/plain'
+            ],
+            File2 => [
+                undef, 'file2.txt',
+                Content      => $ContentFile2,
+                Content_Type => 'text/plain'
+            ],
+        },
+        Content_Type => 'form-data',
+    );
+    my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
+
+    my @ParamNames = $Request->GetParamNames;
+    is(
+        [ sort @ParamNames ],
+        [qw/File1 File2 a b/],
+        'ParamNames',
+    );
+
+    # File1
+    is( $Request->GetParam( Param => 'File1' ), 'file1.txt', 'filename for File1' );
+    is(
+        { $Request->GetUploadAll( Param => 'File1' ) },
+        {
+            Filename    => 'file1.txt',
+            ContentType => 'text/plain',
+            Content     => $ContentFile1,
+        },
+        'upload info for File1',
+    );
+
+    # File2
+    is( $Request->GetParam( Param => 'File2' ), 'file2.txt', 'filename for File2' );
+    is(
+        { $Request->GetUploadAll( Param => 'File2' ) },
+        {
+            Filename    => 'file2.txt',
+            ContentType => 'text/plain',
+            Content     => $ContentFile2,
+        },
+        'upload info for File2',
+    );
 };
 
 subtest 'SetArray' => sub {
