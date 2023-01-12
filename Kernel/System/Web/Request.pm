@@ -177,8 +177,8 @@ sub Error {
 to get the value of a single request parameter.
 URL and body parameters are merged. URL params are first. The first value is taken.
 For file uploads the entered file name is returned.
-Per default, left and right trimming is performed
-on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
+Per default, left and right trimming is performed on the returned value.
+The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
@@ -191,12 +191,14 @@ The parameters B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> are a special case.
 If the parameter corresponds to the request method, then the body of the request
 is returned.
 
+Note: the behavior for B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> diverges from OTOBO 10.1.x.
+in previous versions these special parameters were only set when the body parameters were
+not parsed.
+
 =cut
 
 sub GetParam {
     my ( $Self, %Param ) = @_;
-
-    # TODO: document differences to 10.1
 
     my $Key          = $Param{Param};
     my $PlackRequest = $Self->{PlackRequest};
@@ -209,7 +211,6 @@ sub GetParam {
         $Key eq "${Method}DATA"
         )
     {
-        # TODO: what about encoding
         return $PlackRequest->content;
     }
 
@@ -234,7 +235,6 @@ sub GetParam {
     return $Value if $Param{Raw};
 
     # If it is a plain string, perform trimming
-    # TODO: can this ever happen ???
     return $Value unless ref \$Value eq 'SCALAR';
 
     $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
@@ -294,8 +294,6 @@ URL and body parameters are merged. URL parameters come before body parameters
 
 sub GetArray {
     my ( $Self, %Param ) = @_;
-
-    # TODO: document differences to 10.1
 
     my @Values = $Self->{PlackRequest}->parameters->get_all( $Param{Param} );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
@@ -776,7 +774,7 @@ sub LoadFormDraft {
     for my $Key ( sort keys %{ $FormDraft->{FormData} } ) {
         my $Value = $FormDraft->{FormData}->{$Key} // '';
 
-        # TODO: avoid meddling with the innards of Plack::Request
+        # meddling with the innards of Plack::Request
 
         # array value
         if ( IsArrayRefWithData($Value) ) {
