@@ -708,8 +708,9 @@ my @BasicTests = (
             },
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Error message for error code: 123',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -759,8 +760,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -865,8 +867,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -971,8 +974,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1077,8 +1081,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1187,8 +1192,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDNameRequest' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1404,8 +1410,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1515,8 +1522,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1571,8 +1579,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1627,8 +1636,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1733,8 +1743,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1839,8 +1850,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => "No response data found for specified operation 'PriorityIDName' in soap response",
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -1945,8 +1957,9 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage => 'faultcode: Server, faultstring: Got no OperationType!',
+            Success      => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2164,11 +2177,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface//PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2219,11 +2233,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result '#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2274,11 +2289,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2328,11 +2344,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'http://otobo.org/SoapTestInterface/#PriorityIDName' does not match "
                 . "expected result 'SoapTestInterface'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2491,11 +2508,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction '#PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2546,11 +2564,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'PriorityIDName' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
@@ -2600,11 +2619,12 @@ my @BasicTests = (
             Key => 'Value',
         },
         ExpectedReturn => {
-            Success      => 0,
+            Data         => undef,
             ErrorMessage =>
                 "faultcode: Server, faultstring: "
                 . "SOAPAction 'SoapTestInterface' does not match "
                 . "expected result 'http://otobo.org/SoapTestInterface/#PriorityIDName'",
+            Success => 0,
         },
         WebserviceConfig => {
             Name        => 'SOAPTest1',
