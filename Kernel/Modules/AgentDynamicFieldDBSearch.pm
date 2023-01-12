@@ -278,7 +278,7 @@ sub Run {
         }
 
         # result caching
-        my $CacheKey  = $DynamicFieldName . $Search . ':' . $Identifier;
+        my $CacheKey  = $DynamicFieldName . ';' . $Search . ';' . $Identifier;
         my $CacheTTL  = $DynamicFieldConfig->{Config}->{CacheTTL};
         my $CacheType = 'DynamicFieldDB';
 
