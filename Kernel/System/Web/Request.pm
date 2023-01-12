@@ -24,6 +24,7 @@ use warnings;
 use namespace::autoclean;
 
 # core modules
+use List::Util qw(uniq);
 
 # CPAN modules
 use HTTP::Message::PSGI qw(req_to_psgi);
@@ -176,8 +177,8 @@ sub Error {
 to get the value of a single request parameter.
 URL and body parameters are merged. URL params are first. The first value is taken.
 For file uploads the entered file name is returned.
-Per default, left and right trimming is performed
-on the returned value. The trimming can be turned of by passing the parameter C<Raw>.
+Per default, left and right trimming is performed on the returned value.
+The trimming can be turned of by passing the parameter C<Raw>.
 
     my $Param = $ParamObject->GetParam(
         Param => 'ID',
@@ -190,12 +191,14 @@ The parameters B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> are a special case.
 If the parameter corresponds to the request method, then the body of the request
 is returned.
 
+Note: the behavior for B<POSTDATA>, B<PUTDATA>, and B<PATCHDATA> diverges from OTOBO 10.1.x.
+in previous versions these special parameters were only set when the body parameters were
+not parsed.
+
 =cut
 
 sub GetParam {
     my ( $Self, %Param ) = @_;
-
-    # TODO: document differences to 10.1
 
     my $Key          = $Param{Param};
     my $PlackRequest = $Self->{PlackRequest};
@@ -208,7 +211,6 @@ sub GetParam {
         $Key eq "${Method}DATA"
         )
     {
-        # TODO: what about encoding
         return $PlackRequest->content;
     }
 
@@ -233,7 +235,6 @@ sub GetParam {
     return $Value if $Param{Raw};
 
     # If it is a plain string, perform trimming
-    # TODO: can this ever happen ???
     return $Value unless ref \$Value eq 'SCALAR';
 
     $Kernel::OM->Get('Kernel::System::CheckItem')->StringClean(
@@ -248,7 +249,8 @@ sub GetParam {
 =head2 GetParamNames()
 
 to get the names of all parameters passed in the request.
-URL and body parameters are merged.
+URL and body parameters are always merged.
+File uploads are also included.
 
     my @ParamNames = $ParamObject->GetParamNames();
 
@@ -260,17 +262,17 @@ Called URL: index.pl?Action=AdminSystemConfiguration;Subaction=Save;Name=Config:
     print join ' :: ', @ParamNames;
     #prints Action :: Subaction :: Name
 
-For multi value parameters the last value is returned. URL parameters come before body parameters.
+Attention: In OTOBO 10.1.x URL and body params were not merged.
 
 =cut
 
 sub GetParamNames {
     my $Self = shift;
 
-    # TODO: document differences to 10.1
-
     # fetch all names, URL and body is already merged
-    my @ParamNames = keys $Self->{PlackRequest}->parameters->%*;
+    my @ParamNames = uniq
+        keys $Self->{PlackRequest}->parameters->%*,
+        keys $Self->{PlackRequest}->uploads->%*;
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@ParamNames );
 
     return @ParamNames;
@@ -292,8 +294,6 @@ URL and body parameters are merged. URL parameters come before body parameters
 
 sub GetArray {
     my ( $Self, %Param ) = @_;
-
-    # TODO: document differences to 10.1
 
     my @Values = $Self->{PlackRequest}->parameters->get_all( $Param{Param} );
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \@Values );
@@ -317,6 +317,61 @@ sub GetArray {
     }
 
     return @Values;
+}
+
+=head2 SetArray()
+
+set the values of a parameter. An empty list removes the parameter.
+
+This method should be used carefully, because it has the potential to cause
+unexpected consequences. For new, it is only used for supporting form draft.
+
+    # delete param
+    my $Success1 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [],
+    );
+
+    # single value
+    my $Success1 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [ 123 ],
+    );
+
+    # multi values
+    my $Success3 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [ 123, 'asdf', '' ],
+    );
+
+The value 1 is returned in the case of success.
+An empty list is returned in the case of problems.
+
+=cut
+
+sub SetArray {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    ARGUMENT:
+    for my $Argument (qw(Param Values)) {
+        next ARGUMENT if $Param{$Argument};
+
+        return;
+    }
+    if ( ref $Param{Values} ne 'ARRAY' ) {
+
+        return;
+    }
+
+    if ( $Param{Values}->@* ) {
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Param{Param}, $Param{Values}->@* );
+    }
+    else {
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->remove( $Param{Param} );
+    }
+
+    return 1;
 }
 
 =head2 Content
@@ -699,11 +754,13 @@ sub LoadFormDraft {
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
     );
+
     return unless IsHashRefWithData($FormDraft);
 
     # Verify action.
     my $Action = $Self->GetParam( Param => 'Action' );
-    return if $FormDraft->{Action} ne $Action;
+
+    return unless $FormDraft->{Action} eq $Action;
 
     # add draft name to form data
     $FormDraft->{FormData}->{FormDraftTitle} = $FormDraft->{Title};
@@ -717,17 +774,23 @@ sub LoadFormDraft {
     for my $Key ( sort keys %{ $FormDraft->{FormData} } ) {
         my $Value = $FormDraft->{FormData}->{$Key} // '';
 
-        # TODO: avoid meddling with the innards of Plack::Request
+        # meddling with the innards of Plack::Request
 
         # array value
         if ( IsArrayRefWithData($Value) ) {
-            $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value->@* );
+            $Self->SetArray(
+                Param  => $Key,
+                Values => $Value
+            );
 
             next KEY;
         }
 
         # scalar value
-        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value );
+        $Self->SetArray(
+            Param  => $Key,
+            Values => [$Value]
+        );
     }
 
     # add UploadCache data

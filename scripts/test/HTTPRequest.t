@@ -19,11 +19,19 @@ use strict;
 use warnings;
 use utf8;
 
+=head1 DESCRIPTION
+
+This test script tests the module L<Kernel::System::Web::Request>. The input is taken
+from an instance of L<HTTP::Request>.
+
+=cut
+
 # core modules
 
 # CPAN modules
-use Test2::V0;
+use HTTP::Request::Common qw(POST);
 use HTTP::Request;
+use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
@@ -163,6 +171,147 @@ subtest 'POST with URL params' => sub {
     is( $Request->Content,                         $Body,       'body in mixed request' );
     is( $Request->GetParam( Param => 'POSTDATA' ), $Body,       'POSTDATA gets body' );
     is( $Request->ScriptName,                      'script.py', 'script name script.py' );
+};
+
+subtest 'POST with file upload' => sub {
+    my $Body         = 'a=4&b=5;d=2';
+    my $ContentFile1 = <<'END_TXT';
+File1 line1
+File1 line2
+END_TXT
+    my $ContentFile2 = <<'END_TXT';
+File2 line1
+File2 line2
+END_TXT
+
+    my $HTTPRequest = POST(
+        '/',
+        {
+            a     => ord 'a',
+            b     => ord 'b',
+            File1 => [
+                undef, 'file1.txt',
+                Content      => $ContentFile1,
+                Content_Type => 'text/plain'
+            ],
+            File2 => [
+                undef, 'file2.txt',
+                Content      => $ContentFile2,
+                Content_Type => 'text/plain'
+            ],
+        },
+        Content_Type => 'form-data',
+    );
+    my $Request = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
+
+    my @ParamNames = $Request->GetParamNames;
+    is(
+        [ sort @ParamNames ],
+        [qw/File1 File2 a b/],
+        'ParamNames',
+    );
+
+    # File1
+    is( $Request->GetParam( Param => 'File1' ), 'file1.txt', 'filename for File1' );
+    is(
+        { $Request->GetUploadAll( Param => 'File1' ) },
+        {
+            Filename    => 'file1.txt',
+            ContentType => 'text/plain',
+            Content     => $ContentFile1,
+        },
+        'upload info for File1',
+    );
+
+    # File2
+    is( $Request->GetParam( Param => 'File2' ), 'file2.txt', 'filename for File2' );
+    is(
+        { $Request->GetUploadAll( Param => 'File2' ) },
+        {
+            Filename    => 'file2.txt',
+            ContentType => 'text/plain',
+            Content     => $ContentFile2,
+        },
+        'upload info for File2',
+    );
+};
+
+subtest 'SetArray' => sub {
+    my $HTTPRequest = HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' );
+    my $Request     = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
+
+    isa_ok( $HTTPRequest, 'HTTP::Request' );
+    isa_ok( $Request,     'Kernel::System::Web::Request' );
+    is( $Request->GetParam( Param => 'a' ), 4, 'SingleParam a' );
+    is( $Request->GetParam( Param => 'b' ), 5, 'SingleParam b' );
+
+    # overwrite with single value
+    $Request->SetArray(
+        Param  => 'a',
+        Values => ['14']
+    );
+    is( $Request->GetParam( Param => 'a' ),     14,   'GetParam: a set with single value' );
+    is( [ $Request->GetArray( Param => 'a' ) ], [14], 'GetArray: a set with single value' );
+
+    # overwrite without value
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(a b)],
+        'GetParamNames: before removing a'
+    );
+    $Request->SetArray(
+        Param  => 'a',
+        Values => []
+    );
+    is( $Request->GetParam( Param => 'a' ),     undef, 'GetParam: a removed' );
+    is( [ $Request->GetArray( Param => 'a' ) ], [],    'GetArray: a removed' );
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b)],
+        'GetParamNames: after removing a'
+    );
+
+    # overwrite with multi values
+    $Request->SetArray(
+        Param  => 'b',
+        Values => [qw(⛄ 15a 15b 15c 15d)]
+    );
+    is( $Request->GetParam( Param => 'b' ),     '⛄',                     'GetParam: b set with multi values' );
+    is( [ $Request->GetArray( Param => 'b' ) ], [qw(⛄ 15a 15b 15c 15d)], 'GetArray: b set with multi values' );
+
+    # new with single value
+    $Request->SetArray(
+        Param  => 'newA',
+        Values => ['24']
+    );
+    is( $Request->GetParam( Param => 'newA' ),     24,   'GetParam: newA set with single value' );
+    is( [ $Request->GetArray( Param => 'newA' ) ], [24], 'GetArray: newA set with single value' );
+
+    # new with multi values
+    $Request->SetArray(
+        Param  => 'newB',
+        Values => [qw(25a 25b 25c 25d)]
+    );
+    is( $Request->GetParam( Param => 'newB' ),     '25a',                 'GetParam: newB set with multi values' );
+    is( [ $Request->GetArray( Param => 'newB' ) ], [qw(25a 25b 25c 25d)], 'GetArray: newB set with multi values' );
+
+    # new without value
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b newA newB)],
+        'GetParamNames: before removing newC'
+    );
+    $Request->SetArray(
+        Param  => 'newC',
+        Values => []
+    );
+    is( $Request->GetParam( Param => 'newC' ),     undef, 'GetParam: newC set without value' );
+    is( [ $Request->GetArray( Param => 'newC' ) ], [],    'GetArray: newC set without value' );
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b newA newB)],
+        'GetParamNames: after removing newC'
+    );
 };
 
 done_testing;
