@@ -19,6 +19,13 @@ use strict;
 use warnings;
 use utf8;
 
+=head1 DESCRIPTION
+
+This test script tests the module L<Kernel::System::Web::Request>. The input is taken
+from an instance of L<HTTP::Request>.
+
+=cut
+
 # core modules
 
 # CPAN modules
@@ -163,6 +170,84 @@ subtest 'POST with URL params' => sub {
     is( $Request->Content,                         $Body,       'body in mixed request' );
     is( $Request->GetParam( Param => 'POSTDATA' ), $Body,       'POSTDATA gets body' );
     is( $Request->ScriptName,                      'script.py', 'script name script.py' );
+};
+
+subtest 'SetArray' => sub {
+    my $HTTPRequest = HTTP::Request->new( GET => 'http://www.example.com?a=4;b=5' );
+    my $Request     = Kernel::System::Web::Request->new( HTTPRequest => $HTTPRequest );
+
+    isa_ok( $HTTPRequest, 'HTTP::Request' );
+    isa_ok( $Request,     'Kernel::System::Web::Request' );
+    is( $Request->GetParam( Param => 'a' ), 4, 'SingleParam a' );
+    is( $Request->GetParam( Param => 'b' ), 5, 'SingleParam b' );
+
+    # overwrite with single value
+    $Request->SetArray(
+        Param  => 'a',
+        Values => ['14']
+    );
+    is( $Request->GetParam( Param => 'a' ),     14,   'GetParam: a set with single value' );
+    is( [ $Request->GetArray( Param => 'a' ) ], [14], 'GetArray: a set with single value' );
+
+    # overwrite without value
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(a b)],
+        'GetParamNames: before removing a'
+    );
+    $Request->SetArray(
+        Param  => 'a',
+        Values => []
+    );
+    is( $Request->GetParam( Param => 'a' ),     undef, 'GetParam: a removed' );
+    is( [ $Request->GetArray( Param => 'a' ) ], [],    'GetArray: a removed' );
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b)],
+        'GetParamNames: after removing a'
+    );
+
+    # overwrite with multi values
+    $Request->SetArray(
+        Param  => 'b',
+        Values => [qw(⛄ 15a 15b 15c 15d)]
+    );
+    is( $Request->GetParam( Param => 'b' ),     '⛄',                     'GetParam: b set with multi values' );
+    is( [ $Request->GetArray( Param => 'b' ) ], [qw(⛄ 15a 15b 15c 15d)], 'GetArray: b set with multi values' );
+
+    # new with single value
+    $Request->SetArray(
+        Param  => 'newA',
+        Values => ['24']
+    );
+    is( $Request->GetParam( Param => 'newA' ),     24,   'GetParam: newA set with single value' );
+    is( [ $Request->GetArray( Param => 'newA' ) ], [24], 'GetArray: newA set with single value' );
+
+    # new with multi values
+    $Request->SetArray(
+        Param  => 'newB',
+        Values => [qw(25a 25b 25c 25d)]
+    );
+    is( $Request->GetParam( Param => 'newB' ),     '25a',                 'GetParam: newB set with multi values' );
+    is( [ $Request->GetArray( Param => 'newB' ) ], [qw(25a 25b 25c 25d)], 'GetArray: newB set with multi values' );
+
+    # new without value
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b newA newB)],
+        'GetParamNames: before removing newC'
+    );
+    $Request->SetArray(
+        Param  => 'newC',
+        Values => []
+    );
+    is( $Request->GetParam( Param => 'newC' ),     undef, 'GetParam: newC set without value' );
+    is( [ $Request->GetArray( Param => 'newC' ) ], [],    'GetArray: newC set without value' );
+    is(
+        [ sort $Request->GetParamNames ],
+        [qw(b newA newB)],
+        'GetParamNames: after removing newC'
+    );
 };
 
 done_testing;

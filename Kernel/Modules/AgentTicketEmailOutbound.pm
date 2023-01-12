@@ -927,8 +927,11 @@ sub SendEmail {
         # Reset FormDraftID to prevent updating existing draft.
         if ( $FormDraftAction eq 'Add' && $GetParam{FormDraftID} ) {
 
-            # TODO: avoid meddling with the innards of Plack::Request
-            $Self->{PlackRequest}->env->{'plack.request.merged'}->set( 'FormDraftID', '' );
+            # meddling with the innards of Kernel::System::Web::Request
+            $ParamObject->SetArray(
+                Param  => 'FormDraftID',
+                Values => ['']
+            );
         }
 
         my $FormDraftActionOk;

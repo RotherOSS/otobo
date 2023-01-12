@@ -319,6 +319,61 @@ sub GetArray {
     return @Values;
 }
 
+=head2 SetArray()
+
+set the values of a parameter. An empty list removes the parameter.
+
+This method should be used carefully, because it has the potential to cause
+unexpected consequences. For new, it is only used for supporting form draft.
+
+    # delete param
+    my $Success1 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [],
+    );
+
+    # single value
+    my $Success1 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [ 123 ],
+    );
+
+    # multi values
+    my $Success3 = $ParamObject->SetArray(
+        Param  => 'ID',
+        Values => [ 123, 'asdf', '' ],
+    );
+
+The value 1 is returned in the case of success.
+An empty list is returned in the case of problems.
+
+=cut
+
+sub SetArray {
+    my ( $Self, %Param ) = @_;
+
+    # check needed stuff
+    ARGUMENT:
+    for my $Argument (qw(Param Values)) {
+        next ARGUMENT if $Param{$Argument};
+
+        return;
+    }
+    if ( ref $Param{Values} ne 'ARRAY' ) {
+
+        return;
+    }
+
+    if ( $Param{Values}->@* ) {
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Param{Param}, $Param{Values}->@* );
+    }
+    else {
+        $Self->{PlackRequest}->env->{'plack.request.merged'}->remove( $Param{Param} );
+    }
+
+    return 1;
+}
+
 =head2 Content
 
 Returns the request content in a raw byte string for POST requests.
@@ -699,11 +754,13 @@ sub LoadFormDraft {
         FormDraftID => $Param{FormDraftID},
         UserID      => $Param{UserID},
     );
+
     return unless IsHashRefWithData($FormDraft);
 
     # Verify action.
     my $Action = $Self->GetParam( Param => 'Action' );
-    return if $FormDraft->{Action} ne $Action;
+
+    return unless $FormDraft->{Action} eq $Action;
 
     # add draft name to form data
     $FormDraft->{FormData}->{FormDraftTitle} = $FormDraft->{Title};
@@ -721,13 +778,19 @@ sub LoadFormDraft {
 
         # array value
         if ( IsArrayRefWithData($Value) ) {
-            $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value->@* );
+            $Self->SetArray(
+                Param  => $Key,
+                Values => $Value
+            );
 
             next KEY;
         }
 
         # scalar value
-        $Self->{PlackRequest}->env->{'plack.request.merged'}->set( $Key, $Value );
+        $Self->SetArray(
+            Param  => $Key,
+            Values => [$Value]
+        );
     }
 
     # add UploadCache data
