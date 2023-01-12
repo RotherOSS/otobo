@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,9 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -2944,8 +2942,6 @@ for my $Test (@BasicTests) {
 
     subtest $Test->{Name} => sub {
 
-        diag "Running basic test: $Test->{Name}";
-
         # Update web service with real config.
         my $WebserviceUpdate = $WebserviceObject->WebserviceUpdate(
             ID      => $WebserviceID,
@@ -2954,10 +2950,7 @@ for my $Test (@BasicTests) {
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $WebserviceUpdate,
-            "Updated Web service $WebserviceID"
-        );
+        ok( $WebserviceUpdate, "Updated Web service $WebserviceID" );
 
         # start requester with our web service
         my ($InvokerName) = keys %{ $Test->{WebserviceConfig}->{Requester}->{Invoker} };
@@ -2968,7 +2961,7 @@ for my $Test (@BasicTests) {
         );
 
         # check result
-        is( ref $RequesterResult, 'HASH', "Requester result structure is valid" );
+        ref_ok( $RequesterResult, 'HASH', "Requester result structure is valid" );
 
         # check success of result
         if ( $Test->{SuccessRequest} ) {
@@ -2986,10 +2979,7 @@ for my $Test (@BasicTests) {
         #     },
         # },
         if ( $Test->{ExpectedReturn} ) {
-
-            # using Test2::V0::is() is not trivial here,
-            # as is() and IsDeeply() diverge on how undefined values are treated
-            $Self->IsDeeply(
+            is(
                 $RequesterResult,
                 $Test->{ExpectedReturn},
                 'request result'
