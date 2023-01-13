@@ -163,8 +163,14 @@ sub new {
         $Error = $_;
     };
 
-    # the error case
-    return bless { Error => $_ }, $Type if $Error;
+    if ($Error) {
+        my $DummyPlackRequest = Plack::Request->new( req_to_psgi( GET('/') ) );
+
+        return bless {
+            PlackRequest => $DummyPlackRequest,
+            Error        => $Error
+        }, $Type;
+    }
 
     # construction went fine
     return bless { PlackRequest => $PlackRequest }, $Type;
