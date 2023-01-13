@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -79,16 +79,20 @@ my @Tests = (
         ContentType => 'text/xml;charset=UTF-8',
     },
     {
+        # The charset is not declared as UTF-8. Thus ProviderProcessRequest()
+        # has no reason to decode the content. Thus expect the encoded value as the result.
+        UseEncoded  => 1,
         Name        => 'ISO-8859-1 Complex Content Type',
         Value       => 'c™',
         ContentType => 'application/soap+xml;charset=iso-8859-1;action="urn:MyService/MyAction"',
-        ToDo        => 'fix double encoding issue',
     },
     {
-        Name        => 'ISO-8859-1 Single Content Type',
+        # The charset is not declared as UTF-8. Thus ProviderProcessRequest()
+        # has no reason to decode the content. Thus expect the encoded value as the result.
+        UseEncoded  => 1,
+        Name        => 'ISO-8859-1 Simple Content Type',
         Value       => 'c™',
         ContentType => 'text/xml;charset=iso-8859-1;',
-        ToDo        => 'fix double encoding issue',
     },
     {
         Name        => 'ISO-8859-1 Complex Content Type (Just ASCII)',
@@ -106,7 +110,6 @@ plan( scalar @Tests );
 
 for my $Test (@Tests) {
 
-    my $ToDo    = $Test->{ToDo} ? todo( $Test->{ToDo} ) : '';
     my $Request = << "END_XML";
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tic="http://www.otobo.org/TicketConnector/">
    <soapenv:Header/>
@@ -139,8 +142,8 @@ END_XML
     my $Result = $SOAPObject->ProviderProcessRequest();
 
     # Convert original value to UTF-8 (if needed).
-    if ( $Test->{ContentType} =~ m{UTF-8}mxsi ) {
-        $EncodeObject->EncodeInput( \$Test->{Value} );
+    if ( $Test->{UseEncoded} ) {
+        $EncodeObject->EncodeOutput( \$Test->{Value} );
     }
 
     is(
