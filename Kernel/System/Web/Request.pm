@@ -100,11 +100,6 @@ This is relevant sometimes when an instance of C<Kernel::System::Web::Request> i
 sub new {
     my ( $Type, %Param ) = @_;
 
-    # TODO: POST_MAX for Plack::Request
-    # max 5 MB posts
-    #my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    #$CGI::POST_MAX = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
-
     my $PSGIEnv;
     if ( $Param{PSGIEnv} ) {
 
@@ -130,6 +125,28 @@ sub new {
         $PSGIEnv = req_to_psgi( GET('/') );
     }
 
+    # Limit the max content length to the configured value
+    # or to 5 MB as fallback.
+    {
+        my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+        my $PostMax       = $ConfigObject->Get('WebMaxFileUpload') || 1024 * 1024 * 5;
+        my $ContentLength = $PSGIEnv->{CONTENT_LENGTH} // 0;
+
+        # Setting WebMaxFileUpload to a negative value is prohibited in the GUI,
+        # But it could have been set up manually.
+        if ( $PostMax > 0 && $ContentLength > $PostMax ) {
+            my $Error = sprintf
+                '413 Request entity too large - POST_MAX=%dKB',
+                $PostMax / 1024;
+            my $DummyPlackRequest = Plack::Request->new( req_to_psgi( GET('/') ) );
+
+            return bless {
+                PlackRequest => $DummyPlackRequest,
+                Error        => $Error
+            }, $Type;
+        }
+    }
+
     # Plack::Request has no cgi_error() method. This means that failures in object creation
     # and in input parsing are only communcated via exceptions. Let'c catch the exception so
     # that the status can be checked with the Error() method.
@@ -146,8 +163,14 @@ sub new {
         $Error = $_;
     };
 
-    # the error case
-    return bless { Error => $_ }, $Type if $Error;
+    if ($Error) {
+        my $DummyPlackRequest = Plack::Request->new( req_to_psgi( GET('/') ) );
+
+        return bless {
+            PlackRequest => $DummyPlackRequest,
+            Error        => $Error
+        }, $Type;
+    }
 
     # construction went fine
     return bless { PlackRequest => $PlackRequest }, $Type;
