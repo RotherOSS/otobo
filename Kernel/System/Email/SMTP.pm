@@ -54,7 +54,7 @@ sub Check {
 
     if ( !$Param{CommunicationLogObject} ) {
         $Param{CommunicationLogObject} = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLogObject',
+            'Kernel::System::CommunicationLog',
             ObjectParams => {
                 Transport => 'Email',
                 Direction => 'Outgoing',
