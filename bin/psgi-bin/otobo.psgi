@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -86,7 +86,7 @@ use File::Path qw(make_path);
 
 # CPAN modules
 use DateTime 1.08;
-use Template  ();
+use Template qw();
 use Plack::Builder;
 use Plack::Request;
 use Plack::Response;
@@ -112,6 +112,7 @@ my $Home = abs_path("$Bin/../..");
 # the question whether there is a S3 backend must the resolved early
 # usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
 my ( $S3Active, $ClearConfigObject );
+
 #if ( -r "$Home/Kernel/Config.pm" ) {
 #    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
 #    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
@@ -452,7 +453,7 @@ my $RedirectOtoboApp = sub {
 
         # Special case for https://example.com/otobo . The path below 'otobo' is empty. So for redirecting
         # we needed information how we got here. Often REQUEST_URI is '/otobo' but this is not guaranteed.
-        my ($LastComponent) = reverse split '/', $Env->{REQUEST_URI};
+        my ($LastComponent) = reverse split /\//, $Env->{REQUEST_URI};
         $Redirect = join '/', $LastComponent, $Interface;    # e.g. otobo/index.pl
     }
     else {
