@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,6 +28,7 @@ use lib dirname($RealBin);
 
 use JSON;
 use REST::Client;
+use Data::Dumper;
 
 # This is the HOST for the web service the format is:
 # <HTTP_TYPE>:://<OTOBO_FQDN>/nph-genericinterface.pl
@@ -90,10 +91,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Get response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketSearch Example
@@ -127,10 +126,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Search Response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketCreate Example
@@ -183,10 +180,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Create Response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketUpdate Example
@@ -218,10 +213,8 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "Update response was:\n";
     print Dumper($Data);
-
 }
 
 # TicketHistoryGet Example
@@ -255,8 +248,6 @@ else {
     my $Data = decode_json $ResponseContent;
 
     # Just to print out the returned Data structure:
-    use Data::Dumper;
     print "History Response was:\n";
     print Dumper($Data);
-
 }

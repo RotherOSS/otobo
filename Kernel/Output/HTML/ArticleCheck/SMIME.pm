@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -19,6 +19,12 @@ package Kernel::Output::HTML::ArticleCheck::SMIME;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use MIME::Parser;
+
+# OTOBO modules
 use Kernel::System::EmailParser;
 use Kernel::Language qw(Translatable);
 
@@ -156,7 +162,6 @@ sub Check {
             Email => \@Email,
         );
 
-        use MIME::Parser;
         my $Parser = MIME::Parser->new();
         $Parser->decode_headers(0);
         $Parser->extract_nested_messages(0);
