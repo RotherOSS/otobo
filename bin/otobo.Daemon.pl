@@ -3,7 +3,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -32,6 +32,7 @@ use lib dirname($RealBin) . '/Custom';
 use File::Path qw();
 use Time::HiRes qw(sleep);
 use Fcntl qw(:flock);
+use File::Copy qw(move);
 
 # CPAN modules
 
@@ -573,7 +574,6 @@ sub _LogFilesSet {
     # get log rotation type and backup old logs if logs should be rotated by OTOBO
     my $RotationType = lc $ConfigObject->Get('Daemon::Log::RotationType') || 'otobo';
     if ( $RotationType eq 'otobo' ) {
-        use File::Copy qw(move);
         if ( -e "$FileStdOut.log" ) {
             move( "$FileStdOut.log", "$FileStdOut-$SystemTime.log" );
         }
