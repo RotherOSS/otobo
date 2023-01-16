@@ -935,8 +935,8 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 smtps    => 'SMTPS',
                 smtptls  => 'SMTPTLS',
             },
-            Name  => 'OutboundMailType',
-            Class => 'Modernize',
+            Name         => 'OutboundMailType',
+            Class        => 'Modernize',
             PossibleNone => 1,
         );
         my $OutboundMailDefaultPorts = $LayoutObject->BuildSelection(
@@ -951,9 +951,9 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         );
 
         my $InboundMailTypeSelection = $LayoutObject->BuildSelection(
-            Data  => \%MailBackends,
-            Name  => 'InboundMailType',
-            Class => 'Modernize',
+            Data         => \%MailBackends,
+            Name         => 'InboundMailType',
+            Class        => 'Modernize',
             PossibleNone => 1,
         );
 
