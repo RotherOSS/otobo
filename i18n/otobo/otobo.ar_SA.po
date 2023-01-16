@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-16 09:37+0000\n"
+"PO-Revision-Date: 2023-01-17 12:54+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17248,59 +17248,63 @@ msgstr "بعض الحزم غير ملائمة للنسخة الحالية من �
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
-msgstr ""
+msgstr "قائمة الحزم"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
 msgid "Session Config Settings"
-msgstr ""
+msgstr "إعدادات تكوين الجلسة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "Spooled Emails"
-msgstr ""
+msgstr "رسائل البريد الإلكتروني التي سيتم إرسالها"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
 msgid "There are emails in var/spool that OTOBO could not process."
-msgstr ""
+msgstr "يحتوي var/spool على رسائل بريد إلكتروني تعذر على OTOBO معالجتها."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
 msgid "Your SystemID setting is invalid, it should only contain digits."
-msgstr ""
+msgstr "إعداد SystemID الخاص بك غير صالح، يجب أن يحتوي على أرقام فقط."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid "Default Ticket Type"
-msgstr ""
+msgstr "نوع التذكرة الافتراضي"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
 msgid ""
 "The configured default ticket type is invalid or missing. Please change the "
 "setting Ticket::Type::Default and select a valid ticket type."
 msgstr ""
+"نوع التذكرة الافتراضي الذي تم تكوينه غير صالح أو مفقود. يرجى تغيير الإعداد "
+"Ticket::Type::Default وتحديد نوع تذكرة صالح."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid "Ticket Index Module"
-msgstr ""
+msgstr "وحدة فهرس التذاكر"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
 msgid ""
 "You have more than 60,000 tickets and should use the StaticDB backend. See "
 "admin manual (Performance Tuning) for more information."
 msgstr ""
+"لديك أكثر من 60,000 تذكرة ويجب أن تستخدم StaticDB backend. يرجى الرجوع إلى "
+"دليل المدير (تحسين الأداء)."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "Invalid Users with Locked Tickets"
-msgstr ""
+msgstr "مستخدم غير صالح بتذاكر مؤمنة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
 msgid "There are invalid users with locked tickets."
-msgstr ""
+msgstr "هناك مستخدمون غير صالحين لديهم تذاكر مؤمنة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
 msgid "You should not have more than 8,000 open tickets in your system."
-msgstr ""
+msgstr "يجب ألا يكون لديك أكثر من 8,000 تذكرة مفتوحة في نظامك."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid "Ticket Search Index Module"
-msgstr ""
+msgstr "وحدة فهرس البحث في التذكرة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
 msgid ""
@@ -17309,6 +17313,9 @@ msgid ""
 "This will increase the size of the search index and thus may slow down "
 "fulltext searches."
 msgstr ""
+"تفرض عملية الفهرسة تخزين نص المقالة الأصلي في فهرس البحث عن المقالات، بدون "
+"تنفيذ عوامل التصفية أو تطبيق قوائم كلمات التوقف. سيؤدي ذلك إلى زيادة حجم "
+"فهرس البحث وبالتالي قد يؤدي إلى إبطاء عمليات البحث عن النص الكامل."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
 msgid "Orphaned Records In ticket_lock_index Table"
@@ -17332,31 +17339,31 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Time Settings"
-msgstr ""
+msgstr "إعدادات الوقت"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Server time zone"
-msgstr ""
+msgstr "المنطقة الزمنية للخادم"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone"
-msgstr ""
+msgstr "المنطقة الزمنية ل OTOBO"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "OTOBO time zone is not set."
-msgstr ""
+msgstr "لم يتم تعيين المنطقة الزمنية ل OTOBO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone"
-msgstr ""
+msgstr "المنطقة الزمنية الافتراضية للمستخدم"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "User default time zone is not set."
-msgstr ""
+msgstr "لم يتم تعيين المنطقة الزمنية الافتراضية للمستخدم."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
 msgid "Calendar time zone is not set."
-msgstr ""
+msgstr "لم يتم تعيين المنطقة الزمنية للتقويم."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
 msgid "UI - Agent Skin Usage"
