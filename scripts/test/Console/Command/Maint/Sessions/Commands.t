@@ -52,7 +52,7 @@ my ( $Result, $ExitCode );
 # get ListAll command object
 my $ListAllCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::ListAll');
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListAllCommandObject->Execute();
 }
@@ -88,7 +88,7 @@ $Self->Is(
 undef $Result;
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListAllCommandObject->Execute();
 }
@@ -133,7 +133,7 @@ undef $Result;
 # get ListExpired command object
 my $ListExpiredCommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::Session::ListExpired');
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListExpiredCommandObject->Execute();
 }
@@ -157,7 +157,7 @@ $Kernel::OM->Get('Kernel::Config')->Set(
 undef $Result;
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $ListExpiredCommandObject->Execute();
 }

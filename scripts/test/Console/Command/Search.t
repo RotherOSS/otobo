@@ -37,7 +37,7 @@ $Self->Is(
 my $Result;
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('Lis');
 }
@@ -61,7 +61,7 @@ $Self->True(
 # Check command search (empty)
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('NonExistingSearchTerm');
 }

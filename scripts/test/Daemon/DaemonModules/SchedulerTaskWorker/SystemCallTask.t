@@ -57,7 +57,7 @@ my $RunTasks = sub {
 
     # Localize the standard error, to prevent redefining warnings.
     #   WARNING: This also hides any task run errors.
-    local *STDERR;
+    local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
     # Redirect the standard error to a variable.
     open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)

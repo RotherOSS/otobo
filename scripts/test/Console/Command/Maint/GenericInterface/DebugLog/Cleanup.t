@@ -58,7 +58,7 @@ my @Tests = (
 for my $Test (@Tests) {
 
     {
-        local *STDOUT;
+        local *STDOUT;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Config} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );

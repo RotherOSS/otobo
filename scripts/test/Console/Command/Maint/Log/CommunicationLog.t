@@ -100,13 +100,13 @@ my $RunTest = sub {
     my ( $ExitCode, $Result );
 
     if ( $Test->{Output} && $Test->{Output} eq 'STDOUT' ) {
-        local *STDOUT;
+        local *STDOUT;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Params} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );
     }
     else {
-        local *STDERR;
+        local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDERR, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
         $ExitCode = $CommandObject->Execute( @{ $Test->{Params} } );
         $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );

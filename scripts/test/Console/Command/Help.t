@@ -28,7 +28,7 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Help');
 my ( $Result, $ExitCode );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
@@ -41,7 +41,7 @@ $Self->Is(
 # Check command help
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('Help');
 }
@@ -60,7 +60,7 @@ $Self->True(
 # Check command search
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('Lis');
 }
@@ -84,7 +84,7 @@ $Self->True(
 # Check command search (empty)
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute('NonExistingSearchTerm');
 }

@@ -42,8 +42,8 @@ my $RunCommand = sub {
     $ResultOut = '';
 
     {
-        local *STDERR;
-        local *STDOUT;
+        local *STDERR;                         ## no critic qw(Variables::RequireInitializationForLocalVars)
+        local *STDOUT;                         ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDERR, '>:utf8', \$ResultErr;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         open STDOUT, '>:utf8', \$ResultOut;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
         $ExitCode = $CommandObject->Execute( '--non-interactive', @Args, );
