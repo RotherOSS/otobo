@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-12 16:21+0000\n"
+"PO-Revision-Date: 2023-01-16 09:33+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17159,78 +17159,84 @@ msgid ""
 "Security risk: the agent account root@localhost still has the default "
 "password. Please change it or invalidate the account."
 msgstr ""
+"خطر الأمان: لا يزال حساب الوكيل root@localhost يحتوي على كلمة المرور "
+"الافتراضية. الرجاء تغييره أو إبطال الحساب."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Email Sending Queue"
-msgstr ""
+msgstr "قائمة انتظار إرسال البريد الإلكتروني"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
 msgid "Emails queued for sending"
-msgstr ""
+msgstr "تم وضع رسائل البريد الإلكتروني في قائمة الانتظار لإرسالها"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "FQDN (domain name)"
-msgstr ""
+msgstr "FQDN (اسم domain)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Please configure your FQDN setting."
-msgstr ""
+msgstr "الرجاء تكوين إعداد FQDN."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Domain Name"
-msgstr ""
+msgstr "اسم Domain"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
 msgid "Your FQDN setting is invalid."
-msgstr ""
+msgstr "إعداد FQDN غير صالح."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "File System Writable"
-msgstr ""
+msgstr "نظام الملفات قابل للكتابة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
 msgid "The file system on your OTOBO partition is not writable."
-msgstr ""
+msgstr "نظام الملفات الموجود على قسم OTOBO غير قابل للكتابة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "Legacy Configuration Backups"
-msgstr ""
+msgstr "النسخ الاحتياطية للتهيئة القديمة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid "No legacy configuration backup files found."
-msgstr ""
+msgstr "لم يتم العثور على ملفات النسخ الاحتياطي للتكوين القديم."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files found in Kernel/Config/Backups folder, but "
 "they might still be required by some packages."
 msgstr ""
+"تم العثور على ملفات النسخ الاحتياطي للتكوين القديم في مجلد Kernel/Config/"
+"Backup، ولكن قد تظل مطلوبة من قبل بعض الحزم."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
 msgid ""
 "Legacy configuration backup files are no longer needed for the installed "
 "packages, please remove them from Kernel/Config/Backups folder."
 msgstr ""
+"لم تعد هناك حاجة لملفات النسخ الاحتياطي للتكوين القديم للحزم المثبتة، الرجاء "
+"إزالتها من مجلد Kernel/Config/Backup."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Installation Status"
-msgstr ""
+msgstr "حالة تثبيت الحزمة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages have locally modified files."
-msgstr ""
+msgstr "تحتوي بعض الحزم على ملفات معدلة محليا."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not correctly installed."
-msgstr ""
+msgstr "لم يتم تثبيت بعض الحزم بشكل صحيح."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Verification Status"
-msgstr ""
+msgstr "حالة التحقق من الحزمة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not verified by the OTOBO Team."
-msgstr ""
+msgstr "لم يتم التحقق من بعض الحزم من قبل فريق OTOBO."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
