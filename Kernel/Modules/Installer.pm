@@ -1377,8 +1377,6 @@ sub CheckMailConfiguration {
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
         %Result        = $SendObject->Check();
-        use Data::Dumper;
-        print STDERR "Installer: Result is " . Dumper(\%Result) . "\n";
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
