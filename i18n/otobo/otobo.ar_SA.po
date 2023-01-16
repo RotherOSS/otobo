@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-16 09:33+0000\n"
+"PO-Revision-Date: 2023-01-16 09:37+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17240,11 +17240,11 @@ msgstr "لم يتم التحقق من بعض الحزم من قبل فريق OTO
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Package Framework Version Status"
-msgstr ""
+msgstr "حالة إصدار إطار الحزمة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
 msgid "Some packages are not allowed for the current framework version."
-msgstr ""
+msgstr "بعض الحزم غير ملائمة للنسخة الحالية من الإطار."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
 msgid "Package List"
