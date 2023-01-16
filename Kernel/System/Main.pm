@@ -483,7 +483,7 @@ sub FileRead {
     }
 
     # read file as string
-    my $String = do { local $/ = undef; <$FH> };
+    my $String = do { local $/; <$FH> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
     close $FH;
 
     return \$String;

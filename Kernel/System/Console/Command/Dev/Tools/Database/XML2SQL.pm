@@ -116,7 +116,7 @@ sub Run {
     }
     else {
         # read xml data from STDIN
-        $SourceXML = do { local $/ = undef; <> };
+        $SourceXML = do { local $/; <> };    ## no critic qw(Variables::RequireInitializationForLocalVars)
     }
 
     for my $DatabaseType (@DatabaseType) {

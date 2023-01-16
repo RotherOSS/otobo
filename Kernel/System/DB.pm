@@ -262,7 +262,7 @@ sub Connect {
         # have the callbacks with the attributes.
         # But for now, the Callbacks are not part of the cache key in order to avoid serialised code.
         my $CacheKey = do {
-            local $^W = undef;
+            no warnings;    ## no critic qw(TestingAndDebugging::ProhibitNoWarnings)
 
             join
                 "!\001",
