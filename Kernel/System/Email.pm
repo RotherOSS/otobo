@@ -799,7 +799,7 @@ sub Check {
 
     my %Check = $Self->{Backend}->Check();
 
-    if ( $Check{Successful} ) {
+    if ( $Check{Success} ) {
         return ( Successful => 1 );
     }
     else {
