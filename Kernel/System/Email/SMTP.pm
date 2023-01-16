@@ -167,7 +167,7 @@ sub Check {
     }
 
     # Enclose SMTP in a wrapper to handle unexpected exceptions
-    $SMTP = $Self->_GetSMTPSafeWrapper(
+    my $SMTPWrapper = $Self->_GetSMTPSafeWrapper(
         SMTP => $SMTP,
     );
 
@@ -181,12 +181,12 @@ sub Check {
             Value         => "Using SMTP authentication with user '$Self->{User}' and (hidden) password.",
         );
 
-        if ( !$SMTP->( 'auth', $Self->{User}, $Self->{Password} ) ) {
+        if ( !$SMTPWrapper->( 'auth', $Self->{User}, $Self->{Password} ) ) {
 
-            my $Code  = $SMTP->( 'code', );
-            my $Error = $Code . ', ' . $SMTP->( 'message', );
+            my $Code  = $SMTPWrapper->( 'code', );
+            my $Error = $Code . ', ' . $SMTPWrapper->( 'message', );
 
-            $SMTP->( 'quit', );
+            $SMTPWrapper->( 'quit', );
 
             $Param{CommunicationLogObject}->ObjectLog(
                 ObjectLogType => 'Connection',
@@ -203,7 +203,7 @@ sub Check {
     }
 
     return $ReturnSuccess->(
-        SMTP => $SMTP,
+        SMTP => $SMTPWrapper,
     );
 }
 
