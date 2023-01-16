@@ -450,7 +450,7 @@ sub Status {
         if ( !flock( $FH, LOCK_EX | LOCK_NB ) ) {
 
             # if no exclusive lock, daemon might be running, send signal to the PID
-            my $RegisteredPID = do { local $/; <$FH> };
+            my $RegisteredPID = do { local $/ = undef; <$FH> };
             close $FH;
 
             if ($RegisteredPID) {
@@ -515,7 +515,7 @@ sub _PIDLock {
             return;
         }
 
-        my $RegisteredPID = do { local $/; <$FH> };
+        my $RegisteredPID = do { local $/ = undef; <$FH> };
         close $FH;
 
         if ($RegisteredPID) {
@@ -551,7 +551,7 @@ sub _PIDUnlock {
 
     # wait if PID is exclusively locked (and do a shared lock for reading)
     flock $FH, LOCK_SH;
-    my $RegisteredPID = do { local $/; <$FH> };
+    my $RegisteredPID = do { local $/ = undef; <$FH> };
     close $FH;
 
     unlink $PIDFile;

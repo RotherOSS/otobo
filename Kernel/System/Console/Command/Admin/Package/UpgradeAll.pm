@@ -136,7 +136,7 @@ sub Run {
     eval {
         # Localize the standard error, everything will be restored after the eval block.
         # Package installation or upgrades always produce messages in STDERR for files and directories.
-        local *STDERR;
+        local *STDERR;    ## no critic qw(Variables::RequireInitializationForLocalVars)
 
         # Redirect the standard error to a variable.
         open STDERR, '>>', \$ErrorMessage;    ## no critic qw(OTOBO::ProhibitOpen)

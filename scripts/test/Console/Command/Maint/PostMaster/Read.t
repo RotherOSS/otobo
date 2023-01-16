@@ -36,7 +36,7 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::P
 my ( $ExitCode, $Result );
 
 {
-    local *STDIN;
+    local *STDIN;                 ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDIN, '<:utf8', \'';    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }
@@ -49,9 +49,9 @@ $Self->Is(
 
 {
     my $Email = "From: me\@home.com\nTo: you\@home.com\nSubject: Test\nUnit tests rock.\n";
-    local *STDIN;
-    open STDIN, '<:utf8', \$Email;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
-    local *STDOUT;
+    local *STDIN;                       ## no critic qw(Variables::RequireInitializationForLocalVars)
+    open STDIN, '<:utf8', \$Email;      ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }

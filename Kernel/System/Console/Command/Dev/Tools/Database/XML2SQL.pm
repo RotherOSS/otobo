@@ -116,7 +116,7 @@ sub Run {
     }
     else {
         # read xml data from STDIN
-        $SourceXML = do { local $/; <> };
+        $SourceXML = do { local $/ = undef; <> };
     }
 
     for my $DatabaseType (@DatabaseType) {

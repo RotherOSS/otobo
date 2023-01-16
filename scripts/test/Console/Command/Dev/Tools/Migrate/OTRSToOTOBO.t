@@ -39,7 +39,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--source" => "$Home/Kernel/Config/Files/NotExisting/Source",
@@ -59,7 +59,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
@@ -80,7 +80,7 @@ subtest
     sub {
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 "--target" => "$Home/Kernel/Config/Files/NotExisting/Target",
@@ -113,7 +113,7 @@ subtest
 
         my ( $ExitCode, $Stderr );
         {
-            local *STDERR;
+            local *STDERR;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
             open STDERR, '>:encoding(UTF-8)', \$Stderr;    ## no critic qw(OTOBO::ProhibitOpen)
             $ExitCode = $CommandObject->Execute(
                 '--cleanxmlconfig',

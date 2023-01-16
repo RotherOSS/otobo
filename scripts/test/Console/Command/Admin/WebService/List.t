@@ -59,7 +59,7 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::W
 my ( $Result, $ExitCode );
 
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute();
 }

@@ -136,7 +136,7 @@ my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Maint::S
 
 my ( $Result, $ExitCode );
 {
-    local *STDOUT;
+    local *STDOUT;                                 ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:encoding(UTF-8)', \$Result;    ## no critic qw(OTOBO::ProhibitOpen)
     $ExitCode = $CommandObject->Execute('--add-all');
     $Kernel::OM->Get('Kernel::System::Encode')->EncodeInput( \$Result );

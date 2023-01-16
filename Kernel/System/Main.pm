@@ -483,7 +483,7 @@ sub FileRead {
     }
 
     # read file as string
-    my $String = do { local $/; <$FH> };
+    my $String = do { local $/ = undef; <$FH> };
     close $FH;
 
     return \$String;

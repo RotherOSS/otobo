@@ -37,7 +37,7 @@ my $Home = $Kernel::OM->Get('Kernel::Config')->Get('Home');
 
 my $Result;
 {
-    local *STDOUT;
+    local *STDOUT;                      ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDOUT, '>:utf8', \$Result;    ## no critic qw(OTOBO::ProhibitOpen InputOutput::RequireEncodingWithUTF8Layer)
     $ExitCode = $CommandObject->Execute("$Home/Kernel/Config/Files");
 }

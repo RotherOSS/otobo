@@ -241,7 +241,7 @@ sub Generate {
     # add files to the tar archive
     open( my $Tar, '<', $Archive );    ## no critic qw(OTOBO::ProhibitOpen)
     binmode $Tar;
-    my $TmpTar = do { local $/; <$Tar> };
+    my $TmpTar = do { local $/ = undef; <$Tar> };
     close $Tar;
 
     # remove all files
@@ -395,7 +395,7 @@ sub GenerateCustomFilesArchive {
     }
 
     binmode $TARFH;
-    my $TmpTar = do { local $/; <$TARFH> };
+    my $TmpTar = do { local $/ = undef; <$TARFH> };
     close $TARFH;
 
     if ( $Kernel::OM->Get('Kernel::System::Main')->Require('Compress::Zlib') ) {

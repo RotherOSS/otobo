@@ -369,7 +369,7 @@ $Self->True(
 my $ErrorOutput = '';
 
 {
-    local *STDERR;
+    local *STDERR;                       ## no critic qw(Variables::RequireInitializationForLocalVars)
     open STDERR, '>>', \$ErrorOutput;    ## no critic qw(OTOBO::ProhibitOpen)
 
     %TicketIDs = $TicketObject->TicketSearch(

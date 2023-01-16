@@ -71,9 +71,9 @@ for my $Test (@Tests) {
     # run Dev::UnitTest::Run
     my ( $ResultStdout, $ResultStderr, $ExitCode );
     {
-        local *STDOUT;
+        local *STDOUT;                                       ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDOUT, '>:encoding(UTF-8)', \$ResultStdout;    ## no critic qw(OTOBO::ProhibitOpen)
-        local *STDERR;
+        local *STDERR;                                       ## no critic qw(Variables::RequireInitializationForLocalVars)
         open STDERR, '>:encoding(UTF-8)', \$ResultStderr;    ## no critic qw(OTOBO::ProhibitOpen)
 
         $ExitCode = $CommandObject->Execute( '--test', $Test->{Test}, '--quiet' );
