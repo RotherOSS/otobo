@@ -935,8 +935,9 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
                 smtps    => 'SMTPS',
                 smtptls  => 'SMTPTLS',
             },
-            Name  => 'OutboundMailType',
-            Class => 'Modernize',
+            Name         => 'OutboundMailType',
+            Class        => 'Modernize',
+            PossibleNone => 1,
         );
         my $OutboundMailDefaultPorts = $LayoutObject->BuildSelection(
             Class => 'Hidden',
@@ -950,9 +951,10 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         );
 
         my $InboundMailTypeSelection = $LayoutObject->BuildSelection(
-            Data  => \%MailBackends,
-            Name  => 'InboundMailType',
-            Class => 'Modernize',
+            Data         => \%MailBackends,
+            Name         => 'InboundMailType',
+            Class        => 'Modernize',
+            PossibleNone => 1,
         );
 
         my $Output = $LayoutObject->Header(
@@ -1311,102 +1313,101 @@ sub CheckMailConfiguration {
     my ( $Self, %Param ) = @_;
 
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    my %Result;
 
     # First check outbound mail config.
     my $OutboundMailType =
         $ParamObject->GetParam( Param => 'OutboundMailType' );
-    my $SMTPHost = $ParamObject->GetParam( Param => 'SMTPHost' );
-    my $SMTPPort = $ParamObject->GetParam( Param => 'SMTPPort' );
-    my $SMTPAuthUser =
-        $ParamObject->GetParam( Param => 'SMTPAuthUser' );
-    my $SMTPAuthPassword =
-        $ParamObject->GetParam( Param => 'SMTPAuthPassword' );
 
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    if ( $OutboundMailType ) {
 
-    # If chosen config option is SMTP, set some Config params.
-    if ( $OutboundMailType && $OutboundMailType ne 'sendmail' ) {
-        $ConfigObject->Set(
-            Key   => 'SendmailModule',
-            Value => 'Kernel::System::Email::' . uc($OutboundMailType),
-        );
-        $ConfigObject->Set(
-            Key   => 'SendmailModule::Host',
-            Value => $SMTPHost,
-        );
-        $ConfigObject->Set(
-            Key   => 'SendmailModule::Port',
-            Value => $SMTPPort,
-        );
-        if ($SMTPAuthUser) {
+        my $SMTPHost = $ParamObject->GetParam( Param => 'SMTPHost' );
+        my $SMTPPort = $ParamObject->GetParam( Param => 'SMTPPort' );
+        my $SMTPAuthUser =
+            $ParamObject->GetParam( Param => 'SMTPAuthUser' );
+        my $SMTPAuthPassword =
+            $ParamObject->GetParam( Param => 'SMTPAuthPassword' );
+
+        # If chosen config option is SMTP, set some Config params.
+        if ( $OutboundMailType ne 'sendmail' ) {
             $ConfigObject->Set(
-                Key   => 'SendmailModule::AuthUser',
-                Value => $SMTPAuthUser,
+                Key   => 'SendmailModule',
+                Value => 'Kernel::System::Email::' . uc($OutboundMailType),
             );
-        }
-        if ($SMTPAuthPassword) {
             $ConfigObject->Set(
-                Key   => 'SendmailModule::AuthPassword',
-                Value => $SMTPAuthPassword,
+                Key   => 'SendmailModule::Host',
+                Value => $SMTPHost,
             );
+            $ConfigObject->Set(
+                Key   => 'SendmailModule::Port',
+                Value => $SMTPPort,
+            );
+            if ($SMTPAuthUser) {
+                $ConfigObject->Set(
+                    Key   => 'SendmailModule::AuthUser',
+                    Value => $SMTPAuthUser,
+                );
+            }
+            if ($SMTPAuthPassword) {
+                $ConfigObject->Set(
+                    Key   => 'SendmailModule::AuthPassword',
+                    Value => $SMTPAuthPassword,
+                );
+            }
         }
-    }
 
-    # If sendmail, set config to sendmail.
-    else {
-        $ConfigObject->Set(
-            Key   => 'SendmailModule',
-            Value => 'Kernel::System::Email::Sendmail',
-        );
-    }
-
-    # If config option SMTP and no SMTP host given, return with error.
-    if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
-        return (
-            Successful => 0,
-            Message    => 'No SMTP Host given!'
-        );
-    }
-
-    # Check outbound mail configuration.
-    my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
-    my %Result     = $SendObject->Check();
-
-    my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
-
-    my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
-        LockAll => 1,
-        Force   => 1,
-        UserID  => 1,
-    );
-
-    # If SMTP check was successful, write data into config.
-    my $SendmailModule = $ConfigObject->Get('SendmailModule');
-    if (
-        $Result{Successful}
-        && $SendmailModule ne 'Kernel::System::Email::Sendmail'
-        )
-    {
-        my %NewConfigs = (
-            'SendmailModule'       => $SendmailModule,
-            'SendmailModule::Host' => $SMTPHost,
-            'SendmailModule::Port' => $SMTPPort,
-        );
-
-        for my $SettingName ( sort keys %NewConfigs ) {
-            $SysConfigObject->SettingUpdate(
-                Name              => $SettingName,
-                IsValid           => 1,
-                EffectiveValue    => $NewConfigs{$SettingName},
-                ExclusiveLockGUID => $ExclusiveLockGUID,
-                UserID            => 1,
+        # If sendmail, set config to sendmail.
+        else {
+            $ConfigObject->Set(
+                Key   => 'SendmailModule',
+                Value => 'Kernel::System::Email::Sendmail',
             );
         }
 
-        if ( $SMTPAuthUser && $SMTPAuthPassword ) {
-            %NewConfigs = (
-                'SendmailModule::AuthUser'     => $SMTPAuthUser,
-                'SendmailModule::AuthPassword' => $SMTPAuthPassword,
+        # If config option SMTP and no SMTP host given, return with error.
+        if ( $OutboundMailType ne 'sendmail' && !$SMTPHost ) {
+            return (
+                Successful => 0,
+                Message    => 'No SMTP Host given!'
+            );
+        }
+
+        # Create communication log object for passing it on to check functions
+        my $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Outgoing',
+            },
+        );
+
+        # Check outbound mail configuration.
+        my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
+        %Result        = $SendObject->Check(
+            CommunicationLogObject => $CommunicationLogObject,
+        );
+
+        my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
+
+        my $ExclusiveLockGUID = $SysConfigObject->SettingLock(
+            LockAll => 1,
+            Force   => 1,
+            UserID  => 1,
+        );
+
+        # If SMTP check was successful, write data into config.
+        my $SendmailModule = $ConfigObject->Get('SendmailModule');
+        if (
+            $Result{Successful}
+            && $SendmailModule ne 'Kernel::System::Email::Sendmail'
+            )
+        {
+            my %NewConfigs = (
+                'SendmailModule'       => $SendmailModule,
+                'SendmailModule::Host' => $SMTPHost,
+                'SendmailModule::Port' => $SMTPPort,
             );
 
             for my $SettingName ( sort keys %NewConfigs ) {
@@ -1418,77 +1419,100 @@ sub CheckMailConfiguration {
                     UserID            => 1,
                 );
             }
+
+            if ( $SMTPAuthUser && $SMTPAuthPassword ) {
+                %NewConfigs = (
+                    'SendmailModule::AuthUser'     => $SMTPAuthUser,
+                    'SendmailModule::AuthPassword' => $SMTPAuthPassword,
+                );
+
+                for my $SettingName ( sort keys %NewConfigs ) {
+                    $SysConfigObject->SettingUpdate(
+                        Name              => $SettingName,
+                        IsValid           => 1,
+                        EffectiveValue    => $NewConfigs{$SettingName},
+                        ExclusiveLockGUID => $ExclusiveLockGUID,
+                        UserID            => 1,
+                    );
+                }
+            }
         }
-    }
 
-    # If sendmail check was successful, write data into config.
-    elsif (
-        $Result{Successful}
-        && $SendmailModule eq 'Kernel::System::Email::Sendmail'
-        )
-    {
-        $SysConfigObject->SettingUpdate(
-            Name              => 'SendmailModule',
-            IsValid           => 1,
-            EffectiveValue    => $ConfigObject->Get('SendmailModule'),
-            ExclusiveLockGUID => $ExclusiveLockGUID,
-            UserID            => 1,
-        );
-    }
+        # If sendmail check was successful, write data into config.
+        elsif (
+            $Result{Successful}
+            && $SendmailModule eq 'Kernel::System::Email::Sendmail'
+            )
+        {
+            $SysConfigObject->SettingUpdate(
+                Name              => 'SendmailModule',
+                IsValid           => 1,
+                EffectiveValue    => $ConfigObject->Get('SendmailModule'),
+                ExclusiveLockGUID => $ExclusiveLockGUID,
+                UserID            => 1,
+            );
+        }
 
-    # Now check inbound mail config. return if the outbound config threw an error.
-    if ( !$Result{Successful} ) {
-        return %Result;
+        # Now check inbound mail config. return if the outbound config threw an error.
+        if ( !$Result{Successful} ) {
+            return %Result;
+        }
+
     }
 
     # Check inbound mail config.
     my $MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount');
 
-    for (qw(InboundUser InboundPassword InboundHost)) {
-        if ( !$ParamObject->GetParam( Param => $_ ) ) {
-            return (
-                Successful => 0,
-                Message    => "Missing parameter: $_!"
-            );
-        }
-    }
-
-    my $InboundUser = $ParamObject->GetParam( Param => 'InboundUser' );
-    my $InboundPassword =
-        $ParamObject->GetParam( Param => 'InboundPassword' );
-    my $InboundHost = $ParamObject->GetParam( Param => 'InboundHost' );
     my $InboundMailType =
         $ParamObject->GetParam( Param => 'InboundMailType' );
 
-    %Result = $MailAccount->MailAccountCheck(
-        Login    => $InboundUser,
-        Password => $InboundPassword,
-        Host     => $InboundHost,
-        Type     => $InboundMailType,
-        Timeout  => '60',
-        Debug    => '0',
-    );
+    if ( $InboundMailType ) {
 
-    # If successful, add mail account to DB.
-    if ( $Result{Successful} ) {
-        my $ID = $MailAccount->MailAccountAdd(
-            Login         => $InboundUser,
-            Password      => $InboundPassword,
-            Host          => $InboundHost,
-            Type          => $InboundMailType,
-            ValidID       => 1,
-            Trusted       => 0,
-            DispatchingBy => 'From',
-            QueueID       => 1,
-            UserID        => 1,
+        for (qw(InboundUser InboundPassword InboundHost)) {
+            if ( !$ParamObject->GetParam( Param => $_ ) ) {
+                return (
+                    Successful => 0,
+                    Message    => "Missing parameter: $_!"
+                );
+            }
+        }
+
+        my $InboundUser = $ParamObject->GetParam( Param => 'InboundUser' );
+        my $InboundPassword =
+            $ParamObject->GetParam( Param => 'InboundPassword' );
+        my $InboundHost = $ParamObject->GetParam( Param => 'InboundHost' );
+
+        %Result = $MailAccount->MailAccountCheck(
+            Login    => $InboundUser,
+            Password => $InboundPassword,
+            Host     => $InboundHost,
+            Type     => $InboundMailType,
+            Timeout  => '60',
+            Debug    => '0',
         );
 
-        if ( !$ID ) {
-            return (
-                Successful => 0,
-                Message    => 'Error while adding mail account!'
+        # If successful, add mail account to DB.
+        if ( $Result{Successful} ) {
+            my $ID = $MailAccount->MailAccountAdd(
+                Login         => $InboundUser,
+                Password      => $InboundPassword,
+                Host          => $InboundHost,
+                Type          => $InboundMailType,
+                ValidID       => 1,
+                Trusted       => 0,
+                DispatchingBy => 'From',
+                QueueID       => 1,
+                UserID        => 1,
             );
+
+            if ( !$ID ) {
+                return (
+                    Successful => 0,
+                    Message    => 'Error while adding mail account!'
+                );
+            }
         }
+
     }
 
     return %Result;
