@@ -1374,9 +1374,20 @@ sub CheckMailConfiguration {
             );
         }
 
+        # Create communication log object for passing it on to check functions
+        $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                Transport => 'Email',
+                Direction => 'Outgoing',
+            },
+        );
+
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
-        %Result        = $SendObject->Check();
+        %Result        = $SendObject->Check(
+            CommunicationLogObject => $CommunicationLogObject,
+        );
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 

@@ -52,16 +52,6 @@ sub new {
 sub Check {
     my ( $Self, %Param ) = @_;
 
-    if ( !$Param{CommunicationLogObject} ) {
-        $Param{CommunicationLogObject} = $Kernel::OM->Create(
-            'Kernel::System::CommunicationLog',
-            ObjectParams => {
-                Transport => 'Email',
-                Direction => 'Outgoing',
-            },
-        );
-    }
-
     $Param{CommunicationLogObject}->ObjectLogStart(
         ObjectLogType => 'Connection',
     );
