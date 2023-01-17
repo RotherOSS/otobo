@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-17 12:54+0000\n"
+"PO-Revision-Date: 2023-01-17 15:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17379,59 +17379,59 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using custom main menu ordering"
-msgstr ""
+msgstr "الوكلاء الذين يستخدمون ترتيب القائمة الرئيسية المخصصة"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
 msgid "Agents using favourites for the admin overview"
-msgstr ""
+msgstr "العملاء الذين يستخدمون المفضلة لنظرة عامة المسؤول"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Webserver"
-msgstr ""
+msgstr "خادم ويب"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
 msgid "Loaded Apache Modules"
-msgstr ""
+msgstr "وحدات الأباتشي المحملة (Apache)"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "MPM model"
-msgstr ""
+msgstr "نموذج MPM"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
 msgid "OTOBO requires apache to be run with the 'prefork' MPM model."
-msgstr ""
+msgstr "يتطلب OTOBO تشغيل apache باستخدام نموذج ‎'prefork' MPM."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "CGI Accelerator Usage"
-msgstr ""
+msgstr "إستخدام مسرع CGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "You should use FastCGI or mod_perl to increase your performance."
-msgstr ""
+msgstr "يجب عليك إستخدام FastCGI أو mod_perl لزيادة أدائك."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_deflate Usage"
-msgstr ""
+msgstr "إستخدام mod_delve"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_deflate to improve GUI speed."
-msgstr ""
+msgstr "الرجاء تثبيت mod_deflate لتحسين سرعة واجهة المستخدم الرسومية."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_filter Usage"
-msgstr ""
+msgstr "إستخدام mod_filter"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_filter if mod_deflate is used."
-msgstr ""
+msgstr "الرجاء تثبيت mod_filter في حالة إستخدام mod_delve."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "mod_headers Usage"
-msgstr ""
+msgstr "إستخدام mod_headers"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
 msgid "Please install mod_headers to improve GUI speed."
-msgstr ""
+msgstr "الرجاء تثبيت mod_heads لزيادة السرعة."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
 msgid "Environment Variables"
@@ -17439,35 +17439,35 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support Data Collection"
-msgstr ""
+msgstr "جمع بيانات الدعم"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
 msgid "Support data could not be collected from the web server."
-msgstr ""
+msgstr "تعذر تحديد بيانات الدعم من خادم ويب."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "بيئة PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
-msgstr ""
+msgstr "يعمل تحت PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Webserver Version"
-msgstr ""
+msgstr "إصدار خادم الويب"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
 msgid "Could not determine webserver version."
-msgstr ""
+msgstr "تعذر تحديد إصدار خادم ويب."
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users Details"
-msgstr ""
+msgstr "تفاصيل المستخدمين المتزامنين"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
 msgid "Concurrent Users"
-msgstr ""
+msgstr "المستخدمين المتزامنين"
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "OK"
@@ -17475,99 +17475,99 @@ msgstr ""
 
 #. Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
 msgid "Problem"
-msgstr ""
+msgstr "مُشْكِلة"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s does not exists!"
-msgstr ""
+msgstr "الإعداد ‎%s غير موجود!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting %s is not locked to this user!"
-msgstr ""
+msgstr "لم يتم تأمين الإعداد ‎%s لهذا المستخدم!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting value is not valid!"
-msgstr ""
+msgstr "قيمة الإعدادت غير صالحة!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not add modified setting!"
-msgstr ""
+msgstr "تعذر إضافة إعدادات تم تغييرها!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not update modified setting!"
-msgstr ""
+msgstr "تعذر تحديث الإعدادات التي تم تغييرها!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Setting could not be unlocked!"
-msgstr ""
+msgstr "تعذر إلغاء تأمين الإعداد!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Missing key %s!"
-msgstr ""
+msgstr "المفتاح المفقود ‎%s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Invalid setting: %s"
-msgstr ""
+msgstr "إعداد غير صالح: ‎%s"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Could not combine settings values into a perl hash."
-msgstr ""
+msgstr "تعذر دمج قيم الإعدادات في تجزئة perl."
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "Can not lock the deployment for UserID '%s'!"
-msgstr ""
+msgstr "يتعذر تأمين النشر ل '‎UserID '%s!"
 
 #. Perl Module: Kernel/System/SysConfig.pm
 msgid "All Settings"
-msgstr ""
+msgstr "كافة الإعدادات"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Default"
-msgstr ""
+msgstr "افتراضي"
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value is not correct! Please, consider updating this field."
-msgstr ""
+msgstr "القيمة غير صحيحة! الرجاء، النظر في تحديث هذا الحقل."
 
 #. Perl Module: Kernel/System/SysConfig/BaseValueType.pm
 msgid "Value doesn't satisfy regex (%s)."
-msgstr ""
+msgstr "لا تفي القيمة بالقيمة regex (‎%s)."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Enabled"
-msgstr ""
+msgstr "نَشَّطَ"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
 msgid "Disabled"
-msgstr ""
+msgstr "غير مُفَعّل"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
 msgid "System was not able to calculate user Date in OTOBOTimeZone!"
-msgstr ""
+msgstr "تعذر حساب تاريخ المستخدم في المنطقة الزمنية OTOBO!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
 msgid "System was not able to calculate user DateTime in OTOBOTimeZone!"
-msgstr ""
+msgstr "تعذر حساب تاريخ المستخدم ووقته في المنطقة الزمنية ل OTOBO!"
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
 msgid "Value is not correct! Please, consider updating this module."
-msgstr ""
+msgstr "القيمة غير صحيحة! الرجاء، النظر في تحديث هذه الوحدة النمطية."
 
 #. Perl Module: Kernel/System/SysConfig/ValueType/VacationDays.pm
 msgid "Value is not correct! Please, consider updating this setting."
-msgstr ""
+msgstr "القيمة غير صحيحة. الرجاء التحقق من هذا الإعداد."
 
 #. Perl Module: Kernel/System/Ticket.pm
 msgid "Reset of unlock time."
-msgstr ""
+msgstr "إعادة تعيين وقت إلغاء التأمين."
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Participant"
-msgstr ""
+msgstr "المشاركون في الدردشة"
 
 #. Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
 msgid "Chat Message Text"
-msgstr ""
+msgstr "نص رسالة الدردشة"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
