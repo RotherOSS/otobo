@@ -1312,7 +1312,7 @@ sub CheckDBRequirements {
 sub CheckMailConfiguration {
     my ( $Self, %Param ) = @_;
 
-    my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my %Result;
@@ -1321,7 +1321,7 @@ sub CheckMailConfiguration {
     my $OutboundMailType =
         $ParamObject->GetParam( Param => 'OutboundMailType' );
 
-    if ( $OutboundMailType ) {
+    if ($OutboundMailType) {
 
         my $SMTPHost = $ParamObject->GetParam( Param => 'SMTPHost' );
         my $SMTPPort = $ParamObject->GetParam( Param => 'SMTPPort' );
@@ -1385,9 +1385,21 @@ sub CheckMailConfiguration {
 
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
-        %Result        = $SendObject->Check(
+
+        %Result = $SendObject->Check(
             CommunicationLogObject => $CommunicationLogObject,
         );
+
+        my $CommunicationLogSuccess = $CommunicationLogObject->CommunicationStop(
+            Status => 'Successful',
+        );
+
+        if ( !$CommunicationLogSuccess ) {
+            return (
+                Successful => 0,
+                Message    => 'Communication log could not be closed!'
+            );
+        }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
@@ -1466,7 +1478,7 @@ sub CheckMailConfiguration {
     my $InboundMailType =
         $ParamObject->GetParam( Param => 'InboundMailType' );
 
-    if ( $InboundMailType ) {
+    if ($InboundMailType) {
 
         for (qw(InboundUser InboundPassword InboundHost)) {
             if ( !$ParamObject->GetParam( Param => $_ ) ) {
