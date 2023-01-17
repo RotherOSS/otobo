@@ -1375,7 +1375,7 @@ sub CheckMailConfiguration {
         }
 
         # Create communication log object for passing it on to check functions
-        $CommunicationLogObject = $Kernel::OM->Create(
+        my $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
             ObjectParams => {
                 Transport => 'Email',
