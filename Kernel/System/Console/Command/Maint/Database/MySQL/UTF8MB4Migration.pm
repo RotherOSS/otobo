@@ -31,7 +31,9 @@ our @ObjectDependencies = (
 sub Configure {
     my ( $Self, %Param ) = @_;
 
-    $Self->Description('Convert all columns in MySQL database tables to utf8mb4. Please use only this script if columns were created incorrectly with utf8 or utf8mb3 charset and in any case make a backup of the database beforehand.');
+    $Self->Description(
+        'Convert all columns in MySQL database tables to utf8mb4. Please use only this script if columns were created incorrectly with utf8 or utf8mb3 charset and in any case make a backup of the database beforehand.'
+    );
     $Self->AddOption(
         Name        => 'force',
         Description => "Actually do the migration now.",
@@ -80,56 +82,66 @@ sub Run {
         $Self->Print("<yellow>Checking for tables that need to be converted to utf8mb4...</yellow>\n");
     }
 
-    my $ConfigObject      = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # Get all columns != utf8mb4
     $Kernel::OM->Get('Kernel::System::DB')->Prepare(
-        SQL => "select table_name, column_name, data_type, CHARACTER_MAXIMUM_LENGTH , IS_NULLABLE, character_set_name, collation_name from information_schema.columns where table_schema = \"" . $ConfigObject->Get('Database') . "\" and CHARACTER_SET_NAME is not null AND CHARACTER_SET_NAME <> 'utf8mb4'",
+        SQL =>
+            "select table_name, column_name, data_type, CHARACTER_MAXIMUM_LENGTH , IS_NULLABLE, character_set_name, collation_name from information_schema.columns where table_schema = \""
+            . $ConfigObject->Get('Database')
+            . "\" and CHARACTER_SET_NAME is not null AND CHARACTER_SET_NAME <> 'utf8mb4'",
     );
 
     my @Tables;
     while ( my @Row = $Kernel::OM->Get('Kernel::System::DB')->FetchrowArray() ) {
 
         my %Column;
-        $Column{"table_name"}                     = $Row[0];
-        $Column{"column_name"}                    = $Row[1];
-        $Column{"data_type"}                      = $Row[2];
-        $Column{"CHARACTER_MAXIMUM_LENGTH"}       = $Row[3];
-        $Column{"IS_NULLABLE"}                    = $Row[4];
-        $Column{"collation_name"}                 = $Row[5];
+        $Column{"table_name"}               = $Row[0];
+        $Column{"column_name"}              = $Row[1];
+        $Column{"data_type"}                = $Row[2];
+        $Column{"CHARACTER_MAXIMUM_LENGTH"} = $Row[3];
+        $Column{"IS_NULLABLE"}              = $Row[4];
+        $Column{"collation_name"}           = $Row[5];
         push @Tables, \%Column;
     }
 
     if ( !$Force ) {
         if (@Tables) {
             for my $TableColumn (@Tables) {
-                $Self->Print("Dry run: We need to change the following column <red>$TableColumn->{column_name}</red> from table <red>$TableColumn->{table_name}</red> to utf8mb4...\n");
+                $Self->Print(
+                    "Dry run: We need to change the following column <red>$TableColumn->{column_name}</red> from table <red>$TableColumn->{table_name}</red> to utf8mb4...\n"
+                );
                 $Self->Print("You can re-run this script with <green>--force</green> to start the migration.\n");
             }
-        return $Self->ExitCodeOk();
-        } else {
+            return $Self->ExitCodeOk();
+        }
+        else {
 
-        $Self->Print("No need to run this script!\n");
-        return $Self->ExitCodeOk();
+            $Self->Print("No need to run this script!\n");
+            return $Self->ExitCodeOk();
         }
     }
 
     # Now convert the tables.
     for my $TableColumn (@Tables) {
-        $Self->Print("Change column <yellow>$TableColumn->{column_name} $TableColumn->{data_type} $TableColumn->{CHARACTER_MAXIMUM_LENGTH} $TableColumn->{IS_NULLABLE}</yellow> from table <yellow>$TableColumn->{table_name}</yellow> to utf8mb4...\n");
+        $Self->Print(
+            "Change column <yellow>$TableColumn->{column_name} $TableColumn->{data_type} $TableColumn->{CHARACTER_MAXIMUM_LENGTH} $TableColumn->{IS_NULLABLE}</yellow> from table <yellow>$TableColumn->{table_name}</yellow> to utf8mb4...\n"
+        );
 
         my $SQL;
-        $SQL = "ALTER TABLE ". $TableColumn->{table_name} . " DEFAULT CHARACTER SET utf8mb4, MODIFY " . $TableColumn->{column_name} . " ". $TableColumn->{"data_type"};
-	
-	if ( $TableColumn->{"data_type"} =~ /varchar/i ) {
-	    $SQL .= '(' . $TableColumn->{"CHARACTER_MAXIMUM_LENGTH"} . ')';
+        $SQL
+            = "ALTER TABLE " . $TableColumn->{table_name} . " DEFAULT CHARACTER SET utf8mb4, MODIFY " . $TableColumn->{column_name} . " " . $TableColumn->{"data_type"};
+
+        if ( $TableColumn->{"data_type"} =~ /varchar/i ) {
+            $SQL .= '(' . $TableColumn->{"CHARACTER_MAXIMUM_LENGTH"} . ')';
         }
 
         if ( $TableColumn->{"IS_NULLABLE"} eq 'NO' ) {
-           $SQL .= ' NOT NULL,';
-        } else {
-	   $SQL .= ' NULL,';
-	}
+            $SQL .= ' NOT NULL,';
+        }
+        else {
+            $SQL .= ' NULL,';
+        }
 
         $SQL .= ' CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci';
 

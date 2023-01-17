@@ -113,6 +113,7 @@ my $Home = abs_path("$Bin/../..");
 # the question whether there is a S3 backend must the resolved early
 # usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
 my ( $S3Active, $ClearConfigObject );
+
 #if ( -r "$Home/Kernel/Config.pm" ) {
 #    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
 #    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
