@@ -6393,7 +6393,7 @@ Thanks for your help!
 ' => '
 Estimado cliente,
 
-Lamentablemente no hemos podido detectar un número de ticket válido 
+Lamentablemente no hemos podido detectar un número de ticket válido
 en su asunto, por lo que este correo no puede ser procesado.
 
 Por favor, cree un nuevo ticket a través del panel de cliente.

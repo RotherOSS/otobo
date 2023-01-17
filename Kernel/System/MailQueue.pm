@@ -625,7 +625,7 @@ sub Send {
                 Item       => \%Param,
                 Delete     => 1,
                 SendResult => {
-                   ErrorMessage => 'Canceled. Message stored erroneously.',
+                    ErrorMessage => 'Canceled. Message stored erroneously.',
                 },
             );
 
@@ -642,7 +642,7 @@ sub Send {
             Item       => \%Param,
             Delete     => 1,
             SendResult => {
-               ErrorMessage => 'Canceled. Message stored erroneously.',
+                ErrorMessage => 'Canceled. Message stored erroneously.',
             },
         );
 
@@ -659,7 +659,7 @@ sub Send {
                 Item       => \%Param,
                 Delete     => 1,
                 SendResult => {
-                   ErrorMessage => 'Canceled. Message stored erroneously.',
+                    ErrorMessage => 'Canceled. Message stored erroneously.',
                 },
             );
 
