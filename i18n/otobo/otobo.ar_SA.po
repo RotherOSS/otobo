@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-17 15:56+0000\n"
+"PO-Revision-Date: 2023-01-18 08:28+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17571,7 +17571,7 @@ msgstr "نص رسالة الدردشة"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Too many failed login attempts, please retry in %s s."
-msgstr ""
+msgstr "العديد من الإدخالات الفاشلة، الرجاء المحاولة مرة أخرى في ‎%s s."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Login failed! Your user name or password was entered incorrectly."
@@ -17582,14 +17582,16 @@ msgid ""
 "Authentication succeeded, but no user data record is found in the database. "
 "Please contact the administrator."
 msgstr ""
+"نجحت المصادقة، ولكن لم يتم العثور على سجل بيانات مستخدم في قاعدة البيانات. "
+"الرجاء الاتصال بالمسؤول."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Can`t remove SessionID."
-msgstr ""
+msgstr "لا يمكن إزالة SessionID."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "تم تسجيل الخروج بنجاح."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
@@ -17597,7 +17599,8 @@ msgstr "الخاصية غير مفعلة!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent password reset instructions. Please check your email."
-msgstr "تم ارسال تعليمات إعادة تعيين كلمة المرور. فضلاً افحص بريدك الإلكتروني."
+msgstr ""
+"تم ارسال تعليمات إعادة تعيين كلمة المرور. يرجى التحقق من بريدك الإلكتروني."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
