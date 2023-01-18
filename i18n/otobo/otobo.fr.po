@@ -31,13 +31,14 @@
 # Jens Bechtel <jens.bechtel@otrs.com>, 2019
 # Yohann <yohann.duhamel@icloud.com>, 2021.
 # Gieanjalad <andy.fw88@gmail.com>, 2022.
+# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-06-09 11:39+0000\n"
-"Last-Translator: Gieanjalad <andy.fw88@gmail.com>\n"
+"PO-Revision-Date: 2023-01-18 23:19+0000\n"
+"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: French <https://translate.otobo.org/projects/otobo10/otobo/fr/"
 ">\n"
 "Language: fr\n"
@@ -17367,7 +17368,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Logout successful."
-msgstr ""
+msgstr "Déconnexion avec succès."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Feature not active!"
@@ -20967,6 +20968,8 @@ msgstr ""
 #. SysConfig
 msgid "Defines an alternate URL, where the logout link refers to."
 msgstr ""
+"Détermine une adresse URL alternative à l'endroit ou mène le lien de "
+"déconnexion."
 
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel.."
