@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-18 08:28+0000\n"
+"PO-Revision-Date: 2023-01-18 15:10+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17604,7 +17604,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Invalid Token!"
-msgstr ""
+msgstr "رمز (Token) غير صالح!"
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Sent new password to %s. Please check your email."
@@ -17612,21 +17612,23 @@ msgstr "تم إرسال كلمة المرور الجديدة إلى %s. فضلا
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "Error: invalid session."
-msgstr ""
+msgstr "خطأ: جلسة عمل غير صالحة."
 
 #. Perl Module: Kernel/System/Web/InterfaceAgent.pm
 msgid "No Permission to use this frontend module!"
-msgstr ""
+msgstr "ليس لديك الإذن لاستخدام هذه الوحدة!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
 "Authentication succeeded, but no customer record is found in the customer "
 "backend. Please contact the administrator."
 msgstr ""
+"نجحت المصادقة، ولكن لم يتم العثور على سجل عميل في الطرف الخلفي للعميل. "
+"الرجاء الاتصال بالمسؤول."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Reset password unsuccessful. Please contact the administrator."
-msgstr ""
+msgstr "لم يتم إعادة تعيين كلمة المرور بنجاح. الرجاء الاتصال بالمسؤول."
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17643,11 +17645,11 @@ msgstr ""
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Added via Customer Panel (%s)"
-msgstr ""
+msgstr "تمت الإضافة من خلال لوحة العميل (‎%s)"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Customer user can't be added!"
-msgstr ""
+msgstr "لا يمكن إضافة مستخدم العميل!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
