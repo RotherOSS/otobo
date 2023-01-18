@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-18 15:10+0000\n"
+"PO-Revision-Date: 2023-01-18 23:19+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17653,7 +17653,7 @@ msgstr "لا يمكن إضافة مستخدم العميل!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid "Can't send account info!"
-msgstr ""
+msgstr "يتعذر إرسال معلومات الحساب!"
 
 #. Perl Module: Kernel/System/Web/InterfaceCustomer.pm
 msgid ""
@@ -17666,21 +17666,22 @@ msgstr ""
 msgid ""
 "If you want to re-run installer.pl, then disable the SecureMode in the "
 "SysConfig."
-msgstr ""
+msgstr "إذا أردت إعادة تشغيل installer.pl، فقم بتعطيل SecureMode في SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfaceInstaller.pm
 msgid "Action \"%s\" not found!"
-msgstr ""
+msgstr "لم يتم العثور على الإجراء \"‎%s\"!"
 
 #. Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
 msgid ""
 "If you want to re-run migration.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"إذا كنت ترغب في إعادة تشغيل migration.pl، فقم بتعطيل SecureMode في SysConfig."
 
 #. Perl Module: Kernel/System/Web/InterfacePublic.pm
 msgid "Could not connect to the database."
-msgstr ""
+msgstr "تعذر الاتصال بقاعدة البيانات."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -17688,15 +17689,15 @@ msgstr "غير فعال مؤقتاً"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for default access."
-msgstr ""
+msgstr "مجموعة الوصول الافتراضية."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group of all administrators."
-msgstr ""
+msgstr "مجموعة كافة المسؤولين."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Group for statistics access."
-msgstr ""
+msgstr "مجموعة الوصول إلى الإحصائيات."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new"
@@ -17704,7 +17705,7 @@ msgstr "جديد"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All new state types (default: viewable)."
-msgstr ""
+msgstr "جميع أنواع الحالات الجديدة (الافتراضي: مرئي)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "open"
@@ -17712,7 +17713,7 @@ msgstr "فتح"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All open state types (default: viewable)."
-msgstr ""
+msgstr "جميع أنواع الحالات المفتوحة (الافتراضي: قابلة للعرض)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed"
@@ -17720,11 +17721,11 @@ msgstr "تم إقفاله"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All closed state types (default: not viewable)."
-msgstr ""
+msgstr "جميع أنواع الحالات المغلقة (الافتراضي: غير قابل للعرض)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending reminder"
-msgstr ""
+msgstr "في انتظار التذكير"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
