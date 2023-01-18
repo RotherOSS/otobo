@@ -688,10 +688,27 @@ sub PathInfo {
 
 =head2 HTTP()
 
-get the HTTP environment variable. Called with a single argument get the specific environment variable.
-This is a re-implementation of C<CGI::http()>.
+Called with a single argument, this method gets the value
+of a PSGI environment variable. The variable is C<"HTTP_$Parameter">
+when the parameter does not start with "HTTP_" or is "HTTP".
+Otherwise "HTTP_" is not prepended.
+These variables are set from the corresponding HTTP headers. The case of C<$Parameter>
+is not significant and B<_> may be used instead of B<->.
 
     my $UserAgent = $ParamObject->HTTP('USER_AGENT');
+
+is the same as
+
+    my $UserAgent = $ParamObject->HTTP('User-Agent');
+
+or
+
+    my $UserAgent = $ParamObject->HTTP('HTTP_USER_AGENT');
+
+Called without an argument, this method returns the list
+of the HTTP environment variables.
+
+This is a re-implementation of C<CGI::http()>.
 
 =cut
 
@@ -716,7 +733,7 @@ sub HTTP {
 same as HTTP(), but operate on the HTTPS environment variables.
 This is a re-implementation of C<CGI::https()>.
 
-    my $UserAgent = $ParamObject->HTTPS('USER_AGENT');
+    my $UserAgent = $ParamObject->HTTPS('HTTPS');
 
 =cut
 
@@ -749,9 +766,8 @@ checks if the current request was sent by AJAX
 sub IsAJAXRequest {
     my ($Self) = @_;
 
-    # This method was broken in rel-10_1 such that 0 was always returned.
-    # Let's stay bug compatible for now.
-    return 0;
+    # access request headers via the method http().
+    return ( $Self->{PlackRequest}->header('X-Requested-With') // '' ) eq 'XMLHttpRequest' ? 1 : 0;
 }
 
 =head2 LoadFormDraft()
