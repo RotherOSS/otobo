@@ -1386,12 +1386,18 @@ sub CheckMailConfiguration {
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
 
+        my $Status = 'Successful';
+
         %Result = $SendObject->Check(
             CommunicationLogObject => $CommunicationLogObject,
         );
 
+        if ( !$Result{Successful} ) {
+            $Status = 'Failed';
+        }
+
         my $CommunicationLogSuccess = $CommunicationLogObject->CommunicationStop(
-            Status => 'Successful',
+            Status => $Status,
         );
 
         if ( !$CommunicationLogSuccess ) {
