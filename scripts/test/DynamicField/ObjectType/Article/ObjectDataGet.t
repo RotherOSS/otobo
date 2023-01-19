@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -18,10 +18,13 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 # Get helper object
 $Kernel::OM->ObjectParamAdd(
@@ -65,10 +68,7 @@ my $TicketID = $TicketObject->TicketCreate(
     UserID => 1,
 );
 
-$Self->True(
-    $TicketID,
-    "TicketCreate()",
-);
+ok( $TicketID, "TicketCreate()" );
 
 my $ArticleObject        = $Kernel::OM->Get('Kernel::System::Ticket::Article');
 my $ArticleBackendObject = $ArticleObject->BackendForChannel( ChannelName => 'Phone' );
@@ -87,10 +87,7 @@ my $ArticleID            = $ArticleBackendObject->ArticleCreate(
     HistoryComment       => '%%',
     UserID               => 1,
 );
-$Self->True(
-    $ArticleID,
-    "ArticleCreate()",
-);
+ok( $ArticleID, "ArticleCreate()" );
 
 my %ArticleData = $ArticleBackendObject->ArticleGet(
     TicketID      => $TicketID,
@@ -221,26 +218,27 @@ for my $Test (@Tests) {
     my %ObjectData = $ObjectHandlerObject->ObjectDataGet( %{ $Test->{Config} } );
 
     if ( !$Test->{Success} ) {
-        $Self->IsDeeply(
+        is(
             \%ObjectData,
             {},
             "$Test->{Name} - ObjectDataGet() unsuccessful",
         );
+
         next TEST;
     }
 
-    $Self->IsDeeply(
+    is(
         \%ObjectData,
         $Test->{ExectedResult},
         "$Test->{Name} ObjectDataGet()",
     );
 }
 continue {
+
+    # force creation of new ParamObject in the next iteration
     $Kernel::OM->ObjectsDiscard(
         Objects => [ 'Kernel::System::Web::Request', ],
     );
 }
 
-# cleanup is done by RestoreDatabase
-
-$Self->DoneTesting();
+done_testing;

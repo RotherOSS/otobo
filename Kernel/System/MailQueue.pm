@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -161,7 +161,7 @@ sub Create {
     my $RecipientRef = ref $Recipient;
 
     if ( !$RecipientRef ) {
-        $Recipient = [ split( ',', $Recipient, ) ];
+        $Recipient = [ split /,/, $Recipient ];
     }
 
     my $OnErrorSetArticleTransmissionError = sub {
@@ -346,7 +346,7 @@ sub List {
             ArticleID       => $Row[1],
             Attempts        => $Row[2],
             Sender          => $Row[3],
-            Recipient       => [ split( ',', $Row[4], ) ],
+            Recipient       => [ split /,/, $Row[4] ],
             Message         => $Message,
             DueTime         => $DueTime,
             LastSMTPCode    => $Row[7],
@@ -477,7 +477,7 @@ sub Update {
 
         if ( $Col eq 'Sender' || $Col eq 'Recipient' ) {
             if ( $Col eq 'Recipient' && !ref $Value ) {
-                $Value = [ split( ',', $Value, ) ];
+                $Value = [ split /,/, $Value ];
             }
 
             return if !$Self->_CheckValidEmailAddresses(
@@ -1607,15 +1607,26 @@ sub _GetCommunicationLog {
 
     my $CommunicationLogDBObj = $Kernel::OM->Get('Kernel::System::CommunicationLog::DB');
     my $LookupInfo            = $CommunicationLogDBObj->ObjectLookupGet(
-        ObjectLogType    => 'Message',
         TargetObjectType => 'MailQueueItem',
         TargetObjectID   => $Param{ID},
     );
 
+    # To prevent that $LookupInfo contains an old ObjectLogID
+    # because if it tries to create or recover a communication log and it doesn't work, it returns an empty object
+    my $CommunicationLogObject;
+    if ( $LookupInfo && $LookupInfo->{ObjectLogID} ) {
+        $CommunicationLogObject = $Kernel::OM->Create(
+            'Kernel::System::CommunicationLog',
+            ObjectParams => {
+                ObjectLogID => $LookupInfo->{ObjectLogID},
+            },
+        );
+    }
+
     # IF for any reason we can't get the lookup information (error or no record found),
     #   lets create a new communication log and communication log message.
-    if ( !$LookupInfo || !%{$LookupInfo} ) {
-        my $CommunicationLogObject = $Kernel::OM->Create(
+    if ( !$CommunicationLogObject ) {
+        $CommunicationLogObject = $Kernel::OM->Create(
             'Kernel::System::CommunicationLog',
             ObjectParams => {
                 Transport => 'Email',
@@ -1648,16 +1659,9 @@ sub _GetCommunicationLog {
                 Message  => 'Error while updating the communication message for ID: ' . $Param{ID},
             );
         }
-
-        return $CommunicationLogObject;
     }
 
-    return $Kernel::OM->Create(
-        'Kernel::System::CommunicationLog',
-        ObjectParams => {
-            ObjectLogID => $LookupInfo->{ObjectLogID},
-        },
-    );
+    return $CommunicationLogObject;
 }
 
 1;
