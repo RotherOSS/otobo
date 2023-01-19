@@ -196,7 +196,7 @@ sub new {
         }
     }
 
-    # get the Dynamic Field Backend custmom extensions
+    # get the Dynamic Field Backend custom extensions
     my $DynamicFieldBackendExtensions = $ConfigObject->Get('DynamicFields::Extension::Backend');
 
     EXTENSION:
