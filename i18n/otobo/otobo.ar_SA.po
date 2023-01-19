@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-18 23:19+0000\n"
+"PO-Revision-Date: 2023-01-19 13:44+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17729,35 +17729,36 @@ msgstr "في انتظار التذكير"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending reminder' state types (default: viewable)."
-msgstr ""
+msgstr "جميع أنواع الحالات \"قيد الانتظار\" (الافتراضي: مرئي)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto"
-msgstr ""
+msgstr "قيد الانتظار"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'pending auto *' state types (default: viewable)."
-msgstr ""
+msgstr "جميع أنواع حالات \"انتظار تلقائي *\" (افتراضي: قابل للعرض)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "removed"
-msgstr "تم حذغه"
+msgstr "أزاله"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All 'removed' state types (default: not viewable)."
 msgstr ""
+"جميع أنواع الحالات \"التي تمت إزالتها\" (الإعداد التلقائي: غير قابل للعرض)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "merged"
-msgstr ""
+msgstr "مُنْدَمِج"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State type for merged tickets (default: not viewable)."
-msgstr ""
+msgstr "نوع الحالة للتذاكر المدمجة (الافتراضي: غير قابل للعرض)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "New ticket created by customer."
-msgstr ""
+msgstr "تم إنشاء تذكرة جديدة بواسطة العميل."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed successful"
@@ -17765,19 +17766,19 @@ msgstr "أغلقت بنجاح"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed successful."
-msgstr ""
+msgstr "تم إغلاق التذكرة بنجاح."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "closed unsuccessful"
-msgstr "أغلقت بفشل"
+msgstr "لم يتم الإغلاق بنجاح"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is closed unsuccessful."
-msgstr ""
+msgstr "لم يتم إغلاق التذكرة بنجاح."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Open tickets."
-msgstr ""
+msgstr "تذاكر مفتوحة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
