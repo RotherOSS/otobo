@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-19 13:44+0000\n"
+"PO-Revision-Date: 2023-01-20 07:29+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17782,47 +17782,47 @@ msgstr "تذاكر مفتوحة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Customer removed ticket."
-msgstr ""
+msgstr "قام العميل بإزالة التذكرة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for agent reminder."
-msgstr ""
+msgstr "التذكرة معلقة لتذكير الوكيل."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close+"
-msgstr ""
+msgstr "في انتظار الإغلاق الناجح"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket is pending for automatic close."
-msgstr ""
+msgstr "التذكرة في انتظار الإغلاق التلقائي."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "pending auto close-"
-msgstr ""
+msgstr "في انتظار إغلاق غير ناجح"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "State for merged tickets."
-msgstr ""
+msgstr "حالة التذاكر المدمجة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard salutation (en)"
-msgstr ""
+msgstr "التحية القياسية للنظام (EN)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Salutation."
-msgstr ""
+msgstr "التحية القياسية."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "system standard signature (en)"
-msgstr ""
+msgstr "التوقيع القياسي للنظام (EN)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Signature."
-msgstr ""
+msgstr "التوقيع القياسي."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Standard Address."
-msgstr ""
+msgstr "العنوان الافتراضي."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "possible"
@@ -17830,7 +17830,7 @@ msgstr "ممكن"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Follow-ups for closed tickets are possible. Ticket will be reopened."
-msgstr ""
+msgstr "الأسئلة عن التذاكر المغلقة ممكنة. سيتم إعادة فتح التذاكر."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "reject"
@@ -17840,55 +17840,57 @@ msgstr "رفض"
 msgid ""
 "Follow-ups for closed tickets are not possible. No new ticket will be "
 "created."
-msgstr ""
+msgstr "الاستفسارات عن التذاكر المغلقة غير ممكنة. لن يتم إنشاء تذاكر جديدة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "new ticket"
-msgstr ""
+msgstr "تذكرة جديدة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Follow-ups for closed tickets are not possible. A new ticket will be created."
-msgstr ""
+msgstr "الاستفسار عن التذاكر المغلقة غير ممكن. سيتم إنشاء تذكرة جديدة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Postmaster queue."
-msgstr ""
+msgstr "قائمة الانتظار الرئيسية للبريد."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All default incoming tickets."
-msgstr ""
+msgstr "جميع التذاكر الوارده."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All junk tickets."
-msgstr ""
+msgstr "جميع التذاكر غير الهامة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "All misc tickets."
-msgstr ""
+msgstr "جميع التذاكر المتنوعة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply"
-msgstr ""
+msgstr "رد تلقائي"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reply which will be sent out after a new ticket has been created."
-msgstr ""
+msgstr "سيتم إرسال رد تلقائي بعد إنشاء تذكرة جديدة."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reject"
-msgstr ""
+msgstr "رفض تلقائي"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "Automatic reject which will be sent out after a follow-up has been rejected "
 "(in case queue follow-up option is \"reject\")."
 msgstr ""
+"يتم إرسال الرفض التلقائي بعد رفض الرد (في حالة \"رفض\" خيار متابعة قائمة "
+"الانتظار)."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto follow up"
-msgstr ""
+msgstr "الاستعلام التلقائي"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
