@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-20 07:29+0000\n"
+"PO-Revision-Date: 2023-01-20 18:30+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -17897,10 +17897,12 @@ msgid ""
 "Automatic confirmation which is sent out after a follow-up has been received "
 "for a ticket (in case queue follow-up option is \"possible\")."
 msgstr ""
+"يتم إرسال التأكيد التلقائي بعد تلقي الرد على تذكرة (إذا تم تعيين إعداد قائمة "
+"الانتظار للردود على \"ممكن\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto reply/new ticket"
-msgstr ""
+msgstr "الرد التلقائي/ تذكرة جديدة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
@@ -17908,36 +17910,40 @@ msgid ""
 "rejected and a new ticket has been created (in case queue follow-up option "
 "is \"new ticket\")."
 msgstr ""
+"الرد التلقائي الذي يتم إرساله بعد رفض الرد وإنشاء تذكرة جديدة (إذا تم تعيين "
+"إعداد قائمة الانتظار للردود على \"تذكرة جديدة\")."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "auto remove"
-msgstr ""
+msgstr "إزالة تلقائية"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Auto remove will be sent out after a customer removed the request."
-msgstr ""
+msgstr "يتم إرسال \"الإزالة التلقائية\" بعد أن يزيل المستخدم العميل الطلب."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reply (after new ticket has been created)"
-msgstr ""
+msgstr "الاستجابة الافتراضية (بعد إنشاء تذكرة جديدة)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default reject (after follow-up and rejected of a closed ticket)"
-msgstr ""
+msgstr "الرفض القياسي (بعد تلقي الرد على تذكرة مغلقة ورفضه)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "default follow-up (after a ticket follow-up has been added)"
-msgstr ""
+msgstr "الاستجابة الافتراضية (بعد تلقي رد على تذكرة)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "default reject/new ticket created (after closed follow-up with new ticket "
 "creation)"
 msgstr ""
+"الرفض الافتراضي/إنشاء تذكرة جديدة (بعد تلقي رد على تذكرة مغلقة وإنشاء تذكرة "
+"جديدة)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Unclassified"
-msgstr ""
+msgstr "غير مصنف"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "1 very low"
@@ -17969,7 +17975,7 @@ msgstr "إقفال"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "tmp_lock"
-msgstr ""
+msgstr "tmp_lock"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "agent"
@@ -17985,135 +17991,143 @@ msgstr "عميل"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket create notification"
-msgstr ""
+msgstr "الإخطار بتذكرة جديدة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a new ticket is created in one of "
 "your \"My Queues\" or \"My Services\"."
 msgstr ""
+"سوف تتلقى إشعارا عند إنشاء تذكرة في قوائم الانتظار أو الخدمات المحددة تحت "
+"\"قوائم الانتظار الخاصة بي\" أو \"الخدمات الخاصة بي\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (unlocked)"
-msgstr ""
+msgstr "إخطار إجراءات المتابعة (تذكرة غير مقفلة)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to an "
 "unlocked ticket which is in your \"My Queues\" or \"My Services\"."
 msgstr ""
+"سوف تتلقى إخطارا إذا أرسل العميل متابعة لتذكرة غير مؤمنة موجودة في \"قوائم "
+"الانتظار الخاصة بي\" أو \"خدماتي\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket follow-up notification (locked)"
-msgstr ""
+msgstr "إخطار متابعة التذكرة (مؤمن)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a customer sends a follow-up to a locked "
 "ticket of which you are the ticket owner or responsible."
 msgstr ""
+"سوف تتلقى إشعارا عندما يرسل العميل رسالة مرتدة إلى تذكرة تكون أنت المالك أو "
+"المسؤول عنها."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket lock timeout notification"
-msgstr "تنبيه إنتهاء وقت إقفال البطاقة"
+msgstr "تنبيه إنتهاء وقت تأمين التذكرة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification as soon as a ticket owned by you is "
 "automatically unlocked."
-msgstr ""
+msgstr "سوف تتلقى إشعارا عندما يتم إلغاء تأمين تذكرة خاصة بك تلقائيا."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket owner update notification"
-msgstr ""
+msgstr "إشعار بتغيير مالك التذكرة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket responsible update notification"
-msgstr ""
+msgstr "إشعار تحديث مسؤول التذاكر"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket new note notification"
-msgstr ""
+msgstr "الإخطار بملاحظة جديدة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket queue update notification"
-msgstr ""
+msgstr "الإخطار بتغييرات قائمة الانتظار"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket is moved into one of your \"My "
 "Queues\"."
-msgstr ""
+msgstr "ستتلقى إخطارا إذا تم نقل تذكرة إلى إحدى \"قوائم الانتظار الخاصة بي\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (locked)"
-msgstr ""
+msgstr "التذكرة بانتظار إخطار التذكير (مؤمن)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket pending reminder notification (unlocked)"
-msgstr ""
+msgstr "إشعار عند الوصول إلى وقت التذكير (غير مؤمن)"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation notification"
-msgstr ""
+msgstr "الإخطار بتصعيد التذاكر"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket escalation warning notification"
-msgstr ""
+msgstr "الإخطار بالتصعيد الوشيك للتذاكر"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket service update notification"
-msgstr ""
+msgstr "الإخطار بتغييرات الخدمة"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification if a ticket's service is changed to one of "
 "your \"My Services\"."
-msgstr ""
+msgstr "ستتلقى إشعارا إذا تم تغيير خدمة التذكرة إلى إحدى \"خدماتي\"."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Appointment reminder notification"
-msgstr ""
+msgstr "الإخطار عند الوصول إلى وقت التذكير بالمواعيد"
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid ""
 "You will receive a notification each time a reminder time is reached for one "
 "of your appointments."
-msgstr ""
+msgstr "ستتلقى إشعارا في كل مرة يتم فيها الوصول إلى وقت تذكير لأحد مواعيدك."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "Ticket email delivery failure notification"
-msgstr ""
+msgstr "إشعار فشل تسليم البريد الإلكتروني للتذكرة"
 
 #. JS File: Core.AJAX
 msgid "Error during AJAX communication. Status: %s, Error: %s"
-msgstr ""
+msgstr "خطأ أثناء اتصال AJAX. الحالة: ‎%s، خطأ: ‎%s"
 
 #. JS File: Core.AJAX
 msgid "This window must be called from compose window."
-msgstr ""
+msgstr "يجب إستدعاء هذه النافذة من نافذة تحرير التذاكر."
 
 #. JS File: Core.Agent.Admin.ACL
 msgid "Add all"
-msgstr ""
+msgstr "إضافة الكل"
 
 #. JS File: Core.Agent.Admin.ACL
 msgid "An item with this name is already present."
-msgstr ""
+msgstr "يوجد بالفعل عنصر بهذا الاسم."
 
 #. JS File: Core.Agent.Admin.ACL
 msgid ""
 "This item still contains sub items. Are you sure you want to remove this "
 "item including its sub items?"
 msgstr ""
+"لا يزال هذا العنصر يحتوي على عناصر فرعية. هل أنت متأكد من أنك تريد إزالة هذا "
+"العنصر بما في ذلك العناصر الفرعية الخاصة به؟"
 
 #. JS File: Core.Agent.Admin.About
 msgid "Do you really want to delete this language?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذه اللغة؟"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "More"
-msgstr ""
+msgstr "أكثر"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Less"
