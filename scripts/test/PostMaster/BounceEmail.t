@@ -297,7 +297,7 @@ my $TestForceNewTicket = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'new-ticket'.",
+        "Raw queue successfully changed to follow-up 'new-ticket'.",
     );
 
     # Process the e-mail
@@ -325,7 +325,7 @@ my $TestDontReOpenClosedTicket = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'reject'.",
+        "Raw queue successfully changed to follow-up 'reject'.",
     );
 
     # Process the e-mail
@@ -352,7 +352,7 @@ my $TestOriginalEmailAsAttachmentShouldNotBounce = sub {
 
     $Self->True(
         $Result,
-        "Raw queue successfuly changed to follow-up 'possible'.",
+        "Raw queue successfully changed to follow-up 'possible'.",
     );
 
     my ( $ReturnCode, $TicketID, ) = $ProcessEmail->(

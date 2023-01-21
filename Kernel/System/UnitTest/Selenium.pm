@@ -484,7 +484,7 @@ sub Login {
 
                     if ($@) {
 
-                        # login was not sucessful
+                        # login was not successful
                         note("Login attempt $Try/$MaxTries failed");
                     }
                     else {

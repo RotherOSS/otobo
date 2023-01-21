@@ -149,7 +149,7 @@ my $CreateTestData = sub {
         my $Result = $MailQueueObject->Create( %{ $Elements{$Key} } );
         $Self->True(
             $Result,
-            sprintf( 'Created the mail queue element "%s" successfuly.', $Key, ),
+            sprintf( 'Created the mail queue element "%s" successfully.', $Key, ),
         );
     }
 

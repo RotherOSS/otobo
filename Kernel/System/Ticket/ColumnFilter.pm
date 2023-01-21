@@ -984,14 +984,16 @@ sub _GeneralDataGet {
             Priority => 'error',
             Message  => "Couldn't create a backend object for $BackendModule!",
         );
+
         return;
     }
 
     if ( ref $BackendObject ne $BackendModule ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
-            Message  => "Backend object for $BackendModule was not created successfuly!",
+            Message  => "Backend object for $BackendModule was not created successfully!",
         );
+
         return;
     }
 

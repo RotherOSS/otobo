@@ -123,7 +123,7 @@ sub new {
         if ( ref $BackendObject ne $BackendModule ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  => "Backend object for field type $FieldType was not created successfuly!",
+                Message  => "Backend object for field type $FieldType was not created successfully!",
             );
 
             return;
@@ -184,8 +184,7 @@ sub new {
             if ( ref $ObjectHandlerObject ne $ObjectHandlerModule ) {
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
-                    Message  =>
-                        "Handler object for object type $ObjectType was not created successfuly!",
+                    Message  => "Handler object for object type $ObjectType was not created successfully!",
                 );
 
                 return;
