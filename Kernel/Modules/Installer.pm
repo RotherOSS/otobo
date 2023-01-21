@@ -27,6 +27,7 @@ use Net::Domain qw(hostfqdn);
 
 # CPAN modules
 use DBI;
+use DBI::Const::GetInfoType qw();    # set up %DBI::Const::GetInfoType::GetInfoType
 
 # OTOBO modules
 use Kernel::Language qw(Translatable);
@@ -1252,6 +1253,26 @@ sub CheckDBRequirements {
 
     my %Result       = $Self->ConnectToDB(%Param);
     my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    {
+        # https://doc.otobo.org/manual/installation/10.1/en/content/requirements.html#software-requirements
+        my %DatabaseVersionRequirements = (
+            mysql      => '5.6',
+            postgresql => '9.2',
+            oracle     => '10g',
+        );
+
+        # version.pm is always available, as it is a core module
+        my $Have = version->parse( $Result{DBH}->get_info( $DBI::Const::GetInfoType::GetInfoType{SQL_DBMS_VER} ) );
+        my $Want = version->parse( $DatabaseVersionRequirements{ $Param{DBType} } );
+        if ( $Have < $Want ) {
+            $Result{Successful} = 0;
+            $Result{Message}    = $LayoutObject->{LanguageObject}->Translate(
+                'Error: database version requirement not satisfied. Have version: %s Want version: %s',
+                $Have, $Want
+            );
+        }
+    }
 
     # Check max_allowed_packet for MySQL
     if ( $Param{DBType} eq 'mysql' && $Result{Successful} == 1 ) {
