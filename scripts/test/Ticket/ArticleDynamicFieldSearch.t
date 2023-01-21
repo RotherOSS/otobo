@@ -43,7 +43,7 @@ my $RandomID = $Helper->GetRandomID();
 $Self->Is(
     ref $BackendObject,
     'Kernel::System::DynamicField::Backend',
-    'Backend object was created successfuly',
+    'Backend object was created successfully',
 );
 
 # create a dynamic field

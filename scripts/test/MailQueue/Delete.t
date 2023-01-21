@@ -134,7 +134,7 @@ my $CreateTestData = sub {
     my $Result = $MailQueueObject->Create( %ElementData, );
     $Self->True(
         $Result,
-        'Created the test element successfuly.'
+        'Created the test element successfully.'
     );
 
     return \%ElementData;
