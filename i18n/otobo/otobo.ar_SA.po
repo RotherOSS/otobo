@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-23 13:38+0000\n"
+"PO-Revision-Date: 2023-01-23 22:59+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -18276,85 +18276,88 @@ msgid ""
 "administrations panel! If this happens, please rename the group back to "
 "admin per SQL statement."
 msgstr ""
+"تنبيه: إذا قمت بتغيير اسم مجموعة \"المسؤول\" دون إجراء التعديلات المناسبة "
+"أولا في SysConfig، فستفقد الوصول إلى منطقة المسؤول! في هذه الحالة، يجب عليك "
+"إعادة تعيين اسم المجموعة في قاعدة البيانات."
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Delete this Mail Account"
-msgstr ""
+msgstr "حذف حساب البريد الإلكتروني"
 
 #. JS File: Core.Agent.Admin.MailAccount
 msgid "Deleting the mail account and its data. This may take a while..."
-msgstr ""
+msgstr "سيتم حذف حساب البريد الإلكتروني والبيانات. قد يستغرق هذا بعض الوقت..."
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification language?"
-msgstr ""
+msgstr "هل تريد بالتأكيد حذف لغة الإعلام هذه؟"
 
 #. JS File: Core.Agent.Admin.NotificationEvent
 msgid "Do you really want to delete this notification?"
-msgstr ""
+msgstr "هل تريد حقا حذف هذا الإشعار؟"
 
 #. JS File: Core.Agent.Admin.PGP
 msgid "Do you really want to delete this key?"
-msgstr ""
+msgstr "هل تريد حقا حذف هذا المفتاح؟"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "There is a package upgrade process running, click here to see status "
 "information about the upgrade progress."
-msgstr ""
+msgstr "عملية تحديث الحزمة جارية حاليا. انقر هنا للحصول على معلومات الحالة."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "A package upgrade was recently finished. Click here to see the results."
-msgstr ""
+msgstr "تم الانتهاء مؤخرا من ترقية الحزمة. انقر هنا لمشاهدة النتائج."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade result."
-msgstr ""
+msgstr "لا توجد إستجابة من الحصول على نتيجة ترقية الحزمة."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update all packages"
-msgstr ""
+msgstr "تحديث كافة الحزم"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Dismiss"
-msgstr ""
+msgstr "رفض"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Update All Packages"
-msgstr ""
+msgstr "تحديث كافة الحزم"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from package upgrade all."
-msgstr ""
+msgstr "لا يوجد إستجابة من ترقية الحزمة كلها."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Currently not possible"
-msgstr ""
+msgstr "غير ممكن حاليا"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "This is currently disabled because of an ongoing package upgrade."
-msgstr ""
+msgstr "تم تعطيل هذا حاليا بسبب ترقية الحزمة الجارية."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid ""
 "This option is currently disabled because the OTOBO Daemon is not running."
-msgstr ""
+msgstr "هذا الخيار معطل حاليًا لأن OTOBO Daemon لا يعمل."
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "Are you sure you want to update all installed packages?"
-msgstr ""
+msgstr "هل تريد بالتأكيد تحديث كافة الحزم المثبتة؟"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "لا توجد إستجابة من الحصول على حالة تشغيل ترقية الحزمة."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
-msgstr ""
+msgstr "حذف عامل تصفية PostMasterFilter هذا"
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Deleting the postmaster filter and its data. This may take a while..."
-msgstr ""
+msgstr "حذف عامل تصفية مسؤول البريد وبياناته. قد يستغرق هذا بعض الوقت..."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove Entity from canvas"
@@ -18362,55 +18365,62 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "No TransitionActions assigned."
-msgstr ""
+msgstr "لم يتم تعيين إجراءات انتقالية."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid ""
 "No dialogs assigned yet. Just pick an activity dialog from the list on the "
 "left and drag it here."
 msgstr ""
+"لم يتم تعيين مربعات حوار بعد. فقط أختر مربع حوار نشاط من القائمة الموجودة "
+"على اليسار واسحبه إلى هنا."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "This Activity cannot be deleted because it is the Start Activity."
-msgstr ""
+msgstr "لا يمكن حذف هذا النشاط لأنه نشاط البدء."
 
 #. JS File: Core.Agent.Admin.ProcessManagement.Canvas
 msgid "Remove the Transition from this Process"
-msgstr ""
+msgstr "إزالة الانتقال من هذه العملية"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "As soon as you use this button or link, you will leave this screen and its "
 "current state will be saved automatically. Do you want to continue?"
 msgstr ""
+"بمجرد إستخدام هذا الزر أو الارتباط، ستغادر هذه الشاشة وسيتم حفظ حالتها "
+"الحالية تلقائيا. هل تريد المتابعة؟"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Delete Entity"
-msgstr ""
+msgstr "حذف الكيان"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "This Activity is already used in the Process. You cannot add it twice!"
-msgstr ""
+msgstr "هذا النشاط مستخدم بالفعل في العملية. لا يمكنك إضافته مرتين!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Error during AJAX communication"
-msgstr ""
+msgstr "خطأ أثناء اتصال AJAX"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "An unconnected transition is already placed on the canvas. Please connect "
 "this transition first before placing another transition."
 msgstr ""
+"هناك انتقال غير متصل على سطح الرسم. الرجاء توصيل هذا الانتقال أولا قبل وضع "
+"عملية انتقال أخرى."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This Transition is already used for this Activity. You cannot use it twice!"
-msgstr ""
+msgstr "هذا الانتقال مستخدم بالفعل لهذا النشاط. لا يمكنك إستخدامه مرتين!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid ""
 "This TransitionAction is already used in this Path. You cannot use it twice!"
 msgstr ""
+"هذا الإجراء الانتقالي مستخدم بالفعل في هذا المسار. لا يمكنك إضافته مرة أخرى!"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Hide EntityIDs"
