@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-23 08:56+0000\n"
+"PO-Revision-Date: 2023-01-23 13:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -18231,43 +18231,43 @@ msgstr "حذف هذا الاستدعاء (Invoker)"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing condition can't be removed."
-msgstr ""
+msgstr "عذرا، لا يمكن إزالة الشرط الوحيد الموجود."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing field can't be removed."
-msgstr ""
+msgstr "عذرا، لا يمكن إزالة الحقل الوحيد الموجود."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Delete conditions"
-msgstr ""
+msgstr "حذف الشروط"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key %s"
-msgstr ""
+msgstr "تعيين المفتاح %s"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Mapping for Key"
-msgstr ""
+msgstr "تعيين المفتاح"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceMapping
 msgid "Delete this Key Mapping"
-msgstr ""
+msgstr "حذف تعيين المفتاح"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceOperation
 msgid "Delete this Operation"
-msgstr ""
+msgstr "حذف هذه العملية"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceWebservice
 msgid "Clone web service"
-msgstr ""
+msgstr "استنساخ خدمة الويب"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceWebservice
 msgid "Delete operation"
-msgstr ""
+msgstr "حذف العملية"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceWebservice
 msgid "Delete invoker"
-msgstr ""
+msgstr "حذف الاستدعاء"
 
 #. JS File: Core.Agent.Admin.Group
 msgid ""
