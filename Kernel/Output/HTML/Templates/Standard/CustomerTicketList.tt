@@ -18,7 +18,7 @@
     <a href="[% Env("Baselink") %]Action=CustomerTicketZoom;TicketNumber=[% Data.TicketNumber | uri %]" class="oooTicketListItem">
         <div class="oooTicketItemDesc">
             <h3 class="oooTIDTitle">[% Data.Subject | html %]</h3>
-            <p class="oooTIDNumber ooo12g">[% Translate("Nr.") | html %] #[% Data.TicketNumber | html %]</p>
+            <p class="oooTIDNumber ooo12g">[% Config('Ticket::Hook') %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]</p>
         </div>
         <div class="oooTicketItemCat">
             <div class="oooRow1"></div>

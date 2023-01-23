@@ -19,7 +19,7 @@
 [% RenderBlockStart("Ticket") %]
         <tr>
             <td>
-                <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Data.Title | html %]">[% Data.TicketNumber %]</a> [% Data.Title | truncate(50) | html %]
+                <a href="[% Env("Baselink") %][% Data.Link %]" title="[% Data.Title | html %]">[% Data.TicketNumber | html %]</a> [% Data.Title | truncate(50) | html %]
             </td>
         </tr>
 [% RenderBlockEnd("Ticket") %]

@@ -1406,9 +1406,27 @@ sub CheckMailConfiguration {
 
         # Check outbound mail configuration.
         my $SendObject = $Kernel::OM->Get('Kernel::System::Email');
+
+        my $Status = 'Successful';
+
         %Result = $SendObject->Check(
             CommunicationLogObject => $CommunicationLogObject,
         );
+
+        if ( !$Result{Successful} ) {
+            $Status = 'Failed';
+        }
+
+        my $CommunicationLogSuccess = $CommunicationLogObject->CommunicationStop(
+            Status => $Status,
+        );
+
+        if ( !$CommunicationLogSuccess ) {
+            return (
+                Successful => 0,
+                Message    => 'Communication log could not be closed!'
+            );
+        }
 
         my $SysConfigObject = $Kernel::OM->Get('Kernel::System::SysConfig');
 
