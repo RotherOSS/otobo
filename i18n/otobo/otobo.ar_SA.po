@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-20 18:30+0000\n"
+"PO-Revision-Date: 2023-01-23 08:56+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -18131,100 +18131,103 @@ msgstr "أكثر"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Less"
-msgstr ""
+msgstr "أقل"
 
 #. JS File: Core.Agent.Admin.AppointmentCalendar.Manage
 msgid "Press Ctrl+C (Cmd+C) to copy to clipboard"
-msgstr ""
+msgstr "اضغط على Ctrl+C (Cmd+C) للنسخ إلى الحافظة"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Delete this Attachment"
-msgstr ""
+msgstr "حذف هذا المرفق"
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Deleting attachment..."
-msgstr ""
+msgstr "جارٍ حذف المرفق ..."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid ""
 "There was an error deleting the attachment. Please check the logs for more "
 "information."
 msgstr ""
+"حدث خطأ أثناء حذف المرفق. الرجاء التحقق من السجلات للحصول على مزيد من "
+"المعلومات."
 
 #. JS File: Core.Agent.Admin.Attachment
 msgid "Attachment was deleted successfully."
-msgstr ""
+msgstr "تمت إزالة المرفق بنجاح."
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid ""
 "Do you really want to delete this dynamic field? ALL associated data will be "
 "LOST!"
 msgstr ""
+"هل تريد حقا حذف هذا الحقل الديناميكي؟ سيتم فقدان جميع البيانات المرتبطة!"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Delete field"
-msgstr ""
+msgstr "حذف الحقل"
 
 #. JS File: Core.Agent.Admin.DynamicField
 msgid "Deleting the field and its data. This may take a while..."
-msgstr ""
+msgstr "حذف الحقل والبيانات الخاصة به. قد يستغرق هذا بعض الوقت..."
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove this dynamic field"
-msgstr ""
+msgstr "إزالة هذا الحقل الديناميكي"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Remove selection"
-msgstr ""
+msgstr "إزالة التحديد"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Do you really want to delete this generic agent job?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف وظيفة GenericAgent هذه؟"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Delete this Event Trigger"
-msgstr ""
+msgstr "حذف مشغل الحدث هذا"
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "Duplicate event."
-msgstr ""
+msgstr "حدث مكرر."
 
 #. JS File: Core.Agent.Admin.GenericAgent
 msgid "This event is already attached to the job, Please use a different one."
-msgstr ""
+msgstr "هذا الحدث مرفق بالفعل بالوظيفة، يرجى استخدام حدث آخر."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "An error occurred during communication."
-msgstr ""
+msgstr "حدث خطأ أثناء الاتصال."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details"
-msgstr ""
+msgstr "تفاصيل الطلب"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Request Details for Communication ID"
-msgstr ""
+msgstr "تفاصيل الطلب لمعرف الاتصال"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Show or hide the content."
-msgstr ""
+msgstr "إظهار المحتوى أو إخفاؤه."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceDebugger
 msgid "Clear debug log"
-msgstr ""
+msgstr "مسح سجل التصحيح"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
 msgid "Delete error handling module"
-msgstr ""
+msgstr "إزالة وحدة معالجة الأخطاء"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid ""
 "It is not possible to add a new event trigger because the event is not set."
-msgstr ""
+msgstr "من غير الممكن إضافة مشغل حدث جديد بسبب عدم تعيين الحدث."
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvoker
 msgid "Delete this Invoker"
-msgstr ""
+msgstr "حذف هذا الاستدعاء (Invoker)"
 
 #. JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
 msgid "Sorry, the only existing condition can't be removed."
