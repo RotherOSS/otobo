@@ -18,7 +18,7 @@
     <div id='oooHeader'>
         <div class='oooWithSub'>
             <h2 title="[% Data.Title | html %]">[% Data.Title | html %]</h2>
-            <p class="ooo12g" title="[% Translate('No.') | html %] #[% Data.TicketNumber | html %]">[% Translate('No.') | html %] #[% Data.TicketNumber | html %]</p>
+            <p class="ooo12g" title="[% Config('Ticket::Hook') %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]">[% Data.Hook %][% Config('Ticket::HookDivider') %][% Data.TicketNumber | html %]</p>
         </div>
         <div class='oooAvatar'>
             [% IF Data.Avatar %]
