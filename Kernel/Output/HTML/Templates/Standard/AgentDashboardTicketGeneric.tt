@@ -162,7 +162,7 @@
 [% RenderBlockEnd("ContentLargeTicketGenericRowMeta") %]
 
 #            <td class="W10pc">
-#                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]" title="[% Data.Title | html %]" class="AsBlock MasterActionLink">[% Data.TicketNumber %]</a>
+#                <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]" title="[% Data.Title | html %]" class="AsBlock MasterActionLink">[% Data.TicketNumber | html %]</a>
 #            </td>
 #            <td class="W50pc">
 #                <div title="[% Data.Title | html %]">[% Data.Title | truncate(70) | html %]</div>
@@ -172,7 +172,7 @@
 [% RenderBlockStart("ContentLargeTicketGenericTicketColumn") %]
 [% RenderBlockStart("ContentLargeTicketGenericTicketNumber") %]
                 <td>
-                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]" title="[% Data.Title | html %]" class="AsBlock MasterActionLink">[% Data.TicketNumber %]</a>
+                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID %]" title="[% Data.Title | html %]" class="AsBlock MasterActionLink">[% Data.TicketNumber | html %]</a>
                 </td>
 [% RenderBlockEnd("ContentLargeTicketGenericTicketNumber") %]
 [% RenderBlockStart("ContentLargeTicketGenericEscalationTime") %]
