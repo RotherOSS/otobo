@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-23 22:59+0000\n"
+"PO-Revision-Date: 2023-01-24 08:22+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -18424,35 +18424,35 @@ msgstr ""
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Hide EntityIDs"
-msgstr ""
+msgstr "إخفاء EntityIDs"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Edit Field Details"
-msgstr ""
+msgstr "تحرير تفاصيل الحقل"
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Customer interface does not support articles not visible for customers."
-msgstr ""
+msgstr "لا تدعم واجهة العميل المقالات غير المرئية للعملاء."
 
 #. JS File: Core.Agent.Admin.ProcessManagement
 msgid "Sorry, the only existing parameter can't be removed."
-msgstr ""
+msgstr "عذرا، لا يمكن إزالة المعلمة الوحيدة الموجودة."
 
 #. JS File: Core.Agent.Admin.SMIME
 msgid "Do you really want to delete this certificate?"
-msgstr ""
+msgstr "هل تريد حقا حذف هذه الشهادة؟"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Sending Update..."
-msgstr ""
+msgstr "جاري إرسال التحديث. . ."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Data information was successfully sent."
-msgstr ""
+msgstr "تم إرسال معلومات بيانات الدعم بنجاح."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Was not possible to send Support Data information."
-msgstr ""
+msgstr "لم يكن من الممكن إرسال معلومات بيانات الدعم."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Update Result"
