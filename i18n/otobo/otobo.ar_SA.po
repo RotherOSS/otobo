@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-24 08:22+0000\n"
+"PO-Revision-Date: 2023-01-25 04:35+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -18456,55 +18456,58 @@ msgstr "لم يكن من الممكن إرسال معلومات بيانات ا�
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Update Result"
-msgstr ""
+msgstr "نتيجة التحديث"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generating..."
-msgstr ""
+msgstr "تم الإنشاء..."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "It was not possible to generate the Support Bundle."
-msgstr ""
+msgstr "تعذر إنشاء حزمة الدعم."
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Generate Result"
-msgstr ""
+msgstr "نتيجة التوليد"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "Support Bundle"
-msgstr ""
+msgstr "حزمة الدعم"
 
 #. JS File: Core.Agent.Admin.SupportDataCollector
 msgid "The mail could not be sent"
-msgstr ""
+msgstr "تعذر إرسال البريد الإلكتروني"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
 "It is not possible to set this entry to invalid. All affected configuration "
 "settings have to be changed beforehand."
 msgstr ""
+"لا يمكن إبطال هذا الإدخال حتى يتم تعديل كافة التكوينات المتأثرة وفقا لذلك."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Cannot proceed"
-msgstr ""
+msgstr "لا يمكن المتابعة"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Update manually"
-msgstr ""
+msgstr "التحديث يدويا"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
 "You can either have the affected settings updated automatically to reflect "
 "the changes you just made or do it on your own by pressing 'update manually'."
 msgstr ""
+"يمكنك إما تحديث الإعدادات المتأثرة تلقائيا لتعكس التغييرات التي قمت بها للتو "
+"أو القيام بذلك بنفسك من خلال الضغط على \"التحديث يدويا\"."
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Save and update automatically"
-msgstr ""
+msgstr "حفظ وتحديث تلقائي"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid "Don't save, update manually"
-msgstr ""
+msgstr "عدم الحفظ، التحديث يدويا"
 
 #. JS File: Core.Agent.Admin.SysConfig.Entity
 msgid ""
@@ -18513,6 +18516,10 @@ msgid ""
 "state. Please wait until the setting has been deployed. If you're unsure "
 "what to do next, please contact your system administrator."
 msgstr ""
+"الإدخال الذي تبحث عنه حاليا هو جزء من إعداد التكوين الذي لم يتم تنشيطه حتى "
+"الآن وبالتالي فهو غير قابل للتعديل حاليا. الرجاء الانتظار حتى يتم تشغيل "
+"الإعداد. إذا لم تكن متأكدا مما يجب عليك القيام به بعد ذلك، الرجاء الاتصال "
+"بمسؤول النظام."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Loading..."
@@ -18520,123 +18527,131 @@ msgstr "جاري التحميل..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Search the System Configuration"
-msgstr ""
+msgstr "البحث في تكوين النظام"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Please enter at least one search word to find anything."
-msgstr ""
+msgstr "الرجاء إدخال مصطلح بحث واحد على الأقل."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Unfortunately deploying is currently not possible, maybe because another "
 "agent is already deploying. Please try again later."
 msgstr ""
+"للأسف، النشر غير ممكن حاليًا، ربما بسبب نشر وكيل آخر بالفعل. الرجاء معاودة "
+"المحاولة في وقت لاحق."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deploy"
-msgstr ""
+msgstr "نشر"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "The deployment is already running."
-msgstr ""
+msgstr "النشر قيد التشغيل بالفعل."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Deployment successful. You're being redirected..."
-msgstr ""
+msgstr "تم النشر بنجاح. تتم إعادة توجيهك ..."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "There was an error. Please save all settings you are editing and check the "
 "logs for more information."
 msgstr ""
+"حدث خطأ. الرجاء حفظ كافة الإعدادات التي تقوم بتحريرها حاليا والتحقق من "
+"السجلات للحصول على مزيد من المعلومات."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Reset option is required!"
-msgstr ""
+msgstr "خيار إعادة التعيين مطلوب!"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "By restoring this deployment all settings will be reverted to the value they "
 "had at the time of the deployment. Do you really want to continue?"
 msgstr ""
+"باستعادة هذا النشر، سيتم إرجاع كافة الإعدادات إلى القيمة التي كانت موجودة في "
+"وقت النشر. هل تريد حقا المتابعة؟"
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid ""
 "Keys with values can't be renamed. Please remove this key/value pair instead "
 "and re-add it afterwards."
 msgstr ""
+"لا يمكن إعادة تسمية المفتاح الذي يحتوي على قيم. الرجاء إزالة زوج المفتاح/"
+"القيمة هذا وإضافته مرة أخرى."
 
 #. JS File: Core.Agent.Admin.SystemConfiguration
 msgid "Unlock setting."
-msgstr ""
+msgstr "إلغاء تأمين الإعداد."
 
 #. JS File: Core.Agent.Admin.SystemConfigurationUser
 msgid "Are you sure you want to remove all user values?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد تجاهل كافة تغييرات المستخدم؟"
 
 #. JS File: Core.Agent.Admin.SystemMaintenance
 msgid "Do you really want to delete this scheduled system maintenance?"
-msgstr ""
+msgstr "هل تريد حقًا حذف صيانة النظام المجدولة؟"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Delete this Template"
-msgstr ""
+msgstr "حذف هذا القالب"
 
 #. JS File: Core.Agent.Admin.Template
 msgid "Deleting the template and its data. This may take a while..."
-msgstr ""
+msgstr "حذف القالب وبياناته. قد يستغرق هذا بعض الوقت..."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Jump"
-msgstr ""
+msgstr "تخطي"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Month"
-msgstr ""
+msgstr "شهر المخطط الزمني"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Week"
-msgstr ""
+msgstr "أسبوع المخطط الزمني"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Timeline Day"
-msgstr ""
+msgstr "يوم المخطط الزمني"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Previous"
-msgstr ""
+msgstr "رجوع"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Resources"
-msgstr ""
+msgstr "موارد"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Su"
-msgstr ""
+msgstr "الأَحَدِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Mo"
-msgstr ""
+msgstr "الاثْنَيْنِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Tu"
-msgstr "مارس"
+msgstr "الثُّلاَثَاءِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "We"
-msgstr "تفعيل"
+msgstr "َالأَرْبِعَاءِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Th"
-msgstr "إلى"
+msgstr "الْخَمِيسِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Fr"
-msgstr ""
+msgstr "الْجُمُعَةِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Sa"
-msgstr ""
+msgstr "السَّبْتِ"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "This is a repeating appointment"
@@ -18644,60 +18659,61 @@ msgstr "هذا موعد متكرر"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Would you like to edit just this occurrence or all occurrences?"
-msgstr "هل ترغب بتعديل هذه الواقعة فقط أم تعديل جميع الوقائع؟"
+msgstr "هل تريد تعديل هذا الموعد فقط أم كافة المواعيد؟"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "All occurrences"
-msgstr "جميع الوقائع"
+msgstr "كل التكرارات"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Just this occurrence"
-msgstr "هذه الواقعة فقط"
+msgstr "هذا الحدث فقط"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Too many active calendars"
-msgstr ""
+msgstr "عدد كبير جدا من التقويمات النشطة"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid ""
 "Please either turn some off first or increase the limit in configuration."
-msgstr ""
+msgstr "يرجى إما إيقاف تشغيل البعض أولا أو زيادة الحد الأقصى في التكوين."
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid "Restore default settings"
-msgstr ""
+msgstr "استعادة الإعدادات الافتراضية"
 
 #. JS File: Core.Agent.AppointmentCalendar
 msgid ""
 "Are you sure you want to delete this appointment? This operation cannot be "
 "undone."
-msgstr ""
+msgstr "هل تريد بالتأكيد حذف هذا التاريخ؟ ولا يمكن عكس هذا التغيير."
 
 #. JS File: Core.Agent.CustomerSearch
 msgid ""
 "First select a customer user, then select a customer ID to assign to this "
 "ticket."
-msgstr ""
+msgstr "حدد أولاً مستخدم العميل. يمكنك بعد ذلك تخصيص التذكرة لرقم عميل."
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "Duplicated entry"
-msgstr ""
+msgstr "إدخال مكرر"
 
 #. JS File: Core.Agent.CustomerSearch
 msgid "It is going to be deleted from the field, please try again."
-msgstr ""
+msgstr "سيتم حذفه من الحقل، الرجاء المحاولة مرة أخرى."
 
 #. JS File: Core.Agent.CustomerUserAddressBook
 msgid "Please enter at least one search value or * to find anything."
-msgstr ""
+msgstr "الرجاء إدخال مصطلح بحث واحد على الأقل أو * للبحث عن كل شيء."
 
 #. JS File: Core.Agent.Daemon
 msgid "Information about the OTOBO Daemon"
-msgstr ""
+msgstr "معلومات حول OTOBO Daemon"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Please check the fields marked as red for valid inputs."
 msgstr ""
+"الرجاء التحقق من الحقول التي تم وضع علامة عليها بالأحمر من أجل إدخالات صالحة."
 
 #. JS File: Core.Agent.Dashboard
 msgid "month"
@@ -18705,23 +18721,23 @@ msgstr "شهر"
 
 #. JS File: Core.Agent.Dashboard
 msgid "Remove active filters for this widget."
-msgstr ""
+msgstr "قم بإزالة الفلاتر النشطة لهذه الأداة."
 
 #. JS File: Core.Agent.DynamicFieldDBSearch
 msgid "This dynamic field database value is already selected."
-msgstr ""
+msgstr "تم بالفعل تحديد هذا الحقل الديناميكي من نوع قاعدة البيانات."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Please wait..."
-msgstr ""
+msgstr "الرجاء الانتظار..."
 
 #. JS File: Core.Agent.LinkObject.SearchForm
 msgid "Searching for linkable objects. This may take a while..."
-msgstr ""
+msgstr "البحث عن الكائنات ذات الصلة. قد يستغرق هذا بعض الوقت..."
 
 #. JS File: Core.Agent.LinkObject
 msgid "Do you really want to delete this link?"
-msgstr ""
+msgstr "هل أنت متأكد من أنك تريد حذف هذا الرابط؟"
 
 #. JS File: Core.Agent.Login
 msgid ""
@@ -18729,252 +18745,263 @@ msgid ""
 "several issues and we highly recommend you to add an exception for this "
 "domain."
 msgstr ""
+"هل تستخدم ملحق مستعرض مثل AdBlock أو AdBlockPlus؟ قد يتسبب ذلك في حدوث "
+"العديد من المشكلات ونحن نوصيك بشدة بإضافة إستثناء لهذا المجال."
 
 #. JS File: Core.Agent.Login
 msgid "Do not show this warning again."
-msgstr ""
+msgstr "لا تظهر هذا التحذير مرة أخرى."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Sorry, but you can't disable all methods for notifications marked as "
 "mandatory."
 msgstr ""
+"عذرا، ولكن لا يمكنك تعطيل جميع طرق الإشعارات التي تم وضع علامة عليها على "
+"أنها إلزامية."
 
 #. JS File: Core.Agent.Preferences
 msgid "Sorry, but you can't disable all methods for this notification."
-msgstr ""
+msgstr "عذرا، ولكن لا يمكنك تعطيل كافة الأساليب الخاصة بهذا الإخطار."
 
 #. JS File: Core.Agent.Preferences
 msgid ""
 "Please note that at least one of the settings you have changed requires a "
 "page reload. Click here to reload the current screen."
 msgstr ""
+"الرجاء ملاحظة أن واحدا على الأقل من الإعدادات التي قمت بتغييرها يتطلب إعادة "
+"تحميل صفحة. انقر هنا لإعادة تحميل الشاشة الحالية."
 
 #. JS File: Core.Agent.Preferences
 msgid "An unknown error occurred. Please contact the administrator."
-msgstr ""
+msgstr "حدث خطأ غير معروف. الرجاء الاتصال بالمسؤول."
 
 #. JS File: Core.Agent.Responsive
 msgid "Switch to desktop mode"
-msgstr ""
+msgstr "التبديل إلى وضع سطح المكتب"
 
 #. JS File: Core.Agent.Search
 msgid ""
 "Please remove the following words from your search as they cannot be "
 "searched for:"
-msgstr ""
+msgstr "الرجاء إزالة الكلمات التالية من البحث حيث لا يمكن البحث عنها:"
 
 #. JS File: Core.Agent.SharedSecretGenerator
 msgid "Generate"
-msgstr ""
+msgstr "إنشاء"
 
 #. JS File: Core.Agent.SortedTree
 msgid "This element has children elements and can currently not be removed."
-msgstr ""
+msgstr "يحتوي هذا العنصر على عناصر فرعية ولا يمكن إزالته حاليًا."
 
 #. JS File: Core.Agent.Statistics
 msgid "Do you really want to delete this statistic?"
-msgstr ""
+msgstr "هل تريد حقًا حذف هذه الإحصائية؟"
 
 #. JS File: Core.Agent.StatisticsReports
 msgid "Do you really want to delete this report?"
-msgstr ""
+msgstr "هل تريد حقا حذف هذا التقرير؟"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
-msgstr ""
+msgstr "حدد رقم العميل الذي تريد تعيينه لهذه التذكرة"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Do you really want to continue?"
-msgstr ""
+msgstr "هل تريد حقا المتابعة؟"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...and %s more"
-msgstr ""
+msgstr " ... و ‎%s أكثر"
 
 #. JS File: Core.Agent.TicketBulk
 msgid " ...show less"
-msgstr ""
+msgstr " ... أظهر أقل"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Add new draft"
-msgstr ""
+msgstr "إضافة مسودة جديدة"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "Delete draft"
-msgstr ""
+msgstr "حذف المسودة"
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "There are no more drafts available."
-msgstr ""
+msgstr "لا تتوفر أي مسودات أخرى."
 
 #. JS File: Core.Agent.TicketFormDraft
 msgid "It was not possible to delete this draft."
-msgstr ""
+msgstr "لم يكن من الممكن حذف المسودة."
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Article filter"
-msgstr ""
+msgstr "عامل تصفية المقالة"
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Apply"
-msgstr ""
+msgstr "تطبيق"
 
 #. JS File: Core.Agent.TicketZoom
 msgid "Event Type Filter"
-msgstr ""
+msgstr "عامل تصفية نوع الحدث"
 
 #. JS File: Core.Agent
 msgid "Slide the navigation bar"
-msgstr ""
+msgstr "تحريك شريط التنقل"
 
 #. JS File: Core.Agent
 msgid "Please turn off Compatibility Mode in Internet Explorer!"
-msgstr ""
+msgstr "الرجاء إيقاف تشغيل وضع التوافق في Internet Explorer!"
 
 #. JS File: Core.App.Responsive
 msgid "Switch to mobile mode"
-msgstr ""
+msgstr "التبديل إلى وضع الهاتف الجوال"
 
 #. JS File: Core.App
 msgid "Error: Browser Check failed!"
-msgstr ""
+msgstr "خطأ: فشل فحص المتصفح!"
 
 #. JS File: Core.App
 msgid "Reload page"
-msgstr ""
+msgstr "إعادة تحميل الصفحة"
 
 #. JS File: Core.App
 msgid "Reload page (%ss)"
-msgstr ""
+msgstr "إعادة تحميل الصفحة (‎%ss)"
 
 #. JS File: Core.Debug
 msgid "Namespace %s could not be initialized, because %s could not be found."
-msgstr ""
+msgstr "تعذر تهيئة مساحة الاسم ‏%s، نظرا لتعذر العثور على ‎%s."
 
 #. JS File: Core.Exception
 msgid "An error occurred! Please check the browser error log for more details!"
-msgstr ""
+msgstr "حدث خطأ! يرجى التحقق من سجل أخطاء المتصفح لمزيد من التفاصيل!"
 
 #. JS File: Core.Form.Validate
 msgid "One or more errors occurred!"
-msgstr ""
+msgstr "حدث خطأ واحد أو أكثر!"
 
 #. JS File: Core.Installer
 msgid "Mail check successful."
-msgstr ""
+msgstr "تم التحقق من البريد بنجاح."
 
 #. JS File: Core.Installer
 msgid "Error in the mail settings. Please correct and try again."
-msgstr ""
+msgstr "خطأ في إعدادات البريد. يرجى التصحيح والمحاولة مرة أخرى."
 
 #. JS File: Core.SystemConfiguration
 msgid "Open this node in a new window"
-msgstr ""
+msgstr "افتح هذه العقدة في نافذة جديدة"
 
 #. JS File: Core.SystemConfiguration
 msgid "Please add values for all keys before saving the setting."
-msgstr ""
+msgstr "الرجاء إضافة قيم لكل المفاتيح قبل حفظ الإعداد."
 
 #. JS File: Core.SystemConfiguration
 msgid "The key must not be empty."
-msgstr ""
+msgstr "يجب ألا يكون المفتاح فارغًا."
 
 #. JS File: Core.SystemConfiguration
 msgid "A key with this name ('%s') already exists."
-msgstr ""
+msgstr "يوجد مفتاح بهذا الاسم ('‎%s') بالفعل."
 
 #. JS File: Core.SystemConfiguration
 msgid "Do you really want to revert this setting to its historical value?"
-msgstr ""
+msgstr "هل أنت متأكد أنك تريد إعادة تعيين هذا الإعداد إلى قيمته الأصلية؟"
 
 #. JS File: Core.UI.Datepicker
 msgid "Open date selection"
-msgstr ""
+msgstr "فتح تحديد التاريخ"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a future date)!"
-msgstr ""
+msgstr "تاريخ غير صالح (التاريخ مطلوب في المستقبل)!"
 
 #. JS File: Core.UI.Datepicker
 msgid "Invalid date (need a past date)!"
-msgstr ""
+msgstr "تاريخ غير صالح (التاريخ المطلوب في الماضي)!"
 
 #. JS File: Core.UI.InputFields
 msgid "Not available"
-msgstr ""
+msgstr "غير متوفر"
 
 #. JS File: Core.UI.InputFields
 msgid "and %s more..."
-msgstr ""
+msgstr "و ‎%s أكثر..."
 
 #. JS File: Core.UI.InputFields
 msgid "Show current selection"
-msgstr ""
+msgstr "إظهار التحديد الحالي"
 
 #. JS File: Core.UI.InputFields
 msgid "Current selection"
-msgstr ""
+msgstr "التحديد الحالي"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear all"
-msgstr ""
+msgstr "مسح الكل"
 
 #. JS File: Core.UI.InputFields
 msgid "Filters"
-msgstr ""
+msgstr "عوامل التصفية"
 
 #. JS File: Core.UI.InputFields
 msgid "Clear search"
-msgstr ""
+msgstr "مسح البحث"
 
 #. JS File: Core.UI.Popup
 msgid "If you now leave this page, all open popup windows will be closed, too!"
 msgstr ""
+"إذا غادرت هذه الصفحة الآن، سيتم إغلاق جميع النوافذ المنبثقة المفتوحة أيضا!"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "A popup of this screen is already open. Do you want to close it and load "
 "this one instead?"
 msgstr ""
+"النافذة المنبثقة مفتوحة بالفعل على هذه الشاشة. هل تريد إغلاقه وفتحه بدلا من "
+"ذلك؟"
 
 #. JS File: Core.UI.Popup
 msgid ""
 "Could not open popup window. Please disable any popup blockers for this "
 "application."
 msgstr ""
+"تعذر فتح النوافذ المنبثقة. الرجاء تعطيل كافة برامج حظر النافذة المنبثقة لهذا "
+"التطبيق."
 
 #. JS File: Core.UI.Table.Sort
 msgid "Ascending sort applied, "
-msgstr ""
+msgstr "ترتيب تصاعدي مطبق، "
 
 #. JS File: Core.UI.Table.Sort
 msgid "Descending sort applied, "
-msgstr ""
+msgstr "تطبيق الفرز تنازلي ، "
 
 #. JS File: Core.UI.Table.Sort
 msgid "No sort applied, "
-msgstr ""
+msgstr "لم يتم تطبيق أي فرز، "
 
 #. JS File: Core.UI.Table.Sort
 msgid "sorting is disabled"
-msgstr ""
+msgstr "الفرز معطل"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply an ascending sort"
-msgstr ""
+msgstr "تنشيط لتطبيق فرز تصاعدي"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to apply a descending sort"
-msgstr ""
+msgstr "تنشيط لتطبيق فرز تنازلي"
 
 #. JS File: Core.UI.Table.Sort
 msgid "activate to remove the sort"
-msgstr ""
+msgstr "تنشيط لإزالة الفرز"
 
 #. JS File: Core.UI.Table
 msgid "Remove the filter"
-msgstr ""
+msgstr "إزالة عامل التصفية"
 
 #. JS File: Core.UI.TreeSelection
 msgid "There are currently no elements available to select from."
