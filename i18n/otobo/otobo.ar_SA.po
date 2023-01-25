@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-25 04:35+0000\n"
+"PO-Revision-Date: 2023-01-25 11:20+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -19005,57 +19005,60 @@ msgstr "إزالة عامل التصفية"
 
 #. JS File: Core.UI.TreeSelection
 msgid "There are currently no elements available to select from."
-msgstr ""
+msgstr "لا توجد حاليا أي عناصر متوفرة للتحديد منها."
 
 #. JS File: Core.UI
 msgid "Please only select one file for upload."
-msgstr ""
+msgstr "الرجاء تحديد ملف واحد فقط للتحميل."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload one file here."
-msgstr ""
+msgstr "عذرا، يمكنك تحميل ملف واحد فقط هنا."
 
 #. JS File: Core.UI
 msgid "Sorry, you can only upload %s files."
-msgstr ""
+msgstr "عذرا، يمكنك تحميل ملفات ‎%s فقط."
 
 #. JS File: Core.UI
 msgid "Please only select at most %s files for upload."
-msgstr ""
+msgstr "الرجاء تحديد حد أقصى من ‎%s مِلَفّ (ملفات) للتحميل."
 
 #. JS File: Core.UI
 msgid "The following files are not allowed to be uploaded: %s"
-msgstr ""
+msgstr "يجب عدم تعديل الملفات التالية: ‎%s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files exceed the maximum allowed size per file of %s and were "
 "not uploaded: %s"
 msgstr ""
+"تتجاوز الملفات التالية الحد الأقصى للحجم لكل ملف (‎%s) ولم يتم تحديثها: ‎%s"
 
 #. JS File: Core.UI
 msgid ""
 "The following files were already uploaded and have not been uploaded again: "
 "%s"
-msgstr ""
+msgstr "تم تحميل الملفات التالية بالفعل ولم تتم معالجتها مرة أخرى: ‎%s"
 
 #. JS File: Core.UI
 msgid "No space left for the following files: %s"
-msgstr ""
+msgstr "لا تتوفر مساحة للملفات التالية: ‎%s"
 
 #. JS File: Core.UI
 msgid "Available space %s of %s."
-msgstr ""
+msgstr "المساحة المتوفرة ‎%s من ‎%s."
 
 #. JS File: Core.UI
 msgid "Upload information"
-msgstr ""
+msgstr "تحميل المعلومات"
 
 #. JS File: Core.UI
 msgid ""
 "An unknown error occurred when deleting the attachment. Please try again. If "
 "the error persists, please contact your system administrator."
 msgstr ""
+"حدث خطأ غير معروف عند حذف المرفق. الرجاء المحاولة مرة أخرى. إذا استمر الخطأ، "
+"الرجاء الاتصال بمسؤول النظام."
 
 #. JS File: Core.Language.UnitTest
 msgid "yes"
@@ -19067,15 +19070,15 @@ msgstr "لا"
 
 #. JS File: Core.Language.UnitTest
 msgid "This is %s"
-msgstr ""
+msgstr "هذا ‎%s"
 
 #. JS File: Core.Language.UnitTest
 msgid "Complex %s with %s arguments"
-msgstr ""
+msgstr "معقد ‎%s مع ‎%s وسيطات"
 
 #. JS File: OTOBOLineChart
 msgid "No Data Available."
-msgstr ""
+msgstr "لا تتوفر بيانات."
 
 #. JS File: OTOBOMultiBarChart
 msgid "Grouped"
