@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-01-25 11:20+0000\n"
+"PO-Revision-Date: 2023-02-01 12:38+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -19082,19 +19082,19 @@ msgstr "لا تتوفر بيانات."
 
 #. JS File: OTOBOMultiBarChart
 msgid "Grouped"
-msgstr ""
+msgstr "جُمِّعَ"
 
 #. JS File: OTOBOMultiBarChart
 msgid "Stacked"
-msgstr ""
+msgstr "مُكَدَّس"
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Stream"
-msgstr ""
+msgstr "سَلِس"
 
 #. JS File: OTOBOStackedAreaChart
 msgid "Expanded"
-msgstr ""
+msgstr "واسع النَطاق"
 
 #. SysConfig
 msgid ""
@@ -19104,6 +19104,11 @@ msgid ""
 "            in an extra table\n"
 "        "
 msgstr ""
+"\n"
+"            إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل "
+"هذا الخيار، يتم عرض المعلمات الاختيارية فقط\n"
+"في جدول اضافي\n"
+"        "
 
 #. SysConfig
 msgid ""
@@ -19119,10 +19124,21 @@ msgid ""
 "\n"
 " Your Helpdesk Team\n"
 msgstr ""
+"\n"
+"عزيزي الزبون،\n"
+"\n"
+"لسوء الحظ لم نتمكن من اكتشاف رقم تذكرة صحيح\n"
+"في موضوعك، لذا لا يمكن معالجة هذا البريد الإلكتروني.\n"
+"\n"
+"الرجاء إنشاء تذكرة جديدة عبر لوحة العملاء.\n"
+"\n"
+"شكرا على مساعدتك!\n"
+"\n"
+"فريق الدعم\n"
 
 #. SysConfig
 msgid " (work units)"
-msgstr ""
+msgstr " (وحدات العمل)"
 
 #. SysConfig
 msgid " 2 minutes"
@@ -19138,7 +19154,7 @@ msgstr " 7 دقائق"
 
 #. SysConfig
 msgid "\"Slim\" skin which tries to save screen space for power users."
-msgstr ""
+msgstr "Slim\"-Skin\", مما يتطلب مساحة أقل على الشاشة لعرض المعلومات."
 
 #. SysConfig
 msgid "%s"
@@ -19146,93 +19162,95 @@ msgstr "%s"
 
 #. SysConfig
 msgid "(UserLogin) Firstname Lastname"
-msgstr ""
+msgstr "(تسجيل دخول المستخدم) الاسم الأول اسم العائلة"
 
 #. SysConfig
 msgid "(UserLogin) Lastname Firstname"
-msgstr ""
+msgstr "(تسجيل دخول المستخدم) اسم العائلة الاسم الأول"
 
 #. SysConfig
 msgid "(UserLogin) Lastname, Firstname"
-msgstr ""
+msgstr "(تسجيل دخول المستخدم) اسم العائلة ، الاسم الأول"
 
 #. SysConfig
 msgid "*** out of office until %s (%s d left) ***"
-msgstr ""
+msgstr "*** ليس في المكتب حتى %s (%s الأيام المتبقية) ***"
 
 #. SysConfig
 msgid "0 - Disabled"
-msgstr ""
+msgstr "0 - معطل"
 
 #. SysConfig
 msgid "1 - Available"
-msgstr ""
+msgstr "1 - متوفر"
 
 #. SysConfig
 msgid "1 - Enabled"
-msgstr ""
+msgstr "١ - منشط"
 
 #. SysConfig
 msgid "10 Minutes"
-msgstr ""
+msgstr "10 دقائق"
 
 #. SysConfig
 msgid "100 (Expert)"
-msgstr ""
+msgstr "100 (خبير)"
 
 #. SysConfig
 msgid "15 Minutes"
-msgstr ""
+msgstr "15 دقيقة"
 
 #. SysConfig
 msgid "2 - Enabled and required"
-msgstr ""
+msgstr "2 - مفعل وإلزامي"
 
 #. SysConfig
 msgid "2 - Enabled and shown by default"
-msgstr ""
+msgstr "2 - ممكن ويظهر افتراضيا"
 
 #. SysConfig
 msgid "2 - Enabled by default"
-msgstr ""
+msgstr "2 - ممكّن افتراضيًا"
 
 #. SysConfig
 msgid "2 Minutes"
-msgstr ""
+msgstr "دقيقتان"
 
 #. SysConfig
 msgid "200 (Advanced)"
-msgstr ""
+msgstr "200 (مُتَقَدِّمٌ)"
 
 #. SysConfig
 msgid "30 Minutes"
-msgstr ""
+msgstr "30 دقيقة"
 
 #. SysConfig
 msgid "300 (Beginner)"
-msgstr ""
+msgstr "300 (مبتدئ)"
 
 #. SysConfig
 msgid "5 Minutes"
-msgstr ""
+msgstr "5 دقائق"
 
 #. SysConfig
 msgid "A TicketWatcher Module."
-msgstr ""
+msgstr "وحدة مراقبة التذاكر."
 
 #. SysConfig
 msgid "A Website"
-msgstr ""
+msgstr "موقع ويب"
 
 #. SysConfig
 msgid ""
 "A list of dynamic fields that are merged into the main ticket during a merge "
 "operation. Only dynamic fields that are empty in the main ticket will be set."
 msgstr ""
+"قائمة بالحقول الديناميكية التي تم دمجها في التذكرة الرئيسية أثناء عملية "
+"الدمج. سيتم تعيين الحقول الديناميكية الفارغة في التذكرة الرئيسية فقط."
 
 #. SysConfig
 msgid "A picture"
-msgstr ""
+msgstr "صورة"
 
 #. SysConfig
 msgid ""
@@ -19240,63 +19258,67 @@ msgid ""
 "already closed (\"State\" shows which states are not available for the "
 "parent ticket until all child tickets are closed)."
 msgstr ""
+"تسمح وحدة قائمة التحكم في الوصول (ACL) بإغلاق تذاكر الأصل فقط في حالة إغلاق "
+"كافة التذاكر التابعة بالفعل ( تظهر \"الحالة\" أي حالات غير متوفرة للتذكرة "
+"الأصلية حتى يتم إغلاق كافة تذاكر التابعة)."
 
 #. SysConfig
 msgid "Access Control Lists (ACL)"
-msgstr ""
+msgstr "قوائم التحكم في الوصول (ACL)"
 
 #. SysConfig
 msgid "AccountedTime"
-msgstr ""
+msgstr "الوقت المحسوب"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "تنشيط البحث المرن (Elasticsearch)."
 
 #. SysConfig
 msgid "Activate the customer frontend."
-msgstr ""
+msgstr "تنشيط الواجهة الأمامية للعميل."
 
 #. SysConfig
 msgid "Activate the public frontend."
-msgstr ""
+msgstr "تنشيط الواجهة العامة."
 
 #. SysConfig
 msgid "Activates Rendering of DynamicFields outside of the DynamicField block."
-msgstr ""
+msgstr "يتيح عرض الحقل الديناميكي خارج كتلة الحقل الديناميكية."
 
 #. SysConfig
 msgid ""
 "Activates a blinking mechanism of the queue that contains the oldest ticket."
-msgstr ""
+msgstr "تمكين آلية إرتباط لقائمة الانتظار التي تحتوي على التذكرة الأقدم."
 
 #. SysConfig
 msgid "Activates lost password feature for agents, in the agent interface."
-msgstr ""
+msgstr "تمكين ميزة \"نسيت كلمة المرور\" للوكلاء في واجهة الوكيل."
 
 #. SysConfig
 msgid "Activates lost password feature for customers."
-msgstr ""
+msgstr "تمكين وظيفة \"كلمة المرور المنسية\" للعملاء."
 
 #. SysConfig
 msgid "Activates support for customer and customer user groups."
-msgstr ""
+msgstr "تمكين الدعم لمجموعات العملاء والمستخدمين."
 
 #. SysConfig
 msgid ""
 "Activates the article filter in the zoom view to specify which articles "
 "should be shown."
 msgstr ""
+"ينشط مرشح المقالة في عرض التكبير/التصغير لتحديد المقالات التي يجب عرضها."
 
 #. SysConfig
 msgid ""
 "Activates the available themes on the system. Value 1 means active, 0 means "
 "inactive."
-msgstr ""
+msgstr "ينشط السمات المتاحة على النظام. القيمة 1 تعني نشط، 0 تعني غير نشط."
 
 #. SysConfig
 msgid "Activates the ticket archive system search in the customer interface."
-msgstr ""
+msgstr "ينشط البحث في نظام أرشيف التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
@@ -19304,72 +19326,77 @@ msgid ""
 "tickets out of the daily scope. To search for these tickets, the archive "
 "flag has to be enabled in the ticket search."
 msgstr ""
+"تنشيط نظام أرشيف التذاكر للحصول على نظام أسرع عن طريق نقل بعض التذاكر خارج "
+"النطاق اليومي. للبحث عن هذه التذاكر، يجب تمكين علامة الأرشيف في البحث عن "
+"التذاكر."
 
 #. SysConfig
 msgid "Activates time accounting."
-msgstr ""
+msgstr "تنشيط حساب الوقت."
 
 #. SysConfig
 msgid "ActivityID"
-msgstr ""
+msgstr "معرف النشاط (ActivityID)"
 
 #. SysConfig
 msgid "Add a note to this ticket"
-msgstr ""
+msgstr "إضافة ملاحظة إلى هذه التذكرة"
 
 #. SysConfig
 msgid "Add an inbound phone call to this ticket"
-msgstr ""
+msgstr "إضافة مكالمة هاتفية واردة إلى هذه التذكرة"
 
 #. SysConfig
 msgid "Add an outbound phone call to this ticket"
-msgstr ""
+msgstr "إضافة مكالمة هاتفية صادرة إلى هذه التذكرة"
 
 #. SysConfig
 msgid "Added %s time unit(s), for a total of %s time unit(s)."
-msgstr ""
+msgstr "تمت إضافة %s وحدة (وحدات) الوقت، إجمالي الوحدة (الوحدات) %s."
 
 #. SysConfig
 msgid "Added email. %s"
-msgstr "التاريخ::البريد الإلكتروني للعميل"
+msgstr "تمت إضافة البريد الإلكتروني. %s"
 
 #. SysConfig
 msgid "Added follow-up to ticket [%s]. %s"
-msgstr ""
+msgstr "تمت إضافة المتابعة إلى التذكرة [%s]. %s"
 
 #. SysConfig
 msgid "Added link to ticket \"%s\"."
-msgstr "التاريخ::تمت إضافة رابط للبطاقة"
+msgstr "تمت إضافة رابط إلى التذكرة \"%s\"."
 
 #. SysConfig
 msgid "Added note (%s)."
-msgstr ""
+msgstr "تمت إضافة ملاحظة (%s)."
 
 #. SysConfig
 msgid "Added phone call from customer."
-msgstr ""
+msgstr "تمت إضافة مكالمة هاتفية من العميل."
 
 #. SysConfig
 msgid "Added phone call to customer."
-msgstr ""
+msgstr "تمت إضافة مكالمة هاتفية إلى العميل."
 
 #. SysConfig
 msgid "Added subscription for user \"%s\"."
-msgstr "Added subscription for user \"%s\"."
+msgstr "تمت إضافة اشتراك للمستخدم \"%s\"."
 
 #. SysConfig
 msgid "Added system request (%s)."
-msgstr ""
+msgstr "تمت إضافة طلب النظام (%s)."
 
 #. SysConfig
 msgid "Added web request from customer."
-msgstr ""
+msgstr "تمت إضافة طلب العميل عبر واجهة الويب."
 
 #. SysConfig
 msgid ""
 "Adds a suffix with the actual year and month to the OTOBO log file. A "
 "logfile for every month will be created."
 msgstr ""
+"إضافة لاحقة مع السنة والشهر الفعليين إلى ملف سجل OTOBO. سيتم إنشاء ملف سجل "
+"لكل شهر."
 
 #. SysConfig
 msgid ""
@@ -19377,54 +19404,57 @@ msgid ""
 "the agent interface. The customers email address won't be added if the "
 "article type is email-internal."
 msgstr ""
+"يضيف عنوان البريد الإلكتروني للعملاء إلى المستلمين في واجهة \"TicketCompose\""
+" لواجهة الوكيل. لن تتم إضافة عنوان البريد الإلكتروني للعملاء إذا كان نوع "
+"المقالة هو البريد الإلكتروني الداخلي."
 
 #. SysConfig
 msgid "Adds the one time vacation days for the indicated calendar."
-msgstr ""
+msgstr "إضافة أيام الإجازة لمرة واحدة للتقويم المشار إليه."
 
 #. SysConfig
 msgid "Adds the one time vacation days."
-msgstr ""
+msgstr "يضيف أيام الإجازة لمرة واحدة."
 
 #. SysConfig
 msgid "Adds the permanent vacation days for the indicated calendar."
-msgstr ""
+msgstr "إضافة أيام الإجازة الدائمة للتقويم المشار إليه."
 
 #. SysConfig
 msgid "Adds the permanent vacation days."
-msgstr ""
+msgstr "يضيف أيام الإجازة الدائمة."
 
 #. SysConfig
 msgid "Admin"
-msgstr "إدارة النظام"
+msgstr "المسؤول"
 
 #. SysConfig
 msgid "Admin Area."
-msgstr ""
+msgstr "منطقة المسؤول."
 
 #. SysConfig
 msgid "Admin Contact With Data"
-msgstr ""
+msgstr "جهة اتصال المسؤول بالبيانات"
 
 #. SysConfig
 msgid "Admin Notification"
-msgstr "تنبيهات مدير النظام"
+msgstr "تنبيهات المسؤول"
 
 #. SysConfig
 msgid "Admin area navigation for the agent interface."
-msgstr ""
+msgstr "التنقل في واجهة المسؤول لواجهة الوكيل."
 
 #. SysConfig
 msgid "Admin contact with data."
-msgstr ""
+msgstr "تفاصيل الاتصال بمنطقة المسؤول."
 
 #. SysConfig
 msgid "Admin modules overview."
-msgstr ""
+msgstr "نظرة عامة على وحدة المسؤول."
 
 #. SysConfig
 msgid "Admin."
-msgstr ""
+msgstr "المسؤول."
 
 #. SysConfig
 msgid "Administration"
