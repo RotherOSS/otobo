@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-01 12:38+0000\n"
+"PO-Revision-Date: 2023-02-02 14:18+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -19458,71 +19458,71 @@ msgstr "المسؤول."
 
 #. SysConfig
 msgid "Administration"
-msgstr ""
+msgstr "الإدارة"
 
 #. SysConfig
 msgid "Agent Contact With Data Search"
-msgstr ""
+msgstr "اتصال الوكيل بالبحث عن البيانات"
 
 #. SysConfig
 msgid "Agent Customer Search"
-msgstr ""
+msgstr "البحث عن عملاء الوكيل"
 
 #. SysConfig
 msgid "Agent Customer Search."
-msgstr ""
+msgstr "البحث عن عميل الوكيل."
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعامل"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Details"
-msgstr ""
+msgstr "تفاصيل قاعدة بيانات الحقل الديناميكي للوكيل"
 
 #. SysConfig
 msgid "Agent Dynamic Field Database Search"
-msgstr ""
+msgstr "بحث قاعدة بيانات الحقل الديناميكي للوكيل"
 
 #. SysConfig
 msgid "Agent Name"
-msgstr ""
+msgstr "اسم الوكيل"
 
 #. SysConfig
 msgid "Agent Name + FromSeparator + System Address Display Name"
-msgstr ""
+msgstr "اسم الوكيل + من الفاصل (FromSeparator) + اسم عرض عنوان النظام"
 
 #. SysConfig
 msgid "Agent Preferences."
-msgstr ""
+msgstr "إعدادات الوكيل."
 
 #. SysConfig
 msgid "Agent Statistics."
-msgstr ""
+msgstr "إحصائيات الوكيل."
 
 #. SysConfig
 msgid "Agent User Search"
-msgstr ""
+msgstr "بحث مستخدم الوكيل"
 
 #. SysConfig
 msgid "Agent User Search."
-msgstr ""
+msgstr "بحث مستخدم الوكيل."
 
 #. SysConfig
 msgid "Agent contact with data search."
-msgstr ""
+msgstr "اتصال الوكيل بالبحث عن البيانات."
 
 #. SysConfig
 msgid "Agent dynamic field database detailed search."
-msgstr ""
+msgstr "قاعدة بيانات الحقل الديناميكي للعامل بحث مفصل."
 
 #. SysConfig
 msgid "Agent dynamic field database details."
-msgstr ""
+msgstr "تفاصيل قاعدة بيانات الحقل الديناميكي للوكيل."
 
 #. SysConfig
 msgid "Agent dynamic field database search."
-msgstr ""
+msgstr "البحث في قاعدة بيانات الحقل الديناميكي للعامل."
 
 #. SysConfig
 msgid ""
