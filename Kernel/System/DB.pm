@@ -918,12 +918,18 @@ sub ListTables {
 
     return unless $Success;
 
+    my %TableIsLc =
+        map { $_ => 1 }
+        $Kernel::OM->Get('Kernel::System::MigrateFromOTRS::Base')->DBLcTables;
+
     my @Tables;
     while ( my ($Table) = $Self->FetchrowArray() ) {
-        if ( $Param{Original} ) {
+        my $LcTable = lc $Table;
+        if ( $TableIsLc{$LcTable} ) {
+            push @Tables, $LcTable;
+        }
+        else {
             push @Tables, $Table;
-        } else {
-            push @Tables, lc $Table;
         }
     }
 

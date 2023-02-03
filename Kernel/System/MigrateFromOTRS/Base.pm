@@ -1277,7 +1277,114 @@ sub ResetConfigOption {
     };
 }
 
-# The listed tables will be not  migrated.
+# The listed tables will be checked in lower case.
+# This list is used in ListTables() to prevent a bail out with custom tables.
+sub DBLcTables {
+    return qw(
+        acl
+        acl_sync
+        valid
+        users
+        user_preferences
+        groups
+        group_user
+        group_role
+        group_customer_user
+        group_customer
+        roles
+        role_user
+        personal_queues
+        personal_services
+        salutation
+        signature
+        system_address
+        system_maintenance
+        follow_up_possible
+        queue
+        queue_preferences
+        ticket_priority
+        ticket_type
+        ticket_lock_type
+        ticket_state
+        ticket_state_type
+        ticket
+        ticket_flag
+        ticket_history
+        ticket_history_type
+        ticket_watcher
+        ticket_index
+        ticket_lock_index
+        ticket_loop_protection
+        article_sender_type
+        article_flag
+        communication_channel
+        article
+        article_data_mime
+        article_search_index
+        article_data_mime_plain
+        article_data_mime_attachment
+        article_data_mime_send_error
+        article_data_otrs_chat
+        time_accounting
+        standard_template
+        queue_standard_template
+        standard_attachment
+        standard_template_attachment
+        auto_response_type
+        auto_response
+        queue_auto_response
+        service
+        service_preferences
+        service_customer_user
+        sla
+        sla_preferences
+        service_sla
+        customer_user
+        customer_preferences
+        customer_company
+        customer_user_customer
+        mail_account
+        postmaster_filter
+        generic_agent_jobs
+        search_profile
+        notification_event
+        notification_event_message
+        notification_event_item
+        link_type
+        link_state
+        link_object
+        link_relation
+        xml_storage
+        virtual_fs
+        virtual_fs_preferences
+        virtual_fs_db
+        gi_webservice_config
+        gi_webservice_config_history
+        smime_signer_cert_relations
+        dynamic_field_value
+        dynamic_field
+        dynamic_field_obj_id_name
+        pm_process
+        pm_activity
+        pm_activity_dialog
+        pm_transition
+        pm_transition_action
+        pm_entity_sync
+        sysconfig_default
+        sysconfig_default_version
+        sysconfig_modified
+        sysconfig_modified_version
+        sysconfig_deployment_lock
+        sysconfig_deployment
+        calendar
+        calendar_appointment
+        calendar_appointment_ticket
+        ticket_number_counter
+        form_draft
+    );
+}
+
+# The listed tables will be not migrated.
 # The table names must be in lower case.
 # This list is also used for truncating tables in a SQL-script that is produced by scripts/backup.pl.
 # Therefore is the order of the tables relevant. Truncating must be possible without violating
