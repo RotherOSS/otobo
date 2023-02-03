@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-02 14:18+0000\n"
+"PO-Revision-Date: 2023-02-04 04:47+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -19529,14 +19529,16 @@ msgid ""
 "Agent frontend module registration (disable 'Edit contacts with data' link "
 "if if there is no source field configured)."
 msgstr ""
+"تسجيل الوحدة النمطية للواجهة الأمامية للوكيل (تعطيل الارتباط \"تحرير بيانات "
+"الاتصال\" في حالة عدم تكوين حقل مصدر)."
 
 #. SysConfig
 msgid "Agent interface article notification module to check PGP."
-msgstr ""
+msgstr "وحدة إعلام المقالة التي تقوم بالتحقق من PGP في واجهة الوكيل."
 
 #. SysConfig
 msgid "Agent interface article notification module to check S/MIME."
-msgstr ""
+msgstr "وحدة إعلام المادة التي تقوم بإجراء التحقق من S/MIME في واجهة العميل."
 
 #. SysConfig
 msgid ""
@@ -19544,6 +19546,9 @@ msgid ""
 "control to show or not show this link can be done by using Key \"Group\" and "
 "Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"الوحدة التي تتحكم في الوصول إلى بحث CIC من خلال شريط التنقل في واجهة العميل. "
+"يمكن التحكم في الوصول التكميلي (عرض أو إخفاء الارتباط) باستخدام مفتاح "
+"\"مجموعة\" والمحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19551,6 +19556,9 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"وحدة واجهة الوكيل للوصول إلى البحث عن النص الكامل عبر شريط التنقل. يمكن "
+"إجراء تحكم إضافي في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام مفتاح "
+"\"المجموعة\" والمحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19558,12 +19566,18 @@ msgid ""
 "access control to show or not show this link can be done by using Key \"Group"
 "\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"وحدة تحكم في الوصول إلى ملفات تعريف البحث من خلال شريط التنقل في واجهة "
+"العميل. يمكن التحكم في الوصول التكميلي (عرض أو إخفاء الارتباط) باستخدام "
+"مفتاح \"مجموعة\" والمحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
 "Agent interface module to check incoming emails in the Ticket-Zoom-View if "
 "the S/MIME-key is available and true."
 msgstr ""
+"الوحدة النمطية التي تتحقق من رسائل البريد الإلكتروني الواردة في TicketZoom "
+"\"طريقة عرض تكبير/تصغير التذاكر\" بحثا عن مفاتيح S/MIME الحالية والصالحة في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
@@ -19571,6 +19585,9 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر المؤمنة. يمكن إجراء تحكم وصول "
+"إضافي لإظهار هذا الارتباط أو عدم إظهاره باستخدام المفتاح \"مجموعة\" والمحتوى "
+"مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19579,6 +19596,9 @@ msgid ""
 "be done by using Key \"Group\" and Content like \"rw:group1;move_into:"
 "group2\"."
 msgstr ""
+"وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر التي يكون الوكيل مسؤولا عنها. "
+"يمكن إجراء تحكم إضافي في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام "
+"مفتاح \"المجموعة\" والمحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19586,6 +19606,9 @@ msgid ""
 "Services. Additional access control to show or not show this link can be "
 "done by using Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر في خدماتي. يمكن إجراء تحكم إضافي "
+"في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام مفتاح \"المجموعة\" "
+"والمحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
@@ -19593,159 +19616,191 @@ msgid ""
 "Additional access control to show or not show this link can be done by using "
 "Key \"Group\" and Content like \"rw:group1;move_into:group2\"."
 msgstr ""
+"وحدة الإخطار التي تتحكم في عرض عدد التذاكر المراقبة في واجهة الوكيل. يمكن "
+"تنفيذ التحكم الإضافي في الوصول (إظهار الارتباط أو إخفاؤه) باستخدام مفتاح "
+"\"المجموعة\" ومحتوى مثل \"rw:group1;move_into:group2\"."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays Contact with data dynamic field in the "
 "side bar."
 msgstr ""
+"عنصر واجهة مستخدم AgentTicketZoom الذي يعرض الحقل الديناميكي 'بيانات "
+"الاتصال' في الشريط الجانبي."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays a table of objects linked to the ticket."
 msgstr ""
+"عنصر واجهة مستخدم AgentTicketZoom الذي يعرض حقل \"الاتصال مع البيانات "
+"الديناميكية\" في الشريط الجانبي."
 
 #. SysConfig
 msgid ""
 "AgentTicketZoom widget that displays customer information for the ticket in "
 "the side bar."
 msgstr ""
+"عنصر واجهة مستخدم AgentTicketZoom الذي يعرض معلومات العميل للتذكرة في الشريط "
+"الجانبي."
 
 #. SysConfig
 msgid "AgentTicketZoom widget that displays ticket data in the side bar."
 msgstr ""
+"عنصر واجهة مستخدم AgentTicketZoom الذي يعرض بيانات التذكرة في الشريط الجانبي."
 
 #. SysConfig
 msgid "Agents ↔ Groups"
-msgstr ""
+msgstr "وكلاء ↔ مجموعات (Agents ↔ Groups)"
 
 #. SysConfig
 msgid "Agents ↔ Roles"
-msgstr ""
+msgstr "الوكلاء ↔ الأدوار (Agents ↔ Roles)"
 
 #. SysConfig
 msgid "All CustomerIDs of a customer user."
-msgstr ""
+msgstr "جميع أرقام العملاء الخاصة بمستخدم العميل."
 
 #. SysConfig
 msgid "All closed tickets."
-msgstr ""
+msgstr "جميع التذاكر المغلقة."
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
-msgstr ""
+msgstr "جميع مستخدمي العملاء لرقم العميل"
 
 #. SysConfig
 msgid "All escalated tickets"
-msgstr ""
+msgstr "جميع التذاكر المتصاعدة"
 
 #. SysConfig
 msgid "All new tickets, these tickets have not been worked on yet"
-msgstr ""
+msgstr "جميع التذاكر الجديدة، هذه التذاكر لم يتم العمل عليها بعد"
 
 #. SysConfig
 msgid "All open tickets, these tickets have already been worked on."
-msgstr ""
+msgstr "جميع التذاكر المفتوحة، هذه التذاكر قد تم العمل عليها بالفعل."
 
 #. SysConfig
 msgid ""
 "All tickets with a reminder set where the reminder date has been reached"
-msgstr ""
+msgstr "كافة التذاكر التي تم تعيين تذكير بها حيث تم الوصول إلى تاريخ التذكير"
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the close ticket screen of the agent interface. Can "
 "be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يتيح لك إضافة ملاحظات في قناع \"إقفال التذاكر\" في واجهة العميل. يمكن أن يتم "
+"تجاوزها ب Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket free text screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح بإضافة ملاحظات في شاشة \"تصنيف التذكرة\" في واجهة الوكيل. يمكن تجاوزها "
+"بواسطة Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket note screen of the agent interface. Can be "
 "overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح بإضافة ملاحظات في قناع \"الملاحظة\" في واجهة الوكيل. يمكن تجاوزها "
+"بواسطة Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket owner screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح لمالك التذكرة بإضافة ملاحظات في عرض TicketZoom في واجهة الوكيل. يمكن "
+"تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket pending screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح بإضافة ملاحظات في شاشة \"في انتظار . . . \" في TicketZoom في واجهة "
+"الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket priority screen of a zoomed ticket in the "
 "agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح بإضافة ملاحظات في شاشة \"الأولوية\" في TicketZoom في واجهة الوكيل. يمكن "
+"تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid ""
 "Allows adding notes in the ticket responsible screen of the agent interface. "
 "Can be overwritten by Ticket::Frontend::NeedAccountedTime."
 msgstr ""
+"يسمح لمدير التذاكر بإضافة ملاحظات في واجهة الوكيل. يمكن تجاوزها بواسطة "
+"Ticket::Frontend::NeedAccountedTime."
 
 #. SysConfig
 msgid "Allows agents to exchange the axis of a stat if they generate one."
-msgstr ""
+msgstr "يسمح للعملاء بتبادل محاور الإحصائيات عند إنشاء الإحصائيات."
 
 #. SysConfig
 msgid "Allows agents to generate individual-related stats."
-msgstr ""
+msgstr "يسمح للوكلاء بإنشاء إحصاءات فردية."
 
 #. SysConfig
 msgid ""
 "Allows choosing between showing the attachments of a ticket in the browser "
 "(inline) or just make them downloadable (attachment)."
 msgstr ""
+"يتيح لك الاختيار بين عرض مرفقات التذكرة في المتصفح (مضمنة) أو ببساطة تقديمها "
+"كتنزيل (مرفق)."
 
 #. SysConfig
 msgid ""
 "Allows choosing the next compose state for customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "يسمح لك بتحديد حالة الإنشاء التالية لتذكرة العميل في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Allows customers to change the ticket priority in the customer interface."
-msgstr ""
+msgstr "يسمح للعملاء بتغيير أولوية التذكرة في واجهة العميل."
 
 #. SysConfig
 msgid "Allows customers to set the ticket SLA in the customer interface."
 msgstr ""
+"السماح للعملاء بتعيين إتفاقية مستوى الخدمة (SLA) الخاصة بالتذاكر في واجهة "
+"العميل."
 
 #. SysConfig
 msgid "Allows customers to set the ticket priority in the customer interface."
-msgstr ""
+msgstr "السماح للعملاء بتعيين أولوية التذكرة في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket queue in the customer interface. If this "
 "is not enabled, QueueDefault should be configured."
 msgstr ""
+"يسمح للعملاء بتعيين قائمة انتظار التذاكر في واجهة العميل. في حالة عدم تمكين "
+"هذا الخيار، يجب تكوين QueueDefault."
 
 #. SysConfig
 msgid "Allows customers to set the ticket service in the customer interface."
-msgstr ""
+msgstr "السماح للعملاء بتعيين خدمة التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Allows customers to set the ticket type in the customer interface. If this "
 "is not enabled, TicketTypeDefault should be configured."
 msgstr ""
+"السماح للعملاء بتعيين نوع التذكرة في واجهة العميل. في حالة عدم تمكين هذا "
+"الخيار، يجب تكوين TicketTypeDefault."
 
 #. SysConfig
 msgid "Allows default services to be selected also for non existing customers."
-msgstr ""
+msgstr "السماح بتحديد الخدمات الافتراضية أيضا للعملاء غير الموجودين."
 
 #. SysConfig
 msgid ""
@@ -19753,6 +19808,8 @@ msgid ""
 "network, ...), and escalation attributes for SLAs (if ticket service/SLA "
 "feature is enabled)."
 msgstr ""
+"يسمح بتحديد الخدمات و SLA للتذاكر (مثل البريد الإلكتروني، سطح المكتب، الشبكة،"
+" ...) وسمات التصعيد ل SLA (في حالة تمكين ميزة خدمة التذاكر/SLA)."
 
 #. SysConfig
 msgid ""
@@ -19760,6 +19817,9 @@ msgid ""
 "With this feature you can search e. g. ticket title with this kind of "
 "conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
+"السماح بشروط البحث الموسعة في البحث عن تذاكر واجهة الوكيل. مع هذه الميزة "
+"يمكنك البحث على سبيل المثال عن عنوان تذكرة مع هذا النوع من الشروط مثل \""
+"(*key1*&&*key2*)\" أو (*key1*||*key2*)\"."
 
 #. SysConfig
 msgid ""
@@ -19767,6 +19827,9 @@ msgid ""
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
+"السماح بشروط البحث الموسعة في البحث عن تذاكر واجهة العميل. مع هذه الميزة "
+"يمكنك البحث على سبيل المثال عن عنوان تذكرة مع هذا النوع من الشروط مثل \""
+"(*key1*&&*key2*)\" أو \"(*key1*||*key2*)\"."
 
 #. SysConfig
 msgid ""
@@ -19774,122 +19837,143 @@ msgid ""
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
+"يسمح بشروط البحث الموسعة في البحث عن التذاكر لواجهة الوكيل العامة. باستخدام "
+"هذه الميزة، يمكنك البحث على سبيل المثال عن عنوان التذكرة باستخدام هذا النوع "
+"من الشروط مثل \"(*key1*&&*key2*)\" أو \"(*key1*||*key2*)\"."
 
 #. SysConfig
 msgid "Allows generic agent to execute custom modules."
-msgstr ""
+msgstr "يسمح ل GenericAgent بتشغيل وحدات مخصصة."
 
 #. SysConfig
 msgid ""
 "Allows having a medium format ticket overview (CustomerInfo => 1 - shows "
 "also the customer information)."
 msgstr ""
+"يسمح بنظرة عامة على التذكرة مع بعض معلومات التذاكر (العميل = > 1 - يعرض أيضا "
+"معلومات العميل)."
 
 #. SysConfig
 msgid ""
 "Allows having a small format ticket overview (CustomerInfo => 1 - shows also "
 "the customer information)."
 msgstr ""
+"تمكن من استخدام نظرة عامة على التذكرة الصغيرة (معلومات العميل (CustomerInfo) "
+"=> 1 - تعرض أيضًا معلومات العميل)."
 
 #. SysConfig
 msgid "Allows invalid agents to generate individual-related stats."
-msgstr ""
+msgstr "يسمح للوكلاء غير الصالحين (invalid) بإنشاء إحصاءات فردية."
 
 #. SysConfig
 msgid ""
 "Allows the administrators to login as other customers, via the customer user "
 "administration panel."
 msgstr ""
+"السماح للمسؤولين بتسجيل الدخول كعملاء آخرين، من خلال لوحة إدارة المستخدم "
+"الخاص بالعميل."
 
 #. SysConfig
 msgid ""
 "Allows the administrators to login as other users, via the users "
 "administration panel."
 msgstr ""
+"السماح للمسؤولين بتسجيل الدخول كمستخدمين آخرين، من خلال لوحة إدارة "
+"المستخدمين."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the close ticket screen of the agent "
 "interface."
-msgstr ""
+msgstr "يسمح بحفظ العمل الحالي كمسودة في شاشة إغلاق التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the email outbound screen of the "
 "agent interface."
 msgstr ""
+"يسمح بحفظ العمل الحالي كمسودة في شاشة البريد الإلكتروني الصادرة لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket compose screen of the "
 "agent interface."
-msgstr ""
+msgstr "يسمح بحفظ العمل الحالي كمسودة في شاشة إنشاء التذاكر لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket forward screen of the "
 "agent interface."
 msgstr ""
+"يسمح لك بحفظ حالة المعالجة الحالية في قناع \"إعادة التوجيه\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket free text screen of the "
 "agent interface."
 msgstr ""
+"يسمح بحفظ حالة المعالجة الحالية في مربع الحوار \"تصنيف التذكرة\" في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket move screen of the agent "
 "interface."
 msgstr ""
+"يسمح لك بحفظ حالة المعالجة الحالية في مربع الحوار \"نقل\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket note screen of the agent "
 "interface."
 msgstr ""
+"يسمح لك بحفظ الحالة الحالية كمسودة في شاشة الملاحظات الخاصة بمنطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket owner screen of the agent "
 "interface."
-msgstr ""
+msgstr "يسمح بحفظ العمل الحالي كمسودة في شاشة مالك التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket pending screen of the "
 "agent interface."
-msgstr ""
+msgstr "يسمح لك بحفظ الحالة الحالية كمسودة في شاشة الانتظار في منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone inbound screen of "
 "the agent interface."
 msgstr ""
+"يسمح لك بحفظ الحالة الحالية كمسودة في شاشة المكالمة الواردة لمنطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket phone outbound screen of "
 "the agent interface."
-msgstr ""
+msgstr "يسمح بحفظ العمل الحالي كمسودة في شاشة الهاتف الصادرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket priority screen of the "
 "agent interface."
-msgstr ""
+msgstr "يسمح بحفظ العمل الحالي كمسودة في شاشة أولوية التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to save current work as draft in the ticket responsible screen of the "
 "agent interface."
 msgstr ""
+"يسمح بحفظ العمل الحالي كمسودة في الشاشة المسؤولة عن التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Allows to set a new ticket state in the move ticket screen of the agent "
 "interface."
 msgstr ""
+"السماح بتعيين حالة تذكرة جديدة في شاشة تذاكر النقل الخاصة بواجهة الوكيل."
 
 #. SysConfig
 msgid "Always show RichText if available"
