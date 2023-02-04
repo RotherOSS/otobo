@@ -122,32 +122,42 @@ sub Run {
         );
     }
 
-    # check if ticket is locked
-    if ( $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
-        my $AccessOk = $TicketObject->OwnerCheck(
-            TicketID => $Self->{TicketID},
-            OwnerID  => $Self->{UserID},
-        );
-        if ( !$AccessOk ) {
-            my $Output = $LayoutObject->Header(
-                Type      => 'Small',
-                BodyClass => 'Popup',
-            );
-            $Output .= $LayoutObject->Warning(
-                Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
-                Comment => Translatable('Please change the owner first.'),
+    # get config object
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+
+    # check if lock check is needed or disabled
+    my $MoveTicketEvenItIsLocked = $ConfigObject->Get('Ticket::Frontend::MoveType::Dropdown::MoveTicketEvenItIsLocked');
+    
+    if ( !$MoveTicketEvenItIsLocked ) {
+
+        # check if ticket is locked
+        if ( $TicketObject->TicketLockGet( TicketID => $Self->{TicketID} ) ) {
+            my $AccessOk = $TicketObject->OwnerCheck(
+                TicketID => $Self->{TicketID},
+                OwnerID  => $Self->{UserID},
             );
 
-            # show back link
-            $LayoutObject->Block(
-                Name => 'TicketBack',
-                Data => { %Param, TicketID => $Self->{TicketID} },
-            );
+            if ( !$AccessOk ) {
+                my $Output = $LayoutObject->Header(
+                    Type      => 'Small',
+                    BodyClass => 'Popup',
+                );
+                $Output .= $LayoutObject->Warning(
+                    Message => Translatable('Sorry, you need to be the ticket owner to perform this action.'),
+                    Comment => Translatable('Please change the owner first.'),
+                );
 
-            $Output .= $LayoutObject->Footer(
-                Type => 'Small',
-            );
-            return $Output;
+                # show back link
+                $LayoutObject->Block(
+                    Name => 'TicketBack',
+                    Data => { %Param, TicketID => $Self->{TicketID} },
+                );
+
+                $Output .= $LayoutObject->Footer(
+                    Type => 'Small',
+                );
+                return $Output;
+            }
         }
     }
 
@@ -187,9 +197,6 @@ sub Run {
 
     # define the dynamic fields to show based on the object type
     my $ObjectType = ['Ticket'];
-
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     # get config for frontend module
     my $Config = $ConfigObject->Get("Ticket::Frontend::$Self->{Action}");
