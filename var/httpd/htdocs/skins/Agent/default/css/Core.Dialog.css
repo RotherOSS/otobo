@@ -80,7 +80,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 }
 
 .Dialog > .Header .Close:hover i {
-    color: #E57633;
+    color: #0000fc;
 }
 
 .Dialog > .Header h1 {
