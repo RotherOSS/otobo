@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-04 04:47+0000\n"
+"PO-Revision-Date: 2023-02-06 10:42+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -19977,83 +19977,89 @@ msgstr ""
 
 #. SysConfig
 msgid "Always show RichText if available"
-msgstr ""
+msgstr "استخدم النص المنسق دائما عند توفره"
 
 #. SysConfig
 msgid "Answer"
-msgstr ""
+msgstr "إِجَابَة"
 
 #. SysConfig
 msgid "Appointment Calendar overview page."
-msgstr ""
+msgstr "صفحة نظرة عامة على تقويم المواعيد."
 
 #. SysConfig
 msgid "Appointment Notifications"
-msgstr ""
+msgstr "إشعارات المواعيد"
 
 #. SysConfig
 msgid ""
 "Appointment calendar event module that prepares notification entries for "
 "appointments."
-msgstr ""
+msgstr "الوحدة النمطية لحدث تقويم المواعيد التي تعد إدخالات الإشعارات للمواعيد."
 
 #. SysConfig
 msgid ""
 "Appointment calendar event module that updates the ticket with data from "
 "ticket appointment."
 msgstr ""
+"الوحدة النمطية لحدث تقويم المواعيد التي تقوم بتحديث التذكرة ببيانات من موعد "
+"التذكرة."
 
 #. SysConfig
 msgid "Appointment edit screen."
-msgstr ""
+msgstr "شاشة تحرير المواعيد."
 
 #. SysConfig
 msgid "Appointment list"
-msgstr ""
+msgstr "قائمة المواعيد"
 
 #. SysConfig
 msgid "Appointment list."
-msgstr ""
+msgstr "قائمة المواعيد."
 
 #. SysConfig
 msgid "Appointment notifications"
-msgstr ""
+msgstr "إشعارات المواعيد"
 
 #. SysConfig
 msgid "Appointments"
-msgstr ""
+msgstr "المواعيد"
 
 #. SysConfig
 msgid "Arabic (Saudi Arabia)"
-msgstr ""
+msgstr "العربية (المملكة العربية السعودية)"
 
 #. SysConfig
 msgid ""
 "Article attributes that should be available in ticket invoker configuration "
 "frontend (0 = visible/selectable, 1 = default/preselected)."
 msgstr ""
+"سمات المقالة التي يجب أن تكون متاحة في الواجهة الأمامية لتكوين استدعاء "
+"التذاكر (0 = مرئي / قابل للتحديد، 1 = افتراضي / محدد مسبقا)."
 
 #. SysConfig
 msgid "ArticleTree"
-msgstr ""
+msgstr "شجرة المقالة"
 
 #. SysConfig
 msgid "Attachment Name"
-msgstr ""
+msgstr "اسم المرفق"
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "تحميل ملحقات 'Znuny4OTOBOPasswordPolicy' تلقائيا."
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
-msgstr ""
+msgstr "فاصل تلقائي للسطر في الرسائل النصية بعد x من الحروف."
 
 #. SysConfig
 msgid ""
 "Automatically change the state of a ticket with an invalid owner once it is "
 "unlocked. Maps from a state type to a new ticket state."
 msgstr ""
+"تغيير حالة التذكرة تلقائيا مع مالك غير صالح بمجرد إلغاء تأمينها. إنشاء حالة "
+"التذكرة الجديدة وفقا لنوع الحالة."
 
 #. SysConfig
 msgid ""
