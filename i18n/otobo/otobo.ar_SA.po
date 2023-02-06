@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-06 10:42+0000\n"
+"PO-Revision-Date: 2023-02-06 21:57+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20066,18 +20066,22 @@ msgid ""
 "Automatically generate statistics reports and email them to the specified "
 "recipients."
 msgstr ""
+"إنشاء تقارير الإحصائيات تلقائيا وإرسال بريد إلكتروني إليها إلى المستلمين "
+"المحددين."
 
 #. SysConfig
 msgid ""
 "Automatically lock and set owner to current Agent after opening the move "
 "ticket screen of the agent interface."
 msgstr ""
+"قفل المالك وتعيينه تلقائيا على الوكيل الحالي بعد فتح شاشة تذكرة النقل لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Automatically lock and set owner to current Agent after selecting for an "
 "Bulk Action."
-msgstr ""
+msgstr "قفل المالك وتعيينه تلقائيا إلى العامل الحالي بعد تحديد إجراء مجمع."
 
 #. SysConfig
 msgid ""
@@ -20086,48 +20090,57 @@ msgid ""
 "actions of the logged in user. It does not work for automated actions e.g. "
 "GenericAgent, Postmaster and GenericInterface."
 msgstr ""
+"تعيين مالك التذكرة كمسؤول عنها تلقائيا (إذا تم تمكين ميزة مسؤول التذكرة). "
+"سيعمل هذا فقط من خلال الإجراءات اليدوية للمستخدم الذي قام بتسجيل الدخول. لا "
+"يعمل مع الإجراءات التلقائية مثل GenericAgent أو Postmaster أو "
+"GenericInterface."
 
 #. SysConfig
 msgid ""
 "Automatically sets the responsible of a ticket (if it is not set yet) after "
 "the first owner update."
 msgstr ""
+"تعيين مدير التذاكر تلقائيا (إذا لم يتم تعيينه بعد) بعد تحديث المالك الأول."
 
 #. SysConfig
 msgid "Avatar"
-msgstr ""
+msgstr "الصورة الرمزية (Avatar)"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
+msgstr "متوازن White-Skin von Felix Niklas (slim version)."
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
-msgstr ""
+msgstr "Balanced white skin by Felix Niklas."
 
 #. SysConfig
 msgid "Based on global RichText setting"
-msgstr ""
+msgstr "استنادا إلى إعداد النص المنسق العام"
 
 #. SysConfig
 msgid ""
 "Basic fulltext index settings. Execute \"bin/otobo.Console.pl Maint::Ticket::"
 "FulltextIndex --rebuild\" in order to generate a new index."
 msgstr ""
+"إعدادات فهرس النص الكامل الأساسية. نفذ \"bin/otobo.Console.pl Maint::Ticket::"
+"FulltextIndex --rebuild\" لإنشاء فهرس جديد."
 
 #. SysConfig
 msgid ""
 "Blocks all the incoming emails that do not have a valid ticket number in "
 "subject with From: @example.com address."
 msgstr ""
+"يحظر جميع رسائل البريد الإلكتروني الواردة التي لا تحتوي على رقم تذكرة صالح "
+"في الموضوع باستخدام عنوان من: @example.com."
 
 #. SysConfig
 msgid "Bounced to \"%s\"."
-msgstr ""
+msgstr "تم الإرسال إلى \"%s\"."
 
 #. SysConfig
 msgid "Bulgarian"
-msgstr ""
+msgstr "بلغارية"
 
 #. SysConfig
 msgid "Bulk Action"
@@ -20138,44 +20151,47 @@ msgid ""
 "CMD example setup. Ignores emails where external CMD returns some output on "
 "STDOUT (email will be piped into STDIN of some.bin)."
 msgstr ""
+"إعداد مثال CMD. تجاهل رسائل البريد الإلكتروني حيث يقوم CMD الخارجي بإرجاع "
+"بعض الإخراج على STDOUT (سيتم تمرير البريد الإلكتروني عبر بروتوكول STDIN "
+"الخاص ببعض.bin)."
 
 #. SysConfig
 msgid "CSV Separator"
-msgstr ""
+msgstr "فواصل بيانات CSV"
 
 #. SysConfig
 msgid "Cache time in seconds for agent authentication in the GenericInterface."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت بالثواني لمصادقة الوكيل في GenericInterface."
 
 #. SysConfig
 msgid ""
 "Cache time in seconds for customer authentication in the GenericInterface."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت بالثواني لمصادقة العميل في GenericInterface."
 
 #. SysConfig
 msgid "Cache time in seconds for the DB ACL backend."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت بالثواني للخلفية DB ACL."
 
 #. SysConfig
 msgid "Cache time in seconds for the DB process backend."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت بالثواني للخلفية الخلفية لعملية قاعدة البيانات."
 
 #. SysConfig
 msgid "Cache time in seconds for the SSL certificate attributes."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت بالثواني لسمات شهادة SSL."
 
 #. SysConfig
 msgid ""
 "Cache time in seconds for the ticket process navigation bar output module."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت في الثواني لوحدة إخراج شريط التنقل لعملية التذاكر."
 
 #. SysConfig
 msgid "Cache time in seconds for the web service config backend."
-msgstr ""
+msgstr "ذاكرة التخزين المؤقت في الثواني لمنتهى خلفي تكوين خدمة ويب."
 
 #. SysConfig
 msgid "Calendar manage screen."
-msgstr ""
+msgstr "شاشة إدارة التقويم."
 
 #. SysConfig
 msgid ""
@@ -20184,10 +20200,14 @@ msgid ""
 "suspend state. No escalation times are shown. Ticket will not be shown in "
 "escalation view."
 msgstr ""
+"إلغاء التصعيد بالكامل إذا كانت التذكرة في حالة الإيقاف المؤقت المكونة "
+"(EscalationSuspendStates). لن يتم تصعيد التذكرة على الإطلاق في حالة الإيقاف "
+"المؤقت المكونة. لم يتم إظهار أوقات التصعيد. ولم يتم إدراج التذكرة في قائمة "
+"التذاكر المتصاعدة."
 
 #. SysConfig
 msgid "Catalan"
-msgstr ""
+msgstr "الكتالانية"
 
 #. SysConfig
 msgid ""
@@ -20197,6 +20217,11 @@ msgid ""
 "methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^.+::') "
 "%]\"). Link can be used the same way."
 msgstr ""
+"الفئات المستخدمة في عرض التذاكر. إذا لم يتم إعطاء لون افتراضي، لن يتم إظهار "
+"العنصر إذا لم يتم تعريف التحديد في تجزئة اللون. إختياريا، يمكن إضافة السمة "
+"Text لتجاوز قيمة الحقل، ويمكن إستخدام أساليب إنشاء القوالب (على سبيل المثال، "
+"\"Text\" => \"[% Data.Value | remove('^.+::') %]\"). يمكن إستخدام الارتباط "
+"بنفس الطريقة."
 
 #. SysConfig
 msgid ""
@@ -20207,22 +20232,27 @@ msgid ""
 "templating methods can be used (e.g. \"Text\" => \"[% Data.Value | remove('^."
 "+::') %]\"). Link can be used the same way."
 msgstr ""
+"الفئات المستخدمة في عرض التذاكر. يتم إستخدام الأمر فقط لتحديد موضع البدء قبل "
+"ترتيب الحجم. إذا لم يتم إعطاء لون افتراضي، لن يتم إظهار العنصر إذا لم يتم "
+"تعريف التحديد في تجزئة اللون. إختياريا، يمكن إضافة السمة Text لتجاوز قيمة "
+"الحقل، ويمكن إستخدام أساليب إنشاء القوالب (على سبيل المثال: \"Text\" => \"[% "
+"Data.Value | remove('^.+::') %]\"). يمكن إستخدام الارتباط بنفس الطريقة."
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "تغيير التذكرة"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "تغيير معلومات التذكرة"
 
 #. SysConfig
 msgid "Change queue!"
-msgstr ""
+msgstr "تغيير قائمة الانتظار!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
-msgstr ""
+msgstr "تغيير مالك هذه التذكرة"
 
 #. SysConfig
 msgid "Change the owner for this ticket"
