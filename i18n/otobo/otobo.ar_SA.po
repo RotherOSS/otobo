@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-06 21:57+0000\n"
+"PO-Revision-Date: 2023-02-07 10:42+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20252,98 +20252,100 @@ msgstr "تغيير قائمة الانتظار!"
 
 #. SysConfig
 msgid "Change the customer for this ticket"
-msgstr "تغيير مالك هذه التذكرة"
+msgstr "تغيير عميل التذاكر"
 
 #. SysConfig
 msgid "Change the owner for this ticket"
-msgstr ""
+msgstr "تغيير مالك هذه التذكرة"
 
 #. SysConfig
 msgid "Change the priority for this ticket"
-msgstr ""
+msgstr "تغيير أولوية هذه التذكرة"
 
 #. SysConfig
 msgid "Change the responsible for this ticket"
-msgstr ""
+msgstr "تغيير المسؤول عن هذه التذكرة"
 
 #. SysConfig
 msgid "Change your avatar image."
-msgstr ""
+msgstr "تغيير الصورة الرمزية."
 
 #. SysConfig
 msgid "Change your password and more."
-msgstr ""
+msgstr "تغيير كلمة المرور وغيرها."
 
 #. SysConfig
 msgid "Changed SLA to \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير SLA إلى ‎\"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed archive state to \"%s\"."
-msgstr ""
+msgstr "تم تغيير حالة الأرشيف إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed customer to \"%s\"."
-msgstr ""
+msgstr "تم تغيير العميل إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed dynamic field %s from \"%s\" to \"%s\"."
-msgstr ""
+msgstr "تم تغيير الحقل الديناميكي %s من \"%s\" إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed owner to \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير المالك إلى \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed pending time to \"%s\"."
-msgstr ""
+msgstr "تم تغيير وقت الانتظار إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed priority from \"%s\" (%s) to \"%s\" (%s)."
-msgstr "التاريخ::تحديث الأولوية"
+msgstr "تم تغيير الأولوية من \"%s\" (%s) إلى \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed queue to \"%s\" (%s) from \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير قائمة الانتظار إلى \"%s\" (%s) من \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed responsible to \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير المسؤول إلى \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed service to \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير الخدمة إلى \"%s\" (%s)."
 
 #. SysConfig
 msgid "Changed state from \"%s\" to \"%s\"."
-msgstr ""
+msgstr "تم تغيير الحالة من \"%s\" إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed title from \"%s\" to \"%s\"."
-msgstr ""
+msgstr "تم تغيير العنوان من \"%s\" إلى \"%s\"."
 
 #. SysConfig
 msgid "Changed type from \"%s\" (%s) to \"%s\" (%s)."
-msgstr ""
+msgstr "تم تغيير النوع من \"%s\" (%s). إلى \"%s\" (%s)."
 
 #. SysConfig
 msgid ""
 "Changes the owner of tickets to everyone (useful for ASP). Normally only "
 "agent with rw permissions in the queue of the ticket will be shown."
 msgstr ""
+"تغيير مالك التذكرة إلى الكل (مفيد ل ASP). في العادة، سيتم عرض العملاء الذين "
+"لديهم أذونات rw فقط على قائمة الانتظار."
 
 #. SysConfig
 msgid "Chat communication channel."
-msgstr ""
+msgstr "قناة اتصال الدردشة."
 
 #. SysConfig
 msgid "Checkbox"
-msgstr ""
+msgstr "خانة الاختيار"
 
 #. SysConfig
 msgid ""
 "Checks for articles that needs to be updated in the article search index."
-msgstr ""
+msgstr "يتحقق من المقالات التي تحتاج إلى تحديث في فهرس البحث عن المقالات."
 
 #. SysConfig
 msgid "Checks for communication log entries to be deleted."
