@@ -297,11 +297,11 @@ ul.Tablelike li.Header + li {
  */
 
 .WidgetNotice {
-    background-color: #F39C19
+    background-color: #FFFCCC;
 }
 
 .WidgetNotice .Content {
-    border: 1px solid #F6AF2F;
+    border: 1px solid #FFFCCC;
     border-radius: 10px;
     color: #442A0B;
     font-weight: bold;
