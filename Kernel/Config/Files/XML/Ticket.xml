@@ -4275,6 +4275,13 @@
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
         </Value>
     </Setting>
+    <Setting Name="Ticket::Frontend::AgentTicketActionCommon###RememberLastPendingTime" Required="0" Valid="1">
+        <Description Translatable="1">Defines if in input masks based on AgentTicketActionCommon a potentially set pending time should be prefilled if it is later than now.</Description>
+        <Navigation>Frontend::Agent::View::TicketActionCommon</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="Ticket::Frontend::AgentTicketPriority###Permission" Required="1" Valid="1">
         <Description Translatable="1">Required permissions to use the ticket priority screen of a zoomed ticket in the agent interface.</Description>
         <Navigation>Frontend::Agent::View::TicketPriority</Navigation>
