@@ -2787,7 +2787,7 @@ sub _Mask {
                     my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
 
                     # set pending time only if it is later than now
-                    if ( $CurrentTimeObj->Compare($PendingTimeObj) < 0 ) {
+                    if ( $CurrentTimeObj->Compare( DateTimeObject =>  $PendingTimeObj ) < 0 ) {
                         %PendingTimeSettings = %{ $PendingTimeObj->Get() };
                     }
 
@@ -2796,16 +2796,15 @@ sub _Mask {
                 # set DiffTime only if no pending time is present
                 my $DiffTime = 0;
                 if ( !%PendingTimeSettings ) {
-                    $DiffTime = $ConfigObject->Get('Ticket::Frontend::PendingDiffTime');
+                    $DiffTime = $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0;
                 }
 
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
                     %Param,
-                    Format           => 'DateInputFormatLong',
-                    YearPeriodPast   => 0,
-                    YearPeriodFuture => 5,
-                    DiffTime         => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime')
-                        || 0,
+                    Format               => 'DateInputFormatLong',
+                    YearPeriodPast       => 0,
+                    YearPeriodFuture     => 5,
+                    DiffTime             => $DiffTime,
                     Class                => $Param{DateInvalid} || ' ',
                     Validate             => 1,
                     ValidateDateInFuture => 1,
