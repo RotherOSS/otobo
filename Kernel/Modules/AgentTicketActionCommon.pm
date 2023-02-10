@@ -2775,7 +2775,7 @@ sub _Mask {
                 my %PendingTimeSettings = ();
 
                 # try restoring pending time only if pending time exists and responsible config option is set
-                if ( $Ticket{RealTillTimeNotUsed} && $ConfigObject->Get('Ticket::Frontend::AgentTicketActionCommon')->{'RememberLastPendingTime'} ) {
+                if ( $Ticket{RealTillTimeNotUsed} && $ConfigObject->Get('Ticket::Frontend::RestorePendingTime') ) {
 
                     my $PendingTimeObj = $Kernel::OM->Create(
                         'Kernel::System::DateTime',

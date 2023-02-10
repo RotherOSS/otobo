@@ -4275,9 +4275,9 @@
             <Item ValueType="String" ValueRegex="">%%Pending</Item>
         </Value>
     </Setting>
-    <Setting Name="Ticket::Frontend::AgentTicketActionCommon###RememberLastPendingTime" Required="0" Valid="1">
-        <Description Translatable="1">Defines if in input masks based on AgentTicketActionCommon a potentially set pending time should be prefilled if it is later than now.</Description>
-        <Navigation>Frontend::Agent::View::TicketActionCommon</Navigation>
+    <Setting Name="Ticket::Frontend::RestorePendingTime" Required="0" Valid="1">
+        <Description Translatable="1">Restore last pending time in input masks based on AgentTicketActionCommon, if pending state is set.</Description>
+        <Navigation>Frontend::Agent</Navigation>
         <Value>
             <Item ValueType="Checkbox">0</Item>
         </Value>
