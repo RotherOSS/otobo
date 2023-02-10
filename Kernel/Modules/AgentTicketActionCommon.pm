@@ -2771,15 +2771,24 @@ sub _Mask {
 
                 my $QuickDateButtons = $Config->{QuickDateButtons} // $ConfigObject->Get('Ticket::Frontend::DefaultQuickDateButtons');
 
-                my $PendingTimeSettings = {};
+                # fetch and check potentially set pending time
+                my %PendingTimeSettings = ();
                 if ( $Ticket{RealTillTimeNotUsed} ) {
+
                     my $PendingTimeObj = $Kernel::OM->Create(
                         'Kernel::System::DateTime',
                         ObjectParams => {
                             Epoch => $Ticket{RealTillTimeNotUsed},
                         },
                     );
-                    $PendingTimeSettings = $PendingTimeObj->Get();
+
+                    my $CurrentTimeObj = $Kernel::OM->Create('Kernel::System::DateTime');
+
+                    # set pending time only if it is later than now
+                    if ( $CurrentTimeObj->Compare($PendingTimeObj) < 0 ) {
+                        %PendingTimeSettings = %{ $PendingTimeObj->Get() };
+                    }
+
                 }
 
                 $Param{DateString} = $LayoutObject->BuildDateSelection(
@@ -2794,13 +2803,7 @@ sub _Mask {
                     ValidateDateInFuture => 1,
                     Calendar             => $Calendar,
                     QuickDateButtons     => $QuickDateButtons,
-                    Prefix               => IsHashRefWithData($PendingTimeSettings) ? 'PendingTime' : undef,
-                    Year                 => $PendingTimeSettings->{Year}|| undef,
-                    Month                => $PendingTimeSettings->{Month} || undef,
-                    Day                  => $PendingTimeSettings->{Day} || undef,
-                    Hour                 => $PendingTimeSettings->{Hour} || undef,
-                    Minute               => $PendingTimeSettings->{Minute} || undef,
-                    Second               => $PendingTimeSettings->{Second} || undef,
+                    %PendingTimeSettings,
                 );
 
                 $LayoutObject->Block(
