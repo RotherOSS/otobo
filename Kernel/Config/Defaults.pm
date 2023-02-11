@@ -2544,4 +2544,53 @@ sub SyncWithS3 {
     return 1;
 }
 
+# Activate S3 and provide settings for the most common case
+sub LoadS3Defaults {
+    my ($Self) = @_;
+
+    $Self->{'Storage::S3::Active'}                          = 1;
+    $Self->{'Storage::S3::Region'}                          = 'eu-central-1';
+    $Self->{'Storage::S3::Bucket'}                          = 'otobo-bucket-20230211a'; # random name
+    $Self->{'Storage::S3::HomePrefix'}                      = 'OTOBO';
+    $Self->{'Storage::S3::AccessKey'}                       = 'minio-otobo';
+    $Self->{'Storage::S3::SecretKey'}                       = 'minio-otobo'; # more than 8 chars
+    $Self->{'Storage::S3::MetadataPrefix'}                  = 'x-amz-meta-';
+    $Self->{'Storage::S3::Delimiter'}                       = '/'; # do not change this, as OTOBO relies on the delimiter being '/'
+    $Self->{'Storage::S3::Scheme'}                          = 'http';
+    $Self->{'Storage::S3::Host'}                            = 'minio:9000';
+    $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 0;
+
+    # The default S3 setting can be overriden in _Kernel/Config.pm_.
+    # An example is using localstack as the S3 compatible backend
+    #$Self->{'Storage::S3::Scheme'}                          = 'https';
+    #$Self->{'Storage::S3::Host'}                            = 'localstack:4566';
+    #$Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 1;
+
+    return;
+}
+
+# Settings that are set for OTOBO running under Docker
+sub LoadDockerSpecificDefaults {
+    my ($Self) = @_;
+
+    $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
+    $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
+    $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
+    $Self->{'Cache::Redis'}->{'RedisFast'} = 1;
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
+    $Self->{'TestHTTPHostname'}            = 'web:5000';
+
+    # activate Selenium tests if the the host is available
+    $Self->{'SeleniumTestsConfig'} = {
+        remote_server_addr  => 'selenium-chrome',
+        check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
+        port                => '4444',
+        browser_name        => 'chrome',
+        platform            => 'ANY',
+    };
+
+    return;
+}
+
 1;
