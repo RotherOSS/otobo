@@ -40,9 +40,9 @@ The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 sub Load {
@@ -95,9 +95,7 @@ sub Load {
     # $Self->{CheckMXRecord} = 0;
 
     # ---------------------------------------------------- #
-    #                                                      #
     # end of your own config options!!!                    #
-    #                                                      #
     # ---------------------------------------------------- #
 
     return 1;
