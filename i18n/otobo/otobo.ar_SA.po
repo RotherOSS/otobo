@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-07 10:42+0000\n"
+"PO-Revision-Date: 2023-02-13 16:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20349,29 +20349,36 @@ msgstr "يتحقق من المقالات التي تحتاج إلى تحديث �
 
 #. SysConfig
 msgid "Checks for communication log entries to be deleted."
-msgstr ""
+msgstr "التحقق من حذف إدخالات سجل الاتصالات."
 
 #. SysConfig
 msgid "Checks for queued outgoing emails to be sent."
-msgstr ""
+msgstr "تحقق من رسائل البريد الصادرة لإرسالها."
 
 #. SysConfig
 msgid ""
 "Checks if an E-Mail is a followup to an existing ticket by searching the "
 "subject for a valid ticket number."
 msgstr ""
+"التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة من خلال "
+"البحث عن رقم تذكرة صالح."
 
 #. SysConfig
 msgid ""
 "Checks if an email is a follow-up to an existing ticket with external ticket "
 "number which can be found by ExternalTicketNumberRecognition filter module."
 msgstr ""
+"التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة برقم "
+"تذكرة خارجي يمكن العثور عليه بواسطة وحدة عامل تصفية "
+"ExternalTicketNumberRecognition."
 
 #. SysConfig
 msgid ""
 "Checks the SystemID in ticket number detection for follow-ups. If not "
 "enabled, SystemID will be changed after using the system."
 msgstr ""
+"يتحقق من SystemID في اكتشاف رقم التذكرة للمتابعة. إذا لم يتم تمكينه ، فسيتم "
+"تغيير SystemID بعد استخدام النظام."
 
 #. SysConfig
 msgid "Child"
@@ -20379,17 +20386,17 @@ msgstr "فرع"
 
 #. SysConfig
 msgid "Chinese (Simplified)"
-msgstr ""
+msgstr "صيني (مبسط)"
 
 #. SysConfig
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "الصينية (التقليدية)"
 
 #. SysConfig
 msgid ""
 "Choose for which kind of appointment changes you want to receive "
 "notifications."
-msgstr ""
+msgstr "حدد نوع تغييرات الموعد التي تريد إستلام الإعلامات لها."
 
 #. SysConfig
 msgid ""
@@ -20397,14 +20404,16 @@ msgid ""
 "Please note that you can't completely disable notifications marked as "
 "mandatory."
 msgstr ""
+"حدد تغييرات التذاكر التي تريد أن يتم إعلامك بها. يرجى ملاحظة أنه لا يمكنك "
+"إيقاف تشغيل الإشعارات التي تم وضع علامة عليها على أنها إلزامية تماما."
 
 #. SysConfig
 msgid "Choose which notifications you'd like to receive."
-msgstr ""
+msgstr "أختر الإخطارات التي تريد تلقيها."
 
 #. SysConfig
 msgid "Christmas Eve"
-msgstr ""
+msgstr "عشية عيد الميلاد"
 
 #. SysConfig
 msgid "Close"
@@ -20412,39 +20421,39 @@ msgstr "إغلاق"
 
 #. SysConfig
 msgid "Close this ticket"
-msgstr ""
+msgstr "أغلق هذه التذكرة"
 
 #. SysConfig
 msgid "Closed Tickets"
-msgstr ""
+msgstr "التذاكر المغلقة"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
-msgstr ""
+msgstr "التذاكر المغلقة (مستخدمون الزبائن)"
 
 #. SysConfig
 msgid "Closed tickets (customer)"
-msgstr ""
+msgstr "التذاكر المغلقة (العميل)"
 
 #. SysConfig
 msgid "Cloud Services"
-msgstr ""
+msgstr "الخدمات السحابية"
 
 #. SysConfig
 msgid "Cloud service admin module registration for the transport layer."
-msgstr ""
+msgstr "تسجيل وحدة مسؤول الخدمة السحابية لطبقة النقل."
 
 #. SysConfig
 msgid "Collect support data for asynchronous plug-in modules."
-msgstr ""
+msgstr "تجميع بيانات الدعم لوحدات المكونات الإضافية غير المتزامنة."
 
 #. SysConfig
 msgid "Color definitions for the customer interface."
-msgstr ""
+msgstr "تعريفات الألوان لواجهة العميل."
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
-msgstr ""
+msgstr "عمود عامل تصفية التذاكر لعرض التذاكر من النوع \"صغير\"."
 
 #. SysConfig
 msgid ""
@@ -20453,6 +20462,9 @@ msgid ""
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
 msgstr ""
+"أعمدة قابلة للطباعة في العرض ذي الصلة لمساحة العميل. ملاحظة: يتم السماح "
+"بسمات التذاكر فقط والحقول الديناميكية (DynamicField_NameX) وسمات العملاء ("
+"مثل CustomerUserPhone و CustomerCompanyName)."
 
 #. SysConfig
 msgid ""
@@ -20461,6 +20473,9 @@ msgid ""
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
 msgstr ""
+"أعمدة قابلة للطباعة في العرض ذي الصلة لمساحة العميل. ملاحظة: يتم السماح "
+"بسمات التذاكر فقط والحقول الديناميكية (DynamicField_NameX) وسمات العملاء ("
+"مثل CustomerUserPhone و CustomerCompanyName)."
 
 #. SysConfig
 msgid ""
@@ -20468,6 +20483,9 @@ msgid ""
 "Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer "
 "attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة عرض قائمة الانتظار لواجهة العامل. ملاحظة: "
+"يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل "
+"(مثل CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid ""
@@ -20476,6 +20494,9 @@ msgid ""
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة العرض المسؤولة لواجهة العامل. ملاحظة: "
+"يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل "
+"(مثل CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid ""
@@ -20484,6 +20505,9 @@ msgid ""
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة عرض الخدمة لواجهة الوكيل. ملاحظة: يسمح "
+"فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل "
+"CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid ""
@@ -20492,6 +20516,9 @@ msgid ""
 "Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are "
 "allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة عرض الحالة لواجهة العامل. ملاحظة: يسمح "
+"فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل "
+"CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid ""
@@ -20500,6 +20527,9 @@ msgid ""
 "and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) "
 "are allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة عرض نتائج البحث عن التذكرة لواجهة العامل. "
+"ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) "
+"وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid ""
@@ -20507,92 +20537,97 @@ msgid ""
 "Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer "
 "attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed."
 msgstr ""
+"الأعمدة التي يمكن تصفيتها في طريقة عرض المراقبة لواجهة العامل. ملاحظة: يسمح "
+"فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل "
+"CustomerUserPhone و CustomerCompanyName و...)."
 
 #. SysConfig
 msgid "Comment for new history entries in the customer interface."
-msgstr ""
+msgstr "التعليق على إدخالات المحفوظات الجديدة في واجهة العميل."
 
 #. SysConfig
 msgid "Comment2"
-msgstr ""
+msgstr "التعليق 2"
 
 #. SysConfig
 msgid "Communication"
-msgstr ""
+msgstr "التواصل"
 
 #. SysConfig
 msgid "Communication & Notifications"
-msgstr ""
+msgstr "الاتصالات والإخطارات"
 
 #. SysConfig
 msgid "Communication Log GUI"
-msgstr ""
+msgstr "مستخدم سجل الاتصالات"
 
 #. SysConfig
 msgid "Communication log limit per page for Communication Log Overview."
 msgstr ""
+"الحد الأقصى لإدخالات السجل لكل صفحة في نظرة عامة على جميع بروتوكولات الاتصال."
 
 #. SysConfig
 msgid "CommunicationLog Overview Limit"
-msgstr ""
+msgstr "نظرة عامة على سجل الاتصال المحدود"
 
 #. SysConfig
 msgid "Company Status"
-msgstr ""
+msgstr "حالة الشركة"
 
 #. SysConfig
 msgid "Company Tickets."
-msgstr ""
+msgstr "تذاكر الشركة."
 
 #. SysConfig
 msgid "Company name which will be included in outgoing emails as an X-Header."
 msgstr ""
+"اسم الشركة، الذي يجب تعيينه X-Header في رسائل البريد الإلكتروني الصادرة."
 
 #. SysConfig
 msgid "Compat module for AgentZoom to AgentTicketZoom."
-msgstr ""
+msgstr "وحدة انتقال AgentZoom إلى AgentTicketZoom."
 
 #. SysConfig
 msgid "Complex"
-msgstr ""
+msgstr "معقد"
 
 #. SysConfig
 msgid "Compose"
-msgstr "إرسال"
+msgstr "كَتَبَ"
 
 #. SysConfig
 msgid "Configure Processes."
-msgstr ""
+msgstr "تكوين العمليات."
 
 #. SysConfig
 msgid "Configure and manage ACLs."
-msgstr ""
+msgstr "تكوين قوائم التحكم في الوصول (ACL) وإدارتها."
 
 #. SysConfig
 msgid ""
 "Configure any additional readonly mirror databases that you want to use."
-msgstr ""
+msgstr "قم بتكوين أية قواعد بيانات متطابقة إضافية للقراءة فقط تريد استخدامها."
 
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
-msgstr ""
+msgstr "تكوين إرسال بيانات الدعم إلى فريق OTOBO لتحسين الدعم."
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr ""
+msgstr "أدخل حول النص / بصمة."
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr ""
+msgstr "تحرير سياسة الخصوصية."
 
 #. SysConfig
 msgid ""
 "Configure which screen should be shown after a new ticket has been created."
-msgstr ""
+msgstr "تكوين الواجهة التي سيتم عرضها بعد إنشاء تذكرة جديدة."
 
 #. SysConfig
 msgid "Configure your own log text for PGP."
-msgstr ""
+msgstr "قم بتكوين نص السجل الخاص بك ل PGP."
 
 #. SysConfig
 msgid ""
@@ -20601,10 +20636,14 @@ msgid ""
 "and \"Event\" defines the trigger event. Please check the developer manual "
 "(https://doc.otobo.org/), chapter \"Ticket Event Module\"."
 msgstr ""
+"تكوين إعداد TicketDynamicField افتراضي. يعرف \"الاسم\" الحقل الديناميكي الذي "
+"يجب إستخدامه، و\"القيمة\" هي البيانات التي سيتم تعيينها، و\"الحدث\" يحدد حدث "
+"المشغل. يرجى التحقق من دليل المطور (/‎https://doc.otobo.org)، الفصل \"Ticket "
+"Event Module\"."
 
 #. SysConfig
 msgid "Controls how to display the ticket history entries as readable values."
-msgstr ""
+msgstr "يتحكم في كيفية عرض إدخالات محفوظات التذاكر كقيم قابلة للقراءة."
 
 #. SysConfig
 msgid ""
