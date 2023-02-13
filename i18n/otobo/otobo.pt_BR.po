@@ -52,13 +52,15 @@
 # Lucas Trombim <ltrombim1@gmail.com>, 2019
 # possebon <possebon@gmail.com>, 2020
 # José Junior <jjunior@serviceup.com.br>, 2020, 2021, 2022.
+# Daniel Ferreira Pinto Bezerra da Silva <xtecnico2@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2022-02-11 01:40+0000\n"
-"Last-Translator: José Junior <jjunior@serviceup.com.br>\n"
+"PO-Revision-Date: 2023-02-13 16:58+0000\n"
+"Last-Translator: Daniel Ferreira Pinto Bezerra da Silva <xtecnico2@gmail.com>"
+"\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
 "otobo10/otobo/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -5186,7 +5188,7 @@ msgstr "Links"
 
 #. Template: AdminNavigationBar
 msgid "View the admin manual"
-msgstr ""
+msgstr "Ver manual de administração"
 
 #. Template: AdminNavigationBar
 msgid "No Matches"
@@ -9335,18 +9337,21 @@ msgid ""
 "Please note that you can only select charts as statistics output format if "
 "you configured one of the renderer binaries on your system."
 msgstr ""
+"Observe que você só pode selecionar gráficos como formato de saída de "
+"estatísticas se tiver configurado um dos binários do renderizador em seu "
+"sistema."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure PhantomJS"
-msgstr ""
+msgstr "Configurar PhantomJS"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Configure GoogleChrome"
-msgstr ""
+msgstr "Configurar Google Chrome"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "General settings"
-msgstr ""
+msgstr "Configurações gerais"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation settings"
@@ -9361,18 +9366,20 @@ msgid ""
 "Specify when the report should be automatically generated in cron format, e. "
 "g. \"10 1 * * *\" for every day at 1:10 am."
 msgstr ""
+"Especificar quando o relatório deve ser automaticamente gerado em formato "
+"cron, ex.: \"10 1 ***\" todos os dias Às 1:10 am."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Times are in the system timezone."
-msgstr ""
+msgstr "Os horários estão no fuso horário do sistema."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Last automatic generation time"
-msgstr ""
+msgstr "Horário da última geração automática"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Next planned automatic generation time"
-msgstr ""
+msgstr "Próximo horário de geração automática planejada"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Automatic generation language"
@@ -9380,39 +9387,40 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "The language to be used when the report is automatically generated."
-msgstr ""
+msgstr "A língua a ser usada quando o relatório é automaticamente gerado."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email subject"
-msgstr ""
+msgstr "Assunto do email"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the subject for the automatically generated email."
-msgstr ""
+msgstr "Especificar o assunto para o email gerado automaticamente."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email body"
-msgstr ""
+msgstr "Corpo do email"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify the text for the automatically generated email."
-msgstr ""
+msgstr "Especificar o texto para o email gerado automaticamente."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Email recipients"
-msgstr ""
+msgstr "Destinatários de email"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Specify recipient email addresses (comma separated)."
 msgstr ""
+"Especificar endereços de destinatários de email (separados por vírgula)."
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Output settings"
-msgstr ""
+msgstr "Configurações de saída"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Headline"
-msgstr ""
+msgstr "Título"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for preamble"
@@ -9420,7 +9428,7 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Preamble"
-msgstr ""
+msgstr "Preâmbulo"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Caption for epilogue"
@@ -9428,33 +9436,35 @@ msgstr ""
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Epilogue"
-msgstr ""
+msgstr "Epílogo"
 
 #. Template: AgentStatisticsReportsEdit
 msgid "Add statistic to report"
-msgstr ""
+msgstr "Adicionar estatísticas ao relatório"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Statistics Reports"
-msgstr ""
+msgstr "Relatórios de Estatísticas"
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Edit statistics report \"%s\"."
-msgstr ""
+msgstr "Editar relatório de estatísticas \"%s\"."
 
 #. Template: AgentStatisticsReportsOverview
 msgid "Delete statistics report \"%s\""
-msgstr ""
+msgstr "Excluir relatório de estatísticas \"%s\""
 
 #. Template: AgentStatisticsReportsView
 msgid "View Report"
-msgstr ""
+msgstr "Ver Relatório"
 
 #. Template: AgentStatisticsReportsView
 msgid ""
 "This statistics report contains configuration errors and can currently not "
 "be used."
 msgstr ""
+"O relatório de estatísticas contém erros de configuração e não pode ser "
+"usado no momento."
 
 #. Template: AgentStatisticsView
 msgid "Statistics Overview"
@@ -9724,11 +9734,11 @@ msgstr "Remover Cliente do Chamado"
 
 #. Template: AgentTicketCompose
 msgid "Move to Cc"
-msgstr ""
+msgstr "Mover para Cc"
 
 #. Template: AgentTicketCompose
 msgid "Move to Bcc"
-msgstr ""
+msgstr "Mover para Cco"
 
 #. Template: AgentTicketCompose
 msgid "Please remove this entry and enter a new one with the correct value."
@@ -9744,7 +9754,7 @@ msgstr "Remover Cc"
 
 #. Template: AgentTicketCompose
 msgid "Move to To"
-msgstr ""
+msgstr "Mover para Para"
 
 #. Template: AgentTicketCompose
 msgid "Bcc"
@@ -10373,7 +10383,7 @@ msgstr "retornar à página anterior"
 
 #. Template: CustomerAccept
 msgid "Click to accept"
-msgstr ""
+msgstr "Clique para aceitar"
 
 #. Template: TicketCustomerIDSelection
 msgid ""
@@ -15573,7 +15583,7 @@ msgstr "Entre em contato com o seu Administrador."
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "Execution of SQL statement failed: "
-msgstr ""
+msgstr "A execução da instrução SQL falhou: "
 
 #. Perl Module: Kernel/Modules/Installer.pm
 msgid "https"
@@ -15642,6 +15652,8 @@ msgid ""
 "If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in "
 "the SysConfig."
 msgstr ""
+"Se você quiser executar novamente a Ferramenta MigrateFromOTRS, desabilite o "
+"SecureMode na Configuração do Sistema."
 
 #. Perl Module: Kernel/Modules/MigrateFromOTRS.pm
 msgid "OTRS to OTOBO migration"
@@ -15769,11 +15781,11 @@ msgstr "Cabeçalho \"PGP SIGNED MESSAGE\" encontrado porém, inválido!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Internal error during verification!"
-msgstr ""
+msgstr "Erro interno durante verificação!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key not found!"
-msgstr ""
+msgstr "Impossível descriptografar: chave privada não encontrada!"
 
 #. Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
 msgid "Impossible to decrypt: private key for email was not found!"
@@ -16204,6 +16216,8 @@ msgid ""
 "Can't update password, the new password and the repeated password do not "
 "match."
 msgstr ""
+"Não foi possível atualizar a senha, a nova senha e o campo de verificação de "
+"senha não coincidem."
 
 #. Perl Module: Kernel/Output/HTML/Preferences/Password.pm
 msgid ""
@@ -16240,6 +16254,8 @@ msgid ""
 "Can't update password, it must contain at least 3 of 4 (lower char, upper "
 "char, digit, special character)!"
 msgstr ""
+"Não foi possível atualizar a senha, ela deve conter ao menos 3 ou 4 "
+"caracteres (minúsculo, maiúsculo, número, caractere especial)!"
 
 #. Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
 msgid "Time zone updated successfully!"
@@ -16439,15 +16455,15 @@ msgstr "Total de Chamados Monitorados"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "%s Report"
-msgstr ""
+msgstr "%s Relatório"
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Error: this graph could not be generated: %s."
-msgstr ""
+msgstr "Erro: esse gráfico não pode ser gerado: %s."
 
 #. Perl Module: Kernel/Output/PDF/StatisticsReports.pm
 msgid "Table of Contents"
-msgstr ""
+msgstr "Índice"
 
 #. Perl Module: Kernel/Output/PDF/Ticket.pm
 msgid "Ticket Dynamic Fields"
@@ -16470,6 +16486,8 @@ msgid ""
 "Invalid response from the authentication server. Maybe the process took too "
 "long. Please retry once."
 msgstr ""
+"Resposta inválida do servidor de autenticação. Talvez o processo tenha "
+"demorado muito. Tente outra vez."
 
 #. Perl Module: Kernel/System/AuthSession.pm
 msgid "Please note that the session limit is almost reached."
@@ -16598,7 +16616,7 @@ msgstr "Verificações de integridade para banco de dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deploy the ACL configuration."
-msgstr ""
+msgstr "Implementar ACLs."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
 msgid "Deployment completed, perfect!"
@@ -16614,7 +16632,7 @@ msgstr "Migração falhou."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migrate database table auto_response."
-msgstr ""
+msgstr "Migrar tabela do banco de dados auto_response."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
 msgid "Migration completed, perfect!"
@@ -16622,7 +16640,7 @@ msgstr "Migração concluída, perfeito!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "OTOBO Cache cleanup."
-msgstr ""
+msgstr "Limpeza do Cache OTOBO."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
 msgid "Completed."
@@ -16630,7 +16648,7 @@ msgstr "Completo."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Need OTRSData->%s!"
-msgstr ""
+msgstr "Necessita de OTRSData->%s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "Can't access OTRS Home: %s!"
@@ -16638,7 +16656,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
 msgid "All needed files copied and migrated, perfect!"
-msgstr ""
+msgstr "Todos os arquivos necessários copiados e migrados, perfeito!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
 msgid "Copy database."
@@ -16687,6 +16705,7 @@ msgstr "Nenhum sistema OTOBO encontrado!"
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "You are trying to run this script on the wrong framework version %s!"
 msgstr ""
+"Você está tentando executar esse script na versão errada do framework %s!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
 msgid "OTOBO Version is correct: %s."
@@ -16718,11 +16737,11 @@ msgstr "Versão do OTRS esta correta: %s."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migrate ITSM database tables."
-msgstr ""
+msgstr "Migrar tabelas de banco de dados ITSM."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Nothing to do, as the the table '%s' does not exist."
-msgstr ""
+msgstr "Nada a ser feito, uma vez que a tabela '%s' não existe."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "UPDATE of the table '%s' failed."
@@ -16730,7 +16749,7 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
 msgid "Migration completed."
-msgstr ""
+msgstr "Migração completa."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "Migrate configuration settings."
@@ -16740,18 +16759,22 @@ msgstr "Migre as definições de configuração."
 msgid ""
 "An error occured during SysConfig data migration or no configuration exists."
 msgstr ""
+"Um erro ocorreu durante a migração de dados da Configuração do Sistema ou "
+"não existe configuração."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "An error occured during SysConfig migration when writing XML to DB."
 msgstr ""
+"Um erro ocorreu durante a migração da Configuração do Sistema durante a "
+"escrita do XML para o Banco de Dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
 msgid "SysConfig data migration completed."
-msgstr ""
+msgstr "Migração de dados da Configuração de Sistema completa."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Migrate web service configuration."
-msgstr ""
+msgstr "Migrar configuração do web service."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
 msgid "Failed - see the log!"
@@ -16791,19 +16814,19 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Could not create database object."
-msgstr ""
+msgstr "Não foi possível criar o objeto do banco de dados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
 msgid "Database connect and sanity checks completed."
-msgstr ""
+msgstr "Conexão ao banco de dados e verificação de sanidade completa."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "Check if all necessary packages are installed."
-msgstr ""
+msgstr "Verificar se todos os pacotes necessários estão instalados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The following packages are only installed in OTRS:"
-msgstr ""
+msgstr "Os seguintes pacotes estão instalados apenas no OTRS:"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid ""
