@@ -198,7 +198,7 @@ my $CheckACLs = sub {
         %AclAction = $TicketObject->TicketAclActionData();
     }
 
-    my @BlackListedActions = ('AgentTicketClose');
+    my @BlackListedActions = ('AgentTicketClose', 'AgentTicketQuickClose');
 
     for my $ActionCounter ( sort keys %PossibleActions ) {
         if ( ( grep { $_ eq $PossibleActions{$ActionCounter} } @BlackListedActions ) && $Param{Success} ) {
