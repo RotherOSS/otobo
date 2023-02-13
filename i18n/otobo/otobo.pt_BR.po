@@ -58,7 +58,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-13 16:58+0000\n"
+"PO-Revision-Date: 2023-02-15 14:31+0000\n"
 "Last-Translator: Daniel Ferreira Pinto Bezerra da Silva <xtecnico2@gmail.com>"
 "\n"
 "Language-Team: Portuguese (Brazil) <https://translate.otobo.org/projects/"
@@ -16834,10 +16834,13 @@ msgid ""
 "doesn't exist for OTOBO so far, please contact the OTOBO Team at bugs\\"
 "\\@otobo.org. We will find a solution."
 msgstr ""
+"Instale (ou desinstale) os pacotes antes da migração. Se um pacote não "
+"existe para OTOBO até o momento, favor contatar o Time OTOBO em bugs\\\\@"
+"otobo.org. Nós encontraremos uma solução."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
 msgid "The same packages are installed on both systems, perfect!"
-msgstr ""
+msgstr "Os mesmos pacotes estão instalados em ambos sistemas, perfeito!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
 msgid "Package specific tasks"
@@ -16853,21 +16856,23 @@ msgstr "Falhou em -"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "Check if all needed Perl modules have been installed."
-msgstr ""
+msgstr "Verificar se todos os módulos Pearl necessários foram instalados."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "%s script does not exist."
-msgstr ""
+msgstr "O script %s não existe."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid ""
 "One or more required Perl modules are missing. Please install them as "
 "recommended, and run the migration script again."
 msgstr ""
+"Um ou mais módulos obrigatórios Pearl estão ausentes. Por favor, instale-os "
+"conforme recomendado e execute o script de migração novamente."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
 msgid "All required Perl modules have been installed, perfect!"
-msgstr ""
+msgstr "Todos os módulos obrigatórios Pearl foram instalados, perfeito!"
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
 msgid "Migrate postmaster filter."
@@ -16879,15 +16884,15 @@ msgstr ""
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
 msgid "Migrate database table response_template."
-msgstr ""
+msgstr "Migrar a tabela do banco de dados response_template."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
 msgid "Migrate database table salutation."
-msgstr ""
+msgstr "Migrar a tabela do banco de dados salutation."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
 msgid "Migrate database table signature."
-msgstr ""
+msgstr "Migrar a tabela do banco de dados signature."
 
 #. Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
 msgid "Migrate statistics."
@@ -16944,6 +16949,9 @@ msgid ""
 "Ensure, however, that the origin of this package is trustworthy, as it can "
 "modify OTOBO in any possible way.</p>"
 msgstr ""
+"<p>Pacotes adicionais podem melhorar o OTOBO com uma variedade de recursos "
+"úteis. Assegure-se, entretanto, que a origem desses pacotes é confiável, "
+"pois eles podem modificar o OTOBO de qualquer maneira possível.</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Package not verified by the OTOBO community!"
@@ -16955,10 +16963,13 @@ msgid ""
 "activate the installation of not verified packages via the \"Package::"
 "AllowNotVerifiedPackages\" system configuration setting.</p>"
 msgstr ""
+"<p>A instalação de pacotes não verificados está desabilitada. Você pode "
+"ativar a instalação de pacotes não verificados através da Configuração do "
+"Sistema \"Package::AllowNotVerifiedPackages\".</p>"
 
 #. Perl Module: Kernel/System/Package.pm
 msgid "Verification not possible (e.g. no internet connection)!"
-msgstr ""
+msgstr "A verificação não foi possível (sem conexão internet)!"
 
 #. Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
 msgid "The process \"%s\" and all of its data has been imported successfully."
@@ -17444,11 +17455,11 @@ msgstr "PostgreSQL 9.2 ou superior é necessário."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Certificate check"
-msgstr ""
+msgstr "Verificação de certificado"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
 msgid "Found obsolete cryptographic function."
-msgstr ""
+msgstr "Encontrada função criptográfica obsoleta."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
 msgid "OTOBO Disk Partition"
@@ -17965,7 +17976,7 @@ msgstr "Dados de suporte não puderam ser coletados do servidor web."
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
 msgid "PSGI Environment"
-msgstr ""
+msgstr "Ambiente PSGI"
 
 #. Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
 msgid "Runs under PSGI"
@@ -18203,10 +18214,12 @@ msgid ""
 "If you want to re-run migration.pl, then disable the SecureMode in the "
 "SysConfig."
 msgstr ""
+"Se você quer executar novamente o migration.pl, então desabilite o "
+"SecureMode na Configuração do Sistema."
 
 #. Perl Module: Kernel/System/Web/InterfacePublic.pm
 msgid "Could not connect to the database."
-msgstr ""
+msgstr "Não foi possível conectar ao banco de dados."
 
 #. Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
 msgid "invalid-temporarily"
@@ -18907,7 +18920,7 @@ msgstr "Você tem certeza de que quer atualizar todos os pacotes instalados?"
 
 #. JS File: Core.Agent.Admin.PackageManager
 msgid "No response from get package upgrade run status."
-msgstr ""
+msgstr "Nenhuma resposta do status de execução da atualização do pacote."
 
 #. JS File: Core.Agent.Admin.PostMasterFilter
 msgid "Delete this PostMasterFilter"
@@ -19385,7 +19398,7 @@ msgstr "Você quer realmente excluir esta estatística?"
 
 #. JS File: Core.Agent.StatisticsReports
 msgid "Do you really want to delete this report?"
-msgstr ""
+msgstr "Você quer realmente excluir esse relatório?"
 
 #. JS File: Core.Agent.TicketAction
 msgid "Select a customer ID to assign to this ticket"
@@ -19865,7 +19878,7 @@ msgstr "Tempo contabilizado"
 
 #. SysConfig
 msgid "Activate Elasticsearch."
-msgstr ""
+msgstr "Ativar Elasticsearch."
 
 #. SysConfig
 msgid "Activate the customer frontend."
@@ -20266,7 +20279,7 @@ msgstr "Todos IDs de Clientes de um usuário cliente."
 
 #. SysConfig
 msgid "All closed tickets."
-msgstr ""
+msgstr "Todos os tickets encerrados."
 
 #. SysConfig
 msgid "All customer users of a CustomerID"
@@ -20442,6 +20455,10 @@ msgid ""
 "interface. With this feature you can search e. g. ticket title with this "
 "kind of conditions like \"(*key1*&&*key2*)\" or \"(*key1*||*key2*)\"."
 msgstr ""
+"Permite condições de pesquisa adicionais na pesquisa de tickets da interface "
+"do cliente. Com esse recurso, você pode procurar, por exemplo, o título de "
+"um ticket com condições como \"(*chave1*&&*chave2*)\" ou \""
+"(*chave1*||*chave2*)\"."
 
 #. SysConfig
 msgid ""
@@ -20680,7 +20697,7 @@ msgstr "Nome do Anexo"
 
 #. SysConfig
 msgid "Autoloading of Znuny4OTOBOPasswordPolicy extensions."
-msgstr ""
+msgstr "Carregamento automático das extensões Znuny4OTOBOPasswordPolicy."
 
 #. SysConfig
 msgid "Automated line break in text messages after x number of chars."
@@ -20702,6 +20719,8 @@ msgid ""
 "Automatically generate statistics reports and email them to the specified "
 "recipients."
 msgstr ""
+"Gerar automaticamente relatórios de estatísticas e enviar por email para os "
+"destinatários especificados."
 
 #. SysConfig
 msgid ""
@@ -20746,7 +20765,7 @@ msgstr "Avatar"
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas (slim version)."
-msgstr ""
+msgstr "Tema branco balanceado por Felix Niklas (versão compacta)."
 
 #. SysConfig
 msgid "Balanced white skin by Felix Niklas."
@@ -20868,11 +20887,11 @@ msgstr ""
 
 #. SysConfig
 msgid "Change Ticket"
-msgstr ""
+msgstr "Alterar Ticket"
 
 #. SysConfig
 msgid "Change Ticket information"
-msgstr ""
+msgstr "Alterar informação do Ticket"
 
 #. SysConfig
 msgid "Change queue!"
@@ -21055,7 +21074,7 @@ msgstr "Fechar este Chamado"
 
 #. SysConfig
 msgid "Closed Tickets"
-msgstr ""
+msgstr "Tickets Encerrados"
 
 #. SysConfig
 msgid "Closed tickets (customer user)"
@@ -21081,7 +21100,7 @@ msgstr "Coletar dados de suporte para módulos de plug-in assíncronos."
 
 #. SysConfig
 msgid "Color definitions for the customer interface."
-msgstr ""
+msgstr "Definições de cor para a interface de cliente."
 
 #. SysConfig
 msgid "Column ticket filters for Ticket Overviews type \"Small\"."
@@ -21254,14 +21273,16 @@ msgstr ""
 #. SysConfig
 msgid "Configure sending of support data to OTOBO Team for improved support."
 msgstr ""
+"Configurar envio de dados de suporte para o Time OTOBO para um suporte "
+"melhorado."
 
 #. SysConfig
 msgid "Configure the About information."
-msgstr ""
+msgstr "Configurar a informação Sobre."
 
 #. SysConfig
 msgid "Configure the privacy policy."
-msgstr ""
+msgstr "Configurar a política de privacidade."
 
 #. SysConfig
 msgid ""
@@ -21511,7 +21532,7 @@ msgstr "Empresas de Clientes"
 
 #. SysConfig
 msgid "Customer Dashboard"
-msgstr ""
+msgstr "Painel do Cliente"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
@@ -21543,7 +21564,7 @@ msgstr "Centro de Informações do Cliente."
 
 #. SysConfig
 msgid "Customer Password."
-msgstr ""
+msgstr "Senha do Cliente."
 
 #. SysConfig
 msgid "Customer Ticket Print Module."
@@ -21615,7 +21636,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Customer preferences."
-msgstr ""
+msgstr "Preferências do cliente."
 
 #. SysConfig
 msgid "Customer ticket overview"
