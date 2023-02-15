@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-15 14:30+0000\n"
+"PO-Revision-Date: 2023-02-16 10:41+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20655,7 +20655,7 @@ msgstr ""
 
 #. SysConfig
 msgid "Controls if CustomerID is read-only in the agent interface."
-msgstr ""
+msgstr "تحديد ما إذا كان رقم العميل في منطقة العميل معروض كمقروء فقط."
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
