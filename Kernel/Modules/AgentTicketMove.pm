@@ -127,7 +127,7 @@ sub Run {
 
     # check if lock check is needed or disabled
     my $MoveTicketEvenItIsLocked = $ConfigObject->Get('Ticket::Frontend::MoveType::Dropdown::MoveTicketEvenItIsLocked');
-    
+
     if ( !$MoveTicketEvenItIsLocked ) {
 
         # check if ticket is locked
