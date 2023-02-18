@@ -19,8 +19,6 @@ use strict;
 use warnings;
 use utf8;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
-
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
@@ -28,7 +26,7 @@ use lib dirname($RealBin);
 
 use JSON;
 use REST::Client;
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
 # This is the HOST for the web service the format is:
 # <HTTP_TYPE>:://<OTOBO_FQDN>/nph-genericinterface.pl

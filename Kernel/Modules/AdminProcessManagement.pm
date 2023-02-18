@@ -16,15 +16,13 @@
 
 package Kernel::Modules::AdminProcessManagement;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
-
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
 # CPAN modules
 

@@ -18,7 +18,6 @@ package Kernel::System::Log;
 
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::PODSpelling)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::ParamObject)
 
@@ -417,7 +416,7 @@ dump a perl variable to log
 sub Dumper {
     my ( $Self, @Data ) = @_;
 
-    require Data::Dumper;
+    require Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
     # returns the context of the current subroutine and sub-subroutine!
     my ( $Package1, $Filename1, $Line1, $Subroutine1 ) = caller(0);

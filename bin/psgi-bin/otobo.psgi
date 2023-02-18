@@ -72,14 +72,13 @@ use lib "$Bin/../..";
 use lib "$Bin/../../Kernel/cpan-lib";
 use lib "$Bin/../../Custom";
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::SyntaxCheck)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 
 # core modules
 use Cwd qw(abs_path);
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 use Encode qw(:all);
 use File::Basename qw(dirname);
 use File::Path qw(make_path);

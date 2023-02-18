@@ -18,15 +18,13 @@
 use strict;
 use warnings;
 
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
-
 # use ../ as lib location
 use File::Basename;
 use FindBin qw($RealBin);
 use lib dirname($RealBin);
 
 use SOAP::Lite;
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 
 # Variables to be defined
 

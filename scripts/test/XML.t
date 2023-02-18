@@ -20,7 +20,6 @@ use warnings;
 use utf8;
 
 # core modules
-use Data::Dumper;
 
 # CPAN modules
 use Test2::V0;
@@ -75,7 +74,6 @@ END_XML
 
     my @XMLHash = $XMLObject->XMLParse2XMLHash( String => $String );
 
-    #diag Dumper( \@XMLHash );
     my @ExpectedXMLHash = (
         undef,
         {
@@ -194,8 +192,6 @@ END_XML
 
     # the method MLHash2D() changes the passed in XMLHash as a side effect
     my %ValueHash = $XMLObject->XMLHash2D( XMLHash => \@XMLHash );
-
-    #diag Dumper( \@XMLHash, \%ValueHash );
 
     my @ExpectedChangedXMLHash = (
         undef,
@@ -1200,8 +1196,6 @@ else {
 {
     my $XML      = '<Test Name="test123" />';
     my @XMLARRAY = $XMLObject->XMLParse( String => $XML );
-
-    #diag Dumper($XML, \@XMLARRAY);
 
     # make a copy of the XMLArray (deep clone it),
     # it will be needed for a later comparison

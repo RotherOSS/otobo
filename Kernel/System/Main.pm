@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::Main;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
 use strict;
@@ -23,7 +22,7 @@ use warnings;
 
 # core modules
 use Digest::MD5 qw(md5_hex);
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 use File::stat;
 use Unicode::Normalize;
 use List::Util qw(first);
