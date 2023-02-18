@@ -22,7 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self %Param));
+our $Self;
 
 my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 
