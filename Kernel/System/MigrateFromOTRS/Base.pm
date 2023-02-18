@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::MigrateFromOTRS::Base;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Dumper)
 ## nofilter(TidyAll::Plugin::OTOBO::Common::CustomizationMarkers)
 
 use strict;
@@ -26,7 +25,7 @@ use utf8;
 
 # core modules
 use List::Util qw(first);
-use Data::Dumper;
+use Data::Dumper;    ## no critic qw(Modules::ProhibitEvilModules)
 use File::Basename qw(basename dirname fileparse);
 use File::Copy qw(move);
 use File::Path qw(make_path);
