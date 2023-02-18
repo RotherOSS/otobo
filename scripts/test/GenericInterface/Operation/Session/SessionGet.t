@@ -22,7 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::GenericInterface::Debugger;
 use Kernel::GenericInterface::Operation::Session::SessionGet;

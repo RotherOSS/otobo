@@ -23,7 +23,7 @@ use Test2::V0;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 

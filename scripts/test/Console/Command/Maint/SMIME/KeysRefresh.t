@@ -22,7 +22,7 @@ use utf8;
 use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 use Kernel::System::Crypt::SMIME;
 use File::Copy;

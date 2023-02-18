@@ -22,7 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 my $CommandObject        = $Kernel::OM->Get('Kernel::System::Console::Command::Admin::Article::StorageSwitch');
 my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');

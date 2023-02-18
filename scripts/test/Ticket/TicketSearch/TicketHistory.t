@@ -22,7 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get ticket object
 my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');

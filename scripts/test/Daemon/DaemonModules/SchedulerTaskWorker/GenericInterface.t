@@ -22,7 +22,7 @@ use utf8;
 use Kernel::System::UnitTest::MockTime qw(:all);
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # prevent mails send
 $Kernel::OM->Get('Kernel::Config')->Set(

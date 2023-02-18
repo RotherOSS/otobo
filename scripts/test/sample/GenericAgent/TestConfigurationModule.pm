@@ -20,12 +20,11 @@ use strict;
 use warnings;
 use utf8;
 
-use vars qw(@ISA @EXPORT %Jobs);
-use Exporter;
-@ISA    = qw(Exporter);
-@EXPORT = qw(%Jobs);
+use parent 'Exporter';
 
-%Jobs = (
+our @EXPORT = qw(%Jobs);
+
+our %Jobs = (
 
     'set priority very high' => {
 
