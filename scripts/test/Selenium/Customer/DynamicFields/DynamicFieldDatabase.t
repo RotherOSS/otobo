@@ -25,7 +25,7 @@ use Test2::V0;
 use Kernel::System::UnitTest::RegisterDriver;
 use Kernel::System::VariableCheck qw(IsHashRefWithData);
 
-use vars (qw($Self));
+our $Self;
 
 # OTOBO modules
 use Kernel::System::UnitTest::Selenium;

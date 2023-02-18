@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # Get FormDraft object.
 my $FormDraftObject = $Kernel::OM->Get('Kernel::System::FormDraft');

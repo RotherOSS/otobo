@@ -21,7 +21,7 @@ use utf8;
 # Set up the test driver $Self when we are running as a standalone script.
 use Kernel::System::UnitTest::RegisterDriver;
 
-use vars (qw($Self));
+our $Self;
 
 # get command object
 my $CommandObject = $Kernel::OM->Get('Kernel::System::Console::Command::Dev::Tools::Config2Docbook');
