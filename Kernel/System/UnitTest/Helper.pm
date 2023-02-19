@@ -50,22 +50,30 @@ our @ObjectDependencies = (
 
 Kernel::System::UnitTest::Helper - unit test helper functions
 
+=head2 DESCRIPTION
+
+To be used in test scripts. Cleanup will be triggered in the END block.
+
+=head1 METHODS
+
 =head2 new()
 
 construct a helper object.
 
-    use Kernel::System::ObjectManager;
+    use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
-    local $Kernel::OM = Kernel::System::ObjectManager->new(
+    # Do not call Kernel::System::UnitTest::Helper->new(),
+    # instead pass params via the ObjectManager.
+    $Kernel::OM->ObjectParamAdd(
         'Kernel::System::UnitTest::Helper' => {
-            RestoreDatabase            => 1,        # runs the test in a transaction,
-                                                    # and roll it back in the destructor
-                                                    #
-                                                    # NOTE: Rollback does not work for
-                                                    # changes in the database layout. If you
-                                                    # want to do this in your tests, you cannot
-                                                    # use this option and must handle the rollback
-                                                    # yourself.
+            RestoreDatabase => 1,    # runs the test in a transaction,
+                                     # and roll it back in the destructor
+                                     #
+                                     # NOTE: Rollback does not work for
+                                     # changes in the database layout. If you
+                                     # want to do this in your tests, you cannot
+                                     # use this option and must handle the rollback
+                                     # yourself.
         },
     );
 
@@ -1114,6 +1122,15 @@ sub DESTROY {
     }
 
     return;
+}
+
+END {
+
+    # trigger Kernel::System::UnitTest::Helper::DESTROY()
+    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY()
+    $Kernel::OM->ObjectsDiscard(
+        Objects => ['Kernel::System::UnitTest::Helper'],
+    );
 }
 
 1;
