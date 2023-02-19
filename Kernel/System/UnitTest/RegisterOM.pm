@@ -30,8 +30,8 @@ This script provides support for running test scripts as standalone scripts.
 It sets up the variable C<$Kernel::OM>.
 
 Load this module in test scripts when the test driver C<$main::Self> is not needed.
-When C<$main::Self> then load C<Kernel::System::UnitTest::RegisterDriver> which loads
-this module implicitly.
+When you need C<$main::Self> too, then you only need to load C<Kernel::System::UnitTest::RegisterDriver>
+which loads this module implicitly.
 
 =cut
 
@@ -63,15 +63,6 @@ sub import {    ## no critic qw(OTOBO::RequireCamelCase)
     );
 
     return;
-}
-
-END {
-
-    # trigger Kernel::System::UnitTest::Helper::DESTROY()
-    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
-    $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::UnitTest::Helper'],
-    );
 }
 
 1;
