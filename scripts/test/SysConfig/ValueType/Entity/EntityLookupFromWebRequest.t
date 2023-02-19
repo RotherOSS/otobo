@@ -25,7 +25,7 @@ use HTTP::Request::Common qw(GET);
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # get helper object
 $Kernel::OM->ObjectParamAdd(
