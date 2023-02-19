@@ -27,7 +27,7 @@ use Devel::Peek;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::Crypt::SMIME;
 
 # get needed objects

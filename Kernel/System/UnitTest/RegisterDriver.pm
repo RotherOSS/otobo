@@ -17,23 +17,24 @@ package Kernel::System::UnitTest::RegisterDriver;
 
 =head1 NAME
 
-Kernel::System::UnitTest::RegisterDriver - setup for test scripts
+Kernel::System::UnitTest::RegisterDriver - set up C<$Kernel::OM> and C<$main::Self> in test scripts
 
 =head1 SYNOPSIS
 
-    # Set up the test driver $Self and $Kernel::OM in test scripts.
+    # Set up the test driver $main::Self and $Kernel::OM in test scripts.
     use Kernel::System::UnitTest::RegisterDriver;
 
 =head1 DESCRIPTION
 
 This script provides support for running test scripts as standalone scripts.
 It sets up the variables C<$main::Self> and C<$Kernel::OM>.
+Setting up C<$Kernel::OM> is done implicitly by loading C<Kernel::System::UnitTest::RegisterOM>.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -41,38 +42,17 @@ use utf8;
 # CPAN modules
 
 # OTOBO modules
-use Kernel::System::ObjectManager;
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 our $ObjectManagerDisabled = 1;
 
 sub import {    ## no critic qw(OTOBO::RequireCamelCase)
 
-    # RegisterDriver is meant for test scripts,
-    # meaning that each script runs it's own dedicated process.
-    # This means that we don't have to localize $Kernel::OM.
-    # This is a good thing, as OTOBO no longer has a subroutine that wraps the test script.
-    $Kernel::OM = Kernel::System::ObjectManager->new(
-
-        # Log to an identifiable logfile.
-        'Kernel::System::Log' => {
-            LogPrefix => 'OTOBO-otobo.UnitTest',
-        },
-    );
-
-    # Provide $Self in the test script.
+    # Provide $main::Self in the test script.
     # $Self is primarily used for methods like $Self->Is() or $Self->True().
     $main::Self = $Kernel::OM->Get('Kernel::System::UnitTest::Driver');
 
     return;
-}
-
-END {
-
-    # trigger Kernel::System::UnitTest::Helper::DESTROY()
-    # perform cleanup actions, including some tests, in Kernel::System::UnitTest::Helper::DESTROY
-    $Kernel::OM->ObjectsDiscard(
-        Objects => ['Kernel::System::UnitTest::Helper'],
-    );
 }
 
 1;

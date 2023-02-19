@@ -26,7 +26,7 @@ use Test2::Tools::HTTP;
 use HTTP::Request::Common;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # This test checks whether the URLs / and /index.html work
 

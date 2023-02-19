@@ -25,7 +25,7 @@ use Test2::V0;
 use HTTP::Request::Common qw(GET);
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 # Get config object.
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');

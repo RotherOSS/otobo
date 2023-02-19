@@ -24,7 +24,7 @@ use v5.24;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::ObjectManager;
 
 my $ObjectManager = Kernel::System::ObjectManager->new();

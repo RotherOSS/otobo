@@ -27,7 +27,7 @@ use Test2::V0;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 
 pass('SOAP::Lite could be loaded');
 
