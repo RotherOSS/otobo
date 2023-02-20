@@ -107,7 +107,7 @@ sub Run {
                 Ticket => {
                     State => $Param{Config}->{State},
                 },
-                Action => ['AgentTicketClose', 'AgentTicketQuickClose'],
+                Action => [ 'AgentTicketClose', 'AgentTicketQuickClose' ],
             },
         };
     }

@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
+# package variables
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -107,6 +111,7 @@ $Selenium->RunTest(
             Element => '#Module',
             Value   => $TransitionActionModule,
         );
+
         # Editing Body field (which is the field with index 5)
         $Selenium->find_element(".//*[\@id='ConfigValue[5]']")->send_keys($TransitionActionValue);
         $Selenium->find_element( "#Submit", 'css' )->click();
@@ -205,6 +210,7 @@ $Selenium->RunTest(
             $TransitionActionModule,
             "#Module stored value",
         );
+
         # After saving and reopening, the field are sorted alphabetical, so field Body now is the field with index 1
         $Self->Is(
             $Selenium->find_element(".//*[\@id='ConfigKey[1]']")->get_value(),
@@ -240,6 +246,7 @@ $Selenium->RunTest(
 
         # Verify newly added fields.
         $Self->True(
+
             # Due to preconfigured rows, newly added field has index 14
             $Selenium->find_element(".//*[\@id='ConfigKey[14]']"),
             "New Config key field is added - JS is success"
@@ -260,11 +267,11 @@ $Selenium->RunTest(
             "New Config key and value fields are removed - JS is success"
         );
 
-        $DB::single = 1;
         # Edit test TransactionAction values.
         my $TransitionActionKeyEdit   = $TransitionActionKey . "edit";
         my $TransitionActionValueEdit = $TransitionActionValue . "edit";
         $Selenium->find_element( "#Name", 'css' )->send_keys("edit");
+
         # Edit current last field
         $Selenium->find_element(".//*[\@id='ConfigKey[13]']")->clear();
         $Selenium->find_element(".//*[\@id='ConfigKey[13]']")->send_keys($TransitionActionKeyEdit);
