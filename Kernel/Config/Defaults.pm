@@ -2074,6 +2074,35 @@ via the Preferences button after logging in.
     # Allow syscalls for the Dashboard
     #$Self->{'DashboardBackend::AllowCmdOutput'} = 1;
 
+
+    # ---------------------------------------------------- #
+    # These settings are for the S3 backend                #
+    # ---------------------------------------------------- #
+    #$Self->{'Storage::S3::Active'}         = 1;
+    #$Self->{'Storage::S3::Region'}         = 'eu-central-1';
+    #$Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-testing';
+    #$Self->{'Storage::S3::HomePrefix'}     = 'OTOBO';
+    #$Self->{'Storage::S3::AccessKey'}      = 'minio-otobo';
+    #$Self->{'Storage::S3::SecretKey'}      = 'minio-otobo'; # more than 8 chars
+    #$Self->{'Storage::S3::MetadataPrefix'} = 'x-amz-meta-';
+    #$Self->{'Storage::S3::Delimiter'}      = '/'; # do not change this, as OTOBO relies on the delimiter being '/'
+
+    ## Some settings are specific for localstack and MinIO.
+    #if ( 1 ) {
+
+    #    # MinIO
+    #    $Self->{'Storage::S3::Scheme'}                          = 'http';
+    #    $Self->{'Storage::S3::Host'}                            = 'minio:9000';
+    #    $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 0;
+    #}
+    #else {
+
+    #    # localstack
+    #    $Self->{'Storage::S3::Scheme'}                          = 'https';
+    #    $Self->{'Storage::S3::Host'}                            = 'localstack:4566';
+    #    $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 1;
+    #}
+
     return 1;
 }
 
