@@ -44,13 +44,13 @@ my $HelperObject = $Kernel::OM->Get('Kernel::System::UnitTest::Helper');
 my $RandomID     = $HelperObject->GetRandomID();
 FixedTimeSet();
 
-my $ConfigObject       = $Kernel::OM->Get('Kernel::Config');
-my $CustomerUserObject = $Kernel::OM->Get('Kernel::System::CustomerUser');
-my $UserObject         = $Kernel::OM->Get('Kernel::System::User');
-my $TicketObject       = $Kernel::OM->Get('Kernel::System::Ticket');
-my $ArticleObject      = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
-my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-my $BackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+my $CustomerUserObject   = $Kernel::OM->Get('Kernel::System::CustomerUser');
+my $UserObject           = $Kernel::OM->Get('Kernel::System::User');
+my $TicketObject         = $Kernel::OM->Get('Kernel::System::Ticket');
+my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article::Backend::Internal');
+my $DynamicFieldObject   = $Kernel::OM->Get('Kernel::System::DynamicField');
+my $DFBackendObject      = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
 my $WebserviceObject = $Kernel::OM->Get('Kernel::System::GenericInterface::Webservice');
 my $WebserviceID     = $WebserviceObject->WebserviceAdd(
@@ -156,7 +156,7 @@ my %Ticket = $TicketObject->TicketGet(
     UserID       => 1,
 );
 
-my $ArticleID = $ArticleObject->ArticleCreate(
+my $ArticleID = $ArticleBackendObject->ArticleCreate(
     TicketID             => $TicketID,
     IsVisibleForCustomer => 0,
     SenderType           => 'agent',
@@ -176,7 +176,7 @@ my $ArticleID = $ArticleObject->ArticleCreate(
         },
     ],
 );
-my %Article = $ArticleObject->ArticleGet(
+my %Article = $ArticleBackendObject->ArticleGet(
     TicketID     => $TicketID,
     ArticleID    => $ArticleID,
     DynamicField => 1,
@@ -1056,7 +1056,7 @@ for my $Test (@Tests) {
         );
     }
 
-    my $DynamicFieldSuccess = $BackendObject->ValueSet(
+    my $DynamicFieldSuccess = $DFBackendObject->ValueSet(
         DynamicFieldConfig => $DynamicFieldConfig,
         ObjectID           => $TicketID,
         Value              => "test",
@@ -1085,7 +1085,7 @@ for my $Test (@Tests) {
             'Attachment added to the upload cache.'
         );
 
-        my $AttachmentDynamicFieldSuccess = $BackendObject->ValueSet(
+        my $AttachmentDynamicFieldSuccess = $DFBackendObject->ValueSet(
             DynamicFieldConfig => $AttachmentDynamicFieldConfig,
             ObjectID           => $TicketID,
             Value              => {
