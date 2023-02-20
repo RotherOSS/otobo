@@ -72,7 +72,7 @@ Set to I<localhost:5000> for running the test scripts in the otobo_web_1 contain
 
 =item S3 specific settings
 
-S3 settings are disabled by default. They have to be enables manually if needed.
+S3 settings can be copied from _Kernel/Config/Defaults.pm_.
 
 =back
 
@@ -125,38 +125,8 @@ sub Load {
     $Self->{Home} = '/opt/otobo';
 
     # ---------------------------------------------------- #
-    # setting for running OTOBO under Docker, see the POD  #
+    # modified settings for running OTOBO under Docker     #
     # ---------------------------------------------------- #
-
-    # These settings are for the S3 backend.
-    if ( 0 ) {
-    #if ( 1 ) {
-        $Self->{'Storage::S3::Active'}         = 1;
-        $Self->{'Storage::S3::Region'}         = 'eu-central-1';
-        $Self->{'Storage::S3::Bucket'}         = 'otobo-bucket-20220907a';
-        $Self->{'Storage::S3::HomePrefix'}     = 'OTOBO';
-        $Self->{'Storage::S3::AccessKey'}      = 'minio-otobo';
-        $Self->{'Storage::S3::SecretKey'}      = 'minio-otobo'; # more than 8 chars
-        $Self->{'Storage::S3::MetadataPrefix'} = 'x-amz-meta-';
-        $Self->{'Storage::S3::Delimiter'}      = '/'; # do not change this, as OTOBO relies on the delimiter being '/'
-
-        # Some settings are specific for localstack and MinIO.
-        if ( 1 ) {
-
-            # MinIO
-            $Self->{'Storage::S3::Scheme'}                          = 'http';
-            $Self->{'Storage::S3::Host'}                            = 'minio:9000';
-            $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 0;
-        }
-        else {
-
-            # localstack
-            $Self->{'Storage::S3::Scheme'}                          = 'https';
-            $Self->{'Storage::S3::Host'}                            = 'localstack:4566';
-            $Self->{'Storage::S3::DeleteMultipleObjectIsSupported'} = 1;
-        }
-    }
-
     $Self->{'LogModule'}                   = 'Kernel::System::Log::File';
     $Self->{'LogModule::LogFile'}          = '/opt/otobo/var/log/otobo.log';
     $Self->{'Cache::Module'}               = 'Kernel::System::Cache::Redis';
