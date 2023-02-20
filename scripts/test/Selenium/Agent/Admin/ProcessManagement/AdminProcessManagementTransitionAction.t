@@ -20,7 +20,7 @@ use utf8;
 
 # core modules
 
-# CPAM modules
+# CPAN modules
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self and $Kernel::OM
