@@ -788,36 +788,6 @@ sub Run {
         }
     }
 
-    # return if HTML email
-    if ( $Self->{Subaction} eq 'ShowHTMLeMail' ) {
-
-        # check needed ArticleID
-        if ( !$Self->{ArticleID} ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Need ArticleID!') );
-        }
-
-        # get article data
-        my %Article = $ArticleObject->ArticleGet(
-            TicketID      => $Self->{TicketID},
-            ArticleID     => $Self->{ArticleID},
-            DynamicFields => 0,
-        );
-
-        # check if article data exists
-        if ( !%Article ) {
-            return $LayoutObject->ErrorScreen( Message => Translatable('Invalid ArticleID!') );
-        }
-
-        # if it is a HTML email, return here
-        return $LayoutObject->Attachment(
-            Filename => $ConfigObject->Get('Ticket::Hook')
-                . "-$Article{TicketNumber}-$Article{TicketID}-$Article{ArticleID}",
-            Type        => 'inline',
-            ContentType => "$Article{MimeType}; charset=$Article{Charset}",
-            Content     => $Article{Body},
-        );
-    }
-
     # generate output
     my $Output = $LayoutObject->Header(
         Value    => $Ticket{TicketNumber},
@@ -829,6 +799,7 @@ sub Run {
         AclAction => \%AclAction
     );
     $Output .= $LayoutObject->Footer();
+
     return $Output;
 }
 
