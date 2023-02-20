@@ -18,12 +18,16 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAM modules
 
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self and $Kernel::OM
 use Kernel::System::VariableCheck qw(:all);
+
+# package variables
+our $Self;
 
 # get needed objects
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -198,7 +202,7 @@ my $CheckACLs = sub {
         %AclAction = $TicketObject->TicketAclActionData();
     }
 
-    my @BlackListedActions = ('AgentTicketClose', 'AgentTicketQuickClose');
+    my @BlackListedActions = ( 'AgentTicketClose', 'AgentTicketQuickClose' );
 
     for my $ActionCounter ( sort keys %PossibleActions ) {
         if ( ( grep { $_ eq $PossibleActions{$ActionCounter} } @BlackListedActions ) && $Param{Success} ) {
