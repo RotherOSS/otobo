@@ -18,13 +18,17 @@ use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAM modules
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up the test driver $main::Self and $Kernel::OM
 use Kernel::System::UnitTest::Selenium;
+
+# package variables
+our $Self;
+
 my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
@@ -260,7 +264,6 @@ $Selenium->RunTest(
             "New Config key and value fields are removed - JS is success"
         );
 
-        $DB::single = 1;
         # Edit test TransactionAction values.
         my $TransitionActionKeyEdit   = $TransitionActionKey . "edit";
         my $TransitionActionValueEdit = $TransitionActionValue . "edit";
