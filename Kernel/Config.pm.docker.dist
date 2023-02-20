@@ -38,8 +38,11 @@ file. For changes do customer data sources you can copy the definitions
 from F<Kernel/Config/Defaults.pm> and paste them into this file.
 The file F<Kernel/Config.pm> will not be overwritten when updating OTOBO.
 
-This specific F<Kernel/Config.pm> originated from F<scripts/docker/Config.pm.dist>.
-That dist file contains some settings specific to OTOBO under Docker.
+=head2 Specifics for running OTOBO under Docker.
+
+This Docker specific F<Kernel/Config.pm> originated from the dist file
+F<scripts/docker/Config.pm.docker.dist>.
+That dist file changes or adds some settings that are specific to running OTOBO under Docker.
 
 =over 4
 
@@ -47,6 +50,11 @@ That dist file contains some settings specific to OTOBO under Docker.
 
 The setting is I<db> instead of I<127.0.0.1>. This is because under Docker
 the MySQL database is running in a separate container.
+
+=item DatabasePw
+
+A different default password is used in the Docker case, as that potential
+mixups with a database running on the Docker host are less likely.
 
 =item LogModule and LogModule::LogFile
 
@@ -70,9 +78,9 @@ S3 settings are disabled by default. They have to be enables manually if needed.
 
 =cut
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 sub Load {
@@ -157,7 +165,9 @@ sub Load {
     $Self->{'Cache::Redis'}->{'Server'}    = 'redis:6379';
     $Self->{'TestHTTPHostname'}            = 'web:5000';
 
-    # activate Selenium tests if the the host is available
+    # ---------------------------------------------------- #
+    # activate Selenium tests if the the host is available #
+    # ---------------------------------------------------- #
     $Self->{'SeleniumTestsConfig'} = {
         remote_server_addr  => 'selenium-chrome',
         check_server_addr   => 1,                 # skip test when remote_server_addr can't be resolved via DNS
