@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
-"POT-Creation-Date: 2022-08-18 11:39+0000\n"
+"POT-Creation-Date: 2022-12-20 16:14+0000\n"
 "PO-Revision-Date: 2021-03-10 18:28+0000\n"
 "Last-Translator: helabasa <R45XvezA@pm.me>\n"
 "Language-Team: Sinhala <https://translate.otobo.org/projects/otobo10/otobo/"
@@ -4699,7 +4699,7 @@ msgid "Links"
 msgstr ""
 
 #. Template: AdminNavigationBar
-msgid "View the admin manual on Github"
+msgid "View the admin manual"
 msgstr ""
 
 #. Template: AdminNavigationBar
@@ -27758,8 +27758,8 @@ msgid ""
 "permissions are needed, they can be entered here. Permissions must be "
 "defined to be effective. Some other good permissions have also been provided "
 "built-in: note, close, pending, customer, freetext, move, compose, "
-"responsible, forward, and bounce. Make sure that \"rw\" is always the last "
-"registered permission."
+"responsible, forward and bounce. Make sure that \"rw\" is always the last "
+"registered permission, as rw automatically grants all additional permissions."
 msgstr ""
 
 #. SysConfig

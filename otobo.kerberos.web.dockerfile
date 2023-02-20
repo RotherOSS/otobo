@@ -61,7 +61,7 @@ ENV LANG C.UTF-8
 # Clean up the .cpanm dir after the installation tasks as that dir is no longer needed
 # and the unpacked Perl distributions sometimes have weird user and group IDs.
 WORKDIR /opt/otobo_install
-COPY cpanfile.docker cpanfile
+COPY cpanfile.docker.kerberos cpanfile
 ENV PERL5LIB "/opt/otobo_install/local/lib/perl5"
 ENV PATH "/opt/otobo_install/local/bin:${PATH}"
 RUN cpanm --local-lib local Carton \

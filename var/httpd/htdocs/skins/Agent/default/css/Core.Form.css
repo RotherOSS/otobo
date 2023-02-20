@@ -774,7 +774,7 @@ body.RealPopup.RTL fieldset.TableLike > .RichTextField {
 fieldset.TableLike > .Value,
 fieldset.TableLike > .Row > .Value {
     margin-left: 30%;
-    padding: 5px 0 3px 8px;
+    padding: 0.3em 0 1px 8px;
     line-height: 1.9em;
 }
 
