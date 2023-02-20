@@ -422,8 +422,6 @@ for my $Test (@Tests) {
                     }
                     else {    # PATCH, PUT
 
-                        $DB::single = 1;
-
                         # LWP::UserAgent has no patch() or put() method, use the generic method request()
                         # The Content-Type has to be set, so that the body will be parsed.
                         my $Request = HTTP::Request->new(
