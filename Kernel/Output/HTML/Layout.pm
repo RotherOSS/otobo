@@ -2651,50 +2651,6 @@ sub Permission {
     return 0;
 }
 
-sub CheckMimeType {
-    my ( $Self, %Param ) = @_;
-
-    if ( !$Param{Action} ) {
-        $Param{Action} = '[% Env("Action") %]';
-    }
-
-    # check if it is a text/plain email
-    if ( $Param{MimeType} && $Param{MimeType} !~ /text\/plain/i ) {
-        return '<p><i class="small">'
-            . $Self->{LanguageObject}->Translate("This is a")
-            . " $Param{MimeType} "
-            . $Self->{LanguageObject}->Translate("email")
-            . ', <a href="'
-            . $Self->{Baselink}
-            . "Action=$Param{Action};TicketID="
-            . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
-            . 'target="HTMLeMail">'
-            . $Self->{LanguageObject}->Translate("click here")
-            . '</a> '
-            . $Self->{LanguageObject}->Translate("to open it in a new window.")
-            . '</i></p>';
-    }
-
-    # just to be compat
-    elsif ( $Param{Body} =~ /^<.DOCTYPE\s+html|^<HTML>/i ) {
-        return '<p><i class="small">'
-            . $Self->{LanguageObject}->Translate("This is a")
-            . " $Param{MimeType} "
-            . $Self->{LanguageObject}->Translate("email")
-            . ', <a href="'
-            . $Self->{Baselink}
-            . 'Action=$Param{Action};TicketID='
-            . "$Param{TicketID};ArticleID=$Param{ArticleID};Subaction=ShowHTMLeMail\" "
-            . 'target="HTMLeMail">'
-            . $Self->{LanguageObject}->Translate("click here")
-            . '</a> '
-            . $Self->{LanguageObject}->Translate("to open it in a new window.")
-            . '</i></p>';
-    }
-
-    return '';
-}
-
 sub ReturnValue {
     my ( $Self, $What ) = @_;
 
