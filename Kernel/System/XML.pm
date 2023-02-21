@@ -15,7 +15,6 @@
 # --
 
 package Kernel::System::XML;
-## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
 use v5.24;
 use strict;
@@ -23,6 +22,7 @@ use warnings;
 
 # core modules
 use Digest::MD5;
+use XML::Parser;
 
 # CPAN modules
 
@@ -49,8 +49,7 @@ does not necessarily have to be resulted from parsing XML.
 
 =head1 TECHNICAL DETAILS
 
-Internally this module uses <XML::Parser> or <XML::Parser::Lite>,
-both of which are based on the parser B<expat>.
+Internally this module uses C<XML::Parser> which is based on the ancient XML parser B<expat>.
 
 =head2 LIMITATIONS
 
@@ -139,10 +138,7 @@ sub new {
     my ( $Type, %Param ) = @_;
 
     # allocate new hash for object
-    my $Self = {};
-    bless( $Self, $Type );
-
-    return $Self;
+    return bless {}, $Type;
 }
 
 =head2 XMLHashAdd()
@@ -896,9 +892,7 @@ sub XMLParse {
     }
 
     # load parse package and parse
-    my $UseFallback = 1;
-
-    if ( eval 'require XML::Parser' ) {    ## no critic qw(BuiltinFunctions::ProhibitStringyEval)
+    {
         my $Parser = XML::Parser->new(
             Handlers => {
                 Start     => sub { $Self->_HS(@_); },
@@ -913,7 +907,6 @@ sub XMLParse {
         my $Sourcename = $Param{Sourcename} ? "\n\n($Param{Sourcename})" : '';
 
         if ( eval { $Parser->parse( $Param{String} ) } ) {
-            $UseFallback = 0;
 
             # remember, XML::Parser is managing e. g. &amp; by it self
             $Self->{XMLQuote} = 0;
@@ -925,31 +918,13 @@ sub XMLParse {
             );
             $Kernel::OM->Get('Kernel::System::Log')->Log(
                 Priority => 'error',
-                Message  =>
-                    "XML::Parser had errors, falling back to XML::Parser::Lite. Offending XML was: $Param{String}",
+                Message  => "XML::Parser had errors. Offending XML was: $Param{String}",
             );
         }
     }
 
-    if ($UseFallback) {
-        require XML::Parser::Lite;
-
-        my $Parser = XML::Parser::Lite->new(
-            Handlers => {
-                Start     => sub { $Self->_HS(@_); },
-                End       => sub { $Self->_ES(@_); },
-                Char      => sub { $Self->_CS(@_); },
-                ExternEnt => sub { return '' },         # suppress loading of external entities
-            },
-        );
-        $Parser->parse( $Param{String} );
-
-        # remember, XML::Parser::Lite is managing e. g. &amp; NOT by it self
-        $Self->{XMLQuote} = 1;
-    }
-
     # quote
-    for my $XMLElement ( @{ $Self->{XMLARRAY} } ) {
+    for my $XMLElement ( $Self->{XMLARRAY}->@* ) {
         $Self->_Decode($XMLElement);
     }
 
@@ -967,7 +942,7 @@ sub XMLParse {
         );
     }
 
-    return @{ $Self->{XMLARRAY} };
+    return $Self->{XMLARRAY}->@*;
 }
 
 =begin Internal:
