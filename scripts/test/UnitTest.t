@@ -27,7 +27,7 @@ use Test2::API qw(intercept);
 
 # OTOBO modules
 use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
-use Kernel::System::UnitTest;
+use Kernel::System::UnitTest::Driver;
 
 # Testing Kernel::System::UnitTest::Driver.
 # See https://metacpan.org/pod/Test2::Manual::Tooling::Testing.
