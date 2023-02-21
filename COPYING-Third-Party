@@ -135,10 +135,6 @@ o Name:    CPAN XML::TreePP
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
   Note:    # Copyright (c) 2006-2009 Yusuke Kawasaki.
 
-o Name:    CPAN XML::Parser::Lite
-  Web:     n/a
-  License: GNU v2 - http://www.gnu.org/licenses/gpl.html
-
 o Name:    CPAN JSON::PP
   Web:     n/a
   License: GNU v2 - http://www.gnu.org/licenses/gpl.html
