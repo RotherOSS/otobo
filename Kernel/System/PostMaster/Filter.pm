@@ -187,10 +187,36 @@ sub FilterDelete {
 
 =head2 FilterGet()
 
-get filter properties, returns HASH ref Match and Set
+gets filter properties.
 
-    my %Data = $PMFilterObject->FilterGet(
+    my %Filter = $PMFilterObject->FilterGet(
         Name => '132',
+    );
+
+Returns a hash with the keys Match, Set, and Not.
+
+    %Filter = (
+        Match = [
+            {
+                Key   => 'Subject',
+                Value => '^ADV: 123',
+            },
+            ...
+        ],
+        Not = [
+            {
+                Key   => 'Subject',
+                Value => '1',
+            },
+            ...
+        ],
+        Set = [
+            {
+                Key   => 'X-OTOBO-Queue',
+                Value => 'Some::Queue',
+            },
+            ...
+        ],
     );
 
 =cut
@@ -205,6 +231,7 @@ sub FilterGet {
                 Priority => 'error',
                 Message  => "Need $_!"
             );
+
             return;
         }
     }
