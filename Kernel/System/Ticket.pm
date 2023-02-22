@@ -282,9 +282,11 @@ sub TicketCreateNumber {
 
 =head2 GetTNByString()
 
-creates a new ticket number
+extracts a valid ticket number from the passed string.
 
     my $TicketNumber = $TicketObject->GetTNByString($Subject);
+
+There is no check whether the extracted ticket number actually exists.
 
 =cut
 
