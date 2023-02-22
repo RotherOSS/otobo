@@ -1222,4 +1222,141 @@ else {
     );
 }
 
+# testing XMLParse
+{
+    my @Cases = (
+        {
+            XML => <<'END_XML',
+<Test1 Name="name for Test1" />
+END_XML
+            XMLArray =>
+                [
+                    {
+                        'Tag'          => 'Test1',
+                        'TagLevel'     => '1',
+                        'TagType'      => 'Start',
+                        'Name'         => 'name for Test1',
+                        'TagLastLevel' => undef,
+                        'Content'      => undef,
+                        'TagCount'     => '1'
+                    },
+                    {
+                        'TagLevel' => '1',
+                        'Tag'      => 'Test1',
+                        'TagCount' => '2',
+                        'TagType'  => 'End'
+                    }
+                ],
+            Description => 'basic, without content'
+        },
+        {
+            XML => <<'END_XML',
+<Test2 Name="name for Test2">Content for Test2</Test2>
+END_XML
+            XMLArray =>
+                [
+                    {
+                        'Tag'          => 'Test2',
+                        'TagLevel'     => '1',
+                        'TagType'      => 'Start',
+                        'Name'         => 'name for Test2',
+                        'TagLastLevel' => undef,
+                        'Content'      => 'Content for Test2',
+                        'TagCount'     => '1'
+                    },
+                    {
+                        'TagLevel' => '1',
+                        'Tag'      => 'Test2',
+                        'TagCount' => '2',
+                        'TagType'  => 'End'
+                    }
+                ],
+            Description => 'basic, with content'
+        },
+        {
+            XML => <<'END_XML',
+<Level1 Name="name for Level1">
+    <Level2 Name="name for Level2a">Content for Level2a</Level2>
+    <Level2 Name="name for Level2b">Content for Level2b</Level2>
+    <Level2 Name="name for Level2c">Content for Level2c</Level2>
+</Level1>
+END_XML
+            XMLArray =>
+                [
+                    {
+                        'Content'      => "\n    ",
+                        'Name'         => 'name for Level1',
+                        'Tag'          => 'Level1',
+                        'TagCount'     => 1,
+                        'TagLastLevel' => undef,
+                        'TagLevel'     => 1,
+                        'TagType'      => 'Start'
+                    },
+                    {
+                        'Content'      => 'Content for Level2a',
+                        'Name'         => 'name for Level2a',
+                        'Tag'          => 'Level2',
+                        'TagCount'     => 2,
+                        'TagLastLevel' => 'Level1',
+                        'TagLevel'     => 2,
+                        'TagType'      => 'Start'
+                    },
+                    {
+                        'Tag'      => 'Level2',
+                        'TagCount' => 3,
+                        'TagLevel' => 2,
+                        'TagType'  => 'End'
+                    },
+                    {
+                        'Content'      => 'Content for Level2b',
+                        'Name'         => 'name for Level2b',
+                        'Tag'          => 'Level2',
+                        'TagCount'     => 4,
+                        'TagLastLevel' => 'Level1',
+                        'TagLevel'     => 2,
+                        'TagType'      => 'Start'
+                    },
+                    {
+                        'Tag'      => 'Level2',
+                        'TagCount' => 5,
+                        'TagLevel' => 2,
+                        'TagType'  => 'End'
+                    },
+                    {
+                        'Content'      => 'Content for Level2c',
+                        'Name'         => 'name for Level2c',
+                        'Tag'          => 'Level2',
+                        'TagCount'     => 6,
+                        'TagLastLevel' => 'Level1',
+                        'TagLevel'     => 2,
+                        'TagType'      => 'Start'
+                    },
+                    {
+                        'Tag'      => 'Level2',
+                        'TagCount' => 7,
+                        'TagLevel' => 2,
+                        'TagType'  => 'End'
+                    },
+                    {
+                        'Tag'      => 'Level1',
+                        'TagCount' => 8,
+                        'TagLevel' => 1,
+                        'TagType'  => 'End'
+                    }
+                ],
+            Description => 'single nesting level'
+        },
+    );
+
+    for my $Case (@Cases) {
+
+        my @ParsedXML = $XMLObject->XMLParse( String => $Case->{XML} );
+        is(
+            \@ParsedXML,
+            $Case->{XMLArray},
+            $Case->{Description},
+        );
+    }
+}
+
 done_testing;
