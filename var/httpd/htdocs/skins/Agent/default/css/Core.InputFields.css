@@ -35,6 +35,12 @@ div.InputField_InputContainer {
     line-height: 11px;
 }
 
+div.InputField_InputContainer .fa-close {
+    color: #ffffff;
+    height: 10px;
+    vertical-align: top;
+}
+
 .InputField_Search::-ms-clear {
     display: none;
     width : 0;
