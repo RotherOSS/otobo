@@ -25,7 +25,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 @media only screen and (max-width: 479px) {
 
-    #oooSanMiguel,
+    #oooCopyright,
     #ooo > a {
         display: none;
     }
@@ -60,7 +60,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     fill: var(--colTextLight);
 }
 
-#oooSanMiguel {
+#oooCopyright {
     justify-self: left;
     white-space: nowrap;
 }
@@ -74,6 +74,10 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     white-space: nowrap;
 }
 
+#oooCopyright > p {
+    padding-right: 10px;
+}
+
 /* IE */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
 
@@ -83,7 +87,7 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
         -ms-grid-rows: 100%;
     }
 
-    #oooSanMiguel {
+    #oooCopyright {
         -ms-grid-column-align: start;
         -ms-grid-row-align: center;
     }
