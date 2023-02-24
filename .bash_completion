@@ -29,7 +29,7 @@ if [ -L $THIS_FILE ]; then
     THIS_FILE=`readlink $THIS_FILE`;
 fi
 
-# Remove : from wordbreak delimiter because OTRS uses it in the command names
+# Remove : from wordbreak delimiter because OTOBO uses it in the command names
 COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
 
 # Configure bash completion
