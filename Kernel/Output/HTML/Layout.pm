@@ -2397,6 +2397,7 @@ sub CustomerAge {
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
     my $Age       = defined( $Param{Age} ) ? $Param{Age} : return;
+    my $CreatedAt = $Param{CreatedAt} || '';
     my $Space     = $Param{Space} || '<br/>';
     my $AgeStrg   = '';
     my $DayDsc    = Translatable('d');
@@ -2410,6 +2411,19 @@ sub CustomerAge {
     if ( $Age =~ /^-(.*)/ ) {
         $Age     = $1;
         $AgeStrg = '-';
+    }
+
+    if ( $Param{CreatedAt} && $ConfigObject->Get('TimeShowCreatedAt') && $Age >= 86400 ) {
+
+        my $CreatedAtDateTimeObject = $Kernel::OM->Create(
+            'Kernel::System::DateTime',
+            ObjectParams => {
+                String => $Param{CreatedAt},
+            },
+        );
+
+        return $CreatedAtDateTimeObject->ToString();
+
     }
 
     # get days

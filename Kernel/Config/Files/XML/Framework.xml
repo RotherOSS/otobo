@@ -8880,6 +8880,13 @@ via the Preferences button after logging in.
             <Item ValueType="Checkbox">0</Item>
         </Value>
     </Setting>
+    <Setting Name="TimeShowCreatedAt" Required="0" Valid="1">
+        <Description Translatable="1">Shows creation date instead of age if ticket is older than 24 hours.</Description>
+        <Navigation>Core::Time</Navigation>
+        <Value>
+            <Item ValueType="Checkbox">0</Item>
+        </Value>
+    </Setting>
     <Setting Name="AdminCustomerUser::RunInitialWildcardSearch" Required="1" Valid="1">
         <Description Translatable="1">Runs an initial wildcard search of the existing customer users when accessing the AdminCustomerUser module.</Description>
         <Navigation>Frontend::Admin::View::CustomerUser</Navigation>
