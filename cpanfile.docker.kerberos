@@ -1,6 +1,4 @@
-# Do not change this file manually except if you want to invalidate the cache just in the GitHub CI workflow.
-# Instead adapt bin/otobo.CheckModules.pl and call
-#    ./bin/otobo.CheckModules.pl --docker-cpanfile > cpanfile.docker
+# This file is derived from cpanfile.docker.
 
 # Required for REST and SOAP Kerberos Auth
 requires 'Authen::Krb5::Simple';
@@ -16,9 +14,6 @@ requires 'Date::Format';
 requires 'DateTime', ">= 1.08";
 
 requires 'Convert::BinHex';
-
-# Adapt CGI.pm to the PSGI protocol
-requires 'CGI::PSGI';
 
 requires 'DBI';
 
@@ -102,7 +97,8 @@ requires 'Const::Fast';
 
 # feature 'db:mysql', 'Support for database MySQL' => sub {
     # Required to connect to a MySQL database.
-    requires 'DBD::mysql';
+    # Version 4.042 not supported: This version had encoding related issues. Version 4.043 was a rollback to 4.0.41
+    requires 'DBD::mysql', ">= 4.00, != 4.042";
 
 # };
 
@@ -125,6 +121,15 @@ requires 'Const::Fast';
 # feature 'db:sqlite', 'Support for database SQLLite' => sub {
     # Required to connect to a SQLite database.
     requires 'DBD::SQLite';
+
+# };
+
+# feature 'devel:debugging', 'Features which can be useful in development environments' => sub {
+    # nicer formatting when dumping data structures
+    requires 'Data::Dump', ">= 1.25";
+
+    # convenient and informative dumping data structures
+    requires 'Data::Dx', ">= 0.000010";
 
 # };
 
@@ -174,9 +179,6 @@ requires 'Const::Fast';
 # };
 
 # Feature 'div:ssl' is not needed for Docker
-
-
-# Feature 'div:xmlparser' is not needed for Docker
 
 
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {

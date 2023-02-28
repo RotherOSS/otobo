@@ -193,12 +193,6 @@ feature 'div:ssl', 'Support for feature div:ssl' => sub {
 
 };
 
-feature 'div:xmlparser', 'Support for feature div:xmlparser' => sub {
-    # Recommended for XML processing.
-    requires 'XML::Parser';
-
-};
-
 feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
@@ -325,9 +319,6 @@ feature 'optional', 'Support for feature optional' => sub {
 
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
-
-    # Recommended for XML processing.
-    requires 'XML::Parser';
 
     # nicer formatting when dumping data structures
     requires 'Data::Dump', ">= 1.25";
