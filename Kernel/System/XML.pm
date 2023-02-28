@@ -1590,12 +1590,6 @@ sub _HS {
     # remember old level
     $Self->{Tll} = $Self->{XMLLevel};
 
-    my $Key = '';
-    for ( 1 .. ( $Self->{XMLLevel} ) ) {
-        $Key .= "{'$Self->{XMLLevelTag}->{$_}'}";
-        $Key .= "[" . $Self->{XMLLevelCount}->{$_}->{ $Self->{XMLLevelTag}->{$_} } . "]";
-    }
-
     $Self->{LastTag} = {
         %Attr,
         TagType      => 'Start',
