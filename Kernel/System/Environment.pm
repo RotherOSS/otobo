@@ -298,8 +298,9 @@ sub PerlInfoGet {
             Text::CSV
             Text::Diff
             Type::Tiny
-            YAML
             URI
+            XML::Simple
+            YAML
             );
         $EnvPerl{Modules} = \%ModuleToVersion;
     }
