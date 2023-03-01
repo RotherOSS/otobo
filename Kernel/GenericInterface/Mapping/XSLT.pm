@@ -124,7 +124,6 @@ sub Map {
 
     # Check included data - only accept undef or hash ref.
     if ( defined $Param{DataInclude} && !IsHashRefWithData( $Param{DataInclude} ) ) {
-
         return $Self->{DebuggerObject}->Error(
             Summary => 'Got DataInclude but it is not a hash ref in Mapping XSLT backend!'
         );
@@ -153,6 +152,7 @@ sub Map {
     LIBREQUIRED:
     for my $LibRequired (qw(XML::LibXML XML::LibXSLT)) {
         my $LibFound = $Kernel::OM->Get('Kernel::System::Main')->Require($LibRequired);
+
         next LIBREQUIRED if $LibFound;
 
         return $Self->{DebuggerObject}->Error(
@@ -215,14 +215,6 @@ sub Map {
         $Param{Data} = $MergedData;
     }
 
-    # Note: XML::Simple was chosen over alternatives like XML::LibXML and XML::Dumper
-    #   due to its simplicity and because we just require a straightforward conversion.
-    # Other modules provide more possibilities but don't allow directly exporting a complete
-    #   and clean structure.
-    # Reference:
-    #   http://www.perlmonks.org/?node_id=490846
-    #   http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
-
     # XSTL regex recursion.
     if ( IsArrayRefWithData( $Config->{PreRegExFilter} ) ) {
         $Self->_RegExRecursion(
@@ -235,12 +227,22 @@ sub Map {
         );
     }
 
-    # Convert data to xml structure.
+    # Convert data to XML string.
+    #
+    # Note: XML::Simple was chosen over alternatives like XML::LibXML and XML::Dumper
+    #   due to its simplicity and because we just require a straightforward conversion.
+    #   Internally XML::LibXML::SAX is used for parsing XML, there is no dependency
+    #   on XML::Parser and expat.
+    #   Other modules provide more possibilities but don't allow directly exporting a complete
+    #   and clean structure.
+    # Reference:
+    #   http://www.perlmonks.org/?node_id=490846
+    #   http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
     $Kernel::OM->Get('Kernel::System::Main')->Require('XML::Simple');
-    my $XMLSimple = XML::Simple->new();
-    my $XMLPre;
-    eval {
-        $XMLPre = $XMLSimple->XMLout(
+
+    my $XMLSimple = XML::Simple->new;
+    my $XMLPre    = eval {
+        $XMLSimple->XMLout(
             $Param{Data},
             AttrIndent => 1,
             ContentKey => '-content',
@@ -257,9 +259,8 @@ sub Map {
     }
 
     # Transform xml data.
-    my ( $XMLSource, $Result );
-    eval {
-        $XMLSource = XML::LibXML->load_xml(
+    my $XMLSource = eval {
+        XML::LibXML->load_xml(
             string   => $XMLPre,
             no_cdata => 1,
         );
@@ -270,8 +271,8 @@ sub Map {
             Data    => $XMLPre,
         );
     }
-    eval {
-        $Result = $StyleSheet->transform($XMLSource);
+    my $Result = eval {
+        $StyleSheet->transform($XMLSource);
     };
     if ( !$Result ) {
         return $Self->{DebuggerObject}->Error(
@@ -286,10 +287,9 @@ sub Map {
         );
     }
 
-    # Convert data back to perl structure.
-    my $ReturnData;
-    eval {
-        $ReturnData = $XMLSimple->XMLin(
+    # Convert data back to Perl structure.
+    my $ReturnData = eval {
+        $XMLSimple->XMLin(
             $XMLPost,
             ForceArray => 0,
             ContentKey => '-content',
