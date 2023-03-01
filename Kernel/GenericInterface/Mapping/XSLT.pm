@@ -240,6 +240,11 @@ sub Map {
     #   http://stackoverflow.com/questions/12182129/convert-string-to-hash-using-libxml-in-perl
     $Kernel::OM->Get('Kernel::System::Main')->Require('XML::Simple');
 
+    # Set the preferred parser for XML::Simple.
+    #   Override the default XML::Sax::Expat which is based on XML::Parser, which is based on expat.
+    #   Override potential settings in $ENV{XML_SIMPLE_PREFERRED_PARSER}.
+    local $XML::Simple::PREFERRED_PARSER = 'XML::LibXML::SAX::Parser';
+
     my $XMLSimple = XML::Simple->new;
     my $XMLPre    = eval {
         $XMLSimple->XMLout(
