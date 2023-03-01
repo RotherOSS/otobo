@@ -22,9 +22,10 @@ use warnings;
 
 # core modules
 use Digest::MD5;
-use XML::Parser;
 
 # CPAN modules
+use XML::LibXML;
+use XML::LibXML::SAX::Parser;
 
 # OTOBO modules
 
@@ -49,7 +50,7 @@ does not necessarily have to be resulted from parsing XML.
 
 =head1 TECHNICAL DETAILS
 
-Internally this module uses C<XML::Parser> which is based on the ancient XML parser B<expat>.
+Internally this module uses C<XML::LibXML> which is based on the library C<libxml2>.
 
 =head2 LIMITATIONS
 
@@ -135,7 +136,7 @@ Don't use the constructor directly, use the ObjectManager instead:
 =cut
 
 sub new {
-    my ( $Type, %Param ) = @_;
+    my ($Type) = @_;
 
     # allocate new hash for object
     return bless {}, $Type;
@@ -748,8 +749,7 @@ sub XMLHash2D {
         return;
     }
 
-    $Self->{XMLLevel}      = 0;
-    $Self->{XMLTagCount}   = 0;
+    $Self->{XMLLevel}      = 0;    # used in _XMLHash2D()
     $Self->{XMLHash}       = {};
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
@@ -795,7 +795,6 @@ sub XMLStructure2XMLHash {
     }
 
     $Self->{Tll}           = 0;
-    $Self->{XMLTagCount}   = 0;
     $Self->{XMLHash2}      = {};
     $Self->{XMLHashReturn} = 1;
     undef $Self->{XMLLevelTag};
@@ -870,10 +869,7 @@ sub XMLParse {
         return @{$Cache} if $Cache;
     }
 
-    # cleanup global vars
-    undef $Self->{XMLARRAY};
-    $Self->{XMLLevel}    = 0;
-    $Self->{XMLTagCount} = 0;
+    # clean up global vars
     undef $Self->{XMLLevelTag};
     undef $Self->{XMLLevelCount};
 
@@ -891,40 +887,17 @@ sub XMLParse {
         }
     }
 
-    # load parse package and parse
+    my @XMLArray;
     {
-        my $Parser = XML::Parser->new(
-            Handlers => {
-                Start     => sub { $Self->_HS(@_); },
-                End       => sub { $Self->_ES(@_); },
-                Char      => sub { $Self->_CS(@_); },
-                ExternEnt => sub { return '' },         # suppress loading of external entities
-            },
-        );
-
-        # get sourcename now to avoid a possible race condition where
-        # $@ could get altered after a failing eval!
-        my $Sourcename = $Param{Sourcename} ? "\n\n($Param{Sourcename})" : '';
-
-        if ( eval { $Parser->parse( $Param{String} ) } ) {
-
-            # remember, XML::Parser is managing e. g. &amp; by it self
-            $Self->{XMLQuote} = 0;
-        }
-        else {
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "C-Parser: $@!$Sourcename"
-            );
-            $Kernel::OM->Get('Kernel::System::Log')->Log(
-                Priority => 'error',
-                Message  => "XML::Parser had errors. Offending XML was: $Param{String}",
-            );
-        }
+        my $SaxHandler = Kernel::System::XML::SAXHandler->new;
+        my $Document   = XML::LibXML->new->parse_string( $Param{String} );
+        my $Generator  = XML::LibXML::SAX::Parser->new( Handler => $SaxHandler );
+        $Generator->generate($Document);
+        @XMLArray = $SaxHandler->{XMLARRAY}->@*;
     }
 
     # quote
-    for my $XMLElement ( $Self->{XMLARRAY}->@* ) {
+    for my $XMLElement (@XMLArray) {
         $Self->_Decode($XMLElement);
     }
 
@@ -936,13 +909,13 @@ sub XMLParse {
         $CacheObject->Set(
             Type          => 'XMLParse',
             Key           => $Checksum,
-            Value         => $Self->{XMLARRAY},
+            Value         => \@XMLArray,
             TTL           => 30 * 24 * 60 * 60,
             CacheInMemory => 0,
         );
     }
 
-    return $Self->{XMLARRAY}->@*;
+    return @XMLArray;
 }
 
 =begin Internal:
@@ -1075,7 +1048,6 @@ sub _XMLHash2D {
 
     if ( ref $Param{Item} eq 'HASH' ) {
         $Self->{XMLLevel}++;
-        $Self->{XMLTagCount}++;
         $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Param{Key};
         if ( $Self->{Tll} && $Self->{Tll} > $Self->{XMLLevel} ) {
             for ( ( $Self->{XMLLevel} + 1 ) .. 30 ) {
@@ -1133,7 +1105,6 @@ sub _XMLStructure2XMLHash {
         if ( $Param{Item}->{TagType} eq 'End' ) {
             return '';
         }
-        $Self->{XMLTagCount}++;
         $Self->{XMLLevelTag}->{ $Param{Item}->{TagLevel} } = $Param{Key};
         if ( $Self->{Tll} && $Self->{Tll} > $Param{Item}->{TagLevel} ) {
             for ( ( $Param{Item}->{TagLevel} + 1 ) .. 30 ) {
@@ -1565,88 +1536,89 @@ sub _Decode {
     return 1;
 }
 
-sub _HS {
-    my ( $Self, $Expat, $Element, %Attr ) = @_;
-
-    if ( $Self->{LastTag} ) {
-        push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
-    }
-
-    undef $Self->{LastTag};
-    undef $Self->{C};
-
-    $Self->{XMLLevel}++;
-    $Self->{XMLTagCount}++;
-    $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Element;
-
-    if ( $Self->{Tll} && $Self->{Tll} > $Self->{XMLLevel} ) {
-        for ( ( $Self->{XMLLevel} + 1 ) .. 30 ) {
-            undef $Self->{XMLLevelCount}->{$_};
-        }
-    }
-
-    $Self->{XMLLevelCount}->{ $Self->{XMLLevel} }->{$Element}++;
-
-    # remember old level
-    $Self->{Tll} = $Self->{XMLLevel};
-
-    my $Key = '';
-    for ( 1 .. ( $Self->{XMLLevel} ) ) {
-        $Key .= "{'$Self->{XMLLevelTag}->{$_}'}";
-        $Key .= "[" . $Self->{XMLLevelCount}->{$_}->{ $Self->{XMLLevelTag}->{$_} } . "]";
-    }
-
-    $Self->{LastTag} = {
-        %Attr,
-        TagType      => 'Start',
-        Tag          => $Element,
-        TagLevel     => $Self->{XMLLevel},
-        TagCount     => $Self->{XMLTagCount},
-        TagLastLevel => $Self->{XMLLevelTag}->{ ( $Self->{XMLLevel} - 1 ) },
-    };
-
-    return 1;
-}
-
-sub _CS {
-    my ( $Self, $Expat, $Element, $I, $II ) = @_;
-
-    if ( $Self->{LastTag} ) {
-        $Self->{C} .= $Element;
-    }
-
-    return 1;
-}
-
-sub _ES {
-    my ( $Self, $Expat, $Element ) = @_;
-
-    $Self->{XMLTagCount}++;
-
-    if ( $Self->{LastTag} ) {
-        push @{ $Self->{XMLARRAY} }, { %{ $Self->{LastTag} }, Content => $Self->{C} };
-    }
-
-    undef $Self->{LastTag};
-    undef $Self->{C};
-
-    push(
-        @{ $Self->{XMLARRAY} },
-        {
-            TagType  => 'End',
-            TagLevel => $Self->{XMLLevel},
-            TagCount => $Self->{XMLTagCount},
-            Tag      => $Element
-        },
-    );
-
-    $Self->{XMLLevel} = $Self->{XMLLevel} - 1;
-
-    return 1;
-}
-
 =end Internal:
 
 =cut
+
+package Kernel::System::XML::SAXHandler {    ## no critic qw(Modules::ProhibitMultiplePackages)
+
+    sub new {
+        my ($Type) = @_;
+
+        # allocate new hash for object
+        return bless {
+            XMLARRAY    => [],
+            XMLLevel    => 0,
+            XMLTagCount => 0,
+            LastTag     => undef,
+            C           => undef,
+            XMLLevelTag => {},
+        }, $Type;
+    }
+
+    sub start_element {    ## no critic qw(OTOBO::RequireCamelCase)
+        my ( $Self, $Element ) = @_;
+
+        my %Attr = map { $_->{Name} => $_->{Value} } values $Element->{Attributes}->%*;
+
+        if ( $Self->{LastTag} ) {
+            push $Self->{XMLARRAY}->@*, { $Self->{LastTag}->%*, Content => $Self->{C} };
+        }
+
+        undef $Self->{LastTag};
+        undef $Self->{C};
+
+        $Self->{XMLLevel}++;
+        $Self->{XMLTagCount}++;
+        $Self->{XMLLevelTag}->{ $Self->{XMLLevel} } = $Element->{Name};
+
+        $Self->{LastTag} = {
+            %Attr,
+            TagType      => 'Start',
+            Tag          => $Element->{Name},
+            TagLevel     => $Self->{XMLLevel},
+            TagCount     => $Self->{XMLTagCount},
+            TagLastLevel => $Self->{XMLLevelTag}->{ $Self->{XMLLevel} - 1 },
+        };
+
+        return 1;
+    }
+
+    sub characters {    ## no critic qw(OTOBO::RequireCamelCase)
+        my ( $Self, $Element ) = @_;
+
+        if ( $Self->{LastTag} ) {
+            $Self->{C} //= '';
+            $Self->{C} .= $Element->{Data};
+        }
+
+        return 1;
+    }
+
+    sub end_element {    ## no critic qw(OTOBO::RequireCamelCase)
+        my ( $Self, $Element ) = @_;
+
+        $Self->{XMLTagCount}++;
+
+        if ( $Self->{LastTag} ) {
+            push $Self->{XMLARRAY}->@*, { $Self->{LastTag}->%*, Content => $Self->{C} };
+        }
+
+        undef $Self->{LastTag};
+        undef $Self->{C};
+
+        push $Self->{XMLARRAY}->@*,
+            {
+                TagType  => 'End',
+                TagLevel => $Self->{XMLLevel},
+                TagCount => $Self->{XMLTagCount},
+                Tag      => $Element->{Name},
+            };
+
+        $Self->{XMLLevel}--;
+
+        return 1;
+    }
+}
 
 1;

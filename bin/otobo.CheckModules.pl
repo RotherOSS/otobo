@@ -960,17 +960,6 @@ my @NeededModules = (
         },
     },
     {
-        Module    => 'XML::Parser',
-        Features  => ['div:xmlparser'],
-        Comment   => 'Recommended for XML processing.',
-        InstTypes => {
-            aptget => 'libxml-parser-perl',
-            emerge => 'dev-perl/XML-Parser',
-            zypper => 'perl-XML-Parser',
-            ports  => 'textproc/p5-XML-Parser',
-        },
-    },
-    {
         Module    => 'Const::Fast',
         Required  => 1,
         Comment   => 'Support for readonly Perl variables',

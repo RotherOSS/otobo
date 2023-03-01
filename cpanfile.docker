@@ -180,9 +180,6 @@ requires 'Const::Fast';
 # Feature 'div:ssl' is not needed for Docker
 
 
-# Feature 'div:xmlparser' is not needed for Docker
-
-
 # feature 'div:xslt', 'Support for feature div:xslt' => sub {
     # Required for Generic Interface XSLT mapping module.
     requires 'XML::LibXSLT';
