@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-02-16 10:41+0000\n"
+"PO-Revision-Date: 2023-03-03 05:20+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20659,13 +20659,13 @@ msgstr "تحديد ما إذا كان رقم العميل في منطقة الع
 
 #. SysConfig
 msgid "Controls if customers have the ability to sort their tickets."
-msgstr ""
+msgstr "تحديد ما إذا كان بإمكان العملاء فرز التذاكر."
 
 #. SysConfig
 msgid ""
 "Controls if more than one from entry can be set in the new phone ticket in "
 "the agent interface."
-msgstr ""
+msgstr "يتحقق مما إذا كان يمكن تحديد أكثر من إدخال واحد في تذكرة هاتف جديدة."
 
 #. SysConfig
 msgid ""
