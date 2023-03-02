@@ -55,7 +55,6 @@ $Selenium->RunTest(
         # as in the current version there is no check for Secure::DisabledBanner.
         my %SourceChecks = (
             PoweredBy  => qr{powered by.{5,30}https://otobo\.de}s,
-            DesignedBy => qr{designed by.{5,30}https://www\.sanmiguel-brand-partner\.com}s,
         );
         my $Product = $Kernel::OM->Get('Kernel::Config')->Get('Product');
         my $Version = $Kernel::OM->Get('Kernel::Config')->Get('Version');
