@@ -43,7 +43,6 @@ $Selenium->RunTest(
         my $ScriptAlias = $Kernel::OM->Get('Kernel::Config')->Get('ScriptAlias');
 
         my @ExpectedLinks = (
-            q{https://www.sanmiguel-brand-partner.com},
             q{https://otobo.de},    # powered by Rother OSS © 2019-2020
             q{https://otobo.de},    # OTOBO logo
         );
@@ -71,7 +70,7 @@ END_JS
             note($LinksStr);
             like(
                 $LinksStr,
-                qr{^ [^🎋]+ 🎋 [^🎋]+ 🎋 [^🎋].+ $}x,
+                qr{^ [^🎋]+ 🎋 [^🎋].+ $}x,
                 "LinkStr for $Page"
             );
 
