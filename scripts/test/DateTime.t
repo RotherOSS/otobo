@@ -14,15 +14,19 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
+use namespace::autoclean;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-our $Self;
+# CPAN modules
+use Test2::V0;
 
+# OTOBO modueles
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
 use Kernel::System::DateTime;
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -34,7 +38,7 @@ my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 # Without specific time zone
 my $DateTimeObject = $Kernel::OM->Create('Kernel::System::DateTime');
 
-$Self->Is(
+is(
     ref $DateTimeObject,
     'Kernel::System::DateTime',
     'Creation of DateTime object must succeed.'
@@ -42,7 +46,7 @@ $Self->Is(
 
 my $Values = $DateTimeObject->Get();
 
-$Self->Is(
+is(
     $Values->{TimeZone},
     $DateTimeObject->OTOBOTimeZoneGet(),
     'Time zone of DateTime object must match the one configured for data storage.'
@@ -56,8 +60,8 @@ $DateTimeObject = $Kernel::OM->Create(
     },
 );
 
-$Self->False(
-    $DateTimeObject,
+ok(
+    !$DateTimeObject,
     'Creation of DateTime object must fail for invalid time zone.'
 );
 
@@ -69,7 +73,7 @@ $DateTimeObject = $Kernel::OM->Create(
     },
 );
 
-$Self->Is(
+is(
     ref $DateTimeObject,
     'Kernel::System::DateTime',
     'Creation of DateTime object must succeed.'
@@ -77,7 +81,7 @@ $Self->Is(
 
 $Values = $DateTimeObject->Get();
 
-$Self->Is(
+is(
     $Values->{TimeZone},
     'Europe/Berlin',
     'Time zone of DateTime object must match the one configured for data storage.'
@@ -124,7 +128,7 @@ my $ExpectedDateTimeValues = {
     TimeZone  => 'UTC',
 };
 
-$Self->IsDeeply(
+is(
     $DateTimeValues,
     $ExpectedDateTimeValues,
     'Date and time after call to ToOTOBOTimeZone must match expected values.'
@@ -324,7 +328,7 @@ for my $TestConfig (@DateTimeTestConfigs) {
         ObjectParams => $TestConfig->{Params},
     );
 
-    $Self->Is(
+    is(
         ref $DateTimeObject eq 'Kernel::System::DateTime' ? 1 : 0,
         $TestConfig->{SuccessExpected},
         'Creation of DateTime object must ' . ( $TestConfig->{SuccessExpected} ? '' : 'not ' ) . 'succeed.',
@@ -350,10 +354,7 @@ for my $TestConfig (@DateTimeTestConfigs) {
         }
     }
 
-    $Self->True(
-        $ValuesMatch,
-        'DateTime values must match those of creation.'
-    );
+    ok( $ValuesMatch, 'DateTime values must match those of creation.' );
 }
 
 #
@@ -448,14 +449,14 @@ for my $TestConfig (@StringTestConfigs) {
     if ($DateTimeObject) {
         my $DateTimeValues = $DateTimeObject->Get();
 
-        $Self->IsDeeply(
+        is(
             $DateTimeObject->Get(),
             $TestConfig->{ExpectedResult},
             'Creation of DateTime object via string must have expected result.',
         );
     }
     else {
-        $Self->Is(
+        is(
             $DateTimeObject,
             $TestConfig->{ExpectedResult},
             'Creation of DateTime object via string must have expected result.',
@@ -470,14 +471,14 @@ for my $TestConfig (@StringTestConfigs) {
     my $Result = $DateTimeObject->Set( String => $TestConfig->{Data}->{String} );
 
     if ( ref $TestConfig->{ExpectedResult} ) {
-        $Self->IsDeeply(
+        is(
             $DateTimeObject->Get(),
             $TestConfig->{ExpectedResult},
             'Setting values of DateTimeObject via string must have expected result.'
         );
     }
     else {
-        $Self->Is(
+        is(
             $Result,
             $TestConfig->{ExpectedResult},
             'Setting values of DateTimeObject via string must have expected result.'
@@ -492,10 +493,10 @@ my $ExpectedSystemTimeZone = 'Europe/Berlin';
 local $ENV{TZ} = $ExpectedSystemTimeZone;
 my $SystemTimeZone = Kernel::System::DateTime->SystemTimeZoneGet();
 
-$Self->Is(
+is(
     $SystemTimeZone,
     $ExpectedSystemTimeZone,
     'System time zone must match expected one.'
 );
 
-$Self->DoneTesting();
+done_testing;
