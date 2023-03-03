@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-03 05:20+0000\n"
+"PO-Revision-Date: 2023-03-03 20:18+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20672,168 +20672,174 @@ msgid ""
 "Controls if the admin is allowed to import a saved system configuration in "
 "SysConfig."
 msgstr ""
+"تحقق مما إذا كان المسؤول مسموح له باستيراد تكوين نظام محفوظ في SysConfig."
 
 #. SysConfig
 msgid ""
 "Controls if the admin is allowed to make changes to the database via "
 "AdminSelectBox."
 msgstr ""
+"تم التحقق من أن المسؤول لديه الإذن لإجراء تغييرات على قاعدة البيانات "
+"باستخدام AdminSelectBox."
 
 #. SysConfig
 msgid ""
 "Controls if the autocomplete field will be used for the customer ID "
 "selection in the AdminCustomerUser interface."
 msgstr ""
+"التحكم في ما إذا كان سيتم إستخدام حقل الإكمال التلقائي لتحديد معرف العميل في "
+"واجهة AdminCustomerUser."
 
 #. SysConfig
 msgid ""
 "Controls if the ticket and article seen flags are removed when a ticket is "
 "archived."
 msgstr ""
+"التحكم في حالة إزالة علامات التذاكر والمقالة التي تم عرضها عند أرشفة التذكرة."
 
 #. SysConfig
 msgid "Converts HTML mails into text messages."
-msgstr ""
+msgstr "تحويل رسائل بريد HTML إلى رسائل نصية."
 
 #. SysConfig
 msgid "Create New process ticket."
-msgstr ""
+msgstr "إنشاء تذكرة عملية جديدة."
 
 #. SysConfig
 msgid "Create Templates for AdminDynamicFieldTitle."
-msgstr ""
+msgstr "إنشاء قوالب ل AdminDynamicFieldTitle."
 
 #. SysConfig
 msgid "Create Ticket"
-msgstr ""
+msgstr "إنشاء تذكرة"
 
 #. SysConfig
 msgid "Create a new calendar appointment linked to this ticket"
-msgstr ""
+msgstr "إنشاء موعد تقويم جديد مرتبط بهذه التذكرة"
 
 #. SysConfig
 msgid "Create and manage Service Level Agreements (SLAs)."
-msgstr ""
+msgstr "إنشاء إتفاقيات مستوى الخدمة وإدارتها (SLA)."
 
 #. SysConfig
 msgid "Create and manage agents."
-msgstr ""
+msgstr "إنشاء الوكلاء وإدارتها."
 
 #. SysConfig
 msgid "Create and manage appointment notifications."
-msgstr ""
+msgstr "إنشاء وإدارة إشعارات المواعيد."
 
 #. SysConfig
 msgid "Create and manage attachments."
-msgstr ""
+msgstr "إنشاء المرفقات وإدارتها."
 
 #. SysConfig
 msgid "Create and manage calendars."
-msgstr ""
+msgstr "إنشاء التقاويم وإدارتها."
 
 #. SysConfig
 msgid "Create and manage customer users."
-msgstr ""
+msgstr "إنشاء وإدارة مستخدمي العملاء."
 
 #. SysConfig
 msgid "Create and manage customers."
-msgstr ""
+msgstr "إنشاء العملاء وإدارتهم."
 
 #. SysConfig
 msgid "Create and manage dynamic fields."
-msgstr ""
+msgstr "إنشاء الحقول الديناميكية وإدارتها."
 
 #. SysConfig
 msgid "Create and manage groups."
-msgstr ""
+msgstr "إنشاء المجموعات وإدارتها."
 
 #. SysConfig
 msgid "Create and manage queues."
-msgstr ""
+msgstr "إنشاء قوائم الانتظار وإدارتها."
 
 #. SysConfig
 msgid "Create and manage responses that are automatically sent."
-msgstr ""
+msgstr "إنشاء الاستجابات التي يتم إرسالها تلقائيا وإدارتها."
 
 #. SysConfig
 msgid "Create and manage roles."
-msgstr ""
+msgstr "إنشاء الأدوار وإدارتها."
 
 #. SysConfig
 msgid "Create and manage salutations."
-msgstr ""
+msgstr "إنشاء التحية وإدارتها."
 
 #. SysConfig
 msgid "Create and manage services."
-msgstr ""
+msgstr "إنشاء الخدمات وإدارتها."
 
 #. SysConfig
 msgid "Create and manage signatures."
-msgstr ""
+msgstr "إنشاء التواقيع وإدارتها."
 
 #. SysConfig
 msgid "Create and manage templates."
-msgstr ""
+msgstr "إنشاء القوالب وإدارتها."
 
 #. SysConfig
 msgid "Create and manage ticket notifications."
-msgstr ""
+msgstr "إنشاء وإدارة إشعارات التذاكر."
 
 #. SysConfig
 msgid "Create and manage ticket priorities."
-msgstr ""
+msgstr "إنشاء أولويات التذاكر وإدارتها."
 
 #. SysConfig
 msgid "Create and manage ticket states."
-msgstr ""
+msgstr "إنشاء حالات التذاكر وإدارتها."
 
 #. SysConfig
 msgid "Create and manage ticket types."
-msgstr ""
+msgstr "إنشاء أنواع التذاكر وإدارتها."
 
 #. SysConfig
 msgid "Create and manage web services."
-msgstr ""
+msgstr "إنشاء خدمات ويب وإدارتها."
 
 #. SysConfig
 msgid "Create new Ticket."
-msgstr ""
+msgstr "إنشاء تذكرة جديدة."
 
 #. SysConfig
 msgid "Create new appointment."
-msgstr ""
+msgstr "إنشاء موعد جديد."
 
 #. SysConfig
 msgid "Create new email ticket and send this out (outbound)."
-msgstr ""
+msgstr "قم بإنشاء تذكرة بريد إلكتروني جديدة وأرسلها (صادرة)."
 
 #. SysConfig
 msgid "Create new email ticket."
-msgstr ""
+msgstr "إنشاء تذكرة بريد إلكتروني جديدة."
 
 #. SysConfig
 msgid "Create new phone ticket (inbound)."
-msgstr ""
+msgstr "إنشاء تذكرة هاتف جديدة (واردة)."
 
 #. SysConfig
 msgid "Create new phone ticket."
-msgstr ""
+msgstr "إنشاء تذكرة هاتف جديدة."
 
 #. SysConfig
 msgid "Create new process ticket."
-msgstr ""
+msgstr "إنشاء تذكرة عملية جديدة."
 
 #. SysConfig
 msgid "Create tickets."
-msgstr ""
+msgstr "إنشاء تذاكر."
 
 #. SysConfig
 msgid "Create your first ticket"
-msgstr ""
+msgstr "أنشئ أول تذكرة لك"
 
 #. SysConfig
 msgid "Created ticket [%s] in \"%s\" with priority \"%s\" and state \"%s\"."
-msgstr ""
+msgstr "تم إنشاء التذكرة [%s في \"%s\" مع الأولوية \"%s\" والحالة \"%s\"."
 
 #. SysConfig
 msgid "Croatian"
