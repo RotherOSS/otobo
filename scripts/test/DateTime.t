@@ -23,6 +23,7 @@ use utf8;
 # core modules
 
 # CPAN modules
+use DateTime;
 use Test2::V0;
 
 # OTOBO modueles
@@ -357,9 +358,7 @@ for my $TestConfig (@DateTimeTestConfigs) {
     ok( $ValuesMatch, 'DateTime values must match those of creation.' );
 }
 
-#
 # Tests for creating and setting DateTime object via string
-#
 my @StringTestConfigs = (
     {
         Data => {
@@ -452,7 +451,7 @@ for my $TestConfig (@StringTestConfigs) {
         is(
             $DateTimeObject->Get(),
             $TestConfig->{ExpectedResult},
-            'Creation of DateTime object via string must have expected result.',
+            'Creation of DateTime object must have expected result.',
         );
     }
     else {
@@ -484,6 +483,42 @@ for my $TestConfig (@StringTestConfigs) {
             'Setting values of DateTimeObject via string must have expected result.'
         );
     }
+}
+
+# Tests for creating and setting DateTime object via a CPAN DateTime object
+my @CPANDateTimeTestConfigs = (
+    {
+        Data => {
+            CPANDateTimeObject => DateTime->from_epoch( epoch => 1677867509 ),
+        },
+        ExpectedResult => {
+            Year      => 2023,
+            Month     => 3,
+            MonthAbbr => 'Mar',
+            Day       => 3,
+            DayOfWeek => 5,
+            DayAbbr   => 'Fri',
+            Hour      => 18,
+            Minute    => 18,
+            Second    => 29,
+            TimeZone  => 'UTC',
+        },
+        Description => 'epoch from 2023-03-03',
+    },
+);
+
+for my $TestConfig (@CPANDateTimeTestConfigs) {
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => $TestConfig->{Data},
+    );
+    my $DateTimeValues = $DateTimeObject->Get();
+
+    is(
+        $DateTimeObject->Get(),
+        $TestConfig->{ExpectedResult},
+        "Creation of DateTime: $TestConfig->{Description}",
+    );
 }
 
 #

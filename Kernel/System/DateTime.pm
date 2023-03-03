@@ -146,6 +146,19 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
     #   yyyy-mm-ddThh:mm:ss [timezone]  # time zone will be deduced from an optional string
     #   yyyy-mm-ddThh:mm:ss[timezone]   # i.e. 2018-04-20T07:37:10UTC
 
+In some cases we already have a C<DateTime> object. An example is a third-party parser library that
+parses dates and returns an object.
+
+    use DateTime;
+
+    my $CPANDateTimeObject = DateTime->from_epoch( epoch => 1677865708 );
+    my $DateTimeObject = $Kernel::OM->Create(
+        'Kernel::System::DateTime',
+        ObjectParams => {
+            CPANDateTimeObject => $CPANDateTimeObject,
+        }
+    );
+
 =cut
 
 sub new {
@@ -160,8 +173,8 @@ sub new {
 
     # Use private parameter to pass in an already created CPANDateTimeObject (used)
     #   by the Clone() method).
-    if ( $Param{_CPANDateTimeObject} ) {
-        $Self->{CPANDateTimeObject} = $Param{_CPANDateTimeObject};
+    if ( $Param{CPANDateTimeObject} ) {
+        $Self->{CPANDateTimeObject} = $Param{CPANDateTimeObject};
 
         return $Self;
     }
@@ -1507,7 +1520,7 @@ sub Clone {
     my ( $Self, %Param ) = @_;
 
     return __PACKAGE__->new(
-        _CPANDateTimeObject => $Self->{CPANDateTimeObject}->clone()
+        CPANDateTimeObject => $Self->{CPANDateTimeObject}->clone()
     );
 }
 
