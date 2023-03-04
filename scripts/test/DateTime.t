@@ -484,38 +484,41 @@ for my $TestConfig (@StringTestConfigs) {
 }
 
 # Tests for creating and setting DateTime object via a CPAN DateTime object
-my @CPANDateTimeTestConfigs = (
-    {
-        Data => {
-            CPANDateTimeObject => DateTime->from_epoch( epoch => 1677867509 ),
-        },
-        ExpectedResult => {
-            Year      => 2023,
-            Month     => 3,
-            MonthAbbr => 'Mar',
-            Day       => 3,
-            DayOfWeek => 5,
-            DayAbbr   => 'Fri',
-            Hour      => 18,
-            Minute    => 18,
-            Second    => 29,
-            TimeZone  => 'UTC',
-        },
-        Description => 'epoch from 2023-03-03',
-    },
-);
+{
+    my $CPANDateTimeObject = DateTime->from_epoch( epoch => 1677867509 );
+    my %ExpectedResult     = (
+        Year      => 2023,
+        Month     => 3,
+        MonthAbbr => 'Mar',
+        Day       => 3,
+        DayOfWeek => 5,
+        DayAbbr   => 'Fri',
+        Hour      => 18,
+        Minute    => 18,
+        Second    => 29,
+        TimeZone  => 'UTC',
+    );
+    my $Description = 'epoch from 2023-03-03';
 
-for my $TestConfig (@CPANDateTimeTestConfigs) {
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
-        ObjectParams => $TestConfig->{Data},
+        ObjectParams => {
+            CPANDateTimeObject => $CPANDateTimeObject,
+        },
     );
-    my $DateTimeValues = $DateTimeObject->Get();
 
     is(
         $DateTimeObject->Get(),
-        $TestConfig->{ExpectedResult},
-        "Creation of DateTime: $TestConfig->{Description}",
+        \%ExpectedResult,,
+        "$Description: Creation of DateTime",
+    );
+
+    $CPANDateTimeObject->set( year => 2000 );
+
+    is(
+        $DateTimeObject->Get(),
+        \%ExpectedResult,,
+        "$Description: after changing the year in the source",
     );
 }
 
