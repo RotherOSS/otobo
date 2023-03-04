@@ -447,7 +447,7 @@ sub Add {
             $RemainingSeconds += int $Param{Days} * 60 * 60 * 24;
         }
 
-        return if !$RemainingSeconds;
+        return unless $RemainingSeconds;
 
         # Backup current date/time to be able to revert to it in case of failure
         my $OriginalDateTimeObject = $Self->{CPANDateTimeObject}->clone;
@@ -512,8 +512,8 @@ sub Add {
             # Fail if this loop takes longer than 5 seconds
             if ( time() - $LoopStartTime > 5 ) {
 
-                # Reset this object to original date/time.
-                $Self->{CPANDateTimeObject} = $OriginalDateTimeObject->clone;    # why is this cloned again ???
+                # Revert to the original CPANDateTime object
+                $Self->{CPANDateTimeObject} = $OriginalDateTimeObject;
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
@@ -901,7 +901,7 @@ sub Delta {
 
         # Clone StartDateTime object because it will be changed while calculating
         # but the original object must not be changed.
-        my $StartDateTimeObject = $Self->{CPANDateTimeObject}->clone();
+        my $StartDateTimeObject = $Self->{CPANDateTimeObject}->clone;
         my $TimeZone            = $StartDateTimeObject->time_zone();
 
         # Get working and vacation times, use calendar if given
