@@ -14,7 +14,7 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-use v5.20;
+use v5.24;
 use strict;
 use warnings;
 use utf8;
@@ -41,7 +41,7 @@ $Selenium->RunTest(
         my %CmdParam   = (
             Block       => 'ContentSmall',
             CacheTTL    => 60,
-            Cmd         => "echo $CmdMessage",
+            Cmd         => qq{echo "$CmdMessage"},
             Default     => 1,
             Description => '',
             Group       => '',
