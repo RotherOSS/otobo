@@ -18,9 +18,9 @@ package Kernel::System::DateTime;
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Time)
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Translatable)
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 
 use Exporter qw(import);
 
@@ -112,9 +112,10 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
         }
     );
 
-    # Create an object from an epoch timestamp. These timestamps are always UTC/GMT,
-    # hence time zone will automatically be set to UTC.
+    # Create an object from an epoch timestamp.
     #
+    # These timestamps are time zone independent.
+    # Thus time zone will automatically be set to UTC.
     # If parameter Epoch is present, all other parameters will be ignored.
     my $DateTimeObject = $Kernel::OM->Create(
         'Kernel::System::DateTime',
@@ -147,7 +148,8 @@ Creates a DateTime object. Do not use new() directly, instead use the object man
     #   yyyy-mm-ddThh:mm:ss[timezone]   # i.e. 2018-04-20T07:37:10UTC
 
 In some cases we already have a C<DateTime> object. An example is a third-party parser library that
-parses dates and returns an object.
+parses dates and returns an object. Internally the passed in CPANDateTime object is cloned.
+If parameter CPANDateTimeObject is present, all other parameters will be ignored.
 
     use DateTime;
 
@@ -171,10 +173,10 @@ sub new {
     #   This has nothing to do with the user's locale settings in OTOBO.
     $Self->{Locale} = $Locale;
 
-    # Use private parameter to pass in an already created CPANDateTimeObject (used)
-    #   by the Clone() method).
+    # An already created CPANDateTimeObject is passed in.
+    # This is used by the Clone() method), but can be useful in other settings as well.
     if ( $Param{CPANDateTimeObject} ) {
-        $Self->{CPANDateTimeObject} = $Param{CPANDateTimeObject};
+        $Self->{CPANDateTimeObject} = $Param{CPANDateTimeObject}->clone;
 
         return $Self;
     }
@@ -445,10 +447,10 @@ sub Add {
             $RemainingSeconds += int $Param{Days} * 60 * 60 * 24;
         }
 
-        return if !$RemainingSeconds;
+        return unless $RemainingSeconds;
 
         # Backup current date/time to be able to revert to it in case of failure
-        my $OriginalDateTimeObject = $Self->{CPANDateTimeObject}->clone();
+        my $OriginalDateTimeObject = $Self->{CPANDateTimeObject}->clone;
 
         my $TimeZone = $OriginalDateTimeObject->time_zone();
 
@@ -510,8 +512,8 @@ sub Add {
             # Fail if this loop takes longer than 5 seconds
             if ( time() - $LoopStartTime > 5 ) {
 
-                # Reset this object to original date/time.
-                $Self->{CPANDateTimeObject} = $OriginalDateTimeObject->clone();
+                # Revert to the original CPANDateTime object
+                $Self->{CPANDateTimeObject} = $OriginalDateTimeObject;
 
                 $Kernel::OM->Get('Kernel::System::Log')->Log(
                     Priority => 'error',
@@ -899,7 +901,7 @@ sub Delta {
 
         # Clone StartDateTime object because it will be changed while calculating
         # but the original object must not be changed.
-        my $StartDateTimeObject = $Self->{CPANDateTimeObject}->clone();
+        my $StartDateTimeObject = $Self->{CPANDateTimeObject}->clone;
         my $TimeZone            = $StartDateTimeObject->time_zone();
 
         # Get working and vacation times, use calendar if given
@@ -1517,10 +1519,11 @@ Clones the DateTime object.
 =cut
 
 sub Clone {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
+    # the passed in CPANDateTime object will be cloned in the constructor
     return __PACKAGE__->new(
-        CPANDateTimeObject => $Self->{CPANDateTimeObject}->clone()
+        CPANDateTimeObject => $Self->{CPANDateTimeObject},
     );
 }
 
