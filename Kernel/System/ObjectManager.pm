@@ -231,6 +231,14 @@ It is also possible to pass in constructor parameters:
         },
     );
 
+When no constructor parameters are passed in, then the registered parameter are passed in. This
+effect can be avoided by passing an empty set of parameters.
+
+    my $AlternativeUserObject = $Kernel::OM->Create(
+        'Kernel::System::User',
+        ObjectParams => {},
+    );
+
 By default, this method will C<die>, if the package cannot be instantiated or the constructor returns undef.
 You can suppress this with C<< Silent => 1 >>, for example to not cause exceptions when trying
 to load modules based on user configuration.
