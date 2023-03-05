@@ -1040,11 +1040,7 @@ sub Run {    ## no critic qw(Subroutines::RequireFinalReturn)
         # Under Docker the scheme is correctly recognised as there are only two relevant cases:
         #   a) HTTP should actually be used
         #   b) HTTPS should be used and it works because nginx sets HTTPS
-        my $Scheme;
-        {
-            my $HTTPS = $ParamObject->HTTPS('HTTPS');
-            $Scheme = ( $HTTPS && lc $HTTPS eq 'on' ) ? 'https' : 'http';
-        }
+        my $Scheme = $ParamObject->HttpsIsOn ? 'https' : 'http';
 
         # In the docker case $ENV{HTTP_HOST} is something like 'localhost:8443'.
         # This is not very helpful as port 8443 is not exposed on the Docker host.
