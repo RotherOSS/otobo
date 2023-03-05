@@ -728,31 +728,25 @@ sub HTTP {
     return grep {m/^HTTP(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*;
 }
 
-=head2 HTTPS()
+=head2 HttpsIsOn()
 
-same as HTTP(), but operate on the HTTPS environment variables.
-This is a re-implementation of C<CGI::https()>.
+checks whether the PSGI environment value I<HTTPS> is set and whether
+it is set to I<ON>. The value I<ON> is checked in a case insensitive way.
 
-    my $UserAgent = $ParamObject->HTTPS('HTTPS');
+    my $HttpsIsOn = $ParamObject->HttpsIsOn;
+
+Returns 0 or 1.
 
 =cut
 
-sub HTTPS {
-    my ( $Self, $Parameter ) = @_;
+sub HttpsIsOn {
+    my ($Self) = @_;
 
-    if ( defined $Parameter ) {
-        $Parameter =~ tr/-a-z/_A-Z/;
-        if ( $Parameter =~ m/^HTTPS(?:_|$)/ ) {
-            return $Self->{PlackRequest}->env->{$Parameter};
-        }
+    my $Https = $Self->{PlackRequest}->env->{HTTPS};
 
-        return $Self->{PlackRequest}->env->{"HTTPS_$Parameter"};
-    }
-
-    # return list of keys when no parameter was passed
-    return wantarray
-        ? grep {m/^HTTPS(?:_|$)/} sort keys $Self->{PlackRequest}->env->%*
-        : $ENV{HTTPS};
+    return 0 unless defined $Https;
+    return 1 if uc $Https eq 'ON';
+    return 0;
 }
 
 =head2 IsAJAXRequest()

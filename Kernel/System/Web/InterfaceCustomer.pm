@@ -142,18 +142,12 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
 
     # Check if https forcing is active, and redirect if needed.
-    if ( $ConfigObject->Get('HTTPSForceRedirect') ) {
+    if ( $ConfigObject->Get('HTTPSForceRedirect') && !$ParamObject->HttpsIsOn ) {
+        my $Host         = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
+        my $RequestURI   = $ParamObject->RequestURI();
+        my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
-        # Allow HTTPS to be 'on' in a case insensitive way.
-        # In OTOBO 10.0.1 it had to be lowercase 'on'.
-        my $HTTPS = $ParamObject->HTTPS('HTTPS') // '';
-        if ( lc $HTTPS ne 'on' ) {
-            my $Host         = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
-            my $RequestURI   = $ParamObject->RequestURI();
-            my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
-
-            $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
-        }
+        $LayoutObject->Redirect( ExtURL => "https://$Host$RequestURI" );    # throw a Kernel::System::Web::Exception exception
     }
 
     # get common framework params
