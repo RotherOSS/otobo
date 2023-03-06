@@ -244,18 +244,16 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@title, \'$DFName, filter not active\' )]")->click();
 
         for my $Test (@Tests) {
-            my $LinkEncodedKey = $LayoutObject->LinkEncode( $Test->{Key} );
-
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$LinkEncodedKey\"]').length;"
+                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$Test->{Key}\"]').length;"
             );
 
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$LinkEncodedKey\"]').length;"
+                    "return \$('#ColumnFilterDynamicField_${DFName}0120-TicketNew option[value=\"$Test->{Key}\"]').length;"
                 ),
-                "Key '$Test->{Key}' is found as correctly encoded - '$LinkEncodedKey'"
+                "Key '$Test->{Key}' is found as correctly encoded - '$Test->{Key}'"
             );
         }
 
@@ -266,18 +264,16 @@ $Selenium->RunTest(
         $Selenium->find_element("//a[contains(\@title, \'$DFName, filter not active\' )]")->click();
 
         for my $Test (@Tests) {
-            my $LinkEncodedKey = $LayoutObject->LinkEncode( $Test->{Key} );
-
             $Selenium->WaitFor(
                 JavaScript =>
-                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_$DFName option[value=\"$LinkEncodedKey\"]').length;"
+                    "return typeof(\$) === 'function' && \$('#ColumnFilterDynamicField_$DFName option[value=\"$Test->{Key}\"]').length;"
             );
 
             $Self->True(
                 $Selenium->execute_script(
-                    "return \$('#ColumnFilterDynamicField_$DFName option[value=\"$LinkEncodedKey\"]').length;"
+                    "return \$('#ColumnFilterDynamicField_$DFName option[value=\"$Test->{Key}\"]').length;"
                 ),
-                "Key '$Test->{Key}' is found as correctly encoded - '$LinkEncodedKey'"
+                "Key '$Test->{Key}' is found as correctly encoded - '$Test->{Key}'"
             );
         }
 
