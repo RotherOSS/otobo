@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-03 20:18+0000\n"
+"PO-Revision-Date: 2023-03-06 09:34+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20843,45 +20843,47 @@ msgstr "تم إنشاء التذكرة [%s في \"%s\" مع الأولوية \"%
 
 #. SysConfig
 msgid "Croatian"
-msgstr ""
+msgstr "الكرواتية"
 
 #. SysConfig
 msgid "Custom RSS Feed"
-msgstr ""
+msgstr "موجز RSS المخصص"
 
 #. SysConfig
 msgid ""
 "Custom text for the page shown to customers that have no tickets yet (if you "
 "need those text translated add them to a custom translation module)."
 msgstr ""
+"نص مخصص للعملاء الذين ليس لديهم تذاكر (إذا كنت تريد ترجمة لهذا النص، قم "
+"بإضافة الترجمة في وحدة ترجمة منفصلة)."
 
 #. SysConfig
 msgid "Customer Administration"
-msgstr ""
+msgstr "إدارة العملاء"
 
 #. SysConfig
 msgid "Customer Companies"
-msgstr "شركات العميل"
+msgstr "عملاء"
 
 #. SysConfig
 msgid "Customer Dashboard"
-msgstr ""
+msgstr "لوحة معلومات العميل"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Detailed Search"
-msgstr ""
+msgstr "البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعميل"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Details"
-msgstr ""
+msgstr "تفاصيل قاعدة بيانات الحقل الديناميكي للعميل"
 
 #. SysConfig
 msgid "Customer Dynamic Field Database Search"
-msgstr ""
+msgstr "بحث قاعدة بيانات الحقل الديناميكي للعميل"
 
 #. SysConfig
 msgid "Customer IDs"
-msgstr ""
+msgstr "معرفات العميل"
 
 #. SysConfig
 msgid "Customer Information Center Search."
