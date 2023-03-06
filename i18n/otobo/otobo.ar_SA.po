@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-06 09:34+0000\n"
+"PO-Revision-Date: 2023-03-06 10:58+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20887,59 +20887,59 @@ msgstr "معرفات العميل"
 
 #. SysConfig
 msgid "Customer Information Center Search."
-msgstr ""
+msgstr "البحث في مركز معلومات العملاء."
 
 #. SysConfig
 msgid "Customer Information Center search."
-msgstr ""
+msgstr "البحث في مركز معلومات العملاء."
 
 #. SysConfig
 msgid "Customer Information Center."
-msgstr ""
+msgstr "مركز معلومات العملاء."
 
 #. SysConfig
 msgid "Customer Password."
-msgstr ""
+msgstr "كلمة مرور العميل."
 
 #. SysConfig
 msgid "Customer Ticket Print Module."
-msgstr ""
+msgstr "وحدة طباعة تذاكر العملاء."
 
 #. SysConfig
 msgid "Customer User Administration"
-msgstr ""
+msgstr "إدارة مستخدم العميل"
 
 #. SysConfig
 msgid "Customer User Information"
-msgstr ""
+msgstr "معلومات مستخدم العميل"
 
 #. SysConfig
 msgid "Customer User Information Center Search."
-msgstr ""
+msgstr "البحث في مركز معلومات المستخدم للعميل."
 
 #. SysConfig
 msgid "Customer User Information Center search."
-msgstr ""
+msgstr "البحث في مركز معلومات مستخدم العميل."
 
 #. SysConfig
 msgid "Customer User Information Center."
-msgstr ""
+msgstr "مركز معلومات المستخدم للعملاء."
 
 #. SysConfig
 msgid "Customer Users ↔ Customers"
-msgstr ""
+msgstr "المستخدمون العملاء ↔ العملاء"
 
 #. SysConfig
 msgid "Customer Users ↔ Groups"
-msgstr ""
+msgstr "المستخدمون العملاء ↔ المجموعات"
 
 #. SysConfig
 msgid "Customer Users ↔ Services"
-msgstr ""
+msgstr "مستخدمي العملاء ↔ الخدمات"
 
 #. SysConfig
 msgid "Customer dynamic field database detailed search."
-msgstr ""
+msgstr "البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعميل."
 
 #. SysConfig
 msgid "Customer dynamic field database details."
