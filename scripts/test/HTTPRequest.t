@@ -53,6 +53,14 @@ subtest 'GET without script name' => sub {
     is( $Request->GetParam( Param => 'aia' ), undef, 'SingleParam - not defined' );
     is( $Request->Content,                    '',    'no body in GET request' );
     is( $Request->ScriptName,                 '',    'no script name' );
+    is(
+        $Request->Headers->psgi_flatten,
+        [
+            'Host'           => 'www.example.com',
+            'Content-Length' => 0
+        ],
+        'flat list of headers'
+    );
 };
 
 subtest 'GET with script name' => sub {
@@ -72,6 +80,14 @@ subtest 'GET with script name' => sub {
     is( $Request->Content,                    '',            'no body in GET request' );
     is( $Request->ScriptName,                 'script.sh',   'script name script.sh' );
     is( $Request->PathInfo,                   '/some/where', 'script path /some/where' );
+    is(
+        $Request->Headers->psgi_flatten,
+        [
+            'Host'           => 'www.example.com',
+            'Content-Length' => 0
+        ],
+        'flat list of headers'
+    );
 };
 
 # TODO: test support for POST_MAX
@@ -117,6 +133,15 @@ subtest 'POST without URL params' => sub {
     is( $Request->Content,                         $Body,        'body in POST request' );
     is( $Request->GetParam( Param => 'POSTDATA' ), $Body,        'POSTDATA gets body' );
     is( $Request->ScriptName,                      'script.awk', 'script name script.awk' );
+    is(
+        $Request->Headers->psgi_flatten,
+        [
+            'Host'           => 'www.example.com',
+            'Content-Length' => 11,
+            'Content-Type'   => 'application/x-www-form-urlencoded'
+        ],
+        'flat list of headers'
+    );
 };
 
 subtest 'POST with URL params' => sub {
@@ -171,6 +196,15 @@ subtest 'POST with URL params' => sub {
     is( $Request->Content,                         $Body,       'body in mixed request' );
     is( $Request->GetParam( Param => 'POSTDATA' ), $Body,       'POSTDATA gets body' );
     is( $Request->ScriptName,                      'script.py', 'script name script.py' );
+    is(
+        $Request->Headers->psgi_flatten,
+        [
+            'Host'           => 'www.example.com',
+            'Content-Length' => 11,
+            'Content-Type'   => 'application/x-www-form-urlencoded'
+        ],
+        'flat list of headers'
+    );
 };
 
 subtest 'POST with file upload' => sub {
@@ -233,6 +267,14 @@ END_TXT
             Content     => $ContentFile2,
         },
         'upload info for File2',
+    );
+    like(
+        $Request->Headers->psgi_flatten,
+        [
+            'Content-Length' => 387,
+            'Content-Type'   => 'multipart/form-data; boundary=xYzZY',
+        ],
+        'flat list of headers, ignoring the tempdir'
     );
 };
 
@@ -311,6 +353,14 @@ subtest 'SetArray' => sub {
         [ sort $Request->GetParamNames ],
         [qw(b newA newB)],
         'GetParamNames: after removing newC'
+    );
+    is(
+        $Request->Headers->psgi_flatten,
+        [
+            'Host'           => 'www.example.com',
+            'Content-Length' => 0,
+        ],
+        'flat list of headers'
     );
 };
 

@@ -126,7 +126,7 @@ sub ProviderProcessRequest {
     # If the HTTP_TRANSFER_ENCODING environment variable is defined, check if is chunked.
     my $Chunked = 0;
     {
-        my $TransferEncoding = $ParamObject->HTTP('TRANSFER_ENCODING') // '';
+        my $TransferEncoding = $ParamObject->Header('Transfer-Encoding') // '';
         if ( $TransferEncoding =~ m/^chunked/ ) {
             $Chunked = 1;
         }
@@ -267,7 +267,7 @@ sub ProviderProcessRequest {
     # Under PSGI it is available in the Env hashref under the key 'HTTP_SOAPACTION'
     # The Perl module CGI::PSGI takes the setting and
     # make it available via the method HTTP().
-    my $SOAPAction = $ParamObject->HTTP('SOAPACTION');
+    my $SOAPAction = $ParamObject->Header('SOAPAction');
 
     # Check whether SOAPAction is configured and necessary.
     if (

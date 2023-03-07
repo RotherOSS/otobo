@@ -143,7 +143,7 @@ sub Content {    ## no critic qw(Subroutines::RequireFinalReturn)
 
     # Check if https forcing is active, and redirect if needed.
     if ( $ConfigObject->Get('HTTPSForceRedirect') && !$ParamObject->HttpsIsOn ) {
-        my $Host         = $ParamObject->HTTP('HOST') || $ConfigObject->Get('FQDN');
+        my $Host         = $ParamObject->Header('Host') || $ConfigObject->Get('FQDN');
         my $RequestURI   = $ParamObject->RequestURI();
         my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
 
