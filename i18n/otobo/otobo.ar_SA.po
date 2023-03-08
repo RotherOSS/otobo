@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-06 10:58+0000\n"
+"PO-Revision-Date: 2023-03-09 02:24+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -20943,11 +20943,11 @@ msgstr "البحث التفصيلي لقاعدة بيانات الحقل الد�
 
 #. SysConfig
 msgid "Customer dynamic field database details."
-msgstr ""
+msgstr "تفاصيل قاعدة بيانات الحقل الديناميكي للعميل."
 
 #. SysConfig
 msgid "Customer dynamic field database search."
-msgstr ""
+msgstr "البحث في حقل قاعدة البيانات الديناميكية في منطقة العميل."
 
 #. SysConfig
 msgid ""
@@ -20955,6 +20955,9 @@ msgid ""
 "block. Setting CustomerUserLogin to 1 searches for tickets based on login "
 "name rather than CustomerID."
 msgstr ""
+"عنصر العميل (الأيقونة) الذي يظهر التذاكر المغلقة لهذا العميل ككتلة معلومات. "
+"تعيين CustomerUserLogin إلى 1 عمليات بحث عن التذاكر استنادا إلى اسم تسجيل "
+"الدخول بدلا من معرف العميل."
 
 #. SysConfig
 msgid ""
@@ -20962,86 +20965,93 @@ msgid ""
 "block. Setting CustomerUserLogin to 1 searches for tickets based on login "
 "name rather than CustomerID."
 msgstr ""
+"عنصر العميل (الأيقونة) الذي يظهر التذاكر المفتوحة لهذا العميل ككتلة معلومات. "
+"تعيين CustomerUserLogin إلى 1 عمليات بحث عن التذاكر استنادا إلى اسم تسجيل "
+"الدخول بدلا من معرف العميل."
 
 #. SysConfig
 msgid "Customer preferences."
-msgstr ""
+msgstr "إعدادات العملاء."
 
 #. SysConfig
 msgid "Customer ticket overview"
-msgstr ""
+msgstr "نظرة عامة على تذكرة العميل"
 
 #. SysConfig
 msgid "Customer ticket search."
-msgstr ""
+msgstr "البحث عن تذكرة العميل."
 
 #. SysConfig
 msgid "Customer ticket zoom"
-msgstr ""
+msgstr "طريقة عرض تذكرة العميل"
 
 #. SysConfig
 msgid "Customer user search"
-msgstr ""
+msgstr "بحث مستخدم العميل"
 
 #. SysConfig
 msgid "CustomerID search"
-msgstr ""
+msgstr "بحث عن رقم العميل"
 
 #. SysConfig
 msgid "CustomerName"
-msgstr ""
+msgstr "اسم العميل"
 
 #. SysConfig
 msgid "CustomerUser"
-msgstr ""
+msgstr "مستخدم العميل"
 
 #. SysConfig
 msgid "Customers ↔ Groups"
-msgstr ""
+msgstr "العملاء ↔ المجموعات"
 
 #. SysConfig
 msgid ""
 "Customizable stop words for fulltext index. These words will be removed from "
 "the search index."
 msgstr ""
+"كلمات إيقاف قابلة للتخصيص لفهرس النص الكامل. ستتم إزالة هذه الكلمات من فهرس "
+"البحث."
 
 #. SysConfig
 msgid "Czech"
-msgstr ""
+msgstr "التشيكية"
 
 #. SysConfig
 msgid "Danish"
-msgstr ""
+msgstr "دانماركي"
 
 #. SysConfig
 msgid "Dashboard overview."
-msgstr ""
+msgstr "نظرة عامة على لوحة المعلومات."
 
 #. SysConfig
 msgid "Data used to export the search result in CSV format."
-msgstr ""
+msgstr "البيانات المستخدمة لتصدير نتيجة البحث بتنسيق CSV."
 
 #. SysConfig
 msgid "Date / Time"
-msgstr ""
+msgstr "التاريخ / الوقت"
 
 #. SysConfig
 msgid "Default (Slim)"
-msgstr ""
+msgstr "افتراضي (نحيف)"
 
 #. SysConfig
 msgid "Default ACL values for ticket actions."
-msgstr ""
+msgstr "قيم ACL الافتراضية لإجراءات التذكرة."
 
 #. SysConfig
 msgid ""
 "Default ProcessManagement entity prefixes for entity IDs that are "
 "automatically generated."
 msgstr ""
+"بادئات الكيان الافتراضية لإدارة العملية لمعرفات الكيانات التي يتم إنشاؤها "
+"تلقائيا."
 
 #. SysConfig
 msgid "Default agent name"
-msgstr ""
+msgstr "اسم الوكيل الافتراضي"
 
 #. SysConfig
 msgid ""
@@ -21049,6 +21059,9 @@ msgid ""
 "\"TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;"
 "TicketCreateTimePoint=2;\"."
 msgstr ""
+"البيانات الافتراضية المطلوب إستخدامها على السمة لشاشة البحث عن التذكرة. مثال:"
+" \"‏TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCr"
+"eateTimePoint=2;\"."
 
 #. SysConfig
 msgid ""
@@ -21057,50 +21070,58 @@ msgid ""
 "TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;"
 "TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;\"."
 msgstr ""
+"البيانات الافتراضية المطلوب إستخدامها على السمة لشاشة البحث عن التذكرة. مثال:"
+" \"TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateT"
+"imeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;Tick"
+"etCreateTimeStopDay=3;\"."
 
 #. SysConfig
 msgid ""
 "Default display type for recipient (To,Cc) names in AgentTicketZoom and "
 "CustomerTicketZoom."
 msgstr ""
+"نوع العرض الافتراضي لأسماء المستلمين (إلى، نسخة (To,Cc)) في AgentTicketZoom "
+"و CustomerTicketZoom."
 
 #. SysConfig
 msgid ""
 "Default display type for sender (From) names in AgentTicketZoom and "
 "CustomerTicketZoom."
 msgstr ""
+"نوع العرض الافتراضي لأسماء المرسل (من (From)) في AgentTicketZoom و "
+"CustomerTicketZoom."
 
 #. SysConfig
 msgid "Default loop protection module."
-msgstr ""
+msgstr "وحدة \"Loop Protection\" الافتراضية."
 
 #. SysConfig
 msgid "Default queue ID used by the system in the agent interface."
-msgstr ""
+msgstr "معرف قائمة الانتظار الافتراضي المستخدم من قبل OTOBO في واجهة الوكيل."
 
 #. SysConfig
 msgid "Default skin for the agent interface (slim version)."
-msgstr ""
+msgstr "واجهة الوكيل الافتراضية (الإصدار النحيف)."
 
 #. SysConfig
 msgid "Default skin for the agent interface."
-msgstr ""
+msgstr "الجلد (skin) القياسي لواجهة الوكيل."
 
 #. SysConfig
 msgid "Default skin for the customer interface."
-msgstr ""
+msgstr "الجلد (skin) القياسي لواجهة العميل."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the agent interface."
-msgstr ""
+msgstr "معرف التذكرة القياسي الذي يستخدمه OTOBO في واجهة الوكيل."
 
 #. SysConfig
 msgid "Default ticket ID used by the system in the customer interface."
-msgstr ""
+msgstr "معرف التذكرة الافتراضي المستخدم من قبل OTOBO في واجهة العميل."
 
 #. SysConfig
 msgid "Default value for NameX"
-msgstr ""
+msgstr "القيمة الافتراضية ل NameX"
 
 #. SysConfig
 msgid ""
@@ -21110,6 +21131,10 @@ msgid ""
 "css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent."
 "TableFilters.js."
 msgstr ""
+"تعريف العمليات التي يجب أن يتوفر بها زر الإعدادات في ودجة كائن الرابط "
+"(LinkObject::ViewMode = \"complex\"). الرجاء ملاحظة أنه يجب تسجيل ملفات JS و "
+"CSS التالية لهذه الإجراءات: Core.CustomList.css، Core.UI.AllocationList.js، "
+"Core.UI.Table.Sort.js، Core.Agent.TableFilter.js."
 
 #. SysConfig
 msgid ""
@@ -21118,6 +21143,10 @@ msgid ""
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
+"يحدد عامل تصفية لإخراج HTML بإضافة روابط خلف سلسلة محددة. يسمح هذا العنصر "
+"بنوعين من الإدخال. الأول هو اسم صورة (على سبيل المثال faq.png). في هذه "
+"الحالة، يتم إستخدام مسار صورة OTOBO. الخيار الثاني هو إدراج الرابط إلى "
+"الصورة."
 
 #. SysConfig
 msgid ""
@@ -21131,12 +21160,22 @@ msgid ""
 "mapping, you have to also activate the Ticket::EventModulePost###4100-"
 "DynamicFieldFromCustomerUser setting."
 msgstr ""
+"يحدد التعيين بين المتغيرات إلى بيانات مستخدم العميل (المفاتيح) والحقول "
+"الديناميكية للتذكرة (القيم). يتيح لك ذلك تخزين بيانات مستخدم العميل للتذكرة "
+"في الحقول الديناميكية. يجب أن تكون هذه الحقول الديناميكية موجودة في النظام "
+"ويجب تمكينها ل AgentTicketFreeText بحيث يمكن تعريفها / تحديثها يدويا بواسطة "
+"الوكيل. يجب عدم تمكينها ل AgentTicketPhone و AgentTicketEmail و "
+"AgentTicketCustomer. إذا فعلوا ذلك، فإنهم يأخذون الأسبقية على القيم المحددة "
+"تلقائيا. لاستخدام هذا التعيين، يجب أيضا تمكين إعداد تذكرة "
+"Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser."
 
 #. SysConfig
 msgid ""
 "Define a result field for the TicketID of the invoker response per web "
 "service (WebserviceID => DynamicFieldName)."
 msgstr ""
+"حدد حقل نتيجة ل TicketID لاستجابة المستحضر (Invoker) عبر خدمة ويب ("
+"WebserviceID => DynamicFieldName)."
 
 #. SysConfig
 msgid ""
@@ -21144,6 +21183,9 @@ msgid ""
 "to the system as Ticket: \"Date / Time\" and must be activated in ticket "
 "creation screens and/or in any other ticket action screens."
 msgstr ""
+"تعريف اسم الحقل الديناميكي لوقت الانتهاء. يجب إضافة هذا الحقل يدويا إلى "
+"النظام كتذكرة: \"التاريخ / الوقت\" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو "
+"في أي شاشات أخرى لإجراءات التذكرة."
 
 #. SysConfig
 msgid ""
@@ -21151,32 +21193,35 @@ msgid ""
 "added to the system as Ticket: \"Date / Time\" and must be activated in "
 "ticket creation screens and/or in any other ticket action screens."
 msgstr ""
+"تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام "
+"كتذكرة: \"التاريخ / الوقت\" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي "
+"شاشات أخرى لإجراءات التذكرة."
 
 #. SysConfig
 msgid "Define the max depth of queues."
-msgstr ""
+msgstr "حدد الحد الأقصى لعمق قوائم الانتظار."
 
 #. SysConfig
 msgid "Define the queue comment 2."
-msgstr ""
+msgstr "يحدد تعليق قائمة الانتظار 2."
 
 #. SysConfig
 msgid "Define the service comment 2."
-msgstr ""
+msgstr "حدد تعليق الخدمة 2."
 
 #. SysConfig
 msgid "Define the sla comment 2."
-msgstr ""
+msgstr "تعريف تعليق (sla) إتفاقية مستوى الخدمة 2."
 
 #. SysConfig
 msgid ""
 "Define the start day of the week for the date picker for the indicated "
 "calendar."
-msgstr ""
+msgstr "حدد يوم بدء الأسبوع لمنتقي التاريخ للتقويم المشار إليه."
 
 #. SysConfig
 msgid "Define the start day of the week for the date picker."
-msgstr ""
+msgstr "حدد يوم بدء الأسبوع لمنتقي التاريخ."
 
 #. SysConfig
 msgid ""
@@ -21184,6 +21229,9 @@ msgid ""
 "gravatar is assigned to the mail address. Check https://gravatar.com/site/"
 "implement/images/ for further information."
 msgstr ""
+"حدد الصورة الرمزية الافتراضية التي يجب استخدامها لعرض المقالة إذا لم يتم "
+"تعيين صورة رمزية لعنوان البريد. تحقق من https://gravatar.com/site/implement/"
+"images/ للحصول على مزيد من المعلومات."
 
 #. SysConfig
 msgid ""
@@ -21191,6 +21239,9 @@ msgid ""
 "gravatar is assigned to the mail address of the agent. Check https://"
 "gravatar.com/site/implement/images/ for further information."
 msgstr ""
+"حدد الصورة الرمزية الافتراضية التي يجب استخدامها للوكيل الحالي إذا لم يتم "
+"تعيين gravatar لعنوان البريد الخاص بالوكيل. تحقق من https://gravatar. com/"
+"site/implement/images/ للحصول على مزيد من المعلومات."
 
 #. SysConfig
 msgid ""
@@ -21200,6 +21251,10 @@ msgid ""
 "'None' will transfer the encrypted email address of the particular user to "
 "an external service."
 msgstr ""
+"حدد محرك الصور الرمزية الذي يجب إستخدامه للعامل أفاتار الموجود في الرأس وصور "
+"المرسل في AgentTicketZoom. في حالة تحديد 'بلا'، سيتم عرض الأحرف الأولى بدلا "
+"من ذلك. الرجاء ملاحظة أن تحديد أي شيء بخلاف \"لا شيء\" سينقل عنوان البريد "
+"الإلكتروني المشفر للمستخدم المحدد إلى خدمة خارجية."
 
 #. SysConfig
 msgid ""
@@ -21207,6 +21262,9 @@ msgid ""
 "ViewMode = \"complex\"). Possible settings: 0 = Disabled, 1 = Available, 2 = "
 "Enabled by default."
 msgstr ""
+"تحديد الأعمدة التي تظهر في عنصر واجهة مستخدم الموعد المرتبط (LinkObject::"
+"ViewMode = \"معقد\"). الإعدادات المحتملة: 0 = معطل، 1 = متوفر، 2 = ممكن بشكل "
+"افتراضي."
 
 #. SysConfig
 msgid ""
@@ -21214,30 +21272,34 @@ msgid ""
 "ViewMode = \"complex\"). Note: Only Ticket attributes and Dynamic Fields "
 "(DynamicField_NameX) are allowed for DefaultColumns."
 msgstr ""
+"تحديد الأعمدة التي تظهر في عنصر واجهة مستخدم التذاكر المرتبطة (LinkObject::"
+"ViewMode = \"معقد\"). ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية "
+"(DynamicField_NameX) ل DefaultColumns."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a LinkedIn icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "يعرف عنصر العميل الذي يضيف رمز LinkedIn في نهاية معلومات العميل."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a XING icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "تحديد عنصر عميل، يقوم بإنشاء رمز XING في نهاية حظر معلومات العميل."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google icon at the end of a "
 "customer info block."
 msgstr ""
+"تعريف عنصر عميل، الذي يقوم بإنشاء أيقونة Google في نهاية كتلة معلومات العميل."
 
 #. SysConfig
 msgid ""
 "Defines a customer item, which generates a google maps icon at the end of a "
 "customer info block."
-msgstr ""
+msgstr "يعرف عنصر العميل الذي يضيف أيقونة خرائط جوجل في نهاية معلومات العميل."
 
 #. SysConfig
 msgid ""
@@ -21246,6 +21308,9 @@ msgid ""
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
+"يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام CVE. تتيح صورة العنصر "
+"نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه الحالة "
+"سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى الصورة."
 
 #. SysConfig
 msgid ""
