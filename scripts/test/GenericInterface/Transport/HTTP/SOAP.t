@@ -3156,7 +3156,7 @@ for my $Test (@CheckHeadersTests) {
                 );
             }
 
-            ok( !%MirroredHeaders, 'Only expected request result headers have been found' );
+            is( \%MirroredHeaders, {}, 'Only expected request result headers have been found' );
         }
 
         # Create and check the PSGI response. The response is acutually thrown as an exception.
