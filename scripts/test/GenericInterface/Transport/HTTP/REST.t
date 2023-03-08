@@ -25,9 +25,7 @@ use utf8;
 use Test2::V0;
 
 # OTOBO modules
-use Kernel::System::UnitTest::RegisterDriver;    # set up $Self and $Kernel::OM
-
-our $Self;
+use Kernel::System::UnitTest::RegisterOM;    # set up $Kernel::OM
 
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
@@ -1204,10 +1202,7 @@ for my $Test (@BasicTests) {
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $WebserviceUpdate,
-            "Updated Web service $WebserviceID"
-        );
+        ok( $WebserviceUpdate, "Updated Web service $WebserviceID" );
 
         # start requester with our web service
         my $RequesterResult = $RequesterObject->Run(
@@ -1318,10 +1313,7 @@ for my $Test (@DirectTests) {
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $WebserviceUpdate,
-            "Updated Web service $WebserviceID"
-        );
+        ok( $WebserviceUpdate, "Updated Web service $WebserviceID" );
 
         my $RequestParams;
         for my $DataKey ( sort keys %{ $Test->{RequestData} } ) {
@@ -1519,7 +1511,7 @@ for my $Test (@CheckHeadersTests) {
                 );
             }
 
-            ok( !%MirroredHeaders, 'Only expected request result headers have been found' );
+            is( \%MirroredHeaders, {}, 'Only expected request result headers have been found' );
         }
 
         # Create and check the PSGI response. The response is acutually thrown as an exception.

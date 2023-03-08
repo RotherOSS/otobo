@@ -110,7 +110,7 @@ sub new {
     # Determine the language to use based on the browser setting, if there isn't one yet.
     my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
     if ( !$Self->{UserLanguage} ) {
-        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->HTTP('HTTP_ACCEPT_LANGUAGE') || '';
+        my @BrowserLanguages = split /\s*,\s*/, $Self->{Lang} || $ParamObject->Header('Accept-Language') || '';
         my %Data = %{ $ConfigObject->Get('DefaultUsedLanguages') };
 
         LANGUAGE:
@@ -218,7 +218,7 @@ EOF
     $Self->{BrowserJavaScriptSupport} = 1;
     $Self->{BrowserRichText}          = 1;
 
-    my $HttpUserAgent = lc( $ParamObject->HTTP('USER_AGENT') // '' );
+    my $HttpUserAgent = lc( $ParamObject->Header('User-Agent') // '' );
 
     if ( !$HttpUserAgent ) {
         $Self->{Browser} = 'Unknown - no $ENV{"HTTP_USER_AGENT"}';
@@ -384,7 +384,7 @@ EOF
 
     # force a theme based on host name
     my $DefaultThemeHostBased = $ConfigObject->Get('DefaultTheme::HostBased');
-    my $Host                  = $ParamObject->HTTP('HOST');
+    my $Host                  = $ParamObject->Header('Host');
     if ( $DefaultThemeHostBased && $Host ) {
 
         THEME:

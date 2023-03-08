@@ -400,7 +400,7 @@ sub SetArray {
 =head2 Content
 
 Returns the request content in a raw byte string for POST requests.
-This is a wrapper around C<Plack::Requests::address()>.
+This is a wrapper around C<Plack::Request::content()>.
 
     my $RawBody = $ParamObject->Content();
 
@@ -515,7 +515,7 @@ sub GetCookie {
 =head2 RemoteAddr()
 
 get the remote address of the HTTP client.
-This is a wrapper around C<Plack::Requests::address()>.
+This is a wrapper around C<Plack::Request::address()>.
 
     my $RemoteAddr = $ParamObject->RemoteAddr();
 
@@ -684,6 +684,36 @@ sub PathInfo {
     my ($Self) = @_;
 
     return $Self->{PlackRequest}->path_info;
+}
+
+=head2 Headers
+
+This is a wrapper around C<Plack::Request::headers()>.
+Returns an instance of C<HTTP::Headers::Fast> containing the request headers.
+That object was constructed from the I<HTTP_> fields of the PSGI environment.
+
+    my $Headers = $ParamObject->Headers();
+
+No parameters are handled.
+
+=cut
+
+sub Headers {
+    my ($Self) = @_;
+
+    return $Self->{PlackRequest}->headers;
+}
+
+=head2 Header
+
+This is a wrapper around C<Plack::Request::header()>.
+
+=cut
+
+sub Header {
+    my ( $Self, @Parameters ) = @_;
+
+    return $Self->{PlackRequest}->header(@Parameters);
 }
 
 =head2 HTTP()

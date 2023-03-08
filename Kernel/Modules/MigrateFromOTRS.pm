@@ -604,9 +604,9 @@ sub _Finish {
     # Another, maybe better, approach is to simple provide a relative link to '../index.pl'.
     # Fun fact: the FQDN can specified with a port.
     my $Host =
-        $ParamObject->HTTP('HTTP_X_FORWARDED_SERVER')    # for the HTTPS case, the hostname that nginx sees
-        || $ParamObject->HTTP('HOST')                    # should work in the HTTP case, in Docker or not in Docker
-        || $ConfigObject->Get('FQDN');                   # a fallback
+        $ParamObject->Header('X-Forwarded-Server')    # for the HTTPS case, the hostname that nginx sees
+        || $ParamObject->Header('Host')               # should work in the HTTP case, in Docker or not in Docker
+        || $ConfigObject->Get('FQDN');                # a fallback
 
     return {
         Webserver   => $Webserver,
