@@ -429,11 +429,18 @@ sub ProviderGenerateResponse {
         # Just like Kernel::System::Web::InterfaceAgent.
         my $ParamObject = $Kernel::OM->Get('Kernel::System::Web::Request');
 
+        # The HTTP::Headers::Fast also includes Content-Type and Content-Length,
+        # which should not be mirrored.
         my %RequestHeaders;
-        for my $EnvKey ( sort $ParamObject->HTTP() ) {
-            my $HeaderKey = substr $EnvKey, 5;    # remove leading HTTP_
+        FIELD_NAME:
+        for my $FieldName ( sort $ParamObject->Headers->header_field_names ) {
+            next FIELD_NAME if $FieldName eq 'Content-Type';
+            next FIELD_NAME if $FieldName eq 'Content-Length';
+
+            # normalize to uppercase separated by '-', e.g. FUNNY-FIELD
+            my $HeaderKey = uc $FieldName;
             $HeaderKey =~ s{_}{-}xmsg;
-            $RequestHeaders{$HeaderKey} = $ParamObject->HTTP($EnvKey);
+            $RequestHeaders{$HeaderKey} = $ParamObject->Header($FieldName);
         }
 
         # If we are in UnitTest header check mode, mirror all request headers in response.
@@ -521,6 +528,7 @@ sub RequesterPerformRequest {
     }
     my $Config = $Self->{TransportConfig}->{Config};
 
+    # Check required config.
     NEEDED:
     for my $Needed (qw(Host DefaultCommand Timeout)) {
         next NEEDED if IsStringWithData( $Config->{$Needed} );
