@@ -357,7 +357,8 @@ sub TicketSearch {
         # handle dynamic fields
         if ( $FulltextFields->{DynamicField} ) {
             my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
-            my $CustomerFields     = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom###DynamicField');
+            my $ZoomConfig         = $ConfigObject->Get('Ticket::Frontend::CustomerTicketZoom') || {};
+            my $CustomerFields     = $ZoomConfig->{DynamicField};
 
             DYNAMICFIELD:
             for my $DynamicFieldName ( @{ $FulltextFields->{DynamicField} } ) {
