@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-09 12:57+0000\n"
+"PO-Revision-Date: 2023-03-09 16:15+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21522,19 +21522,19 @@ msgstr "تعيين إجراءات المقالة المتاحة لعناصر ا�
 
 #. SysConfig
 msgid "Defines available article actions for Internal articles."
-msgstr ""
+msgstr "تعريف إجراءات المقالات المتاحة للمقالات الداخلية."
 
 #. SysConfig
 msgid "Defines available article actions for Phone articles."
-msgstr ""
+msgstr "تعريف إجراءات المقالات المتاحة لمقالات الهاتف."
 
 #. SysConfig
 msgid "Defines available article actions for invalid articles."
-msgstr ""
+msgstr "تعريف إجراءات المقالة المتوفرة للمقالات غير الصالحة."
 
 #. SysConfig
 msgid "Defines available groups for the admin overview screen."
-msgstr ""
+msgstr "تعيين المجموعات المتوفرة لنظرة عامة على المسؤول."
 
 #. SysConfig
 msgid "Defines chat communication channel."
