@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-09 02:24+0000\n"
+"PO-Revision-Date: 2023-03-09 10:25+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21319,6 +21319,10 @@ msgid ""
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
+"يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام MSBulletin. تتيح صورة "
+"العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه "
+"الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى "
+"الصورة."
 
 #. SysConfig
 msgid ""
@@ -21327,6 +21331,10 @@ msgid ""
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
+"تحديد عامل تصفية لإخراج html لإضافة إرتباطات خلف سلسلة معرفة. تتيح صورة "
+"العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه "
+"الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى "
+"الصورة."
 
 #. SysConfig
 msgid ""
@@ -21335,6 +21343,10 @@ msgid ""
 "png). In this case the OTOBO image path will be used. The second possiblity "
 "is to insert the link to the image."
 msgstr ""
+"يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام bugtraq. تتيح صورة "
+"العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه "
+"الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى "
+"الصورة."
 
 #. SysConfig
 msgid ""
@@ -21346,16 +21358,24 @@ msgid ""
 "displayed within an iframe (e.g. Google) and thus won't work with the "
 "preview mode."
 msgstr ""
+"تحديد عامل تصفية لتجميع أرقام CVE من نصوص المقالات في AgentTicketZoom. ستظهر "
+"النتائج في مربع تعريف بجوار المقالة. قم بتعبئة مراجعة URLPreview إذا كنت "
+"ترغب في رؤية معاينة عند تحريك مؤشر الماوس فوق عنصر الارتباط. يمكن أن يكون "
+"عنوان URL نفسه كما في عنوان URL، ولكن أيضا عنوان بديل. يرجى ملاحظة أن بعض "
+"مواقع الويب تنفي عرضها ضمن إطار iframe (مثل Google) وبالتالي لن تعمل مع وضع "
+"المعاينة."
 
 #. SysConfig
 msgid ""
 "Defines a filter to process the text in the articles, in order to highlight "
 "predefined keywords."
 msgstr ""
+"يحدد عامل تصفية لمعالجة النص في المقالات، من أجل إبراز الكلمات الأساسية "
+"المعرفة مسبقا."
 
 #. SysConfig
 msgid "Defines a permission context for customer to group assignment."
-msgstr ""
+msgstr "يحدد سياق الإذن للعميل لتعيين المجموعة."
 
 #. SysConfig
 msgid ""
@@ -21364,55 +21384,63 @@ msgid ""
 "in this field for email addresses, that aren't syntactically valid, but are "
 "necessary for the system (i.e. \"root@localhost\")."
 msgstr ""
+"تعريف تعبير عادي يستبعد بعض العناوين من فحص بناء الجملة (إذا تم تعيين "
+"\"CheckEmailAddresses\" إلى \"نعم\"). الرجاء إدخال تغيير في هذا الحقل "
+"لعناوين البريد الإلكتروني، التي لا تكون صالحة صناعيا، ولكنها ضرورية للنظام ("
+"أي \"root@localhost\")."
 
 #. SysConfig
 msgid ""
 "Defines a regular expression that filters all email addresses that should "
 "not be used in the application."
 msgstr ""
+"تعريف تعبير عادي يقوم بتصفية كافة عناوين البريد الإلكتروني التي يجب عدم "
+"إستخدامها في التطبيق."
 
 #. SysConfig
 msgid ""
 "Defines a sleep time in microseconds between tickets while they are been "
 "processed by a job."
-msgstr ""
+msgstr "يحدد فترة زمنية، بالميكروثانية، للانتظار بين معالجة التذاكر."
 
 #. SysConfig
 msgid ""
 "Defines a useful module to load specific user options or to display news."
-msgstr ""
+msgstr "تعريف وحدة نمطية مفيدة لتحميل خيارات مستخدم معينة أو لعرض الأخبار."
 
 #. SysConfig
 msgid "Defines all the X-headers that should be scanned."
-msgstr ""
+msgstr "يحدد جميع رؤوس X المراد التحقق منها."
 
 #. SysConfig
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only English names of languages here."
 msgstr ""
+"تعريف كافة اللغات المتوفرة للتطبيق. حدد فقط أسماء اللغات باللغة الإنجليزية "
+"هنا."
 
 #. SysConfig
 msgid ""
 "Defines all the languages that are available to the application. Specify "
 "only native names of languages here."
-msgstr ""
+msgstr "يحدد جميع اللغات المتاحة للتطبيق. أدخل أسماء اللغات الأصلية فقط."
 
 #. SysConfig
 msgid ""
 "Defines all the parameters for the RefreshTime object in the customer "
 "preferences of the customer interface."
-msgstr ""
+msgstr "يحدد كافة المعلمات لكائن RefreshTime في إعدادات العميل لواجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines all the parameters for the ShownTickets object in the customer "
 "preferences of the customer interface."
-msgstr ""
+msgstr "يحدد كافة المعلمات لكائن ShownTickets في إعدادات العميل لواجهة العميل."
 
 #. SysConfig
 msgid "Defines all the parameters for this item in the customer preferences."
-msgstr ""
+msgstr "تحديد كافة المعلمات لهذا العنصر في إعدادات العميل."
 
 #. SysConfig
 msgid ""
@@ -21425,22 +21453,28 @@ msgid ""
 "'PasswordNeedDigit' controls the need of at least 1 digit (set to 0 or 1 to "
 "control)."
 msgstr ""
+"تعيين كافة المعلمات لهذا العنصر في إعدادات العميل. يمكن تعيين كلمات مرور "
+"'PasswordRegExp' في تعبير عادي. باستخدام 'PasswordMinSize'، فإنك تعرف الحد "
+"الأدنى من طول كلمات المرور. حدد ما إذا كان يجب أن تحتوي كلمة المرور على "
+"حرفين صغيرين على الأقل وحرفين كبيرين بتعيين الخيار المرادف ل '١'. يحدد "
+"PasswordMin٢Chards أنه يلزم وجود حرفين على الأقل. 'PasswordNeedDigit' يحدد "
+"أن كلمة المرور يجب أن تحتوي على رقم واحد على الأقل."
 
 #. SysConfig
 msgid "Defines all the parameters for this notification transport."
-msgstr ""
+msgstr "يتحكم في جميع المعلمات لنقل الإشعارات هذا."
 
 #. SysConfig
 msgid "Defines all the possible stats output formats."
-msgstr ""
+msgstr "يحدد جميع تنسيقات إخراج الإحصائيات الممكنة."
 
 #. SysConfig
 msgid "Defines an alternate URL, where the login link refers to."
-msgstr ""
+msgstr "يحدد عنوان URL بديلا يشير إليه رابط تسجيل الدخول."
 
 #. SysConfig
 msgid "Defines an alternate URL, where the logout link refers to."
-msgstr ""
+msgstr "يحدد عنوان URL بديلا يشير إليه ارتباط تسجيل الخروج."
 
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel.."
