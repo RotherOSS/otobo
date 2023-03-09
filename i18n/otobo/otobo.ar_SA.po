@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-09 10:25+0000\n"
+"PO-Revision-Date: 2023-03-09 12:57+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21479,36 +21479,46 @@ msgstr "يحدد عنوان URL بديلا يشير إليه ارتباط تسج
 #. SysConfig
 msgid "Defines an alternate login URL for the customer panel.."
 msgstr ""
+"يحدد عنوان URL بديل لتسجيل الدخول لواجهة العميل التي يشير إليها رابط تسجيل "
+"الدخول."
 
 #. SysConfig
 msgid "Defines an alternate logout URL for the customer panel."
 msgstr ""
+"يحدد عنوان URL بديل لتسجيل الخروج لواجهة العميل التي يشير إليها ارتباط تسجيل "
+"الخروج."
 
 #. SysConfig
 msgid ""
 "Defines an external link to the database of the customer (e.g. 'http://"
 "yourhost/customer.php?CID=[% Data.CustomerID %]' or '')."
 msgstr ""
+"يعرف الاتصال الخارجي بقاعدة بيانات العميل (على سبيل المثال: 'http://yourhost/"
+"customer.php?CID=[٪ Data.CustomerID٪] أو '')."
 
 #. SysConfig
 msgid ""
 "Defines an icon with link to the google map page of the current location in "
 "appointment edit screen."
 msgstr ""
+"يصف رمزا يحتوي على رابط إلى موقع خرائط Google على الويب مع الموقع الحالي "
+"كوجهة مقابلة في واجهة معالجة المواعيد."
 
 #. SysConfig
 msgid ""
 "Defines an overview module to show the address book view of a customer user "
 "list."
 msgstr ""
+"يحدد وحدة نمطية للنظرة العامة تعرض طريقة عرض دفتر عناوين لقائمة مستخدمي "
+"العملاء."
 
 #. SysConfig
 msgid "Defines available article actions for Chat articles."
-msgstr ""
+msgstr "يضبط إجراءات العناصر المتوفرة لعناصر الدردشة."
 
 #. SysConfig
 msgid "Defines available article actions for Email articles."
-msgstr ""
+msgstr "تعيين إجراءات المقالة المتاحة لعناصر البريد الإلكتروني."
 
 #. SysConfig
 msgid "Defines available article actions for Internal articles."
