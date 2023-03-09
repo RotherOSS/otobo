@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-09 16:15+0000\n"
+"PO-Revision-Date: 2023-03-10 07:02+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21538,11 +21538,11 @@ msgstr "تعيين المجموعات المتوفرة لنظرة عامة عل�
 
 #. SysConfig
 msgid "Defines chat communication channel."
-msgstr ""
+msgstr "يحدد قناة اتصال الدردشة."
 
 #. SysConfig
 msgid "Defines default headers for outgoing emails."
-msgstr ""
+msgstr "يضبط الرؤوس الافتراضية لرسائل البريد الإلكتروني الصادرة."
 
 #. SysConfig
 msgid "Defines email communication channel."
