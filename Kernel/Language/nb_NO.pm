@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.380453752181501;
+    $Self->{Completeness}        = 0.398223068380136;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -78,7 +78,7 @@ sub Data {
         'Export' => 'Eksporter',
         'Copy' => 'Kopier',
         'No data found.' => 'Ingen data funnet.',
-        'No matches found.' => 'Ingen treff funnet',
+        'No matches found.' => 'Ingen treff funnet.',
 
         # Template: AdminACLEdit
         'Edit ACL %s' => 'Endre ACL %s',
@@ -86,13 +86,13 @@ sub Data {
         'Go to overview' => 'Gå til oversikt',
         'Delete ACL' => 'Slett ACL',
         'Delete Invalid ACL' => 'Slett ugyldig ACL',
-        'Match settings' => '',
+        'Match settings' => 'Match innstillinger',
         'Set up matching criteria for this ACL. Use \'Properties\' to match the current screen or \'PropertiesDatabase\' to match attributes of the current ticket that are in the database.' =>
             'Opprett matchende kriterier for denne ACL\'en. Benytt \'Egenskaper\' for å matche gjeldende skjerm eller \'EgenskapDatabase\' for å matche attributter i databasen for gjeldende sak.',
         'Change settings' => 'Endre innstillinger',
         'Set up what you want to change if the criteria match. Keep in mind that \'Possible\' is a white list, \'PossibleNot\' a black list.' =>
             'Opprett de endringene du ønsker å utføre når kriteriene matcher. Merk at \'Muligens\' er en hviteliste, mens \'MuligensIkke\' er en svarteliste.',
-        'Check the official %sdocumentation%s.' => '',
+        'Check the official %sdocumentation%s.' => 'Sjekk offisiell %sdocumentation%s.',
         'Show or hide the content' => 'Vis eller skjul innholdet',
         'Edit ACL Information' => 'Endre ACL informasjon',
         'Name' => 'Navn',
@@ -110,17 +110,17 @@ sub Data {
             'Opprett en ny ACL ved å sende inn skjemaet. Etter at ACL\'en er opprettet vil du kunne legge til konfigurasjonselementer i \'edit\' modus.',
 
         # Template: AdminAbout
-        'About' => '',
+        'About' => 'Om',
         'Toggle this widget' => 'Slå av/på denne modulen',
         'This language is not present or enabled on the system. This text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Language' => '',
+            'Språket er ikke tilgjengelig eller slått på for systemet. Denne teksten kan slettes hvis den ikke lenger er nødvendig.',
+        'Remove Language' => 'Fjern språk',
         'Text' => 'Tekst',
         'Message body' => 'Meldingstekst',
         'This field is required and must have less than 4000 characters.' =>
-            '',
-        'Remove About Language' => '',
-        'Add new language' => '',
+            'Dette feltet er påkrevd og må ha mindre enn 4000 tegn.',
+        'Remove About Language' => 'Fjern Om språk',
+        'Add new language' => 'Legg til nytt språk',
         'Save Changes' => 'Lagre endringer',
 
         # Template: AdminAppointmentCalendarManage
@@ -136,7 +136,7 @@ sub Data {
         'Overwrite existing entities' => 'Overskriv eksisterende entiteter',
         'Upload calendar configuration' => 'Last opp kalenderkonfigurasjon',
         'Import Calendar' => 'Importer kalender',
-        'Filter for Calendars' => '',
+        'Filter for Calendars' => 'Filter for kalender',
         'Filter for calendars' => 'Filter for kalendere',
         'Depending on the group field, the system will allow users the access to the calendar according to their permission level.' =>
             'Brukere vil få tilgang til kalenderen i henhold til deres rettighetsnivå og gruppefelt.',
@@ -199,21 +199,21 @@ sub Data {
         'Filter for Notifications' => 'Filter for varslinger',
         'Filter for notifications' => 'Filter for varslinger',
         'Here you can upload a configuration file to import appointment notifications to your system. The file needs to be in .yml format as exported by the appointment notification module.' =>
-            '',
+            'Her kan du laste opp en konfigurasjonsfil for import av kalender til ditt system. Filen skal være i samme .yml-format som kalendermodulen eksporterer.',
         'Overwrite existing notifications?' => 'Overskriv eksisterende varslinger?',
-        'Upload Notification configuration' => '',
-        'Import Notification configuration' => '',
+        'Upload Notification configuration' => 'Last opp varslingskonfigurasjon',
+        'Import Notification configuration' => 'Importer varslingskonfigurasjon',
         'List' => 'Liste',
         'Delete' => 'Slett',
         'Delete this notification' => 'Slett denne varslingen',
-        'Show in agent preferences' => '',
-        'Agent preferences tooltip' => '',
+        'Show in agent preferences' => 'Vis i agent-innstillinger',
+        'Agent preferences tooltip' => 'Hjelpetekst for agentinnstillinger',
         'This message will be shown on the agent preferences screen as a tooltip for this notification.' =>
-            '',
+            'Denne beskjeden vil bli vist på agent-innstillingsskjermen, som hjelpetekst for denne varslingen.',
         'Events' => 'Hendelser',
         'Event' => 'Hendelse',
         'Here you can choose which events will trigger this notification. An additional appointment filter can be applied below to only send for appointments with certain criteria.' =>
-            '',
+            'Her kan du velge hvilke hendelser som skal utløse dette varselet. Et ekstra avtalefilter kan legges til nedenfor slik at kun meldinger som oppfyller visse kriterier sendes.',
         'Appointment Filter' => 'Avtalefilter',
         'Type' => 'Type',
         'Title' => 'Tittel',
@@ -223,68 +223,68 @@ sub Data {
         'Recipients' => 'Mottakere',
         'Send to' => 'Send til',
         'Send to these agents' => 'Sent til disse saksbehandlerne',
-        'Send to all group members (agents only)' => '',
+        'Send to all group members (agents only)' => 'Send til alle medlemmer av gruppen (kun agenter)',
         'Send to all role members' => 'Send til alle medlemmer av rolle',
-        'Send on out of office' => '',
-        'Also send if the user is currently out of office.' => '',
+        'Send on out of office' => 'Send ved ute av kontoret',
+        'Also send if the user is currently out of office.' => 'Send også hvis brukeren ikke er på kontoret.',
         'Once per day' => 'En gang per dag',
         'Notify user just once per day about a single appointment using a selected transport.' =>
-            '',
+            'Send kun melding til bruker en gang daglig per avtale, med valgt transportmetode.',
         'Notification Methods' => 'Varslingsmetoder',
         'These are the possible methods that can be used to send this notification to each of the recipients. Please select at least one method below.' =>
-            '',
-        'Enable this notification method' => '',
+            'Dette er de mulige metodene som kan brukes for å sende dette varselet til hver av mottakerne. Velg minst én metode nedenfor.',
+        'Enable this notification method' => 'Aktiver denne varslingsmetoden',
         'Transport' => 'Transport',
-        'At least one method is needed per notification.' => '',
-        'Active by default in agent preferences' => '',
+        'At least one method is needed per notification.' => 'Minst én metode er nødvendig per varsling.',
+        'Active by default in agent preferences' => 'Aktiv som standard i agentpreferanser',
         'This is the default value for assigned recipient agents who didn\'t make a choice for this notification in their preferences yet. If the box is enabled, the notification will be sent to such agents.' =>
-            '',
+            'Dette er standardverdien for tildelte mottakeragenter som ikke har valgt dette varselet i innstillingene sine ennå. Hvis boksen er aktivert, vil varselet bli sendt til slike agenter.',
         'This feature is currently not available.' => 'Denne funksjonen er p.t. ikke tilgjengelig.',
         'Upgrade to %s' => 'Oppgrader til %s',
-        'Please activate this transport in order to use it.' => '',
+        'Please activate this transport in order to use it.' => 'Aktiver denne transporten for å bruke den.',
         'No data found' => 'Ingen data funnet',
-        'No notification method found.' => 'Ingen varslingsmetode funnet',
+        'No notification method found.' => 'Ingen varslingsmetode funnet.',
         'Notification Text' => 'Varslingstekst',
         'This language is not present or enabled on the system. This notification text could be deleted if it is not needed anymore.' =>
-            '',
-        'Remove Notification Language' => '',
+            'Dette språket er ikke tilstede eller aktivert på systemet. Denne varslingsteksten kan bli slettet hvis den ikke er nødvendig lenger.',
+        'Remove Notification Language' => 'Fjern varslingsspråk',
         'Subject' => 'Emne',
-        'Add new notification language' => '',
-        'Tag Reference' => '',
+        'Add new notification language' => 'Legg til nytt varslingsspråk',
+        'Tag Reference' => 'Etikettreferanse',
         'Notifications are sent to an agent.' => 'Varslinger sendes til en saksbehandler.',
         'You can use the following tags' => 'Du kan bruke de følgende "tags"',
         'To get the first 20 character of the appointment title.' => 'For å hente de første 20 tegnene i avtaleoverskriften.',
         'To get the appointment attribute' => 'For å hente avtaleattributtet',
-        ' e. g.' => 'f.eks.',
+        ' e. g.' => ' f.eks.',
         'To get the calendar attribute' => 'For å hente kalenderattributtet',
-        'Attributes of the recipient user for the notification' => '',
+        'Attributes of the recipient user for the notification' => 'Attributter til mottakerbrukeren for varselet',
         'Config options' => 'Valg for oppsett',
-        'Example notification' => '',
+        'Example notification' => 'Eksempel på melding',
 
         # Template: AdminAppointmentNotificationEventTransportEmailSettings
-        'Additional recipient email addresses' => '',
-        'This field must have less then 200 characters.' => '',
-        'Article visible for customer' => '',
+        'Additional recipient email addresses' => 'Ytterligere mottakeres e-postadresser',
+        'This field must have less then 200 characters.' => 'Dette feltet må ha mindre enn 200 tegn.',
+        'Article visible for customer' => 'Artikkelen er synlig for kunden',
         'An article will be created if the notification is sent to the customer or an additional email address.' =>
-            '',
+            'En artikkel vil bli opprettet hvis varselet sendes til kunden eller en ekstra e-postadresse.',
         'Email template' => 'E-post mal',
         'Use this template to generate the complete email (only for HTML emails).' =>
-            '',
-        'Enable email security' => '',
-        'Email security level' => '',
-        'If signing key/certificate is missing' => '',
-        'If encryption key/certificate is missing' => '',
+            'Bruk denne malen til å generere hele e-posten (kun for HTML-e-poster).',
+        'Enable email security' => 'Aktiver e-postsikkerhet',
+        'Email security level' => 'Sikkerhetsnivå for e-post',
+        'If signing key/certificate is missing' => 'Hvis signeringsnøkkel/sertifikat mangler',
+        'If encryption key/certificate is missing' => 'Hvis krypteringsnøkkel/sertifikat mangler',
 
         # Template: AdminAttachment
         'Attachment Management' => 'Administrasjon: Vedlegg',
         'Add Attachment' => 'Legg til vedlegg',
         'Edit Attachment' => 'Endre vedlegg',
         'Filter for Attachments' => 'Filter for vedlegg',
-        'Filter for attachments' => '',
+        'Filter for attachments' => 'Filter for vedlegg',
         'Filename' => 'Filnavn',
         'Download file' => 'Last ned fil',
         'Delete this attachment' => 'Slett dette vedlegget',
-        'Do you really want to delete this attachment?' => '',
+        'Do you really want to delete this attachment?' => 'Vil du virkelig slette dette vedlegget?',
         'Attachment' => 'Vedlegg',
 
         # Template: AdminAutoResponse
@@ -292,47 +292,47 @@ sub Data {
         'Add Auto Response' => 'Legg Til Autosvar',
         'Edit Auto Response' => 'Endre Autosvar',
         'Filter for Auto Responses' => 'Filter for Autosvar',
-        'Filter for auto responses' => '',
+        'Filter for auto responses' => 'Filter for autosvar',
         'Response' => 'Svar',
         'Auto response from' => 'Autosvar fra',
         'Reference' => 'Referanse',
         'To get the first 20 character of the subject.' => 'For å hente de første 20 tegnene i overskriften.',
         'To get the first 5 lines of the email.' => 'For å hente de første 5 linjene i e-posten.',
-        'To get the name of the ticket\'s customer user (if given).' => '',
+        'To get the name of the ticket\'s customer user (if given).' => 'For å få navnet på billettens kundebruker (hvis gitt).',
         'To get the article attribute' => 'For å hente innlegg-attributtet',
         'Options of the current customer user data' => 'Valg for den nåværende brukerens brukerdata',
         'Ticket owner options' => 'Valg for sakens eier',
         'Ticket responsible options' => 'Valg for saksansvarlige',
         'Options of the current user who requested this action' => 'Valg for den nåværende brukeren som ba om denne handlingen',
         'Options of the ticket data' => 'Valg for sakens data',
-        'Options of ticket dynamic fields internal key values' => '',
+        'Options of ticket dynamic fields internal key values' => 'Alternativer for interne nøkkelverdier i sakens dynamiske felt',
         'Options of ticket dynamic fields display values, useful for Dropdown and Multiselect fields' =>
-            '',
+            'Alternativer for dynamiske saksfelt viser verdier, nyttige for rullegardin- og flervalgsfelt',
         'Example response' => 'Eksempel på svar',
 
         # Template: AdminCloudServiceSupportDataCollector
-        'Cloud Service Management' => '',
-        'Support Data Collector' => '',
-        'Support data collector' => '',
+        'Cloud Service Management' => 'Håndtering av skytjenester',
+        'Support Data Collector' => 'Support Data Collector',
+        'Support data collector' => 'Support data collector',
         'Hint' => 'Hint',
-        'Currently support data is only shown in this system.' => '',
+        'Currently support data is only shown in this system.' => 'For øyeblikket vises støttedata kun i dette systemet.',
         'It is sometimes recommended to send this data to the OTOBO team in order to get better support.' =>
-            '',
+            'Noen ganger anbefales det å sende disse dataene til OTOBO-teamet for å få bedre støtte.',
         'Configuration' => 'Konfigurasjon',
         'Send support data' => 'Send support data',
         'This will allow the system to send additional support data information to the OTOBO team.' =>
-            '',
+            'Dette vil tillate systemet å sende ytterligere støttedatainformasjon til OTOBO-teamet.',
         'Update' => 'Oppdater',
         'System Registration' => 'Registrering av systemet',
         'To enable data sending, please register your system with the OTOBO team or update your system registration information (make sure to activate the \'send support data\' option.)' =>
-            '',
+            'For å aktivere datasending, vennligst registrer systemet ditt hos OTOBO-teamet eller oppdater systemregistreringsinformasjonen din (sørg for å aktivere alternativet \'send støttedata\').',
         'Register this System' => 'Registrer dette systemet',
         'System Registration is disabled for your system. Please check your configuration.' =>
             'Registrering av systemet er deaktivert for ditt system. Vennligst undersøk din konfigurasjon.',
 
         # Template: AdminCloudServices
         'System registration is a service of OTOBO team, which provides a lot of advantages!' =>
-            '',
+            'Systemregistrering er en tjeneste fra OTOBO-teamet, som gir mange fordeler!',
         'Please note that the use of OTOBO cloud services requires the system to be registered.' =>
             'Vennligst husk på at bruken av OTOBO sine skytjenester krever at systemet er registrert.',
         'Register this system' => 'Registrer dette systemet',
@@ -341,93 +341,93 @@ sub Data {
         'Available Cloud Services' => 'Tilgjengelige skytjenester',
 
         # Template: AdminCommunicationLog
-        'Communication Log' => '',
-        'Time Range' => '',
+        'Communication Log' => 'Kommunikasjonslogg',
+        'Time Range' => 'Tidsspenn',
         'Show only communication logs created in specific time range.' =>
-            '',
-        'Filter for Communications' => '',
-        'Filter for communications' => '',
+            'Vis kun kommunikasjonslogger opprettet i en bestemt tidsperiode.',
+        'Filter for Communications' => 'Filter for kommunikasjon',
+        'Filter for communications' => 'Filter for kommunikasjon',
         'In this screen you can see an overview about incoming and outgoing communications.' =>
-            '',
+            'På denne skjermen kan du se en oversikt over innkommende og utgående kommunikasjon.',
         'You can change the sort and order of the columns by clicking on the column header.' =>
-            '',
+            'Du kan endre sorteringen og rekkefølgen på kolonnene ved å klikke på kolonneoverskriften.',
         'If you click on the different entries, you will get redirected to a detailed screen about the message.' =>
-            '',
-        'Status for: %s' => '',
-        'Failing accounts' => '',
-        'Some account problems' => '',
-        'No account problems' => '',
-        'No account activity' => '',
-        'Number of accounts with problems: %s' => '',
-        'Number of accounts with warnings: %s' => '',
-        'Failing communications' => '',
-        'No communication problems' => '',
-        'No communication logs' => '',
-        'Number of reported problems: %s' => '',
-        'Open communications' => '',
-        'No active communications' => '',
-        'Number of open communications: %s' => '',
-        'Average processing time' => '',
-        'List of communications (%s)' => '',
+            'Hvis du klikker på de forskjellige oppføringene, vil du bli omdirigert til et detaljert skjermbilde om meldingen.',
+        'Status for: %s' => 'Status for: %s',
+        'Failing accounts' => 'Sviktende kontoer',
+        'Some account problems' => 'Noen kontoproblemer',
+        'No account problems' => 'Ingen kontoproblemer',
+        'No account activity' => 'Ingen kontoaktivitet',
+        'Number of accounts with problems: %s' => 'Antall kontoer med problemer: %s',
+        'Number of accounts with warnings: %s' => 'Antall kontoer med advarsler: %s',
+        'Failing communications' => 'Sviktende kommunikasjon',
+        'No communication problems' => 'Ingen kommunikasjonsproblemer',
+        'No communication logs' => 'Ingen kommunikasjonslogger',
+        'Number of reported problems: %s' => 'Antall rapporterte problemer: %s',
+        'Open communications' => 'Åpen kommunikasjon',
+        'No active communications' => 'Ingen aktiv kommunikasjon',
+        'Number of open communications: %s' => 'Antall åpne kommunikasjoner: %s',
+        'Average processing time' => 'Gjennomsnittlig behandlingstid',
+        'List of communications (%s)' => 'Liste over kommunikasjon (%s)',
         'Settings' => 'Innstillinger',
-        'Entries per page' => '',
-        'No communications found.' => '',
-        '%s s' => '',
+        'Entries per page' => 'Oppføringer per side',
+        'No communications found.' => 'Fant ingen kommunikasjon.',
+        '%s s' => '%s s',
 
         # Template: AdminCommunicationLogAccounts
-        'Account Status' => '',
-        'Back to overview' => '',
-        'Filter for Accounts' => '',
-        'Filter for accounts' => '',
+        'Account Status' => 'Kontostatus',
+        'Back to overview' => 'Tilbake til oversikten',
+        'Filter for Accounts' => 'Filter for kontoer',
+        'Filter for accounts' => 'Filter for kontoer',
         'You can change the sort and order of those columns by clicking on the column header.' =>
-            '',
-        'Account status for: %s' => '',
+            'Du kan endre sorteringen og rekkefølgen på disse kolonnene ved å klikke på kolonneoverskriften.',
+        'Account status for: %s' => 'Kontostatus for: %s',
         'Status' => 'Status',
-        'Account' => '',
+        'Account' => 'Konto',
         'Edit' => 'Rediger',
-        'No accounts found.' => '',
-        'Communication Log Details (%s)' => '',
+        'No accounts found.' => 'Ingen kontoer funnet.',
+        'Communication Log Details (%s)' => 'Detaljer for kommunikasjonslogg (%s)',
         'Direction' => 'Retning',
         'Start Time' => 'Starttid',
         'End Time' => 'Sluttid',
-        'No communication log entries found.' => '',
+        'No communication log entries found.' => 'Ingen kommunikasjonsloggoppføringer funnet.',
 
         # Template: AdminCommunicationLogCommunications
-        'Duration' => '',
+        'Duration' => 'Varighet',
 
         # Template: AdminCommunicationLogObjectLog
-        '#' => '',
+        '#' => '#',
         'Priority' => 'Prioritet',
         'Module' => 'Modul',
         'Information' => 'Informasjon',
-        'No log entries found.' => '',
+        'No log entries found.' => 'Ingen loggoppføringer funnet.',
 
         # Template: AdminCommunicationLogZoom
-        'Detail view for %s communication started at %s' => '',
-        'Filter for Log Entries' => '',
-        'Filter for log entries' => '',
-        'Show only entries with specific priority and higher:' => '',
-        'Communication Log Overview (%s)' => '',
-        'No communication objects found.' => '',
-        'Communication Log Details' => '',
-        'Please select an entry from the list.' => '',
+        'Detail view for %s communication started at %s' => 'Detaljvisning for %s kommunikasjon startet kl. %s',
+        'Filter for Log Entries' => 'Filter for loggoppføringer',
+        'Filter for log entries' => 'Filter for loggoppføringer',
+        'Show only entries with specific priority and higher:' => 'Vis bare oppføringer med spesifikk prioritet og høyere:',
+        'Communication Log Overview (%s)' => 'Oversikt over kommunikasjonslogg (%s)',
+        'No communication objects found.' => 'Fant ingen kommunikasjon.',
+        'Communication Log Details' => 'Kommunikasjonsloggdetaljer',
+        'Please select an entry from the list.' => 'Velg en oppføring fra listen.',
 
         # Template: AdminContactWD
-        'Contact with data management' => '',
-        'Contact with data' => '',
-        'Add contact with data' => '',
-        'Edit contact with data' => '',
+        'Contact with data management' => 'Kontakt med dataadministrasjon',
+        'Contact with data' => 'Kontakt med data',
+        'Add contact with data' => 'Legg til kontakt med data',
+        'Edit contact with data' => 'Rediger kontakt med data',
         'Back to search results' => 'Tilbake til søkeresultatet',
         'Select' => 'Velg',
         'Search' => 'Søk',
-        'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\ er tillatt',
-        'Please enter a search term to look for contacts with data.' => '',
+        'Wildcards like \'*\' are allowed.' => 'Jokertegn som \'*\ er tillatt.',
+        'Please enter a search term to look for contacts with data.' => 'Skriv inn et søkeord for å se etter kontakter med data.',
         'Valid' => 'Gyldig',
 
         # Template: AdminCustomerAccept
-        'Privacy Policy Management' => '',
-        'Privacy Policy' => '',
-        'Remove PrivacyPolicy Language' => '',
+        'Privacy Policy Management' => 'Håndtering av personvernregler',
+        'Privacy Policy' => 'Personvernerklæring',
+        'Remove PrivacyPolicy Language' => 'Fjern språk på personvernerklæring',
 
         # Template: AdminCustomerCompany
         'Customer Management' => 'Administrasjon: Kunder',
@@ -435,10 +435,10 @@ sub Data {
         'Edit Customer' => 'Endre kunde',
         'List (only %s shown - more available)' => '',
         'total' => 'total',
-        'Please enter a search term to look for customers.' => 'Vennligst skriv et søkekriterie for å lete etter kunder',
+        'Please enter a search term to look for customers.' => 'Vennligst skriv et søkekriterie for å lete etter kunder.',
         'Customer ID' => 'Kunde-ID',
         'Please note' => 'Vær oppmerksom på',
-        'This customer backend is read only!' => '',
+        'This customer backend is read only!' => 'Denne kundestøtten er skrivebeskyttet!',
 
         # Template: AdminCustomerGroup
         'Manage Customer-Group Relations' => 'Administrere forhold mellom Kunde og Gruppe',
@@ -448,11 +448,11 @@ sub Data {
             'Bruk denne funksjonen kun dersom du vil definere grupperettigheter for kunder.',
         'Enable it here!' => 'Aktiver denne her!',
         'Edit Customer Default Groups' => 'Endre standardgrupper for kunder',
-        'These groups are automatically assigned to all customers.' => 'Disse gruppene blir automatisk tildelt alle nye kunder',
+        'These groups are automatically assigned to all customers.' => 'Disse gruppene blir automatisk tildelt alle nye kunder.',
         'You can manage these groups via the configuration setting "CustomerGroupCompanyAlwaysGroups".' =>
             '',
         'Filter for Groups' => 'Filter for Grupper',
-        'Select the customer:group permissions.' => 'Velg rettigheter for kunde:gruppe',
+        'Select the customer:group permissions.' => 'Velg rettigheter for kunde:gruppe.',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer).' =>
             'Hvis ingenting blir valgt vil det ikke være noen rettigheter for denne gruppen (saker vil ikke være synlige for brukeren).',
         'Search Results' => 'Søkeresultat',
@@ -485,10 +485,10 @@ sub Data {
         'This customer backend is read only, but the customer user preferences can be changed!' =>
             '',
         'This field is required and needs to be a valid email address.' =>
-            'Dette feltet er påkrevd og trenger å være en gyldig e-postadresse',
+            'Dette feltet er påkrevd og trenger å være en gyldig e-postadresse.',
         'This email address is not allowed due to the system configuration.' =>
-            'Denne e-postadressen er ikke tillatt i systemkonfigurasjonen',
-        'This email address failed MX check.' => 'Denne e-postadressen feilet i en DNS-test (ingen MX)',
+            'Denne e-postadressen er ikke tillatt i systemkonfigurasjonen.',
+        'This email address failed MX check.' => 'Denne e-postadressen feilet i en DNS-test (ingen MX).',
         'DNS problem, please check your configuration and the error log.' =>
             'Navntjener (DNS) problem, vennligst se på konfigurasjonen og i error loggen.',
         'The syntax of this email address is incorrect.' => 'Syntaksen på denne e-postadressen er feil.',
@@ -522,7 +522,7 @@ sub Data {
         'These groups are automatically assigned to all customer users.' =>
             '',
         'You can manage these groups via the configuration setting "CustomerGroupAlwaysGroups".' =>
-            'Du kan styre disse gruppene gjennom innstillingen "CustomerGroupAlwaysGroups"',
+            'Du kan styre disse gruppene gjennom innstillingen "CustomerGroupAlwaysGroups".',
         'Filter for groups' => '',
         'Select the customer user - group permissions.' => '',
         'If nothing is selected, then there are no permissions in this group (tickets will not be available for the customer user).' =>
@@ -576,15 +576,15 @@ sub Data {
         'Go back to overview' => 'Gå tilbake til oversikten',
         'General' => 'Generelt',
         'This field is required, and the value should be alphabetic and numeric characters only.' =>
-            'Dette feltet er påkrevd, og innholdet må bare være bokstaver og tall',
+            'Dette feltet er påkrevd, og innholdet må bare være bokstaver og tall.',
         'Must be unique and only accept alphabetic and numeric characters.' =>
-            'Må være unikt og bare inneholde bokstaver og tall',
+            'Må være unikt og bare inneholde bokstaver og tall.',
         'Changing this value will require manual changes in the system.' =>
             'Endring av denne verdien vil kreve manuelle endringer i systemet.',
         'This is the name to be shown on the screens where the field is active.' =>
-            'Dette er navnet som vil bli vist på skjermen hvor feltet er aktivert',
+            'Dette er navnet som vil bli vist på skjermen hvor feltet er aktivert.',
         'Field order' => 'Feltrekkefølge',
-        'This field is required and must be numeric.' => 'Dette feltet er påkrevd og må inneholde tall',
+        'This field is required and must be numeric.' => 'Dette feltet er påkrevd og må inneholde tall.',
         'This is the order in which this field will be shown on the screens where is active.' =>
             'Dette er rekkefølgen som vises på feltene på skjermen hvor de er aktive',
         'Tooltip message:' => '',
@@ -643,6 +643,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
         'Example' => 'Eksempel',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
@@ -3122,7 +3124,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Velkommen!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',

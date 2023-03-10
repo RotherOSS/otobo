@@ -641,6 +641,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Ovde možete da unesete opcionu HTTP vezu za vrednost polja u ekranima pregleda.',
         'Example' => 'Primer',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Veza za pregled',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Ako je popunjeno, ovaj URL će se koristiti za pregled koji se prikazuje kada je pokazivač iznad veze u detaljima tiketa. Uzmite u obzir, da bi ovo radilo, normalno URL polje iznad, mora takođe da bude popunjeno.',
@@ -3120,7 +3122,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Dobrodošli!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',

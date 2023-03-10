@@ -37,7 +37,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.914802475011899;
+    $Self->{Completeness}        = 0.92924004442329;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -640,6 +640,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aqui você pode especificar um link HTTP para o valor deste campo nas telas de Visão Geral e Detalhamento.',
         'Example' => 'Exemplo',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Link para visualização',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Se preenchida, esta URL será visualizada ao se flutuar sobre o link no zoom do chamado. Por favor note que para isto funcionar, deve-se preencher também o campo URL comum acima.',
@@ -1455,7 +1457,7 @@ sub Data {
         'You can add favorites by moving your cursor over items on the right side and clicking the star icon.' =>
             'Você pode adicionar favoritos, movendo o cursor sobre os itens do lado direito e clicando no ícone da estrela.',
         'Links' => 'Links',
-        'View the admin manual' => '',
+        'View the admin manual' => 'Ver manual de administração',
         'No Matches' => 'Sem resultados',
         'Sorry, your search didn\'t match any items.' => 'Desculpe, sua pesquisa não retornou nenhum item.',
         'Set as favorite' => 'Definir como favorito',
@@ -2710,43 +2712,43 @@ sub Data {
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
             'Aqui você pode combinar várias estatísticas em um relatório que pode ser gerado como PDF manualmente ou automaticamente em horários configurados.',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
-            '',
-        'Configure PhantomJS' => '',
-        'Configure GoogleChrome' => '',
-        'General settings' => '',
+            'Observe que você só pode selecionar gráficos como formato de saída de estatísticas se tiver configurado um dos binários do renderizador em seu sistema.',
+        'Configure PhantomJS' => 'Configurar PhantomJS',
+        'Configure GoogleChrome' => 'Configurar Google Chrome',
+        'General settings' => 'Configurações gerais',
         'Automatic generation settings' => '',
         'Automatic generation times (cron)' => '',
         'Specify when the report should be automatically generated in cron format, e. g. "10 1 * * *" for every day at 1:10 am.' =>
-            '',
-        'Times are in the system timezone.' => '',
-        'Last automatic generation time' => '',
-        'Next planned automatic generation time' => '',
+            'Especificar quando o relatório deve ser automaticamente gerado em formato cron, ex.: "10 1 ***" todos os dias Às 1:10 am.',
+        'Times are in the system timezone.' => 'Os horários estão no fuso horário do sistema.',
+        'Last automatic generation time' => 'Horário da última geração automática',
+        'Next planned automatic generation time' => 'Próximo horário de geração automática planejada',
         'Automatic generation language' => '',
         'The language to be used when the report is automatically generated.' =>
-            '',
-        'Email subject' => '',
-        'Specify the subject for the automatically generated email.' => '',
-        'Email body' => '',
-        'Specify the text for the automatically generated email.' => '',
-        'Email recipients' => '',
-        'Specify recipient email addresses (comma separated).' => '',
-        'Output settings' => '',
-        'Headline' => '',
+            'A língua a ser usada quando o relatório é automaticamente gerado.',
+        'Email subject' => 'Assunto do email',
+        'Specify the subject for the automatically generated email.' => 'Especificar o assunto para o email gerado automaticamente.',
+        'Email body' => 'Corpo do email',
+        'Specify the text for the automatically generated email.' => 'Especificar o texto para o email gerado automaticamente.',
+        'Email recipients' => 'Destinatários de email',
+        'Specify recipient email addresses (comma separated).' => 'Especificar endereços de destinatários de email (separados por vírgula).',
+        'Output settings' => 'Configurações de saída',
+        'Headline' => 'Título',
         'Caption for preamble' => '',
-        'Preamble' => '',
+        'Preamble' => 'Preâmbulo',
         'Caption for epilogue' => '',
-        'Epilogue' => '',
-        'Add statistic to report' => '',
+        'Epilogue' => 'Epílogo',
+        'Add statistic to report' => 'Adicionar estatísticas ao relatório',
 
         # Template: AgentStatisticsReportsOverview
-        'Statistics Reports' => '',
-        'Edit statistics report "%s".' => '',
-        'Delete statistics report "%s"' => '',
+        'Statistics Reports' => 'Relatórios de Estatísticas',
+        'Edit statistics report "%s".' => 'Editar relatório de estatísticas "%s".',
+        'Delete statistics report "%s"' => 'Excluir relatório de estatísticas "%s"',
 
         # Template: AgentStatisticsReportsView
-        'View Report' => '',
+        'View Report' => 'Ver Relatório',
         'This statistics report contains configuration errors and can currently not be used.' =>
-            '',
+            'O relatório de estatísticas contém erros de configuração e não pode ser usado no momento.',
 
         # Template: AgentStatisticsView
         'Statistics Overview' => 'Visão Geral de Estatísticas',
@@ -2826,13 +2828,13 @@ sub Data {
             'Selecione um ou mais destinatários do caderno de endereço do usuário cliente.',
         'Customer user address book' => 'Caderno de endereços do Usuário Cliente',
         'Remove Ticket Customer' => 'Remover Cliente do Chamado',
-        'Move to Cc' => '',
-        'Move to Bcc' => '',
+        'Move to Cc' => 'Mover para Cc',
+        'Move to Bcc' => 'Mover para Cco',
         'Please remove this entry and enter a new one with the correct value.' =>
             'Por favor, remova esta entrada e digite uma nova com o valor correto.',
         'This address already exists on the address list.' => 'Este endereço já existe na lista de endereços.',
         'Remove Cc' => 'Remover Cc',
-        'Move to To' => '',
+        'Move to To' => 'Mover para Para',
         'Bcc' => 'Cópia Oculta',
         'Remove Bcc' => 'Remover Bcc',
         'Date Invalid!' => 'Data Inválida!',
@@ -3050,7 +3052,7 @@ sub Data {
         'go back to the previous page' => 'retornar à página anterior',
 
         # Template: CustomerAccept
-        'Click to accept' => '',
+        'Click to accept' => 'Clique para aceitar',
 
         # Template: TicketCustomerIDSelection
         'The customer ID is not changeable, no other customer ID can be assigned to this ticket.' =>
@@ -3119,7 +3121,6 @@ sub Data {
             'A senha deve conter pelo menos 3 das classes de caracteres: caractere minúsculo, caractere maiúscula, dígito, caractere especial.',
 
         # Template: CustomerTicketList
-        'Nr.' => 'N.º',
         'Welcome!' => 'Bem-vindo!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'Você ainda não tem chamados. Clique aqui para criar um novo.',
@@ -4798,7 +4799,7 @@ sub Data {
         'Install OTOBO - Error' => 'Erro ao Installar OTOBO',
         'File "%s/%s.xml" not found!' => 'Arquivo "%s/%s.xml" não encontrado.',
         'Contact your Admin!' => 'Entre em contato com o seu Administrador.',
-        'Execution of SQL statement failed: ' => '',
+        'Execution of SQL statement failed: ' => 'A execução da instrução SQL falhou: ',
         'https' => 'https',
         'http' => 'http',
         'System Settings' => 'Configurações de Sistema',
@@ -4817,7 +4818,7 @@ sub Data {
 
         # Perl Module: Kernel/Modules/MigrateFromOTRS.pm
         'If you want to re-run the MigrateFromOTRS Tool, disable the SecureMode in the SysConfig.' =>
-            '',
+            'Se você quiser executar novamente a Ferramenta MigrateFromOTRS, desabilite o SecureMode na Configuração do Sistema.',
         'OTRS to OTOBO migration' => 'Migração do OTRS para OTOBO',
 
         # Perl Module: Kernel/Modules/PublicCalendar.pm
@@ -4881,8 +4882,8 @@ sub Data {
         '"PGP SIGNED MESSAGE" header found, but invalid!' => 'Cabeçalho "PGP SIGNED MESSAGE" encontrado porém, inválido!',
 
         # Perl Module: Kernel/Output/HTML/ArticleCheck/SMIME.pm
-        'Internal error during verification!' => '',
-        'Impossible to decrypt: private key not found!' => '',
+        'Internal error during verification!' => 'Erro interno durante verificação!',
+        'Impossible to decrypt: private key not found!' => 'Impossível descriptografar: chave privada não encontrada!',
         'Impossible to decrypt: private key for email was not found!' => 'Impossível descriptografar: Chave privrada para o e-mail não foi encontrada!',
         'Successful decryption' => 'Descritografado com sucesso.',
 
@@ -5065,7 +5066,7 @@ sub Data {
         'The current password is not correct. Please try again!' => 'A senha atual não está correta. Por favor, tente novamente!',
         'Please supply your new password!' => 'Favor, forneça sua senha!',
         'Can\'t update password, the new password and the repeated password do not match.' =>
-            '',
+            'Não foi possível atualizar a senha, a nova senha e o campo de verificação de senha não coincidem.',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
             'Esta senha não é permitida pela configuração do sistema atual. Por favor, contacte o administrador se você tiver perguntas adicionais.',
         'Can\'t update password, it must be at least %s characters long!' =>
@@ -5076,7 +5077,7 @@ sub Data {
         'Can\'t update password, it must contain at least 2 letter characters!' =>
             'Não é possível atualizar a senha. Ela deve conter, no mínimo, 2 letras.',
         'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
-            '',
+            'Não foi possível atualizar a senha, ela deve conter ao menos 3 ou 4 caracteres (minúsculo, maiúsculo, número, caractere especial)!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
         'Time zone updated successfully!' => 'Fuso horário atualizado com sucesso!',
@@ -5148,9 +5149,9 @@ sub Data {
         'Watched Tickets Total' => 'Total de Chamados Monitorados',
 
         # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
-        '%s Report' => '',
-        'Error: this graph could not be generated: %s.' => '',
-        'Table of Contents' => '',
+        '%s Report' => '%s Relatório',
+        'Error: this graph could not be generated: %s.' => 'Erro: esse gráfico não pode ser gerado: %s.',
+        'Table of Contents' => 'Índice',
 
         # Perl Module: Kernel/Output/PDF/Ticket.pm
         'Ticket Dynamic Fields' => 'Campos Dinâmicos de Chamado',
@@ -5165,7 +5166,7 @@ sub Data {
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
-            '',
+            'Resposta inválida do servidor de autenticação. Talvez o processo tenha demorado muito. Tente outra vez.',
 
         # Perl Module: Kernel/System/AuthSession.pm
         'Please note that the session limit is almost reached.' => 'Por favor note que o limite da sessão está quase alcançado.',
@@ -5222,23 +5223,23 @@ sub Data {
         'Sanity checks for database.' => 'Verificações de integridade para banco de dados.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
-        'Deploy the ACL configuration.' => '',
+        'Deploy the ACL configuration.' => 'Implementar ACLs.',
         'Deployment completed, perfect!' => 'Implantação concluída, perfeita!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
         'Migrate database table auto_responses.' => 'Migrar tabela de banco de dados auto_responses.',
         'Migration failed.' => 'Migração falhou.',
-        'Migrate database table auto_response.' => '',
+        'Migrate database table auto_response.' => 'Migrar tabela do banco de dados auto_response.',
         'Migration completed, perfect!' => 'Migração concluída, perfeito!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
-        'OTOBO Cache cleanup.' => '',
+        'OTOBO Cache cleanup.' => 'Limpeza do Cache OTOBO.',
         'Completed.' => 'Completo.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Need OTRSData->%s!' => '',
+        'Need OTRSData->%s!' => 'Necessita de OTRSData->%s!',
         'Can\'t access OTRS Home: %s!' => '',
-        'All needed files copied and migrated, perfect!' => '',
+        'All needed files copied and migrated, perfect!' => 'Todos os arquivos necessários copiados e migrados, perfeito!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
         'Copy database.' => 'Copiar banco de dados.',
@@ -5255,7 +5256,7 @@ sub Data {
         '%s does not exist!' => '%s não existe!',
         'No OTOBO system found!' => 'Nenhum sistema OTOBO encontrado!',
         'You are trying to run this script on the wrong framework version %s!' =>
-            '',
+            'Você está tentando executar esse script na versão errada do framework %s!',
         'OTOBO Version is correct: %s.' => 'A versão do OTOBO está correta: %s.',
         'Check if OTRS version is correct.' => 'Verifique se a versão OTRS está correta.',
         'OTRS RELEASE file %s does not exist!' => '',
@@ -5266,21 +5267,21 @@ sub Data {
         'OTRS Version is correct: %s.' => 'Versão do OTRS esta correta: %s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-        'Migrate ITSM database tables.' => '',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
+        'Migrate ITSM database tables.' => 'Migrar tabelas de banco de dados ITSM.',
+        'Nothing to do, as the the table \'%s\' does not exist.' => 'Nada a ser feito, uma vez que a tabela \'%s\' não existe.',
         'UPDATE of the table \'%s\' failed.' => '',
-        'Migration completed.' => '',
+        'Migration completed.' => 'Migração completa.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
         'Migrate configuration settings.' => 'Migre as definições de configuração.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
-            '',
+            'Um erro ocorreu durante a migração de dados da Configuração do Sistema ou não existe configuração.',
         'An error occured during SysConfig migration when writing XML to DB.' =>
-            '',
-        'SysConfig data migration completed.' => '',
+            'Um erro ocorreu durante a migração da Configuração do Sistema durante a escrita do XML para o Banco de Dados.',
+        'SysConfig data migration completed.' => 'Migração de dados da Configuração de Sistema completa.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-        'Migrate web service configuration.' => '',
+        'Migrate web service configuration.' => 'Migrar configuração do web service.',
         'Failed - see the log!' => 'Falha - veja o log!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
@@ -5296,15 +5297,15 @@ sub Data {
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
         'Try database connect and sanity checks.' => '',
-        'Could not create database object.' => '',
-        'Database connect and sanity checks completed.' => '',
+        'Could not create database object.' => 'Não foi possível criar o objeto do banco de dados.',
+        'Database connect and sanity checks completed.' => 'Conexão ao banco de dados e verificação de sanidade completa.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
-        'Check if all necessary packages are installed.' => '',
-        'The following packages are only installed in OTRS:' => '',
+        'Check if all necessary packages are installed.' => 'Verificar se todos os pacotes necessários estão instalados.',
+        'The following packages are only installed in OTRS:' => 'Os seguintes pacotes estão instalados apenas no OTRS:',
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
-            '',
-        'The same packages are installed on both systems, perfect!' => '',
+            'Instale (ou desinstale) os pacotes antes da migração. Se um pacote não existe para OTOBO até o momento, favor contatar o Time OTOBO em bugs\@otobo.org. Nós encontraremos uma solução.',
+        'The same packages are installed on both systems, perfect!' => 'Os mesmos pacotes estão instalados em ambos sistemas, perfeito!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
         'Package specific tasks' => '',
@@ -5312,11 +5313,11 @@ sub Data {
         'Failed at -' => 'Falhou em -',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
-        'Check if all needed Perl modules have been installed.' => '',
-        '%s script does not exist.' => '',
+        'Check if all needed Perl modules have been installed.' => 'Verificar se todos os módulos Pearl necessários foram instalados.',
+        '%s script does not exist.' => 'O script %s não existe.',
         'One or more required Perl modules are missing. Please install them as recommended, and run the migration script again.' =>
-            '',
-        'All required Perl modules have been installed, perfect!' => '',
+            'Um ou mais módulos obrigatórios Pearl estão ausentes. Por favor, instale-os conforme recomendado e execute o script de migração novamente.',
+        'All required Perl modules have been installed, perfect!' => 'Todos os módulos obrigatórios Pearl foram instalados, perfeito!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
         'Migrate postmaster filter.' => 'Migrar o filtro do postmaster.',
@@ -5325,13 +5326,13 @@ sub Data {
         'Deploy the process management configuration.' => '',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
-        'Migrate database table response_template.' => '',
+        'Migrate database table response_template.' => 'Migrar a tabela do banco de dados response_template.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
-        'Migrate database table salutation.' => '',
+        'Migrate database table salutation.' => 'Migrar a tabela do banco de dados salutation.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
-        'Migrate database table signature.' => '',
+        'Migrate database table signature.' => 'Migrar a tabela do banco de dados signature.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
         'Migrate statistics.' => 'Migrar estatísticas.',
@@ -5352,11 +5353,11 @@ sub Data {
         'File is different!' => 'Arquivo é diferente!',
         'Can\'t read file!' => 'Não pode ler o arquivo!',
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
-            '',
+            '<p>Pacotes adicionais podem melhorar o OTOBO com uma variedade de recursos úteis. Assegure-se, entretanto, que a origem desses pacotes é confiável, pois eles podem modificar o OTOBO de qualquer maneira possível.</p>',
         'Package not verified by the OTOBO community!' => 'Pacote não verificado pelo OTOBO community!',
         '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '',
-        'Verification not possible (e.g. no internet connection)!' => '',
+            '<p>A instalação de pacotes não verificados está desabilitada. Você pode ativar a instalação de pacotes não verificados através da Configuração do Sistema "Package::AllowNotVerifiedPackages".</p>',
+        'Verification not possible (e.g. no internet connection)!' => 'A verificação não foi possível (sem conexão internet)!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
@@ -5539,8 +5540,8 @@ sub Data {
         'PostgreSQL 9.2 or higher is required.' => 'PostgreSQL 9.2 ou superior é necessário.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
-        'Certificate check' => '',
-        'Found obsolete cryptographic function.' => '',
+        'Certificate check' => 'Verificação de certificado',
+        'Found obsolete cryptographic function.' => 'Encontrada função criptográfica obsoleta.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
         'OTOBO Disk Partition' => 'Partição OTOBO',
@@ -5754,7 +5755,7 @@ sub Data {
         'Support data could not be collected from the web server.' => 'Dados de suporte não puderam ser coletados do servidor web.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-        'PSGI Environment' => '',
+        'PSGI Environment' => 'Ambiente PSGI',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
         'Runs under PSGI' => '',
@@ -5853,10 +5854,10 @@ sub Data {
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
-            '',
+            'Se você quer executar novamente o migration.pl, então desabilite o SecureMode na Configuração do Sistema.',
 
         # Perl Module: Kernel/System/Web/InterfacePublic.pm
-        'Could not connect to the database.' => '',
+        'Could not connect to the database.' => 'Não foi possível conectar ao banco de dados.',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'inválido-temporariamente',
@@ -6075,7 +6076,7 @@ sub Data {
         'This option is currently disabled because the OTOBO Daemon is not running.' =>
             'Esta opção não está disponível no momento porque o Daemon OTOBO não está ativo.',
         'Are you sure you want to update all installed packages?' => 'Você tem certeza de que quer atualizar todos os pacotes instalados?',
-        'No response from get package upgrade run status.' => '',
+        'No response from get package upgrade run status.' => 'Nenhuma resposta do status de execução da atualização do pacote.',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
         'Delete this PostMasterFilter' => 'Deletar Filtro PostMaster',
@@ -6253,7 +6254,7 @@ sub Data {
         'Do you really want to delete this statistic?' => 'Você quer realmente excluir esta estatística?',
 
         # JS File: Core.Agent.StatisticsReports
-        'Do you really want to delete this report?' => '',
+        'Do you really want to delete this report?' => 'Você quer realmente excluir esse relatório?',
 
         # JS File: Core.Agent.TicketAction
         'Select a customer ID to assign to this ticket' => 'Selecione uma ID de cliente para atribuir a este ticket',
@@ -6441,7 +6442,7 @@ Obrigado pela ajuda!
             'Módulo ACL que permite fechar os chamados-pais somente se todos os seus filhos já estejam fechados ("Estado" mostra quais estados não estão disponíveis para o chamado-pai até que todos os chamados-filhos estejam fechados).',
         'Access Control Lists (ACL)' => 'Listas de Controle de Acesso (ACL)',
         'AccountedTime' => 'Tempo contabilizado',
-        'Activate Elasticsearch.' => '',
+        'Activate Elasticsearch.' => 'Ativar Elasticsearch.',
         'Activate the customer frontend.' => '',
         'Activate the public frontend.' => '',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
@@ -6541,7 +6542,7 @@ Obrigado pela ajuda!
         'Agents ↔ Groups' => 'Atendentes ↔ Grupos',
         'Agents ↔ Roles' => 'Atendentes ↔ Papéis',
         'All CustomerIDs of a customer user.' => 'Todos IDs de Clientes de um usuário cliente.',
-        'All closed tickets.' => '',
+        'All closed tickets.' => 'Todos os tickets encerrados.',
         'All customer users of a CustomerID' => 'Todos os usuários clientes de uma CustomerID.',
         'All escalated tickets' => 'Todos os chamados escalados',
         'All new tickets, these tickets have not been worked on yet' => 'Todos os chamados novos, estes chamados não foram trabalhados ainda',
@@ -6589,7 +6590,7 @@ Obrigado pela ajuda!
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Permite condições de pesquisa extendidas na pesquisa de ticket da interface de agente. Com esta funcionalidade, você pode pesquisar, por exemplo, o título do ticket com condições como "(*chave1*&&*chave2*)" or "(*chave1*||*chave2*)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'Permite condições de pesquisa adicionais na pesquisa de tickets da interface do cliente. Com esse recurso, você pode procurar, por exemplo, o título de um ticket com condições como "(*chave1*&&*chave2*)" ou "(*chave1*||*chave2*)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
             'Permite condições de pesquisa extendidas na pesquisa de ticket da interface de agente genérico. Com esta funcionalidade, você pode pesquisar, por exemplo, o título do ticket com condições como "(*chave1*&&*chave2*)" or "(*chave1*||*chave2*)".',
         'Allows generic agent to execute custom modules.' => '',
@@ -6648,13 +6649,13 @@ Obrigado pela ajuda!
             '',
         'ArticleTree' => 'Árvore de Artigo',
         'Attachment Name' => 'Nome do Anexo',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => 'Carregamento automático das extensões Znuny4OTOBOPasswordPolicy.',
         'Automated line break in text messages after x number of chars.' =>
             'Quebra de linha automatizada em mensagens de texto após x número de caracteres.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
             'Automaticamente alterar o estado de um ticket com um proprietário inválido quando ele for desbloqueado. Mapeia de um tipo de estado para um novo estato de ticket.',
         'Automatically generate statistics reports and email them to the specified recipients.' =>
-            '',
+            'Gerar automaticamente relatórios de estatísticas e enviar por email para os destinatários especificados.',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
             'Define e proprietário como e bloqueia o ticket para o Agente atual após abrir a tela de mover na interface de agente.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
@@ -6664,7 +6665,7 @@ Obrigado pela ajuda!
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
             'Automaticamente ajustar o responsável de um chamado (caso não esteja definido ainda) após a primeira atualização de proprietário.',
         'Avatar' => 'Avatar',
-        'Balanced white skin by Felix Niklas (slim version).' => '',
+        'Balanced white skin by Felix Niklas (slim version).' => 'Tema branco balanceado por Felix Niklas (versão compacta).',
         'Balanced white skin by Felix Niklas.' => 'Pele branca balanceada por Felix Niklas.',
         'Based on global RichText setting' => 'Baseado na configuração global RichText',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
@@ -6695,8 +6696,8 @@ Obrigado pela ajuda!
             '',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
             '',
-        'Change Ticket' => '',
-        'Change Ticket information' => '',
+        'Change Ticket' => 'Alterar Ticket',
+        'Change Ticket information' => 'Alterar informação do Ticket',
         'Change queue!' => 'Alterar fila!',
         'Change the customer for this ticket' => 'Alterar o Cliente deste Chamado',
         'Change the owner for this ticket' => 'Alterar o dono deste chamado',
@@ -6742,14 +6743,14 @@ Obrigado pela ajuda!
         'Christmas Eve' => 'Véspera de Natal',
         'Close' => 'Fechar',
         'Close this ticket' => 'Fechar este Chamado',
-        'Closed Tickets' => '',
+        'Closed Tickets' => 'Tickets Encerrados',
         'Closed tickets (customer user)' => 'Chamados fechados (usuário cliente)',
         'Closed tickets (customer)' => 'Chamados fechados (cliente)',
         'Cloud Services' => 'Serviços de Nuvem',
         'Cloud service admin module registration for the transport layer.' =>
             'Registro de módulo da administração de serviço em nuvem para a camada de transporte.',
         'Collect support data for asynchronous plug-in modules.' => 'Coletar dados de suporte para módulos de plug-in assíncronos.',
-        'Color definitions for the customer interface.' => '',
+        'Color definitions for the customer interface.' => 'Definições de cor para a interface de cliente.',
         'Column ticket filters for Ticket Overviews type "Small".' => 'Filtros de coluna de ticket para Visões Gerais de Ticket do tipo "Pequeno".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
             'Colunas que podem ser filtradas na visão de escalonamento da interface de agente. Observação: Somente atributos de Ticket, Campos Dinâmicos (DynamicField_NomeX) e atributos de Cliente (exemplo, Telefone de Usuário Cliente, Nome de Empresa Cliente, ...) são permitidos.',
@@ -6787,9 +6788,9 @@ Obrigado pela ajuda!
         'Configure any additional readonly mirror databases that you want to use.' =>
             'Configure qualquer banco de dados somente leitura espelhado adicional que você queira utilizar.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            '',
-        'Configure the About information.' => '',
-        'Configure the privacy policy.' => '',
+            'Configurar envio de dados de suporte para o Time OTOBO para um suporte melhorado.',
+        'Configure the About information.' => 'Configurar a informação Sobre.',
+        'Configure the privacy policy.' => 'Configurar a política de privacidade.',
         'Configure which screen should be shown after a new ticket has been created.' =>
             'Configure qual tela deve ser mostrada após criar um novo chamado.',
         'Configure your own log text for PGP.' => 'Configure o seu próprio texto de registro para PGP.',
@@ -6855,7 +6856,7 @@ Obrigado pela ajuda!
             '',
         'Customer Administration' => 'Administração de Cliente',
         'Customer Companies' => 'Empresas de Clientes',
-        'Customer Dashboard' => '',
+        'Customer Dashboard' => 'Painel do Cliente',
         'Customer Dynamic Field Database Detailed Search' => '',
         'Customer Dynamic Field Database Details' => '',
         'Customer Dynamic Field Database Search' => '',
@@ -6863,7 +6864,7 @@ Obrigado pela ajuda!
         'Customer Information Center Search.' => 'Pesquisa do Centro de Informações do Cliente',
         'Customer Information Center search.' => 'Pesquisa do Centro de Informações do Cliente.',
         'Customer Information Center.' => 'Centro de Informações do Cliente.',
-        'Customer Password.' => '',
+        'Customer Password.' => 'Senha do Cliente.',
         'Customer Ticket Print Module.' => '',
         'Customer User Administration' => 'Administração de Usuário Cliente',
         'Customer User Information' => 'Informações de Usuário Cliente',
@@ -6880,7 +6881,7 @@ Obrigado pela ajuda!
             'Item de cliente (ícone) que mostra os tickets fechados deste cliente como um bloco de informação. Definir CustomerUserLogin como 1 pesquisa por tickets baseado no nome de login ao invés de ID de Cliente.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
             'Item de cliente (ícone) que mostra os tickets abertos deste cliente como um bloco de informação. Definir CustomerUserLogin como 1 pesquisa por tickets baseado no nome de login ao invés de ID de Cliente.',
-        'Customer preferences.' => '',
+        'Customer preferences.' => 'Preferências do cliente.',
         'Customer ticket overview' => '',
         'Customer ticket search.' => '',
         'Customer ticket zoom' => '',

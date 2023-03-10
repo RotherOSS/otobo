@@ -43,7 +43,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.865936855465651;
+    $Self->{Completeness}        = 0.865778200856735;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -646,6 +646,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Здесь можно указать необязательную HTTP-ссылку для значения поля в экранах Обзоров и Подробного просмотра',
         'Example' => 'Пример',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Ссылка для предпросмотра',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Эта ссылка будет использована для предпросмотра, который будет отображаться по наведению на нее в экране заявки. Чтобы эта опция работала, поле со ссылкой выше также должно быть заполнено.',
@@ -3125,7 +3127,6 @@ sub Data {
             'Пароль должен состоять как минимум из 3 символов следующих типов: нижний регистр, верхний регистр, цифра, специальный знак.',
 
         # Template: CustomerTicketList
-        'Nr.' => 'Номер:',
         'Welcome!' => 'Добро пожаловать!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'У вас ещё нет ни одной заявки. Пожалуйста нажмите сюда, чтобы создать новую.',

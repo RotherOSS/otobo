@@ -639,6 +639,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Tutaj możesz ustalić opcjonalny odnośnik HTTP dla wartości pola, który będzie wyświetlany na ekranach przeglądów i szczegółów.',
         'Example' => 'Przykład',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Link do podglądu',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Jeżeli jest wpisany, ten link (URL) będzie używany do podglądu, który będzie widoczny w szczegółach zgłoszenia, gdy najedziesz kursorem na ten link. Zauważ, że żeby ten podgląd działał, pełny adres (URL) w polu powyżej również musi być wpisany.',
@@ -3118,7 +3120,6 @@ sub Data {
             'Hasło musi zawierać minimum 3 z poniższych grup znaków: małe litery, wielkie litery, cyfry, znaki specjalne.',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Witaj!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'Nie masz jeszcze żadnych zgłoszeń. Kliknij tu aby utworzyć.',

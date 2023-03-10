@@ -640,6 +640,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'در اینجا شما می توانید یک لینک HTTP اختیاری برای مقدار فیلد در صفحه نمایش بررسی ها و زوم را مشخص کنید.',
         'Example' => 'مثال',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'لینک برای پیش نمایش',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'اگر در پر شده است، این URL خواهد شد برای یک پیش نمایش است که نشان داده شده است که این پیوند در زوم بلیط ماند استفاده می شود. لطفا توجه داشته باشید که برای این کار، زمینه URL به طور منظم بالا نیاز به در شود پر شده است، بیش از حد.',
@@ -3119,7 +3121,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'خوش آمدید',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',
