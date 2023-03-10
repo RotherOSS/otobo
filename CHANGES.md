@@ -1,4 +1,22 @@
 
+# OTOBO 10.0.18 2023-03-10
+- 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
+- 2023-03-09 16:47:01 +0100 [Bugfix]   Layout glitch in calendar event popup when a notification is set (https://github.com/RotherOSS/otobo/issues/2219)
+- 2023-03-09 13:42:44 +0100 [Enhanced] Backport features in bin/docker/quick_setup.pl from the rel-10_1 branch (https://github.com/RotherOSS/otobo/issues/2220)
+- 2023-03-07 08:37:36 +0100 Updating AUTHORS.md file.
+- 2023-03-06 10:31:43 +0100 Test failure in OverviewSmall.t (https://github.com/RotherOSS/otobo/issues/2213)
+- 2023-03-04 17:28:25 +0100 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
+- 2023-03-01 10:20:51 +0100 Remove San Miguel from the footer. (https://github.com/RotherOSS/otobo/issues/2156)
+- 2023-02-24 13:12:46 +0100 Replace OTRS with OTOBO in a code comment
+- 2023-01-31 08:07:57 +0100 [Bugfix]   Error with Dynamic Fields dropdown while filtering (https://github.com/RotherOSS/otobo/issues/2143)
+- 2023-01-16 10:13:04 +0100 [Tidied]   Copyright Note Update (https://github.com/RotherOSS/otobo/issues/2077)
+- 2023-01-12 12:00:40 +0100 [Bugfix]   DynamicField DB Cache keeps data errorneously (https://github.com/RotherOSS/otobo/issues/2095)
+- 2023-01-11 18:39:35 +0100 [Bugfix]   Issue with CommunicationLog (https://github.com/RotherOSS/otobo/issues/2037)
+- 2023-01-11 13:29:37 +0100 [Tidied]   Remove support for CommunicationID in Kernel::System::CommunicationLog::DB::ObjectLookupGet() (https://github.com/RotherOSS/otobo/issues/2089)
+- 2023-01-06 19:30:52 +0100 Refine checkbox tests in scripts/test/DynamicField/EditFieldValueGet.t (https://github.com/RotherOSS/otobo/issues/2083)
+- 2023-01-06 11:34:45 +0100 [Bugfix]   Result of Kernel::System::Ticket::Article::Backend::Invalid::ArticleGet() when TicketID/ArticleID does not exist (https://github.com/RotherOSS/otobo/issues/2081)
+
+
 # OTOBO 10.0.17 2022-12-20
 - 2022-12-20 10:35:45 +0100 [Security] Fix SQL Injection Bug in TicketSearch. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/2049)
 - 2022-10-25 15:52:04 +0200 Correcting template toolkit data insertion
@@ -14,7 +32,7 @@
 - 2022-08-11 16:18:11 +0200 [Tidied]   Update JavaScript libraries (https://github.com/RotherOSS/otobo/issues/1722)
 - 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
 - 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
-- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
 - 2022-05-16 14:56:28 +0200 Issue #1777 fixed time and s3 (https://github.com/RotherOSS/otobo/issues/1778)
 - 2022-05-16 09:17:39 +0200 Followup to Issue #1297: Add used method.
 - 2022-04-30 18:06:23 +0200 Fix test Selenium/Output/Dashboard/CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1747)
@@ -920,6 +938,7 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
 
 
 
