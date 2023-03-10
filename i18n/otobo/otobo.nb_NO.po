@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-10 10:36+0000\n"
+"PO-Revision-Date: 2023-03-10 16:25+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -1330,32 +1330,26 @@ msgid "No communication objects found."
 msgstr "Fant ingen kommunikasjon."
 
 #. Template: AdminCommunicationLogZoom
-#, fuzzy
 msgid "Communication Log Details"
 msgstr "Kommunikasjonsloggdetaljer"
 
 #. Template: AdminCommunicationLogZoom
-#, fuzzy
 msgid "Please select an entry from the list."
 msgstr "Velg en oppføring fra listen."
 
 #. Template: AdminContactWD
-#, fuzzy
 msgid "Contact with data management"
 msgstr "Kontakt med dataadministrasjon"
 
 #. Template: AdminContactWD
-#, fuzzy
 msgid "Contact with data"
 msgstr "Kontakt med data"
 
 #. Template: AdminContactWD
-#, fuzzy
 msgid "Add contact with data"
 msgstr "Legg til kontakt med data"
 
 #. Template: AdminContactWD
-#, fuzzy
 msgid "Edit contact with data"
 msgstr "Rediger kontakt med data"
 
@@ -1376,7 +1370,6 @@ msgid "Wildcards like '*' are allowed."
 msgstr "Jokertegn som '*\\\\ er tillatt"
 
 #. Template: AdminContactWD
-#, fuzzy
 msgid "Please enter a search term to look for contacts with data."
 msgstr "Skriv inn et søkeord for å se etter kontakter med data."
 
@@ -1385,19 +1378,16 @@ msgid "Valid"
 msgstr "Gyldig"
 
 #. Template: AdminCustomerAccept
-#, fuzzy
 msgid "Privacy Policy Management"
 msgstr "Håndtering av personvernregler"
 
 #. Template: AdminCustomerAccept
-#, fuzzy
 msgid "Privacy Policy"
 msgstr "Personvernerklæring"
 
 #. Template: AdminCustomerAccept
-#, fuzzy
 msgid "Remove PrivacyPolicy Language"
-msgstr "Fjern PrivacyPolicy Language"
+msgstr "Fjern språk på personvernerklæring"
 
 #. Template: AdminCustomerCompany
 msgid "Customer Management"
@@ -1422,7 +1412,7 @@ msgstr "total"
 
 #. Template: AdminCustomerCompany
 msgid "Please enter a search term to look for customers."
-msgstr "Vennligst skriv et søkekriterie for å lete etter kunder"
+msgstr "Vennligst skriv et søkekriterie for å lete etter kunder."
 
 #. Template: AdminCustomerCompany
 msgid "Customer ID"
@@ -1433,7 +1423,6 @@ msgid "Please note"
 msgstr "Vær oppmerksom på"
 
 #. Template: AdminCustomerCompany
-#, fuzzy
 msgid "This customer backend is read only!"
 msgstr "Denne kundestøtten er skrivebeskyttet!"
 
@@ -1466,7 +1455,7 @@ msgstr "Endre standardgrupper for kunder"
 
 #. Template: AdminCustomerGroup
 msgid "These groups are automatically assigned to all customers."
-msgstr "Disse gruppene blir automatisk tildelt alle nye kunder"
+msgstr "Disse gruppene blir automatisk tildelt alle nye kunder."
 
 #. Template: AdminCustomerGroup
 #, fuzzy
@@ -1483,7 +1472,7 @@ msgstr "Filter for Grupper"
 
 #. Template: AdminCustomerGroup
 msgid "Select the customer:group permissions."
-msgstr "Velg rettigheter for kunde:gruppe"
+msgstr "Velg rettigheter for kunde:gruppe."
 
 #. Template: AdminCustomerGroup
 msgid ""
@@ -1601,15 +1590,15 @@ msgstr ""
 
 #. Template: AdminCustomerUser
 msgid "This field is required and needs to be a valid email address."
-msgstr "Dette feltet er påkrevd og trenger å være en gyldig e-postadresse"
+msgstr "Dette feltet er påkrevd og trenger å være en gyldig e-postadresse."
 
 #. Template: AdminCustomerUser
 msgid "This email address is not allowed due to the system configuration."
-msgstr "Denne e-postadressen er ikke tillatt i systemkonfigurasjonen"
+msgstr "Denne e-postadressen er ikke tillatt i systemkonfigurasjonen."
 
 #. Template: AdminCustomerUser
 msgid "This email address failed MX check."
-msgstr "Denne e-postadressen feilet i en DNS-test (ingen MX)"
+msgstr "Denne e-postadressen feilet i en DNS-test (ingen MX)."
 
 #. Template: AdminCustomerUser
 msgid "DNS problem, please check your configuration and the error log."
@@ -1746,7 +1735,7 @@ msgid ""
 "\"CustomerGroupAlwaysGroups\"."
 msgstr ""
 "Du kan styre disse gruppene gjennom innstillingen \"CustomerGroupAlwaysGroups"
-"\""
+"\"."
 
 #. Template: AdminCustomerUserGroup
 #, fuzzy
@@ -1947,11 +1936,11 @@ msgstr "Generelt"
 msgid ""
 "This field is required, and the value should be alphabetic and numeric "
 "characters only."
-msgstr "Dette feltet er påkrevd, og innholdet må bare være bokstaver og tall"
+msgstr "Dette feltet er påkrevd, og innholdet må bare være bokstaver og tall."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Must be unique and only accept alphabetic and numeric characters."
-msgstr "Må være unikt og bare inneholde bokstaver og tall"
+msgstr "Må være unikt og bare inneholde bokstaver og tall."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Changing this value will require manual changes in the system."
@@ -1959,7 +1948,7 @@ msgstr "Endring av denne verdien vil kreve manuelle endringer i systemet."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This is the name to be shown on the screens where the field is active."
-msgstr "Dette er navnet som vil bli vist på skjermen hvor feltet er aktivert"
+msgstr "Dette er navnet som vil bli vist på skjermen hvor feltet er aktivert."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "Field order"
@@ -1967,7 +1956,7 @@ msgstr "Feltrekkefølge"
 
 #. Template: AdminDynamicFieldCheckbox
 msgid "This field is required and must be numeric."
-msgstr "Dette feltet er påkrevd og må inneholde tall"
+msgstr "Dette feltet er påkrevd og må inneholde tall."
 
 #. Template: AdminDynamicFieldCheckbox
 msgid ""
