@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2023-03-10 08:22+0000\n"
+"PO-Revision-Date: 2023-03-10 08:57+0000\n"
 "Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
@@ -1047,6 +1047,9 @@ msgid ""
 "update your system registration information (make sure to activate the 'send "
 "support data' option.)"
 msgstr ""
+"For å aktivere datasending, vennligst registrer systemet ditt hos OTOBO-"
+"teamet eller oppdater systemregistreringsinformasjonen din (sørg for å "
+"aktivere alternativet 'send støttedata')."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Register this System"
@@ -1065,6 +1068,7 @@ msgid ""
 "System registration is a service of OTOBO team, which provides a lot of "
 "advantages!"
 msgstr ""
+"Systemregistrering er en tjeneste fra OTOBO-teamet, som gir mange fordeler!"
 
 #. Template: AdminCloudServices
 msgid ""
@@ -1092,105 +1096,111 @@ msgstr "Tilgjengelige skytjenester"
 
 #. Template: AdminCommunicationLog
 msgid "Communication Log"
-msgstr ""
+msgstr "Kommunikasjonslogg"
 
 #. Template: AdminCommunicationLog
 msgid "Time Range"
-msgstr ""
+msgstr "Tidsspenn"
 
 #. Template: AdminCommunicationLog
 msgid "Show only communication logs created in specific time range."
-msgstr ""
+msgstr "Vis kun kommunikasjonslogger opprettet i en bestemt tidsperiode."
 
 #. Template: AdminCommunicationLog
 msgid "Filter for Communications"
-msgstr ""
+msgstr "Filter for kommunikasjon"
 
 #. Template: AdminCommunicationLog
 msgid "Filter for communications"
-msgstr ""
+msgstr "Filter for kommunikasjon"
 
 #. Template: AdminCommunicationLog
 msgid ""
 "In this screen you can see an overview about incoming and outgoing "
 "communications."
 msgstr ""
+"På denne skjermen kan du se en oversikt over innkommende og utgående "
+"kommunikasjon."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "You can change the sort and order of the columns by clicking on the column "
 "header."
 msgstr ""
+"Du kan endre sorteringen og rekkefølgen på kolonnene ved å klikke på "
+"kolonneoverskriften."
 
 #. Template: AdminCommunicationLog
 msgid ""
 "If you click on the different entries, you will get redirected to a detailed "
 "screen about the message."
 msgstr ""
+"Hvis du klikker på de forskjellige oppføringene, vil du bli omdirigert til "
+"et detaljert skjermbilde om meldingen."
 
 #. Template: AdminCommunicationLog
 msgid "Status for: %s"
-msgstr ""
+msgstr "Status for: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing accounts"
-msgstr ""
+msgstr "Sviktende kontoer"
 
 #. Template: AdminCommunicationLog
 msgid "Some account problems"
-msgstr ""
+msgstr "Noen kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account problems"
-msgstr ""
+msgstr "Ingen kontoproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No account activity"
-msgstr ""
+msgstr "Ingen kontoaktivitet"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with problems: %s"
-msgstr ""
+msgstr "Antall kontoer med problemer: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Number of accounts with warnings: %s"
-msgstr ""
+msgstr "Antall kontoer med advarsler: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Failing communications"
-msgstr ""
+msgstr "Sviktende kommunikasjon"
 
 #. Template: AdminCommunicationLog
 msgid "No communication problems"
-msgstr ""
+msgstr "Ingen kommunikasjonsproblemer"
 
 #. Template: AdminCommunicationLog
 msgid "No communication logs"
-msgstr ""
+msgstr "Ingen kommunikasjonslogger"
 
 #. Template: AdminCommunicationLog
 msgid "Number of reported problems: %s"
-msgstr ""
+msgstr "Antall rapporterte problemer: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Open communications"
-msgstr ""
+msgstr "Åpen kommunikasjon"
 
 #. Template: AdminCommunicationLog
 msgid "No active communications"
-msgstr ""
+msgstr "Ingen aktiv kommunikasjon"
 
 #. Template: AdminCommunicationLog
 msgid "Number of open communications: %s"
-msgstr ""
+msgstr "Antall åpne kommunikasjoner: %s"
 
 #. Template: AdminCommunicationLog
 msgid "Average processing time"
-msgstr ""
+msgstr "Gjennomsnittlig behandlingstid"
 
 #. Template: AdminCommunicationLog
 msgid "List of communications (%s)"
-msgstr ""
+msgstr "Liste over kommunikasjon (%s)"
 
 #. Template: AdminCommunicationLog
 msgid "Settings"
@@ -1198,41 +1208,43 @@ msgstr "Innstillinger"
 
 #. Template: AdminCommunicationLog
 msgid "Entries per page"
-msgstr ""
+msgstr "Oppføringer per side"
 
 #. Template: AdminCommunicationLog
 msgid "No communications found."
-msgstr ""
+msgstr "Fant ingen kommunikasjon."
 
 #. Template: AdminCommunicationLog
 msgid "%s s"
-msgstr ""
+msgstr "%s s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account Status"
-msgstr ""
+msgstr "Kontostatus"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Back to overview"
-msgstr ""
+msgstr "Tilbake til oversikten"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for Accounts"
-msgstr ""
+msgstr "Filter for kontoer"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Filter for accounts"
-msgstr ""
+msgstr "Filter for kontoer"
 
 #. Template: AdminCommunicationLogAccounts
 msgid ""
 "You can change the sort and order of those columns by clicking on the column "
 "header."
 msgstr ""
+"Du kan endre sorteringen og rekkefølgen på disse kolonnene ved å klikke på "
+"kolonneoverskriften."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account status for: %s"
-msgstr ""
+msgstr "Kontostatus for: %s"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Status"
@@ -1240,7 +1252,7 @@ msgstr "Status"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Edit"
@@ -1248,11 +1260,11 @@ msgstr "Rediger"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No accounts found."
-msgstr ""
+msgstr "Ingen kontoer funnet."
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Communication Log Details (%s)"
-msgstr ""
+msgstr "Detaljer for kommunikasjonslogg (%s)"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "Direction"
@@ -1268,15 +1280,15 @@ msgstr "Sluttid"
 
 #. Template: AdminCommunicationLogAccounts
 msgid "No communication log entries found."
-msgstr ""
+msgstr "Ingen kommunikasjonsloggoppføringer funnet."
 
 #. Template: AdminCommunicationLogCommunications
 msgid "Duration"
-msgstr ""
+msgstr "Varighet"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "Priority"
@@ -1292,27 +1304,27 @@ msgstr "Informasjon"
 
 #. Template: AdminCommunicationLogObjectLog
 msgid "No log entries found."
-msgstr ""
+msgstr "Ingen loggoppføringer funnet."
 
 #. Template: AdminCommunicationLogZoom
 msgid "Detail view for %s communication started at %s"
-msgstr ""
+msgstr "Detaljvisning for %s kommunikasjon startet kl. %s"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for Log Entries"
-msgstr ""
+msgstr "Filter for loggoppføringer"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Filter for log entries"
-msgstr ""
+msgstr "Filter for loggoppføringer"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Show only entries with specific priority and higher:"
-msgstr ""
+msgstr "Vis bare oppføringer med spesifikk prioritet og høyere:"
 
 #. Template: AdminCommunicationLogZoom
 msgid "Communication Log Overview (%s)"
-msgstr ""
+msgstr "Oversikt over kommunikasjonslogg (%s)"
 
 #. Template: AdminCommunicationLogZoom
 msgid "No communication objects found."
