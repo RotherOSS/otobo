@@ -10,13 +10,14 @@
 # Tor Houghton <th-transifex@bogus.net>, 2018
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2019
 # Rune Bjørnerås <rune@bibsyst.no>, 2023.
+# Jorn Odberg <jorn.odberg@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
 "PO-Revision-Date: 2023-03-10 16:25+0000\n"
-"Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
+"Last-Translator: Jorn Odberg <jorn.odberg@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
 "otobo10/otobo/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -1367,7 +1368,7 @@ msgstr "Søk"
 
 #. Template: AdminContactWD
 msgid "Wildcards like '*' are allowed."
-msgstr "Jokertegn som '*\\\\ er tillatt"
+msgstr "Jokertegn som '*\\\\ er tillatt."
 
 #. Template: AdminContactWD
 msgid "Please enter a search term to look for contacts with data."
