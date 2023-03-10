@@ -369,7 +369,7 @@ sub _CheckRecipient {
         }
     }
 
-    my $MissingSelectedKeyFlag;
+    delete $Self->{MissingSelectedKey};
     my $MissingKeysFlag;
 
     # Check each recipient type.
@@ -407,7 +407,6 @@ sub _CheckRecipient {
                 next ADDRESS;
             }
 
-            $MissingSelectedKeyFlag = 1;
 
             PUBLICKEY:
             for my $PublicKey (@PublicKeys) {
@@ -420,12 +419,8 @@ sub _CheckRecipient {
                     $EncryptKeyID = "SMIME::$PublicKey->{Filename}::$PublicKey->{Email}";
                 }
 
-                # If this key is selected everything is fine, remove missing key flag and check next
-                #   address.
-                if ( $SelectedEncryptKeyIDs{$EncryptKeyID} ) {
-                    $MissingSelectedKeyFlag = 0;
-                    next ADDRESS;
-                }
+                # If this key is selected everything is fine
+                next ADDRESS if $SelectedEncryptKeyIDs{$EncryptKeyID};
             }
 
             push @{ $Self->{MissingSelectedKey} }, $EmailAddress;
@@ -436,7 +431,7 @@ sub _CheckRecipient {
     return if $MissingKeysFlag;
 
     # Return error if there was no selected key for an email address.
-    return if $MissingSelectedKeyFlag;
+    return if $Self->{MissingSelectedKey};
 
     # Otherwise return success
     return 1;
