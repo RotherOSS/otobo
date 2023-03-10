@@ -9,20 +9,22 @@
 # Martin Gruner <martin.gruner@otrs.com>, 2018
 # Tor Houghton <th-transifex@bogus.net>, 2018
 # LarsMagnusHerland <lars.magnus@herland.priv.no>, 2019
-#
+# Rune Bjørnerås <rune@bibsyst.no>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2022-12-20 16:14+0000\n"
-"PO-Revision-Date: 2018-09-20 13:03+0000\n"
-"Last-Translator: LarsMagnusHerland <lars.magnus@herland.priv.no>, 2019\n"
-"Language-Team: Norwegian Bokmål (Norway) (https://translate.otobo.org/"
-"projects/otobo10/otobo/nb_NO/)\n"
+"PO-Revision-Date: 2023-03-10 08:21+0000\n"
+"Last-Translator: Rune Bjørnerås <rune@bibsyst.no>\n"
+"Language-Team: Norwegian Bokmål <https://translate.otobo.org/projects/"
+"otobo10/otobo/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.4.2\n"
 
 #. Template: AdminACL
 msgid "ACL Management"
@@ -166,7 +168,7 @@ msgstr "Slett ugyldig ACL"
 
 #. Template: AdminACLEdit
 msgid "Match settings"
-msgstr ""
+msgstr "Match innstillinger"
 
 #. Template: AdminACLEdit
 msgid ""
@@ -192,7 +194,7 @@ msgstr ""
 
 #. Template: AdminACLEdit
 msgid "Check the official %sdocumentation%s."
-msgstr ""
+msgstr "Sjekk offisiell %sdocumentation%s."
 
 #. Template: AdminACLEdit
 msgid "Show or hide the content"
@@ -248,7 +250,7 @@ msgstr ""
 
 #. Template: AdminAbout
 msgid "About"
-msgstr ""
+msgstr "Om"
 
 #. Template: AdminAbout
 msgid "Toggle this widget"
@@ -259,10 +261,12 @@ msgid ""
 "This language is not present or enabled on the system. This text could be "
 "deleted if it is not needed anymore."
 msgstr ""
+"Språket er ikke tilgjengelig eller slått på for systemet. Denne teksten kan "
+"slettes hvis den ikke lenger er nødvendig."
 
 #. Template: AdminAbout
 msgid "Remove Language"
-msgstr ""
+msgstr "Fjern språk"
 
 #. Template: AdminAbout
 msgid "Text"
@@ -274,15 +278,15 @@ msgstr "Meldingstekst"
 
 #. Template: AdminAbout
 msgid "This field is required and must have less than 4000 characters."
-msgstr ""
+msgstr "Dette feltet er påkrevd og må ha mindre enn 4000 tegn."
 
 #. Template: AdminAbout
 msgid "Remove About Language"
-msgstr ""
+msgstr "Fjern Om språk"
 
 #. Template: AdminAbout
 msgid "Add new language"
-msgstr ""
+msgstr "Legg til nytt språk"
 
 #. Template: AdminAbout
 msgid "Save Changes"
@@ -340,7 +344,7 @@ msgstr "Importer kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for Calendars"
-msgstr ""
+msgstr "Filter for kalender"
 
 #. Template: AdminAppointmentCalendarManage
 msgid "Filter for calendars"
@@ -568,6 +572,8 @@ msgid ""
 "to your system. The file needs to be in .yml format as exported by the "
 "appointment notification module."
 msgstr ""
+"Her kan du laste opp en konfigurasjonsfil for import av kalender til ditt "
+"system. Filen skal være i samme .yml-format som kalendermodulen eksporterer."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Overwrite existing notifications?"
@@ -575,11 +581,11 @@ msgstr "Overskriv eksisterende varslinger?"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Upload Notification configuration"
-msgstr ""
+msgstr "Last opp varslingskonfigurasjon"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Import Notification configuration"
-msgstr ""
+msgstr "Importer varslingskonfigurasjon"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "List"
@@ -595,17 +601,19 @@ msgstr "Slett denne varslingen"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Show in agent preferences"
-msgstr ""
+msgstr "Vis i agent-innstillinger"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Agent preferences tooltip"
-msgstr ""
+msgstr "Hjelpetekst for agentinnstillinger"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
 "This message will be shown on the agent preferences screen as a tooltip for "
 "this notification."
 msgstr ""
+"Denne beskjeden vil bli vist på agent-innstillingsskjermen, som hjelpetekst "
+"for denne varslingen."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Events"
@@ -621,6 +629,9 @@ msgid ""
 "additional appointment filter can be applied below to only send for "
 "appointments with certain criteria."
 msgstr ""
+"Her kan du velge hvilke hendelser som skal utløse dette varselet. Et ekstra "
+"avtalefilter kan legges til nedenfor slik at kun meldinger som oppfyller "
+"visse kriterier sendes."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Appointment Filter"
@@ -660,7 +671,7 @@ msgstr "Sent til disse saksbehandlerne"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all group members (agents only)"
-msgstr ""
+msgstr "Send til alle medlemmer av gruppen (kun agenter)"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send to all role members"
@@ -668,11 +679,11 @@ msgstr "Send til alle medlemmer av rolle"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Send on out of office"
-msgstr ""
+msgstr "Send ved ute av kontoret"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Also send if the user is currently out of office."
-msgstr ""
+msgstr "Send også hvis brukeren ikke er på kontoret."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Once per day"
@@ -683,6 +694,8 @@ msgid ""
 "Notify user just once per day about a single appointment using a selected "
 "transport."
 msgstr ""
+"Send kun melding til bruker en gang daglig per avtale, med valgt "
+"transportmetode."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notification Methods"
@@ -693,10 +706,12 @@ msgid ""
 "These are the possible methods that can be used to send this notification to "
 "each of the recipients. Please select at least one method below."
 msgstr ""
+"Dette er de mulige metodene som kan brukes for å sende dette varselet til "
+"hver av mottakerne. Velg minst én metode nedenfor."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Enable this notification method"
-msgstr ""
+msgstr "Aktiver denne varslingsmetoden"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Transport"
@@ -704,11 +719,11 @@ msgstr "Transport"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "At least one method is needed per notification."
-msgstr ""
+msgstr "Minst én metode er nødvendig per varsling."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Active by default in agent preferences"
-msgstr ""
+msgstr "Aktiv som standard i agentpreferanser"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid ""
@@ -716,6 +731,9 @@ msgid ""
 "choice for this notification in their preferences yet. If the box is "
 "enabled, the notification will be sent to such agents."
 msgstr ""
+"Dette er standardverdien for tildelte mottakeragenter som ikke har valgt "
+"dette varselet i innstillingene sine ennå. Hvis boksen er aktivert, vil "
+"varselet bli sendt til slike agenter."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "This feature is currently not available."
@@ -727,7 +745,7 @@ msgstr "Oppgrader til %s"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Please activate this transport in order to use it."
-msgstr ""
+msgstr "Aktiver denne transporten for å bruke den."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "No data found"
@@ -746,10 +764,12 @@ msgid ""
 "This language is not present or enabled on the system. This notification "
 "text could be deleted if it is not needed anymore."
 msgstr ""
+"Dette språket er ikke tilstede eller aktivert på systemet. Denne "
+"varslingsteksten kan bli slettet hvis den ikke er nødvendig lenger."
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Remove Notification Language"
-msgstr ""
+msgstr "Fjern varslingsspråk"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Subject"
@@ -757,11 +777,11 @@ msgstr "Emne"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Add new notification language"
-msgstr ""
+msgstr "Legg til nytt varslingsspråk"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Tag Reference"
-msgstr ""
+msgstr "Etikettreferanse"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Notifications are sent to an agent."
@@ -789,7 +809,7 @@ msgstr "For å hente kalenderattributtet"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Attributes of the recipient user for the notification"
-msgstr ""
+msgstr "Attributter til mottakerbrukeren for varselet"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Config options"
@@ -797,25 +817,27 @@ msgstr "Valg for oppsett"
 
 #. Template: AdminAppointmentNotificationEvent
 msgid "Example notification"
-msgstr ""
+msgstr "Eksempel på melding"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Additional recipient email addresses"
-msgstr ""
+msgstr "Ytterligere mottakeres e-postadresser"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "This field must have less then 200 characters."
-msgstr ""
+msgstr "Dette feltet må ha mindre enn 200 tegn."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Article visible for customer"
-msgstr ""
+msgstr "Artikkelen er synlig for kunden"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "An article will be created if the notification is sent to the customer or an "
 "additional email address."
 msgstr ""
+"En artikkel vil bli opprettet hvis varselet sendes til kunden eller en "
+"ekstra e-postadresse."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email template"
@@ -824,23 +846,23 @@ msgstr "E-post mal"
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid ""
 "Use this template to generate the complete email (only for HTML emails)."
-msgstr ""
+msgstr "Bruk denne malen til å generere hele e-posten (kun for HTML-e-poster)."
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Enable email security"
-msgstr ""
+msgstr "Aktiver e-postsikkerhet"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "Email security level"
-msgstr ""
+msgstr "Sikkerhetsnivå for e-post"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If signing key/certificate is missing"
-msgstr ""
+msgstr "Hvis signeringsnøkkel/sertifikat mangler"
 
 #. Template: AdminAppointmentNotificationEventTransportEmailSettings
 msgid "If encryption key/certificate is missing"
-msgstr ""
+msgstr "Hvis krypteringsnøkkel/sertifikat mangler"
 
 #. Template: AdminAttachment
 msgid "Attachment Management"
@@ -860,7 +882,7 @@ msgstr "Filter for vedlegg"
 
 #. Template: AdminAttachment
 msgid "Filter for attachments"
-msgstr ""
+msgstr "Filter for vedlegg"
 
 #. Template: AdminAttachment
 msgid "Filename"
@@ -876,7 +898,7 @@ msgstr "Slett dette vedlegget"
 
 #. Template: AdminAttachment
 msgid "Do you really want to delete this attachment?"
-msgstr ""
+msgstr "Vil du virkelig slette dette vedlegget?"
 
 #. Template: AdminAttachment
 msgid "Attachment"
@@ -899,8 +921,9 @@ msgid "Filter for Auto Responses"
 msgstr "Filter for Autosvar"
 
 #. Template: AdminAutoResponse
+#, fuzzy
 msgid "Filter for auto responses"
-msgstr ""
+msgstr "Filter for autosvar"
 
 #. Template: AdminAutoResponse
 msgid "Response"
@@ -924,7 +947,7 @@ msgstr "For å hente de første 5 linjene i e-posten."
 
 #. Template: AdminAutoResponse
 msgid "To get the name of the ticket's customer user (if given)."
-msgstr ""
+msgstr "For å få navnet på billettens kundebruker (hvis gitt)."
 
 #. Template: AdminAutoResponse
 msgid "To get the article attribute"
@@ -952,13 +975,15 @@ msgstr "Valg for sakens data"
 
 #. Template: AdminAutoResponse
 msgid "Options of ticket dynamic fields internal key values"
-msgstr ""
+msgstr "Alternativer for interne nøkkelverdier i sakens dynamiske felt"
 
 #. Template: AdminAutoResponse
 msgid ""
 "Options of ticket dynamic fields display values, useful for Dropdown and "
 "Multiselect fields"
 msgstr ""
+"Alternativer for dynamiske saksfelt viser verdier, nyttige for rullegardin- "
+"og flervalgsfelt"
 
 #. Template: AdminAutoResponse
 msgid "Example response"
@@ -966,15 +991,15 @@ msgstr "Eksempel på svar"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Cloud Service Management"
-msgstr ""
+msgstr "Håndtering av skytjenester"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support Data Collector"
-msgstr ""
+msgstr "Support Data Collector"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Support data collector"
-msgstr ""
+msgstr "Support data collector"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Hint"
@@ -982,7 +1007,7 @@ msgstr "Hint"
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid "Currently support data is only shown in this system."
-msgstr ""
+msgstr "For øyeblikket vises støttedata kun i dette systemet."
 
 #. Template: AdminCloudServiceSupportDataCollector
 msgid ""
