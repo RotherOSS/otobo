@@ -34,7 +34,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.191972076788831;
+    $Self->{Completeness}        = 0.193875932095827;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -249,7 +249,7 @@ sub Data {
         'You can use the following tags' => 'Voit käyttää seuraavia tageja',
         'To get the first 20 character of the appointment title.' => '',
         'To get the appointment attribute' => '',
-        ' e. g.' => 'esim.',
+        ' e. g.' => ' esim.',
         'To get the calendar attribute' => '',
         'Attributes of the recipient user for the notification' => '',
         'Config options' => '',
@@ -429,7 +429,7 @@ sub Data {
         'Edit Customer' => 'Muokkaa asiakasta',
         'List (only %s shown - more available)' => '',
         'total' => 'yhteensä',
-        'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita',
+        'Please enter a search term to look for customers.' => 'Lisää hakutermi etsiäksesi asiakkaita.',
         'Customer ID' => 'AsiakasID',
         'Please note' => '',
         'This customer backend is read only!' => '',
@@ -637,6 +637,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '',
         'Example' => 'Esimerkki',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => '',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
@@ -1817,14 +1819,14 @@ sub Data {
         'Edit Queue' => 'Muokkaa jonoa',
         'Filter for Queues' => 'Suodata jonoja',
         'Filter for queues' => 'Suodata jonoja',
-        'A queue with this name already exists!' => 'Jonon nimi on jo käytössä',
+        'A queue with this name already exists!' => 'Jonon nimi on jo käytössä!',
         'This queue is present in a SysConfig setting, confirmation for updating settings to point to the new queue is needed!' =>
             '',
         'Sub-queue of' => 'Alijono jonolle',
         'Unlock timeout' => 'Aika lukituksen poistumiseen',
         '0 = no unlock' => '0 = ei lukituksen poistumista',
         'hours' => 'tuntia',
-        'Only business hours are counted.' => 'Vain työaika huomioidaan',
+        'Only business hours are counted.' => 'Vain työaika huomioidaan.',
         'If an agent locks a ticket and does not close it before the unlock timeout has passed, the ticket will unlock and will become available for other agents.' =>
             '',
         'Notify by' => 'Huomauksen lähettäjä',
@@ -1849,7 +1851,7 @@ sub Data {
         'Salutation' => 'Tervehdys',
         'The salutation for email answers.' => 'Tervehdys sähköpostiviesteissä.',
         'Signature' => 'Allekirjoitus',
-        'The signature for email answers.' => 'Allekirjoitus sähköpostiviesteissä',
+        'The signature for email answers.' => 'Allekirjoitus sähköpostiviesteissä.',
         'This queue is used in the following config settings:' => '',
 
         # Template: AdminQueueAutoResponse
@@ -2021,7 +2023,7 @@ sub Data {
             '',
         'See also' => 'Katso myös',
         'In this way you can directly edit the certification and private keys in file system.' =>
-            'Tällä tavoin voi suoraan muokata sertifikaatteja sekä yksityisavaimia tiedostojärjestelmässä. ',
+            'Tällä tavoin voi suoraan muokata sertifikaatteja sekä yksityisavaimia tiedostojärjestelmässä.',
         'Hash' => 'Tarkiste',
         'Create' => 'Luo',
         'Handle related certificates' => '',
@@ -2667,8 +2669,8 @@ sub Data {
         'Split' => 'Jaa',
 
         # Template: AgentStatisticsAdd
-        'Statistics Management' => '',
-        'Add Statistics' => '',
+        'Statistics Management' => 'Tilastojen hallinta',
+        'Add Statistics' => 'Lisää tilastoja',
         'Read more about statistics in OTOBO' => '',
         'Dynamic Matrix' => '',
         'Each cell contains a singular data point.' => '',
@@ -2677,21 +2679,21 @@ sub Data {
         'Static' => '',
         'Non-configurable complex statistics.' => '',
         'General Specification' => '',
-        'Create Statistic' => '',
+        'Create Statistic' => 'Luo tilasto',
 
         # Template: AgentStatisticsEdit
-        'Edit Statistics' => '',
-        'Run now' => '',
+        'Edit Statistics' => 'Muokkaa tilastoa',
+        'Run now' => 'Suorita nyt',
         'Statistics Preview' => '',
-        'Save Statistic' => '',
+        'Save Statistic' => 'Tallenna tilasto',
 
         # Template: AgentStatisticsImport
-        'Import Statistics' => '',
+        'Import Statistics' => 'Tuo tilastoja',
         'Import Statistics Configuration' => '',
 
         # Template: AgentStatisticsOverview
         'Statistics' => 'Tilastot',
-        'Run' => '',
+        'Run' => 'Suorita',
         'Edit statistic "%s".' => '',
         'Export statistic "%s"' => '',
         'Export statistic %s' => '',
@@ -2699,11 +2701,11 @@ sub Data {
         'Delete statistic %s' => '',
 
         # Template: AgentStatisticsReportsAdd
-        'Report Management' => '',
-        'Add Report' => '',
+        'Report Management' => 'Raporttien hallinta',
+        'Add Report' => 'Lisää raportti',
 
         # Template: AgentStatisticsReportsEdit
-        'Edit Report' => '',
+        'Edit Report' => 'Muokkaa raporttia',
         'Here you can combine several statistics to a report which you can generate as a PDF manually or automatically at configured times.' =>
             '',
         'Please note that you can only select charts as statistics output format if you configured one of the renderer binaries on your system.' =>
@@ -2780,7 +2782,7 @@ sub Data {
         'Responsible invalid.' => '',
         'Next state' => 'Uusi tila',
         'State invalid.' => '',
-        'For all pending* states.' => '* kaikille odottaville tiloille',
+        'For all pending* states.' => '* kaikille odottaville tiloille.',
         'Add Article' => 'Lisää artikkeli',
         'Create an Article' => 'Luo artikkeli',
         'Inform agents' => '',
@@ -2800,7 +2802,7 @@ sub Data {
             '',
         'Next ticket state' => 'Uusi tiketin tila',
         'Inform sender' => 'Informoi lähettäjää',
-        'Send mail' => 'Lähetä sähköposti!',
+        'Send mail' => 'Lähetä sähköposti',
 
         # Template: AgentTicketBulk
         'Ticket Bulk Action' => 'Tikettien massatoimenpide',
@@ -2915,7 +2917,7 @@ sub Data {
         'Split Into New Phone Ticket' => 'Jaa uuteen puhelintikettiin',
         'Save Chat Into New Phone Ticket' => 'Tallenna keskustelu uutena puhelintikettinä',
         'Create New Phone Ticket' => 'Lisää uusi puhelintiketti',
-        'Please include at least one customer for the ticket.' => 'Valitse ainakin yksi asiakas tiketille',
+        'Please include at least one customer for the ticket.' => 'Valitse ainakin yksi asiakas tiketille.',
         'To queue' => 'Jonoon',
         'Chat protocol' => '',
         'The chat will be appended as a separate article.' => '',
@@ -3116,7 +3118,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Tervetuloa!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',
@@ -3222,9 +3223,9 @@ sub Data {
         # Template: InstallerConfigureMail
         'Configure Outbound Mail' => 'Määritä lähtevä posti',
         'Outbound mail type' => 'Lähtevän postin tyyppi',
-        'Select outbound mail type.' => 'Valitse lähtevän postin tyyppi',
+        'Select outbound mail type.' => 'Valitse lähtevän postin tyyppi.',
         'Outbound mail port' => 'Lähtevän postin portti',
-        'Select outbound mail port.' => 'Valitse lähtevän postin portti',
+        'Select outbound mail port.' => 'Valitse lähtevän postin portti.',
         'SMTP host' => 'SMTP palvelin',
         'SMTP host.' => 'SMTP palvelin.',
         'SMTP authentication' => 'SMTP tunnistautuminen',
@@ -3235,7 +3236,7 @@ sub Data {
         'Password for SMTP auth.' => 'Salasana SMTP:n tunnistautumista varten.',
         'Configure Inbound Mail' => 'Määritä saapuvan postin asetukset',
         'Inbound mail type' => 'Saapuvan postin tyyppi',
-        'Select inbound mail type.' => 'Valitse saapuvan postin tyyppi',
+        'Select inbound mail type.' => 'Valitse saapuvan postin tyyppi.',
         'Inbound mail host' => 'Saapuvan postin palvelin',
         'Inbound mail host.' => 'Saapuvan postin palvelin.',
         'Inbound mail user' => 'Saapuvan postin käyttäjätunnus',
@@ -3675,8 +3676,8 @@ sub Data {
         'Zip' => 'Postinumero',
         'City' => 'Kaupunki',
         'Country' => 'Maa',
-        'Mr.' => 'Mr.',
-        'Mrs.' => 'Mrs.',
+        'Mr.' => 'Herra',
+        'Mrs.' => 'Rouva',
         'Address' => '',
         'View system log messages.' => '',
         'Edit the system configuration settings.' => 'Muokkaa systeemitason asetuksia.',
@@ -4632,7 +4633,7 @@ sub Data {
         'Untitled' => '',
         'Ticket Number' => 'Tiketin numero',
         'Ticket' => 'Tiketti',
-        'printed by' => 'tulostaja: ',
+        'printed by' => 'tulostaja:',
         'CustomerID (complex search)' => '',
         'CustomerID (exact match)' => '',
         'Invalid Users' => '',
@@ -5841,7 +5842,7 @@ sub Data {
         'Customer user can\'t be added!' => '',
         'Can\'t send account info!' => '',
         'New account created. Sent login information to %s. Please check your email.' =>
-            'Uusi tunnus lisätty. Lähetetty kirjautumistiedot osoitteeseen %s. Ole hyvä ja tarkasta postisi. ',
+            'Uusi tunnus lisätty. Lähetetty kirjautumistiedot osoitteeseen %s. Ole hyvä ja tarkasta postisi.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
@@ -6478,7 +6479,7 @@ Thanks for your help!
         'Admin contact with data.' => '',
         'Admin modules overview.' => '',
         'Admin.' => '',
-        'Administration' => 'Ylläpitö',
+        'Administration' => 'Ylläpito',
         'Agent Contact With Data Search' => '',
         'Agent Customer Search' => '',
         'Agent Customer Search.' => '',
@@ -6980,7 +6981,7 @@ Thanks for your help!
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
         'Defines an alternate URL, where the login link refers to.' => '',
-        'Defines an alternate URL, where the logout link refers to.' => 'Määrittele vaihtoehtoinen URL,  jonne uloskirjaus johtaa.',
+        'Defines an alternate URL, where the logout link refers to.' => 'Määrittele vaihtoehtoinen URL, jonne uloskirjaus johtaa.',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
@@ -9395,7 +9396,7 @@ Thanks for your help!
         'User Profile' => 'Käyttäjäprofiili',
         'UserFirstname' => '',
         'UserLastname' => '',
-        'Users, Groups & Roles' => '',
+        'Users, Groups & Roles' => 'Käyttäjät, ryhmät & roolit',
         'Uses richtext for viewing and editing ticket notification.' => '',
         'Uses richtext for viewing and editing: articles, salutations, signatures, standard templates, auto responses and notifications.' =>
             '',

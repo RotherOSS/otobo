@@ -38,7 +38,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%Y.%M.%D';
     $Self->{DateInputFormat}     = '%Y.%M.%D';
     $Self->{DateInputFormatLong} = '%Y.%M.%D - %T';
-    $Self->{Completeness}        = 0.967793114389973;
+    $Self->{Completeness}        = 0.967634459781057;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -641,6 +641,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '可以为字段值指定一个可选的HTTP链接，以便其显示在工单概览和工单详情中。',
         'Example' => '样例',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => '连接预览',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '如果填写了内容，在工单详情屏幕中当鼠标移动到这个URL上方时将显示URL的预览。请注意：要使这个功能生效，还需要上面的常规URL字段也填写好了内容。',
@@ -3120,7 +3122,6 @@ sub Data {
             '密码至少需要包含3种字符：小写、大写、数字或特殊字符。',
 
         # Template: CustomerTicketList
-        'Nr.' => 'Nr.',
         'Welcome!' => '欢迎！',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '你还没有工单，请点击这里创建一个新工单。',

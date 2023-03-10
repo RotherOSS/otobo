@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.999365381564334;
+    $Self->{Completeness}        = 0.999206726955418;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -635,6 +635,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Hier können Sie einen optionalen HTTP-Link für den Feldwert in Übersichten und Ansichtsseiten angeben.',
         'Example' => 'Beispiel',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Link für Vorschau',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Diese URL wird (falls vorhanden) für eine Vorschau verwendet, wenn sich die Maus über diesem Link in der Ticketansicht befindet. Hierfür muss das oben stehende URL-Feld ebenso ausgefüllt werden.',
@@ -3114,7 +3116,6 @@ sub Data {
             'Passwort muss mindestes 3 der folgenden Zeichenklassen enthalten: Kleinbuchstaben, Großbuchstaben, Ziffern, Sonderzeichen.',
 
         # Template: CustomerTicketList
-        'Nr.' => 'Nr.',
         'Welcome!' => 'Willkommen!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'Es sind noch keine Tickets vorhanden. Klicke hier, um ein neues zu erstellen.',

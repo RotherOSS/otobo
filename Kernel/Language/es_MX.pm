@@ -32,7 +32,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D/%M/%Y';
     $Self->{DateInputFormat}     = '%D/%M/%Y';
     $Self->{DateInputFormatLong} = '%D/%M/%Y - %T';
-    $Self->{Completeness}        = 0.973028716484214;
+    $Self->{Completeness}        = 0.972870061875297;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -635,6 +635,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Aquí puede indicar un enlace HTTP opcional para el valor del campo en las pantallas de Vista general y Ampliación.',
         'Example' => 'Ejemplo',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Enlace para muestra',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Si se rellena, esta URL se utilizará para una vista previa que se mostrará cuando se pase el ratón por este enlace en el zoom del ticket. Tenga en cuenta que para que esto funcione, el campo de la URL normal de arriba también debe rellenarse.',
@@ -3114,7 +3116,6 @@ sub Data {
             'La contraseña debe contener al menos 3 de las clases de caracteres: minúscula, mayúscula, dígito, carácter especial.',
 
         # Template: CustomerTicketList
-        'Nr.' => 'Nr.',
         'Welcome!' => '¡Bienvenido!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'Todavía no tiene tickets. Por favor, haga clic aquí, para crear uno nuevo.',
@@ -6393,7 +6394,7 @@ Thanks for your help!
 ' => '
 Estimado cliente,
 
-Lamentablemente no hemos podido detectar un número de ticket válido
+Lamentablemente no hemos podido detectar un número de ticket válido 
 en su asunto, por lo que este correo no puede ser procesado.
 
 Por favor, cree un nuevo ticket a través del panel de cliente.

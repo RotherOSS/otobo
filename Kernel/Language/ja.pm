@@ -638,6 +638,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             '一覧・詳細画面でフィールドの値を使用してHTTPのリンクを指定できます。',
         'Example' => '例',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'プレビュー用のリンク',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '設定したURLは詳細画面のプレビューで使用されます。「リンクを表示」も適切に設定してください。',
@@ -3117,7 +3119,6 @@ sub Data {
             'パスワードには大文字小文字数字記号のいずれか3種類が必要です。',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'ようこそ！',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'チケットは存在しません。クリックして新規チケットを作成してください。',

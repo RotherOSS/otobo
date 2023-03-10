@@ -636,6 +636,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Тук можете да зададете оптимална HTTP връзка за стойността на полето в екрани Преглед и Мащабиране.',
         'Example' => 'Пример',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Линк за визуализация',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'Ако е попълнен, този URL адрес ще бъде използван за визуализация, която се показва, когато тази връзка се движи в увеличение на билета. Моля, имайте предвид, че за да работи това, трябва да се попълни и полето с обикновен URL адрес.',
@@ -3115,7 +3117,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => '',
         'You have no tickets yet. Please click here, to create a new one.' =>
             '',

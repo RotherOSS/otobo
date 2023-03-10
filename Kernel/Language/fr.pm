@@ -40,7 +40,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.434237664604157;
+    $Self->{Completeness}        = 0.43455497382199;
 
     # csv separator
     $Self->{Separator}         = ';';
@@ -643,6 +643,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'Ici vous pouvez spécifier un lien HTTP optionnel pour la valeur des champs dans les écrans de type Vue d\'ensemble et Zoom.',
         'Example' => 'Exemple',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'Lien vers l\'aperçu',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             '',
@@ -3122,7 +3124,6 @@ sub Data {
             '',
 
         # Template: CustomerTicketList
-        'Nr.' => '',
         'Welcome!' => 'Bienvenue !',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'Vous n\'avez pas encore de tickets. Veuillez cliquer ici pour en créer un nouveau.',
@@ -5826,7 +5827,7 @@ sub Data {
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
             'Authentification réussie, mais aucune donnée utilisateur n\'a été trouvée dans la base. Merci de contacter votre administrateur.',
         'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+        'Logout successful.' => 'Déconnexion avec succès.',
         'Feature not active!' => 'Cette fonctionnalité n\'est pas activée !',
         'Sent password reset instructions. Please check your email.' => 'Instructions d\'initialisation du mot de passe envoyées. Veuillez consulter votre e-mail.',
         'Invalid Token!' => 'Jeton non valide !',
@@ -6986,7 +6987,7 @@ Thanks for your help!
         'Defines all the parameters for this notification transport.' => '',
         'Defines all the possible stats output formats.' => '',
         'Defines an alternate URL, where the login link refers to.' => '',
-        'Defines an alternate URL, where the logout link refers to.' => '',
+        'Defines an alternate URL, where the logout link refers to.' => 'Détermine une adresse URL alternative à l\'endroit ou mène le lien de déconnexion.',
         'Defines an alternate login URL for the customer panel..' => '',
         'Defines an alternate logout URL for the customer panel.' => '',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>

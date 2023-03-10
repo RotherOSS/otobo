@@ -31,7 +31,7 @@ sub Data {
     $Self->{DateFormatShort}     = '%D.%M.%Y';
     $Self->{DateInputFormat}     = '%D.%M.%Y';
     $Self->{DateInputFormatLong} = '%D.%M.%Y - %T';
-    $Self->{Completeness}        = 0.57686815801999;
+    $Self->{Completeness}        = 0.759955576709503;
 
     # csv separator
     $Self->{Separator}         = '';
@@ -637,6 +637,8 @@ sub Data {
         'Here you can specify an optional HTTP link for the field value in Overviews and Zoom screens.' =>
             'هنا يمكنك تحديد ارتباط HTTP اختياري لقيمة الحقل في شاشات اللمحات العامة والتكبير/التصغير.',
         'Example' => 'مثال',
+        'You can reference the field with its own field name. You can also refer to other fields, e.g. with \'DynamicField_OtherFieldName\'.' =>
+            '',
         'Link for preview' => 'رابط للمعاينة',
         'If filled in, this URL will be used for a preview which is shown when this link is hovered in ticket zoom. Please note that for this to work, the regular URL field above needs to be filled in, too.' =>
             'يتم استخدام عنوان URL هذا (إن وجد) للمعاينة عندما يكون الماوس فوق هذا الرابط في طريقة عرض التذكرة. لهذا الغرض، يجب أيضا ملء حقل عنوان URL أعلاه.',
@@ -3116,7 +3118,6 @@ sub Data {
             'يجب أن تحتوي كلمة المرور على ٣ على الأقل من فئات الحرف التالية: حروف صغيرة، حروف كبيرة، أرقام، حروف خاصة.',
 
         # Template: CustomerTicketList
-        'Nr.' => 'رقم.',
         'Welcome!' => 'أهلا بكم!',
         'You have no tickets yet. Please click here, to create a new one.' =>
             'ليس لديك تذاكر حتى الآن. يرجى النقر هنا، لإنشاء واحدة جديدة.',
@@ -4950,211 +4951,211 @@ sub Data {
         'Can\'t connect to %s!' => 'يتعذر الاتصال ب ‎%s!',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketGeneric.pm
-        'Shown Columns' => '',
-        'filter not active' => '',
-        'filter active' => '',
-        'This ticket has no title or subject' => '',
+        'Shown Columns' => 'الأعمدة المعروضة',
+        'filter not active' => 'عامل التصفية غير نشط',
+        'filter active' => 'عامل تصفية نشط',
+        'This ticket has no title or subject' => 'هذه التذكرة ليس لها عنوان أو موضوع',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/TicketStatsGeneric.pm
-        '7 Day Stats' => 'الإحصائيات ل ٧ أيام',
+        '7 Day Stats' => 'إحصاءات 7 أيام',
 
         # Perl Module: Kernel/Output/HTML/Dashboard/UserOnline.pm
-        'User set their status to unavailable.' => '',
-        'Unavailable' => '',
+        'User set their status to unavailable.' => 'قام المستخدم بتعيين حالته إلى "غير متوفر".',
+        'Unavailable' => 'غير متوفر',
 
         # Perl Module: Kernel/Output/HTML/Layout.pm
         'Standard' => 'قياسي',
-        'The following tickets are not updated: %s.' => '',
-        'h' => 'س',
-        'm' => 'ش',
-        'd' => 'ي',
+        'The following tickets are not updated: %s.' => 'لم يتم تحديث التذاكر التالية: ‎%s.',
+        'h' => 'ح',
+        'm' => 'م',
+        'd' => 'د',
         'This ticket does not exist, or you don\'t have permissions to access it in its current state. You can take one of the following actions:' =>
-            '',
-        'This is a' => '',
+            'هذه التذكرة غير موجودة، أو ليس لديك أذونات للوصول إليها في حالتها الحالية. يمكنك إتخاذ أحد الإجراءات التالية:',
+        'This is a' => 'هذا هو',
         'email' => 'البريد الإلكتروني',
         'click here' => 'اضغط هنا',
         'to open it in a new window.' => 'لفتحها في نافذة جديدة.',
         'Year' => 'السنة',
         'Hours' => 'ساعات',
         'Minutes' => 'دقائق',
-        'Check to activate this date' => '',
-        '%s TB' => '',
-        '%s GB' => '',
-        '%s MB' => '',
-        '%s KB' => '',
-        '%s B' => '',
+        'Check to activate this date' => 'حدد لتمكين هذا التاريخ',
+        '%s TB' => '‎%s تيرابايت (TB)',
+        '%s GB' => '‎%s غيغابايت (GB)',
+        '%s MB' => '‎%s ميغابايت (MG)',
+        '%s KB' => '‎%s كيلوبايت (KB)',
+        '%s B' => '‎%s بايت (B)',
         'No Permission!' => 'لا توجد صلاحيات!',
-        'No Permission' => '',
+        'No Permission' => 'لا توجد صلاحيات',
         'Show Tree Selection' => 'عرض الاختيار الشجري',
-        'Split Quote' => '',
-        'Remove Quote' => '',
+        'Split Quote' => 'تقسيم الاقتباس',
+        'Remove Quote' => 'إزالة الاقتباس',
 
         # Perl Module: Kernel/Output/HTML/Layout/LinkObject.pm
-        'Linked as' => '',
-        'Search Result' => '',
-        'Linked' => 'تم ربطه',
-        'Bulk' => '',
+        'Linked as' => 'مرتبط ك',
+        'Search Result' => 'نتيجة البحث',
+        'Linked' => 'مرتبط',
+        'Bulk' => 'إجراء جمع',
 
         # Perl Module: Kernel/Output/HTML/Layout/Ticket.pm
-        'Lite' => 'خفيف',
-        'Unread article(s) available' => '',
+        'Lite' => 'سَهْل',
+        'Unread article(s) available' => 'تتوفر مقالة (مقالات) غير مقروءة',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Appointment.pm
         'Appointment' => 'موعد',
 
         # Perl Module: Kernel/Output/HTML/LinkObject/Ticket.pm
-        'Archive search' => '',
+        'Archive search' => 'البحث في الأرشيف',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentOnline.pm
         'Online Agent: %s' => 'المشغلون المتواجدون حالياً : %s',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTicketEscalation.pm
-        'There are more escalated tickets!' => '',
+        'There are more escalated tickets!' => 'تتوفر العديد من التذاكر المتصاعدة!',
 
         # Perl Module: Kernel/Output/HTML/Notification/AgentTimeZoneCheck.pm
         'Please select a time zone in your preferences and confirm it by clicking the save button.' =>
-            '',
+            'الرجاء تحديد منطقة زمنية في إعداداتك والتأكيد بالنقر فوق زر حفظ.',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerOnline.pm
-        'Online Customer: %s' => 'العملاء المتواجدون حالياً : %s',
+        'Online Customer: %s' => 'العميل متصل الان : ‎%s',
 
         # Perl Module: Kernel/Output/HTML/Notification/CustomerSystemMaintenanceCheck.pm
-        'System maintenance is active!' => '',
+        'System maintenance is active!' => 'صيانة النظام نشطة!',
         'A system maintenance period will start at: %s and is expected to stop at: %s' =>
-            '',
+            'ستبدأ فترة صيانة النظام في: ‎%s ومن المتوقع أن تتوقف في: ‎%s',
 
         # Perl Module: Kernel/Output/HTML/Notification/DaemonCheck.pm
-        'OTOBO Daemon is not running.' => '',
+        'OTOBO Daemon is not running.' => 'OTOBO Daemon لا يعمل.',
 
         # Perl Module: Kernel/Output/HTML/Notification/OutofOfficeCheck.pm
         'You have Out of Office enabled, would you like to disable it?' =>
-            '',
+            'تم تمكين "خارج المكتب"، هل تريد تعطيله؟',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationInvalidCheck.pm
         'You have %s invalid setting(s) deployed. Click here to show invalid settings.' =>
-            '',
+            'تم نشر ‎%s إعداد (إعدادات) غير صالحة. انقر هنا لإظهار إعدادات غير صالحة.',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationIsDirtyCheck.pm
         'You have undeployed settings, would you like to deploy them?' =>
-            '',
+            'هناك إعدادات لم يتم تشغيلها بعد. هل ترغب في بدء تشغيل الآن؟',
 
         # Perl Module: Kernel/Output/HTML/Notification/SystemConfigurationOutOfSyncCheck.pm
-        'The configuration is being updated, please be patient...' => '',
-        'There is an error updating the system configuration!' => '',
+        'The configuration is being updated, please be patient...' => 'يتم تحديث التكوين، يرجى التحلي بالصبر...',
+        'There is an error updating the system configuration!' => 'حدث خطأ أثناء تحديث تكوين النظام!',
 
         # Perl Module: Kernel/Output/HTML/Notification/UIDCheck.pm
         'Don\'t use the Superuser account to work with %s! Create new Agents and work with these accounts instead.' =>
-            '',
+            'الرجاء عدم إستخدام حساب المستخدم المتميز في ‎%s! الرجاء إنشاء عملاء جدد واستخدامهم.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/AppointmentNotificationEvent.pm
         'Please make sure you\'ve chosen at least one transport method for mandatory notifications.' =>
-            '',
+            'الرجاء التأكد من إختيار أسلوب نقل واحد على الأقل للإخطارات الإلزامية.',
         'Preferences updated successfully!' => 'تم تحديث الإعدادات بنجاح!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Language.pm
-        '(in process)' => '',
+        '(in process)' => '(قيد التنفيذ)',
 
         # Perl Module: Kernel/Output/HTML/Preferences/OutOfOffice.pm
-        'Please specify an end date that is after the start date.' => '',
+        'Please specify an end date that is after the start date.' => 'الرجاء تحديد تاريخ انتهاء بعد تاريخ البدء.',
 
         # Perl Module: Kernel/Output/HTML/Preferences/Password.pm
-        'Verify password' => '',
-        'The current password is not correct. Please try again!' => '',
-        'Please supply your new password!' => '',
+        'Verify password' => 'التحقق من كلمة المرور',
+        'The current password is not correct. Please try again!' => 'كلمة المرور الحالية غير صحيحة. الرجاء المحاولة مرة أخرى!',
+        'Please supply your new password!' => 'الرجاء تأكيد كلمة المرور الجديدة!',
         'Can\'t update password, the new password and the repeated password do not match.' =>
-            '',
+            'يتعذر تحديث كلمة المرور! كلمات المرور التي تم إدخالها مختلفة.',
         'This password is forbidden by the current system configuration. Please contact the administrator if you have additional questions.' =>
-            '',
+            'تم حظر كلمة المرور هذه من قبل تكوين النظام الحالي. الرجاء الاتصال بالمسؤول إذا كانت لديك أسئلة إضافية.',
         'Can\'t update password, it must be at least %s characters long!' =>
-            '',
+            'يتعذر تحديث كلمة المرور. يجب أن يكون طوله ‎%s على الأقل!',
         'Can\'t update password, it must contain at least 2 lowercase and 2 uppercase letter characters!' =>
-            '',
-        'Can\'t update password, it must contain at least 1 digit!' => '',
+            'لا يمكن تحديث كلمة المرور، يجب أن تحتوي على 2 أحرف صغيرة على الأقل وحرفين كبيرة!',
+        'Can\'t update password, it must contain at least 1 digit!' => 'يتعذر تحديث كلمة المرور. يجب أن يحتوي على رقم واحد على الأقل!',
         'Can\'t update password, it must contain at least 2 letter characters!' =>
-            '',
+            'يتعذر تحديث كلمة المرور. يجب أن يحتوي على حرفين على الأقل!',
         'Can\'t update password, it must contain at least 3 of 4 (lower char, upper char, digit, special character)!' =>
-            '',
+            'يتعذر تحديث كلمة المرور. يجب أن تحتوي على ٣ من ٤ فئات حروف على الأقل (حروف صغيرة، حروف كبيرة، أرقام، حروف خاصة)!',
 
         # Perl Module: Kernel/Output/HTML/Preferences/TimeZone.pm
-        'Time zone updated successfully!' => '',
+        'Time zone updated successfully!' => 'تم تحديث المنطقة الزمنية بنجاح!',
 
         # Perl Module: Kernel/Output/HTML/Statistics/View.pm
         'invalid' => 'غير فعال',
         'valid' => 'فعال',
-        'No (not supported)' => '',
+        'No (not supported)' => 'لا (غير مدعوم)',
         'No past complete or the current+upcoming complete relative time value selected.' =>
-            '',
+            'لم يتم تحديد فترة نسبية.',
         'The selected time period is larger than the allowed time period.' =>
-            '',
+            'الفترة الزمنية المحددة أكبر من الفترة الزمنية المسموح بها.',
         'No time scale value available for the current selected time scale value on the X axis.' =>
-            '',
-        'The selected date is not valid.' => '',
-        'The selected end time is before the start time.' => '',
-        'There is something wrong with your time selection.' => '',
+            'لا يتوفر أي مقياس زمني لقيمة مقياس الوقت على المحور X المحدد حاليًا.',
+        'The selected date is not valid.' => 'التاريخ المحدد غير صالح.',
+        'The selected end time is before the start time.' => 'وقت الانتهاء المحدد قبل وقت البدء.',
+        'There is something wrong with your time selection.' => 'الرجاء التحقق من تحديد الوقت.',
         'Please select only one element or allow modification at stat generation time.' =>
-            '',
+            'يرجى تحديد عنصر واحد فقط أو السماح بالتحرير في وقت إنشاء الإحصاءات.',
         'Please select at least one value of this field or allow modification at stat generation time.' =>
-            '',
-        'Please select one element for the X-axis.' => '',
-        'You can only use one time element for the Y axis.' => '',
-        'You can only use one or two elements for the Y axis.' => '',
-        'Please select at least one value of this field.' => '',
+            'يرجى تحديد عنصر واحد فقط أو السماح بالتحرير في وقت إنشاء الإحصاءات.',
+        'Please select one element for the X-axis.' => 'الرجاء تحديد عنصر واحد للمحور X.',
+        'You can only use one time element for the Y axis.' => 'يمكنك استخدام عنصر وقت واحد فقط للمحور Y.',
+        'You can only use one or two elements for the Y axis.' => 'يمكنك فقط استخدام عنصر واحد أو عنصرين للمحور Y.',
+        'Please select at least one value of this field.' => 'الرجاء تحديد قيمة واحدة على الأقل في هذا الحقل.',
         'Please provide a value or allow modification at stat generation time.' =>
-            '',
-        'Please select a time scale.' => '',
+            'الرجاء إدخال قيمة أو السماح بالتحرير في وقت إنشاء الإحصائيات.',
+        'Please select a time scale.' => 'يرجى تحديد جدول زمني.',
         'Your reporting time interval is too small, please use a larger time scale.' =>
-            '',
+            'الفترة المحددة صغيرة جدا، الرجاء إستخدام مقياس زمني أكبر.',
         'second(s)' => 'ثانية/ثواني',
-        'quarter(s)' => 'ربع (أرباع) سنويه',
-        'half-year(s)' => '',
+        'quarter(s)' => 'ربع (أرباع)',
+        'half-year(s)' => 'نصف سنة',
         'Please remove the following words because they cannot be used for the ticket restrictions: %s.' =>
-            '',
+            'الرجاء إزالة الكلمات التالية لأنه لا يمكن إستخدامها لتقييد التذاكر: ‎%s.',
 
         # Perl Module: Kernel/Output/HTML/SysConfig.pm
-        'Cancel editing and unlock this setting' => '',
-        'Reset this setting to its default value.' => '',
-        'Unable to load %s!' => '',
-        'Content' => '',
+        'Cancel editing and unlock this setting' => 'إلغاء التحرير وإلغاء تأمين هذا الإعداد',
+        'Reset this setting to its default value.' => 'إعادة تعيين هذا الإعداد إلى قيمته الافتراضية.',
+        'Unable to load %s!' => 'يتعذر تحميل ‎%s!',
+        'Content' => 'مُحْتَوىً',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/Lock.pm
-        'Unlock to give it back to the queue' => '',
-        'Lock it to work on it' => '',
+        'Unlock to give it back to the queue' => 'إلغاء التأمين لإعادته إلى قائمة الانتظار',
+        'Lock it to work on it' => 'قفل للتحرير',
 
         # Perl Module: Kernel/Output/HTML/TicketMenu/TicketWatcher.pm
-        'Unwatch' => '',
-        'Remove from list of watched tickets' => '',
-        'Watch' => '',
-        'Add to list of watched tickets' => '',
+        'Unwatch' => 'إلغاء المراقبة',
+        'Remove from list of watched tickets' => 'إزالة من قائمة التذاكر المراقبة',
+        'Watch' => 'مُرَاقَبَةٌ',
+        'Add to list of watched tickets' => 'إضافة إلى قائمة التذاكر المراقبة',
 
         # Perl Module: Kernel/Output/HTML/TicketOverviewMenu/Sort.pm
-        'Order by' => '',
+        'Order by' => 'ترتيب حسب',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketLocked.pm
-        'Locked Tickets New' => '',
-        'Locked Tickets Reminder Reached' => '',
-        'Locked Tickets Total' => '',
+        'Locked Tickets New' => 'التذاكر المقفلة جديدة',
+        'Locked Tickets Reminder Reached' => 'تم الوصول إلى تذكير بالتذاكر المؤمنة',
+        'Locked Tickets Total' => 'إجمالي التذاكر المقفلة',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketResponsible.pm
-        'Responsible Tickets New' => '',
-        'Responsible Tickets Reminder Reached' => '',
-        'Responsible Tickets Total' => '',
+        'Responsible Tickets New' => 'تذاكر مسؤولة جديدة',
+        'Responsible Tickets Reminder Reached' => 'تم الوصول إلى تذكير بالتذاكر المسؤولة',
+        'Responsible Tickets Total' => 'إجمالي التذاكر المسؤولة',
 
         # Perl Module: Kernel/Output/HTML/ToolBar/TicketWatcher.pm
-        'Watched Tickets New' => '',
-        'Watched Tickets Reminder Reached' => '',
-        'Watched Tickets Total' => '',
+        'Watched Tickets New' => 'التذاكر المراقبة جديدة',
+        'Watched Tickets Reminder Reached' => 'تم الوصول إلى تذكير التذاكر المراقبة',
+        'Watched Tickets Total' => 'إجمالي التذاكر المراقبة',
 
         # Perl Module: Kernel/Output/PDF/StatisticsReports.pm
-        '%s Report' => '',
-        'Error: this graph could not be generated: %s.' => '',
-        'Table of Contents' => '',
+        '%s Report' => '‎%s تقرير',
+        'Error: this graph could not be generated: %s.' => 'خطأ: تعذر إنشاء هذا الرسم البياني: ‎%s.',
+        'Table of Contents' => 'جدول المحتويات',
 
         # Perl Module: Kernel/Output/PDF/Ticket.pm
-        'Ticket Dynamic Fields' => '',
+        'Ticket Dynamic Fields' => 'الحقول الديناميكية للتذكرة',
 
         # Perl Module: Kernel/System/ACL/DB/ACL.pm
         'Couldn\'t read ACL configuration file. Please make sure the file is valid.' =>
-            '',
+            'تعذر قراءة ملف تكوين ACL. الرجاء التأكد من صحة الملف.',
 
         # Perl Module: Kernel/System/Auth.pm
         'It is currently not possible to login due to a scheduled system maintenance.' =>
@@ -5162,538 +5163,538 @@ sub Data {
 
         # Perl Module: Kernel/System/Auth/OpenIDConnect.pm
         'Invalid response from the authentication server. Maybe the process took too long. Please retry once.' =>
-            '',
+            'إستجابة غير صالحة من خادم المصادقة. ربما استغرقت العملية وقتا طويلا. الرجاء المحاولة مرة أخرى.',
 
         # Perl Module: Kernel/System/AuthSession.pm
-        'Please note that the session limit is almost reached.' => '',
-        'Session limit reached! Please try again later.' => '',
-        'Session per user limit reached!' => '',
+        'Please note that the session limit is almost reached.' => 'يرجى ملاحظة أنه تم الوصول إلى الحد الأقصى للجلسة تقريبا.',
+        'Session limit reached! Please try again later.' => 'تم الوصول إلى الحد الأقصى للجلسة! يرجى إعادة المحاولة لاحقا.',
+        'Session per user limit reached!' => 'تم الوصول إلى الحد الأقصى للجلسة لكل مستخدم!',
 
         # Perl Module: Kernel/System/AuthSession/DB.pm
-        'Session invalid. Please log in again.' => '',
-        'Session has timed out. Please log in again.' => '',
+        'Session invalid. Please log in again.' => 'الجلسة غير صالحة. يرجى تسجيل الدخول مرة أخرى.',
+        'Session has timed out. Please log in again.' => 'انتهت مهلة الجلسة. يرجى تسجيل الدخول مرة أخرى.',
 
         # Perl Module: Kernel/System/Calendar/Event/Transport/Email.pm
-        'PGP sign only' => '',
-        'PGP encrypt only' => '',
-        'SMIME sign only' => '',
-        'SMIME encrypt only' => '',
-        'PGP and SMIME not enabled.' => '',
-        'Skip notification delivery' => '',
-        'Send unsigned notification' => '',
-        'Send unencrypted notification' => '',
+        'PGP sign only' => 'توقيع PGP فقط',
+        'PGP encrypt only' => 'تشفير PGP فقط',
+        'SMIME sign only' => 'توقيع S/MIME فقط',
+        'SMIME encrypt only' => 'تشفير S/MIME فقط',
+        'PGP and SMIME not enabled.' => 'لم يتم تمكين PGP و S/MIME.',
+        'Skip notification delivery' => 'تخطي تسليم الإشعارات',
+        'Send unsigned notification' => 'إرسال إشعار غير موقع',
+        'Send unencrypted notification' => 'إرسال إشعار غير مشفر',
 
         # Perl Module: Kernel/System/Console/Command/Dev/Tools/Config2Docbook.pm
-        'Configuration Options Reference' => '',
-        'This setting can not be changed.' => '',
-        'This setting is not active by default.' => '',
-        'This setting can not be deactivated.' => '',
-        'This setting is not visible.' => '',
-        'This setting can be overridden in the user preferences.' => '',
+        'Configuration Options Reference' => 'مرجع خيارات التكوين',
+        'This setting can not be changed.' => 'لا يمكن تغيير هذا الإعداد.',
+        'This setting is not active by default.' => 'هذا الإعداد غير نشط بشكل افتراضي.',
+        'This setting can not be deactivated.' => 'لا يمكن إلغاء تنشيط هذا الإعداد.',
+        'This setting is not visible.' => 'هذا الإعداد غير مرئي.',
+        'This setting can be overridden in the user preferences.' => 'يمكن تجاوز هذا الإعداد في إعدادات المستخدم.',
         'This setting can be overridden in the user preferences, but is not active by default.' =>
-            '',
+            'يمكن تجاوز هذا الإعداد في إعدادات المستخدم، ولكنه غير نشط بشكل افتراضي.',
 
         # Perl Module: Kernel/System/CustomerUser.pm
-        'Customer user "%s" already exists.' => '',
+        'Customer user "%s" already exists.' => 'مستخدم العميل "‎%s" موجود بالفعل.',
 
         # Perl Module: Kernel/System/CustomerUser/DB.pm
         'This email address is already in use for another customer user.' =>
-            '',
+            'عنوان البريد الإلكتروني هذا قيد الاستخدام بالفعل لمستخدم عميل آخر.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseDateTime.pm
         'before/after' => 'قبل/بعد',
         'between' => 'بين',
 
         # Perl Module: Kernel/System/DynamicField/Driver/BaseText.pm
-        'e.g. Text or Te*t' => '',
+        'e.g. Text or Te*t' => 'على سبيل المثال، Text أو Te*t',
 
         # Perl Module: Kernel/System/DynamicField/Driver/Checkbox.pm
-        'Ignore this field.' => '',
+        'Ignore this field.' => 'تجاهل هذا الحقل.',
 
         # Perl Module: Kernel/System/DynamicField/Driver/TextArea.pm
-        'This field is required or' => 'الحقل مطلوب أو',
+        'This field is required or' => 'هذا الحقل مطلوب أو',
         'The field content is too long!' => 'محتوى الحقل طويل جداً!',
         'Maximum size is %s characters.' => 'الحجم الأقصى %s حرف.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/CloneDB/Backend.pm
-        'Sanity checks for database.' => '',
+        'Sanity checks for database.' => 'التحقق من معقولية قاعدة البيانات.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOACLDeploy.pm
-        'Deploy the ACL configuration.' => '',
-        'Deployment completed, perfect!' => '',
+        'Deploy the ACL configuration.' => 'نشر تكوين ACL.',
+        'Deployment completed, perfect!' => 'اكتمل النشر، تهانينا!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOAutoResponseTemplatesMigrate.pm
-        'Migrate database table auto_responses.' => '',
-        'Migration failed.' => '',
-        'Migrate database table auto_response.' => '',
-        'Migration completed, perfect!' => '',
+        'Migrate database table auto_responses.' => 'ترحيل جدول قاعدة بيانات "auto_responses".',
+        'Migration failed.' => 'فشل الترحيل.',
+        'Migrate database table auto_response.' => 'ترحيل جدول قاعدة بيانات "auto_response".',
+        'Migration completed, perfect!' => 'اكتمل الترحيل. تهانينا!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCacheCleanup.pm
-        'OTOBO Cache cleanup.' => '',
-        'Completed.' => '',
+        'OTOBO Cache cleanup.' => 'مسح ذاكرة التخزين المؤقت ل OTOBO.',
+        'Completed.' => 'اكتمل.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOCopyFilesFromOTRS.pm
-        'Need OTRSData->%s!' => '',
-        'Can\'t access OTRS Home: %s!' => '',
-        'All needed files copied and migrated, perfect!' => '',
+        'Need OTRSData->%s!' => 'OTRSData->‎%s المطلوب!',
+        'Can\'t access OTRS Home: %s!' => 'يتعذر الوصول إلى الصفحة الرئيسية ل OTRS: ‎%s!',
+        'All needed files copied and migrated, perfect!' => 'تم نسخ كافة الملفات وترحيلها. تهانينا!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBODatabaseMigrate.pm
-        'Copy database.' => '',
-        'Skipped...' => '',
-        'System was unable to connect to OTRS database.' => '',
-        'System was unable to complete data transfer.' => '',
-        'Data transfer completed.' => '',
+        'Copy database.' => 'نسخ قاعدة البيانات.',
+        'Skipped...' => 'تخطي ...',
+        'System was unable to connect to OTRS database.' => 'تعذر على النظام الاتصال بقاعدة بيانات OTRS.',
+        'System was unable to complete data transfer.' => 'تعذر على النظام إكمال نقل البيانات.',
+        'Data transfer completed.' => 'اكتمل نقل البيانات.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOFrameworkVersionCheck.pm
-        'Check if OTOBO version is correct.' => '',
-        'Check if OTOBO and OTRS connect is possible.' => '',
-        'Can\'t open RELEASE file from OTRSHome: %s!' => '',
-        'Check if OTOBO and OTRS version is correct.' => '',
-        '%s does not exist!' => '',
-        'No OTOBO system found!' => '',
+        'Check if OTOBO version is correct.' => 'تحقق مما إذا كان إصدار OTOBO صحيحا.',
+        'Check if OTOBO and OTRS connect is possible.' => 'تحقق مما إذا كان اتصال OTOBO و OTRS ممكنا.',
+        'Can\'t open RELEASE file from OTRSHome: %s!' => 'يتعذر فتح ملف RELEASE في OTRSHome: ‎%s!',
+        'Check if OTOBO and OTRS version is correct.' => 'تحقق مما إذا كان إصدار OTOBO و OTRS صحيحا.',
+        '%s does not exist!' => '‎%s غير موجود!',
+        'No OTOBO system found!' => 'لم يتم العثور على نظام OTOBO!',
         'You are trying to run this script on the wrong framework version %s!' =>
-            '',
-        'OTOBO Version is correct: %s.' => '',
-        'Check if OTRS version is correct.' => '',
-        'OTRS RELEASE file %s does not exist!' => '',
-        'Can\'t read OTRS RELEASE file: %s' => '',
-        'No OTRS system found!' => '',
+            'أنت تحاول تشغيل البرنامج النصي في الإصدار الخطأ من framework ‎%s!',
+        'OTOBO Version is correct: %s.' => 'إصدار OTOBO صحيح: ‎%s.',
+        'Check if OTRS version is correct.' => 'تحقق مما إذا كان إصدار OTRS صحيحا.',
+        'OTRS RELEASE file %s does not exist!' => 'ملف إصدار OTRS ‎%s غير موجود!',
+        'Can\'t read OTRS RELEASE file: %s' => 'يتعذر قراءة ملف إصدار OTRS: ‎%s',
+        'No OTRS system found!' => 'لم يتم العثور على نظام OTRS!',
         'Unknown PRODUCT found in OTRS RELASE file: %s. Expected values are %s.' =>
-            '',
-        'OTRS Version is correct: %s.' => '',
+            'تم العثور على منتج غير معروف في ملف OTRS RELEASE: ‎%s. القيم المتوقعة: ‎%s.',
+        'OTRS Version is correct: %s.' => 'إصدار OTRS صحيح: ‎%s.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOItsmTablesMigrate.pm
-        'Migrate ITSM database tables.' => '',
-        'Nothing to do, as the the table \'%s\' does not exist.' => '',
-        'UPDATE of the table \'%s\' failed.' => '',
-        'Migration completed.' => '',
+        'Migrate ITSM database tables.' => 'ترحيل جداول قاعدة بيانات ITSM.',
+        'Nothing to do, as the the table \'%s\' does not exist.' => 'لا شيء للقيام به، لأن الجدول \'‎%s\' غير موجود.',
+        'UPDATE of the table \'%s\' failed.' => 'فشل تحديث الجدول \'‎%s\'.',
+        'Migration completed.' => 'اكتمل الترحيل.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateConfigFromOTRS.pm
-        'Migrate configuration settings.' => '',
+        'Migrate configuration settings.' => 'ترحيل إعدادات التكوين.',
         'An error occured during SysConfig data migration or no configuration exists.' =>
-            '',
+            'حدث خطأ أثناء ترحيل بيانات SysConfig أو لا يوجد تكوين.',
         'An error occured during SysConfig migration when writing XML to DB.' =>
-            '',
-        'SysConfig data migration completed.' => '',
+            'حدث خطأ أثناء ترحيل SysConfig عند كتابة XML إلى DB.',
+        'SysConfig data migration completed.' => 'اكتمل ترحيل بيانات SysConfig.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOMigrateWebServiceConfiguration.pm
-        'Migrate web service configuration.' => '',
-        'Failed - see the log!' => '',
+        'Migrate web service configuration.' => 'ترحيل تكوين خدمة ويب.',
+        'Failed - see the log!' => 'فشل - راجع السجل!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBONotificationMigrate.pm
-        'Migrate database table notification.' => '',
+        'Migrate database table notification.' => 'ترحيل جدول قاعدة البيانات "إخطار".',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSConnectionCheck.pm
-        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => '',
-        'Check if Kernel/Config.pm exists in OTOBO home.' => '',
-        'Kernel/Config.pm exists in OTOBO home' => '',
-        'Check if we are able to connect to OTRS Home.' => '',
-        'Can\'t connect to OTRS file directory.' => '',
-        'Connect to OTRS file directory is possible.' => '',
+        'Can\'t open Kernel/Config.pm file from OTRSHome: %s!' => 'يتعذر فتح ملف Kernel/Config.pm من OTRSHome: ‎%s!',
+        'Check if Kernel/Config.pm exists in OTOBO home.' => 'تحقق مما إذا كان هناك ملف Kernel/Config.pm في OTOBO Home.',
+        'Kernel/Config.pm exists in OTOBO home' => 'Kernel/Config.pm متوفر في OTOBO',
+        'Check if we are able to connect to OTRS Home.' => 'يتحقق مما إذا كان يمكن إنشاء اتصال ب OTRS Home.',
+        'Can\'t connect to OTRS file directory.' => 'يتعذر الاتصال بدليل ملفات OTRS.',
+        'Connect to OTRS file directory is possible.' => 'الاتصال بدليل ملف OTRS ممكن.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSDBCheck.pm
-        'Try database connect and sanity checks.' => '',
-        'Could not create database object.' => '',
-        'Database connect and sanity checks completed.' => '',
+        'Try database connect and sanity checks.' => 'جرب الاتصال بقاعدة البيانات وفحوصات السلامة.',
+        'Could not create database object.' => 'تعذر إنشاء كائن قاعدة البيانات.',
+        'Database connect and sanity checks completed.' => 'تم الانتهاء من الاتصال بقاعدة البيانات وفحوصات السلامة.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOOTRSPackageCheck.pm
-        'Check if all necessary packages are installed.' => '',
-        'The following packages are only installed in OTRS:' => '',
+        'Check if all necessary packages are installed.' => 'تحقق مما إذا كانت جميع الحزم الضرورية مثبتة.',
+        'The following packages are only installed in OTRS:' => 'يتم تثبيت الحزم التالية فقط في OTRS:',
         'Please install (or uninstall) the packages before migration. If a package doesn\'t exist for OTOBO so far, please contact the OTOBO Team at bugs\@otobo.org. We will find a solution.' =>
-            '',
-        'The same packages are installed on both systems, perfect!' => '',
+            'يرجى تثبيت (أو إلغاء تثبيت) الحزم قبل الترحيل. إذا لم تكن الحزمة متاحة بعد ل OTOBO، فيرجى الاتصال بفريق OTOBO عبر bugs\@otobo.org. سنجد حلا.',
+        'The same packages are installed on both systems, perfect!' => 'يتم تثبيت نفس الحزم على كلا النظامين ، جيد جدا!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPackageSpecifics.pm
-        'Package specific tasks' => '',
-        'Done -' => '',
-        'Failed at -' => '',
+        'Package specific tasks' => 'المهام المتعلقة بالحزمة',
+        'Done -' => 'اكتمل -',
+        'Failed at -' => 'فشل في -',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPerlModulesCheck.pm
-        'Check if all needed Perl modules have been installed.' => '',
-        '%s script does not exist.' => '',
+        'Check if all needed Perl modules have been installed.' => 'تحقق مما إذا كانت جميع وحدات Perl المطلوبة قد تم تثبيتها.',
+        '%s script does not exist.' => '‎%s البرنامج النصي غير موجود.',
         'One or more required Perl modules are missing. Please install them as recommended, and run the migration script again.' =>
-            '',
-        'All required Perl modules have been installed, perfect!' => '',
+            'هناك وحدة أو أكثر من وحدات Perl المطلوبة مفقودة. الرجاء تثبيتها كما هو موصى به، ثم تشغيل البرنامج النصي للترحيل مرة أخرى.',
+        'All required Perl modules have been installed, perfect!' => 'لقد تم تثبيت جميع وحدات Perl المطلوبة، مُمْتاز!',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOPostmasterFilterMigrate.pm
-        'Migrate postmaster filter.' => '',
+        'Migrate postmaster filter.' => 'ترحيل عامل تصفية مسؤول البريد.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOProcessDeploy.pm
-        'Deploy the process management configuration.' => '',
+        'Deploy the process management configuration.' => 'نشر تكوين إدارة العملية.',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOResponseTemplatesMigrate.pm
-        'Migrate database table response_template.' => '',
+        'Migrate database table response_template.' => 'ترحيل جدول قاعدة بيانات "response_template".',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSalutationsMigrate.pm
-        'Migrate database table salutation.' => '',
+        'Migrate database table salutation.' => 'ترحيل جدول قاعدة البيانات "التحية" ("salutation").',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOSignaturesMigrate.pm
-        'Migrate database table signature.' => '',
+        'Migrate database table signature.' => 'ترحيل جدول قاعدة بيانات "signature".',
 
         # Perl Module: Kernel/System/MigrateFromOTRS/OTOBOStatsMigrate.pm
-        'Migrate statistics.' => '',
+        'Migrate statistics.' => 'ترحيل الإحصائيات.',
 
         # Perl Module: Kernel/System/NotificationEvent.pm
         'Couldn\'t read Notification configuration file. Please make sure the file is valid.' =>
-            '',
+            'تعذر قراءة ملف تكوين الإشعار. يرجى التأكد من صحة الملف.',
         'Imported notification has body text with more than 4000 characters.' =>
-            '',
+            'يحتوي الإخطار المدرج على نص أساسي يتكون من أكثر من 4000 حرف.',
 
         # Perl Module: Kernel/System/Package.pm
-        'not installed' => '',
+        'not installed' => 'غير مثبت',
         'installed' => 'تم التثبيت بنجاح',
-        'Unable to parse repository index document.' => '',
+        'Unable to parse repository index document.' => 'يتعذر قراءة مستند الفهرس الخاص بالدليل.',
         'No packages for your framework version found in this repository, it only contains packages for other framework versions.' =>
-            '',
-        'File is not installed!' => '',
-        'File is different!' => '',
-        'Can\'t read file!' => '',
+            'لا توجد حزم لإصدارك للإطار الموجود في هذا الدليل، فهو يحتوي فقط على حزم لإصدارات أخرى من الإطار.',
+        'File is not installed!' => 'لم يتم تثبيت الملف!',
+        'File is different!' => 'الملف مختلف!',
+        'Can\'t read file!' => 'لا يمكن قراءة الملف!',
         '<p>Additional packages can enhance OTOBO with plenty of useful features. Ensure, however, that the origin of this package is trustworthy, as it can modify OTOBO in any possible way.</p>' =>
-            '',
-        'Package not verified by the OTOBO community!' => '',
+            '<p>يمكن للحزم الإضافية تحسين OTOBO مع الكثير من الميزات المفيدة. ومع ذلك ، تأكد من أن أصل هذه الحزمة جدير بالثقة ، حيث يمكنه تعديل OTOBO بأي طريقة ممكنة. </p>',
+        'Package not verified by the OTOBO community!' => 'لم يتم التحقق من الحزمة من قبل مجتمع OTOBO!',
         '<p>The installation of packages which are not verified is disabled. You can activate the installation of not verified packages via the "Package::AllowNotVerifiedPackages" system configuration setting.</p>' =>
-            '',
-        'Verification not possible (e.g. no internet connection)!' => '',
+            '<p> يتم تعطيل تثبيت الحزم التي لم يتم التحقق منها افتراضيًا. يمكنك تمكينهم باستخدام إعداد "Package::AllowNotVerifiedPackages" في تكوين النظام. </p>',
+        'Verification not possible (e.g. no internet connection)!' => 'التحقق غير ممكن (على سبيل المثال لا يوجد اتصال بالإنترنت)!',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process.pm
         'The process "%s" and all of its data has been imported successfully.' =>
-            '',
+            'تم استيراد العملية "‎%s" وجميع بياناتها بنجاح.',
 
         # Perl Module: Kernel/System/ProcessManagement/DB/Process/State.pm
-        'Inactive' => '',
-        'FadeAway' => '',
+        'Inactive' => 'غير نشط',
+        'FadeAway' => 'أخفَى',
 
         # Perl Module: Kernel/System/Registration.pm
         'Can\'t contact registration server. Please try again later.' => 'لايمكن الإتصال بخادم التسجيل. الرجاء المحاولة لاحقاً.',
         'No content received from registration server. Please try again later.' =>
             'لم يتم استلام أية محتوى من خادم التسجيل. الرجاء المحاولة لاحقاً.',
-        'Can\'t get Token from sever' => '',
+        'Can\'t get Token from sever' => 'لا يمكن الحصول على رمز مميز (Token) من الخادم',
         'Username and password do not match. Please try again.' => 'ليس هناك تطابق بين إسم المستخدم وكلمة المرور. الرجاء المحاولة مرة أخرى.',
         'Problems processing server result. Please try again later.' => 'يوجد مشاكل في معالجة نتائج الخادم. الرجاء المحاولة لاحقاً.',
 
         # Perl Module: Kernel/System/Stats.pm
-        'Sum' => '',
+        'Sum' => 'إجماليّ',
         'week' => 'أسبوع',
         'quarter' => 'ربع سنوي',
         'half-year' => 'نصف سنوي',
 
         # Perl Module: Kernel/System/Stats/Dynamic/Ticket.pm
-        'State Type' => '',
-        'Created Priority' => 'إنشاء أولوية',
-        'Created State' => 'إنشاء إحصائية',
+        'State Type' => 'نوع الحالة',
+        'Created Priority' => 'تم إنشاؤها بأولوية',
+        'Created State' => 'تم إنشاؤه بالحالة',
         'Create Time' => 'وقت الإنشاء',
-        'Pending until time' => '',
+        'Pending until time' => 'فترة الانتظار',
         'Close Time' => 'وقت إقفال البطاقة',
-        'Escalation' => '',
-        'Escalation - First Response Time' => '',
-        'Escalation - Update Time' => '',
-        'Escalation - Solution Time' => '',
-        'Agent/Owner' => 'المشغل/ المالك',
-        'Created by Agent/Owner' => 'أنشئت بواسطةالمشغل/المالك',
-        'Assigned to Customer User Login' => '',
+        'Escalation' => 'التصعيد',
+        'Escalation - First Response Time' => 'التصعيد - وقت الاستجابة الأول',
+        'Escalation - Update Time' => 'التصعيد - وقت التحديث',
+        'Escalation - Solution Time' => 'التصعيد - وقت الحل',
+        'Agent/Owner' => 'الوكيل/المالك',
+        'Created by Agent/Owner' => 'تم الإنشاء بواسطة الوكيل/المالك',
+        'Assigned to Customer User Login' => 'مخصص لتسجيل دخول المستخدم للعميل',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketAccountedTime.pm
-        'Evaluation by' => '',
-        'Ticket/Article Accounted Time' => '',
-        'Ticket Create Time' => '',
-        'Ticket Close Time' => '',
-        'Accounted time by Agent' => '',
-        'Total Time' => '',
-        'Ticket Average' => '',
-        'Ticket Min Time' => '',
-        'Ticket Max Time' => '',
-        'Number of Tickets' => '',
-        'Article Average' => '',
-        'Article Min Time' => '',
-        'Article Max Time' => '',
-        'Number of Articles' => '',
+        'Evaluation by' => 'تقييم بواسطة',
+        'Ticket/Article Accounted Time' => 'التذكرة/العنصر - الوقت المحسوب',
+        'Ticket Create Time' => 'وقت إنشاء التذكرة',
+        'Ticket Close Time' => 'وقت إغلاق التذكرة',
+        'Accounted time by Agent' => 'الوقت المعين من قبل الوكيل',
+        'Total Time' => 'الوقت الإجمالي',
+        'Ticket Average' => 'متوسط الوقت لكل تذكرة',
+        'Ticket Min Time' => 'الحد الأدنى لوقت التذكرة',
+        'Ticket Max Time' => 'الحد الأقصى لوقت التذكرة',
+        'Number of Tickets' => 'عدد التذاكر',
+        'Article Average' => 'متوسط الوقت لكل عنصر(مقالة)',
+        'Article Min Time' => 'الحد الأدنى لوقت المقالة',
+        'Article Max Time' => 'الحد الأقصى لوقت المقالة',
+        'Number of Articles' => 'عدد المقالات',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketList.pm
-        'unlimited' => '',
-        'Attributes to be printed' => '',
-        'Sort sequence' => '',
-        'State Historic' => '',
-        'State Type Historic' => '',
-        'Historic Time Range' => '',
+        'unlimited' => 'غير محدود',
+        'Attributes to be printed' => 'السمات المراد طباعتها',
+        'Sort sequence' => 'تسلسل الفرز',
+        'State Historic' => 'تاريخ الحالة',
+        'State Type Historic' => 'تاريخ نوع الحالة',
+        'Historic Time Range' => 'النطاق الزمني التاريخي',
         'Number' => 'الرقم',
-        'Last Changed' => '',
+        'Last Changed' => 'آخر تعديل',
 
         # Perl Module: Kernel/System/Stats/Dynamic/TicketSolutionResponseTime.pm
-        'Solution Average' => '',
-        'Solution Min Time' => '',
-        'Solution Max Time' => '',
-        'Solution Average (affected by escalation configuration)' => '',
-        'Solution Min Time (affected by escalation configuration)' => '',
-        'Solution Max Time (affected by escalation configuration)' => '',
+        'Solution Average' => 'متوسط وقت الحل',
+        'Solution Min Time' => 'الحد الأدنى من وقت الحل',
+        'Solution Max Time' => 'الحد الأقصى لوقت الحل',
+        'Solution Average (affected by escalation configuration)' => 'متوسط وقت الحل (يتأثر بتكوين التصعيد)',
+        'Solution Min Time (affected by escalation configuration)' => 'الحد الأدنى لوقت الحل (يتأثر بتكوين التصعيد)',
+        'Solution Max Time (affected by escalation configuration)' => 'الحد الأقصى لوقت الحل (يتأثر بتكوين التصعيد)',
         'Solution Working Time Average (affected by escalation configuration)' =>
-            '',
+            'متوسط وقت عمل الحل (يتأثر بتكوين التصعيد)',
         'Solution Min Working Time (affected by escalation configuration)' =>
-            '',
+            'الحد الأدنى لوقت عمل الحل (يتأثر بتكوين التصعيد)',
         'Solution Max Working Time (affected by escalation configuration)' =>
-            '',
+            'الحد الأقصى لوقت عمل الحل (يتأثر بتكوين التصعيد)',
         'First Response Average (affected by escalation configuration)' =>
-            '',
+            'متوسط وقت الاستجابة الأولية (يتأثر بتكوين التصعيد)',
         'First Response Min Time (affected by escalation configuration)' =>
-            '',
+            'الحد الأدنى لوقت الاستجابة الأولية (يتأثر بتكوين التصعيد)',
         'First Response Max Time (affected by escalation configuration)' =>
-            '',
+            'الحد الأقصى لوقت الاستجابة الأولية (يتأثر بتكوين التصعيد)',
         'First Response Working Time Average (affected by escalation configuration)' =>
-            '',
+            'متوسط وقت الاستجابة الأولية (يتأثر بتكوين التصعيد)',
         'First Response Min Working Time (affected by escalation configuration)' =>
-            '',
+            'الحد الأدنى لوقت العمل للاستجابة الأولى (متأثر بتكوين التصعيد)',
         'First Response Max Working Time (affected by escalation configuration)' =>
-            '',
-        'Number of Tickets (affected by escalation configuration)' => '',
+            'الحد الأقصى لوقت العمل للاستجابة الأولى (متأثر بتكوين التصعيد)',
+        'Number of Tickets (affected by escalation configuration)' => 'عدد التذاكر (متأثرة بتكوين التصعيد)',
 
         # Perl Module: Kernel/System/Stats/Static/OpenTicketCountPerDayPeriod.pm
-        'Days' => '',
-        'Queues / Tickets' => '',
+        'Days' => 'أيام',
+        'Queues / Tickets' => 'قوائم الانتظار / التذاكر',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/OutdatedTables.pm
-        'Outdated Tables' => '',
+        'Outdated Tables' => 'جداول قديمة',
         'Outdated tables were found in the database. These can be removed if empty.' =>
-            '',
+            'تم العثور على جداول قديمة في قاعدة البيانات. يمكن إزالتها إذا كانت فارغة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/TablePresence.pm
-        'Table Presence' => '',
-        'Internal Error: Could not open file.' => '',
-        'Table Check' => '',
-        'Internal Error: Could not read file.' => '',
-        'Tables found which are not present in the database.' => '',
+        'Table Presence' => 'فحص وجود الجداول',
+        'Internal Error: Could not open file.' => 'خطأ داخلي: تعذر فتح الملف.',
+        'Table Check' => 'التحقق من حالة الجدول',
+        'Internal Error: Could not read file.' => 'خطأ داخلي: تعذر قراءة الملف.',
+        'Tables found which are not present in the database.' => 'توجد جداول مفقودة من قاعدة البيانات.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Size.pm
-        'Database Size' => '',
-        'Could not determine database size.' => '',
+        'Database Size' => 'حجم قاعدة البيانات',
+        'Could not determine database size.' => 'تعذر تحديد حجم قاعدة البيانات.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mssql/Version.pm
-        'Database Version' => '',
-        'Could not determine database version.' => '',
+        'Database Version' => 'إصدار قاعدة البيانات',
+        'Could not determine database version.' => 'تعذر تحديد إصدار قاعدة البيانات.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Charset.pm
-        'Client Connection Charset' => '',
-        'Setting character_set_client needs to be utf8.' => '',
-        'Server Database Charset' => '',
+        'Client Connection Charset' => 'مجموعة معلومات اتصال العميل',
+        'Setting character_set_client needs to be utf8.' => 'يجب أن يكون \'utf8\' تعيين charter_set_client.',
+        'Server Database Charset' => 'مجموعة أحرف خادم قاعدة البيانات',
         'Please convert your database to the character set \'utf8mb4\'.' =>
-            '',
-        'Table Charset' => '',
+            'الرجاء تحويل قاعدة البيانات إلى مجموعة الأحرف \'utf8mb4\'.',
+        'Table Charset' => 'مجموعة أحرف الجدول',
         'There were tables found which do not have \'utf8mb4\' as charset.' =>
-            '',
+            'تم العثور على الجداول باستخدام مجموعة أحرف أخرى غير \'utf8mb4\'.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InnoDBLogFileSize.pm
-        'InnoDB Log File Size' => '',
-        'The setting innodb_log_file_size must be at least 256 MB.' => '',
+        'InnoDB Log File Size' => 'حجم ملف سجل InnoDB',
+        'The setting innodb_log_file_size must be at least 256 MB.' => 'يجب ألا يقل حجم الإعداد innodb_log_file_size عن 256 ميغابايت.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/InvalidDefaultValues.pm
-        'Invalid Default Values' => '',
+        'Invalid Default Values' => 'قيم افتراضية غير صالحة',
         'Tables with invalid default values were found. In order to fix it automatically, please run: bin/otobo.Console.pl Maint::Database::Check --repair' =>
-            '',
+            'تم العثور على جداول ذات قيم افتراضية غير صالحة. لإصلاحها تلقائيا ، يرجى تنفيذ الأمر التالي: bin/otobo.Console.pl Maint::Database::Check --repair',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/MaxAllowedPacket.pm
-        'Maximum Query Size' => '',
-        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => '',
+        'Maximum Query Size' => 'الحد الأقصى لحجم الطلب',
+        'The setting \'max_allowed_packet\' must be 64 MB or higher.' => 'اضبط "max_allowed_packet" على 64 ميغابايت أو أكثر.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Performance.pm
-        'Query Cache Size' => '',
+        'Query Cache Size' => 'حجم ذاكرة التخزين المؤقت للاستعلام (للطلب)',
         'The setting \'query_cache_size\' should be used (higher than 10 MB but not more than 512 MB).' =>
-            '',
+            'يجب استخدام إعداد query_cache_size (أكثر من 10 ميغابايت ولكن ليس أكثر من 512 ميغابايت).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/StorageEngine.pm
-        'Default Storage Engine' => '',
-        'Table Storage Engine' => '',
+        'Default Storage Engine' => 'محرك التخزين الافتراضي',
+        'Table Storage Engine' => 'محرك تخزين الجدول',
         'Tables with a different storage engine than the default engine were found.' =>
-            '',
+            'تم العثور على الجداول التي لا تستخدم المحرك الافتراضي.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/mysql/Version.pm
-        'MySQL 5.x or higher is required.' => '',
+        'MySQL 5.x or higher is required.' => 'مطلوب MySQL 5.x أو أعلى.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/NLS.pm
-        'NLS_LANG Setting' => '',
+        'NLS_LANG Setting' => 'إعداد NLS_LANG',
         'NLS_LANG must be set to al32utf8 (e.g. GERMAN_GERMANY.AL32UTF8).' =>
-            '',
-        'NLS_DATE_FORMAT Setting' => '',
-        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => '',
-        'NLS_DATE_FORMAT Setting SQL Check' => '',
+            'يجب تعيين NLS_LANG إلى al32utf8 (على سبيل المثال، GERMAN_GERMANY. AL32UTF8).',
+        'NLS_DATE_FORMAT Setting' => 'إعداد NLS_DATE_FORMAT',
+        'NLS_DATE_FORMAT must be set to \'YYYY-MM-DD HH24:MI:SS\'.' => 'يجب تعيين NLS_DATE_FORMAT إلى \'YYYY-MM-DD HH24:MI:SS\'.',
+        'NLS_DATE_FORMAT Setting SQL Check' => 'إعداد NLS_DATE_FORMAT فحص SQL',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/oracle/PrimaryKeySequencesAndTriggers.pm
-        'Primary Key Sequences and Triggers' => '',
+        'Primary Key Sequences and Triggers' => 'سلاسل المفاتيح الأساسية والمشغلات',
         'The following sequences and/or triggers with possible wrong names have been found. Please rename them manually.' =>
-            '',
+            'تم العثور على التسلسلات و/أو المشغلات التالية التي قد تكون أسماء غير صحيحة. الرجاء تغيير الأسماء يدويا.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Charset.pm
-        'Setting client_encoding needs to be UNICODE or UTF8.' => '',
-        'Setting server_encoding needs to be UNICODE or UTF8.' => '',
+        'Setting client_encoding needs to be UNICODE or UTF8.' => 'يجب أن يكون إعداد client_encoding UNICODE أو UTF8.',
+        'Setting server_encoding needs to be UNICODE or UTF8.' => 'يجب أن يكون الإعداد server_encoding UNICODE أو UTF8.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/DateStyle.pm
-        'Date Format' => '',
-        'Setting DateStyle needs to be ISO.' => '',
+        'Date Format' => 'تنسيق التاريخ',
+        'Setting DateStyle needs to be ISO.' => 'يجب أن يكون إعداد DateStyle هو ISO.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/PrimaryKeySequences.pm
-        'Primary Key Sequences' => '',
+        'Primary Key Sequences' => 'تسلسلات المفاتيح الأساسية',
         'The following sequences with possible wrong names have been found. Please rename them manually.' =>
-            '',
+            'تم العثور على التسلسلات التالية التي قد تكون أسماء غير صحيحة. الرجاء تغيير الأسماء يدويا.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Database/postgresql/Version.pm
-        'PostgreSQL 9.2 or higher is required.' => '',
+        'PostgreSQL 9.2 or higher is required.' => 'مطلوب PostgreSQL 9. 2 أو أعلى.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Certificates.pm
-        'Certificate check' => '',
-        'Found obsolete cryptographic function.' => '',
+        'Certificate check' => 'التحقق من الشهادة',
+        'Found obsolete cryptographic function.' => 'تم العثور على وظيفة تشفير قديمة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskPartitionOTOBO.pm
-        'OTOBO Disk Partition' => '',
+        'OTOBO Disk Partition' => 'قسم القرص الثابت ل OTOBO',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/DiskSpacePartitions.pm
-        'Disk Partitions Usage' => '',
+        'Disk Partitions Usage' => 'تخصيص أقسام القرص الصلب',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Distribution.pm
-        'Distribution' => '',
-        'Could not determine distribution.' => '',
+        'Distribution' => 'تَوْزِيعٌ',
+        'Could not determine distribution.' => 'لا يمكن تحديد التوزيع.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/KernelVersion.pm
-        'Kernel Version' => '',
-        'Could not determine kernel version.' => '',
+        'Kernel Version' => 'إصدار النواة (Kernel)',
+        'Could not determine kernel version.' => 'تعذر تحديد إصدار النواة (kernel).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Load.pm
-        'System Load' => '',
+        'System Load' => 'حمل النظام (load)',
         'The system load should be at maximum the number of CPUs the system has (e.g. a load of 8 or less on a system with 8 CPUs is OK).' =>
-            '',
+            'يجب أن يكون حمل النظام في الحد الأقصى لعدد وحدات المعالجة المركزية (CPU) الموجودة في النظام (على سبيل المثال، لا بأس بحمل يبلغ 8 أو أقل على نظام يحتوي على 8 وحدات معالجة مركزية (CPU)).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModules.pm
-        'Perl Modules' => '',
-        'Not all required Perl modules are correctly installed.' => '',
+        'Perl Modules' => 'وحدات بيرل (Perl)',
+        'Not all required Perl modules are correctly installed.' => 'لم يتم تثبيت جميع وحدات Perl المطلوبة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/PerlModulesAudit.pm
-        'Perl Modules Audit' => '',
+        'Perl Modules Audit' => 'تدقيق وحدة بيرل (Perl)',
         'CPAN::Audit reported that one or more installed Perl modules have known vulnerabilities. Please note that there might be false positives for distributions patching Perl modules without changing their version number.' =>
-            '',
+            'CPAN :: ذكرت المراجعة أن واحدة أو أكثر من وحدات Perl المثبتة بها نقاط ضعف معروفة. يرجى ملاحظة أنه قد تكون هناك إيجابيات خاطئة للتوزيعات التي تقوم بتصحيح وحدات Perl دون تغيير رقم الإصدار الخاص بها.',
         'CPAN::Audit did not report any known vulnerabilities in the installed Perl modules.' =>
-            '',
+            'CPAN::لم يبلغ التدقيق عن أي ثغرات أمنية معروفة في وحدات Perl المثبتة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OS/Swap.pm
-        'Free Swap Space (%)' => '',
-        'No swap enabled.' => '',
-        'Used Swap Space (MB)' => '',
-        'There should be more than 60% free swap space.' => '',
-        'There should be no more than 200 MB swap space used.' => '',
+        'Free Swap Space (%)' => 'مساحة التبادل الحرة (%)',
+        'No swap enabled.' => 'لم يتم تمكين التبديل.',
+        'Used Swap Space (MB)' => 'المساحة المتبادلة المستخدمة (ميغابايت)',
+        'There should be more than 60% free swap space.' => 'يجب أن يكون هناك أكثر من 60% من مساحة المبادلة المتاحة.',
+        'There should be no more than 200 MB swap space used.' => 'يجب ألا تكون هناك مساحة تبادل أكثر من 200 ميغابايت مستخدمة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticleSearchIndexStatus.pm
-        'OTOBO' => '',
-        'Article Search Index Status' => '',
-        'Indexed Articles' => '',
+        'OTOBO' => 'OTOBO',
+        'Article Search Index Status' => 'حالة فهرس البحث عن التذاكر',
+        'Indexed Articles' => 'المقالات المفهرسة',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ArticlesPerCommunicationChannel.pm
-        'Articles Per Communication Channel' => '',
+        'Articles Per Communication Channel' => 'مقالات لكل قناة اتصال',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLog.pm
-        'Incoming communications' => '',
-        'Outgoing communications' => '',
-        'Failed communications' => '',
-        'Average processing time of communications (s)' => '',
+        'Incoming communications' => 'الاتصالات الواردة',
+        'Outgoing communications' => 'الاتصالات الصادرة',
+        'Failed communications' => 'الاتصالات الفاشلة',
+        'Average processing time of communications (s)' => 'متوسط وقت معالجة الاتصالات (المراسلات)',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/CommunicationLogAccountStatus.pm
-        'Communication Log Account Status (last 24 hours)' => '',
-        'No connections found.' => '',
-        'ok' => '',
-        'permanent connection errors' => '',
-        'intermittent connection errors' => '',
+        'Communication Log Account Status (last 24 hours)' => 'حالة حساب سجل الاتصالات (آخر 24 ساعة)',
+        'No connections found.' => 'لم يتم العثور على إتصالات.',
+        'ok' => 'OK',
+        'permanent connection errors' => 'أخطاء الاتصال المستمرة',
+        'intermittent connection errors' => 'خطأ اتصال مؤقت',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/ConfigSettings.pm
-        'Config Settings' => '',
-        'Could not determine value.' => '',
+        'Config Settings' => 'إعدادات التكوين',
+        'Could not determine value.' => 'تعذر تحديد القيمة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DaemonRunning.pm
-        'Daemon' => '',
-        'Daemon is running.' => '',
-        'Daemon is not running.' => '',
+        'Daemon' => 'Daemon',
+        'Daemon is running.' => 'البرنامج (Daemon) قيد التشغيل.',
+        'Daemon is not running.' => 'البرنامج (Daemon) لا يعمل.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DatabaseRecords.pm
-        'Database Records' => '',
-        'Ticket History Entries' => '',
-        'Articles' => '',
-        'Attachments (DB, Without HTML)' => '',
-        'Customers With At Least One Ticket' => '',
-        'Dynamic Field Values' => '',
-        'Invalid Dynamic Fields' => '',
-        'Invalid Dynamic Field Values' => '',
-        'GenericInterface Webservices' => '',
-        'Process Tickets' => '',
-        'Months Between First And Last Ticket' => '',
-        'Tickets Per Month (avg)' => '',
-        'Open Tickets' => '',
+        'Database Records' => 'إدخالات قاعدة البيانات',
+        'Ticket History Entries' => 'إدخالات محفوظات التذاكر',
+        'Articles' => 'مقالة',
+        'Attachments (DB, Without HTML)' => 'المرفقات (في قاعدة البيانات، بدون HTML)',
+        'Customers With At Least One Ticket' => 'العملاء الذين لديهم تذكرة واحدة على الأقل',
+        'Dynamic Field Values' => 'القيم في الحقول الديناميكية',
+        'Invalid Dynamic Fields' => 'الحقول الديناميكية غير صالحة',
+        'Invalid Dynamic Field Values' => 'القيم في الحقول الديناميكية غير صحيحة',
+        'GenericInterface Webservices' => 'خدمات ويب ل GenericInterface',
+        'Process Tickets' => 'تذاكر العمليات',
+        'Months Between First And Last Ticket' => 'شهور بين التذكرة الأولى والأخيرة',
+        'Tickets Per Month (avg)' => 'التذاكر في الشهر (متوسط)',
+        'Open Tickets' => 'تذاكر مفتوحة',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/DefaultUser.pm
-        'Default Admin Password' => '',
+        'Default Admin Password' => 'كلمة مرور المسؤول الافتراضية',
         'Security risk: the agent account root@localhost still has the default password. Please change it or invalidate the account.' =>
-            '',
+            'خطر الأمان: لا يزال حساب الوكيل root@localhost يحتوي على كلمة المرور الافتراضية. الرجاء تغييره أو إبطال الحساب.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/EmailQueue.pm
-        'Email Sending Queue' => '',
-        'Emails queued for sending' => '',
+        'Email Sending Queue' => 'قائمة انتظار إرسال البريد الإلكتروني',
+        'Emails queued for sending' => 'تم وضع رسائل البريد الإلكتروني في قائمة الانتظار لإرسالها',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FQDN.pm
-        'FQDN (domain name)' => '',
-        'Please configure your FQDN setting.' => '',
-        'Domain Name' => '',
-        'Your FQDN setting is invalid.' => '',
+        'FQDN (domain name)' => 'FQDN (اسم domain)',
+        'Please configure your FQDN setting.' => 'الرجاء تكوين إعداد FQDN.',
+        'Domain Name' => 'اسم Domain',
+        'Your FQDN setting is invalid.' => 'إعداد FQDN غير صالح.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/FileSystemWritable.pm
-        'File System Writable' => '',
-        'The file system on your OTOBO partition is not writable.' => '',
+        'File System Writable' => 'نظام الملفات قابل للكتابة',
+        'The file system on your OTOBO partition is not writable.' => 'نظام الملفات الموجود على قسم OTOBO غير قابل للكتابة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/LegacyConfigBackups.pm
-        'Legacy Configuration Backups' => '',
-        'No legacy configuration backup files found.' => '',
+        'Legacy Configuration Backups' => 'النسخ الاحتياطية للتهيئة القديمة',
+        'No legacy configuration backup files found.' => 'لم يتم العثور على ملفات النسخ الاحتياطي للتكوين القديم.',
         'Legacy configuration backup files found in Kernel/Config/Backups folder, but they might still be required by some packages.' =>
-            '',
+            'تم العثور على ملفات النسخ الاحتياطي للتكوين القديم في مجلد Kernel/Config/Backup، ولكن قد تظل مطلوبة من قبل بعض الحزم.',
         'Legacy configuration backup files are no longer needed for the installed packages, please remove them from Kernel/Config/Backups folder.' =>
-            '',
+            'لم تعد هناك حاجة لملفات النسخ الاحتياطي للتكوين القديم للحزم المثبتة، الرجاء إزالتها من مجلد Kernel/Config/Backup.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageDeployment.pm
-        'Package Installation Status' => '',
-        'Some packages have locally modified files.' => '',
-        'Some packages are not correctly installed.' => '',
-        'Package Verification Status' => '',
-        'Some packages are not verified by the OTOBO Team.' => '',
-        'Package Framework Version Status' => '',
+        'Package Installation Status' => 'حالة تثبيت الحزمة',
+        'Some packages have locally modified files.' => 'تحتوي بعض الحزم على ملفات معدلة محليا.',
+        'Some packages are not correctly installed.' => 'لم يتم تثبيت بعض الحزم بشكل صحيح.',
+        'Package Verification Status' => 'حالة التحقق من الحزمة',
+        'Some packages are not verified by the OTOBO Team.' => 'لم يتم التحقق من بعض الحزم من قبل فريق OTOBO.',
+        'Package Framework Version Status' => 'حالة إصدار إطار الحزمة',
         'Some packages are not allowed for the current framework version.' =>
-            '',
+            'بعض الحزم غير ملائمة للنسخة الحالية من الإطار.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/PackageList.pm
-        'Package List' => '',
+        'Package List' => 'قائمة الحزم',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SessionConfigSettings.pm
-        'Session Config Settings' => '',
+        'Session Config Settings' => 'إعدادات تكوين الجلسة',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SpoolMails.pm
-        'Spooled Emails' => '',
-        'There are emails in var/spool that OTOBO could not process.' => '',
+        'Spooled Emails' => 'رسائل البريد الإلكتروني التي سيتم إرسالها',
+        'There are emails in var/spool that OTOBO could not process.' => 'يحتوي var/spool على رسائل بريد إلكتروني تعذر على OTOBO معالجتها.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/SystemID.pm
         'Your SystemID setting is invalid, it should only contain digits.' =>
-            '',
+            'إعداد SystemID الخاص بك غير صالح، يجب أن يحتوي على أرقام فقط.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/DefaultType.pm
-        'Default Ticket Type' => '',
+        'Default Ticket Type' => 'نوع التذكرة الافتراضي',
         'The configured default ticket type is invalid or missing. Please change the setting Ticket::Type::Default and select a valid ticket type.' =>
-            '',
+            'نوع التذكرة الافتراضي الذي تم تكوينه غير صالح أو مفقود. يرجى تغيير الإعداد Ticket::Type::Default وتحديد نوع تذكرة صالح.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/IndexModule.pm
-        'Ticket Index Module' => '',
+        'Ticket Index Module' => 'وحدة فهرس التذاكر',
         'You have more than 60,000 tickets and should use the StaticDB backend. See admin manual (Performance Tuning) for more information.' =>
-            '',
+            'لديك أكثر من 60,000 تذكرة ويجب أن تستخدم StaticDB backend. يرجى الرجوع إلى دليل المدير (تحسين الأداء).',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/InvalidUsersWithLockedTickets.pm
-        'Invalid Users with Locked Tickets' => '',
-        'There are invalid users with locked tickets.' => '',
+        'Invalid Users with Locked Tickets' => 'مستخدم غير صالح بتذاكر مؤمنة',
+        'There are invalid users with locked tickets.' => 'هناك مستخدمون غير صالحين لديهم تذاكر مؤمنة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/OpenTickets.pm
         'You should not have more than 8,000 open tickets in your system.' =>
-            '',
+            'يجب ألا يكون لديك أكثر من 8,000 تذكرة مفتوحة في نظامك.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/SearchIndexModule.pm
-        'Ticket Search Index Module' => '',
+        'Ticket Search Index Module' => 'وحدة فهرس البحث في التذكرة',
         'The indexing process forces the storage of the original article text in the article search index, without executing filters or applying stop word lists. This will increase the size of the search index and thus may slow down fulltext searches.' =>
-            '',
+            'تفرض عملية الفهرسة تخزين نص المقالة الأصلي في فهرس البحث عن المقالات، بدون تنفيذ عوامل التصفية أو تطبيق قوائم كلمات التوقف. سيؤدي ذلك إلى زيادة حجم فهرس البحث وبالتالي قد يؤدي إلى إبطاء عمليات البحث عن النص الكامل.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/Ticket/StaticDBOrphanedRecords.pm
         'Orphaned Records In ticket_lock_index Table' => '',
@@ -5704,13 +5705,13 @@ sub Data {
             '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/TimeSettings.pm
-        'Time Settings' => '',
-        'Server time zone' => '',
-        'OTOBO time zone' => '',
-        'OTOBO time zone is not set.' => '',
-        'User default time zone' => '',
-        'User default time zone is not set.' => '',
-        'Calendar time zone is not set.' => '',
+        'Time Settings' => 'إعدادات الوقت',
+        'Server time zone' => 'المنطقة الزمنية للخادم',
+        'OTOBO time zone' => 'المنطقة الزمنية ل OTOBO',
+        'OTOBO time zone is not set.' => 'لم يتم تعيين المنطقة الزمنية ل OTOBO.',
+        'User default time zone' => 'المنطقة الزمنية الافتراضية للمستخدم',
+        'User default time zone is not set.' => 'لم يتم تعيين المنطقة الزمنية الافتراضية للمستخدم.',
+        'Calendar time zone is not set.' => 'لم يتم تعيين المنطقة الزمنية للتقويم.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/AgentSkinUsage.pm
         'UI - Agent Skin Usage' => '',
@@ -5720,212 +5721,212 @@ sub Data {
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/OTOBO/UI/SpecialStats.pm
         'UI - Special Statistics' => '',
-        'Agents using custom main menu ordering' => '',
-        'Agents using favourites for the admin overview' => '',
+        'Agents using custom main menu ordering' => 'الوكلاء الذين يستخدمون ترتيب القائمة الرئيسية المخصصة',
+        'Agents using favourites for the admin overview' => 'العملاء الذين يستخدمون المفضلة لنظرة عامة المسؤول',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/LoadedModules.pm
-        'Webserver' => '',
-        'Loaded Apache Modules' => '',
+        'Webserver' => 'خادم ويب',
+        'Loaded Apache Modules' => 'وحدات الأباتشي المحملة (Apache)',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/MPMModel.pm
-        'MPM model' => '',
+        'MPM model' => 'نموذج MPM',
         'OTOBO requires apache to be run with the \'prefork\' MPM model.' =>
-            '',
+            'يتطلب OTOBO تشغيل apache باستخدام نموذج ‎\'prefork\' MPM.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Apache/Performance.pm
-        'CGI Accelerator Usage' => '',
+        'CGI Accelerator Usage' => 'إستخدام مسرع CGI',
         'You should use FastCGI or mod_perl to increase your performance.' =>
-            '',
-        'mod_deflate Usage' => '',
-        'Please install mod_deflate to improve GUI speed.' => '',
-        'mod_filter Usage' => '',
-        'Please install mod_filter if mod_deflate is used.' => '',
-        'mod_headers Usage' => '',
-        'Please install mod_headers to improve GUI speed.' => '',
+            'يجب عليك إستخدام FastCGI أو mod_perl لزيادة أدائك.',
+        'mod_deflate Usage' => 'إستخدام mod_delve',
+        'Please install mod_deflate to improve GUI speed.' => 'الرجاء تثبيت mod_deflate لتحسين سرعة واجهة المستخدم الرسومية.',
+        'mod_filter Usage' => 'إستخدام mod_filter',
+        'Please install mod_filter if mod_deflate is used.' => 'الرجاء تثبيت mod_filter في حالة إستخدام mod_delve.',
+        'mod_headers Usage' => 'إستخدام mod_headers',
+        'Please install mod_headers to improve GUI speed.' => 'الرجاء تثبيت mod_heads لزيادة السرعة.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/EnvironmentVariables.pm
         'Environment Variables' => '',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/InternalWebRequest.pm
-        'Support Data Collection' => '',
-        'Support data could not be collected from the web server.' => '',
+        'Support Data Collection' => 'جمع بيانات الدعم',
+        'Support data could not be collected from the web server.' => 'تعذر تحديد بيانات الدعم من خادم ويب.',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/PSGIEnv.pm
-        'PSGI Environment' => '',
+        'PSGI Environment' => 'بيئة PSGI',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Plack/RunsUnderPSGI.pm
-        'Runs under PSGI' => '',
+        'Runs under PSGI' => 'يعمل تحت PSGI',
 
         # Perl Module: Kernel/System/SupportDataCollector/Plugin/Webserver/Version.pm
-        'Webserver Version' => '',
-        'Could not determine webserver version.' => '',
+        'Webserver Version' => 'إصدار خادم الويب',
+        'Could not determine webserver version.' => 'تعذر تحديد إصدار خادم ويب.',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginAsynchronous/OTOBO/ConcurrentUsers.pm
-        'Concurrent Users Details' => '',
-        'Concurrent Users' => '',
+        'Concurrent Users Details' => 'تفاصيل المستخدمين المتزامنين',
+        'Concurrent Users' => 'المستخدمين المتزامنين',
 
         # Perl Module: Kernel/System/SupportDataCollector/PluginBase.pm
         'OK' => '',
-        'Problem' => '',
+        'Problem' => 'مُشْكِلة',
 
         # Perl Module: Kernel/System/SysConfig.pm
-        'Setting %s does not exists!' => '',
-        'Setting %s is not locked to this user!' => '',
-        'Setting value is not valid!' => '',
-        'Could not add modified setting!' => '',
-        'Could not update modified setting!' => '',
-        'Setting could not be unlocked!' => '',
-        'Missing key %s!' => '',
-        'Invalid setting: %s' => '',
-        'Could not combine settings values into a perl hash.' => '',
-        'Can not lock the deployment for UserID \'%s\'!' => '',
-        'All Settings' => '',
+        'Setting %s does not exists!' => 'الإعداد ‎%s غير موجود!',
+        'Setting %s is not locked to this user!' => 'لم يتم تأمين الإعداد ‎%s لهذا المستخدم!',
+        'Setting value is not valid!' => 'قيمة الإعدادت غير صالحة!',
+        'Could not add modified setting!' => 'تعذر إضافة إعدادات تم تغييرها!',
+        'Could not update modified setting!' => 'تعذر تحديث الإعدادات التي تم تغييرها!',
+        'Setting could not be unlocked!' => 'تعذر إلغاء تأمين الإعداد!',
+        'Missing key %s!' => 'المفتاح المفقود ‎%s!',
+        'Invalid setting: %s' => 'إعداد غير صالح: ‎%s',
+        'Could not combine settings values into a perl hash.' => 'تعذر دمج قيم الإعدادات في تجزئة perl.',
+        'Can not lock the deployment for UserID \'%s\'!' => 'يتعذر تأمين النشر ل \'‎UserID \'%s!',
+        'All Settings' => 'كافة الإعدادات',
 
         # Perl Module: Kernel/System/SysConfig/BaseValueType.pm
-        'Default' => '',
-        'Value is not correct! Please, consider updating this field.' => '',
-        'Value doesn\'t satisfy regex (%s).' => '',
+        'Default' => 'افتراضي',
+        'Value is not correct! Please, consider updating this field.' => 'القيمة غير صحيحة! الرجاء، النظر في تحديث هذا الحقل.',
+        'Value doesn\'t satisfy regex (%s).' => 'لا تفي القيمة بالقيمة regex (‎%s).',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Checkbox.pm
-        'Enabled' => '',
-        'Disabled' => '',
+        'Enabled' => 'نَشَّطَ',
+        'Disabled' => 'غير مُفَعّل',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/Date.pm
         'System was not able to calculate user Date in OTOBOTimeZone!' =>
-            '',
+            'تعذر حساب تاريخ المستخدم في المنطقة الزمنية OTOBO!',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/DateTime.pm
         'System was not able to calculate user DateTime in OTOBOTimeZone!' =>
-            '',
+            'تعذر حساب تاريخ المستخدم ووقته في المنطقة الزمنية ل OTOBO!',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/FrontendNavigation.pm
         'Value is not correct! Please, consider updating this module.' =>
-            '',
+            'القيمة غير صحيحة! الرجاء، النظر في تحديث هذه الوحدة النمطية.',
 
         # Perl Module: Kernel/System/SysConfig/ValueType/VacationDays.pm
         'Value is not correct! Please, consider updating this setting.' =>
-            '',
+            'القيمة غير صحيحة. الرجاء التحقق من هذا الإعداد.',
 
         # Perl Module: Kernel/System/Ticket.pm
-        'Reset of unlock time.' => '',
+        'Reset of unlock time.' => 'إعادة تعيين وقت إلغاء التأمين.',
 
         # Perl Module: Kernel/System/Ticket/Article/Backend/Chat.pm
-        'Chat Participant' => '',
-        'Chat Message Text' => '',
+        'Chat Participant' => 'المشاركون في الدردشة',
+        'Chat Message Text' => 'نص رسالة الدردشة',
 
         # Perl Module: Kernel/System/Web/InterfaceAgent.pm
-        'Too many failed login attempts, please retry in %s s.' => '',
+        'Too many failed login attempts, please retry in %s s.' => 'العديد من الإدخالات الفاشلة، الرجاء المحاولة مرة أخرى في ‎%s s.',
         'Login failed! Your user name or password was entered incorrectly.' =>
             'فشل في تسجيل الدخول! تم إدخال اسم المستخدم أو كلمة المرور بشكل خاطيء.',
         'Authentication succeeded, but no user data record is found in the database. Please contact the administrator.' =>
-            '',
-        'Can`t remove SessionID.' => '',
-        'Logout successful.' => '',
+            'نجحت المصادقة، ولكن لم يتم العثور على سجل بيانات مستخدم في قاعدة البيانات. الرجاء الاتصال بالمسؤول.',
+        'Can`t remove SessionID.' => 'لا يمكن إزالة SessionID.',
+        'Logout successful.' => 'تم تسجيل الخروج بنجاح.',
         'Feature not active!' => 'الخاصية غير مفعلة!',
-        'Sent password reset instructions. Please check your email.' => 'تم ارسال تعليمات إعادة تعيين كلمة المرور. فضلاً افحص بريدك الإلكتروني.',
-        'Invalid Token!' => '',
+        'Sent password reset instructions. Please check your email.' => 'تم ارسال تعليمات إعادة تعيين كلمة المرور. يرجى التحقق من بريدك الإلكتروني.',
+        'Invalid Token!' => 'رمز (Token) غير صالح!',
         'Sent new password to %s. Please check your email.' => 'تم إرسال كلمة المرور الجديدة إلى %s. فضلاً افحص بريدك الإلكتروني.',
-        'Error: invalid session.' => '',
-        'No Permission to use this frontend module!' => '',
+        'Error: invalid session.' => 'خطأ: جلسة عمل غير صالحة.',
+        'No Permission to use this frontend module!' => 'ليس لديك الإذن لاستخدام هذه الوحدة!',
 
         # Perl Module: Kernel/System/Web/InterfaceCustomer.pm
         'Authentication succeeded, but no customer record is found in the customer backend. Please contact the administrator.' =>
-            '',
+            'نجحت المصادقة، ولكن لم يتم العثور على سجل عميل في الطرف الخلفي للعميل. الرجاء الاتصال بالمسؤول.',
         'Reset password unsuccessful. Please contact the administrator.' =>
-            '',
+            'لم يتم إعادة تعيين كلمة المرور بنجاح. الرجاء الاتصال بالمسؤول.',
         'This e-mail address already exists. Please log in or reset your password.' =>
             'عنوان البريد الإلكتروني المدخل موجود بالفعل. فضلاً قم بتسجيل الدخول أو إعادة تعيين كلمة المرور.',
         'This email address is not allowed to register. Please contact support staff.' =>
             'غير مسموح لعنوان البريد الإلكتروني هذا بالتسجيل. فضلاً اتصل بموظفي الدعم.',
-        'Added via Customer Panel (%s)' => '',
-        'Customer user can\'t be added!' => '',
-        'Can\'t send account info!' => '',
+        'Added via Customer Panel (%s)' => 'تمت الإضافة من خلال لوحة العميل (‎%s)',
+        'Customer user can\'t be added!' => 'لا يمكن إضافة مستخدم العميل!',
+        'Can\'t send account info!' => 'يتعذر إرسال معلومات الحساب!',
         'New account created. Sent login information to %s. Please check your email.' =>
             'تم إنشاء حساب جديد. تم ارسال معلومات الدخول إلى %s. فضلاً افحص بريدك الإلكتروني.',
 
         # Perl Module: Kernel/System/Web/InterfaceInstaller.pm
         'If you want to re-run installer.pl, then disable the SecureMode in the SysConfig.' =>
-            '',
-        'Action "%s" not found!' => '',
+            'إذا أردت إعادة تشغيل installer.pl، فقم بتعطيل SecureMode في SysConfig.',
+        'Action "%s" not found!' => 'لم يتم العثور على الإجراء "‎%s"!',
 
         # Perl Module: Kernel/System/Web/InterfaceMigrateFromOTRS.pm
         'If you want to re-run migration.pl, then disable the SecureMode in the SysConfig.' =>
-            '',
+            'إذا كنت ترغب في إعادة تشغيل migration.pl، فقم بتعطيل SecureMode في SysConfig.',
 
         # Perl Module: Kernel/System/Web/InterfacePublic.pm
-        'Could not connect to the database.' => '',
+        'Could not connect to the database.' => 'تعذر الاتصال بقاعدة البيانات.',
 
         # Database XML / SOPM Definition: scripts/database/otobo-initial_insert.xml
         'invalid-temporarily' => 'غير فعال مؤقتاً',
-        'Group for default access.' => '',
-        'Group of all administrators.' => '',
-        'Group for statistics access.' => '',
+        'Group for default access.' => 'مجموعة الوصول الافتراضية.',
+        'Group of all administrators.' => 'مجموعة كافة المسؤولين.',
+        'Group for statistics access.' => 'مجموعة الوصول إلى الإحصائيات.',
         'new' => 'جديد',
-        'All new state types (default: viewable).' => '',
+        'All new state types (default: viewable).' => 'جميع أنواع الحالات الجديدة (الافتراضي: مرئي).',
         'open' => 'فتح',
-        'All open state types (default: viewable).' => '',
+        'All open state types (default: viewable).' => 'جميع أنواع الحالات المفتوحة (الافتراضي: قابلة للعرض).',
         'closed' => 'تم إقفاله',
-        'All closed state types (default: not viewable).' => '',
-        'pending reminder' => '',
-        'All \'pending reminder\' state types (default: viewable).' => '',
-        'pending auto' => '',
-        'All \'pending auto *\' state types (default: viewable).' => '',
-        'removed' => 'تم حذغه',
-        'All \'removed\' state types (default: not viewable).' => '',
-        'merged' => '',
-        'State type for merged tickets (default: not viewable).' => '',
-        'New ticket created by customer.' => '',
+        'All closed state types (default: not viewable).' => 'جميع أنواع الحالات المغلقة (الافتراضي: غير قابل للعرض).',
+        'pending reminder' => 'في انتظار التذكير',
+        'All \'pending reminder\' state types (default: viewable).' => 'جميع أنواع الحالات "قيد الانتظار" (الافتراضي: مرئي).',
+        'pending auto' => 'قيد الانتظار',
+        'All \'pending auto *\' state types (default: viewable).' => 'جميع أنواع حالات "انتظار تلقائي *" (افتراضي: قابل للعرض).',
+        'removed' => 'أزاله',
+        'All \'removed\' state types (default: not viewable).' => 'جميع أنواع الحالات "التي تمت إزالتها" (الإعداد التلقائي: غير قابل للعرض).',
+        'merged' => 'مُنْدَمِج',
+        'State type for merged tickets (default: not viewable).' => 'نوع الحالة للتذاكر المدمجة (الافتراضي: غير قابل للعرض).',
+        'New ticket created by customer.' => 'تم إنشاء تذكرة جديدة بواسطة العميل.',
         'closed successful' => 'أغلقت بنجاح',
-        'Ticket is closed successful.' => '',
-        'closed unsuccessful' => 'أغلقت بفشل',
-        'Ticket is closed unsuccessful.' => '',
-        'Open tickets.' => '',
-        'Customer removed ticket.' => '',
-        'Ticket is pending for agent reminder.' => '',
-        'pending auto close+' => '',
-        'Ticket is pending for automatic close.' => '',
-        'pending auto close-' => '',
-        'State for merged tickets.' => '',
-        'system standard salutation (en)' => '',
-        'Standard Salutation.' => '',
-        'system standard signature (en)' => '',
-        'Standard Signature.' => '',
-        'Standard Address.' => '',
+        'Ticket is closed successful.' => 'تم إغلاق التذكرة بنجاح.',
+        'closed unsuccessful' => 'لم يتم الإغلاق بنجاح',
+        'Ticket is closed unsuccessful.' => 'لم يتم إغلاق التذكرة بنجاح.',
+        'Open tickets.' => 'تذاكر مفتوحة.',
+        'Customer removed ticket.' => 'قام العميل بإزالة التذكرة.',
+        'Ticket is pending for agent reminder.' => 'التذكرة معلقة لتذكير الوكيل.',
+        'pending auto close+' => 'في انتظار الإغلاق الناجح',
+        'Ticket is pending for automatic close.' => 'التذكرة في انتظار الإغلاق التلقائي.',
+        'pending auto close-' => 'في انتظار إغلاق غير ناجح',
+        'State for merged tickets.' => 'حالة التذاكر المدمجة.',
+        'system standard salutation (en)' => 'التحية القياسية للنظام (EN)',
+        'Standard Salutation.' => 'التحية القياسية.',
+        'system standard signature (en)' => 'التوقيع القياسي للنظام (EN)',
+        'Standard Signature.' => 'التوقيع القياسي.',
+        'Standard Address.' => 'العنوان الافتراضي.',
         'possible' => 'ممكن',
         'Follow-ups for closed tickets are possible. Ticket will be reopened.' =>
-            '',
+            'الأسئلة عن التذاكر المغلقة ممكنة. سيتم إعادة فتح التذاكر.',
         'reject' => 'رفض',
         'Follow-ups for closed tickets are not possible. No new ticket will be created.' =>
-            '',
-        'new ticket' => '',
+            'الاستفسارات عن التذاكر المغلقة غير ممكنة. لن يتم إنشاء تذاكر جديدة.',
+        'new ticket' => 'تذكرة جديدة',
         'Follow-ups for closed tickets are not possible. A new ticket will be created.' =>
-            '',
-        'Postmaster queue.' => '',
-        'All default incoming tickets.' => '',
-        'All junk tickets.' => '',
-        'All misc tickets.' => '',
-        'auto reply' => '',
+            'الاستفسار عن التذاكر المغلقة غير ممكن. سيتم إنشاء تذكرة جديدة.',
+        'Postmaster queue.' => 'قائمة الانتظار الرئيسية للبريد.',
+        'All default incoming tickets.' => 'جميع التذاكر الوارده.',
+        'All junk tickets.' => 'جميع التذاكر غير الهامة.',
+        'All misc tickets.' => 'جميع التذاكر المتنوعة.',
+        'auto reply' => 'رد تلقائي',
         'Automatic reply which will be sent out after a new ticket has been created.' =>
-            '',
-        'auto reject' => '',
+            'سيتم إرسال رد تلقائي بعد إنشاء تذكرة جديدة.',
+        'auto reject' => 'رفض تلقائي',
         'Automatic reject which will be sent out after a follow-up has been rejected (in case queue follow-up option is "reject").' =>
-            '',
-        'auto follow up' => '',
+            'يتم إرسال الرفض التلقائي بعد رفض الرد (في حالة "رفض" خيار متابعة قائمة الانتظار).',
+        'auto follow up' => 'الاستعلام التلقائي',
         'Automatic confirmation which is sent out after a follow-up has been received for a ticket (in case queue follow-up option is "possible").' =>
-            '',
-        'auto reply/new ticket' => '',
+            'يتم إرسال التأكيد التلقائي بعد تلقي الرد على تذكرة (إذا تم تعيين إعداد قائمة الانتظار للردود على "ممكن").',
+        'auto reply/new ticket' => 'الرد التلقائي/ تذكرة جديدة',
         'Automatic response which will be sent out after a follow-up has been rejected and a new ticket has been created (in case queue follow-up option is "new ticket").' =>
-            '',
-        'auto remove' => '',
+            'الرد التلقائي الذي يتم إرساله بعد رفض الرد وإنشاء تذكرة جديدة (إذا تم تعيين إعداد قائمة الانتظار للردود على "تذكرة جديدة").',
+        'auto remove' => 'إزالة تلقائية',
         'Auto remove will be sent out after a customer removed the request.' =>
-            '',
-        'default reply (after new ticket has been created)' => '',
+            'يتم إرسال "الإزالة التلقائية" بعد أن يزيل المستخدم العميل الطلب.',
+        'default reply (after new ticket has been created)' => 'الاستجابة الافتراضية (بعد إنشاء تذكرة جديدة)',
         'default reject (after follow-up and rejected of a closed ticket)' =>
-            '',
-        'default follow-up (after a ticket follow-up has been added)' => '',
+            'الرفض القياسي (بعد تلقي الرد على تذكرة مغلقة ورفضه)',
+        'default follow-up (after a ticket follow-up has been added)' => 'الاستجابة الافتراضية (بعد تلقي رد على تذكرة)',
         'default reject/new ticket created (after closed follow-up with new ticket creation)' =>
-            '',
-        'Unclassified' => '',
+            'الرفض الافتراضي/إنشاء تذكرة جديدة (بعد تلقي رد على تذكرة مغلقة وإنشاء تذكرة جديدة)',
+        'Unclassified' => 'غير مصنف',
         '1 very low' => '1 منخفض جداً',
         '2 low' => '2 منخفض',
         '3 normal' => '3 عادي',
@@ -5933,454 +5934,457 @@ sub Data {
         '5 very high' => '5 مرتفع جداً',
         'unlock' => 'إعادة فتح',
         'lock' => 'إقفال',
-        'tmp_lock' => '',
+        'tmp_lock' => 'tmp_lock',
         'agent' => 'وكيل',
         'system' => 'النظام',
         'customer' => 'عميل',
-        'Ticket create notification' => '',
+        'Ticket create notification' => 'الإخطار بتذكرة جديدة',
         'You will receive a notification each time a new ticket is created in one of your "My Queues" or "My Services".' =>
-            '',
-        'Ticket follow-up notification (unlocked)' => '',
+            'سوف تتلقى إشعارا عند إنشاء تذكرة في قوائم الانتظار أو الخدمات المحددة تحت "قوائم الانتظار الخاصة بي" أو "الخدمات الخاصة بي".',
+        'Ticket follow-up notification (unlocked)' => 'إخطار إجراءات المتابعة (تذكرة غير مقفلة)',
         'You will receive a notification if a customer sends a follow-up to an unlocked ticket which is in your "My Queues" or "My Services".' =>
-            '',
-        'Ticket follow-up notification (locked)' => '',
+            'سوف تتلقى إخطارا إذا أرسل العميل متابعة لتذكرة غير مؤمنة موجودة في "قوائم الانتظار الخاصة بي" أو "خدماتي".',
+        'Ticket follow-up notification (locked)' => 'إخطار متابعة التذكرة (مؤمن)',
         'You will receive a notification if a customer sends a follow-up to a locked ticket of which you are the ticket owner or responsible.' =>
-            '',
-        'Ticket lock timeout notification' => 'تنبيه إنتهاء وقت إقفال البطاقة',
+            'سوف تتلقى إشعارا عندما يرسل العميل رسالة مرتدة إلى تذكرة تكون أنت المالك أو المسؤول عنها.',
+        'Ticket lock timeout notification' => 'تنبيه إنتهاء وقت تأمين التذكرة',
         'You will receive a notification as soon as a ticket owned by you is automatically unlocked.' =>
-            '',
-        'Ticket owner update notification' => '',
-        'Ticket responsible update notification' => '',
-        'Ticket new note notification' => '',
-        'Ticket queue update notification' => '',
+            'سوف تتلقى إشعارا عندما يتم إلغاء تأمين تذكرة خاصة بك تلقائيا.',
+        'Ticket owner update notification' => 'إشعار بتغيير مالك التذكرة',
+        'Ticket responsible update notification' => 'إشعار تحديث مسؤول التذاكر',
+        'Ticket new note notification' => 'الإخطار بملاحظة جديدة',
+        'Ticket queue update notification' => 'الإخطار بتغييرات قائمة الانتظار',
         'You will receive a notification if a ticket is moved into one of your "My Queues".' =>
-            '',
-        'Ticket pending reminder notification (locked)' => '',
-        'Ticket pending reminder notification (unlocked)' => '',
-        'Ticket escalation notification' => '',
-        'Ticket escalation warning notification' => '',
-        'Ticket service update notification' => '',
+            'ستتلقى إخطارا إذا تم نقل تذكرة إلى إحدى "قوائم الانتظار الخاصة بي".',
+        'Ticket pending reminder notification (locked)' => 'التذكرة بانتظار إخطار التذكير (مؤمن)',
+        'Ticket pending reminder notification (unlocked)' => 'إشعار عند الوصول إلى وقت التذكير (غير مؤمن)',
+        'Ticket escalation notification' => 'الإخطار بتصعيد التذاكر',
+        'Ticket escalation warning notification' => 'الإخطار بالتصعيد الوشيك للتذاكر',
+        'Ticket service update notification' => 'الإخطار بتغييرات الخدمة',
         'You will receive a notification if a ticket\'s service is changed to one of your "My Services".' =>
-            '',
-        'Appointment reminder notification' => '',
+            'ستتلقى إشعارا إذا تم تغيير خدمة التذكرة إلى إحدى "خدماتي".',
+        'Appointment reminder notification' => 'الإخطار عند الوصول إلى وقت التذكير بالمواعيد',
         'You will receive a notification each time a reminder time is reached for one of your appointments.' =>
-            '',
-        'Ticket email delivery failure notification' => '',
+            'ستتلقى إشعارا في كل مرة يتم فيها الوصول إلى وقت تذكير لأحد مواعيدك.',
+        'Ticket email delivery failure notification' => 'إشعار فشل تسليم البريد الإلكتروني للتذكرة',
 
         # JS File: Core.AJAX
-        'Error during AJAX communication. Status: %s, Error: %s' => '',
-        'This window must be called from compose window.' => '',
+        'Error during AJAX communication. Status: %s, Error: %s' => 'خطأ أثناء اتصال AJAX. الحالة: ‎%s، خطأ: ‎%s',
+        'This window must be called from compose window.' => 'يجب إستدعاء هذه النافذة من نافذة تحرير التذاكر.',
 
         # JS File: Core.Agent.Admin.ACL
-        'Add all' => '',
-        'An item with this name is already present.' => '',
+        'Add all' => 'إضافة الكل',
+        'An item with this name is already present.' => 'يوجد بالفعل عنصر بهذا الاسم.',
         'This item still contains sub items. Are you sure you want to remove this item including its sub items?' =>
-            '',
+            'لا يزال هذا العنصر يحتوي على عناصر فرعية. هل أنت متأكد من أنك تريد إزالة هذا العنصر بما في ذلك العناصر الفرعية الخاصة به؟',
 
         # JS File: Core.Agent.Admin.About
-        'Do you really want to delete this language?' => '',
+        'Do you really want to delete this language?' => 'هل تريد حقًا حذف هذه اللغة؟',
 
         # JS File: Core.Agent.Admin.AppointmentCalendar.Manage
-        'More' => '',
-        'Less' => '',
-        'Press Ctrl+C (Cmd+C) to copy to clipboard' => '',
+        'More' => 'أكثر',
+        'Less' => 'أقل',
+        'Press Ctrl+C (Cmd+C) to copy to clipboard' => 'اضغط على Ctrl+C (Cmd+C) للنسخ إلى الحافظة',
 
         # JS File: Core.Agent.Admin.Attachment
-        'Delete this Attachment' => '',
-        'Deleting attachment...' => '',
+        'Delete this Attachment' => 'حذف هذا المرفق',
+        'Deleting attachment...' => 'جارٍ حذف المرفق ...',
         'There was an error deleting the attachment. Please check the logs for more information.' =>
-            '',
-        'Attachment was deleted successfully.' => '',
+            'حدث خطأ أثناء حذف المرفق. الرجاء التحقق من السجلات للحصول على مزيد من المعلومات.',
+        'Attachment was deleted successfully.' => 'تمت إزالة المرفق بنجاح.',
 
         # JS File: Core.Agent.Admin.DynamicField
         'Do you really want to delete this dynamic field? ALL associated data will be LOST!' =>
-            '',
-        'Delete field' => '',
-        'Deleting the field and its data. This may take a while...' => '',
+            'هل تريد حقا حذف هذا الحقل الديناميكي؟ سيتم فقدان جميع البيانات المرتبطة!',
+        'Delete field' => 'حذف الحقل',
+        'Deleting the field and its data. This may take a while...' => 'حذف الحقل والبيانات الخاصة به. قد يستغرق هذا بعض الوقت...',
 
         # JS File: Core.Agent.Admin.GenericAgent
-        'Remove this dynamic field' => '',
-        'Remove selection' => '',
-        'Do you really want to delete this generic agent job?' => '',
-        'Delete this Event Trigger' => '',
-        'Duplicate event.' => '',
+        'Remove this dynamic field' => 'إزالة هذا الحقل الديناميكي',
+        'Remove selection' => 'إزالة التحديد',
+        'Do you really want to delete this generic agent job?' => 'هل أنت متأكد من أنك تريد حذف وظيفة GenericAgent هذه؟',
+        'Delete this Event Trigger' => 'حذف مشغل الحدث هذا',
+        'Duplicate event.' => 'حدث مكرر.',
         'This event is already attached to the job, Please use a different one.' =>
-            '',
+            'هذا الحدث مرفق بالفعل بالوظيفة، يرجى استخدام حدث آخر.',
 
         # JS File: Core.Agent.Admin.GenericInterfaceDebugger
-        'An error occurred during communication.' => '',
-        'Request Details' => '',
-        'Request Details for Communication ID' => '',
-        'Show or hide the content.' => '',
-        'Clear debug log' => '',
+        'An error occurred during communication.' => 'حدث خطأ أثناء الاتصال.',
+        'Request Details' => 'تفاصيل الطلب',
+        'Request Details for Communication ID' => 'تفاصيل الطلب لمعرف الاتصال',
+        'Show or hide the content.' => 'إظهار المحتوى أو إخفاؤه.',
+        'Clear debug log' => 'مسح سجل التصحيح',
 
         # JS File: Core.Agent.Admin.GenericInterfaceErrorHandling
-        'Delete error handling module' => '',
+        'Delete error handling module' => 'إزالة وحدة معالجة الأخطاء',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvoker
         'It is not possible to add a new event trigger because the event is not set.' =>
-            '',
-        'Delete this Invoker' => '',
+            'من غير الممكن إضافة مشغل حدث جديد بسبب عدم تعيين الحدث.',
+        'Delete this Invoker' => 'حذف هذا الاستدعاء (Invoker)',
 
         # JS File: Core.Agent.Admin.GenericInterfaceInvokerEvent
-        'Sorry, the only existing condition can\'t be removed.' => '',
-        'Sorry, the only existing field can\'t be removed.' => '',
-        'Delete conditions' => '',
+        'Sorry, the only existing condition can\'t be removed.' => 'عذرا، لا يمكن إزالة الشرط الوحيد الموجود.',
+        'Sorry, the only existing field can\'t be removed.' => 'عذرا، لا يمكن إزالة الحقل الوحيد الموجود.',
+        'Delete conditions' => 'حذف الشروط',
 
         # JS File: Core.Agent.Admin.GenericInterfaceMapping
-        'Mapping for Key %s' => '',
-        'Mapping for Key' => '',
-        'Delete this Key Mapping' => '',
+        'Mapping for Key %s' => 'تعيين المفتاح %s',
+        'Mapping for Key' => 'تعيين المفتاح',
+        'Delete this Key Mapping' => 'حذف تعيين المفتاح',
 
         # JS File: Core.Agent.Admin.GenericInterfaceOperation
-        'Delete this Operation' => '',
+        'Delete this Operation' => 'حذف هذه العملية',
 
         # JS File: Core.Agent.Admin.GenericInterfaceWebservice
-        'Clone web service' => '',
-        'Delete operation' => '',
-        'Delete invoker' => '',
+        'Clone web service' => 'استنساخ خدمة الويب',
+        'Delete operation' => 'حذف العملية',
+        'Delete invoker' => 'حذف الاستدعاء',
 
         # JS File: Core.Agent.Admin.Group
         'WARNING: When you change the name of the group \'admin\', before making the appropriate changes in the SysConfig, you will be locked out of the administrations panel! If this happens, please rename the group back to admin per SQL statement.' =>
-            '',
+            'تنبيه: إذا قمت بتغيير اسم مجموعة "المسؤول" دون إجراء التعديلات المناسبة أولا في SysConfig، فستفقد الوصول إلى منطقة المسؤول! في هذه الحالة، يجب عليك إعادة تعيين اسم المجموعة في قاعدة البيانات.',
 
         # JS File: Core.Agent.Admin.MailAccount
-        'Delete this Mail Account' => '',
+        'Delete this Mail Account' => 'حذف حساب البريد الإلكتروني',
         'Deleting the mail account and its data. This may take a while...' =>
-            '',
+            'سيتم حذف حساب البريد الإلكتروني والبيانات. قد يستغرق هذا بعض الوقت...',
 
         # JS File: Core.Agent.Admin.NotificationEvent
-        'Do you really want to delete this notification language?' => '',
-        'Do you really want to delete this notification?' => '',
+        'Do you really want to delete this notification language?' => 'هل تريد بالتأكيد حذف لغة الإعلام هذه؟',
+        'Do you really want to delete this notification?' => 'هل تريد حقا حذف هذا الإشعار؟',
 
         # JS File: Core.Agent.Admin.PGP
-        'Do you really want to delete this key?' => '',
+        'Do you really want to delete this key?' => 'هل تريد حقا حذف هذا المفتاح؟',
 
         # JS File: Core.Agent.Admin.PackageManager
         'There is a package upgrade process running, click here to see status information about the upgrade progress.' =>
-            '',
+            'عملية تحديث الحزمة جارية حاليا. انقر هنا للحصول على معلومات الحالة.',
         'A package upgrade was recently finished. Click here to see the results.' =>
-            '',
-        'No response from get package upgrade result.' => '',
-        'Update all packages' => '',
-        'Dismiss' => '',
-        'Update All Packages' => '',
-        'No response from package upgrade all.' => '',
-        'Currently not possible' => '',
+            'تم الانتهاء مؤخرا من ترقية الحزمة. انقر هنا لمشاهدة النتائج.',
+        'No response from get package upgrade result.' => 'لا توجد إستجابة من الحصول على نتيجة ترقية الحزمة.',
+        'Update all packages' => 'تحديث كافة الحزم',
+        'Dismiss' => 'رفض',
+        'Update All Packages' => 'تحديث كافة الحزم',
+        'No response from package upgrade all.' => 'لا يوجد إستجابة من ترقية الحزمة كلها.',
+        'Currently not possible' => 'غير ممكن حاليا',
         'This is currently disabled because of an ongoing package upgrade.' =>
-            '',
+            'تم تعطيل هذا حاليا بسبب ترقية الحزمة الجارية.',
         'This option is currently disabled because the OTOBO Daemon is not running.' =>
-            '',
-        'Are you sure you want to update all installed packages?' => '',
-        'No response from get package upgrade run status.' => '',
+            'هذا الخيار معطل حاليًا لأن OTOBO Daemon لا يعمل.',
+        'Are you sure you want to update all installed packages?' => 'هل تريد بالتأكيد تحديث كافة الحزم المثبتة؟',
+        'No response from get package upgrade run status.' => 'لا توجد إستجابة من الحصول على حالة تشغيل ترقية الحزمة.',
 
         # JS File: Core.Agent.Admin.PostMasterFilter
-        'Delete this PostMasterFilter' => '',
+        'Delete this PostMasterFilter' => 'حذف عامل تصفية PostMasterFilter هذا',
         'Deleting the postmaster filter and its data. This may take a while...' =>
-            '',
+            'حذف عامل تصفية مسؤول البريد وبياناته. قد يستغرق هذا بعض الوقت...',
 
         # JS File: Core.Agent.Admin.ProcessManagement.Canvas
         'Remove Entity from canvas' => '',
-        'No TransitionActions assigned.' => '',
+        'No TransitionActions assigned.' => 'لم يتم تعيين إجراءات انتقالية.',
         'No dialogs assigned yet. Just pick an activity dialog from the list on the left and drag it here.' =>
-            '',
+            'لم يتم تعيين مربعات حوار بعد. فقط أختر مربع حوار نشاط من القائمة الموجودة على اليسار واسحبه إلى هنا.',
         'This Activity cannot be deleted because it is the Start Activity.' =>
-            '',
-        'Remove the Transition from this Process' => '',
+            'لا يمكن حذف هذا النشاط لأنه نشاط البدء.',
+        'Remove the Transition from this Process' => 'إزالة الانتقال من هذه العملية',
 
         # JS File: Core.Agent.Admin.ProcessManagement
         'As soon as you use this button or link, you will leave this screen and its current state will be saved automatically. Do you want to continue?' =>
-            '',
-        'Delete Entity' => '',
+            'بمجرد إستخدام هذا الزر أو الارتباط، ستغادر هذه الشاشة وسيتم حفظ حالتها الحالية تلقائيا. هل تريد المتابعة؟',
+        'Delete Entity' => 'حذف الكيان',
         'This Activity is already used in the Process. You cannot add it twice!' =>
-            '',
-        'Error during AJAX communication' => '',
+            'هذا النشاط مستخدم بالفعل في العملية. لا يمكنك إضافته مرتين!',
+        'Error during AJAX communication' => 'خطأ أثناء اتصال AJAX',
         'An unconnected transition is already placed on the canvas. Please connect this transition first before placing another transition.' =>
-            '',
+            'هناك انتقال غير متصل على سطح الرسم. الرجاء توصيل هذا الانتقال أولا قبل وضع عملية انتقال أخرى.',
         'This Transition is already used for this Activity. You cannot use it twice!' =>
-            '',
+            'هذا الانتقال مستخدم بالفعل لهذا النشاط. لا يمكنك إستخدامه مرتين!',
         'This TransitionAction is already used in this Path. You cannot use it twice!' =>
-            '',
-        'Hide EntityIDs' => '',
-        'Edit Field Details' => '',
+            'هذا الإجراء الانتقالي مستخدم بالفعل في هذا المسار. لا يمكنك إضافته مرة أخرى!',
+        'Hide EntityIDs' => 'إخفاء EntityIDs',
+        'Edit Field Details' => 'تحرير تفاصيل الحقل',
         'Customer interface does not support articles not visible for customers.' =>
-            '',
-        'Sorry, the only existing parameter can\'t be removed.' => '',
+            'لا تدعم واجهة العميل المقالات غير المرئية للعملاء.',
+        'Sorry, the only existing parameter can\'t be removed.' => 'عذرا، لا يمكن إزالة المعلمة الوحيدة الموجودة.',
 
         # JS File: Core.Agent.Admin.SMIME
-        'Do you really want to delete this certificate?' => '',
+        'Do you really want to delete this certificate?' => 'هل تريد حقا حذف هذه الشهادة؟',
 
         # JS File: Core.Agent.Admin.SupportDataCollector
-        'Sending Update...' => '',
-        'Support Data information was successfully sent.' => '',
-        'Was not possible to send Support Data information.' => '',
-        'Update Result' => '',
-        'Generating...' => '',
-        'It was not possible to generate the Support Bundle.' => '',
-        'Generate Result' => '',
-        'Support Bundle' => '',
-        'The mail could not be sent' => '',
+        'Sending Update...' => 'جاري إرسال التحديث. . .',
+        'Support Data information was successfully sent.' => 'تم إرسال معلومات بيانات الدعم بنجاح.',
+        'Was not possible to send Support Data information.' => 'لم يكن من الممكن إرسال معلومات بيانات الدعم.',
+        'Update Result' => 'نتيجة التحديث',
+        'Generating...' => 'تم الإنشاء...',
+        'It was not possible to generate the Support Bundle.' => 'تعذر إنشاء حزمة الدعم.',
+        'Generate Result' => 'نتيجة التوليد',
+        'Support Bundle' => 'حزمة الدعم',
+        'The mail could not be sent' => 'تعذر إرسال البريد الإلكتروني',
 
         # JS File: Core.Agent.Admin.SysConfig.Entity
         'It is not possible to set this entry to invalid. All affected configuration settings have to be changed beforehand.' =>
-            '',
-        'Cannot proceed' => '',
-        'Update manually' => '',
+            'لا يمكن إبطال هذا الإدخال حتى يتم تعديل كافة التكوينات المتأثرة وفقا لذلك.',
+        'Cannot proceed' => 'لا يمكن المتابعة',
+        'Update manually' => 'التحديث يدويا',
         'You can either have the affected settings updated automatically to reflect the changes you just made or do it on your own by pressing \'update manually\'.' =>
-            '',
-        'Save and update automatically' => '',
-        'Don\'t save, update manually' => '',
+            'يمكنك إما تحديث الإعدادات المتأثرة تلقائيا لتعكس التغييرات التي قمت بها للتو أو القيام بذلك بنفسك من خلال الضغط على "التحديث يدويا".',
+        'Save and update automatically' => 'حفظ وتحديث تلقائي',
+        'Don\'t save, update manually' => 'عدم الحفظ، التحديث يدويا',
         'The item you\'re currently viewing is part of a not-yet-deployed configuration setting, which makes it impossible to edit it in its current state. Please wait until the setting has been deployed. If you\'re unsure what to do next, please contact your system administrator.' =>
-            '',
+            'الإدخال الذي تبحث عنه حاليا هو جزء من إعداد التكوين الذي لم يتم تنشيطه حتى الآن وبالتالي فهو غير قابل للتعديل حاليا. الرجاء الانتظار حتى يتم تشغيل الإعداد. إذا لم تكن متأكدا مما يجب عليك القيام به بعد ذلك، الرجاء الاتصال بمسؤول النظام.',
 
         # JS File: Core.Agent.Admin.SystemConfiguration
         'Loading...' => 'جاري التحميل...',
-        'Search the System Configuration' => '',
-        'Please enter at least one search word to find anything.' => '',
+        'Search the System Configuration' => 'البحث في تكوين النظام',
+        'Please enter at least one search word to find anything.' => 'الرجاء إدخال مصطلح بحث واحد على الأقل.',
         'Unfortunately deploying is currently not possible, maybe because another agent is already deploying. Please try again later.' =>
-            '',
-        'Deploy' => '',
-        'The deployment is already running.' => '',
-        'Deployment successful. You\'re being redirected...' => '',
+            'للأسف، النشر غير ممكن حاليًا، ربما بسبب نشر وكيل آخر بالفعل. الرجاء معاودة المحاولة في وقت لاحق.',
+        'Deploy' => 'نشر',
+        'The deployment is already running.' => 'النشر قيد التشغيل بالفعل.',
+        'Deployment successful. You\'re being redirected...' => 'تم النشر بنجاح. تتم إعادة توجيهك ...',
         'There was an error. Please save all settings you are editing and check the logs for more information.' =>
-            '',
-        'Reset option is required!' => '',
+            'حدث خطأ. الرجاء حفظ كافة الإعدادات التي تقوم بتحريرها حاليا والتحقق من السجلات للحصول على مزيد من المعلومات.',
+        'Reset option is required!' => 'خيار إعادة التعيين مطلوب!',
         'By restoring this deployment all settings will be reverted to the value they had at the time of the deployment. Do you really want to continue?' =>
-            '',
+            'باستعادة هذا النشر، سيتم إرجاع كافة الإعدادات إلى القيمة التي كانت موجودة في وقت النشر. هل تريد حقا المتابعة؟',
         'Keys with values can\'t be renamed. Please remove this key/value pair instead and re-add it afterwards.' =>
-            '',
-        'Unlock setting.' => '',
+            'لا يمكن إعادة تسمية المفتاح الذي يحتوي على قيم. الرجاء إزالة زوج المفتاح/القيمة هذا وإضافته مرة أخرى.',
+        'Unlock setting.' => 'إلغاء تأمين الإعداد.',
 
         # JS File: Core.Agent.Admin.SystemConfigurationUser
-        'Are you sure you want to remove all user values?' => '',
+        'Are you sure you want to remove all user values?' => 'هل أنت متأكد أنك تريد تجاهل كافة تغييرات المستخدم؟',
 
         # JS File: Core.Agent.Admin.SystemMaintenance
         'Do you really want to delete this scheduled system maintenance?' =>
-            '',
+            'هل تريد حقًا حذف صيانة النظام المجدولة؟',
 
         # JS File: Core.Agent.Admin.Template
-        'Delete this Template' => '',
+        'Delete this Template' => 'حذف هذا القالب',
         'Deleting the template and its data. This may take a while...' =>
-            '',
+            'حذف القالب وبياناته. قد يستغرق هذا بعض الوقت...',
 
         # JS File: Core.Agent.AppointmentCalendar
-        'Jump' => '',
-        'Timeline Month' => '',
-        'Timeline Week' => '',
-        'Timeline Day' => '',
-        'Previous' => '',
-        'Resources' => '',
-        'Su' => '',
-        'Mo' => '',
-        'Tu' => 'مارس',
-        'We' => 'تفعيل',
-        'Th' => 'إلى',
-        'Fr' => '',
-        'Sa' => '',
+        'Jump' => 'تخطي',
+        'Timeline Month' => 'شهر المخطط الزمني',
+        'Timeline Week' => 'أسبوع المخطط الزمني',
+        'Timeline Day' => 'يوم المخطط الزمني',
+        'Previous' => 'رجوع',
+        'Resources' => 'موارد',
+        'Su' => 'الأَحَدِ',
+        'Mo' => 'الاثْنَيْنِ',
+        'Tu' => 'الثُّلاَثَاءِ',
+        'We' => 'َالأَرْبِعَاءِ',
+        'Th' => 'الْخَمِيسِ',
+        'Fr' => 'الْجُمُعَةِ',
+        'Sa' => 'السَّبْتِ',
         'This is a repeating appointment' => 'هذا موعد متكرر',
         'Would you like to edit just this occurrence or all occurrences?' =>
-            'هل ترغب بتعديل هذه الواقعة فقط أم تعديل جميع الوقائع؟',
-        'All occurrences' => 'جميع الوقائع',
-        'Just this occurrence' => 'هذه الواقعة فقط',
-        'Too many active calendars' => '',
+            'هل تريد تعديل هذا الموعد فقط أم كافة المواعيد؟',
+        'All occurrences' => 'كل التكرارات',
+        'Just this occurrence' => 'هذا الحدث فقط',
+        'Too many active calendars' => 'عدد كبير جدا من التقويمات النشطة',
         'Please either turn some off first or increase the limit in configuration.' =>
-            '',
-        'Restore default settings' => '',
+            'يرجى إما إيقاف تشغيل البعض أولا أو زيادة الحد الأقصى في التكوين.',
+        'Restore default settings' => 'استعادة الإعدادات الافتراضية',
         'Are you sure you want to delete this appointment? This operation cannot be undone.' =>
-            '',
+            'هل تريد بالتأكيد حذف هذا التاريخ؟ ولا يمكن عكس هذا التغيير.',
 
         # JS File: Core.Agent.CustomerSearch
         'First select a customer user, then select a customer ID to assign to this ticket.' =>
-            '',
-        'Duplicated entry' => '',
-        'It is going to be deleted from the field, please try again.' => '',
+            'حدد أولاً مستخدم العميل. يمكنك بعد ذلك تخصيص التذكرة لرقم عميل.',
+        'Duplicated entry' => 'إدخال مكرر',
+        'It is going to be deleted from the field, please try again.' => 'سيتم حذفه من الحقل، الرجاء المحاولة مرة أخرى.',
 
         # JS File: Core.Agent.CustomerUserAddressBook
         'Please enter at least one search value or * to find anything.' =>
-            '',
+            'الرجاء إدخال مصطلح بحث واحد على الأقل أو * للبحث عن كل شيء.',
 
         # JS File: Core.Agent.Daemon
-        'Information about the OTOBO Daemon' => '',
+        'Information about the OTOBO Daemon' => 'معلومات حول OTOBO Daemon',
 
         # JS File: Core.Agent.Dashboard
-        'Please check the fields marked as red for valid inputs.' => '',
+        'Please check the fields marked as red for valid inputs.' => 'الرجاء التحقق من الحقول التي تم وضع علامة عليها بالأحمر من أجل إدخالات صالحة.',
         'month' => 'شهر',
-        'Remove active filters for this widget.' => '',
+        'Remove active filters for this widget.' => 'قم بإزالة الفلاتر النشطة لهذه الأداة.',
 
         # JS File: Core.Agent.DynamicFieldDBSearch
-        'This dynamic field database value is already selected.' => '',
+        'This dynamic field database value is already selected.' => 'تم بالفعل تحديد هذا الحقل الديناميكي من نوع قاعدة البيانات.',
 
         # JS File: Core.Agent.LinkObject.SearchForm
-        'Please wait...' => '',
-        'Searching for linkable objects. This may take a while...' => '',
+        'Please wait...' => 'الرجاء الانتظار...',
+        'Searching for linkable objects. This may take a while...' => 'البحث عن الكائنات ذات الصلة. قد يستغرق هذا بعض الوقت...',
 
         # JS File: Core.Agent.LinkObject
-        'Do you really want to delete this link?' => '',
+        'Do you really want to delete this link?' => 'هل أنت متأكد من أنك تريد حذف هذا الرابط؟',
 
         # JS File: Core.Agent.Login
         'Are you using a browser plugin like AdBlock or AdBlockPlus? This can cause several issues and we highly recommend you to add an exception for this domain.' =>
-            '',
-        'Do not show this warning again.' => '',
+            'هل تستخدم ملحق مستعرض مثل AdBlock أو AdBlockPlus؟ قد يتسبب ذلك في حدوث العديد من المشكلات ونحن نوصيك بشدة بإضافة إستثناء لهذا المجال.',
+        'Do not show this warning again.' => 'لا تظهر هذا التحذير مرة أخرى.',
 
         # JS File: Core.Agent.Preferences
         'Sorry, but you can\'t disable all methods for notifications marked as mandatory.' =>
-            '',
+            'عذرا، ولكن لا يمكنك تعطيل جميع طرق الإشعارات التي تم وضع علامة عليها على أنها إلزامية.',
         'Sorry, but you can\'t disable all methods for this notification.' =>
-            '',
+            'عذرا، ولكن لا يمكنك تعطيل كافة الأساليب الخاصة بهذا الإخطار.',
         'Please note that at least one of the settings you have changed requires a page reload. Click here to reload the current screen.' =>
-            '',
+            'الرجاء ملاحظة أن واحدا على الأقل من الإعدادات التي قمت بتغييرها يتطلب إعادة تحميل صفحة. انقر هنا لإعادة تحميل الشاشة الحالية.',
         'An unknown error occurred. Please contact the administrator.' =>
-            '',
+            'حدث خطأ غير معروف. الرجاء الاتصال بالمسؤول.',
 
         # JS File: Core.Agent.Responsive
-        'Switch to desktop mode' => '',
+        'Switch to desktop mode' => 'التبديل إلى وضع سطح المكتب',
 
         # JS File: Core.Agent.Search
         'Please remove the following words from your search as they cannot be searched for:' =>
-            '',
+            'الرجاء إزالة الكلمات التالية من البحث حيث لا يمكن البحث عنها:',
 
         # JS File: Core.Agent.SharedSecretGenerator
-        'Generate' => '',
+        'Generate' => 'إنشاء',
 
         # JS File: Core.Agent.SortedTree
         'This element has children elements and can currently not be removed.' =>
-            '',
+            'يحتوي هذا العنصر على عناصر فرعية ولا يمكن إزالته حاليًا.',
 
         # JS File: Core.Agent.Statistics
-        'Do you really want to delete this statistic?' => '',
+        'Do you really want to delete this statistic?' => 'هل تريد حقًا حذف هذه الإحصائية؟',
 
         # JS File: Core.Agent.StatisticsReports
-        'Do you really want to delete this report?' => '',
+        'Do you really want to delete this report?' => 'هل تريد حقا حذف هذا التقرير؟',
 
         # JS File: Core.Agent.TicketAction
-        'Select a customer ID to assign to this ticket' => '',
-        'Do you really want to continue?' => '',
+        'Select a customer ID to assign to this ticket' => 'حدد رقم العميل الذي تريد تعيينه لهذه التذكرة',
+        'Do you really want to continue?' => 'هل تريد حقا المتابعة؟',
 
         # JS File: Core.Agent.TicketBulk
-        ' ...and %s more' => '',
-        ' ...show less' => '',
+        ' ...and %s more' => ' ... و ‎%s أكثر',
+        ' ...show less' => ' ... أظهر أقل',
 
         # JS File: Core.Agent.TicketFormDraft
-        'Add new draft' => '',
-        'Delete draft' => '',
-        'There are no more drafts available.' => '',
-        'It was not possible to delete this draft.' => '',
+        'Add new draft' => 'إضافة مسودة جديدة',
+        'Delete draft' => 'حذف المسودة',
+        'There are no more drafts available.' => 'لا تتوفر أي مسودات أخرى.',
+        'It was not possible to delete this draft.' => 'لم يكن من الممكن حذف المسودة.',
 
         # JS File: Core.Agent.TicketZoom
-        'Article filter' => '',
-        'Apply' => '',
-        'Event Type Filter' => '',
+        'Article filter' => 'عامل تصفية المقالة',
+        'Apply' => 'تطبيق',
+        'Event Type Filter' => 'عامل تصفية نوع الحدث',
 
         # JS File: Core.Agent
-        'Slide the navigation bar' => '',
-        'Please turn off Compatibility Mode in Internet Explorer!' => '',
+        'Slide the navigation bar' => 'تحريك شريط التنقل',
+        'Please turn off Compatibility Mode in Internet Explorer!' => 'الرجاء إيقاف تشغيل وضع التوافق في Internet Explorer!',
 
         # JS File: Core.App.Responsive
-        'Switch to mobile mode' => '',
+        'Switch to mobile mode' => 'التبديل إلى وضع الهاتف الجوال',
 
         # JS File: Core.App
-        'Error: Browser Check failed!' => '',
-        'Reload page' => '',
-        'Reload page (%ss)' => '',
+        'Error: Browser Check failed!' => 'خطأ: فشل فحص المتصفح!',
+        'Reload page' => 'إعادة تحميل الصفحة',
+        'Reload page (%ss)' => 'إعادة تحميل الصفحة (‎%ss)',
 
         # JS File: Core.Debug
         'Namespace %s could not be initialized, because %s could not be found.' =>
-            '',
+            'تعذر تهيئة مساحة الاسم ‏%s، نظرا لتعذر العثور على ‎%s.',
 
         # JS File: Core.Exception
         'An error occurred! Please check the browser error log for more details!' =>
-            '',
+            'حدث خطأ! يرجى التحقق من سجل أخطاء المتصفح لمزيد من التفاصيل!',
 
         # JS File: Core.Form.Validate
-        'One or more errors occurred!' => '',
+        'One or more errors occurred!' => 'حدث خطأ واحد أو أكثر!',
 
         # JS File: Core.Installer
-        'Mail check successful.' => '',
-        'Error in the mail settings. Please correct and try again.' => '',
+        'Mail check successful.' => 'تم التحقق من البريد بنجاح.',
+        'Error in the mail settings. Please correct and try again.' => 'خطأ في إعدادات البريد. يرجى التصحيح والمحاولة مرة أخرى.',
 
         # JS File: Core.SystemConfiguration
-        'Open this node in a new window' => '',
-        'Please add values for all keys before saving the setting.' => '',
-        'The key must not be empty.' => '',
-        'A key with this name (\'%s\') already exists.' => '',
+        'Open this node in a new window' => 'افتح هذه العقدة في نافذة جديدة',
+        'Please add values for all keys before saving the setting.' => 'الرجاء إضافة قيم لكل المفاتيح قبل حفظ الإعداد.',
+        'The key must not be empty.' => 'يجب ألا يكون المفتاح فارغًا.',
+        'A key with this name (\'%s\') already exists.' => 'يوجد مفتاح بهذا الاسم (\'‎%s\') بالفعل.',
         'Do you really want to revert this setting to its historical value?' =>
-            '',
+            'هل أنت متأكد أنك تريد إعادة تعيين هذا الإعداد إلى قيمته الأصلية؟',
 
         # JS File: Core.UI.Datepicker
-        'Open date selection' => '',
-        'Invalid date (need a future date)!' => '',
-        'Invalid date (need a past date)!' => '',
+        'Open date selection' => 'فتح تحديد التاريخ',
+        'Invalid date (need a future date)!' => 'تاريخ غير صالح (التاريخ مطلوب في المستقبل)!',
+        'Invalid date (need a past date)!' => 'تاريخ غير صالح (التاريخ المطلوب في الماضي)!',
 
         # JS File: Core.UI.InputFields
-        'Not available' => '',
-        'and %s more...' => '',
-        'Show current selection' => '',
-        'Current selection' => '',
-        'Clear all' => '',
-        'Filters' => '',
-        'Clear search' => '',
+        'Not available' => 'غير متوفر',
+        'and %s more...' => 'و ‎%s أكثر...',
+        'Show current selection' => 'إظهار التحديد الحالي',
+        'Current selection' => 'التحديد الحالي',
+        'Clear all' => 'مسح الكل',
+        'Filters' => 'عوامل التصفية',
+        'Clear search' => 'مسح البحث',
 
         # JS File: Core.UI.Popup
         'If you now leave this page, all open popup windows will be closed, too!' =>
-            '',
+            'إذا غادرت هذه الصفحة الآن، سيتم إغلاق جميع النوافذ المنبثقة المفتوحة أيضا!',
         'A popup of this screen is already open. Do you want to close it and load this one instead?' =>
-            '',
+            'النافذة المنبثقة مفتوحة بالفعل على هذه الشاشة. هل تريد إغلاقه وفتحه بدلا من ذلك؟',
         'Could not open popup window. Please disable any popup blockers for this application.' =>
-            '',
+            'تعذر فتح النوافذ المنبثقة. الرجاء تعطيل كافة برامج حظر النافذة المنبثقة لهذا التطبيق.',
 
         # JS File: Core.UI.Table.Sort
-        'Ascending sort applied, ' => '',
-        'Descending sort applied, ' => '',
-        'No sort applied, ' => '',
-        'sorting is disabled' => '',
-        'activate to apply an ascending sort' => '',
-        'activate to apply a descending sort' => '',
-        'activate to remove the sort' => '',
+        'Ascending sort applied, ' => 'ترتيب تصاعدي مطبق، ',
+        'Descending sort applied, ' => 'تطبيق الفرز تنازلي ، ',
+        'No sort applied, ' => 'لم يتم تطبيق أي فرز، ',
+        'sorting is disabled' => 'الفرز معطل',
+        'activate to apply an ascending sort' => 'تنشيط لتطبيق فرز تصاعدي',
+        'activate to apply a descending sort' => 'تنشيط لتطبيق فرز تنازلي',
+        'activate to remove the sort' => 'تنشيط لإزالة الفرز',
 
         # JS File: Core.UI.Table
-        'Remove the filter' => '',
+        'Remove the filter' => 'إزالة عامل التصفية',
 
         # JS File: Core.UI.TreeSelection
-        'There are currently no elements available to select from.' => '',
+        'There are currently no elements available to select from.' => 'لا توجد حاليا أي عناصر متوفرة للتحديد منها.',
 
         # JS File: Core.UI
-        'Please only select one file for upload.' => '',
-        'Sorry, you can only upload one file here.' => '',
-        'Sorry, you can only upload %s files.' => '',
-        'Please only select at most %s files for upload.' => '',
-        'The following files are not allowed to be uploaded: %s' => '',
+        'Please only select one file for upload.' => 'الرجاء تحديد ملف واحد فقط للتحميل.',
+        'Sorry, you can only upload one file here.' => 'عذرا، يمكنك تحميل ملف واحد فقط هنا.',
+        'Sorry, you can only upload %s files.' => 'عذرا، يمكنك تحميل ملفات ‎%s فقط.',
+        'Please only select at most %s files for upload.' => 'الرجاء تحديد حد أقصى من ‎%s مِلَفّ (ملفات) للتحميل.',
+        'The following files are not allowed to be uploaded: %s' => 'يجب عدم تعديل الملفات التالية: ‎%s',
         'The following files exceed the maximum allowed size per file of %s and were not uploaded: %s' =>
-            '',
+            'تتجاوز الملفات التالية الحد الأقصى للحجم لكل ملف (‎%s) ولم يتم تحديثها: ‎%s',
         'The following files were already uploaded and have not been uploaded again: %s' =>
-            '',
-        'No space left for the following files: %s' => '',
-        'Available space %s of %s.' => '',
-        'Upload information' => '',
+            'تم تحميل الملفات التالية بالفعل ولم تتم معالجتها مرة أخرى: ‎%s',
+        'No space left for the following files: %s' => 'لا تتوفر مساحة للملفات التالية: ‎%s',
+        'Available space %s of %s.' => 'المساحة المتوفرة ‎%s من ‎%s.',
+        'Upload information' => 'تحميل المعلومات',
         'An unknown error occurred when deleting the attachment. Please try again. If the error persists, please contact your system administrator.' =>
-            '',
+            'حدث خطأ غير معروف عند حذف المرفق. الرجاء المحاولة مرة أخرى. إذا استمر الخطأ، الرجاء الاتصال بمسؤول النظام.',
 
         # JS File: Core.Language.UnitTest
         'yes' => 'نعم',
         'no' => 'لا',
-        'This is %s' => '',
-        'Complex %s with %s arguments' => '',
+        'This is %s' => 'هذا ‎%s',
+        'Complex %s with %s arguments' => 'معقد ‎%s مع ‎%s وسيطات',
 
         # JS File: OTOBOLineChart
-        'No Data Available.' => '',
+        'No Data Available.' => 'لا تتوفر بيانات.',
 
         # JS File: OTOBOMultiBarChart
-        'Grouped' => '',
-        'Stacked' => '',
+        'Grouped' => 'جُمِّعَ',
+        'Stacked' => 'مُكَدَّس',
 
         # JS File: OTOBOStackedAreaChart
-        'Stream' => '',
-        'Expanded' => '',
+        'Stream' => 'سَلِس',
+        'Expanded' => 'واسع النَطاق',
 
         # SysConfig
         '
             Show optional parameters in parameter list, too. If disabled, the optional parameters are only shown
             in an extra table
-        ' => '',
+        ' => '
+            إظهار المعلمات الاختيارية في قائمة المعلمات أيضا. في حالة تعطيل هذا الخيار، يتم عرض المعلمات الاختيارية فقط
+في جدول اضافي
+        ',
         '
 Dear Customer,
 
@@ -6392,611 +6396,622 @@ Please create a new ticket via the customer panel.
 Thanks for your help!
 
  Your Helpdesk Team
-' => '',
-        ' (work units)' => '',
+' => '
+عزيزي الزبون،
+
+لسوء الحظ لم نتمكن من اكتشاف رقم تذكرة صحيح
+في موضوعك، لذا لا يمكن معالجة هذا البريد الإلكتروني.
+
+الرجاء إنشاء تذكرة جديدة عبر لوحة العملاء.
+
+شكرا على مساعدتك!
+
+فريق الدعم
+',
+        ' (work units)' => ' (وحدات العمل)',
         ' 2 minutes' => ' دقيقتان',
         ' 5 minutes' => ' 5 دقائق',
         ' 7 minutes' => ' 7 دقائق',
         '"Slim" skin which tries to save screen space for power users.' =>
-            '',
+            'Slim"-Skin", مما يتطلب مساحة أقل على الشاشة لعرض المعلومات.',
         '%s' => '%s',
-        '(UserLogin) Firstname Lastname' => '',
-        '(UserLogin) Lastname Firstname' => '',
-        '(UserLogin) Lastname, Firstname' => '',
-        '*** out of office until %s (%s d left) ***' => '',
-        '0 - Disabled' => '',
-        '1 - Available' => '',
-        '1 - Enabled' => '',
-        '10 Minutes' => '',
-        '100 (Expert)' => '',
-        '15 Minutes' => '',
-        '2 - Enabled and required' => '',
-        '2 - Enabled and shown by default' => '',
-        '2 - Enabled by default' => '',
-        '2 Minutes' => '',
-        '200 (Advanced)' => '',
-        '30 Minutes' => '',
-        '300 (Beginner)' => '',
-        '5 Minutes' => '',
-        'A TicketWatcher Module.' => '',
-        'A Website' => '',
+        '(UserLogin) Firstname Lastname' => '(تسجيل دخول المستخدم) الاسم الأول اسم العائلة',
+        '(UserLogin) Lastname Firstname' => '(تسجيل دخول المستخدم) اسم العائلة الاسم الأول',
+        '(UserLogin) Lastname, Firstname' => '(تسجيل دخول المستخدم) اسم العائلة ، الاسم الأول',
+        '*** out of office until %s (%s d left) ***' => '*** ليس في المكتب حتى %s (%s الأيام المتبقية) ***',
+        '0 - Disabled' => '0 - معطل',
+        '1 - Available' => '1 - متوفر',
+        '1 - Enabled' => '١ - منشط',
+        '10 Minutes' => '10 دقائق',
+        '100 (Expert)' => '100 (خبير)',
+        '15 Minutes' => '15 دقيقة',
+        '2 - Enabled and required' => '2 - مفعل وإلزامي',
+        '2 - Enabled and shown by default' => '2 - ممكن ويظهر افتراضيا',
+        '2 - Enabled by default' => '2 - ممكّن افتراضيًا',
+        '2 Minutes' => 'دقيقتان',
+        '200 (Advanced)' => '200 (مُتَقَدِّمٌ)',
+        '30 Minutes' => '30 دقيقة',
+        '300 (Beginner)' => '300 (مبتدئ)',
+        '5 Minutes' => '5 دقائق',
+        'A TicketWatcher Module.' => 'وحدة مراقبة التذاكر.',
+        'A Website' => 'موقع ويب',
         'A list of dynamic fields that are merged into the main ticket during a merge operation. Only dynamic fields that are empty in the main ticket will be set.' =>
-            '',
-        'A picture' => '',
+            'قائمة بالحقول الديناميكية التي تم دمجها في التذكرة الرئيسية أثناء عملية الدمج. سيتم تعيين الحقول الديناميكية الفارغة في التذكرة الرئيسية فقط.',
+        'A picture' => 'صورة',
         'ACL module that allows closing parent tickets only if all its children are already closed ("State" shows which states are not available for the parent ticket until all child tickets are closed).' =>
-            '',
-        'Access Control Lists (ACL)' => '',
-        'AccountedTime' => '',
-        'Activate Elasticsearch.' => '',
-        'Activate the customer frontend.' => '',
-        'Activate the public frontend.' => '',
+            'تسمح وحدة قائمة التحكم في الوصول (ACL) بإغلاق تذاكر الأصل فقط في حالة إغلاق كافة التذاكر التابعة بالفعل ( تظهر "الحالة" أي حالات غير متوفرة للتذكرة الأصلية حتى يتم إغلاق كافة تذاكر التابعة).',
+        'Access Control Lists (ACL)' => 'قوائم التحكم في الوصول (ACL)',
+        'AccountedTime' => 'الوقت المحسوب',
+        'Activate Elasticsearch.' => 'تنشيط البحث المرن (Elasticsearch).',
+        'Activate the customer frontend.' => 'تنشيط الواجهة الأمامية للعميل.',
+        'Activate the public frontend.' => 'تنشيط الواجهة العامة.',
         'Activates Rendering of DynamicFields outside of the DynamicField block.' =>
-            '',
+            'يتيح عرض الحقل الديناميكي خارج كتلة الحقل الديناميكية.',
         'Activates a blinking mechanism of the queue that contains the oldest ticket.' =>
-            '',
+            'تمكين آلية إرتباط لقائمة الانتظار التي تحتوي على التذكرة الأقدم.',
         'Activates lost password feature for agents, in the agent interface.' =>
-            '',
-        'Activates lost password feature for customers.' => '',
-        'Activates support for customer and customer user groups.' => '',
+            'تمكين ميزة "نسيت كلمة المرور" للوكلاء في واجهة الوكيل.',
+        'Activates lost password feature for customers.' => 'تمكين وظيفة "كلمة المرور المنسية" للعملاء.',
+        'Activates support for customer and customer user groups.' => 'تمكين الدعم لمجموعات العملاء والمستخدمين.',
         'Activates the article filter in the zoom view to specify which articles should be shown.' =>
-            '',
+            'ينشط مرشح المقالة في عرض التكبير/التصغير لتحديد المقالات التي يجب عرضها.',
         'Activates the available themes on the system. Value 1 means active, 0 means inactive.' =>
-            '',
+            'ينشط السمات المتاحة على النظام. القيمة 1 تعني نشط، 0 تعني غير نشط.',
         'Activates the ticket archive system search in the customer interface.' =>
-            '',
+            'ينشط البحث في نظام أرشيف التذاكر في واجهة العميل.',
         'Activates the ticket archive system to have a faster system by moving some tickets out of the daily scope. To search for these tickets, the archive flag has to be enabled in the ticket search.' =>
-            '',
-        'Activates time accounting.' => '',
-        'ActivityID' => '',
-        'Add a note to this ticket' => '',
-        'Add an inbound phone call to this ticket' => '',
-        'Add an outbound phone call to this ticket' => '',
-        'Added %s time unit(s), for a total of %s time unit(s).' => '',
-        'Added email. %s' => 'التاريخ::البريد الإلكتروني للعميل',
-        'Added follow-up to ticket [%s]. %s' => '',
-        'Added link to ticket "%s".' => 'التاريخ::تمت إضافة رابط للبطاقة',
-        'Added note (%s).' => '',
-        'Added phone call from customer.' => '',
-        'Added phone call to customer.' => '',
-        'Added subscription for user "%s".' => 'Added subscription for user "%s".',
-        'Added system request (%s).' => '',
-        'Added web request from customer.' => '',
+            'تنشيط نظام أرشيف التذاكر للحصول على نظام أسرع عن طريق نقل بعض التذاكر خارج النطاق اليومي. للبحث عن هذه التذاكر، يجب تمكين علامة الأرشيف في البحث عن التذاكر.',
+        'Activates time accounting.' => 'تنشيط حساب الوقت.',
+        'ActivityID' => 'معرف النشاط (ActivityID)',
+        'Add a note to this ticket' => 'إضافة ملاحظة إلى هذه التذكرة',
+        'Add an inbound phone call to this ticket' => 'إضافة مكالمة هاتفية واردة إلى هذه التذكرة',
+        'Add an outbound phone call to this ticket' => 'إضافة مكالمة هاتفية صادرة إلى هذه التذكرة',
+        'Added %s time unit(s), for a total of %s time unit(s).' => 'تمت إضافة %s وحدة (وحدات) الوقت، إجمالي الوحدة (الوحدات) %s.',
+        'Added email. %s' => 'تمت إضافة البريد الإلكتروني. %s',
+        'Added follow-up to ticket [%s]. %s' => 'تمت إضافة المتابعة إلى التذكرة [%s]. %s',
+        'Added link to ticket "%s".' => 'تمت إضافة رابط إلى التذكرة "%s".',
+        'Added note (%s).' => 'تمت إضافة ملاحظة (%s).',
+        'Added phone call from customer.' => 'تمت إضافة مكالمة هاتفية من العميل.',
+        'Added phone call to customer.' => 'تمت إضافة مكالمة هاتفية إلى العميل.',
+        'Added subscription for user "%s".' => 'تمت إضافة اشتراك للمستخدم "%s".',
+        'Added system request (%s).' => 'تمت إضافة طلب النظام (%s).',
+        'Added web request from customer.' => 'تمت إضافة طلب العميل عبر واجهة الويب.',
         'Adds a suffix with the actual year and month to the OTOBO log file. A logfile for every month will be created.' =>
-            '',
+            'إضافة لاحقة مع السنة والشهر الفعليين إلى ملف سجل OTOBO. سيتم إنشاء ملف سجل لكل شهر.',
         'Adds customers email addresses to recipients in the ticket compose screen of the agent interface. The customers email address won\'t be added if the article type is email-internal.' =>
-            '',
-        'Adds the one time vacation days for the indicated calendar.' => '',
-        'Adds the one time vacation days.' => '',
+            'يضيف عنوان البريد الإلكتروني للعملاء إلى المستلمين في واجهة "TicketCompose" لواجهة الوكيل. لن تتم إضافة عنوان البريد الإلكتروني للعملاء إذا كان نوع المقالة هو البريد الإلكتروني الداخلي.',
+        'Adds the one time vacation days for the indicated calendar.' => 'إضافة أيام الإجازة لمرة واحدة للتقويم المشار إليه.',
+        'Adds the one time vacation days.' => 'يضيف أيام الإجازة لمرة واحدة.',
         'Adds the permanent vacation days for the indicated calendar.' =>
-            '',
-        'Adds the permanent vacation days.' => '',
-        'Admin' => 'إدارة النظام',
-        'Admin Area.' => '',
-        'Admin Contact With Data' => '',
-        'Admin Notification' => 'تنبيهات مدير النظام',
-        'Admin area navigation for the agent interface.' => '',
-        'Admin contact with data.' => '',
-        'Admin modules overview.' => '',
-        'Admin.' => '',
-        'Administration' => '',
-        'Agent Contact With Data Search' => '',
-        'Agent Customer Search' => '',
-        'Agent Customer Search.' => '',
-        'Agent Dynamic Field Database Detailed Search' => '',
-        'Agent Dynamic Field Database Details' => '',
-        'Agent Dynamic Field Database Search' => '',
-        'Agent Name' => '',
-        'Agent Name + FromSeparator + System Address Display Name' => '',
-        'Agent Preferences.' => '',
-        'Agent Statistics.' => '',
-        'Agent User Search' => '',
-        'Agent User Search.' => '',
-        'Agent contact with data search.' => '',
-        'Agent dynamic field database detailed search.' => '',
-        'Agent dynamic field database details.' => '',
-        'Agent dynamic field database search.' => '',
+            'إضافة أيام الإجازة الدائمة للتقويم المشار إليه.',
+        'Adds the permanent vacation days.' => 'يضيف أيام الإجازة الدائمة.',
+        'Admin' => 'المسؤول',
+        'Admin Area.' => 'منطقة المسؤول.',
+        'Admin Contact With Data' => 'جهة اتصال المسؤول بالبيانات',
+        'Admin Notification' => 'تنبيهات المسؤول',
+        'Admin area navigation for the agent interface.' => 'التنقل في واجهة المسؤول لواجهة الوكيل.',
+        'Admin contact with data.' => 'تفاصيل الاتصال بمنطقة المسؤول.',
+        'Admin modules overview.' => 'نظرة عامة على وحدة المسؤول.',
+        'Admin.' => 'المسؤول.',
+        'Administration' => 'الإدارة',
+        'Agent Contact With Data Search' => 'اتصال الوكيل بالبحث عن البيانات',
+        'Agent Customer Search' => 'البحث عن عملاء الوكيل',
+        'Agent Customer Search.' => 'البحث عن عميل الوكيل.',
+        'Agent Dynamic Field Database Detailed Search' => 'البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعامل',
+        'Agent Dynamic Field Database Details' => 'تفاصيل قاعدة بيانات الحقل الديناميكي للوكيل',
+        'Agent Dynamic Field Database Search' => 'بحث قاعدة بيانات الحقل الديناميكي للوكيل',
+        'Agent Name' => 'اسم الوكيل',
+        'Agent Name + FromSeparator + System Address Display Name' => 'اسم الوكيل + من الفاصل (FromSeparator) + اسم عرض عنوان النظام',
+        'Agent Preferences.' => 'إعدادات الوكيل.',
+        'Agent Statistics.' => 'إحصائيات الوكيل.',
+        'Agent User Search' => 'بحث مستخدم الوكيل',
+        'Agent User Search.' => 'بحث مستخدم الوكيل.',
+        'Agent contact with data search.' => 'اتصال الوكيل بالبحث عن البيانات.',
+        'Agent dynamic field database detailed search.' => 'قاعدة بيانات الحقل الديناميكي للعامل بحث مفصل.',
+        'Agent dynamic field database details.' => 'تفاصيل قاعدة بيانات الحقل الديناميكي للوكيل.',
+        'Agent dynamic field database search.' => 'البحث في قاعدة بيانات الحقل الديناميكي للعامل.',
         'Agent frontend module registration (disable \'Edit contacts with data\' link if if there is no source field configured).' =>
-            '',
-        'Agent interface article notification module to check PGP.' => '',
+            'تسجيل الوحدة النمطية للواجهة الأمامية للوكيل (تعطيل الارتباط "تحرير بيانات الاتصال" في حالة عدم تكوين حقل مصدر).',
+        'Agent interface article notification module to check PGP.' => 'وحدة إعلام المقالة التي تقوم بالتحقق من PGP في واجهة الوكيل.',
         'Agent interface article notification module to check S/MIME.' =>
-            '',
+            'وحدة إعلام المادة التي تقوم بإجراء التحقق من S/MIME في واجهة العميل.',
         'Agent interface module to access CIC search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'الوحدة التي تتحكم في الوصول إلى بحث CIC من خلال شريط التنقل في واجهة العميل. يمكن التحكم في الوصول التكميلي (عرض أو إخفاء الارتباط) باستخدام مفتاح "مجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface module to access fulltext search via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة واجهة الوكيل للوصول إلى البحث عن النص الكامل عبر شريط التنقل. يمكن إجراء تحكم إضافي في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام مفتاح "المجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface module to access search profiles via nav bar. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة تحكم في الوصول إلى ملفات تعريف البحث من خلال شريط التنقل في واجهة العميل. يمكن التحكم في الوصول التكميلي (عرض أو إخفاء الارتباط) باستخدام مفتاح "مجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface module to check incoming emails in the Ticket-Zoom-View if the S/MIME-key is available and true.' =>
-            '',
+            'الوحدة النمطية التي تتحقق من رسائل البريد الإلكتروني الواردة في TicketZoom "طريقة عرض تكبير/تصغير التذاكر" بحثا عن مفاتيح S/MIME الحالية والصالحة في واجهة الوكيل.',
         'Agent interface notification module to see the number of locked tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر المؤمنة. يمكن إجراء تحكم وصول إضافي لإظهار هذا الارتباط أو عدم إظهاره باستخدام المفتاح "مجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets an agent is responsible for. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر التي يكون الوكيل مسؤولا عنها. يمكن إجراء تحكم إضافي في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام مفتاح "المجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of tickets in My Services. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة إعلام واجهة الوكيل لمعرفة عدد التذاكر في خدماتي. يمكن إجراء تحكم إضافي في الوصول لإظهار أو عدم إظهار هذا الرابط باستخدام مفتاح "المجموعة" والمحتوى مثل "rw:group1;move_into:group2".',
         'Agent interface notification module to see the number of watched tickets. Additional access control to show or not show this link can be done by using Key "Group" and Content like "rw:group1;move_into:group2".' =>
-            '',
+            'وحدة الإخطار التي تتحكم في عرض عدد التذاكر المراقبة في واجهة الوكيل. يمكن تنفيذ التحكم الإضافي في الوصول (إظهار الارتباط أو إخفاؤه) باستخدام مفتاح "المجموعة" ومحتوى مثل "rw:group1;move_into:group2".',
         'AgentTicketZoom widget that displays Contact with data dynamic field in the side bar.' =>
-            '',
+            'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض الحقل الديناميكي \'بيانات الاتصال\' في الشريط الجانبي.',
         'AgentTicketZoom widget that displays a table of objects linked to the ticket.' =>
-            '',
+            'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض حقل "الاتصال مع البيانات الديناميكية" في الشريط الجانبي.',
         'AgentTicketZoom widget that displays customer information for the ticket in the side bar.' =>
-            '',
+            'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض معلومات العميل للتذكرة في الشريط الجانبي.',
         'AgentTicketZoom widget that displays ticket data in the side bar.' =>
-            '',
-        'Agents ↔ Groups' => '',
-        'Agents ↔ Roles' => '',
-        'All CustomerIDs of a customer user.' => '',
-        'All closed tickets.' => '',
-        'All customer users of a CustomerID' => '',
-        'All escalated tickets' => '',
-        'All new tickets, these tickets have not been worked on yet' => '',
+            'عنصر واجهة مستخدم AgentTicketZoom الذي يعرض بيانات التذكرة في الشريط الجانبي.',
+        'Agents ↔ Groups' => 'وكلاء ↔ مجموعات (Agents ↔ Groups)',
+        'Agents ↔ Roles' => 'الوكلاء ↔ الأدوار (Agents ↔ Roles)',
+        'All CustomerIDs of a customer user.' => 'جميع أرقام العملاء الخاصة بمستخدم العميل.',
+        'All closed tickets.' => 'جميع التذاكر المغلقة.',
+        'All customer users of a CustomerID' => 'جميع مستخدمي العملاء لرقم العميل',
+        'All escalated tickets' => 'جميع التذاكر المتصاعدة',
+        'All new tickets, these tickets have not been worked on yet' => 'جميع التذاكر الجديدة، هذه التذاكر لم يتم العمل عليها بعد',
         'All open tickets, these tickets have already been worked on.' =>
-            '',
+            'جميع التذاكر المفتوحة، هذه التذاكر قد تم العمل عليها بالفعل.',
         'All tickets with a reminder set where the reminder date has been reached' =>
-            '',
+            'كافة التذاكر التي تم تعيين تذكير بها حيث تم الوصول إلى تاريخ التذكير',
         'Allows adding notes in the close ticket screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يتيح لك إضافة ملاحظات في قناع "إقفال التذاكر" في واجهة العميل. يمكن أن يتم تجاوزها ب Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket free text screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح بإضافة ملاحظات في شاشة "تصنيف التذكرة" في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket note screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح بإضافة ملاحظات في قناع "الملاحظة" في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket owner screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح لمالك التذكرة بإضافة ملاحظات في عرض TicketZoom في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket pending screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح بإضافة ملاحظات في شاشة "في انتظار . . . " في TicketZoom في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket priority screen of a zoomed ticket in the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح بإضافة ملاحظات في شاشة "الأولوية" في TicketZoom في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows adding notes in the ticket responsible screen of the agent interface. Can be overwritten by Ticket::Frontend::NeedAccountedTime.' =>
-            '',
+            'يسمح لمدير التذاكر بإضافة ملاحظات في واجهة الوكيل. يمكن تجاوزها بواسطة Ticket::Frontend::NeedAccountedTime.',
         'Allows agents to exchange the axis of a stat if they generate one.' =>
-            '',
-        'Allows agents to generate individual-related stats.' => '',
+            'يسمح للعملاء بتبادل محاور الإحصائيات عند إنشاء الإحصائيات.',
+        'Allows agents to generate individual-related stats.' => 'يسمح للوكلاء بإنشاء إحصاءات فردية.',
         'Allows choosing between showing the attachments of a ticket in the browser (inline) or just make them downloadable (attachment).' =>
-            '',
+            'يتيح لك الاختيار بين عرض مرفقات التذكرة في المتصفح (مضمنة) أو ببساطة تقديمها كتنزيل (مرفق).',
         'Allows choosing the next compose state for customer tickets in the customer interface.' =>
-            '',
+            'يسمح لك بتحديد حالة الإنشاء التالية لتذكرة العميل في واجهة العميل.',
         'Allows customers to change the ticket priority in the customer interface.' =>
-            '',
+            'يسمح للعملاء بتغيير أولوية التذكرة في واجهة العميل.',
         'Allows customers to set the ticket SLA in the customer interface.' =>
-            '',
+            'السماح للعملاء بتعيين إتفاقية مستوى الخدمة (SLA) الخاصة بالتذاكر في واجهة العميل.',
         'Allows customers to set the ticket priority in the customer interface.' =>
-            '',
+            'السماح للعملاء بتعيين أولوية التذكرة في واجهة العميل.',
         'Allows customers to set the ticket queue in the customer interface. If this is not enabled, QueueDefault should be configured.' =>
-            '',
+            'يسمح للعملاء بتعيين قائمة انتظار التذاكر في واجهة العميل. في حالة عدم تمكين هذا الخيار، يجب تكوين QueueDefault.',
         'Allows customers to set the ticket service in the customer interface.' =>
-            '',
+            'السماح للعملاء بتعيين خدمة التذاكر في واجهة العميل.',
         'Allows customers to set the ticket type in the customer interface. If this is not enabled, TicketTypeDefault should be configured.' =>
-            '',
+            'السماح للعملاء بتعيين نوع التذكرة في واجهة العميل. في حالة عدم تمكين هذا الخيار، يجب تكوين TicketTypeDefault.',
         'Allows default services to be selected also for non existing customers.' =>
-            '',
+            'السماح بتحديد الخدمات الافتراضية أيضا للعملاء غير الموجودين.',
         'Allows defining services and SLAs for tickets (e. g. email, desktop, network, ...), and escalation attributes for SLAs (if ticket service/SLA feature is enabled).' =>
-            '',
+            'يسمح بتحديد الخدمات و SLA للتذاكر (مثل البريد الإلكتروني، سطح المكتب، الشبكة، ...) وسمات التصعيد ل SLA (في حالة تمكين ميزة خدمة التذاكر/SLA).',
         'Allows extended search conditions in ticket search of the agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'السماح بشروط البحث الموسعة في البحث عن تذاكر واجهة الوكيل. مع هذه الميزة يمكنك البحث على سبيل المثال عن عنوان تذكرة مع هذا النوع من الشروط مثل "(*key1*&&*key2*)" أو (*key1*||*key2*)".',
         'Allows extended search conditions in ticket search of the customer interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
+            'السماح بشروط البحث الموسعة في البحث عن تذاكر واجهة العميل. مع هذه الميزة يمكنك البحث على سبيل المثال عن عنوان تذكرة مع هذا النوع من الشروط مثل "(*key1*&&*key2*)" أو "(*key1*||*key2*)".',
         'Allows extended search conditions in ticket search of the generic agent interface. With this feature you can search e. g. ticket title with this kind of conditions like "(*key1*&&*key2*)" or "(*key1*||*key2*)".' =>
-            '',
-        'Allows generic agent to execute custom modules.' => '',
+            'يسمح بشروط البحث الموسعة في البحث عن التذاكر لواجهة الوكيل العامة. باستخدام هذه الميزة، يمكنك البحث على سبيل المثال عن عنوان التذكرة باستخدام هذا النوع من الشروط مثل "(*key1*&&*key2*)" أو "(*key1*||*key2*)".',
+        'Allows generic agent to execute custom modules.' => 'يسمح ل GenericAgent بتشغيل وحدات مخصصة.',
         'Allows having a medium format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
-            '',
+            'يسمح بنظرة عامة على التذكرة مع بعض معلومات التذاكر (العميل = > 1 - يعرض أيضا معلومات العميل).',
         'Allows having a small format ticket overview (CustomerInfo => 1 - shows also the customer information).' =>
-            '',
-        'Allows invalid agents to generate individual-related stats.' => '',
+            'تمكن من استخدام نظرة عامة على التذكرة الصغيرة (معلومات العميل (CustomerInfo) => 1 - تعرض أيضًا معلومات العميل).',
+        'Allows invalid agents to generate individual-related stats.' => 'يسمح للوكلاء غير الصالحين (invalid) بإنشاء إحصاءات فردية.',
         'Allows the administrators to login as other customers, via the customer user administration panel.' =>
-            '',
+            'السماح للمسؤولين بتسجيل الدخول كعملاء آخرين، من خلال لوحة إدارة المستخدم الخاص بالعميل.',
         'Allows the administrators to login as other users, via the users administration panel.' =>
-            '',
+            'السماح للمسؤولين بتسجيل الدخول كمستخدمين آخرين، من خلال لوحة إدارة المستخدمين.',
         'Allows to save current work as draft in the close ticket screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة إغلاق التذكرة لواجهة الوكيل.',
         'Allows to save current work as draft in the email outbound screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة البريد الإلكتروني الصادرة لواجهة الوكيل.',
         'Allows to save current work as draft in the ticket compose screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة إنشاء التذاكر لواجهة الوكيل.',
         'Allows to save current work as draft in the ticket forward screen of the agent interface.' =>
-            '',
+            'يسمح لك بحفظ حالة المعالجة الحالية في قناع "إعادة التوجيه" في واجهة الوكيل.',
         'Allows to save current work as draft in the ticket free text screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ حالة المعالجة الحالية في مربع الحوار "تصنيف التذكرة" في واجهة الوكيل.',
         'Allows to save current work as draft in the ticket move screen of the agent interface.' =>
-            '',
+            'يسمح لك بحفظ حالة المعالجة الحالية في مربع الحوار "نقل" في واجهة الوكيل.',
         'Allows to save current work as draft in the ticket note screen of the agent interface.' =>
-            '',
+            'يسمح لك بحفظ الحالة الحالية كمسودة في شاشة الملاحظات الخاصة بمنطقة الوكيل.',
         'Allows to save current work as draft in the ticket owner screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة مالك التذكرة لواجهة الوكيل.',
         'Allows to save current work as draft in the ticket pending screen of the agent interface.' =>
-            '',
+            'يسمح لك بحفظ الحالة الحالية كمسودة في شاشة الانتظار في منطقة الوكيل.',
         'Allows to save current work as draft in the ticket phone inbound screen of the agent interface.' =>
-            '',
+            'يسمح لك بحفظ الحالة الحالية كمسودة في شاشة المكالمة الواردة لمنطقة الوكيل.',
         'Allows to save current work as draft in the ticket phone outbound screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة الهاتف الصادرة لواجهة الوكيل.',
         'Allows to save current work as draft in the ticket priority screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في شاشة أولوية التذكرة لواجهة الوكيل.',
         'Allows to save current work as draft in the ticket responsible screen of the agent interface.' =>
-            '',
+            'يسمح بحفظ العمل الحالي كمسودة في الشاشة المسؤولة عن التذكرة لواجهة الوكيل.',
         'Allows to set a new ticket state in the move ticket screen of the agent interface.' =>
-            '',
-        'Always show RichText if available' => '',
-        'Answer' => '',
-        'Appointment Calendar overview page.' => '',
-        'Appointment Notifications' => '',
+            'السماح بتعيين حالة تذكرة جديدة في شاشة تذاكر النقل الخاصة بواجهة الوكيل.',
+        'Always show RichText if available' => 'استخدم النص المنسق دائما عند توفره',
+        'Answer' => 'إِجَابَة',
+        'Appointment Calendar overview page.' => 'صفحة نظرة عامة على تقويم المواعيد.',
+        'Appointment Notifications' => 'إشعارات المواعيد',
         'Appointment calendar event module that prepares notification entries for appointments.' =>
-            '',
+            'الوحدة النمطية لحدث تقويم المواعيد التي تعد إدخالات الإشعارات للمواعيد.',
         'Appointment calendar event module that updates the ticket with data from ticket appointment.' =>
-            '',
-        'Appointment edit screen.' => '',
-        'Appointment list' => '',
-        'Appointment list.' => '',
-        'Appointment notifications' => '',
-        'Appointments' => '',
-        'Arabic (Saudi Arabia)' => '',
+            'الوحدة النمطية لحدث تقويم المواعيد التي تقوم بتحديث التذكرة ببيانات من موعد التذكرة.',
+        'Appointment edit screen.' => 'شاشة تحرير المواعيد.',
+        'Appointment list' => 'قائمة المواعيد',
+        'Appointment list.' => 'قائمة المواعيد.',
+        'Appointment notifications' => 'إشعارات المواعيد',
+        'Appointments' => 'المواعيد',
+        'Arabic (Saudi Arabia)' => 'العربية (المملكة العربية السعودية)',
         'Article attributes that should be available in ticket invoker configuration frontend (0 = visible/selectable, 1 = default/preselected).' =>
-            '',
-        'ArticleTree' => '',
-        'Attachment Name' => '',
-        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => '',
+            'سمات المقالة التي يجب أن تكون متاحة في الواجهة الأمامية لتكوين استدعاء التذاكر (0 = مرئي / قابل للتحديد، 1 = افتراضي / محدد مسبقا).',
+        'ArticleTree' => 'شجرة المقالة',
+        'Attachment Name' => 'اسم المرفق',
+        'Autoloading of Znuny4OTOBOPasswordPolicy extensions.' => 'تحميل ملحقات \'Znuny4OTOBOPasswordPolicy\' تلقائيا.',
         'Automated line break in text messages after x number of chars.' =>
-            '',
+            'فاصل تلقائي للسطر في الرسائل النصية بعد x من الحروف.',
         'Automatically change the state of a ticket with an invalid owner once it is unlocked. Maps from a state type to a new ticket state.' =>
-            '',
+            'تغيير حالة التذكرة تلقائيا مع مالك غير صالح بمجرد إلغاء تأمينها. إنشاء حالة التذكرة الجديدة وفقا لنوع الحالة.',
         'Automatically generate statistics reports and email them to the specified recipients.' =>
-            '',
+            'إنشاء تقارير الإحصائيات تلقائيا وإرسال بريد إلكتروني إليها إلى المستلمين المحددين.',
         'Automatically lock and set owner to current Agent after opening the move ticket screen of the agent interface.' =>
-            '',
+            'قفل المالك وتعيينه تلقائيا على الوكيل الحالي بعد فتح شاشة تذكرة النقل لواجهة الوكيل.',
         'Automatically lock and set owner to current Agent after selecting for an Bulk Action.' =>
-            '',
+            'قفل المالك وتعيينه تلقائيا إلى العامل الحالي بعد تحديد إجراء مجمع.',
         'Automatically sets the owner of a ticket as the responsible for it (if ticket responsible feature is enabled). This will only work by manually actions of the logged in user. It does not work for automated actions e.g. GenericAgent, Postmaster and GenericInterface.' =>
-            '',
+            'تعيين مالك التذكرة كمسؤول عنها تلقائيا (إذا تم تمكين ميزة مسؤول التذكرة). سيعمل هذا فقط من خلال الإجراءات اليدوية للمستخدم الذي قام بتسجيل الدخول. لا يعمل مع الإجراءات التلقائية مثل GenericAgent أو Postmaster أو GenericInterface.',
         'Automatically sets the responsible of a ticket (if it is not set yet) after the first owner update.' =>
-            '',
-        'Avatar' => '',
-        'Balanced white skin by Felix Niklas (slim version).' => '',
-        'Balanced white skin by Felix Niklas.' => '',
-        'Based on global RichText setting' => '',
+            'تعيين مدير التذاكر تلقائيا (إذا لم يتم تعيينه بعد) بعد تحديث المالك الأول.',
+        'Avatar' => 'الصورة الرمزية (Avatar)',
+        'Balanced white skin by Felix Niklas (slim version).' => 'متوازن White-Skin von Felix Niklas (slim version).',
+        'Balanced white skin by Felix Niklas.' => 'Balanced white skin by Felix Niklas.',
+        'Based on global RichText setting' => 'استنادا إلى إعداد النص المنسق العام',
         'Basic fulltext index settings. Execute "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" in order to generate a new index.' =>
-            '',
+            'إعدادات فهرس النص الكامل الأساسية. نفذ "bin/otobo.Console.pl Maint::Ticket::FulltextIndex --rebuild" لإنشاء فهرس جديد.',
         'Blocks all the incoming emails that do not have a valid ticket number in subject with From: @example.com address.' =>
-            '',
-        'Bounced to "%s".' => '',
-        'Bulgarian' => '',
+            'يحظر جميع رسائل البريد الإلكتروني الواردة التي لا تحتوي على رقم تذكرة صالح في الموضوع باستخدام عنوان من: @example.com.',
+        'Bounced to "%s".' => 'تم الإرسال إلى "%s".',
+        'Bulgarian' => 'بلغارية',
         'Bulk Action' => 'تنفيذ جماعي',
         'CMD example setup. Ignores emails where external CMD returns some output on STDOUT (email will be piped into STDIN of some.bin).' =>
-            '',
-        'CSV Separator' => '',
+            'إعداد مثال CMD. تجاهل رسائل البريد الإلكتروني حيث يقوم CMD الخارجي بإرجاع بعض الإخراج على STDOUT (سيتم تمرير البريد الإلكتروني عبر بروتوكول STDIN الخاص ببعض.bin).',
+        'CSV Separator' => 'فواصل بيانات CSV',
         'Cache time in seconds for agent authentication in the GenericInterface.' =>
-            '',
+            'ذاكرة التخزين المؤقت بالثواني لمصادقة الوكيل في GenericInterface.',
         'Cache time in seconds for customer authentication in the GenericInterface.' =>
-            '',
-        'Cache time in seconds for the DB ACL backend.' => '',
-        'Cache time in seconds for the DB process backend.' => '',
-        'Cache time in seconds for the SSL certificate attributes.' => '',
+            'ذاكرة التخزين المؤقت بالثواني لمصادقة العميل في GenericInterface.',
+        'Cache time in seconds for the DB ACL backend.' => 'ذاكرة التخزين المؤقت بالثواني للخلفية DB ACL.',
+        'Cache time in seconds for the DB process backend.' => 'ذاكرة التخزين المؤقت بالثواني للخلفية الخلفية لعملية قاعدة البيانات.',
+        'Cache time in seconds for the SSL certificate attributes.' => 'ذاكرة التخزين المؤقت بالثواني لسمات شهادة SSL.',
         'Cache time in seconds for the ticket process navigation bar output module.' =>
-            '',
-        'Cache time in seconds for the web service config backend.' => '',
-        'Calendar manage screen.' => '',
+            'ذاكرة التخزين المؤقت في الثواني لوحدة إخراج شريط التنقل لعملية التذاكر.',
+        'Cache time in seconds for the web service config backend.' => 'ذاكرة التخزين المؤقت في الثواني لمنتهى خلفي تكوين خدمة ويب.',
+        'Calendar manage screen.' => 'شاشة إدارة التقويم.',
         'Cancel whole escalation if ticket is in configured suspend state (EscalationSuspendStates). Ticket will not escalate at all in configured suspend state. No escalation times are shown. Ticket will not be shown in escalation view.' =>
-            '',
-        'Catalan' => '',
+            'إلغاء التصعيد بالكامل إذا كانت التذكرة في حالة الإيقاف المؤقت المكونة (EscalationSuspendStates). لن يتم تصعيد التذكرة على الإطلاق في حالة الإيقاف المؤقت المكونة. لم يتم إظهار أوقات التصعيد. ولم يتم إدراج التذكرة في قائمة التذاكر المتصاعدة.',
+        'Catalan' => 'الكتالانية',
         'Categories used in ticket presentation. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
-            '',
+            'الفئات المستخدمة في عرض التذاكر. إذا لم يتم إعطاء لون افتراضي، لن يتم إظهار العنصر إذا لم يتم تعريف التحديد في تجزئة اللون. إختياريا، يمكن إضافة السمة Text لتجاوز قيمة الحقل، ويمكن إستخدام أساليب إنشاء القوالب (على سبيل المثال، "Text" => "[% Data.Value | remove(\'^.+::\') %]"). يمكن إستخدام الارتباط بنفس الطريقة.',
         'Categories used in ticket presentation. Order is only used to determine the starting position before size arrangement. If no default color is given, item will not be shown if selection is not defined in the color hash. Optionally the attribute Text can be added to override the field value, templating methods can be used (e.g. "Text" => "[% Data.Value | remove(\'^.+::\') %]"). Link can be used the same way.' =>
-            '',
-        'Change Ticket' => '',
-        'Change Ticket information' => '',
-        'Change queue!' => '',
-        'Change the customer for this ticket' => '',
-        'Change the owner for this ticket' => '',
-        'Change the priority for this ticket' => '',
-        'Change the responsible for this ticket' => '',
-        'Change your avatar image.' => '',
-        'Change your password and more.' => '',
-        'Changed SLA to "%s" (%s).' => '',
-        'Changed archive state to "%s".' => '',
-        'Changed customer to "%s".' => '',
-        'Changed dynamic field %s from "%s" to "%s".' => '',
-        'Changed owner to "%s" (%s).' => '',
-        'Changed pending time to "%s".' => '',
-        'Changed priority from "%s" (%s) to "%s" (%s).' => 'التاريخ::تحديث الأولوية',
-        'Changed queue to "%s" (%s) from "%s" (%s).' => '',
-        'Changed responsible to "%s" (%s).' => '',
-        'Changed service to "%s" (%s).' => '',
-        'Changed state from "%s" to "%s".' => '',
-        'Changed title from "%s" to "%s".' => '',
-        'Changed type from "%s" (%s) to "%s" (%s).' => '',
+            'الفئات المستخدمة في عرض التذاكر. يتم إستخدام الأمر فقط لتحديد موضع البدء قبل ترتيب الحجم. إذا لم يتم إعطاء لون افتراضي، لن يتم إظهار العنصر إذا لم يتم تعريف التحديد في تجزئة اللون. إختياريا، يمكن إضافة السمة Text لتجاوز قيمة الحقل، ويمكن إستخدام أساليب إنشاء القوالب (على سبيل المثال: "Text" => "[% Data.Value | remove(\'^.+::\') %]"). يمكن إستخدام الارتباط بنفس الطريقة.',
+        'Change Ticket' => 'تغيير التذكرة',
+        'Change Ticket information' => 'تغيير معلومات التذكرة',
+        'Change queue!' => 'تغيير قائمة الانتظار!',
+        'Change the customer for this ticket' => 'تغيير عميل التذاكر',
+        'Change the owner for this ticket' => 'تغيير مالك هذه التذكرة',
+        'Change the priority for this ticket' => 'تغيير أولوية هذه التذكرة',
+        'Change the responsible for this ticket' => 'تغيير المسؤول عن هذه التذكرة',
+        'Change your avatar image.' => 'تغيير الصورة الرمزية.',
+        'Change your password and more.' => 'تغيير كلمة المرور وغيرها.',
+        'Changed SLA to "%s" (%s).' => 'تم تغيير SLA إلى ‎"%s" (%s).',
+        'Changed archive state to "%s".' => 'تم تغيير حالة الأرشيف إلى "%s".',
+        'Changed customer to "%s".' => 'تم تغيير العميل إلى "%s".',
+        'Changed dynamic field %s from "%s" to "%s".' => 'تم تغيير الحقل الديناميكي %s من "%s" إلى "%s".',
+        'Changed owner to "%s" (%s).' => 'تم تغيير المالك إلى "%s" (%s).',
+        'Changed pending time to "%s".' => 'تم تغيير وقت الانتظار إلى "%s".',
+        'Changed priority from "%s" (%s) to "%s" (%s).' => 'تم تغيير الأولوية من "%s" (%s) إلى "%s" (%s).',
+        'Changed queue to "%s" (%s) from "%s" (%s).' => 'تم تغيير قائمة الانتظار إلى "%s" (%s) من "%s" (%s).',
+        'Changed responsible to "%s" (%s).' => 'تم تغيير المسؤول إلى "%s" (%s).',
+        'Changed service to "%s" (%s).' => 'تم تغيير الخدمة إلى "%s" (%s).',
+        'Changed state from "%s" to "%s".' => 'تم تغيير الحالة من "%s" إلى "%s".',
+        'Changed title from "%s" to "%s".' => 'تم تغيير العنوان من "%s" إلى "%s".',
+        'Changed type from "%s" (%s) to "%s" (%s).' => 'تم تغيير النوع من "%s" (%s). إلى "%s" (%s).',
         'Changes the owner of tickets to everyone (useful for ASP). Normally only agent with rw permissions in the queue of the ticket will be shown.' =>
-            '',
-        'Chat communication channel.' => '',
-        'Checkbox' => '',
+            'تغيير مالك التذكرة إلى الكل (مفيد ل ASP). في العادة، سيتم عرض العملاء الذين لديهم أذونات rw فقط على قائمة الانتظار.',
+        'Chat communication channel.' => 'قناة اتصال الدردشة.',
+        'Checkbox' => 'خانة الاختيار',
         'Checks for articles that needs to be updated in the article search index.' =>
-            '',
-        'Checks for communication log entries to be deleted.' => '',
-        'Checks for queued outgoing emails to be sent.' => '',
+            'يتحقق من المقالات التي تحتاج إلى تحديث في فهرس البحث عن المقالات.',
+        'Checks for communication log entries to be deleted.' => 'التحقق من حذف إدخالات سجل الاتصالات.',
+        'Checks for queued outgoing emails to be sent.' => 'تحقق من رسائل البريد الصادرة لإرسالها.',
         'Checks if an E-Mail is a followup to an existing ticket by searching the subject for a valid ticket number.' =>
-            '',
+            'التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة من خلال البحث عن رقم تذكرة صالح.',
         'Checks if an email is a follow-up to an existing ticket with external ticket number which can be found by ExternalTicketNumberRecognition filter module.' =>
-            '',
+            'التحقق مما إذا كان البريد الإلكتروني عبارة عن متابعة لتذكرة موجودة برقم تذكرة خارجي يمكن العثور عليه بواسطة وحدة عامل تصفية ExternalTicketNumberRecognition.',
         'Checks the SystemID in ticket number detection for follow-ups. If not enabled, SystemID will be changed after using the system.' =>
-            '',
+            'يتحقق من SystemID في اكتشاف رقم التذكرة للمتابعة. إذا لم يتم تمكينه ، فسيتم تغيير SystemID بعد استخدام النظام.',
         'Child' => 'فرع',
-        'Chinese (Simplified)' => '',
-        'Chinese (Traditional)' => '',
+        'Chinese (Simplified)' => 'صيني (مبسط)',
+        'Chinese (Traditional)' => 'الصينية (التقليدية)',
         'Choose for which kind of appointment changes you want to receive notifications.' =>
-            '',
+            'حدد نوع تغييرات الموعد التي تريد إستلام الإعلامات لها.',
         'Choose for which kind of ticket changes you want to receive notifications. Please note that you can\'t completely disable notifications marked as mandatory.' =>
-            '',
-        'Choose which notifications you\'d like to receive.' => '',
-        'Christmas Eve' => '',
+            'حدد تغييرات التذاكر التي تريد أن يتم إعلامك بها. يرجى ملاحظة أنه لا يمكنك إيقاف تشغيل الإشعارات التي تم وضع علامة عليها على أنها إلزامية تماما.',
+        'Choose which notifications you\'d like to receive.' => 'أختر الإخطارات التي تريد تلقيها.',
+        'Christmas Eve' => 'عشية عيد الميلاد',
         'Close' => 'إغلاق',
-        'Close this ticket' => '',
-        'Closed Tickets' => '',
-        'Closed tickets (customer user)' => '',
-        'Closed tickets (customer)' => '',
-        'Cloud Services' => '',
+        'Close this ticket' => 'أغلق هذه التذكرة',
+        'Closed Tickets' => 'التذاكر المغلقة',
+        'Closed tickets (customer user)' => 'التذاكر المغلقة (مستخدمون الزبائن)',
+        'Closed tickets (customer)' => 'التذاكر المغلقة (العميل)',
+        'Cloud Services' => 'الخدمات السحابية',
         'Cloud service admin module registration for the transport layer.' =>
-            '',
-        'Collect support data for asynchronous plug-in modules.' => '',
-        'Color definitions for the customer interface.' => '',
-        'Column ticket filters for Ticket Overviews type "Small".' => '',
+            'تسجيل وحدة مسؤول الخدمة السحابية لطبقة النقل.',
+        'Collect support data for asynchronous plug-in modules.' => 'تجميع بيانات الدعم لوحدات المكونات الإضافية غير المتزامنة.',
+        'Color definitions for the customer interface.' => 'تعريفات الألوان لواجهة العميل.',
+        'Column ticket filters for Ticket Overviews type "Small".' => 'عمود عامل تصفية التذاكر لعرض التذاكر من النوع "صغير".',
         'Columns that can be filtered in the escalation view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'أعمدة قابلة للطباعة في العرض ذي الصلة لمساحة العميل. ملاحظة: يتم السماح بسمات التذاكر فقط والحقول الديناميكية (DynamicField_NameX) وسمات العملاء (مثل CustomerUserPhone و CustomerCompanyName).',
         'Columns that can be filtered in the locked view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'أعمدة قابلة للطباعة في العرض ذي الصلة لمساحة العميل. ملاحظة: يتم السماح بسمات التذاكر فقط والحقول الديناميكية (DynamicField_NameX) وسمات العملاء (مثل CustomerUserPhone و CustomerCompanyName).',
         'Columns that can be filtered in the queue view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'الأعمدة التي يمكن تصفيتها في طريقة عرض قائمة الانتظار لواجهة العامل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
         'Columns that can be filtered in the responsible view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'الأعمدة التي يمكن تصفيتها في طريقة العرض المسؤولة لواجهة العامل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
         'Columns that can be filtered in the service view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'الأعمدة التي يمكن تصفيتها في طريقة عرض الخدمة لواجهة الوكيل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
         'Columns that can be filtered in the status view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'الأعمدة التي يمكن تصفيتها في طريقة عرض الحالة لواجهة العامل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
         'Columns that can be filtered in the ticket search result view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
+            'الأعمدة التي يمكن تصفيتها في طريقة عرض نتائج البحث عن التذكرة لواجهة العامل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
         'Columns that can be filtered in the watch view of the agent interface. Note: Only Ticket attributes, Dynamic Fields (DynamicField_NameX) and Customer attributes (e.g. CustomerUserPhone, CustomerCompanyName, ...) are allowed.' =>
-            '',
-        'Comment for new history entries in the customer interface.' => '',
-        'Comment2' => '',
-        'Communication' => '',
-        'Communication & Notifications' => '',
-        'Communication Log GUI' => '',
+            'الأعمدة التي يمكن تصفيتها في طريقة عرض المراقبة لواجهة العامل. ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) وسمات العميل (مثل CustomerUserPhone و CustomerCompanyName و...).',
+        'Comment for new history entries in the customer interface.' => 'التعليق على إدخالات المحفوظات الجديدة في واجهة العميل.',
+        'Comment2' => 'التعليق 2',
+        'Communication' => 'التواصل',
+        'Communication & Notifications' => 'الاتصالات والإخطارات',
+        'Communication Log GUI' => 'مستخدم سجل الاتصالات',
         'Communication log limit per page for Communication Log Overview.' =>
-            '',
-        'CommunicationLog Overview Limit' => '',
-        'Company Status' => '',
-        'Company Tickets.' => '',
+            'الحد الأقصى لإدخالات السجل لكل صفحة في نظرة عامة على جميع بروتوكولات الاتصال.',
+        'CommunicationLog Overview Limit' => 'نظرة عامة على سجل الاتصال المحدود',
+        'Company Status' => 'حالة الشركة',
+        'Company Tickets.' => 'تذاكر الشركة.',
         'Company name which will be included in outgoing emails as an X-Header.' =>
-            '',
-        'Compat module for AgentZoom to AgentTicketZoom.' => '',
-        'Complex' => '',
-        'Compose' => 'إرسال',
-        'Configure Processes.' => '',
-        'Configure and manage ACLs.' => '',
+            'اسم الشركة، الذي يجب تعيينه X-Header في رسائل البريد الإلكتروني الصادرة.',
+        'Compat module for AgentZoom to AgentTicketZoom.' => 'وحدة انتقال AgentZoom إلى AgentTicketZoom.',
+        'Complex' => 'معقد',
+        'Compose' => 'كَتَبَ',
+        'Configure Processes.' => 'تكوين العمليات.',
+        'Configure and manage ACLs.' => 'تكوين قوائم التحكم في الوصول (ACL) وإدارتها.',
         'Configure any additional readonly mirror databases that you want to use.' =>
-            '',
+            'قم بتكوين أية قواعد بيانات متطابقة إضافية للقراءة فقط تريد استخدامها.',
         'Configure sending of support data to OTOBO Team for improved support.' =>
-            '',
-        'Configure the About information.' => '',
-        'Configure the privacy policy.' => '',
+            'تكوين إرسال بيانات الدعم إلى فريق OTOBO لتحسين الدعم.',
+        'Configure the About information.' => 'أدخل حول النص / بصمة.',
+        'Configure the privacy policy.' => 'تحرير سياسة الخصوصية.',
         'Configure which screen should be shown after a new ticket has been created.' =>
-            '',
-        'Configure your own log text for PGP.' => '',
+            'تكوين الواجهة التي سيتم عرضها بعد إنشاء تذكرة جديدة.',
+        'Configure your own log text for PGP.' => 'قم بتكوين نص السجل الخاص بك ل PGP.',
         'Configures a default TicketDynamicField setting. "Name" defines the dynamic field which should be used, "Value" is the data that will be set, and "Event" defines the trigger event. Please check the developer manual (https://doc.otobo.org/), chapter "Ticket Event Module".' =>
-            '',
+            'تكوين إعداد TicketDynamicField افتراضي. يعرف "الاسم" الحقل الديناميكي الذي يجب إستخدامه، و"القيمة" هي البيانات التي سيتم تعيينها، و"الحدث" يحدد حدث المشغل. يرجى التحقق من دليل المطور (/‎https://doc.otobo.org)، الفصل "Ticket Event Module".',
         'Controls how to display the ticket history entries as readable values.' =>
-            '',
+            'يتحكم في كيفية عرض إدخالات محفوظات التذاكر كقيم قابلة للقراءة.',
         'Controls if CustomerID is automatically copied from the sender address for unknown customers.' =>
-            '',
-        'Controls if CustomerID is read-only in the agent interface.' => '',
+            'يحدد ما إذا كان يتم تعيين عنوان المرسل تلقائيا كرقم عميل للعملاء غير المعروفين.',
+        'Controls if CustomerID is read-only in the agent interface.' => 'تحديد ما إذا كان رقم العميل في منطقة العميل معروض كمقروء فقط.',
         'Controls if customers have the ability to sort their tickets.' =>
-            '',
+            'تحديد ما إذا كان بإمكان العملاء فرز التذاكر.',
         'Controls if more than one from entry can be set in the new phone ticket in the agent interface.' =>
-            '',
+            'يتحقق مما إذا كان يمكن تحديد أكثر من إدخال واحد في تذكرة هاتف جديدة.',
         'Controls if the admin is allowed to import a saved system configuration in SysConfig.' =>
-            '',
+            'تحقق مما إذا كان المسؤول مسموح له باستيراد تكوين نظام محفوظ في SysConfig.',
         'Controls if the admin is allowed to make changes to the database via AdminSelectBox.' =>
-            '',
+            'تم التحقق من أن المسؤول لديه الإذن لإجراء تغييرات على قاعدة البيانات باستخدام AdminSelectBox.',
         'Controls if the autocomplete field will be used for the customer ID selection in the AdminCustomerUser interface.' =>
-            '',
+            'التحكم في ما إذا كان سيتم إستخدام حقل الإكمال التلقائي لتحديد معرف العميل في واجهة AdminCustomerUser.',
         'Controls if the ticket and article seen flags are removed when a ticket is archived.' =>
-            '',
-        'Converts HTML mails into text messages.' => '',
-        'Create New process ticket.' => '',
-        'Create Templates for AdminDynamicFieldTitle.' => '',
-        'Create Ticket' => '',
-        'Create a new calendar appointment linked to this ticket' => '',
-        'Create and manage Service Level Agreements (SLAs).' => '',
-        'Create and manage agents.' => '',
-        'Create and manage appointment notifications.' => '',
-        'Create and manage attachments.' => '',
-        'Create and manage calendars.' => '',
-        'Create and manage customer users.' => '',
-        'Create and manage customers.' => '',
-        'Create and manage dynamic fields.' => '',
-        'Create and manage groups.' => '',
-        'Create and manage queues.' => '',
-        'Create and manage responses that are automatically sent.' => '',
-        'Create and manage roles.' => '',
-        'Create and manage salutations.' => '',
-        'Create and manage services.' => '',
-        'Create and manage signatures.' => '',
-        'Create and manage templates.' => '',
-        'Create and manage ticket notifications.' => '',
-        'Create and manage ticket priorities.' => '',
-        'Create and manage ticket states.' => '',
-        'Create and manage ticket types.' => '',
-        'Create and manage web services.' => '',
-        'Create new Ticket.' => '',
-        'Create new appointment.' => '',
-        'Create new email ticket and send this out (outbound).' => '',
-        'Create new email ticket.' => '',
-        'Create new phone ticket (inbound).' => '',
-        'Create new phone ticket.' => '',
-        'Create new process ticket.' => '',
-        'Create tickets.' => '',
-        'Create your first ticket' => '',
+            'التحكم في حالة إزالة علامات التذاكر والمقالة التي تم عرضها عند أرشفة التذكرة.',
+        'Converts HTML mails into text messages.' => 'تحويل رسائل بريد HTML إلى رسائل نصية.',
+        'Create New process ticket.' => 'إنشاء تذكرة عملية جديدة.',
+        'Create Templates for AdminDynamicFieldTitle.' => 'إنشاء قوالب ل AdminDynamicFieldTitle.',
+        'Create Ticket' => 'إنشاء تذكرة',
+        'Create a new calendar appointment linked to this ticket' => 'إنشاء موعد تقويم جديد مرتبط بهذه التذكرة',
+        'Create and manage Service Level Agreements (SLAs).' => 'إنشاء إتفاقيات مستوى الخدمة وإدارتها (SLA).',
+        'Create and manage agents.' => 'إنشاء الوكلاء وإدارتها.',
+        'Create and manage appointment notifications.' => 'إنشاء وإدارة إشعارات المواعيد.',
+        'Create and manage attachments.' => 'إنشاء المرفقات وإدارتها.',
+        'Create and manage calendars.' => 'إنشاء التقاويم وإدارتها.',
+        'Create and manage customer users.' => 'إنشاء وإدارة مستخدمي العملاء.',
+        'Create and manage customers.' => 'إنشاء العملاء وإدارتهم.',
+        'Create and manage dynamic fields.' => 'إنشاء الحقول الديناميكية وإدارتها.',
+        'Create and manage groups.' => 'إنشاء المجموعات وإدارتها.',
+        'Create and manage queues.' => 'إنشاء قوائم الانتظار وإدارتها.',
+        'Create and manage responses that are automatically sent.' => 'إنشاء الاستجابات التي يتم إرسالها تلقائيا وإدارتها.',
+        'Create and manage roles.' => 'إنشاء الأدوار وإدارتها.',
+        'Create and manage salutations.' => 'إنشاء التحية وإدارتها.',
+        'Create and manage services.' => 'إنشاء الخدمات وإدارتها.',
+        'Create and manage signatures.' => 'إنشاء التواقيع وإدارتها.',
+        'Create and manage templates.' => 'إنشاء القوالب وإدارتها.',
+        'Create and manage ticket notifications.' => 'إنشاء وإدارة إشعارات التذاكر.',
+        'Create and manage ticket priorities.' => 'إنشاء أولويات التذاكر وإدارتها.',
+        'Create and manage ticket states.' => 'إنشاء حالات التذاكر وإدارتها.',
+        'Create and manage ticket types.' => 'إنشاء أنواع التذاكر وإدارتها.',
+        'Create and manage web services.' => 'إنشاء خدمات ويب وإدارتها.',
+        'Create new Ticket.' => 'إنشاء تذكرة جديدة.',
+        'Create new appointment.' => 'إنشاء موعد جديد.',
+        'Create new email ticket and send this out (outbound).' => 'قم بإنشاء تذكرة بريد إلكتروني جديدة وأرسلها (صادرة).',
+        'Create new email ticket.' => 'إنشاء تذكرة بريد إلكتروني جديدة.',
+        'Create new phone ticket (inbound).' => 'إنشاء تذكرة هاتف جديدة (واردة).',
+        'Create new phone ticket.' => 'إنشاء تذكرة هاتف جديدة.',
+        'Create new process ticket.' => 'إنشاء تذكرة عملية جديدة.',
+        'Create tickets.' => 'إنشاء تذاكر.',
+        'Create your first ticket' => 'أنشئ أول تذكرة لك',
         'Created ticket [%s] in "%s" with priority "%s" and state "%s".' =>
-            '',
-        'Croatian' => '',
-        'Custom RSS Feed' => '',
+            'تم إنشاء التذكرة [%s في "%s" مع الأولوية "%s" والحالة "%s".',
+        'Croatian' => 'الكرواتية',
+        'Custom RSS Feed' => 'موجز RSS المخصص',
         'Custom text for the page shown to customers that have no tickets yet (if you need those text translated add them to a custom translation module).' =>
-            '',
-        'Customer Administration' => '',
-        'Customer Companies' => 'شركات العميل',
-        'Customer Dashboard' => '',
-        'Customer Dynamic Field Database Detailed Search' => '',
-        'Customer Dynamic Field Database Details' => '',
-        'Customer Dynamic Field Database Search' => '',
-        'Customer IDs' => '',
-        'Customer Information Center Search.' => '',
-        'Customer Information Center search.' => '',
-        'Customer Information Center.' => '',
-        'Customer Password.' => '',
-        'Customer Ticket Print Module.' => '',
-        'Customer User Administration' => '',
-        'Customer User Information' => '',
-        'Customer User Information Center Search.' => '',
-        'Customer User Information Center search.' => '',
-        'Customer User Information Center.' => '',
-        'Customer Users ↔ Customers' => '',
-        'Customer Users ↔ Groups' => '',
-        'Customer Users ↔ Services' => '',
-        'Customer dynamic field database detailed search.' => '',
-        'Customer dynamic field database details.' => '',
-        'Customer dynamic field database search.' => '',
+            'نص مخصص للعملاء الذين ليس لديهم تذاكر (إذا كنت تريد ترجمة لهذا النص، قم بإضافة الترجمة في وحدة ترجمة منفصلة).',
+        'Customer Administration' => 'إدارة العملاء',
+        'Customer Companies' => 'عملاء',
+        'Customer Dashboard' => 'لوحة معلومات العميل',
+        'Customer Dynamic Field Database Detailed Search' => 'البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعميل',
+        'Customer Dynamic Field Database Details' => 'تفاصيل قاعدة بيانات الحقل الديناميكي للعميل',
+        'Customer Dynamic Field Database Search' => 'بحث قاعدة بيانات الحقل الديناميكي للعميل',
+        'Customer IDs' => 'معرفات العميل',
+        'Customer Information Center Search.' => 'البحث في مركز معلومات العملاء.',
+        'Customer Information Center search.' => 'البحث في مركز معلومات العملاء.',
+        'Customer Information Center.' => 'مركز معلومات العملاء.',
+        'Customer Password.' => 'كلمة مرور العميل.',
+        'Customer Ticket Print Module.' => 'وحدة طباعة تذاكر العملاء.',
+        'Customer User Administration' => 'إدارة مستخدم العميل',
+        'Customer User Information' => 'معلومات مستخدم العميل',
+        'Customer User Information Center Search.' => 'البحث في مركز معلومات المستخدم للعميل.',
+        'Customer User Information Center search.' => 'البحث في مركز معلومات مستخدم العميل.',
+        'Customer User Information Center.' => 'مركز معلومات المستخدم للعملاء.',
+        'Customer Users ↔ Customers' => 'المستخدمون العملاء ↔ العملاء',
+        'Customer Users ↔ Groups' => 'المستخدمون العملاء ↔ المجموعات',
+        'Customer Users ↔ Services' => 'مستخدمي العملاء ↔ الخدمات',
+        'Customer dynamic field database detailed search.' => 'البحث التفصيلي لقاعدة بيانات الحقل الديناميكي للعميل.',
+        'Customer dynamic field database details.' => 'تفاصيل قاعدة بيانات الحقل الديناميكي للعميل.',
+        'Customer dynamic field database search.' => 'البحث في حقل قاعدة البيانات الديناميكية في منطقة العميل.',
         'Customer item (icon) which shows the closed tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
-            '',
+            'عنصر العميل (الأيقونة) الذي يظهر التذاكر المغلقة لهذا العميل ككتلة معلومات. تعيين CustomerUserLogin إلى 1 عمليات بحث عن التذاكر استنادا إلى اسم تسجيل الدخول بدلا من معرف العميل.',
         'Customer item (icon) which shows the open tickets of this customer as info block. Setting CustomerUserLogin to 1 searches for tickets based on login name rather than CustomerID.' =>
-            '',
-        'Customer preferences.' => '',
-        'Customer ticket overview' => '',
-        'Customer ticket search.' => '',
-        'Customer ticket zoom' => '',
-        'Customer user search' => '',
-        'CustomerID search' => '',
-        'CustomerName' => '',
-        'CustomerUser' => '',
-        'Customers ↔ Groups' => '',
+            'عنصر العميل (الأيقونة) الذي يظهر التذاكر المفتوحة لهذا العميل ككتلة معلومات. تعيين CustomerUserLogin إلى 1 عمليات بحث عن التذاكر استنادا إلى اسم تسجيل الدخول بدلا من معرف العميل.',
+        'Customer preferences.' => 'إعدادات العملاء.',
+        'Customer ticket overview' => 'نظرة عامة على تذكرة العميل',
+        'Customer ticket search.' => 'البحث عن تذكرة العميل.',
+        'Customer ticket zoom' => 'طريقة عرض تذكرة العميل',
+        'Customer user search' => 'بحث مستخدم العميل',
+        'CustomerID search' => 'بحث عن رقم العميل',
+        'CustomerName' => 'اسم العميل',
+        'CustomerUser' => 'مستخدم العميل',
+        'Customers ↔ Groups' => 'العملاء ↔ المجموعات',
         'Customizable stop words for fulltext index. These words will be removed from the search index.' =>
-            '',
-        'Czech' => '',
-        'Danish' => '',
-        'Dashboard overview.' => '',
-        'Data used to export the search result in CSV format.' => '',
-        'Date / Time' => '',
-        'Default (Slim)' => '',
-        'Default ACL values for ticket actions.' => '',
+            'كلمات إيقاف قابلة للتخصيص لفهرس النص الكامل. ستتم إزالة هذه الكلمات من فهرس البحث.',
+        'Czech' => 'التشيكية',
+        'Danish' => 'دانماركي',
+        'Dashboard overview.' => 'نظرة عامة على لوحة المعلومات.',
+        'Data used to export the search result in CSV format.' => 'البيانات المستخدمة لتصدير نتيجة البحث بتنسيق CSV.',
+        'Date / Time' => 'التاريخ / الوقت',
+        'Default (Slim)' => 'افتراضي (نحيف)',
+        'Default ACL values for ticket actions.' => 'قيم ACL الافتراضية لإجراءات التذكرة.',
         'Default ProcessManagement entity prefixes for entity IDs that are automatically generated.' =>
-            '',
-        'Default agent name' => '',
+            'بادئات الكيان الافتراضية لإدارة العملية لمعرفات الكيانات التي يتم إنشاؤها تلقائيا.',
+        'Default agent name' => 'اسم الوكيل الافتراضي',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".' =>
-            '',
+            'البيانات الافتراضية المطلوب إستخدامها على السمة لشاشة البحث عن التذكرة. مثال: "‏TicketCreateTimePointFormat=year;TicketCreateTimePointStart=Last;TicketCreateTimePoint=2;".',
         'Default data to use on attribute for ticket search screen. Example: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".' =>
-            '',
+            'البيانات الافتراضية المطلوب إستخدامها على السمة لشاشة البحث عن التذكرة. مثال: "TicketCreateTimeStartYear=2010;TicketCreateTimeStartMonth=10;TicketCreateTimeStartDay=4;TicketCreateTimeStopYear=2010;TicketCreateTimeStopMonth=11;TicketCreateTimeStopDay=3;".',
         'Default display type for recipient (To,Cc) names in AgentTicketZoom and CustomerTicketZoom.' =>
-            '',
+            'نوع العرض الافتراضي لأسماء المستلمين (إلى، نسخة (To,Cc)) في AgentTicketZoom و CustomerTicketZoom.',
         'Default display type for sender (From) names in AgentTicketZoom and CustomerTicketZoom.' =>
-            '',
-        'Default loop protection module.' => '',
-        'Default queue ID used by the system in the agent interface.' => '',
-        'Default skin for the agent interface (slim version).' => '',
-        'Default skin for the agent interface.' => '',
-        'Default skin for the customer interface.' => '',
+            'نوع العرض الافتراضي لأسماء المرسل (من (From)) في AgentTicketZoom و CustomerTicketZoom.',
+        'Default loop protection module.' => 'وحدة "Loop Protection" الافتراضية.',
+        'Default queue ID used by the system in the agent interface.' => 'معرف قائمة الانتظار الافتراضي المستخدم من قبل OTOBO في واجهة الوكيل.',
+        'Default skin for the agent interface (slim version).' => 'واجهة الوكيل الافتراضية (الإصدار النحيف).',
+        'Default skin for the agent interface.' => 'الجلد (skin) القياسي لواجهة الوكيل.',
+        'Default skin for the customer interface.' => 'الجلد (skin) القياسي لواجهة العميل.',
         'Default ticket ID used by the system in the agent interface.' =>
-            '',
+            'معرف التذكرة القياسي الذي يستخدمه OTOBO في واجهة الوكيل.',
         'Default ticket ID used by the system in the customer interface.' =>
-            '',
-        'Default value for NameX' => '',
+            'معرف التذكرة الافتراضي المستخدم من قبل OTOBO في واجهة العميل.',
+        'Default value for NameX' => 'القيمة الافتراضية ل NameX',
         'Define Actions where a settings button is available in the linked objects widget (LinkObject::ViewMode = "complex"). Please note that these Actions must have registered the following JS and CSS files: Core.AllocationList.css, Core.UI.AllocationList.js, Core.UI.Table.Sort.js, Core.Agent.TableFilters.js.' =>
-            '',
+            'تعريف العمليات التي يجب أن يتوفر بها زر الإعدادات في ودجة كائن الرابط (LinkObject::ViewMode = "complex"). الرجاء ملاحظة أنه يجب تسجيل ملفات JS و CSS التالية لهذه الإجراءات: Core.CustomList.css، Core.UI.AllocationList.js، Core.UI.Table.Sort.js، Core.Agent.TableFilter.js.',
         'Define a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'يحدد عامل تصفية لإخراج HTML بإضافة روابط خلف سلسلة محددة. يسمح هذا العنصر بنوعين من الإدخال. الأول هو اسم صورة (على سبيل المثال faq.png). في هذه الحالة، يتم إستخدام مسار صورة OTOBO. الخيار الثاني هو إدراج الرابط إلى الصورة.',
         'Define a mapping between variables of the customer user data (keys) and dynamic fields of a ticket (values). The purpose is to store customer user data in ticket dynamic fields. The dynamic fields must be present in the system and should be enabled for AgentTicketFreeText, so that they can be set/updated manually by the agent. They mustn\'t be enabled for AgentTicketPhone, AgentTicketEmail and AgentTicketCustomer. If they were, they would have precedence over the automatically set values. To use this mapping, you have to also activate the Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser setting.' =>
-            '',
+            'يحدد التعيين بين المتغيرات إلى بيانات مستخدم العميل (المفاتيح) والحقول الديناميكية للتذكرة (القيم). يتيح لك ذلك تخزين بيانات مستخدم العميل للتذكرة في الحقول الديناميكية. يجب أن تكون هذه الحقول الديناميكية موجودة في النظام ويجب تمكينها ل AgentTicketFreeText بحيث يمكن تعريفها / تحديثها يدويا بواسطة الوكيل. يجب عدم تمكينها ل AgentTicketPhone و AgentTicketEmail و AgentTicketCustomer. إذا فعلوا ذلك، فإنهم يأخذون الأسبقية على القيم المحددة تلقائيا. لاستخدام هذا التعيين، يجب أيضا تمكين إعداد تذكرة Ticket::EventModulePost###4100-DynamicFieldFromCustomerUser.',
         'Define a result field for the TicketID of the invoker response per web service (WebserviceID => DynamicFieldName).' =>
-            '',
+            'حدد حقل نتيجة ل TicketID لاستجابة المستحضر (Invoker) عبر خدمة ويب (WebserviceID => DynamicFieldName).',
         'Define dynamic field name for end time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
-            '',
+            'تعريف اسم الحقل الديناميكي لوقت الانتهاء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
         'Define dynamic field name for start time. This field has to be manually added to the system as Ticket: "Date / Time" and must be activated in ticket creation screens and/or in any other ticket action screens.' =>
-            '',
-        'Define the max depth of queues.' => '',
-        'Define the queue comment 2.' => '',
-        'Define the service comment 2.' => '',
-        'Define the sla comment 2.' => '',
+            'تعريف اسم الحقل الديناميكي لوقت البدء. يجب إضافة هذا الحقل يدويا إلى النظام كتذكرة: "التاريخ / الوقت" ويجب تنشيطه في شاشات إنشاء التذكرة و/أو في أي شاشات أخرى لإجراءات التذكرة.',
+        'Define the max depth of queues.' => 'حدد الحد الأقصى لعمق قوائم الانتظار.',
+        'Define the queue comment 2.' => 'يحدد تعليق قائمة الانتظار 2.',
+        'Define the service comment 2.' => 'حدد تعليق الخدمة 2.',
+        'Define the sla comment 2.' => 'تعريف تعليق (sla) إتفاقية مستوى الخدمة 2.',
         'Define the start day of the week for the date picker for the indicated calendar.' =>
-            '',
-        'Define the start day of the week for the date picker.' => '',
+            'حدد يوم بدء الأسبوع لمنتقي التاريخ للتقويم المشار إليه.',
+        'Define the start day of the week for the date picker.' => 'حدد يوم بدء الأسبوع لمنتقي التاريخ.',
         'Define which avatar default image should be used for the article view if no gravatar is assigned to the mail address. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'حدد الصورة الرمزية الافتراضية التي يجب استخدامها لعرض المقالة إذا لم يتم تعيين صورة رمزية لعنوان البريد. تحقق من https://gravatar.com/site/implement/images/ للحصول على مزيد من المعلومات.',
         'Define which avatar default image should be used for the current agent if no gravatar is assigned to the mail address of the agent. Check https://gravatar.com/site/implement/images/ for further information.' =>
-            '',
+            'حدد الصورة الرمزية الافتراضية التي يجب استخدامها للوكيل الحالي إذا لم يتم تعيين gravatar لعنوان البريد الخاص بالوكيل. تحقق من https://gravatar. com/site/implement/images/ للحصول على مزيد من المعلومات.',
         'Define which avatar engine should be used for the agent avatar on the header and the sender images in AgentTicketZoom. If \'None\' is selected, initials will be displayed instead. Please note that selecting anything other than \'None\' will transfer the encrypted email address of the particular user to an external service.' =>
-            '',
+            'حدد محرك الصور الرمزية الذي يجب إستخدامه للعامل أفاتار الموجود في الرأس وصور المرسل في AgentTicketZoom. في حالة تحديد \'بلا\'، سيتم عرض الأحرف الأولى بدلا من ذلك. الرجاء ملاحظة أن تحديد أي شيء بخلاف "لا شيء" سينقل عنوان البريد الإلكتروني المشفر للمستخدم المحدد إلى خدمة خارجية.',
         'Define which columns are shown in the linked appointment widget (LinkObject::ViewMode = "complex"). Possible settings: 0 = Disabled, 1 = Available, 2 = Enabled by default.' =>
-            '',
+            'تحديد الأعمدة التي تظهر في عنصر واجهة مستخدم الموعد المرتبط (LinkObject::ViewMode = "معقد"). الإعدادات المحتملة: 0 = معطل، 1 = متوفر، 2 = ممكن بشكل افتراضي.',
         'Define which columns are shown in the linked tickets widget (LinkObject::ViewMode = "complex"). Note: Only Ticket attributes and Dynamic Fields (DynamicField_NameX) are allowed for DefaultColumns.' =>
-            '',
+            'تحديد الأعمدة التي تظهر في عنصر واجهة مستخدم التذاكر المرتبطة (LinkObject::ViewMode = "معقد"). ملاحظة: يسمح فقط بسمات التذكرة والحقول الديناميكية (DynamicField_NameX) ل DefaultColumns.',
         'Defines a customer item, which generates a LinkedIn icon at the end of a customer info block.' =>
-            '',
+            'يعرف عنصر العميل الذي يضيف رمز LinkedIn في نهاية معلومات العميل.',
         'Defines a customer item, which generates a XING icon at the end of a customer info block.' =>
-            '',
+            'تحديد عنصر عميل، يقوم بإنشاء رمز XING في نهاية حظر معلومات العميل.',
         'Defines a customer item, which generates a google icon at the end of a customer info block.' =>
-            '',
+            'تعريف عنصر عميل، الذي يقوم بإنشاء أيقونة Google في نهاية كتلة معلومات العميل.',
         'Defines a customer item, which generates a google maps icon at the end of a customer info block.' =>
-            '',
+            'يعرف عنصر العميل الذي يضيف أيقونة خرائط جوجل في نهاية معلومات العميل.',
         'Defines a filter for html output to add links behind CVE numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام CVE. تتيح صورة العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى الصورة.',
         'Defines a filter for html output to add links behind MSBulletin numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام MSBulletin. تتيح صورة العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى الصورة.',
         'Defines a filter for html output to add links behind a defined string. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'تحديد عامل تصفية لإخراج html لإضافة إرتباطات خلف سلسلة معرفة. تتيح صورة العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى الصورة.',
         'Defines a filter for html output to add links behind bugtraq numbers. The element Image allows two input kinds. At once the name of an image (e.g. faq.png). In this case the OTOBO image path will be used. The second possiblity is to insert the link to the image.' =>
-            '',
+            'يحدد عامل تصفية لمخرجات html لإضافة إرتباطات خلف أرقام bugtraq. تتيح صورة العنصر نوعين من أنواع الإدخال. في الحال اسم صورة ما (مثل faq.png). في هذه الحالة سيتم إستخدام مسار صورة OTOBO. الاحتمال الثاني هو إدخال الرابط إلى الصورة.',
         'Defines a filter to collect CVE numbers from article texts in AgentTicketZoom. The results will be displayed in a meta box next to the article. Fill in URLPreview if you would like to see a preview when moving your mouse cursor above the link element. This could be the same URL as in URL, but also an alternate one. Please note that some websites deny being displayed within an iframe (e.g. Google) and thus won\'t work with the preview mode.' =>
-            '',
+            'تحديد عامل تصفية لتجميع أرقام CVE من نصوص المقالات في AgentTicketZoom. ستظهر النتائج في مربع تعريف بجوار المقالة. قم بتعبئة مراجعة URLPreview إذا كنت ترغب في رؤية معاينة عند تحريك مؤشر الماوس فوق عنصر الارتباط. يمكن أن يكون عنوان URL نفسه كما في عنوان URL، ولكن أيضا عنوان بديل. يرجى ملاحظة أن بعض مواقع الويب تنفي عرضها ضمن إطار iframe (مثل Google) وبالتالي لن تعمل مع وضع المعاينة.',
         'Defines a filter to process the text in the articles, in order to highlight predefined keywords.' =>
-            '',
+            'يحدد عامل تصفية لمعالجة النص في المقالات، من أجل إبراز الكلمات الأساسية المعرفة مسبقا.',
         'Defines a permission context for customer to group assignment.' =>
-            '',
+            'يحدد سياق الإذن للعميل لتعيين المجموعة.',
         'Defines a regular expression that excludes some addresses from the syntax check (if "CheckEmailAddresses" is set to "Yes"). Please enter a regex in this field for email addresses, that aren\'t syntactically valid, but are necessary for the system (i.e. "root@localhost").' =>
-            '',
+            'تعريف تعبير عادي يستبعد بعض العناوين من فحص بناء الجملة (إذا تم تعيين "CheckEmailAddresses" إلى "نعم"). الرجاء إدخال تغيير في هذا الحقل لعناوين البريد الإلكتروني، التي لا تكون صالحة صناعيا، ولكنها ضرورية للنظام (أي "root@localhost").',
         'Defines a regular expression that filters all email addresses that should not be used in the application.' =>
-            '',
+            'تعريف تعبير عادي يقوم بتصفية كافة عناوين البريد الإلكتروني التي يجب عدم إستخدامها في التطبيق.',
         'Defines a sleep time in microseconds between tickets while they are been processed by a job.' =>
-            '',
+            'يحدد فترة زمنية، بالميكروثانية، للانتظار بين معالجة التذاكر.',
         'Defines a useful module to load specific user options or to display news.' =>
-            '',
-        'Defines all the X-headers that should be scanned.' => '',
+            'تعريف وحدة نمطية مفيدة لتحميل خيارات مستخدم معينة أو لعرض الأخبار.',
+        'Defines all the X-headers that should be scanned.' => 'يحدد جميع رؤوس X المراد التحقق منها.',
         'Defines all the languages that are available to the application. Specify only English names of languages here.' =>
-            '',
+            'تعريف كافة اللغات المتوفرة للتطبيق. حدد فقط أسماء اللغات باللغة الإنجليزية هنا.',
         'Defines all the languages that are available to the application. Specify only native names of languages here.' =>
-            '',
+            'يحدد جميع اللغات المتاحة للتطبيق. أدخل أسماء اللغات الأصلية فقط.',
         'Defines all the parameters for the RefreshTime object in the customer preferences of the customer interface.' =>
-            '',
+            'يحدد كافة المعلمات لكائن RefreshTime في إعدادات العميل لواجهة العميل.',
         'Defines all the parameters for the ShownTickets object in the customer preferences of the customer interface.' =>
-            '',
+            'يحدد كافة المعلمات لكائن ShownTickets في إعدادات العميل لواجهة العميل.',
         'Defines all the parameters for this item in the customer preferences.' =>
-            '',
+            'تحديد كافة المعلمات لهذا العنصر في إعدادات العميل.',
         'Defines all the parameters for this item in the customer preferences. \'PasswordRegExp\' allows to match passwords against a regular expression. Define the minimum number of characters using \'PasswordMinSize\'. Define if at least 2 lowercase and 2 uppercase letter characters are needed by setting the appropriate option to \'1\'. \'PasswordMin2Characters\' defines if the password needs to contain at least 2 letter characters (set to 0 or 1). \'PasswordNeedDigit\' controls the need of at least 1 digit (set to 0 or 1 to control).' =>
-            '',
-        'Defines all the parameters for this notification transport.' => '',
-        'Defines all the possible stats output formats.' => '',
-        'Defines an alternate URL, where the login link refers to.' => '',
-        'Defines an alternate URL, where the logout link refers to.' => '',
-        'Defines an alternate login URL for the customer panel..' => '',
-        'Defines an alternate logout URL for the customer panel.' => '',
+            'تعيين كافة المعلمات لهذا العنصر في إعدادات العميل. يمكن تعيين كلمات مرور \'PasswordRegExp\' في تعبير عادي. باستخدام \'PasswordMinSize\'، فإنك تعرف الحد الأدنى من طول كلمات المرور. حدد ما إذا كان يجب أن تحتوي كلمة المرور على حرفين صغيرين على الأقل وحرفين كبيرين بتعيين الخيار المرادف ل \'١\'. يحدد PasswordMin٢Chards أنه يلزم وجود حرفين على الأقل. \'PasswordNeedDigit\' يحدد أن كلمة المرور يجب أن تحتوي على رقم واحد على الأقل.',
+        'Defines all the parameters for this notification transport.' => 'يتحكم في جميع المعلمات لنقل الإشعارات هذا.',
+        'Defines all the possible stats output formats.' => 'يحدد جميع تنسيقات إخراج الإحصائيات الممكنة.',
+        'Defines an alternate URL, where the login link refers to.' => 'يحدد عنوان URL بديلا يشير إليه رابط تسجيل الدخول.',
+        'Defines an alternate URL, where the logout link refers to.' => 'يحدد عنوان URL بديلا يشير إليه ارتباط تسجيل الخروج.',
+        'Defines an alternate login URL for the customer panel..' => 'يحدد عنوان URL بديل لتسجيل الدخول لواجهة العميل التي يشير إليها رابط تسجيل الدخول.',
+        'Defines an alternate logout URL for the customer panel.' => 'يحدد عنوان URL بديل لتسجيل الخروج لواجهة العميل التي يشير إليها ارتباط تسجيل الخروج.',
         'Defines an external link to the database of the customer (e.g. \'http://yourhost/customer.php?CID=[% Data.CustomerID %]\' or \'\').' =>
-            '',
+            'يعرف الاتصال الخارجي بقاعدة بيانات العميل (على سبيل المثال: \'http://yourhost/customer.php?CID=[٪ Data.CustomerID٪] أو \'\').',
         'Defines an icon with link to the google map page of the current location in appointment edit screen.' =>
-            '',
+            'يصف رمزا يحتوي على رابط إلى موقع خرائط Google على الويب مع الموقع الحالي كوجهة مقابلة في واجهة معالجة المواعيد.',
         'Defines an overview module to show the address book view of a customer user list.' =>
-            '',
-        'Defines available article actions for Chat articles.' => '',
-        'Defines available article actions for Email articles.' => '',
-        'Defines available article actions for Internal articles.' => '',
-        'Defines available article actions for Phone articles.' => '',
-        'Defines available article actions for invalid articles.' => '',
-        'Defines available groups for the admin overview screen.' => '',
-        'Defines chat communication channel.' => '',
-        'Defines default headers for outgoing emails.' => '',
+            'يحدد وحدة نمطية للنظرة العامة تعرض طريقة عرض دفتر عناوين لقائمة مستخدمي العملاء.',
+        'Defines available article actions for Chat articles.' => 'يضبط إجراءات العناصر المتوفرة لعناصر الدردشة.',
+        'Defines available article actions for Email articles.' => 'تعيين إجراءات المقالة المتاحة لعناصر البريد الإلكتروني.',
+        'Defines available article actions for Internal articles.' => 'تعريف إجراءات المقالات المتاحة للمقالات الداخلية.',
+        'Defines available article actions for Phone articles.' => 'تعريف إجراءات المقالات المتاحة لمقالات الهاتف.',
+        'Defines available article actions for invalid articles.' => 'تعريف إجراءات المقالة المتوفرة للمقالات غير الصالحة.',
+        'Defines available groups for the admin overview screen.' => 'تعيين المجموعات المتوفرة لنظرة عامة على المسؤول.',
+        'Defines chat communication channel.' => 'يحدد قناة اتصال الدردشة.',
+        'Defines default headers for outgoing emails.' => 'يضبط الرؤوس الافتراضية لرسائل البريد الإلكتروني الصادرة.',
         'Defines email communication channel.' => '',
         'Defines from which ticket attributes the agent can select the result order.' =>
             '',
