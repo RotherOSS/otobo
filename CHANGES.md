@@ -1,4 +1,69 @@
 
+# OTOBO 10.1.7 2023-03-10
+- 2023-03-10 17:35:45 +0100 Create new OTOBO language files.
+- 2023-03-10 10:38:03 +0000 Translated using Weblate (Norwegian BokmÃ¥l)
+- 2023-03-09 16:24:25 +0000 Translated using Weblate (Arabic (Saudi Arabia))
+- 2023-02-13 17:05:43 +0000 Translated using Weblate (Portuguese (Brazil))
+- 2023-03-10 09:56:23 +0100 [Bugfix]   Fix warning if no key is selected for S/MIME encryption. (https://github.com/RotherOSS/otobo/issues/2222)
+- 2023-03-10 09:20:24 +0100 Revert "Issue #282: Change x to interface-depending closing div"
+- 2023-03-10 09:20:37 +0100 Revert "Issue #282: Coloring closing icons white and align them properly."
+- 2023-03-09 16:47:01 +0100 [Bugfix]   Layout glitch in calendar event popup when a notification is set (https://github.com/RotherOSS/otobo/issues/2219)
+- 2023-03-09 13:42:44 +0100 [Enhanced] Backport features in bin/docker/quick_setup.pl from the rel-10_1 branch (https://github.com/RotherOSS/otobo/issues/2220)
+- 2023-03-07 08:37:36 +0100 Updating AUTHORS.md file.
+- 2023-03-06 11:58:18 +0100 [Bugfix]   Elasticsearch doesn't correctly evaluate dynamic field contents for customer users. (https://github.com/RotherOSS/otobo/issues/2215)
+- 2023-03-06 10:31:43 +0100 Test failure in OverviewSmall.t (https://github.com/RotherOSS/otobo/issues/2213)
+- 2023-03-04 17:28:25 +0100 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
+- 2023-03-01 10:20:51 +0100 Remove San Miguel from the footer. (https://github.com/RotherOSS/otobo/issues/2156)
+- 2023-02-24 13:12:46 +0100 Replace OTRS with OTOBO in a code comment
+- 2023-02-23 17:12:24 +0100 [Enhanced] Minor improvements to the CustomerInterface design. (https://github.com/RotherOSS/otobo/issues/282) - in progress
+- 2023-02-23 15:03:02 +0100 [Bugfix]   Mailserver timeout might prevent events from being executed. (https://github.com/RotherOSS/otobo/issues/2148)
+- 2023-02-20 17:28:21 +0100 Fix spelling: CPAM -> CPAN
+- 2023-02-20 17:24:57 +0100 Accept suggestions from the CodePolicy.
+- 2023-02-20 17:23:32 +0100 Eliminate a left over '$DB::single = 1;'
+- 2023-02-20 16:29:54 +0100 [Tidied]   Reduce setting in Config.pm (https://github.com/RotherOSS/otobo/issues/1672)
+- 2023-02-20 15:02:36 +0100 Add cpanfile.docker.kerberos to the whitelist
+- 2023-02-20 11:21:10 +0100 UnitTest Failure in AdminProcessManagementTransitionAction.t (https://github.com/RotherOSS/otobo/issues/2029)
+- 2023-02-13 12:10:43 +0100 Update AdminDynamicFieldWebService.tt
+- 2023-02-13 12:10:41 +0100 Update AdminDynamicFieldDateTime.tt
+- 2023-02-13 12:10:39 +0100 Update AdminDynamicFieldText.tt
+- 2023-02-13 12:10:37 +0100 Update AdminDynamicFieldDB.tt
+- 2023-02-13 12:07:21 +0100 Update AdminDynamicFieldText.tt
+- 2023-02-13 07:45:26 +0100 [Bugfix]   After activating the Config parameter "CloseParentAfterClosedChilds" only the button "Close" is hidden. (https://github.com/RotherOSS/otobo/issues/2131)
+- 2023-02-11 08:42:33 +0100 Small css error for not verified packages (https://github.com/RotherOSS/otobo/issues/2162)
+- 2023-01-18 15:17:39 +0000 Translated using Weblate (French)
+- 2022-12-29 12:28:16 +0000 Translated using Weblate (Finnish)
+- 2022-12-20 16:16:13 +0000 Update translation files
+- 2022-11-10 09:48:47 +0100 Values in ticket information and customer information widget is lower than labels (https://github.com/RotherOSS/otobo/issues/1774)
+- 2022-12-22 21:05:37 +0100 Added sorting for the sidebar as well
+- 2022-12-22 20:51:24 +0100 Sort values in AdminDynamicFieldScreen
+- 2023-02-09 15:41:44 +0100 [Tidied] Change descriptions in UserAdd Console script.
+- 2022-12-19 07:33:44 +0100 [Bugfix]   Missing Config Option (https://github.com/RotherOSS/otobo/issues/2044)
+- 2022-12-16 13:19:54 +0100 [Bugfix]   Closing bug with datepicker in AppointmentEdit modal dialog (https://github.com/RotherOSS/otobo/issues/2042)
+- 2023-01-31 08:07:57 +0100 [Bugfix]   Error with Dynamic Fields dropdown while filtering (https://github.com/RotherOSS/otobo/issues/2143)
+- 2023-02-06 11:59:51 +0100 Add own cpan file for testing.
+- 2023-02-06 11:58:06 +0100 Add new cpanfile for kerberos test.
+- 2023-01-23 14:14:33 +0100 [Bugfix]   Ticket hook "Nr." instead of "No." in English (US) TileTicketList and CustomerTicketOverview (https://github.com/RotherOSS/otobo/issues/2134)
+- 2023-01-19 14:36:34 +0100 Fix spelling in code comment.
+- 2023-01-18 08:54:02 +0100 [Bugfix]   Review error handling and confirm usability of the email setup in installer.pl. (https://github.com/RotherOSS/otobo/issues/375)
+- 2023-01-17 16:51:31 +0100 [Tidied]   Accept code tidying from running CodePolicy for rel-10_1. (https://github.com/RotherOSS/otobo/issues/2122)
+- 2023-01-16 10:31:29 +0100 [Tidied]   Copyright Note Update (https://github.com/RotherOSS/otobo/issues/2077)
+- 2023-01-12 12:00:40 +0100 [Bugfix]   DynamicField DB Cache keeps data errorneously (https://github.com/RotherOSS/otobo/issues/2095)
+- 2023-01-12 16:06:33 +0100 [Tidied] "Fix" sectioning in DocumentationGenerate.
+- 2023-01-12 10:39:57 +0100 [Bugfix]   Method DataIsDifferent() ignores hash keys with undefined values  (https://github.com/RotherOSS/otobo/issues/2080)
+- 2023-01-11 18:39:35 +0100 [Bugfix]   Issue with CommunicationLog (https://github.com/RotherOSS/otobo/issues/2037)
+- 2023-01-11 16:58:54 +0100 [Tidied]   Deleting Module Params is not supported in ObjectManager (https://github.com/RotherOSS/otobo/issues/2094)
+- 2023-01-11 13:29:37 +0100 [Tidied]   Remove support for CommunicationID in Kernel::System::CommunicationLog::DB::ObjectLookupGet() (https://github.com/RotherOSS/otobo/issues/2089)
+- 2023-01-11 08:58:25 +0100 [Tidied] Change chapter structure in DocumentationGenerate
+- 2023-01-06 19:30:52 +0100 Refine checkbox tests in scripts/test/DynamicField/EditFieldValueGet.t (https://github.com/RotherOSS/otobo/issues/2083)
+- 2023-01-06 11:34:45 +0100 [Bugfix]   Result of Kernel::System::Ticket::Article::Backend::Invalid::ArticleGet() when TicketID/ArticleID does not exist (https://github.com/RotherOSS/otobo/issues/2081)
+- 2022-12-28 14:46:15 +0400 Update otobo.SetPermissions.pl
+- 2022-12-26 14:19:04 +0100 Random order of execution of test scripts (https://github.com/RotherOSS/otobo/issues/2061)
+- 2022-12-25 15:29:52 +0100 [Enhanced] Allow multiple directories in console command Dev::UnitTest::Run (https://github.com/RotherOSS/otobo/issues/2064)
+- 2022-12-21 14:17:46 +0100 Handle charset that are declared per column (https://github.com/RotherOSS/otobo/issues/1881)
+- 2022-12-20 17:04:32 +0100 Update CHANGES.
+- 2022-11-13 12:15:10 +0100 [Tidied]   Tidying of Kernel::System::Auth::Sync::LDAP (https://github.com/RotherOSS/otobo/issues/1573)
+
+
 # OTOBO 10.1.6 2022-12-20
 - 2022-12-20 17:15:45 +0100 Create new OTOBO language files.
 - 2022-12-20 14:56:23 +0000 Translated using Weblate (Arabic (Saudi Arabia))
@@ -148,7 +213,7 @@
 - 2022-06-15 16:14:12 +0200 [Bugfix]   Bug in AgentTicketZoom with DynamicFields, using DynamicFieldScreens (https://github.com/RotherOSS/otobo/issues/1321)
 - 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
 - 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
-- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
 - 2022-06-07 16:32:31 +0200 Resolve unit test failures when syncing with S3 is enabled (https://github.com/RotherOSS/otobo/issues/1777) - in progress
 - 2022-06-07 12:30:19 +0200 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
 - 2022-06-06 13:45:13 +0200 Update the Docker Perl base image to Perl 5.36 (https://github.com/RotherOSS/otobo/issues/1808)
@@ -1426,3 +1491,4 @@
 
 # OTOBO 10.0.0 beta1 2020-01-30
  - First official OTOBO release, yippie!
+
