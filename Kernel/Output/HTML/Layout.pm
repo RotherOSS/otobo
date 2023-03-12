@@ -153,7 +153,7 @@ sub new {
 
     # set charset if there is no charset given
     $Self->{UserCharset} = 'utf-8';                 # used directly by frontend modules
-    $Self->{Charset}     = $Self->{UserCharset};    # just for compat, used directly by frontend modules
+    $Self->{Charset}     = $Self->{UserCharset};    # just for compatibility, used directly by frontend modules
     $Self->{SessionID}   = $Param{SessionID}          || '';
     $Self->{SessionName} = $Param{SessionName}        || 'SessionID';
     $Self->{CGIHandle}   = $ParamObject->ScriptName() || 'No-$ENV{"SCRIPT_NAME"}';
@@ -1639,11 +1639,10 @@ sub _AddHeadersToResponseObject {
 
     # first the unconditional headers
     my %Headers = (
-        'Content-Type'    => 'text/html; charset=utf-8',
-        'X-UA-Compatible' => 'IE=edge,chrome=1',
-        'Expires'         => 'Tue, 1 Jan 1980 12:00:00 GMT',
-        'Cache-Control'   => 'no-cache',
-        'Pragma'          => 'no-cache',
+        'Content-Type'  => 'text/html; charset=utf-8',
+        'Expires'       => 'Tue, 1 Jan 1980 12:00:00 GMT',
+        'Cache-Control' => 'no-cache',
+        'Pragma'        => 'no-cache',
     );
 
     if ( $Param{ContentDisposition} ) {
@@ -2732,8 +2731,6 @@ sub Attachment {
         $Headers{'Cache-Control'} = 'no-cache';
         $Headers{'Pragma'}        = 'no-cache';
     }
-
-    $Headers{'X-UA-Compatible'} = 'IE=edge,chrome=1';
 
     if ( !$ConfigObject->Get('DisableIFrameOriginRestricted') ) {
         $Headers{'X-Frame-Options'} = 'SAMEORIGIN';
