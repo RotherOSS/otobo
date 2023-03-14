@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-10 07:02+0000\n"
+"PO-Revision-Date: 2023-03-15 08:15+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21551,39 +21551,42 @@ msgstr "يضبط الرؤوس الافتراضية لرسائل البريد ا�
 
 #. SysConfig
 msgid "Defines email communication channel."
-msgstr ""
+msgstr "يحدد قناة اتصال البريد الإلكتروني."
 
 #. SysConfig
 msgid ""
 "Defines from which ticket attributes the agent can select the result order."
-msgstr ""
+msgstr "تحديد سمات التذاكر التي يمكن للوكيل تحديد ترتيب النتائج منها."
 
 #. SysConfig
 msgid "Defines groups for preferences items."
-msgstr ""
+msgstr "يحدد المجموعات للإعدادات الشخصية."
 
 #. SysConfig
 msgid "Defines how many deployments the system should keep."
-msgstr ""
+msgstr "تحديد عدد عمليات النشر التي يجب على النظام الاحتفاظ بها."
 
 #. SysConfig
 msgid ""
 "Defines how the From field from the emails (sent from answers and email "
 "tickets) should look like."
 msgstr ""
+"يحدد الشكل الذي يجب أن يبدو عليه الحقل \"من:\" في رسائل البريد الإلكتروني ("
+"المرسلة من الردود وتذاكر البريد الإلكتروني)."
 
 #. SysConfig
 msgid "Defines if a pre-sorting by priority should be done in the queue view."
-msgstr ""
+msgstr "تحديد ما إذا كان يجب فرز عرض قائمة الانتظار مسبقا حسب الأولوية."
 
 #. SysConfig
 msgid ""
 "Defines if a pre-sorting by priority should be done in the service view."
 msgstr ""
+"تحديد ما إذا كان يجب إجراء الفرز المسبق حسب الأولوية في طريقة عرض الخدمة."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required for the quick close."
-msgstr ""
+msgstr "تحديد ما إذا كان تأمين التذكرة مطلوبا للإغلاق السريع أم لا."
 
 #. SysConfig
 msgid ""
@@ -21591,6 +21594,9 @@ msgid ""
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
 "current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة تذكرة الإغلاق الخاصة بواجهة "
+"الوكيل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين الوكيل "
+"الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21598,6 +21604,9 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة البريد الإلكتروني الصادرة "
+"لواجهة الوكيل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين "
+"الوكيل الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21605,6 +21614,9 @@ msgid ""
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
 "current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة إعادة إرسال البريد الإلكتروني "
+"لواجهة العميل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين "
+"الوكيل الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21612,6 +21624,8 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب حظر التذكرة. يتم حظر "
+"التذكرة (إذا لزم الأمر) ويتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21619,6 +21633,9 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة تكوين التذكرة لواجهة الوكيل ("
+"إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين الوكيل الحالي "
+"تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21626,6 +21643,9 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في الشاشة الأمامية للتذكرة الخاصة "
+"بواجهة الوكيل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين "
+"الوكيل الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21633,6 +21653,9 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة النص الحر للتذكرة الخاصة "
+"بواجهة الوكيل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين "
+"الوكيل الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
