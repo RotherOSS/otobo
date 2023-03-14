@@ -79,10 +79,6 @@ along with this program. If not, see <https://www.gnu.org/licenses/>.
     left: 8px;
 }
 
-.Dialog > .Header .Close:hover i {
-    color: #0000fc;
-}
-
 .Dialog > .Header h1 {
     padding: 5px 10px;
     font-weight: normal;
