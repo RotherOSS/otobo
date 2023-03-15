@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-15 08:15+0000\n"
+"PO-Revision-Date: 2023-03-16 16:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21663,6 +21663,8 @@ msgid ""
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
 "gets locked and the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21670,6 +21672,9 @@ msgid ""
 "interface (if the ticket isn't locked yet, the ticket gets locked and the "
 "current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كان قفل التذكرة مطلوبا في شاشة ملاحظة التذكرة لواجهة الوكيل (إذا "
+"لم تكن التذكرة مقفلة بعد، قفل التذكرة وسيتم تعيين الوكيل الحالي تلقائيا "
+"كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21677,6 +21682,8 @@ msgid ""
 "ticket in the agent interface (if the ticket isn't locked yet, the ticket "
 "gets locked and the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21685,6 +21692,9 @@ msgid ""
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
 msgstr ""
+"تحديد ما إذا كان تأمين التذكرة مطلوبا في شاشة التذكرة المعلقة في واجهة "
+"الوكيل (إذا لم تكن التذكرة مؤمنة بعد، يتم تأمين التذكرة وسيتم تعيين الوكيل "
+"الحالي تلقائيا كمالك لها)."
 
 #. SysConfig
 msgid ""
@@ -21692,6 +21702,8 @@ msgid ""
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21699,6 +21711,8 @@ msgid ""
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21707,6 +21721,8 @@ msgid ""
 "ticket gets locked and the current agent will be set automatically as its "
 "owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21714,6 +21730,8 @@ msgid ""
 "agent interface (if the ticket isn't locked yet, the ticket gets locked and "
 "the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21721,6 +21739,8 @@ msgid ""
 "the agent interface (if the ticket isn't locked yet, the ticket gets locked "
 "and the current agent will be set automatically as its owner)."
 msgstr ""
+"يحدد ما إذا كانت هذه الشاشة في واجهة الوكيل تتطلب قفل التذكرة. سيتم حظر "
+"التذكرة (إذا لزم الأمر) وسيتم تعيين الوكيل الحالي كمالك."
 
 #. SysConfig
 msgid ""
@@ -21728,6 +21748,8 @@ msgid ""
 "stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
+"يتحكم في ما إذا كان الوكلاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم "
+"وبالتالي لا يستخدمون المصادقة الثنائية مسموح لهم بتسجيل الدخول إلى النظام."
 
 #. SysConfig
 msgid ""
@@ -21735,6 +21757,8 @@ msgid ""
 "secret stored in their preferences and therefore are not using two-factor "
 "authentication."
 msgstr ""
+"يتحكم في ما إذا كان يُسمح للعملاء الذين لم يخزنوا سرًا مشتركًا في إعداداتهم "
+"وبالتالي لا يستخدمون المصادقة الثنائية بتسجيل الدخول إلى النظام."
 
 #. SysConfig
 msgid ""
@@ -21743,6 +21767,9 @@ msgid ""
 "functionality will be lost such as support data sending, Package Verify™ and "
 "product News dashboard widgets, among others."
 msgstr ""
+"يحدد ما إذا كان هذا النظام يمكنه الاتصال بالخوادم التي تقدم خدمات سحابية. "
+"إذا قمت بإلغاء تنشيط الخدمات السحابية هنا، فستفقد بعض الوظائف مثل إرسال "
+"بيانات الدعم والتحقق™ من الحزمة وأداة لوحة معلومات \"أخبار المنتج\"."
 
 #. SysConfig
 msgid ""
