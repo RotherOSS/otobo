@@ -1099,16 +1099,15 @@ sub _CreateMimeEntity {
     $Header{Type} = $Param{MimeType} || 'text/plain';
 
     # Define email encoding.
-    if ( $Param{Charset} && $Param{Charset} =~ /^iso/i ) {
+    # First heck if we need to force the encoding.
+    if ( $ConfigObject->Get('SendmailEncodingForce') ) {
+        $Header{Encoding} = $ConfigObject->Get('SendmailEncodingForce');
+    }
+    elsif ( $Param{Charset} && $Param{Charset} =~ m/^iso/i ) {
         $Header{Encoding} = '8bit';
     }
     else {
         $Header{Encoding} = 'quoted-printable';
-    }
-
-    # Check if we need to force the encoding.
-    if ( $ConfigObject->Get('SendmailEncodingForce') ) {
-        $Header{Encoding} = $ConfigObject->Get('SendmailEncodingForce');
     }
 
     # Check and create message id.
