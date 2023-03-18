@@ -1027,7 +1027,7 @@ sub _CreateMimeEntity {
     }
 
     if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
-        for my $HeaderName ( sort keys %{ $Param{CustomHeaders} } ) {
+        for my $HeaderName ( keys $Param{CustomHeaders}->%* ) {
             $Header{$HeaderName} = $Param{CustomHeaders}->{$HeaderName};
         }
     }
