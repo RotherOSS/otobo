@@ -1138,7 +1138,10 @@ sub _CreateMimeEntity {
     # build MIME::Entity, Data should be bytes, not utf-8
     # see http://bugs.otrs.org/show_bug.cgi?id=9832
     $EncodeObject->EncodeOutput( \$Param{Body} );
-    my $Entity = MIME::Entity->build( %Header, Data => $Param{Body} );
+
+    # sort the mail fields just to have reproducible output
+    my @SortedHeaders = map { $_ => $Header{$_} } sort keys %Header;
+    my $Entity        = MIME::Entity->build( @SortedHeaders, Data => $Param{Body} );
 
     # Set In-Reply-To and References header
     my $Header = $Entity->head();
