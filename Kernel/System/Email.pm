@@ -1084,9 +1084,6 @@ sub _CreateMimeEntity {
         );
     }
 
-    my $Product = $ConfigObject->Get('Product');
-    my $Version = $ConfigObject->Get('Version');
-
     if ( $ConfigObject->Get('Secure::DisableBanner') ) {
 
         # Set this to undef to avoid having a value like "MIME-tools 5.507 (Entity 5.507)"
@@ -1094,6 +1091,8 @@ sub _CreateMimeEntity {
         $Header{'X-Mailer'} = undef;
     }
     else {
+        my $Product = $ConfigObject->Get('Product');
+        my $Version = $ConfigObject->Get('Version');
         $Header{'X-Mailer'}     = "$Product Mail Service ($Version)";
         $Header{'X-Powered-By'} = 'OTOBO (https://otobo.org/)';
     }
