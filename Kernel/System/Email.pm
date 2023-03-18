@@ -731,8 +731,8 @@ sub SendExecute {
     }
 
     # Normalize 'To', always use an arrayref.
-    my $To = $Param{'To'};
-    if ( !( ref $To ) ) {
+    my $To = $Param{To};
+    if ( !ref $To ) {
         $To = [ split /,/, $To ];
     }
 
@@ -1023,7 +1023,7 @@ sub _CreateMimeEntity {
 
     my $DefaultHeaders = $ConfigObject->Get('Sendmail::DefaultHeaders') || {};
     if ( IsHashRefWithData($DefaultHeaders) ) {
-        %Header = %{$DefaultHeaders};
+        %Header = $DefaultHeaders->%*;
     }
 
     if ( IsHashRefWithData( $Param{CustomHeaders} ) ) {
@@ -1035,10 +1035,11 @@ sub _CreateMimeEntity {
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject Charset Reply-To)) {
         next ATTRIBUTE if !$Param{$Attribute};
+
         $Header{$Attribute} = $Param{$Attribute};
     }
 
-    # Check look param/
+    # Check loop parameter
     if ( $Param{Loop} ) {
         $Header{'X-Loop'}          = 'yes';
         $Header{'Precedence:'}     = 'bulk';
@@ -1048,7 +1049,8 @@ sub _CreateMimeEntity {
     # Do some encodings.
     ATTRIBUTE:
     for my $Attribute (qw(From To Cc Subject)) {
-        next ATTRIBUTE if !$Header{$Attribute};
+        next ATTRIBUTE unless $Header{$Attribute};
+
         $Header{$Attribute} = $Self->_EncodeMIMEWords(
             Field   => $Attribute,
             Line    => $Header{$Attribute},
@@ -1056,33 +1058,30 @@ sub _CreateMimeEntity {
         );
     }
 
-    # Check if it's html, add text attachment.
+    # For HTML mails create a plain text version of the body.
+    # Put both, the HTML version and the plaintext version into a multipart/alternative.
     my $HTMLEmail = 0;
     if ( $Param{MimeType} && $Param{MimeType} =~ /html/i ) {
         $HTMLEmail = 1;
 
-        # Add html as first attachment.
-        my $Attach = {
-            Content     => $Param{Body},
-            ContentType => "text/html; charset=\"$Param{Charset}\"",
-            Filename    => '',
-        };
-        if ( !$Param{Attachment} ) {
-            @{ $Param{Attachment} } = ($Attach);
-        }
-        else {
-            @{ $Param{Attachment} } = ( $Attach, @{ $Param{Attachment} } );
-        }
+        # Add HTML as first attachment.
+        $Param{Attachment} //= [];
+        unshift
+            $Param{Attachment}->@*,
+            {
+                Content     => $Param{Body},
+                ContentType => qq{text/html; charset="$Param{Charset}"},
+                Filename    => '',
+            };
 
         # Remember html body for later comparison.
         $Param{HTMLBody} = $Param{Body};
 
-        # Add ASCII body.
+        # Strip the HTML from the HTML mail.
         $Param{MimeType} = 'text/plain';
         $Param{Body}     = $Kernel::OM->Get('Kernel::System::HTMLUtils')->ToAscii(
             String => $Param{Body},
         );
-
     }
 
     my $Product = $ConfigObject->Get('Product');
@@ -1150,7 +1149,8 @@ sub _CreateMimeEntity {
     }
     KEY:
     for my $Key ( 'In-Reply-To', 'References' ) {
-        next KEY if !$Param{$Key};
+        next KEY unless $Param{$Key};
+
         $Header->replace( $Key, $Param{$Key} );
     }
 
@@ -1188,7 +1188,7 @@ sub _CreateMimeEntity {
                     # Don't attach duplicate html attachment (aka file-2).
                     next ATTACHMENT if
                         $Upload->{Filename} eq 'file-2'
-                        && $Upload->{ContentType} =~ /html/i
+                        && $Upload->{ContentType} =~ m/html/i
                         && $Upload->{Content} eq $Param{HTMLBody};
 
                     # Skip, but remember all attachments except inline images.
