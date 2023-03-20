@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-18 15:31+0000\n"
+"PO-Revision-Date: 2023-03-20 10:51+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21793,36 +21793,48 @@ msgid ""
 "visible for the related customer. If nothing defined, latest article will be "
 "expanded."
 msgstr ""
+"تحديد ما إذا كان يجب عرض أول عنصر مرئي للعميل عند فتح عرض النظرة العامة. إذا "
+"لم يتم تحديد أي شيء، سيتم عرض أحدث مقال."
 
 #. SysConfig
 msgid ""
 "Defines if the message in the email outbound screen of the agent interface "
 "is visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الرسالة الموجودة في شاشة البريد الإلكتروني الصادرة لواجهة "
+"الوكيل مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the message in the email resend screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الرسالة في شاشة إعادة إرسال البريد الإلكتروني لواجهة "
+"الوكيل مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the message in the ticket compose screen of the agent interface "
 "is visible for the customer by default."
 msgstr ""
+"يحدد ما إذا كانت الرسالة في شاشة إنشاء التذاكر لواجهة الوكيل مرئية للعميل "
+"بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the message in the ticket forward screen of the agent interface "
 "is visible for the customer by default."
 msgstr ""
+"يحدد ما إذا كانت الرسالة في شاشة إعادة توجيه التذكرة لواجهة الوكيل مرئية "
+"للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the close ticket screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"يحدد ما إذا كانت الملاحظة الموجودة في شاشة إغلاق التذكرة لواجهة الوكيل مرئية "
+"للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
