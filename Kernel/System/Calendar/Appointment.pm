@@ -655,14 +655,14 @@ sub AppointmentList {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # team id
-        my @TeamID = split( ',', $Row[9] // '' );
+        my @TeamID = split( /,/, $Row[9] // '' );
         if ( $Param{TeamID} ) {
             next ROW if !grep { $_ == $Param{TeamID} } @TeamID;
         }
 
         # resource id
         $Row[10] = $Row[10] ? $Row[10] : 0;
-        my @ResourceID = $Row[10] =~ /,/ ? split( ',', $Row[10] ) : ( $Row[10] );
+        my @ResourceID = $Row[10] =~ /,/ ? split( /,/, $Row[10] ) : ( $Row[10] );
         if ( $Param{ResourceID} ) {
             next ROW if !grep { $_ == $Param{ResourceID} } @ResourceID;
         }
@@ -1030,16 +1030,16 @@ sub AppointmentGet {
     while ( my @Row = $DBObject->FetchrowArray() ) {
 
         # team id
-        my @TeamID = split( ',', $Row[10] // '' );
+        my @TeamID = split( /,/, $Row[10] // '' );
 
         # resource id
-        my @ResourceID = split( ',', $Row[11] // '0' );
+        my @ResourceID = split( /,/, $Row[11] // '0' );
 
         # recurrence frequency
-        my @RecurrenceFrequency = $Row[14] ? split( ',', $Row[14] ) : undef;
+        my @RecurrenceFrequency = $Row[14] ? split( /,/, $Row[14] ) : undef;
 
         # recurrence exclude
-        my @RecurrenceExclude = $Row[19] ? split( ',', $Row[19] ) : undef;
+        my @RecurrenceExclude = $Row[19] ? split( /,/, $Row[19] ) : undef;
 
         $Result{AppointmentID}                         = $Row[0];
         $Result{ParentID}                              = $Row[1];
@@ -2387,7 +2387,7 @@ sub _AppointmentRecurringExclude {
     # get existing exclusions
     my @RecurrenceExclude;
     while ( my @Row = $DBObject->FetchrowArray() ) {
-        @RecurrenceExclude = split( ',', $Row[0] ) if $Row[0];
+        @RecurrenceExclude = split( /,/, $Row[0] ) if $Row[0];
     }
     push @RecurrenceExclude, $Param{RecurrenceID};
     @RecurrenceExclude = sort @RecurrenceExclude;
