@@ -14,14 +14,18 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
+# core modules
 
-use vars (qw($Self));
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterDriver;    # Set up $Kernel::OM
 
 my @Tests = (
     {
@@ -55,7 +59,7 @@ my @Tests = (
     {
         Size     => 2500,
         Result   => '2.4 KB',
-        Language => 'ar_SA',    # empty decimal separator
+        Language => 'ar_SA',
     },
     {
         Size   => 46137344,
@@ -73,7 +77,7 @@ my @Tests = (
     {
         Size     => 58626123,
         Result   => '55.9 MB',
-        Language => 'ar_SA',     # empty decimal separator
+        Language => 'ar_SA',
     },
     {
         Size   => 34359738368,
@@ -91,7 +95,7 @@ my @Tests = (
     {
         Size     => 64508675518,
         Result   => '60.1 GB',
-        Language => 'ar_SA',       # empty decimal separator
+        Language => 'ar_SA',
     },
     {
         Size   => 238594023227392,
@@ -109,14 +113,16 @@ my @Tests = (
     {
         Size     => 498870572100000,
         Result   => '453.7 TB',
-        Language => 'ar_SA',           # empty decimal separator
+        Language => 'ar_SA',
     },
 );
 
 for my $Test (@Tests) {
-    if ( !$Test->{Language} ) {
-        $Test->{Language} = 'en';
-    }
+
+    # set default values for the test cases
+    $Test->{Language} //= 'en';
+    $Test->{Size}     //= 'undef';
+
     $Kernel::OM->ObjectsDiscard(
         Objects => [
             'Kernel::Output::HTML::Layout',
@@ -133,12 +139,11 @@ for my $Test (@Tests) {
         Size => $Test->{Size},
     );
 
-    $Test->{Size} //= 'undef';
-    $Self->Is(
+    is(
         $Result,
         $Test->{Result},
-        "HumanReadableDataSize( Size => $Test->{Size})",
+        "HumanReadableDataSize: Size => $Test->{Size}, Lang => $Test->{Language}",
     );
 }
 
-$Self->DoneTesting();
+done_testing;
