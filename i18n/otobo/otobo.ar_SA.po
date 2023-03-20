@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-20 10:51+0000\n"
+"PO-Revision-Date: 2023-03-20 16:29+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21841,42 +21841,56 @@ msgid ""
 "Defines if the note in the ticket bulk screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"يشير إلى ما إذا كان يجب أن تكون الملاحظة مرئية للعميل في شاشة معالجة مجموعة "
+"التذاكر الخاصة بلوحة الوكيل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket free text screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الملاحظة الموجودة في شاشة النص الحر للتذكرة الخاصة بواجهة "
+"الوكيل مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket note screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الملاحظة الموجودة في شاشة إشعار التذكرة لواجهة الوكيل "
+"مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket owner screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الملاحظة الموجودة في شاشة مالك التذكرة الخاصة بواجهة "
+"الوكيل مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket pending screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"يحدد ما إذا كانت الملاحظة الموجودة في شاشة انتظار التذكرة لواجهة الوكيل "
+"مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket priority screen of the agent interface is "
 "visible for the customer by default."
 msgstr ""
+"تحديد ما إذا كانت الملاحظة الموجودة في شاشة أولوية التذكرة لواجهة الوكيل "
+"مرئية للعميل بشكل افتراضي."
 
 #. SysConfig
 msgid ""
 "Defines if the note in the ticket responsible screen of the agent interface "
 "is visible for the customer by default."
 msgstr ""
+"يحدد ما إذا كانت الملاحظة الموجودة في شاشة مسؤول التذكرة لواجهة الوكيل مرئية "
+"للعميل افتراضيا."
 
 #. SysConfig
 msgid ""
@@ -21884,6 +21898,9 @@ msgid ""
 "This is slightly less secure but gives users 30 seconds more time to enter "
 "their one-time password."
 msgstr ""
+"تحديد ما إذا كان يجب قبول الرمز المميز الصالح سابقا للمصادقة. وهذا الأمر أقل "
+"أمانا بعض الشيء ولكنه يمنح المستخدمين 30 ثانية إضافية من الوقت لإدخال كلمة "
+"المرور مرة واحدة."
 
 #. SysConfig
 msgid ""
@@ -21892,6 +21909,9 @@ msgid ""
 "be available for filtering. Please note: The list of customers will always "
 "be retrieved like this."
 msgstr ""
+"تحديد ما إذا كان سيتم إسترداد قيم المرشح من كافة التذاكر المتوفرة أم لا. عند "
+"التمكين، تكون القيم المستخدمة حاليا في أي تذكرة فقط متاحة للتصفية. الرجاء "
+"ملاحظة: سيتم دائما إسترداد قائمة العملاء بهذه الطريقة."
 
 #. SysConfig
 msgid ""
@@ -21900,35 +21920,43 @@ msgid ""
 "is configured as active or is originally mandatory for the individual ticket "
 "action screen)."
 msgstr ""
+"يعرف ما إذا كان تسجيل الوقت إلزاميا في واجهة العميل. عند تمكين هذه الميزة، "
+"يجب وضع ملاحظة لكافة إجراءات التذاكر (سواء تم تكوين الملاحظة على أنها نشطة "
+"أو تم تكوينها أصلا بحيث تكون محددة لإجراءات التذاكر الفردية)."
 
 #. SysConfig
 msgid "Defines if time accounting must be set to all tickets in bulk action."
 msgstr ""
+"تحديد ما إذا كان يجب تعيين حساب الوقت إلى كافة التذاكر قيد الإجراء المجمع."
 
 #. SysConfig
 msgid "Defines internal communication channel."
-msgstr ""
+msgstr "يحدد قناة الاتصال الداخلية."
 
 #. SysConfig
 msgid ""
 "Defines out of office message template. Two string parameters (%s) "
 "available: end date and number of days left."
 msgstr ""
+"يعرف قوالب الرسائل \"ليس في المكتب\". تتوفر معلمات سلسلة (%s): تاريخ "
+"الانتهاء وعدد الأيام المتبقية."
 
 #. SysConfig
 msgid "Defines phone communication channel."
-msgstr ""
+msgstr "يحدد قناة الاتصال الهاتفي."
 
 #. SysConfig
 msgid ""
 "Defines queues that's tickets are used for displaying as calendar events."
-msgstr ""
+msgstr "يحدد قوائم الانتظار التي تستخدم التذاكر لعرضها كأحداث تقويم."
 
 #. SysConfig
 msgid ""
 "Defines the HTTP hostname for the support data collection with the public "
 "module 'PublicSupportDataCollector' (e.g. used from the OTOBO Daemon)."
 msgstr ""
+"يحدد اسم مضيف HTTP لجمع بيانات الدعم باستخدام الوحدة النمطية العامة "
+"\"PublicSupportDataCollector\" (على سبيل المثال المستخدمة من OTOBO Daemon)."
 
 #. SysConfig
 msgid ""
@@ -21936,12 +21964,17 @@ msgid ""
 "need to enable this to have access to your local repository and the package::"
 "RepositoryList is required on the remote host."
 msgstr ""
+"يحدد التعبيرات العادية لعناوين IP للوصول إلى المستودع المحلي. يجب تمكين هذه "
+"الإعدادات للوصول إلى المستودع المحلي الخاص بك، ويجب أيضا تثبيت حزمة package::"
+"RepositoryList على المضيف البعيد."
 
 #. SysConfig
 msgid ""
 "Defines the PostMaster header to be used on the filter for keeping the "
 "current state of the ticket."
 msgstr ""
+"تعريف رأس PostMaster الذي سيتم إستخدامه على عامل التصفية للاحتفاظ بالحالة "
+"الحالية للتذكرة."
 
 #. SysConfig
 msgid "Defines the URL CSS path."
