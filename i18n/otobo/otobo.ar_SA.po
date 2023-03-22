@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-20 16:29+0000\n"
+"PO-Revision-Date: 2023-03-23 19:43+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -21978,34 +21978,35 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the URL CSS path."
-msgstr ""
+msgstr "يعرف مسار URL CSS."
 
 #. SysConfig
 msgid "Defines the URL base path of icons, CSS and Java Script."
-msgstr ""
+msgstr "تعريف المسار الأساسي ل URL الخاص بالأيقونات و CSS و Java Script."
 
 #. SysConfig
 msgid "Defines the URL image path of icons for navigation."
-msgstr ""
+msgstr "تعريف مسار صورة عنوان URL الخاص بالأيقونات للتنقل."
 
 #. SysConfig
 msgid "Defines the URL java script path."
-msgstr ""
+msgstr "يعرف عنوان URL لمسار JavaScript."
 
 #. SysConfig
 msgid "Defines the URL rich text editor path."
-msgstr ""
+msgstr "تعريف مسار محرر نص URL المنسق."
 
 #. SysConfig
 msgid ""
 "Defines the address of a dedicated DNS server, if necessary, for the "
 "\"CheckMXRecord\" look-ups."
 msgstr ""
+"تعريف عنوان خادم DNS مخصص، إذا لزم الأمر، لعمليات البحث \"CheckMXRecord\"."
 
 #. SysConfig
 msgid ""
 "Defines the agent preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "تعريف مفتاح تفضيلات الوكيل حيث يتم تخزين المفتاح السري المشترك."
 
 #. SysConfig
 msgid ""
@@ -22013,72 +22014,85 @@ msgid ""
 "to select all minutes of one hour from 1-59. Select \"30 Minutes\" to only "
 "make full and half hours available."
 msgstr ""
+"يضبط الخطوات المتوفرة في حقول تحديد الوقت. حدد \"دقائق\" لتحديد كل دقيقة من "
+"ساعة واحدة من ١-٥٩. أختر \"٣٠ دقيقة\" لتحديد ساعات كاملة ونصف فقط."
 
 #. SysConfig
 msgid ""
 "Defines the body for the quick close action, which gets used for ticket "
 "history in the agent interface."
 msgstr ""
+"يحدد النص الأساسي لإجراء \"الإغلاق الفوري\"، والذي يستخدم في سجل التذاكر في "
+"منطقة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, about new "
 "password."
 msgstr ""
+"يعرف النص الموجود في قسم رسائل البريد الإلكتروني الخاصة بالإخطار إلى العملاء "
+"فيما يتعلق بكلمة المرور الجديدة."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to agents, with token "
 "about new requested password."
 msgstr ""
+"يحدد نص البريد الإلكتروني للإعلام المرسل إلى الوكلاء عند تقديم طلب كلمة مرور."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
 "account."
 msgstr ""
+"يحدد النص الموجود في النص الأساسي لرسائل البريد الإلكتروني للإشعارات المرسلة "
+"إلى العملاء حول حساب جديد."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, about new "
 "password."
 msgstr ""
+"يحدد النص الموجود في النص الأساسي لرسائل البريد الإلكتروني للإشعارات للعملاء "
+"فيما يتعلق بكلمة المرور الجديدة."
 
 #. SysConfig
 msgid ""
 "Defines the body text for notification mails sent to customers, with token "
 "about new requested password."
 msgstr ""
+"يعرف نص رسائل البريد الإلكتروني للإخطار مع الرمز المميز لكلمة المرور الجديدة "
+"التي يتم إرسالها إلى العملاء."
 
 #. SysConfig
 msgid "Defines the body text for rejected emails."
-msgstr ""
+msgstr "يحدد النص الأساسي لرسائل البريد الإلكتروني المرفوضة."
 
 #. SysConfig
 msgid "Defines the calendar width in percent. Default is 95%."
-msgstr ""
+msgstr "تعريف عرض التقويم بالنسبة المئوية. الافتراضي هو 95٪."
 
 #. SysConfig
 msgid "Defines the close state for quick close."
-msgstr ""
+msgstr "يعرف حالة الإغلاق ل \"إغلاق فوري\"."
 
 #. SysConfig
 msgid "Defines the column to store the keys for the preferences table."
-msgstr ""
+msgstr "يعرف العمود الذي يجب أن يتم فيه تخزين مفاتيح الجدول مع الإعدادات."
 
 #. SysConfig
 msgid "Defines the communication chanel for the quick close article action."
-msgstr ""
+msgstr "يحدد قناة الاتصال لإجراء العنصر \"إغلاق فوري\"."
 
 #. SysConfig
 msgid "Defines the config options for the autocompletion feature."
-msgstr ""
+msgstr "تعريف خيارات التكوين لميزة الإكمال التلقائي."
 
 #. SysConfig
 msgid ""
 "Defines the config parameters of this item, to be shown in the preferences "
 "view."
-msgstr ""
+msgstr "تعريف معلمات التكوين لهذا العنصر، ليتم عرضها في إعدادات المستخدم."
 
 #. SysConfig
 msgid ""
@@ -22096,6 +22110,19 @@ msgid ""
 "settings of another user's behalf. Use 'PreferenceGroup' to control in which "
 "area these settings should be shown in the user interface."
 msgstr ""
+"يحدد معلمات التكوين للعنصر الذي يتم عرضه في إعداد المستخدم. يسمح لك "
+"PasswordRegExp بالتحقق من كلمات المرور مقابل التعبير العادي. اضبط الحد "
+"الأدنى لطول كلمة المرور باستخدام \"PasswordMinSize\". حدد ما إذا كان يجب أن "
+"تحتوي كلمة المرور على حرفين صغيرين على الأقل وحرفين كبيرين عن طريق تعيين "
+"الخيار المقابل على \"1\". يحدد \"PasswordMin2Characters\" أن هناك حاجة إلى "
+"حرفين على الأقل (القيم المحتملة هي \"0\" أو \"1\"). يحدد \"PasswordNeedDigit"
+"\" ما إذا كان يجب أن تحتوي كلمة المرور على رقم واحد على الأقل (القيم "
+"المحتملة هي \"0\" أو \"1\"). يسمح \"PasswordMaxLoginFailed\" للوكيل بأن يكون "
+"غير صالح مؤقتا عند الوصول إلى الحد الأقصى لعدد عمليات تسجيل الدخول الفاشلة. "
+"يرجى ملاحظة: إذا تم تعيين \"نشط\" على 0، فهذا يمنع الوكلاء فقط من تغيير "
+"إعداد هذه المجموعة في إعداداتهم الشخصية. لا يزال بإمكان المسؤول تغيير هذه "
+"الإعدادات نيابة عن المستخدمين. استخدم \"PreferenceGroup\" للتحكم في المنطقة "
+"التي يتم فيها عرض هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid ""
@@ -22106,40 +22133,47 @@ msgid ""
 "'PreferenceGroup' to control in which area these settings should be shown in "
 "the user interface."
 msgstr ""
+"يحدد معلمات التكوين للعنصر الذي يتم عرضه في إعداد المستخدم. يرجى ملاحظة: إذا "
+"تم تعيين \"نشط\" على 0، فهذا يمنع الوكلاء فقط من تغيير إعداد هذه المجموعة في "
+"إعداداتهم الشخصية. لا يزال بإمكان المسؤول تغيير هذه الإعدادات نيابة عن "
+"المستخدمين. استخدم \"PreferenceGroup\" للتحكم في المنطقة التي يتم فيها عرض "
+"هذه الإعدادات في واجهة المستخدم."
 
 #. SysConfig
 msgid "Defines the connections for http/ftp, via a proxy."
-msgstr ""
+msgstr "تعريف الاتصالات ل http/ftp، عبر وكيل."
 
 #. SysConfig
 msgid ""
 "Defines the customer preferences key where the shared secret key is stored."
-msgstr ""
+msgstr "يعرف حقل إعدادات العميل حيث يتم تخزين المفتاح السري المشترك."
 
 #. SysConfig
 msgid "Defines the date input format used in forms (option or input fields)."
-msgstr ""
+msgstr "يعرف تنسيق إدخال التاريخ المستخدم في النماذج (حقول الخيار أو الإدخال)."
 
 #. SysConfig
 msgid "Defines the default CSS used in rich text editors."
-msgstr ""
+msgstr "تعريف CSS الافتراضي المستخدم في محررات النص المنسق."
 
 #. SysConfig
 msgid ""
 "Defines the default agent name in the ticket zoom view of the customer "
 "interface."
-msgstr ""
+msgstr "يحدد اسم الوكيل الافتراضي في عرض تفاصيل التذاكر لواجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default auto response type of the article for this operation."
-msgstr ""
+msgstr "يحدد نوع الاستجابة التلقائية الافتراضي للعنصر لهذه العملية."
 
 #. SysConfig
 msgid ""
 "Defines the default body of a note in the ticket free text screen of the "
 "agent interface."
 msgstr ""
+"يحدد المحتوى الافتراضي للملاحظة في شاشة النص الحر للتذكرة الخاصة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
@@ -22147,6 +22181,9 @@ msgid ""
 "(CustomerUser or CustomerCompany). For the CustomerCompany fields a prefix "
 "'CustomerCompany_' must be added."
 msgstr ""
+"يحدد حقول التصفية الافتراضية في البحث في دفتر عناوين مستخدم العميل (مستخدم "
+"عميل أو شركة عميل). بالنسبة لحقول CustomerCompany، يجب إضافة بادئة "
+"\"CustomerCompany_\"."
 
 #. SysConfig
 msgid ""
@@ -22154,6 +22191,9 @@ msgid ""
 "customers. If you like, you can add your own theme. Please refer the "
 "administrator manual located at https://doc.otobo.org/."
 msgstr ""
+"يحدد نسق الواجهة الأمامية الافتراضية (HTML) ليتم استخدامه من قبل الوكلاء "
+"والعملاء. إذا أردت، يمكنك إضافة المظهر الخاص بك. يرجى الرجوع إلى دليل "
+"المسؤول الموجود في https://doc.otobo.org/."
 
 #. SysConfig
 msgid ""
@@ -22161,178 +22201,224 @@ msgid ""
 "determined by the available language files on the system (see the next "
 "setting)."
 msgstr ""
+"يحدد لغة الواجهة الأمامية الافتراضية. يتم تحديد القيم المحتملة من خلال ملفات "
+"اللغة المتاحة على النظام (راجع الإعداد التالي)."
 
 #. SysConfig
 msgid "Defines the default history type in the customer interface."
-msgstr ""
+msgstr "يحدد نوع المحفوظات الافتراضي في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default interface. Unknown pathes below the script alias are "
 "redirected to the selected interface."
 msgstr ""
+"يحدد الواجهة الافتراضية. تتم إعادة توجيه المسارات غير المعروفة أسفل الاسم "
+"المستعار للبرنامج النصي إلى الواجهة المحددة."
 
 #. SysConfig
 msgid ""
 "Defines the default maximum number of X-axis attributes for the time scale."
-msgstr ""
+msgstr "يعرف الحد الأقصى الافتراضي للسمات لمحور x للمحور الزمني."
 
 #. SysConfig
 msgid ""
 "Defines the default maximum number of statistics per page on the overview "
 "screen."
 msgstr ""
+"يتحكم في الحد الأقصى لعدد الإحصائيات المعروضة لكل صفحة في النظرة العامة."
 
 #. SysConfig
 msgid ""
 "Defines the default next state for a ticket after customer follow-up in the "
 "customer interface."
 msgstr ""
+"تحديد الحالة التالية الافتراضية للتذكرة بعد متابعة العميل في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the close "
 "ticket screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة، في شاشة إغلاق "
+"التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket free text screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة، في شاشة النص الحر "
+"للتذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket note screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة، في شاشة ملاحظة "
+"التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket owner screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة إلى شاشة المالك في "
+"واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket pending screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة، في شاشة التذكرة "
+"المعلقة لتذكرة مكبرة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket priority screen of a zoomed ticket in the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة لها إلى شاشة "
+"الأولوية في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after adding a note, in the "
 "ticket responsible screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إضافة ملاحظة، في شاشة مسؤول "
+"التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after being bounced, in the "
 "ticket bounce screen of the agent interface."
 msgstr ""
+"تعيين حالة التسلسل للتذاكر التي تحتوي على ملاحظة مضافة إلى شاشة إعادة "
+"التوجيه في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after being forwarded, in the "
 "ticket forward screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة التي تمت إضافة ملاحظة لها إلى شاشة "
+"إعادة التوجيه في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket after the message has been sent, "
 "in the email outbound screen of the agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة بعد إرسال الرسالة، في شاشة البريد "
+"الإلكتروني الصادر لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket if it is composed / answered in "
 "the ticket compose screen of the agent interface."
 msgstr ""
+"يحدد الحالة التالية الافتراضية للتذكرة إذا تم تكوينها / الرد عليها في شاشة "
+"تكوين التذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default next state of a ticket, in the ticket bulk screen of the "
 "agent interface."
 msgstr ""
+"يحدد الحالة الافتراضية التالية للتذكرة، في شاشة التذاكر المجمعة لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default note body text for phone tickets in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"يحدد النص الأساسي الافتراضي للملاحظة لتذاكر الهاتف في شاشة هاتف التذاكر "
+"الواردة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default note body text for phone tickets in the ticket phone "
 "outbound screen of the agent interface."
 msgstr ""
+"يحدد الإعداد الافتراضي لمربع نص تذكرة الهاتف على شاشة المكالمة الصادرة في "
+"واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default priority of follow-up customer tickets in the ticket "
 "zoom screen in the customer interface."
 msgstr ""
+"يتحكم في أولوية المتابعة للتذاكر التي تم استلام طلب العميل عليها في منطقة "
+"العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default priority of new customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "يحدد الأولوية الافتراضية لتذاكر العملاء الجدد في واجهة العميل."
 
 #. SysConfig
 msgid "Defines the default priority of new tickets."
-msgstr ""
+msgstr "يحدد الأولوية الافتراضية للتذاكر الجديدة."
 
 #. SysConfig
 msgid ""
 "Defines the default queue for new customer tickets in the customer interface."
-msgstr ""
+msgstr "يحدد قائمة الانتظار الافتراضية لتذاكر العملاء الجدد في واجهة العميل."
 
 #. SysConfig
 msgid "Defines the default queue for new tickets in the agent interface."
-msgstr ""
+msgstr "تحديد قائمة الانتظار الافتراضية للتذاكر الجديدة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default selection at the drop down menu for dynamic objects "
 "(Form: Common Specification)."
 msgstr ""
+"يحدد التحديد الافتراضي في التحديد الفردي للكائنات الديناميكية (النموذج: "
+"مواصفات أكثر دقة)."
 
 #. SysConfig
 msgid ""
 "Defines the default selection at the drop down menu for permissions (Form: "
 "Common Specification)."
 msgstr ""
+"يعرف التحديد الافتراضي في القائمة المنسدلة الأذونات (نموذج المواصفات العامة)."
 
 #. SysConfig
 msgid ""
 "Defines the default selection at the drop down menu for stats format (Form: "
 "Common Specification). Please insert the format key (see Stats::Format)."
 msgstr ""
+"يحدد التحديد الافتراضي في القائمة المنسدلة لتنسيق الإحصائيات (النموذج: "
+"المواصفات العامة). الرجاء إدراج مفتاح التنسيق (انظر الإحصائيات::التنسيق)."
 
 #. SysConfig
 msgid ""
 "Defines the default sender type for phone tickets in the ticket phone "
 "inbound screen of the agent interface."
 msgstr ""
+"يضبط نوع المرسل الافتراضي لتذاكر الهاتف في عرض التذاكر الواردة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default sender type for phone tickets in the ticket phone "
 "outbound screen of the agent interface."
 msgstr ""
+"تحديد نوع المرسل الافتراضي لتذاكر الهاتف في شاشة الصادر لهاتف التذكرة لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default sender type for tickets in the ticket zoom screen of the "
 "customer interface."
 msgstr ""
+"يحدد نوع المرسل الافتراضي للتذاكر في شاشة تكبير/تصغير التذاكر لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
