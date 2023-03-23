@@ -59,6 +59,8 @@ The considered test scripts can be set up as:
 
 =item a list of .sopm files that add the files referenced in FileList to the filter list
 
+=item a list of package names that add the files of the installed package to the filter list
+
 =back
 
 =head1 PUBLIC INTERFACE
@@ -88,12 +90,13 @@ sub new {
 run all or some tests located in C<scripts/test/**/*.t> and print the result.
 
     $UnitTestObject->Run(
-        Tests           => ['JSON', 'User'],           # optional, execute certain test files only
-        Directory       => 'Selenium',                 # optional, execute only the tests in a subdirectory relative to scripts/test
-        SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ], # optional, execute only the tests in the Filelist of the .sopm files
-        Verbose         => 1,                          # optional (default 0), only show result details for all tests, not just failing
-        PostTestScripts => ['...'],                    # Script(s) to execute after a test has been run.
-                                                       #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
+        Tests           => ['JSON', 'User'],              # optional, execute certain test files only
+        Directory       => 'Selenium',                    # optional, execute only the tests in a subdirectory relative to scripts/test
+        SOPMFiles       => ['FAQ.sopm', 'Fred.sopm' ],    # optional, execute only the tests in the Filelist of the .sopm files
+        Packages        => ['Survey', 'TimeAccounting' ], # optional, execute only the tests in the Filelist of the installed package
+        Verbose         => 1,                             # optional (default 0), only show result details for all tests, not just failing
+        PostTestScripts => ['...'],                       # Script(s) to execute after a test has been run.
+                                                          #   You can specify %File%, %TestOk% and %TestNotOk% as dynamic arguments.
     );
 
 You can also specify multiple directories:
@@ -117,7 +120,7 @@ Tests listed in B<UnitTest::Blacklist> are not executed.
 
 Tests in F<Custom/scripts/test> take precedence over the tests in F<scripts/test>.
 
-The options C<Tests> and C<SOPMFiles> are combined to a merged white list.
+The options C<Tests>, C<SOPMFiles>, and C<Packages> are combined to a merged white list.
 
 =cut
 
@@ -130,6 +133,7 @@ sub Run {
     my $DirectoryParam      = $Param{Directory};    # either a scalar or an array ref
     my @ExecuteTestPatterns = ( $Param{Tests}     // [] )->@*;
     my @SOPMFiles           = ( $Param{SOPMFiles} // [] )->@*;
+    my @Packages            = ( $Param{Packages}  // [] )->@*;
 
     # some config stuff
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -160,15 +164,15 @@ sub Run {
     # add the files from the .sopm files to the whitelist
     if (@SOPMFiles) {
         my $PackageObject = $Kernel::OM->Get('Kernel::System::Package');
-        FILE:
-        for my $File (@SOPMFiles) {
+        SOPM_FILE:
+        for my $SopmFile (@SOPMFiles) {
 
             # for now we only consider local files
-            next FILE unless -f $File;
-            next FILE unless -r $File;
+            next SOPM_FILE unless -f $SopmFile;
+            next SOPM_FILE unless -r $SopmFile;
 
             my $ContentRef = $Kernel::OM->Get('Kernel::System::Main')->FileRead(
-                Location => $File,
+                Location => $SopmFile,
                 Mode     => 'utf8',
                 Result   => 'SCALAR',
             );
@@ -181,7 +185,35 @@ sub Run {
                 String => $ContentRef,
             );
 
-            next FILE unless IsArrayRefWithData( $Structure{Filelist} );
+            next SOPM_FILE unless IsArrayRefWithData( $Structure{Filelist} );
+
+            # for some reason the trailing .t is checked seperately
+            push @ExecuteTestPatterns,
+                map  {s/\.t$//r}
+                grep {m!^scripts/test/!}
+                map  { $_->{Location} }
+                $Structure{Filelist}->@*;
+        }
+    }
+
+    # add the files from the installed packages to the whitelist
+    if (@Packages) {
+
+        # get the details of all installed packages
+        my $PackageObject     = $Kernel::OM->Get('Kernel::System::Package');
+        my @PackageList       = $PackageObject->RepositoryList();
+        my %PackageListLookup = map { $_->{Name}->{Content} => $_ } @PackageList;
+
+        PACKAGE:
+        for my $Package (@Packages) {
+
+            # Silently ignore not installed packages
+            next PACKAGE unless $PackageListLookup{$Package};
+
+            # package is already parsed
+            my %Structure = $PackageListLookup{$Package}->%*;
+
+            next PACKAGE unless IsArrayRefWithData( $Structure{Filelist} );
 
             # for some reason the trailing .t is checked seperately
             push @ExecuteTestPatterns,
@@ -271,9 +303,13 @@ sub Run {
         }
     );
 
-# Register a callback that triggered after a test script has run.
-# E.g. bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL --post-test-script 'echo file: %File%' --post-test-script 'echo ok: %TestOk%'  --post-test-script 'echo nok: %TestNotOk%' >prove_acl.out 2>&1
-# See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
+    # Register a callback that triggered after a test script has run.
+    # E.g.:
+    #   bin/otobo.Console.pl Dev::UnitTest::Run  --verbose --directory ACL \
+    #     --post-test-script 'echo file: %File%' \
+    #     --post-test-script 'echo ok: %TestOk%' \
+    #     --post-test-script 'echo nok: %TestNotOk%' > prove_acl.out 2>&1
+    # See also: https://metacpan.org/pod/distribution/Test-Harness/lib/TAP/Harness/Beyond.pod#Callbacks
     if ( $Param{PostTestScripts} && ref $Param{PostTestScripts} eq 'ARRAY' && $Param{PostTestScripts}->@* ) {
         my @PostTestScripts = $Param{PostTestScripts}->@*;
 
