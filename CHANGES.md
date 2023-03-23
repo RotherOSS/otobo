@@ -213,7 +213,7 @@
 - 2022-06-15 16:14:12 +0200 [Bugfix]   Bug in AgentTicketZoom with DynamicFields, using DynamicFieldScreens (https://github.com/RotherOSS/otobo/issues/1321)
 - 2022-06-15 10:04:44 +0200 Create new certificates for the unit tests (https://github.com/RotherOSS/otobo/issues/1779)
 - 2022-06-10 17:10:53 +0200 [Bugfix]   Fix SMIME for newer openssl versions. (https://github.com/RotherOSS/otobo/issues/1739)
-- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim PÃÂÃÂ¼ttmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
+- 2022-06-14 09:00:54 +0200 [Security] Prevent code injection into the ACLs. Thanks to Tim Puettmanns (maxence). (https://github.com/RotherOSS/otobo/issues/1821)
 - 2022-06-07 16:32:31 +0200 Resolve unit test failures when syncing with S3 is enabled (https://github.com/RotherOSS/otobo/issues/1777) - in progress
 - 2022-06-07 12:30:19 +0200 [Bugfix]   Unit test regression in CmdOutput.t (https://github.com/RotherOSS/otobo/issues/1802)
 - 2022-06-06 13:45:13 +0200 Update the Docker Perl base image to Perl 5.36 (https://github.com/RotherOSS/otobo/issues/1808)
