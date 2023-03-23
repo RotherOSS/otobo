@@ -47,7 +47,7 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'test',
-        Description => "Filter file list, allow scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
+        Description => "Filter file list, allow to run test scripts matching a pattern, e.g. 'Ticket' or 'Ticket/ArchiveFlags' (can be specified several times).",
         Required    => 0,
         HasValue    => 1,
         Multiple    => 1,
@@ -55,11 +55,19 @@ sub Configure {
     );
     $Self->AddOption(
         Name        => 'sopm',
-        Description => 'Filter file list, allow scripts mentioned in the Filelist of the .sopm file.',
+        Description => 'Filter file list, allow to run test scripts mentioned in the Filelist of the .sopm file.',
         Required    => 0,
         HasValue    => 1,
         Multiple    => 1,
         ValueRegex  => qr/\.sopm$/smx,
+    );
+    $Self->AddOption(
+        Name        => 'package',
+        Description => 'Filter file list, allow to run scripts mentioned in the Filelist of the installed package.',
+        Required    => 0,
+        HasValue    => 1,
+        Multiple    => 1,
+        ValueRegex  => qr/^\w/smx,
     );
     $Self->AddOption(
         Name        => 'verbose',
@@ -102,6 +110,7 @@ sub Run {
         Tests           => $Self->GetOption('test'),
         Directory       => $Self->GetOption('directory') || $DefaultDirectory,
         SOPMFiles       => $Self->GetOption('sopm'),
+        Packages        => $Self->GetOption('package'),
         Verbose         => $Self->GetOption('verbose'),
         PostTestScripts => $Self->GetOption('post-test-script'),
     );
