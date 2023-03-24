@@ -15,6 +15,7 @@
 # --
 
 package Kernel::System::Main;
+
 ## nofilter(TidyAll::Plugin::OTOBO::Perl::Require)
 
 use strict;
@@ -46,6 +47,8 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Storable',
 );
+
+=encoding utf8
 
 =head1 NAME
 
@@ -910,24 +913,41 @@ sub MD5sum {
 
 =head2 Dump()
 
-dump variable to an string
+serialize a data structure to a string in Data::Dumper format.
+Strings are dumped in their internal format when no additional parameter,
+or the additional parameter C<'binary'> is passed.
 
     my $Dump = $MainObject->Dump(
         $SomeVariable,
     );
+
+is the same as
+
+    my $Dump = $MainObject->Dump(
+        $SomeVariable,
+        'binary',
+    );
+
+Array and hash references are supported.
 
     my $Dump = $MainObject->Dump(
         {
             Key1 => $SomeVariable,
+            Key2 => [qw(a list of words)],
         },
     );
 
-    dump only in ascii characters (> 128 will be marked as \x{..})
+When the extra parameter C<'ascii'> is passed, then the UTF-8 flag is not ignored when dumping strings.
+Thus characters with code points > 127 will be dumped with escape codes. So C<'asdfÄÖÜ⛄'> will be Dumped as
+C<$VAR1 = "asdf\x{c4}\x{d6}\x{dc}\x{26c4}";>.
 
     my $Dump = $MainObject->Dump(
-        $SomeVariable,
-        'ascii', # ascii|binary - default is binary
+        'asdfÄÖÜ⛄',
+        'ascii',
     );
+
+When a string, where the UTF8-flag is not set, contains bytes > 127, then the ascii-dump will also contain those
+non-ASCII characters. This means that the option is misnamed.
 
 =cut
 
@@ -943,10 +963,8 @@ sub Dump {
         return;
     }
 
-    # check type
-    if ( !$Type ) {
-        $Type = 'binary';
-    }
+    # apply default and check the parameter 'Type'
+    $Type ||= 'binary';
     if ( $Type ne 'ascii' && $Type ne 'binary' ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -987,7 +1005,6 @@ sub Dump {
 
     # fallback if Storable can not be loaded
     return Data::Dumper::Dumper($Data);
-
 }
 
 =head2 DirectoryRead()
