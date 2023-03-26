@@ -179,7 +179,7 @@ sub _Fetch {
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    # MaxEmailSize
+    # MaxEmailSize is in kB in SysConfig
     my $MaxEmailSize = $ConfigObject->Get('PostMasterMaxEmailSize') || 1024 * 6;
 
     # MaxPopEmailSession
