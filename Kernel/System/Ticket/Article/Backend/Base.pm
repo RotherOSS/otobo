@@ -19,8 +19,13 @@ package Kernel::System::Ticket::Article::Backend::Base;
 use strict;
 use warnings;
 
-use parent qw(Kernel::System::EventHandler);
+use parent 'Kernel::System::EventHandler';
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 
 our @ObjectDependencies = (
@@ -47,7 +52,7 @@ This is a base class for article backends and should not be instantiated directl
     use strict;
     use warnings;
 
-    use parent qw(Kernel::System::Ticket::Article::Backend::Base);
+    use parent 'Kernel::System::Ticket::Article::Backend::Base';
 
     # methods go here
 
