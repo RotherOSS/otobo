@@ -42,7 +42,7 @@ changed by OTOBO package installation. Only modules in the namespace C<Kernel> a
 This module inherits from L<Module::Refresh> and thus provides the same interface. One difference is the
 method C<mtime> which provides the keys for the cache C<Module::Refresh::CACHE>. The overridden method only
 gives back the modified time and the size of the relevant file. The original method also included the inode.
-Using the inode of the module file caused frequent reloads on some systems that were the file system was located
+Using the inode of the module file caused frequent reloads on some systems where the file system was located
 on SSDs.
 
 Another difference is that in the method C<new()> only modules in C<Kernel> and C<var::packagesetup> are cached.
