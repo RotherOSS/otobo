@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-23 19:43+0000\n"
+"PO-Revision-Date: 2023-03-29 15:31+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -22421,15 +22421,18 @@ msgstr ""
 "يحدد نوع المرسل الافتراضي للتذاكر في شاشة تكبير/تصغير التذاكر لواجهة الوكيل."
 
 #. SysConfig
+#, fuzzy
 msgid ""
 "Defines the default shown ticket search attribute for ticket search screen "
 "(AllTickets/ArchivedTickets/NotArchivedTickets)."
 msgstr ""
+"يحدد سمة البحث الافتراضية للتذكرة المعروضة لشاشة البحث عن التذاكر (جميع "
+"التذاكر/التذاكر المؤرشفة/التذاكر غير المؤرشفة)."
 
 #. SysConfig
 msgid ""
 "Defines the default shown ticket search attribute for ticket search screen."
-msgstr ""
+msgstr "يحدد سمات البحث عن التذاكر التي يتم عرضها افتراضيًا للبحث عن التذاكر."
 
 #. SysConfig
 msgid ""
@@ -22453,234 +22456,305 @@ msgid ""
 "Search_DynamicField_XTimePointStart=Before; "
 "Search_DynamicField_XTimePointValue=7';."
 msgstr ""
+"يحدد سمات البحث الافتراضية للبحث عن التذاكر مثال: يجب أن يحتوي \"المفتاح\" "
+"على اسم الحقل الديناميكي، وفي هذه الحالة \"X\"، يجب أن يحتوي \"المحتوى\" على "
+"قيمة الحقل الديناميكي، اعتمادا على نوع الحقل، النص: \"نص\"، القائمة المنسدلة:"
+" \"1\"، التاريخ / الوقت: 'Search_DynamicField_XTimeSlotStartYear=1974; "
+"Search_DynamicField_XTimeSlotStartMonth=01; "
+"Search_DynamicField_XTimeSlotStartDay=26; "
+"Search_DynamicField_XTimeSlotStartHour=00; "
+"Search_DynamicField_XTimeSlotStartMinute=00; "
+"Search_DynamicField_XTimeSlotStartSecond=00; "
+"Search_DynamicField_XTimeSlotStopYear=2013; "
+"Search_DynamicField_XTimeSlotStopMonth=01; "
+"Search_DynamicField_XTimeSlotStopDay=26; "
+"Search_DynamicField_XTimeSlotStopHour=23; "
+"Search_DynamicField_XTimeSlotStopMinute=59; "
+"Search_DynamicField_XTimeSlotStopSecond=59;' and or "
+"'Search_DynamicField_XTimePointFormat=week;."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all queues displayed in the queue view."
 msgstr ""
+"تحديد معايير الفرز الافتراضية لكل قوائم الانتظار المعروضة في عرض قائمة "
+"الانتظار."
 
 #. SysConfig
 msgid ""
 "Defines the default sort criteria for all services displayed in the service "
 "view."
-msgstr ""
+msgstr "تحديد معايير الفرز الافتراضية لكافة الخدمات المعروضة في عرض الخدمة."
 
 #. SysConfig
 msgid ""
 "Defines the default sort order for all queues in the queue view, after "
 "priority sort."
 msgstr ""
+"يحدد ترتيب الفرز الافتراضي لكل قوائم الانتظار في طريقة عرض قائمة الانتظار، "
+"بعد فرز الأولوية."
 
 #. SysConfig
 msgid ""
 "Defines the default sort order for all services in the service view, after "
 "priority sort."
 msgstr ""
+"يحدد ترتيب الفرز الافتراضي لكافة الخدمات في طريقة عرض الخدمة، بعد فرز "
+"الأولوية."
 
 #. SysConfig
 msgid ""
 "Defines the default state of new customer tickets in the customer interface."
-msgstr ""
+msgstr "تحديد الحالة الافتراضية لتذاكر العملاء الجديدة في واجهة العميل."
 
 #. SysConfig
 msgid "Defines the default state of new tickets."
-msgstr ""
+msgstr "يحدد الحالة الافتراضية للتذاكر الجديدة."
 
 #. SysConfig
 msgid ""
 "Defines the default subject for phone tickets in the ticket phone inbound "
 "screen of the agent interface."
 msgstr ""
+"يحدد الموضوع الافتراضي لتذاكر الهاتف في عرض تذاكر الهاتف الواردة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default subject for phone tickets in the ticket phone outbound "
 "screen of the agent interface."
 msgstr ""
+"يحدد الموضوع الافتراضي لتذاكر الهاتف في شاشة هاتف التذاكر الصادرة لواجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default subject of a note in the ticket free text screen of the "
 "agent interface."
 msgstr ""
+"يحدد الموضوع الافتراضي للملاحظة في شاشة النص الحر للتذكرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default the number of seconds (from current time) to re-schedule "
 "a generic interface failed task."
 msgstr ""
+"يحدد عدد الثواني (بناءً على الوقت الحالي) التي يجب بعدها إعادة جدولة مهمة "
+"الواجهة العامة الفاشلة."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in a ticket search "
 "of the customer interface."
 msgstr ""
+"يحدد سمة التذكرة الافتراضية لفرز التذاكر في البحث عن التذاكر في واجهة العميل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the escalation "
 "view of the agent interface."
 msgstr ""
+"تعيين سمة التذاكر الافتراضية لفرز التذاكر في شاشة التصعيد في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the locked ticket "
 "view of the agent interface."
 msgstr ""
+"تعريف سمة التذكرة الافتراضية لفرز التذكرة في طريقة عرض التذكرة المقفلة "
+"لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the responsible "
 "view of the agent interface."
 msgstr ""
+"يحدد سمة التذكرة الافتراضية لفرز التذاكر في العرض المسؤول في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the status view "
 "of the agent interface."
-msgstr ""
+msgstr "يحدد سمة التذكرة الافتراضية لفرز التذاكر في عرض الحالة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting in the watch view of "
 "the agent interface."
 msgstr ""
+"يضبط سمة التذاكر الافتراضية لفرز التذاكر في عرض المراقبة في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search "
 "result of the agent interface."
 msgstr ""
+"تعريف سمة التذكرة الافتراضية لفرز التذكرة لنتيجة البحث عن التذكرة في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket attribute for ticket sorting of the ticket search "
 "result of this operation."
 msgstr ""
+"يحدد سمة التذكرة الافتراضية لفرز التذاكر في نتيجة البحث في التذاكر لهذه "
+"العملية."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket bounced notification for customer/sender in the "
 "ticket bounce screen of the agent interface."
 msgstr ""
+"يحدد الإشعار الافتراضي للتذاكر المعاد توجيهها للعملاء/المرسلين في شاشة إعادة "
+"التوجيه لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone inbound screen of the agent interface."
 msgstr ""
+"يتحكم في حالة التذكرة بعد إضافة ملاحظة من شاشة \"مكالمة صادرة\" في منطقة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket next state after adding a phone note in the "
 "ticket phone outbound screen of the agent interface."
 msgstr ""
+"يحدد الحالة التالية للتذكرة الافتراضية بعد إضافة ملاحظة هاتفية في شاشة هاتف "
+"التذاكر الصادرة لواجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order (after priority sort) in the escalation "
 "view of the agent interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي (بعد فرز الأولوية) في طريقة عرض التصعيد لواجهة "
+"الوكيل. أعلى: الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order (after priority sort) in the status view of "
 "the agent interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذكرة الافتراضي (بعد فرز الأولوية) في عرض الحالة لواجهة الوكيل. "
+"للأعلى: الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the responsible view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي (بعد فرز الأولوية) في عرض الحالة لواجهة العامل. "
+"أعلى: الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket locked view of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي في طريقة عرض تأمين التذكرة لواجهة الوكيل. أعلى: "
+"الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the agent "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي في نتيجة البحث عن التذاكر لواجهة الوكيل. أعلى: "
+"الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the ticket search result of the this "
 "operation. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي في نتيجة البحث عن التذاكر لهذه العملية. أعلى: "
+"الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order in the watch view of the agent interface. "
 "Up: oldest on top. Down: latest on top."
 msgstr ""
+"يتحكم في فرز التذاكر الافتراضي في طريقة عرض المراقبة لواجهة الوكيل. أعلى: "
+"الأقدم في الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket order of a search result in the customer "
 "interface. Up: oldest on top. Down: latest on top."
 msgstr ""
+"يحدد ترتيب التذاكر الافتراضي لنتيجة بحث في واجهة العميل. أعلى: الأقدم في "
+"الأعلى. أسفل: الأحدث في الأعلى."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the close ticket screen of the agent "
 "interface."
-msgstr ""
+msgstr "يحدد أولوية التذكرة الافتراضية في واجهة \"إغلاق\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket bulk screen of the agent "
 "interface."
 msgstr ""
+"يحدد أولوية التذكرة الافتراضية في واجهة \"الإجراء المجمع\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket free text screen of the "
 "agent interface."
 msgstr ""
+"تحدد أولوية التذكرة الافتراضية في لوحة \"الحقول الحرة\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket note screen of the agent "
 "interface."
-msgstr ""
+msgstr "يحدد أولوية التذكرة الافتراضية في واجهة \"ملاحظة\" في واجهة الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket owner screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"يحدد أولوية التذكرة الافتراضية في واجهة \"المالك\" في TicketZoom في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket pending screen of a zoomed "
 "ticket in the agent interface."
 msgstr ""
+"يحدد أولوية التذكرة الافتراضية في واجهة \"الانتظار\" في TicketZoom في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket priority screen of a "
 "zoomed ticket in the agent interface."
 msgstr ""
+"يحدد أولوية التذكرة الافتراضية في واجهة \"الأولوية\" في TicketZoom في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket priority in the ticket responsible screen of the "
 "agent interface."
 msgstr ""
+"يحدد أولوية التذكرة الافتراضية في واجهة \"المسؤول\" في TicketZoom في واجهة "
+"الوكيل."
 
 #. SysConfig
 msgid ""
 "Defines the default ticket type for new customer tickets in the customer "
 "interface."
-msgstr ""
+msgstr "يحدد نوع التذكرة الافتراضي لتذاكر العملاء الجدد في واجهة العميل."
 
 #. SysConfig
 msgid "Defines the default ticket type."
-msgstr ""
+msgstr "يحدد النوع الافتراضي للتذكرة."
 
 #. SysConfig
 msgid ""
