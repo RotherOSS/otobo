@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2023-03-29 15:31+0000\n"
+"PO-Revision-Date: 2023-03-31 02:36+0000\n"
 "Last-Translator: khh <khh@rother-oss.com>\n"
 "Language-Team: Arabic (Saudi Arabia) <https://translate.otobo.org/projects/"
 "otobo10/otobo/ar_SA/>\n"
@@ -22761,28 +22761,34 @@ msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the "
 "url on the agent interface."
 msgstr ""
+"يحدد وحدة الواجهة الأمامية المستخدمة افتراضيًا في واجهة الوكيل إذا لم يتم "
+"تمرير أي معلمة إجراء في عنوان URL."
 
 #. SysConfig
 msgid ""
 "Defines the default used Frontend-Module if no Action parameter given in the "
 "url on the customer interface."
 msgstr ""
+"يحدد وحدة الواجهة الأمامية المستخدمة افتراضيًا في واجهة العميل إذا لم يتم "
+"تمرير أي معلمة إجراء في عنوان URL."
 
 #. SysConfig
 msgid ""
 "Defines the default value for the action parameter for the public frontend. "
 "The action parameter is used in the scripts of the system."
 msgstr ""
+"يحدد القيمة الافتراضية لمعلمة الإجراء للواجهة الأمامية العامة. يتم استخدام "
+"معلمة الإجراء في البرامج النصية للنظام."
 
 #. SysConfig
 msgid ""
 "Defines the default viewable sender types of a ticket (default: customer)."
-msgstr ""
+msgstr "يحدد أنواع المرسلين المرئيين الافتراضية للتذكرة (الافتراضي: العميل)."
 
 #. SysConfig
 msgid ""
 "Defines the default visibility of the article to customer for this operation."
-msgstr ""
+msgstr "يحدد الرؤية الافتراضية للمقالة للعميل لهذه العملية."
 
 #. SysConfig
 msgid ""
@@ -22790,17 +22796,22 @@ msgid ""
 "customers. A default agent name can be defined in Ticket::Frontend::"
 "CustomerTicketZoom###DefaultAgentName setting."
 msgstr ""
+"يحدد النمط المعروض بواسطة الحقل \"من\" في الملاحظات المرئية للعملاء. يمكن "
+"تعريف اسم الوكيل الافتراضي في إعداد "
+"‎Ticket::Frontend::CustomerTicketZoom###DefaultAgentName."
 
 #. SysConfig
 msgid ""
 "Defines the dynamic fields that are used for displaying on calendar events."
-msgstr ""
+msgstr "يحدد الحقول الديناميكية المستخدمة لعرض أحداث التقويم."
 
 #. SysConfig
 msgid ""
 "Defines the event object types that will be handled via "
 "AdminAppointmentNotificationEvent."
 msgstr ""
+"تحديد أنواع كائن الحدث التي تتم معالجتها عبر "
+"AdminAppointmentNotificationEvent."
 
 #. SysConfig
 msgid ""
