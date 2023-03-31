@@ -18,13 +18,14 @@
 # Carlos Vázquez <carlos.vazquez@oslc.com.mx>, 2019
 # FCRUZ <francisco.cruz@otrs.com>, 2019
 # Fredy Aragón <fredmac48@hotmail.com>, 2021, 2022.
+# Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translate@otobo.org\n"
 "POT-Creation-Date: 2023-03-10 16:34+0000\n"
-"PO-Revision-Date: 2022-05-28 16:16+0000\n"
-"Last-Translator: Fredy Aragón <fredmac48@hotmail.com>\n"
+"PO-Revision-Date: 2023-04-01 11:31+0000\n"
+"Last-Translator: Bernhard Schmalhofer <Bernhard.Schmalhofer@gmx.de>\n"
 "Language-Team: Spanish (Mexico) <https://translate.otobo.org/projects/"
 "otobo10/otobo/es_MX/>\n"
 "Language: es_MX\n"
@@ -19803,7 +19804,7 @@ msgstr ""
 "\n"
 "Estimado cliente,\n"
 "\n"
-"Lamentablemente no hemos podido detectar un número de ticket válido \n"
+"Lamentablemente no hemos podido detectar un número de ticket válido\n"
 "en su asunto, por lo que este correo no puede ser procesado.\n"
 "\n"
 "Por favor, cree un nuevo ticket a través del panel de cliente.\n"
