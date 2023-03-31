@@ -992,7 +992,8 @@ sub GetStaticFiles {
     }
     $Directory .= 'Kernel/System/Stats/Static/';
 
-    if ( !opendir( DIR, $Directory ) ) {
+    my $StaticDirH;
+    if ( !opendir my $StaticDirH, $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
@@ -1028,16 +1029,17 @@ sub GetStaticFiles {
     my %Filelist;
 
     DIRECTORY:
-    while ( defined( my $Filename = readdir DIR ) ) {
+    while ( defined( my $Filename = readdir $StaticDirH ) ) {
         next DIRECTORY if $Filename eq '.';
         next DIRECTORY if $Filename eq '..';
+
         if ( $Filename =~ m{^(.*)\.pm$}x ) {
             if ( !defined $StaticFiles{$1} ) {
                 $Filelist{$1} = $1;
             }
         }
     }
-    closedir(DIR);
+    closedir $StaticDirH;
 
     return \%Filelist;
 }
@@ -3872,7 +3874,8 @@ sub _AutomaticSampleImport {
     my $Language  = $Kernel::OM->Get('Kernel::Config')->Get('DefaultLanguage');
     my $Directory = $Self->{StatsTempDir};
 
-    if ( !opendir( DIRE, $Directory ) ) {
+    my $TempDirH;
+    if ( !opendir my $TempDirH, $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
@@ -3882,18 +3885,19 @@ sub _AutomaticSampleImport {
 
     # check if stats in the default language available, if not use en
     my $Flag = 0;
-    while ( defined( my $Filename = readdir DIRE ) ) {
+    while ( defined( my $Filename = readdir $TempDirH ) ) {
         if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
             $Flag = 1;
         }
     }
 
-    rewinddir(DIRE);
+    rewinddir $TempDirH;
+
     if ( !$Flag ) {
         $Language = 'en';
     }
 
-    while ( defined( my $Filename = readdir DIRE ) ) {
+    while ( defined( my $Filename = readdir $TempDirH ) ) {
         if ( $Filename =~ m{^.*\.$Language\.xml$}x ) {
 
             my $Filehandle;
@@ -3902,7 +3906,7 @@ sub _AutomaticSampleImport {
                     Priority => 'error',
                     Message  => "Can not open File: " . $Directory . $Filename,
                 );
-                closedir(DIRE);
+                closedir $TempDirH;
 
                 return;
             }
@@ -3919,7 +3923,7 @@ sub _AutomaticSampleImport {
             );
         }
     }
-    closedir(DIRE);
+    closedir $TempDirH;
 
     return 1;
 }
