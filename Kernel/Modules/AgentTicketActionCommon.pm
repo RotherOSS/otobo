@@ -1052,17 +1052,20 @@ sub Run {
                 String => $GetParam{Body} || '',
             );
             if ( $GetParam{NewOwnerID} ) {
-                $TicketObject->TicketLockSet(
-                    TicketID => $Self->{TicketID},
-                    Lock     => 'lock',
-                    UserID   => $Self->{UserID},
-                );
                 my $Success = $TicketObject->TicketOwnerSet(
                     TicketID  => $Self->{TicketID},
                     UserID    => $Self->{UserID},
                     NewUserID => $GetParam{NewOwnerID},
                     Comment   => $BodyText,
                 );
+                # Set lock only if owner was updated
+                if ($Success == 1) {
+                    $TicketObject->TicketLockSet(
+                        TicketID => $Self->{TicketID},
+                        Lock     => 'lock',
+                        UserID   => $Self->{UserID},
+                    );
+                }
                 $UnlockOnAway = 0;
 
                 # remember to not notify owner twice
