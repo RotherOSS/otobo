@@ -333,7 +333,7 @@ sub LoaderCreateJavaScriptTemplateData {
     # get the needed pathes
     my $Home                 = $ConfigObject->Get('Home');
     my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
-    my $TargetFilenamePrefix = 'TemplateJS';
+    my $TargetFilenamePrefix = "TemplateJS_$Theme";
 
     # Even getting the list of files recursively from the directories is expensive.
     # So cache the checksum to avoid that. The cache is per theme.
@@ -345,10 +345,7 @@ sub LoaderCreateJavaScriptTemplateData {
         Key  => $CacheKey,
     );
     if ($OldTemplateChecksum) {
-        my $TemplateCacheFile = join '_',
-            $TargetFilenamePrefix,
-            $Theme,
-            "$OldTemplateChecksum.js";
+        my $TemplateCacheFile = join '_', $TargetFilenamePrefix, "$OldTemplateChecksum.js";
 
         # Check if loader cache already exists.
         my $CacheFileFound = 0;
@@ -464,7 +461,7 @@ EOF
         Content              => $Content,
         Type                 => 'JavaScript',
         TargetDirectory      => "$Home/$JSCachePath/",
-        TargetFilenamePrefix => "${TargetFilenamePrefix}_${Theme}",
+        TargetFilenamePrefix => $TargetFilenamePrefix,
     );
 
     $Self->Block(
@@ -492,23 +489,42 @@ Only the file for the current user language is created.
 sub LoaderCreateJavaScriptTranslationData {
     my ( $Self, %Param ) = @_;
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-    my $JSHome       = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
-
-    my $UserLanguage     = $Self->{UserLanguage};
-    my $LanguageObject   = $Self->{LanguageObject};
-    my $LanguageChecksum = $LanguageObject->LanguageChecksum();
-
+    # get the needed pathes
+    my $ConfigObject         = $Kernel::OM->Get('Kernel::Config');
+    my $Home                 = $ConfigObject->Get('Home');
+    my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
+    my $UserLanguage         = $Self->{UserLanguage};
     my $TargetFilenamePrefix = "TranslationJS_$UserLanguage";
 
-    # Check if cache already exists.
-    if ( -e "$JSHome/js-cache/${TargetFilenamePrefix}_$LanguageChecksum.js" ) {
+    # Get checksum for the language files that are relevant
+    # for the UserLanguage.
+    my $LanguageObject    = $Self->{LanguageObject};
+    my $LanguageChecksum  = $LanguageObject->LanguageChecksum;
+    my $TemplateCacheFile = join '_', $TargetFilenamePrefix, "$LanguageChecksum.js";
+
+    # Check if loader cache already exists.
+    my $CacheFileFound = 0;
+    my $S3Active       = $ConfigObject->Get('Storage::S3::Active') ? 1 : 0;
+    if ($S3Active) {
+
+        # Let's stay on the safe side here. In the S3 case it does not suffice
+        # to check for the local file. This is because other web servers
+        # might have neither the local file nor the fallback to S3.
+        my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+        $CacheFileFound = $StorageS3Object->ObjectExists(
+            Key => "$JSCachePath/$TemplateCacheFile",
+        );
+    }
+    else {
+        $CacheFileFound = -e "$Home/$JSCachePath/$TemplateCacheFile";
+    }
+
+    if ($CacheFileFound) {
         $Self->Block(
             Name => 'CommonJS',
             Data => {
                 JSDirectory => 'js-cache/',
-                Filename    => "${TargetFilenamePrefix}_$LanguageChecksum.js",
+                Filename    => $TemplateCacheFile,
             },
         );
 
@@ -556,7 +572,7 @@ EOF
         Checksum             => $LanguageChecksum,
         Content              => $Content,
         Type                 => 'JavaScript',
-        TargetDirectory      => "$JSHome/js-cache/",
+        TargetDirectory      => "$Home/$JSCachePath/",
         TargetFilenamePrefix => $TargetFilenamePrefix,
     );
 
