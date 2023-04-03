@@ -16,9 +16,11 @@
 
 package Kernel::Output::HTML::Layout::Loader;
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
+use namespace::autoclean;
+use utf8;
 
 # core modules
 use File::stat;
@@ -37,14 +39,14 @@ Kernel::Output::HTML::Layout::Loader - CSS/JavaScript
 
 =head1 DESCRIPTION
 
-All valid functions.
+Support for CSS and JavaScript loader files.
 
 =head1 PUBLIC INTERFACE
 
 =head2 LoaderCreateAgentCSSCalls()
 
 Generate the minified CSS files and the tags referencing them,
-taking a list from the Loader::Agent::CommonCSS config item.
+Take a list from the SysConfig setting Loader::Agent::CommonCSS as input.
 
     $LayoutObject->LoaderCreateAgentCSSCalls(
         Skin => 'MySkin', # optional, if not provided skin is the configured by default
@@ -241,15 +243,15 @@ sub LoaderCreateAgentJSCalls {
     # now handle module specific JavaScript
     {
         my $LoaderAction = $Self->{Action} || 'Login';
-        $LoaderAction = 'Login' if ( $LoaderAction eq 'Logout' );
+        if ( $LoaderAction eq 'Logout' ) {
+            $LoaderAction = 'Login';
+        }
 
         my $Setting = $ConfigObject->Get("Loader::Module::$LoaderAction") || {};
-
         my @FileList;
-
         MODULE:
         for my $Module ( sort keys %{$Setting} ) {
-            next MODULE if ref $Setting->{$Module}->{JavaScript} ne 'ARRAY';
+            next MODULE unless ref $Setting->{$Module}->{JavaScript} eq 'ARRAY';
 
             @FileList = ( @FileList, @{ $Setting->{$Module}->{JavaScript} || [] } );
         }
@@ -276,7 +278,7 @@ needs to be present on the client side for JavaScript based templates.
 =cut
 
 sub LoaderCreateJavaScriptTemplateData {
-    my ( $Self, %Param ) = @_;
+    my ($Self) = @_;
 
     # get config object
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -294,9 +296,9 @@ sub LoaderCreateJavaScriptTemplateData {
         for my $RegExp ( sort keys %{$DefaultThemeHostBased} ) {
 
             # do not use empty regexp or theme directories
-            next THEME if !$RegExp;
+            next THEME unless $RegExp;
             next THEME if $RegExp eq '';
-            next THEME if !$DefaultThemeHostBased->{$RegExp};
+            next THEME unless $DefaultThemeHostBased->{$RegExp};
 
             # check if regexp is matching
             if ( $Host =~ m/$RegExp/i ) {
@@ -305,18 +307,16 @@ sub LoaderCreateJavaScriptTemplateData {
         }
     }
 
-    # locate template files
-    my $JSStandardTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . 'Standard';
-    my $JSTemplateDir         = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . $Theme;
-
     # Check if 'Standard' fallback exists
+    my $JSStandardTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . 'Standard';
     if ( !-e $JSStandardTemplateDir ) {
         $Self->FatalDie(
-            Message =>
-                "No existing template directory found ('$JSTemplateDir')! Check your Home in Kernel/Config.pm."
+            Message => "No existing template directory found ('$JSStandardTemplateDir')! Check your Home in Kernel/Config.pm."
         );
     }
 
+    # locate template files
+    my $JSTemplateDir = $ConfigObject->Get('TemplateDir') . '/JavaScript/Templates/' . $Theme;
     if ( !-e $JSTemplateDir ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
@@ -325,7 +325,7 @@ sub LoaderCreateJavaScriptTemplateData {
                 Default theme used instead.",
         );
 
-        # Set TemplateDir to 'Standard' as a fallback.
+        # Set the JS TemplateDir to 'Standard' as a fallback.
         $Theme         = 'Standard';
         $JSTemplateDir = $JSStandardTemplateDir;
     }
@@ -407,7 +407,7 @@ sub LoaderCreateJavaScriptTemplateData {
 
             next TEMPLATE unless $Stat;
 
-            $ChecksumData{$Key} = $Template . $Stat->mtime();
+            $ChecksumData{$Key} = $Template . $Stat->mtime;
 
             my $TemplateContent = $MainObject->FileRead(
                 Location => $Template,
@@ -420,7 +420,8 @@ sub LoaderCreateJavaScriptTemplateData {
         }
     }
 
-    # generate a checksum only of the actual used files
+    # generate a checksum only of the actually used files
+    # the template file name and the modification time serve as input for the checksum
     my $ChecksumInput = join
         '',
         map { $ChecksumData{$_} } sort keys %ChecksumData;
@@ -864,14 +865,14 @@ sub SkinValidate {
         return $Self->{SkinValidateCache}->{ $Param{SkinType} . '::' . $Param{Skin} };
     }
 
-    # get config object
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
-
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
     my $SkinType      = $Param{SkinType};
     my $PossibleSkins = $ConfigObject->Get("Loader::${SkinType}::Skin") || {};
     my $Home          = $ConfigObject->Get('Home');
 
-    # prepare the list of active skins
+    # Check whether the wanted skin in configured in the SysConfig
+    # and whether the skin directory exists.
+    # There is no automatic creation of the skin directory.
     for my $PossibleSkin ( values %{$PossibleSkins} ) {
         if ( $PossibleSkin->{InternalName} eq $Param{Skin} ) {
             my $SkinDir = $Home . "/var/httpd/htdocs/skins/$SkinType/" . $PossibleSkin->{InternalName};
