@@ -340,7 +340,8 @@ sub LoaderCreateJavaScriptTemplateData {
         $JSStandardTemplateDir,
     );
 
-    my $JSHome               = $ConfigObject->Get('Home') . '/var/httpd/htdocs/js';
+    my $Home                 = $ConfigObject->Get('Home');
+    my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
     my $TargetFilenamePrefix = 'TemplateJS';
 
     my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
@@ -362,7 +363,23 @@ sub LoaderCreateJavaScriptTemplateData {
             "$OldTemplateChecksum.js";
 
         # Check if loader cache already exists.
-        if ( -e "$JSHome/js-cache/$TemplateCacheFile" ) {
+        my $CacheFileFound = 0;
+        my $S3Active       = $ConfigObject->Get('Storage::S3::Active') ? 1 : 0;
+        if ($S3Active) {
+
+            # Let's stay on the safe side here. In the S3 case it does not suffice
+            # to check for the local file. This is because other web servers
+            # might have neither the local file nor the fallback to S3.
+            my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
+            $CacheFileFound = $StorageS3Object->ObjectExists(
+                Key => "$JSCachePath/$TemplateCacheFile",
+            );
+        }
+        else {
+            $CacheFileFound = -e "$Home/$JSCachePath/$TemplateCacheFile";
+        }
+
+        if ($CacheFileFound) {
             $Self->Block(
                 Name => 'CommonJS',
                 Data => {
@@ -448,7 +465,7 @@ EOF
         Checksum             => $TemplateChecksum,
         Content              => $Content,
         Type                 => 'JavaScript',
-        TargetDirectory      => "$JSHome/js-cache/",
+        TargetDirectory      => "$Home/$JSCachePath/",
         TargetFilenamePrefix => "${TargetFilenamePrefix}_${Theme}",
     );
 
