@@ -993,7 +993,7 @@ sub GetStaticFiles {
     $Directory .= 'Kernel/System/Stats/Static/';
 
     my $StaticDirH;
-    if ( !opendir my $StaticDirH, $Directory ) {
+    if ( !opendir $StaticDirH, $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
@@ -3875,7 +3875,7 @@ sub _AutomaticSampleImport {
     my $Directory = $Self->{StatsTempDir};
 
     my $TempDirH;
-    if ( !opendir my $TempDirH, $Directory ) {
+    if ( !opendir $TempDirH, $Directory ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Can not open Directory: $Directory",
