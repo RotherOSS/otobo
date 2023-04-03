@@ -330,28 +330,16 @@ sub LoaderCreateJavaScriptTemplateData {
         $JSTemplateDir = $JSStandardTemplateDir;
     }
 
-    my $JSCustomStandardTemplateDir = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . 'Standard';
-    my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
-
-    my @TemplateFolders = (
-        $JSCustomTemplateDir,
-        $JSCustomStandardTemplateDir,
-        $JSTemplateDir,
-        $JSStandardTemplateDir,
-    );
-
+    # get the needed pathes
     my $Home                 = $ConfigObject->Get('Home');
     my $JSCachePath          = 'var/httpd/htdocs/js/js-cache';
     my $TargetFilenamePrefix = 'TemplateJS';
 
-    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
-
-    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-    my $CacheType   = 'Loader';
-    my $CacheKey    = "LoaderCreateJavaScriptTemplateData:${Theme}";
-
-    # Even getting the list of files recursively from the directories is expensive,
-    #   so cache the checksum to avoid that. The cache is per theme.
+    # Even getting the list of files recursively from the directories is expensive.
+    # So cache the checksum to avoid that. The cache is per theme.
+    my $CacheObject         = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheType           = 'Loader';
+    my $CacheKey            = "LoaderCreateJavaScriptTemplateData:${Theme}";
     my $OldTemplateChecksum = $CacheObject->Get(
         Type => $CacheType,
         Key  => $CacheKey,
@@ -392,7 +380,17 @@ sub LoaderCreateJavaScriptTemplateData {
         }
     }
 
-    # if it doesnt exist, go through the folders and get the template content
+    # The loader file for the JavaScript templates has not been found.
+    # So we have to recreate it by going through the folders and getting the template content.
+    my $JSCustomStandardTemplateDir = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . 'Standard';
+    my $JSCustomTemplateDir         = $ConfigObject->Get('CustomTemplateDir') . '/JavaScript/Templates/' . $Theme;
+    my @TemplateFolders             = (
+        $JSCustomTemplateDir,
+        $JSCustomStandardTemplateDir,
+        $JSTemplateDir,
+        $JSStandardTemplateDir,
+    );
+    my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
     my ( %TemplateData, %ChecksumData );
 
     TEMPLATEFOLDER:
@@ -487,6 +485,8 @@ needs to be present on the client side for JavaScript based translations.
 
     $LayoutObject->LoaderCreateJavaScriptTranslationData();
 
+Only the file for the current user language is created.
+
 =cut
 
 sub LoaderCreateJavaScriptTranslationData {
@@ -511,6 +511,7 @@ sub LoaderCreateJavaScriptTranslationData {
                 Filename    => "${TargetFilenamePrefix}_$LanguageChecksum.js",
             },
         );
+
         return 1;
     }
 

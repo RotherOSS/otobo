@@ -67,7 +67,7 @@ sub new {
     # 0=off; 1=on; 2=get all not translated words; 3=get all requests
     $Self->{Debug} = 0;
 
-    # get needed object
+    # get needed objects
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
     my $MainObject   = $Kernel::OM->Get('Kernel::System::Main');
 
@@ -557,14 +557,14 @@ sub LanguageChecksum {
     for my $File ( @{ $Self->{LanguageFiles} } ) {
 
         # get file metadata
-        my $Stat = stat($File);
+        my $Stat = stat $File;
 
         if ( !$Stat ) {
             print STDERR "Error: cannot stat file '$File': $!";
             return;
         }
 
-        $LanguageString .= $File . $Stat->mtime();
+        $LanguageString .= $File . $Stat->mtime;
     }
 
     return Digest::MD5::md5_hex($LanguageString);
