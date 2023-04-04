@@ -4933,7 +4933,10 @@ sub OverriddenFileNameGet {
 
 =head2 GlobalEffectiveValueGet()
 
-Returns global effective value for provided setting name.
+Creates a new instance of C<Kernel::Config>. The creation of the object includes reloading the files in F<Kernel::Config::Files>
+and reloading the configured Autoload modules.
+Returns global effective value for provided setting name. In the parameter C<SettingName>
+the string C<'####'> is used as a level separator.
 
     my $EffectiveValue = $SysConfigObject->GlobalEffectiveValueGet(
         SettingName    => 'Setting::Name',  # (required)
@@ -4958,18 +4961,20 @@ sub GlobalEffectiveValueGet {
     }
 
     my $GlobalConfigObject = Kernel::Config->new();
-
     my $LoadedEffectiveValue;
-
-    my @SettingStructure = split /###/, $Param{SettingName};
-    for my $Key (@SettingStructure) {
+    for my $Key ( split /###/, $Param{SettingName} ) {
         if ( !defined $LoadedEffectiveValue ) {
 
             # first iteration
             $LoadedEffectiveValue = $GlobalConfigObject->Get($Key);
         }
         elsif ( ref $LoadedEffectiveValue eq 'HASH' ) {
+
+            # descending one level into the setting data structure
             $LoadedEffectiveValue = $LoadedEffectiveValue->{$Key};
+        }
+        else {
+            # additional levels are silently ignored
         }
     }
 
@@ -5028,7 +5033,7 @@ sub _IsOverriddenInModule {
     );
 
     if ( $Param{Module} eq 'Kernel::Config' ) {
-        bless( $OverriddenSettings, 'Kernel::Config' );
+        bless $OverriddenSettings, 'Kernel::Config';
         $OverriddenSettings->Load();
     }
     else {
