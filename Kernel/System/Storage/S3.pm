@@ -450,7 +450,8 @@ sub RetrieveObject {
 
 =head2 SaveObjectToFile()
 
-to be documented
+saves an object in S3 to the file system. Touches the saved file so that it has
+the same timestamp as the S3 object.
 
 =cut
 

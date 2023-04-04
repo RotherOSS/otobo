@@ -94,7 +94,7 @@ use Plack::App::File;
 #use Data::Peek; # for development
 
 # OTOBO modules
-#use Kernel::Config; # usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
+use Kernel::Config;                   # assure that Kernel/Config.pm exists, though the file might be modified later
 use Kernel::System::ModuleRefresh;    # based on Module::Refresh
 use Kernel::System::ObjectManager;
 use Kernel::System::Web::App;
@@ -105,23 +105,22 @@ eval {
     require Net::DNS;
 };
 
+# Put the modules in %INC into %Module::Refresh::CACHE.
+# This is important for Kernel/Config.pm as that file might be modified by installer.pl
+# between the start of the web server and the first use of $ModuleRefreshMiddleware or $SyncFromS3Middleware.
+Kernel::System::ModuleRefresh->new;
+
 # The OTOBO home is determined from the location of otobo.psgi.
 my $Home = abs_path("$Bin/../..");
 
-# the question whether there is a S3 backend must the resolved early
-# usage of Kernel::Config disabled, see https://github.com/RotherOSS/otobo/issues/2056
-my ( $S3Active, $ClearConfigObject );
+# The question whether there is a S3 backend must the resolved early.
+# Beware that $S3Active won't be updated when S3 is activated afterwards.
+my $S3Active = Kernel::Config->new( Level => 'Clear' )->Get('Storage::S3::Active');
 
-#if ( -r "$Home/Kernel/Config.pm" ) {
-#    $ClearConfigObject = Kernel::Config->new( Level => 'Clear' );
-#    $S3Active          = $ClearConfigObject->Get('Storage::S3::Active');
-#
-#    if ($S3Active) {
-#
-#        # The S3 backend object will be needed in the SyncFromS3 middleware
-#        require Kernel::System::Storage::S3;
-#    }
-#}
+# The S3 backend object will be needed in the SyncFromS3 middleware
+if ($S3Active) {
+    require Kernel::System::Storage::S3;
+}
 
 ################################################################################
 # Middlewares
@@ -287,15 +286,8 @@ my $SyncFromS3Middleware = sub {
 
         if ( !-e $Location ) {
 
-            # Load Kernel/Config.pm if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
-            if ( !require 'Kernel/Config.pm' ) {
-                die "ERROR: Could not load Kernel/Config.pm: $!\n";
-            }
-
-            # Fill %Module::Refresh::CACHE with OTOBO modules from %INC if that hasn't happened before.
-            # Add Kernel/Config.pm to %Module::Refresh::CACHE as it was required above
-            # and thus surely is in %INC.
-            # Check for every request whether Kernel/Config.pm has been modified.
+            # Use the same approach for static files as used in $ModuleRefreshMiddleware.
+            # Check for every request whether Kernel/Config.pm has been modified
             Kernel::System::ModuleRefresh->refresh_module_if_modified('Kernel/Config.pm');
 
             # make sure that the directory where the object should be stored exists
@@ -303,7 +295,7 @@ my $SyncFromS3Middleware = sub {
             make_path( dirname($Location) );
 
             my $StorageS3Object = Kernel::System::Storage::S3->new(
-                ConfigObject => $ClearConfigObject,
+                ConfigObject => Kernel::Config->new( Level => 'Clear' ),
             );
             my $S3Key = join '/', 'var/httpd/htdocs', $PathBelowHtdocs;
             $StorageS3Object->SaveObjectToFile(
@@ -321,7 +313,7 @@ my $SyncFromS3Middleware = sub {
 # of 10s has passed since the last refresh cycle.
 #
 # An exception is Kernel/Config.pm which is checked for every request. This is mostly for
-# installer.pl and migration.pl which actually change this file.
+# installer.pl and migration.pl which actually modify this file.
 #
 # The modules in Kernel/Config/Files must be exempted from the reloading
 # as it is OK when they are changed or removed. These existing module files are reloaded
@@ -331,11 +323,6 @@ my $ModuleRefreshMiddleware = sub {
 
     return sub {
         my $Env = shift;
-
-        # Load Kernel/Config.pm if it isn't loaded yet. Implicitly put $RelativeFile into %INC.
-        if ( !require 'Kernel/Config.pm' ) {
-            die "ERROR: Could not load Kernel/Config.pm: $!\n";
-        }
 
         # Fill %Module::Refresh::CACHE with all entries in %INC if that hasn't happened before.
         # Add $RelativeFile to %Module::Refresh::CACHE as $RelativeFile was required above and thus surely is in %INC.
