@@ -265,6 +265,10 @@ sub MinifyFiles {
 
         # When the S3 backend is active the loader file is not written to the file system.
         # Daemons and web servers are responsible for syncing the file from S3 to the file system.
+        # There is no check whether the file is actually written to the file system or to S3.
+        # Write failures will lead to missing files, usually a 404 error, when these files are requested.
+        # It is hoped that a reload of the page will alleviate the situation, as those lost files
+        #  will be created with the next request.
         if ( $Self->{S3Active} ) {
 
             my $StorageS3Object = $Kernel::OM->Get('Kernel::System::Storage::S3');
