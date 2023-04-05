@@ -423,7 +423,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ProcessEntityID_Search", 'css' )->click();
         $Selenium->find_element( "#ProcessEntityID_Select", 'css' )->click();
 
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+        # Wait till the handler of the last click() is finished,
+        # but also wait for the Database input field as this might not be available immediately.
+        $Selenium->WaitFor( JavaScript    => "return \$.active == 0" );
+        $Selenium->WaitFor( ElementExists => [ "#DynamicField_TestDatabase", 'css' ] );
         my $Element = $Selenium->find_element( "#DynamicField_TestDatabase", 'css' );
 
         # Perform the same tests as above
