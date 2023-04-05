@@ -14,9 +14,9 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
-use v5.24;
 use utf8;
 
 # core modules
@@ -96,6 +96,7 @@ $Selenium->RunTest(
         }
 
         # Check screens.
+        # For each screen Test1.pdf and Test1.doc are uploaded and then deleted.
         for my $Action (qw(AgentTicketPhone AgentTicketEmail)) {
 
             $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=$Action;$SessionName=$SessionToken");
@@ -176,15 +177,19 @@ $Selenium->RunTest(
             # Accept alert.
             $Selenium->accept_alert();
 
+            # Wait until the attachment list is updated, two elements are expected
             my $Count = 2;
+            $Selenium->WaitFor(
+                JavaScript => "return typeof(\$) === 'function' && \$('.AttachmentDelete i').length === $Count"
+            );
 
             # Remove the existing files.
             for my $DeleteExtension (qw(doc pdf)) {
 
-                # Delete Attachment.
+                # Delete attachment.
                 $Selenium->find_element( "(//a[\@class='AttachmentDelete'])[$Count]", 'xpath' )->click();
                 $Count--;
-                sleep 2;
+                sleep 2;    # Why ???
 
                 # Wait until attachment is deleted.
                 $Selenium->WaitFor(
@@ -198,7 +203,7 @@ $Selenium->RunTest(
                     ),
                     "$Action - Upload '$DeleteExtension' file deleted"
                 );
-                sleep 1;
+                sleep 1;    # Why ???
             }
 
             # Limit the max size per file (to 6 KB).
