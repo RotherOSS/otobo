@@ -14,22 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
+# core modules
+
 # CPAN modules
 use Test2::V0;
-
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
-
-our $Self;
+use Selenium::Waiter qw(wait_until);
 
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::UnitTest::Selenium;
-use Selenium::Waiter qw(wait_until);
+
 my $Selenium =
     Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
@@ -206,13 +206,10 @@ $Selenium->RunTest(
 
         for my $ACL (@ACLs) {
             my $ACLID = $ACLObject->ACLAdd(
-                %{$ACL},
+                $ACL->%*,
             );
+            ok( $ACLID, "ACLID $ACLID is created" );
 
-            $Self->True(
-                $ACLID,
-                "ACLID $ACLID is created",
-            );
             push @DeleteACLIDs, $ACLID;
         }
 
@@ -698,10 +695,7 @@ $Selenium->RunTest(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "Process $Process->{Name} is deleted",
-        );
+        ok( $Success, "Process $Process->{Name} is deleted");
 
         # Dynchronize Process after deleting test Process.
         $Selenium->Login(
@@ -740,4 +734,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
