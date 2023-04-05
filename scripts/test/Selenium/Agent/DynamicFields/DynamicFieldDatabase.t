@@ -14,23 +14,22 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
+use v5.24;
 use strict;
 use warnings;
 use utf8;
 
+# core modules
+
 # CPAN modules
 use Test2::V0;
 
-# Set up the test driver $Self when we are running as a standalone script.
-use Kernel::System::UnitTest::RegisterDriver;
-use Kernel::System::VariableCheck qw(IsHashRefWithData);
-
-our $Self;
-
 # OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::VariableCheck qw(IsHashRefWithData);
 use Kernel::System::UnitTest::Selenium;
-my $Selenium =
-    Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
+
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -56,9 +55,9 @@ $Selenium->RunTest(
         my @DeleteTicketIDs;
         my $Success;
 
+        # create DF TestDatabase unless it already exists
         my $DynamicFieldGet = $DynamicFieldObject->DynamicFieldGet( Name => 'TestDatabase' );
-
-        my $DynamicFieldID = $DynamicFieldGet->{ID};
+        my $DynamicFieldID  = $DynamicFieldGet->{ID};
         if ( !IsHashRefWithData($DynamicFieldGet) ) {
 
             $DynamicFieldID = $DynamicFieldObject->DynamicFieldAdd(
@@ -206,13 +205,10 @@ $Selenium->RunTest(
 
         for my $ACL (@ACLs) {
             my $ACLID = $ACLObject->ACLAdd(
-                %{$ACL},
+                $ACL->%*,
             );
 
-            $Self->True(
-                $ACLID,
-                "ACLID $ACLID is created",
-            );
+            ok( $ACLID, "ACLID $ACLID is created" );
             push @DeleteACLIDs, $ACLID;
         }
 
@@ -237,6 +233,7 @@ $Selenium->RunTest(
                 # Check if active test process already exists.
                 if ( $Process->{Name} eq $ProcessName ) {
                     $TestProcessExists = 1;
+
                     next PROCESS;
                 }
 
@@ -426,7 +423,10 @@ $Selenium->RunTest(
         $Selenium->find_element( "#ProcessEntityID_Search", 'css' )->click();
         $Selenium->find_element( "#ProcessEntityID_Select", 'css' )->click();
 
-        $Selenium->WaitFor( JavaScript => "return \$.active == 0" );
+        # Wait till the handler of the last click() is finished,
+        # but also wait for the Database input field as this might not be available immediately.
+        $Selenium->WaitFor( JavaScript    => "return \$.active == 0" );
+        $Selenium->WaitFor( ElementExists => [ "#DynamicField_TestDatabase", 'css' ] );
         my $Element = $Selenium->find_element( "#DynamicField_TestDatabase", 'css' );
 
         # Perform the same tests as above
@@ -583,10 +583,7 @@ $Selenium->RunTest(
             ID     => $Process->{ID},
             UserID => $TestUserID,
         );
-        $Self->True(
-            $Success,
-            "Process $Process->{Name} is deleted",
-        );
+        ok( $Success, "Process $Process->{Name} is deleted" );
 
         # Synchronize Process after deleting test Process.
         $Selenium->Login(
@@ -625,4 +622,4 @@ $Selenium->RunTest(
     }
 );
 
-$Self->DoneTesting();
+done_testing;
